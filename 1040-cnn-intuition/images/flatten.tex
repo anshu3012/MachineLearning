@@ -1,0 +1,23 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily}]
+  \foreach \r in {0,...,3}{\foreach \c in {0,...,3}{
+    \pgfmathtruncatemacro{\k}{4*\r+\c}
+    \pgfmathsetmacro{\hl}{(\k==5 || \k==9) ? 1 : 0}
+    \ifdim\hl pt=1pt \def\col{corange!45}\else\def\col{cblue!10}\fi
+    \node[draw=cgrey, line width=0.8pt, minimum size=0.8cm, fill=\col] at (\c*0.8,-\r*0.8) {\k};
+  }}
+  \node[below] at (1.2,-3.0) {image: $4 \times 4$ grid};
+  \node[note, align=center] at (1.2,1.0) {pixels 5 and 9 are neighbours\\(one above the other)};
+  \draw[arrow] (3.4,-1.2) -- (4.6,-1.2) node[midway, above] {flatten};
+  \foreach \k in {0,...,15}{
+    \pgfmathsetmacro{\hl}{(\k==5 || \k==9) ? 1 : 0}
+    \ifdim\hl pt=1pt \def\col{corange!45}\else\def\col{cblue!10}\fi
+    \node[draw=cgrey, line width=0.8pt, minimum size=0.8cm, fill=\col] at (5.2+\k*0.8,-1.2) {\k};
+  }
+  \draw[cred, line width=1.3pt, {Stealth}-{Stealth}] (5.2+5*0.8,-1.85) -- (5.2+9*0.8,-1.85) node[midway, below, text=cred] {now 4 places apart};
+  \node[below] at (11.2,-2.6) {one row of 16 inputs for the ANN};
+  \node[note, align=center] at (11.2,0.3) {in a $28 \times 28$ MNIST image, a pixel and the one below it\\end up 28 places apart; the ANN is never told they were neighbours};
+\end{tikzpicture}
+\end{document}

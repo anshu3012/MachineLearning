@@ -41,7 +41,7 @@ Each of these is taught in an earlier Note; here is the one-line version.
 
 The running example of this Note: an online channel has about 77,000 subscribers, and we want their average age $\mu$. Asking all of them is impossible. Instead, 100 subscribers in an online event type their age in the chat. Their mean age is $\bar{x} = 28$ years: a point estimate of $\mu$.
 
-Averaging the means of 10 such classes would give a better point estimate, as in the estimating a mean Note. It would still be a single number.
+Averaging the means of 10 such events would give a better point estimate, as in the estimating a mean Note. The average would still be a single number.
 
 ## 3. Why a point estimate is not enough
 
@@ -63,7 +63,7 @@ The same holds for estimates. Claiming that the mean age of 77,000 people is exa
 
 > **Key point:** A confidence interval is a range of plausible values for a population parameter; the confidence level, usually 95%, says how often the method that builds such intervals succeeds.
 
-A **confidence interval (CI)** is a range of values within which we expect a population parameter, such as $\mu$ or $\sigma$, to lie. It expresses the uncertainty of an estimate obtained from a sample.
+A **confidence interval (CI)** is a range of values within which we expect a population parameter, such as $\mu$ or $\sigma$, to lie. The interval expresses the uncertainty of an estimate obtained from a sample.
 
 Every confidence interval comes with a **confidence level**, a percentage such as 95%. "The mean age of the subscribers is between 25 and 32 years, at 95% confidence": the range 25 to 32 is the interval, and 95% is the level. The exact meaning of the level is subtle; the [interpreting confidence intervals Note](../281-interpreting-confidence-intervals/note.md) is devoted to it.
 
@@ -91,7 +91,7 @@ We have also drawn confidence intervals already without naming them. Figure 2 pl
 
 The bars show the sample means; the lines show where the population means of passengers like these probably lie. First class has 216 passengers whose fares are very spread out (standard deviation about 78 pounds), and its interval is wide (about 74 to 95 pounds). Third class has 491 passengers with similar fares (standard deviation about 12 pounds), and its interval is narrow (about 12.6 to 14.7 pounds). Both match the standard error $s/\sqrt{n}$ of section 7: a larger spread or a smaller sample gives a wider interval.
 
-> **Extra:** Seaborn builds these intervals by bootstrapping (see the [bagging Note](../105-bagging-intuition/note.md)): it resamples the data with replacement (`n_boot=1000` times by default), recomputes the mean each time, and keeps the middle 95% of those means (seaborn documentation, "Statistical estimation and error bars" tutorial and `seaborn.barplot` reference, v0.13). In the notebook, the formula of this Note with $s$ in place of $\sigma$ gives almost the same ranges: 73.7 to 94.6 pounds for first class (seaborn: 74.3 to 95.2) and 12.6 to 14.7 pounds for third class (seaborn: 12.7 to 14.8).
+> **Extra:** Seaborn builds these intervals by bootstrapping (see the [bagging Note](../105-bagging-intuition/note.md)): it resamples the data with replacement (`n_boot=1000` times by default), recomputes the mean each time, and keeps the middle 95% of those means (Waskom 2021; seaborn docs v0.13). In the notebook, the formula of this Note with $s$ in place of $\sigma$ gives almost the same ranges: 73.7 to 94.6 pounds for first class (seaborn: 74.3 to 95.2) and 12.6 to 14.7 pounds for third class (seaborn: 12.7 to 14.8).
 
 ## 5. Two ways to compute a confidence interval for a mean
 
@@ -207,7 +207,7 @@ For a 75% confidence level, $\alpha = 0.25$ and each tail holds 0.125. The area 
 | 95% | 0.025 | 0.975 | 1.960 |
 | 99% | 0.005 | 0.995 | 2.576 |
 
-That completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and the critical value for the chosen confidence level, the interval follows from one formula. 95% is the usual level; the next Note shows why.
+The critical value completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and the critical value for the chosen confidence level, the interval follows from one formula. 95% is the usual level; the next Note shows why.
 
 > **Python:** Critical values with scipy.
 >
@@ -237,7 +237,12 @@ That completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and the critical v
 - The z-procedure needs a random sample, a known $\sigma$, and a normal population or $n > 30$.
 - The probability of 95% belongs to the method (the random interval), not to the fixed $\mu$.
 
-## 11. Key terms
+## 11. Sources
+
+- Waskom, M. L. (2021). "seaborn: statistical data visualization." *Journal of Open Source Software* 6(60), 3021.
+- seaborn developers. *seaborn v0.13 documentation*: tutorial "Statistical estimation and error bars", and API reference `seaborn.barplot` (`errorbar=("ci", 95)`, `n_boot=1000`). seaborn.pydata.org.
+
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

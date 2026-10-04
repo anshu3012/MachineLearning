@@ -16,7 +16,7 @@ title: "Simple Linear Regression: The Mathematics from Scratch"
 
 > **Key point:** We write down the total error of a line, find the m and b that make it smallest, and get two short formulas. Coded as our own class, they give exactly scikit-learn's answer.
 
-The previous Note trained `LinearRegression` and read off the slope $m = 0.558$ and intercept $b = -0.896$ for the placement data. This Note opens the box: where do these two numbers come from?
+The previous Note trained `LinearRegression` and read off the slope $m = 0.558$ and intercept $b = -0.896$ for the placement data. This Note opens the box: where do these two numbers come from? As before, the **feature** (input variable, one column of the data table) is CGPA, the **target** (the output we predict) is the package, and each **observation** (one record, one row) is one student.
 
 The plan has three parts:
 
@@ -33,13 +33,13 @@ There are two ways to compute the best $m$ and $b$:
 - **Closed-form solution:** a formula we can evaluate directly, using only ordinary operations such as adding, multiplying and dividing. The quadratic formula from school is an example: it gives the answer in one go. For linear regression, this method is called **ordinary least squares (OLS)**.
 - **Non-closed-form solution:** no direct formula; we start from a guess and improve it step by step until it is good enough. For linear regression, this method is **gradient descent**.
 
-Why have both? With one or a few input columns, OLS is fast and exact. With very many input columns, the OLS formula becomes expensive to compute, and gradient descent works better.
+Why have both? With one or a few features, OLS is fast and exact. With very many features, the OLS formula becomes expensive to compute, and gradient descent works better.
 
 scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gradient descent. This Note derives OLS; gradient descent gets its own Notes later.
 
 ## 3. The error function
 
-> **Key point:** The error of a line is the sum of the squared vertical gaps between each point and the line. It depends only on m and b.
+> **Key point:** The error of a line is the sum of the squared vertical gaps between each point and the line. The error depends only on m and b.
 
 ### 3.1 The error at one point
 
@@ -62,7 +62,7 @@ To get the total error we add the errors of all $n$ points. Adding $d_1 + d_2 + 
 So we square each error before adding. Squares were chosen over absolute values $|d_i|$ for two reasons:
 
 - **Large errors count more:** an error of 2 counts 4, an error of 10 counts 100. A line that badly misses some points is punished.
-- **It can be differentiated:** in Section 4 we find the minimum with derivatives. The absolute value has a sharp corner at 0, where it has no derivative; the square is smooth everywhere.
+- **The square can be differentiated:** in Section 4 we find the minimum with derivatives. The absolute value has a sharp corner at 0, where it has no derivative; the square is smooth everywhere.
 
 The total is called the **error function** or **loss function**:
 
@@ -94,7 +94,7 @@ Figure 2 draws $E(m, b)$ for the 160 training students: each point of the surfac
 
 ![The error function: a bowl with the best line at the bottom](images/loss_surface.png)
 
-The surface is a bowl with a single lowest point, at $m = 0.558$, $b = -0.896$, where $E = 16.55$. The two slices on the right cut the bowl along $m$ and along $b$: each is a U-shaped curve, and at the bottom the curve is flat. Its slope there is zero.
+The surface is a bowl with a single lowest point, at $m = 0.558$, $b = -0.896$, where $E = 16.55$. The two slices on the right cut the bowl along $m$ and along $b$: each is a U-shaped curve, and at the bottom the curve is flat: its slope there is zero. A marble dropped into a salad bowl comes to rest at the one place where the floor of the bowl is level in every direction.
 
 A **derivative** measures the slope of a function. Since $E$ depends on two variables, it has two slopes, one for each. A **partial derivative** is the slope in one variable while the other is held fixed:
 
@@ -119,7 +119,7 @@ Divide by $n$. The **mean** $\bar{x} = \frac{1}{n}\sum x_i$ appears, and likewis
 
 $$\bar{y} - m\bar{x} - b = 0 \quad\Longrightarrow\quad b = \bar{y} - m\bar{x}$$
 
-This says the best line always passes through the point $(\bar{x}, \bar{y})$: the average CGPA and the average package. Once we know $m$, $b$ follows.
+The formula for $b$ says the best line always passes through the point $(\bar{x}, \bar{y})$: the average CGPA and the average package. Once we know $m$, $b$ follows.
 
 ### 4.3 Step 2: the derivative with respect to m
 
@@ -176,7 +176,7 @@ These are the numbers `LinearRegression` reported. scikit-learn reaches them by 
 
 ## 6. Our own linear regression class
 
-> **Key point:** A class with fit (the two formulas) and predict (the line equation) reproduces scikit-learn's LinearRegression for one input column.
+> **Key point:** A class with fit (the two formulas) and predict (the line equation) reproduces scikit-learn's LinearRegression for one feature.
 
 > **Python:** Simple linear regression from scratch.
 >
@@ -202,7 +202,7 @@ These are the numbers `LinearRegression` reported. scikit-learn reaches them by 
 
 The predictions match scikit-learn's to every digit shown. The Notebook also checks the two conditions of Section 4 at the fitted line: the errors add up to 0, and so do the errors times $x$. Moving $m$ by just 0.01 raises $E$ from 16.55 to 17.35.
 
-> **Extra:** This class only handles one input column. The same idea works for many columns, written with matrices instead of single sums: that is multiple linear regression, coming soon. If we edit the class and run its definition again, we must also create a new object: an object made before the edit keeps running the old code (Python reference §8.8).
+> **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: multiple linear regression, coming soon. If we edit the class and run its definition again, we must also create a new object: an object made before the edit keeps running the old code (Python reference §8.8).
 
 ## 7. Summary
 
@@ -221,15 +221,18 @@ The predictions match scikit-learn's to every digit shown. The Notebook also che
 - The best line always passes through $(\bar{x}, \bar{y})$.
 - scikit-learn's `LinearRegression` solves the same least-squares problem (with `scipy.linalg.lstsq`) and gets the same $m$ and $b$.
 
-## Sources
+## 8. Sources
 
-- scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section. https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
-- *The Python Language Reference*, §8.8 Class definitions. https://docs.python.org/3/reference/compound_stmts.html
+- scikit-learn API reference, `sklearn.linear_model.LinearRegression`, Notes section. scikit-learn.org.
+- *The Python Language Reference*, §8.8 Class definitions. docs.python.org.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
 | Closed-form solution | An answer given directly by a formula of ordinary operations |
 | Non-closed-form solution | An answer reached by improving a guess step by step |
 | Ordinary least squares (OLS) | The closed-form method for linear regression: the line with the smallest sum of squared errors |

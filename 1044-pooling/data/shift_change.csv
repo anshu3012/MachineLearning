@@ -1,0 +1,6 @@
+stage,change
+feature map (no pooling),0.8805756568908691
+after 2x2 max pooling,0.6492037177085876
+after 3x3 max pooling,0.5197814106941223
+after 4x4 max pooling,0.4216650724411011
+after global max pooling,0.0

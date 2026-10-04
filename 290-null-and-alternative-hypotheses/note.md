@@ -33,19 +33,19 @@ The next Notes run these steps on real numbers: the [rejection region Note](../2
 
 > **Key point:** One result, or a few, can be good or bad by chance; hypothesis testing tells us whether a sample is strong enough evidence for a claim about the whole population.
 
-### 2.1 A video channel tries a new style
+### 2.1 An online channel tries a new style
 
-Suppose a video channel records its videos on a digital writing pad. Its analytics show that, over all its videos, people watch for **6 minutes** on average. Successful channels seem to film in front of a whiteboard instead, so the owner has an idea: the whiteboard style would raise the average view duration.
+Suppose an online channel records its lessons on a digital writing pad. Its analytics show that, over all its recorded lessons, people watch for **6 minutes** on average. Successful channels seem to film in front of a whiteboard instead, so the owner has an idea: the whiteboard style would raise the average view duration.
 
-The obvious test is to try it. The first whiteboard video is watched for 30 minutes on average. Can we conclude that the new style works?
+The obvious test is to try it. The first whiteboard lesson is watched for 30 minutes on average. Can we conclude that the new style works?
 
-No. One video proves very little:
+No. One lesson proves very little:
 
-- its topic may have been popular (say, a video on ChatGPT that the whole world wants to watch);
+- its topic may have been popular (say, a lesson on ChatGPT that the whole world wants to watch);
 - the presenter may have looked especially good that day;
-- any other random reason may have lifted that one video.
+- any other random reason may have lifted that one lesson.
 
-So the channel makes five more videos in the new style. Their average view durations are 7, 9, 5, 11 and 13 minutes. Their mean, 9 minutes, is above 6. Is that enough? The question has not changed: are five videos enough evidence, or could the old style give such numbers by chance?
+So the channel records five more lessons in the new style. Their average view durations are 7, 9, 5, 11 and 13 minutes. Their mean, 9 minutes, is above 6. Is that enough? The question has not changed: are five lessons enough evidence, or could the old style give such numbers by chance?
 
 ### 2.2 The same question in business
 
@@ -55,11 +55,11 @@ A small channel can afford to try and see. A company such as Amazon or Flipkart,
 
 ### 2.3 Definition
 
-A **statistical hypothesis test** is a method of statistical inference used to decide whether the data at hand sufficiently supports a particular hypothesis. It lets us make probabilistic statements about population parameters.
+A **statistical hypothesis test** is a method of statistical inference used to decide whether the data at hand sufficiently supports a particular hypothesis. Hypothesis testing lets us make probabilistic statements about population parameters.
 
-In the channel example the population parameter is $\mu$, the mean view duration of all videos the channel could make in the new style. The new videos are a sample. Hypothesis testing tells us what the sample can say about $\mu$.
+In the channel example the population parameter is $\mu$, the mean view duration of all lessons the channel could record in the new style. The new lessons are a sample. Hypothesis testing tells us what the sample can say about $\mu$.
 
-This is inferential statistics: reasoning from a sample to a population (see the [what is statistics Note](../220-what-is-statistics/note.md)). It is used constantly in business, finance and economics.
+Hypothesis testing is inferential statistics: reasoning from a sample to a population (see the [what is statistics Note](../220-what-is-statistics/note.md)). Inferential statistics is used constantly in business, finance and economics.
 
 ## 3. The null hypothesis
 
@@ -98,7 +98,7 @@ Two other names are common in books and exam questions:
 - $H_0$ is called the **status quo**: the current state of things;
 - $H_1$ is called the **research hypothesis**: the idea that comes out of research. The channel owner studied other channels and concluded that the whiteboard style might help.
 
-> **Extra:** The hypotheses are always about the **population** parameter ($\mu$), never about the sample mean ($\bar{x}$). We already know $\bar{x} = 9$ for the five new videos; there is nothing to test about it. The open question is $\mu$, the mean of all future videos. Writing $H_0: \bar{x} = 6$ is a common slip.
+> **Extra:** The hypotheses are always about the **population** parameter ($\mu$), never about the sample mean ($\bar{x}$). We already know $\bar{x} = 9$ for the five new lessons; there is nothing to test about it. The open question is $\mu$, the mean of all future lessons. Writing $H_0: \bar{x} = 6$ is a common slip.
 
 ## 5. Three rules for $H_0$ and $H_1$
 
@@ -119,11 +119,11 @@ The statement with the change, the difference or the effect is $H_1$.
 
 ### 5.2 The goal: evidence against $H_0$
 
-A hypothesis test does not try to prove $H_1$ directly. It assumes $H_0$ and then uses the data to collect **evidence against $H_0$**. If the evidence is strong enough, we reject $H_0$, and $H_1$ is what remains.
+A hypothesis test does not try to prove $H_1$ directly. The test assumes $H_0$ and then uses the data to collect **evidence against $H_0$**. If the evidence is strong enough, we reject $H_0$, and $H_1$ is what remains.
 
 ### 5.3 Failing to reject $H_0$ does not prove it
 
-The most important rule: **failing to reject the null hypothesis does not mean the null hypothesis is true.** It only means the data did not bring enough evidence against it.
+The most important rule: **failing to reject the null hypothesis does not mean the null hypothesis is true.** Failing to reject only means the data did not bring enough evidence against it.
 
 A courtroom makes this clear:
 
@@ -135,11 +135,11 @@ A courtroom makes this clear:
 | Strong evidence: verdict "guilty" | Reject $H_0$ |
 | Weak evidence: verdict "not guilty" | Fail to reject $H_0$ |
 
-A "not guilty" verdict does not prove that no crime happened. It says the prosecutor could not prove it. In the same way, if the five videos do not let us reject $H_0$, the new style may still work: our evidence was simply too weak to show it.
+A "not guilty" verdict does not prove that no crime happened. The verdict says the prosecutor could not prove it. In the same way, if the five lessons do not let us reject $H_0$, the new style may still work: our evidence was simply too weak to show it.
 
-For the same reason, rejecting $H_0$ for the channel would not show that the whiteboard style is the best possible. It would only show that it beats the old average of 6 minutes.
+For the same reason, rejecting $H_0$ for the channel would not show that the whiteboard style is the best possible. Rejecting $H_0$ would only show that the new style beats the old average of 6 minutes.
 
-> **Extra:** This is why we say "fail to reject $H_0$" and avoid "accept $H_0$". A small sample gives a test little power to detect a real effect: in the [errors, power and tails Note](../292-errors-power-and-tails/note.md) the same test detects a true mean of 52 with probability 0.71 for 30 employees and 0.99 for 100. "Accepting" $H_0$ after such a test would turn weak evidence into a false certainty. D. G. Altman and J. M. Bland make the same point in "Absence of evidence is not evidence of absence" (*BMJ* 311, 1995): a non-significant result does not show that there is no effect.
+> **Extra:** The courtroom logic is why we say "fail to reject $H_0$" and avoid "accept $H_0$". A small sample gives a test little power to detect a real effect: in the [errors, power and tails Note](../292-errors-power-and-tails/note.md) the same test detects a true mean of 52 with probability 0.71 for 30 employees and 0.99 for 100. "Accepting" $H_0$ after such a test would turn weak evidence into a false certainty. Altman and Bland (1995) make the same point: a non-significant result does not show that there is no effect.
 
 ## 6. The eight steps of a hypothesis test
 
@@ -150,8 +150,8 @@ For the same reason, rejecting $H_0$ for the channel would not show that the whi
 There are two ways to carry out a test. The **rejection region approach** compares the test statistic with a fixed boundary (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)). The **p-value approach** computes one extra number that also measures how strong the evidence is (see the [p-values Note](../300-p-values/note.md)); it is the approach used in practice. Both follow the steps in Figure 2.
 
 1. **State $H_0$ and $H_1$.** For the channel: $H_0: \mu = 6$, $H_1: \mu > 6$.
-2. **Choose a significance level $\alpha$.** Usually 0.05 (5%), sometimes 0.01 (1%). It is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. The [rejection region Note](../291-rejection-region-and-z-test/note.md) explains it fully.
-3. **Check the assumptions about the data.** Is the data normally distributed? Do we know the population standard deviation $\sigma$? Is the data numerical or categorical? Do we have one column or several, one group or several?
+2. **Choose a significance level $\alpha$.** Usually 0.05 (5%), sometimes 0.01 (1%). The significance level is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. The [rejection region Note](../291-rejection-region-and-z-test/note.md) explains it fully.
+3. **Check the assumptions about the data.** Is the data normally distributed? Do we know the population standard deviation $\sigma$? Is the data numerical or categorical? Do we have one **feature** (one measured variable, one column of the data table) or several, one group or several?
 4. **Choose the test.** The assumptions decide it. For example:
    - normal data (or a large sample) and $\sigma$ known: the one-sample **z-test**;
    - $\sigma$ unknown: the **t-test** (see the [one-sample t-test Note](../301-one-sample-t-test/note.md));
@@ -164,7 +164,7 @@ There are two ways to carry out a test. The **rejection region approach** compar
 
 Steps 1 and 2 come before looking at the data: the decision needs a fixed boundary, and the boundary comes from $\alpha$ and the direction of $H_1$. Choosing them after seeing the results changes the error rate. For example, if we picked the direction of $H_1$ after seeing which side of 6 the sample mean fell on, a true $H_0$ would be rejected whenever $|z| > 1.645$, which has probability $2 \times 0.05 = 0.10$: double the $\alpha$ we claimed.
 
-> **Extra:** Are the five videos (7, 9, 5, 11, 13 minutes) enough evidence that $\mu > 6$? The [one-sample t-test Note](../301-one-sample-t-test/note.md) answers it: at the 5% level, just barely not.
+> **Extra:** Are the five lessons (7, 9, 5, 11, 13 minutes) enough evidence that $\mu > 6$? The [one-sample t-test Note](../301-one-sample-t-test/note.md) answers it: at the 5% level, just barely not.
 
 ## 7. Summary
 
@@ -183,7 +183,11 @@ Steps 1 and 2 come before looking at the data: the decision needs a fixed bounda
 - Failing to reject $H_0$ does not prove $H_0$: "not guilty" is not "innocent".
 - Eight steps: hypotheses, $\alpha$, assumptions, test, statistic, compute, decide, interpret.
 
-## 8. Key terms
+## 8. Sources
+
+- Altman, D. G. and Bland, J. M. (1995). "Absence of evidence is not evidence of absence." *BMJ* 311(7003), 485.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -16,17 +16,19 @@ title: "Regression Metrics: MAE, MSE, RMSE, R² and Adjusted R²"
 
 > **Key point:** A regression metric turns all the errors on the test set into one number. Five are common: MAE, MSE, RMSE, R² and adjusted R².
 
-After training a regression model, we need to know how good it is. A **metric** compares the model's predictions with the true values on the test set and summarises the errors as one number.
+After training a regression model, we need to know how good it is. A **metric** compares the model's predictions with the true values on the test set and summarises the errors as one number, like a report card that sums up a term's work in one grade.
+
+Three words recur. A **feature** is an input variable (one column of the data table), here CGPA. The **target** is the output we predict, here the package. An **observation** is one record (one row), here one student.
 
 This Note covers five metrics, in order:
 
 | Metric | Answers |
 |---|---|
-| MAE | How far off is a typical prediction, in the output's units? |
+| MAE | How far off is a typical prediction, in the target's units? |
 | MSE | The average squared error; what training minimises |
-| RMSE | MSE brought back to the output's units |
+| RMSE | MSE brought back to the target's units |
 | R² | How much better than guessing the average is the model? |
-| Adjusted R² | R², but with a penalty for useless input columns |
+| Adjusted R² | R², but with a penalty for useless features |
 
 No single metric is best for every problem, which is why several exist. All the numbers below come from the simple linear regression of the previous Notes: CGPA to package, tested on 40 students.
 
@@ -48,14 +50,14 @@ The sign is dropped because some points lie above the line and some below; witho
 
 **Advantages:**
 
-- **Same units as the output.** The model is off by about 0.29 lakh rupees per year on average, a statement anyone can understand.
+- **Same units as the target.** The model is off by about 0.29 lakh rupees per year on average, a statement anyone can understand.
 - **Robust to outliers.** One very wrong prediction raises MAE only in proportion to its size (Section 5).
 
-**Disadvantage:** the absolute value has a sharp corner at 0, so it cannot be differentiated there. That makes MAE awkward to use as the function that training minimises (the previous Note chose squares for exactly this reason).
+**Disadvantage:** the absolute value has a sharp corner at 0, so it cannot be differentiated there. The corner makes MAE awkward to use as the function that training minimises (the previous Note chose squares for exactly this reason).
 
 ## 3. Mean squared error (MSE)
 
-> **Key point:** MSE averages the squared errors. It is smooth and punishes large errors heavily, but its units are squared. On the placement data it is 0.121.
+> **Key point:** MSE averages the squared errors. MSE is smooth and punishes large errors heavily, but its units are squared. On the placement data it is 0.121.
 
 In words: square each error and average the squares.
 
@@ -65,7 +67,7 @@ With numbers: the first student's error of 0.21 becomes $0.21^2 = 0.044$. Averag
 
 $$\text{MSE} = 0.121$$
 
-**Advantage:** the square is smooth everywhere, so MSE can be differentiated. This is why it is used as the **loss function** that models minimise during training, as in the previous Note.
+**Advantage:** the square is smooth everywhere, so MSE can be differentiated. Smoothness is why MSE is used as the **loss function** that models minimise during training, as in the previous Note.
 
 **Disadvantages:**
 
@@ -74,7 +76,7 @@ $$\text{MSE} = 0.121$$
 
 ## 4. Root mean squared error (RMSE)
 
-> **Key point:** RMSE is the square root of MSE: back in the output's units, but still punishing large errors. On the placement data it is 0.35 LPA.
+> **Key point:** RMSE is the square root of MSE: back in the target's units, but still punishing large errors. On the placement data it is 0.35 LPA.
 
 In words: compute the MSE, then take its square root.
 
@@ -122,7 +124,7 @@ So the choice depends on the problem:
 
 ## 6. R² score
 
-> **Key point:** R² compares the model with the simplest possible model, "always predict the average". It is 1 for a perfect model and 0 for a model no better than the average. On the placement data it is 0.78.
+> **Key point:** R² compares the model with the simplest possible model, "always predict the average". R² is 1 for a perfect model and 0 for a model no better than the average. On the placement data it is 0.78.
 
 ### 6.1 The idea
 
@@ -130,7 +132,7 @@ So the choice depends on the problem:
 
 MAE, MSE and RMSE have a weakness: their size depends on the units. An RMSE of 0.35 is small for packages in LPA but would be huge for a target measured in thousands. We need a comparison point.
 
-The simplest model of all ignores the input and predicts the average package, 2.96 LPA, for every test student: the flat red line in Figure 2 (left). Its squared errors add up to 22.13. The regression line (right) has squared errors adding up to only 4.85.
+The simplest model of all ignores the feature and predicts the average package, 2.96 LPA, for every test student: the flat red line in Figure 2 (left). Its squared errors add up to 22.13. The regression line (right) has squared errors adding up to only 4.85.
 
 ![Squared errors of the average versus the regression line](images/r2_visual.png)
 
@@ -161,7 +163,7 @@ $$R^2 = 1 - \frac{4.85}{22.13} = 1 - 0.219 = 0.781$$
 
 - **$R^2 = 1$:** every prediction is exact ($SS_{res} = 0$).
 - **$R^2 = 0$:** the model is no better than predicting the average.
-- **$R^2 < 0$:** the model is worse than predicting the average. This can happen on a test set with a bad model.
+- **$R^2 < 0$:** the model is worse than predicting the average, which can happen on a test set with a bad model.
 
 Here, $R^2 = 0.78$: CGPA explains about 78% of the variation in packages; the remaining 22% comes from things not in the data, such as interviews (the stochastic errors of the earlier Note).
 
@@ -169,32 +171,32 @@ R² is also called the **coefficient of determination**.
 
 ## 7. Adjusted R²
 
-> **Key point:** Adding input columns can push R² up even when the new columns are useless. Adjusted R² subtracts a penalty for each column, so it only rises when a column truly helps.
+> **Key point:** Adding features can push R² up even when the new features are useless. Adjusted R² subtracts a penalty for each feature, so it only rises when a feature truly helps.
 
 ### 7.1 The problem with R²
 
-> **Key point:** On the training data, R² never goes down when a column is added, even a column of random numbers.
+> **Key point:** On the training data, R² never goes down when a feature is added, even a feature of random numbers.
 
-Suppose we add a column of random numbers to the placement data, a column that has nothing to do with packages. On the training data, R² still creeps up. The new column gives the model one more number to tune, and setting that number to 0 gives back the old model, so the fit on the training data can never get worse. A random column almost always matches the leftover errors a little by chance, so R² usually rises.
+Suppose we add a feature of random numbers to the placement data, one that has nothing to do with packages. On the training data, R² still creeps up. The new feature gives the model one more number to tune, and setting that number to 0 gives back the old model, so the fit on the training data can never get worse. A random feature almost always matches the leftover errors a little by chance, so R² usually rises.
 
-Figure 3 adds 0 to 20 columns of random numbers next to CGPA.
+Figure 3 adds 0 to 20 features of random numbers next to CGPA. The split is the same each time; only the random numbers change, and every score is the average over 200 draws of them.
 
-![R² and adjusted R² as useless random columns are added](images/adjusted_r2.png)
+![R² and adjusted R² as useless random features are added](images/adjusted_r2.png)
 
-| Random columns added | 0 | 1 | 5 | 10 | 20 |
+| Random features added | 0 | 1 | 5 | 10 | 20 |
 |---|---|---|---|---|---|
-| R², training | 0.773 | 0.777 | 0.783 | 0.790 | 0.807 |
-| Adjusted R², training | 0.772 | 0.774 | 0.774 | 0.774 | 0.778 |
-| R², test | 0.781 | 0.782 | 0.795 | 0.783 | 0.763 |
-| Adjusted R², test | 0.775 | 0.770 | 0.758 | 0.697 | 0.486 |
+| R², training | 0.773 | 0.775 | 0.780 | 0.787 | 0.802 |
+| Adjusted R², training | 0.772 | 0.772 | 0.772 | 0.771 | 0.772 |
+| R², test | 0.781 | 0.779 | 0.775 | 0.769 | 0.755 |
+| Adjusted R², test | 0.775 | 0.767 | 0.734 | 0.678 | 0.468 |
 
-The training R² rises from 0.773 to 0.807, which looks like progress. It is not: the extra columns are noise.
+The training R² rises from 0.773 to 0.802, which looks like progress. The test R² shows the truth: it falls from 0.781 to 0.755, because the extra features are noise. Adjusted R² on the training data stays at 0.772, so it reports the true story without needing a test set.
 
 ### 7.2 The formula
 
-> **Key point:** Adjusted R² scales the unexplained part by $(n-1)/(n-1-k)$, which grows with the number of input columns $k$.
+> **Key point:** Adjusted R² scales the unexplained part by $(n-1)/(n-1-k)$, which grows with the number of features $k$.
 
-In words: take the part R² leaves unexplained, $1 - R^2$, make it larger according to how many input columns $k$ the model uses compared with the number of rows $n$, and subtract that from 1.
+In words: take the part R² leaves unexplained, $1 - R^2$, make it larger according to how many features $k$ the model uses compared with the number of observations $n$, and subtract that from 1 (ISLR §6.1.3).
 
 $$R^2_{adj} = 1 - \frac{(1 - R^2)(n - 1)}{n - 1 - k}$$
 
@@ -204,14 +206,14 @@ $$R^2_{adj} = 1 - \frac{0.219 \times 39}{38} = 1 - 0.225 = 0.775$$
 
 How it behaves:
 
-- **A useless column:** $k$ goes up by 1, which makes the fraction larger, while $R^2$ barely changes. Adjusted R² falls.
-- **A useful column:** $R^2$ rises enough to outweigh the penalty. Adjusted R² rises.
+- **A useless feature:** $k$ goes up by 1, which makes the fraction larger, while $R^2$ barely changes. Adjusted R² falls.
+- **A useful feature:** $R^2$ rises enough to outweigh the penalty. Adjusted R² rises.
 
-In Figure 3, adjusted R² on the training data stays flat at about 0.77 however many random columns are added: it is not fooled. On the small test set (40 rows), the penalty is strong, and adjusted R² falls from 0.775 to 0.486 with 20 random columns.
+In Figure 3, adjusted R² on the training data stays flat at 0.772 however many random features are added: adjusted R² is not fooled. On the small test set (40 observations), the penalty is strong, and adjusted R² falls from 0.775 to 0.468 with 20 random features.
 
-> **Extra:** A version of this demonstration sometimes builds a "useful" column, such as an IQ score, by adding small noise to the package itself. Such a column is made from the answer, so it would never exist in real data: it is target leakage: information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless columns raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression, the next Note.
+> **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data: it is target leakage: information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression, the next Note.
 
-> **Extra:** scikit-learn has no function for adjusted R²; we compute it from `r2_score` with the formula above. Note that $n$ is the number of rows in the set being scored (40 for the test set) and $k$ the number of input columns.
+> **Extra:** scikit-learn has no function for adjusted R²; we compute it from `r2_score` with the formula above. Here $n$ is the number of observations in the set being scored (40 for the test set) and $k$ the number of features.
 
 ## 8. Summary
 
@@ -223,25 +225,29 @@ In Figure 3, adjusted R² on the training data stays flat at about 0.77 however 
 | R² | $1 - SS_{res}/SS_{tot}$ | 0.781 | none | sensitive |
 | Adjusted R² | $1 - (1 - R^2)\frac{n-1}{n-1-k}$ | 0.775 | none | sensitive |
 
-- MAE and RMSE are in the output's units; RMSE is always at least as large as MAE and reacts more to large errors.
+- MAE and RMSE are in the target's units; RMSE is always at least as large as MAE and reacts more to large errors.
 - MSE is the usual loss for training, because it can be differentiated.
 - R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse.
-- R² never falls on the training data when columns are added; adjusted R² penalises each column and so detects useless ones.
+- R² never falls on the training data when features are added; adjusted R² penalises each feature and so detects useless ones.
 
-## Sources
+## 9. Sources
 
+- James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning* (ISLR), 2nd ed. Springer. §6.1.3 (adjusted R²).
 - Kaufman, S., Rosset, S., Perlich, C. and Stitelman, O. (2012). Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM Transactions on Knowledge Discovery from Data* 6(4).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
 | Regression metric | A number that summarises how close a regression model's predictions are to the true values |
 | Mean absolute error (MAE) | The average absolute difference between actual and predicted values |
 | Mean squared error (MSE) | The average squared difference between actual and predicted values |
-| Root mean squared error (RMSE) | The square root of MSE, in the output's units |
+| Root mean squared error (RMSE) | The square root of MSE, in the target's units |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean |
 | Residual sum of squares | The total squared error of the model's predictions |
 | Total sum of squares | The total squared error of always predicting the mean |
-| Adjusted R² | R² with a penalty for the number of input columns |
-| Target leakage | Building an input column from the answer itself, so the model sees information it would not have in real use |
+| Adjusted R² | R² with a penalty for the number of features |
+| Target leakage | Building a feature from the answer itself, so the model sees information it would not have in real use |

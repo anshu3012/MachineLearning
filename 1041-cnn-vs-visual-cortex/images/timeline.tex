@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily}]
+  \draw[arrow] (0,0) -- (17,0);
+  \foreach \x/\yr/\txt/\col/\pos in {
+      0.8/1959--62/{Hubel and Wiesel:\\orientation-selective\\simple and complex\\cells in the cat's V1}/cblue/above,
+      4.3/1980/{Fukushima:\\Neocognitron,\\S-cells and C-cells,\\no backpropagation}/corange/below,
+      7.6/1989/{LeCun: convolutional\\network trained with\\backpropagation\\(zip codes)}/cgreen/above,
+      11.0/1998/{LeCun et al.:\\LeNet-5; check reading\\deployed commercially}/cpurple/below,
+      14.6/2012/{Krizhevsky et al.:\\AlexNet wins the\\ImageNet challenge}/cred/above}{
+    \fill[\col] (\x,0) circle (5pt);
+    \node[font=\sffamily\bfseries, \ifx\pos above below\else above\fi=8pt] at (\x,0) {\yr};
+    \node[box=\col, \pos=0.9cm, text width=3.4cm, font=\sffamily\small] at (\x,0) {\txt};
+  }
+\end{tikzpicture}
+\end{document}

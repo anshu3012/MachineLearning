@@ -28,9 +28,9 @@ The log loss Note gave logistic regression its loss function and noted that it h
 
 ### 2.1 One prediction
 
-> **Key point:** For one row, ŷ = σ(w₀ + w₁x₁ + ... + wₙxₙ).
+> **Key point:** For one observation, ŷ = σ(w₀ + w₁x₁ + ... + wₙxₙ).
 
-Take a dataset with $m$ rows and $n$ input columns. The model has $n + 1$ weights: $w_0$ (the intercept) and $w_1$ to $w_n$. The prediction for row $i$ is
+Take a dataset with $m$ **observations** (records, one row of the data table each) and $n$ **features** (input variables, one column each). The **target** $y$ is the output we predict, here the class 0 or 1. The model has $n + 1$ weights: $w_0$ (the intercept) and $w_1$ to $w_n$. The prediction for observation $i$ is
 
 $$\hat{y}_i = \sigma(w_0 + w_1 x_{i1} + w_2 x_{i2} + \dots + w_n x_{in})$$
 
@@ -42,7 +42,7 @@ Writing out all $m$ predictions, each inner sum is one row of $X$ (with a 1 adde
 
 $$\hat{y} = \sigma(Xw)$$
 
-where $\sigma$ is applied to each entry. This is the same trick as in multiple linear regression.
+where $\sigma$ is applied to each entry. Stacking the predictions as $Xw$ is the same trick as in multiple linear regression.
 
 ![The shapes of X, w, ŷ and the gradient](images/shapes.png){height=42%}
 
@@ -66,7 +66,7 @@ $$L = -\frac{1}{m}\left[y^{\mathsf T}\log \hat{y} + (1 - y)^{\mathsf T}\log(1 - 
 
 > **Key point:** The derivative of y log ŷ with respect to w is y(1 − ŷ) x.
 
-For a single row, differentiate $y \log \hat{y}$ step by step with the chain rule:
+For a single observation, differentiate $y \log \hat{y}$ step by step with the chain rule:
 
 - the derivative of $\log \hat{y}$ with respect to $\hat{y}$ is $1/\hat{y}$;
 - the derivative of $\hat{y} = \sigma(z)$ with respect to $z$ is $\hat{y}(1 - \hat{y})$ (the sigmoid derivative Note);
@@ -93,7 +93,7 @@ Adding the two parts:
 
 $$y(1 - \hat{y}) - (1 - y)\hat{y} = y - y\hat{y} - \hat{y} + y\hat{y} = y - \hat{y}$$
 
-So for one row, the derivative of the bracket is $(y - \hat{y})\,x$. Summing over all rows, with the $-\frac{1}{m}$ in front, and writing the sum as a matrix product:
+So for one observation, the derivative of the bracket is $(y - \hat{y})\,x$. Summing over all observations, with the $-\frac{1}{m}$ in front, and writing the sum as a matrix product:
 
 $$\frac{\partial L}{\partial w} = -\frac{1}{m}\,X^{\mathsf T}(y - \hat{y})$$
 
@@ -134,7 +134,7 @@ Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \e
 
 > **Key point:** After 5,000 epochs, the weights match scikit-learn's to three decimals.
 
-The test data has 100 points with two inputs whose classes overlap a little (`make_classification`, `class_sep=1.5`, random state 4). scikit-learn's `LogisticRegression(penalty=None)` fits the same model without regularisation, so the two should agree.
+The test data has 100 points with two features whose classes overlap a little (`make_classification`, `class_sep=1.5`, random state 4). scikit-learn's `LogisticRegression(penalty=None)` fits the same model without regularisation, so the two should agree.
 
 ![Log loss per epoch, and the line moving into place](images/training.png){height=56%}
 
@@ -196,6 +196,6 @@ In practice this is handled by stopping after a fixed number of epochs, or by ad
 | Term | Meaning |
 |---|---|
 | Gradient | The vector of slopes of the loss, one for each weight |
-| Batch gradient descent | Gradient descent that uses all rows for every update |
+| Batch gradient descent | Gradient descent that uses all observations for every update |
 | penalty=None | LogisticRegression setting that switches regularisation off |
 | Perfect separation | When a line splits the training classes with no mistakes; unregularised weights then grow without limit |

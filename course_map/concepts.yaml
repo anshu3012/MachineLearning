@@ -218,6 +218,12 @@ notes:
   620: 620-lagrange-multipliers
   621: 621-convex-sets-and-functions
   622: 622-linear-and-quadratic-programming
+  630: 630-probability-vs-likelihood
+  631: 631-maximum-likelihood-estimation
+  632: 632-mle-for-common-distributions
+  633: 633-mle-in-machine-learning
+  640: 640-gaussian-mixture-models
+  641: 641-expectation-maximization
   1001: 1001-dl-scope-and-prerequisites
   1002: 1002-what-is-deep-learning
   1003: 1003-nn-types-history-applications
@@ -244,6 +250,18 @@ notes:
   1024: 1024-dropout
   1025: 1025-dropout-code
   1026: 1026-regularization-in-dl
+  1027: 1027-activation-functions
+  1028: 1028-relu-variants
+  1029: 1029-weight-initialization
+  1030: 1030-xavier-he-initialization
+  1031: 1031-batch-normalization
+  1055: 1055-why-rnn
+  1056: 1056-rnn-forward-propagation
+  1057: 1057-rnn-sentiment-analysis
+  1058: 1058-types-of-rnn
+  1059: 1059-backpropagation-through-time
+  1060: 1060-problems-with-rnn
+  1067: 1067-history-of-llms
 
 concepts:
   # 0 Foundations
@@ -295,7 +313,7 @@ concepts:
   - {id: cdf, name: Cumulative distribution function (CDF), step: 3, videos: [241, 242, 253], status: confirmed}
   - {id: density_estimation, name: Density estimation, step: 3, videos: [243], status: confirmed}
   - {id: kde, name: Kernel density estimation (KDE), step: 3, videos: [20, 243, 253], status: confirmed}
-  - {id: normal_distribution, name: Normal distribution, step: 0, videos: [42, 90, 240, 250], status: confirmed}
+  - {id: normal_distribution, name: Normal distribution, step: 0, videos: [42, 90, 240, 250, 630], status: confirmed}
   - {id: standard_normal, name: Standard normal and the z-table, step: 0, videos: [251], status: confirmed}
   - {id: kurtosis, name: Kurtosis and moments, step: 3, videos: [22, 260], status: confirmed}
   - {id: uniform_dist, name: Uniform distribution, step: 0, videos: [241, 261], status: confirmed}
@@ -358,11 +376,11 @@ concepts:
   - {id: training_curves, name: Training curves (History), step: 9, videos: [1011, 1012, 1013, 1022], status: confirmed}
   - {id: dl_loss_functions, name: Loss functions in deep learning, step: 8, videos: [1014], status: confirmed}
   - {id: huber_loss, name: Huber loss, step: 8, videos: [1014], status: confirmed}
-  - {id: categorical_ce, name: Categorical and sparse categorical cross-entropy, step: 8, videos: [1012, 1014], status: confirmed}
+  - {id: categorical_ce, name: Categorical and sparse categorical cross-entropy, step: 8, videos: [1012, 1014, 633], status: confirmed}
   - {id: backpropagation, name: Backpropagation, step: 8, videos: [1015, 1016, 1017, 1019], status: confirmed}
-  - {id: vanishing_gradient, name: Vanishing gradient, step: 8, videos: [1018], status: confirmed}
-  - {id: exploding_gradient, name: Exploding gradient and gradient clipping, step: 8, videos: [1018], status: confirmed}
-  - {id: relu, name: ReLU, step: 8, videos: [1018], status: confirmed}
+  - {id: vanishing_gradient, name: Vanishing gradient, step: 8, videos: [1018, 1029, 1030, 1060], status: confirmed}
+  - {id: exploding_gradient, name: Exploding gradient and gradient clipping, step: 8, videos: [1018, 1029, 1060], status: confirmed}
+  - {id: relu, name: ReLU, step: 8, videos: [1018, 1027, 1028], status: confirmed}
   - {id: memoization, name: Memoization, step: 0, videos: [1019], status: confirmed}
   - {id: batch_size_keras, name: Batch size in Keras, step: 8, videos: [1020], status: confirmed}
   - {id: nn_improvement, name: Improving a neural network, step: 10, videos: [1021], status: confirmed}
@@ -370,6 +388,32 @@ concepts:
   - {id: input_scaling, name: Scaling inputs for neural networks, step: 5, videos: [1023], status: confirmed}
   - {id: dropout, name: Dropout, step: 8, videos: [1024, 1025], status: confirmed}
   - {id: weight_decay, name: L1 and L2 regularisation in neural networks, step: 8, videos: [1026], status: confirmed}
+  - {id: activation_functions, name: Activation functions, step: 8, videos: [1027], status: confirmed}
+  - {id: tanh, name: Tanh, step: 8, videos: [1027], status: confirmed}
+  - {id: dying_relu, name: Dying ReLU problem, step: 8, videos: [1028], status: confirmed}
+  - {id: relu_variants, name: "Leaky ReLU, PReLU, ELU and SELU", step: 8, videos: [1028], status: confirmed}
+  - {id: weight_init, name: Weight initialisation, step: 8, videos: [1029, 1030], status: confirmed}
+  - {id: xavier_he, name: Xavier and He initialisation, step: 8, videos: [1030], status: confirmed}
+  - {id: batch_norm, name: Batch normalisation, step: 8, videos: [1031], status: confirmed}
+  - {id: covariate_shift, name: Covariate shift, step: 8, videos: [1031], status: confirmed}
+  - {id: likelihood, name: Likelihood, step: 0, videos: [630], status: confirmed}
+  - {id: mle, name: Maximum likelihood estimation (MLE), step: 0, videos: [631, 632, 633], status: confirmed}
+  - {id: exponential_dist, name: Exponential distribution, step: 0, videos: [632], status: confirmed}
+  - {id: map_estimation, name: MAP estimation, step: 8, videos: [633], status: confirmed}
+  - {id: multivariate_normal, name: Multivariate normal distribution, step: 0, videos: [640], status: confirmed}
+  - {id: gmm, name: Gaussian mixture model (GMM), step: 8, videos: [640, 641], status: confirmed}
+  - {id: em, name: Expectation maximization (EM), step: 8, videos: [641], status: confirmed}
+  - {id: sequential_data, name: Sequential data, step: 0, videos: [1055], status: confirmed}
+  - {id: llm, name: Large language models (LLMs), step: 8, videos: [1067], status: confirmed}
+  - {id: rnn, name: Recurrent neural network (RNN), step: 8, videos: [1055, 1056, 1057], status: confirmed}
+  - {id: parameter_sharing, name: Parameter sharing across time steps, step: 8, videos: [1056, 1059], status: confirmed}
+  - {id: text_vectorization, name: Tokenization and integer encoding of text, step: 5, videos: [1057], status: confirmed}
+  - {id: sequence_padding, name: Sequence padding, step: 5, videos: [1055, 1057], status: confirmed}
+  - {id: word_embedding, name: Word embeddings, step: 5, videos: [1057], status: confirmed}
+  - {id: rnn_types, name: "Types of RNN (many-to-one, one-to-many, many-to-many)", step: 8, videos: [1058], status: confirmed}
+  - {id: seq2seq, name: Sequence-to-sequence (encoder-decoder), step: 8, videos: [1058], status: confirmed}
+  - {id: bptt, name: Backpropagation through time (BPTT), step: 8, videos: [1059], status: confirmed}
+  - {id: long_term_dependency, name: Long-term dependency problem, step: 8, videos: [1060], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -406,7 +450,7 @@ concepts:
   - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 9, 23], status: confirmed}
   - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13, 23, 46], status: confirmed}
   - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 9, 13, 23, 24, 1023], status: confirmed}
-  - {id: standardization, name: Standardization, step: 5, videos: [9, 13, 24, 1023], status: confirmed}
+  - {id: standardization, name: Standardization, step: 5, videos: [9, 13, 24, 1023, 1031], status: confirmed}
   - {id: normalization, name: Normalization, step: 5, videos: [25], status: confirmed}
   - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: confirmed}
   - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: confirmed}
@@ -457,8 +501,8 @@ concepts:
   - {id: elasticnet, name: Elastic Net, step: 8, videos: [69], status: confirmed}
   - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: confirmed}
   - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [70, 71, 1005], status: confirmed}
-  - {id: sigmoid, name: Sigmoid function, step: 8, videos: [72, 74, 1018], status: confirmed}
-  - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73, 1014], status: confirmed}
+  - {id: sigmoid, name: Sigmoid function, step: 8, videos: [72, 74, 1018, 1027], status: confirmed}
+  - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73, 1014, 633], status: confirmed}
   - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: confirmed}
   - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: confirmed}
   - {id: probability_basics, name: Events and sample spaces, step: 0, videos: [330], status: confirmed}
@@ -486,7 +530,7 @@ concepts:
   - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: confirmed}
   - {id: taylor_series, name: Taylor series, step: 0, videos: [126, 600, 603], status: confirmed}
   - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: confirmed}
-  - {id: kmeans, name: K-means, step: 8, videos: [32, 128, 129, 130], status: confirmed}
+  - {id: kmeans, name: K-means, step: 8, videos: [32, 128, 129, 130, 641], status: confirmed}
   - {id: elbow_method, name: Elbow method and WCSS, step: 10, videos: [128, 129], status: confirmed}
   - {id: hierarchical, name: Hierarchical clustering, step: 8, videos: [131], status: confirmed}
   - {id: dbscan, name: DBSCAN, step: 8, videos: [132], status: confirmed}
@@ -884,6 +928,71 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [rnn, needs, sequential_data, confirmed]
+  - [rnn, needs, forward_propagation, confirmed]
+  - [rnn, needs, tanh, confirmed]
+  - [rnn, compared with, mlp, confirmed]
+  - [parameter_sharing, used in, rnn, confirmed]
+  - [text_vectorization, used in, rnn, confirmed]
+  - [sequence_padding, used in, rnn, confirmed]
+  - [word_embedding, compared with, one_hot, confirmed]
+  - [word_embedding, compared with, text_vectorization, confirmed]
+  - [word_embedding, used in, rnn, confirmed]
+  - [rnn_types, is a kind of, rnn, confirmed]
+  - [seq2seq, is a kind of, rnn_types, confirmed]
+  - [bptt, is a kind of, backpropagation, confirmed]
+  - [bptt, used in, rnn, confirmed]
+  - [bptt, needs, parameter_sharing, confirmed]
+  - [long_term_dependency, needs, bptt, confirmed]
+  - [long_term_dependency, needs, vanishing_gradient, confirmed]
+  - [exploding_gradient, used in, rnn, confirmed]
+  - [activation_functions, needs, perceptron, confirmed]
+  - [activation_functions, used in, mlp, confirmed]
+  - [activation_functions, used in, nn_improvement, confirmed]
+  - [relu, is a kind of, activation_functions, confirmed]
+  - [sigmoid, is a kind of, activation_functions, confirmed]
+  - [tanh, is a kind of, activation_functions, confirmed]
+  - [tanh, compared with, sigmoid, confirmed]
+  - [relu, fixes, vanishing_gradient, confirmed]
+  - [dying_relu, needs, relu, confirmed]
+  - [relu_variants, fixes, dying_relu, confirmed]
+  - [relu_variants, compared with, relu, confirmed]
+  - [weight_init, fixes, vanishing_gradient, confirmed]
+  - [weight_init, fixes, exploding_gradient, confirmed]
+  - [weight_init, needs, backpropagation, confirmed]
+  - [weight_init, used in, nn_improvement, confirmed]
+  - [xavier_he, is a kind of, weight_init, confirmed]
+  - [xavier_he, needs, activation_functions, confirmed]
+  - [batch_norm, needs, standardization, confirmed]
+  - [batch_norm, needs, minibatch_gd, confirmed]
+  - [batch_norm, fixes, covariate_shift, confirmed]
+  - [batch_norm, used in, nn_improvement, confirmed]
+  - [batch_norm, compared with, dropout, confirmed]
+  - [likelihood, compared with, pdf, confirmed]
+  - [likelihood, compared with, pmf, confirmed]
+  - [likelihood, needs, normal_distribution, confirmed]
+  - [mle, needs, likelihood, confirmed]
+  - [mle, needs, derivative, confirmed]
+  - [mle, needs, gradient, confirmed]
+  - [log_loss, needs, mle, confirmed]
+  - [categorical_ce, needs, mle, confirmed]
+  - [exponential_dist, needs, pdf, confirmed]
+  - [exponential_dist, used in, mle, confirmed]
+  - [map_estimation, needs, mle, confirmed]
+  - [map_estimation, needs, bayes_theorem, confirmed]
+  - [map_estimation, fixes, overfitting, confirmed]
+  - [ridge, is a kind of, map_estimation, confirmed]
+  - [lasso, is a kind of, map_estimation, confirmed]
+  - [multivariate_normal, is a kind of, normal_distribution, confirmed]
+  - [multivariate_normal, needs, covariance, confirmed]
+  - [gmm, needs, multivariate_normal, confirmed]
+  - [gmm, needs, mle, confirmed]
+  - [gmm, needs, bayes_theorem, confirmed]
+  - [gmm, compared with, kmeans, confirmed]
+  - [gmm, compared with, kde, confirmed]
+  - [em, used in, gmm, confirmed]
+  - [em, needs, mle, confirmed]
+  - [kmeans, is a kind of, em, confirmed]
   - [nn_improvement, needs, backpropagation, confirmed]
   - [nn_improvement, needs, overfitting, confirmed]
   - [nn_improvement, needs, vanishing_gradient, confirmed]

@@ -69,7 +69,11 @@ The three perceptrons give:
 | OR | 2 | 2 | $-1$ | $x_1 + x_2 = 0.5$ | 100% |
 | XOR | 0 | 0 | 0 | none | 50% |
 
-For AND and OR, one line puts the 1s on one side and the 0s on the other (Figure 1, left and middle). For XOR, every line it tries misclassifies some corner, so each update undoes an earlier one. Training stops with all weights at 0: $z = 0$ everywhere, the whole plane gets one class, and only half the rows are right (Figure 1, right).
+For AND and OR, one line puts the 1s on one side and the 0s on the other (Figure 1, left and middle). For XOR, the Notebook prints the weights after each epoch: they are back at $(0, 0, 0)$ every time. The update for a misclassified row adds $y_i(x_{i1}, x_{i2}, 1)$ to $(w_1, w_2, b)$, with labels $\pm 1$ (see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 7.2). For the four XOR rows these add up to zero:
+
+$$-(0, 0, 1) + (0, 1, 1) + (1, 0, 1) - (1, 1, 1) = (0, 0, 0)$$
+
+So when all four rows are misclassified in turn, as here, each epoch's updates cancel and the epoch ends where it began. Training stops with all weights at 0: $z = 0$ everywhere, the whole plane gets one class, and only half the rows are right (Figure 1, right).
 
 More epochs would not help. Whatever the perceptron does, it can only ever draw one straight line.
 
@@ -91,7 +95,7 @@ The Notebook repeats this experiment in scikit-learn with `LogisticRegression`, 
 
 So the problem is not the four-row table: any data whose classes need a bent or closed boundary defeats a single neuron. Such data is called [non-linear data](../95-kernel-trick-intuition/note.md): no line, plane or hyperplane separates its classes.
 
-> **Extra:** On the Playground, the single neuron's loss on XOR-shaped data stays high whatever the learning rate or the number of epochs. Two ways out exist: add features by hand (the Playground can feed $x_1 x_2$ as an input, which makes XOR separable, like the [polynomial features](../61-polynomial-regression/note.md) of linear regression), or add hidden layers so the network builds such features itself.
+> **Extra:** On the Playground, the single neuron's loss on XOR-shaped data stays high however many epochs it runs. Two ways out exist: add features by hand (the Playground can feed $x_1 x_2$ as an input, which makes XOR separable: on the four rows, $x_1 + x_2 - 2x_1x_2$ equals XOR exactly, so $z = x_1 + x_2 - 2x_1x_2 - 0.5$ is a plane in the three inputs $x_1, x_2, x_1x_2$ that puts the 1s at $z = 0.5$ and the 0s at $z = -0.5$; like the [polynomial features](../61-polynomial-regression/note.md) of linear regression), or add hidden layers so the network builds such features itself.
 
 ## 6. The way forward
 

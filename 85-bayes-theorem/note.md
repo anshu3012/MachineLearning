@@ -15,7 +15,7 @@ title: "Naive Bayes Foundations: Bayes' Theorem"
 
 > **Key point:** Bayes' theorem turns P(B | A) into P(A | B): P(A | B) = P(B | A) × P(A) / P(B). Naive Bayes is this theorem plus one simplifying assumption.
 
-**Bayes' theorem**, published in 1763, two years after Thomas Bayes's death (Bayes 1763), is one of the most important results in probability. A whole branch of statistics, **Bayesian statistics**, is built on it. It is also short and easy to prove.
+**Bayes' theorem** was published in 1763, after Thomas Bayes's death, by his friend Richard Price (Bayes 1763). A whole branch of statistics, **Bayesian statistics**, is built on it (Gelman et al. 2013, §1.3). The theorem is also short and easy to prove.
 
 For machine learning it matters directly: the Naive Bayes classifier is Bayes' theorem combined with the independence assumption of the earlier Note.
 
@@ -38,13 +38,17 @@ The conditional probability Note showed that $P(A \mid B)$ and $P(B \mid A)$ are
 | Part | Name | Meaning |
 |---|---|---|
 | $P(A \mid B)$ | **posterior** | how likely $A$ is after seeing $B$ |
-| $P(B \mid A)$ | **likelihood** | how likely the observation $B$ is if $A$ is true |
+| $P(B \mid A)$ | **likelihood** | how likely the evidence $B$ is if $A$ is true |
 | $P(A)$ | **prior** | how likely $A$ was before seeing anything |
-| $P(B)$ | **evidence** | how likely the observation $B$ is overall |
+| $P(B)$ | **evidence** | how likely the evidence $B$ is overall |
 
 The likelihood here is the same idea as in the [log loss Note](../73-log-loss/note.md) (section three): the probability of what we observed, given a hypothesis (there, a model's coefficients; here, an event $A$).
 
-So Bayes' theorem describes how a belief is updated: start from the **prior**, see some evidence, and end with the **posterior**. In classification, $A$ will be a class (such as "spam") and $B$ the observed inputs (such as the words in an email). The posterior is what the classifier wants.
+So Bayes' theorem describes how a belief is updated: start from the **prior**, see some evidence, and end with the **posterior**.
+
+An everyday picture: a doctor first guesses how common a disease is among all patients (the prior). A test result arrives (the evidence), and the doctor revises the guess for this one patient (the posterior).
+
+In classification, $A$ will be a class, the **target** (the output we predict, such as "spam"). $B$ will be the observed **features** (the input variables, such as the words in an email). The posterior is what the classifier wants.
 
 ## 4. The proof
 
@@ -99,10 +103,11 @@ Seeing one word has moved the belief from 20% to 75%. The way the evidence was s
 - Bayes' theorem: $P(A \mid B) = P(B \mid A) P(A) / P(B)$.
 - Posterior = likelihood × prior / evidence: it updates a prior belief with an observation.
 - The proof writes $P(A \cap B)$ two ways using conditional probability.
-- Naive Bayes applies it with A = class and B = the observed inputs.
+- Naive Bayes applies the theorem with A = class and B = the observed features.
 
 ## 7. Sources
 
+- **Gelman et al. 2013:** Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A. and Rubin, D. B. *Bayesian Data Analysis*, 3rd ed. CRC Press, 2013. Section 1.3, pp. 6–7.
 - **Bayes 1763:** Bayes, T. "An Essay towards Solving a Problem in the Doctrine of Chances." Communicated by R. Price. *Philosophical Transactions of the Royal Society of London* 53, 370–418, 1763.
 
 ## 8. Key terms

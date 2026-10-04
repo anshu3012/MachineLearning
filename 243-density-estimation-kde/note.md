@@ -24,13 +24,13 @@ Figure 1 shows the two routes. The left one assumes the data follows a famous di
 
 > **Key point:** Density estimation is the family of techniques that estimate the PDF of a random variable from a set of observations.
 
-**Density estimation** is a statistical technique for estimating the probability density function of a random variable from a set of observations (data). In simpler terms, it estimates the **underlying distribution**: the distribution that produced the data points.
+**Density estimation** is a statistical technique for estimating the probability density function of a random variable from a set of observations (data). An **observation** is one record, one row of the data table; a **feature** is one variable, one column of that table. In simpler terms, it estimates the **underlying distribution**: the distribution that produced the data points.
 
-It is used in:
+Density estimation is used in:
 
 - **Data analysis and visualisation:** plotting the PDF shows the shape of the data.
 - **Hypothesis testing:** some tests compare data against a distribution, such as the Kolmogorov-Smirnov test (SciPy `kstest` docs).
-- **Machine learning:** to estimate the distribution of the input data, or how likely certain events or outcomes are. Gaussian Naive Bayes, for example, estimates one normal density per class and column (see the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
+- **Machine learning:** to estimate the distribution of the input data, or how likely certain events or outcomes are. Gaussian Naive Bayes, for example, estimates one normal density per class and feature (see the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
 
 The methods come in two families, the two routes of Figure 1:
 
@@ -71,7 +71,7 @@ We generate 1,000 values from a normal distribution with $\mu = 50$ and $\sigma 
    $$\hat{f}(50) = \frac{1}{4.94\sqrt{2\pi}}\, e^{-\frac{1}{2}\left(\frac{50 - 49.86}{4.94}\right)^2} = 0.0807$$
    The true density at 50 is 0.0798.
 
-Figure 2 shows the fitted curve (orange) over the histogram. It follows the bars closely.
+Figure 2 shows the fitted curve (orange) over the histogram. The fitted curve follows the bars closely.
 
 ![1,000 values: the density histogram, the fitted normal PDF and a normal PDF with badly chosen parameters](images/parametric_fit.png)
 
@@ -113,7 +113,7 @@ So the whole game is estimating the parameters well. The more data we have, the 
 
 Parametric estimation needs the data to resemble a famous distribution. Sometimes it does not: the histogram is not normal, not uniform, not log-normal, not anything with a name. Data with two peaks is a common example. Then the assumption of step 1 fails, and the method cannot be used.
 
-**Non-parametric density estimation** estimates the PDF of a random variable without assuming any underlying distribution. It needs no predefined distribution function. Instead of summarising the data by a few parameters (a mean and a standard deviation), it uses **every data point** to build the curve.
+**Non-parametric density estimation** estimates the PDF of a random variable without assuming any underlying distribution. The method needs no predefined distribution function. Instead of summarising the data by a few parameters (a mean and a standard deviation), it uses **every data point** to build the curve.
 
 - **Advantage:** no assumption about the shape, so it works for any data.
 - **Disadvantages:** it is **computationally intensive**, since every point takes part in every density value, and it needs **more data** to give an accurate estimate.
@@ -134,7 +134,7 @@ Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 3, left) 
 
 1. **Choose a kernel.** A **kernel** is a small, symmetric bump with area 1. The most used one is the **Gaussian kernel**: the normal curve.
 2. **Put one kernel on every point.** Each data point becomes the centre (mean) of its own normal curve (Figure 3, right, dotted).
-3. **Give all kernels the same width.** The standard deviation of each bump is the **bandwidth**, $h$. It is a setting we choose.
+3. **Give all kernels the same width.** The standard deviation of each bump is the **bandwidth**, $h$. The bandwidth is a setting we choose.
 4. **Add up.** At every $x$, add the heights of all the bumps at that $x$. Where many points sit close together, many bumps overlap and the sum is high. Dividing by the number of points keeps the total area at 1.
 
 ![KDE by hand: a Gaussian bump of bandwidth 1 on each of six points (dotted); their scaled sum is the KDE (orange)](images/kde_build.png)
@@ -162,7 +162,7 @@ The result has two peaks, matching the two groups. No formula was assumed anywhe
 
 The bandwidth sets how wide each bump is, and so how smooth the KDE is:
 
-- **Small bandwidth:** thin, tall bumps. Each point shows up as its own spike, and the curve is irregular. It follows the noise of this particular sample.
+- **Small bandwidth:** thin, tall bumps. Each point shows up as its own spike, and the curve is irregular. The curve follows the noise of this particular sample.
 - **Large bandwidth:** wide, low bumps that overlap a lot. The curve is smooth, but too much smoothing hides real features.
 
 Figure 4 shows this on 1,000 values with two peaks: 300 values around 20 and 700 around 40.
@@ -213,7 +213,7 @@ seaborn draws a KDE with `sns.kdeplot(x=data)`, or `so.KDE()` in the objects int
 - `bw_adjust=2` means 5.17; `bw_adjust=5` means 12.9, far smoother than scikit-learn's `bandwidth=5`.
 - `bw_adjust=0.02` means 0.05: an extremely spiky curve.
 
-That is why the same number gives different curves in the two libraries.
+The multiplier explains why the same number gives different curves in the two libraries.
 
 > **Extra:** Scott's rule sets the bandwidth to $h = s \times n^{-1/5}$. For the two-peaked data, $s = 10.29$ and $n = 1000$:
 > $$h = 10.29 \times 1000^{-1/5} = 10.29 \times 0.251 = 2.58$$
@@ -250,17 +250,19 @@ If the sample does not represent the population, for example because of sampling
 - Small bandwidth: spiky; large bandwidth: smooth, may hide peaks.
 - scikit-learn: `score_samples` returns log densities. seaborn: `bw_adjust` multiplies a default bandwidth.
 
-## Sources
+## 8. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 11.1 and 11.5 (Gaussian mixture models).
 - Silverman, B. W. (1986). *Density Estimation for Statistics and Data Analysis*. Chapman and Hall. Section 3.3.2, Table 3.1 (kernel efficiencies).
 - seaborn documentation, `distplot` (deprecated in 0.13) and `kdeplot` (`bw_method`, `bw_adjust`).
 - SciPy documentation, `scipy.stats.kstest` and `scipy.stats.gaussian_kde` (Scott's rule).
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
+| Observation | One record, one row of the data table |
+| Feature | One variable, one column of the data table |
 | Density estimation | Estimating the PDF of a random variable from observed data |
 | Underlying distribution | The distribution that produced the data points |
 | Parametric density estimation | Assuming a named distribution and estimating its parameters from the data |

@@ -60,11 +60,13 @@ for i, (_, X) in enumerate(rows):
         scatter(fig, X, AgglomerativeClustering(n_clusters=2, linkage=L).fit_predict(Xsc), i + 1, j + 1, size=4)
 finish(fig, "linkage_compare", 1100, 820)
 
+CUT = 7
 # 3. Dendrogram of the shopping data (Ward), drawn from scipy's coordinates
 df = pd.read_csv(here.parent / "data" / "shopping_data.csv")
 X = df.iloc[:, 3:5].values
-Z = linkage(X, method="ward")
-d = dendrogram(Z, no_plot=True, color_threshold=180)
+Xstd = (X - X.mean(0)) / X.std(0)   # standardized, as StandardScaler does
+Z = linkage(Xstd, method="ward")
+d = dendrogram(Z, no_plot=True, color_threshold=CUT)
 palette = {c: COLS[i % len(COLS)] for i, c in enumerate(sorted(set(d["color_list"]) - {"C0"}))}
 palette["C0"] = "#6B6B6B"
 fig = go.Figure()
@@ -72,21 +74,21 @@ for xs, ys, c in zip(d["icoord"], d["dcoord"], d["color_list"]):
     fig.add_trace(go.Scatter(x=xs, y=ys, mode="lines", line=dict(color=palette[c], width=1.6), showlegend=False,
                              hoverinfo="skip"))
 heights = np.sort(Z[:, 2])[::-1]
-print("top merge heights", heights[:6].round(1))
-fig.add_hline(y=180, line=dict(color="#E45756", width=3, dash="dash"))
-fig.add_annotation(x=1980, y=180, text="cut at 180: 5 clusters", xanchor="right", yanchor="bottom", showarrow=False,
+print("top merge heights", heights[:6].round(2))
+fig.add_hline(y=CUT, line=dict(color="#E45756", width=3, dash="dash"))
+fig.add_annotation(x=1980, y=CUT, text=f"cut at {CUT}: 5 clusters", xanchor="right", yanchor="bottom", showarrow=False,
                    font=dict(size=19, color="#E45756"), bgcolor="white")
 fig.add_shape(type="rect", x0=0, x1=2000, y0=heights[4], y1=heights[3], fillcolor="#E45756", opacity=0.08, line_width=0, layer="below")
 fig.add_shape(type="rect", x0=0, x1=2000, y0=heights[2], y1=heights[1], fillcolor="#4C78A8", opacity=0.08, line_width=0, layer="below")
-fig.add_annotation(x=480, y=(heights[2] + heights[1]) / 2, text="gap of 132: a cut here gives 3 clusters",
+fig.add_annotation(x=480, y=(heights[2] + heights[1]) / 2, text=f"gap of {heights[1]-heights[2]:.2f}: a cut here gives 3 clusters",
                    xanchor="left", showarrow=False, font=dict(size=16, color="#4C78A8"))
 fig.update_layout(template="simple_white", width=1100, height=560, font=FONT, margin=dict(l=80, r=20, t=30, b=40),
                   xaxis=dict(showticklabels=False, ticks="", title="200 customers"),
-                  yaxis=dict(title="merge distance (Ward)"))
+                  yaxis=dict(title="merge distance (Ward, standardized data)"))
 fig.write_image(here / "dendrogram_cut.png", scale=2); fig.write_image(here / "dendrogram_cut.pdf")
 
 # 4. The 5 clusters of customers
-lab = AgglomerativeClustering(n_clusters=5, metric="euclidean", linkage="ward").fit_predict(X)
+lab = AgglomerativeClustering(n_clusters=5, metric="euclidean", linkage="ward").fit_predict(Xstd)
 print("customers per cluster", np.bincount(lab))
 fig = go.Figure()
 for k in range(5):

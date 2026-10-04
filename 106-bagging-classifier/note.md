@@ -14,12 +14,12 @@ title: "Bagging Classifier"
 
 ## 1. Overview
 
-> **Key point:** scikit-learn's `BaggingClassifier` trains many copies of one classifier on random samples of the rows and/or columns and takes their majority vote. Its settings choose the type: bagging, pasting, random subspaces or random patches.
+> **Key point:** scikit-learn's `BaggingClassifier` trains many copies of one classifier on random samples of the observations and/or features and takes their majority vote. Its settings choose the type: bagging, pasting, random subspaces or random patches.
 
 The idea was explained in the [bagging Note](../105-bagging-intuition/note.md): bootstrapping, then aggregation, in four variants. This Note applies it to classification:
 
 - a demo of decision surfaces, comparing one model with its bagged version, for each of the four types;
-- `BaggingClassifier` in code on a dataset of 10,000 rows, with its hyperparameters;
+- `BaggingClassifier` in code on a dataset of 10,000 observations, with its hyperparameters;
 - the out-of-bag score;
 - what works in practice, and tuning with `GridSearchCV`.
 
@@ -29,14 +29,14 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 > **Key point:** On the moons data, one fully grown tree overfits (test accuracy 0.856); bagging 100 trees smooths the boundary and reaches 0.912.
 
-The demo data is the two-moons toy dataset (500 points, 375 for training), the same as in the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4. The app asks for six settings, the main hyperparameters of `BaggingClassifier`:
+The demo data is the two-moons toy dataset: 500 **observations** (points; each is one row of the data table), 375 for training, with two **features** (input variables, the columns $x_1$ and $x_2$) and a class label as the **target** (the output we predict). It is the same data as in the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4. The app asks for six settings, the main hyperparameters of `BaggingClassifier`:
 
 - **base model** (`estimator`): decision tree (the default), KNN or SVM;
 - **`n_estimators`:** how many base models;
-- **`max_samples`:** how many rows each model gets (here out of 375);
-- **`bootstrap`:** draw those rows with replacement (`True`) or without (`False`);
-- **`max_features`:** how many columns each model gets (here out of 2);
-- **`bootstrap_features`:** draw those columns with replacement or without.
+- **`max_samples`:** how many observations each model gets (here out of 375);
+- **`bootstrap`:** draw those observations with replacement (`True`) or without (`False`);
+- **`max_features`:** how many features each model gets (here out of 2);
+- **`bootstrap_features`:** draw those features with replacement or without.
 
 ![Decision surfaces on the moons data: one fully grown tree, then 100-tree ensembles of each bagging type, and bagged KNN. Titles give the test accuracy](images/bagging_types_surfaces.png){height=60%}
 
@@ -44,51 +44,51 @@ The demo data is the two-moons toy dataset (500 points, 375 for training), the s
 
 > **Key point:** The tree draws small boxes around single points; the bagged trees draw one smooth boundary.
 
-With a decision tree, 100 estimators, 50 rows each, drawn with replacement, and both columns:
+With a decision tree, 100 estimators, 50 observations each, drawn with replacement, and both features:
 
-- **One tree** (Figure 1, top left): 0.856. Its surface has small boxes of one colour inside the other: overfitting. It is right on the training data, wrong on new data.
+- **One tree** (Figure 1, top left): 0.856. Its surface has small boxes of one colour inside the other: overfitting. The tree is right on the training data, wrong on new data.
 - **Bagging** (top middle): 0.912. The boundary is much smoother: the bias stays low and the variance falls, as the [bagging Note](../105-bagging-intuition/note.md) predicted.
 
 ### 2.2 Other base models
 
-> **Key point:** Bagging KNN gives a slightly smoother boundary; bagging SVMs makes them a little worse.
+> **Key point:** Bagging helps unstable models such as trees; here KNN and the SVM gain nothing, or lose a little.
 
-Any classifier can be bagged:
+Any classifier can be bagged, but the gain depends on how **unstable** the model is: how much its fit changes when the training data changes a little. Breiman (1996, sections 1 and 6.3) found that bagging helps unstable models such as trees, and can slightly degrade stable ones such as nearest-neighbour methods. Think of asking one calm friend the same question ten times: averaging the answers adds nothing new. The moons data shows the same:
 
 - **KNN:** a single KNN (k = 5) already gives a smooth boundary and scores 0.912. Bagged, its boundary is a little smoother still (Figure 1, bottom right), with the same 0.912.
-- **SVM:** a single SVM scores 0.896, but 100 bagged SVMs score only 0.872.
+- **SVM:** a single SVM scores 0.896, but 100 bagged SVMs score only 0.872. The SVM behaves like a stable model here: bagging does not help it.
 
-In practice, decision trees are bagged most often, KNN sometimes, SVMs rarely.
+Instability is the reason decision trees are by far the usual base model for bagging.
 
-### 2.3 More estimators, more rows
+### 2.3 More estimators, more observations
 
-> **Key point:** Beyond a point, more models or more rows change little.
+> **Key point:** Beyond a point, more models or more observations per model change little.
 
-With 500 trees instead of 100 (50 rows each), accuracy moves only from 0.912 to 0.920. With 500 trees of 150 rows each it is 0.904. More estimators usually help up to some number, then stop making a difference. Both settings are worth tuning.
+With 500 trees instead of 100 (50 observations each), accuracy moves only from 0.912 to 0.920. With 500 trees of 150 observations each it is 0.904. More estimators usually help up to some number, then stop making a difference. Both settings are worth tuning.
 
 ### 2.4 Pasting, random subspaces and random patches
 
-> **Key point:** Pasting behaves like bagging here; sampling one of only two columns hurts badly.
+> **Key point:** Pasting behaves like bagging here; sampling one of only two features hurts badly.
 
-- **Pasting** (50 rows, `bootstrap=False`): 0.904. On a small toy dataset there is little difference from bagging; on large real datasets the difference can show.
-- **Random subspaces** (all 375 rows, `bootstrap=False`, `max_features=1`, `bootstrap_features=True`): **0.648**, much worse than one tree. Each tree sees only one column, so it can only cut along one axis. The surface becomes vertical stripes (Figure 1, bottom left).
-- **Random patches** (50 rows with replacement, 1 column): 0.880. Row sampling brings back some variety, but one column is still too little.
+- **Pasting** (50 observations, `bootstrap=False`): 0.904, close to bagging's 0.912.
+- **Random subspaces** (all 375 observations, `bootstrap=False`, `max_features=1`, `bootstrap_features=True`): **0.648**, much worse than one tree. Each tree sees only one feature, so it can only cut along one axis. The surface becomes vertical stripes (Figure 1, bottom left).
+- **Random patches** (50 observations with replacement, 1 feature): 0.880. Observation sampling brings back some variety, but one feature is still too little.
 
-Column sampling makes sense only when there are many columns: 10, 20, 50, 100 or more. With two columns, sample rows (bagging or pasting) instead.
+Feature sampling makes sense only when there are many features: 10, 20, 50, 100 or more. With two features, sample observations (bagging or pasting) instead.
 
 ## 3. BaggingClassifier in code
 
-> **Key point:** On 10,000 rows with 10 columns, one tree scores 0.927; 500 bagged trees score 0.945.
+> **Key point:** On 10,000 observations with 10 features, one tree scores 0.927; 500 bagged trees score 0.945.
 
 ### 3.1 The data and a single tree
 
-> **Key point:** `make_classification` builds 10,000 rows; 8,000 train, 2,000 test.
+> **Key point:** `make_classification` builds 10,000 observations; 8,000 train, 2,000 test.
 
-We make a dataset of 10,000 rows and 10 columns with `make_classification` (the [perceptron code Note](../71-perceptron-code/note.md)), of which 3 columns carry the information. 8,000 rows go to training and 2,000 to testing. A single fully grown decision tree scores **0.9265**: the number to beat.
+We make a dataset of 10,000 observations and 10 features with `make_classification` (the [perceptron code Note](../71-perceptron-code/note.md)), of which 3 features carry the information. 8,000 observations go to training and 2,000 to testing. A single fully grown decision tree scores **0.9265**: the number to beat.
 
 ### 3.2 Bagging
 
-> **Key point:** 500 trees, each trained on 2,000 rows (25%) drawn with replacement.
+> **Key point:** 500 trees, each trained on 2,000 observations (25%) drawn with replacement.
 
 > **Python:** A bagging classifier.
 >
@@ -107,22 +107,22 @@ We make a dataset of 10,000 rows and 10 columns with `make_classification` (the 
 > accuracy_score(y_test, bag.predict(X_test))   # 0.945
 > ```
 >
-> `max_samples` is a share of the rows when it is a decimal (0.25 means 25%) and a row count when it is a whole number (50 means 50 rows). `max_features` works the same way for columns.
+> `max_samples` is a share of the observations when it is a decimal (0.25 means 25%) and a count when it is a whole number (50 means 50 observations). `max_features` works the same way for features.
 
 Bagging scores **0.945**, against 0.9265 for one tree. Training takes a while: 500 trees are trained instead of one. `n_jobs=-1` spreads them over every CPU core.
 
-> **Extra:** Older code passes the base model as `base_estimator=`. That name was deprecated in scikit-learn 1.2 and removed in 1.4; the current name is `estimator` (scikit-learn 1.2 changelog). Also, `max_samples` now defaults to `None`, which means "as many rows as the training set", the same as the old default of 1.0.
+> **Extra:** Older code passes the base model as `base_estimator=`. The name `base_estimator` was deprecated in scikit-learn 1.2 and removed in 1.4; the current name is `estimator` (scikit-learn 1.2 release notes; `BaggingClassifier` API docs, versions 1.3 and 1.4). Also, `max_samples` now defaults to `None`, which means "as many observations as the training set", the same as the old default of 1.0 (`BaggingClassifier` API docs, version 1.9).
 
-### 3.3 Which rows and columns each tree got
+### 3.3 Which observations and features each tree got
 
-> **Key point:** Two attributes record what each tree saw: `estimators_samples_` (its rows) and `estimators_features_` (its columns).
+> **Key point:** Two attributes record what each tree saw: `estimators_samples_` (its observations) and `estimators_features_` (its features).
 
 After training, the classifier records what each base model saw:
 
-- `bag.estimators_samples_[0]` holds the row numbers the first tree was trained on: 2,000 of them (25% of 8,000), starting 2523, 3113, 7114, ... Rows can repeat, because of replacement.
-- `bag.estimators_features_[0]` holds its columns: all 10, `[0 1 2 ... 9]`, because we did not sample columns.
+- `bag.estimators_samples_[0]` holds the row numbers (in `X_train`) the first tree was trained on: 2,000 of them (25% of 8,000), starting 2523, 3113, 7114, ... Rows can repeat, because of replacement.
+- `bag.estimators_features_[0]` holds its column numbers: all 10, `[0 1 2 ... 9]`, because we did not sample features.
 
-With `max_samples=0.5`, each tree gets 4,000 rows instead, and the accuracy is 0.950.
+With `max_samples=0.5`, each tree gets 4,000 observations instead, and the accuracy is 0.950.
 
 ### 3.4 Other base models, pasting, subspaces and patches
 
@@ -138,15 +138,15 @@ Every variant is the same class with different settings:
 | Random subspaces | `max_samples=1.0, bootstrap=False, max_features=0.5, bootstrap_features=True` | 0.9415 |
 | Random patches | `max_samples=0.25, bootstrap=True, max_features=0.5, bootstrap_features=True` | 0.938 |
 
-- The **SVMs** do worse than trees and take much longer, one reason trees are the usual choice.
+- The **SVMs** do worse than trees and take much longer: as on the moons data (section 2.2), bagging does not help the SVM.
 - For **pasting**, we also set `verbose=1`, which prints training progress, and `n_jobs=-1`.
-- For **random subspaces**, `estimators_samples_[0]` now has all 8,000 rows, and `estimators_features_[0]` has 5 columns, for example `[9 2 9 7 7]`. Column 9 and column 7 appear twice because `bootstrap_features=True` draws columns with replacement.
+- For **random subspaces**, `estimators_samples_[0]` now has all 8,000 observations, and `estimators_features_[0]` has 5 feature numbers, for example `[9 2 9 7 7]`. Features 9 and 7 appear twice because `bootstrap_features=True` draws features with replacement.
 
 ## 4. The out-of-bag score
 
-> **Key point:** About 37% of the rows are never drawn for a given tree; scoring each tree on its unseen rows gives a free estimate of test accuracy.
+> **Key point:** About 37% of the observations are never drawn for a given tree; scoring each tree on its unseen observations gives a free estimate of test accuracy.
 
-The rows a tree never drew, about 37% of them (the [bagging Note](../105-bagging-intuition/note.md), section 2.3), are its out-of-bag (OOB) rows. With `oob_score=True` (it needs `bootstrap=True`), scikit-learn scores the ensemble on them, so no separate test set is needed:
+The observations a tree never drew, about 37% of them (the [bagging Note](../105-bagging-intuition/note.md), section 2.3), are its out-of-bag (OOB) observations. With `oob_score=True` (it needs `bootstrap=True`), scikit-learn scores the ensemble on them, so no separate test set is needed:
 
 > **Python:** The out-of-bag score.
 >
@@ -163,16 +163,16 @@ The OOB score, **0.943**, is close to the real test accuracy, **0.945**. The [OO
 
 ## 5. What works in practice
 
-> **Key point:** Bagging usually beats pasting; start `max_samples` at 0.25 to 0.5; sample columns only with many columns; tune with `GridSearchCV`.
+> **Key point:** Try both bagging and pasting; start `max_samples` at 0.25 to 0.5; sample features only when there are many; let `GridSearchCV` decide.
 
-From experiments on many datasets:
+Four rules of thumb, each with what our data says:
 
-1. **Bagging usually beats pasting.** Drawing with replacement makes the samples more varied, so the ensemble's variance is lower and it does better on new data, at the cost of a little more bias. Since it is only `bootstrap=True` or `False`, try both.
+1. **Bagging and pasting trade bias for variance.** Drawing with replacement makes the samples more varied, so the trees are less alike and the ensemble's variance is lower, at the cost of a little more bias. Which effect wins depends on the data: here the two score almost the same (0.945 against 0.946, and 0.912 against 0.904 on the moons). Since it is only `bootstrap=True` or `False`, try both.
 
-   The theory agrees: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of the [bagging Note](../105-bagging-intuition/note.md), section 3.2: changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared bias a little higher (0.0019 against 0.0013).
+   The variance part follows from theory: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of the [bagging Note](../105-bagging-intuition/note.md), section 3.2: changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared bias a little higher (0.0019 against 0.0013).
 
-2. **`max_samples` between 0.25 and 0.5** usually works best for row sampling. Start at 0.25.
-3. **Column sampling** (random subspaces, random patches) is for **high-dimensional** data, with many columns. With few columns it hurts, as Figure 1 showed.
+2. **`max_samples` between 0.25 and 0.5** is a good place to start. Here 0.5 beat 0.25 (0.950 against 0.945), and the grid search below prefers 0.7: the best share depends on the data.
+3. **Feature sampling** (random subspaces, random patches) is for **high-dimensional** data, with many features. With few features it hurts, as Figure 1 showed.
 4. **Tune with `GridSearchCV` or `RandomizedSearchCV`** instead of guessing (the [KNN Note](../91-knn/note.md), section 4.2, and the [regression trees Note](../99-regression-trees/note.md), section 7.2).
 
 > **Python:** Grid search over the bagging settings.
@@ -188,9 +188,9 @@ From experiments on many datasets:
 > search.best_params_
 > ```
 
-This tries $3 \times 4 \times 2 \times 4 = 96$ combinations with 5-fold cross-validation: 480 fits, which takes several minutes (about 12 minutes on our 12-core machine). The best: **500 trees, 70% of the rows without replacement (pasting), 70% of the columns**. Its cross-validation accuracy is 0.955, and its test accuracy 0.952, the best of all our settings.
+The search tries $3 \times 4 \times 2 \times 4 = 96$ combinations with 5-fold cross-validation: 480 fits, which takes several minutes (about 12 minutes on our 12-core machine). The best: **500 trees, 70% of the observations without replacement (pasting), 70% of the features**. Its cross-validation accuracy is 0.955, and its test accuracy 0.952, the best of all our settings.
 
-Here pasting wins: the rules are a starting point; the search decides.
+Here pasting wins by a hair: the rules are a starting point; the search decides.
 
 ## 6. Summary
 
@@ -198,33 +198,40 @@ Here pasting wins: the rules are a starting point; the search decides.
 |---|---|---|
 | `estimator` | `None` (decision tree) | the base model (formerly `base_estimator`) |
 | `n_estimators` | 10 | number of base models |
-| `max_samples` | `None` (all rows) | rows per model: a share (0.25) or a count (50) |
-| `bootstrap` | `True` | rows with replacement (bagging) or without (pasting) |
-| `max_features` | 1.0 (all columns) | columns per model: a share or a count |
-| `bootstrap_features` | `False` | columns with replacement or without |
-| `oob_score` | `False` | score the ensemble on out-of-bag rows (`oob_score_`) |
+| `max_samples` | `None` (all observations) | observations per model: a share (0.25) or a count (50) |
+| `bootstrap` | `True` | observations with replacement (bagging) or without (pasting) |
+| `max_features` | 1.0 (all features) | features per model: a share or a count |
+| `bootstrap_features` | `False` | features with replacement or without |
+| `oob_score` | `False` | score the ensemble on out-of-bag observations (`oob_score_`) |
 | `n_jobs` | `None` (1 core) | cores to use; -1 means all |
 
-- On the moons data, bagging lifts one tree from 0.856 to 0.912; with only two columns, column sampling hurts (0.648).
-- On 10,000 rows, bagging lifts one tree from 0.927 to 0.945; a grid search finds 0.952.
+- On the moons data, bagging lifts one tree from 0.856 to 0.912; with only two features, feature sampling hurts (0.648).
+- Bagging helps unstable models (trees); here it does not help KNN or the SVM.
+- On 10,000 observations, bagging lifts one tree from 0.927 to 0.945; a grid search finds 0.952.
 - The OOB score (0.943) estimates test accuracy (0.945) without a test set.
-- Start with bagging and `max_samples` 0.25 to 0.5; sample columns only with many columns; tune with a grid search.
+- Try bagging and pasting, start `max_samples` at 0.25 to 0.5, sample features only when there are many, and tune with a grid search.
 
-## Sources
+## 7. Sources
 
+- Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140, sections 1 and 6.3.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2, equation 15.1.
-- scikit-learn developers. Release notes, version 1.2 (December 2022), `base_estimator` renamed to `estimator`. https://scikit-learn.org/stable/whats_new/v1.2.html
+- scikit-learn developers. Release notes, version 1.2 (December 2022), `base_estimator` renamed to `estimator`. scikit-learn.org, whats_new/v1.2.
+- scikit-learn developers. API reference, `sklearn.ensemble.BaggingClassifier`, versions 1.3 ("`base_estimator` ... will be removed in 1.4"), 1.4 (no `base_estimator`) and 1.9 (`max_samples=None`). scikit-learn.org, modules/generated/sklearn.ensemble.BaggingClassifier.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
 | BaggingClassifier | scikit-learn class for bagging, pasting, random subspaces and random patches in classification |
 | estimator | The base model that bagging copies (formerly base_estimator) |
 | n_estimators | The number of base models in an ensemble |
-| max_samples | The number or share of rows each base model gets |
-| bootstrap | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting) |
-| bootstrap_features | BaggingClassifier setting: draw columns with replacement or without |
-| estimators_samples_ | The row numbers each trained base model was given |
-| estimators_features_ | The column numbers each trained base model was given |
+| Observation | One record of the data: one row of the data table |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Unstable model | A model whose fit changes a lot when the training data changes a little; bagging helps it most |
+| max_samples | The number or share of observations each base model gets |
+| bootstrap | BaggingClassifier setting: draw observations with replacement (True, bagging) or without (False, pasting) |
+| bootstrap_features | BaggingClassifier setting: draw features with replacement or without |
+| estimators_samples_ | The row numbers (observations) each trained base model was given |
+| estimators_features_ | The column numbers (features) each trained base model was given |
 | verbose | scikit-learn setting that prints progress messages during training |

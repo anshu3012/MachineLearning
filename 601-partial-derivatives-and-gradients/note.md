@@ -26,7 +26,7 @@ Earlier Notes already used these ideas:
 - the partial derivative as a slope in one variable, from the [linear regression maths Note](../51-linear-regression-maths/note.md);
 - the gradient as the vector of partial derivatives of the loss, from the [gradient descent Note](../57-gradient-descent/note.md).
 
-This Note adds the definition as a limit, the geometry of the gradient, the rules for vectors and the chain rule with several variables. It builds on the one-variable derivative of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md).
+This Note adds the definition as a limit, the geometry of the gradient, the rules for vectors and the chain rule with several variables. The Note builds on the one-variable derivative of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md).
 
 ## 2. Functions of several variables
 
@@ -124,7 +124,7 @@ At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its oppos
 > - along the gradient itself, $\mathbf{u} = [3, 5]/\sqrt{34}$, it is $\sqrt{34} = 5.83$, the largest possible;
 > - along $\mathbf{u} = [5, -3]/\sqrt{34}$, at right angles to the gradient, it is $(15 - 15)/\sqrt{34} = 0$: we walk along the contour line.
 >
-> A dot product with a unit vector is largest when the two point the same way (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md)). That is why the gradient is the direction of steepest ascent.
+> A dot product with a unit vector is largest when the two point the same way (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md)). This alignment is why the gradient is the direction of steepest ascent.
 
 ## 5. Rules for gradients
 
@@ -170,7 +170,7 @@ Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for exampl
    $$\frac{df}{dt} = 1 \cdot (-1) + 4 \cdot 0 = -1$$
    At $t = 0$ the point is $(1, 0)$, $\nabla f = [2, 1]$, velocity $[0, 1]$, so $df/dt = 1$.
 
-The first form is a $1 \times 2$ row times a $2 \times 1$ column, giving a $1 \times 1$ number. This is where the row-vector convention pays off: the gradient sits on the left and the shapes fit with no transposing.
+The first form is a $1 \times 2$ row times a $2 \times 1$ column, giving a $1 \times 1$ number. The chain rule is where the row-vector convention pays off: the gradient sits on the left and the shapes fit with no transposing.
 
 ### 6.2 Two outer inputs: a matrix of partial derivatives
 
@@ -188,7 +188,7 @@ $$\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x_1}\frac{\partial 
 
 The matrix in the middle is the first example of a **Jacobian**, the subject of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md). The chain rule as a product of matrices mirrors the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md): doing one function after another multiplies their matrices.
 
-The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in the first factor and "above" in the second, and "cancels" to leave $\partial f/\partial(s, t)$. This is a memory aid only; partial derivatives are not really fractions.
+The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in the first factor and "above" in the second, and "cancels" to leave $\partial f/\partial(s, t)$. The fraction reading is a memory aid only; partial derivatives are not really fractions.
 
 ## 7. Checking a gradient numerically
 
@@ -246,12 +246,12 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 - The multivariate chain rule adds the products along every path; with gradients as rows, it is matrix multiplication.
 - Gradient checking compares a formula with finite differences.
 
-## Sources
+## 9. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 5.2, remark on verifying a gradient implementation (MML).
 - PyTorch documentation. "Gradcheck mechanics" and `torch.autograd.gradcheck`.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

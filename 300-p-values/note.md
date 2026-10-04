@@ -46,7 +46,7 @@ In simple words, the p-value is a measure of the strength of the evidence agains
 
 Our experiment: toss a coin 100 times and count the heads. Each toss is a Bernoulli trial (head or tail), repeated $n = 100$ times, so the number of heads $X$ follows a binomial distribution (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)). If the coin is fair, $X \sim \text{Binomial}(100, 0.5)$.
 
-Figure 1 plots its PMF. It looks like a normal curve, but it is discrete. 50 heads is the most likely count. Counts between 40 and 60 come up 96.5% of the time; 65 or more, or 30 or fewer, are rare.
+Figure 1 plots its PMF. The PMF looks like a normal curve, but it is discrete. 50 heads is the most likely count. Counts between 40 and 60 come up 96.5% of the time; 65 or more, or 30 or fewer, are rare.
 
 ### 3.2 The hypotheses
 
@@ -92,7 +92,7 @@ With 80 heads the red area is invisible: if the coin were fair, 80 heads would a
 
 ## 4. Reading a p-value correctly
 
-> **Key point:** $p = 0.309$ means: if the coin were fair, about 31% of repeated 100-toss experiments would give 53 or more heads. It is not the probability that $H_0$ is true.
+> **Key point:** $p = 0.309$ means: if the coin were fair, about 31% of repeated 100-toss experiments would give 53 or more heads. The p-value is not the probability that $H_0$ is true.
 
 ### 4.1 The correct reading
 
@@ -102,14 +102,14 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 
 ### 4.2 Common misreadings
 
-> **Extra:** Each of these statements about $p = 0.03$ is wrong. They are misreadings 1, 2, 4, 7 and 9 in the list of Greenland et al., "Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations", *European Journal of Epidemiology* 31 (2016), 337–350.
+> **Extra:** Each of these statements about $p = 0.03$ is wrong. They follow misinterpretations 1, 2, 4, 7 and 9 in the list of Greenland et al. (2016); the second and third are two sides of misinterpretation 1.
 >
 > - **"About 3 experiments in 100 would give exactly our result."** The p-value counts results **as or more extreme**, not exactly ours. For 53 heads, exactly 53 has probability 0.067, while the p-value is 0.309.
-> - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. That would need Bayes' theorem and a prior (see the [Bayes theorem Note](../85-bayes-theorem/note.md)).
+> - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. The probability of $H_0$ would need Bayes' theorem and a prior (see the [Bayes theorem Note](../85-bayes-theorem/note.md)).
 > - **"There is a 97% chance that $H_1$ is true."** Same mistake, the other way round.
 > - **"The result happened by chance with probability 3%."** The p-value assumes chance alone (that is what $H_0$ says); it does not measure the probability of chance.
 > - **"A small p-value means a large or important effect."** With a huge sample, a tiny difference gives a tiny p-value. The p-value measures evidence, not size: a training program that adds 0.1 cars a day can be "highly significant" and useless.
-> - **"$p > 0.05$ proves $H_0$."** It means the evidence was not strong enough (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
+> - **"$p > 0.05$ proves $H_0$."** A p-value above 0.05 means only that the evidence was not strong enough (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
 
 ## 5. Deciding with a p-value
 
@@ -169,7 +169,7 @@ $H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$, $\bar{x} = 53$, $\alph
 
 $0.0005 \le 0.05$: we reject $H_0$. The training program raised productivity, and the evidence is very strong (Figure 3, left).
 
-Compare a smaller z of 1.7: $p = 1 - \Phi(1.7) = 1 - 0.9554 = 0.045$. It is also below 0.05, so both samples lead to "reject". But 0.045 is close to the boundary, while 0.0005 leaves no doubt. This difference is exactly what the rejection region approach could not show.
+Compare a smaller z of 1.7: $p = 1 - \Phi(1.7) = 1 - 0.9554 = 0.045$. This p-value is also below 0.05, so both samples lead to "reject". But 0.045 is close to the boundary, while 0.0005 leaves no doubt. This difference is exactly what the rejection region approach could not show.
 
 ### 6.2 Two-tailed: the chips packets
 
@@ -210,11 +210,15 @@ A printed z-table stops around $z = 4$, where the area is practically 1. For lar
 
 - The p-value is the probability, under $H_0$, of a result as or more extreme than ours.
 - 53 heads in 100 tosses: $p = 0.309$, so 31% of fair-coin experiments would do at least as well.
-- It is not the probability that $H_0$ is true, and it does not measure the size of an effect.
+- The p-value is not the probability that $H_0$ is true, and it does not measure the size of an effect.
 - Reject $H_0$ when $p \le \alpha$; the decision always matches the rejection region approach.
 - One-tailed: the tail beyond $z$ on the side of $H_1$. Two-tailed: twice the tail beyond $|z|$.
 
-## 8. Key terms
+## 8. Sources
+
+- Greenland, S., Senn, S. J., Rothman, K. J., Carlin, J. B., Poole, C., Goodman, S. N. and Altman, D. G. (2016). "Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations." *European Journal of Epidemiology* 31(4), 337–350.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -18,7 +18,7 @@ title: "Vectors and Feature Vectors"
 
 ![The vector a = [3, 4]: 3 units along x, then 4 units along y](images/vector_point.png){height=42%}
 
-Figure 1 shows the simplest vector there is: a point in a 2D plane, reached by moving 3 units along $x$ and 4 along $y$. This Note starts with what linear algebra is and why ML needs it. It then defines a vector, shows how every row of a dataset (even a row of text) becomes a vector, and ends with the two ways of writing a vector: as a row or as a column.
+Figure 1 shows the simplest vector there is: a point in a 2D plane, reached by moving 3 units along $x$ and 4 along $y$. This Note starts with what linear algebra is and why ML needs it. The Note then defines a vector, shows how every observation of a dataset (even a piece of text) becomes a vector, and ends with the two ways of writing a vector: as a row or as a column.
 
 ## 2. What linear algebra is
 
@@ -26,7 +26,7 @@ Figure 1 shows the simplest vector there is: a point in a 2D plane, reached by m
 
 **Linear algebra** is the branch of mathematics that deals with linear systems: sets of equations in which every variable appears only multiplied by a number and added up, such as $2x + 3y = 7$. We meet its first flavour in school, when we solve two equations in two unknowns.
 
-It is one of the most foundational subjects in mathematics. Computer science, engineering, physics and economics all use it. It studies four kinds of objects, each introduced in the [tensors Note](../11-tensors/note.md):
+Linear algebra is one of the most foundational subjects in mathematics; computer science, engineering, physics and economics all use it. Linear algebra studies four kinds of objects, each introduced in the [tensors Note](../11-tensors/note.md):
 
 - **Scalars:** single numbers, such as 2, 5 or -6.
 - **Vectors:** 1D collections of numbers.
@@ -43,9 +43,9 @@ It is one of the most foundational subjects in mathematics. Computer science, en
 
 We can picture at most three dimensions. ML data rarely stops there.
 
-Take predicting salary from years of experience. The data is 2D, and linear regression draws a line through it. Add a column for education marks and the data becomes 3D: we can still picture the plane that fits it (see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)). Add one more column, or ten, and we can no longer picture anything.
+Take predicting salary from years of experience. The data is 2D, and linear regression draws a line through it. Add a **feature** (an input variable, one column of the data table) for education marks and the data becomes 3D: we can still picture the plane that fits it (see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)). Add one more feature, or ten, and we can no longer picture anything.
 
-Linear algebra solves this. Its ideas are written so that whatever is true in 2D and 3D stays true in $n$ dimensions: the line becomes a plane, and the plane becomes a hyperplane, with the same kind of equation. Datasets with 5,000 columns are common, and linear algebra handles them the same way it handles two.
+Linear algebra solves this. Its ideas are written so that whatever is true in 2D and 3D stays true in $n$ dimensions: the line becomes a plane, and the plane becomes a hyperplane, with the same kind of equation. Datasets with 5,000 features are common, and linear algebra handles them the same way it handles two.
 
 ### 3.2 Representing data
 
@@ -53,7 +53,7 @@ Linear algebra solves this. Its ideas are written so that whatever is true in 2D
 
 ML meets many kinds of data: tables, text, images, even video. An algorithm can only learn from numbers, so each kind must first be written as a vector, matrix or tensor. Linear algebra is what makes this representation possible; once the data is in that form, any ML algorithm can take it in and make predictions.
 
-Linear algebra also suits the hardware. Its operations apply the same step to many numbers at once, which is what GPUs are built for: Goodfellow, Bengio and Courville (*Deep Learning*, 2016, section 12.1.2) explain that graphics cards are designed for a high degree of parallelism, for example multiplying many vertices by the same matrix at once, and that neural networks need the same performance characteristics. Most modern neural network implementations run on GPUs for this reason.
+Linear algebra also suits the hardware. Its operations apply the same step to many numbers at once, which is what GPUs are built for: Goodfellow, Bengio and Courville (2016, §12.1.2) explain that graphics cards are designed for a high degree of parallelism, for example multiplying many vertices by the same matrix at once, and that neural networks need the same performance characteristics. Most modern neural network implementations run on GPUs for this reason.
 
 ## 4. What a vector is
 
@@ -82,13 +82,13 @@ We cannot draw the $n$-dimensional case, but nothing about the vector changes. S
 
 > **Key point:** The dimension of a vector is the dimension of the space it lives in, which is its number of components.
 
-The **dimension** of a vector is the dimension of the coordinate system it lives in. A vector in 2D space has dimension 2; in 3D, dimension 3; in $n$-dimensional space, dimension $n$. This is the same "dimension of a vector" as in the [tensors Note](../11-tensors/note.md) (section 5): the number of items in it, not the number of axes of the tensor.
+The **dimension** of a vector is the dimension of the coordinate system it lives in. A vector in 2D space has dimension 2; in 3D, dimension 3; in $n$-dimensional space, dimension $n$. This dimension is the same "dimension of a vector" as in the [tensors Note](../11-tensors/note.md) (section 5): the number of items in it, not the number of axes of the tensor.
 
 In ML we usually write a vector in square brackets with its components separated by commas: $[x_1, x_2, \dots, x_n]$ is an $n$-dimensional vector.
 
 ## 5. Feature vectors
 
-> **Key point:** The input columns of one row form a feature vector; an ML model takes feature vectors in and gives predictions out.
+> **Key point:** The features of one observation form a feature vector; an ML model takes feature vectors in and gives predictions out.
 
 ### 5.1 The iris flowers
 
@@ -96,17 +96,17 @@ In ML we usually write a vector in square brackets with its components separated
 
 The iris dataset, a classic first ML dataset, describes 150 flowers with five columns. Four are measurements in centimetres: sepal length, sepal width, petal length and petal width. The fifth is the species: setosa, versicolor or virginica.
 
-The four measurements are the input columns; the species is the target column (see the [types of ML Note](../03-types-of-ml/note.md)), because it is what we want to predict from the inputs. The first flower in the dataset has measurements 5.1, 3.5, 1.4 and 0.2, and is a setosa.
+Each flower is one **observation** (one record, one row of the table). The four measurements are the features; the species is the **target** (the output we predict; see the [types of ML Note](../03-types-of-ml/note.md)). The first flower in the dataset has measurements 5.1, 3.5, 1.4 and 0.2, and is a setosa.
 
-A **feature vector** is the vector formed by the input values of one data point. For the first flower it is
+A **feature vector** is the vector formed by the feature values of one observation. For the first flower it is
 
 $$x = [5.1,\ 3.5,\ 1.4,\ 0.2]$$
 
 a vector in 4-dimensional space. To ask a model for this flower's species, we hand it this vector; the model works on it and returns a prediction, here "setosa". Every flower becomes its own feature vector, so the dataset is 150 feature vectors.
 
-![The iris flowers as feature vectors, using three of the four input columns](images/iris_vectors.png){height=48%}
+![The iris flowers as feature vectors, using three of the four features](images/iris_vectors.png){height=48%}
 
-We cannot draw 4D, so Figure 2 drops petal width and plots the other three columns. Each of the 150 flowers is now a point in 3D, that is, a vector; two of them are drawn as arrows from the origin. Flowers of the same species sit close together, and that closeness alone is enough to tell the species apart. The Notebook tests this: predicting each flower's species as that of its nearest other flower (in all four dimensions) is right for 96.0% of the 150 flowers. With the species shuffled at random, so that closeness says nothing about species, the same rule is right only 34.7% of the time, about the one in three of a blind guess.
+We cannot draw 4D, so Figure 2 drops petal width and plots the other three features. Each of the 150 flowers is now a point in 3D, that is, a vector; two of them are drawn as arrows from the origin. Flowers of the same species sit close together, and that closeness alone is enough to tell the species apart. The Notebook tests this: predicting each flower's species as that of its nearest other flower (in all four dimensions) is right for 96.0% of the 150 flowers. With the species shuffled at random, so that closeness says nothing about species, the same rule is right only 34.7% of the time, about the one in three of a blind guess.
 
 ### 5.2 Feature vectors hold only numbers
 
@@ -120,7 +120,7 @@ $$x = [17,\ 52,\ 0,\ 1,\ 2]$$
 
 The encodings themselves are taught in the [ordinal and label encoding Note](../26-ordinal-label-encoding/note.md) and the [one-hot encoding Note](../27-one-hot-encoding/note.md).
 
-> **Extra:** Coding Q, C and S as 0, 1 and 2 tells a model that S is "twice" C, which means nothing. The scikit-learn user guide (section 8.3.4, "Encoding categorical features") warns that estimators would read such integer codes "as being ordered, which is often not desired", and offers one-hot encoding as the alternative for a column with no natural order.
+> **Extra:** Coding Q, C and S as 0, 1 and 2 tells a model that S is "twice" C, which means nothing. The scikit-learn user guide (scikit-learn §8.3.4) warns that estimators would read such integer codes "as being ordered, which is often not desired", and offers one-hot encoding as the alternative for a feature with no natural order.
 
 ## 6. Text as vectors: a movie recommender
 
@@ -218,7 +218,7 @@ In ML we use either form, depending on what a calculation needs. When a book or 
 | Vector | A point in a coordinate system | $[3, 4]$ |
 | Component | One number of a vector | 3 (x-component) |
 | Dimension | Number of components | $[3, 4]$ has dimension 2 |
-| Feature vector | The input values of one data point | $[5.1, 3.5, 1.4, 0.2]$ |
+| Feature vector | The feature values of one observation | $[5.1, 3.5, 1.4, 0.2]$ |
 | Bag of words | Text as word counts over a vocabulary | *this is 2023* $\rightarrow$ 10-dimensional vector |
 | Row vector | Components side by side, shape $1 \times n$ | one flower |
 | Column vector | Components stacked, shape $n \times 1$ | one column of the table |
@@ -227,7 +227,12 @@ In ML we use either form, depending on what a calculation needs. When a book or 
 - A model takes feature vectors in and gives predictions out; feature vectors hold only numbers, so text must be encoded first.
 - Similar items have nearby vectors, which is the basis of many recommender systems.
 
-## 9. Key terms
+## 9. Sources
+
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §12.1.2 "GPU Implementations".
+- scikit-learn developers. *User Guide*, §8.3.4 "Encoding categorical features". scikit-learn.org, preprocessing.html.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -235,7 +240,7 @@ In ML we use either form, depending on what a calculation needs. When a book or 
 | Vector (geometric view) | A point in a coordinate system, drawn as an arrow from the origin |
 | Component | One number of a vector, its position along one axis |
 | Dimension of a vector | The dimension of the space it lives in: its number of components |
-| Feature vector | The vector of input values of one data point |
+| Feature vector | The vector of feature values of one observation |
 | Recommender system | A system that suggests items a user is likely to like |
 | NLP | Natural language processing: ML on text |
 | Bag of words | Turning a text into a vector of word counts over the vocabulary |

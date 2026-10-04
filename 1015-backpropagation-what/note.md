@@ -13,7 +13,7 @@ title: "Backpropagation, Part 1: What It Is"
 
 ## 1. Overview
 
-> **Key point:** Backpropagation is the algorithm that trains a neural network. For each row it predicts, measures the loss, then works backwards through the network with the chain rule to find how the loss changes with every weight and bias, and moves each one a small step downhill.
+> **Key point:** Backpropagation is the algorithm that trains a neural network. For each **observation** (one record, one row of the data table) it predicts, measures the loss, then works backwards through the network with the chain rule to find how the loss changes with every weight and bias, and moves each one a small step downhill.
 
 **Backpropagation**, short for *backward propagation of errors*, is the algorithm used to train neural networks. Given a network and a loss function, it computes the gradient of the loss with respect to every weight and bias; gradient descent then uses that gradient to update them.
 
@@ -32,7 +32,7 @@ Figure 1 runs the whole algorithm once, for one student. The rest of this Note b
 
 ## 3. The data and the network
 
-> **Key point:** Four students, two inputs (CGPA, profile score), one output (package). A 2-2-1 network with linear activations has 6 weights and 3 biases: 9 trainable parameters.
+> **Key point:** Four students, two **features** (input variables: CGPA, profile score), one **target** (the output we predict: package). A 2-2-1 network with linear activations has 6 weights and 3 biases: 9 trainable parameters.
 
 We predict a student's package (LPA) from their CGPA and profile score, both out of 10:
 
@@ -43,14 +43,14 @@ We predict a student's package (LPA) from their CGPA and profile score, both out
 | 3 | 6 | 10 | 6 |
 | 4 | 5 | 12 | 7 |
 
-The network has 2 input nodes, one hidden layer of 2 nodes and 1 output node (Figure 1). This is a regression problem, so every node uses a **linear activation**: a node outputs its weighted sum plus bias, with no sigmoid.
+The network has 2 input nodes, one hidden layer of 2 nodes and 1 output node (Figure 1). Predicting a package is a regression problem, so every node uses a **linear activation**: a node outputs its weighted sum plus bias, with no sigmoid.
 
 In the notation of the [MLP notation Note](../1008-mlp-notation/note.md):
 
 - Layer 1 has the weights $W^{1}_{11}, W^{1}_{12}, W^{1}_{21}, W^{1}_{22}$ and the biases $b_{11}, b_{12}$; its nodes output $O_{11}$ and $O_{12}$.
 - Layer 2 has the weights $W^{2}_{11}, W^{2}_{21}$ and the bias $b_{21}$; its node outputs $O_{21} = \hat{y}$.
 
-That is $(2 \times 2 + 2) + (2 \times 1 + 1) = 6 + 3 = 9$ trainable parameters.
+The count is $(2 \times 2 + 2) + (2 \times 1 + 1) = 6 + 3 = 9$ trainable parameters.
 
 > **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the IQ weights would get gradients about 10 times larger, because a weight's gradient is multiplied by its input ($\partial O_{11}/\partial W^{1}_{11} = x_{i1}$, section 6). One learning rate would then be too large for the IQ weights or too small for the CGPA weights.
 
@@ -68,7 +68,7 @@ Training needs starting values. Common choices are random numbers, or all weight
 
 > **Key point:** Student 1 gets $\hat{y} = 0.32$ LPA against a real 4 LPA: a loss of 13.54.
 
-1. **Select a row:** student 1, with $x_{11} = 8$, $x_{12} = 8$ and $y = 4$.
+1. **Select an observation:** student 1, with $x_{11} = 8$, $x_{12} = 8$ and $y = 4$.
 2. **Predict with forward propagation** (see the [forward propagation Note](../1010-forward-propagation/note.md)):
    $$O_{11} = W^{1}_{11} x_{11} + W^{1}_{21} x_{12} + b_{11} = 0.1 \times 8 + 0.1 \times 8 + 0 = 1.6, \qquad O_{12} = 1.6$$
    $$\hat{y} = O_{21} = W^{2}_{11} O_{11} + W^{2}_{21} O_{12} + b_{21} = 0.1 \times 1.6 + 0.1 \times 1.6 + 0 = 0.32$$
@@ -102,7 +102,7 @@ Figure 2 shows what $\hat{y}$ depends on. Since $\hat{y} = W^{2}_{11} O_{11} + W
 
 Each hidden output depends on 5 things in turn. $O_{11}$ depends on the two inputs (fixed data), the weights $W^{1}_{11}$, $W^{1}_{21}$ and the bias $b_{11}$. $O_{12}$ depends on the inputs, $W^{1}_{12}$, $W^{1}_{22}$ and $b_{12}$.
 
-So the loss is reduced by starting at the output and going **backwards**, layer by layer, adjusting the weights and biases in each. That is where the name comes from: the error is propagated backwards.
+Think of a relay team that lost a race: the coach starts with the last runner, sees how much time was lost there, then asks how much of that came from the handover before, and so on back to the first runner. So the loss is reduced by starting at the output and going **backwards**, layer by layer, adjusting the weights and biases in each. The backward direction gives the algorithm its name: the error is propagated backwards.
 
 ## 6. The nine derivatives
 
@@ -191,7 +191,7 @@ For student 1: $y = 4$, $\hat{y} = 0.32$, $O_{11} = O_{12} = 1.6$, $x_{11} = x_{
 
 Every gradient is negative: raising any parameter would lower the loss, which fits a prediction that is far too small. Figure 1 shows these numbers appearing on the network, from the output back to the inputs.
 
-> **Python:** The 9 gradients for one row.
+> **Python:** The 9 gradients for one observation.
 >
 > ```python
 > import numpy as np
@@ -210,7 +210,7 @@ Every gradient is negative: raising any parameter would lower the loss, which fi
 >
 > `np.outer(a, b)` makes the table of all products `a[i] * b[j]`: here all four hidden-layer weight gradients at once.
 
-> **Extra:** Two independent checks agree to every digit (Notebook). Nudging each parameter by $10^{-6}$ and measuring the change in the loss gives the same nine numbers (the numerical check of section 7 of the [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md)). TensorFlow's `tf.GradientTape`, which records the forward computation and differentiates it automatically, also returns them. This automatic differentiation is how Keras computes the gradients of any network (see section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md); TensorFlow guide, Automatic differentiation).
+> **Extra:** Two independent checks agree to every digit (Notebook). Nudging each parameter by $10^{-6}$ and measuring the change in the loss gives the same nine numbers (the numerical check of section 7 of the [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md)). TensorFlow's `tf.GradientTape`, which records the forward computation and differentiates it automatically, also returns them. Automatic differentiation is how Keras computes the gradients of any network (see section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md); TensorFlow guide, Automatic differentiation).
 
 ### 7.2 The update
 
@@ -230,13 +230,13 @@ Running the same student forward again gives $\hat{y} = 0.386$ and a loss of $(4
 
 ## 8. The full algorithm
 
-> **Key point:** Repeat the four steps for every row (inner loop), then for many epochs (outer loop), until the loss stops falling.
+> **Key point:** Repeat the four steps for every observation (inner loop), then for many epochs (outer loop), until the loss stops falling.
 
 One student moved the weights a little. Training repeats the steps:
 
 1. **Initialise** all weights and biases (here 0.1 and 0).
 2. **For each epoch:**
-   - for each row of the data (4 here):
+   - for each observation of the data (4 here):
      a. forward propagation: predict $\hat{y}$;
      b. compute the loss;
      c. compute the 9 derivatives and update all 9 parameters.
@@ -245,14 +245,14 @@ One student moved the weights a little. Training repeats the steps:
 
 In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.12, an average of 26.35. Each update helps the next prediction a little; the predictions rise from 0.32 to 0.67 over the four students. Running the outer loop 100 or 1,000 times brings the predictions close to the real packages, as the [backpropagation how Note](../1016-backpropagation-how/note.md) shows.
 
-Updating after every single row, as here, is [stochastic gradient descent](../59-stochastic-gradient-descent/note.md); the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) compares it with updating after many rows.
+Updating after every single observation, as here, is [stochastic gradient descent](../59-stochastic-gradient-descent/note.md); the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) compares it with updating after many observations.
 
 ## 9. Summary
 
 | Step | What happens | Student 1 |
 |---|---|---|
 | 0 | Initialise weights 0.1, biases 0 | 9 parameters |
-| 1 | Pick a row | CGPA 8, profile 8, package 4 |
+| 1 | Pick an observation | CGPA 8, profile 8, package 4 |
 | 2 | Forward propagation | $O_{11} = O_{12} = 1.6$, $\hat{y} = 0.32$ |
 | 3 | Loss | $(4 - 0.32)^2 = 13.54$ |
 | 4a | Derivatives by the chain rule | $\partial L/\partial \hat{y} = -7.36$, $\partial L/\partial W^{2}_{11} = -11.78$, $\partial L/\partial W^{1}_{11} = -5.89$ |
@@ -262,7 +262,7 @@ Updating after every single row, as here, is [stochastic gradient descent](../59
 - Only $\hat{y}$ can change the loss, and $\hat{y}$ depends on earlier layers, so we work backwards from the output.
 - Each derivative is a chain rule product; the factor $\partial L/\partial \hat{y}$ is shared by all of them.
 - All the numbers needed come from the forward pass.
-- Rows go one at a time; the whole data is repeated for many epochs.
+- Observations go one at a time; the whole data is repeated for many epochs.
 
 ## 10. Sources
 

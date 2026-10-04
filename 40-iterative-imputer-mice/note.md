@@ -13,58 +13,58 @@ title: "Handling Missing Data: Iterative Imputer (MICE)"
 
 ## 1. Overview
 
-> **Key point:** MICE fills every gap with its column mean first, then improves the fills one column at a time with a model trained on the other columns, and repeats until the fills stop changing.
+> **Key point:** MICE fills every gap with its feature's mean first, then improves the fills one feature at a time with a model trained on the other features, and repeats until the fills stop changing.
 
-The KNN imputer (Note 39) was the first multivariate technique: it fills a gap from the rows most similar to the row with the gap. This Note covers the second one, the **iterative imputer**. It turns each column with gaps into a small prediction problem: that column is the output, the other columns are the inputs.
+A **feature** is an input variable (one column of the data table), and an **observation** is one record (one row). The **target** is the output we predict.
+
+The KNN imputer (Note 39) was the first multivariate technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer**. The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
 
 The algorithm behind it is **MICE**, short for **Multivariate Imputation by Chained Equations**. Figure 1 shows the whole loop:
 
-- **Step 0:** fill every gap with the mean of its column.
-- **One iteration:** for each column in turn, put its gaps back to NaN, train a model on the rows without a gap, and predict the gaps.
+- **Step 0:** fill every gap with the mean of its feature.
+- **One iteration:** for each feature in turn, put its gaps back to NaN, train a model on the observations without a gap, and predict the gaps.
 - **Stop** when the fills hardly change from one iteration to the next.
 
 ![The MICE loop: a mean fill, then one model per column, repeated until the fills settle](images/overview.png){width=100%}
 
-Each model is one "equation" that predicts one column. The equations are "chained" because each one uses the latest fills of the others.
+Each model is one "equation" that predicts one feature. The equations are "chained" because each one uses the latest fills of the others.
 
 ## 2. When to use MICE
 
-> **Key point:** MICE suits data that is missing at random (MAR): the gaps can be predicted from the other columns.
+> **Key point:** MICE suits data that is missing at random (MAR): the gaps can be predicted from the other features.
 
 Note 35 (Section 5) names three ways in which data goes missing:
 
 - **MCAR (missing completely at random):** the value was never collected, for no reason related to the data.
-- **MAR (missing at random):** whether a value is missing depends on other columns we can see, for example people who skip an optional form field. The other columns carry information about the missing value.
-- **MNAR (missing not at random):** the value was left out on purpose, because of the value itself. The other columns say little about it.
+- **MAR (missing at random):** whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
+- **MNAR (missing not at random):** whether a value is missing depends on the value itself, for example high earners hiding their income. The other features cannot fully account for the gaps.
 
-MICE predicts a missing value from the other columns. That works best when those columns are related to it, which is the MAR case. We can run MICE on any data, but it gives its best results under MAR.
+MICE predicts a missing value from the other features, so it needs those features to be related to it. Imputation methods such as MICE commonly assume MAR, and checking that MAR is plausible is the first step of a MICE analysis (van Buuren and Groothuis-Oudshoorn 2011, §3.1 and §6.2). We can run MICE on any data, but it gives its best results under MAR.
 
 ## 3. Advantages and disadvantages
 
-> **Key point:** MICE is usually more accurate than simpler imputers, but it is slow and the training set must be kept for production.
+> **Key point:** MICE is usually more accurate than simpler imputers, but it is slow and its fitted models must be kept for production.
 
 **Advantage:**
 
-- **Accurate.** The fills come from a model that uses every other column, so they are usually more accurate than mean or median imputation.
+- **Accurate.** The fills come from a model that uses every other feature, so they are usually closer to the truth than mean or median fills. Section 8.4 measures the gap on real data.
 
 **Disadvantages:**
 
-1. **Slow.** Every iteration trains one model per column with gaps, and we run several iterations. On large data this takes time.
-2. **Memory in production.** A new row with a gap must be filled from the training data, so the training set is kept on the server, as with the KNN imputer.
-
-> **Extra:** scikit-learn's `IterativeImputer` keeps the fitted models, one per column and iteration, in its attribute `imputation_sequence_`, rather than the raw rows (scikit-learn docs, IterativeImputer). Filling a new row then means running those models again. Either way, more is stored and computed than for one mean per column.
+1. **Slow.** Every iteration trains one model per feature with gaps, and we run several iterations. On large data this takes time.
+2. **More to keep in production.** A new observation with a gap must be filled the same way, so the fitted models are kept on the server: one model per feature and iteration, in the attribute `imputation_sequence_` (scikit-learn docs, IterativeImputer). Filling a new observation means running those models again. Mean imputation keeps only one number per feature.
 
 ## 4. The example table
 
-> **Key point:** Five startups, three spend columns, one gap in each column.
+> **Key point:** Five startups, three spend features, one gap in each.
 
-The data is the "50 Startups" dataset: for 50 companies, the money spent on R&D, administration and marketing, and the profit. We keep only the three spend columns, because imputation is done on the input columns, not on the target `Profit`.
+The data is the "50 Startups" dataset: for 50 companies, the money spent on R&D, administration and marketing, and the profit. We keep only the three spend features, because imputation is done on the inputs, not on the target `Profit`.
 
 To follow every step by hand, we:
 
 1. Divide all amounts by 10,000 dollars and round to whole numbers.
-2. Keep 5 random rows.
-3. Hide one value in each column.
+2. Keep 5 random observations.
+3. Hide one value in each feature.
 
 | Row | R&D | Administration | Marketing |
 |---|---|---|---|
@@ -78,7 +78,7 @@ The numbers in brackets are the hidden true values. The algorithm never sees the
 
 ## 5. Step 0: fill with the column means
 
-> **Key point:** The first guess for every gap is the mean of its column: 9.25, 11.25 and 29.25.
+> **Key point:** The first guess for every gap is the mean of its feature: 9.25, 11.25 and 29.25.
 
 MICE needs a complete table to train its first models, so it starts with the simplest fill (Note 36):
 
@@ -86,13 +86,13 @@ MICE needs a complete table to train its first models, so it starts with the sim
 - **Administration:** $(15 + 5 + 10 + 15) / 4 = 11.25$
 - **Marketing:** $(30 + 20 + 41 + 26) / 4 = 29.25$
 
-This table is **iteration 0**. The mean ignores the other columns, so these fills are rough starting points that the next steps improve.
+The mean-filled table is **iteration 0**. The mean ignores the other features, so these fills are rough starting points that the next steps improve.
 
-## 6. Iteration 1: one column at a time
+## 6. Iteration 1: one feature at a time
 
-> **Key point:** For each column, left to right: put its gap back to NaN, train a linear regression on the other four rows, predict the gap.
+> **Key point:** For each feature, left to right: put its gap back to NaN, train a linear regression on the other four observations, predict the gap.
 
-Figure 2 runs the whole process on the table. Iteration 1 goes through the three columns in order.
+Figure 2 runs the whole process on the table. Iteration 1 goes through the three features in order.
 
 ![MICE on the 5-row table: mean fill, iteration 1 column by column, the change after each iteration, and the settled values](images/mice_steps.gif)
 
@@ -102,8 +102,8 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 
 > **Key point:** R&D of row 2 is predicted from its Administration (5) and Marketing (20): 23.14.
 
-1. Put the R&D gap of row 2 back to NaN. The mean fills in the other columns (11.25, 29.25) stay.
-2. The four rows with an R&D value become training data. Inputs: Administration and Marketing. Output: R&D.
+1. Put the R&D gap of row 2 back to NaN. The mean fills in the other features (11.25, 29.25) stay.
+2. The four observations with an R&D value become training data. Inputs: Administration and Marketing. Output: R&D.
 
 | Row | Administration (input) | Marketing (input) | R&D (output) |
 |---|---|---|---|
@@ -112,7 +112,7 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 | 4 | 11.25 | 26 | 12 |
 | 5 | 15 | 29.25 | 2 |
 
-3. Train a linear regression on these four rows and predict R&D for row 2.
+3. Train a linear regression on these four observations and predict R&D for row 2.
 
 The prediction follows the usual three steps:
 
@@ -147,7 +147,7 @@ Put the Marketing gap of row 5 back to NaN. The training rows are rows 1 to 4, w
 
 The model is $\text{Marketing} = 8.12 + 0.386 \times \text{R\&D} + 1.511 \times \text{Admin}$. Row 5 (R&D 2, Administration 15) gives $8.12 + 0.77 + 22.67 = 31.56$.
 
-After the last column, iteration 1 is complete and the table has no gaps:
+After the last feature, iteration 1 is complete and the table has no gaps:
 
 | Gap | Iteration 0 (mean) | Iteration 1 |
 |---|---|---|
@@ -202,7 +202,7 @@ Figure 3 continues the example for 10 iterations at full precision. With linear 
 
 > **Extra:** Keeping only two decimals at each step makes the hand-calculated numbers drift slightly from the full-precision ones. Iteration 1 gives 31.60 for Marketing instead of 31.56, and iteration 2 gives 23.83, 11.23 and 39.39. The final values are the same.
 
-> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four rows and two inputs. At the settled values, all three linear models fit their four training rows exactly: every residual is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. A linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a column whose known values run from 20 to 41). With scikit-learn's default model, `BayesianRidge` (orange), the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with many rows, the models are far more reliable (Section 8.4).
+> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every residual is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. A linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, `BayesianRidge` (orange), the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
 
 ## 8. The iterative imputer in scikit-learn
 
@@ -232,12 +232,12 @@ scikit-learn marks `IterativeImputer` as **experimental**: its settings may stil
 
 | Parameter | Meaning | Default |
 |---|---|---|
-| `estimator` | the regression model trained for each column | `BayesianRidge()` |
+| `estimator` | the regression model trained for each feature | `BayesianRidge()` |
 | `initial_strategy` | the step-0 fill: `"mean"`, `"median"`, `"most_frequent"` or `"constant"` | `"mean"` |
 | `max_iter` | the largest number of iterations | 10 |
 | `tol` | stop when the changes between two iterations fall below `tol` times the largest value in the data | 0.001 |
-| `imputation_order` | the order of the columns; `"ascending"` starts with the column with the fewest gaps | `"ascending"` |
-| `n_nearest_features` | use only this many other columns as inputs (faster on wide data) | `None` (all) |
+| `imputation_order` | the order of the features; `"ascending"` starts with the feature with the fewest gaps | `"ascending"` |
+| `n_nearest_features` | use only this many other features as inputs (faster on wide data) | `None` (all) |
 | `sample_posterior` | draw each fill at random from the model's spread instead of its best guess | `False` |
 | `add_indicator` | also add a 0/1 column marking each gap (Note 38) | `False` |
 | `random_state` | seed for the random parts | `None` |
@@ -264,9 +264,9 @@ After fitting, `n_iter_` holds the number of iterations actually run. On the toy
 
 > **Key point:** Fit the imputer on the training set, then use it to fill both the training and the test set.
 
-As with every imputer, the models must learn only from training rows. If test rows took part in `fit`, information about the test set would leak into training.
+As with every imputer, the models must learn only from training observations. If test observations took part in `fit`, information about the test set would leak into training.
 
-> **Python:** Fit on training rows, fill test rows.
+> **Python:** Fit on training observations, fill test observations.
 >
 > ```python
 > imp = IterativeImputer(random_state=0)
@@ -282,9 +282,9 @@ On the full 50-row data, we split 70/30, hid 20% of the values in both parts at 
 | KNN (`KNNImputer`, k = 5) | 6.69 |
 | Iterative (`IterativeImputer`) | 5.88 |
 
-The iterative imputer comes closest to the hidden values. It wins because the columns are related: R&D and Marketing have a correlation of 0.72, so each helps to predict the other. Gaps that can be predicted from other columns are the MAR case of Section 2.
+The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a correlation of 0.72, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of Section 2. The Extra below tests this reason directly.
 
-> **Extra:** The test behind this (the last cell of the Notebook). We shuffle each column on its own, which keeps every column's values but breaks the links between columns (all correlations fall below 0.2), and rerun the same 100 splits.
+> **Extra:** The test behind this (the last cell of the Notebook). We shuffle each column on its own, which keeps every feature's values but breaks the links between features (all correlations fall below 0.2), and rerun the same 100 splits.
 >
 > | Imputer | Error, real data | Error, shuffled columns |
 > |---|---|---|
@@ -292,7 +292,7 @@ The iterative imputer comes closest to the hidden values. It wins because the co
 > | KNN, k = 5 | 6.69 | 8.64 |
 > | Iterative | 5.88 | 8.10 |
 >
-> Without the links between columns, the iterative imputer loses its lead and does worse than the plain mean.
+> Without the links between features, the iterative imputer loses its lead and does worse than the plain mean. The lead on real data therefore comes from those links.
 
 ### 8.5 Several imputations
 
@@ -305,18 +305,18 @@ The iterative imputer comes closest to the hidden values. It wins because the co
 | | Mean imputation | KNN imputer | Iterative imputer (MICE) |
 |---|---|---|---|
 | Kind | univariate | multivariate | multivariate |
-| Fill value | column mean | mean of the k nearest rows | prediction of a model trained on the other columns |
+| Fill value | feature mean | mean of the k nearest observations | prediction of a model trained on the other features |
 | Runs | once | once | repeated until the fills settle |
-| Best for | MCAR, few gaps | similar rows exist | MAR: gaps predictable from other columns |
-| Speed | instant | a distance to every training row | one model per column per iteration |
+| Best for | MCAR, few gaps | similar observations exist | MAR: gaps predictable from other features |
+| Speed | instant | a distance to every training observation | one model per feature per iteration |
 | Error on 50 Startups | 7.54 | 6.69 | 5.88 |
 | scikit-learn | `SimpleImputer` | `KNNImputer` | `IterativeImputer` (experimental import) |
 
 - MICE starts with a mean fill (iteration 0).
-- In each iteration, every column in turn gets its gaps back to NaN, a model trained on the rows without a gap, and new predictions for its gaps.
-- Each model uses the latest fills of the other columns: the equations are chained.
+- In each iteration, every feature in turn gets its gaps back to NaN, a model trained on the observations without a gap, and new predictions for its gaps.
+- Each model uses the latest fills of the other features: the equations are chained.
 - After each iteration, we subtract the previous table; when the changes are near 0, or after a fixed number of iterations, we stop.
-- It works best when data is MAR. It is accurate but slow, and needs the training data or its models in production.
+- MICE works best when data is MAR. MICE is accurate but slow, and needs its fitted models in production.
 - `IterativeImputer` needs `from sklearn.experimental import enable_iterative_imputer`; defaults are `BayesianRidge`, mean start, `max_iter=10`, `tol=0.001`.
 - Fit on the training set only, then transform both sets.
 
@@ -330,15 +330,17 @@ The iterative imputer comes closest to the hidden values. It wins because the co
 
 | Term | Meaning |
 |---|---|
-| Iterative imputer | A multivariate imputer that predicts each column's gaps from the other columns, repeating until the fills settle |
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Iterative imputer | A multivariate imputer that predicts each feature's gaps from the other features, repeating until the fills settle |
 | MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer |
-| Chained equations | One prediction model per column, each using the latest fills of the others |
-| Iteration (MICE) | One pass that re-predicts the gaps of every column once, in order |
-| Iteration 0 | The starting table, with every gap filled by its column mean |
+| Chained equations | One prediction model per feature, each using the latest fills of the others |
+| Iteration (MICE) | One pass that re-predicts the gaps of every feature once, in order |
+| Iteration 0 | The starting table, with every gap filled by its feature's mean |
 | Convergence | The point where the fills hardly change between two iterations |
 | `IterativeImputer` | scikit-learn's class for MICE; still experimental |
 | `enable_iterative_imputer` | The import that switches on the experimental `IterativeImputer` |
-| `BayesianRidge` | A linear regression with built-in shrinkage of the weights; the default model of `IterativeImputer` |
+| `BayesianRidge` | A linear regression that pulls its weights toward 0 a little; the default model of `IterativeImputer` |
 | `max_iter` | The largest number of iterations `IterativeImputer` runs; default 10 |
 | `tol` | The size of change below which `IterativeImputer` stops early; default 0.001 |
 | `sample_posterior` | Draw each fill at random from the model's spread, giving several plausible filled tables |

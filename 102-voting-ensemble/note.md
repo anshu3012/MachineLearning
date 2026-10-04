@@ -31,7 +31,7 @@ Take a few models, say M1, M2 and M3. They can be different algorithms or the sa
 
 **Prediction:** a new query point $x_q$ goes to every trained model, and the ensemble returns the majority vote (classification) or the mean (regression), as in the [ensemble learning Note](../101-ensemble-learning/note.md), section 3.
 
-That is the whole algorithm. It works like an election, which is where the name comes from.
+Those two steps are the whole algorithm. A voting ensemble works like an election, which is where the name comes from.
 
 ## 3. The puzzle
 
@@ -79,7 +79,7 @@ Now let each model be right with probability $p = 0.3$. The same formula gives:
 
 $$P(\text{vote right}) = 0.3^3 + 3 \times 0.3^2 \times 0.7 = 0.027 + 3 \times 0.063 = 0.027 + 0.189 = 0.216$$
 
-That is about 22%, worse than every single model (30%). It is also $1 - 0.784$: the four combinations left over in Figure 1, with the roles of right and wrong swapped. This proves assumption 2: voting amplifies whatever the models are, good or bad.
+A vote accuracy of about 22% is worse than every single model (30%). The value 0.216 is also $1 - 0.784$: the four combinations left over in Figure 1, with the roles of right and wrong swapped. This calculation proves assumption 2: voting amplifies whatever the models are, good or bad.
 
 > **Extra:** With $n$ models (an odd number, so there are no ties), the vote is right when more than half are right. The number of right models follows a **binomial distribution**, so
 > $$P(\text{vote right}) = \sum_{k > n/2} \binom{n}{k} p^k (1-p)^{n-k}$$
@@ -110,7 +110,7 @@ Figure 2b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 - with half the answers copied, about **0.74**;
 - with everything copied, the eleven models act as one, and the vote scores **0.7**, no better than a single model.
 
-> **Extra:** Models trained on the same data are usually correlated, so real gains are smaller than Figure 2a promises: the correlation between the models limits what combining them can gain (ESL §15.2), just as Figure 2b shows. An ensemble beats its members only when they are both accurate and *diverse*, meaning they make different errors (Dietterich, 2000). This is why ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
+> **Extra:** Models trained on the same data are usually correlated, so real gains are smaller than Figure 2a promises: the correlation between the models limits what combining them can gain (ESL §15.2), just as Figure 2b shows. An ensemble beats its members only when they are both accurate and *diverse*, meaning they make different errors (Dietterich, 2000). Correlation is the reason ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
 
 ## 6. Summary
 
@@ -125,13 +125,13 @@ Figure 2b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 - For three models, $P(\text{vote right}) = p^3 + 3p^2(1-p)$: 0.784 for $p = 0.7$.
 - More independent models help more; correlated models help less.
 
-## Sources
+## 7. Sources
 
 - Condorcet, Marquis de (1785). *Essai sur l'application de l'analyse à la probabilité des décisions rendues à la pluralité des voix*. Paris.
 - Dietterich, T. G. (2000). "Ensemble Methods in Machine Learning". *Multiple Classifier Systems* (MCS 2000), LNCS 1857, Springer, section 1.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

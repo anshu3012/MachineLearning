@@ -17,7 +17,7 @@ title: "Working with CSV Files"
 
 ![Four common ways to get data into a pandas table](images/get_data.png)
 
-Data is the fuel of ML: a good algorithm given too little data performs worse than a weak algorithm given plenty. So before modelling, we must be able to bring in data from wherever it lives. Figure 1 shows the four common sources:
+Data is the fuel of ML: with enough data, even simple algorithms can match better ones (Banko and Brill 2001; see Note 7). So before modelling, we must be able to bring in data from wherever it lives. Figure 1 shows the four common sources:
 
 - **CSV files:** plain text tables. The most common format, and the easiest; this Note.
 - **JSON and SQL:** JSON is the usual format when programs exchange data; SQL databases store a company's tables.
@@ -42,7 +42,7 @@ A **TSV file** (tab-separated values) is the same thing with a tab between value
 
 Every CSV file in this Note is read with one function, `pd.read_csv`. Called with only a file name, it assumes a well-behaved file: commas between values, column names on the first line, UTF-8 text, and the same number of values on every line.
 
-Real files break these assumptions. The function's **parameters** (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation lists 44 of them in pandas 3.0; this Note covers the fifteen or so that solve the common problems.
+Real files break these assumptions. The function's **parameters** (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation lists 44 of them in pandas 3.0 (pandas API reference, `read_csv`); this Note covers the fifteen or so that solve the common problems.
 
 ![What each read_csv parameter controls](images/parameter_map.png)
 
@@ -66,6 +66,8 @@ Figure 3 groups them by the question each one answers. The rest of the Note take
 > `"data/aug_train.csv"` is a **relative path**: the location of the file starting from the folder our code runs in.
 
 Our main example file holds job seekers who took a data-science training course: city, gender, education, experience, training hours, and a `target` column (1 if the person was looking for a job change, 0 if not). We use its first 1,000 rows, so `df.shape` is `(1000, 14)`.
+
+In ML terms, each row is one **observation** (one record, here one job seeker). The `target` column is the **target** (the output a model would predict), and the other columns are **features** (input variables a model would learn from).
 
 ## 5. Opening a file from a URL
 
@@ -159,7 +161,7 @@ After:
 | 8949 | city_103 |
 | 29725 | city_40 |
 
-This is a convenience, not a necessity: it saves a column and lets us look rows up by ID.
+Setting the index is a convenience, not a necessity: it saves a column and lets us look rows up by ID.
 
 ## 8. Choosing the header line (header)
 
@@ -216,7 +218,7 @@ The result has these 3 columns instead of 14. `NaN` ("not a number") is how pand
 
 A **Series** is pandas' one-column structure: a list of values with an index. A DataFrame is several Series side by side. When we load just one column, a Series is often what we want.
 
-Older pandas had a `squeeze=True` parameter for this. It was removed in pandas 2, and passing it now raises a `TypeError`. Instead, we read normally and then squeeze the result:
+Older pandas had a `squeeze=True` parameter for this. The parameter was removed in pandas 2, and passing it now raises a `TypeError`. Instead, we read normally and then squeeze the result:
 
 > **Python:** Getting a Series.
 >
@@ -228,7 +230,7 @@ Older pandas had a `squeeze=True` parameter for this. It was removed in pandas 2
 >
 > `.squeeze("columns")` turns a DataFrame with exactly one column into a Series.
 
-This option is rarely needed; most code simply works with DataFrames.
+Squeezing is rarely needed; most code simply works with DataFrames.
 
 ## 11. Skipping rows and limiting rows (skiprows, nrows)
 
@@ -257,7 +259,7 @@ The numbers do not have to be next to each other: `skiprows=[1, 5, 9]` works too
 
 > **Extra:** A common slip is `skiprows=[0]`, meant as "skip the first row". Line 0 is the header line, so this throws away the column names and the first data row (`8949, city_103, ...`) becomes the header instead.
 
-`skiprows` can also take a function: pandas calls it with each line number and skips the line when it returns `True`. This lets us skip by a rule, for example every second row.
+`skiprows` can also take a function: pandas calls it with each line number and skips the line when it returns `True`. A function lets us skip by a rule, for example every second row.
 
 > **Python:** A rule for `skiprows`.
 >
@@ -279,7 +281,7 @@ The numbers do not have to be next to each other: `skiprows=[1, 5, 9]` works too
 > pd.read_csv("aug_train.csv", nrows=100).shape   # (100, 14)
 > ```
 
-This helps with very large files, with millions of rows. We can load a small piece first to look at the columns and test our code, before committing the memory to the whole file.
+`nrows` helps with very large files, with millions of rows. We can load a small piece first to look at the columns and test our code, before committing the memory to the whole file.
 
 ## 12. Text encoding (encoding)
 
@@ -310,7 +312,7 @@ When we see this error, we have two options:
 1. Find out the file's encoding and pass it in `encoding`.
 2. Open the file in a text editor (such as Sublime Text or VS Code) and save it again as UTF-8. Characters that cannot be converted may turn into blanks or odd symbols.
 
-> **Extra:** `latin-1` maps every possible byte to some character (Python docs, `codecs`), so it never raises this error. That does not mean the text comes out right. In our file, a restaurant called "Café Daniel Briand" shows up as "Cafí© Daniel Briand", because the file's text was already garbled before it was saved: after "Caf" the file holds the bytes `ED A9`, which are neither the latin-1 "é" (`E9`) nor the UTF-8 "é" (`C3 A9`). If letters look wrong after loading, try other common encodings such as `"cp1252"` (Windows) and compare.
+> **Extra:** `latin-1` maps every possible byte to some character (Python docs, `codecs`), so it never raises this error. Loading without an error does not mean the text comes out right. In our file, a restaurant called "Café Daniel Briand" shows up as "Cafí© Daniel Briand", because the file's text was already garbled before it was saved: after "Caf" the file holds the bytes `ED A9`, which are neither the latin-1 "é" (`E9`) nor the UTF-8 "é" (`C3 A9`). If letters look wrong after loading, try other common encodings such as `"cp1252"` (Windows) and compare.
 
 ## 13. Skipping bad lines (on_bad_lines)
 
@@ -340,7 +342,7 @@ The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line spl
 
 The result has 4 books: the broken line is gone.
 
-> **Extra:** Older code writes `error_bad_lines=False`. That parameter was replaced by `on_bad_lines` in pandas 1.3 and removed in pandas 2 (pandas release notes), so it now raises a `TypeError`. Skipping is the quick fix; if many lines are bad, it is worth looking at them, because the real problem may be a wrong `sep`.
+> **Extra:** Older code writes `error_bad_lines=False`. The `error_bad_lines` parameter was replaced by `on_bad_lines` in pandas 1.3 and removed in pandas 2 (pandas release notes), so it now raises a `TypeError`. Skipping is the quick fix; if many lines are bad, it is worth looking at them, because the real problem may be a wrong `sep`.
 
 ## 14. Choosing column types (dtype)
 
@@ -518,16 +520,21 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 - Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the header line.
 - In pandas 3, `squeeze`, `error_bad_lines` and date-combining in `parse_dates` are gone; use `.squeeze("columns")`, `on_bad_lines` and `pd.to_datetime`.
 
-## Sources
+## 20. Sources
 
+- Banko, M. and Brill, E. (2001). Scaling to Very Very Large Corpora for Natural Language Disambiguation. *Proceedings of ACL 2001*, 26-33.
+- pandas API reference. `pandas.read_csv`. pandas.pydata.org/docs.
 - pandas release notes. What's new in 1.3.0, 2.0.0, 2.2.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.
 - Python documentation. `codecs`: Standard Encodings. docs.python.org.
 
-## 20. Key terms
+## 21. Key terms
 
 | Term | Meaning |
 |---|---|
 | CSV file | A text file holding a table: one row per line, commas between values |
+| Observation | One record of the data, one row of the table |
+| Feature | An input variable, one column of the data table |
+| Target | The output a model predicts |
 | TSV file | Like a CSV file, with tabs between values |
 | Header | The line of a file that holds the column names |
 | Parameter | A named setting passed to a function, like `sep=";"` |

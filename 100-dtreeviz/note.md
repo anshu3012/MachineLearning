@@ -16,18 +16,18 @@ title: "Visualising Decision Trees with dtreeviz"
 
 > **Key point:** dtreeviz draws a trained decision tree with the training data shown inside every node, so we can see why each split was chosen and where a prediction goes.
 
-**dtreeviz** is a Python library for visualising decision trees trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, it adds:
+**dtreeviz** is a Python library for visualising decision trees trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, dtreeviz adds the following. (A **feature** is an input variable, one column of the data table; an **observation** is one record, one row of the table.)
 
-- real column and class names at every split;
+- real feature and class names at every split;
 - the training data of every node, as histograms (classification) or scatter plots (regression);
-- the path a single new row follows to its prediction, and a plain-English summary of it;
+- the path a single new observation follows to its prediction, and a plain-English summary of it;
 - views of the whole tree as cuts on a scatter plot, in 2D or 3D.
 
-dtreeviz itself draws with Graphviz and matplotlib. In these Notes we do not use matplotlib, so the figures below rebuild each dtreeviz view from the fitted tree's own numbers, with Plotly and Graphviz. The Notebook (`notebook.ipynb`) lists the dtreeviz calls and computes everything the figures show.
+dtreeviz itself draws with Graphviz and matplotlib. The figures below instead rebuild each dtreeviz view from the fitted tree's own numbers, with Plotly and Graphviz. The Notebook (`notebook.ipynb`) lists the dtreeviz calls and computes everything the figures show.
 
 ## 2. The problem with the default tree drawing
 
-> **Key point:** scikit-learn's drawing shows column indexes like x[3] and raw lists of numbers; it is hard to read on a real dataset.
+> **Key point:** scikit-learn's drawing shows feature indexes like x[3] and raw lists of numbers; it is hard to read on a real dataset.
 
 scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or export it with `export_graphviz`. Both produce boxes like those in Figure 1, for a tree of depth 2 trained on the iris data (the [softmax regression Note](../79-softmax-regression/note.md)).
 
@@ -35,7 +35,7 @@ scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or ex
 
 The drawing has several weaknesses:
 
-- **Columns appear as indexes.** The split "$x_3 \le 0.8$" does not say which column $x_3$ is. With many columns we cannot remember every index position. (It is the petal width.)
+- **Features appear as indexes.** The split "$x_3 \le 0.8$" does not say which feature $x_3$ is. With many features we cannot remember every index position. ($x_3$ is the petal width.)
 - **Some information is noise for most readers**, such as the Gini value of every node (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 8).
 - **Some information is hard to read:** `value = [0, 49, 5]` means 0 setosa, 49 versicolor and 5 virginica, but we must remember the class order.
 - **The data is invisible.** We see the threshold 0.8 but not why the split falls there.
@@ -44,9 +44,9 @@ The drawing has several weaknesses:
 
 ## 3. Installing and calling dtreeviz
 
-> **Key point:** Wrap the trained tree with `dtreeviz.model(...)`, passing the training data and the column and class names, then call `.view()`.
+> **Key point:** Wrap the trained tree with `dtreeviz.model(...)`, passing the training data and the feature and class names, then call `.view()`.
 
-dtreeviz is installed with `pip install dtreeviz`. It also needs the **Graphviz** program `dot`, which lays out the boxes of the tree. In Jupyter the result appears inline; in a script, `.show()` opens it in a window and `.save("tree.svg")` writes a file.
+dtreeviz is installed with `pip install dtreeviz`. dtreeviz also needs the **Graphviz** program `dot`, which lays out the boxes of the tree. In Jupyter the result appears inline; in a script, `.show()` opens it in a window and `.save("tree.svg")` writes a file.
 
 > **Python:** A first dtreeviz tree (dtreeviz 2.x).
 >
@@ -67,13 +67,13 @@ dtreeviz is installed with `pip install dtreeviz`. It also needs the **Graphviz*
 > viz.view(scale=2)     # the same, twice as big
 > ```
 >
-> `dtreeviz.model` needs four things: the trained tree, the data it was trained on, the names of the input columns, and (for classification) the names of the classes.
+> `dtreeviz.model` needs four things: the trained tree, the data it was trained on, the names of the input features, and (for classification) the names of the classes.
 
-> **Extra:** Older tutorials use the dtreeviz 1.x interface, a single function: `from dtreeviz.trees import dtreeviz`, then `dtreeviz(clf, X, y, target_name=..., feature_names=..., class_names=...)`, with the options of section 6 passed to the same call. dtreeviz 2.0 replaced it with `dtreeviz.model(...)` and methods such as `.view()` (dtreeviz README).
+> **Extra:** Older tutorials use the dtreeviz 1.x interface, a single function: `from dtreeviz.trees import dtreeviz`, then `dtreeviz(clf, X, y, target_name=..., feature_names=..., class_names=...)`, with the options of section 6 passed to the same call. dtreeviz 2.0 replaced it with `dtreeviz.model(...)` and methods such as `.view()` (dtreeviz 2.0.0 release notes).
 
 ## 4. Reading a dtreeviz tree
 
-> **Key point:** Each decision node shows a stacked histogram of its split column, with a triangle at the threshold; each leaf shows a pie of the classes that reached it.
+> **Key point:** Each decision node shows a stacked histogram of its split feature, with a triangle at the threshold; each leaf shows a pie of the classes that reached it.
 
 Figure 2 shows the dtreeviz view of the same depth-2 iris tree, rebuilt with Plotly from the fitted tree.
 
@@ -81,7 +81,7 @@ Figure 2 shows the dtreeviz view of the same depth-2 iris tree, rebuilt with Plo
 
 **The root** splits on **petal width** at **0.80**, shown by the black triangle. The histogram of all 150 flowers makes the reason obvious: every setosa flower (blue) has a petal width below 0.8, and every other flower is above it.
 
-- Left of the threshold, **all 50 setosa** flowers go to a leaf. Its pie is entirely blue: a pure leaf.
+- Left of the threshold, **all 50 setosa** flowers go to a leaf. The leaf's pie is entirely blue: a pure leaf.
 - Right of it, the **other 100 flowers** go to the next node.
 
 **The second node** splits the remaining 100 flowers on petal width again, at **1.75**. Here the two colours overlap between about 1.4 and 1.9, so no threshold separates them perfectly. Because `max_depth=2`, the tree stops here and makes two leaves:
@@ -101,9 +101,9 @@ Leaves that small are the overfitting of the [hyperparameters Note](../98-decisi
 
 ## 5. Regression trees in dtreeviz
 
-> **Key point:** For a regression tree, each node shows a scatter plot of its split column against the output, with the threshold and the mean of each side.
+> **Key point:** For a regression tree, each node shows a scatter plot of its split feature against the output, with the threshold and the mean of each side.
 
-Everything works the same for a regression tree: we pass the `DecisionTreeRegressor` and give `target_name` (the output column's name) instead of class names. The nodes then show **scatter plots** instead of histograms.
+Everything works the same for a regression tree: we pass the `DecisionTreeRegressor` and give `target_name` (the name of the **target**, the output we predict) instead of class names. The nodes then show **scatter plots** instead of histograms.
 
 Figure 3 shows a regression tree of depth 1 trained on all 506 districts of the Boston housing data (the [regression trees Note](../99-regression-trees/note.md), section 7).
 
@@ -130,11 +130,11 @@ Figure 4 combines several of these options on the fully grown iris tree: drawn l
 
 By default trees are drawn top-down (`orientation="TD"`). With `viz.view(orientation="LR")` the root is on the left and the leaves on the right, as in Figure 4. For a large tree this often fits a screen or page better.
 
-### 6.2 The prediction path of one row
+### 6.2 The prediction path of one observation
 
-> **Key point:** `viz.view(x=row)` highlights the path that row follows from the root to its leaf.
+> **Key point:** `viz.view(x=row)` highlights the path that observation follows from the root to its leaf.
 
-Passing a new row as `x` highlights its **prediction path**: the nodes it passes through on the way to its leaf. In Figure 4 the flower has sepal length 5.9, sepal width 3.2, petal length 4.8 and petal width 1.8 cm.
+Passing a new observation as `x` highlights its **prediction path**: the nodes it passes through on the way to its leaf. In Figure 4 the flower has sepal length 5.9, sepal width 3.2, petal length 4.8 and petal width 1.8 cm.
 
 Following the red path:
 
@@ -163,9 +163,9 @@ When the histograms make a big tree too heavy, `viz.view(fancy=False)` draws eac
 
 ### 6.5 The path in plain English
 
-> **Key point:** `viz.explain_prediction_path(x)` lists, for each column used, the range of values that leads to the prediction.
+> **Key point:** `viz.explain_prediction_path(x)` lists, for each feature used, the range of values that leads to the prediction.
 
-For a deep tree, a short text can be clearer than a picture. `viz.explain_prediction_path(x)` turns the path into one condition per column. For the flower of Figure 4:
+For a deep tree, a short text can be clearer than a picture. `viz.explain_prediction_path(x)` turns the path into one condition per feature. For the flower of Figure 4:
 
 - $3.10 < \text{sepal width}$
 - $\text{petal length} \le 4.85$
@@ -175,23 +175,23 @@ Petal width was asked twice on the path ($> 0.80$, then $> 1.75$), and the two c
 
 ### 6.6 Feature importance
 
-> **Key point:** The tree's `feature_importances_` shows which columns it relied on; for iris, petal width does almost all the work.
+> **Key point:** The tree's `feature_importances_` shows which features it relied on; for iris, petal width does almost all the work.
 
-The **feature importance** of a column (the [regression trees Note](../99-regression-trees/note.md), section 7.3) is its share of all the impurity reduction in the tree. Figure 5 shows it for the fully grown iris tree.
+The **feature importance** of a feature (the [regression trees Note](../99-regression-trees/note.md), section 7.5) is its share of all the impurity reduction in the tree. Figure 5 shows it for the fully grown iris tree.
 
 ![Feature importance of the fully grown iris tree](images/importance.png){height=24%}
 
-Petal width carries 0.923 of the total, petal length 0.064 and sepal width 0.013. Sepal length is never used. The exact values depend on the training data. In the Notebook, over 20 different training splits of iris, petal width and petal length always come first and second, but the two sepal columns swap places half of the time.
+Petal width carries 0.923 of the total, petal length 0.064 and sepal width 0.013. Sepal length is never used. The exact values depend on the training data. In the Notebook, over 20 different training splits of iris, petal width and petal length always come first and second, but the two sepal features swap places half of the time.
 
-> **Extra:** In dtreeviz 2.x, `viz.instance_feature_importance(x)` shows the importance computed only along one row's prediction path (dtreeviz README). The importance of the whole tree is the scikit-learn attribute `clf.feature_importances_`, which Figure 5 plots.
+> **Extra:** In dtreeviz 2.x, `viz.instance_feature_importance(x)` shows the importance computed only along one observation's prediction path (dtreeviz source, `trees.py`). The importance of the whole tree is the scikit-learn attribute `clf.feature_importances_`, which Figure 5 plots.
 
 ## 7. The whole tree on one plot
 
-> **Key point:** With one or two input columns, dtreeviz draws all the cuts of a regression tree directly over the data: a staircase in 2D, a step surface in 3D.
+> **Key point:** With one or two input features, dtreeviz draws all the cuts of a regression tree directly over the data: a staircase in 2D, a step surface in 3D.
 
 ### 7.1 One input: all cuts on one axis
 
-> **Key point:** Every split uses the same column, so all the cuts are vertical lines on one scatter plot.
+> **Key point:** Every split uses the same feature, so all the cuts are vertical lines on one scatter plot.
 
 The `cars.csv` sample data from dtreeviz lists 392 cars with their fuel use (**MPG**, miles per gallon), weight (**WGT**, pounds), engine size (**ENG**, cubic inches) and cylinders (**CYL**).
 
@@ -219,32 +219,34 @@ This picture is exactly the idea of the [regression trees Note](../99-regression
 | `viz.view()` | tree with histograms (classification) or scatter plots (regression) | Figures 2 and 3 |
 | `viz.view(scale=2)` | a bigger drawing | |
 | `viz.view(orientation="LR")` | left-to-right tree | Figure 4 |
-| `viz.view(x=row)` | highlights one row's prediction path | Figure 4 |
+| `viz.view(x=row)` | highlights one observation's prediction path | Figure 4 |
 | `viz.view(x=row, show_just_path=True)` | only the path's nodes | |
 | `viz.view(show_node_labels=True)` | node numbers (depth-first) | Figure 4 |
 | `viz.view(fancy=False)` | plain boxes, no histograms | |
-| `viz.explain_prediction_path(row)` | the path as one range per column | section 6.5 |
-| `clf.feature_importances_` | each column's share of the impurity reduction | Figure 5 |
+| `viz.explain_prediction_path(row)` | the path as one range per feature | section 6.5 |
+| `clf.feature_importances_` | each feature's share of the impurity reduction | Figure 5 |
 | `viz.rtree_feature_space(...)`, `viz.rtree_feature_space3D(...)` | all cuts of a regression tree over the data | Figures 6 and 7 |
 
-- scikit-learn's default drawing names columns by index and hides the data; dtreeviz shows names, data and thresholds together.
+- scikit-learn's default drawing names features by index and hides the data; dtreeviz shows names, data and thresholds together.
 - The depth-2 iris tree splits on petal width at 0.80 (50 setosa) and at 1.75 (54 mostly versicolor, 46 mostly virginica).
 - A regression split on the Boston data, RM $\le$ 6.94, predicts 19.93 (430 districts) or 37.24 (76 districts).
-- A prediction path shows exactly which questions decided one row's prediction.
+- A prediction path shows exactly which questions decided one observation's prediction.
 
-## Sources
+## 9. Sources
 
-- **dtreeviz README:** T. Parr et al., dtreeviz, README at github.com/parrt/dtreeviz (supported libraries and the 2.0 API).
-- **sklearn `plot_tree` reference:** scikit-learn API reference for `sklearn.tree.plot_tree` and `sklearn.tree.export_graphviz`.
+- **dtreeviz README:** T. Parr et al., dtreeviz, README at github.com/parrt/dtreeviz (supported libraries).
+- **dtreeviz 2.0.0 release notes:** github.com/parrt/dtreeviz/releases/tag/2.0.0 (the API re-organized around `dtreeviz.model`).
+- **dtreeviz source, `trees.py`:** class `DTreeVizAPI` in github.com/parrt/dtreeviz, file `dtreeviz/trees.py` (methods `view`, `explain_prediction_path`, `instance_feature_importance`, `rtree_feature_space`, `rtree_feature_space3D`).
+- **sklearn `plot_tree` reference:** scikit-learn API reference for `sklearn.tree.plot_tree` and `sklearn.tree.export_graphviz`. scikit-learn.org/stable/api/sklearn.tree.html
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
 | dtreeviz | A Python library that draws decision trees with the training data shown at every node |
 | Graphviz | The graph-drawing program (`dot`) that lays out tree diagrams for dtreeviz and export_graphviz |
 | export_graphviz | scikit-learn function that writes a tree as Graphviz DOT text |
-| Prediction path | The nodes a row passes through, from the root to the leaf that predicts it |
-| Pure leaf | A leaf whose training rows all belong to one class |
+| Prediction path | The nodes an observation passes through, from the root to the leaf that predicts it |
+| Pure leaf | A leaf whose training observations all belong to one class |
 | Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root |
 | cars.csv | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders |

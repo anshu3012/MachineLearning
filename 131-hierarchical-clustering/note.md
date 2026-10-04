@@ -32,7 +32,7 @@ This Note covers why we need it, how the merging works, the four ways to measure
 
 > **Key point:** k-means builds clusters around centroids, so it finds round blobs; rings, crescents, stretched groups and noise points defeat it.
 
-k-means assigns every point to its nearest centroid (the [k-means Note](../128-kmeans-intuition/note.md)). This works when the groups are compact and well separated. On harder shapes it fails, as Figure 2 shows on four standard test datasets:
+k-means assigns every point to its nearest centroid (the [k-means Note](../128-kmeans-intuition/note.md)). Nearest-centroid assignment works when the groups are compact and well separated. On harder shapes it fails, as Figure 2 shows on four standard test datasets:
 
 - **Two circles**, one inside the other. We want the inner ring and the outer ring; k-means cuts both rings in half, top against bottom.
 - **Two moons**, two interleaving crescents. k-means splits the picture with a straight boundary, so each cluster gets parts of both moons.
@@ -49,7 +49,7 @@ k-means does best on spherical (round) groups. Other clustering methods exist be
 
 There are two types:
 
-- **Agglomerative clustering** starts with every point as a cluster and merges, one step at a time, until one cluster is left. It is the common one, and the rest of this Note is about it.
+- **Agglomerative clustering** starts with every point as a cluster and merges, one step at a time, until one cluster is left. Agglomerative clustering is the common one, and the rest of this Note is about it.
 - **Divisive clustering** works the other way round: it starts with one cluster holding everything and splits it, step by step, until every point is alone. Section 6 sketches it.
 
 ## 5. Agglomerative clustering, merge by merge
@@ -95,7 +95,7 @@ So one run of the algorithm serves every number of clusters. Section 9 shows how
 
 Take the same six points. Divisive clustering starts with all six in a single cluster and splits it in two, for example {1, 2} and {3, 4, 5, 6}. Then it splits one of the parts again, giving 3 clusters, and so on, until there are 6 clusters of one point each.
 
-The result is the same kind of tree, read from the top down. It is used much less than agglomerative clustering.
+The result is the same kind of tree, read from the top down. Divisive clustering is used much less than agglomerative clustering.
 
 ## 7. The algorithm: the proximity matrix
 
@@ -121,13 +121,13 @@ Take five points: $P_1 = (1, 1)$, $P_2 = (2, 2)$, $P_3 = (5, 4)$, $P_4 = (6, 4)$
 
 The diagonal is 0: every point is at distance 0 from itself. The matrix is symmetric: the distance from P1 to P2 equals the distance from P2 to P1.
 
-The smallest value off the diagonal is 1.00, between P3 and P4, so they merge into a cluster $C_1 = \{P_3, P_4\}$. The matrix shrinks to 4 rows: P1, P2, $C_1$ and P5. The distances between unchanged points (P1 to P2, P1 to P5, P2 to P5) stay as they are. But what is the distance from $C_1$ to P1, P2 or P5? That depends on how we measure the distance between clusters, which is the subject of the next section.
+The smallest value off the diagonal is 1.00, between P3 and P4, so they merge into a cluster $C_1 = \{P_3, P_4\}$. The matrix shrinks to 4 rows: P1, P2, $C_1$ and P5. The distances between unchanged points (P1 to P2, P1 to P5, P2 to P5) stay as they are. But what is the distance from $C_1$ to P1, P2 or P5? The answer depends on how we measure the distance between clusters, which is the subject of the next section.
 
 ## 8. Linkage: the distance between two clusters
 
 > **Key point:** Single linkage uses the closest pair of points, complete the farthest pair, average the mean of all pairs, and Ward the growth in spread caused by merging.
 
-The rule for the distance between two clusters is called the **linkage**. It is the only thing that differs between the four types of agglomerative clustering in scikit-learn. Figure 3 shows all four.
+The rule for the distance between two clusters is called the **linkage**. The linkage is the only thing that differs between the four types of agglomerative clustering in scikit-learn. Figure 3 shows all four.
 
 ![The four linkages: how the distance between cluster A and cluster B is measured](images/linkages.png){height=55%}
 
@@ -142,7 +142,7 @@ The rule for the distance between two clusters is called the **linkage**. It is 
 
 With the updated matrix, the next smallest distance is 1.41 (P1 to P2), so they merge into $C_2 = \{P_1, P_2\}$. Then $C_1$ and $P_5$ merge at 2.00 into $C_3 = \{P_3, P_4, P_5\}$. Finally $C_2$ and $C_3$ merge at their closest pair, P2 to P3: 3.61.
 
-Single linkage separates groups well when there is a clear gap between them (Figure 4, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12). In Figure 4 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
+Single linkage separates groups well when there is a clear gap between them (Figure 4, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 4 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
 
 ### 8.2 Complete linkage (max)
 
@@ -153,7 +153,7 @@ Single linkage separates groups well when there is a clear gap between them (Fig
    $$d_{\text{complete}}(A, B) = \max_{a \in A,\, b \in B} d(a, b)$$
 3. **Example:** $C_1 = \{P_3, P_4\}$ to $P_5$ is $\max(2.24, 2.00) = 2.24$. At the last step, $\{P_1, P_2\}$ to $\{P_3, P_4, P_5\}$ is the largest of six distances: 7.07 (P1 to P5).
 
-Complete linkage copes well with outliers and noise: a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes. The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 4 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
+Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 4 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
 
 ### 8.3 Average linkage
 
@@ -165,11 +165,11 @@ Complete linkage copes well with outliers and noise: a stray point cannot pull t
 3. **Example:** $\{P_1, P_2\}$ to $\{P_3, P_4, P_5\}$ has $2 \times 3 = 6$ pairs:
    $$\frac{5.00 + 5.83 + 7.07 + 3.61 + 4.47 + 5.66}{6} = \frac{31.64}{6} = 5.27.$$
 
-The average lies between the minimum and the maximum, so average linkage behaves between single and complete linkage.
+The average lies between the minimum and the maximum, so average linkage is an in-between choice: neither single nor complete linkage (Tan et al. 2006, §8.3.2).
 
 ### 8.4 Ward linkage
 
-> **Key point:** Ward merges the two clusters whose merger increases the total squared distance to the centroids the least. It is scikit-learn's default.
+> **Key point:** Ward merges the two clusters whose merger increases the total squared distance to the centroids the least. Ward is scikit-learn's default.
 
 1. **In words:** compute the squared distances of all points of A and B to the centroid of the merged cluster, and add them. Subtract the squared distances of A's points to A's own centroid and of B's points to B's own centroid. What remains is how much the spread grows by merging.
 2. **Formula:** with $m_{AB}$, $m_A$ and $m_B$ the centroids of $A \cup B$, $A$ and $B$,
@@ -177,7 +177,7 @@ The average lies between the minimum and the maximum, so average linkage behaves
 3. **Example:** $A = \{P_3, P_4\}$, $B = \{P_5\}$. The merged centroid is $(17/3, 14/3) \approx (5.67, 4.67)$, and the squared distances to it are 0.89, 0.56 and 1.89, together 3.33. A's centroid is (5.5, 4), with squared distances 0.25 and 0.25, together 0.5; B is one point, so 0. Then
    $$\Delta = 3.33 - 0.5 - 0 = 2.83.$$
 
-Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1). Like average linkage, Ward sits between single and complete linkage.
+Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1; scikit-learn user guide, Hierarchical clustering). Of all four linkages, Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
 
 > **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$, here $\sqrt{2 \times 2.83} = 2.38$ (both print 2.38 for this merge). The square root does not change which pair is smallest, so the merges are the same.
 
@@ -199,7 +199,7 @@ So the linkage is a real choice that depends on the data. When the groups have o
 
 > **Key point:** Find the longest vertical stretch of the dendrogram that no horizontal line crosses, and cut through it.
 
-As with k-means, we do not know the number of clusters in advance, and high-dimensional data cannot be plotted. For k-means we had the elbow method; here the dendrogram does the job.
+As with k-means, we do not know the number of clusters in advance, and data with many **features** (input variables, the columns of the data table) cannot be plotted. For k-means we had the elbow method; here the dendrogram does the job.
 
 The vertical lines of a dendrogram measure distance between clusters: the longer the stretch before the next merge, the more separate those clusters are. The rule is:
 
@@ -208,11 +208,11 @@ The vertical lines of a dendrogram measure distance between clusters: the longer
 3. Cut horizontally through the middle of that stretch.
 4. The number of vertical lines the cut crosses is the number of clusters.
 
-Figure 5 is the Ward dendrogram of 200 shopping-mall customers (section 10). Ward merge heights near the top are 113.9, 245.7, 262.6, 394.9 and 405.7. The red band, from 113.9 to 245.7, is a gap of 131.8 with no merge inside. A cut at 180 crosses 5 vertical lines: 5 clusters.
+Figure 5 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized (the [standardization Note](../24-standardization/note.md)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 6).
 
-![Ward dendrogram of the 200 customers; the cut at 180 gives 5 clusters](images/dendrogram_cut.png){height=48%}
+![Ward dendrogram of the 200 customers (standardized features); the cut at 7 gives 5 clusters](images/dendrogram_cut.png){height=48%}
 
-> **Extra:** The rule is a guide, not a proof. The blue band in Figure 5, from 262.6 to 394.9, is almost exactly as wide (132.3), and a cut there gives 3 clusters. The scatter plot of the customers (Figure 6) shows five groups, so 5 is the better choice here; on data we cannot plot, both candidates are worth inspecting.
+> **Extra:** The rule is a guide, not a proof. The blue band in Figure 5, from 10.14 to 15.19, is nearly as long (5.04), and a cut there gives 3 clusters. On data we cannot plot, both candidates are worth inspecting. Scaling matters here too: on the raw, unscaled features the two bands swap order (131.8 against 132.3) and the rule would pick 3 clusters (Notebook). Standardizing gives both features the same say in the distances.
 
 ## 10. AgglomerativeClustering in scikit-learn
 
@@ -227,15 +227,15 @@ Figure 5 is the Ward dendrogram of 200 shopping-mall customers (section 10). War
 - **`n_clusters`**: how many clusters to return, i.e. where to cut the tree. Default 2.
 - **`metric`**: how to measure the distance between two points: `"euclidean"` (default), `"manhattan"`, `"cosine"`, `"l1"` or `"l2"`. Ward linkage accepts only Euclidean.
 - **`linkage`**: `"ward"` (default), `"complete"`, `"average"` or `"single"`.
-- **`distance_threshold`**: cut the tree at this height instead of at a number of clusters: clusters whose linkage distance is at or above the threshold are not merged. It needs `n_clusters=None`.
+- **`distance_threshold`**: cut the tree at this height instead of at a number of clusters: clusters whose linkage distance is at or above the threshold are not merged. `distance_threshold` needs `n_clusters=None`.
 
-> **Extra:** Older code and tutorials write `affinity="euclidean"`. scikit-learn renamed the parameter to `metric` in version 1.2 and removed `affinity` in 1.4, so the old name now raises a `TypeError` (scikit-learn release notes 1.2, 1.4).
+> **Extra:** Older code and tutorials write `affinity="euclidean"`. scikit-learn renamed the parameter to `metric` in version 1.2 and removed `affinity` in 1.4, so the old name now raises a `TypeError` (scikit-learn release notes 1.2).
 
 ### 10.2 Clustering shopping-mall customers
 
-> **Key point:** Two columns, annual income and spending score, give 5 clear groups of customers.
+> **Key point:** Two features, annual income and spending score, give 5 clear groups of customers.
 
-The file `data/shopping_data.csv` describes 200 customers of a shopping mall: ID, gender, age, annual income (thousand dollars) and spending score (1 to 100, given by the mall). We keep the last two columns.
+The file `data/shopping_data.csv` describes 200 customers of a shopping mall. Each customer is an **observation** (one record, a row of the table). The columns are ID, gender, age, annual income (thousand dollars) and spending score (1 to 100, given by the mall). We keep the last two columns as the features and standardize them.
 
 > **Python:** Dendrogram, then clusters.
 >
@@ -243,23 +243,26 @@ The file `data/shopping_data.csv` describes 200 customers of a shopping mall: ID
 > from scipy.cluster.hierarchy import linkage, dendrogram
 > from sklearn.cluster import AgglomerativeClustering
 >
-> data = customers.iloc[:, 3:5].values   # income, score
+> from sklearn.preprocessing import StandardScaler
 >
-> Z = linkage(data, method="ward")       # all 199 merges
+> data = customers.iloc[:, 3:5].values   # income, score
+> data_std = StandardScaler().fit_transform(data)
+>
+> Z = linkage(data_std, method="ward")   # all 199 merges
 > d = dendrogram(Z, no_plot=True)        # tree coordinates
 >
 > cluster = AgglomerativeClustering(
 >     n_clusters=5, metric="euclidean", linkage="ward")
-> labels_ = cluster.fit_predict(data)
+> labels_ = cluster.fit_predict(data_std)
 > ```
 >
 > `linkage` returns one row per merge: the two clusters merged, the distance and the new size. `dendrogram(..., no_plot=True)` only computes the line coordinates (`icoord`, `dcoord`), which the Notebook draws with Plotly.
 
-The five clusters have 32, 85, 39, 21 and 23 customers (Figure 6):
+The five clusters have 32, 39, 85, 21 and 23 customers (Figure 6):
 
 - high income, low spending (blue);
-- average income, average spending (orange, the largest group);
-- high income, high spending (green): the mall's best customers;
+- high income, high spending (orange): the mall's best customers;
+- average income, average spending (green, the largest group);
 - low income, high spending (red);
 - low income, low spending (purple).
 
@@ -274,11 +277,11 @@ A marketing team could now treat each group differently. The same method could, 
 Strengths:
 
 - **Widely applicable:** with four linkages to choose from, it can cluster data that k-means cannot.
-- **The dendrogram:** it shows, at every level, which point or group is closest to which. k-means only says which cluster a point is in, not which other points are its closest relatives.
+- **The dendrogram:** the tree shows, at every level, which point or group is closest to which. k-means only says which cluster a point is in, not which other points are its closest relatives.
 
 Limitation:
 
-- **Big datasets:** the proximity matrix has $n \times n$ entries. With $10^6$ (ten lakh) points that is $10^{12}$ distances. At 8 bytes per number that is 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets.
+- **Big datasets:** the proximity matrix has $n \times n$ entries. With $10^6$ (ten lakh) points the matrix holds $10^{12}$ distances. At 8 bytes per number, $10^{12}$ distances take 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets.
 
 ## 12. Summary
 
@@ -292,17 +295,19 @@ Limitation:
 - Agglomerative clustering: every point starts as a cluster; merge the two closest clusters until one is left. Divisive clustering does the reverse.
 - The proximity matrix holds the distance between every pair of clusters and is updated after each merge.
 - The dendrogram records every merge at its distance; a horizontal cut gives the clusters.
-- Choose the cut in the longest vertical stretch no horizontal line crosses; it is a guide.
+- Choose the cut in the longest vertical stretch no horizontal line crosses; the rule is a guide. Standardize the features first.
 - scikit-learn: the class `AgglomerativeClustering` with `n_clusters`, `metric` and `linkage`; `metric` replaced `affinity`.
 - Memory grows with $n^2$, so big datasets are out of reach.
 
-## Sources
+## 13. Sources
 
 - ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.12 (hierarchical clustering; chaining in single linkage).
 - Ester et al. 1996: M. Ester, H.-P. Kriegel, J. Sander and X. Xu, *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise*, Proceedings of KDD 1996.
-- scikit-learn release notes 1.2, 1.4: deprecation of `affinity` in favour of `metric` in `AgglomerativeClustering` (1.2) and its removal (1.4).
+- Tan et al. 2006: P.-N. Tan, M. Steinbach and V. Kumar, *Introduction to Data Mining*, Pearson, 2006, §8.3.2 (strengths and weaknesses of single, complete and group-average linkage).
+- scikit-learn user guide, Hierarchical clustering: section 2.3.6 of the scikit-learn 1.9 user guide (Ward and the k-means objective; cluster sizes by linkage).
+- scikit-learn release notes 1.2: scikit-learn 1.2 changelog, `sklearn.cluster` (`affinity` deprecated in favour of `metric`, removal in 1.4).
 
-## 13. Key terms
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|

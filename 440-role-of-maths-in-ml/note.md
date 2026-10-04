@@ -38,7 +38,7 @@ An ML model predicts something, and its predictions are never exactly right. The
 
 Most optimisation methods are built on calculus. The derivative of the error tells us in which direction to change each part of the model so the error goes down. [Gradient descent](../57-gradient-descent/note.md) does exactly this, one small step at a time.
 
-> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the irreducible error (ISLR §2.1.1). So a perfect score usually means a mistake, such as test data leaking into training (data leakage, see the [toy project Note](../13-toy-project/note.md); Kaufman et al. 2012).
+> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the irreducible error (ISLR §2.1.1). So a perfect score often signals a mistake, such as test data leaking into training (data leakage, see the [toy project Note](../13-toy-project/note.md); Kaufman et al. 2012).
 
 Calculus first appears in the [linear regression maths Note](../51-linear-regression-maths/note.md), where a derivative set to zero gives the best line. Differential calculus gets its own treatment in a later maths Note.
 
@@ -50,7 +50,7 @@ Often the data leaves a grey zone, where no answer is certain. Suppose we want t
 
 Probability still lets us decide. If 40% of the people in that range are men and 60% are women, then for a new person earning 4.5 lakh rupees the more likely answer is "woman", and that is what we predict. The chances inside one range add up to 100%.
 
-This is how probabilistic classifiers such as [Naive Bayes](../87-naive-bayes-intuition/note.md) work: compute the probability of every class, then pick the largest. The rules of probability are taught from the [random experiments and events Note](../330-events-and-types-of-events/note.md) to the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md), and [Bayes' theorem](../85-bayes-theorem/note.md) builds on them.
+Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../87-naive-bayes-intuition/note.md) work: compute the probability of every class, then pick the largest. The rules of probability are taught from the [random experiments and events Note](../330-events-and-types-of-events/note.md) to the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md), and [Bayes' theorem](../85-bayes-theorem/note.md) builds on them.
 
 ## 5. Statistics: drawing conclusions from data
 
@@ -63,7 +63,7 @@ In real work, nobody hands us a dataset with a list of questions. We get the dat
 - **Is there an outlier?** One value far from all the others can mislead a model (see the [outliers Note](../41-what-are-outliers/note.md)).
 - **Is the data noisy?** Statistics helps us spot noisy data.
 - **Which algorithm suits this data?** The shape of the data points to suitable algorithms.
-- **Is this column related to the output?** If not, there is no reason to feed it to the algorithm. Measures such as [correlation](../231-covariance-and-correlation/note.md) answer this.
+- **Is this feature related to the target?** A **feature** is an input variable (one column of the data table), and the **target** is the output we predict. If a feature is unrelated to the target, there is no reason to feed it to the algorithm. Measures such as [correlation](../231-covariance-and-correlation/note.md) answer this.
 
 Data analysis, which ML depends on heavily, is built almost entirely on statistics (see the [understanding your data Note](../19-understanding-your-data/note.md)). The [statistics roadmap Note](../210-statistics-roadmap/note.md) maps the whole subject.
 
@@ -74,17 +74,17 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 | Linear algebra | Represent data and act on it | A table as a matrix | [Vectors Note](../360-vectors-and-feature-vectors/note.md), [tensors Note](../11-tensors/note.md) |
 | Calculus | Reduce the error (optimisation) | Gradient descent | [Gradient descent Note](../57-gradient-descent/note.md) |
 | Probability | Decide under uncertainty | Pick the more likely class | [Events Note](../330-events-and-types-of-events/note.md) onward |
-| Statistics | Draw conclusions from data | Find outliers, related columns | [Roadmap Note](../210-statistics-roadmap/note.md) |
+| Statistics | Draw conclusions from data | Find outliers, related features | [Roadmap Note](../210-statistics-roadmap/note.md) |
 
 - ML is mathematics running on data; four branches carry most of it.
 - Statistics is used the most; linear algebra does the heavy lifting of storing and transforming data.
 
-## Sources
+## 7. Sources
 
 - James, G., Witten, D., Hastie, T. and Tibshirani, R. (2013). *An Introduction to Statistical Learning*. Springer. Section 2.1.1, reducible and irreducible error.
 - Kaufman, S., Rosset, S. and Perlich, C. (2012). "Leakage in Data Mining: Formulation, Detection, and Avoidance". *ACM Transactions on Knowledge Discovery from Data* 6(4).
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

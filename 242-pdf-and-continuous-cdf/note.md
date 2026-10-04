@@ -58,13 +58,13 @@ Shrinking a range shows it with numbers. For the CGPA curve of Figure 2, the pro
 | 0.01 | 0.00264 | 0.2639 |
 | 0.001 | 0.000264 | 0.2642 |
 
-So a graph of "probability at each $x$" would be flat at 0 everywhere and tell us nothing. The last column, however, settles on a number: 0.264. That number is the density at 8 (Section 5).
+So a graph of "probability at each $x$" would be flat at 0 everywhere and tell us nothing. The last column, however, settles on a number: 0.264. The settled value, 0.264, is the density at 8 (Section 5).
 
 ## 4. Area under the curve is probability
 
 > **Key point:** The total area under a PDF is 1; the area between two values $a$ and $b$ is the probability that the variable falls between them.
 
-The whole area under the CGPA curve stands for the probability that a student's CGPA is somewhere between 0 and 10. That is certain, so the **total area under every PDF is 1**.
+The whole area under the CGPA curve stands for the probability that a student's CGPA is somewhere between 0 and 10. A CGPA somewhere in that range is certain, so the **total area under every PDF is 1**.
 
 A slice of the area gives a smaller probability. The area between 8 and 9 is the probability of a CGPA between 8 and 9 (Figure 2, left). Since the curve is not a rectangle, the area is found by **integration**, which adds up the area of infinitely many infinitely thin strips under the curve.
 
@@ -110,7 +110,7 @@ The density $f(x)$ is what probability turns into when we divide by the width of
 
 So for practical purposes a higher curve still means "more likely around here", and we can compare densities at two points the way we compare probabilities. Strictly, though, the height is never a probability itself.
 
-This is the same idea as the density histogram of Figure 1. A density bar has height "share of the data in the bin divided by the bin width", so its area is the share. As the bins narrow, those heights become $f(x)$.
+The density histogram of Figure 1 rests on the same idea. A density bar has height "share of the data in the bin divided by the bin width", so its area is the share. As the bins narrow, those heights become $f(x)$.
 
 > **Extra:** Because a density is probability **per unit**, it can be larger than 1 (see the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)). A uniform distribution on 0 to 0.5 has height 2 everywhere: width 0.5 times height 2 gives the required area of 1. A probability can never exceed 1; a density can.
 
@@ -158,7 +158,7 @@ The CDF of a continuous variable has no steps: it rises smoothly, steepest where
 
 > **Extra:** The CDF turns any range into a subtraction: $P(a < X \le b) = F(b) - F(a)$. Heights between 155 and 175 cm, one standard deviation either side of the mean:
 > $$P(155 < X \le 175) = F(175) - F(155) = 0.841 - 0.159 = 0.683$$
-> This is the 68% of the 68-95-99.7 rule (see the [z-score outliers Note](../42-outliers-zscore/note.md)).
+> The result, 0.683, is the 68% of the 68-95-99.7 rule (see the [z-score outliers Note](../42-outliers-zscore/note.md)).
 
 ## 8. How the PDF and CDF are linked
 
@@ -195,11 +195,11 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 - Poisson is discrete (PMF); normal and log-normal are continuous (PDF).
 - The CDF of a continuous variable rises smoothly from 0 to 1.
 
-## Sources
+## 10. Sources
 
 - SciPy documentation, `scipy.stats.lognorm` and `scipy.stats.poisson`.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -14,9 +14,9 @@ title: "Feature Scaling: Standardization"
 
 ## 1. Overview
 
-> **Key point:** Standardization rescales every input column so that its mean is 0 and its standard deviation is 1: subtract the mean, then divide by the standard deviation.
+> **Key point:** Standardization rescales every feature so that its mean is 0 and its standard deviation is 1: subtract the mean, then divide by the standard deviation.
 
-Feature scaling brings input columns that live on very different ranges, such as age and salary, onto a similar range. It has two main techniques: standardization and normalization. This Note covers standardization; normalization comes in the next Note.
+Feature scaling brings **features** (input variables, one column each of the data table) that live on very different ranges, such as age and salary, onto a similar range. Feature scaling has two main techniques: standardization and normalization. This Note covers standardization; normalization comes in the next Note.
 
 Figure 1 shows the whole topic. Standardization is two moves done one after the other: shift the column so its mean is 0, then shrink or stretch it so its standard deviation is 1.
 
@@ -24,11 +24,11 @@ Figure 1 shows the whole topic. Standardization is two moves done one after the 
 
 ## 2. Feature scaling, in brief
 
-> **Key point:** Feature scaling brings the input columns to a similar range, so a column with big numbers does not drown out one with small numbers.
+> **Key point:** Feature scaling brings the features to a similar range, so a feature with big numbers does not drown out one with small numbers.
 
-Feature scaling brings the input columns of a dataset into a similar range. The [toy project Note](../13-toy-project/note.md) (section "Scaling the inputs") shows why: algorithms such as KNN measure distances, so salary differences in thousands swamp age differences in tens. Two points are new here:
+Feature scaling brings the features of a dataset into a similar range. The [toy project Note](../13-toy-project/note.md) (section "Scaling the inputs") shows why: algorithms such as KNN measure distances, so salary differences in thousands swamp age differences in tens. Two points are new here:
 
-- Only the input columns are scaled, never the target.
+- Only the features are scaled, never the **target** (the output we predict).
 - Scaling is usually the last step of feature engineering: we first handle missing values, transform columns and deal with categories, then scale just before giving the data to the model.
 
 ## 3. Types of feature scaling
@@ -38,7 +38,7 @@ Feature scaling brings the input columns of a dataset into a similar range. The 
 There are two main types:
 
 1. **Standardization**, the subject of this Note.
-2. **Normalization**, which has several techniques of its own. The main one is **min-max scaling**; another is the **robust scaler**, which copes well with outliers. They are covered in the next Note.
+2. **Normalization**, which has several techniques of its own. The main one is **min-max scaling**; another is the **robust scaler**, which copes well with outliers. Both are covered in the next Note.
 
 Standardization is sometimes called **z-score normalization** in ML writing, because each scaled value is a **z-score**. The two names mean the same technique.
 
@@ -46,7 +46,7 @@ Standardization is sometimes called **z-score normalization** in ML writing, bec
 
 > **Key point:** Each value is replaced by its distance from the column's mean, measured in standard deviations.
 
-Take a column `age` holding the ages of 500 customers (and the data has a salary column too). To standardize `age`, we compute a new value for every row, one by one.
+Take a column `age` holding the ages of 500 customers (and the data has a salary column too). To standardize `age`, we compute a new value for every **observation** (one record, one row of the table), one by one.
 
 **Standardization**, step by step:
 
@@ -103,7 +103,7 @@ The data is the Social Network Ads file: 400 users of a social network, and whet
 | 35 | 20,000 | 0 |
 | 26 | 43,000 | 0 |
 
-`Age` and `EstimatedSalary` are the inputs; `Purchased` (1 = bought, 0 = did not) is the target. So this is a classification problem.
+`Age` and `EstimatedSalary` are the features; `Purchased` (1 = bought, 0 = did not) is the target. So this is a classification problem.
 
 > **Python:** Loading the data and keeping three columns.
 >
@@ -235,16 +235,19 @@ Only the numbers under the curve change: the mean becomes 0 and the standard dev
 
 ## 8. Why scaling matters: an experiment
 
-> **Key point:** On this data, logistic regression goes from 65.8% to 86.7% accuracy after scaling, while a decision tree gets 87.5% either way.
+> **Key point:** On this data, scaling lifts KNN from 82.5% to 91.7% accuracy and logistic regression from 65.8% to 86.7%, while a decision tree gets 87.5% either way.
 
-We train the same algorithm twice: once on the raw data, once on the standardized data. Then we compare the accuracy on the test set.
+Think of judging two runners, one timed in seconds and one in milliseconds: until the units match, the bigger numbers win by default. We train the same algorithm twice: once on the raw data, once on the standardized data. Then we compare the accuracy on the test set.
 
 | Algorithm | Raw data | Standardized data |
 |---|---|---|
+| KNN (5 neighbours) | 82.5% | 91.7% |
 | Logistic regression | 65.8% | 86.7% |
 | Decision tree | 87.5% | 87.5% |
 
-For **logistic regression**, scaling raised the accuracy from about 66% to about 87%. This one experiment shows why scaling matters for such algorithms.
+For **KNN**, which measures distances, scaling raised the accuracy from 82.5% to 91.7%. On raw data, salary differences in thousands decide the distance alone; after scaling, age counts too (scikit-learn examples, "Importance of Feature Scaling").
+
+For **logistic regression**, scaling raised the accuracy from about 66% to about 87%. The Extra below shows the cause: training by small downhill steps barely moves on raw data.
 
 For a **decision tree**, scaling made no difference at all. A decision tree does not depend on the scale of the columns, for reasons that become clear in the Notes on decision trees.
 
@@ -314,7 +317,7 @@ Standardizing rarely does harm, but for the algorithms below we should always do
 **Algorithms that need scaling:**
 
 - **K-means** and **KNN** (k-nearest neighbours): both compute the Euclidean distance between points. If one column's numbers are much bigger, it dominates the distance and the results are poor.
-- **PCA** (principal component analysis): it looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred.
+- **PCA** (principal component analysis): PCA looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred.
 - **Gradient descent**, and every algorithm trained with it: linear regression, logistic regression and neural networks (deep learning).
 
 Gradient descent (taught in the [gradient descent Note](../57-gradient-descent/note.md)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily.
@@ -326,7 +329,7 @@ Gradient descent (taught in the [gradient descent Note](../57-gradient-descent/n
 - gradient boosting;
 - XGBoost.
 
-These algorithms only compare values within one column, asking questions like "is age greater than 40?". They never compute a distance or add up different columns, so the scale of the columns does not matter. Scaling them does no harm, but makes no difference either.
+Tree-based algorithms only compare values within one feature, asking questions like "is age greater than 40?". They never compute a distance or add up different columns, so the scale of the columns does not matter. Scaling them does no harm, but makes no difference either.
 
 > **Extra:** Why a tree does not care. Suppose a tree splits on "age > 40". After standardization, the same split becomes "scaled age > 0.21", which is $(40 - 37.86)/10.20$. Exactly the same users fall on each side, so the tree makes exactly the same predictions.
 
@@ -342,27 +345,31 @@ These algorithms only compare values within one column, asking questions like "i
 
 | Algorithm | Needs scaling? | Why |
 |---|---|---|
-| KNN, K-means | yes | Euclidean distance |
+| KNN, K-means | yes | Euclidean distance (KNN: 82.5% to 91.7% here) |
 | PCA | yes | looks for the largest variance; needs mean centring |
 | Linear regression, logistic regression, neural networks | yes | trained with gradient descent |
 | Decision tree, random forest, gradient boosting, XGBoost | no | only compare values within one column |
 
-- Feature scaling is usually the last step before the model, and only the inputs are scaled.
+- Feature scaling is usually the last step before the model, and only the features are scaled.
 - Standardization: $x' = (x - \bar{x}) / \sigma$, giving mean 0 and standard deviation 1.
 - Geometrically: mean centring, then squeezing or stretching each axis to standard deviation 1.
 - Split first; fit the scaler on the training set only; transform both sets.
 - Standardization keeps the shape of the data and does not remove outliers.
-- On the ads data, logistic regression went from 65.8% to 86.7% accuracy; a decision tree stayed at 87.5%.
+- On the ads data, KNN went from 82.5% to 91.7% accuracy and logistic regression from 65.8% to 86.7%; a decision tree stayed at 87.5%.
 
-## Sources
+## 12. Sources
 
+- scikit-learn examples. Importance of Feature Scaling. scikit-learn.org (auto_examples/preprocessing).
 - scikit-learn documentation. `sklearn.linear_model.LogisticRegression` (note on the `sag` and `saga` solvers). scikit-learn.org.
 - scikit-learn documentation. `sklearn.preprocessing.StandardScaler`. scikit-learn.org.
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
 | Standardization | Scaling a column by subtracting its mean and dividing by its standard deviation, so it gets mean 0 and std 1 |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean |
 | Z-score normalization | Another name for standardization |

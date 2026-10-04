@@ -20,7 +20,7 @@ The [backpropagation what Note](../1015-backpropagation-what/note.md) and the [b
 
 $$W_{\text{new}} = W_{\text{old}} - \eta\,\frac{\partial L}{\partial W}$$
 
-This Note explains why that line works. It reuses ideas from earlier Notes (derivatives, gradients, minima, the learning rate) and applies them to the 2-2-1 regression network.
+This Note explains why that line works. The Note reuses ideas from earlier Notes (derivatives, gradients, minima, the learning rate) and applies them to the 2-2-1 regression network.
 
 ![The loss as a function of the output bias $b_{21}$ alone, and 10 updates of $b_{21}$ from $-5$ with four learning rates](images/lr_paths.png){height=58%}
 
@@ -42,11 +42,11 @@ Putting in what $O_{11}$ and $O_{12}$ are writes the whole network as one formul
 
 $$\hat{y} = W^{2}_{11}\big(W^{1}_{11} x_{i1} + W^{1}_{21} x_{i2} + b_{11}\big) + W^{2}_{21}\big(W^{1}_{12} x_{i1} + W^{1}_{22} x_{i2} + b_{12}\big) + b_{21}$$
 
-In this formula $x_{i1}$ and $x_{i2}$ (CGPA and profile score) are data, so constants. Everything else is a parameter:
+In this formula $x_{i1}$ and $x_{i2}$ are the two **features** of student $i$ (input variables, one column of the data table each: CGPA and profile score), so they are constants. Everything else is a parameter:
 
 $$L = L\big(W^{1}_{11}, W^{1}_{12}, W^{1}_{21}, W^{1}_{22}, b_{11}, b_{12}, W^{2}_{11}, W^{2}_{21}, b_{21}\big)$$
 
-$y = f(x)$ is a function of one variable; the loss is a function of nine. Picture the network as a box with 9 knobs: turning any of them changes the loss, and training turns all of them until the loss is as small as possible. This is the general idea of section 2 of the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), for this network.
+$y = f(x)$ is a function of one variable; the loss is a function of nine. Picture the network as a box with 9 knobs: turning any of them changes the loss, and training turns all of them until the loss is as small as possible. The knob picture is the general idea of section 2 of the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), for this network.
 
 ## 4. What the gradient is
 
@@ -56,7 +56,7 @@ For a function of one variable, such as $y = x^2 + x$, the derivative is $dy/dx 
 
 So "computing the gradient of the loss" means computing its 9 partial derivatives, one per knob: exactly the 9 formulas of the [backpropagation what Note](../1015-backpropagation-what/note.md). Geometrically, each one is the slope of the loss along one of 9 directions.
 
-> **Extra:** A gradient is more than "a fancy word for a derivative". It is the vector of all partial derivatives, and as an arrow it points in the direction in which the loss rises fastest (section 4.2 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). Gradient descent steps along the opposite arrow, which is where its name comes from.
+> **Extra:** A gradient is more than "a fancy word for a derivative". The gradient is the vector of all partial derivatives, and as an arrow it points in the direction in which the loss rises fastest (section 4.2 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). Gradient descent steps along the opposite arrow, which is where its name comes from.
 
 ## 5. What a derivative tells us
 
@@ -88,7 +88,7 @@ To see the update in action, freeze 8 of the 9 parameters at their starting valu
 
 $$L(b_{21}) = \big(4 - (0.32 + b_{21})\big)^2 = (3.68 - b_{21})^2$$
 
-This is a parabola with its lowest point at $b_{21} = 3.68$ (Figure 1). Its slope is
+The loss $L(b_{21})$ is a parabola with its lowest point at $b_{21} = 3.68$ (Figure 1). Its slope is
 
 $$\frac{\partial L}{\partial b_{21}} = -2(3.68 - b_{21})$$
 
@@ -117,12 +117,12 @@ Figure 1 runs 10 updates with four learning rates:
 
 - $\eta = 0.01$: $-5,\ -4.83,\ -4.66,\ -4.49, \dots$, and $-3.41$ after 10 steps. Tiny steps: slow.
 - $\eta = 0.1$: $-5,\ -3.26,\ -1.88,\ -0.76, \dots$, and 2.75 after 10 steps. The steps shrink as the slope flattens, and $b_{21}$ converges to 3.68.
-- $\eta = 1$: $-5,\ 12.36,\ -5,\ 12.36, \dots$ It zigzags across the bowl forever.
-- $\eta = 1.1$: $-5,\ 14.10,\ -8.82,\ 18.68, \dots$, and $-50.06$ after 10 steps. Each jump overshoots more: it diverges.
+- $\eta = 1$: $-5,\ 12.36,\ -5,\ 12.36, \dots$ The value zigzags across the bowl forever.
+- $\eta = 1.1$: $-5,\ 14.10,\ -8.82,\ 18.68, \dots$, and $-50.06$ after 10 steps. Each jump overshoots more: the updates diverge.
 
 Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag into small steps. As we near the minimum the slope shrinks, so the steps shrink with it. Too small a learning rate wastes time; too large overshoots and can run away. The learning rate is a hyperparameter to tune (see section 5 of the [gradient descent Note](../57-gradient-descent/note.md)).
 
-> **Extra:** On this parabola the update is $b_{21} - 3.68 \leftarrow (1 - 2\eta)(b_{21} - 3.68)$: each step multiplies the distance to the minimum by $1 - 2\eta$. That factor is 0.8 for $\eta = 0.1$ (shrinks), $-1$ for $\eta = 1$ (same size, flipped side), and $-1.2$ for $\eta = 1.1$ (grows). Any $\eta$ above 1 diverges here; how large a rate is safe depends on how steep the loss is.
+> **Extra:** On this parabola the update is $b_{21} - 3.68 \leftarrow (1 - 2\eta)(b_{21} - 3.68)$: each step multiplies the distance to the minimum by $1 - 2\eta$. The factor is 0.8 for $\eta = 0.1$ (shrinks), $-1$ for $\eta = 1$ (same size, flipped side), and $-1.2$ for $\eta = 1.1$ (grows). Any $\eta$ above 1 diverges here; how large a rate is safe depends on how steep the loss is.
 
 In the real network all 9 parameters move at once, each against its own slope. The loss surface has 9 dimensions instead of one, but the reasoning is the same along every direction.
 
@@ -130,7 +130,7 @@ In the real network all 9 parameters move at once, each against its own slope. T
 
 > **Key point:** At the minimum the slope is zero, so $W_{\text{new}} = W_{\text{old}}$: updates stop changing anything. In practice we run a fixed number of epochs.
 
-The algorithm has **converged** when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. That happens when $\eta\,\partial L/\partial W \approx 0$, that is, when the slope is close to zero: we are at a minimum.
+The algorithm has **converged** when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. Convergence happens when $\eta\,\partial L/\partial W \approx 0$, that is, when the slope is close to zero: we are at a minimum.
 
 So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the stopping rules of section 2.3 of the [gradient descent Note](../57-gradient-descent/note.md)).
 

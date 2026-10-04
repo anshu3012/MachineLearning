@@ -14,7 +14,7 @@ title: "Naive Bayes Foundations: Independent Events"
 
 > **Key point:** Two events are independent when knowing one happened does not change the probability of the other: P(A | B) = P(A). Equivalently, P(A ∩ B) = P(A) × P(B).
 
-This Note and the next cover two ideas that are often confused: **independent events** and **mutually exclusive events**. Naive Bayes relies on the first: its "naive" assumption is that the inputs are independent of each other. Knowing exactly what independence means makes that assumption easy to understand.
+This Note and the next cover two ideas that are often confused: **independent events** and **mutually exclusive events**. Naive Bayes relies on the first: its "naive" assumption is that the **features** (the input variables, one column each of the data table) are independent of each other. Knowing exactly what independence means makes that assumption easy to understand.
 
 ## 2. The definition
 
@@ -49,7 +49,7 @@ From the conditional probability Note, $P(A \mid B) = P(A \cap B) / P(B)$. If $A
 
 $$P(A \mid B) = \frac{P(A) \times P(B)}{P(B)} = P(A)$$
 
-Knowing $B$ happened leaves the probability of $A$ exactly as it was. The same argument gives $P(B \mid A) = P(B)$. This is the intuition behind the definition: independence means information about one event tells us nothing about the other.
+Knowing $B$ happened leaves the probability of $A$ exactly as it was. The same argument gives $P(B \mid A) = P(B)$. An unchanged probability is the intuition behind the definition: independence means information about one event tells us nothing about the other.
 
 > **Extra:** The same result can be seen by counting. For independent events, the share of $B$'s outcomes that also belong to $A$ (that is, $n(A \cap B) / n(B)$, the conditional probability) equals the share of the whole sample space that belongs to $A$ ($n(A) / n$). In the dice example, 1 of die 1's six "3" outcomes has die 2 = 6, and 6 of all 36 outcomes do: both $1/6$.
 
@@ -68,9 +68,9 @@ Checking with the definition for $C$ = "sum at least 10" and $D$ = "die 1 shows 
 
 ## 6. Why Naive Bayes cares
 
-> **Key point:** Naive Bayes assumes the inputs are independent given the class, so that their probabilities can simply be multiplied.
+> **Key point:** Naive Bayes assumes the features are independent given the class, so that their probabilities can simply be multiplied.
 
-With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses this to combine evidence: for an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification works well in practice: the assumption adds a little bias but removes a lot of variance (ISL §4.4.4; the Naive Bayes intuition Note).
+With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence. The **target** (the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (ISL §4.4.4; the Naive Bayes intuition Note).
 
 ## 7. Summary
 

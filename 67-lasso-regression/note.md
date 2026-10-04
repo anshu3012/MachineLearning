@@ -14,9 +14,9 @@ title: "Lasso Regression"
 
 ## 1. Overview
 
-> **Key point:** Lasso is Ridge with the squares in the penalty replaced by absolute values. That one change lets it push coefficients to exactly 0, so it also removes useless inputs: automatic feature selection.
+> **Key point:** Lasso is Ridge with the squares in the penalty replaced by absolute values. That one change lets it push coefficients to exactly 0, so it also removes useless **features** (input variables, the columns of the data table): automatic feature selection.
 
-**Lasso regression** is the second regularised version of linear regression. It is also called **L1 regularisation**. Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient:
+**Lasso regression** is the second regularised version of linear regression, also called **L1 regularisation**. Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient:
 
 $$L = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
@@ -28,15 +28,15 @@ $$L = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
 LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
 
-This Note shows what Lasso does with one input, with a flexible polynomial, and with the 10-input diabetes data, and why its coefficients can reach exactly 0.
+This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations**, that is, records or rows; the **target** we predict is disease progression), and why its coefficients can reach exactly 0.
 
-## 2. One input: the slope reaches exactly 0
+## 2. One feature: the slope reaches exactly 0
 
 > **Key point:** As alpha grows, the Lasso slope falls in a straight line and stops at exactly 0.
 
-Figure 1 fits Lasso to the 100-point example of the Ridge Notes. scikit-learn calls the penalty strength `alpha`.
+Figure 1 fits Lasso to the 100-observation example of the Ridge Notes. scikit-learn calls the penalty strength `alpha`.
 
-![Lasso with one input: fitted lines and the slope against alpha](images/one_input.png){height=45%}
+![Lasso with one feature: fitted lines and the slope against alpha](images/one_input.png){height=45%}
 
 | alpha | Slope | Intercept |
 |---|---|---|
@@ -46,7 +46,7 @@ Figure 1 fits Lasso to the 100-point example of the Ridge Notes. scikit-learn ca
 | 20 | 4.80 | $-0.95$ |
 | 25 and above | 0 | $-0.67$ |
 
-From alpha 24.17 on, the slope is exactly 0. The line is then flat at the average of $y$ ($-0.67$): the input no longer plays any part. With Ridge, the slope only approached 0 (the Ridge maths Note).
+From alpha 24.17 on, the slope is exactly 0. The line is then flat at the average of $y$ ($-0.67$): the feature no longer plays any part. With Ridge, the slope only approached 0 (the Ridge maths Note).
 
 > **Extra:** scikit-learn's `Lasso` minimises $\frac{1}{2n}\sum(y_i - \hat{y}_i)^2 + \alpha\sum|\beta_j|$ (scikit-learn docs, `Lasso`): it averages the squared error and halves it. So its `alpha` is on a different scale from the $\lambda$ of the formula above, and from `Ridge`'s `alpha`. The values of alpha for Ridge and Lasso cannot be compared directly.
 
@@ -68,30 +68,32 @@ Figure 2 fits a degree-16 polynomial to 100 points made from $y = 0.7x^2 - 2x + 
 | 0.1 | $x$, $x^2$ |
 | 1 | $x$ |
 
-Lasso found which of the 16 columns matter without being told.
+Lasso found which of the 16 power features matter without being told.
 
 ## 4. Feature selection
 
-> **Key point:** Coefficients that reach 0 remove their inputs from the model. So Lasso selects features while it trains.
+> **Key point:** Coefficients that reach 0 remove their features from the model. So Lasso selects features while it trains.
 
-A coefficient of exactly 0 means that input has no effect on the predictions, so the column can be dropped. This makes Lasso a tool for feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)), useful when there are many columns and some of them do not matter.
+A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. Zero coefficients make Lasso a tool for feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
 
-Figure 3 trains Lasso on the 10-input diabetes data (test size 0.2, random state 2).
+Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2).
 
 ![Diabetes coefficients for alpha 0, 0.1, 1 and 10, on the same scale](images/bars.png){height=50%}
 
-| alpha | Coefficients at 0 | Inputs kept | Test R² |
+| alpha | Coefficients at 0 | Features kept | Test R² |
 |---|---|---|---|
 | 0 | 0 | all 10 | 0.44 |
 | 0.1 | 3 | 7 (age, s2, s4 dropped) | 0.43 |
 | 1 | 7 | bmi, bp, s5 | 0.33 |
 | 10 | 10 | none | $-0.01$ |
 
-At alpha 0.1, Lasso drops three inputs and loses almost no accuracy (0.43 against 0.44). At alpha 1, it keeps only bmi, bp and s5, the three most useful inputs here: among all 120 possible sets of three inputs, these three give plain linear regression the best cross-validated R² (0.485). At alpha 10, it removes everything: underfitting.
+At alpha 0.1, Lasso drops three features and loses almost no accuracy (0.43 against 0.44). At alpha 1, Lasso keeps only bmi, bp and s5, the three most useful features here. At alpha 10, Lasso removes everything: underfitting.
 
-Ridge cannot do this. It shrinks an unhelpful coefficient to, say, 0.2, but the column stays in the model.
+Ridge cannot do this. Ridge shrinks an unhelpful coefficient to, say, 0.2, but the feature stays in the model.
 
-> **Extra:** Feature selection is why Lasso is often preferred when the data has many columns, some of which are probably irrelevant: Lasso tends to do best when only a few inputs really matter (ISL §6.2.2). Fewer columns also means a simpler model that is easier to explain (ISL §6.2.2).
+> **Extra:** Why call bmi, bp and s5 the most useful three? Among all 120 possible sets of three features, these three give plain linear regression the best cross-validated R² (0.485).
+
+> **Extra:** Feature selection is why Lasso is often preferred when the data has many columns, some of which are probably irrelevant: Lasso tends to do best when only a few features really matter (ISL §6.2.2). Fewer features also means a simpler model that is easier to explain (ISL §6.2.2).
 
 ## 5. How the coefficients change
 
@@ -101,7 +103,7 @@ Figure 4 follows each coefficient as alpha grows on a log scale.
 
 ![Lasso coefficient paths on the diabetes data](images/paths.png){height=45%}
 
-| Input | Coefficient at alpha 0 | Exactly 0 from alpha about |
+| Feature | Coefficient at alpha 0 | Exactly 0 from alpha about |
 |---|---|---|
 | age | $-9$ | 0.012 |
 | s2 | 561 | 0.015 |
@@ -118,23 +120,26 @@ Figure 4 follows each coefficient as alpha grows on a log scale.
 
 > **Key point:** As with Ridge, a larger alpha raises bias and lowers variance. The best alpha is in between.
 
-Using the same bootstrap method as the Ridge key points Note on the degree-16 polynomial (80 training points, 20 test points, 200 resamples):
+We use the same method as the [Ridge key points Note](../66-ridge-key-points/note.md): made-up data from the known curve $y = 0.7x^2 - 2x + 3$ plus noise (standard deviation 2), 20 fixed training observations, a degree-16 polynomial, and 200 fresh noise draws. Bias² and variance are measured against the true curve at 19 test points between the training ones.
 
-| alpha | Bias² (+ noise) | Variance | Expected test error |
+| alpha | Bias² | Variance | Expected test error |
 |---|---|---|---|
-| 0.001 | 1.45 | 37.34 | 38.79 |
-| 0.01 | 0.74 | 1.24 | 1.98 |
-| 0.1 | 0.80 | 0.06 | 0.86 |
-| 1 | 2.77 | 0.07 | 2.84 |
-| 3 | 5.38 | 0.07 | 5.45 |
+| 0.001 | 0.009 | 1.44 | 5.45 |
+| 0.01 | 0.009 | 0.95 | 4.96 |
+| 0.1 | 0.04 | 0.62 | 4.66 |
+| 0.3 | 0.34 | 0.54 | 4.88 |
+| 1 | 2.52 | 0.38 | 6.90 |
+| 3 | 5.20 | 0.19 | 9.40 |
 
-Small alpha: huge variance (overfitting). Large alpha: high bias (underfitting). Here alpha 0.1, the value that kept only $x$ and $x^2$, has the lowest total error.
+Small alpha: high variance (overfitting). Large alpha: high bias (underfitting). Here alpha 0.1, the same value that kept only $x$ and $x^2$ in Section 3, has the lowest total error.
+
+> **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7); the noise part is $2^2 = 4$, the floor no model can beat.
 
 ## 7. Why coefficients reach exactly 0
 
 > **Key point:** The penalty λ|m| makes a sharp corner in the loss at m = 0. Once λ is large enough, that corner is the lowest point, and it stays there however large λ gets.
 
-Take the one-input example again and hold the intercept at $-2.29$, so the loss depends only on the slope:
+Take the one-feature example again and hold the intercept at $-2.29$, so the loss depends only on the slope:
 
 $$L(m) = \sum_{i=1}^{n}(y_i - m x_i + 2.29)^2 + \lambda|m|$$
 
@@ -159,19 +164,19 @@ The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, s
 
 ## 8. Ridge or Lasso?
 
-> **Key point:** Many inputs, some probably useless: Lasso. Most inputs useful, especially correlated ones: Ridge.
+> **Key point:** Many features, some probably useless: Lasso. Most features useful, especially correlated ones: Ridge.
 
 | | Ridge | Lasso |
 |---|---|---|
 | Penalty | squares, $\lambda\sum\beta_j^2$ | absolute values, $\lambda\sum|\beta_j|$ |
 | Coefficients | shrink, never exactly 0 | shrink, many become exactly 0 |
 | Feature selection | no | yes |
-| Best when | most inputs matter | only some inputs matter |
+| Best when | most features matter | only some features matter |
 | Closed-form formula | yes | no (solved step by step) |
 
-The "best when" row follows ISL §6.2.2. Lasso has no closed-form formula because the absolute values make the answer non-linear in $y$ (ESL §3.4.2). With strongly correlated inputs, Lasso tends to keep only one of the group, and Ridge has been seen to predict better (Zou and Hastie 2005, §1).
+The "best when" row follows ISL §6.2.2. Lasso has no closed-form formula because the absolute values make the answer non-linear in $y$ (ESL §3.4.2). With strongly correlated features, Lasso tends to keep only one of the group, and Ridge has been seen to predict better (Zou and Hastie 2005, §1).
 
-Both shrink the largest coefficients, raise bias, lower variance and are tuned through $\lambda$. The difference that matters in practice is that Lasso can remove inputs. Elastic Net (a later Note) combines both penalties.
+Both shrink the largest coefficients, raise bias, lower variance and are tuned through $\lambda$. The difference that matters in practice is that Lasso can remove features. Elastic Net (a later Note) combines both penalties.
 
 > **Python:** Lasso in scikit-learn.
 >
@@ -184,20 +189,20 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 > lasso.score(X_test, y_test)     # R² 0.43 on the diabetes split
 > ```
 >
-> As with Ridge, inputs should be on the same scale first, for example with `make_pipeline(StandardScaler(), Lasso(alpha=0.1))`.
+> As with Ridge, features should be on the same scale first, for example with `make_pipeline(StandardScaler(), Lasso(alpha=0.1))`.
 
 ## 9. Summary
 
 - Lasso adds $\lambda\sum|\beta_j|$ to the squared error: L1 regularisation.
 - As λ grows, coefficients shrink and then become exactly 0, one by one.
-- Zero coefficients remove inputs: Lasso performs feature selection (diabetes: alpha 1 keeps bmi, bp and s5; the polynomial: alpha 0.1 keeps $x$ and $x^2$).
-- A larger λ means more bias and less variance; too large removes every input.
+- Zero coefficients remove features: Lasso performs feature selection (diabetes: alpha 1 keeps bmi, bp and s5; the polynomial: alpha 0.1 keeps $x$ and $x^2$).
+- A larger λ means more bias and less variance; too large removes every feature.
 - The absolute value makes a corner at 0 in the loss, which is why the answer can sit exactly at 0.
 
 ## 10. Sources
 
 - **Tibshirani 1996:** Tibshirani, R. "Regression Shrinkage and Selection via the Lasso." *Journal of the Royal Statistical Society B* 58(1), 267–288, 1996. Section 1.
-- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.2, pp. 242, 246.
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 2.2.2, p. 34; Section 6.2.2, pp. 242, 246.
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Sections 3.4.1 (p. 63) and 3.4.2 (p. 68).
 - **Zou and Hastie 2005:** Zou, H. and Hastie, T. "Regularization and Variable Selection via the Elastic Net." *Journal of the Royal Statistical Society B* 67(2), 301–320, 2005. Section 1.
 - **scikit-learn docs:** `sklearn.linear_model.Lasso`, scikit-learn 1.9.

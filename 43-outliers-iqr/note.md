@@ -13,21 +13,21 @@ title: "Outlier Detection with the IQR Method"
 
 ## 1. Overview
 
-> **Key point:** For a skewed column, every value beyond the box-plot fences ($Q_1 - 1.5\,\text{IQR}$ and $Q_3 + 1.5\,\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
+> **Key point:** For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\,\text{IQR}$ and $Q_3 + 1.5\,\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
 
-Note 41 listed three rules for detecting outliers, and Note 42 put the first one, the z-score method, to work on a normal column. This Note covers the second rule: the **IQR method**, also called the **IQR proximity rule**. It is the rule to use when a column is skewed.
+Note 41 listed three rules for detecting outliers, and Note 42 put the first one, the z-score method, to work on a normal feature. This Note covers the second rule: the **IQR method**, also called the **IQR proximity rule**. The IQR method is the rule to use when a **feature** (an input variable, one column of the data table) is skewed. Each **observation** is one record (one row), here one student.
 
-Figure 1 shows the whole method. We check that the column is skewed, compute the two fences from the quartiles, and then treat the values outside them by trimming or capping (both defined in Note 41, Section 7).
+Figure 1 shows the whole method. We check that the feature is skewed, compute the two fences from the quartiles, and then treat the values outside them by trimming or capping (both defined in Note 41, Section 7).
 
-![The IQR method: check the column is skewed, compute the fences, then trim or cap](images/overview.png){width=100%}
+![The IQR method: check the feature is skewed, compute the fences, then trim or cap](images/overview.png){width=100%}
 
-## 2. The condition: a skewed column
+## 2. The condition: a skewed feature
 
-> **Key point:** The IQR method is meant for a column that is skewed, not normal.
+> **Key point:** The IQR method is meant for a feature that is skewed, not normal.
 
-A column is **skewed** when its values have a long tail on one side (Note 20). The z-score method of Note 42 does not fit such a column, because it assumes a bell shape.
+A feature is **skewed** when its values have a long tail on one side (Note 20). The z-score method of Note 42 does not fit such a feature, because it assumes a bell shape.
 
-The IQR method makes no such assumption. The IQR method is built only on percentiles, which do not care about the shape of the column. To use it we need two ideas from Note 20: the box plot and the IQR.
+The IQR method makes no such assumption. The IQR method is built only on percentiles, which do not care about the shape of the feature. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from Note 20: the box plot and the IQR.
 
 ## 3. The fences
 
@@ -39,7 +39,7 @@ For the placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$, so $\text{
 
 $$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
 
-A mark below $-23.5$ or above 84.5 is an outlier. The plan for any skewed column is therefore short: compute $Q_1$, $Q_3$ and the IQR, compute the two fences, and trim or cap every value outside them.
+A mark below $-23.5$ or above 84.5 is an outlier. The plan for any skewed feature is therefore short: compute $Q_1$, $Q_3$ and the IQR, compute the two fences, and trim or cap every value outside them.
 
 > **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\,\text{IQR}$ (or below $Q_1 - 3\,\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
@@ -51,9 +51,9 @@ Both treatments come from the [outliers Note](../41-what-are-outliers/note.md) (
 
 ## 5. The placement data
 
-> **Key point:** The data has 1,000 students; their placement exam marks are right-skewed (skewness 0.84), so the marks column is the one for the IQR method.
+> **Key point:** The data has 1,000 students; their placement exam marks are right-skewed (skewness 0.84), so the marks feature is the one for the IQR method.
 
-The data is the placement data of Note 42: one row per student of a college, 1,000 students, three columns.
+The data is the placement data of Note 42: one observation per student of a college, 1,000 students, three columns.
 
 | cgpa | placement_exam_marks | placed |
 |---|---|---|
@@ -64,19 +64,19 @@ The data is the placement data of Note 42: one row per student of a college, 1,0
 
 - `cgpa`: the student's CGPA (out of 10).
 - `placement_exam_marks`: marks out of 100 in the aptitude test held before placement.
-- `placed`: 1 if the student got a job offer, 0 if not.
+- `placed`: 1 if the student got a job offer, 0 if not; the **target**, the output a model would predict.
 
 Note 42 (Figure 3) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
 
-The summary numbers of the marks column tell the same story:
+The summary numbers of the marks feature tell the same story:
 
 | Count | Mean | Std | Min | 25% | 50% | 75% | Max |
 |---|---|---|---|---|---|---|---|
 | 1,000 | 32.23 | 19.13 | 0 | 17 | 28 | 44 | 100 |
 
-A quarter of the students scored below 17, half below 28 and three quarters below 44. One student scored 0 and one scored the full 100, which suggests a hard exam with a few toppers.
+A quarter of the students scored below 17, half below 28 and three quarters below 44. One student scored 0 and one scored the full 100.
 
-> **Python:** Loading the data and checking the marks column.
+> **Python:** Loading the data and checking the marks feature.
 >
 > ```python
 > import pandas as pd
@@ -97,7 +97,7 @@ Figure 2 shows the box plot of the marks above their histogram. The box runs fro
 ![The placement exam marks: box plot with Q1, median and Q3, the two fences, and the 15 outliers in red](images/fences.png){width=100%}
 
 - **Upper fence, 84.5:** 15 students scored above it, with marks from 86 to 100. In the box plot they are the red dots on the right.
-- **Lower fence, $-23.5$:** marks cannot be negative, so no student lies below it. With a right-skewed column, all the outliers sit on the long-tail side.
+- **Lower fence, $-23.5$:** marks cannot be negative, so no student lies below it. With a right-skewed feature, all the outliers sit on the long-tail side.
 
 The 15 outliers:
 
@@ -148,7 +148,7 @@ The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
 
 > **Key point:** The box plot of the trimmed data computes new fences from the 985 remaining rows, so a value that was inside before can now be outside.
 
-The trimmed box plot in Figure 3 still shows one red dot, at a mark of 83. It is not a mistake. A box plot always computes its fences from the data it is given.
+The trimmed box plot in Figure 3 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its fences from the data it is given.
 
 For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is $43 + 1.5 \times (43 - 17) = 82$. The mark 83, safely inside the old fence of 84.5, is now just outside the new one.
 
@@ -197,7 +197,7 @@ Figure 3 (bottom row) shows the capped column. The 15 outliers now all sit at 84
 
 ![Before and after: the original column, the trimmed column (985 rows) and the capped column (1,000 rows, outliers moved onto 84.5); histograms on the left, box plots on the right, the upper fence dashed](images/before_after.png){width=100%}
 
-> **Extra:** pandas has a one-line shortcut for capping, `clip`. It gives exactly the same column as the two nested `np.where` calls.
+> **Extra:** pandas has a one-line shortcut for capping, `clip`. `clip` gives exactly the same column as the two nested `np.where` calls.
 >
 > ```python
 > marks.clip(lower_limit, upper_limit)
@@ -220,22 +220,22 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 
 ## 10. Strengths and limits of the IQR method
 
-> **Key point:** The method is simple, works on skewed columns and is not pulled by the outliers it looks for; it is only a rule of thumb.
+> **Key point:** The method is simple, works on skewed features and is not pulled by the outliers it looks for; it is only a rule of thumb.
 
 - **Simple:** two percentiles give both fences.
-- **Shape-free:** it needs no bell shape, so it fits skewed columns.
+- **Shape-free:** it needs no bell shape, so it fits skewed features.
 - **Robust:** the quartiles are not pulled by extreme values (Section 3, Extra).
 
 > **Extra:** Two things to keep in mind.
 >
-> - **On a long tail, real values get flagged.** In a strongly skewed column the far tail can be perfectly genuine (a few very high incomes, a few toppers; here, 15 real exam marks between 86 and 100). The fences flag it all the same. So we still decide, as in Note 41 (Section 4), whether those values are errors or real.
-> - **One side may never be used.** For a right-skewed column with a natural lower bound, such as marks starting at 0, the lower fence can lie below every possible value, as it does here ($-23.5$). That is expected, not a bug.
+> - **On a long tail, real values get flagged.** In a strongly skewed feature the far tail can be perfectly genuine (a few very high incomes, a few toppers; here, 15 real exam marks between 86 and 100). The fences flag it all the same. So we still decide, as in Note 41 (Section 4), whether those values are errors or real.
+> - **One side may never be used.** For a right-skewed feature with a natural lower bound, such as marks starting at 0, the lower fence can lie below every possible value, as it does here ($-23.5$). An unused fence is expected, not a bug.
 
 ## 11. Summary
 
 | Step | What we do | On the placement marks |
 |---|---|---|
-| Check the shape | plot the column; the method is for skewed columns | right-skewed, skewness 0.84 |
+| Check the shape | plot the feature; the method is for skewed features | right-skewed, skewness 0.84 |
 | Quartiles | $Q_1$ = 25th, $Q_3$ = 75th percentile, IQR $= Q_3 - Q_1$ | $Q_1 = 17$, $Q_3 = 44$, IQR $= 27$ |
 | Detect | fences $Q_1 - 1.5\,\text{IQR}$ and $Q_3 + 1.5\,\text{IQR}$ | $-23.5$ and 84.5; 15 outliers, all above |
 | Trim | keep the rows inside the fences | 985 rows left |
@@ -244,12 +244,12 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 
 | | Z-score method (Note 42) | IQR method (this Note) |
 |---|---|---|
-| Column shape | roughly normal | skewed |
+| Feature shape | roughly normal | skewed |
 | Built on | mean and standard deviation | $Q_1$ and $Q_3$ |
 | Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\,\text{IQR}$, $Q_3 + 1.5\,\text{IQR}$ |
 | Pulled by outliers | yes | hardly |
 
-- The IQR method is for skewed columns; the z-score method of Note 42 is for normal ones.
+- The IQR method is for skewed features; the z-score method of Note 42 is for normal ones.
 - The IQR is $Q_3 - Q_1$, the width of a box plot's box.
 - The fences are $Q_1 - 1.5\,\text{IQR}$ and $Q_3 + 1.5\,\text{IQR}$: the same limits a box plot uses for its dots.
 - Values outside the fences are outliers; we trim them (drop the rows) or cap them (set them to the fence).
@@ -266,5 +266,8 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 
 | Term | Meaning |
 |---|---|
-| IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns |
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Target | The output a model predicts |
+| IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed features |
 | `quantile` | pandas method that returns a percentile, given as a fraction (0.25 for the 25th) |

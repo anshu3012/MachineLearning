@@ -119,7 +119,7 @@ The second form is the update without regularisation, except that $w_{\text{old}
 
 Because the weight shrinks by a fixed factor at each step, L2 regularisation is often called weight decay in neural networks, and $1 - \eta\lambda$ the weight decay factor.
 
-> **Extra:** Strictly, weight decay means multiplying the weights by $1 - \eta\lambda$ directly, outside the gradient. With plain gradient descent this is exactly L2 regularisation, as shown above. With Adam it is not: Adam rescales each weight's step by the size of its past gradients, which changes how strongly the penalty acts. Loshchilov and Hutter (2019) showed that true weight decay works better with Adam; Keras offers it as `keras.optimizers.AdamW`, and every Keras optimizer accepts a `weight_decay` argument.
+> **Extra:** Strictly, weight decay means multiplying the weights by $1 - \eta\lambda$ directly, outside the gradient. With plain gradient descent this is exactly L2 regularisation, as shown above. With Adam it is not: Adam divides each weight's step by the size of that weight's recent gradients, and with L2 the penalty's gradient gets divided too, so the penalty acts more strongly on some weights than on others (Loshchilov and Hutter 2019, §2). They showed that true weight decay works better with Adam; Keras offers it as `keras.optimizers.AdamW`, and every Keras optimizer accepts a `weight_decay` argument (Keras docs, Optimizers).
 
 ## 7. Regularisation in Keras
 
@@ -206,7 +206,7 @@ Figure 4 compares the two networks.
 
 Without regularisation, most weights lie between about $-0.7$ and $0.5$, with outliers out to $-2.45$ and $2.85$. With L2 the whole range has shrunk: the box collapses to a line at 0, and the density curve (orange) is one tall peak at 0, while the unregularised one (blue) is spread out. The weights have decayed.
 
-> **Extra:** In this run, 92% of the L2 network's first-layer weights ended up smaller than 0.001 in size, which leaves most first-layer nodes with almost no input. With plain gradient descent, L2 only shrinks weights in proportion to their size, as section 6 shows. Adam, however, scales each weight's step by its own gradient history, so for a weight the data does not need, even the small pull of the penalty produces full-size steps towards 0. This is another face of the L2-versus-weight-decay difference behind AdamW.
+Section 7.6 asks whether any of these weights become exactly 0.
 
 ### 7.5 L1
 
@@ -214,14 +214,46 @@ Without regularisation, most weights lie between about $-0.7$ and $0.5$, with ou
 
 Switching to L1 only needs `regularizers.L1(...)` in place of `regularizers.L2(...)`. The L1 penalty needs its own value of $\lambda$, found by trying a few (hyperparameter tuning). With $\lambda = 0.001$ (Figure 1, right) the boundary is clean, but the validation loss creeps up from about epoch 100 (Figure 3, right): a little more overfitting than with L2. Its first-layer weights range from $-1.70$ to $1.17$.
 
-> **Extra:** With Adam, L1 does not drive weights to exactly 0, as Lasso's coordinate descent does: each step overshoots 0 slightly and the weight hovers around it. Here 54% of the L1 network's first-layer weights end up below 0.001 in size. Exact zeros need a different optimizer or pruning the small weights afterwards.
+### 7.6 Sparse or only small: L1 against L2
+
+> **Key point:** With plain gradient descent, L1 sets more than half of the first-layer weights to 0 and keeps the others fairly large. L2 shrinks every weight but leaves almost none at 0.
+
+Section 5.2 said that L1 makes weights exactly 0 and L2 only makes them small. The reason is the size of the pull towards 0:
+
+- **L2** pulls each weight in proportion to its size (section 6). As a weight gets small, so does the pull, so the weight never quite reaches 0.
+- **L1** pulls every weight with the same strength, $\lambda$, however small the weight already is. So a weight the data does not need is pushed all the way to 0.
+
+Think of walking towards a wall. L2 halves the remaining distance at every step: we get very close, but never touch the wall. L1 takes a step of fixed length every time: we arrive. This is the textbook reason why the Lasso gives sparse models and Ridge does not (ESL §3.4.3; Goodfellow et al. 2016, §7.1.2).
+
+To see this cleanly, we train the same network on the same data with plain gradient descent (`keras.optimizers.SGD`, learning rate 0.01) instead of Adam, once with `L2(0.03)` and once with `L1(0.003)`. Only the penalty changes. The numbers are averages over 3 random starts.
+
+![The 256 first-layer weights after 2,000 epochs of plain gradient descent, grouped by size: L2 (orange) and L1 (green), first random start.](images/sparsity.png)
+
+| | Weights that are 0 (to three decimals) | Largest weight (size) | Validation accuracy |
+|---|---|---|---|
+| L2, $\lambda = 0.03$ | 3% | 0.24 | 90% |
+| L1, $\lambda = 0.003$ | 56% | 0.63 | 90% |
+
+Figure 5 shows the difference at a glance. Almost no L2 weight is 0: most are small, between 0.01 and 0.1. The L1 weights split into two groups: more than half are 0, while more of the others stay above 0.1 than with L2 (49 against 29). Both networks score the same 90% on the validation points, but the L1 network does it with fewer than half of its first-layer weights: a sparse model.
+
+> **Extra:** Two details.
+>
+> 1. **"Exactly" 0.** With gradient descent, an L1 weight at 0 still moves by one tiny step, $\eta\lambda = 0.01 \times 0.003 = 0.00003$, back and forth across 0, so it stays within that tiny distance of 0 instead of sitting exactly on it. Lasso solvers reach exact zeros because they set a weight to 0 whenever an update would cross 0, called soft thresholding (Friedman et al. 2010). In a network, the same effect comes from pruning: setting the tiny weights to 0 after training (Han et al. 2015).
+> 2. **Why not Adam?** With Adam the picture changes, and it can even reverse. In section 7.4, with Adam, 92% of the L2 network's first-layer weights ended below 0.001, against 54% for L1. Adam moves every weight by about the learning rate at every step, whatever the size of the gradient (Kingma and Ba 2015, §2.1). So even L2's small pull on an unneeded weight gives a full-size step towards 0, while an L1 weight overshoots 0 by a full step and keeps swinging around it. Loshchilov and Hutter (2019, §2) describe this side of L2 under Adam: weights with small gradients are pulled to 0 much harder than with plain gradient descent. The Notebook confirms that only the optimizer is responsible:
+>
+>    | Optimizer | L2: weights below 0.001 | L1: weights below 0.001 |
+>    |---|---|---|
+>    | SGD, $\eta = 0.01$ | 7% | 19% |
+>    | Adam, $\eta = 0.01$ | 92% | 54% |
+>
+>    (This check uses `L1(0.001)`, the value of section 7.5, so its SGD numbers differ from the table above.) This is one reason Keras offers AdamW, with true weight decay (section 6).
 
 ## 8. Summary
 
 | | Penalty added to the cost | Effect on weights | In deep learning |
 |---|---|---|---|
 | L2 | $\lambda/(2n)\sum w^2$ | shrink towards 0, never exactly 0 (weight decay) | the usual choice |
-| L1 | $\lambda/(2n)\sum \lvert w \rvert$ | many exactly 0: a sparse model | less used |
+| L1 | $\lambda/(2n)\sum \lvert w \rvert$ | many pushed to 0: a sparse model | less used |
 | L1 + L2 | both | both | occasionally |
 
 - Networks overfit because many neurons can draw many small pieces of boundary.
@@ -229,7 +261,17 @@ Switching to L1 only needs `regularizers.L1(...)` in place of `regularizers.L2(.
 - L2 regularisation multiplies every weight by $1 - \eta\lambda$ before each update; biases are not penalised.
 - In Keras: `kernel_regularizer=regularizers.L2(λ)` on each hidden layer. Here it turned a validation loss of 1.28 into 0.22 and shrank the weights from $\pm 2.8$ to $\pm 0.5$.
 
-## 9. Key terms
+## 9. Sources
+
+- Loshchilov and Hutter, "Decoupled Weight Decay Regularization", ICLR 2019, §2 (L2 regularisation and weight decay differ under Adam).
+- Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, Algorithm 1 and §2.1 (the step size is about the learning rate).
+- Keras documentation, Optimizers (`weight_decay` argument; `AdamW`).
+- Friedman, Hastie and Tibshirani, "Regularization Paths for Generalized Linear Models via Coordinate Descent", *Journal of Statistical Software*, 2010 (soft thresholding).
+- Han, Pool, Tran and Dally, "Learning both Weights and Connections for Efficient Neural Networks", NeurIPS 2015 (pruning small weights).
+- Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., 2009, §3.4.3 (why the Lasso gives zeros and Ridge does not).
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §7.1.1 (L2, weight decay) and §7.1.2 (L1 and sparsity).
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

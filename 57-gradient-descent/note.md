@@ -23,9 +23,9 @@ title: "Gradient Descent from Scratch"
 - **first-order:** each step uses only the first derivative (the slope);
 - **differentiable function:** the function must have a slope everywhere.
 
-In ML, the function is the **loss function** (for linear regression, the sum of squared errors) and the parameters are the model's coefficients. Gradient descent is one of the most widely used algorithms in ML and the main one in deep learning.
+In ML, the function is the **loss function** (for linear regression, the sum of squared errors) and the parameters are the model's coefficients. Nearly all of deep learning is trained with a version of gradient descent (Goodfellow Ch. 8).
 
-We learn it on linear regression because we can check the answer against OLS, whose normal equation becomes slow with many columns (see [section seven of the multiple linear regression maths Note](../54-multiple-lr-maths/note.md)); most models have no direct formula at all.
+Throughout, a **feature** is an input variable (one column of the data table), an **observation** is one record (one row, here one data point), and the **target** is the output we predict. We learn gradient descent on linear regression because we can check the answer against OLS, whose normal equation becomes slow with many features (see [section seven of the multiple linear regression maths Note](../54-multiple-lr-maths/note.md)); most models have no direct formula at all.
 
 ## 2. The idea
 
@@ -42,7 +42,7 @@ Imagine standing somewhere on that curve, blindfolded. We cannot see where the b
 - **Slope positive** (the curve rises to the right): the bottom is to the left. Decrease $b$.
 - **Slope negative** (the curve falls to the right): the bottom is to the right. Increase $b$.
 
-In both cases, moving **against the sign of the slope** goes downhill. That is the whole idea.
+In both cases, moving **against the sign of the slope** goes downhill. Moving against the slope is the whole idea.
 
 ### 2.2 How far to move
 
@@ -80,7 +80,7 @@ In words: differentiate each squared term with respect to $b$. The chain rule br
 
 $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n} (y_i - m x_i - b)$$
 
-This is the same derivative as in the OLS derivation. There we set it to zero and solved; here we only evaluate it at the current point and take a step.
+The OLS derivation used the same derivative. There we set it to zero and solved; here we only evaluate it at the current point and take a step.
 
 ## 4. A worked example: four points, b only
 
@@ -117,7 +117,7 @@ The learning rate is a **hyperparameter**: a setting we choose, not a value the 
 
 ![Three learning rates from the same start](images/learning_rates.png)
 
-- **0.01, too small:** after 10 steps $b$ has only moved from 100 to 58. It would get there eventually, but slowly.
+- **0.01, too small:** after 10 steps $b$ has only moved from 100 to 58. $b$ would reach the bottom eventually, but slowly.
 - **0.1, good:** the bottom is reached within about 5 steps.
 - **0.26, too large:** each step jumps over the bottom to the other side, landing higher than before: $100 \to -53.6 \to 112.3 \to -66.9 \to \dots$. The loss grows with every step, and the algorithm never converges. (The Extra in Section 4 shows why: above 0.25, every step overshoots by more than it gains.)
 
@@ -137,7 +137,7 @@ Each epoch updates both at once, using the current values of both:
 
 $$m_{\text{new}} = m_{\text{old}} - \eta \frac{\partial L}{\partial m} \qquad b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b}$$
 
-The vector of these partial derivatives is called the **gradient**; it points uphill, so stepping against it goes downhill. That is where the name comes from.
+The vector of these partial derivatives is called the **gradient**; it points uphill, so stepping against it goes downhill. Stepping down against the gradient gives the method its name.
 
 Figure 3 runs this on 100 points, starting far away at $m = -127.8$, $b = 150$, with learning rate 0.001 for 30 epochs.
 
@@ -197,16 +197,16 @@ Gradient descent only follows the local slope, so the shape of the loss function
 
 ## 9. The effect of feature scaling
 
-> **Key point:** When inputs are on very different scales, the loss bowl becomes a long, narrow valley and gradient descent zigzags slowly. Scaling the inputs makes it round and fast.
+> **Key point:** When features are on very different scales, the loss bowl becomes a long, narrow valley and gradient descent zigzags slowly. Scaling the features makes the bowl round and the descent fast.
 
-With two inputs, the shape of the loss depends on the scale of the inputs. Figure 5 compares the same made-up data, with input 2 eight times larger in scale than input 1, before and after standardising.
+With two features, the shape of the loss depends on their scales. Picture walking down a steep, narrow gorge: every step toward the bottom of the gorge throws you against the other wall, and you make little progress along it. Figure 5 compares the same made-up data, with feature 2 eight times larger in scale than feature 1, before and after standardising.
 
 ![The effect of scaling the inputs on gradient descent](images/scaling_effect.png)
 
 - **Unscaled:** the contours are long, narrow ellipses. The learning rate must be small enough to avoid overshooting in the steep direction, and that is usually too small to make real progress in the flat direction (Goodfellow §4.3.1). After 40 steps the weights are still 2.8 away from the best values.
 - **Standardised:** the contours are nearly circles, the slope points straight at the minimum, and 40 steps reach it.
 
-This is why inputs should be scaled (standardisation or normalisation, from the feature scaling Notes) before using gradient descent.
+Features should therefore be scaled (standardisation or normalisation, from the feature scaling Notes) before using gradient descent.
 
 ## 10. Summary
 
@@ -225,15 +225,18 @@ This is why inputs should be scaled (standardisation or normalisation, from the 
 - On linear regression it reproduces OLS closely: slope 28.16 against 28.13 here.
 - The steps shrink by themselves near the minimum, because the slope shrinks.
 
-## Sources
+## 11. Sources
 
-- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org).
-- **Boyd and Vandenberghe**: S. Boyd and L. Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004.
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §4.3.1 (poor conditioning), Ch. 8 (training deep models; §8.2 non-convexity, §8.3.2 momentum, §8.5 adaptive learning rates), §11.4.3 (grid search on a log scale).
+- **Boyd and Vandenberghe**: S. Boyd and L. Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004. §4.2.2 (local optima of convex problems are global).
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Target | The output we predict |
 | Gradient descent | An iterative algorithm that finds a minimum by repeatedly stepping against the slope |
 | Optimisation algorithm | A method for finding the parameter values that make a function as small (or large) as possible |
 | Learning rate ($\eta$) | The number the slope is multiplied by to get the step size |
@@ -242,7 +245,7 @@ This is why inputs should be scaled (standardisation or normalisation, from the 
 | Converge | To settle at a minimum, with steps becoming negligible |
 | Diverge | To move further away with each step, the loss growing instead of shrinking |
 | Contour plot | A map of a surface seen from above, with lines joining points of equal height |
-| Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum |
+| Convex function | A function where a straight line between any two points of its curve never goes below the curve; every local minimum is the global one |
 | Local minimum | A point lower than everything around it, but not the lowest overall |
 | Global minimum | The lowest point of the whole function |
 | Plateau | A nearly flat region of the loss, where steps become very small |

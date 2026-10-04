@@ -13,25 +13,25 @@ title: "Covariance and Correlation"
 
 ## 1. Overview
 
-> **Key point:** Covariance gives the direction of the straight-line relationship between two numerical columns; correlation divides it by the two standard deviations, which adds the strength and removes the effect of units.
+> **Key point:** Covariance gives the direction of the straight-line relationship between two numerical features; correlation divides it by the two standard deviations, which adds the strength and removes the effect of units.
 
 ![Covariance by quadrants: each point's product of distances from the two means](images/quadrants.png)
 
-A scatter plot shows by eye whether two numerical columns rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both: the two mean lines cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
+A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row. A scatter plot shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both: the two mean lines cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
 
 ## 2. From mean to variance to covariance
 
-> **Key point:** The mean gives the centre, variance gives the spread of one column, and covariance gives how two columns move together.
+> **Key point:** The mean gives the centre, variance gives the spread of one feature, and covariance gives how two features move together.
 
 Each measure fixes a blind spot of the one before:
 
-- **Mean:** gives the centre of a column, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
-- **Variance:** gives the spread, and tells those two apart (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). But it looks at one column at a time.
-- **Covariance:** the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.1) shows. Only a measure that uses both columns together can tell them apart.
+- **Mean:** gives the centre of a feature, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
+- **Variance:** gives the spread, and tells those two apart (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). But it looks at one feature at a time.
+- **Covariance:** the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.1) shows. Only a measure that uses both features together can tell them apart.
 
 ## 3. Covariance
 
-> **Key point:** Covariance averages the product of each point's distances from the two means; positive means the columns rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
+> **Key point:** Covariance averages the product of each point's distances from the two means; positive means the features rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
 
 Covariance is taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.2): the average product of each point's distances from the two means, whose sign gives the direction of a linear relationship (see the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)). That Note divides by $N$, as for a whole population; a sample divides by $n - 1$ instead.
 
@@ -71,9 +71,9 @@ A third case: if every student got the same package of 10 lakh, whatever their b
 
 ### 3.2 The flaw: covariance depends on the scale
 
-> **Key point:** Multiplying a column by a number multiplies the covariance by it too, so the size of a covariance says nothing about how strong the relationship is.
+> **Key point:** Multiplying a feature by a number multiplies the covariance by it too, so the size of a covariance says nothing about how strong the relationship is.
 
-Covariance tells the direction of the relationship, but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the columns.
+Covariance tells the direction of the relationship, but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the features.
 
 1. **In words:** if every $x$ is multiplied by $a$ and every $y$ by $c$, every distance from the mean is multiplied too, so every product, and the covariance, is multiplied by $a \times c$.
 2. **Formula:**
@@ -82,13 +82,13 @@ Covariance tells the direction of the relationship, but not its **strength**: ho
    $$\text{cov} = 12 \times 21.5 = 258$$
    Measuring salary in rupees instead of lakhs multiplies the covariance by 100,000: $2{,}150{,}000$. The employees are the same; only the units changed.
 
-Figure 2 shows the problem with 40 random points. The left panel plots a column against itself, a perfect straight line, with covariance 1205. The middle panel plots $x$ against a noisier $y$, a weaker relationship, with covariance 939. The right panel doubles both columns: the picture is identical to the middle one, yet the covariance jumps to 3757, larger than for the perfect line.
+Figure 2 shows the problem with 40 random points. The left panel plots a feature against itself, a perfect straight line, with covariance 1205. The middle panel plots $x$ against a noisier $y$, a weaker relationship, with covariance 939. The right panel doubles both features: the picture is identical to the middle one, yet the covariance jumps to 3757, larger than for the perfect line.
 
 ![Covariance changes with the scale; correlation does not](images/scale.png)
 
 So a large covariance does not mean a strong relationship. Covariance is reliable only for its sign. Its main use is as the building block of correlation.
 
-> **Extra:** The covariance of a column with itself is its variance. With $y = x$ the formula becomes $\sum (x_i - \bar{x})(x_i - \bar{x}) / (n-1) = \sum (x_i - \bar{x})^2 / (n-1)$, the sample variance. This is why the covariance matrix of the [PCA step by step Note](../48-pca-step-by-step/note.md) has the variances on its diagonal, and why Figure 2's left panel shows the variance of $x$, 1205.
+> **Extra:** The covariance of a feature with itself is its variance. With $y = x$ the formula becomes $\sum (x_i - \bar{x})(x_i - \bar{x}) / (n-1) = \sum (x_i - \bar{x})^2 / (n-1)$, the sample variance. The same fact explains why the covariance matrix of the [PCA step by step Note](../48-pca-step-by-step/note.md) has the variances on its diagonal, and why Figure 2's left panel shows the variance of $x$, 1205.
 
 ## 4. Correlation
 
@@ -118,9 +118,9 @@ In Figure 2, $x$ against itself gives $r = 1.00$. $x$ against $y$ gives $r = 0.6
 
 ### 4.2 Correlation does not depend on the scale
 
-> **Key point:** Scaling a column scales its standard deviation by the same amount, which cancels the change in the covariance.
+> **Key point:** Scaling a feature scales its standard deviation by the same amount, which cancels the change in the covariance.
 
-In Figure 2, doubling both columns quadrupled the covariance but left $r$ at 0.65. This always holds.
+In Figure 2, doubling both features quadrupled the covariance but left $r$ at 0.65. Scaling by positive numbers never changes the correlation.
 
 > **Extra:** Proof that correlation ignores the units.
 >
@@ -130,7 +130,7 @@ In Figure 2, doubling both columns quadrupled the covariance but left $r$ at 0.6
 >    If $a$ or $c$ is negative, the sign of $r$ flips but its size stays.
 > 3. **Example:** experience in months: $\text{cov} = 258$ and $s_x = 12 \times 4.637 = 55.64$, so $r = 258 / (55.64 \times 4.848) \approx 0.957$, as before.
 
-Because it gives both the direction and the strength, and does not depend on units, correlation is the measure we use to study the linear relationship between two numerical columns, for example before linear regression. Covariance is still needed, as the step that computes it.
+Because it gives both the direction and the strength, and does not depend on units, correlation is the measure we use to study the linear relationship between two numerical features, for example before linear regression. Covariance is still needed, as the step that computes it.
 
 > **Python:** Covariance and correlation.
 >
@@ -147,16 +147,16 @@ Because it gives both the direction and the strength, and does not depend on uni
 
 ## 5. Correlation does not imply causation
 
-> **Key point:** Two columns can move together without one causing the other, often because a hidden third factor drives both.
+> **Key point:** Two features can move together without one causing the other, often because a hidden third factor drives both.
 
 **Causation** is a cause-and-effect relationship: a change in one thing produces a change in the other. A correlation only says two things move together. The phrase "correlation does not imply causation" means that a correlation, however strong, is not evidence that one variable causes the other.
 
 Two examples:
 
 - **Firefighters and fire size.** At bigger fires, more firefighters are present: a strong positive correlation. Reading it as "more firefighters make bigger fires" is obviously wrong; the size of the fire decides how many firefighters are sent. Here the direction is clear, but in many datasets it is not.
-- **Ice cream and drownings.** On days when more ice cream is sold, more people drown. Ice cream does not cause drowning. Hot weather drives both: when it is hotter, more people buy ice cream and more people go swimming (Figure 3; Oja, §6.6.1).
+- **Ice cream and drownings.** On days when more ice cream is sold, more people drown. Ice cream does not cause drowning. Hot weather drives both: when it is hotter, more people buy ice cream and more people go swimming (Figure 3). A third factor of this kind is what statisticians call a confounder (Freedman et al. 2007, ch. 2).
 
-![A hidden cause makes two columns correlated](images/confounder.png)
+![A hidden cause makes two features correlated](images/confounder.png)
 
 A hidden factor that drives two variables, like the weather here, is called a **confounding variable** (or confounder). Experience and salary are a subtler case: they are correlated, but the salary may come from skills that grow with experience, not from the years themselves.
 
@@ -177,19 +177,20 @@ Establishing causation needs more than data that happens to be collected: contro
 
 - Points in quadrants I and III push the covariance up; II and IV push it down.
 - $\text{cov}(a x, c y) = ac\,\text{cov}(x, y)$, but $r$ stays the same.
-- The covariance of a column with itself is its variance.
-- Correlation does not imply causation; a confounding variable can drive both columns.
+- The covariance of a feature with itself is its variance.
+- Correlation does not imply causation; a confounding variable can drive both features.
 
-
-## Sources
+## 7. Sources
 
 - Akoglu, H. (2018). User's guide to correlation coefficients. *Turkish Journal of Emergency Medicine*, 18(3), 91-93. Table 1.
-- Oja, M. *Research Methods for the Social and Behavioral Sciences*. LibreTexts. Section 6.6.1, Correlation versus Causation.
+- Freedman, D., Pisani, R. and Purves, R. (2007). *Statistics*, 4th ed. W. W. Norton. Chapter 2, Observational Studies (association is not causation; confounding factors).
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | One variable of the data, one column of the table |
+| Observation | One record, one row of the table |
 | Population covariance ($\sigma_{xy}$) | Covariance of a whole population, dividing by $N$ |
 | Sample covariance ($s_{xy}$) | Covariance of a sample, dividing by $n - 1$ |
 | Strength of a relationship | How closely the points follow a straight line; measured by $\lvert r \rvert$ |

@@ -14,16 +14,18 @@ title: "Simple Linear Regression: Intuition and Code"
 
 ## 1. Overview
 
-> **Key point:** Linear regression fits a straight line through the data and uses that line to predict a number. Simple linear regression uses one input column.
+> **Key point:** Linear regression fits a straight line through the data and uses that line to predict a number. Simple linear regression uses one feature.
 
-**Linear regression** is usually the first ML algorithm people learn, for good reason. It is simple, easy to explain, and many later algorithms build on its ideas.
+**Linear regression** is usually the first ML algorithm people learn, for good reason. Linear regression is simple, easy to explain, and many later algorithms build on its ideas.
 
-It is a **supervised** algorithm for **regression** problems, where the output column is a number, such as a price or a salary. Figure 1 shows its family.
+Three words first. A **feature** is an input variable (one column of the data table). The **target** is the output we predict (another column). An **observation** is one record (one row), here one student.
+
+Linear regression is a **supervised** algorithm for **regression** problems, where the target is a number, such as a price or a salary. Figure 1 shows its family.
 
 ![The linear regression family](images/lr_family.png)
 
-- **Simple linear regression:** one input column and one output column. This Note.
-- **Multiple linear regression:** several input columns, for example CGPA, gender and 12th-grade marks to predict a package.
+- **Simple linear regression:** one feature and one target. This Note.
+- **Multiple linear regression:** several features, for example CGPA, gender and 12th-grade marks to predict a package.
 - **Polynomial regression:** for data that follows a curve rather than a line.
 - **Regularised versions** of these models, which add a penalty against overfitting, come later.
 
@@ -33,7 +35,7 @@ This Note builds the intuition and runs the scikit-learn code. The next Note der
 
 > **Key point:** From a student's CGPA, predict the salary package they will be offered.
 
-Our data describes 200 students from one college who were placed in campus recruitment. It has two columns:
+Our data describes 200 students from one college who were placed in campus recruitment. The data has two columns:
 
 | cgpa | package |
 |---|---|
@@ -41,18 +43,18 @@ Our data describes 200 students from one college who were placed in campus recru
 | 5.12 | 1.98 |
 | 7.82 | 3.25 |
 
-- `cgpa`: the student's grade point average, out of 10. This is the **input**.
-- `package`: the salary offered, in **LPA** (lakh rupees per year). This is the **output**: it depends on the CGPA.
+- `cgpa`: the student's grade point average, out of 10. This is the feature, the **input**.
+- `package`: the salary offered, in **LPA** (lakh rupees per year). This is the target, the **output**: it depends on the CGPA.
 
-The goal is a model that takes a new student's CGPA and predicts their package. It could sit behind a small website where a student types in their CGPA.
+The goal is a model that takes a new student's CGPA and predicts their package. Such a model could sit behind a small website where a student types in their CGPA.
 
 ### 2.1 Without the data: guess the average
 
-> **Key point:** With no model, the best single guess is the average package, 3.00 LPA. It is the same answer for every student, which is clearly poor.
+> **Key point:** With no model, the best single guess is the average package, 3.00 LPA. The average is the same answer for every student, which is clearly poor.
 
 Suppose someone asks what package a student from this college gets. Without looking at CGPA, the most reasonable answer is the average of all packages: **3.00 LPA**.
 
-That answer ignores everything that makes one student different from another. A student with CGPA 9 and a student with CGPA 5 would get the same prediction. The red dashed line in Figure 2 is this "same guess for everyone".
+The average ignores everything that makes one student different from another. A student with CGPA 9 and a student with CGPA 5 would get the same prediction. The red dashed line in Figure 2 is this "same guess for everyone".
 
 ## 3. A line through the data
 
@@ -88,13 +90,13 @@ Real data is almost never perfectly linear. Two students with the same CGPA may 
 - one may have joined a company that pays more;
 - one may have had a bad day in the test.
 
-None of these can be captured as a column in the data. Such hard-to-measure, random influences are called **stochastic errors**, and they scatter the points around the trend.
+None of these can be captured as a feature in the data. Such hard-to-measure, random influences are called **stochastic errors**, and they scatter the points around the trend.
 
 ### 3.4 The best-fit line
 
 > **Key point:** We still draw one line: the one whose total error over all points is the smallest.
 
-Since no line can pass through every point, linear regression draws the line that is wrong by the least overall. This is the **best-fit line**.
+Since no line can pass through every point, linear regression draws the line that is wrong by the least overall: the **best-fit line**. A tailor making one ready-made shirt size for a group does the same: no one gets a perfect fit, but the size is chosen so that the total misfit is as small as possible.
 
 For each student, the **error** is the vertical gap between their real package and the line's prediction. A good line keeps all these gaps small. Figure 3 compares three lines on the 160 training students.
 
@@ -112,7 +114,7 @@ The total used is the **sum of squared errors**: each gap is squared, so that ga
 
 ### 4.1 Inputs, output and split
 
-> **Key point:** X holds the CGPA column, y the package; 80% of students train the model and 20% test it.
+> **Key point:** X holds the CGPA feature, y the package (the target); 80% of students train the model and 20% test it.
 
 > **Python:** Separating the columns and splitting.
 >
@@ -186,7 +188,7 @@ With numbers, for the student with CGPA 8.58:
 
 $$0.558 \times 8.58 - 0.896 = 4.788 - 0.896 = 3.89$$
 
-This is exactly the prediction from `lr.predict`. All `predict` does is put the CGPA into this equation.
+The result is exactly the prediction from `lr.predict`. All `predict` does is put the CGPA into this equation.
 
 ### 5.2 The slope m: how much the output depends on the input
 
@@ -207,7 +209,7 @@ So $m$ acts like a **weight**: it says how strongly the output depends on the in
 
 The intercept is where the line crosses the vertical axis: the prediction for an input of 0. Here, $b = -0.90$ LPA at CGPA 0 (the red point in Figure 4).
 
-That value has no real meaning: no student has a CGPA of 0, and a negative salary is impossible. It is just where the line has to start so that it fits the students we do have, between CGPA 4 and 10.
+An intercept of $-0.90$ has no real meaning: no student has a CGPA of 0, and a negative salary is impossible. The intercept is just where the line has to start so that it fits the students we do have, between CGPA 4 and 10.
 
 In other data, the intercept can mean something real.
 
@@ -233,17 +235,20 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 - The trained model is two numbers: `coef_` (slope, the input's weight) and `intercept_` (the starting value).
 - The line keeps going beyond the data; predictions far outside the training range are unreliable.
 
-## Sources
+## 7. Sources
 
-- NIST/SEMATECH *e-Handbook of Statistical Methods*, §4.1.4.1 Linear Least Squares Regression (Disadvantages). https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm
+- NIST/SEMATECH *e-Handbook of Statistical Methods*, §4.1.4.1 Linear Least Squares Regression (Disadvantages). itl.nist.gov/div898/handbook.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
 | Linear regression | A supervised algorithm that predicts a number with a straight line (or flat surface) through the data |
-| Simple linear regression | Linear regression with one input column |
-| Multiple linear regression | Linear regression with several input columns |
+| Simple linear regression | Linear regression with one feature |
+| Multiple linear regression | Linear regression with several features |
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year |
 | Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$ |
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$ |
@@ -251,6 +256,6 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 | Best-fit line | The line with the smallest total error over all the training points |
 | Error (residual) | The gap between an actual value and the model's prediction |
 | Sum of squared errors | The squares of all the errors added up; the quantity the best-fit line makes smallest |
-| coef_ | The fitted slope (one per input column) in scikit-learn |
+| coef_ | The fitted slope (one per feature) in scikit-learn |
 | intercept_ | The fitted intercept in scikit-learn |
 | Extrapolation | Predicting for inputs outside the range of the training data |

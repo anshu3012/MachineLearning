@@ -92,7 +92,7 @@ Three equations in three unknowns replaced a search along a line. With $n$ varia
 
 > **Key point:** $\lambda$ is the rate at which the best value rises when the constraint is tightened by one unit.
 
-The multiplier is more than a helper variable. It says how much the constraint costs.
+The multiplier is more than a helper variable. The multiplier says how much the constraint costs.
 
 1. **In words:** if we move the constraint by a small amount, the best value changes by about $\lambda$ times that amount.
 2. **Formula:** for the constraint $x + y = c$, with best value $f^*(c)$,
@@ -109,7 +109,7 @@ Most constraints in ML are inequalities: a margin of at least 1, a weight length
 
 ![Minimising $x^2 + 2y^2$ with one inequality constraint; the feasible region is shaded and the star is the answer. Left: $x + y \ge 3$ cuts off the unconstrained minimum, so the answer lies on the boundary (active, $\lambda = 4$). Right: $x + y \ge -1$ already contains the unconstrained minimum (inactive, $\lambda = 0$)](images/active_inactive.png)
 
-- **Active:** the unconstrained minimum is not feasible, so the answer lies on the boundary $g = 0$. It behaves like an equality constraint. For $x + y \ge 3$, written $g = 3 - x - y \le 0$, the answer is again $(2, 1)$ with $\lambda = 4$.
+- **Active:** the unconstrained minimum is not feasible, so the answer lies on the boundary $g = 0$. The constraint then behaves like an equality constraint. For $x + y \ge 3$, written $g = 3 - x - y \le 0$, the answer is again $(2, 1)$ with $\lambda = 4$.
 - **Inactive:** the unconstrained minimum is already feasible, so the constraint plays no part and $\lambda = 0$. For $x + y \ge -1$, the point $(0, 0)$ satisfies $0 \ge -1$, and it is the answer.
 
 Why must $\lambda \ge 0$ for an inequality? At an active constraint, $\nabla f = -\lambda \nabla g$. The gradient $\nabla g$ points out of the feasible region, towards larger $g$. With $\lambda \ge 0$, $\nabla f$ points into the region: $f$ increases as we move inside, so the boundary point is indeed lowest. A negative $\lambda$ would mean $f$ decreases inside, and the true answer would lie inside.
@@ -161,7 +161,7 @@ The original problem, in the variables $\mathbf{x}$, is the **primal problem**. 
 Figure 3 shows two facts:
 
 - **Weak duality:** every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$, $D(2) = 6 - 1.5 = 4.5 \le 6$.
-- **Strong duality:** here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. This holds for convex problems such as this one (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
+- **Strong duality:** here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
 
 Weak duality always holds. For a feasible $\mathbf{x}$ and $\boldsymbol{\lambda} \ge 0$, each term $\lambda_i g_i(\mathbf{x})$ is at most 0, so $\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) \le f(\mathbf{x})$. The minimum over all $\mathbf{x}$ is lower still: $D(\boldsymbol{\lambda}) \le f(\mathbf{x})$ for every feasible $\mathbf{x}$, including the best one.
 
@@ -242,13 +242,13 @@ Two things are new here:
 - Weak duality always holds; strong duality holds for convex problems.
 - Ridge and Lasso are constrained least squares; the SVM dual has one multiplier per point, nonzero only for support vectors.
 
-## Sources
+## 9. Sources
 
 - Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 5.2.3 (Slater's condition), 5.5.3 (KKT conditions), 5.6 (sensitivity and shadow prices).
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 7.2 and 12.3 (MML).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.3, Figure 3.11 (ESL).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

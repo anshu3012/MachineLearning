@@ -14,7 +14,7 @@ title: "What Is Statistics: Population, Sample and Types of Data"
 
 ## 1. Overview
 
-> **Key point:** Statistics summarises the data we have (descriptive) and uses a sample to draw conclusions about a whole population (inferential); the type of each column decides which tools we can use.
+> **Key point:** Statistics summarises the data we have (descriptive) and uses a sample to draw conclusions about a whole population (inferential); the type of each feature decides which tools we can use.
 
 ![A sample is drawn from the population, and conclusions about the population are inferred from it](images/population_sample.png)
 
@@ -24,7 +24,7 @@ Figure 1 shows the central idea of statistics: we rarely see the whole group we 
 
 > **Key point:** Statistics is the branch of mathematics for collecting, organising, summarising and drawing conclusions from data.
 
-**Statistics** is the branch of mathematics that deals with collecting, analysing, interpreting and presenting data. It gives us tools to make sense of large amounts of data, to draw conclusions and to make decisions based on data.
+**Statistics** is the branch of mathematics that deals with collecting, analysing, interpreting and presenting data. Statistics gives us tools to make sense of large amounts of data, to draw conclusions and to make decisions based on data.
 
 Few branches of mathematics are applied as widely. Some examples:
 
@@ -49,7 +49,7 @@ Every exploratory data analysis so far, such as the summaries in the [understand
 
 > **Key point:** The population is every individual we want to study; a sample is the part of it we actually measure.
 
-Suppose the government asks us for the average salary in India. India has about 140 crore people. To get the exact answer, we would have to ask every person their salary, add them up and divide by 140 crore. That is impossible in practice.
+Suppose the government asks us for the average salary in India. India has about 140 crore people. To get the exact answer, we would have to ask every person their salary, add them up and divide by 140 crore. Asking 140 crore people is impossible in practice.
 
 So we pick, say, 50,000 people from different states, regions, genders and age groups. We ask them, compute their average salary, and use it to **infer** the average salary of the whole country (Figure 1).
 
@@ -69,8 +69,8 @@ Inferential statistics is exactly this step: from a sample, say something about 
 
 A badly made sample gives wrong conclusions about the population, however carefully we analyse it. A good sample is:
 
-- **Large enough:** a tiny sample makes the result depend on luck. This is the sampling noise of the [challenges in ML Note](../07-challenges-in-ml/note.md).
-- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. This is sampling bias, from the same Note.
+- **Large enough:** a tiny sample makes the result depend on luck. Such luck-driven error is the sampling noise of the [challenges in ML Note](../07-challenges-in-ml/note.md).
+- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has sampling bias, from the same Note.
 - **Representative:** every kind of member is present. For India's average salary we need people from every state, men and women, every age group, business owners and employees.
 
 Different ways of building samples are called **sampling techniques**; a later maths Note covers them.
@@ -108,9 +108,9 @@ Inferential statistics has a set of standard tools. Each gets its own Note later
 
 ## 6. Types of data
 
-> **Key point:** Every column is categorical (nominal or ordinal) or numerical (discrete or continuous); the type decides which statistics and graphs make sense.
+> **Key point:** Every feature is categorical (nominal or ordinal) or numerical (discrete or continuous); the type decides which statistics and graphs make sense.
 
-Descriptive statistics starts by asking what type of data each column holds (Figure 2). We mostly work with tables, so "data" here means one column of a table.
+Descriptive statistics starts by asking what type of data each feature holds (Figure 2). We mostly work with tables. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row of the table. So "data" here means the values of one feature.
 
 ![The four types of data](images/data_types.png)
 
@@ -134,17 +134,17 @@ Numerical data is discrete or continuous:
 - **Discrete data** can take only separate values, usually whole numbers that come from counting. A rank is 1, 2 or 3, never 1.5. The number of children in a family, or of siblings on board the Titanic, is discrete.
 - **Continuous data** can take any value in a range, including every decimal in between. Weight (35.3 kg), height and a ticket fare are continuous.
 
-> **Extra:** Age is a borderline case. We usually record it in whole years (26, 27, 35), which makes the column discrete. Age itself is continuous, though: the Titanic data stores a baby of five months as 0.42 years. What matters is how the column is recorded and used.
+> **Extra:** Age is a borderline case. We usually record it in whole years (26, 27, 35), which makes the feature discrete. Age itself is continuous, though: the Titanic data stores a baby of five months as 0.42 years. What matters is how the feature is recorded and used.
 
 ### 6.3 Why the type matters
 
-> **Key point:** The type of a column decides which measures and graphs we can apply to it.
+> **Key point:** The type of a feature decides which measures and graphs we can apply to it.
 
-Before applying any measure or graph, we ask two questions of a column: categorical or numerical? Then nominal or ordinal, discrete or continuous? The answers decide what we can do:
+Before applying any measure or graph, we ask two questions of a feature: categorical or numerical? Then nominal or ordinal, discrete or continuous? The answers decide what we can do:
 
-- The mean of a nominal column such as state makes no sense; its most frequent category (the mode) does.
+- The mean of a nominal feature such as state makes no sense; its most frequent category (the mode) does.
 - A median needs an order, so it works for ordinal and numerical data, but not nominal data. The classic rule of measurement scales is the mode for nominal data, the median for ordinal data (Stevens 1946, Table 1).
-- Categorical columns get bar charts and pie charts; numerical columns get histograms and box plots, as the [frequency tables and graphs Note](../223-frequency-tables-and-graphs/note.md) shows.
+- Categorical features get bar charts and pie charts; numerical features get histograms and box plots, as the [frequency tables and graphs Note](../223-frequency-tables-and-graphs/note.md) shows.
 
 ## 7. Summary
 
@@ -160,14 +160,13 @@ Before applying any measure or graph, we ask two questions of a column: categori
 
 - A good sample is large enough, random and representative.
 - Population numbers use Greek letters ($\mu$, $\sigma$); sample numbers use Latin letters ($\bar{x}$, $s$).
-- Check each column's type before choosing a measure or a graph.
+- Check each feature's type before choosing a measure or a graph.
 
-
-## Sources
+## 8. Sources
 
 - Stevens, S. S. (1946). On the Theory of Scales of Measurement. *Science*, 103(2684), 677-680. Table 1.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -182,5 +181,7 @@ Before applying any measure or graph, we ask two questions of a column: categori
 | Statistical test | A procedure for hypothesis testing |
 | ANOVA | Analysis of variance: a test comparing the means of several groups |
 | Chi-square test | A statistical test for categorical variables |
+| Feature | One variable of the data, one column of the table |
+| Observation | One record, one row of the table |
 | Discrete data | Numerical data that takes only separate values, usually counts |
 | Continuous data | Numerical data that can take any value in a range |

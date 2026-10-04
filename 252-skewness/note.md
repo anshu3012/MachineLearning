@@ -13,11 +13,11 @@ title: "Skewness in Depth"
 
 ## 1. Overview
 
-> **Key point:** Skewness measures how far a distribution is from symmetric; it shows in the tail, in the order of mode, median and mean, and in one number whose size tells us whether we may treat a column as normal.
+> **Key point:** Skewness measures how far a distribution is from symmetric; it shows in the tail, in the order of mode, median and mean, and in one number whose size tells us whether we may treat a **feature** (one variable of the data, one column of the table) as normal.
 
-![Mode, median and mean in a left-skewed, a symmetric and a right-skewed column](images/skew_order.png)
+![Mode, median and mean in a left-skewed, a symmetric and a right-skewed feature](images/skew_order.png)
 
-Skewness was introduced in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10): 0 for a symmetric column, positive for a long right tail, negative for a long left tail, with the formula worked by hand. This Note goes deeper. It links skewness to the [normal distribution](../250-normal-distribution/note.md), explains why the tail matters, shows how the mean, median and mode separate (Figure 1), gives the sample formula that pandas uses, and gives a scale for reading the number.
+Skewness was introduced in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10): 0 for a symmetric feature, positive for a long right tail, negative for a long left tail, with the formula worked by hand. This Note goes deeper. The Note links skewness to the [normal distribution](../250-normal-distribution/note.md), explains why the tail matters, shows how the mean, median and mode separate (Figure 1), gives the sample formula that pandas uses, and gives a scale for reading the number.
 
 ## 2. Skewness as distance from the normal shape
 
@@ -25,7 +25,7 @@ Skewness was introduced in the [univariate analysis Note](../20-univariate-analy
 
 A normal distribution is a symmetric bell with a specific formula (see the [normal distribution Note](../250-normal-distribution/note.md)). **Skewness** is a measure of the asymmetry of a probability distribution: the degree to which a dataset deviates from that symmetric shape.
 
-- In a **symmetric** distribution the mean, median and mode are equal, and the two tails are equally long.
+- In a **symmetric** distribution with one peak, the mean, median and mode are equal, and the two tails are equally long.
 - In a **skewed** distribution the mean, median and mode differ, and one tail is longer than the other.
 
 So skewness is a warning light. The more it grows, the less the data looks like a normal distribution, and the less we can rely on the normal distribution's properties (such as the 68-95-99.7 rule) for that data.
@@ -60,7 +60,7 @@ So the order depends on the side of the tail (Figure 1):
 
 The stronger the skew, the further the mean is from the median and the mode. With little skew the three almost coincide; for a perfect normal distribution they are equal.
 
-This order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005). The order does hold for the columns of Figure 1.
+The mode-median-mean order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005). The order does hold for the features of Figure 1.
 
 ## 5. The sample skewness formula
 
@@ -75,13 +75,13 @@ We worked the population version, $g_1$, by hand in the [univariate analysis Not
    $$G_1 = \frac{n}{(n - 1)(n - 2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3$$
 3. **Example:** the values 1, 2, 3, 4, 10 have $\bar{x} = 4$ and $s = 3.536$. Their standardized values are $-0.849, -0.566, -0.283, 0, 1.697$, whose cubes are $-0.611, -0.181, -0.023, 0, 4.888$. The sum is 4.074, so
    $$G_1 = \frac{5}{4 \times 3} \times 4.074 = 0.4167 \times 4.074 = 1.70$$
-   This is the 1.70 that pandas gives, against $g_1 = 1.14$ without the correction.
+   The result, 1.70, is what pandas gives, against $g_1 = 1.14$ without the correction.
 
-The $n - 1$ inside $s$ is Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The two versions differ by a fixed factor, $G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$ (Joanes and Gill 1998): 1.49 for our 5 values, but only 1.002 for the 891 Titanic rows. So with hundreds of rows $G_1$ and $g_1$ are almost equal.
+The $n - 1$ inside $s$ is Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The two versions differ by a fixed factor, $G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$ (Joanes and Gill 1998): 1.49 for our 5 values, but only 1.002 for the 891 Titanic observations (records, or rows of the table). So with hundreds of observations $G_1$ and $g_1$ are almost equal.
 
 In practice nobody computes this by hand: `df["Fare"].skew()` returns 4.79 at once. What matters is interpreting the number.
 
-> **Extra:** A simpler measure is **Pearson's skewness coefficient**, $3(\bar{x} - \text{median})/s$ (Doane and Seward 2011). It uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 it gives $3 \times (4 - 3)/3.536 = 0.85$: the same sign, a different size. It is quick to compute but less used than the moment version.
+> **Extra:** A simpler measure is **Pearson's skewness coefficient**, $3(\bar{x} - \text{median})/s$ (Doane and Seward 2011). Pearson's coefficient uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 it gives $3 \times (4 - 3)/3.536 = 0.85$: the same sign, a different size. The coefficient is quick to compute but less used than the moment version.
 
 ## 6. Reading a skewness value
 
@@ -97,14 +97,14 @@ Real data almost never has a skewness of exactly 0, so we need a scale (Figure 2
 | $0.5$ to $1$ (or $-1$ to $-0.5$) | moderately skewed | do not assume normality |
 | above 1 (or below $-1$) | highly skewed | clearly not normal |
 
-Two Titanic columns show the two ends of the scale:
+Two Titanic features show the two ends of the scale:
 
 - **Age**, skewness 0.39: approximately symmetric. Together with its roughly bell-shaped histogram, we may treat it as normal for practical purposes, as the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) did.
-- **Fare**, skewness 4.79: highly skewed, far from normal. A column like this is a candidate for a log transform (see the [function transformer Note](../30-function-transformer/note.md)).
+- **Fare**, skewness 4.79: highly skewed, far from normal. A feature like this is a candidate for a log transform (see the [function transformer Note](../30-function-transformer/note.md)).
 
 These cut-offs are a rule of thumb, not a law; they come from Bulmer (1979).
 
-> **Python:** Skewness of every numerical column.
+> **Python:** Skewness of every numerical feature.
 >
 > ```python
 > import pandas as pd
@@ -137,17 +137,19 @@ So skewness is one check among several. We look at the shape as well (histogram,
 - $|\text{skew}| < 0.5$: about symmetric; 0.5 to 1: moderate; above 1: high.
 - Symmetric is not the same as normal.
 
-## Sources
+## 8. Sources
 
 - Bulmer, M. G. (1979). *Principles of Statistics*. Dover. (The three skewness bands.)
 - Doane, D. P. and Seward, L. E. (2011). "Measuring Skewness: A Forgotten Statistic?" *Journal of Statistics Education* 19(2).
 - Joanes, D. N. and Gill, C. A. (1998). "Comparing measures of sample skewness and kurtosis." *The Statistician* 47(1).
 - von Hippel, P. T. (2005). "Mean, Median, and Skew: Correcting a Textbook Rule." *Journal of Statistics Education* 13(2).
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | One variable of the data, one column of the table |
+| Observation | One record, one row of the table |
 | Tail event | An event with a very low probability but a very large effect |
 | Sample skewness $G_1$ | The third moment of the standardized values with a small-sample correction; what pandas' `skew()` returns |
 | Pearson's skewness coefficient | $3(\bar{x} - \text{median})/s$: a simple measure of skew |

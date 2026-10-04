@@ -16,16 +16,16 @@ title: "Handling Missing Data: Random Sample Imputation, Missing Indicator and A
 
 > **Key point:** Random sample imputation fills each gap with a real value drawn at random from the same column; a missing indicator adds a True/False column that marks where the gaps were.
 
-Note 36 filled gaps in numerical columns with one fixed number, and Note 37 filled gaps in categorical columns with the mode or the word "Missing". This Note adds two more techniques, and then a way to let the computer pick the best technique for us.
+Note 36 filled gaps in numerical features with one fixed number, and Note 37 filled gaps in categorical features with the mode or the word "Missing". A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). This Note adds two more techniques, and then a way to let the computer pick the best technique for us.
 
 Figure 1 shows the two techniques on a small `Age` column with two gaps:
 
-- **Random sample imputation** puts the known values in a bag and draws one at random for each gap. It works for numerical and categorical columns alike.
+- **Random sample imputation** puts the known values in a bag and draws one at random for each gap. The technique works for numerical and categorical features alike.
 - **Missing indicator** keeps the gaps for another imputer to fill, and adds a new column, `Age_NA`, that is True where the value was missing.
 
 ![Random sample imputation draws each fill value from the known values; the missing indicator adds a column marking the gaps](images/overview.png){width=100%}
 
-Both are univariate: they look only at the column with the gap. The last section uses grid search to choose the imputation strategy automatically, together with the model's own settings.
+Both are univariate: they look only at the feature with the gap. The last section uses grid search to choose the imputation strategy automatically, together with the model's own settings.
 
 ## 2. Random sample imputation
 
@@ -58,7 +58,7 @@ Because every range gets its fair share of the filled values, the shape of the d
 
 ### 2.3 Advantages
 
-> **Key point:** It is easy to apply and keeps the distribution and variance intact, which suits linear models.
+> **Key point:** Random sample imputation is easy to apply and keeps the distribution and variance intact, which suits linear models.
 
 1. **Easy to apply.** One line of pandas per column.
 2. **Keeps the distribution and the variance**, as Section 2.2 explains.
@@ -79,13 +79,13 @@ Tree-based models, such as decision trees, gain less from it: the random values 
 
 ### 2.4 Disadvantages
 
-> **Key point:** It weakens the column's relationships with other columns, adds randomness, and needs the training data at prediction time.
+> **Key point:** Random sample imputation weakens the feature's relationships with other features, adds randomness, and needs the training data at prediction time.
 
-1. **The covariance with other columns changes.** Each filled value is drawn without looking at the rest of the row, so the column's link to other columns weakens.
-2. **It adds randomness.** Run the code twice without a fixed seed and the filled values differ.
-3. **It needs memory in production.** A gap in new data must be filled from the training values, so the deployed model has to keep the whole training column on the server. For a large training set, this takes a lot of memory.
+1. **The covariance with other features changes.** Each filled value is drawn without looking at the rest of the observation, so the feature's link to other features weakens.
+2. **The fill is random.** Run the code twice without a fixed seed and the filled values differ.
+3. **Production needs memory.** A gap in new data must be filled from the training values, so the deployed model has to keep the whole training column on the server. For a large training set, the stored column takes a lot of memory.
 
-It works however many values are missing, since the shape is kept either way. Section 5 shows a check that can still fail when many values are missing.
+Random sample imputation keeps the shape however many values are missing. Section 5 shows a check that can still fail when many values are missing.
 
 ## 3. Random sample imputation on Titanic ages
 
@@ -144,7 +144,7 @@ The orange curve lies almost on top of the blue one. The box plots agree: the bo
 | `Age` original | 71.51 |
 | `Age` random sample imputed | 53.26 |
 
-A passenger with a high fare tended to be a little older. The drawn ages pay no attention to the fare, so for the 148 filled rows this pattern is lost, and the covariance drops by about a quarter. This is disadvantage 1 of Section 2.4.
+A passenger with a high fare tended to be a little older. The drawn ages pay no attention to the fare, so for the 148 filled rows this pattern is lost, and the covariance drops by about a quarter. The drop is disadvantage 1 of Section 2.4.
 
 ## 4. Same input, same fill
 
@@ -209,7 +209,7 @@ Figure 3 compares each category's share before (among the known values) and afte
 | Po | 0.1% | 0.1% | 2.8% | 2.8% |
 | Ex | 0.1% | 0.1% | 2.5% | 2.5% |
 
-This is the categorical version of Section 2.2: a category with half the slips gets about half the draws. Compare mode imputation in Note 37, where Gd in `FireplaceQu` jumped to 72.9%.
+The equal shares are the categorical version of Section 2.2: a category with half the slips gets about half the draws. Compare mode imputation in Note 37, where Gd in `FireplaceQu` jumped to 72.9%.
 
 > **Extra:** A share must be divided by the rows of the same set. The share after imputation is a category's count over all 1,168 training rows. Dividing by the row count of a different table, for example the 891 rows of the Titanic data, gives shares that add up to more than 100% and look like large changes when there are none.
 
@@ -239,25 +239,25 @@ For `GarageQual`, only 65 values were drawn, and the TA mean moves only from 186
 
 ## 6. Missing indicator
 
-> **Key point:** A missing indicator adds a True/False column per column with gaps, so the model can learn whether "missing" itself matters.
+> **Key point:** A missing indicator adds a True/False column for each feature with gaps, so the model can learn whether "missing" itself matters.
 
 ### 6.1 The idea
 
 > **Key point:** True where the value was missing, False where it was present.
 
-A **missing indicator** is a new column added for each column that has gaps. It holds True where that column's value is missing and False where it is present. For `Age`, the new column `Age_NA` is True for the 148 passengers with no age (Figure 1).
+A **missing indicator** is a new column added for each feature that has gaps. The indicator holds True where that feature's value is missing and False where it is present. For `Age`, the new column `Age_NA` is True for the 148 passengers with no age (Figure 1).
 
 The indicator does not fill the gaps. The original column is still imputed in the usual way, for example with the mean. The indicator is added next to it.
 
 ### 6.2 Why it can help
 
-> **Key point:** The model can learn that rows with gaps behave differently from rows without.
+> **Key point:** The model can learn that observations with gaps behave differently from observations without.
 
-The model gets a way to tell rows with a gap apart from rows without one. If the two groups behave differently, the model can use that difference.
+The model gets a way to tell observations with a gap apart from observations without one. A doctor's form works the same way: a blank "smoker?" box can itself be a clue, so we note that it was left blank instead of guessing an answer. If the two groups behave differently, the model can use that difference.
 
 On the Titanic training set, they do. Of the passengers with no recorded age, 28.4% survived; of those with an age, 39.2% survived. Mean imputation alone hides this: a filled age of 29.79 looks like any other age.
 
-The technique became popular through machine learning competitions, where adding indicators helped winning models. It does not always help, but it is cheap to try when a model needs a few more points of accuracy.
+The technique became popular through machine learning competitions, where adding indicators helped winning models. The indicator does not always help, but it is cheap to try when a model needs a few more points of accuracy.
 
 > **Extra:** A missing indicator is most useful when the data is not missing completely at random (MAR or MNAR, Note 35). When gaps are pure chance, the indicator carries no information, and the model should give it a weight near zero.
 
@@ -272,7 +272,9 @@ We train logistic regression on `Age` and `Fare` twice, with the same split as S
 | `Age`, `Fare` (mean imputed) | 61.5% (110 of 179) |
 | `Age`, `Fare` (mean imputed) + `Age_NA` | 63.1% (113 of 179) |
 
-Three more test passengers are classified correctly. The model gave `Age_NA` a negative weight ($-0.30$): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest. On such a small toy problem the gain is small, but it shows the idea.
+Three more test passengers are classified correctly. The model gave `Age_NA` a negative weight ($-0.30$): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest.
+
+> **Extra:** One test set of 179 passengers is a small sample, so the Notebook also averages over 100 different splits of all 891 passengers (5-fold cross-validation, repeated 20 times). The mean accuracy is 65.7% without the indicator and 66.3% with it. The gain is small because the model has only two features, but it holds on average.
 
 > **Python:** scikit-learn's `MissingIndicator`.
 >
@@ -304,7 +306,7 @@ The missing indicator is common enough that `SimpleImputer` has a parameter for 
 > # ['Age', 'Fare', 'missingindicator_Age']
 > ```
 >
-> The result is the same three columns, and logistic regression again reaches 63.1%. This is the easier route: no separate object, and no joining of columns by hand.
+> The result is the same three columns, and logistic regression again reaches 63.1%. `add_indicator=True` is the easier route: no separate object, and no joining of columns by hand.
 
 Use the `MissingIndicator` class with an imputer that has no such parameter, such as the random sample imputation of Section 2. Otherwise, `add_indicator=True` is simpler.
 
@@ -383,20 +385,55 @@ The grid lists the values to try for each name:
 >
 > `clf.get_params()` lists every valid name, if we are unsure of a path. With `cv=10`, each of the 16 combinations is trained 10 times, 160 fits in all, each on nine tenths of the training set and scored on the other tenth.
 
-### 7.4 The result
+### 7.4 The result where the fill matters: house prices
 
-> **Key point:** The best cross-validated accuracy is 78.8%; on this small data, the imputation strategy makes no difference, only `C` does.
+> **Key point:** When the feature with gaps drives the target, grid search finds a clear winner: on house prices, the "Missing" category cuts the average error from 53,400 to 46,400 dollars.
 
-`best_params_` reports `C = 1`, `"most_frequent"` for the categorical columns and `"mean"` for the numerical ones, with a cross-validated accuracy of 78.8%. The full table, `cv_results_`, tells more:
+Grid search can only tell two imputers apart if the feature they fill matters for the target. Think of two ways to fill a blank on a form: the choice matters only if someone reads that line. The house data of Section 5 meets that condition. `FireplaceQu` has 47.7% gaps in the training set, and those gaps mark cheaper houses (Section 5.3). We predict `SalePrice` from `GarageQual` and `FireplaceQu` with a three-step pipeline: impute, one-hot encode (Note 27), then linear regression ([Note 50](../50-simple-linear-regression/note.md)). The grid tries the two categorical strategies.
+
+The score is the **mean absolute error**: the average size of the gap between the predicted and the real price, in dollars. Lower is better.
+
+| `imputer__strategy` | Mean CV error |
+|---|---|
+| `"most_frequent"` | 53,447 dollars |
+| `"constant"` (a "missing" category) | 46,382 dollars |
+
+`best_params_` picks `"constant"`, and the refitted pipeline's error on the test set is 47,272 dollars. The reason is the price shift of Section 5.3, seen from the other side. Mode imputation turns the 557 cheap houses with no fireplace into Gd houses, so the model can no longer tell them apart from real Gd houses. A category of their own keeps them as a separate group with its own, lower price. The scikit-learn example on imputing before an estimator makes the same point: the choice of imputer changes the model's score, so it is worth comparing (scikit-learn docs, Imputing missing values before building an estimator).
+
+> **Python:** The grid search on the house data.
+>
+> ```python
+> house_pipe = Pipeline(steps=[
+>     ("imputer", SimpleImputer(strategy="most_frequent")),
+>     ("ohe", OneHotEncoder(handle_unknown="ignore")),
+>     ("model", LinearRegression())])
+> house_search = GridSearchCV(house_pipe,
+>     {"imputer__strategy": ["most_frequent", "constant"]},
+>     cv=10, scoring="neg_mean_absolute_error")
+> house_search.fit(Xh_train, yh_train)
+> house_search.best_params_    # {'imputer__strategy': 'constant'}
+> ```
+>
+> **`scoring="neg_mean_absolute_error"`** scores each setting by minus its mean absolute error, because grid search always keeps the highest score. With strings, `"constant"` fills the gaps with the word `"missing_value"` by default.
+
+> **Extra:** Averaged over 100 splits of all 1,460 houses (10-fold cross-validation, repeated 10 times), the error is 54,015 dollars with the mode and 46,863 dollars with the constant category.
+
+### 7.5 When every imputer ties: the Titanic pipeline
+
+> **Key point:** On the Titanic data, all four imputer combinations tie at 78.8%, because the feature with gaps, `Age`, barely affects the predictions.
+
+The Titanic pipeline of Section 7.2 shows the other side of the condition.
+
+`best_params_` reports `C = 1`, `"most_frequent"` for the categorical features and `"mean"` for the numerical ones, with a cross-validated accuracy of 78.8%. The full table, `cv_results_`, shows that only `C` changes the score:
 
 | `C` | Imputer strategies | Mean CV accuracy |
 |---|---|---|
 | 1, 10 or 100 | any of the 4 combinations | 78.8% |
 | 0.1 | any of the 4 combinations | 78.6% |
 
-All four imputer combinations score exactly the same, so grid search reports the first of the tied combinations as "best". The reason: on this data, `Age` barely affects the predictions at all, so it does not matter how its gaps are filled. The categorical fills touch only the 2 rows with no `Embarked`. On data where the column with gaps does drive the predictions, the scores would differ, and the same code picks the winner for us.
+The four imputer combinations score exactly the same, so grid search reports the first of the tied combinations. The categorical fills touch only the 2 observations with no `Embarked`, and `Age` hardly matters (next Extra).
 
-> **Extra:** The experiment behind this (with `C = 1`, the same 10 folds; the last cell of the Notebook).
+> **Extra:** The experiment behind the tie (with `C = 1`, the same 10 folds; the last cell of the Notebook).
 >
 > | Change to the pipeline | Mean CV accuracy |
 > |---|---|
@@ -407,7 +444,7 @@ All four imputer combinations score exactly the same, so grid search reports the
 >
 > Removing `Age` entirely gives the same score, fold for fold, so no fill of `Age` can change it; only the extreme fill of 99 flips a few predictions.
 
-> **Extra:** Grid search fits only on the training set; the test set stays unseen. After the search, `grid_search` refits the best pipeline on the whole training set, and we score it on the test set once: `grid_search.score(X_test, y_test)` gives 76.0%. This is the number to report, not the 78.8% from cross-validation, because the settings were chosen to maximise that one, which makes it too optimistic (Cawley and Talbot 2010).
+> **Extra:** Grid search fits only on the training set; the test set stays unseen. After the search, `grid_search` refits the best pipeline on the whole training set, and we score it on the test set once: `grid_search.score(X_test, y_test)` gives 76.0%. The test score is the number to report, not the 78.8% from cross-validation, because the settings were chosen to maximise that one, which makes it too optimistic (Cawley and Talbot 2010).
 
 ## 8. Summary
 
@@ -418,17 +455,18 @@ All four imputer combinations score exactly the same, so grid search reports the
 | Keeps the distribution | yes | does not fill; used with another imputer | depends on the chosen imputer |
 | Main risk | weaker links to other columns; randomness; training data needed in production | an extra column that may carry no information | slow when the grid is large |
 | In scikit-learn | no; done in pandas with `sample` | `MissingIndicator`, or `SimpleImputer(add_indicator=True)` | `GridSearchCV` over a `Pipeline` |
-| On this data | `Age`: variance 204.35 to 200.03 | accuracy 61.5% to 63.1% | strategies tied at 78.8% |
+| On this data | `Age`: variance 204.35 to 200.03 | accuracy 61.5% to 63.1% | house prices: "Missing" beats mode, error 46,400 vs 53,400 dollars |
 
-- Random sample imputation draws each fill value from the column's own known values, so the shape and variance stay almost the same. It suits linear models.
-- It weakens the column's covariance with others (`Age` with `Fare`: 71.51 to 53.26) and needs the training values at prediction time.
+- Random sample imputation draws each fill value from the feature's own known values, so the shape and variance stay almost the same. The technique suits linear models.
+- Random sample imputation weakens the feature's covariance with others (`Age` with `Fare`: 71.51 to 53.26) and needs the training values at prediction time.
 - In production, seed each draw with a value from the row, so the same input always gets the same fill.
 - On categorical data, check the category shares and the target per category. In `FireplaceQu` the shares held, but the prices per category shifted badly: too many values were missing.
-- A missing indicator lets the model learn whether a missing value is informative. It is added next to any imputation.
-- Grid search can tune the imputation strategy along with the model, if the imputers sit inside the pipeline. Settings are named by their path, joined with `__`.
+- A missing indicator lets the model learn whether a missing value is informative. The indicator is added next to any imputation.
+- Grid search can tune the imputation strategy along with the model, if the imputers sit inside the pipeline. Settings are named by their path, joined with `__`. On the house prices, grid search picked the "Missing" category, which cut the average error from 53,400 to 46,400 dollars.
 
 ## 9. Sources
 
+- scikit-learn examples, *Imputing missing values before building an estimator* (Impute section of the example gallery).
 - Cawley, G. C. and Talbot, N. L. C. (2010). On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation. *Journal of Machine Learning Research* 11, 2079–2107.
 
 ## 10. Key terms
@@ -439,7 +477,12 @@ All four imputer combinations score exactly the same, so grid search reports the
 | `sample(n)` | The pandas method that draws `n` values at random from a Series or DataFrame |
 | `random_state` | A seed that fixes a random draw, so the same code gives the same result |
 | Per-row seed | A seed taken from a row's own values, so the same input always gets the same random fill |
-| Missing indicator | A True/False column marking where a column's value was missing |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
+| Missing indicator | A True/False column marking where a feature's value was missing |
+| Mean absolute error | The average size of the gap between predicted and real values, in the target's units |
+
 | `MissingIndicator` | The scikit-learn class that builds missing indicator columns; `features_` lists the columns with gaps |
 | `add_indicator=True` | The `SimpleImputer` setting that imputes and appends missing indicators in one step |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation |

@@ -69,7 +69,7 @@ $$W_{\text{new}} = 1 - 0.01 \times 0.0001 = 0.999999$$
 
 The weight has effectively not changed. If the early weights do not change, the loss does not fall either: it stays where it was at the start. The early layers, which are supposed to learn the basic features, learn nothing, and backpropagation cannot converge.
 
-This was one of the main reasons neural networks failed in the 1980s and 1990s, when almost every network used sigmoid or tanh (see section 3.4 of the [types of neural networks Note](../1003-nn-types-history-applications/note.md)).
+This was one of the main reasons neural networks failed in the 1980s and 1990s (Hochreiter 1991; Bengio et al. 1994), when almost every network used sigmoid or tanh (see section 3.4 of the [types of neural networks Note](../1003-nn-types-history-applications/note.md)).
 
 ## 4. Seeing it in Keras
 
@@ -122,7 +122,7 @@ Over 100 epochs (Figure 2, red) the training loss goes from 0.704 to 0.700, next
 
 ![Training loss over 100 epochs: 10 sigmoid layers stay at the guessing level; 3 sigmoid layers and 10 ReLU layers learn](images/loss_curves.png){height=36%}
 
-> **Extra:** One way to read a gradient off the weights is $(W_{\text{old}} - W_{\text{new}})/\eta$. This only works for plain SGD and a single update. Keras' default optimizer is Adam, whose steps are scaled per weight and are not proportional to the gradient; there even tiny gradients produce visible weight changes, which hides the problem in the weights (but not in the loss). `tf.GradientTape` gives the true gradient with any optimizer.
+> **Extra:** One way to read a gradient off the weights is $(W_{\text{old}} - W_{\text{new}})/\eta$. This only works for plain SGD and a single update. Keras' default optimizer is Adam, whose steps are scaled per weight and are not proportional to the gradient; Adam's step is about the learning rate whatever the gradient's size (Kingma and Ba 2015, §2.1), so even tiny gradients produce visible weight changes, which hides the problem in the weights (but not in the loss). `tf.GradientTape` gives the true gradient with any optimizer.
 
 ## 5. How to recognise it
 
@@ -151,17 +151,17 @@ This works, but it is rarely the answer. We make networks deep to capture comple
 
 ### 6.2 Use ReLU
 
-> **Key point:** ReLU outputs $\max(0, z)$; its slope is 0 or 1, never a fraction, so it does not shrink the gradient. With 10 ReLU layers the loss reaches 0.002 and the test accuracy 100%.
+> **Key point:** ReLU outputs $\max(0, z)$; its slope is 0 or 1, never a fraction, so it does not shrink the gradient. With 10 ReLU layers the loss reaches 0.007 and the test accuracy 100%.
 
 **ReLU** (rectified linear unit) is the activation $\text{ReLU}(z) = \max(0, z)$: 0 for negative inputs, the input itself for positive ones. It squashes only the negative side; positive values pass through unchanged.
 
 Its slope is 0 for $z < 0$ and 1 for $z > 0$. A product of 1s stays 1, so the factors on the way back no longer shrink the gradient. Keeping 10 hidden layers but switching them to ReLU (the output stays sigmoid for binary cross-entropy):
 
 - the gradients are about the same size in every layer, between $4 \times 10^{-5}$ and $3 \times 10^{-4}$ (Figure 1, green);
-- the loss falls from 0.691 to 0.002 in 100 epochs, and the test accuracy is 100% (Figure 2, green);
-- the first-layer weights moved by 0.74 on average.
+- the loss falls from 0.691 to 0.007 in 100 epochs, and the test accuracy is 100% (Figure 2, green);
+- the first-layer weights moved by 0.62 on average.
 
-The spikes in the green curve come from the large learning rate of 0.5, chosen so that plain SGD moves at all in the sigmoid networks; ReLU networks usually train with smaller rates.
+The spikes in the green curve come from the large learning rate of 0.5, chosen so that plain SGD moves at all in the sigmoid networks. Retrained with smaller rates, the ReLU network has fewer spikes: 3 at 0.1 and none at 0.05 (Notebook).
 
 > **Python:** The only change is the activation.
 >
@@ -204,7 +204,7 @@ If the factors are above 1, the product grows with every one: $1.5^{10} = 58$. L
 3. **Example:** with $W_{\text{old}} = 1$, $\eta = 0.1$ and $\partial L/\partial W = 1000$:
    $$W_{\text{new}} = 1 - 0.1 \times 1000 = -99$$
 
-The next step can be even larger. The weights jump around at random, the loss does not decrease, and the model stops training. This is the **exploding gradient problem**. It shows up most in recurrent neural networks, which multiply by the same weights at every time step; it is studied in detail there.
+The next step can be even larger. The weights jump around at random, the loss does not decrease, and the model stops training. This is the **exploding gradient problem**. It shows up most in recurrent neural networks, which multiply by the same weights at every time step (Pascanu et al. 2013); it is studied in detail there.
 
 ### 7.2 An exploding network in Keras
 
@@ -231,7 +231,7 @@ We build 10 hidden layers of 10 nodes again, now with linear activations (no squ
 
 With clipping the same network produces finite numbers: the loss falls from 12,155 to 2,049 over 5 epochs. Still enormous, because the starting weights are bad, but it decreases instead of breaking. Proper initialisation and batch normalisation also help against exploding gradients.
 
-> **Extra:** The loss can exceed the usual 16 or so because Keras 3 computes binary cross-entropy from the output node's weighted sum (the logit) when the output is a sigmoid. That avoids rounding errors, and it also means the loss of a confidently wrong prediction is no longer capped.
+> **Extra:** The loss can exceed the usual 16 or so because Keras 3 computes binary cross-entropy from the output node's weighted sum (the logit) when the output is a sigmoid (Keras source, `binary_crossentropy` in `backend/tensorflow/nn.py`). That avoids rounding errors, and it also means the loss of a confidently wrong prediction is no longer capped.
 
 ## 8. Summary
 
@@ -248,7 +248,14 @@ With clipping the same network produces finite numbers: the loss falls from 12,1
 - Watch the loss per epoch, and the early weights, to detect it.
 - 3 sigmoid layers or 10 ReLU layers learn the moons data; 10 sigmoid layers cannot.
 
-## 9. Key terms
+## 9. Sources
+
+- Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, §2.1.
+- Pascanu, Mikolov and Bengio, "On the difficulty of training recurrent neural networks", ICML 2013.
+- Hochreiter, "Untersuchungen zu dynamischen neuronalen Netzen", diploma thesis, TU Munich, 1991; Bengio, Simard and Frasconi, "Learning long-term dependencies with gradient descent is difficult", *IEEE Transactions on Neural Networks*, 1994.
+- Keras 3 source code, `keras/src/backend/tensorflow/nn.py`, function `binary_crossentropy` (uses the stored logits of a sigmoid output).
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

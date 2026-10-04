@@ -1,0 +1,36 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\input{shapes.tikzdefs}
+\begin{document}
+\begin{tikzpicture}
+\node[title] at (8.0,3.6) {many-to-many, different lengths: machine translation (English to Hindi)};
+\node[cell] (c0) at (0.0,0) {RNN};
+\node[inp] (x0) at (0.0,-1.5) {I}; \draw[up] (x0) -- (c0);
+\node[cell] (c1) at (2.0,0) {RNN};
+\node[inp] (x1) at (2.0,-1.5) {am}; \draw[up] (x1) -- (c1);
+\draw[rec] (c0) -- (c1);
+\node[cell] (c2) at (4.0,0) {RNN};
+\node[inp] (x2) at (4.0,-1.5) {going}; \draw[up] (x2) -- (c2);
+\draw[rec] (c1) -- (c2);
+\node[cell] (c3) at (6.0,0) {RNN};
+\node[inp] (x3) at (6.0,-1.5) {home}; \draw[up] (x3) -- (c3);
+\draw[rec] (c2) -- (c3);
+\node[cell] (c4) at (8.0,0) {RNN};
+\node[outp] (y4) at (8.0,1.5) {main}; \draw[up] (c4) -- (y4);
+\draw[rec] (c3) -- (c4);
+\node[cell] (c5) at (10.0,0) {RNN};
+\node[outp] (y5) at (10.0,1.5) {ghar}; \draw[up] (c5) -- (y5);
+\draw[rec] (c4) -- (c5);
+\node[cell] (c6) at (12.0,0) {RNN};
+\node[outp] (y6) at (12.0,1.5) {ja}; \draw[up] (c6) -- (y6);
+\draw[rec] (c5) -- (c6);
+\node[cell] (c7) at (14.0,0) {RNN};
+\node[outp] (y7) at (14.0,1.5) {raha}; \draw[up] (c7) -- (y7);
+\draw[rec] (c6) -- (c7);
+\node[cell] (c8) at (16.0,0) {RNN};
+\node[outp] (y8) at (16.0,1.5) {hoon}; \draw[up] (c8) -- (y8);
+\draw[rec] (c7) -- (c8);
+\draw[decorate, decoration={brace, mirror, amplitude=6pt}, cgrey] (-0.7,-2.1) -- (6.7,-2.1) node[midway, below=6pt, note] {encoder: reads the whole input};
+\draw[decorate, decoration={brace, amplitude=6pt}, cgrey] (7.3,2.1) -- (16.7,2.1) node[midway, above=6pt, note] {decoder: writes the output, after the last input word};
+\end{tikzpicture}
+\end{document}

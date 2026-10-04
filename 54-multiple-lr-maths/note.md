@@ -16,9 +16,11 @@ title: "Multiple Linear Regression: The Normal Equation"
 
 > **Key point:** Written with matrices, the error of multiple linear regression has one formula for all the coefficients at once: $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$, the normal equation.
 
-For simple linear regression we found two formulas, one for $m$ and one for $b$. With $m$ input columns there are $m + 1$ coefficients, and writing a separate formula for each is hopeless.
+A **feature** is an input variable (one column of the data table), the **target** $y$ is the output we predict, and an **observation** is one record (one row).
 
-Matrices solve this. We write all the data, all the predictions and all the coefficients as matrices, and the same steps as before (write the error, differentiate, set to zero) give one formula for every coefficient at once:
+For simple linear regression we found two formulas, one for $m$ and one for $b$. With $m$ features there are $m + 1$ coefficients, and writing a separate formula for each is hopeless.
+
+Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a matrix lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices, and the same steps as before (write the error, differentiate, set to zero) give one formula for every coefficient at once:
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
@@ -28,15 +30,15 @@ This Note builds it step by step. The next Note codes it from scratch. The deriv
 
 > **Key point:** Put the data in a matrix X with an extra first column of 1s, and the coefficients in a vector $\beta$. Then all predictions at once are $\hat{y} = X\beta$.
 
-For one data point $i$ with inputs $x_{i1}, \dots, x_{im}$, the model predicts
+For one observation $i$ with feature values $x_{i1}, \dots, x_{im}$, the model predicts
 
 $$\hat{y}_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
 
-Writing this for every row gives $n$ equations. Matrices write them all at once (Figure 1).
+Writing this for every observation gives $n$ equations. Matrices write them all at once (Figure 1).
 
 ![All predictions as one matrix product](images/matrix_form.png)
 
-- **$X$** holds the data: one row per data point, one column per input, plus a first column of 1s. The 1s multiply $\beta_0$, so the intercept is treated like any other coefficient.
+- **$X$** holds the data: one row per observation, one column per feature, plus a first column of 1s. The 1s multiply $\beta_0$, so the intercept is treated like any other coefficient.
 - **$\beta$** holds the $m + 1$ coefficients, $\beta_0$ to $\beta_m$.
 - **$\hat{y}$** holds the $n$ predictions.
 
@@ -113,11 +115,11 @@ To get $\beta$ alone we need to "divide" by $X^{\mathsf T}X$. Matrices have no d
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
-This is the **normal equation**: a closed-form solution for all coefficients of multiple linear regression at once. scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
+The formula is the **normal equation**: a closed-form solution for all coefficients of multiple linear regression at once. scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
 
 ### 6.1 A worked example
 
-> **Key point:** On four students with one input, the normal equation gives the same slope and intercept as the simple formulas.
+> **Key point:** On four students with one feature, the normal equation gives the same slope and intercept as the simple formulas.
 
 Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 7.42 and packages 3.26, 1.98, 3.25, 3.67.
 
@@ -132,28 +134,28 @@ $$X^{\mathsf T}X = \begin{bmatrix} 4 & 27.25 \\ 27.25 & 189.90 \end{bmatrix} \qq
 
 $$\beta = \begin{bmatrix} 11.158 & -1.601 \\ -1.601 & 0.235 \end{bmatrix}\begin{bmatrix} 12.16 \\ 85.25 \end{bmatrix} = \begin{bmatrix} -0.81 \\ 0.57 \end{bmatrix}$$
 
-So $\beta_0 = -0.81$ (intercept) and $\beta_1 = 0.57$ (slope): exactly what the simple linear regression formulas give for these four points. The simple formulas are the normal equation with a single input.
+So $\beta_0 = -0.81$ (intercept) and $\beta_1 = 0.57$ (slope): exactly what the simple linear regression formulas give for these four points. The simple formulas are the normal equation with a single feature.
 
 ## 7. The cost of the inverse
 
-> **Key point:** Inverting $X^{\mathsf T}X$ takes time that grows roughly with the cube of the number of columns. With very many columns, gradient descent is used instead.
+> **Key point:** Inverting $X^{\mathsf T}X$ takes time that grows roughly with the cube of the number of features. With very many features, gradient descent is used instead.
 
-$X^{\mathsf T}X$ is a square matrix with one row and one column per coefficient, $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the columns makes the work about 8 times larger.
+$X^{\mathsf T}X$ is a square matrix with one row and one column per coefficient, $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the features makes the work about 8 times larger.
 
 Figure 2 measures it on this computer.
 
 ![Time to invert a matrix as its size grows](images/inverse_cost.png)
 
-From 1,000 to 2,000 columns, the time grows about 7 times, from 0.08 to 0.59 seconds. With tens of thousands of columns, as with text or image data, the inverse becomes very slow and memory-hungry. With numbers: 20,000 columns is 20 times 1,000, so the $m^3$ rule predicts about $20^3 = 8{,}000$ times the 0.08 seconds, roughly 11 minutes. And $X^{\mathsf T}X$ alone would hold $20{,}000^2$ numbers, about 3.2 GB of memory.
+From 1,000 to 2,000 features, the time grows about 7 times, from 0.08 to 0.59 seconds. With tens of thousands of features, as with text or image data, the inverse becomes very slow and memory-hungry. With numbers: 20,000 features is 20 times 1,000, so the $m^3$ rule predicts about $20^3 = 8{,}000$ times the 0.08 seconds, roughly 11 minutes. And $X^{\mathsf T}X$ alone would hold $20{,}000^2$ numbers, about 3.2 GB of memory.
 
-That is why there is a second method, **gradient descent**: it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the normal equation's. In scikit-learn:
+The cost of the inverse is why there is a second method, **gradient descent**: it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the normal equation's. In scikit-learn:
 
 - `LinearRegression` uses the closed-form (OLS) solution;
 - `SGDRegressor` uses gradient descent.
 
-For most tabular data the number of columns is small, and `LinearRegression` is the usual choice. Gradient descent gets its own Notes next.
+For most tabular data the number of features is small, and `LinearRegression` is the usual choice. Gradient descent gets its own Notes next.
 
-> **Extra:** $X^{\mathsf T}X$ has no inverse when one input column can be built exactly from others (multicollinearity, as in the dummy variable trap of the one-hot encoding Note). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation, both covered later. scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
+> **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (multicollinearity, as in the dummy variable trap of the one-hot encoding Note). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation, both covered later. scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
 
 ## 8. Summary
 
@@ -167,20 +169,23 @@ For most tabular data the number of columns is small, and `LinearRegression` is 
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ |
 
 - A column of 1s in $X$ lets the intercept be treated like any other coefficient.
-- One formula gives all $m + 1$ coefficients at once; with one input it reduces to the simple formulas.
+- One formula gives all $m + 1$ coefficients at once; with one feature it reduces to the simple formulas.
 - The inverse costs about $m^3$ operations, so very wide data uses gradient descent instead.
 
-## Sources
+## 9. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. §5.5 Useful Identities for Computing Gradients.
 - scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section (uses `scipy.linalg.lstsq`).
-- LAPACK documentation, DGELSD: minimum-norm least-squares solution using the SVD, for a matrix that may be rank-deficient. https://www.netlib.org/lapack/double/dgelsd.f
+- LAPACK documentation, DGELSD: minimum-norm least-squares solution using the SVD, for a matrix that may be rank-deficient. netlib.org/lapack.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
-| Design matrix ($X$) | The data as a matrix, one row per data point, with a first column of 1s for the intercept |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
+| Design matrix ($X$) | The data as a matrix, one row per observation, with a first column of 1s for the intercept |
 | Coefficient vector ($\beta$) | All the coefficients of the model, $\beta_0$ to $\beta_m$, as one column |
 | Matrix calculus | Rules for differentiating expressions with vectors and matrices |
 | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy |

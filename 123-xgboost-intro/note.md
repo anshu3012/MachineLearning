@@ -45,7 +45,7 @@ XGBoost was built to fix both: better results and much more speed.
 
 > **Key point:** XGBoost is a library: the gradient boosting algorithm plus software engineering that makes it fast and robust.
 
-A common misunderstanding is that XGBoost is a new algorithm. It is a **library** built on the existing gradient boosting algorithm. Its creator, Tianqi Chen, saw how much potential gradient boosting had. By improving its speed and its results, it could become far more powerful.
+A common misunderstanding is that XGBoost is a new algorithm. XGBoost is a **library** built on the existing gradient boosting algorithm. Its creator, Tianqi Chen, saw how much potential gradient boosting had. By improving its speed and its results, it could become far more powerful.
 
 So XGBoost is two things together:
 
@@ -58,9 +58,9 @@ So XGBoost is two things together:
 
 The history falls into three stages.
 
-1. **The early days (2014).** Tianqi Chen started XGBoost as a research project at the University of Washington (Wikipedia, "XGBoost"). To test it, it was used in the Higgs Boson Machine Learning Challenge on Kaggle, a particle-physics competition. It did very well there, and Kaggle users began to notice a new tool.
+1. **The early days (2014).** Tianqi Chen built XGBoost at the University of Washington. He and Tong He used it in the 2014 Higgs Boson Machine Learning Challenge on Kaggle, a particle-physics competition, where their solution finished in the top 2% (Chen and He 2015). Kaggle users began to notice a new tool.
 2. **The Kaggle years (2015-2016).** More and more winners used it. The XGBoost paper (Chen and Guestrin 2016, §1) reports that 17 of the 29 winning solutions published on Kaggle's blog in 2015 used XGBoost.
-3. **Open source (from 2016).** With the code open, engineers worldwide added features and optimisations, support for more platforms and languages, documentation and tutorials. Today XGBoost is a default first try in most competitions and in much industry work.
+3. **Open source.** XGBoost is an open-source package (Chen and Guestrin 2016, §1). With the code open, engineers worldwide added features and optimisations, support for more platforms and languages, documentation and tutorials. The paper calls it "the consensus choice of learner" among the winning solutions it surveyed (Chen and Guestrin 2016, §1).
 
 ## 5. Why gradient boosting was the starting point
 
@@ -68,12 +68,12 @@ The history falls into three stages.
 
 Several properties made gradient boosting a good base:
 
-- **Flexibility.** It accepts any loss function that can be differentiated ([gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md)). The same algorithm handles regression, classification, ranking and custom problems.
+- **Flexibility.** Gradient boosting accepts any loss function that can be differentiated ([gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md)). The same algorithm handles regression, classification, ranking and custom problems.
 - **Performance.** On most datasets it gives good results.
 - **Robustness.** With proper regularisation its results are stable.
 - **Kaggle.** Many winners already used it.
 
-It did nearly everything right. With better results on new data and the ability to handle big datasets, it would become hard to beat. That was the plan behind XGBoost.
+Gradient boosting did nearly everything right. With better results on new data and the ability to handle big datasets, gradient boosting would become hard to beat. That plan is the origin of XGBoost.
 
 ## 6. Flexibility
 
@@ -85,15 +85,15 @@ The aim was to reach as many people as possible. Four features serve it.
 
 > **Key point:** The same model runs on Windows, Linux and macOS.
 
-A model trained on Linux can be loaded and used on Windows. Most libraries can do this today, so this is no longer unusual.
+A model trained on Linux can be loaded and used on Windows. Cross-platform support is common in libraries today.
 
 ### 6.2 Many programming languages
 
 > **Key point:** A model trained in Python can be loaded and used from Java, R, Scala, C++ and others.
 
-Most models live in one language: Python, R or MATLAB. XGBoost has interfaces (wrappers around the same core) for Python, R, Java, Scala, Ruby, Swift, Julia, C and C++.
+Most models live in one language: Python, R or MATLAB. XGBoost has interfaces (wrappers around the same core) for Python, R, Java, Scala, Ruby, Swift, Julia, C and C++ (XGBoost docs).
 
-This matters in practice. Suppose a company's website is written in Java, as many enterprise applications are, and needs a machine learning component. Usually the model is trained in Python and wrapped in a separate web service (an API) that Java calls. With XGBoost, Java can load the saved model and predict directly.
+Language support matters in practice. Suppose a company's website is written in Java, as many enterprise applications are, and needs a machine learning component. Usually the model is trained in Python and wrapped in a separate web service (an API) that Java calls. With XGBoost, Java can load the saved model and predict directly.
 
 > **Python:** Saving a model in Python for use in another language.
 >
@@ -138,19 +138,18 @@ Because it is gradient boosting underneath, we can also write our own loss funct
 
 ### 7.1 How much faster
 
-> **Key point:** On 10,000 rows and 200 columns, scikit-learn's classic gradient boosting trains in 47 seconds; XGBoost in 0.67 seconds, about 70 times faster, for the same accuracy.
+> **Key point:** On 10,000 observations and 200 features, and on a single processor core, scikit-learn's classic gradient boosting needs 60 seconds; XGBoost needs 1.9 seconds, about 30 times less, for the same accuracy.
 
-![Training time on 10,000 rows and 200 columns, 100 trees of depth 3 in every library (log scale)](images/timing.png){height=36%}
+![Processor time on 10,000 observations and 200 features, 100 trees of depth 3 in every library, one core each (log scale)](images/timing.png){height=36%}
 
-The Notebook builds a synthetic dataset of 10,000 rows and 200 columns and trains the same ensemble, 100 trees of depth 3 with learning rate 0.1, in five implementations. Figure 2 shows the result:
+The Notebook builds a synthetic dataset of 10,000 **observations** (records, the rows of the data table) and 200 **features** (input variables, the columns). The Notebook trains the same ensemble, 100 trees of depth 3 with learning rate 0.1, in four implementations. Every library gets one processor core, so the comparison is about the algorithms alone; extra cores speed XGBoost up further (section 7.2). Figure 2 shows the result:
 
-- scikit-learn's classic `GradientBoostingClassifier`: **46.8 seconds**, test accuracy 0.922;
-- XGBoost on the CPU (4 cores): **0.67 seconds**, accuracy 0.921;
-- XGBoost on the GPU: 1.17 seconds, accuracy 0.921 (section 7.7);
-- scikit-learn's `HistGradientBoostingClassifier` (4 cores): 0.47 seconds, accuracy 0.916;
-- LightGBM (4 cores, section 9): 0.31 seconds, accuracy 0.918.
+- scikit-learn's classic `GradientBoostingClassifier`: **59.9 seconds**, test accuracy 0.922;
+- XGBoost: **1.88 seconds**, accuracy 0.921;
+- scikit-learn's `HistGradientBoostingClassifier`: 1.21 seconds, accuracy 0.916;
+- LightGBM (section 9): 1.13 seconds, accuracy 0.918.
 
-The accuracy hardly changes; only the time does. On a dataset that takes 10 hours to train, a speed-up of even 10 times means 1 hour. The last two are other libraries built on the same histogram idea, shown for comparison.
+The accuracy hardly changes; only the time does. The XGBoost paper reports the same pattern: more than ten times faster than existing popular solutions on a single machine (Chen and Guestrin 2016, §1). On a dataset that takes 10 hours to train, a speed-up of even 10 times means 1 hour. The last two are other libraries built on the same histogram idea, shown for comparison (section 9).
 
 > **Python:** XGBoost with the scikit-learn interface.
 >
@@ -159,7 +158,7 @@ The accuracy hardly changes; only the time does. On a dataset that takes 10 hour
 >
 > model = XGBClassifier(n_estimators=100, max_depth=3,
 >                       learning_rate=0.1,
->                       tree_method="hist", n_jobs=4,
+>                       tree_method="hist", n_jobs=1,
 >                       random_state=42)
 > model.fit(X_train, y_train)
 > model.score(X_test, y_test)        # 0.921
@@ -167,7 +166,7 @@ The accuracy hardly changes; only the time does. On a dataset that takes 10 hour
 >
 > `tree_method="hist"` (the default in current versions) uses histogram bins (section 8.4); `n_jobs` is the number of processor cores.
 
-Timings depend on the machine and on what else is running, so only the ratios are meaningful.
+> **Extra:** The times are **processor time** (`time.process_time`): the time the program itself spends computing. Wall-clock time also counts waiting while other programs use the processor, so on a busy machine it changes from run to run. Even processor time depends on the machine, so only the ratios are meaningful.
 
 ### 7.2 Parallel processing
 
@@ -195,15 +194,15 @@ Most algorithms store data row by row: one block holds every column of row 1, th
 
 The processor (CPU) does the computing; the data lives in RAM, a separate piece of hardware, and fetching it takes time. **Cache memory** is a small, fast memory inside the processor for things that are used repeatedly. A website's logo that loads faster the second time works the same way: it is kept locally.
 
-XGBoost keeps what it uses most often in the cache, such as the statistics of the histogram bins it builds for each feature (section 8.4). A cook who keeps the most-used spices on the counter, instead of walking to the fridge each time, saves time in the same way.
+XGBoost keeps what it uses most often in the cache, such as the gradient statistics it reads during the split search (Chen and Guestrin 2016, §4.2). A cook who keeps the most-used spices on the counter, instead of walking to the fridge each time, saves time in the same way.
 
 ### 7.5 Out-of-core computing
 
 > **Key point:** A dataset bigger than the RAM is read in chunks; training moves forward chunk by chunk.
 
-Suppose our laptop has 8 GB of RAM and the dataset is 10 GB. It cannot be loaded at once, so normally we could not even start.
+Suppose our laptop has 8 GB of RAM and the dataset is 10 GB. The dataset cannot be loaded at once, so normally we could not even start.
 
-**Out-of-core computing** splits the data into chunks, say five of 2 GB, kept on disk. The model trains on chunk 1 and reaches some state; then chunk 2 is loaded and training continues from that state, and so on to chunk 5. XGBoost does this through its external-memory mode, and it works together with cache awareness: what is needed again is kept in the cache while chunks come and go.
+**Out-of-core computing** splits the data into chunks, say five of 2 GB, kept on disk. The model trains on chunk 1 and reaches some state; then chunk 2 is loaded and training continues from that state, and so on to chunk 5. XGBoost does this through its external-memory mode (Chen and Guestrin 2016, §4.3). Out-of-core training works together with cache awareness: what is needed again is kept in the cache while chunks come and go.
 
 ### 7.6 Distributed computing
 
@@ -215,15 +214,15 @@ In **distributed computing** a job is shared between several machines, called **
 2. **Work locally**: each node computes, for every feature, the split statistics on its own share.
 3. **Aggregate**: a **master node** collects the results, picks the split that helps most overall, and sends the decision back.
 
-This needs outside tools: XGBoost connects to Dask, Spark and Kubernetes for it.
+Distributed training needs outside tools: XGBoost connects to Dask, Spark, Ray and Kubernetes for it (XGBoost docs).
 
 ### 7.7 GPU support
 
 > **Key point:** A graphics card has thousands of small cores; XGBoost's histogram building and split search can run on them.
 
-A **GPU** (graphics processing unit, the graphics card) has many cores, each weaker than a CPU core but far more numerous. It is ideal for many small, similar calculations: drawing game graphics, training deep learning models. XGBoost's histogram building and split finding are exactly such work, so XGBoost can run on a GPU, and on large datasets it reaches a given test error much sooner than on a CPU.
+A **GPU** (graphics processing unit, the graphics card) has many cores, each weaker than a CPU core but far more numerous. A GPU is ideal for many small, similar calculations: drawing game graphics, training deep learning models. XGBoost's histogram building and split finding are exactly such work, so XGBoost can run on a GPU.
 
-On our 10,000 rows the GPU (an RTX 3060 laptop card) took 1.17 seconds against 0.67 on the CPU, so here the GPU was slower. The speed-up described above is for large datasets.
+The XGBoost GPU authors measured the gain on large public datasets (Mitchell et al. 2018, Table 2). On YearPredictionMSD, 515,000 observations and 90 features, 500 trees took 217 seconds on 64 CPU cores and 30 seconds on GPUs, about 7 times faster, with the same error. The experiments in this Note run on the CPU only.
 
 > **Python:** Training on a GPU.
 >
@@ -247,27 +246,27 @@ Parallel processing, special data structures, cache use, out-of-core, distribute
 
 > **Key point:** XGBoost's objective is the loss plus a penalty on the tree itself, so every tree is regularised as it is built.
 
-Regularisation adds a penalty to the loss so that the model stays simpler and overfits less, as in ridge regression's L2 penalty ([ridge regression maths Note](../64-ridge-regression-maths/note.md)). Classic gradient boosting accepts any differentiable loss but has no penalty built in. It fights overfitting only with the learning rate ([gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md)) and by limiting or pruning the trees.
+Regularisation adds a penalty to the loss so that the model stays simpler and overfits less, as in ridge regression's L2 penalty ([ridge regression maths Note](../64-ridge-regression-maths/note.md)). Classic gradient boosting accepts any differentiable loss but has no penalty built in. Classic gradient boosting fights overfitting only with the learning rate ([gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md)) and by limiting or pruning the trees.
 
-XGBoost adds a penalty term to its objective by default. It punishes trees with many leaves and leaves with large output values. When the objective is minimised, the regularisation happens automatically. The formula, with its two hyperparameters $\gamma$ and $\lambda$, is derived in the [XGBoost maths Note](../126-xgboost-maths/note.md).
+XGBoost adds a penalty term to its objective by default. The penalty punishes trees with many leaves and leaves with large output values. When the objective is minimised, the regularisation happens automatically. The formula, with its two hyperparameters $\gamma$ and $\lambda$, is derived in the [XGBoost maths Note](../126-xgboost-maths/note.md).
 
 ### 8.2 Sparsity-aware split finding
 
-> **Key point:** At each split, XGBoost tries sending the rows with a missing value left and then right, and keeps the direction with the larger gain.
+> **Key point:** At each split, XGBoost tries sending the observations with a missing value left and then right, and keeps the direction with the larger gain.
 
 Data is **sparse** when it has many zeros or missing values. XGBoost first notices the sparsity and then handles it in its splits.
 
-Take one feature F1 with values 4, 5, 6, 8, 9 and one missing value. Candidate cuts are 4.5, 5.5, 7 and 8.5; no cut is placed at the missing value. For the node "F1 at most 4.5", the value 4 goes left and 5, 6, 8, 9 go right. Where does the missing row go?
+Take one feature F1 with values 4, 5, 6, 8, 9 and one missing value. Candidate cuts are 4.5, 5.5, 7 and 8.5; no cut is placed at the missing value. For the node "F1 at most 4.5", the value 4 goes left and 5, 6, 8, 9 go right. Where does the observation with no F1 go?
 
-XGBoost tries both (Figure 4). It sends the missing row left and computes the gain of the split; then right, and computes the gain again. The side with the larger gain becomes the node's **default direction**: at prediction time, any row missing F1 follows it. The gain itself is defined in the [XGBoost regression Note](../124-xgboost-regression/note.md).
+XGBoost tries both (Figure 4). The algorithm sends that observation left and computes the gain of the split; then right, and computes the gain again. The side with the larger gain becomes the node's **default direction**: at prediction time, any observation missing F1 follows it (Chen and Guestrin 2016, §3.4, Alg. 3). The gain itself is defined in the [XGBoost regression Note](../124-xgboost-regression/note.md).
 
-![Sparsity-aware split finding: missing rows are tried on each side; the side with the larger gain becomes the default direction](images/missing.png){height=34%}
+![Sparsity-aware split finding: observations with a missing value are tried on each side; the side with the larger gain becomes the default direction](images/missing.png){height=34%}
 
 ### 8.3 Missing values without imputation
 
 > **Key point:** Because of the default direction, XGBoost trains on data with missing values as they are, with no imputation step.
 
-So far, a dataset with missing values had to be fixed first: rows dropped ([complete case analysis Note](../35-complete-case-analysis/note.md)) or values filled in ([imputing numerical data Note](../36-imputing-numerical-data/note.md)). Most models refuse missing values. XGBoost does not need this step: the default direction of section 8.2 decides where each missing row goes.
+So far, a dataset with missing values had to be fixed first: observations dropped ([complete case analysis Note](../35-complete-case-analysis/note.md)) or values filled in ([imputing numerical data Note](../36-imputing-numerical-data/note.md)). Many models refuse missing values. XGBoost does not need this step: the default direction of section 8.2 decides where each observation with a missing value goes.
 
 The Notebook shows this on the Titanic passengers, where Age is missing for 177 of 891:
 
@@ -290,17 +289,17 @@ We can read the learned default direction from the first tree. One of its nodes 
 
 ### 8.4 Approximate split finding with quantile bins
 
-> **Key point:** Instead of trying every value as a split, XGBoost cuts each column into bins and tries only the bin edges; the bins follow quantiles, so they are narrow where the data is dense.
+> **Key point:** Instead of trying every value as a split, XGBoost cuts each feature into bins and tries only the bin edges; the bins follow quantiles, so they are narrow where the data is dense.
 
-The usual way to find a split, used in the [regression trees Note](../99-regression-trees/note.md), is the **exact greedy algorithm**: sort the column, try the midpoint between every pair of neighbouring values, and keep the best. It always finds the best split, but on a column with ten million values it tries ten million candidates at every node.
+The usual way to find a split, used in the [regression trees Note](../99-regression-trees/note.md), is the **exact greedy algorithm**: sort the column, try the midpoint between every pair of neighbouring values, and keep the best. The exact greedy algorithm always finds the best split, but on a column with ten million values it tries ten million candidates at every node.
 
-**Approximate tree learning** tries far fewer. It cuts the column into bins, for example 1 to 5, 6 to 10, 11 to 15, and tries only the bin edges. The continuous column becomes discrete, as in [binning](../32-binning-binarization/note.md). The split found may be a little worse than the exact best, but training is much faster. Because the bins work like the bars of a histogram, this is also called **histogram-based training**.
+**Approximate tree learning** tries far fewer. The approximate method cuts the column into bins, for example 1 to 5, 6 to 10, 11 to 15, and tries only the bin edges. The continuous column becomes discrete, as in [binning](../32-binning-binarization/note.md). The split found may be a little worse than the exact best, but training is much faster. Because the bins work like the bars of a histogram, this is also called **histogram-based training**.
 
 Where should the bin edges go? Equal-width bins ignore the data. XGBoost places them at **quantiles** instead (the method is called the **weighted quantile sketch**): where many values crowd together the bins are narrow, and where values are rare they are wide. The bins then describe the data more accurately, and the trees built on them are more accurate too.
 
 On the Titanic fares, a very skewed column, Figure 4 of the [binning Note](../32-binning-binarization/note.md) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
 
-> **Extra:** "Weighted" means the quantiles are not counted in rows. Each row counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from the [XGBoost maths Note](../126-xgboost-maths/note.md)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For log loss $h_i = p_i(1-p_i)$ ([XGBoost classification Note](../125-xgboost-classification/note.md)): largest (0.25) at $p_i = 0.5$, near 0 when $p_i$ is close to 0 or 1. So observations (rows) the model is still unsure about weigh more, and the bins are finer among them. "Sketch" means the quantiles are estimated from a compact summary that can be merged, which lets it work when the data is split over many machines (Chen and Guestrin 2016, §3.3).
+> **Extra:** "Weighted" means the quantiles are not counted in observations. Each observation counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from the [XGBoost maths Note](../126-xgboost-maths/note.md)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For log loss $h_i = p_i(1-p_i)$ ([XGBoost classification Note](../125-xgboost-classification/note.md)): largest (0.25) at $p_i = 0.5$, near 0 when $p_i$ is close to 0 or 1. So observations the model is still unsure about weigh more, and the bins are finer among them. "Sketch" means the quantiles are estimated from a compact summary that can be merged, which lets it work when the data is split over many machines (Chen and Guestrin 2016, §3.3).
 
 Which method to use: the exact greedy algorithm on small data; the approximate algorithm on big data, where scanning every value, especially when the data does not fit in memory, is too slow (Chen and Guestrin 2016, §3.2).
 
@@ -310,7 +309,7 @@ Which method to use: the exact greedy algorithm on small data; the approximate a
 
 **Tree pruning** limits how deep and complex the trees grow, which reduces overfitting ([decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md)). There are two kinds: pre-pruning stops a tree while it grows, post-pruning grows it fully and cuts it back.
 
-XGBoost offers both kinds of settings, plus one more: $\gamma$ (`gamma`). A new branch is made only if it reduces the loss by a significant amount, at least $\gamma$. How this works is shown in the [XGBoost regression Note](../124-xgboost-regression/note.md). This much control over pruning did not exist in classic gradient boosting, and it helps XGBoost do well on most datasets.
+XGBoost offers both kinds of settings, plus one more: $\gamma$ (`gamma`). A new branch is made only if it reduces the loss by a significant amount, at least $\gamma$. How this works is shown in the [XGBoost regression Note](../124-xgboost-regression/note.md). The price $\gamma$ per leaf is part of the regularised objective of section 8.1 (Chen and Guestrin 2016, §2.1).
 
 ## 9. LightGBM and CatBoost
 
@@ -318,7 +317,7 @@ XGBoost offers both kinds of settings, plus one more: $\gamma$ (`gamma`). A new 
 
 Two other libraries improve on gradient boosting in their own ways:
 
-- **LightGBM** (Light Gradient Boosting Machine, from Microsoft Research): aimed at faster training, lower memory use and sometimes better accuracy. It also offers parallel, distributed and GPU training and handles very large data. Its results are sometimes equal to XGBoost's and sometimes better.
+- **LightGBM** (Light Gradient Boosting Machine, from Microsoft Research): aimed at faster training and lower memory use, with parallel, distributed and GPU training (LightGBM docs). Its paper reports training up to more than 20 times faster than conventional gradient boosting with almost the same accuracy (Ke et al. 2017).
 - **CatBoost** (from Yandex; Prokhorenkova et al. 2018): an open-source gradient boosting library on decision trees whose best-known feature is built-in support for categorical columns, with no manual encoding.
 
 scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` are modelled on LightGBM (scikit-learn docs). In Figure 2, LightGBM and scikit-learn's version were the fastest of all on our data.
@@ -338,18 +337,21 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 
 - XGBoost is a library: gradient boosting plus engineering. Boosting stays sequential; the parallel work is inside each tree.
 - It became famous through Kaggle: 17 of the 29 winning solutions published on Kaggle's blog in 2015 used it.
-- On 10,000 by 200 rows, XGBoost trained in 0.67 seconds against 46.8 seconds for classic gradient boosting, with the same accuracy.
+- On 10,000 observations and 200 features, on one core, XGBoost trained in 1.9 seconds against 60 seconds for classic gradient boosting, with the same accuracy.
 - Missing values need no imputation: each split learns where to send them.
-- Quantile bins are narrow where data is dense; only the bin edges are tried as splits (at most `max_bin` bins per column, 256 by default; XGBoost docs).
+- Quantile bins are narrow where data is dense; only the bin edges are tried as splits (at most `max_bin` bins per feature, 256 by default; XGBoost docs).
 - LightGBM and CatBoost are the other major gradient boosting libraries.
 
 ## 11. Sources
 
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
-- Wikipedia, "XGBoost" (history section).
+- Chen, T. and He, T. (2015). *Higgs Boson Discovery with Boosted Trees*. Proceedings of the NIPS 2014 Workshop on High-energy Physics and Machine Learning, PMLR 42, 69–80.
+- Ke, G. et al. (2017). *LightGBM: A Highly Efficient Gradient Boosting Decision Tree*. NeurIPS 2017.
+- Mitchell, R., Adinets, A., Rao, T. and Frank, E. (2018). *XGBoost: Scalable GPU Accelerated Learning*. arXiv:1806.11248.
+- LightGBM documentation, README (features list), github.com/microsoft/LightGBM.
 - Prokhorenkova, L. et al. (2018). *CatBoost: unbiased boosting with categorical features*. NeurIPS 2018.
 - scikit-learn documentation, `HistGradientBoostingClassifier`: "This implementation is inspired by LightGBM."
-- XGBoost documentation, *XGBoost Parameters* (`max_bin`, `tree_method`).
+- XGBoost documentation: *XGBoost Parameters* (`max_bin`, `tree_method`); home page (language bindings, distributed training), xgboost.readthedocs.io.
 
 ## 12. Key terms
 
@@ -363,7 +365,7 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 | Distributed computing | Sharing one job between several machines (nodes), coordinated by a master node |
 | GPU | Graphics processing unit: a processor with thousands of small cores for many small calculations at once |
 | Sparsity-aware split finding | Choosing, at each split, the side (left or right) for missing values by comparing the gain of both |
-| Default direction | The side of a split that rows with a missing value follow |
+| Default direction | The side of a split that observations with a missing value follow |
 | Exact greedy algorithm | Finding a split by trying the midpoint between every pair of neighbouring sorted values |
 | Approximate tree learning (histogram-based training) | Finding a split by trying only the edges of bins the column has been cut into |
 | Weighted quantile sketch | XGBoost's method for placing bin edges at (Hessian-weighted) quantiles of a column |

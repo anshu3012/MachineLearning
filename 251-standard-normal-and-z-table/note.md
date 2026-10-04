@@ -20,13 +20,13 @@ title: "The Standard Normal Distribution and the Z-table"
 
 Figure 1 shows the idea. The orange curve is a normal distribution with mean 5 and standard deviation 2.5. Subtracting 5 and dividing by 2.5 turns it into the blue curve, which has mean 0 and standard deviation 1. The shape stays exactly the same; only the numbers on the axis change.
 
-This Note builds on the [normal distribution Note](../250-normal-distribution/note.md). It introduces the standard normal distribution, shows how to read a z-table, uses it on two problems, derives the 68-95-99.7 rule, and ends with where the normal distribution is used in data science.
+This Note builds on the [normal distribution Note](../250-normal-distribution/note.md). The Note introduces the standard normal distribution, shows how to read a z-table, uses it on two problems, derives the 68-95-99.7 rule, and ends with where the normal distribution is used in data science.
 
 ## 2. The standard normal distribution
 
 > **Key point:** The standard normal distribution is the normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$.
 
-Among all normal distributions, one is special: the one with $\mu = 0$ and $\sigma = 1$. It is called the **standard normal distribution** (or **standard normal variate**) and is written with the letter $Z$:
+Among all normal distributions, one is special: the one with $\mu = 0$ and $\sigma = 1$. This distribution is called the **standard normal distribution** (or **standard normal variate**) and is written with the letter $Z$:
 $$Z \sim N(0, 1)$$
 
 Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard deviations directly: 1 means one standard deviation above the mean, $-2$ two below.
@@ -41,14 +41,14 @@ Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard dev
 
 > **Key point:** Subtracting the mean and dividing by the standard deviation turns $X \sim N(\mu, \sigma^2)$ into $Z \sim N(0, 1)$.
 
-To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its z-score. This is the standardization of the [standardization Note](../24-standardization/note.md):
+To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its z-score. Turning values into z-scores is the standardization of the [standardization Note](../24-standardization/note.md):
 $$z = \frac{x - \mu}{\sigma}$$
 
 For Figure 1, $x = 10$ becomes $z = (10 - 5)/2.5 = 2$: the value 10 lies two standard deviations above the mean. Every tick on the top axis lines up with its z-score below.
 
-Real data works the same way. The `Age` column of the Titanic data (714 known ages) is roughly bell-shaped, with mean 29.70 years and standard deviation 14.53 years. Standardizing it gives a column with mean $2 \times 10^{-16}$ (0 up to rounding) and standard deviation 1.
+Real data works the same way. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row. The `Age` feature of the Titanic data (714 known ages) is roughly bell-shaped, with mean 29.70 years and standard deviation 14.53 years. Standardizing it gives a feature with mean $2 \times 10^{-16}$ (0 up to rounding) and standard deviation 1.
 
-> **Python:** Standardizing a column by hand.
+> **Python:** Standardizing a feature by hand.
 >
 > ```python
 > import pandas as pd
@@ -59,7 +59,7 @@ Real data works the same way. The `Age` column of the Titanic data (714 known ag
 > z.mean(), z.std()      # about 0, and 1
 > ```
 >
-> Standardizing changes the scale, not the shape: a skewed column stays skewed (see the [standardization Note](../24-standardization/note.md), section 7.3). Only a normal column becomes standard normal.
+> Standardizing changes the scale, not the shape: a skewed feature stays skewed (see the [standardization Note](../24-standardization/note.md), section 7.3). Only a normal feature becomes standard normal.
 
 ### 3.1 Why standardize?
 
@@ -153,7 +153,7 @@ The same steps for 2 and 3 standard deviations:
 | $\mu \pm 2\sigma$ | $\Phi(2) - 0.5 = 0.9772 - 0.5 = 0.4772$ | 95.45% |
 | $\mu \pm 3\sigma$ | $\Phi(3) - 0.5 = 0.99865 - 0.5 = 0.49865$ | 99.73% |
 
-This is the **empirical rule** of the [z-score outliers Note](../42-outliers-zscore/note.md), now derived from the z-table instead of taken on trust. It is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
+The 68-95-99.7 pattern is the **empirical rule** of the [z-score outliers Note](../42-outliers-zscore/note.md), now derived from the z-table instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
 
 A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up: $1 - \Phi(4.4) \approx 0.000005$. Roughly speaking, most good batsmen sit within one or two standard deviations of the mean, and only the very greatest approach three.
 
@@ -161,7 +161,7 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 
 > **Key point:** Outlier detection, the assumptions of some ML models, hypothesis testing, and the central limit theorem.
 
-1. **Outlier detection.** For a column that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (the z-score method, see the [z-score outliers Note](../42-outliers-zscore/note.md)). For the Titanic ages the limits are $29.70 \pm 3 \times 14.53$, from $-13.88$ to $73.28$ years. No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged.
+1. **Outlier detection.** For a feature that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (the z-score method, see the [z-score outliers Note](../42-outliers-zscore/note.md)). For the Titanic ages the limits are $29.70 \pm 3 \times 14.53$, from $-13.88$ to $73.28$ years. No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged.
 2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (the errors) are normal, not the inputs (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). Linear and logistic regression also tend to work better on normal-looking inputs (see the [function transformer Note](../30-function-transformer/note.md)), and a Gaussian mixture model is built from normal curves (see the [density estimation Note](../243-density-estimation-kde/note.md)).
 3. **Hypothesis testing.** Many statistical tests assume that the data, or a statistic computed from it, is normally distributed.
 4. **The central limit theorem.** Averages of samples from almost any distribution, normal or not, follow approximately a normal distribution, more closely as the samples grow (Pishro-Nik §7.1.2). This result, the topic of a later Note, is what makes the normal distribution central to inferential statistics.
@@ -181,15 +181,17 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 - Standardizing keeps the shape; only normal data becomes standard normal.
 - Values beyond 3 standard deviations are rare: 0.27% in all.
 
-## Sources
+## 9. Sources
 
-- Davis, C. (2000). *The Best of the Best*. Bradman's 4.4 standard deviations as reported in *Discover* magazine, "Who's the Greatest Sportsperson?".
+- Davis, C. (2000). *The Best of the Best: A Study of Batting and Bowling in Test Cricket*. ABC Books. Bradman's average 4.4 standard deviations above the mean of Test batsmen.
 - Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. Section 7.1.2 (central limit theorem; needs a finite variance).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | One variable of the data, one column of the table |
+| Observation | One record, one row of the table |
 | Standard normal distribution | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$ |
 | $\phi(z)$ | The PDF of the standard normal distribution |
 | $\Phi(z)$ | The CDF of the standard normal distribution: the area to the left of $z$ |

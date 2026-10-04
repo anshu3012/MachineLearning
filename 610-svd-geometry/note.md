@@ -16,11 +16,11 @@ title: "Singular Value Decomposition: Rotate, Stretch, Rotate"
 
 > **Key point:** Every matrix, square or not, can be written as $A = U\Sigma V^{\mathsf T}$: a rotation, then a stretch along the axes, then another rotation. The stretch factors are the singular values.
 
-This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.5 and §4.5.1, and MIT OpenCourseWare 18.06 Linear Algebra, Lecture 29 (Gilbert Strang).
+This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.5 and §4.5.1, and Strang's *Introduction to Linear Algebra* (Strang §7.2 and §7.4).
 
 ![The SVD of $A$ with rows $[3, 0]$ and $[4, 5]$ applied to the unit circle one factor at a time: $V^{\mathsf T}$ rotates, $\Sigma$ stretches, $U$ rotates](images/rotate_stretch_rotate.gif)
 
-The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md) wrote some square matrices as $A = PDP^{-1}$, with $D$ diagonal. That works only for square matrices with enough eigenvectors. The **singular value decomposition** (**SVD**) is a factorisation that works for every matrix. The [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) listed it among the factorisations ML uses.
+The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md) wrote some square matrices as $A = PDP^{-1}$, with $D$ diagonal. That eigen-decomposition works only for square matrices with enough eigenvectors. The **singular value decomposition** (**SVD**) is a factorisation that works for every matrix. The [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) listed it among the factorisations ML uses.
 
 This Note builds it from the picture first:
 
@@ -37,7 +37,7 @@ One matrix runs through the whole Note:
 
 $$A = \begin{bmatrix} 3 & 0 \\ 4 & 5 \end{bmatrix}$$
 
-Read as a transformation (as in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md)), it sends $\hat{\imath}$ to $[3, 4]$ and $\hat{\jmath}$ to $[0, 5]$.
+Read as a transformation (as in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md)), $A$ sends $\hat{\imath}$ to $[3, 4]$ and $\hat{\jmath}$ to $[0, 5]$.
 
 ## 2. Every matrix turns a circle into an ellipse
 
@@ -86,7 +86,7 @@ $$\mathbf{u}_1 = \frac{A\mathbf{v}_1}{\sigma_1} = \frac{1}{\sqrt{10}}\begin{bmat
    $$A\mathbf{v}_i = \sigma_i \mathbf{u}_i$$
 3. **Example:** $A\mathbf{v}_1 = [2.121, 6.364] = 6.71 \times [0.316, 0.949] = \sigma_1 \mathbf{u}_1$, and $A\mathbf{v}_2 = [-2.121, 0.707] = 2.24 \times [-0.949, 0.316] = \sigma_2\mathbf{u}_2$.
 
-This looks like the eigenvector equation $A\mathbf{v} = \lambda\mathbf{v}$, with one difference: the vector on the right is a different vector, $\mathbf{u}_i$ instead of $\mathbf{v}_i$. Allowing the output direction to differ from the input direction is what makes this work for every matrix.
+The singular value equation looks like the eigenvector equation $A\mathbf{v} = \lambda\mathbf{v}$, with one difference: the vector on the right is a different vector, $\mathbf{u}_i$ instead of $\mathbf{v}_i$. Allowing the output direction to differ from the input direction is what makes this work for every matrix.
 
 ## 3. Orthogonal matrices: rotations and flips
 
@@ -114,13 +114,13 @@ Reading the columns as landing spots of $\hat{\imath}$ and $\hat{\jmath}$ (as in
 - $U$ sends $\hat{\imath}$ to $[0.316, 0.949]$: a rotation by 71.6°, since $\tan 71.6^\circ = 3$.
 - A matrix with columns $[1, 0]$ and $[0, -1]$ is also orthogonal: a **reflection** that mirrors the plane across the x-axis.
 
-The determinant tells the two kinds apart: $+1$ for a rotation, $-1$ for a rotation combined with a flip. It is never anything else, because areas do not change.
+The determinant tells the two kinds apart: $+1$ for a rotation, $-1$ for a rotation combined with a flip. The determinant is never anything else, because areas do not change.
 
 ### 3.3 The inverse is the transpose
 
 > **Key point:** For an orthogonal matrix $Q$, $Q^{\mathsf T}Q = I$, so undoing $Q$ costs nothing: $Q^{-1} = Q^{\mathsf T}$.
 
-1. **In words:** entry $(i, j)$ of $Q^{\mathsf T}Q$ is the dot product of column $i$ with column $j$. That is 1 when $i = j$ (unit length) and 0 otherwise (perpendicular), so the product is the identity matrix.
+1. **In words:** entry $(i, j)$ of $Q^{\mathsf T}Q$ is the dot product of column $i$ with column $j$. The dot product is 1 when $i = j$ (unit length) and 0 otherwise (perpendicular), so the product is the identity matrix.
 2. **Formula:**
    $$Q^{\mathsf T}Q = I, \qquad Q^{-1} = Q^{\mathsf T}$$
 3. **Example:**
@@ -129,7 +129,7 @@ The determinant tells the two kinds apart: $+1$ for a rotation, $-1$ for a rotat
 
 The transpose and the identity matrix were defined in the [PCA step by step Note](../48-pca-step-by-step/note.md), and the inverse in the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md). Computing an inverse is normally expensive; for an orthogonal matrix it is free.
 
-> **Extra:** The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md) (section 7) said a covariance matrix always has perpendicular eigenvectors. Scaled to length 1 and placed as columns, they form an orthogonal matrix. That is why PCA's projection onto the principal components is a pure rotation of the data, followed by dropping some coordinates.
+> **Extra:** The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md) (section 7) said a covariance matrix always has perpendicular eigenvectors. Scaled to length 1 and placed as columns, they form an orthogonal matrix. The orthogonal eigenvector matrix is why PCA's projection onto the principal components is a pure rotation of the data, followed by dropping some coordinates.
 
 ## 4. Rotate, stretch, rotate: $A = U\Sigma V^{\mathsf T}$
 
@@ -159,13 +159,13 @@ Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$,
 
 A product of matrices is one transformation after another, applied from right to left (see the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md)). Figure 1 follows the unit circle through the three moves:
 
-1. **$V^{\mathsf T}$ rotates.** It is the rotation by $-45^\circ$. It carries $\mathbf{v}_1$ onto $\hat{\imath}$ (written $\mathbf{e}_1$ in the figure) and $\mathbf{v}_2$ onto $\hat{\jmath}$ ($\mathbf{e}_2$). The circle looks the same, since a rotated circle is still a circle.
-2. **$\Sigma$ stretches.** It is a diagonal matrix, so it stretches along the axes only (as feature scaling did in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md), section 7.2): by 6.71 along x and 2.24 along y. The circle becomes an ellipse lying along the axes.
-3. **$U$ rotates.** It is the rotation by 71.6°. It turns the ellipse so that its axes point along $\mathbf{u}_1$ and $\mathbf{u}_2$.
+1. **$V^{\mathsf T}$ rotates.** $V^{\mathsf T}$ is the rotation by $-45^\circ$. It carries $\mathbf{v}_1$ onto $\hat{\imath}$ (written $\mathbf{e}_1$ in the figure) and $\mathbf{v}_2$ onto $\hat{\jmath}$ ($\mathbf{e}_2$). The circle looks the same, since a rotated circle is still a circle.
+2. **$\Sigma$ stretches.** $\Sigma$ is a diagonal matrix, so it stretches along the axes only (as feature scaling did in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md), section 7.2): by 6.71 along x and 2.24 along y. The circle becomes an ellipse lying along the axes.
+3. **$U$ rotates.** $U$ is the rotation by 71.6°. The rotation turns the ellipse so that its axes point along $\mathbf{u}_1$ and $\mathbf{u}_2$.
 
 The final ellipse is exactly the one $A$ makes in one step (the dashed red curve in the last frame). Every linear transformation of the plane is this simple underneath: a rotation, a stretch along two perpendicular directions, and another rotation. Either rotation may also include a flip.
 
-> **Extra:** Each rotation preserves area, so all the area change happens in $\Sigma$. That gives a check: $\lvert\det A\rvert = \sigma_1\sigma_2$. Here $\det A = 3 \times 5 - 0 \times 4 = 15$ and $\sigma_1\sigma_2 = 3\sqrt5 \times \sqrt5 = 15$. A singular value of 0 means $\Sigma$ squishes one axis flat, which is the determinant-0 case of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
+> **Extra:** Each rotation preserves area, so all the area change happens in $\Sigma$. The area rule gives a check: $\lvert\det A\rvert = \sigma_1\sigma_2$. Here $\det A = 3 \times 5 - 0 \times 4 = 15$ and $\sigma_1\sigma_2 = 3\sqrt5 \times \sqrt5 = 15$. A singular value of 0 means $\Sigma$ squishes one axis flat, which is the determinant-0 case of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
 
 ## 5. Singular values and singular vectors
 
@@ -211,17 +211,17 @@ For $A$: $\hat{\imath}$ lands on $[3, 4]$, of length 5; $\hat{\jmath}$ on $[0, 5
 
 > **Key point:** $\Sigma$ has the same shape as $A$; its singular values sit on the diagonal, padded with zeros.
 
-A data matrix is rarely square: it has many more rows (data points) than columns (features). The SVD still exists. For an $m \times n$ matrix $A$:
+A data matrix is rarely square: it has many more rows (**observations**, one per record) than columns (**features**, one per input variable). The SVD still exists. For an $m \times n$ matrix $A$:
 
 - $V$ is $n \times n$: an orthonormal basis of the input space $\mathbb{R}^n$;
 - $U$ is $m \times m$: an orthonormal basis of the output space $\mathbb{R}^m$;
 - $\Sigma$ is $m \times n$, the same shape as $A$, with $\sigma_1, \sigma_2, \dots$ on its diagonal and zeros everywhere else.
 
-This is the **full SVD** (Figure 3, top). Take the $3 \times 2$ matrix
+This factorisation is the **full SVD** (Figure 3, top). Take the $3 \times 2$ matrix
 
 $$B = \begin{bmatrix} 1 & 1 \\ 0 & 1 \\ 1 & 0 \end{bmatrix}$$
 
-It takes 2D vectors to 3D vectors. Its singular values are $\sqrt3 \approx 1.73$ and 1, so
+$B$ takes 2D vectors to 3D vectors. Its singular values are $\sqrt3 \approx 1.73$ and 1, so
 
 $$\Sigma = \begin{bmatrix} 1.73 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}$$
 
@@ -289,12 +289,12 @@ The two agree for one important family. A **symmetric matrix** equals its own tr
 - For tall data, the thin SVD keeps only the first $n$ columns of $U$.
 - For a covariance matrix, the SVD and the eigen-decomposition coincide.
 
-## Sources
+## 9. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Definition 3.8, Theorem 4.22, sections 4.5–4.6 (MML).
-- Strang, G. MIT OpenCourseWare 18.06 Linear Algebra, Lecture 29: Singular value decomposition.
+- Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Sections 7.2 (bases and matrices in the SVD) and 7.4 (the geometry of the SVD).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

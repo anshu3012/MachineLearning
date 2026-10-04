@@ -32,7 +32,7 @@ The answers are a first sketch of the data, not a full study. They tell us its s
 
 > **Key point:** Our example is the Titanic passenger list: 891 passengers, and for each one, whether they survived.
 
-The **Titanic dataset** comes from a famous Kaggle competition, and it is the usual first dataset in ML. Each row is one passenger of the ship that sank in 1912. The task is to predict the `Survived` column from the others.
+The **Titanic dataset** comes from a famous Kaggle competition, and it is the usual first dataset in ML. Each row is one **observation** (one record): one passenger of the ship that sank in 1912. The task is to predict `Survived`, the **target** (the output we predict), from the other columns, the **features** (the input variables, one column each).
 
 | Column | Meaning |
 |---|---|
@@ -68,7 +68,7 @@ The first question is the size of the data. A few hundred rows fit easily in mem
 > df.shape    # (891, 12)
 > ```
 >
-> `shape` has no brackets after it: it is a stored value of the DataFrame, not a function. It gives `(rows, columns)`.
+> `shape` has no brackets after it: it is a stored value of the DataFrame, not a function. The value is `(rows, columns)`.
 
 So the Titanic data has 891 rows (passengers) and 12 columns.
 
@@ -103,7 +103,7 @@ Five random rows of the Titanic data (only some columns shown):
 | 680 | 681 | 0 | 3 | female | NaN | 8.14 | NaN |
 | 535 | 536 | 1 | 2 | female | 7 | 26.25 | NaN |
 
-Already we can see some features of the data: `NaN` (missing) values in `Age` and `Cabin`, fares with decimals, and survivors from every class.
+Already we can see some traits of the data: `NaN` (missing) values in `Age` and `Cabin`, fares with decimals, and survivors from every class.
 
 ## 5. What type is each column?
 
@@ -295,7 +295,7 @@ The table is quick to read and often shows something unexpected. For the Titanic
 
 - **Age:** the average passenger was about 30, with a standard deviation of about 15 years. The youngest, at 0.42, was a baby of five months; the oldest was 80.
 - **Fare:** the average was 32.20, but the median only 14.45. A few very expensive tickets (up to 512.33) pull the mean up.
-- **Fare minimum is 0:** 15 passengers paid nothing. That is worth checking: free tickets, crew, or a recording error.
+- **Fare minimum is 0:** 15 passengers paid nothing. Zero fares are worth checking: free tickets, crew, or a recording error.
 - **Survived:** the mean of a 0/1 column is the share of 1s. So 38% of these passengers survived.
 - **PassengerId:** its numbers are meaningless; it is only a running count. Statistics of an ID column carry no information.
 
@@ -305,7 +305,7 @@ The table is quick to read and often shows something unexpected. For the Titanic
 > df.describe(include="str")
 > ```
 >
-> It summarises each text column: count, number of different values (`unique`), the most common value (`top`) and how often it occurs (`freq`). For example, `Sex` has 2 values, and `male` appears 577 times.
+> The result summarises each text column: count, number of different values (`unique`), the most common value (`top`) and how often it occurs (`freq`). For example, `Sex` has 2 values, and `male` appears 577 times.
 
 ## 8. Are there duplicate rows?
 
@@ -328,13 +328,13 @@ For example, if we add the first two passengers to the table a second time, `dup
 
 ## 9. How are the columns related?
 
-> **Key point:** Correlation measures how two columns move together, from -1 to +1; columns with almost no correlation to the output may be useless.
+> **Key point:** Correlation measures how two features move together, from -1 to +1; features with almost no correlation to the target may be useless.
 
 ### 9.1 Correlation
 
 > **Key point:** A positive correlation means both columns rise together; a negative one means one rises as the other falls; near 0 means no straight-line link.
 
-**Correlation** measures how a change in one column goes with a change in another. pandas computes the **Pearson correlation coefficient**, written $r$, which always lies between $-1$ and $+1$ (Figure 5):
+**Correlation** measures how a change in one feature goes with a change in another. pandas computes the **Pearson correlation coefficient**, written $r$, which always lies between $-1$ and $+1$ (Figure 5):
 
 - **Close to +1:** when one goes up, the other goes up too.
 - **Close to -1:** when one goes up, the other goes down. The two are inversely related.
@@ -342,7 +342,7 @@ For example, if we add the first two passengers to the table a second time, `dup
 
 ![Three patterns of points and their correlation values](images/correlation_patterns.png)
 
-Not every column in a dataset helps predict the output. Finding and removing the useless ones is an important part of ML, and correlation with the output column is a quick first check.
+Not every feature in a dataset helps predict the target. Finding and removing the useless ones is an important part of ML, and correlation with the target is a quick first check.
 
 > **Extra:** The Pearson correlation, step by step.
 >
@@ -358,9 +358,9 @@ Not every column in a dataset helps predict the output. Finding and removing the
 
 > **Key point:** On the Titanic, class and fare are linked to survival, while `PassengerId` is not linked at all.
 
-We only care how each column relates to the output, `Survived`. So we compute all the correlations and keep the `Survived` column.
+We only care how each feature relates to the target, `Survived`. So we compute all the correlations and keep the `Survived` column.
 
-> **Python:** Correlation with the output.
+> **Python:** Correlation with the target.
 >
 > ```python
 > df.corr(numeric_only=True)["Survived"]
@@ -376,14 +376,14 @@ Figure 6 shows the result. `Survived` with itself is exactly 1, as every column 
 - **Pclass, -0.34:** the strongest link, and negative. As the class number goes up (from first towards third), the chance of survival goes down. Most of those who died travelled in third class, the cheapest.
 - **PassengerId, -0.01:** essentially no link. As expected for a running number, this column will not help a model.
 
-This check is useful at the start, and we repeat it later, after cleaning and creating new columns.
+The correlation check is useful at the start, and we repeat it later, after cleaning and creating new features.
 
-> **Extra:** Older code writes `df.corr()` without `numeric_only=True`. That worked in pandas 1, which skipped text columns quietly. From pandas 2 on, `numeric_only` defaults to `False` (pandas release notes), so it raises `ValueError: could not convert string to float`, because the table has text columns such as `Name`.
+> **Extra:** Older code writes `df.corr()` without `numeric_only=True`. The bare call worked in pandas 1, which skipped text columns quietly. From pandas 2 on, `numeric_only` defaults to `False` (pandas release notes), so it raises `ValueError: could not convert string to float`, because the table has text columns such as `Name`.
 
 > **Extra:** Correlation has two limits worth remembering:
 >
 > - **Text columns are skipped.** `Sex` is missing from Figure 6, yet it matters most: coded as female 1 and male 0, its correlation with `Survived` is +0.54.
-> - **Only straight-line links count.** A column with $r$ near 0 can still be related to the output in a curved or more complex way, so a low $r$ is a hint, not proof, that a column is useless.
+> - **Only straight-line links count.** A feature with $r$ near 0 can still be related to the target in a curved or more complex way, so a low $r$ is a hint, not proof, that a column is useless.
 
 ## 10. Summary
 
@@ -402,17 +402,20 @@ This check is useful at the start, and we repeat it later, after cleaning and cr
 - `info` and `isnull().sum()` find the type problems and gaps to fix during cleaning.
 - `describe` gives the descriptive statistics of each numerical column; reading them closely reveals odd values, such as fares of 0.
 - `df.corr()` needs `numeric_only=True` in pandas 2 and later when the table has text columns.
-- Correlation runs from -1 to +1; a column with no link to the output, such as an ID, is a candidate for removal.
+- Correlation runs from -1 to +1; a feature with no link to the target, such as an ID, is a candidate for removal.
 
-## Sources
+## 11. Sources
 
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 - pandas user guide. Scaling to large datasets: use efficient datatypes. pandas.pydata.org/docs/user_guide/scale.html.
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
+| Observation | One record of the data, one row of the table |
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling |
 | Exploratory data analysis (EDA) | Studying a dataset, mostly with graphs, to find its patterns and problems |
 | Data type (dtype) | The kind of values a column holds, such as `int64`, `float64` or `str` |
@@ -424,5 +427,5 @@ This check is useful at the start, and we repeat it later, after cleaning and cr
 | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups |
 | Median | The middle value of sorted data; the 50% percentile |
 | Duplicate row | A row identical to another row in every column |
-| Correlation | How two columns move together, from -1 to +1 |
+| Correlation | How two features move together, from -1 to +1 |
 | Pearson correlation coefficient | The usual measure of correlation, written $r$; the one `df.corr()` computes |

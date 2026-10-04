@@ -18,15 +18,17 @@ One of SVM's main strengths, listed in the [SVM intuition Note](../92-svm-intuit
 
 ![The kernel trick: lift data that is not linearly separable into a dimension where it is](images/overview.png){width=100%}
 
+An everyday picture: blue marbles sit in the middle of a tablecloth and red marbles around them. No ruler laid flat on the table can fence off the blue ones. Now push the middle of the cloth up from below. The blue marbles rise, the red ones stay low, and a flat tray held level slides between the two colours. A kernel does the same: it adds a height so that a flat cut works.
+
 The mathematics behind it is involved. This Note gives the intuition with two pictures; the next Note runs it in code.
 
 ## 2. Data that no straight line can split
 
 > **Key point:** In 1D, a straight boundary is a single point. Circles on both ends and crosses in the middle cannot be split by one point.
 
-Take a dataset with only one input, so every point lies on one axis (Figure 2, left). There are two classes: crosses in the middle and circles on both sides.
+Take a dataset with only one **feature** (an input variable, one column of the data table), so every **observation** (one record, one row of the table) is a point on one axis (Figure 2, left). There are two classes: crosses in the middle and circles on both sides.
 
-In 1D a linear boundary is a single point: everything left of it is one class, everything right of it the other. No single point can put all the crosses on one side and all the circles on the other. This data is not linearly separable, so a linear SVM cannot classify it.
+In 1D a linear boundary is a single point: everything left of it is one class, everything right of it the other. No single point can put all the crosses on one side and all the circles on the other. Data like this is **not linearly separable**: no straight boundary splits the classes, so a linear SVM cannot classify it.
 
 ## 3. The kernel trick
 
@@ -36,7 +38,7 @@ In 1D a linear boundary is a single point: everything left of it is one class, e
 
 > **Key point:** Add x² as a second axis. The circles go high, the crosses stay low, and a horizontal line splits them.
 
-The trick is to apply a mathematical function that turns the lower-dimensional feature space into a higher-dimensional one, in such a way that the data becomes linearly separable. For the 1D data, the function $x \mapsto (x, x^2)$ does it (Figure 2, right).
+The trick is to apply a mathematical function that turns the lower-dimensional **feature space** (the space whose axes are the features) into a higher-dimensional one, in such a way that the data becomes linearly separable. For the 1D data, the function $x \mapsto (x, x^2)$ does it (Figure 2, right).
 
 ![Left: 1D data with no separating point. Right: after adding x² as a second axis, a straight line separates the classes](images/lift_1d.png){height=33%}
 
@@ -59,7 +61,7 @@ There are many kernels. Besides the plain linear one, scikit-learn's SVM comes w
 2. **Polynomial**: built from powers of the inputs. The $x^2$ example above is of this type.
 3. **Sigmoid**: an S-shaped kernel.
 
-> **Extra:** The sigmoid kernel is $\tanh(\gamma\, x \cdot x' + r)$. It has the same S-shape as the [sigmoid function](../72-sigmoid-function/note.md) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. It came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
+> **Extra:** The sigmoid kernel is $\tanh(\gamma\, x \cdot x' + r)$. The sigmoid kernel has the same S-shape as the [sigmoid function](../72-sigmoid-function/note.md) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. The sigmoid kernel came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
 
 ## 4. A 2D example: concentric circles
 
@@ -67,7 +69,7 @@ There are many kernels. Besides the plain linear one, scikit-learn's SVM comes w
 
 Now take 2D data with two classes arranged as concentric circles: green points in the centre, red points in a ring around them (Figure 3, first frame). No straight line can separate a disc from the ring around it.
 
-We apply a function of the form $e^{-x^2}$. Its graph is a bump: highest at 0 and falling towards 0 on both sides. In 2D we use the distance from the centre, $r^2 = x_1^2 + x_2^2$, and give every point a third coordinate:
+We apply a function of the form $e^{-x^2}$. The graph of $e^{-x^2}$ is a bump: highest at 0 and falling towards 0 on both sides. In 2D we use the distance from the centre, $r^2 = x_1^2 + x_2^2$, and give every point a third coordinate:
 
 $$z = e^{-(x_1^2 + x_2^2)}$$
 
@@ -88,9 +90,9 @@ This function is an example of the **RBF kernel**, short for radial basis functi
 
 The kernel trick is built into the SVM algorithm. We do not write the transformation ourselves: we choose a kernel, and SVM handles the rest. The kernel and its settings are hyperparameters, so we choose them like C in the [soft-margin Note](../94-svm-soft-margin/note.md): with a grid search and cross-validation.
 
-In summary: if the data is not linearly separable in its own dimension, a kernel function performs a kernel transformation that makes it linearly separable in a higher-dimensional feature space. That is the whole idea behind the kernel trick.
+In summary: if the data is not linearly separable in its own dimension, a kernel function performs a kernel transformation that makes it linearly separable in a higher-dimensional feature space. These two steps are the whole idea behind the kernel trick.
 
-> **Extra:** Why is it called a "trick"? SVM never actually builds the new columns. Its training only needs dot products between pairs of points, and a kernel gives the dot product in the higher-dimensional space directly from the original coordinates. The next Note shows this in code; for RBF the higher-dimensional space is even infinite, so building it explicitly would be impossible (MML §12.4).
+> **Extra:** Why is it called a "trick"? SVM never actually builds the new features. Its training only needs dot products between pairs of points, and a kernel gives the dot product in the higher-dimensional space directly from the original coordinates. The next Note shows this in code; for RBF the higher-dimensional space is even infinite, so building it explicitly would be impossible (MML §12.4).
 
 ## 6. Summary
 
@@ -104,16 +106,16 @@ In summary: if the data is not linearly separable in its own dimension, a kernel
 - The map is the kernel; applying it is the kernel transformation.
 - Common kernels: RBF (most used), polynomial, sigmoid. The kernel is a hyperparameter of SVM.
 
-## Sources
+## 7. Sources
 
-- **Lin and Lin 2003:** H.-T. Lin and C.-J. Lin, *A Study on Sigmoid Kernels for SVM and the Training of non-PSD Kernels by SMO-type Methods*, National Taiwan University, 2003.
+- **Lin and Lin 2003:** H.-T. Lin and C.-J. Lin, *A Study on Sigmoid Kernels for SVM and the Training of non-PSD Kernels by SMO-type Methods*, National Taiwan University, 2003. csie.ntu.edu.tw/~cjlin/papers/tanh.pdf
 - **MML:** M. P. Deisenroth, A. A. Faisal and C. S. Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020. Section 12.4, Kernels.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
-| Kernel trick | Making non-linear data separable by mapping it to a higher dimension, without building the new columns |
+| Kernel trick | Making non-linear data separable by mapping it to a higher dimension, without building the new features |
 | Kernel (SVM) | The function that maps the data to the higher-dimensional space (not the Jupyter kernel) |
 | Kernel transformation | Applying a kernel to the data |
 | Non-linear data | Data whose classes no straight line, plane or hyperplane can separate |

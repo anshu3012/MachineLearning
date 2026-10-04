@@ -6,8 +6,8 @@ import plotly.graph_objects as go
 here = Path(__file__).parent
 BLUE, ORANGE, GREEN, RED, GREY = "#4C78A8", "#F58518", "#54A24B", "#E45756", "#6B6B6B"
 r = pd.read_csv(here.parent / "data" / "knn_results.csv")
-pca = r[r.setup.str.startswith("PCA")]
-full = r[r.setup == "standardised"].iloc[0]
+pca = r[r.setup.str.startswith("PCA ")]
+full = r[r.setup == "raw pixels"].iloc[0]
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=[1, 300], y=[full.accuracy] * 2, mode="lines", line=dict(color=GREY, dash="dash", width=2)))
 fig.add_annotation(x=2.4, y=full.accuracy, yshift=-14, xref="x", text=f"all 784 columns: {full.accuracy:.1%}",

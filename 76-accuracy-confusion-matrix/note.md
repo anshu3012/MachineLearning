@@ -26,7 +26,7 @@ This Note covers the first two. The following Notes build on the confusion matri
 
 ### 2.1 The idea
 
-> **Key point:** Compare each prediction with the true label and count how many match.
+> **Key point:** Compare each prediction with the true class and count how many match.
 
 Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a later Note), and predict the test students. For each test student we know the true result, so we can tick each prediction as right or wrong.
 
@@ -38,7 +38,7 @@ With numbers: if a model gets 8 of 10 test students right, its accuracy is $8/10
 
 > **Key point:** On the heart-disease data, logistic regression reaches 0.869 and a decision tree 0.836.
 
-The heart-disease dataset has 303 patients, 13 medical measurements each (age, blood pressure, cholesterol and so on), and a target: 1 if the patient has heart disease, 0 if not. We split off 20% as the test set (random state 2) and train both models.
+The heart-disease dataset has 303 patients. Each patient is one **observation** (one record, a row of the data table). Each has 13 **features** (input variables, one column each): medical measurements such as age, blood pressure and cholesterol. The **target** (the output we predict) is 1 if the patient has heart disease, 0 if not. We split off 20% as the test set (random state 2) and train both models.
 
 > **Python:** Accuracy in scikit-learn.
 >
@@ -52,7 +52,7 @@ The heart-disease dataset has 303 patients, 13 medical measurements each (age, b
 
 | Model | Test accuracy |
 |---|---|
-| Logistic regression (inputs standardised) | 0.869 |
+| Logistic regression (features standardised) | 0.869 |
 | Decision tree | 0.836 |
 
 So, on this test set, logistic regression is the better model.
@@ -65,11 +65,11 @@ Nothing changes with more classes, for example the three iris species: count the
 
 ## 3. How much accuracy is good enough?
 
-> **Key point:** It depends on the problem. 99% can be far too low for cancer detection and plenty for predicting food orders.
+> **Key point:** The answer depends on the problem. 99% can be far too low for cancer detection and plenty for predicting food orders.
 
 A common interview question is "what accuracy should a model have?". There is no single number; it depends on the cost of a mistake.
 
-- **Cancer detection from X-rays:** 99% accuracy means one patient in a hundred gets a wrong answer. That is not acceptable.
+- **Cancer detection from X-rays:** 99% accuracy means one patient in a hundred gets a wrong answer. Such an error rate is not acceptable.
 - **Self-driving car decisions:** 99% means an error every hundred decisions. Also not acceptable.
 - **Predicting whether a customer orders food this weekend:** 80% may be perfectly useful, because a wrong guess costs little.
 

@@ -21,6 +21,8 @@ Univariate analysis looks at one column at a time. Here we look at columns toget
 - **Bivariate analysis:** studying two columns together, to find how they are related.
 - **Multivariate analysis:** studying more than two columns together in one view.
 
+Each column is a variable. In ML, an input variable is a **feature** (one column of the data table), the variable we want to predict is the **target**, and each row, one record, is an **observation**.
+
 The choice of plot depends on the data types of the two columns. Two columns can be numerical + numerical, numerical + categorical, or categorical + categorical. Figure 1 shows the plots that suit each pair.
 
 ![The plots that suit each pair of column types](images/plot_chooser.png){height=45%}
@@ -57,17 +59,17 @@ The Titanic columns are the same as in the Note on understanding data: `SibSp` c
 
 ## 3. Scatter plot: two numerical columns
 
-> **Key point:** A scatter plot draws one dot per row, with one numerical column on each axis; the cloud of dots shows how the two are related.
+> **Key point:** A scatter plot draws one dot per observation, with one numerical column on each axis; the cloud of dots shows how the two are related.
 
 ### 3.1 Total bill against tip
 
 > **Key point:** Bigger bills get bigger tips: the dots rise from left to right.
 
-A **scatter plot** puts one numerical column on the x-axis and another on the y-axis, and draws one dot per row. In the tips data, each dot is one bill: its total on x, its tip on y.
+A **scatter plot** puts one numerical column on the x-axis and another on the y-axis, and draws one dot per observation (one row). In the tips data, each dot is one bill: its total on x, its tip on y.
 
-Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. This is a roughly **linear relationship**, one that follows a straight line.
+Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly **linear relationship**, one that follows a straight line.
 
-It makes sense: people usually tip in proportion to what they spend. A few dots break the trend, such as a 7-dollar bill with a 5-dollar tip, but the general direction is clear.
+The tips themselves explain the line: they are close to a fixed share of the bill. Half of all tips lie between 13% and 19% of the bill, with a median of 15%. A few dots break the trend, such as a 7-dollar bill with a 5-dollar tip, but the general direction is clear.
 
 > **Extra:** Their correlation, from the Note on understanding data, is $r = 0.68$: a clear positive link, but not a perfect line.
 
@@ -83,7 +85,7 @@ A scatter plot has room for more information than its two axes. Three settings e
 
 ![Total bill vs tip, with sex, smoker and party size added](images/scatter_tips.png)
 
-Figure 2 uses all three. It shows five columns at once: the bill, the tip, the customer's sex, whether they smoke, and how many people were at the table. This is multivariate analysis.
+Figure 2 uses all three. Figure 2 shows five columns at once: the bill, the tip, the customer's sex, whether they smoke, and how many people were at the table. Showing more than two columns at once is multivariate analysis.
 
 Reading it, the bills and tips far from the main cloud (the biggest ones) mostly come from male customers. The biggest dots also sit towards the right: larger parties run up larger bills.
 
@@ -138,7 +140,7 @@ The hue setting splits each bar by a further column. Figure 3 splits each class 
 
 A **box plot** summarises a numerical column by its median, its quartiles and its outliers (it is covered in detail with univariate analysis). Drawn once per category, side by side, it compares whole distributions, not only averages.
 
-Figure 4 puts `Sex` on the x-axis and `Age` on the y-axis, and splits each sex by survival (hue). It also shows the outliers: the dots above the boxes, mostly among the men.
+Figure 4 puts `Sex` on the x-axis and `Age` on the y-axis, and splits each sex by survival (hue). The plot also shows the outliers: the dots above the boxes, mostly among the men.
 
 ![Age by sex, split by survival](images/box_age_sex.png)
 
@@ -241,7 +243,7 @@ Counts have a weakness. Third class had the most deaths, but it also carried the
 Figure 7 shows the result for three columns:
 
 - **Class:** 63% of first-class passengers survived, 47% of second class, and only 24% of third.
-- **Sex:** 74% of women survived, but only 19% of men. Women were helped into the lifeboats first.
+- **Sex:** 74% of women survived, but only 19% of men. Women were helped into the lifeboats first (Frey et al. 2011).
 - **Port of boarding:** 55% of those who boarded at Cherbourg survived, against 39% at Queenstown and 34% at Southampton.
 
 ![Survival rate by class, sex and port of boarding](images/survival_rates.png)
@@ -256,9 +258,9 @@ The ports raise a new question: why would the boarding port matter? A plot rarel
 
 > **Key point:** A clustermap is a heatmap whose rows and columns are reordered so that similar ones sit together, with a tree showing which ones were joined.
 
-A **clustermap** starts from the same table as a heatmap. It then moves the rows so that rows with similar values sit next to each other, and does the same for the columns.
+A **clustermap** starts from the same table as a heatmap. The clustermap then moves the rows so that rows with similar values sit next to each other, and does the same for the columns.
 
-The tree on the side is a **dendrogram**. It joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike.
+The tree on the side is a **dendrogram**. The dendrogram joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike.
 
 Figure 8 applies it to `Parch` (parents or children aboard) against survival. Passengers with 1 or 2 parents or children aboard are joined first: they had similar numbers of deaths and survivals. The rare large families (3 to 6) form another group, and passengers travelling without parents or children (0) stand apart.
 
@@ -289,7 +291,7 @@ Figure 9 does this for the four iris measurements. Each cell off the diagonal is
 
 ![Pair plot of the four iris measurements, coloured by species](images/pairplot_iris.png){height=70%}
 
-Colouring by species (hue) makes it multivariate, and shows which measurements separate the species. In the petal length against petal width cell, the three species form three almost separate groups. Petal measurements are therefore the most useful ones for telling the species apart.
+Colouring by species (hue) makes the pair plot multivariate, and shows which measurements separate the species. In the petal length against petal width cell, the three species form three almost separate groups. Petal measurements are therefore the most useful ones for telling the species apart.
 
 > **Python:** A pair plot.
 >
@@ -305,7 +307,7 @@ Colouring by species (hue) makes it multivariate, and shows which measurements s
 >
 > Here `cols` is the list of the four measurement names.
 
-> **Extra:** The grid grows fast: 10 numerical columns give 100 cells. For wide datasets, we pick a few columns first, for example those with the strongest correlation to the output.
+> **Extra:** The grid grows fast: 10 numerical columns give 100 cells. For wide datasets, we pick a few columns first, for example those with the strongest correlation to the target.
 
 ## 10. Line plot: a number over time
 
@@ -392,17 +394,20 @@ The column tree does the same for the years. Neighbouring years with similar tra
 - Each finding raises the next question, such as why Cherbourg passengers survived more often.
 - In current pandas and seaborn: pass columns by name (`x=`, `y=`, `hue=`), use `kdeplot` instead of `distplot`, and select the column before `groupby(...).mean()`.
 
-## Sources
+## 13. Sources
 
 - Frey, B., Savage, D. and Torgler, B. (2011). Behavior under Extreme Conditions: The Titanic Disaster. *Journal of Economic Perspectives* 25(1).
 - seaborn documentation. `seaborn.barplot`; release notes v0.11.0; source of `seaborn.load_dataset`. seaborn.pydata.org.
 - Silverman, B. (1986). *Density Estimation for Statistics and Data Analysis*. Chapman and Hall.
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 
-## 13. Key terms
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Target | The variable we want to predict |
+| Observation | One record, one row of the data table |
 | Bivariate analysis | Studying two columns together to find how they are related |
 | Multivariate analysis | Studying more than two columns together in one view |
 | Scatter plot | One dot per row, with one numerical column on each axis |

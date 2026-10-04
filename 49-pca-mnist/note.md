@@ -13,12 +13,14 @@ title: "PCA in Practice: MNIST"
 
 ## 1. Overview
 
-> **Key point:** On real image data, PCA cuts 784 columns to 50 with almost the same accuracy and much faster predictions. It also lets us see the data in 2D and 3D.
+> **Key point:** On real image data, PCA cuts 784 features to 50 and KNN gets slightly *more* accurate and much faster. PCA also lets us see the data in 2D and 3D.
+
+A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the output we predict. Here each observation is one image, each feature one pixel, and the target the digit.
 
 The previous two Notes built PCA from the geometry and the mathematics. This Note uses scikit-learn's `PCA` on a real dataset of handwritten digits, for PCA's two main jobs:
 
-1. **Fewer columns:** train a model on a few principal components instead of every pixel, and compare accuracy and speed (Sections 3 and 4).
-2. **Visualisation:** squeeze the data into 2 or 3 columns and plot it (Section 5).
+1. **Fewer features:** train a model on a few principal components instead of every pixel, and compare accuracy and speed (Sections 3 and 4).
+2. **Visualisation:** squeeze the data into 2 or 3 features and plot it (Section 5).
 
 Then we answer two practical questions. How many components should we keep (Section 7)? And when does PCA not help at all (Section 8)?
 
@@ -32,7 +34,7 @@ To put images in a table, each image becomes one row with one column per pixel: 
 
 We use 42,000 images and split them 80/20: 33,600 for training and 8,400 for testing. The task is classification: from the 784 pixel values, predict the digit.
 
-> **Extra:** The images here come from the full MNIST set on OpenML (70,000 images), loaded with `fetch_openml("mnist_784")`. We take a random 42,000, the same size as the Digit Recognizer competition file on Kaggle, which is also drawn from MNIST and needs a Kaggle account to download. Results on the two are very close.
+> **Extra:** The images here come from the full MNIST set on OpenML (70,000 images), loaded with `fetch_openml("mnist_784")`. We take a random 42,000, the same size as the Digit Recognizer competition file on Kaggle, which is also drawn from MNIST and needs a Kaggle account to download.
 
 > **Python:** Loading the data and splitting it.
 >
@@ -47,17 +49,17 @@ We use 42,000 images and split them 80/20: 33,600 for training and 8,400 for tes
 >     X, y, test_size=0.2, random_state=2)
 > ```
 
-## 3. KNN on all 784 columns
+## 3. KNN on all 784 features
 
-> **Key point:** KNN reaches 96.8% on the raw pixels, but each prediction compares the image with 33,600 others across 784 columns, which is slow.
+> **Key point:** KNN reaches 96.8% on the raw pixels, but each prediction compares the image with 33,600 others across 784 features, which is slow.
 
-We first train **KNN** (K-nearest neighbours) with its default of 5 neighbours on all 784 columns. To classify a test image, KNN computes its distance to every one of the 33,600 training images and takes the most common label among the 5 nearest.
+We first train **KNN** (K-nearest neighbours) with its default of 5 neighbours on all 784 features. To classify a test image, KNN computes its distance to every one of the 33,600 training images and takes the most common label among the 5 nearest.
 
-The result: **96.8% accuracy**, but the training and prediction took about **19 seconds**. Each of the 8,400 test images needs 33,600 distances in 784 dimensions. This is the computation problem of the curse of dimensionality.
+The result: **96.8% accuracy**, but each of the 8,400 test images needs 33,600 distances in 784 dimensions. On an idle machine the run took about 19 seconds. The heavy arithmetic is the computation problem of the curse of dimensionality (Note 46).
 
 ## 4. KNN on principal components
 
-> **Key point:** Standardise, fit PCA on the training set, transform both sets, then train the same KNN on the new columns.
+> **Key point:** Fit PCA on the training set, transform both sets, then train the same KNN on the new features.
 
 ### 4.1 The steps
 
@@ -65,57 +67,66 @@ The result: **96.8% accuracy**, but the training and prediction took about **19 
 
 PCA in scikit-learn follows the same fit and transform pattern as scalers and encoders:
 
-1. **Standardise** the pixels, so each column has mean 0 (PCA's first step).
-2. **Fit** `PCA` on the training set: it computes the covariance matrix and its eigenvectors.
-3. **Transform** both sets: project every image onto the kept components.
-4. **Train KNN** on the transformed training set and test it on the transformed test set.
+1. **Fit** `PCA` on the training set: it centres the pixels, computes the covariance matrix and its eigenvectors.
+2. **Transform** both sets: project every image onto the kept components.
+3. **Train KNN** on the transformed training set and test it on the transformed test set.
+
+We do not standardise the pixels first. All 784 pixels share one unit, brightness from 0 to 255, and when features are measured in the same units there is no need to scale them before PCA (ISL §12.2.4). Section 4.3 shows what standardising would cost here.
 
 The parameter `n_components` sets how many components to keep. Left as `None`, it keeps all of them, 784 here.
 
-> **Python:** KNN on 100 principal components.
+> **Python:** KNN on 50 principal components.
 >
 > ```python
-> from sklearn.preprocessing import StandardScaler
 > from sklearn.decomposition import PCA
 > from sklearn.neighbors import KNeighborsClassifier
 >
-> scaler = StandardScaler().fit(X_train)
-> X_train_s = scaler.transform(X_train)
-> X_test_s = scaler.transform(X_test)
->
-> pca = PCA(n_components=100).fit(X_train_s)  # train only
-> Z_train = pca.transform(X_train_s)          # (33600, 100)
-> Z_test = pca.transform(X_test_s)            # (8400, 100)
+> pca = PCA(n_components=50).fit(X_train)   # train only
+> Z_train = pca.transform(X_train)          # (33600, 50)
+> Z_test = pca.transform(X_test)            # (8400, 50)
 >
 > knn = KNeighborsClassifier(n_neighbors=5).fit(Z_train, y_train)
-> knn.score(Z_test, y_test)                   # 0.954
+> knn.score(Z_test, y_test)                 # 0.973
 > ```
 
-With 100 components the accuracy is **95.4%**, and the whole run takes about 1 second instead of 19. We dropped 684 of the 784 columns and lost about one point of accuracy.
+With 50 components the accuracy is **97.3%**, slightly above the 96.8% on all 784 pixels. Each distance now uses 50 numbers instead of 784, about 16 times less arithmetic; on an idle machine the run took about 1 second. We dropped 734 of the 784 features and lost nothing. Like a summary of a long report, the 50 components keep what matters and leave out the repetition: neighbouring pixels mostly move together, so a few combinations describe them well.
+
+> **Extra:** Timings depend on the machine and on what else runs on it. On a busy shared machine the same two runs took 120 to 200 seconds and 1.5 to 3 seconds. The gap stays more than tenfold.
 
 ### 4.2 Accuracy as k grows
 
-> **Key point:** Accuracy climbs steeply over the first 10 components, levels off around 50, and then stays flat or dips slightly.
+> **Key point:** Accuracy climbs steeply over the first 20 components, peaks around 30 to 75, and then slowly drifts back to the all-pixel level.
 
 How many components do we need? Figure 1 repeats the experiment for k from 1 to 300 components.
 
-![KNN accuracy on MNIST with k principal components](images/accuracy_by_components.png)
+![KNN accuracy on MNIST with k principal components; the dashed line is KNN on all 784 pixels](images/accuracy_by_components.png)
 
 | k | 1 | 2 | 3 | 5 | 10 | 20 | 50 | 100 | 300 |
 |---|---|---|---|---|---|---|---|---|---|
-| Accuracy | 26% | 32% | 52% | 74% | 90% | 94% | 95.4% | 95.4% | 94.5% |
+| Accuracy | 27% | 43% | 49% | 73% | 93% | 96.7% | 97.3% | 97.1% | 96.8% |
 
-- **1 to 10 components:** each one adds a lot; the first components carry the most information.
-- **20 to 100:** the curve is flat. Later components add little.
-- **Above 100:** accuracy dips slightly, from 95.4% to 94.5% at 300. The later components still carry some information about the digit (see the Extra below); they just do not help KNN any more.
+- **1 to 20 components:** each one adds a lot; the first components carry the most information.
+- **30 to 75:** the best range, 97.2% to 97.3%, above the 96.8% of all 784 pixels.
+- **Above 100:** accuracy drifts back down towards 96.8%. The later components add small differences between images that do not help KNN find the right neighbours (see the Extra below).
 
-So 50 components, 6% of the original columns, give the best result in this run.
+So 50 components, 6% of the original features, give the best result in this run.
 
-> **Extra:** Standardising the pixels lowers KNN's accuracy on all 784 columns, from 96.8% to 94.0% (the dashed line in Figure 1). The rarely used pixels are the main culprit. A pixel near the edge is blank in almost every image; standardising stretches its rare small changes to the same size as the busy centre pixels, so they disturb the distances KNN measures. Checks in the Notebook:
->
-> - Drop the pixels that are non-zero in fewer than 5% of the training images, then standardise the rest: KNN gets 95.9%, so most of the loss comes back.
-> - Skip standardising and run PCA on the raw pixels: 50 components give 97.3%, better than every standardised run here.
-> - Are the later components just noise? No. Components 101 to 300 alone still give 76%, and components 51 to 784 alone 78%. Shuffling them across images (same spread, no link to the label) lowers accuracy: from 94.5% to 93.3% with 300 components, from 94.0% to 90.3% with all 784.
+> **Extra:** Are the later components useful? Components 51 to 784 alone give 54%, so they hold a little information. Next to the first 50, though, they act like noise for KNN: shuffling each of them across images (same spread, no link to the label) leaves accuracy unchanged, 96.8% real against 97.0% shuffled. Components 101 to 300 behave the same way (97.1% with shuffled ones). Dropping them removes small, unhelpful differences, which is why 50 components beat all 784 pixels. All results come from one split with 8,400 test images, so one image is 0.012 points.
+
+### 4.3 What standardising would do
+
+> **Key point:** Standardising every pixel first lowers accuracy, to 94.0% on all pixels and 95.4% with 50 components.
+
+Standardising (Note 24) gives every pixel mean 0 and standard deviation 1. For images that is harmful. A pixel near the edge is blank in almost every image; standardising stretches its rare small changes to the same size as the busy centre pixels, so they disturb the distances KNN measures.
+
+| Setup | Accuracy |
+|---|---|
+| Raw pixels, all 784 | 96.8% |
+| Raw pixels, PCA 50 | **97.3%** |
+| Standardised, all 784 | 94.0% |
+| Standardised, PCA 50 | 95.4% |
+
+> **Extra:** The rarely used pixels are the main culprit. Dropping the pixels that are non-zero in fewer than 5% of the training images, then standardising the rest, gives 95.9%, so most of the loss comes back (Notebook, last cell). Standardising remains the right step when features are in different units, such as age in years and income in rupees.
 
 ## 5. Visualising the digits
 
@@ -131,21 +142,21 @@ Figure 2 shows the 8,400 test images on PC1 and PC2, coloured by their label.
 
 ![MNIST test images on PC1 and PC2](images/digits_2d.png){height=55%}
 
-The colours overlap a lot. Still, a pattern shows. The 1s (orange) form a tight group on the left and the 0s (blue) spread out on the right. PC1 roughly measures how much ink a digit uses. A 1 is a single thin stroke (85 inked pixels on average); a 0 is a big loop (191). In the Notebook, PC1 and the number of inked pixels have a correlation of 0.80.
+The colours overlap a lot. Still, a pattern shows. The 1s (orange) form a tight group on the left and the 0s (blue) spread out on the right. PC1 roughly measures how much ink a digit uses. A 1 is a single thin stroke (85 inked pixels on average); a 0 is a big loop (191). In the Notebook, PC1 and the number of inked pixels have a correlation of 0.86.
 
 ### 5.2 In 3D
 
-> **Key point:** A third component separates more digits. Similar-looking digits, such as 3 and 8, stay mixed.
+> **Key point:** A third component separates more digits. Similar-looking digits stay mixed.
 
 Figure 3 adds PC3 and shows five digits only, to keep the picture readable.
 
 ![Digits 0, 1, 3, 7 and 8 on PC1, PC2 and PC3](images/digits_3d.png){height=60%}
 
-- **0 and 7** sit in clearly different regions: they look very different.
-- **3 and 8** are mixed together: an 8 looks like a 3 closed on the left.
-- **1** sits in a tight cluster inside the others.
+- **0 and 1** sit at opposite ends of PC1: a big loop against a thin stroke.
+- **3** rises along PC3, away from the others.
+- **8** sits in the middle, mixed with 3 and 7.
 
-In the Notebook this plot is interactive: we can turn it, zoom, and click digits in the legend to hide or show them. Turning it shows other close pairs, such as 4 and 9, which share a vertical stroke.
+In the Notebook this plot is interactive: we can turn it, zoom, and click digits in the legend to hide or show them. Turning it shows other close groups: 4, 7 and 9 share the same low PC2 values (average about $-570$ each).
 
 ## 6. What a fitted PCA stores
 
@@ -155,13 +166,13 @@ After `fit`, a `PCA` object keeps the results of its eigen-decomposition (from t
 
 | Attribute | What it holds | For 3 components on MNIST |
 |---|---|---|
-| `explained_variance_` | the eigenvalues, largest first | 40.4, 29.0, 27.0 |
+| `explained_variance_` | the eigenvalues, largest first | 331,121, 245,937, 211,045 |
 | `components_` | the eigenvectors, one per row | shape (3, 784) |
-| `explained_variance_ratio_` | each eigenvalue divided by the sum of all | 5.7%, 4.1%, 3.8% |
+| `explained_variance_ratio_` | each eigenvalue divided by the sum of all | 9.7%, 7.2%, 6.2% |
 
-Each eigenvector has 784 numbers because it is a direction in the 784-dimensional pixel space. Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines.
+The eigenvalues are large because the pixels run from 0 to 255, so their variances are in the thousands. Each eigenvector has 784 numbers because it is a direction in the 784-dimensional pixel space. Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines.
 
-The first three components together hold only 14% of the variance. So little variance explains why the 2D and 3D pictures overlap so much: they show only a small part of what makes the images different.
+The first three components together hold only 23% of the variance. So little variance explains why the 2D and 3D pictures overlap so much: they show only a small part of what makes the images different.
 
 ## 7. How many components to keep
 
@@ -177,43 +188,43 @@ In words: the share of variance a component explains is its eigenvalue divided b
 
 $$\text{explained variance ratio}_i = \frac{\lambda_i}{\lambda_1 + \lambda_2 + \dots + \lambda_d}$$
 
-With numbers: on standardised MNIST the 784 eigenvalues add up to 713. PC1's eigenvalue is 40.4, so
+With numbers: on MNIST the 784 eigenvalues add up to about 3,429,600. PC1's eigenvalue is 331,121, so
 
-$$\frac{40.4}{713} \approx 0.057 = 5.7\%$$
+$$\frac{331{,}121}{3{,}429{,}600} \approx 0.097 = 9.7\%$$
 
 ### 7.2 The cumulative curve and the 90% rule
 
-> **Key point:** On MNIST, 228 components explain 90% of the variance.
+> **Key point:** On MNIST, 87 components explain 90% of the variance.
 
 Adding up the ratios in order gives the **cumulative explained variance**: the share kept by the first $k$ components. Figure 4 plots it for every $k$.
 
 ![Cumulative explained variance of MNIST's components](images/explained_variance.png)
 
-The curve rises fast and then flattens towards 100%. A common rule of thumb is to keep enough components to explain about **90%** of the variance: on MNIST, **228 components**. For 95% it takes 320.
+The curve rises fast and then flattens towards 100%. A common rule of thumb is to keep enough components to explain about **90%** of the variance: on MNIST, **87 components**. For 95% it takes 153.
 
 > **Python:** Finding k for 90%.
 >
 > ```python
 > import numpy as np
 >
-> full = PCA().fit(X_train_s)       # keep all 784 components
+> full = PCA().fit(X_train)         # keep all 784 components
 > cum = np.cumsum(full.explained_variance_ratio_)
-> np.searchsorted(cum, 0.90) + 1    # 228
+> np.searchsorted(cum, 0.90) + 1    # 87
 >
 > # or let scikit-learn choose: a number between 0 and 1
 > # means "keep this share of the variance"
-> PCA(n_components=0.90).fit(X_train_s).n_components_  # 228
+> PCA(n_components=0.90).fit(X_train).n_components_  # 87
 > ```
 >
 > `np.cumsum` gives the running total. `np.searchsorted` finds the first position where it reaches 0.90; positions start at 0, so we add 1.
 
-> **Extra:** The 90% rule is a safe starting point, not a law. In Figure 1, KNN was already at its best with 50 components, which explain only about 56% of the variance. When there is a model to evaluate, the most direct way to pick $k$ is to try several values and compare the test or cross-validation scores, as Section 4.2 did.
+> **Extra:** The 90% rule is a safe starting point, not a law. In Figure 1, KNN was already at its best with 50 components, which explain about 83% of the variance. When there is a model to evaluate, the most direct way to pick $k$ is to try several values and compare the test or cross-validation scores, as Section 4.2 did.
 
 ## 8. When PCA does not help
 
 > **Key point:** PCA only finds straight directions of large spread. It fails when there is no such direction, when the useful difference lies along a small-spread direction, or when the pattern is curved.
 
-PCA is powerful, but it can only rotate the axes and drop some. Figure 5 shows three kinds of data where that is not enough. In each, the orange line is PC1, and the strip below shows the points projected onto it.
+PCA is powerful, but it can only rotate the axes and drop some. Figure 5 shows three kinds of data where rotating and dropping is not enough. In each, the orange line is PC1, and the strip below shows the points projected onto it.
 
 ![Three cases where PCA does not help](images/pca_fails.png)
 
@@ -229,28 +240,34 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 
 | Question | Answer on MNIST |
 |---|---|
-| Accuracy with all 784 raw pixels | 96.8%, about 19 seconds |
-| Accuracy with 50 to 100 components | 95.4%, about 1 second |
-| Components for 90% of the variance | 228 |
-| Variance in the first 3 components | 14% |
-| Digits that separate well in 3D | 0, 1 and 7 |
-| Digits that overlap | 3 and 8, 4 and 9 |
+| Accuracy with all 784 raw pixels | 96.8%, about 19 seconds (idle machine) |
+| Accuracy with 50 components | 97.3%, about 1 second |
+| Standardising the pixels first | lowers accuracy (94.0% all pixels, 95.4% with 50 components) |
+| Components for 90% of the variance | 87 |
+| Variance in the first 3 components | 23% |
+| Digits at opposite ends of PC1 | 0 and 1 |
+| Digits that overlap | 8 with 3 and 7; 4, 7 and 9 |
 
 - Use PCA like a scaler: fit on the training set, transform both sets.
-- A few principal components can keep almost all the accuracy at a fraction of the computation.
+- Pixels share one unit, so PCA runs on them unscaled; standardising them hurts KNN here.
+- A few principal components can keep, or even improve, the accuracy at a fraction of the computation.
 - 2 or 3 components let us look at high-dimensional data, but they hold only part of its information.
 - `explained_variance_ratio_` and its running total tell how much of the data each $k$ keeps; about 90% is a common target.
 - PCA fails when spread is equal in all directions, when classes differ along a small-spread direction, or when the pattern is curved.
 
-## Sources
+## 10. Sources
 
 - Bishop, C. M. (2006). *Pattern Recognition and Machine Learning* (PRML). Springer. §4.1.4 Fisher's linear discriminant; §12.3 Kernel PCA.
+- ISL: James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. §12.2.4, More on PCA: scaling the variables.
 - van der Maaten, L. and Hinton, G. (2008). Visualizing Data using t-SNE. *Journal of Machine Learning Research* 9: 2579–2605.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table; here one pixel |
+| Observation | One record: one row of the data table; here one image |
+| Target | The output we predict; here the digit |
 | MNIST | A dataset of 70,000 images of handwritten digits, 28 × 28 pixels each |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance |
 | explained_variance_ | The eigenvalues of the fitted PCA, largest first |

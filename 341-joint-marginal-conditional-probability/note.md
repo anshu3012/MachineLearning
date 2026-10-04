@@ -31,11 +31,11 @@ The joint probability is defined in the [Bayes problem Note](../86-bayes-problem
 
 $$P(X = x, Y = y)$$
 
-It reads "the probability that $X$ takes the value $x$ **and** $Y$ takes the value $y$ at the same time". The comma means "and", the same as $\cap$.
+The expression reads "the probability that $X$ takes the value $x$ **and** $Y$ takes the value $y$ at the same time". The comma means "and", the same as $\cap$.
 
 ### 2.1 Joint probabilities from the Titanic table
 
-> **Key point:** Divide each count of the contingency table by the total number of rows; each cell becomes a joint probability.
+> **Key point:** Divide each count of the contingency table by the total number of observations; each cell becomes a joint probability.
 
 The class-by-survival contingency table of the 891 Titanic passengers (built in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)) gives the counts:
 
@@ -45,11 +45,11 @@ The class-by-survival contingency table of the 891 Titanic passengers (built in 
 | class 2 ($X = 2$) | 97 | 87 |
 | class 3 ($X = 3$) | 372 | 119 |
 
-Each count is a number of passengers, not a probability. Dividing by the 891 passengers turns it into one.
+Each passenger is one **observation** (one record, one row of the data table). Each count is a number of passengers, not a probability. Dividing by the 891 passengers turns it into one.
 
-1. **In words:** the joint probability of a cell is the number of rows in that cell divided by the total number of rows.
+1. **In words:** the joint probability of a cell is the number of observations in that cell divided by the total number of observations.
 2. **Formula:**
-   $$P(X = x, Y = y) = \frac{\text{count of rows with } X = x \text{ and } Y = y}{\text{total number of rows}}$$
+   $$P(X = x, Y = y) = \frac{\text{count of observations with } X = x \text{ and } Y = y}{\text{total number of observations}}$$
 3. **Example:** a passenger who was in first class **and** died:
    $$P(X = 1, Y = 0) = \frac{80}{891} \approx 0.090$$
    In third class and died: $372 / 891 \approx 0.418$.
@@ -68,7 +68,7 @@ Doing this for all six cells gives the blue part of Figure 1:
 
 One cell is **a** joint probability. The whole table, every combination of $X$ and $Y$ with its probability, is the **joint probability distribution** of $X$ and $Y$.
 
-It is the two-variable version of a probability distribution (see the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)): every possible outcome, now a pair $(x, y)$, with its probability. Because the six pairs cover every passenger exactly once, the six probabilities add up to 1.
+The joint distribution is the two-variable version of a probability distribution (see the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)): every possible outcome, now a pair $(x, y)$, with its probability. Because the six pairs cover every passenger exactly once, the six probabilities add up to 1.
 
 > **Python:** Joint probabilities with pandas.
 >
@@ -87,7 +87,7 @@ It is the two-variable version of a probability distribution (see the [random va
 
 > **Key point:** A marginal probability is the probability of one variable's value whatever the other variable does; it is the row or column sum of the joint table, written in its margin.
 
-**Marginal probability** is the probability of an event occurring irrespective of the outcome of some other event. It is also called **simple probability** or **unconditional probability**, because no condition is placed on the other event.
+**Marginal probability** is the probability of an event occurring irrespective of the outcome of some other event. Marginal probability is also called **simple probability** or **unconditional probability**, because no condition is placed on the other event.
 
 For random variables, the marginal probability of $X = x$ is the probability that $X$ takes the value $x$, regardless of the value of $Y$.
 
@@ -116,7 +116,7 @@ The row totals add to 891, and so do the column totals. These totals sit in the 
    $$P(Y = 0) = 0.0898 + 0.1089 + 0.4175 = 0.6162$$
    which is $549 / 891$. About 62% of the passengers died.
 
-Adding up over the other variable to get rid of it is called **marginalising** (or summing it out). It is the total probability rule of the [Bayes problem Note](../86-bayes-problem/note.md), applied to a table.
+Adding up over the other variable to get rid of it is called **marginalising** (or summing it out). Marginalising is the total probability rule of the [Bayes problem Note](../86-bayes-problem/note.md), applied to a table.
 
 ### 3.2 Marginal probability distributions
 
@@ -203,7 +203,7 @@ In the first problem the condition changed nothing: $P(\text{sum } 7) = 6/36 = 1
 
 > **Key point:** $P(\text{died} \mid \text{class 3}) = 0.418 / 0.551 \approx 0.758$: the joint probability divided by the marginal probability of the condition.
 
-On data with 891 rows we do not list outcomes by hand. The formula does the work, and every piece of it is already in Figure 1:
+On data with 891 observations we do not list outcomes by hand. The formula does the work, and every piece of it is already in Figure 1:
 
 1. **In words:** the conditional probability is the joint probability divided by the marginal probability of the condition.
 2. **Formula:**
@@ -287,7 +287,7 @@ The Titanic table answers this with either test:
 
 Both tests fail, so class and survival are dependent. Knowing the class moves the chance of dying from 0.616 to anywhere between 0.370 (class 1) and 0.758 (class 3), so class carries information about survival.
 
-## 6. Bayes' theorem as a one-column classifier
+## 6. Bayes' theorem as a one-feature classifier
 
 > **Key point:** To predict whether a new male passenger died, Bayes' theorem turns $P(\text{male} \mid \text{died})$, which the data gives directly, into $P(\text{died} \mid \text{male})$, which we want.
 
@@ -318,7 +318,7 @@ $$P(\text{survived} \mid \text{male}) = \frac{P(\text{male} \mid \text{survived}
 
 Since $2/3 > 1/3$, we predict that the male passenger died. The two answers add up to 1, as they must.
 
-With one input column we could have counted directly: of the three males, two died, $2/3$. With many input columns, direct counting breaks down: 10 yes/no columns already give $2^{10} = 1024$ combinations, more than the 891 Titanic passengers, so many combinations never appear in the data and have no count. Bayes' theorem alone does not fix this, since $P(\text{combination} \mid \text{died})$ would need the same counts. The Naive Bayes classifier of the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md) adds the assumption that the columns are independent given the class, so each column's likelihood is counted on its own.
+With one input **feature** (an input variable, one column of the data table) we could have counted directly: of the three males, two died, $2/3$. With many input features, direct counting breaks down: 10 yes/no features already give $2^{10} = 1024$ combinations, more than the 891 Titanic passengers, so many combinations never appear in the data and have no count. Bayes' theorem alone does not fix this, since $P(\text{combination} \mid \text{died})$ would need the same counts. The Naive Bayes classifier of the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md) adds the assumption that the features are independent given the class, so each feature's likelihood is counted on its own.
 
 ## 7. Summary
 

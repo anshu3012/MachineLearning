@@ -64,7 +64,7 @@ $z$ can be any number, large or small, positive or negative. The green block in 
 
 The classic perceptron uses the [step function](../70-perceptron-trick/note.md): output 1 when $z \geq 0$ and 0 otherwise. Other activation functions exist (sigmoid, tanh, ReLU and more), with ranges such as 0 to 1 or −1 to 1. Later Notes use them.
 
-> **Extra:** Whether $z = 0$ counts as 1 or 0 is a convention. The [perceptron trick Note](../70-perceptron-trick/note.md) uses $z > 0$, here we use $z \geq 0$. A point with $z$ exactly 0 lies on the line, so the choice almost never matters.
+> **Extra:** Whether $z = 0$ counts as 1 or 0 is a convention. The [perceptron trick Note](../70-perceptron-trick/note.md) uses $z > 0$, here we use $z \geq 0$. The two rules give different outputs only when $z$ is exactly 0, that is, for points lying exactly on the line.
 
 ## 4. Training and prediction
 
@@ -174,7 +174,7 @@ So the learned line is $40.26\,x_1 - 36\,x_2 - 25 = 0$, with $x_1$ = CGPA and $x
 
 Figure 3 (left) colours each region by the class the perceptron predicts there. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
 
-> **Extra:** Standardizing both inputs first (Figure 3, right) gives a much better line: 97% training accuracy, with weights 5.82 for CGPA and 1.48 for resume score. The perceptron trick takes steps whose size depends on the raw input values, so unscaled inputs make it settle on a poor line. On scaled inputs, the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
+> **Extra:** Standardizing both inputs first (Figure 3, right) gives a much better line: 97% training accuracy, with weights 5.82 for CGPA and 1.48 for resume score. The two features already share a scale (both run from about 5 to 9.5), so the size of the numbers is not the problem; their distance from the origin is. Each update of the perceptron trick moves the weights by $\pm x_1$ and $\pm x_2$, about 7 each, but the bias by only $\pm 1$ (its input is the constant 1). The observations sit around $(6.9, 6.9)$, so a good line needs a large bias, and the bias grows too slowly before scikit-learn's early stop ends training after 7 epochs (`n_iter_no_change=5`, scikit-learn docs). The Notebook confirms this by changing one thing at a time: subtracting the mean alone gives 96%, dividing by the standard deviation alone gives 50%. On scaled inputs, the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
 
 The data here is small and nothing was tuned, so the raw result is not the best a perceptron can do. The aim is to see the three learned numbers and the line they describe.
 
@@ -196,7 +196,11 @@ The data here is small and nothing was tuned, so the raw result is not the best 
 - On standardized inputs, larger weights mean more important inputs.
 - Geometrically it is a line, plane or hyperplane: a binary classifier for linearly separable data only.
 
-## 10. Key terms
+## 10. Sources
+
+- scikit-learn documentation, `sklearn.linear_model.Perceptron` (`tol`, `n_iter_no_change`, `max_iter`).
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

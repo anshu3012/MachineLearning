@@ -14,13 +14,13 @@ title: "Frequency Tables and Graphs by Data Type"
 
 ## 1. Overview
 
-> **Key point:** A categorical column is summarised by a frequency table and its relative and cumulative versions; a numerical column by a histogram; two or more columns by graphs chosen from their types.
+> **Key point:** A categorical feature is summarised by a frequency table and its relative and cumulative versions; a numerical feature by a histogram; two or more features by graphs chosen from their types.
 
 ![A frequency table drawn three ways: frequency as a bar chart, relative frequency as a pie chart, cumulative frequency as a line chart](images/freq_charts.png)
 
-Descriptive statistics is about summarising data and presenting it in a meaningful way. Figure 1 shows the three tables we can build from one categorical column, each with the chart that suits it. This Note covers those tables, the shapes a histogram can take, and the graphs for two and for more than two columns.
+Descriptive statistics is about summarising data and presenting it in a meaningful way. Figure 1 shows the three tables we can build from one categorical feature, each with the chart that suits it. This Note covers those tables, the shapes a histogram can take, and the graphs for two and for more than two features. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row of the table.
 
-## 2. Frequency tables for a categorical column
+## 2. Frequency tables for a categorical feature
 
 > **Key point:** Count each category (frequency), turn the counts into shares (relative frequency), and add them up as we go (cumulative frequency).
 
@@ -28,7 +28,7 @@ Descriptive statistics is about summarising data and presenting it in a meaningf
 
 > **Key point:** A frequency distribution table lists each category with the number of times it occurs.
 
-We survey 200 people about their favourite type of vacation. Each answer is one of six categories: beach, city, adventure, nature, cruise or other. The data has one row per person, with their name and their answer.
+We survey 200 people about their favourite type of vacation. Each answer is one of six categories: beach, city, adventure, nature, cruise or other. The data has one observation per person, with their name and their answer.
 
 A **frequency distribution table** summarises how many times each value occurs in a dataset. For the survey, we count each category:
 
@@ -42,7 +42,7 @@ A **frequency distribution table** summarises how many times each value occurs i
 | Other | 15 | 0.075 | 200 |
 | **Total** | **200** | **1.000** | |
 
-The frequencies are drawn as a bar chart, one bar per category (Figure 1, left). This is the count plot of the [univariate analysis Note](../20-univariate-analysis/note.md) (section 4), and pandas builds the table with `value_counts()`.
+The frequencies are drawn as a bar chart, one bar per category (Figure 1, left). This bar chart is the count plot of the [univariate analysis Note](../20-univariate-analysis/note.md) (section 4), and pandas builds the table with `value_counts()`.
 
 ### 2.2 Relative frequency
 
@@ -50,13 +50,13 @@ The frequencies are drawn as a bar chart, one bar per category (Figure 1, left).
 
 The **relative frequency** of a category is its proportion, or percentage, of the data.
 
-1. **In words:** divide the category's count by the total number of rows.
-2. **Formula:** for a category with frequency $f$ out of $n$ rows,
+1. **In words:** divide the category's count by the total number of observations.
+2. **Formula:** for a category with frequency $f$ out of $n$ observations,
    $$\text{relative frequency} = \frac{f}{n}$$
 3. **Example:** 60 of the 200 people chose the beach, so
    $$\text{relative frequency}_{\text{Beach}} = \frac{60}{200} = 0.30 = 30\%$$
 
-The relative frequencies always add up to 1 (100%). That makes them the natural input for a pie chart, whose slices show each category's share (Figure 1, middle).
+The relative frequencies always add up to 1 (100%). Summing to 1 makes them the natural input for a pie chart, whose slices show each category's share (Figure 1, middle).
 
 ### 2.3 Cumulative frequency
 
@@ -83,11 +83,11 @@ Cumulative frequency is most meaningful when the categories have an order, such 
 >
 > `value_counts(normalize=True)` gives the relative frequencies directly. `cumsum()` is the running total. The Notebook (`notebook.ipynb`) builds all three tables and charts.
 
-## 3. Histograms for a numerical column
+## 3. Histograms for a numerical feature
 
-> **Key point:** A numerical column has no categories, so we make our own by cutting its range into bins; the histogram is the frequency table of those bins.
+> **Key point:** A numerical feature has no categories, so we make our own by cutting its range into bins; the histogram is the frequency table of those bins.
 
-A numerical column such as age has no categories to count. So we create them: we cut the range into bins (or buckets), such as 0 to 10, 10 to 20, 20 to 30, and put each person in their bin. The result is a frequency distribution table on bins instead of categories, and its chart is the histogram (see the [univariate analysis Note](../20-univariate-analysis/note.md), section 6).
+A numerical feature such as age has no categories to count. So we create them: we cut the range into bins (or buckets), such as 0 to 10, 10 to 20, 20 to 30, and put each person in their bin. The result is a frequency distribution table on bins instead of categories, and its chart is the histogram (see the [univariate analysis Note](../20-univariate-analysis/note.md), section 6).
 
 A histogram looks like a bar chart with one difference: its bars touch. The categories of a bar chart are separate; the bins of a histogram are continuous ranges, one ending where the next begins.
 
@@ -111,11 +111,11 @@ Named shapes such as the normal and uniform distributions come in the probabilit
 
 > **Extra:** Remember the direction of skew by the tail, not by the hump. In a right-skewed histogram the hump is on the left and the long tail points right.
 
-## 4. Graphs for two columns
+## 4. Graphs for two features
 
-> **Key point:** Two columns are categorical + categorical (contingency table), numerical + numerical (scatter plot) or categorical + numerical (an aggregate per category, or a contingency table of bins).
+> **Key point:** Two features are categorical + categorical (contingency table), numerical + numerical (scatter plot) or categorical + numerical (an aggregate per category, or a contingency table of bins).
 
-Bivariate analysis studies two columns together; the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (Figure 1) maps each pair of column types to its plots. In short:
+Bivariate analysis studies two features together; the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (Figure 1) maps each pair of feature types to its plots. In short:
 
 - **Categorical + categorical:** a **contingency table**, also called a crosstab: the counts for every pair of categories (that Note, section 7). On the Titanic, a contingency table of class against survival shows 372 of the 549 passengers who died were in third class. A side-by-side or stacked bar chart draws it.
 - **Numerical + numerical:** a scatter plot (that Note, section 3). Its pattern can show a positive relation, a negative one, or none, which the [covariance and correlation Note](../231-covariance-and-correlation/note.md) measures.
@@ -123,9 +123,9 @@ Bivariate analysis studies two columns together; the [bivariate and multivariate
 
 ### 4.1 Categorical and numerical: any aggregate per category
 
-> **Key point:** A bar per category whose height is any summary of the numerical column: mean, median, maximum, standard deviation.
+> **Key point:** A bar per category whose height is any summary of the numerical feature: mean, median, maximum, standard deviation.
 
-A bar chart of a categorical column against a numerical one does not show counts. Each bar shows an **aggregate**, one summary number computed from the numerical values in that category. The bar plot of that Note (section 4) uses the mean, but any summary works:
+A bar chart of a categorical feature against a numerical one does not show counts. Each bar shows an **aggregate**, one summary number computed from the numerical values in that category. The bar plot of that Note (section 4) uses the mean, but any summary works:
 
 | Sex | Mean age | Median age | Maximum age |
 |---|---|---|---|
@@ -136,9 +136,9 @@ The mean bars compare typical ages; the maximum bars show that the oldest man (8
 
 ### 4.2 Categorical and numerical: a contingency table of bins
 
-> **Key point:** Cutting the numerical column into bins turns it into a categorical one, so a contingency table works.
+> **Key point:** Cutting the numerical feature into bins turns it into a categorical one, so a contingency table works.
 
-We can also bin the numerical column, as for a histogram, and then count every pair of age band and category:
+We can also bin the numerical feature, as for a histogram, and then count every pair of age band and category:
 
 | Age band | Female | Male |
 |---|---|---|
@@ -161,24 +161,24 @@ The cell "20 to 30, male" means 149 passengers were men aged over 20 and up to 3
 >
 > `pd.cut` puts each age in its band; a band such as (20, 30] includes 30 but not 20.
 
-> **Extra:** A crosstab only counts pairs of categories. A pivot table can also aggregate a third, numerical column for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 11) uses one.
+> **Extra:** A crosstab only counts pairs of categories. A pivot table can also aggregate a third, numerical feature for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 11) uses one.
 
-## 5. Graphs for more than two columns
+## 5. Graphs for more than two features
 
-> **Key point:** A 3D scatter plot, colour (hue), facet grids, pair plots and bubble charts each fit three or more columns into one figure.
+> **Key point:** A 3D scatter plot, colour (hue), facet grids, pair plots and bubble charts each fit three or more features into one figure.
 
-Multivariate analysis studies more than two columns at once. Most of its graphs are bivariate graphs with an extra column added:
+Multivariate analysis studies more than two features at once. Most of its graphs are bivariate graphs with an extra feature added:
 
-- **Hue:** colour shows a categorical column, on a scatter plot, bar plot or box plot. A bar plot of mean age by sex with hue = class shows three columns. See section 3.2 of the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md).
-- **Bubble chart:** a scatter plot whose dot size shows a third numerical column, such as countries by GDP and population with bubble size for literacy rate (the "size" setting of the same section).
-- **Pair plot:** a scatter plot for every pair of numerical columns, with a histogram on the diagonal (section 9 of that Note).
+- **Hue:** colour shows a categorical feature, on a scatter plot, bar plot or box plot. A bar plot of mean age by sex with hue = class shows three features. See section 3.2 of the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md).
+- **Bubble chart:** a scatter plot whose dot size shows a third numerical feature, such as countries by GDP and population with bubble size for literacy rate (the "size" setting of the same section).
+- **Pair plot:** a scatter plot for every pair of numerical features, with a histogram on the diagonal (section 9 of that Note).
 - **3D scatter plot** and **facet grid:** below.
 
 ### 5.1 The 3D scatter plot
 
-> **Key point:** Three numerical columns on three axes; colour can add a fourth.
+> **Key point:** Three numerical features on three axes; colour can add a fourth.
 
-A **3D scatter plot** places each row as a point in three dimensions, one numerical column per axis. Figure 3 plots the tips data: total bill, party size and tip, with lunch and dinner by colour.
+A **3D scatter plot** places each observation as a point in three dimensions, one numerical feature per axis. Figure 3 plots the tips data: total bill, party size and tip, with lunch and dinner by colour.
 
 ![3D scatter plot of total bill, party size and tip](images/scatter_3d.png)
 
@@ -186,13 +186,13 @@ Bigger bills and bigger parties go with bigger tips: the points rise towards the
 
 ### 5.2 The facet grid
 
-> **Key point:** The same plot repeated side by side, one panel per category of another column.
+> **Key point:** The same plot repeated side by side, one panel per category of another feature.
 
-A **facet grid** splits the data by a categorical column and draws the same plot for each part, side by side, on shared axes. Figure 4 draws bill against tip once for lunch and once for dinner, with smokers in orange.
+A **facet grid** splits the data by a categorical feature and draws the same plot for each part, side by side, on shared axes. Figure 4 draws bill against tip once for lunch and once for dinner, with smokers in orange.
 
 ![Bill against tip, one panel per meal time, smokers by colour](images/facet_tips.png)
 
-Figure 4 shows four columns at once: bill, tip, meal time (the panels) and smoker (the colour). Dinner has more customers and more of the large bills.
+Figure 4 shows four features at once: bill, tip, meal time (the panels) and smoker (the colour). Dinner has more customers and more of the large bills.
 
 > **Python:** 3D scatter plot and facet grid.
 >
@@ -206,11 +206,11 @@ Figure 4 shows four columns at once: bill, tip, meal time (the panels) and smoke
 >
 > In seaborn, `sns.relplot(data=tips, x="total_bill", y="tip", hue="smoker", col="time")` draws the facet grid.
 
-> **Extra:** A joint plot (a scatter plot with a histogram of each column along its edges) looks busy, but it shows only two columns. It is a bivariate graph, not a multivariate one.
+> **Extra:** A joint plot (a scatter plot with a histogram of each feature along its edges) looks busy, but it shows only two features. A joint plot is a bivariate graph, not a multivariate one.
 
 ## 6. Summary
 
-| Columns | Types | Table | Graph |
+| Features | Types | Table | Graph |
 |---|---|---|---|
 | One | categorical | frequency, relative, cumulative frequency | bar chart, pie chart, line chart |
 | One | numerical | frequency table of bins | histogram |
@@ -223,20 +223,21 @@ Figure 4 shows four columns at once: bill, tip, meal time (the panels) and smoke
 - Histogram bars touch because bins are continuous ranges.
 - Histogram shapes: symmetric, bimodal, right skew, left skew, uniform, no pattern.
 
+## 7. Sources
 
-## Sources
+- NIST/SEMATECH. *e-Handbook of Statistical Methods*, section 1.3.3.14.5, Histogram Interpretation: Bimodal Mixture of 2 Normals. itl.nist.gov, div898 handbook, histogr5.
 
-- NIST/SEMATECH. *e-Handbook of Statistical Methods*, section 1.3.3.14.5, Histogram Interpretation: Bimodal Mixture of 2 Normals. https://www.itl.nist.gov/div898/handbook/eda/section3/histogr5.htm
-
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | One variable of the data, one column of the table |
+| Observation | One record, one row of the table |
 | Frequency distribution table | A table of each value or category with the number of times it occurs |
 | Relative frequency | A category's share of all the data: its frequency divided by the total |
 | Cumulative frequency | The running total of the frequencies, up to and including a category |
 | Cumulative relative frequency | The running total of the relative frequencies; ends at 1 |
-| Contingency table | A table of counts for every pair of categories of two columns; another name for a crosstab |
+| Contingency table | A table of counts for every pair of categories of two features; another name for a crosstab |
 | Aggregate | One summary number (mean, median, maximum, ...) computed from a group of values |
-| 3D scatter plot | A scatter plot of three numerical columns on three axes |
-| Facet grid | The same plot repeated side by side, one panel per category of another column |
+| 3D scatter plot | A scatter plot of three numerical features on three axes |
+| Facet grid | The same plot repeated side by side, one panel per category of another feature |

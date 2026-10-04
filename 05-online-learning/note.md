@@ -29,7 +29,7 @@ When a company says "the more you use our product, the better it gets", it is us
 
 **Online learning** trains a model **incrementally**. Instead of using the whole dataset at once (as in batch learning), we feed the model data **sequentially**, in small groups called **mini-batches**, one after another. After each mini-batch, the model improves a little.
 
-Each mini-batch is small, so each training step is fast and cheap. That makes it possible to train the model on the production server itself, while it is online. Hence the name.
+Each mini-batch is small, so each training step is fast and cheap. Small, cheap steps make it possible to train the model on the production server itself, while it is online. Hence the name.
 
 ![Batch learning vs online learning](images/batch_vs_online.gif)
 
@@ -82,9 +82,9 @@ For problems that do not change, batch learning is still simpler and works well.
 
 Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`**, which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training.
 
-One such model is **`SGDRegressor`**. It does the same job as linear regression (covered in later Notes), but learns step by step, which is what makes `partial_fit` possible.
+One such model is **`SGDRegressor`**. `SGDRegressor` does the same job as linear regression (covered in later Notes), but learns step by step, which is what makes `partial_fit` possible.
 
-> **Python:** Training one row at a time.
+> **Python:** Training one observation at a time.
 >
 > ```python
 > import numpy as np
@@ -99,20 +99,22 @@ One such model is **`SGDRegressor`**. It does the same job as linear regression 
 > model.partial_fit(np.array([[2.0, 1.0, 0.5]]), np.array([6.0]))
 > ```
 >
-> `np.array([[...]])` is a table with one row; `np.array([...])` holds its output value. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new row arrives.
+> `np.array([[...]])` is a table with one row: one **observation** (one record), with three **features** (input variables). `np.array([...])` holds its **target**, the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
 
 ### 4.2 Dedicated libraries
 
 > **Key point:** River and Vowpal Wabbit are built specifically for online learning.
 
-- **River:** a Python library for online machine learning on streaming data. It was formed by merging two earlier libraries, creme and scikit-multiflow.
-- **Vowpal Wabbit:** a very fast library, widely used in reinforcement learning, that also supports online learning.
+- **River:** a Python library for online machine learning on streaming data. River was formed by merging two earlier libraries, creme and scikit-multiflow (Montiel et al. 2021).
+- **Vowpal Wabbit:** a fast library for online and interactive learning, including reinforcement learning (Vowpal Wabbit docs).
 
 ## 5. The learning rate
 
 > **Key point:** The learning rate controls how fast the model adapts. Too high and it forgets the past; too low and it is slow to learn anything new.
 
-The **learning rate** sets how strongly each new mini-batch changes the model.
+The **learning rate** sets how strongly each new mini-batch changes the model: how fast the model adapts to changing data (Géron 2019, Ch. 1).
+
+Think of two news readers. A reader who believes every new headline changes their mind daily and forgets what they knew. A reader who ignores all headlines never learns anything new.
 
 - **Too high:** the model changes very quickly and forgets what it learned before. It chases every bit of noise.
 - **Too low:** the model barely changes. It remembers the past well but is slow to learn anything new.
@@ -123,7 +125,7 @@ We want a balance: the model should learn new patterns while still remembering t
 
 In Figure 3, the true value jumps at step 120. With a rate of 0.01, the model takes a very long time to catch up. With 0.7, it reacts to every noisy point. With 0.1, it follows the change quickly and stays steady.
 
-Setting the learning rate is the most important decision in online learning. If it is wrong, the model can behave badly or stop working.
+The learning rate is one of the most important settings in online learning. If the rate is wrong, the model either forgets too fast or adapts too slowly.
 
 ## 6. Out-of-core learning
 
@@ -131,7 +133,7 @@ Setting the learning rate is the most important decision in online learning. If 
 
 Sometimes a dataset is too large to load at once. For example, a 50 GB dataset cannot be loaded on a machine with 8 GB of RAM, so it cannot be trained with batch learning.
 
-**Out-of-core learning** solves this with the online-learning technique:
+**Out-of-core learning** solves this with the online-learning technique (scikit-learn User Guide, Strategies to scale computationally):
 
 ![Out-of-core learning](images/out_of_core.png)
 
@@ -149,7 +151,7 @@ All of this happens offline, on our own machine. So out-of-core learning is not 
 
 > **Key point:** Training a model is easy; keeping it learning correctly on a live server is not.
 
-Running online learning in production means handling a constant stream of data, choosing the right learning rate and keeping everything working, all at once. This is especially hard when data arrives in real time.
+Running online learning in production means handling a constant stream of data, choosing the right learning rate and keeping everything working, all at once. The job is hardest when data arrives in real time.
 
 The tools are also young. Most are open-source libraries built by small groups, without the enterprise-grade reliability of established batch tools.
 
@@ -201,14 +203,24 @@ The Notebook for this Note (`notebook.ipynb`) trains a model one row at a time w
 - Out-of-core learning uses the same technique offline, for data too big for memory.
 - Protect an online model with monitoring, anomaly detection and rollback.
 
-## 10. Key terms
+## 10. Sources
+
+- Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 2nd ed. O'Reilly. Ch. 1, Online learning.
+- Montiel, J. et al. (2021). River: Machine Learning for Streaming Data in Python. *Journal of Machine Learning Research* 22(110).
+- scikit-learn developers. *User Guide*, Strategies to scale computationally: bigger data. scikit-learn.org.
+- Vowpal Wabbit project. *Vowpal Wabbit documentation*. vowpalwabbit.org.
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
 | Online learning | Training incrementally on mini-batches while the model is live in production |
 | Incremental training | Training in small steps, keeping what was learned before |
 | Sequential data | Data fed one piece after another, in order |
-| Mini-batch | A small group of data points used for one training step |
+| Feature | An input variable; one column of the data table |
+| Target | The output we want to predict |
+| Observation | One record; one row of the data table |
+| Mini-batch | A small group of observations used for one training step |
 | `partial_fit` | A scikit-learn method that continues training from where the model left off |
 | `SGDRegressor` | A scikit-learn model that does linear regression step by step |
 | River | A Python library for online machine learning |

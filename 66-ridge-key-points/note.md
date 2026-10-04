@@ -14,9 +14,9 @@ title: "Ridge Regression: Five Key Points"
 
 ## 1. Overview
 
-> **Key point:** Five facts sum up Ridge. Coefficients shrink but never reach 0. The largest shrink most. Bias rises and variance falls with λ. The loss curve's lowest point slides towards 0. Use Ridge when there are 2 or more inputs.
+> **Key point:** Five facts sum up Ridge. Coefficients shrink but never reach 0. The largest shrink most. Bias rises and variance falls with λ. The loss curve's lowest point slides towards 0. Use Ridge when there are 2 or more features.
 
-The last three Notes built Ridge regression: the idea, the formulas, and gradient descent. This Note collects the five points that are easiest to mix up afterwards. They are also common interview questions.
+The last three Notes built Ridge regression: the idea, the formulas, and gradient descent. This Note collects the five points that are easiest to mix up afterwards. The five points are also common interview questions.
 
 | # | Question | Short answer |
 |---|---|---|
@@ -24,9 +24,9 @@ The last three Notes built Ridge regression: the idea, the formulas, and gradien
 | 2 | Which coefficients are affected most? | the largest ones |
 | 3 | What happens to bias and variance? | bias rises, variance falls |
 | 4 | What happens to the loss function? | its lowest point moves towards 0 |
-| 5 | When should Ridge be used? | with 2 or more input columns |
+| 5 | When should Ridge be used? | with 2 or more features |
 
-All diabetes examples below use test size 0.2 and random state 2.
+A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the value we predict. All diabetes examples below use test size 0.2 and random state 2.
 
 ## 2. Point 1: coefficients shrink but never reach 0
 
@@ -39,16 +39,17 @@ $\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty
 | alpha | Largest coefficient (size) | Test R² |
 |---|---|---|
 | 0 | 895.6 | 0.44 |
+| 0.1 | 485.5 | 0.45 |
 | 10 | 63.7 | 0.15 |
 | 100 | 7.5 | 0.01 |
 | 1000 | 0.8 | $-0.01$ |
 | 10,000 | 0.08 | $-0.01$ |
 
-From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$ (its largest eigenvalue is about 3 here), the Ridge answer $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ is almost $X^{\mathsf T}y / \lambda$: ten times the $\lambda$, a tenth of the coefficients. But even at alpha 10,000, every coefficient is still a small non-zero number. Ridge shrinks coefficients towards 0 but does not set any of them exactly to 0 (ISL §6.2.2). On the way, a coefficient can cross 0 when it changes sign, as s1 and s2 do in the next table, but it does not stay there.
+A small alpha (0.1) shrinks the coefficients and nudges test R² up; the larger alphas in the table are there to show shrinkage, and they underfit (Point 3). From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$ (its largest eigenvalue is about 3 here), the Ridge answer $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ is almost $X^{\mathsf T}y / \lambda$: ten times the $\lambda$, a tenth of the coefficients. But even at alpha 10,000, every coefficient is still a small non-zero number. Ridge shrinks coefficients towards 0 but does not set any of them exactly to 0 (ISL §6.2.2). On the way, a coefficient can cross 0 when it changes sign, as s1 and s2 do in the next table, but it does not stay there.
 
 The reason is the slope formula from the Ridge maths Note: $m = \frac{\text{top}}{\text{bottom} + \lambda}$. Adding $\lambda$ to the bottom makes the fraction smaller, but a fraction with a non-zero top never becomes 0.
 
-> **Extra:** This is the key difference from Lasso (the next Note), which can set coefficients exactly to 0 and so removes inputs from the model.
+> **Extra:** Never reaching 0 is the key difference from Lasso (the next Note), which can set coefficients exactly to 0 and so removes features from the model.
 
 ## 3. Point 2: the largest coefficients shrink most
 
@@ -58,7 +59,7 @@ Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2.
 
 ![Coefficient paths for alpha from 0 to 2](images/paths.png){height=45%}
 
-| Input | alpha 0 | alpha 0.01 | alpha 0.1 | alpha 1 |
+| Feature | alpha 0 | alpha 0.01 | alpha 0.1 | alpha 1 |
 |---|---|---|---|---|
 | s1 | $-895.6$ | $-383.7$ | $-72.9$ | 14.4 |
 | s5 | 861.1 | 659.9 | 484.4 | 260.1 |
@@ -70,39 +71,40 @@ Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2.
 
 The penalty is $\lambda\sum\beta_j^2$, and the square grows fast: a coefficient of 900 adds $810{,}000\lambda$ to the loss, while one of 9 adds only $81\lambda$. So reducing the big coefficients lowers the loss far more, and that is where Ridge cuts first.
 
-> **Extra:** A small coefficient can even grow for a while, as age does here (from $-9$ to 42 at alpha 1). The intuition: s1, s2 and s5 had huge opposing coefficients, and as Ridge cuts them back, part of their effect moves to other inputs that are mildly correlated with them, age among them ($r$ about 0.3). A quick check agrees: dropping s1, s2 and s5 altogether moves the plain linear regression coefficient of age from $-9$ to $+34$. Once alpha is large enough, all coefficients head to 0 together.
+> **Extra:** A small coefficient can even grow for a while, as age does here (from $-9$ to 42 at alpha 1). The intuition: s1, s2 and s5 had huge opposing coefficients, and as Ridge cuts them back, part of their effect moves to other features that are mildly correlated with them, age among them ($r$ about 0.3). A quick check agrees: dropping s1, s2 and s5 altogether moves the plain linear regression coefficient of age from $-9$ to $+34$. Once alpha is large enough, all coefficients head to 0 together.
 
 ## 4. Point 3: bias rises, variance falls
 
 > **Key point:** A small λ gives low bias and high variance (overfitting); a large λ gives high bias and low variance (underfitting). The best λ is in between.
 
-Recall the bias-variance Note: **bias** is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another.
+Recall the bias-variance Note: **bias** is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
 
-Figure 3 fits a degree-15 polynomial with Ridge to 80 points from a curve, $y = 0.7x^2 - 2x + 3$ plus noise. For each alpha, it trains the model on 200 resampled versions of the training data and measures bias and variance on 20 test points.
+Measuring bias needs the true curve, so here we use made-up data where we know it: $y = 0.7x^2 - 2x + 3$ plus noise (standard deviation 2). We fit a degree-15 polynomial with Ridge to 15 training observations, then repeat with fresh noise 300 times. Bias² compares the average fitted curve with the true curve; variance measures how much the 300 fits spread around their average. Both are measured at 14 test points between the training ones.
 
 ![Bias², variance and expected test error against alpha](images/bias_variance.png){height=45%}
 
-| alpha | Bias² (+ noise) | Variance | Expected test error |
+| alpha | Bias² | Variance | Expected test error |
 |---|---|---|---|
-| 0.01 | 1.90 | 69.39 | 71.29 |
-| 1 | 0.83 | 3.10 | 3.93 |
-| 10 | 0.97 | 0.19 | 1.16 |
-| 100 | 2.49 | 0.18 | 2.67 |
-| 1000 | 4.60 | 0.30 | 4.90 |
+| 0.0001 | 0.004 | 2.91 | 6.91 |
+| 0.01 | 0.004 | 1.58 | 5.58 |
+| 1 | 0.09 | 0.82 | 4.91 |
+| 10 | 1.43 | 0.48 | 5.90 |
+| 100 | 4.17 | 0.31 | 8.48 |
+| 1000 | 5.05 | 0.26 | 9.31 |
 
-- **Small alpha:** the flexible curve bends with each sample, so the variance is huge: overfitting.
+- **Small alpha:** the flexible curve bends with each noisy sample, so the variance is high: overfitting.
 - **Large alpha:** the coefficients are squeezed so hard that the curve is too stiff, and bias takes over: underfitting.
-- **In between** (here about alpha 10): both are low, and the total error is smallest.
+- **In between** (here about alpha 1): the total error is smallest.
 
-So, as in the bias-variance Note, λ moves a model along the trade-off. Choose λ where variance has fallen a lot but bias has not yet risen much.
+So, as in the bias-variance Note, λ moves a model along the trade-off (ISL §6.2.1). Choose λ where variance has fallen a lot but bias has not yet risen much.
 
-> **Extra:** The curve here is standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. On the left of Figure 3, bias² first falls slightly as alpha grows. The wild curves at tiny alpha also move the average curve away from the truth, the same edge effect noted in the bias-variance Note. A check confirms it: almost all of that extra bias² comes from one test point at $x = 2.81$, right at the edge of the training range.
+> **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7), and the noise part is $2^2 = 4$ here, the floor no model can beat. The features are standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. The training $x$ values are fixed and only the noise is redrawn, so every fit covers the same range; test points sit between training points, so no fit has to extrapolate.
 
 ## 5. Point 4: the loss curve rises and its lowest point moves to 0
 
 > **Key point:** Adding λm² lifts the loss most where m is large, so the bottom of the curve slides towards m = 0.
 
-To see this in one picture, take the one-input example and hold the intercept at $-2.29$, its linear regression value. Then the loss depends only on the slope $m$:
+To see this in one picture, take the one-feature example and hold the intercept at $-2.29$, its linear regression value. Then the loss depends only on the slope $m$:
 
 $$L(m) = \sum_{i=1}^{n}(y_i - m x_i + 2.29)^2 + \lambda m^2$$
 
@@ -127,17 +129,17 @@ With two coefficients $\beta_1$ and $\beta_2$, the loss has two parts: the squar
 
 ![The squared-error contours and the penalty circle](images/circle.png){height=42%}
 
-The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. That point is always closer to the origin than the OLS answer, so both coefficients are smaller.
+The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer, so both coefficients are smaller.
 
 A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained** view of the problem; the details come in a later Note.
 
 > **Extra:** The answer to "why is it called Ridge?" is often given with this picture: the solution always lies on the edge of the circle. Historically, the name comes from older work: Hoerl had used *ridge analysis* to study curved response surfaces, and the Ridge formula looked mathematically similar, so the method was labelled "ridge regression" (Hoerl and Kennard 1970, §2).
 
-## 6. Point 5: use Ridge with 2 or more inputs
+## 6. Point 5: use Ridge with 2 or more features
 
-> **Key point:** Ridge helps when there are several inputs, especially correlated ones. With a single input there is little to gain.
+> **Key point:** Ridge helps when there are several features, especially correlated ones. With a single feature there is little to gain.
 
-Regularisation fights overfitting caused by many, large coefficients. With one input there is only one slope, so there is little room to overfit. With 2 or more inputs, and especially with many or correlated inputs, the coefficients can become extreme, and Ridge keeps them in check. With correlated inputs, a large positive coefficient on one can cancel a large negative one on its partner, like the s1 ($-896$) and s2 ($+561$) pair above; Ridge's size limit stops this (ESL §3.4.1).
+Regularisation fights overfitting caused by many, large coefficients. With one feature there is only one slope, so there is little room to overfit. With 2 or more features, and especially with many or correlated features, the coefficients can become extreme, and Ridge keeps them in check. With correlated features, a large positive coefficient on one can cancel a large negative one on its partner, like the s1 ($-896$) and s2 ($+561$) pair above; Ridge's size limit stops this (ESL §3.4.1).
 
 ## 7. Summary
 
@@ -147,11 +149,11 @@ Regularisation fights overfitting caused by many, large coefficients. With one i
 | 2 | The largest coefficients shrink fastest; small ones barely change at first |
 | 3 | Larger λ: higher bias, lower variance. Pick λ in between |
 | 4 | The loss curve rises and its lowest point slides towards 0 |
-| 5 | Use Ridge with 2 or more inputs, especially correlated ones |
+| 5 | Use Ridge with 2 or more features, especially correlated ones |
 
 ## 8. Sources
 
-- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.2, p. 241.
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 2.2.2, p. 34; Sections 6.2.1–6.2.2, pp. 240–241.
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
 - **Hoerl and Kennard 1970:** Hoerl, A. E. and Kennard, R. W. "Ridge Regression: Biased Estimation for Nonorthogonal Problems." *Technometrics* 12(1), 55–67, 1970. Section 2.
 
@@ -160,5 +162,4 @@ Regularisation fights overfitting caused by many, large coefficients. With one i
 | Term | Meaning |
 |---|---|
 | Coefficient path | How each coefficient changes as the regularisation strength grows |
-| Bootstrap sample | A sample of the same size drawn from the data with replacement |
 | Constrained form | Writing regularisation as a hard limit on the size of the coefficients |

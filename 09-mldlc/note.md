@@ -30,7 +30,7 @@ Each stage gets its own Notes later. This Note gives the whole picture first, so
 
 > **Key point:** Ordinary software is built by following a standard process, the SDLC.
 
-The **software development life cycle (SDLC)** is the standard process for building a software product, from start to end. It is part of the subject *software engineering*. A software developer in a company follows it whenever they build a product.
+The **software development life cycle (SDLC)** is the standard process for building a software product, from start to end. The SDLC is part of the subject *software engineering*. A software developer in a company follows it whenever they build a product.
 
 ### 2.2 The machine learning development life cycle
 
@@ -38,7 +38,7 @@ The **software development life cycle (SDLC)** is the standard process for build
 
 Many companies now build software products that contain ML: a recommender system for a website, a loan-approval model for a bank, a model that predicts students' marks for a school. Each team used to work in its own way. Researchers wanted one common process that everyone could follow.
 
-The result is the **machine learning development life cycle (MLDLC)**: a set of guidelines to follow whenever we build an ML-based software product. It guides us from the first idea to a working product.
+The result is the **machine learning development life cycle (MLDLC)**: a set of guidelines to follow whenever we build an ML-based software product. The MLDLC guides us from the first idea to a working product.
 
 ### 2.3 Why the whole cycle matters
 
@@ -116,16 +116,18 @@ Data fetched from external sources is almost always **dirty** (unclean). If we p
 
 **Data preprocessing** means the changes we make to the data before the main processing (training).
 
+Three words help from here on. An **observation** is one record (one row of the data table). A **feature** is an input variable (one column of the data table). The **target** is the output we want to predict.
+
 ### 5.2 Common preprocessing tasks
 
-> **Key point:** Remove duplicates, deal with missing values and outliers, and put columns on similar scales.
+> **Key point:** Remove duplicates, deal with missing values and outliers, and put features on similar scales.
 
-- **Remove duplicates:** rows that appear more than once.
+- **Remove duplicates:** observations that appear more than once.
 - **Handle missing values:** empty cells.
 - **Remove outliers:** values far from the rest.
-- **Scale values:** bring columns to similar ranges.
+- **Scale values:** bring features to similar ranges.
 
-Scaling matters because many algorithms compute distances between rows, and a column in crores would outweigh one in decimals (see Section 7 of the [toy project Note](../13-toy-project/note.md)). One common way to scale is standardization (see the [standardization Note](../24-standardization/note.md)).
+Scaling matters because many algorithms compute distances between observations, and a feature in crores would outweigh one in decimals (see Section 7 of the [toy project Note](../13-toy-project/note.md)). One common way to scale is standardization (see the [standardization Note](../24-standardization/note.md)).
 
 The core idea of the whole stage: bring the data into a format the ML algorithm can easily consume.
 
@@ -133,28 +135,28 @@ The core idea of the whole stage: bring the data into a format the ML algorithm 
 
 ## 6. Exploratory data analysis (EDA)
 
-> **Key point:** Before building a model, we study the data closely: what each column looks like and how the inputs relate to the output.
+> **Key point:** Before building a model, we study the data closely: what each feature looks like and how the features relate to the target.
 
 ### 6.1 What EDA is for
 
 > **Key point:** We cannot build a good model on data we do not understand.
 
-**Exploratory data analysis (EDA)** is the stage where we analyse the data to find the relationships hidden in it, especially between the inputs and the output. We experiment with the data: plot graphs, look at numbers, test ideas. The aim is a concrete picture of the data in our mind, which makes every later decision easier.
+**Exploratory data analysis (EDA)** is the stage where we analyse the data to find the relationships hidden in it, especially between the features and the target. We experiment with the data: plot graphs, look at numbers, test ideas. The aim is a concrete picture of the data in our mind, which makes every later decision easier.
 
 ### 6.2 What we do during EDA
 
-> **Key point:** Visualise the data, study columns one, two or several at a time, find outliers and check whether the classes are balanced.
+> **Key point:** Visualise the data, study features one, two or several at a time, find outliers and check whether the classes are balanced.
 
 - **Visualization:** plot graphs of the data.
-- **Univariate analysis:** study each column on its own: its mean, its standard deviation, the shape of its distribution.
-- **Bivariate analysis:** study two columns together, to see the relationship between them.
-- **Multivariate analysis:** study three or four columns together.
+- **Univariate analysis:** study each feature on its own: its mean, its standard deviation, the shape of its distribution.
+- **Bivariate analysis:** study two features together, to see the relationship between them.
+- **Multivariate analysis:** study three or four features together.
 - **Outlier detection:** find the values far from the rest.
 - **Handling imbalanced data:** turn an imbalanced dataset into a balanced one.
 
-A dataset is **imbalanced** when one class has far more rows than another. For example, in a dog-versus-cat image classifier, we might have many cat images and very few dog images. A model trained on such data tends to favour the large class (He and Garcia 2009, §2), so we handle the imbalance at this stage.
+A dataset is **imbalanced** when one class has far more observations than another. For example, in a dog-versus-cat image classifier, we might have many cat images and very few dog images. A model trained on such data tends to favour the large class (He and Garcia 2009, §2), so we handle the imbalance at this stage.
 
-> **Extra:** "Handling" imbalance usually means collecting more rows of the small class, creating extra copies or synthetic rows of it (oversampling), or dropping some rows of the large class (undersampling) (He and Garcia 2009, §3.1). Univariate, bivariate and multivariate analysis each have their own Note in the understanding-data part of this series.
+> **Extra:** "Handling" imbalance usually means collecting more observations of the small class, creating extra copies or synthetic observations of it (oversampling), or dropping some observations of the large class (undersampling) (He and Garcia 2009, §3.1). Univariate, bivariate and multivariate analysis each have their own Note in the understanding-data part of this series.
 
 ### 6.3 Time spent on EDA pays back later
 
@@ -164,15 +166,15 @@ An old saying goes: if we have six hours to cut down a tree, we should spend fou
 
 ## 7. Feature engineering and selection
 
-> **Key point:** Features are the input columns. We create better ones (feature engineering) and keep only the useful ones (feature selection).
+> **Key point:** Features are the inputs. We create better ones (feature engineering) and keep only the useful ones (feature selection).
 
-The **features** are the input columns. The output depends on the inputs, so the quality of the features largely decides the quality of the model.
+The **features** are the input variables, one column each in the data table. The target depends on the features, so the quality of the features largely decides the quality of the model.
 
 ### 7.1 Feature engineering
 
-> **Key point:** We create new columns, or change existing ones intelligently, to make the data easier to learn from.
+> **Key point:** We create new features, or change existing ones intelligently, to make the data easier to learn from.
 
-**Feature engineering** means creating new columns from the existing ones, or making intelligent changes to existing columns.
+**Feature engineering** means creating new features from the existing ones, or making intelligent changes to existing features.
 
 *Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in Section 3.3 of the [types of ML Note](../03-types-of-ml/note.md), is feature construction (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
@@ -184,8 +186,8 @@ Feature engineering is one of the most important techniques in the whole workflo
 
 Some datasets have 100 or 200 features. We do not keep them all, for two reasons:
 
-1. **Many features do not help.** Not every input affects the output. We find the ones that do not and remove them.
-2. **Fewer columns train faster.** The more columns there are, the longer training takes.
+1. **Many features do not help.** Not every feature affects the target. We find the ones that do not and remove them.
+2. **Fewer features train faster.** The more features there are, the longer training takes.
 
 Choosing which features to keep is called feature selection; the [feature engineering Note](../23-what-is-feature-engineering/note.md) teaches it.
 
@@ -232,7 +234,7 @@ In the **evaluation** step, we measure every trained model with **performance me
 
 In **model selection**, we pick one or several of the best algorithms. Every algorithm has settings that we choose before training. Adjusting them to get the best performance is called **hyperparameter tuning**.
 
-It is like adjusting a TV for a late-night movie: we change the picture mode and the sound mode and turn the volume up a little. Each setting is a knob; we turn the knobs until the picture is best for our situation.
+Hyperparameter tuning is like adjusting a TV for a late-night movie: we change the picture mode and the sound mode and turn the volume up a little. Each setting is a knob; we turn the knobs until the picture is best for our situation.
 
 > **Extra:** In everyday speech these settings are often called "parameters". Strictly, the settings we choose before training are **hyperparameters**, while **parameters** are the values the model learns from the data during training (for example, the slope of a line) (Goodfellow et al. 2016, §5.3). Tuning methods such as grid search and random search have their own Notes.
 
@@ -328,11 +330,11 @@ In the last stage, we launch the model on the server for all customers. Before t
 
 > **Key point:** As the world changes, a model's performance slowly gets worse, so we retrain it on new data at a fixed, automated schedule.
 
-If a model is never retrained, its performance gets worse as the real-world data evolves away from its old training data. This is model drift, sometimes called model rot (see Section 4 of the [batch learning Note](../04-batch-learning/note.md)).
+If a model is never retrained, its performance gets worse as the real-world data evolves away from its old training data. This slow decline is called model drift, sometimes called model rot (see Section 4 of the [batch learning Note](../04-batch-learning/note.md)).
 
-*Example: a mask detection system.* It checks whether a person in front of a camera is wearing a mask. Then new kinds of masks appear, for example one whose lower half is printed to look exactly like a face. Our classifier will fail on these, so we need new data and must train the model again.
+*Example: a mask detection system.* The system checks whether a person in front of a camera is wearing a mask. Then new kinds of masks appear, for example one whose lower half is printed to look exactly like a face. Our classifier will fail on these, so we need new data and must train the model again.
 
-So we decide how often to retrain, for example weekly or monthly. This must be automated: we cannot repeat the whole process by hand every week.
+So we decide how often to retrain, for example weekly or monthly. The retraining must be automated: we cannot repeat the whole process by hand every week.
 
 ### 11.3 Cutting extra cost
 
@@ -378,7 +380,7 @@ Where the two differ:
 | 2 | Gathering data | Fetch from CSV, API, scraping, warehouse (ETL), clusters | Where is the data? |
 | 3 | Data preprocessing | Remove duplicates, handle missing values and outliers, scale | Can an algorithm use this data? |
 | 4 | EDA | Visualise; univariate, bivariate, multivariate analysis; outliers; imbalance | What is in the data? |
-| 5 | Feature engineering and selection | Create better columns; drop useless ones | Which inputs should the model see? |
+| 5 | Feature engineering and selection | Create better features; drop useless ones | Which inputs should the model see? |
 | 6 | Training, evaluation, selection | Train many algorithms; compare with metrics; tune; ensemble | Which model is best? |
 | 7 | Deployment | Save with pickle; wrap in an API; host on a server | How do users reach the model? |
 | 8 | Testing | Beta testing, A/B testing; go back if it fails | Does it work for real users? |
@@ -389,7 +391,7 @@ Where the two differ:
 - A failed test sends us **back** to the stage that caused the problem.
 - Sources count the stages differently; the core idea stays the same.
 
-## Sources
+## 14. Sources
 
 - Dietterich, T. (2000). Ensemble Methods in Machine Learning. *Multiple Classifier Systems*, LNCS 1857. Springer.
 - Dunn, J. (1974). Well-Separated Clusters and Optimal Fuzzy Partitions. *Journal of Cybernetics* 4(1).
@@ -402,7 +404,7 @@ Where the two differ:
 - Render. Deploy for Free. render.com/docs/free.
 - Zaharia, M. et al. (2016). Apache Spark: A Unified Engine for Big Data Processing. *Communications of the ACM* 59(11).
 
-## 14. Key terms
+## 15. Key terms
 
 | Term | Meaning |
 |----------|-------------------|
@@ -415,11 +417,14 @@ Where the two differ:
 | Dirty data | Data with errors, gaps, duplicates or inconsistencies |
 | Data preprocessing | Changes made to the data before training, so an algorithm can use it |
 | Exploratory data analysis (EDA) | Studying the data with graphs and summaries to find its patterns |
-| Univariate analysis | Studying one column on its own |
-| Bivariate analysis | Studying the relationship between two columns |
-| Multivariate analysis | Studying three or more columns together |
-| Imbalanced data | Data where one class has far more rows than another |
-| Feature engineering | Creating new input columns, or changing existing ones, to help the model |
+| Observation | One record: one row of the data table |
+| Feature | An input variable: one column of the data table |
+| Target | The output we want to predict |
+| Univariate analysis | Studying one feature on its own |
+| Bivariate analysis | Studying the relationship between two features |
+| Multivariate analysis | Studying three or more features together |
+| Imbalanced data | Data where one class has far more observations than another |
+| Feature engineering | Creating new features, or changing existing ones, to help the model |
 | Model training | Giving data to an algorithm so it learns the pattern |
 | Performance metric | A number that measures how well a model works |
 | Model selection | Choosing the best one or few algorithms after evaluation |

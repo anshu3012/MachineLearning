@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[stage/.style={box=#1, text width=3.3cm, minimum height=2.3cm, font=\sffamily},
+  prob/.style={font=\sffamily\small, text=cred, align=center, text width=3.1cm}]
+  \foreach \i/\c/\yr/\name/\idea/\who in {
+    1/cblue/2014/{Encoder--decoder}/{an LSTM reads the input; a second LSTM writes the output}/{Sutskever et al.},
+    2/cpurple/2014--15/{Attention}/{the decoder looks back at every input word}/{Bahdanau et al.},
+    3/corange/2017/{Transformer}/{attention only, no RNN: all words in parallel}/{Vaswani et al.},
+    4/cgreen/2018/{Transfer learning}/{pre-train a language model, then fine-tune}/{Howard and Ruder},
+    5/cred/2018--22/{LLMs and ChatGPT}/{huge transformers; RLHF for dialogue}/{GPT, BERT, InstructGPT}} {
+    \node[stage=\c] (s\i) at (4.7*\i, 0) {\textbf{\yr}\\[2pt]\textbf{\name}\\[3pt]{\small \idea}\\[2pt]{\small\itshape \who}};
+  }
+  \foreach \i/\j in {1/2, 2/3, 3/4, 4/5} \draw[arrow] (s\i.east) -- (s\j.west);
+  \foreach \x/\txt in {7.05/{one context vector forgets long sentences}, 11.75/{still one word at a time: slow to train}, 16.45/{training from scratch needs huge data}, 21.15/{still an LSTM, not yet a transformer}}
+    \node[prob, anchor=north] at (\x, -1.75) {\txt};
+  \node[note] at (14.1, -3.25) {red: the problem each stage left, which the next stage fixed};
+\end{tikzpicture}
+\end{document}

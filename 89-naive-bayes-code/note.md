@@ -12,15 +12,15 @@ title: "Naive Bayes: A Worked Example in Code"
 
 ## 1. Overview
 
-> **Key point:** Training Naive Bayes means building a lookup table of probabilities by counting. Predicting means looking up one probability per input and multiplying.
+> **Key point:** Training Naive Bayes means building a lookup table of probabilities by counting. Predicting means looking up one probability per feature and multiplying.
 
 The previous two Notes gave the intuition and the formula. This Note applies them to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn. It also meets a practical problem, the **zero-frequency problem**, and its standard fix.
 
 ## 2. The data
 
-> **Key point:** 14 days, four weather columns, and whether tennis was played (9 yes, 5 no).
+> **Key point:** 14 days, four weather features, and whether tennis was played (9 yes, 5 no).
 
-Each row is a day: **outlook** (sunny, overcast, rain), **temperature** (hot, mild, cool), **humidity** (high, normal), **wind** (weak, strong), and the output **play** (yes or no). Tennis was played on 9 of the 14 days.
+Each day is one **observation** (one record, a row of the data table). Each has four **features** (input variables, one column each): **outlook** (sunny, overcast, rain), **temperature** (hot, mild, cool), **humidity** (high, normal) and **wind** (weak, strong). The **target** (the output we predict) is **play** (yes or no). Tennis was played on 9 of the 14 days.
 
 The question: on a day that is sunny, hot, high-humidity with weak wind, will tennis be played?
 
@@ -30,7 +30,7 @@ The question: on a day that is sunny, hot, high-humidity with weak wind, will te
 
 Like every machine learning algorithm, Naive Bayes works in two phases:
 
-1. **Training:** go through the data once and compute every probability the formula could ever need: the class priors, and $P(\text{value} \mid \text{class})$ for every value of every column. Store them in a **lookup table** (in Python, a dictionary).
+1. **Training:** go through the data once and compute every probability the formula could ever need: the class priors, and $P(\text{value} \mid \text{class})$ for every value of every feature. Store them in a **lookup table** (in Python, a dictionary).
 2. **Testing:** for a new day, look up the relevant probabilities and multiply. Nothing is recomputed.
 
 How many probabilities does the table hold? Outlook has 3 values and there are 2 classes, so 6; temperature 6; humidity 4; wind 4; plus 2 priors. 22 numbers in all.
@@ -51,7 +51,7 @@ How many probabilities does the table hold? Outlook has 3 values and there are 2
 
 `pd.crosstab` counts how often each value appears with each class: for outlook, sunny appears on 3 "no" days and 2 "yes" days. Dividing each class column by the class size turns the counts into probabilities.
 
-![The full lookup table: P(value | play) for every column, and P(play)](images/lookup.png){width=100%}
+![The full lookup table: P(value | play) for every feature, and P(play)](images/lookup.png){width=100%}
 
 For example, of the 5 days without tennis, 4 had high humidity, so $P(\text{high} \mid \text{no}) = 4/5$; of the 9 days with tennis, 6 had normal humidity, so $P(\text{normal} \mid \text{yes}) = 6/9$.
 
@@ -91,7 +91,7 @@ Now try an overcast, cool, normal-humidity day with weak wind. In the data, it w
 
 $$\text{no: } \frac{5}{14} \times 0 \times \dots = 0$$
 
-The model is 100% sure tennis will be played, purely because one value never happened to appear with "no" in 14 rows. A single zero wipes out all the other evidence. With real data and many columns, unseen combinations of one value and one class are common, so this is a real problem: training data is never large enough to show every rare event (Manning et al. §13.2).
+The model is 100% sure tennis will be played, purely because one value never happened to appear with "no" in 14 observations. A single zero wipes out all the other evidence, like one veto in a committee that overrules every other vote. With real data and many features, unseen combinations of one value and one class are common, so this is a real problem: training data is never large enough to show every rare event (Manning et al. §13.2).
 
 ## 7. The fix: Laplace smoothing
 
@@ -122,12 +122,12 @@ The predictions stay the same, but the model is no longer absolutely certain abo
 > nb.predict_proba(enc.transform(new_days))
 > ```
 >
-> `CategoricalNB` is Naive Bayes for categorical inputs. Its `alpha` is the smoothing count, 1 by default (scikit-learn docs, `CategoricalNB`); with a tiny `alpha` it reproduces the unsmoothed numbers above exactly.
+> `CategoricalNB` is Naive Bayes for categorical features. Its `alpha` is the smoothing count, 1 by default (scikit-learn docs, `CategoricalNB`); with a tiny `alpha` it reproduces the unsmoothed numbers above exactly.
 
 ## 8. Summary
 
 - Training: count with `pd.crosstab`, divide by the class sizes, store the lookup table (22 numbers here).
-- Testing: multiply the prior by one looked-up probability per column; the largest score wins.
+- Testing: multiply the prior by one looked-up probability per feature; the largest score wins.
 - Sunny, hot, high, weak gives no (0.0274 against 0.0071).
 - A value never seen with a class gives a zero that overrides everything; Laplace smoothing (add 1 to every count) prevents it. `CategoricalNB(alpha=1)` does this by default.
 
@@ -144,4 +144,4 @@ The predictions stay the same, but the model is no longer absolutely certain abo
 | pd.crosstab | pandas function that counts how often each pair of values from two columns occurs |
 | Zero-frequency problem | A probability of 0 for a value never seen with a class, which forces that class's score to 0 |
 | Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0 |
-| CategoricalNB | scikit-learn's Naive Bayes for categorical inputs |
+| CategoricalNB | scikit-learn's Naive Bayes for categorical features |

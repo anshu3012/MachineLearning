@@ -1,0 +1,7 @@
+,,money,bank,grows,river,flows
+money bank grows,money,0.529,0.29,0.181,,
+money bank grows,bank,0.287,0.524,0.189,,
+money bank grows,grows,0.201,0.212,0.587,,
+river bank flows,river,,0.209,,0.45,0.341
+river bank flows,bank,,0.539,,0.251,0.21
+river bank flows,flows,,0.182,,0.353,0.465

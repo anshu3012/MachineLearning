@@ -16,7 +16,7 @@ title: "Regression Trees"
 
 > **Key point:** A regression tree cuts the input space into boxes, exactly like a classification tree, but each leaf predicts the **mean** of its training outputs, and splits are chosen to minimise the squared error.
 
-Decision trees are mostly used for classification (the [decision tree intuition Note](../97-decision-trees-intuition/note.md)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree**.
+Decision trees are mostly used for classification (the [decision tree intuition Note](../97-decision-trees-intuition/note.md)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree**. As before, the tree reads the **features** (input variables, one column each of the data table) of each **observation** (one record, one row of the table) and predicts the **target** (the output, here a number).
 
 This Note covers:
 
@@ -36,7 +36,7 @@ The Notebook (`notebook.ipynb`) runs every example.
 
 > **Key point:** More study hours over the semester, more marks, roughly in a straight line.
 
-For many regression problems, linear regression is the go-to algorithm. It finds the **best-fit line** $y = mx + b$ (the [simple linear regression Note](../50-simple-linear-regression/note.md)) and predicts by reading the line.
+For many regression problems, linear regression is the go-to algorithm. Linear regression finds the **best-fit line** $y = mx + b$ (the [simple linear regression Note](../50-simple-linear-regression/note.md)) and predicts by reading the line.
 
 Figure 1 (left) plots 30 students: hours studied over the whole semester against exam marks. Some students study less and score more, others the opposite, but the trend is roughly a straight line. The best-fit line predicts that a student who studied 75 hours gets about 60 marks.
 
@@ -52,13 +52,13 @@ Figure 1 (right) uses a different input: the hours studied on the day **before**
 - Students in the **3 to 6 hours** range scored high, around 88.
 - Students who studied **more than 6 hours** scored around 59: they were exhausted on exam day.
 
-A straight line through this data is almost flat. For a student who studied 5 hours, it predicts about 65 marks, while every such student scored above 80. It also misses the low group and the tired group. Its $R^2$ (the [regression metrics Note](../52-regression-metrics/note.md)) on these 30 students is only 0.02.
+A straight line through this data is almost flat. For a student who studied 5 hours, it predicts about 65 marks, while every such student scored above 80. The line also misses the low group and the tired group. The line's $R^2$ (the [regression metrics Note](../52-regression-metrics/note.md)) on these 30 students is only 0.02.
 
 Whenever the relationship is non-linear like this, a regression tree usually does better than linear regression.
 
 ## 3. How a regression tree predicts
 
-> **Key point:** Cut the input into ranges with if-else questions; in each range, predict the mean output of the training rows that fall there.
+> **Key point:** Cut the input into ranges with if-else questions; in each range, predict the mean output of the training observations that fall there.
 
 ### 3.1 Cutting the data by hand
 
@@ -73,12 +73,12 @@ Decision trees cut the data. Here two cuts are enough: one at 3 hours and one at
 
 ### 3.2 A leaf predicts the mean
 
-> **Key point:** A leaf's prediction is the average output of its training rows.
+> **Key point:** A leaf's prediction is the average output of its training observations.
 
-In a classification tree, a leaf predicts its majority class. In a regression tree, a leaf predicts the **mean** output of the training rows that reached it.
+In a classification tree, a leaf predicts its majority class. In a regression tree, a leaf predicts the **mean** output of the training observations that reached it.
 
-1. **In words:** add up the outputs of the rows in the leaf and divide by how many there are.
-2. **Formula:** for a leaf with $n$ training rows and outputs $y_1, \dots, y_n$:
+1. **In words:** add up the outputs of the observations in the leaf and divide by how many there are.
+2. **Formula:** for a leaf with $n$ training observations and outputs $y_1, \dots, y_n$:
    $$\hat{y}_{\text{leaf}} = \bar{y} = \frac{1}{n}\sum_{i=1}^{n} y_i$$
 3. **Example:** the 10 students who studied between 3 and 6 hours scored, in total, 879 marks, so the leaf predicts $879 / 10 = 87.9$.
 
@@ -98,13 +98,13 @@ Plotted against the hours, the tree's prediction is a staircase: flat within eac
 
 > **Key point:** We can see the gaps at 3 and 6 by eye; the algorithm needs a rule.
 
-In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". It needs a rule that scores every possible cut. Classification trees use information gain (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 9); regression trees use the squared error.
+In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". The algorithm needs a rule that scores every possible cut. Classification trees use information gain (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 9); regression trees use the squared error.
 
 ### 4.2 Scoring one threshold: the sum of squared errors
 
 > **Key point:** A threshold's score is the sum of squared residuals when each side predicts its own mean.
 
-Take a threshold $t$ between two neighbouring points. It splits the rows into a left group ($x \le t$) and a right group ($x > t$). Each group predicts its own mean. The gap between a point's actual mark and its group's mean is its **residual** (the [simple linear regression Note](../50-simple-linear-regression/note.md)), its error.
+Take a threshold $t$ between two neighbouring points. The threshold splits the observations into a left group ($x \le t$) and a right group ($x > t$). Each group predicts its own mean. The gap between a point's actual mark and its group's mean is its **residual** (the [simple linear regression Note](../50-simple-linear-regression/note.md)), its error.
 
 1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** of that threshold.
 2. **Formula:**
@@ -122,16 +122,16 @@ The other thresholds score worse: $t = 1.5$ gives 1,443.0, $t = 4.5$ gives 1,880
 
 The algorithm repeats this for every candidate threshold:
 
-1. Sort the rows by the input. Take the first two points, and put the threshold halfway between them (their mean). The left group has one point, which is its own mean; the right group has the rest.
+1. Sort the observations by the input. Take the first two points, and put the threshold halfway between them (their mean). The left group has one point, which is its own mean; the right group has the rest.
 2. Compute the SSE and plot it against the threshold.
 3. Move to the next two points and repeat, until the threshold has passed every gap.
-4. Keep the threshold with the **smallest SSE**. It becomes the split.
+4. Keep the threshold with the **smallest SSE**. That threshold becomes the split.
 
 Figure 4 shows this sweep on our 30 students (`images/sse_sweep.gif` animates it). The red lines are the residuals, the orange and green lines the two means, and the right panel traces the SSE. The minimum is at **hours $\le$ 2.90**, with an SSE of 5,060, down from 9,439 with no split at all.
 
 ![Sweeping the threshold across the data and tracking the SSE (key frames of the animation)](images/sse_sweep.gif){height=48%}
 
-> **Extra:** scikit-learn's default criterion, `"squared_error"`, compares splits by the weighted **mean** squared error (MSE) of the children. Since the parent's row count is the same for every candidate, minimising the children's weighted MSE is the same as minimising the SSE. The drop from the parent's MSE to the weighted MSE of its children plays the role that information gain plays in classification; it is often called **variance reduction**, because a node's MSE around its mean is the variance of its outputs (sklearn reference, `criterion`).
+> **Extra:** scikit-learn's default criterion, `"squared_error"`, compares splits by the weighted **mean** squared error (MSE) of the children. Since the parent's observation count is the same for every candidate, minimising the children's weighted MSE is the same as minimising the SSE. The drop from the parent's MSE to the weighted MSE of its children plays the role that information gain plays in classification; it is often called **variance reduction**, because a node's MSE around its mean is the variance of its outputs (sklearn reference, `criterion`).
 
 ### 4.4 Recursion, and when to stop
 
@@ -139,9 +139,9 @@ Figure 4 shows this sweep on our 30 students (`images/sse_sweep.gif` animates it
 
 After the first split, each side is searched again, in exactly the same way, to find its own best split. On our data the next split, inside the right group, is at 5.75 hours.
 
-If we never stop, the tree keeps splitting until every training point sits alone in a leaf. It then reproduces every training mark exactly but fails badly on new students: overfitting (the [bias-variance Note](../62-bias-variance/note.md)). We want to separate the groups, not every point.
+If we never stop, the tree keeps splitting until every training point sits alone in a leaf. The tree then reproduces every training mark exactly but fails badly on new students: overfitting (the [bias-variance Note](../62-bias-variance/note.md)). We want to separate the groups, not every point.
 
-So we set a stopping rule, for example: do not split a node with fewer than 4 rows. In practice a minimum of about 20 to 25 rows per node is a common starting point, depending on the dataset. This is the hyperparameter `min_samples_split` (or `min_samples_leaf`) of the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md).
+So we set a stopping rule, for example: do not split a node with fewer than 4 observations. In practice a minimum of about 20 to 25 observations per node is a common starting point, depending on the dataset. Such a rule is the hyperparameter `min_samples_split` (or `min_samples_leaf`) of the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md).
 
 ## 5. More than one input
 
@@ -155,7 +155,7 @@ For every split, the tree:
 2. finds the best threshold on **CGPA** and its SSE, $\text{SSE}_{\text{CGPA}}$;
 3. splits on whichever input has the **smaller** SSE.
 
-In 3D, each split is a plane parallel to one axis that cuts the cloud of points in two. The search then repeats inside each part, with hours and CGPA competing again at every node, until the stopping rule leaves too few rows to split; each final part predicts the mean of its rows.
+In 3D, each split is a plane parallel to one axis that cuts the cloud of points in two. The search then repeats inside each part, with hours and CGPA competing again at every node, until the stopping rule leaves too few observations to split; each final part predicts the mean of its observations.
 
 Figure 5 shows the result on 80 students, viewed from above: each box is a leaf, shaded by its predicted mark. The first split is on hours ($\le 2.8$), and the next ones mix hours (at 6.0) and CGPA. Within each range of hours, a higher CGPA means a higher prediction.
 
@@ -168,10 +168,10 @@ Figure 5 shows the result on 80 students, viewed from above: each box is a leaf,
 `DecisionTreeRegressor` has exactly the hyperparameters of the classifier (the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md)): `splitter`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_leaf_nodes`, `min_impurity_decrease` and `max_features`, with the same effects. The difference is the **criterion**, which measures error instead of impurity:
 
 - `"squared_error"` (default): the mean squared error, MSE (the [regression metrics Note](../52-regression-metrics/note.md)); leaves predict the mean.
-- `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less (ESL §10.6). The `absolute_error` criterion is slower to train: about 2.4 times slower than `squared_error` on the Boston data in the Notebook.
+- `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less (ESL §10.6). The `absolute_error` criterion is slower to train: about 1.4 times slower than `squared_error` on the Boston data in the Notebook (the exact ratio depends on the machine).
 - `"poisson"`: for counts, such as the number of visits (sklearn UG §1.10.7.2).
 
-On most data `"squared_error"` does as well as or better than the others, but this is again something to settle by tuning.
+Neither criterion wins on every dataset (the Boston grid in section 7.2 picks `"absolute_error"`), so the criterion is settled by tuning.
 
 > **Extra:** Older code also uses `"friedman_mse"`. In scikit-learn 1.9 it is deprecated (to be removed in 1.11) and simply maps to `"squared_error"`, because the two always gave the same trees (sklearn 1.9 deprecation warning).
 
@@ -188,7 +188,7 @@ Figure 6 trains trees of four depths on 150 noisy points along a wave and scores
 - **Depth 5:** 30 small steps that follow the wave without chasing single points; $R^2 = 0.90$, the best of the four.
 - **Depth 15:** 149 leaves for 150 training points. The line jumps to touch almost every point, noise included: overfitting; $R^2$ falls to 0.87.
 
-The other hyperparameters behave as for classification. For example, with 150 training rows and `min_samples_split=100`, the root splits into 82 and 68 rows, and neither child has 100 rows, so the tree stops there: underfitting. With only one input column, `max_features` has nothing to choose from; it matters on data with many columns.
+The other hyperparameters behave as for classification. For example, with 150 training observations and `min_samples_split=100`, the root splits into 82 and 68 observations, and neither child has 100 observations, so the tree stops there: underfitting. With only one input feature, `max_features` has nothing to choose from; it matters on data with many features.
 
 ## 7. A regression tree on the Boston housing data
 
@@ -198,7 +198,7 @@ The other hyperparameters behave as for classification. For example, with 150 tr
 
 > **Key point:** 506 Boston districts, 13 inputs, and the median house price; a depth-5 tree scores R² = 0.88 on one test split.
 
-The **Boston housing data** describes 506 districts of Boston in the 1970s. Each district is one **observation** (one row of the table). Each has 13 **features**, the input variables (one column each), such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The **target**, the output we predict, is `MEDV`, the median home value in thousands of dollars.
+The **Boston housing data** describes 506 districts of Boston in the 1970s. Each district is one **observation** (one row of the table). Each has 13 **features**, the input variables (one feature each), such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The **target**, the output we predict, is `MEDV`, the median home value in thousands of dollars.
 
 > **Python:** A regression tree on the Boston data.
 >
@@ -222,7 +222,7 @@ The **Boston housing data** describes 506 districts of Boston in the 1970s. Each
 >
 > `DecisionTreeRegressor` is used exactly like `DecisionTreeClassifier`; only the output is a number.
 
-> **Extra:** Older code loads this data with `load_boston` from `sklearn.datasets`. That function was removed in scikit-learn 1.2, because one column, `B`, was built from the share of Black residents of each district, an ethically problematic variable (sklearn 1.1, `load_boston` notice). The Notebook reads the same table from `data/boston.csv` (OpenML dataset 531). For new projects, scikit-learn suggests the California housing data instead.
+> **Extra:** Older code loads this data with `load_boston` from `sklearn.datasets`. That function was removed in scikit-learn 1.2, because one feature, `B`, was built from the share of Black residents of each district, an ethically problematic variable (sklearn 1.1, `load_boston` notice). The Notebook reads the same table from `data/boston.csv` (OpenML dataset 531). For new projects, scikit-learn suggests the California housing data instead.
 
 An $R^2$ of 0.88 looks impressive, but it comes from one random test set of 102 districts. Cross-validation (the [pipelines Note](../29-pipelines/note.md), section 8) on the training set gives a more honest average: **0.66**.
 
@@ -249,9 +249,9 @@ Grid search with `GridSearchCV` (the [KNN Note](../91-knn/note.md), section 4.2)
 > grid.best_score_    # 0.725, cross-validated R2
 > ```
 >
-> A decimal such as `max_features=0.5` means "50% of the columns" (6 of 13), and `min_samples_split=0.05` means "5% of the training rows".
+> A decimal such as `max_features=0.5` means "50% of the features" (6 of 13), and `min_samples_split=0.05` means "5% of the training observations".
 
-That is $5 \times 2 \times 3 \times 3 = 90$ combinations, each cross-validated 5 times: 450 trees. The best combination reaches a cross-validated $R^2$ of **0.725**.
+The grid holds $5 \times 2 \times 3 \times 3 = 90$ combinations, each cross-validated 5 times: 450 trees. The best combination reaches a cross-validated $R^2$ of **0.725**.
 
 When a grid becomes too large, **`RandomizedSearchCV`** is the faster alternative: instead of every combination, it tries `n_iter` combinations drawn at random from the same lists. With `n_iter=20` it trains 100 trees instead of 450 and reaches a cross-validated $R^2$ of 0.70.
 
@@ -259,7 +259,7 @@ When a grid becomes too large, **`RandomizedSearchCV`** is the faster alternativ
 
 > **Key point:** An untuned tree grows until every leaf is pure, so it learns the noise. A tuned tree stops earlier and scores clearly better on new data.
 
-With its default settings, `DecisionTreeRegressor` never stops early: it splits until each leaf holds observations with the same target value, often a single observation (section 4.4). Such a tree copies the training data perfectly, noise included. This is why tree size must be tuned: "a very large tree might overfit the data, while a small tree might not capture the important structure", so the right size should be chosen from the data (ESL §9.2.2).
+With its default settings, `DecisionTreeRegressor` never stops early: it splits until each leaf holds observations with the same target value, often a single observation (section 4.4). Such a tree copies the training data perfectly, noise included. Memorised noise is why tree size must be tuned: "a very large tree might overfit the data, while a small tree might not capture the important structure", so the right size should be chosen from the data (ESL §9.2.2).
 
 The effect is clearest on a large dataset with a noisy target. We use the **California housing data**: 20,640 districts of California in 1990, with 8 features (input variables) such as median income and house age, and the median house value as the target (sklearn California housing). Each district is one observation.
 
@@ -284,34 +284,34 @@ So tuning gains about 0.12 in test $R^2$ here. On every split the search picked 
 
 > **Key point:** The best of many cross-validated scores is slightly too high; re-score the winner on fresh folds to get an honest number.
 
-Picture 90 random people and pick the tallest. That person is tall, but part of the reason they won is luck of who showed up. A grid search works the same way. On the Boston data in section 7.2, it keeps the best of 90 scores, all measured on the same 5 folds, so a setting can win partly because it happens to suit those folds. Picking the best of many scores always makes the winner look a little better than it is; this effect is called **selection bias** (Cawley and Talbot 2010).
+Picture 90 random people and pick the tallest. That person is tall, but part of the reason they won is luck of who showed up. A grid search works the same way. On the Boston data in section 7.2, it keeps the best of 90 scores, all measured on the same 5 folds, so a setting can win partly because it happens to suit those folds. Picking the best of many scores always makes the winner look a little better than it is; the effect is called **selection bias** (Cawley and Talbot 2010).
 
 The Notebook measures it. On 10 fresh shuffles of 5-fold cross-validation (only the folds change), the Boston grid's winning setting scores **0.663**, not 0.725. To report an honest score, either re-score the winner on fresh folds, or test it on data the search never saw, as in section 7.3.
 
 ### 7.5 Feature importance
 
-> **Key point:** `feature_importances_` gives each column's share of the tree's total error reduction; on Boston, RM, LSTAT and CRIM dominate.
+> **Key point:** `feature_importances_` gives each feature's share of the tree's total error reduction; on Boston, RM, LSTAT and CRIM dominate.
 
-A trained tree also tells us which columns it relied on. Its attribute **`feature_importances_`** gives one number per column: that column's share of all the impurity (here, error) reduction achieved by the tree's splits. The numbers add up to 1.
+A trained tree also tells us which features it relied on. Its attribute **`feature_importances_`** gives one number per feature: that feature's share of all the impurity (here, error) reduction achieved by the tree's splits. The numbers add up to 1.
 
 ![Feature importance of the tuned tree on the Boston data](images/feature_importance.png){height=34%}
 
 Figure 8 shows them for the tuned Boston tree of section 7.2:
 
-- **RM** (rooms per home) is by far the most important column, at 0.47;
+- **RM** (rooms per home) is by far the most important feature, at 0.47;
 - then **LSTAT** (0.29) and **CRIM** (0.11);
-- the last few columns (`INDUS`, `ZN`, `CHAS`, `RAD`) contribute almost nothing.
+- the last few features (`INDUS`, `ZN`, `CHAS`, `RAD`) contribute almost nothing.
 
-This is useful for **feature selection** (the [curse of dimensionality Note](../46-curse-of-dimensionality/note.md)): if we must drop columns, the ones with near-zero importance are the first candidates.
+Feature importance is useful for **feature selection** (the [curse of dimensionality Note](../46-curse-of-dimensionality/note.md)): if we must drop features, the ones with near-zero importance are the first candidates.
 
-> **Extra:** The importance of a column is computed by adding up, over every node that splits on it, the node's share of the training rows times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4.8), and then dividing by the total over all columns. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
+> **Extra:** The importance of a feature is computed by adding up, over every node that splits on it, the node's share of the training observations times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4.8), and then dividing by the total over all features. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
 
 ## 8. Summary
 
 | | Classification tree | Regression tree |
 |---|---|---|
 | Output | a class | a number |
-| Leaf predicts | the majority class | the mean of its rows (median with `absolute_error`) |
+| Leaf predicts | the majority class | the mean of its observations (median with `absolute_error`) |
 | Split chosen by | information gain (Gini or entropy) | smallest squared error (SSE / MSE) |
 | scikit-learn | `DecisionTreeClassifier` | `DecisionTreeRegressor` |
 | Criterion values | `"gini"`, `"entropy"`, `"log_loss"` | `"squared_error"`, `"absolute_error"`, `"poisson"` |
@@ -325,9 +325,9 @@ This is useful for **feature selection** (the [curse of dimensionality Note](../
 - The best score of a grid is a little optimistic (best of 90): on fresh folds the Boston winner scores 0.663, not 0.725.
 - On the Boston data, RM, LSTAT and CRIM are the most important features.
 
-## Sources
+## 9. Sources
 
-- **Cawley and Talbot 2010:** G. C. Cawley and N. L. C. Talbot, "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation", *Journal of Machine Learning Research* 11, 2010.
+- **Cawley and Talbot 2010:** G. C. Cawley and N. L. C. Talbot, "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation", *Journal of Machine Learning Research* 11, 2079–2107, 2010. jmlr.org/papers/v11/cawley10a.html
 - **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Sections 9.2.2, 9.2.4 and 10.6.
 - **sklearn California housing:** scikit-learn User Guide, Real world datasets, California Housing dataset (`fetch_california_housing`); data from R. K. Pace and R. Barry, "Sparse Spatial Autoregressions", *Statistics and Probability Letters* 33, 1997.
 - **sklearn UG:** scikit-learn User Guide, Section 1.10.7.2, Regression criteria.
@@ -335,19 +335,19 @@ This is useful for **feature selection** (the [curse of dimensionality Note](../
 - **sklearn 1.9 deprecation warning:** the warning raised by `DecisionTreeRegressor(criterion="friedman_mse")` in scikit-learn 1.9.
 - **sklearn 1.1, `load_boston` notice:** scikit-learn 1.1 API reference for `sklearn.datasets.load_boston` (deprecated in 1.0, removed in 1.2).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
-| Regression tree | A decision tree whose leaves predict numbers: the mean output of their training rows |
+| Regression tree | A decision tree whose leaves predict numbers: the mean output of their training observations |
 | DecisionTreeRegressor | scikit-learn's regression tree |
 | Sum of squared errors (SSE) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest |
 | Variance reduction | The drop in mean squared error from a node to its children; the regression version of information gain |
 | squared_error | DecisionTreeRegressor's default criterion: split by mean squared error, leaves predict the mean |
 | absolute_error | A criterion that splits by mean absolute error; leaves predict the median |
 | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations |
-| Feature importance | A column's share of all the impurity reduction in a tree; the shares add up to 1 |
-| feature_importances_ | The fitted attribute holding the feature importance of every column |
+| Feature importance | A feature's share of all the impurity reduction in a tree; the shares add up to 1 |
+| feature_importances_ | The fitted attribute holding the feature importance of every feature |
 | California housing data | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn |
 | Selection bias | The best of many scores looks better than it really is, because part of its win is luck |
 | Boston housing data | 506 Boston districts, 13 inputs and the median home value; removed from scikit-learn in version 1.2 |

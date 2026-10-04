@@ -19,7 +19,7 @@ title: "Linear Transformations and Matrices"
 
 Figure 1 shows the idea of this Note. The whole plane moves: grid lines stay straight, parallel and evenly spaced, and the origin stays put. We only need to know where the two basis vectors $\hat{\imath}$ and $\hat{\jmath}$ land; those four numbers, written as the columns of a matrix, tell us where every other vector goes.
 
-The [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.1) met this idea in one paragraph: a matrix as an action on the whole plane. This Note explains why it works and how to read any matrix that way. It uses the basis vectors, linear combinations and span of the [linear combinations, span and basis Note](../490-linear-combinations-span-and-basis/note.md).
+The [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.1) met this idea in one paragraph: a matrix as an action on the whole plane. This Note explains why it works and how to read any matrix that way. The Note uses the basis vectors, linear combinations and span of the [linear combinations, span and basis Note](../490-linear-combinations-span-and-basis/note.md).
 
 ## 2. Transformations: functions that move vectors
 
@@ -42,7 +42,7 @@ Together these mean that grid lines stay parallel and evenly spaced. Some exampl
 
 - A transformation that curves the grid lines is not linear.
 - A transformation that keeps lines straight but slides everything to the right moves the origin, so it is not linear.
-- A transformation can keep the horizontal and vertical grid lines straight and still bend a diagonal line. It is not linear either: the test applies to every line.
+- A transformation can keep the horizontal and vertical grid lines straight and still bend a diagonal line. Such a transformation is not linear either: the test applies to every line.
 
 Rotations about the origin, stretches along the axes and the slanting of Figure 1 are linear.
 
@@ -125,7 +125,7 @@ Once a matrix is a transformation, many ML steps become pictures of moving space
 
 > **Key point:** With the data points as the rows of $X$, the product $X A^{\mathsf T}$ applies $A$ to every row at once.
 
-A dataset is a stack of feature vectors, one per row: the **data matrix** $X$ (the design matrix of the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
+A dataset is a stack of feature vectors, one per **observation** (one record, a row of the table). Each vector holds the values of the **features** (the input variables, one column each). The stack is the **data matrix** $X$ (the design matrix of the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
 
 1. **In words:** each row of the result is the transformed version of that row of $X$.
 2. **Formula:** for $n$ points with $d$ features ($X$ is $n \times d$),
@@ -144,9 +144,9 @@ A dataset is a stack of feature vectors, one per row: the **data matrix** $X$ (t
 
 ### 7.2 Feature scaling is a stretch along the axes
 
-> **Key point:** Dividing each column by a number is a diagonal matrix: it stretches or squishes space along the axes only.
+> **Key point:** Dividing each feature by a number is a diagonal matrix: it stretches or squishes space along the axes only.
 
-Dividing a column by its standard deviation, the second half of [standardization](../24-standardization/note.md), is a linear transformation. With standard deviations 2 and 10, $\hat{\imath}$ lands on $[0.5, 0]$ and $\hat{\jmath}$ on $[0, 0.1]$:
+Dividing a feature by its standard deviation, the second half of [standardization](../24-standardization/note.md), is a linear transformation. With standard deviations 2 and 10, $\hat{\imath}$ lands on $[0.5, 0]$ and $\hat{\jmath}$ on $[0, 0.1]$:
 
 $$\begin{bmatrix} 0.5 & 0 \\ 0 & 0.1 \end{bmatrix}$$
 
@@ -177,12 +177,12 @@ A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its pi
 - $A\mathbf{x}$ is a linear combination of the columns of $A$, with the coordinates of $\mathbf{x}$ as scalars.
 - Every matrix is a transformation of space; $XA^{\mathsf T}$ applies it to a whole dataset.
 
-## Sources
+## 9. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Definition 2.15 (MML).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 6.1, learning XOR.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -126,7 +126,7 @@ The input layer has one node per input column, so we add input nodes only when t
 
 So far the output layer had one node. To tell whether a photo shows a dog, a cat or a human, we give the output layer three nodes, one per class (Figure 3c). Each gives a score for its class, and we predict the class with the highest one.
 
-> **Extra:** In practice the three output scores are turned into probabilities that add up to 1 with the softmax function, exactly as in [softmax regression](../79-softmax-regression/note.md). This is the softmax plus categorical cross-entropy combination from the [perceptron loss Note](../1006-perceptron-loss/note.md).
+> **Extra:** In practice the three output scores are turned into probabilities that add up to 1 with the softmax function, exactly as in [softmax regression](../79-softmax-regression/note.md) (Goodfellow et al. 2016, §6.2.2.3). This is the softmax plus categorical cross-entropy combination from the [perceptron loss Note](../1006-perceptron-loss/note.md).
 
 ### 4.4 More hidden layers
 
@@ -134,25 +134,49 @@ So far the output layer had one node. To tell whether a photo shows a dog, a cat
 
 We can also add whole hidden layers (Figure 3d). The first hidden layer still draws straight lines. The second combines those into curves, the third combines curves into more complex shapes, and so on.
 
-With enough hidden nodes and layers, and enough training time, an MLP can approximate any function: the **universal approximation theorem** (see the [types of neural networks Note](../1003-nn-types-history-applications/note.md)). The price is more parameters and longer training.
+With enough hidden nodes, an MLP can approximate any continuous function: the **universal approximation theorem** (see the [types of neural networks Note](../1003-nn-types-history-applications/note.md)). The theorem only says such weights exist; it does not promise that training finds them. The price is more parameters and longer training.
 
 ## 5. Seeing it work
 
-> **Key point:** On XOR, circles and spirals, small MLPs find the curved boundaries a single perceptron cannot. Too few nodes, or a poor setup, still fails.
+> **Key point:** Two hidden nodes are enough for XOR. Each draws one straight line, and the output node keeps the strip between the two lines.
 
-TensorFlow Playground (see the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md)) lets us build small networks in the browser and watch them train. Figure 4 repeats its demos in Python, with scikit-learn's `MLPClassifier`, so the results can be rerun from the Notebook.
+### 5.1 XOR with two hidden nodes
 
-![MLPs trained on three non-linear datasets: XOR, two circles and two spirals](images/playground.png){height=58%}
+> **Key point:** Hidden node 1 and hidden node 2 each draw a line; the output node says "class 1" only between them. All 200 points are classified correctly.
+
+We return to XOR, the data no single perceptron can separate (see the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md)). Each of the four XOR inputs, centred as $(\pm 1.5, \pm 1.5)$, gets a small cloud of 50 noisy points. Class 1 (green) is where exactly one input is positive, as in the XOR table.
+
+The network has 2 inputs, **2 sigmoid hidden nodes** and 1 sigmoid output node. We train it with plain [gradient descent](../57-gradient-descent/note.md) on the [log loss](../73-log-loss/note.md): learning rate 1, 5,000 steps, starting from small random weights. (How the gradients of the hidden weights are found is the topic of the [backpropagation Notes](../1015-backpropagation-what/note.md).)
+
+![XOR with two hidden nodes. Left and middle: what each hidden node learned, with its line (the 0.5 boundary). Right: the output node's map; its boundary (black) lies on the two hidden lines (dashed).](images/xor_lines.png){height=30%}
+
+Figure 4 reads like Section 3, from left to right:
+
+- **Hidden node 1** draws a line just below the top-right cluster: it says 1 only for the $(+,+)$ cluster.
+- **Hidden node 2** draws a parallel line just above the bottom-left cluster: it says 1 for every cluster except $(-,-)$.
+- **The output node** computes $\sigma(-12.6\,h_1 + 12.2\,h_2 - 5.8)$: class 1 when node 2 is on **and** node 1 is off. That is exactly the strip between the two lines, where the two green clusters sit.
+
+The accuracy is 100%. The same training from 100 different random starting weights also reached 100% every time (Notebook).
+
+This matches the textbook solution. Goodfellow et al. (§6.1) write down a network with two hidden units that solves the four XOR points exactly; its two units also draw two parallel lines, $x_1 + x_2 = 0$ and $x_1 + x_2 = 1$, and the output keeps the points between them.
+
+> **Extra:** Our hidden nodes use the sigmoid, as everywhere in this Note. Goodfellow et al. use ReLU, an activation taught later. The picture is the same: two lines, and the output keeps the strip between them.
+
+### 5.2 Other shapes
+
+> **Key point:** On circles and spirals, small MLPs find the curved boundaries a single perceptron cannot. A poor setup still fails.
+
+TensorFlow Playground (see the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md)) lets us build small networks in the browser and watch them train. Figure 5 repeats two more of its demos in Python, with scikit-learn's `MLPClassifier`, so the results can be rerun from the Notebook.
+
+![MLPs trained on two circles and on two spirals](images/playground.png){height=26%}
 
 Reading the panels in order:
 
-- **XOR, 2 hidden nodes:** the training got stuck at 69%. The boundary bends, but not enough.
-- **XOR, 4 hidden nodes:** 100%. The extra nodes give the network enough lines to combine.
-- **Circles, 4 hidden nodes:** 100%. Four lines combine into a closed shape around the inner circle.
+- **Circles, 4 hidden nodes:** 100%. Four lines combine into a closed shape around the inner circle. With fewer nodes it falls short: 66% with 1 node, 85% with 2, 99% with 3 (Notebook).
 - **Spirals, 4 hidden layers of 4 sigmoid nodes:** 50%, no better than guessing. The network predicts one class everywhere.
-- **Spirals, same layers with ReLU:** 99%. Changing only the activation function makes the deep network trainable.
+- **Spirals, same layers with ReLU:** 98%. Changing only the activation function makes the deep network trainable.
 
-Two changes did the work: more hidden nodes fixed XOR, and a different activation fixed the deep network on the spirals. TensorFlow Playground also draws what each hidden node has learned: the nodes of the first hidden layer always draw straight lines, and the later layers combine them into curves.
+With adam, the sigmoid network stayed at 50% on all 5 random starts tried, while the ReLU network reached 73% to 98%. TensorFlow Playground also draws what each hidden node has learned: the nodes of the first hidden layer always draw straight lines, and the later layers combine them into curves, as in Figure 4.
 
 > **Python:** An MLP in scikit-learn.
 >
@@ -163,16 +187,14 @@ Two changes did the work: more hidden nodes fixed XOR, and a different activatio
 > clf = MLPClassifier(hidden_layer_sizes=(4,),
 >                     activation="logistic",
 >                     solver="lbfgs", max_iter=5000,
->                     random_state=1)
+>                     random_state=0)
 > clf.fit(X, y)
-> clf.score(X, y)      # 1.0 on the XOR data
+> clf.score(X, y)      # 1.0 on the circles data
 > ```
 >
 > `hidden_layer_sizes=(4, 4, 4, 4)` gives four hidden layers of 4 nodes. scikit-learn calls the sigmoid `"logistic"`. The input and output layers are sized automatically from `X` and `y`.
 
-> **Extra:** Two hidden nodes are in fact enough for XOR: one weight setting separates it perfectly. Training simply did not find it from that random start, which is common with very small networks. This is one reason networks are usually built a little larger than the minimum.
-
-> **Extra:** **ReLU** is another activation function, used far more than the sigmoid in deep networks; the activation function Notes later explain why the sigmoid stalls in deep networks while ReLU does not. The `solver` (lbfgs or adam) is the method used to find the weights; adam is one of the optimizers covered later. The spirals use adam, the others lbfgs, because each worked best on its data.
+> **Extra:** **ReLU** is another activation function, used far more than the sigmoid in deep networks; the [vanishing and exploding gradients Note](../1018-vanishing-exploding-gradients/note.md) explains why the sigmoid stalls in deep networks while ReLU does not. The `solver` (lbfgs or adam) is the method used to find the weights; adam is one of the optimizers covered later. The spirals use adam, the circles lbfgs, because each worked best on its data. Over 5 random starts (Notebook), lbfgs beat adam on the circles, and adam beat lbfgs on the ReLU spirals.
 
 ## 6. Summary
 
@@ -187,9 +209,14 @@ Two changes did the work: more hidden nodes fixed XOR, and a different activatio
 - Combining perceptrons: $\hat{y} = \sigma(w_1 p_1 + w_2 p_2 + b)$, itself a perceptron.
 - Input layer, hidden layer, output layer: that is a multi-layer perceptron.
 - The sigmoid between layers is what lets the combined boundary curve.
+- Two hidden nodes already solve XOR: two lines, and the output keeps the strip between them.
 - With enough nodes and layers an MLP can approximate any function; in practice the setup (size, activation, solver) decides whether training finds it.
 
-## 7. Key terms
+## 7. Sources
+
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.1 (a network with two hidden units that solves XOR), §6.2.2.3 (softmax output units).
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

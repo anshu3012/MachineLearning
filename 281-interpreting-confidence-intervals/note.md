@@ -30,7 +30,7 @@ This Note covers:
 
 > **Key point:** The population mean is fixed; each sample gives a different interval; 95% of those intervals contain the mean.
 
-Suppose the subscribers' mean age has the 95% confidence interval 25.06 to 30.94 years (the example of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The true mean age $\mu$ of all 77,000 subscribers is one fixed number. It is either inside this interval or not; we just do not know which.
+Suppose the subscribers' mean age has the 95% confidence interval 25.06 to 30.94 years (the example of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The true mean age $\mu$ of all 77,000 subscribers is one fixed number. The true mean is either inside this interval or not; we just do not know which.
 
 What is random is the sample. Another online event brings other people, another $\bar{x}$ and another interval. A **95% confidence level** means:
 
@@ -85,16 +85,15 @@ All three statements below sound reasonable and are wrong.
 
 **Misreading 1: "There is a 95% probability that $\mu$ is between 25.06 and 30.94."** After the sample is drawn, nothing in this sentence is random: $\mu$ is fixed and so are 25.06 and 30.94. The interval either contains $\mu$ or it does not; the probability is 1 or 0, we just do not know which. The 95% belongs to the procedure before the sample is drawn (see section 8 of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)).
 
-**Misreading 2: "If we repeat the sampling, 95% of the new sample means will fall in this interval."** This one is easy to slip into, because it also talks about repeating. But it fixes our one interval and moves the sample means, the wrong way round. Our interval is centred on our $\bar{x}$, not on $\mu$, so it catches fewer new means than 95%:
+**Misreading 2: "If we repeat the sampling, 95% of the new sample means will fall in this interval."** Misreading 2 is easy to slip into, because it also talks about repeating. But it fixes our one interval and moves the sample means, the wrong way round. Our interval is centred on our $\bar{x}$, not on $\mu$, so on average it catches only about 83% of new sample means, not 95%. Think of a dartboard: a ring drawn around where our first dart landed catches fewer later darts than a ring drawn around the bullseye.
 
-- for one simulated interval that happened to land close to $\mu$ (45.30 to 53.62), 94.2% of 100,000 new sample means fell inside;
-- averaged over all possible first samples, only 83.4% do, because a new mean must be within $1.96$ standard errors of the first mean, and the difference of two means has $\sqrt{2}$ times the spread: $P(|Z| < 1.96/\sqrt{2}) = 0.834$.
+> **Extra:** Where the 83% comes from. A new mean must land within $1.96$ standard errors of the first mean, and the difference of two independent means has $\sqrt{2}$ times the spread of one, so the share is $P(|Z| < 1.96/\sqrt{2}) = 0.834$. The share depends on where the first interval landed: for one simulated interval close to $\mu$ (45.30 to 53.62), 94.2% of 100,000 new sample means fell inside.
 
 **Misreading 3: "95% of the subscribers are between 25.06 and 30.94 years old."** The interval is about the **mean** age, not about individual ages. Individual ages spread with $\sigma = 15$, a much wider range. In the simulation, only 21.7% of individual values fell inside the interval 45.30 to 53.62.
 
 **The correct reading:** "We are 95% confident that the mean age of all subscribers is between 25.06 and 30.94 years", meaning that this interval came from a method which, over many samples, captures the true mean 95% of the time.
 
-> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, Bayesian statistics (see the [what is statistics Note](../220-what-is-statistics/note.md)), which treats $\mu$ itself as uncertain. Its intervals are called credible intervals: an interval $[a, b]$ is a 95% credible interval if the posterior probability that the parameter lies in it is 0.95 (H. Pishro-Nik, *Introduction to Probability, Statistics, and Random Processes*, 2014, Section 9.1.9).
+> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, Bayesian statistics (see the [what is statistics Note](../220-what-is-statistics/note.md)), which treats $\mu$ itself as uncertain. Its intervals are called credible intervals: an interval $[a, b]$ is a 95% credible interval if the posterior probability that the parameter lies in it is 0.95 (Pishro-Nik 2014, §9.1.9).
 
 ## 4. What sets the width of an interval
 
@@ -136,7 +135,7 @@ Near 100% the curve shoots up: $z_{\alpha/2}$ grows without limit, and a 100% in
 
 Doubling $\sigma$ doubles the margin of error: $\sigma = 5$ gives 1.39, $\sigma = 15$ gives 4.16, $\sigma = 30$ gives 8.32 (Figure 2, middle, a straight line).
 
-This is common sense. A batsman whose scores swing wildly, 10 in one match and 200 in the next, is hard to predict: a 95% range might be 20 to 80 runs. A very consistent batsman, such as Rahul Dravid in his prime, could get a 95% range of 40 to 45. The more the data varies, the less precisely its mean can be pinned down.
+The link between spread and width is common sense. A batsman whose scores swing wildly, 10 in one match and 200 in the next, is hard to predict: a 95% range might be 20 to 80 runs. A very consistent batsman, such as Rahul Dravid in his prime, could get a 95% range of 40 to 45. The more the data varies, the less precisely its mean can be pinned down.
 
 ### 4.3 Sample size
 
@@ -167,7 +166,7 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 2 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
 
-It is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
+The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
 
 ## 6. Summary
 
@@ -189,7 +188,11 @@ It is a convention, not a law: depending on the problem, 99%, 90% or 80% are als
 - The width measures the precision of the estimate.
 - 95% is a convention balancing confidence and precision.
 
-## 7. Key terms
+## 7. Sources
+
+- Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. §9.1.9 "Bayesian Interval Estimation". Also at probabilitycourse.com.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

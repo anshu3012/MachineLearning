@@ -44,7 +44,7 @@ IRCTC does not hand its database to MakeMyTrip. Instead, IRCTC writes functions 
 
 ### 3.2 One company, many platforms
 
-Facebook has a website, a mobile website, an Android app and an iPhone app. All of them work on a single database, through one API (Figure 2b). That is why a post written on the phone appears on the website at once.
+Facebook has a website, a mobile website, an Android app and an iPhone app. All of them work on a single database, through one API (Figure 2b). The shared API is why a post written on the phone appears on the website at once.
 
 ![An API in front of a database serves many apps](images/two_uses.png)
 
@@ -89,7 +89,7 @@ Figure 4 shows the structure. JSON looks just like a Python dictionary:
 
 ### 5.1 Planning the dataset
 
-Before writing code, we decide what the final table should hold. From each movie's dictionary we keep 7 columns: `id`, `title`, `overview` (a short plot summary), `release_date`, `popularity`, `vote_average` and `vote_count`.
+Before writing code, we decide what the final table should hold. Each movie will be one **observation** (one record, one row of the table). Each value we keep will be a **feature** (a variable describing the movie, one column of the table). From each movie's dictionary we keep 7 columns: `id`, `title`, `overview` (a short plot summary), `release_date`, `popularity`, `vote_average` and `vote_count`.
 
 The plan follows from the reply's structure:
 
@@ -103,7 +103,7 @@ The plan follows from the reply's structure:
 
 We need two libraries: pandas, and **requests**, which sends web requests from Python. Both come with Anaconda.
 
-`requests.get(url)` sends the request and returns a **response** object. The response carries a **status code**, a number that says how the request went:
+`requests.get(url)` sends the request and returns a **response** object. The response carries a **status code**, a number that says how the request went (RFC 9110, §15):
 
 | Status code | Meaning |
 |---|---|
@@ -136,12 +136,12 @@ We need two libraries: pandas, and **requests**, which sends web requests from P
 >
 > `params=` builds the part after the `?` for us, so the key never sits inside the URL text.
 
-> **Extra:** What changed. TMDB still works, but only with a personal key. Without one it replies with status code 401 and the message "Invalid API key". So the Notebook uses **TVmaze** (`api.tvmaze.com`), a free TV-show database that needs no key. It returns the same kind of data: shows with a name, premiere date, average rating, popularity score (`weight`) and summary. A saved real reply, `data/tvmaze_shows_page0.json`, lets the Notebook run without internet (checked October 2026).
+> **Extra:** What changed. TMDB still works, but only with a personal key. Without one it replies with status code 401 and the message "Invalid API key". So the Notebook uses **TVmaze** (`api.tvmaze.com`), a free TV-show database that needs no key. TVmaze returns the same kind of data: shows with a name, premiere date, average rating, popularity score (`weight`) and summary. A saved real reply, `data/tvmaze_shows_page0.json`, lets the Notebook run without internet (checked October 2026).
 
 The TVmaze reply differs from TMDB's in two ways:
 
 - The reply is the list itself, with no `results` key around it, and no total page count.
-- Each page holds up to 250 shows (TVmaze API docs) (page 0 has 240, because deleted shows leave gaps).
+- Each page holds up to 250 shows (TVmaze API docs); page 0 has 240, because deleted shows leave gaps.
 
 > **Python:** One page from TVmaze (no key).
 >
@@ -252,17 +252,21 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 - Loop over the pages, collect the DataFrames in a list, then `pd.concat(..., ignore_index=True)`.
 - Keep API keys out of code, and respect the API's rate limit.
 
-## Sources
+## 11. Sources
+
+- Fielding, R., Nottingham, M. and Reschke, J. (2022). HTTP Semantics. RFC 9110, IETF. Section 15: Status Codes. rfc-editor.org/rfc/rfc9110.
 
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 - TMDB. API FAQ (attribution). developer.themoviedb.org/docs/faq.
 - TVmaze. API documentation (show index, rate limiting). tvmaze.com/api.
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
 | API (Application Programming Interface) | A way for two programs to talk; a website's API hands out its data on request |
+| Observation | One record of the data, one row of the table |
+| Feature | A variable describing each observation, one column of the table |
 | Data pipeline | A channel that carries data from one point to another |
 | Client, server | The program that asks, and the computer that answers |
 | Endpoint | One address of an API that returns one kind of data |

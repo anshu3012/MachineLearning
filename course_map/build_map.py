@@ -68,7 +68,7 @@ def note_ref(video, md_dir):
     """'Note 7' with a link if written, else 'Video 7 (coming)'."""
     if video in NOTES:
         return f"[Note {video}]({md_dir}{NOTES[video]}/note.md)"
-    return f"Video {video}, coming"
+    return f"Note {video}, coming"
 
 
 # ---------------------------------------------------------------- Where this fits
@@ -293,7 +293,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, {done} of {total} Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their source when their Note is written. So far, {done} of {total} Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -330,11 +330,11 @@ The full map has {total} Concepts, too many for one page, so it is shown in six 
 
 ## 4. The Learning path
 
-> **Key point:** Before each Video, read the Notes it builds on.
+> **Key point:** Before each Note, read the Notes it builds on.
 
-Each row lists a Video's Concepts and the Notes to read first. Videos marked *coming* or *deferred* do not have a Note yet.
+Each row lists a Note's Concepts and the Notes to read first. Notes marked *coming* or *deferred* are not written yet.
 
-| Video | Concepts | Read first | Note |
+| No. | Concepts | Read first | Note |
 |---|---|---|---|
 {chr(10).join(learning_path_rows())}
 

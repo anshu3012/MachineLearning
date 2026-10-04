@@ -1,0 +1,4 @@
+sentence,sim_money,sim_river,sim_static_bank
+static (any sentence),0.4,0.24,1.0
+money bank grows,0.68,0.13,0.9
+river bank flows,0.21,0.71,0.82

@@ -14,19 +14,19 @@ title: "Measures of Central Tendency"
 
 ## 1. Overview
 
-> **Key point:** A measure of central tendency gives one number for the centre of a column; the mean, median, mode, weighted mean and trimmed mean each suit different data.
+> **Key point:** A measure of central tendency gives one number for the centre of a feature; the mean, median, mode, weighted mean and trimmed mean each suit different data.
 
 ![Choosing a measure of central tendency](images/measure_chooser.png)
 
-Figure 1 shows which measure fits which column. This Note works through each measure, its formula and its weak spot, in that order.
+Figure 1 shows which measure fits which kind of feature. This Note works through each measure, its formula and its weak spot, in that order.
 
 ## 2. What central tendency means
 
-> **Key point:** One typical value that summarises where a column's values sit.
+> **Key point:** One typical value that summarises where a feature's values sit.
 
-A **measure of central tendency** is a statistical measure that represents a typical, central value of a dataset. It summarises a whole column with the single value that best represents it.
+A **measure of central tendency** is a statistical measure that represents a typical, central value of a dataset. A **feature** is one variable of the data, one column of the table, and an **observation** is one record, one row. A measure of central tendency summarises a whole feature with the single value that best represents it.
 
-Take the `Age` column of 1,000 passengers. Reading 1,000 ages tells us little. One number for where the ages are centred tells us a lot: "the average salary", "the average package", "a batsman's average" are all such numbers.
+Take the `Age` feature of 1,000 passengers. Reading 1,000 ages tells us little. One number for where the ages are centred tells us a lot: "the average salary", "the average package", "a batsman's average" are all such numbers.
 
 There are several such measures. The main ones are the mean, median and mode; the weighted mean and trimmed mean are useful variants.
 
@@ -53,7 +53,7 @@ Nine students earn between 28 and 40 thousand rupees a month. A tenth classmate 
 - **Nine students:** the mean is 33.7 thousand rupees, a fair summary.
 - **With the founder:** the mean jumps to 230.3 thousand rupees. Nobody in the class earns anything like that.
 
-So before using the mean, we check whether the column has outliers. If it does, the mean is not a good summary of that column.
+So before using the mean, we check whether the feature has outliers. If it does, the mean is not a good summary of that feature.
 
 ## 4. Median
 
@@ -66,7 +66,7 @@ For example, 1, 2, 3, 4, 5 has median 3. Adding a sixth value, 6, gives 1, 2, 3,
 $$\text{median} = \frac{3 + 4}{2} = 3.5$$
 If that sixth value were 60,000 instead of 6, the sorted list would be 1, 2, 3, 4, 5, 60000, and the median would still be 3.5.
 
-That last line is why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 2, the founder moves the median only from 33 to 34 thousand rupees.
+The unchanged median of 3.5 shows why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 2, the founder moves the median only from 33 to 34 thousand rupees.
 
 The same reasoning gives practical advice: when comparing colleges or companies, look at the median package, not the average one. One student with a package of 1 crore raises the average for everyone, but leaves the median almost untouched.
 
@@ -95,10 +95,10 @@ The **mode** is the value that appears most often in the data.
 
 The mode is most useful for:
 
-- **Categorical columns,** where the mean and median make no sense. Ask a class which state each student comes from and count; if Maharashtra comes up most often, it is the mode.
-- **Discrete columns with few values,** such as the number of siblings on board.
+- **Categorical features,** where the mean and median make no sense. Ask a class which state each student comes from and count; if Maharashtra comes up most often, it is the mode.
+- **Discrete features with few values,** such as the number of siblings on board.
 
-For a continuous column, the mode is rarely useful: with values such as 32.17 and 32.18, almost every value appears only once.
+For a continuous feature, the mode is rarely useful: with values such as 32.17 and 32.18, almost every value appears only once.
 
 If two values tie for the highest count, both are modes. Data with two modes is bimodal (two peaks, as in the [power transformer Note](../31-power-transformer/note.md)); with more, it is **multimodal**.
 
@@ -126,7 +126,7 @@ In the ordinary mean, every value counts equally. The **weighted mean** gives ea
    $$\bar{x}_w = \frac{0.2 \times 10 + 0.3 \times 15 + 0.5 \times 12}{0.2 + 0.3 + 0.5} = \frac{2 + 4.5 + 6}{1} = 12.5 \text{ lakh rupees}$$
    The plain mean would be $(10 + 15 + 12)/3 = 12.33$ lakh; the weighted mean leans towards XGBoost, the model we trust most.
 
-This is exactly what a voting regressor with weights does (see the [voting regressor Note](../104-voting-regressor/note.md)). The ordinary mean is the special case where every weight is equal.
+This weighting is exactly what a voting regressor with weights does (see the [voting regressor Note](../104-voting-regressor/note.md)). The ordinary mean is the special case where every weight is equal.
 
 > **Python:** The weighted mean.
 >
@@ -178,7 +178,7 @@ How much to trim depends on the data. We look at its distribution first, for exa
 | Weighted mean | every value and its weight | yes | values of unequal importance |
 | Trimmed mean | the values left after trimming | only if trimming is too light | numerical data with a few outliers |
 
-When there are no outliers, the mean is the better summary: it uses every value, while the median uses only one or two. No rule says one measure is always best; we look at the data first. For a skewed column, the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10) shows how the mean is pulled towards the long tail.
+When there are no outliers, the mean is the better summary: it uses every value, while the median uses only one or two. No rule says one measure is always best; we look at the data first. For a skewed feature, the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10) shows how the mean is pulled towards the long tail.
 
 > **Extra:** Two more means appear in special cases.
 >
@@ -199,18 +199,19 @@ When there are no outliers, the mean is the better summary: it uses every value,
 - The mean is pulled by outliers; the median and the trimmed mean are not.
 - Ties give several modes: bimodal or multimodal data.
 
+## 10. Sources
 
-## Sources
+- Wilcox, R. R. (2012). *Introduction to Robust Estimation and Hypothesis Testing*, 3rd ed. Academic Press. Chapter 3, the trimmed mean (20% trimming as a general-purpose choice).
+- FIG (Fédération Internationale de Gymnastique). *Rhythmic Gymnastics Code of Points 2022-2024*: section 3.6.1, Execution panel: the highest and lowest of four scores are eliminated.
+- USA Diving. *Judging and Scoring*. usadiving.org, Diving 101.
 
-- Wilcox, R. R. (2012). *Introduction to Robust Estimation and Hypothesis Testing*, 3rd ed. Academic Press.
-- FIG (Fédération Internationale de Gymnastique). *Rhythmic Gymnastics Code of Points 2022-2024*: execution panel scoring.
-- USA Diving. Judging and Scoring. https://www.usadiving.org/about-us/diving-101/judging-and-scoring
-
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
-| Measure of central tendency | A single number for the typical, central value of a column |
+| Feature | One variable of the data, one column of the table |
+| Observation | One record, one row of the table |
+| Measure of central tendency | A single number for the typical, central value of a feature |
 | Population mean ($\mu$) | The mean of every value in the population |
 | Sample mean ($\bar{x}$) | The mean of the values in a sample |
 | Multimodal | Having more than one mode (two modes: bimodal) |

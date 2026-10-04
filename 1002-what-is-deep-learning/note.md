@@ -14,7 +14,7 @@ title: "What Is Deep Learning? Deep Learning vs Machine Learning"
 
 ## 1. Overview
 
-> **Key point:** Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. It needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
+> **Key point:** Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
 
 The [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) already placed deep learning (DL) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
 
@@ -44,7 +44,7 @@ Figure 1 shows the simplest kind of network, the **artificial neural network (AN
 
 - Each circle is a **neuron**, also called a **perceptron**: the network's basic unit.
 - Each line connecting two neurons carries a **weight**, a number the network learns.
-- Neurons in one column form a layer. The **input layer** takes the data, one node per input column. The **output layer** gives the prediction.
+- Neurons in one column form a layer. The **input layer** takes the data, one node per **feature** (an input variable, one column of the data table). The **output layer** gives the prediction.
 - Every layer in between is a **hidden layer**. We can add as many as we like.
 
 A network with many hidden layers is called **deep**, and this is where the name "deep learning" comes from.
@@ -57,11 +57,11 @@ The ANN is only one type of network. Convolutional neural networks (CNNs) work b
 
 A more technical definition reads: deep learning is part of the broader family of ML methods based on artificial neural networks **with representation learning**. Its algorithms use multiple layers to progressively extract higher-level features from the raw input.
 
-**Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. It replaces manual [feature engineering](../23-what-is-feature-engineering/note.md): the machine both learns the features and uses them.
+**Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. Representation learning replaces manual [feature engineering](../23-what-is-feature-engineering/note.md): the machine both learns the features and uses them.
 
 Take a dog-vs-cat classifier:
 
-- **With ML**, we design the features ourselves: size (dogs are usually bigger), colour, and other physical attributes. Then we give these columns to the algorithm.
+- **With ML**, we design the features ourselves: size (dogs are usually bigger), colour, and other physical attributes. Then we give these features to the algorithm.
 - **With DL**, we give the network the image itself, pixel by pixel, in the right format. The network extracts the features on its own.
 
 ### 2.4 Layers extract features of rising complexity
@@ -113,7 +113,7 @@ A neural network does huge numbers of matrix multiplications. A [GPU](../12-setu
 > **Key point:** DL trains slowly (days to months on big data) but predicts fast; ML trains in minutes to hours, and its prediction speed depends on the algorithm.
 
 - **Training time:** a DL model on a large dataset can train for weeks, and some research models for months. Most ML models train in minutes, at most hours.
-- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [forward propagation Note](../1010-forward-propagation/note.md) shows it). In ML it varies: [KNN](../91-knn/note.md), for example, predicts slowly because it compares the new point with every stored row.
+- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [forward propagation Note](../1010-forward-propagation/note.md) shows it). In ML it varies: [KNN](../91-knn/note.md), for example, predicts slowly because it compares the new point with every stored **observation** (one record, one row of the data table).
 
 ### 4.4 Feature selection
 
@@ -122,9 +122,9 @@ A neural network does huge numbers of matrix multiplications. A [GPU](../12-setu
 Suppose we predict whether a student will be placed from the content of their resume:
 
 - **With ML**, we extract features first: 12th marks, 10th marks, number of achievements, number of courses, quality of college. Choosing them needs domain experts, such as HR staff or teachers.
-- **With DL**, we give the whole resume, in a suitable form, to the network. It extracts the features behind the scenes and predicts.
+- **With DL**, we give the whole resume, in a suitable form, to the network. The network extracts the features behind the scenes and predicts.
 
-This is representation learning (section 2.3), and it is one of DL's biggest practical benefits.
+Letting the network extract the features is representation learning (section 2.3), and it is one of DL's biggest practical benefits.
 
 ### 4.5 Interpretability
 
@@ -132,7 +132,7 @@ This is representation learning (section 2.3), and it is one of DL's biggest pra
 
 **Interpretability** is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a [black box](../91-knn/note.md): it gives an answer without the reasons.
 
-This matters wherever we must justify a decision. Suppose a social network bans users based on their comments, using a DL model. A banned user asks why, and we have no answer.
+Interpretability matters wherever we must justify a decision. Suppose a social network bans users based on their comments, using a DL model. A banned user asks why, and we have no answer.
 
 ML models are often much easier to explain:
 
@@ -175,9 +175,9 @@ Raw data alone is not enough. To train a dog-vs-cat classifier we need photos **
 | Data type | Public dataset | Contents |
 |---|---|---|
 | Images | Microsoft COCO | images with a labelled box around every object; used for object detection |
-| Video | YouTube-8M | about 6.1 million labelled YouTube videos |
+| Video | YouTube-8M | about 6.1 million labelled online video clips |
 | Text | SQuAD | about 150,000 questions and answers on Wikipedia articles |
-| Audio | Google AudioSet | about 2 million sound clips from YouTube in over 600 categories |
+| Audio | Google AudioSet | about 2 million labelled sound clips in over 600 categories |
 
 Thousands more are available today, for example on Kaggle. Without data there would be no deep learning, so datasets are the biggest single reason.
 
@@ -211,7 +211,7 @@ Which hardware to use depends on the job:
 
 Writing a network's training code from scratch takes longer than the problem it solves. Deep learning needed libraries that handle this code, just as scikit-learn does for ML. Two families dominate:
 
-- **TensorFlow (Google):** Google built an internal framework, DistBelief, in 2011, and released TensorFlow publicly in 2015. It was powerful but hard to use, so **Keras**, a simpler library running on top of it, became popular. Since TensorFlow 2.0 (2019), Keras is built in.
+- **TensorFlow (Google):** Google built an internal framework, DistBelief, in 2011, and released TensorFlow publicly in 2015. TensorFlow was powerful but hard to use, so **Keras**, a simpler library running on top of it, became popular. Since TensorFlow 2.0 (2019), Keras is built in.
 - **PyTorch (Facebook, now Meta):** released in 2016, it became the favourite of researchers. Facebook's Caffe2, a library for running models on servers, was merged into it in 2018.
 
 Today TensorFlow with Keras is used more in industry, and PyTorch more in research. Converting a model from one to the other is awkward, so drag-and-drop tools appeared that build a network in a browser and export code for either: Google's AutoML, Microsoft's Custom Vision and Apple's Create ML.
@@ -262,7 +262,7 @@ None of the above would exist without people. Researchers worked on neural netwo
 ## 7. Sources
 
 - Silver et al., "Mastering the game of Go without human knowledge", *Nature*, 2017 (AlphaGo against Lee Sedol, March 2016).
-- NVIDIA developer forums, "CUDA 1.0 released", June 2007.
+- NVIDIA, "CUDA Toolkit Archive" (CUDA Toolkit 1.0, June 2007), developer.nvidia.com.
 - Raina, Madhavan and Ng, "Large-scale Deep Unsupervised Learning using Graphics Processors", ICML 2009.
 - Krizhevsky, Sutskever and Hinton, "ImageNet Classification with Deep Convolutional Neural Networks", NeurIPS 2012.
 - Keras documentation, "Introducing Keras 3.0", keras.io.
@@ -276,7 +276,7 @@ None of the above would exist without people. Researchers worked on neural netwo
 | Artificial neural network (ANN) | The simplest neural network: neurons in layers, each layer connected to the next by weights |
 | Neuron (in a network) | One unit of a neural network; in an ANN, a perceptron |
 | Weight (in a network) | A learned number on a connection between two neurons |
-| Input layer | The first layer, with one node per input column |
+| Input layer | The first layer, with one node per feature |
 | Output layer | The last layer, which gives the prediction |
 | Hidden layer | Any layer between the input and output layers |
 | Deep network | A neural network with many hidden layers |

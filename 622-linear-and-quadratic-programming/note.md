@@ -44,7 +44,7 @@ Each constraint is a half-plane, and the feasible region is their overlap: a con
 
 > **Key point:** The contour lines of a linear objective are parallel straight lines; sliding them in the improving direction, the last feasible point they touch is a corner of the polygon.
 
-This is the level-curve picture of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) with straight lines instead of ellipses. In Figure 1, the lines of equal profit $3x_1 + 2x_2 = p$ are parallel. Raising $p$ slides them up and to the right. The line $p = 11$ is the last one that still touches the region, at the single corner $(3, 1)$.
+Figure 1 is the level-curve picture of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) with straight lines instead of ellipses. In Figure 1, the lines of equal profit $3x_1 + 2x_2 = p$ are parallel. Raising $p$ slides them up and to the right. The line $p = 11$ is the last one that still touches the region, at the single corner $(3, 1)$. Think of pushing a ruler across a cut-out cardboard shape while keeping it parallel to itself: the last bit of cardboard under the ruler is a corner (or a whole edge).
 
 Because the answer is at a corner, checking the corners is enough for a small problem:
 
@@ -87,9 +87,9 @@ The multipliers are the shadow prices of the [Lagrange multipliers Note](../620-
 | Flour: $x_1 + 3x_2 \le 9$ | $6 < 9$, inactive | 0 | profit 11 (no change) |
 | Demand: $x_1 \le 3$ | $3 = 3$, active | 1 | profit 12 (up by 1) |
 
-Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. This is complementary slackness in action: the inactive constraint has multiplier 0.
+Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
 
-> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$ (least absolute deviations) becomes a linear program by giving each row an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
+> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
 
 ## 3. Quadratic programming
 
@@ -180,13 +180,13 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 | Example | workshop: $(3, 1)$, profit 11 | triangle: $(1.5, 0.5)$, value $-12.25$ |
 | In ML | least absolute deviations, quantile regression | SVM (primal and dual), Lasso in constraint form |
 
-- Both are convex problems, so the dual value equals the primal value.
+- Both are convex problems with linear constraints, so whenever the primal is feasible the dual value equals the primal value (Boyd and Vandenberghe, Ch. 5).
 - Multipliers are shadow prices: an inactive constraint has multiplier 0.
 
 ## 5. Sources
 
 - Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020, Chapter 7.
-- Boyd and Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004. Chapter 5 (duality; strong duality for a feasible LP), Chapter 11 (interior-point methods).
+- Boyd and Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004. Chapter 5 (duality; strong duality for linear constraints, Sec. 5.2.3 to 5.2.4), Chapter 11 (interior-point methods).
 - Tibshirani, "Regression Shrinkage and Selection via the Lasso", *Journal of the Royal Statistical Society B*, 1996, Section 6.
 - scikit-learn documentation: `QuantileRegressor`; User Guide, Support Vector Machines, Mathematical formulation.
 

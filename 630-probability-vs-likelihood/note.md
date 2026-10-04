@@ -17,7 +17,7 @@ This Note builds the idea from three examples, each read both ways:
 - drawing balls from a bag (Section 3);
 - people's heights, a continuous example (Section 4).
 
-Then it states both definitions (Section 5) and shows why a likelihood is not a probability (Section 6). The [maximum likelihood estimation Note](../631-maximum-likelihood-estimation/note.md) uses likelihood to fit parameters.
+The Note then states both definitions (Section 5) and shows why a likelihood is not a probability (Section 6). The [maximum likelihood estimation Note](../631-maximum-likelihood-estimation/note.md) uses likelihood to fit parameters.
 
 ## 2. A coin
 
@@ -150,7 +150,7 @@ $$P(\text{data} \mid \text{distribution}) \quad\text{versus}\quad L(\text{distri
 
 In $P(32 \le \text{weight} \le 34 \mid \mu = 32, \sigma = 2.5) = 0.29$ we change the left side to ask about other weights. In $L(\mu = 32, \sigma = 2.5 \mid \text{weight} = 34) = 0.12$ the right side, the data, stays fixed, and we change the left side to try other distributions.
 
-> **Extra:** A density height is not itself a probability; the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md) (Section 5) shows that it is probability per unit of $x$. Because a density is a rate, for continuous data a likelihood can be larger than 1, and why only comparisons between likelihoods are meaningful, never a single value on its own.
+> **Extra:** A density height is not itself a probability; the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md) (Section 5) shows that it is probability per unit of $x$. Because a density is a rate, a likelihood for continuous data can be larger than 1. Only comparisons between likelihoods are meaningful, never a single value on its own.
 
 ## 5. The two definitions
 
@@ -207,8 +207,8 @@ So a likelihood value only means something next to another likelihood value for 
 
 ## 8. Sources
 
-- Starmer, J. "In Statistics, Probability is not Likelihood", StatQuest (statquest.org). Section 4.4.
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Free PDF at mml-book.github.io. §9.2.1 (remark: the likelihood is not a probability distribution in the parameters). Section 6.
+- Starmer, J. "In Statistics, Probability is not Likelihood", StatQuest (statquest.org). Used in Section 4.4.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Free PDF at mml-book.github.io. §9.2.1 (remark: the likelihood is not a probability distribution in the parameters). Used in Section 6.
 
 ## 9. Key terms
 

@@ -16,7 +16,7 @@ title: "Tensors"
 > **Key point:** A tensor is a container for numbers, organised along one or more axes. All ML data, from tables to videos, is stored as tensors.
 
 
-Every ML library, such as scikit-learn, TensorFlow and PyTorch, stores data in the same basic structure: the **tensor**. It is so central that Google's deep learning library, TensorFlow, is named after it.
+Every ML library, such as scikit-learn, TensorFlow and PyTorch, stores data in the same basic structure: the **tensor**. The tensor is so central that Google's deep learning library, TensorFlow, is named after it.
 
 ![Tensors from 0D to 5D](images/tensor_ladder.png)
 
@@ -26,7 +26,7 @@ Figure 1 shows the whole family. The rest of this Note explains each one and whe
 
 > **Key point:** Scalars, vectors and matrices are all tensors; "tensor" is the general name for any number of dimensions.
 
-A **tensor** is a data structure: a container that stores numbers. (It can store text too, but in ML it almost always holds numbers.)
+A **tensor** is a data structure: a container that stores numbers. (A tensor can store text too, but in ML it almost always holds numbers.)
 
 We have met tensors before under other names:
 
@@ -100,7 +100,7 @@ Four words describe any tensor (Figure 3):
 ![Rank, axes, shape and size of a matrix](images/rank_shape_size.png)
 
 - An **axis** is one direction along which the numbers are arranged. A matrix has two: down the rows (axis 0) and across the columns (axis 1).
-- The **rank** is the number of axes. It is the same as the number of dimensions of the tensor, and NumPy calls it `ndim`. Scalar: 0, vector: 1, matrix: 2.
+- The **rank** is the number of axes. The rank is the same as the number of dimensions of the tensor, and NumPy calls it `ndim`. Scalar: 0, vector: 1, matrix: 2.
 - The **shape** lists how many items lie along each axis. The matrix in Figure 3 has shape (2, 3): 2 rows and 3 columns.
 - The **size** is the total number of items in the tensor.
 
@@ -123,11 +123,11 @@ The word *dimension* is used in two different ways, and mixing them up is a comm
 
 Both statements are true at the same time: [1, 2, 3, 4] is a 1D tensor and a 4-dimensional vector.
 
-*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. This is a point in 3-dimensional space, with one axis for each input column (Figure 4). So it is a 3-dimensional vector, but still a 1D tensor.
+*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. Each of the three numbers is a **feature** (an input variable, one column of the data table). The vector [8.1, 91, 0] is a point in 3-dimensional space, with one axis for each feature (Figure 4). So the student is a 3-dimensional vector, but still a 1D tensor.
 
 ![Each student is a point in 3D space](images/student_space.png)
 
-With 50 input columns, each student would be a 50-dimensional vector, and still a 1D tensor.
+With 50 features, each student would be a 50-dimensional vector, and still a 1D tensor.
 
 ## 6. Tensors in real ML data
 
@@ -135,19 +135,19 @@ With 50 input columns, each student would be a 50-dimensional vector, and still 
 
 ### 6.1 1D and 2D: tabular data
 
-> **Key point:** One row is a 1D tensor; the whole table of inputs is a 2D tensor.
+> **Key point:** One observation's features form a 1D tensor; the whole table of features is a 2D tensor.
 
-Most ML data starts as a table (Figure 5). Suppose we have 1,000 students with three input columns (CGPA, IQ, state) and an output column (placed or not):
+Most ML data starts as a table (Figure 5). Each student is an **observation** (one record, one row of the table). Suppose we have 1,000 students with three features (CGPA, IQ, state) and a **target**, the output we predict (placed or not):
 
 ![Tabular data as tensors](images/tabular.png)
 
-- **One student's inputs:** [8.1, 91, 0], a 1D tensor of shape (3,).
-- **All students' inputs:** a 2D tensor of shape (1000, 3). It is a collection of 1,000 rows, each a 1D tensor.
-- **The output column:** a 1D tensor of shape (1000,).
+- **One student's features:** [8.1, 91, 0], a 1D tensor of shape (3,).
+- **All students' features:** a 2D tensor of shape (1000, 3). The matrix is a collection of 1,000 rows, each a 1D tensor.
+- **The target column:** a 1D tensor of shape (1000,).
 
 Whenever we work with tabular data, we are working with 1D and 2D tensors.
 
-> **Extra:** The table of all inputs is usually called **X**, and the output column **y** (scikit-learn Glossary). You will see these names in almost all ML code.
+> **Extra:** The table of all features is usually called **X**, and the target column **y** (scikit-learn Glossary). You will see these names in almost all ML code.
 
 ### 6.2 3D: text
 
@@ -215,7 +215,7 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
 2. **Formula:** $\text{storage (bytes)} = \text{size} \times 4$.
 3. **Example:** $\text{size} = 4 \times 1800 \times 480 \times 720 \times 3 = 7{,}464{,}960{,}000$ numbers, so storage $= 7{,}464{,}960{,}000 \times 4 = 29{,}859{,}840{,}000$ bytes: about 30 billion bytes.
 
-Converted to gigabytes, that is about 27.8 GB if 1 GB means $1024^3$ bytes (the usual convention in computing), or 29.9 GB if 1 GB means $10^9$ bytes. Either way, four one-minute videos need around 28 to 30 GB when stored raw. This is why video formats such as MPEG and MP4 **compress** the data: they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than the raw numbers.
+Converted to gigabytes, that is about 27.8 GB if 1 GB means $1024^3$ bytes (the usual convention in computing), or 29.9 GB if 1 GB means $10^9$ bytes. Either way, four one-minute videos need around 28 to 30 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data: they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than its raw 7.5 GB.
 
 The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note in NumPy: from a scalar to a real photo (shape (427, 640, 3)) and the video storage calculation.
 
@@ -224,8 +224,8 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 | Rank | Name | Example in ML | Example shape |
 |---|---|---|---|
 | 0D | Scalar | One number | () |
-| 1D | Vector | One student's inputs; an output column | (3,); (1000,) |
-| 2D | Matrix | A table of inputs | (1000, 3) |
+| 1D | Vector | One student's features; a target column | (3,); (1000,) |
+| 2D | Matrix | A table of features | (1000, 3) |
 | 3D | 3D tensor | Sentences; time series; one colour image | (3, 2, 4); (10, 365, 2); (600, 800, 3) |
 | 4D | 4D tensor | A batch of colour images | (32, 600, 800, 3) |
 | 5D | 5D tensor | A batch of videos | (4, 1800, 480, 720, 3) |
@@ -235,7 +235,7 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 - Rank = number of axes (`ndim`); shape = items per axis; size = product of the shape.
 - A 1D tensor with *n* items is an *n*-dimensional vector: two different meanings of "dimension".
 
-## Sources
+## 8. Sources
 
 - Le Gall, D. (1991). MPEG: A Video Compression Standard for Multimedia Applications. *Communications of the ACM* 34(4).
 - NumPy documentation. The N-dimensional array (`ndarray`). numpy.org/doc.
@@ -244,7 +244,7 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 - TensorFlow documentation. `tf.keras.layers.Conv2D` (argument `data_format`). tensorflow.org.
 - YouTube Help. Recommended upload encoding settings (480p: 2.5 Mbps at 24 to 30 frames per second). support.google.com/youtube/answer/1722171.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -257,7 +257,10 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 | Rank | The number of axes of a tensor (`ndim` in NumPy) |
 | Shape | The number of items along each axis |
 | Size | The total number of items: the product of the shape |
-| X, y | Usual names for the input table and the output column |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
+| X, y | Usual names for the feature table and the target column |
 | Vectorization | Converting data such as text into vectors of numbers |
 | Vocabulary | The list of unique words in a set of texts |
 | Time series | Data recorded at regular time intervals |

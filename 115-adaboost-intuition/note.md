@@ -13,7 +13,7 @@ title: "AdaBoost: How It Works"
 
 ## 1. Overview
 
-> **Key point:** AdaBoost trains weak models one after another. Each one pays more attention to the rows the previous one got wrong, and each gets a say based on how accurate it was. The final answer is a weighted vote.
+> **Key point:** AdaBoost trains weak models one after another. Each one pays more attention to the observations the previous one got wrong, and each gets a say based on how accurate it was. The final answer is a weighted vote.
 
 ![AdaBoost as a stage-wise additive model: each stage trains a stump on reweighted data and gets a say; the final model is the sign of the weighted sum](images/stagewise.png){height=40%}
 
@@ -83,7 +83,7 @@ In Figure 1, each column is a stage. The arrow between the columns is what makes
 
 > **Key point:** In every stage: fit a stump, find its mistakes, give the stump a say, then make its mistakes heavier for the next stage.
 
-We follow 10 students with two inputs, CGPA and IQ, and the output placed (+1) or not placed (-1). Figure 3 animates the three stages.
+We follow 10 students. Each student is an **observation** (one record, one row of the data table). Each has two **features** (input variables, one column each), CGPA and IQ, and a **target** (the output we predict): placed (+1) or not placed (-1). Figure 3 animates the three stages.
 
 ![AdaBoost on 10 students. In each stage the dashed line is the stump's split; the dot size shows each student's weight, which grows after a mistake and shrinks after a correct answer. The last panel is the weighted vote of the three stumps](images/boosting_stages.gif){height=55%}
 
@@ -97,9 +97,9 @@ The stump does its job, but not perfectly: two students who were not placed sit 
 
 ### 4.2 Passing the mistakes on
 
-> **Key point:** Before the next stage, the misclassified rows are made more important, so the next stump concentrates on them.
+> **Key point:** Before the next stage, the misclassified observations are made more important, so the next stump concentrates on them.
 
-The first stump tells the next one, in effect: "I got these students wrong; take extra care with them." AdaBoost does this by raising the **importance** of the misclassified rows in the data and lowering that of the rest.
+The first stump tells the next one, in effect: "I got these students wrong; take extra care with them." AdaBoost does this by raising the **importance** of the misclassified observations in the data and lowering that of the rest.
 
 In Figure 3 this is the dot size: the two mistakes grow, the eight correct students shrink. The exact amounts, and the technique (called upsampling), are the subject of the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md).
 
@@ -107,17 +107,17 @@ In Figure 3 this is the dot size: the two mistakes grow, the eight correct stude
 
 > **Key point:** Each stump gets a weight, alpha, from how few mistakes it made. Good stumps get a big say in the final vote, poor ones a small say.
 
-At the end of each stage we also compute a number $\alpha$ (alpha) for the stump. It sets how much **say** the stump will have in the final prediction. Few mistakes give a large $\alpha$; many mistakes give a small one. The formula is in the step-by-step Note.
+At the end of each stage we also compute a number $\alpha$ (alpha) for the stump. Alpha sets how much **say** the stump will have in the final prediction. Few mistakes give a large $\alpha$; many mistakes give a small one. The formula is in the step-by-step Note.
 
-This is where boosting differs from bagging. In bagging (the [bagging Note](../105-bagging-intuition/note.md)), every base model's vote counts the same, like a democracy. In boosting, each model's vote is weighted by how well it performed.
+The say is where boosting differs from bagging. In bagging (the [bagging Note](../105-bagging-intuition/note.md)), every base model's vote counts the same, like a democracy. In boosting, each model's vote is weighted by how well it performed.
 
 ### 4.4 Stages 2 and 3
 
 > **Key point:** Each new stump fixes the previous stump's mistakes but makes some of its own, which are passed on in turn.
 
-**Stage 2.** The data now has heavier weights on the two missed students. A new stump is fitted: **IQ above 110 means placed** (Figure 3, top right). It gets those two students right, but it makes two new mistakes: two placed students fall in its not-placed region. Again we compute its say, $\alpha_2$, and make its mistakes heavier.
+**Stage 2.** The data now has heavier weights on the two missed students. A new stump is fitted: **IQ above 110 means placed** (Figure 3, top right). The new stump gets those two students right, but it makes two new mistakes: two placed students fall in its not-placed region. Again we compute its say, $\alpha_2$, and make its mistakes heavier.
 
-**Stage 3.** The next stump is **CGPA below 3.25 means placed** (Figure 3, bottom left). It fixes stage 2's mistakes and makes two of its own. We compute $\alpha_3$.
+**Stage 3.** The next stump is **CGPA below 3.25 means placed** (Figure 3, bottom left). This third stump fixes stage 2's mistakes and makes two of its own. We compute $\alpha_3$.
 
 We stop at three stumps here. With more stages the process simply repeats.
 
@@ -127,13 +127,13 @@ We stop at three stumps here. With more stages the process simply repeats.
 | 2 | IQ > 110: placed | 2 | 0.125 | 0.97 |
 | 3 | CGPA < 3.25: placed | 2 | 0.071 | 1.28 |
 
-The weighted error is the share of the total weight that sits on the misclassified rows. It falls from stage to stage because each stump is judged on reweighted data; the step-by-step Note computes it.
+The weighted error is the share of the total weight that sits on the misclassified observations. The weighted error falls from stage to stage because each stump is judged on reweighted data; the step-by-step Note computes it.
 
 ## 5. The final prediction: a weighted vote
 
 > **Key point:** Multiply each stump's answer (+1 or -1) by its alpha, add, and take the sign: positive means +1, negative means -1.
 
-After training we have three stumps and three alphas. We write each stump as a function $h_t(x)$, a **hypothesis function**: it takes a student's inputs $x$ and returns +1 or -1.
+After training we have three stumps and three alphas. We write each stump as a function $h_t(x)$, a **hypothesis function**: it takes a student's features $x$ and returns +1 or -1.
 
 1. **In words:** each stump votes +1 or -1; each vote is multiplied by that stump's say; we add the results; the sign of the total is the prediction.
 2. **Formula:** with $T$ stumps,
@@ -143,7 +143,7 @@ After training we have three stumps and three alphas. We write each stump as a f
    $$2 \times (-1) + 10 \times (+1) + 1 \times (-1) = -2 + 10 - 1 = 7$$
    The total is positive, so $H(x) = +1$: the student is predicted to be **placed**. Two stumps out of three said "not placed", but the stump with by far the largest say said "placed", and it wins.
 
-This is why the classes are +1 and -1: a "not placed" vote pulls the total down by its alpha. With 0 and 1, a "not placed" vote would multiply to 0 and could never outweigh a "placed" vote.
+The pull of a negative vote is why the classes are +1 and -1: a "not placed" vote pulls the total down by its alpha. With 0 and 1, a "not placed" vote would multiply to 0 and could never outweigh a "placed" vote.
 
 > **Extra:** If the total is exactly 0, the sign is undefined; libraries then pick one class by a fixed rule. scikit-learn's `AdaBoostClassifier` gives the first class in `classes_` (scikit-learn source, `ensemble/_weight_boosting.py`).
 
@@ -169,7 +169,7 @@ With more stages, the boundary can bend in more places and fit more complicated 
 | Decision stump | the usual weak learner: a tree with one split |
 | Labels | +1 and -1 |
 | Stage-wise additive | stumps are added one at a time; the final model sums them |
-| Mistakes | rows a stump gets wrong become more important for the next stump |
+| Mistakes | observations a stump gets wrong become more important for the next stump |
 | Alpha | each stump's say in the final vote, larger for fewer mistakes |
 | Prediction | $\operatorname{sign}(\sum_t \alpha_t h_t(x))$ |
 
@@ -178,13 +178,13 @@ With more stages, the boundary can bend in more places and fit more complicated 
 - The prediction is the sign of the alpha-weighted sum of the stumps' +1/-1 answers.
 - Three stumps on 10 students: each makes 2 mistakes, their weighted vote makes none.
 
-## Sources
+## 8. Sources
 
 - Freund, Y. and Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. *Journal of Computer and System Sciences* 55(1): 119–139. (Conference version: EuroCOLT 1995.)
 - Viola, P. and Jones, M. (2001). Rapid object detection using a boosted cascade of simple features. *CVPR 2001*.
 - scikit-learn source code, `sklearn/ensemble/_weight_boosting.py`, `AdaBoostClassifier.predict` (version 1.9).
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

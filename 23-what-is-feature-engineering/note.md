@@ -14,9 +14,9 @@ title: "What is Feature Engineering"
 
 ## 1. Overview
 
-> **Key point:** Feature engineering turns raw data into columns that a model can learn from well. It has four parts: transformation, construction, selection and extraction.
+> **Key point:** Feature engineering turns raw data into features that a model can learn from well. It has four parts: transformation, construction, selection and extraction.
 
-So far we can gather data and study it with EDA. Before a model can learn from that data, we have to prepare its columns. That work is feature engineering, and it fills the next stretch of Notes.
+So far we can gather data and study it with EDA. Before a model can learn from that data, we have to prepare its features. Preparing them is feature engineering, and it fills the next stretch of Notes.
 
 Figure 1 is the map of this whole stretch. Each of the four parts has its own techniques, and each technique gets its own Note later. This Note explains what each part is for, with one example each.
 
@@ -24,28 +24,26 @@ Figure 1 is the map of this whole stretch. Each of the four parts has its own te
 
 ## 2. What feature engineering is
 
-> **Key point:** Feature engineering uses knowledge of the problem to create, change and choose the columns given to an ML algorithm, so that it performs better.
+> **Key point:** Feature engineering uses knowledge of the problem to create, change and choose the features given to an ML algorithm, so that the algorithm performs better.
 
-Recall that a **feature** is one input column of the data. A common definition (from Wikipedia) reads:
+Recall the three basic terms. A **feature** is an input variable, one column of the data table. The **target** is the output we predict. An **observation** is one record, one row of the table. A standard textbook (Zheng and Casari 2018) describes **feature engineering** as extracting features from raw data and transforming them into formats that suit a machine learning model. In practice we use **domain knowledge** to do it, so that the algorithm performs better.
 
-> **Feature engineering** is the process of using domain knowledge to extract features from raw data, which can be used to improve the performance of machine learning algorithms.
-
-Two words in it matter:
+Two ideas matter:
 
 - **Raw data:** the data as it arrives, with gaps, text, odd values and unhelpful columns. Having data does not mean we can hand it straight to an algorithm.
-- **Domain knowledge:** knowledge of the field the data comes from, such as medicine, property or shipping. It tells us which columns make sense and which new ones would help.
+- **Domain knowledge:** knowledge of the field the data comes from, such as medicine, property or shipping. Domain knowledge tells us which features make sense and which new ones would help.
 
-A model gives good results only when its input columns are good. Turning raw data into such columns is feature engineering.
+A model gives good results only when its features are good. Turning raw data into such features is feature engineering.
 
 ## 3. Why feature engineering matters
 
 > **Key point:** Good features with a simple algorithm usually beat poor features with a powerful algorithm.
 
-A well-known saying in ML: give a weak algorithm excellent features and a powerful algorithm poor features, and the weak one usually wins. The columns we give a model limit what it can learn, however clever the model is.
+A well-known saying in ML: give a weak algorithm excellent features and a powerful algorithm poor features, and the weak one usually wins. Domingos (2012, §8) puts the same point plainly: of all the factors that decide whether an ML project succeeds, "easily the most important factor is the features used". Think of a cook: a simple recipe with fresh ingredients beats a fancy recipe with stale ones. The features we give a model limit what it can learn, however clever the model is.
 
 Feature engineering is also more an art than a science. Like programming, it has known techniques, but each person combines them in their own way.
 
-Two data scientists given the same data will often build different columns. This is why different books and courses teach it differently: there is no single fixed recipe. The techniques below are the shared toolkit, and experience decides how to use them.
+Two data scientists given the same data will often build different features. The lack of a recipe is why different books teach feature engineering differently: there is no single fixed recipe. The techniques below are the shared toolkit, and experience decides how to use them.
 
 ## 4. Where feature engineering sits in an ML project
 
@@ -57,21 +55,21 @@ In the steps of an ML project, data first arrives and gets some initial preproce
 |---|---|
 | Get data | collect it from files, databases, APIs or the web |
 | Understand data | study it with EDA |
-| **Engineer features** | prepare the columns (this group of Notes) |
+| **Engineer features** | prepare the features (this group of Notes) |
 | Train a model | give the prepared data to an algorithm |
 
 Some lists of project steps name "feature engineering" and "feature selection" separately. Here both belong to feature engineering: selection is one of its four parts.
 
 ## 5. The four parts of feature engineering
 
-> **Key point:** We can change columns (transformation), add columns (construction), keep only some columns (selection), or replace columns with new ones made by an algorithm (extraction).
+> **Key point:** We can change features (transformation), add features (construction), keep only some features (selection), or replace features with new ones made by an algorithm (extraction).
 
 Figure 1 groups everything feature engineering does into four parts:
 
-1. **Feature transformation:** change a column into another form, so that the model works better with it.
-2. **Feature construction:** create a new column by hand, from existing ones, when we think it will give better results.
-3. **Feature selection:** give the algorithm only the useful columns and drop the rest.
-4. **Feature extraction:** let an algorithm build completely new columns out of the existing ones.
+1. **Feature transformation:** change a feature into another form, so that the model works better with it.
+2. **Feature construction:** create a new feature by hand, from existing ones, when we think it will give better results.
+3. **Feature selection:** give the algorithm only the useful features and drop the rest.
+4. **Feature extraction:** let an algorithm build completely new features out of the existing ones.
 
 The next four sections take the parts in this order.
 
@@ -79,17 +77,17 @@ The next four sections take the parts in this order.
 
 > **Key point:** Feature transformation changes a column's form. Its four main jobs: fill missing values, turn categories into numbers, deal with outliers, and put columns on the same scale.
 
-Sometimes a column is in a form that the algorithm cannot use, or cannot use well. Feature transformation changes it into a better form. It is the first step of feature engineering, and it has many techniques; these four are the most important.
+Sometimes a column is in a form that the algorithm cannot use, or cannot use well. Feature transformation changes it into a better form. Transformation is the first step of feature engineering, and it has many techniques; these four are the most important.
 
 ### 6.1 Handling missing values
 
-> **Key point:** scikit-learn models do not accept missing values, so we either remove them or fill them in.
+> **Key point:** Most scikit-learn models do not accept missing values, so we either remove them or fill them in.
 
 Real-world data almost always has gaps. A person may have left a form field blank, or something may have gone wrong while the data was collected.
 
-Gaps are a real problem: scikit-learn, the main ML library in Python, refuses to train a model on data with missing values. So before training, we do one of two things:
+Gaps are a real problem: most models in scikit-learn, the main ML library in Python, refuse to train on data with missing values (scikit-learn User Guide, "Imputation of missing values"). So before training, we do one of two things:
 
-- **Remove** the rows with gaps. This is fine when only a few rows are affected, since losing them hardly changes the data.
+- **Remove** the observations (rows) with gaps. Removing is fine when only a few rows are affected, since losing them hardly changes the data.
 - **Fill** the gaps, when too many rows would be lost. For a numerical column we can use the column's mean or median; for a categorical column, its most common value (the **mode**).
 
 Filling in missing values is called **imputation**. There are many more ways to do it, each with its own uses, and several Notes cover them one by one.
@@ -113,7 +111,7 @@ Sometimes we convert numbers into categories instead. An `age` column holds exac
 | 31 to 45 | adult |
 | and so on | |
 
-Grouping numbers into ranges like this is called **binning**. It is one more way of changing a column's form.
+Grouping numbers into ranges like this is called **binning**. Binning is one more way of changing a column's form.
 
 ### 6.4 Detecting and removing outliers
 
@@ -126,9 +124,9 @@ Outliers are risky because some algorithms are very sensitive to them. **Linear 
 ![Three outliers pull the regression line away from the other points](images/outlier_line.png)
 
 - **Red line:** fitted to all points. To get close to the three outliers at the bottom right, it tilts away from the clear pattern of the other 25 points.
-- **Green line:** fitted after removing the three outliers. It follows the main pattern.
+- **Green line:** fitted after removing the three outliers. The green line follows the main pattern.
 
-When we use an algorithm that is sensitive to outliers, it is our job to deal with them before training. That means first **detecting** them, and then removing or adjusting them. Several Notes cover the methods.
+When we use an algorithm that is sensitive to outliers, it is our job to deal with them before training. Dealing with them means first **detecting** them, and then removing or adjusting them. Several Notes cover the methods.
 
 ### 6.5 Feature scaling
 
@@ -148,7 +146,7 @@ Missing values, categories, outliers and scaling are the main jobs, but not the 
 
 > **Key point:** Feature construction creates a new column by hand from existing ones, guided by domain knowledge, intuition and experience.
 
-Sometimes a useful column is not in the data at all. If we think such a column would give better results, we create it ourselves. This is feature construction.
+Sometimes a useful feature is not in the data at all. If we think such a feature would give better results, we create it ourselves. Creating it by hand is feature construction.
 
 There is no fixed method for it. What we build depends on how well we know the data, on intuition and on experience, so two people may build different columns.
 
@@ -172,15 +170,15 @@ Feature construction has a few common patterns:
 
 > **Key point:** Feature selection keeps only the important columns and drops the rest, which makes the model better and faster.
 
-Instead of giving the algorithm every column, we choose the useful ones and remove those that are not important. This is feature selection.
+Instead of giving the algorithm every feature, we choose the useful ones and remove those that are not important. Choosing them is feature selection.
 
 ### 8.1 Pixels as columns: the MNIST dataset
 
 > **Key point:** In image data every pixel is a column, and many pixels, such as those at the edges, carry no information.
 
-The **MNIST dataset** is a well-known collection of about 70,000 images of handwritten digits, 0 to 9. Each image is small: 28 × 28 pixels, so 784 pixels in all.
+The **MNIST dataset** is a well-known collection of 70,000 images of handwritten digits, 0 to 9 (LeCun et al. 1998). Each image is small: 28 × 28 pixels, so 784 pixels in all.
 
-To use images in ML, each image is turned into one row of a table, with one column per pixel (Figure 3). The value in each column is that pixel's brightness. So the MNIST table has 784 input columns.
+To use images in ML, each image is turned into one row of a table, with one column per pixel (Figure 3). The value in each column is that pixel's brightness. So the MNIST table has 784 features.
 
 ![An image becomes one row with one column per pixel](images/image_to_row.png)
 
@@ -197,7 +195,7 @@ Common techniques include **forward selection** (start with no columns, add the 
 
 > **Key point:** Feature extraction builds completely new columns out of the existing ones, then keeps only the most useful new columns.
 
-Feature extraction is the last part. Like feature construction, it creates new columns. Unlike construction, the new columns are computed by an algorithm, not chosen by hand.
+Feature extraction is the last part. Like feature construction, extraction creates new features. Unlike construction, the new columns are computed by an algorithm, not chosen by hand.
 
 The rooms and washrooms example of the [types of ML Note](../03-types-of-ml/note.md) (section 3.3, Dimensionality reduction) shows the idea: two related columns are replaced by one new column, the flat's area. An extraction algorithm does the same without domain knowledge: it builds the new columns from the data alone.
 
@@ -233,17 +231,27 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 | Feature selection | keeps only the useful columns | drop the blank edge pixels of MNIST | forward selection, backward elimination |
 | Feature extraction | builds new columns with an algorithm | rooms and washrooms into one PCA axis | PCA, LDA, t-SNE |
 
-- Feature engineering uses domain knowledge to turn raw data into columns that help a model perform better.
+- Feature engineering uses domain knowledge to turn raw data into features that help a model perform better.
 - Good features matter more than a powerful algorithm.
-- It is partly an art: there are known techniques, but no single fixed recipe.
-- It comes after the data is gathered and studied, and before a model is trained.
+- Feature engineering is partly an art: there are known techniques, but no single fixed recipe.
+- Feature engineering comes after the data is gathered and studied, and before a model is trained.
 - Transformation's main jobs: missing values, categorical data, outliers and scaling.
 - Selection and extraction both reduce the number of columns: selection keeps some old ones, extraction builds new ones.
 
-## 12. Key terms
+## 12. Sources
+
+- Domingos, P. (2012). A Few Useful Things to Know about Machine Learning. *Communications of the ACM* 55(10), 78-87.
+- LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11).
+- scikit-learn User Guide. Imputation of missing values. scikit-learn.org.
+- Zheng, A. and Casari, A. (2018). *Feature Engineering for Machine Learning*. O'Reilly.
+
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
 | Feature engineering | Using domain knowledge to turn raw data into features that improve an ML model |
 | Raw data | Data as it arrives, before any preparation |
 | Domain knowledge | Knowledge of the field the data comes from |

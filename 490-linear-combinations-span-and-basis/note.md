@@ -22,7 +22,7 @@ Figure 1 shows the whole Note in motion. We take two vectors, scale each by a nu
 
 What a vector is, and how a row of data becomes a feature vector, is taught in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md). Scaling a vector is in the [magnitude, distance and scalar operations Note](../361-magnitude-distance-and-scalar-operations/note.md) (section 6). This Note adds the second operation, adding two vectors, and builds everything else from the two.
 
-> **Extra:** The geometric pictures in this Note and the next four (linear transformations, matrix multiplication, duality, eigenvectors) follow 3Blue1Brown's *Essence of Linear Algebra* series, the series the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) recommends.
+> **Extra:** The geometric pictures in this Note and the next four (linear transformations, matrix multiplication, duality, eigenvectors) follow Sanderson's *Essence of Linear Algebra* (3Blue1Brown), the resource the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) recommends.
 
 ## 2. Three ways to see a vector
 
@@ -31,14 +31,14 @@ What a vector is, and how a row of data becomes a feature vector, is taught in t
 There are three related views of what a vector is:
 
 - **The arrow view (physics).** A vector is an arrow with a length and a direction. In linear algebra we almost always draw it with its tail at the origin.
-- **The list view (computer science).** A vector is an ordered list of numbers. A house described by its area and its price is the 2D vector [area, price]; the order matters. This is the feature vector of ML.
+- **The list view (computer science).** A vector is an ordered list of numbers. A house described by its area and its price is the 2D vector [area, price]; the order matters. Each number is one **feature** (an input variable, one column of the data table), and the list view is the feature vector of ML.
 - **The abstract view (mathematics).** A vector is anything for which "add two of them" and "multiply one by a number" make sense. This view says that those two operations are what all of linear algebra is built on.
 
 The coordinates of a vector link the first two views. They are instructions for walking from the tail at the origin to the tip: the first number says how far to walk along the x-axis (right if positive, left if negative), the second how far parallel to the y-axis. Every list of numbers gives exactly one arrow, and every arrow gives exactly one list.
 
 The power of linear algebra lies in moving between the views. For data, a table of numbers becomes a picture of points we can reason about. For computer graphics or physics, a picture of space becomes numbers a computer can crunch.
 
-> **Extra:** One collection of vectors, two pictures. A single vector is best drawn as an arrow. A large set of vectors, such as all 150 iris flowers, is best drawn as points: one point at the tip of each arrow. This is why a scatter plot of a dataset is a picture of its feature vectors.
+> **Extra:** One collection of vectors, two pictures. A single vector is best drawn as an arrow. A large set of vectors, such as all 150 iris flowers (150 **observations**: one observation is one record, a row of the data table), is best drawn as points: one point at the tip of each arrow. The points picture is why a scatter plot of a dataset is a picture of its feature vectors.
 
 ## 3. Adding two vectors
 
@@ -50,7 +50,7 @@ The power of linear algebra lies in moving between the views. For data, a table 
 
 Think of each vector as a movement: a step of some length in some direction. Taking the step $\mathbf{v}$ and then the step $\mathbf{w}$ lands us at the same place as one single step, their sum $\mathbf{v} + \mathbf{w}$.
 
-So to draw a sum, we slide the second arrow so that its tail sits on the tip of the first. The arrow from the origin to the new tip is the sum (Figure 2, left). This is the one place in linear algebra where we let a vector leave the origin. It is the same idea as adding numbers on a number line: 2 steps right and then 5 steps right is 7 steps right.
+So to draw a sum, we slide the second arrow so that its tail sits on the tip of the first. The arrow from the origin to the new tip is the sum (Figure 2, left). Tip-to-tail drawing is the one place in linear algebra where we let a vector leave the origin. Tip-to-tail adding is the same idea as adding numbers on a number line: 2 steps right and then 5 steps right is 7 steps right.
 
 ![Left: adding $[1, 2]$ and $[3, -1]$ tip to tail. Right: the coordinates $[3, -2]$ as scaled basis vectors](images/add_and_basis.png)
 
@@ -92,7 +92,7 @@ $$[3, -2] = 3\,\hat{\imath} + (-2)\,\hat{\jmath} = [3, 0] + [0, -2]$$
 
 So every vector is a sum of scaled $\hat{\imath}$ and $\hat{\jmath}$. Together, $\hat{\imath}$ and $\hat{\jmath}$ are called the **standard basis** of the plane: the vectors that the coordinates scale.
 
-In 3D a third unit vector $\hat{k} = [0, 0, 1]$ joins them, and in $n$ dimensions there are $n$ of them. A feature vector reads the same way: the flower $[5.1, 3.5, 1.4, 0.2]$ is 5.1 units of "sepal length" plus 3.5 units of "sepal width", and so on, one unit vector per column.
+In 3D a third unit vector $\hat{k} = [0, 0, 1]$ joins them, and in $n$ dimensions there are $n$ of them. A feature vector reads the same way: the flower $[5.1, 3.5, 1.4, 0.2]$ is 5.1 units of "sepal length" plus 3.5 units of "sepal width", and so on, one unit vector per feature.
 
 ## 5. Linear combinations
 
@@ -183,9 +183,9 @@ With numbers:
 > rank(V3)                                  # 2
 > ```
 >
-> The number is the **rank** of the matrix. This is a different meaning from the rank of a tensor (its number of axes) in the [tensors Note](../11-tensors/note.md).
+> The number is the **rank** of the matrix. This matrix rank is a different meaning from the rank of a tensor (its number of axes) in the [tensors Note](../11-tensors/note.md).
 
-> **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../27-one-hot-encoding/note.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. That is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), section 7).
+> **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../27-one-hot-encoding/note.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), section 7).
 
 > **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf{x}_1 + \dots + \beta_m \mathbf{x}_m$, where $\mathbf{1}$ is the column of ones and $\mathbf{x}_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
 
@@ -215,15 +215,16 @@ $\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]
 - Linear algebra is built on two operations: adding vectors and scaling them.
 - Coordinates depend on the chosen basis; the same arrow has different numbers in different bases.
 - Two independent vectors span a plane, three span 3D space; a dependent vector adds nothing.
-- Dependent input columns are multicollinearity, and they break the normal equation.
+- Dependent features are multicollinearity, and they break the normal equation.
 
-## Sources
+## 10. Sources
 
+- Sanderson, G. *Essence of Linear Algebra*, 3Blue1Brown (3blue1brown.com).
 - Bengio, Y., Courville, A. and Vincent, P. (2013). "Representation Learning: A Review and New Perspectives". *IEEE Transactions on Pattern Analysis and Machine Intelligence* 35(8).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.2 (ESL).
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 2.6.1 (MML).
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -15,7 +15,7 @@ title: "Types of Neural Networks, History and Applications of Deep Learning"
 
 > **Key point:** Five main types of network (MLP, CNN, RNN, autoencoder, GAN) each suit a kind of data or task. Neural networks rose and fell twice before deep learning took off in 2012, and today they power cars, games, assistants and creative tools.
 
-This Note gives the big picture before the technical Notes start. It has three parts:
+This Note gives the big picture before the technical Notes start. The Note has three parts:
 
 1. **Types of neural networks:** what each of the five main types is for (Figure 1).
 2. **History:** from the first perceptron in 1958 to the ImageNet breakthrough of 2012 (Figure 2).
@@ -35,7 +35,7 @@ There are many types of neural networks, and each type is a large subject on its
 
 > **Key point:** Perceptrons organised in layers; the simplest network, good at non-linear relationships in ordinary supervised problems.
 
-A **multi-layer perceptron (MLP)** is many perceptrons organised in layers: an input layer, one or more hidden layers and an output layer. It is the simplest type of network; until the other types appeared, "MLP" and "artificial neural network" meant the same thing.
+A **multi-layer perceptron (MLP)** is many perceptrons organised in layers: an input layer, one or more hidden layers and an output layer. The MLP is the simplest type of network; until the other types appeared, "MLP" and "artificial neural network" meant the same thing.
 
 MLPs work on any supervised problem, regression or classification. Adding hidden layers helps them capture non-linear relationships, which a single perceptron cannot (the [MLP intuition Note](../1009-mlp-intuition/note.md) shows why).
 
@@ -96,13 +96,13 @@ Funding, media attention and research on neural networks dropped sharply. A peri
 
 > **Key point:** Many perceptrons in layers can learn non-linear functions, and backpropagation can train them.
 
-In 1986, **Geoffrey Hinton**, now known as a father of deep learning, published with David Rumelhart and Ronald Williams the paper *Learning representations by back-propagating errors*. Its message:
+In 1986, **Geoffrey Hinton**, now known as a father of deep learning, published with David Rumelhart and Ronald Williams the paper *Learning representations by back-propagating errors* (Rumelhart et al. 1986). The paper's message:
 
 - A single perceptron can only learn linear functions.
 - Many perceptrons arranged in layers, with hidden layers, can learn non-linear ones.
 - Such a network can be trained with **backpropagation**: differentiate the error and use the derivatives to adjust every weight (taught in the backpropagation Notes).
 
-This overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Yann LeCun, a former postdoctoral researcher with Hinton, used a network trained by backpropagation to read handwritten zip codes from images (LeCun et al. 1989).
+Training layered networks with backpropagation overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Yann LeCun, a former postdoctoral researcher with Hinton (ACM 2019), used a network trained by backpropagation to read handwritten zip codes from images (LeCun et al. 1989).
 
 > **Extra:** Hinton is the great-great-grandson of the mathematician George Boole, after whom Boolean logic is named. He shared the 2018 Turing Award with Yann LeCun and Yoshua Bengio, and the 2024 Nobel Prize in Physics with John Hopfield (ACM 2019; Nobel Prize 2024).
 
@@ -110,7 +110,7 @@ This overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Ya
 
 > **Key point:** A network with a hidden layer and enough neurons can approximate any continuous function as closely as we like.
 
-The **universal approximation theorem** states that a neural network with at least one hidden layer and enough neurons can approximate any continuous function, to any accuracy we want. This is why neural networks are called **universal function approximators**.
+The **universal approximation theorem** states that a neural network with at least one hidden layer and enough neurons can approximate any continuous function, to any accuracy we want. The theorem is why neural networks are called **universal function approximators**.
 
 > **Extra:** The theorem was proved by George Cybenko (1989) and Kurt Hornik (1991), not in the 1986 backpropagation paper. One hidden layer is already enough in principle, though that layer may need an enormous number of neurons; deeper networks often need far fewer. The theorem says a good network exists; it does not promise that training will find it (Goodfellow et al. 2016, §6.4.1).
 
@@ -131,7 +131,7 @@ Interest fell again for about 15 years: the second AI winter.
 
 > **Key point:** In 2006 Hinton showed how to start the weights well, so that networks with many layers could be trained; the field was renamed deep learning.
 
-In 2006, Hinton (with Simon Osindero and Yee-Whye Teh) published a method for training **deep belief networks**. Its key idea, **unsupervised pre-training**, sets the starting weights with a network trained layer by layer, instead of at random. With it, networks with many layers could be trained.
+In 2006, Hinton (with Simon Osindero and Yee-Whye Teh) published a method for training **deep belief networks** (Hinton et al. 2006). The method's key idea, **unsupervised pre-training**, sets the starting weights with a network trained layer by layer, instead of at random. With it, networks with many layers could be trained.
 
 From then on, the field of artificial neural networks was rebranded as **deep learning**. Between 2006 and 2010, many papers followed.
 
@@ -176,13 +176,13 @@ Deep learning is everywhere: recommendation engines such as Netflix's, chatbots,
 - **Image caption generation:** a network writes a sentence describing what happens in a photo; similar models write taglines from movie posters.
 - **Text translation:** point a phone camera at a sign in an unknown language and read it translated in real time. Much of Google Translate runs on deep learning, which helps travellers with signboards and bus numbers.
 - **Pixel restoration:** Google Brain researchers turned very low-resolution photos into sharper, higher-resolution ones by predicting the missing pixels from their neighbours, which revives old, blurry photos.
-- **Object detection and identification:** Google Photos detects the people, pets and objects in our photos, identifies them, and groups them into albums automatically. It even assembles a slideshow of a growing child, with a caption, without anyone asking.
+- **Object detection and identification:** Google Photos detects the people, pets and objects in our photos, identifies them, and groups them into albums automatically. Google Photos even assembles a slideshow of a growing child, with a caption, without anyone asking.
 
 ### 4.3 Generative applications
 
 > **Key point:** GANs create new faces, music, handwriting and stories.
 
-GANs generate data that never existed: photos of people who never lived, a prediction of what a couple's baby would look like, new music, handwriting in a given style, and stories (one AI-written story was made into a short film). **DeepDream**, another Google technique (not a GAN), makes a network exaggerate the patterns it sees in an image, producing dream-like pictures (Mordvintsev et al. 2015).
+GANs generate data that never existed: photos of people who never lived, a prediction of what a couple's baby would look like, new music, handwriting in a given style, and stories (one AI-written story was made into a short film). **DeepDream**, another Google technique (not a GAN), changes an image so that a network's layer responds to it more strongly, which exaggerates the patterns the layer looks for and produces dream-like pictures (Olah et al. 2017).
 
 ### 4.4 Everyday industry uses
 
@@ -225,13 +225,15 @@ GANs generate data that never existed: photos of people who never lived, a predi
 - Rosenblatt, "The perceptron: a probabilistic model for information storage and organization in the brain", *Psychological Review*, 1958.
 - Minsky and Papert, *Perceptrons*, MIT Press, 1969.
 - Russell and Norvig, *Artificial Intelligence: A Modern Approach*, 4th ed., 2020, §1.3 (the Lighthill report and the first AI winter).
+- Rumelhart, Hinton and Williams, "Learning representations by back-propagating errors", *Nature*, 1986.
+- Hinton, Osindero and Teh, "A Fast Learning Algorithm for Deep Belief Nets", *Neural Computation*, 2006.
 - LeCun et al., "Backpropagation Applied to Handwritten Zip Code Recognition", *Neural Computation*, 1989.
-- ACM, 2018 A.M. Turing Award announcement, March 2019; The Nobel Prize in Physics 2024, nobelprize.org.
+- ACM, 2018 A.M. Turing Award announcement, March 2019, and laureate profile of Yann LeCun (postdoctoral work with Hinton in Toronto, 1987 to 1988), amturing.acm.org; The Nobel Prize in Physics 2024, nobelprize.org.
 - Cybenko, "Approximation by Superpositions of a Sigmoidal Function", 1989; Hornik, "Approximation Capabilities of Multilayer Feedforward Networks", 1991.
 - Krizhevsky, Sutskever and Hinton, "ImageNet Classification with Deep Convolutional Neural Networks", NeurIPS 2012.
 - Silver et al., "Mastering the game of Go with deep neural networks and tree search", *Nature*, 2016 (search-tree sizes of Go and chess).
 - Yonhap News Agency interview with Lee Sedol, November 2019.
-- Mordvintsev, Olah and Tyka, "Inceptionism: Going Deeper into Neural Networks", Google Research Blog, 2015.
+- Olah, Mordvintsev and Schubert, "Feature Visualization", *Distill*, 2017 (describes DeepDream, introduced by Mordvintsev, Olah and Tyka in 2015).
 
 ## 7. Key terms
 

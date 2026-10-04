@@ -15,7 +15,7 @@ title: "Naive Bayes Foundations: A Bayes' Theorem Problem"
 
 > **Key point:** Three machines make markers; a random marker turns out defective. Bayes' theorem, with the total probability rule for the evidence, gives the chance it came from each machine.
 
-This Note works through a classic problem with Bayes' theorem. It also introduces the **law of total probability**, the usual way to compute the evidence $P(B)$ in the denominator. Naive Bayes computes its evidence the same way.
+This Note works through a classic problem with Bayes' theorem. The Note also introduces the **law of total probability**, the usual way to compute the evidence $P(B)$ in the denominator. Naive Bayes computes its evidence the same way.
 
 ## 2. The problem
 
@@ -58,7 +58,7 @@ Each term is a likelihood times a prior, by $P(A \cap B) = P(B \mid A) P(A)$ fro
 
 $$P(D) = P(D \mid M1)P(M1) + P(D \mid M2)P(M2) + P(D \mid M3)P(M3)$$
 
-This is the **law of total probability**. With numbers:
+This sum is the **law of total probability**. With numbers:
 
 $$P(D) = 0.05 \times 0.2 + 0.03 \times 0.3 + 0.01 \times 0.5 = 0.010 + 0.009 + 0.005 = 0.024$$
 
@@ -82,7 +82,9 @@ The same calculation for every machine:
 
 ![Share of all markers against share of defective markers](images/posterior.png){height=40%}
 
-Seeing that the marker is defective changes the picture completely (Figure 2). Before, M3 was the most likely source (50%). After, it is the least likely (21%), because it rarely makes defects. M1 makes only 20% of markers but 42% of the defective ones.
+Seeing that the marker is defective changes the picture completely (Figure 2). Before, M3 was the most likely source (50%). After, M3 is the least likely (21%), because M3 rarely makes defects.
+
+An everyday picture: three cooks share a kitchen, and one dish comes out burnt. The cook who makes the most dishes is not the likely culprit if that cook almost never burns anything. M1 makes only 20% of markers but 42% of the defective ones.
 
 The three posteriors add up to 1, as they must: the marker came from some machine. A simulation of a million markers gives $P(M3 \mid D) = 0.2095$, matching 0.208.
 
@@ -101,9 +103,9 @@ The three posteriors add up to 1, as they must: the marker came from some machin
 
 > **Key point:** For each class: prior × likelihood. Divide by their total. The largest posterior wins.
 
-This is the exact procedure a Naive Bayes classifier follows, with machines replaced by classes and "defective" replaced by the observed inputs:
+A Naive Bayes classifier follows exactly this procedure. The machines become the classes, the values of the **target** (the output we predict). "Defective" becomes the observed **features** (the input variables, one column each of the data table):
 
-1. for every class, multiply its prior by the likelihood of the observation;
+1. for every class, multiply its prior by the likelihood of the observed features;
 2. divide each product by their sum (the evidence) to get posteriors that add to 1;
 3. predict the class with the largest posterior.
 

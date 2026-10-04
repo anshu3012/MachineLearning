@@ -15,7 +15,7 @@ title: "Memoization in Backpropagation"
 
 > **Key point:** Memoization stores the result of a computation the first time and looks it up afterwards. Backpropagation is the chain rule plus memoization: the derivative at each node is computed once, stored, and reused by every weight behind it.
 
-**Memoization** is a computer-science technique that speeds up a program by storing the results of expensive function calls and returning the stored result when the same inputs come again. It trades a little memory for a lot of time.
+**Memoization** is a computer-science technique that speeds up a program by storing the results of expensive function calls and returning the stored result when the same inputs come again. Memoization trades a little memory for a lot of time.
 
 This Note does two things:
 
@@ -55,7 +55,7 @@ In the Fibonacci sequence each term is the sum of the two before it: 1, 1, 2, 3,
 >
 > A function that calls itself is **recursive**. Every call for $n \ge 2$ makes two more calls, until they reach 0 or 1.
 
-It works, but it slows down sharply as $n$ grows: fib(30) already needs 2,692,537 calls (0.22 seconds), and each further step of $n$ multiplies the work by about 1.6. At $n = 40$ it would take about half a minute; $n = 100$ would take millions of years.
+The recursive version works, but it slows down sharply as $n$ grows: fib(30) already needs 2,692,537 calls (0.22 seconds), and each further step of $n$ multiplies the work by about 1.6. At $n = 40$ it would take about half a minute; $n = 100$ would take millions of years.
 
 ### 3.2 Why it is slow
 
@@ -63,9 +63,9 @@ It works, but it slows down sharply as $n$ grows: fib(30) already needs 2,692,53
 
 ![Every call made by fib(5): the same values are computed again and again](images/fib_tree.png){height=32%}
 
-Figure 2 draws all the calls made by fib(5). It needs fib(4) and fib(3); fib(4) needs fib(3) again, and so on. fib(3) is computed twice and fib(2) three times: 15 calls for a single answer. For fib(48) the tree would be astronomically large, almost all of it repeats.
+Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib(4) needs fib(3) again, and so on. fib(3) is computed twice and fib(2) three times: 15 calls for a single answer. For fib(48) the tree would be astronomically large, almost all of it repeats.
 
-> **Extra:** The number of calls is $2\,\text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\,\text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio). That is often loosely called $2^n$; either way it is **exponential time**: each extra step multiplies the work by a constant factor.
+> **Extra:** The number of calls is $2\,\text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\,\text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio). The growth is often loosely called $2^n$; either way it is **exponential time**: each extra step multiplies the work by a constant factor.
 
 ### 3.3 The memoized version
 
@@ -85,7 +85,7 @@ Figure 2 draws all the calls made by fib(5). It needs fib(4) and fib(3); fib(4) 
 >
 > `d` is a **dictionary**: it maps each `n` already computed to its answer. `n in d` checks whether the key is there.
 
-fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1, left). Each value is computed once; every later request is a lookup. The cost is the memory for the dictionary, one entry per value. This trick is the core of **dynamic programming**, a family of algorithms built on reusing solutions to overlapping sub-problems.
+fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1, left). Each value is computed once; every later request is a lookup. The cost is the memory for the dictionary, one entry per value. Memoization is the core of **dynamic programming**, a family of algorithms built on reusing solutions to overlapping sub-problems (Cormen et al. 2009, Ch. 15).
 
 > **Extra:** Python's standard library does this in one line: putting `@functools.lru_cache(maxsize=None)` above `def fib(n):` stores every result automatically (Python docs, `functools`).
 
@@ -99,9 +99,9 @@ fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1
 
 ![The 3-3-2-1 network. A change in $W^{1}_{11}$ changes $O_{11}$, which reaches $\hat{y}$ along two paths](images/two_paths.png){height=34%}
 
-The [backpropagation what Note](../1015-backpropagation-what/note.md) used one hidden layer. Figure 3 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. It has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ trainable parameters (see the [MLP notation Note](../1008-mlp-notation/note.md)).
+The [backpropagation what Note](../1015-backpropagation-what/note.md) used one hidden layer. Figure 3 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ trainable parameters (see the [MLP notation Note](../1008-mlp-notation/note.md)).
 
-The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one row $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. Forward propagation gives $O_{11} = 0.783$, $O_{21} = 0.374$, $O_{22} = 0.208$ and $\hat{y} = -0.194$, so $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$.
+The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. Forward propagation gives $O_{11} = 0.783$, $O_{21} = 0.374$, $O_{22} = 0.208$ and $\hat{y} = -0.194$, so $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$.
 
 ### 4.2 A weight of the output layer
 
@@ -125,7 +125,7 @@ Here $\partial \hat{y}/\partial O_{21} = W^{3}_{11}$ and $\partial O_{21}/\parti
 
 > **Key point:** $O_{11}$ feeds both $O_{21}$ and $O_{22}$, so its effect on the loss is the sum over both paths.
 
-Now take $W^{1}_{11}$. It changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 3): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
+Now take $W^{1}_{11}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 3): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
 
 When a variable affects a function through two intermediate variables, the chain rule multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). For $h(f(x), g(x))$:
 
@@ -200,9 +200,9 @@ Counting how often a node's derivative is evaluated to get all the weight gradie
 | 3 hidden layers of 10 | 23,410 | 31 |
 | 5 hidden layers of 10 | 2,345,610 | 51 |
 
-Each extra hidden layer multiplies the plain count by about 10 (the layer width), while the memoized count grows by 10: one evaluation per node (Figure 1, right). This is the same exponential-versus-linear gap as Fibonacci.
+Each extra hidden layer multiplies the plain count by about 10 (the layer width), while the memoized count grows by 10: one evaluation per node (Figure 1, right). The gap is the same exponential-versus-linear gap as Fibonacci.
 
-The price is memory: the forward pass must keep every node's output, and the backward pass every node's derivative, until the update is done. That small cost in space buys an enormous saving in time.
+The price is memory: the forward pass must keep every node's output, and the backward pass every node's derivative, until the update is done. The small cost in space buys an enormous saving in time.
 
 ## 6. Backpropagation = chain rule + memoization
 
@@ -234,6 +234,7 @@ On the computation graph of section 10 of the [Jacobian Note](../602-jacobian-an
 ## 8. Sources
 
 - Python documentation, `functools.lru_cache`.
+- Cormen, Leiserson, Rivest and Stein, *Introduction to Algorithms*, 3rd ed., MIT Press, 2009, Ch. 15 (dynamic programming; memoization in §15.3).
 - Baydin, Pearlmutter, Radul and Siskind, "Automatic Differentiation in Machine Learning: a Survey", *JMLR*, 2018, §3 (cost and storage of reverse mode).
 - Chen, Xu, Zhang and Guestrin, "Training Deep Nets with Sublinear Memory Cost", arXiv:1604.06174, 2016 (stored activations dominate training memory).
 

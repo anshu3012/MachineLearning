@@ -44,9 +44,9 @@ Moving a model from development to production is called **deploying** it. How th
 
 > **Key point:** All the data $\rightarrow$ train $\rightarrow$ test $\rightarrow$ deploy. Training happens once, before deployment.
 
-**Batch learning** is the conventional way to train an ML model: we use **the whole dataset at once**. It is not **incremental**: we do not feed the data in small pieces over time.
+**Batch learning** is the conventional way to train an ML model: we use **the whole dataset at once**. Batch learning is not **incremental**: we do not feed the data in small pieces over time.
 
-Training on a large dataset is slow and expensive, so it is rarely done on the production server. Instead, a data scientist or ML engineer trains the model **offline**, on their own machine. That is why batch learning is also called **offline learning**.
+Training on a large dataset is slow and expensive, so it is rarely done on the production server. Instead, a data scientist or ML engineer trains the model **offline**, on their own machine. Training offline is why batch learning is also called **offline learning**.
 
 ![The batch learning pipeline](images/batch_pipeline.png)
 
@@ -66,7 +66,7 @@ Suppose we work at Netflix and build a **recommendation engine** that suggests m
 
 1. We train the recommender on our machine, using all the data we have.
 2. We deploy it to Netflix's servers.
-3. It automatically suggests movies to every user.
+3. The recommender automatically suggests movies to every user.
 
 ## 4. Keeping a batch model up to date
 
@@ -85,7 +85,7 @@ Once deployed, a batch model is **static**: it keeps using what it learned from 
 
 Figure 3 sketches the effect (an illustration, not measured data). Performance slowly drops after each deployment and jumps back up each time we retrain.
 
-> **Extra:** This slow loss of accuracy is usually called **model drift** (sometimes model rot). When the cause is that the link between the inputs and the answer itself changes over time, it is called **concept drift** (Gama et al. 2014, §2.1).
+> **Extra:** The slow loss of accuracy is often called **model drift**. When the cause is that the link between the **features** (the input variables) and the **target** (the output we predict) changes over time, the change is called **concept drift** (Gama et al. 2014, §2.1).
 
 ### 4.2 Retraining on a schedule
 
@@ -119,7 +119,7 @@ Because batch learning trains on **all** the data at once, the dataset can event
 
 > **Key point:** Retraining needs a connection to the deployed model. Some models run where there is none.
 
-Retraining means bringing the model back, training it on new data and uploading it again. That requires a connection to wherever the model is running. Sometimes there is none:
+Retraining means bringing the model back, training it on new data and uploading it again. Retraining requires a connection to wherever the model is running. Sometimes there is none:
 
 - An app used by the army in a remote area like Ladakh, running on phones with no internet access.
 - Software running on a satellite once it is in orbit.
@@ -162,11 +162,11 @@ Batch learning cannot handle situations that change this quickly. For these, a d
 
 The Notebook for this Note (`notebook.ipynb`) has a slider for the retraining schedule, showing how stale the model gets between retrains.
 
-## Sources
+## 7. Sources
 
 - Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M. and Bouchachia, A. (2014). A Survey on Concept Drift Adaptation. *ACM Computing Surveys* 46(4).
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -14,13 +14,13 @@ title: "The Derivative of the Sigmoid Function"
 
 > **Key point:** The derivative of the sigmoid can be written using the sigmoid itself: σ′(z) = σ(z)(1 − σ(z)).
 
-Gradient descent on the log loss (the next Note) needs the derivative of the sigmoid function. The same derivative appears again in neural networks, where the sigmoid is used inside every neuron. This short Note derives it once.
+Gradient descent on the log loss (the next Note) needs the derivative of the sigmoid function. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
 
 As a reminder, the sigmoid is
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
-It squeezes any number into the range 0 to 1 (the sigmoid Note).
+The sigmoid squeezes any number into the range 0 to 1 ([sigmoid Note](../72-sigmoid-function/note.md)).
 
 ## 2. Two rules we need
 
@@ -70,7 +70,7 @@ $$\boxed{\sigma'(z) = \sigma(z)\,\bigl(1 - \sigma(z)\bigr)}$$
 
 With numbers: at $z = 2$, $\sigma(2) = 0.88$, so $\sigma'(2) = 0.88 \times 0.12 = 0.105$.
 
-This form is very convenient. When a model has already computed $\sigma(z)$ for its prediction, the derivative costs just one subtraction and one multiplication.
+The form $\sigma(1-\sigma)$ is very convenient. When a model has already computed $\sigma(z)$ for its prediction, the derivative costs just one subtraction and one multiplication.
 
 ## 4. The shape of the derivative
 
@@ -83,7 +83,7 @@ This form is very convenient. When a model has already computed $\sigma(z)$ for 
 | $\sigma(z)$ | 0.018 | 0.119 | 0.5 | 0.881 | 0.982 |
 | $\sigma'(z)$ | 0.018 | 0.105 | 0.25 | 0.105 | 0.018 |
 
-- At $z = 0$ the sigmoid is steepest: $0.5 \times 0.5 = 0.25$. This is the largest value the derivative can take.
+- At $z = 0$ the sigmoid is steepest: $0.5 \times 0.5 = 0.25$. The value 0.25 is the largest value the derivative can take.
 - Far from 0, the sigmoid is almost flat, near 0 or 1, so its slope is almost 0.
 - The curve is symmetric: $\sigma'(-z) = \sigma'(z)$.
 

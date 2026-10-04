@@ -19,7 +19,7 @@ title: "End-to-End Toy Project: Predicting Placement"
 
 This Note walks through a complete ML project on a tiny, clean dataset. Real projects use much larger and messier data, and later Notes cover each step in depth. Here the aim is to see the whole process once, from data to website.
 
-**The task:** we have the CGPA, IQ and placement result (placed or not) of 100 students. We want a model that, given a new student's CGPA and IQ, predicts whether they will be placed. The output is a category, so this is a **classification** problem.
+**The task:** we have the CGPA, IQ and placement result (placed or not) of 100 students. Each student is one **observation** (one record, one row of the data table). CGPA and IQ are the **features** (the input variables, one column each). Placement is the **target** (the output we want to predict). We want a model that, given a new student's CGPA and IQ, predicts whether they will be placed. The target is a category, so the task is a **classification** problem.
 
 ## 2. The workflow
 
@@ -29,17 +29,17 @@ This Note walks through a complete ML project on a tiny, clean dataset. Real pro
 
 Figure 1 shows the steps:
 
-1. **Clean** the data: fix missing values and outliers, remove unneeded columns. This is called **preprocessing**.
-2. **Explore** the data with summaries and plots, to spot patterns. This is **exploratory data analysis (EDA)**.
-3. **Choose features:** decide which input columns to use (feature selection, taught in the [feature engineering Note](../23-what-is-feature-engineering/note.md)). Here we keep both CGPA and IQ.
-4. **Split inputs from output:** X (the inputs) and y (the output).
+1. **Clean** the data: fix missing values and outliers, remove unneeded columns. Cleaning is called **preprocessing**.
+2. **Explore** the data with summaries and plots, to spot patterns. Exploring is called **exploratory data analysis (EDA)**.
+3. **Choose features:** decide which features to use (feature selection, taught in the [feature engineering Note](../23-what-is-feature-engineering/note.md)). Here we keep both CGPA and IQ.
+4. **Split features from target:** X (the features) and y (the target).
 5. **Split into training and test sets.**
 6. **Scale** the inputs to similar ranges.
 7. **Train** the model.
 8. **Evaluate** the model on the test set.
 9. **Deploy** it, for example as a website.
 
-Often we also train several different algorithms and keep the best one. This is called **model selection** and is covered in later Notes.
+Often we also train several different algorithms and keep the best one. Picking the best algorithm is called **model selection** and is covered in later Notes.
 
 The Notebook for this Note (`notebook.ipynb`) runs every step, in order, on the same data.
 
@@ -64,7 +64,7 @@ The data is a **CSV file** (comma-separated values): a plain text table, one row
 
 The table has four columns: `Unnamed: 0`, `cgpa`, `iq` and `placement`. `df.info()` shows 100 non-missing values in every column, so there are no **missing values** to fix.
 
-The first column, `Unnamed: 0`, is just a row number left over from how the file was saved. It carries no information, so we drop it:
+The first column, `Unnamed: 0`, is just a row number left over from how the file was saved. The column carries no information, so we drop it:
 
 > **Python:** Keeping only some columns.
 >
@@ -74,7 +74,7 @@ The first column, `Unnamed: 0`, is just a row number left over from how the file
 >
 > `iloc[rows, columns]` selects by position, starting from 0. `:` means "all", and `1:` means "from position 1 to the end".
 
-That is all the cleaning this dataset needs. Real data usually needs much more, as later Notes show.
+Dropping that column is all the cleaning this dataset needs. Real data usually needs much more, as later Notes show.
 
 ## 4. Exploring the data
 
@@ -82,21 +82,21 @@ That is all the cleaning this dataset needs. Real data usually needs much more, 
 
 ![CGPA vs IQ, coloured by placement](images/eda_scatter.png)
 
-Figure 2 plots every student by CGPA and IQ, coloured by placement. Two things stand out:
+Figure 2 plots every observation (student) by CGPA and IQ, coloured by placement. Two things stand out:
 
 - Placed students (green) mostly have a CGPA above about 6.
 - IQ makes much less difference: both groups have high and low IQs.
 
-The two groups could be separated, roughly, by a straight line. That makes **logistic regression** a good choice of algorithm. It is a classification algorithm that finds the line that best separates the two classes. How it finds that line is covered in later Notes.
+The two groups could be separated, roughly, by a straight line. A straight-line split makes **logistic regression** a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is covered in later Notes.
 
 ## 5. Inputs and output
 
-> **Key point:** X holds the inputs (CGPA, IQ); y holds the output (placement).
+> **Key point:** X holds the features (CGPA, IQ); y holds the target (placement).
 
 We separate the table into:
 
-- **X:** the input columns, `cgpa` and `iq`. Also called **independent variables**.
-- **y:** the output column, `placement`. Also called the **dependent variable**, because it depends on the inputs.
+- **X:** the features, `cgpa` and `iq`. Also called **independent variables**.
+- **y:** the target, `placement`. Also called the **dependent variable**, because it depends on the features.
 
 > **Python:** Separating X and y.
 >
@@ -120,7 +120,7 @@ The standard method is to hold some data back (Figure 3):
 
 ![Splitting the data into training and test sets](images/split.png)
 
-This is called a **train-test split**. Which rows go where is decided at random. The test set must stay unseen, so it fairly represents new students.
+Holding data back this way is called a **train-test split**. Which observations go where is decided at random. The test set must stay unseen, so it fairly represents new students.
 
 > **Python:** Splitting with scikit-learn.
 >
@@ -135,15 +135,17 @@ This is called a **train-test split**. Which rows go where is decided at random.
 
 ## 7. Scaling the inputs
 
-> **Key point:** Inputs on very different ranges can mislead some algorithms, so we bring them to the same scale.
+> **Key point:** Features on very different ranges can mislead some algorithms, so we bring them to the same scale.
 
-CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 4, left). Some algorithms compare data points by measuring distances (like KNN in Note 6). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Columns such as salary, in the lakhs, would be even worse.
+Think of comparing two runners, one timed in seconds and one in milliseconds: the bigger numbers look more important only because of the unit.
 
-So we **scale** the inputs: bring every column to a similar range. A common method, **standardization**, shifts each column to centre on 0 with a typical spread of 1. Most values then fall roughly between -2 and 2 (Figure 4, right).
+CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 4, left). Some algorithms compare data points by measuring distances (like KNN in Note 6). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Features such as salary, in the lakhs, would be even worse.
+
+So we **scale** the features: bring every feature to a similar range. A common method, **standardization**, shifts each feature to centre on 0 with a typical spread of 1. Most values then fall roughly between -2 and 2 (Figure 4, right).
 
 ![CGPA and IQ before and after scaling](images/scaling.png)
 
-> **Extra:** Standardization subtracts the column's mean and divides by its standard deviation; the formula is worked step by step in Section 4 of the [standardization Note](../24-standardization/note.md).
+> **Extra:** Standardization subtracts the feature's mean and divides by its standard deviation; the formula is worked step by step in Section 4 of the [standardization Note](../24-standardization/note.md).
 
 > **Python:** Scaling with `StandardScaler`.
 >
@@ -240,7 +242,7 @@ Figure 6 shows the path. The website loads `model.pkl`, asks the user for an IQ 
 
 The Notebook builds this website on our own machine with Dash. To let other people use it, it must run on a server, for example on Heroku, AWS or Google Cloud. Deploying to these platforms is covered in later Notes.
 
-> **Extra:** Heroku used to offer free hosting for small apps, but its free plan ended in November 2022 (Heroku 2022). AWS and Google Cloud still offer limited free tiers for new accounts (aws.amazon.com/free; cloud.google.com/free).
+> **Extra:** Heroku used to offer free hosting for small apps, but its free plan ended in November 2022 (Heroku 2022). AWS and Google Cloud still offer limited free tiers for new accounts (AWS Free Tier; Google Cloud Free Program).
 
 This model is far from perfect: it learned from only 90 students and was not tuned at all. The later Notes go through each step of this workflow in depth.
 
@@ -262,13 +264,15 @@ This model is far from perfect: it learned from only 90 students and was not tun
 - Fit the scaler on the training set only, and save it with the model.
 - Accuracy = correct predictions / total predictions.
 
-## Sources
+## 12. Sources
 
-- Heroku (2022). Free Heroku Dynos, Heroku Postgres and Heroku Data for Redis are no longer available. Heroku Dev Center changelog.
+- Amazon Web Services. AWS Free Tier. aws.amazon.com/free.
+- Google Cloud. Free Program (free trial and Free Tier). cloud.google.com/free.
+- Heroku (2022). Free Heroku Dynos, Heroku Postgres and Heroku Data for Redis are no longer available. Heroku Dev Center changelog, 28 November 2022. devcenter.heroku.com/changelog-items/2502.
 - Kaufman, S., Rosset, S. and Perlich, C. (2012). Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM Transactions on Knowledge Discovery from Data* 6(4).
 - scikit-learn User Guide. Common pitfalls and recommended practices: Data leakage. scikit-learn.org.
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -277,8 +281,11 @@ This model is far from perfect: it learned from only 90 students and was not tun
 | Model selection | Training several algorithms and keeping the best |
 | CSV file | A text file holding a table, with commas between values |
 | pandas, DataFrame | Python's main table library, and its name for a table |
-| Independent variables | The input columns (X) |
-| Dependent variable | The output column (y) |
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
+| Independent variables | Another name for the features (X) |
+| Dependent variable | Another name for the target (y) |
 | Training set | The part of the data the model learns from |
 | Test set | The part hidden during training, used to check the model |
 | Train-test split | Dividing the data into training and test sets |

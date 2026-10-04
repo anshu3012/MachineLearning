@@ -12,15 +12,15 @@ title: "Naive Bayes: The Intuition"
 
 ## 1. Overview
 
-> **Key point:** Naive Bayes computes, for each class, the probability of that class given the inputs, using Bayes' theorem, and predicts the class with the largest one. To make this possible, it assumes the inputs are independent within each class.
+> **Key point:** Naive Bayes computes, for each class, the probability of that class given the features, using Bayes' theorem, and predicts the class with the largest one. To make this possible, it assumes the features are independent within each class.
 
 With conditional probability, independence and Bayes' theorem in place, we can build the **Naive Bayes classifier**. This Note develops the intuition on a tiny example; the next derives the mathematics in general, and the one after codes it.
 
 ## 2. The data
 
-> **Key point:** Eight cricket matches, three inputs (toss, venue, outlook) and the result. Predict the result of a new match.
+> **Key point:** Eight cricket matches, three features (toss, venue, outlook) and the result. Predict the result of a new match.
 
-The example is a small made-up dataset about one cricket team. Each row is a match, with three inputs and one output:
+The example is a small made-up dataset about one cricket team. Each match is one **observation** (one record, a row of the table). Each has three **features** (input variables, one column each) and one **target** (the output we predict):
 
 ![Eight matches and a new one to predict](images/table.png){height=38%}
 
@@ -33,27 +33,27 @@ For a new match the toss is **lost**, the venue is **Mumbai** and the weather is
 
 ## 3. The strategy: compare posteriors
 
-> **Key point:** Compute P(win | inputs) and P(loss | inputs); predict whichever is larger.
+> **Key point:** Compute P(win | features) and P(loss | features); predict whichever is larger.
 
 Naive Bayes asks two questions:
 
 $$P(\text{win} \mid \text{lost}, \text{Mumbai}, \text{sunny}) \qquad\text{and}\qquad P(\text{loss} \mid \text{lost}, \text{Mumbai}, \text{sunny})$$
 
-The commas mean "and": the three conditions hold together, so they could also be written with $\cap$. If the first probability is, say, 0.56 and the second 0.27, it predicts a win. With more classes (for example win, loss, draw) it computes one probability per class and again takes the largest.
+The commas mean "and": the three conditions hold together, so they could also be written with $\cap$. If the first probability is, say, 0.56 and the second 0.27, the classifier predicts a win. With more classes (for example win, loss, draw) the classifier computes one probability per class and again takes the largest.
 
 ## 4. Applying Bayes' theorem
 
 > **Key point:** Each posterior equals likelihood × prior / evidence. The evidence is the same for every class, so it can be dropped.
 
-With $A$ = the class and $B$ = the three input values, Bayes' theorem gives
+With $A$ = the class and $B$ = the three feature values, Bayes' theorem gives
 
 $$P(\text{win} \mid \text{lost}, \text{Mumbai}, \text{sunny}) = \frac{P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win}) \times P(\text{win})}{P(\text{lost}, \text{Mumbai}, \text{sunny})}$$
 
 and the same with "loss" in place of "win".
 
-The denominator, the evidence, is identical in both: it is just the probability of seeing these inputs, whichever the class. Dividing two numbers by the same positive amount does not change which is larger. So for choosing the class, only the **numerator** matters:
+The denominator, the evidence, is identical in both: it is just the probability of seeing these feature values, whichever the class. Dividing two numbers by the same positive amount does not change which is larger. So for choosing the class, only the **numerator** matters:
 
-$$\text{score(class)} = P(\text{inputs} \mid \text{class}) \times P(\text{class})$$
+$$\text{score(class)} = P(\text{features} \mid \text{class}) \times P(\text{class})$$
 
 The **priors** come straight from counting: 5 of the 8 matches were wins and 3 were losses.
 
@@ -65,17 +65,19 @@ $$P(\text{win}) = 5/8 \qquad P(\text{loss}) = 3/8$$
 
 The likelihood $P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win})$ asks: among the 5 winning matches, how many had all three conditions at once? None did. So it would be 0, and the score for "win" would be 0 however strongly the other evidence pointed to a win.
 
-This is a general problem. A row matching a new input on **every** column at once is rare. With 3 columns it already failed here; with 10 or 20 columns, almost every combination would never have been seen. The estimates would be 0 or based on one or two rows, and the classifier would be useless.
+The rarity of exact matches is a general problem. A past observation that matches a new one on **every** feature at once is rare. With 3 features the search already failed here; with 10 or 20 features, almost every combination would never have been seen. The estimates would be 0 or based on one or two observations, and the classifier would be useless.
 
 ## 6. The naive assumption
 
-> **Key point:** Assume the inputs are independent within each class. Then the joint likelihood becomes a product of one-column likelihoods, each estimated from many rows.
+> **Key point:** Assume the features are independent within each class. Then the joint likelihood becomes a product of one-feature likelihoods, each estimated from many observations.
 
-Naive Bayes makes a simplifying assumption: **within each class, the inputs are independent** of each other. From the independent events Note, the probability of independent events happening together is the product of their probabilities. So
+Naive Bayes makes a simplifying assumption: **within each class, the features are independent** of each other. From the independent events Note, the probability of independent events happening together is the product of their probabilities. So
 
 $$P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win}) \approx P(\text{lost} \mid \text{win}) \times P(\text{Mumbai} \mid \text{win}) \times P(\text{sunny} \mid \text{win})$$
 
-Each factor looks at one column only, so it is estimated from all the rows of that class. The assumption is rarely exactly true, which is why the method is called **naive**, but it makes the estimates workable. The next Note derives this step properly.
+Each factor looks at one feature only, so it is estimated from all the observations of that class. The assumption is rarely exactly true, which is why the method is called **naive**, but it makes the estimates workable (ISL §4.4.4).
+
+An everyday picture: to guess whether a new dish will taste good, we cannot wait for the exact same recipe to have been cooked before. Instead we judge each ingredient on its own record, and combine the verdicts. The next Note derives this step properly.
 
 ## 7. Computing the scores
 
@@ -105,15 +107,19 @@ Figure 2 (left) shows why: winning teams mostly won the toss and played in sunny
 | $P(\text{sunny} \mid \text{class})$ | 4/5 | 1/3 |
 | Score (product) | 0.040 | **0.056** |
 
-- Naive Bayes picks the class with the largest $P(\text{class} \mid \text{inputs})$.
+- Naive Bayes picks the class with the largest $P(\text{class} \mid \text{features})$.
 - The evidence is shared by all classes, so only likelihood × prior is compared.
-- Exact combinations of inputs are rare; the naive independence assumption splits them into one-column probabilities.
+- Exact combinations of feature values are rare; the naive independence assumption splits them into one-feature probabilities.
 
-## 9. Key terms
+## 9. Sources
+
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 4.4.4, pp. 153–155.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
-| Naive Bayes classifier | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class |
-| Naive assumption | The assumption that the inputs are conditionally independent given the class |
+| Naive Bayes classifier | A classifier that applies Bayes' theorem with the assumption that features are independent within each class |
+| Naive assumption | The assumption that the features are conditionally independent given the class |
 | Score | Likelihood × prior for a class; proportional to the posterior |
-| Class prior | The share of training rows in a class |
+| Class prior | The share of training observations in a class |

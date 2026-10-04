@@ -14,7 +14,7 @@ title: "Bagging: Bootstrap Aggregation"
 
 ## 1. Overview
 
-> **Key point:** Bagging trains many copies of one algorithm, each on a different random sample of the rows (bootstrapping), and combines their predictions by vote or mean (aggregation). It keeps the low bias of a flexible model and cuts its variance.
+> **Key point:** Bagging trains many copies of one algorithm, each on a different random sample of the observations (bootstrapping), and combines their predictions by vote or mean (aggregation). Bagging keeps the low bias of a flexible model and cuts its variance.
 
 **Bagging**, short for **bootstrap aggregation**, is one of the two most important ensemble techniques, with boosting (the [introduction to ensemble learning Note](../101-ensemble-learning/note.md), section 4.3, introduced it). The name joins its two steps: **B**ootstrapping and **AGG**regation.
 
@@ -24,22 +24,22 @@ The Notebook (`notebook.ipynb`) runs the worked example.
 
 ## 2. The core idea
 
-> **Key point:** Same algorithm for every base model; different random rows for each; then vote or average.
+> **Key point:** Same algorithm for every base model; different random observations for each; then vote or average.
 
-![Bagging: each base model trains on its own random sample of the rows; the predictions are combined by mode or mean](images/bagging_flow.png){height=45%}
+![Bagging: each base model trains on its own random sample of the observations; the predictions are combined by mode or mean](images/bagging_flow.png){height=45%}
 
-Take a classification dataset D of 10,000 rows with a yes/no output. Figure 1 shows the two steps.
+Take a classification dataset D of 10,000 **observations** (records; each is one row of the data table) with a yes/no **target** (the output we predict). Figure 1 shows the two steps.
 
 ### 2.1 Bootstrapping
 
-> **Key point:** Draw a random sample of rows for each base model and train it on that sample.
+> **Key point:** Draw a random sample of observations for each base model and train it on that sample.
 
-1. Choose a number of base models, say 100 (it could be 10 or 1,000). They all use the **same algorithm**: all decision trees, all KNN, or all SVMs. Unlike voting, bagging does not mix algorithms; it could, but nobody does.
-2. Choose how many rows each model sees, say 1,000.
-3. Draw 1,000 rows at random from D: this is dataset D1. Train model 1 on D1.
-4. Draw another random 1,000 rows: D2, for model 2. It differs from D1, because the rows are random. And so on, up to D100.
+1. Choose a number of base models, say 100 (it could be 10 or 1,000). They all use the **same algorithm**: all decision trees, all KNN, or all SVMs. Unlike voting, bagging does not mix algorithms: by definition it makes many versions of one predictor (Breiman, 1996, section 1).
+2. Choose how many observations each model sees, say 1,000.
+3. Draw 1,000 observations at random from D: this is dataset D1. Train model 1 on D1.
+4. Draw another random 1,000 observations: D2, for model 2. D2 differs from D1, because the observations are random. And so on, up to D100.
 
-Drawing random samples from data is called **bootstrapping**: it is a statistics technique for drawing random samples from a population. Each base model is trained on a different subset, so each learns something slightly different, and the ensemble gets its variety from the data rather than from the algorithms.
+In bagging, drawing these random samples is called **bootstrapping**, after the statistics technique of resampling a dataset with replacement (section 2.3; ESL §8.7). Each base model is trained on a different subset, so each learns something slightly different, and the ensemble gets its variety from the data rather than from the algorithms.
 
 ### 2.2 Aggregation
 
@@ -58,25 +58,25 @@ Because the base models differ, the probability argument of the voting ensemble 
 
 ### 2.3 Drawing with replacement
 
-> **Key point:** In a bootstrap sample a row can be drawn more than once, and some rows are never drawn: on average a sample holds about 63% of the distinct rows.
+> **Key point:** In a bootstrap sample an observation can be drawn more than once, and some are never drawn: on average a sample holds about 63% of the distinct observations.
 
-Rows can be drawn **with replacement**: after a row is drawn, it is put back and can be drawn again. Figure 2 draws 10 rows from 10, with replacement, twice.
+Observations can be drawn **with replacement**: after an observation is drawn, it is put back and can be drawn again. Picture a bag of numbered balls: we pull one out, write down its number, and drop it back in before the next pull. Figure 2 draws 10 observations from 10, with replacement, twice.
 
-![Drawing two bootstrap samples of 10 rows from 10: green rows are drawn for the first time, orange rows are repeats, crossed rows are never drawn](images/bootstrap_draw.gif)
+![Drawing two bootstrap samples of 10 observations from 10: green rows are drawn for the first time, orange rows are repeats, crossed rows are never drawn](images/bootstrap_draw.gif)
 
-- D1 holds only 6 different rows: 3, 6, 8 and 9 appear twice, and rows 1, 4, 5 and 7 are never drawn.
-- D2 holds 7 different rows: 2 appears twice and 5 three times, while 3, 4 and 8 are missing.
+- D1 holds only 6 different observations: 3, 6, 8 and 9 appear twice, and observations 1, 4, 5 and 7 are never drawn.
+- D2 holds 7 different observations: 2 appears twice and 5 three times, while 3, 4 and 8 are missing.
 
-A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (the term was used in the [Ridge key points Note](../66-ridge-key-points/note.md)). Drawing rows without replacement is also possible; section 5 calls that pasting.
+A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (Efron and Tibshirani, 1993; the term was used in the [Ridge key points Note](../66-ridge-key-points/note.md)). Drawing observations without replacement is also possible; section 5 calls that pasting.
 
-> **Extra:** How many different rows does a bootstrap sample hold?
+> **Extra:** How many different observations does a bootstrap sample hold?
 >
-> 1. **In words:** one draw misses a given row with probability $1 - 1/n$. All $n$ draws miss it with probability $(1 - 1/n)^n$. So the share of rows that appear at least once is $1 - (1 - 1/n)^n$.
+> 1. **In words:** one draw misses a given observation with probability $1 - 1/n$. All $n$ draws miss it with probability $(1 - 1/n)^n$. So the share of observations that appear at least once is $1 - (1 - 1/n)^n$.
 > 2. **Formula:** as $n$ grows, $(1 - 1/n)^n$ approaches $1/e$, so
-> $$\text{share of distinct rows} = 1 - \left(1 - \frac{1}{n}\right)^n \;\longrightarrow\; 1 - \frac{1}{e} \approx 0.632$$
-> 3. **Example:** for $n = 10$: $(0.9)^{10} = 0.349$, so $1 - 0.349 = 0.651$, about 6.5 distinct rows out of 10 (Figure 2 got 6 and 7). For $n = 10{,}000$ the share is 0.632.
+> $$\text{share of distinct observations} = 1 - \left(1 - \frac{1}{n}\right)^n \;\longrightarrow\; 1 - \frac{1}{e} \approx 0.632$$
+> 3. **Example:** for $n = 10$: $(0.9)^{10} = 0.349$, so $1 - 0.349 = 0.651$, about 6.5 distinct observations out of 10 (Figure 2 got 6 and 7). For $n = 10{,}000$ the share is 0.632.
 >
-> The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of rows a model never sees are its **out-of-bag** rows; the [bagging classifier Note](../106-bagging-classifier/note.md) uses them to score the model.
+> The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of observations a model never sees are its **out-of-bag** observations; the [bagging classifier Note](../106-bagging-classifier/note.md) uses them to score the model.
 
 ## 3. Why bagging works
 
@@ -97,12 +97,11 @@ The trouble is that the two pull against each other. Most algorithms end up eith
 Bagging uses base models that are **low bias, high variance**:
 
 - a **fully grown decision tree** (`max_depth=None`, the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md)), which fits its training data perfectly but overfits;
-- **KNN with a small k**;
-- an **SVM** with a very flexible boundary.
+- other **unstable** models, whose fit changes a lot when the data changes a little: Breiman (1996, section 1) found trees and neural networks unstable, and nearest-neighbour methods stable.
 
-Their bias is already low, so bagging leaves it alone. It attacks the variance.
+Their bias is already low, and averaging leaves it about where it was; what averaging cuts is the variance (ESL §8.7, §15.2; Breiman, 1996, section 4).
 
-Suppose we replace 100 of the 10,000 rows with very different, noisy rows. A single tree trained on all the data would change its logic completely because of those 100 rows. In bagging, each tree sees a random 5,000 rows, so the 100 new rows are spread out: one tree gets 10 of them, another 50, another none, another 35.
+Suppose we replace 100 of the 10,000 observations with very different, noisy ones. A single tree trained on all the data would change its logic completely because of those 100 observations. In bagging, each tree sees a random 5,000 observations, so the 100 new ones are spread out: one tree gets 10 of them, another 50, another none, another 35.
 
 No single tree absorbs all the change, so the behaviour of each tree changes less, and the average changes even less. The ensemble gives consistent results: **low variance**. Since its base models were already accurate (low bias), we end up with the combination we wanted: **low bias, low variance**.
 
@@ -119,27 +118,27 @@ The squared bias stays tiny in both (0.009 and 0.004): both average curves follo
 
 > **Key point:** Whenever the model is low bias and high variance (it overfits), try bagging; it is not limited to decision trees.
 
-Bagging is worth trying in almost every project, and especially when a model overfits: low bias, high variance. It is what makes **random forests** (bagging with decision trees, see the [random forest Note](../108-random-forest-intro/note.md)) so popular.
+Bagging is worth trying whenever a model overfits: low bias, high variance. Breiman (1996, section 1) calls such models **unstable**: a small change in the training data causes a large change in the model. Bagging helps unstable models and can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3). Bagging is also what makes **random forests** (bagging with decision trees, see the [random forest Note](../108-random-forest-intro/note.md)) so popular.
 
-A common misunderstanding is that bagging only works with decision trees. Trees are the usual choice because they are easy to explain and give good results, but **any algorithm** can be bagged. The [bagging classifier Note](../106-bagging-classifier/note.md) bags KNN and SVMs too.
+A common misunderstanding is that bagging only works with decision trees. Trees are the usual choice because they are unstable, so they gain the most. **Any algorithm** can be bagged, but the gain depends on how unstable it is: the [bagging classifier Note](../106-bagging-classifier/note.md) bags KNN and SVMs too, and they gain little or nothing.
 
 ## 5. Bagging by hand
 
-> **Key point:** Three trees, each trained on 8 rows drawn with replacement, then a majority vote.
+> **Key point:** Three trees, each trained on 8 observations drawn with replacement, then a majority vote.
 
 To see each step, we bag three decision trees on a tiny dataset.
 
 ### 5.1 The data
 
-> **Key point:** Versicolor against virginica, with sepal width and petal length; 10 training rows.
+> **Key point:** Versicolor against virginica, with sepal width and petal length; 10 training observations.
 
-From the iris data (the [softmax regression Note](../79-softmax-regression/note.md)) we keep versicolor (class 1) and virginica (class 2), two species that overlap, and two columns: sepal width and petal length. That leaves 100 rows.
+From the iris data (the [softmax regression Note](../79-softmax-regression/note.md)) we keep versicolor (class 1) and virginica (class 2), two species that overlap, and two **features** (input variables, columns of the data table): sepal width and petal length. That leaves 100 observations.
 
-The rows are stored species by species, so we first shuffle them with `df.sample(100)`. Then we take tiny sets so that every step can be printed: 10 random rows for training, 5 for validation and 5 for testing.
+The rows of the table are stored species by species, so we first shuffle them with `df.sample(100)`. Then we take tiny sets so that every step can be printed: 10 random observations for training, 5 for validation and 5 for testing.
 
 ### 5.2 Bootstrapping: three samples, three trees
 
-> **Key point:** Each tree gets its own 8 rows drawn with replacement, and grows fully on them.
+> **Key point:** Each tree gets its own 8 observations drawn with replacement, and grows fully on them.
 
 > **Python:** One bootstrap sample and its tree.
 >
@@ -153,9 +152,9 @@ The rows are stored species by species, so we first shuffle them with `df.sample
 >
 > `sample(n)` draws `n` random rows; `replace=True` puts each row back after drawing it, so rows can repeat. The default, `replace=False`, never repeats a row.
 
-Running this three times gives three different samples. In the Notebook, the first sample holds row 91 three times and row 69 twice; the third holds row 105 three times. With so few rows, each tree makes a single split on petal length, but each at a different place:
+Running this three times gives three different samples. In the Notebook, the first sample holds row 91 three times and row 69 twice; the third holds row 105 three times. With so few observations, each tree makes a single split on petal length, but each at a different place:
 
-| Tree | Split | Validation accuracy (5 rows) |
+| Tree | Split | Validation accuracy (5 observations) |
 |---|---|---|
 | 1 | petal length $\le$ 5.20 $\rightarrow$ class 1 | 0.4 |
 | 2 | petal length $\le$ 4.90 $\rightarrow$ class 1 | 0.8 |
@@ -165,39 +164,39 @@ Running this three times gives three different samples. In the Notebook, the fir
 
 > **Key point:** For a virginica with sepal width 2.2 and petal length 5.0, the trees say 1, 2, 2; the majority says 2, which is right.
 
-We send a new flower to all three trees: sepal width 2.2, petal length 5.0. It is a virginica (class 2).
+We send a new flower to all three trees: sepal width 2.2, petal length 5.0. The flower is a virginica (class 2).
 
 - Tree 1 (split at 5.20): 5.0 is below, so **class 1**.
 - Tree 2 (split at 4.90): above, so **class 2**.
 - Tree 3 (split at 4.95): above, so **class 2**.
 
-The majority says **2**, which is correct, although tree 1 alone would have been wrong. Each tree here saw only 8 rows, so it made just one split. With more rows, trees grow deeper: in the [random forest Note](../108-random-forest-intro/note.md), section 5.3, trees trained on 100 rows reach depths 3 to 6.
+The majority says **2**, which is correct, although tree 1 alone would have been wrong. Each tree here saw only 8 observations, so it made just one split. With more observations, trees grow deeper: in the [random forest Note](../108-random-forest-intro/note.md), section 5.3, trees trained on 100 observations reach depths 3 to 6.
 
 ## 6. Types of bagging
 
-> **Key point:** Sample rows with replacement (bagging) or without (pasting), sample columns only (random subspaces), or both (random patches).
+> **Key point:** Sample observations with replacement (bagging) or without (pasting), sample features only (random subspaces), or both (random patches).
 
-![What one base model sees under each type: blue cells are the rows and columns it is trained on](images/bagging_types.png){height=34%}
+![What one base model sees under each type: blue cells are the rows (observations) and columns (features) it is trained on](images/bagging_types.png){height=34%}
 
-So far we sampled **rows**. We can sample **columns** too: instead of giving each tree every column, we give it a random subset. This helps with high-dimensional data such as images or text. Combining these choices gives four types (Figure 4).
+So far we sampled **observations** (rows of the table). We can sample **features** (columns) too: instead of giving each tree every feature, we give it a random subset. Feature sampling is meant for data with many features; the [bagging classifier Note](../106-bagging-classifier/note.md), section 2.4, shows it hurting when there are only two. Combining these choices gives four types (Figure 4), each with its own name in the literature (scikit-learn User Guide, "Bagging meta-estimator").
 
 ### 6.1 Bagging
 
-> **Key point:** Row sampling with replacement.
+> **Key point:** Observation sampling with replacement.
 
-What we have done so far: each model gets random rows, drawn with replacement, and all the columns.
+What we have done so far: each model gets random observations, drawn with replacement, and all the features (Breiman, 1996).
 
 ### 6.2 Pasting
 
-> **Key point:** Row sampling without replacement: no row repeats inside a sample.
+> **Key point:** Observation sampling without replacement: no observation repeats inside a sample.
 
-**Pasting** is the same as bagging except that rows are drawn **without replacement**. In pandas, `df_train.sample(8)` gives 8 rows with no repeats, because `replace=False` is the default.
+**Pasting** (Breiman, 1999) is the same as bagging except that observations are drawn **without replacement**. In pandas, `df_train.sample(8)` gives 8 rows with no repeats, because `replace=False` is the default.
 
 ### 6.3 Random subspaces
 
-> **Key point:** Column sampling only: every model gets all the rows but only some of the columns.
+> **Key point:** Feature sampling only: every model gets all the observations but only some of the features.
 
-In **random subspaces**, there is no row sampling. Each model gets every row but a random subset of the columns, drawn with or without replacement.
+In **random subspaces** (Ho, 1998), there is no observation sampling. Each model gets every observation but a random subset of the features, drawn with or without replacement.
 
 > **Python:** Sampling columns.
 >
@@ -209,9 +208,9 @@ In **random subspaces**, there is no row sampling. Each model gets every row but
 
 ### 6.4 Random patches
 
-> **Key point:** Row sampling and column sampling together.
+> **Key point:** Observation sampling and feature sampling together.
 
-In **random patches**, each model gets a random set of rows **and** a random set of columns. In pandas we chain two samples:
+In **random patches** (Louppe and Geurts, 2012), each model gets a random set of observations **and** a random set of features. In pandas we chain two samples:
 
 > **Python:** Sampling rows, then columns.
 >
@@ -223,27 +222,41 @@ All four aim at the same thing: give each base model different data, so the mode
 
 ## 7. Summary
 
-| Type | Rows | Columns |
+| Type | Observations (rows) | Features (columns) |
 |---|---|---|
 | Bagging | sampled, with replacement | all |
 | Pasting | sampled, without replacement | all |
 | Random subspaces | all | sampled (with or without replacement) |
 | Random patches | sampled | sampled |
 
-- Bagging = bootstrapping (each model trains on random rows) + aggregation (mode or mean of the predictions).
+- Bagging = bootstrapping (each model trains on random observations) + aggregation (mode or mean of the predictions).
 - All base models use the same algorithm; the variety comes from the data.
-- A bootstrap sample holds about 63.2% of the distinct rows; the rest are out-of-bag.
+- A bootstrap sample holds about 63.2% of the distinct observations; the rest are out-of-bag.
 - Bagging keeps the low bias of a flexible model and cuts its variance: 0.160 to 0.076 in Figure 3.
-- Use it whenever a model overfits; decision trees are the usual choice, but any algorithm works.
+- Use it whenever a model overfits (an unstable model); decision trees are the usual choice, but any unstable algorithm can be bagged.
 
-## 8. Key terms
+## 8. Sources
+
+- Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140.
+- Breiman, L. (1999). "Pasting Small Votes for Classification in Large Databases and On-Line". *Machine Learning* 36(1), 85–103.
+- Efron, B. and Tibshirani, R. J. (1993). *An Introduction to the Bootstrap*. Chapman and Hall.
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, sections 8.7 and 15.2.
+- Ho, T. K. (1998). "The Random Subspace Method for Constructing Decision Forests". *IEEE Transactions on Pattern Analysis and Machine Intelligence* 20(8), 832–844.
+- Louppe, G. and Geurts, P. (2012). "Ensembles on Random Patches". *Machine Learning and Knowledge Discovery in Databases* (ECML PKDD 2012), LNCS 7523, Springer, 346–361.
+- scikit-learn developers. User Guide, "Bagging meta-estimator". scikit-learn.org, modules/ensemble.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
-| Bootstrapping | Drawing random samples of the data to train each base model |
+| Observation | One record of the data: one row of the data table |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Bootstrapping | Drawing random samples of the data, with replacement, to train each base model |
+| Unstable model | A model that changes a lot when the training data changes a little, such as a fully grown tree |
 | Aggregation | Combining the base models' predictions into one: mode for classes, mean for numbers |
 | With replacement | Sampling in which each drawn item is put back, so it can be drawn again |
-| Out-of-bag rows | The rows a base model never saw because its bootstrap sample missed them (about 37%) |
-| Pasting | Bagging with rows sampled without replacement |
-| Random subspaces | Bagging in which each model gets all rows but a random subset of columns |
-| Random patches | Bagging in which each model gets random rows and random columns |
+| Out-of-bag observations | The observations a base model never saw because its bootstrap sample missed them (about 37%) |
+| Pasting | Bagging with observations sampled without replacement |
+| Random subspaces | Bagging in which each model gets all observations but a random subset of features |
+| Random patches | Bagging in which each model gets random observations and random features |

@@ -13,9 +13,9 @@ title: "Classification Metrics: The ROC Curve and AUC"
 
 ## 1. Overview
 
-> **Key point:** A classifier outputs a probability, and a threshold turns it into 0 or 1. The ROC curve shows the true positive rate against the false positive rate for every threshold. It helps pick the threshold, and the area under it (AUC) compares models.
+> **Key point:** A classifier outputs a probability, and a threshold turns it into 0 or 1. The ROC curve shows the true positive rate against the false positive rate for every threshold. The curve helps pick the threshold, and the area under it (AUC) compares models.
 
-The ROC curve (receiver operating characteristic curve) is one of the most widely used tools for **binary** classification. It has two uses:
+The ROC curve (receiver operating characteristic curve) is a standard tool for judging **binary** classifiers (Fawcett 2006, §1). The ROC curve has two uses:
 
 1. **Choosing a threshold**: the cut-off that turns probabilities into yes or no.
 2. **Comparing models**: through the area under the curve, AUC.
@@ -28,7 +28,7 @@ The ROC curve (receiver operating characteristic curve) is one of the most widel
 
 > **Key point:** Probability at or above the threshold: predict 1. Below: predict 0.
 
-Logistic regression (and most classifiers, such as decision trees or neural networks) does not directly output 0 or 1. It outputs a probability, for example "this patient has a 45% chance of diabetes" (the sigmoid Note).
+Logistic regression (and most classifiers, such as decision trees or neural networks) does not directly output 0 or 1. The model outputs a probability, for example "this patient has a 45% chance of diabetes" (the sigmoid Note).
 
 A **threshold** turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
 
@@ -36,13 +36,13 @@ A **threshold** turns this into a decision. With the usual threshold of 0.5, a p
 
 > **Key point:** Raising or lowering the threshold trades one kind of mistake for the other.
 
-A spam filter that wrongly binned a job offer is worse than one that lets an advert through (the precision Note). Raising its threshold to 0.75 means an email is called spam only when the model is quite sure. This cuts the dangerous mistakes (false positives), at the cost of more spam getting through.
+A spam filter that wrongly binned a job offer is worse than one that lets an advert through (the precision Note). Raising its threshold to 0.75 means an email is called spam only when the model is quite sure. The higher threshold cuts the dangerous mistakes (false positives), at the cost of more spam getting through.
 
 So the threshold is a dial between the two kinds of mistake. The difficulty is knowing where to set it: 0.3? 0.5? 0.75? The ROC curve shows the consequences of every setting at once.
 
 ![Predicted probabilities of the test patients, by true class](images/probabilities.png){height=40%}
 
-Figure 1 shows the example used in this Note: logistic regression on the Pima diabetes data (768 women, 8 medical measurements, 268 with diabetes), trained on 80% and tested on 154 patients. Patients with diabetes (red) tend to get higher probabilities, but the two groups overlap. Each threshold line cuts the overlap in a different place.
+Figure 1 shows the example used in this Note: logistic regression on the Pima diabetes data. The data has 768 women; each woman is one **observation** (one record, a row of the data table). Each has 8 **features** (input variables, one column each), medical measurements such as glucose and blood pressure. The **target** (the output we predict) is diabetes: yes for 268 of them. The model is trained on 80% and tested on 154 patients. Patients with diabetes (red) tend to get higher probabilities, but the two groups overlap. Each threshold line cuts the overlap in a different place.
 
 ## 3. Two rates: benefit and cost
 
@@ -50,11 +50,11 @@ Figure 1 shows the example used in this Note: logistic regression on the Pima di
 
 ### 3.1 True positive rate
 
-> **Key point:** TPR = TP / (TP + FN). It is the same as recall.
+> **Key point:** TPR = TP / (TP + FN). TPR is the same as recall.
 
 $$\text{TPR} = \frac{TP}{TP + FN}$$
 
-Of all the patients who really have diabetes, the fraction the model flags. It is exactly **recall** (the precision Note). Think of it as the **benefit**: the model exists to find these patients. Higher is better; 1 means every one was found.
+Of all the patients who really have diabetes, the fraction the model flags. TPR is exactly **recall** (the precision Note). Think of it as the **benefit**: the model exists to find these patients. Higher is better; 1 means every one was found.
 
 ### 3.2 False positive rate
 

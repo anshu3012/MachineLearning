@@ -14,18 +14,18 @@ title: "Ridge Regression: The Maths and Code from Scratch"
 
 ## 1. Overview
 
-> **Key point:** Adding the Ridge penalty to the loss and setting the derivative to zero gives a closed-form answer. With one input the slope becomes $m = \frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2 + \lambda}$; with many inputs it becomes $\beta = (X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$.
+> **Key point:** Adding the Ridge penalty to the loss and setting the derivative to zero gives a closed-form answer. With one feature the slope becomes $m = \frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2 + \lambda}$; with many features it becomes $\beta = (X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$.
 
 The previous Note explained what Ridge does: it adds $\lambda$ times the squared coefficients to the loss, which keeps them small. This Note derives the formulas that find the Ridge coefficients, the same way the OLS and normal equation Notes did for plain linear regression.
 
-There are two cases:
+Here a **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** $y$ is the value we predict. There are two cases:
 
-- **One input:** a formula for the slope $m$ and the intercept $b$.
-- **Many inputs:** a matrix formula for all coefficients at once.
+- **One feature:** a formula for the slope $m$ and the intercept $b$.
+- **Many features:** a matrix formula for all coefficients at once.
 
 Both are then coded from scratch and checked against scikit-learn's `Ridge`.
 
-## 2. One input
+## 2. One feature
 
 > **Key point:** The Ridge slope is the OLS slope with λ added to the bottom of the fraction. The intercept formula does not change.
 
@@ -33,7 +33,7 @@ Both are then coded from scratch and checked against scikit-learn's `Ridge`.
 
 > **Key point:** The loss is the usual sum of squared errors plus λ m².
 
-With one input, the prediction is $\hat{y}_i = m x_i + b$. The Ridge loss is
+With one feature, the prediction is $\hat{y}_i = m x_i + b$. The Ridge loss is
 
 $$L = \sum_{i=1}^{n} (y_i - m x_i - b)^2 + \lambda m^2$$
 
@@ -47,7 +47,7 @@ Differentiate $L$ with respect to $b$ and set it to zero. The term $\lambda m^2$
 
 $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n}(y_i - m x_i - b) = 0$$
 
-This is exactly the OLS step, and it gives the same result:
+This derivative is exactly the OLS step, and it gives the same result:
 
 $$b = \bar{y} - m\bar{x}$$
 
@@ -63,31 +63,33 @@ Substitute $b = \bar{y} - m\bar{x}$ and rearrange, as in the OLS Note. The only 
 
 $$m = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} (x_i - \bar{x})^2 + \lambda}$$
 
-In words: the top of the fraction is the same as in OLS, and the bottom has $\lambda$ added. With $\lambda = 0$ it is the OLS slope.
+In words: the top of the fraction is the same as in OLS, and the bottom has $\lambda$ added. With $\lambda = 0$ the formula is the OLS slope.
 
-> **Extra:** Strictly, substituting $b$ turns $\sum (y_i - \bar{y})x_i$ into $\sum (y_i - \bar{y})(x_i - \bar{x})$ and $\sum (x_i - \bar{x})x_i$ into $\sum (x_i - \bar{x})^2$. These are equal because $\sum (y_i - \bar{y}) = 0$ and $\sum (x_i - \bar{x}) = 0$, the same trick as in the OLS derivation.
+Picture a seesaw: the top of the fraction is how hard the data pulls the slope up, and $\lambda$ is a weight added to the other side. The heavier the weight, the less the slope rises.
+
+> **Extra:** Strictly, substituting $b$ turns $\sum (y_i - \bar{y})x_i$ into $\sum (y_i - \bar{y})(x_i - \bar{x})$ and $\sum (x_i - \bar{x})x_i$ into $\sum (x_i - \bar{x})^2$. The pairs of sums are equal because $\sum (y_i - \bar{y}) = 0$ and $\sum (x_i - \bar{x}) = 0$, the same trick as in the OLS derivation.
 
 ### 2.4 Why the slope shrinks
 
-> **Key point:** A bigger λ makes the denominator bigger, so the slope gets smaller. It approaches 0 but never reaches it.
+> **Key point:** A bigger λ makes the denominator bigger, so the slope gets smaller. The slope approaches 0 but never reaches it.
 
-On the 100-point example from the previous Note, the top of the fraction is 2416.7 and the bottom without $\lambda$ is 86.85. So
+On the 100-observation example from the previous Note, the top of the fraction is 2416.7 and the bottom without $\lambda$ is 86.85. So
 
 $$m = \frac{2416.7}{86.85 + \lambda}$$
 
 | λ | Slope $m$ | Intercept $b$ |
 |---|---|---|
-| 0 | $2416.7 / 86.85 = 27.83$ | $-2.30$ |
-| 10 | $2416.7 / 96.85 = 24.95$ | $-2.13$ |
-| 100 | $2416.7 / 186.85 = 12.93$ | $-1.43$ |
+| 0 | $2416.7 / 86.85 = 27.83$ | $-2.295$ |
+| 10 | $2416.7 / 96.85 = 24.95$ | $-2.127$ |
+| 100 | $2416.7 / 186.85 = 12.93$ | $-1.425$ |
 
-These are exactly the slopes scikit-learn gave in the previous Note. Figure 1 shows the whole curve.
+These slopes are exactly the ones scikit-learn gave in the previous Note. Figure 1 shows the whole curve.
 
 ![The Ridge slope against λ](images/slope_vs_lambda.png){height=48%}
 
 However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coefficients small but never exactly zero. Lasso, two Notes later, behaves differently.
 
-> **Python:** Ridge with one input, from scratch.
+> **Python:** Ridge with one feature, from scratch.
 >
 > ```python
 > class MyRidge:
@@ -104,7 +106,7 @@ However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coeffic
 > MyRidge(alpha=10).fit(x, y).m       # 24.955, same as Ridge(alpha=10)
 > ```
 
-## 3. Many inputs
+## 3. Many features
 
 > **Key point:** In matrix form the Ridge answer is the normal equation with λI added inside the inverse.
 
@@ -112,7 +114,7 @@ However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coeffic
 
 > **Key point:** The penalty λ times the sum of squared coefficients is written λwᵀw.
 
-With many inputs, the predictions are $\hat{y} = Xw$, where $X$ has a first column of 1s and $w$ holds the intercept and all coefficients (the normal equation Note). The sum of squared coefficients is $w^{\mathsf T}w$, so the Ridge loss is
+With many features, the predictions are $\hat{y} = Xw$, where $X$ has a first column of 1s and $w$ holds the intercept and all coefficients (the normal equation Note). The sum of squared coefficients is $w^{\mathsf T}w$, so the Ridge loss is
 
 $$L = (y - Xw)^{\mathsf T}(y - Xw) + \lambda\, w^{\mathsf T}w$$
 
@@ -152,9 +154,9 @@ Figure 2 shows the result. Compared with the normal equation, only $+\lambda I$ 
 
 > **Key point:** The top-left entry of I is set to 0, so the intercept is left out of the penalty.
 
-The first entry of $w$ is the intercept. It only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of $I$ to 0 removes it from the penalty, as in Figure 2.
+The first entry of $w$ is the intercept. The intercept only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of $I$ to 0 removes it from the penalty, as in Figure 2.
 
-> **Python:** Ridge with many inputs, from scratch.
+> **Python:** Ridge with many features, from scratch.
 >
 > ```python
 > class MyRidgeND:
@@ -182,20 +184,20 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.1:
 
 The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 
-> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. That is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly, which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
+> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a closed-form solution, which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
 
-> **Extra:** A bonus of $+\lambda I$: when columns are strongly correlated (multicollinearity), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1). The maths in one line: for any non-zero vector $v$, $v^{\mathsf T}(X^{\mathsf T}X + \lambda I)v = \lVert Xv \rVert^2 + \lambda \lVert v \rVert^2 > 0$, so no $v$ is sent to zero and the matrix has an inverse.
+> **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (multicollinearity), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970). The maths in one line: for any non-zero vector $v$, $v^{\mathsf T}(X^{\mathsf T}X + \lambda I)v = \lVert Xv \rVert^2 + \lambda \lVert v \rVert^2 > 0$, so no $v$ is sent to zero and the matrix has an inverse.
 
 ## 4. Summary
 
 | | Linear regression (OLS) | Ridge |
 |---|---|---|
 | Loss | $\sum (y_i - \hat{y}_i)^2$ | $\sum (y_i - \hat{y}_i)^2 + \lambda \sum \beta_j^2$ |
-| Slope, one input | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2}$ | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2 + \lambda}$ |
-| Intercept, one input | $\bar{y} - m\bar{x}$ | $\bar{y} - m\bar{x}$ |
-| Many inputs | $(X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ | $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ |
+| Slope, one feature | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2}$ | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2 + \lambda}$ |
+| Intercept, one feature | $\bar{y} - m\bar{x}$ | $\bar{y} - m\bar{x}$ |
+| Many features | $(X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ | $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ |
 
-- Ridge adds $\lambda$ to the denominator of the slope (one input) or to the diagonal of $X^{\mathsf T}X$ (many inputs).
+- Ridge adds $\lambda$ to the denominator of the slope (one feature) or to the diagonal of $X^{\mathsf T}X$ (many features).
 - A larger $\lambda$ gives smaller coefficients, but never exactly 0.
 - The intercept is not penalised: the top-left entry of $I$ is 0.
 - The from-scratch code matches scikit-learn's `Ridge` exactly.
@@ -203,7 +205,8 @@ The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 ## 5. Sources
 
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 64 (which credits Hoerl and Kennard, 1970).
-- **scikit-learn docs:** `sklearn.linear_model.Ridge` (fit_intercept, solver="cholesky"), scikit-learn 1.9 documentation and source (`_preprocess_data`).
+- **Hoerl and Kennard (1970):** Hoerl, A. E. and Kennard, R. W. "Ridge regression: biased estimation for nonorthogonal problems." *Technometrics* 12(1), 55–67.
+- **scikit-learn docs:** `sklearn.linear_model.Ridge` (fit_intercept, solver="cholesky"), scikit-learn 1.9 documentation; centring step in `sklearn/linear_model/_base.py` (`_preprocess_data`).
 
 ## 6. Key terms
 

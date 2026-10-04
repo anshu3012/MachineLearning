@@ -13,9 +13,9 @@ title: "DBSCAN: Density-Based Clustering"
 
 ## 1. Overview
 
-> **Key point:** DBSCAN grows clusters through dense regions of points and labels points in sparse regions as noise. It finds the number of clusters by itself and handles any shape, but needs two well-chosen settings: eps and MinPts.
+> **Key point:** DBSCAN grows clusters through dense regions of points and labels points in sparse regions as noise. DBSCAN finds the number of clusters by itself and handles any shape, but needs two well-chosen settings: eps and MinPts.
 
-**DBSCAN** (density-based spatial clustering of applications with noise) is a clustering algorithm that groups points lying in dense regions and marks lonely points as noise. Figure 1 shows why it matters: on two moons and two circles, where k-means cuts straight across the shapes (the [hierarchical clustering Note](../131-hierarchical-clustering/note.md), Figure 2), DBSCAN finds them exactly.
+**DBSCAN** (density-based spatial clustering of applications with noise) is a clustering algorithm that groups points lying in dense regions and marks lonely points as noise. Each point is an **observation** (one record of the data, a row of the table). Figure 1 shows why it matters: on two moons and two circles, where k-means cuts straight across the shapes (the [hierarchical clustering Note](../131-hierarchical-clustering/note.md), Figure 2), DBSCAN finds them exactly.
 
 ![DBSCAN (eps = 0.3, MinPts = 5) on two moons and two circles: one colour per cluster found](images/dbscan_vs_kmeans.png){height=28%}
 
@@ -37,7 +37,7 @@ k-means is a good algorithm, but it has three flaws serious enough to need anoth
 
 > **Key point:** In high dimensions we cannot see the clusters, and the elbow curve is often ambiguous.
 
-k-means must be told the number of clusters before it starts. With 10 columns we cannot plot the data to count them. The elbow method helps (the [k-means Note](../128-kmeans-intuition/note.md), section 5), but on real data the elbow curve often has no clear bend, and then we are guessing.
+k-means must be told the number of clusters before it starts. With 10 **features** (input variables, the columns of the data table) we cannot plot the data to count them. The elbow method helps (the [k-means Note](../128-kmeans-intuition/note.md), section 5), but on real data the elbow curve often has no clear bend, and then we are guessing (Schubert 2022).
 
 ### 3.2 Outliers pull the centroids
 
@@ -61,7 +61,7 @@ So k-means works well on some datasets and badly on many others. DBSCAN addresse
 
 **Density-based clustering** groups points by how densely they are packed. In a dataset with two groups, the inside of each group is a **dense region**: many points close together. Between the groups lies a **sparse region** with few points. The sparse region is what separates the two dense regions into two clusters.
 
-This idea does not care about shape. A dense crescent is a cluster just as much as a dense round blob. DBSCAN is one density-based algorithm; another one is **OPTICS**.
+Density does not care about shape. A dense crescent is a cluster just as much as a dense round blob. DBSCAN is one density-based algorithm; another one is **OPTICS** (Ankerst et al. 1999).
 
 The name DBSCAN lists its features: **density-based**, **spatial** (it works on points in space), **clustering of applications with noise** (it labels noise points as noise).
 
@@ -178,7 +178,7 @@ DBSCAN does not care about the shape or size of a cluster, only about density.
 
 > **Key point:** Robust to outliers, no k to choose, any cluster shape, and only two hyperparameters.
 
-- **Robust to outliers:** noise points are detected and labelled -1 instead of being forced into a cluster. This makes DBSCAN useful for anomaly detection (the [types of ML Note](../03-types-of-ml/note.md)).
+- **Robust to outliers:** noise points are detected and labelled -1 instead of being forced into a cluster. Labelling noise makes DBSCAN useful for anomaly detection (the [types of ML Note](../03-types-of-ml/note.md)).
 - **No k:** DBSCAN finds the number of clusters by itself. In Figure 3 it found 2 without being told.
 - **Any shape:** clusters can be rings, crescents or any other shape, because only density matters.
 - **Few settings:** just two hyperparameters, eps and MinPts.
@@ -244,8 +244,6 @@ Things to try:
 - **Two densities:** try to find one eps that gives both groups. There is none, which is section 11.2.
 - **Any dataset, min_samples from 2 to 20:** larger values call more points noise.
 
-> **Extra:** An online DBSCAN visualiser by Naftali Harris (Harris, *Visualizing DBSCAN Clustering*) animates the algorithm on several datasets, including a smiley face, with controls for eps and MinPts. It shows the circles spreading from point to point as each cluster grows.
-
 ## 14. Summary
 
 | | k-means | DBSCAN |
@@ -254,7 +252,7 @@ Things to try:
 | Number of clusters | must be given (k) | found automatically |
 | Cluster shapes | round only | any shape |
 | Outliers | pull centroids; forced into clusters | labelled noise (-1) |
-| Clusters of different density | fine | fails: one eps for all |
+| Clusters of different density | no density setting to tune | fails: one eps for all |
 | Predict new points | yes (`predict`) | no |
 | Settings | k | eps, MinPts (`min_samples`) |
 
@@ -264,14 +262,15 @@ Things to try:
 - In scikit-learn: `DBSCAN(eps, min_samples).fit(X).labels_`, with -1 for noise.
 - Choose eps with care, for example from the bend of the k-distance plot.
 
-## Sources
+## 15. Sources
 
 - Ester et al. 1996: M. Ester, H.-P. Kriegel, J. Sander and X. Xu, *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise*, Proceedings of KDD 1996, Definition 1 and §4.2.
 - scikit-learn `DBSCAN` docs: the `min_samples` parameter of `sklearn.cluster.DBSCAN` ("This includes the point itself"), scikit-learn 1.9 API reference.
 - scikit-learn user guide, DBSCAN: section 2.3 Clustering, DBSCAN, implementation notes on border points and data order.
-- Harris: N. Harris, *Visualizing DBSCAN Clustering*, naftaliharris.com/blog/visualizing-dbscan-clustering.
+- Ankerst et al. 1999: M. Ankerst, M. M. Breunig, H.-P. Kriegel and J. Sander, *OPTICS: Ordering Points To Identify the Clustering Structure*, Proceedings of ACM SIGMOD 1999, 49–60.
+- Schubert 2022: E. Schubert, *Stop using the elbow criterion for k-means and how to choose the number of clusters instead*, arXiv:2212.12189, 2022.
 
-## 15. Key terms
+## 16. Key terms
 
 | Term | Meaning |
 |---|---|

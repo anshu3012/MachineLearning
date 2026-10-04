@@ -17,7 +17,7 @@ title: "Hyperparameter Tuning with Optuna: Bayesian Optimisation"
 
 ![The Optuna loop: a sampler suggests values, a trial runs the objective function, the score joins the history, and the sampler learns from it](images/overview.png){height=45%}
 
-**Optuna** is an open-source Python framework for hyperparameter tuning, widely used in industry for both machine learning and deep learning. Its main strength is the kind of search it runs: **Bayesian optimisation**, which learns from every trial where good hyperparameters are likely to be (Figure 1).
+**Optuna** is an open-source Python framework for hyperparameter tuning, used for both machine learning and deep learning. Its main strength is the kind of search it runs: **Bayesian optimisation**, which learns from every trial where good hyperparameters are likely to be (Figure 1).
 
 This Note covers why grid and random search are not always enough, the idea of Bayesian search, Optuna's vocabulary and workflow, its samplers and plots, and its "define-by-run" search spaces.
 
@@ -38,7 +38,7 @@ Take the placement data: predict from a student's CGPA and IQ whether they will 
 - `max_depth`: how deep each decision tree may grow;
 - `n_estimators`: how many trees the forest has.
 
-First we choose a **search space**, the values to try, from intuition and domain knowledge: `max_depth` from 1 to 5, and `n_estimators` 50, 100, 150, 200 and 250. That makes a grid of 5 × 5 = 25 combinations.
+First we choose a **search space**, the values to try, from intuition and domain knowledge: `max_depth` from 1 to 5, and `n_estimators` 50, 100, 150, 200 and 250. These values make a grid of 5 × 5 = 25 combinations.
 
 ### 2.2 Both searches are blind
 
@@ -87,7 +87,7 @@ After a few rounds, the guess matches the hidden curve well near its top, and th
 | Uses earlier scores | no | no | yes |
 | Trials needed | all combinations | as many as we allow | fewer than random search for the same score |
 
-**Bayesian optimisation** is the name of this informed approach. It is called Bayesian because it puts a prior belief on the unknown function and updates it with each new result into a posterior, as Bayes' theorem updates a probability with new evidence (the [Bayes theorem Note](../85-bayes-theorem/note.md); Shahriari et al. 2016, §II).
+**Bayesian optimisation** is the name of this informed approach. The method is called Bayesian because it puts a prior belief on the unknown function and updates it with each new result into a posterior, as Bayes' theorem updates a probability with new evidence (the [Bayes theorem Note](../85-bayes-theorem/note.md); Shahriari et al. 2016, §II).
 
 > **Extra:** The two parts of Bayesian optimisation have names. The guess of the curve is the **surrogate model**: in Figure 2 a **Gaussian process**, a model that predicts a value and its uncertainty (a mean $\mu$ and a standard deviation $\sigma$) at every point. The rule that picks the next trial is the **acquisition function**; a common one is the **expected improvement** (Shahriari et al. 2016; Jones et al. 1998).
 
@@ -107,13 +107,13 @@ After a few rounds, the guess matches the hidden curve well near its top, and th
 
 Five terms appear in every piece of Optuna code (Figure 1):
 
-- **Study:** one optimisation session: one dataset, one algorithm (or several), the hyperparameters to tune and the goal. It is a collection of trials aimed at optimising the objective function.
+- **Study:** one optimisation session: one dataset, one algorithm (or several), the hyperparameters to tune and the goal. A study is a collection of trials aimed at optimising the objective function.
 - **Trial:** one run of the objective function with one set of hyperparameter values, for example `max_depth` = 1 and `n_estimators` = 50.
 - **Trial parameters:** the hyperparameter values used in a trial, for example `max_depth` = 2 and `n_estimators` = 100.
-- **Objective function:** the function we want to optimise. It takes a trial, builds and trains a model with that trial's values, and returns a score such as accuracy.
+- **Objective function:** the function we want to optimise. The objective takes a trial, builds and trains a model with that trial's values, and returns a score such as accuracy.
 - **Sampler:** the algorithm that suggests which hyperparameter values to try in the next trial. Optuna's default is **TPE**, the Tree-structured Parzen Estimator, a form of Bayesian optimisation (Bergstra et al. 2011).
 
-> **Extra:** How TPE chooses (Bergstra et al. 2011, §4). It sorts the past trials into a "good" group (in Optuna, the best 10%, at most 25 trials) and a "bad" group. For each hyperparameter it estimates how its values are spread in each group, $\ell(x)$ for good and $g(x)$ for bad, and tries next the values where $\ell(x) / g(x)$ is highest: values common among good trials and rare among bad ones. TPE was built for "tree-structured" search spaces, in which some hyperparameters exist only for some values of another, as in section 8.
+> **Extra:** How TPE chooses (Bergstra et al. 2011, §4). TPE sorts the past trials into a "good" group (in Optuna, the best 10%, at most 25 trials) and a "bad" group. For each hyperparameter it estimates how its values are spread in each group, $\ell(x)$ for good and $g(x)$ for bad, and tries next the values where $\ell(x) / g(x)$ is highest: values common among good trials and rare among bad ones. TPE was built for "tree-structured" search spaces, in which some hyperparameters exist only for some values of another, as in section 8.
 
 ## 5. The Optuna workflow
 
@@ -192,7 +192,7 @@ While it runs, Optuna prints one line per trial, such as `Trial 5 finished with 
 >
 > `**best.params` unpacks the dictionary into keyword arguments: `n_estimators=115, max_depth=8`.
 
-After 50 trials, the best forest has 115 trees of depth 8, with a cross-validated accuracy of **0.790**. Retrained on all 537 training observations, it scores **0.745** on the 231 test observations. The cross-validated score is the one the search maximised, so it is a little optimistic: the search also picks up the luck of the folds (Cawley and Talbot 2010). Our data agrees: the same forest on 10 other shuffles of the folds averages 0.772, not 0.790 (Notebook). The test score, 0.745, is the honest one.
+After 50 trials, the best forest has 115 trees of depth 8, with a cross-validated accuracy of **0.790**. Retrained on all 537 training observations, it scores **0.745** on the 231 test observations. The cross-validated score is the one the search maximised, so it is a little optimistic: the search also picks up the random ups and downs of the folds (Cawley and Talbot 2010). Our data agrees: the same forest on 10 other shuffles of the folds averages 0.772, not 0.790 (Notebook). The test score, 0.745, is the honest one.
 
 ## 6. Samplers: Bayesian, random or grid
 
@@ -220,27 +220,27 @@ The objective function stays exactly the same; only the `sampler=` argument chan
 >
 > For `GridSampler`, the grid is written outside the objective, and the trial values come from it: 4 × 4 = 16 trials. With grid or random search inside Optuna, we no longer need scikit-learn's `GridSearchCV` or `RandomizedSearchCV`.
 
-The three samplers on the same objective:
-
-| Sampler | Trials | Best CV | Mean CV | Best values | Test |
-|---|---|---|---|---|---|
-| Grid | 16 | 0.784 | 0.768 | 50 trees, depth 15 | 0.749 |
-| Random | 50 | **0.793** | 0.769 | 56 trees, depth 8 | 0.740 |
-| TPE | 50 | 0.790 | **0.771** | 115 trees, depth 8 | 0.745 |
-
-TPE spent its trials better: 10 of its 50 landed in the best region (`max_depth` 6 to 10, `n_estimators` up to 120), against 7 for random search and 2 for the grid, so its average trial was the best of the three. The single best trial, though, came from random search. One study is one throw of the dice, so a fair comparison repeats each search many times.
+Which sampler should we use? The books give a clear answer: Bayesian search reaches a good score in fewer trials than random search, and the saving is largest when each trial is expensive and the good settings fill only a small part of the search space (Shahriari et al. 2016, §I; Bergstra et al. 2011). Section 6.1 tests this under exactly those conditions.
 
 ### 6.1 Bayesian search needs fewer trials
 
 > **Key point:** Averaged over 20 runs, TPE reaches in 20 trials the score that random search needs about 42 trials to reach.
 
-Bayesian search pays off when each trial is expensive and the good settings fill only a small part of the search space: there, learning from earlier trials saves many wasted ones (Shahriari et al. 2016, §I; Bergstra et al. 2011). Our random forest is a poor test of this, since almost any depth and tree count scores about the same. So we tune an RBF-kernel SVM ([kernel trick Note](../95-kernel-trick-intuition/note.md)) on the same diabetes data, over its two settings `C` and `gamma`, each from very small to very large on a log scale; only a narrow band of this space scores well. We run each sampler 20 times with different seeds, 50 trials each, and average the best score so far after every trial (Figure 3).
+Think of a treasure hunt. If gold lies everywhere, any random dig finds some, and clues do not help much. If the gold lies in one small patch, a hunter who uses the clues from earlier digs finds it far sooner than one who digs at random. Bayesian search is the hunter who uses the clues. Our random forest is the first kind of field: almost any depth and tree count scores about the same (see the Extra below). So we tune an RBF-kernel SVM ([kernel trick Note](../95-kernel-trick-intuition/note.md)) on the same diabetes data, over its two settings `C` and `gamma`, each from very small to very large on a log scale; only a narrow band of this space scores well. We run each sampler 20 times with different seeds, 50 trials each, and average the best score so far after every trial (Figure 3).
 
 ![Best 5-fold CV accuracy so far, averaged over 20 runs of each sampler on the SVM search; the bands are ± one standard error](images/best_so_far.png){width=100%}
 
 The first 10 trials are identical, because TPE starts at random (section 5.2). From then on, the TPE curve rises faster. After 20 trials TPE averages 0.780; random search reaches that average only at trial 42. TPE finishes ahead in 19 of the 20 runs (Notebook). Fewer trials for the same score is exactly what Bayesian optimisation promises.
 
-> **Extra:** All three test accuracies in the table lie between 0.74 and 0.75. On 537 observations, cross-validated accuracy is noisy: one fixed forest, scored on 10 shuffles of the folds, moves between 0.760 and 0.795 (Notebook). The three best CV scores (0.784, 0.790, 0.793) differ by less than that, which is why one study per sampler cannot rank them. In section 6.1 the folds are fixed, so every sampler scores a given `(C, gamma)` the same way, and only the choice of trials differs.
+> **Extra:** The three samplers on the forest objective of section 5, one study each:
+>
+> | Sampler | Trials | Best CV | Mean CV | Best values | Test |
+> |---|---|---|---|---|---|
+> | Grid | 16 | 0.784 | 0.768 | 50 trees, depth 15 | 0.749 |
+> | Random | 50 | 0.793 | 0.769 | 56 trees, depth 8 | 0.740 |
+> | TPE | 50 | 0.790 | **0.771** | 115 trees, depth 8 | 0.745 |
+>
+> TPE placed its trials best: 10 of its 50 landed in the best region (`max_depth` 6 to 10, `n_estimators` up to 120), against 7 for random search and 2 for the grid, so its average trial scored highest. The best scores, though, cannot rank the samplers here. On 537 observations, cross-validated accuracy is noisy: one fixed forest, scored on 10 shuffles of the folds, moves between 0.760 and 0.795 (Notebook). The three best CV scores (0.784, 0.790, 0.793) differ by less than that, and the three test accuracies all lie between 0.74 and 0.75. A flat score surface plus noisy scores is the field where clues do not help, which is why section 6.1 uses the SVM, fixed folds and 20 repeated runs.
 
 > **Extra:** Other samplers in `optuna.samplers` (Optuna docs) include `GPSampler` (Gaussian-process Bayesian optimisation, as in Figure 2), `CmaEsSampler` (an evolution strategy for many numeric hyperparameters) and `NSGAIISampler` (for studies with several objectives at once).
 
@@ -270,7 +270,7 @@ The first 10 trials are identical, because TPE starts at random (section 5.2). F
 
 ![Optimisation history of the three studies: each trial (dots) and the best so far (lines)](images/history.png){width=100%}
 
-Figure 4 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. No study improved its best score after trial 29, so on this problem the last 20 trials added nothing; this helps us choose `n_trials` next time.
+Figure 4 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. No study improved its best score after trial 29, so on this problem the last 20 trials added nothing; a flat history like this one helps us choose `n_trials` next time.
 
 ### 7.2 Parallel coordinates and slices
 
@@ -312,7 +312,7 @@ On a new dataset we rarely know which algorithm will do best: logistic regressio
 
 > **Key point:** Make `classifier` a categorical hyperparameter, then use `if`/`elif` to suggest only that classifier's hyperparameters.
 
-In Optuna, the search space is not fixed in advance: it is created by the `suggest_` calls as the objective function runs. This is called **define-by-run**. So the first suggestion can pick the algorithm, and the later suggestions can depend on that choice. A search space whose hyperparameters depend on other hyperparameters is a **dynamic search space** (also called a conditional search space).
+In Optuna, the search space is not fixed in advance: it is created by the `suggest_` calls as the objective function runs. Building the space this way is called **define-by-run**. So the first suggestion can pick the algorithm, and the later suggestions can depend on that choice. A search space whose hyperparameters depend on other hyperparameters is a **dynamic search space** (also called a conditional search space).
 
 > **Python:** One study over three algorithms.
 >
@@ -431,19 +431,18 @@ At first it explores all three. For a while it favours gradient boosting, then i
 | Chooses the next trial | in order | at random | from all earlier results |
 | Cost | all combinations | `n_trials` | `n_trials` |
 | Risk | too slow | misses the best | can follow noise on small data |
+| Trials to reach 0.780 (SVM, average of 20 runs) | not run | 42 | **20** |
 | Average best after 20 trials (SVM, 20 runs) | not run | 0.777 | **0.780** |
 | In Optuna | `GridSampler` | `RandomSampler` | `TPESampler` (default) |
-| Our best CV accuracy | 0.784 (16 trials) | 0.793 (50 trials) | 0.790 (50 trials) |
-| Our mean CV accuracy | 0.768 | 0.769 | 0.771 |
 
 - Bayesian optimisation treats the score as an unknown function of the hyperparameters, guesses it from the trials so far, and tries next where the improvement could be largest.
 - Optuna's vocabulary: study, trial, trial parameters, objective function, sampler.
 - The workflow: an objective with `trial.suggest_*`, then `create_study(direction=...)`, `optimize(objective, n_trials=...)`, `best_trial.params`, retrain and test.
 - `optuna.visualization` gives Plotly charts: optimisation history, parallel coordinates, slice, contour, importances.
-- On the forest, one study per sampler ended close (best 0.784 to 0.793, test 0.740 to 0.749). Averaged over 20 runs on an SVM search with a narrow good region, TPE reached in 20 trials what random search needed 42 trials for.
+- Bayesian search needs fewer trials when the good region is small: averaged over 20 runs on an SVM search, TPE reached in 20 trials what random search needed 42 trials for. On the forest, whose scores are nearly flat, the three samplers ended within the noise of cross-validation.
 - Define-by-run lets one study choose the algorithm and its hyperparameters together: TPE spent its last 40 of 100 trials on the random forest.
 
-## Sources
+## 11. Sources
 
 - Shahriari et al. 2016: B. Shahriari, K. Swersky, Z. Wang, R. P. Adams and N. de Freitas, *Taking the Human Out of the Loop: A Review of Bayesian Optimization*, Proceedings of the IEEE 104(1), 2016.
 - Jones et al. 1998: D. R. Jones, M. Schonlau and W. J. Welch, *Efficient Global Optimization of Expensive Black-Box Functions*, Journal of Global Optimization 13, 1998.
@@ -454,7 +453,7 @@ At first it explores all three. For a while it favours gradient boosting, then i
 - Optuna docs: Optuna 5.0 API reference: `TPESampler` (`n_startup_trials`, `default_gamma`), `Trial.suggest_float` (`log`), `optuna.samplers`, `MedianPruner`, `PedAnovaImportanceEvaluator`.
 - scikit-learn user guide, SVM tips: scikit-learn user guide, "Support Vector Machines", Tips on Practical Use.
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

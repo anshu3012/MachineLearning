@@ -28,8 +28,6 @@ The Poisson distribution was named in one line in the [PDF Note](../242-pdf-and-
 - probabilities of a range of counts;
 - its link to the binomial distribution, and where it is used.
 
-The examples follow 365 Data Science.
-
 ## 2. What the Poisson distribution describes
 
 > **Key point:** A Poisson variable counts how often an event happens in one interval; instead of a success probability, we need the average count per interval.
@@ -77,7 +75,7 @@ A count can never be negative, so the possible values start at 0. Unlike the bin
 
 > **Key point:** Students usually ask 4 questions a day; yesterday they asked 7. How likely was exactly 7?
 
-Suppose we run an online course on probability. Students usually ask around 4 questions per day, but yesterday they asked 7. To judge whether this spike is unusual, we want the probability of exactly 7 questions in one day.
+Suppose we run an online help forum on probability. Students usually ask around 4 questions per day, but yesterday they asked 7. To judge whether this spike is unusual, we want the probability of exactly 7 questions in one day.
 
 The three ingredients:
 
@@ -223,7 +221,7 @@ More examples with $\lambda = 4$:
 
 > **Extra:** This whole section is extra material.
 
-A website has 1000 visitors a day, and each visitor buys with probability 0.004. The number of buyers is binomial, $B(1000, 0.004)$, with mean $np = 4$. It is also, very nearly, $\text{Po}(4)$.
+A website has 1000 visitors a day, and each visitor buys with probability 0.004. The number of buyers is binomial, $B(1000, 0.004)$, with mean $np = 4$. The count is also, very nearly, $\text{Po}(4)$.
 
 ![Binomial PMFs with $np = 4$ (bars) against the Poisson PMF with $\lambda = 4$ (dots)](images/binomial_to_poisson.png)
 
@@ -237,7 +235,7 @@ Figure 4 keeps $np = 4$ and lets $n$ grow:
 
 With 10 trials the binomial is narrower than the Poisson: its variance $np(1-p) = 2.4$ is below 4. With 1000 trials $1 - p$ is almost 1, the variance $np(1-p) = 3.98$ is almost $\lambda$, and the bars sit on the dots.
 
-This is where the Poisson distribution comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. A common rule of thumb says the approximation is good when $n \ge 20$ and $p \le 0.05$; the notebook confirms the largest gap is about 0.01 at that edge, and grows when $p$ is larger.
+The binomial limit is where the Poisson distribution comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. The approximation needs $n$ large and $p$ small (Ross §4.7). For example, at $n = 20$ and $p = 0.05$ the notebook finds a largest gap of about 0.01, and the gap grows when $p$ is larger.
 
 ## 8. When a count is Poisson, and where it is used
 
@@ -259,7 +257,7 @@ Typical Poisson counts:
 - goals in a football match (Maher 1982);
 - rare-event counts, such as accidents at a crossing per month.
 
-In machine learning, a target that is a count (bike rentals per hour, insurance claims per year) is often modelled with **Poisson regression**, which predicts $\lambda$ for each row; scikit-learn has it as `PoissonRegressor`. Counts of words in a document also appear in text models.
+In machine learning, a **target** (the output we predict) that is a count, such as bike rentals per hour or insurance claims per year, is often modelled with **Poisson regression**. The model predicts $\lambda$ for each **observation** (one record, a row of the data table) from its **features** (the input variables); scikit-learn has it as `PoissonRegressor` (scikit-learn docs). Counts of words in a document also appear in text models.
 
 ## 9. Summary
 
@@ -279,13 +277,14 @@ In machine learning, a target that is a count (bike rentals per hour, insurance 
 - A range of counts has the sum of the single-count probabilities.
 - A binomial with large $n$ and small $p$ is approximately Poisson with $\lambda = np$.
 
-## Sources
+## 10. Sources
 
 - Maher, M. J. (1982). "Modelling Association Football Scores". *Statistica Neerlandica* 36(3).
-- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. https://www.itl.nist.gov/div898/handbook/ Section 1.3.6.6.19, Poisson distribution.
+- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 1.3.6.6.19, Poisson distribution.
 - Ross, S. (2010). *A First Course in Probability*, 8th ed. Pearson. Section 4.7, the Poisson random variable.
+- scikit-learn documentation. `sklearn.linear_model.PoissonRegressor`.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

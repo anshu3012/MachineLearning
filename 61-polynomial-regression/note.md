@@ -14,11 +14,13 @@ title: "Polynomial Regression"
 
 ## 1. Overview
 
-> **Key point:** Polynomial regression fits curves by adding powers of the input ($x^2$, $x^3$, ...) as new columns and then running ordinary linear regression on them.
+> **Key point:** Polynomial regression fits curves by adding powers of the feature ($x^2$, $x^3$, ...) as new features and then running ordinary linear regression on them.
 
 Linear regression fits a straight line (or flat plane). Real relationships are often curved: the output may first fall and then rise, or grow faster and faster. A straight line misses such patterns.
 
-**Polynomial regression** handles curves without a new algorithm. It creates new input columns from powers of the existing ones and gives them to plain linear regression. The **degree** is the highest power used.
+A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the output we predict.
+
+**Polynomial regression** handles curves without a new algorithm. Polynomial regression creates new features from powers of the existing ones and gives them to plain linear regression, the way a straight ruler can trace a curve if we feed it bent graph paper. The **degree** is the highest power used.
 
 ## 2. A curved pattern
 
@@ -28,23 +30,23 @@ The example data has 200 points that follow
 
 $$y = 0.8x^2 + 0.9x + 2 + \text{noise}$$
 
-for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary linear regression, the best straight line scores only $R^2 = 0.38$ on the test points. It cannot bend, so it misses the low middle and both high ends (the red line in Figure 2, left).
+for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary linear regression, the best straight line scores only $R^2 = 0.38$ on the test points. The line cannot bend, so it misses the low middle and both high ends (the red line in Figure 2, left).
 
-## 3. Adding powers as new columns
+## 3. Adding powers as new features
 
-> **Key point:** For degree 2, each row gets a new column holding $x^2$. Linear regression then finds one coefficient per column.
+> **Key point:** For degree 2, each observation gets a new feature holding $x^2$. Linear regression then finds one coefficient per feature.
 
-The trick: for each row, compute $x^2$ and add it as a new input column (Figure 1).
+The trick: for each observation, compute $x^2$ and add it as a new column of the table (Figure 1).
 
 ![PolynomialFeatures turns one column into 1, x and x²](images/features.png)
 
-With the columns $x$ and $x^2$, linear regression fits
+With the features $x$ and $x^2$, linear regression fits
 
 $$\hat{y} = \beta_0 + \beta_1 x + \beta_2 x^2$$
 
-This is a curve in $x$, but it is still a straight-line combination of its coefficients: each coefficient just multiplies a column. So the usual linear regression machinery (OLS or gradient descent) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
+The fitted model is a curve in $x$, but it is still a straight-line combination of its coefficients: each coefficient just multiplies a feature. So the usual linear regression machinery (OLS or gradient descent) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
 
-That is why polynomial regression is called "linear": **linear** refers to the coefficients, not to the shape of the curve in $x$.
+Linearity in the coefficients is why polynomial regression is called "linear": **linear** refers to the coefficients, not to the shape of the curve in $x$.
 
 > **Python:** Degree-2 polynomial regression.
 >
@@ -63,13 +65,13 @@ That is why polynomial regression is called "linear": **linear** refers to the c
 >
 > `include_bias=True` adds the column of 1s; `LinearRegression` fits its own intercept anyway, so that column gets coefficient 0 and either setting works.
 
-With the $x^2$ column, the test R² jumps from 0.38 to 0.83. The learned equation, $\hat{y} = 1.92 + 1.04x + 0.82x^2$, is close to the true $2 + 0.9x + 0.8x^2$. The remaining difference comes from the noise: refitting on the same training rows with the noise removed gives exactly $2 + 0.9x + 0.8x^2$ (notebook).
+With the $x^2$ feature, the test R² jumps from 0.38 to 0.83. The learned equation, $\hat{y} = 1.92 + 1.04x + 0.82x^2$, is close to the true $2 + 0.9x + 0.8x^2$. The remaining difference comes from the noise: refitting on the same training observations with the noise removed gives exactly $2 + 0.9x + 0.8x^2$ (notebook).
 
 ## 4. Choosing the degree
 
 > **Key point:** Too low a degree underfits; too high a degree bends to fit the noise and overfits. Training R² keeps rising with the degree, but test R² falls.
 
-Higher degrees add more columns, $x^3$, $x^4$ and so on, and the curve can bend more. Figure 2 fits three degrees to only 25 training points, then scores them on 200 new test points.
+Higher degrees add more features, $x^3$, $x^4$ and so on, and the curve can bend more. Figure 2 fits three degrees to only 25 training points, then scores them on 200 new test points.
 
 ![Polynomial fits of degree 1, 2 and 15, and R² against the degree](images/degrees.png){height=48%}
 
@@ -83,17 +85,17 @@ Higher degrees add more columns, $x^3$, $x^4$ and so on, and the curve can bend 
 
 The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree-$(d+1)$ model contains every degree-$d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this overfitting).
 
-The degree is a hyperparameter. It is chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
+The degree is a hyperparameter, chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
 
 > **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The **condition number** measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 2 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`.
 >
 > Are the wild swings of the degree-15 curve overfitting or rounding error? Overfitting: an exact degree-15 fit, computed in a numerically safer way, swings even more wildly (test R² $-3{,}727$ against $-9.35$; notebook).
 
-## 5. More than one input
+## 5. More than one feature
 
-> **Key point:** With several inputs, PolynomialFeatures also adds products of inputs, such as xy. The number of columns grows very fast with the degree.
+> **Key point:** With several features, PolynomialFeatures also adds products of features, such as xy. The number of features grows very fast with the degree.
 
-With two inputs $x$ and $y$, degree 2 creates all terms of total power up to 2:
+With two features $x$ and $y$, degree 2 creates all terms of total power up to 2:
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
@@ -103,36 +105,39 @@ Figure 3 shows data made from $z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$ plus noi
 
 ![A plane vs a degree-2 surface on curved 3D data](images/surface.png){height=45%}
 
-The number of new columns grows quickly. With 2 inputs, degree 2 gives 6 columns; degree 30 gives 496. With many features (input variables) and a high degree, the columns quickly outnumber the observations (rows). Once there are as many columns as observations, least squares passes exactly through every training point, whatever the true relationship, and such a model does very poorly on new data (ISL §6.4.2).
+The number of new features grows quickly. With 2 features, degree 2 gives 6; degree 30 gives 496. With many features and a high degree, the new features quickly outnumber the observations. Once there are as many features as observations, least squares passes exactly through every training point, whatever the true relationship, and such a model does very poorly on new data (ISL §6.4.2).
 
 > **Extra:** To put two 1-D arrays side by side as columns, use `np.c_[x, y]` or `np.column_stack([x, y])`. A shortcut sometimes seen, `np.array([x, y]).reshape(100, 2)`, does not do this: it fills the rows with 100 values of `x` first and then of `y`, so most rows pair unrelated numbers. The model still runs, but on scrambled data. Checking `X[:3]` against `x[:3]` and `y[:3]` catches it.
 
 ## 6. Summary
 
-| Degree | Columns for one input | Behaviour on the example |
+| Degree | Features from one original feature | Behaviour on the example |
 |---|---|---|
 | 1 | $x$ | straight line, underfits (test R² 0.28) |
 | 2 | $x$, $x^2$ | follows the curve (test R² 0.86) |
 | 15 | $x$ to $x^{15}$ | overfits (test R² $-9.35$) |
 
-- Polynomial regression = new power columns + ordinary linear regression.
-- It is "linear" in the coefficients, so OLS and gradient descent work unchanged.
-- `PolynomialFeatures(degree=d)` creates the columns; with several inputs it adds interaction terms too.
+- Polynomial regression = new power features + ordinary linear regression.
+- Polynomial regression is "linear" in the coefficients, so OLS and gradient descent work unchanged.
+- `PolynomialFeatures(degree=d)` creates the new features; with several features it adds interaction terms too.
 - The degree controls flexibility: too low underfits, too high overfits. Choose it on held-out data.
 
-## Sources
+## 7. Sources
 
-- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org).
-- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021.
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §4.2 (poor conditioning, condition number).
+- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. §6.4.2 (what goes wrong in high dimensions).
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
-| Polynomial regression | Linear regression on powers (and products) of the inputs, to fit curves |
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Target | The output we predict |
+| Polynomial regression | Linear regression on powers (and products) of the features, to fit curves |
 | Degree | The highest power used in the polynomial |
 | PolynomialFeatures | scikit-learn transformer that creates the power and product columns |
 | include_bias | PolynomialFeatures setting that adds a column of 1s |
-| Interaction term | A product of two inputs, such as $xy$, that lets one input's effect depend on another |
+| Interaction term | A product of two features, such as $xy$, that lets one feature's effect depend on another |
 | Underfitting | A model too simple to capture the pattern; poor on training and test data |
 | Overfitting | A model so flexible that it learns the noise; good on training data, poor on test data |

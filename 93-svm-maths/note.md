@@ -57,7 +57,7 @@ $$\hat{y} = \begin{cases} +1 & \text{if } w \cdot u + b \geq 0 \\ -1 & \text{if 
 
 Once we know $w$ and $b$, classifying any new point takes one dot product and one addition.
 
-> **Extra:** Strictly, the projection's length is $w \cdot u / \lVert w \rVert$, where $\lVert w \rVert$ is the length of $w$. Comparing it with $c$ gives $w \cdot u \geq c\,\lVert w \rVert$. That is the same rule with $b = -c\,\lVert w \rVert$, so the final form does not change.
+> **Extra:** Strictly, the projection's length is $w \cdot u / \lVert w \rVert$, where $\lVert w \rVert$ is the length of $w$. Comparing it with $c$ gives $w \cdot u \geq c\,\lVert w \rVert$. The result is the same rule with $b = -c\,\lVert w \rVert$, so the final form does not change.
 
 ### 2.3 The same rule in 2D
 
@@ -110,7 +110,7 @@ With numbers, for $w = k \times (2, 3)$:
 | 1 | $2x + 3y + 3 = 0$ | 3.606 | 0.555 |
 | 0.1 | $0.2x + 0.3y + 0.3 = 0$ | 0.3606 | 5.55 |
 
-This is why the $\pm 1$ equations are useful. While an optimiser adjusts $w$ and $b$, it can both turn and shift the line and make the margin wider or narrower. The search for the best line becomes a search over $w$ and $b$ alone.
+The scaling effect is why the $\pm 1$ equations are useful. While an optimiser adjusts $w$ and $b$, it can both turn and shift the line and make the margin wider or narrower. The search for the best line becomes a search over $w$ and $b$ alone.
 
 ## 4. The constraints
 
@@ -119,6 +119,8 @@ This is why the $\pm 1$ equations are useful. While an optimiser adjusts $w$ and
 ### 4.1 Green points above $\pi^+$, red points below $\pi^-$
 
 > **Key point:** Green: $w^T x + b \geq 1$. Red: $w^T x + b \leq -1$. Support vectors give exactly ±1.
+
+Each training point $x_i$ is one **observation** (one record, a row of the data table). Its coordinates are its **features** (input variables, one column each), and its class is the **target** (the output we predict).
 
 The margin only means something if no point sits inside it. $\pi^+$ and $\pi^-$ stop at the first point of each class, so no green point can lie below $\pi^+$ and no red point above $\pi^-$. In equations:
 
@@ -131,7 +133,7 @@ The support vectors lie exactly on $\pi^+$ or $\pi^-$, so they give exactly $+1$
 
 > **Key point:** Label green points +1 and red points −1, and multiply: both rules become $y_i (w^T x_i + b) \geq 1$.
 
-Two separate rules are awkward to work with, so we merge them. Give every green point the label $y_i = +1$ and every red point the label $y_i = -1$, then multiply $w^T x_i + b$ by the label.
+Two separate rules are awkward to work with, so we merge them. Give every green point the target value $y_i = +1$ and every red point the target value $y_i = -1$, then multiply $w^T x_i + b$ by the target value.
 
 - **Green point:** $y_i = +1$ leaves $w^T x_i + b \geq 1$ unchanged.
 - **Red point:** multiplying $w^T x_i + b \leq -1$ by $-1$ flips the sign: $-(w^T x_i + b) \geq 1$.
@@ -154,7 +156,7 @@ The whole formula for the margin relies on these constraints. If a red point ent
 
 > **Key point:** $d = (x_2 - x_1) \cdot w / \lVert w \rVert$, and the equations of $\pi^+$ and $\pi^-$ turn this into 2/$\lVert w \rVert$.
 
-Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Figure 5). The vector from $x_1$ to $x_2$ is $x_2 - x_1$. It crosses the margin, but at a slant, so its length is not the margin.
+Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Figure 5). The vector from $x_1$ to $x_2$ is $x_2 - x_1$. The vector crosses the margin, but at a slant, so its length is not the margin.
 
 ![The margin is the projection of $x_2 - x_1$ onto the unit vector w/$\lVert w \rVert$](images/distance.png){height=38%}
 
@@ -179,9 +181,9 @@ The margin is two divided by the length of $w$. For the line of Figure 4, $w = (
 
 $$\lVert w \rVert = \sqrt{0.049^2 + 0.898^2} = 0.899, \qquad d = \frac{2}{0.899} = 2.22$$
 
-This is the margin $d = 2.22$ measured in the SVM intuition Note. The $b$ cancelled out: the margin depends only on $w$. It is the full width between $\pi^+$ and $\pi^-$; the one-sided distance from $\pi$ to the nearest point, called the margin in the [perceptron code Note](../71-perceptron-code/note.md), is half of it, $1/\lVert w \rVert$.
+The value 2.22 is the margin $d$ measured in the SVM intuition Note. The $b$ cancelled out: the margin depends only on $w$. The margin $d$ is the full width between $\pi^+$ and $\pi^-$; the one-sided distance from $\pi$ to the nearest point, called the margin in the [perceptron code Note](../71-perceptron-code/note.md), is half of it, $1/\lVert w \rVert$.
 
-> **Extra:** This also answers "why 1?". With $\pi^\pm: w^T x + b = \pm k$, the same steps give $d = 2k / \lVert w \rVert$. That is the old margin times a constant, so the same $w$ and $b$ are best. Equivalently, dividing $w$ and $b$ by $k$ turns $\pm k$ back into $\pm 1$ without moving any line. Fixing the support vectors at exactly $\pm 1$ simply picks one scale for $w$ and $b$.
+> **Extra:** The derivation also answers "why 1?". With $\pi^\pm: w^T x + b = \pm k$, the same steps give $d = 2k / \lVert w \rVert$. The new margin is the old one times a constant, so the same $w$ and $b$ are best. Equivalently, dividing $w$ and $b$ by $k$ turns $\pm k$ back into $\pm 1$ without moving any line. Fixing the support vectors at exactly $\pm 1$ simply picks one scale for $w$ and $b$.
 
 ## 6. The optimisation problem
 
@@ -191,7 +193,7 @@ Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin 
 
 $$w^*, b^* = \underset{w,\,b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\,(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 
-This is a **constrained optimisation** problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
+The problem is a **constrained optimisation** problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
 
 > **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM.
 >
@@ -211,7 +213,7 @@ This is a **constrained optimisation** problem: we maximise a function while kee
 
 > **Key point:** The formulation needs perfectly separable data. A single point on the wrong side makes the constraints impossible to meet.
 
-Real data is rarely perfectly separable. Usually it is **almost** linearly separable, with a few points on the wrong side, or not linearly separable at all.
+Real data is often not perfectly separable (ISL §9.1.5). Usually such data is **almost** linearly separable, with a few points on the wrong side, or not linearly separable at all.
 
 The constraints above allow no exceptions. In Figure 6 one green point lies among the red points: for the old line it gives $y(w^T x + b) = -2.47$, far below 1. No straight line can put that point on the green side without putting red points there too, so **no** $w$ and $b$ satisfy every constraint. The optimisation has no answer at all.
 
@@ -231,10 +233,14 @@ The formulation of this Note is called the **hard-margin SVM**: it works only on
 
 - $w$ is perpendicular to all three hyperplanes; $b$ shifts them.
 - Scaling $w$ and $b$ leaves $\pi$ in place but moves $\pi^+$ and $\pi^-$: a smaller $\lVert w \rVert$ means a wider margin.
-- The labels $\pm 1$ merge the two class rules into one constraint.
+- The target values $\pm 1$ merge the two class rules into one constraint.
 - Hard-margin SVM fails as soon as one point is on the wrong side.
 
-## 9. Key terms
+## 9. Sources
+
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd edition. Springer, 2021. Section 9.1.5, p. 373.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

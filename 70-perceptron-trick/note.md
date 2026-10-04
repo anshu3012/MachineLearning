@@ -16,24 +16,24 @@ title: "Logistic Regression: The Perceptron Trick"
 
 > **Key point:** Logistic regression separates two classes with a straight line. The perceptron trick is a simple way to find such a line: pick a random point, and if it is on the wrong side, move the line towards it.
 
-**Logistic regression** is one of the most widely used classification algorithms. It is also the basic building block of neural networks: a single neuron (the **perceptron**) is very close to it. Understanding it well is a good foundation for deep learning.
+**Logistic regression** is one of the most widely used classification algorithms. Logistic regression is also the basic building block of neural networks: a single neuron (the **perceptron**) is very close to it. Understanding it well is a good foundation for deep learning.
 
 Logistic regression can be explained in two ways:
 
 - **Geometric:** find a line that separates the classes.
 - **Probabilistic:** predict the probability that a point belongs to a class.
 
-These Notes build it step by step. This Note starts with the **perceptron trick**, a very simple geometric method. It does not give the best possible line, but it explains the idea that the later Notes improve on: the sigmoid function, the loss function and gradient descent.
+These Notes build it step by step. This Note starts with the **perceptron trick**, a very simple geometric method. The perceptron trick does not give the best possible line (Bishop §4.1.7), but it explains the idea that the later Notes improve on: the sigmoid function, the loss function and gradient descent.
 
 ## 2. When logistic regression works
 
 > **Key point:** The two classes must be (almost) linearly separable: a straight line, plane or hyperplane can split them.
 
-Take a dataset of students with two inputs, CGPA and IQ, and one output: placed or not placed. We want a model that takes a new student's CGPA and IQ and predicts whether they will be placed.
+Take a dataset of students. Each student is one **observation** (one record, one row of the data table). There are two **features** (input variables, one column each), CGPA and IQ, and one **target** (the output we predict): placed or not placed. We want a model that takes a new student's CGPA and IQ and predicts whether they will be placed.
 
 ![Linearly separable data and data that no straight line can split](images/separable.png){height=42%}
 
-Data is **linearly separable** when a straight line can split the two classes (Figure 1, left). With 3 inputs the divider is a plane, and with more inputs a **hyperplane**. A few points on the wrong side are fine: the data only needs to be almost separable.
+Data is **linearly separable** when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane**. A few points on the wrong side are fine: the data only needs to be almost separable.
 
 Logistic regression draws a straight divider, just as linear regression fits a straight line. So on data like Figure 1 (right), where one class surrounds the other, it cannot do well.
 
@@ -43,13 +43,13 @@ Logistic regression draws a straight divider, just as linear regression fits a s
 
 ### 3.1 The general form of a line
 
-> **Key point:** Ax + By + C = 0, or with more inputs, w₀ + w₁x₁ + w₂x₂ + ... = 0.
+> **Key point:** Ax + By + C = 0, or with more features, w₀ + w₁x₁ + w₂x₂ + ... = 0.
 
-Linear regression wrote a line as $y = mx + b$. In classification, both axes are inputs, so the line is written in its general form:
+Linear regression wrote a line as $y = mx + b$. In classification, both axes are features, so the line is written in its general form:
 
 $$Ax + By + C = 0$$
 
-With CGPA as $x_1$ and IQ as $x_2$, this becomes $A x_1 + B x_2 + C = 0$. A third input adds one more term: $A x_1 + B x_2 + C x_3 + D = 0$, a plane. Finding the separating line means finding good values of $A$, $B$ and $C$.
+With CGPA as $x_1$ and IQ as $x_2$, this becomes $A x_1 + B x_2 + C = 0$. A third feature adds one more term: $A x_1 + B x_2 + C x_3 + D = 0$, a plane. Finding the separating line means finding good values of $A$, $B$ and $C$.
 
 ### 3.2 Positive and negative sides
 
@@ -94,6 +94,8 @@ The algorithm:
 
 Each misclassified point "pulls" the line towards itself until it is on the correct side. After enough pulls, the line settles between the classes.
 
+An everyday picture: a farmer builds a fence between sheep and goats. Each time a goat is found on the sheep side, the farmer nudges the fence a little towards that goat; repeated nudges carry the fence past it. Animals already on the right side cause no change. After enough nudges, every animal is on its own side.
+
 ## 6. Moving the line towards a point
 
 > **Key point:** Add a 1 to the point's coordinates. For a negative point on the positive side, subtract them from (A, B, C). For a positive point on the negative side, add them.
@@ -102,7 +104,7 @@ Each misclassified point "pulls" the line towards itself until it is on the corr
 
 > **Key point:** Subtract (x, y, 1) from (A, B, C).
 
-Take the line $2x + 3y + 5 = 0$ and the point $(5, 2)$, which belongs to the negative class. It gives $10 + 6 + 5 = 21 > 0$, so it is on the positive side: misclassified.
+Take the line $2x + 3y + 5 = 0$ and the point $(5, 2)$, which belongs to the negative class. The point gives $10 + 6 + 5 = 21 > 0$, so it is on the positive side: misclassified.
 
 Append a 1 to the point, $(5, 2, 1)$, and subtract it from the coefficients $(2, 3, 5)$:
 
@@ -140,17 +142,17 @@ With $\eta = 0.1$, the first example gives $(2 - 0.5,\ 3 - 0.2,\ 5 - 0.1) = (1.5
 
 > **Key point:** Rename C, A, B as w₀, w₁, w₂ and add a column x₀ = 1.
 
-Write the line as $w_0 + w_1 x_1 + w_2 x_2 = 0$, so $w_0 = C$, $w_1 = A$ and $w_2 = B$. Then add a column $x_0$ that is always 1, as in multiple linear regression:
+Write the line as $w_0 + w_1 x_1 + w_2 x_2 = 0$, so $w_0 = C$, $w_1 = A$ and $w_2 = B$. Then add an extra feature $x_0$ that is always 1 (a column of 1s in the data table), as in multiple linear regression:
 
 $$\sum_{i=0}^{2} w_i x_i = w_0 x_0 + w_1 x_1 + w_2 x_2 = 0$$
 
-This works for any number of inputs, just with a longer sum. In vectors it is the dot product $w \cdot x$.
+The same sum works for any number of features, just with more terms. In vectors it is the dot product $w \cdot x$.
 
 ### 7.2 Predicting
 
 > **Key point:** Compute w · x for the student. If it is positive, predict 1 (placed); otherwise predict 0.
 
-For a student with CGPA 7.5 and IQ 110, the row is $x = (1,\ 7.5,\ 110)$. The model computes $w_0 \times 1 + w_1 \times 7.5 + w_2 \times 110$. If the result is above 0, it predicts placed (1); otherwise not placed (0). This is a **step function** of $w \cdot x$.
+For a student with CGPA 7.5 and IQ 110, the observation is $x = (1,\ 7.5,\ 110)$. The model computes $w_0 \times 1 + w_1 \times 7.5 + w_2 \times 110$. If the result is above 0, it predicts placed (1); otherwise not placed (0). The rule "1 if positive, else 0" is a **step function** of $w \cdot x$.
 
 ### 7.3 One update rule
 
@@ -193,17 +195,22 @@ So the loop needs no if-statements: for each random point, compute $\hat{y}$ and
 - A line $Ax + By + C = 0$ has a positive and a negative side; plug a point in to find which.
 - Perceptron trick: pick random points; move the line towards each misclassified one.
 - Update: $w \leftarrow w + \eta(y - \hat{y})x$, with a column of 1s in $x$.
-- It finds a separating line, but not necessarily the best one. The next Notes fix this.
+- The perceptron trick finds a separating line, but not necessarily the best one; which line it finds depends on the starting line and the order of the points (Bishop §4.1.7). The next Notes fix this.
 
-## 9. Key terms
+## 9. Sources
+
+- **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.1.7, pp. 192–196 (the perceptron algorithm; p. 194 on many solutions).
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
 | Logistic regression | A classification algorithm that separates classes with a line, plane or hyperplane |
-| Perceptron | A single artificial neuron: a weighted sum of the inputs followed by a step |
+| Perceptron | A single artificial neuron: a weighted sum of the features followed by a step |
 | Perceptron trick | Moving a line towards each misclassified point until the classes are separated |
 | Linearly separable | Data whose classes a straight line, plane or hyperplane can split |
 | Hyperplane | The flat divider in more than three dimensions |
+| Feature, target, observation | An input variable (one column), the output we predict, and one record (one row) |
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0 |
 | Step function | A function that outputs 1 for positive inputs and 0 otherwise |
 | Convergence | The point where training stops changing, here when no point is misclassified |

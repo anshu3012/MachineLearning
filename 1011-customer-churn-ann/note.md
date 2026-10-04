@@ -149,7 +149,7 @@ A **dense layer** (also **fully connected layer**) is a layer in which every nod
 >
 > `Dense(3, ...)` is a layer of 3 nodes. `keras.Input(shape=(11,))` tells the first layer how many inputs each row has; Keras works out the inputs of every later layer by itself.
 
-> **Extra:** Older code passes the input size to the first layer, `Dense(3, activation="sigmoid", input_dim=11)`, and imports from `tensorflow.keras`. Keras 3 drops `input_dim`: we write `keras.Input` as the first item instead and `import keras` directly.
+> **Extra:** Older code passes the input size to the first layer, `Dense(3, activation="sigmoid", input_dim=11)`, and imports from `tensorflow.keras`. Keras 3 still builds such a model but prints a warning asking for an `Input(shape)` object as the first layer instead. So we write `keras.Input` as the first item and `import keras` directly.
 
 ### 4.2 Counting the parameters with summary
 
@@ -202,7 +202,7 @@ Keras prints one line per epoch. The loss falls quickly at first, then more slow
 |---|---|---|---|---|---|
 | Loss | 0.713 | 0.569 | 0.502 | 0.455 | 0.430 |
 
-> **Extra:** Each epoch line also shows `250/250`. Keras does not update the weights once per epoch: by default it updates them after every **batch** of 32 rows, which is mini-batch gradient descent (see the [mini-batch gradient descent Note](../60-mini-batch-gradient-descent/note.md)). 8,000 rows / 32 = 250 updates per epoch. The `batch_size` argument of `fit` changes this.
+> **Extra:** Each epoch line also shows `250/250`. Keras does not update the weights once per epoch: by default it updates them after every **batch** of 32 rows (Keras docs, `Model.fit`), which is mini-batch gradient descent (see the [mini-batch gradient descent Note](../60-mini-batch-gradient-descent/note.md)). 8,000 rows / 32 = 250 updates per epoch. The `batch_size` argument of `fit` changes this.
 
 ### 5.3 Where the weights are stored
 
@@ -258,7 +258,7 @@ The first network scores 79.25% accuracy on the 2,000 test customers. But 1,585 
 
 Figure 3 (left) confirms it: the first network predicted "leaves" for nobody. After 10 epochs its probabilities run from 0.069 to 0.498: even the most likely leaver falls just short of the 0.5 threshold. This is the trap of accuracy on imbalanced data, described in section 6 of the [accuracy and confusion matrix Note](../76-accuracy-confusion-matrix/note.md). The confusion matrix shows it at once; accuracy alone hides it.
 
-> **Extra:** The exact result depends on the random starting weights, so another run can flag a few leavers and score slightly higher. Either way, a network this small, trained for 10 epochs, has barely learned the pattern.
+> **Extra:** The exact result depends on the random starting weights. With four other seeds, the same network flags 35 to 128 customers as leaving and scores 79.9% to 80.7% (Notebook). Either way, a network this small, trained for 10 epochs, has barely learned the pattern: trained for 100 epochs instead, it reaches 83.4%.
 
 ## 7. Improving the network
 
@@ -271,7 +271,7 @@ Figure 3 (left) confirms it: the first network predicted "leaves" for nobody. Af
 A first network is rarely the best one. We experiment with:
 
 1. **More epochs:** more passes over the data, more time to find good weights. We go from 10 to 100.
-2. **ReLU in the hidden layers:** hidden layers with the ReLU activation usually train better than sigmoid ones (see the [MLP intuition Note](../1009-mlp-intuition/note.md), section 5). The output stays sigmoid, since we still want a probability. Activation functions get their own Notes later.
+2. **ReLU in the hidden layers:** hidden layers with the ReLU activation usually train better than sigmoid ones (see the [MLP intuition Note](../1009-mlp-intuition/note.md), section 5; Goodfellow et al. 2016, §6.3). The output stays sigmoid, since we still want a probability. Activation functions get their own Notes later.
 3. **More nodes per hidden layer:** 11 instead of 3.
 4. **More hidden layers:** two instead of one.
 
@@ -327,7 +327,7 @@ Each epoch line now has four numbers. For the last epoch:
 
 We want the loss to fall and the accuracy to rise on **both** sets. If the training accuracy keeps rising while the validation accuracy stalls or falls, the network is overfitting. Here training (86.4%) is a little ahead of validation (85.3%): a slight gap.
 
-> **Extra:** `validation_split` takes the **last** 20% of the rows, not a random 20%. Our rows were already shuffled by `train_test_split`, so that is fine; on data sorted by date or by class, shuffle first or pass `validation_data=(X_val, y_val)` instead.
+> **Extra:** `validation_split` takes the **last** 20% of the rows, not a random 20% (Keras docs, `Model.fit`). Our rows were already shuffled by `train_test_split`, so that is fine; on data sorted by date or by class, shuffle first or pass `validation_data=(X_val, y_val)` instead.
 
 On the test set the second network scores **86.45%**, against 79.25%. Figure 3 (right) shows what changed: it now finds 189 of the 415 customers who left, while wrongly flagging only 45 who stayed.
 
@@ -374,7 +374,12 @@ The gap between the two curves measures overfitting. Here it is small, but it is
 - On imbalanced data, compare accuracy with always predicting the majority class, and look at the confusion matrix.
 - Improve by changing epochs, activation, nodes and layers; watch the training curves for a gap that signals overfitting.
 
-## 10. Key terms
+## 10. Sources
+
+- Keras documentation, `Model.fit` (`batch_size` defaults to 32; `validation_split` takes the last samples, before shuffling).
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.3 (rectified linear units as the default hidden unit).
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

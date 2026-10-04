@@ -15,7 +15,7 @@ title: "Dropout"
 
 > **Key point:** Dropout fights overfitting by switching off a random set of nodes at every training step, so the network trains a different, smaller sub-network each time. At prediction time every node is back.
 
-Neural networks overfit easily, and dropout is one of the most used remedies. It was proposed by Nitish Srivastava, Geoffrey Hinton and colleagues (Hinton et al. 2012; Srivastava et al. 2014), and since then it has become a standard part of training networks.
+Neural networks overfit easily, and dropout is one of the most used remedies. Dropout was proposed by Nitish Srivastava, Geoffrey Hinton and colleagues (Hinton et al. 2012; Srivastava et al. 2014), and since then it has become a standard part of training networks.
 
 ![Dropout on a network with 5 inputs, two hidden layers of 5 nodes and 1 output. At every training step a new random set of nodes (dashed) is switched off.](images/dropout_steps.png)
 
@@ -51,13 +51,13 @@ The possible fixes:
 
 > **Key point:** A dropped node has no connections in that step: it sends nothing, receives nothing, and its weights are not updated.
 
-Take a binary classification problem with 5 input columns. The network has an input layer of 5 nodes, two hidden layers of 5 nodes each, and an output layer of 1 node (Figure 1, left).
+Take a binary classification problem with 5 **features** (input variables, one column of the data table each). The network has an input layer of 5 nodes, two hidden layers of 5 nodes each, and an output layer of 1 node (Figure 1, left).
 
 With **dropout**, before each training step we randomly switch off some nodes of the input layer and of the hidden layers. A switched-off node is cut from the network for that step: its weights and bias play no part in the prediction, and backpropagation does not update them. In Figure 1, step 1 drops 2 input nodes, 3 nodes of the first hidden layer and 2 of the second. Step 2 draws a new random set: some of the dropped nodes come back and others go.
 
 So each step trains a different network on the data. Every one of them is a smaller **sub-network** of the full network, using a subset of its nodes and the same shared weights.
 
-> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every mini-batch (and each row of the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
+> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every mini-batch (and each **observation**, one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
 
 ### 4.2 The dropout rate
 
@@ -85,7 +85,7 @@ Every sub-network is smaller than the full one. Fewer nodes mean fewer connectio
 
 > **Key point:** Since any input may vanish in the next step, a node spreads its weights over all its inputs instead of leaning on one.
 
-Take one node of the second hidden layer, receiving input from 4 nodes of the first. Depending on the data, it may start to rely mostly on one of them: one large weight and three small ones. It is then focused on one particular pattern.
+Take one node of the second hidden layer, receiving input from 4 nodes of the first. Depending on the data, it may start to rely mostly on one of them: one large weight and three small ones. The node is then focused on one particular pattern.
 
 With dropout, that favourite input is missing in some steps. The node cannot know whether it will be there in the next step, so it has to make use of the other three too. Its attention is divided over all its inputs, the weights become more balanced, and the network ignores small, isolated patterns in favour of the overall pattern of the data.
 
@@ -95,7 +95,7 @@ A company analogy helps. Suppose every morning, a random half of the employees i
 
 > **Key point:** Dropout trains a huge number of sub-networks that share their weights; prediction combines them, as a random forest combines its trees.
 
-A random forest trains many decision trees, each on a random sample of the columns (see the [random forest Note](../108-random-forest-intro/note.md), section 5.3), and lets them vote. The trees differ a little from each other, and the vote of the ensemble overfits much less than any one tree.
+A random forest trains many decision trees, each on a random sample of the features (see the [random forest Note](../108-random-forest-intro/note.md), section 5.3), and lets them vote. The trees differ a little from each other, and the vote of the ensemble overfits much less than any one tree.
 
 Dropout does the same with networks. Each training step trains a different sub-network on the data; at prediction time their knowledge is combined. And the number of possible sub-networks is enormous:
 
@@ -104,13 +104,13 @@ Dropout does the same with networks. Each training step trains a different sub-n
    $$\text{number of sub-networks} = 2^{n}$$
 3. **Example:** a network with 4 inputs, 4 hidden nodes and 1 output has $n = 8$ droppable nodes (the output is never dropped): $2^8 = 256$ sub-networks. The network of Figure 1 has $n = 15$: $2^{15} = 32{,}768$.
 
-With so many possibilities, the same sub-network is very unlikely to come up twice in training. Training for 100 steps trains 100 different networks, close relatives because they share weights, and the final network behaves like their ensemble (Srivastava et al. 2014, §1). This is why dropout is often compared with a random forest.
+With so many possibilities, the same sub-network is very unlikely to come up twice in training. Training for 100 steps trains 100 different networks, close relatives because they share weights, and the final network behaves like their ensemble (Srivastava et al. 2014, §1). The ensemble view is why dropout is often compared with a random forest.
 
 ## 6. Dropout at prediction time
 
 > **Key point:** Dropout is applied only during training. At prediction every node is present, and each weight is multiplied by $1 - p$ to make up for it.
 
-During testing and prediction no node is dropped: every node and every connection is active. That creates a mismatch. During training, a node was present only part of the time, so the nodes after it got used to receiving its signal only that often. At prediction it is always present.
+During testing and prediction no node is dropped: every node and every connection is active. Using every node creates a mismatch. During training, a node was present only part of the time, so the nodes after it got used to receiving its signal only that often. At prediction it is always present.
 
 The fix is to scale the weights down by the probability that the node was present.
 

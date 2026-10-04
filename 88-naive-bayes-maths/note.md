@@ -20,10 +20,10 @@ The previous Note used the Naive Bayes recipe on a small example. This Note deri
 
 ## 2. Notation
 
-> **Key point:** Inputs x = (x₁, ..., xₙ); K classes, C₁ to Cₖ for k up to K.
+> **Key point:** Features x = (x₁, ..., xₙ); K classes, C₁ to Cₖ for k up to K.
 
-- A row has $n$ input values, $x = (x_1, x_2, \dots, x_n)$. In the cricket example, $n = 3$: toss, venue and outlook.
-- The output is one of $K$ classes, $C_1, \dots, C_K$. In the cricket example, $K = 2$: win and loss.
+- An **observation** (one record, a row of the data table) has $n$ **features** (input variables, one column each), with values $x = (x_1, x_2, \dots, x_n)$. In the cricket example, $n = 3$: toss, venue and outlook.
+- The **target** (the output we predict) is one of $K$ classes, $C_1, \dots, C_K$. In the cricket example, $K = 2$: win and loss.
 
 The goal: for each class $C_k$, compute $P(C_k \mid x)$, then pick the largest.
 
@@ -39,13 +39,13 @@ The evidence $P(x)$ is the same for every class, so it does not affect which cla
 
 $$P(C_k \mid x) \propto P(x \mid C_k)\, P(C_k)$$
 
-From the Bayes' theorem proof, $P(x \mid C_k) P(C_k) = P(x \cap C_k)$, the probability of the inputs and the class together. Writing the inputs out, with commas meaning "and":
+From the Bayes' theorem proof, $P(x \mid C_k) P(C_k) = P(x \cap C_k)$, the probability of the features and the class together. Writing the features out, with commas meaning "and":
 
 $$P(C_k \mid x) \propto P(x_1, x_2, \dots, x_n, C_k)$$
 
 ## 4. Step 2: the chain rule
 
-> **Key point:** Peel off one variable at a time with P(A, B) = P(A | B) P(B). This is exact.
+> **Key point:** Peel off one variable at a time with P(A, B) = P(A | B) P(B). The rule is exact.
 
 Apply $P(A \cap B) = P(A \mid B)\,P(B)$ with $A = x_1$ and $B = (x_2, \dots, x_n, C_k)$:
 
@@ -59,19 +59,19 @@ Repeating until only $x_n$ and $C_k$ are left, and finally $P(x_n, C_k) = P(x_n 
 
 $$P(x_1, \dots, x_n, C_k) = P(x_1 \mid x_2, \dots, x_n, C_k)\; P(x_2 \mid x_3, \dots, x_n, C_k) \cdots P(x_n \mid C_k)\; P(C_k)$$
 
-This repeated splitting is the **chain rule** of probability. Nothing has been assumed yet: it is exact.
+This repeated splitting is the **chain rule** of probability. Nothing has been assumed yet: the chain rule is exact.
 
 ## 5. Step 3: the naive assumption
 
-> **Key point:** Assume each input depends only on the class, not on the other inputs: P(xᵢ | other inputs, Cₖ) = P(xᵢ | Cₖ).
+> **Key point:** Assume each feature depends only on the class, not on the other features: P(xᵢ | other features, Cₖ) = P(xᵢ | Cₖ).
 
-The factors of the chain rule are hard to estimate. For the cricket match, $P(x_1 \mid x_2, x_3, C_k)$ is "the probability the toss was lost, given the venue was Mumbai, the weather was sunny and the match was won". Few or no training rows match all those conditions, so the estimate is 0 or unreliable (the intuition Note).
+The factors of the chain rule are hard to estimate. For the cricket match, $P(x_1 \mid x_2, x_3, C_k)$ is "the probability the toss was lost, given the venue was Mumbai, the weather was sunny and the match was won". Few or no training observations match all those conditions, so the estimate is 0 or unreliable (the intuition Note).
 
-Naive Bayes assumes **conditional independence**: once the class is known, each input is independent of the others. In symbols, for any inputs,
+Naive Bayes assumes **conditional independence**: once the class is known, each feature is independent of the others. In symbols, for any features,
 
 $$P(x_i \mid x_{i+1}, \dots, x_n, C_k) = P(x_i \mid C_k)$$
 
-This is the independence of the independent events Note, $P(A \mid B) = P(A)$, but holding **within each class**. Every chain-rule factor loses its other inputs (the red parts in Figure 1):
+Conditional independence is the independence of the independent events Note, $P(A \mid B) = P(A)$, but holding **within each class**. Every chain-rule factor loses its other features (the red parts in Figure 1):
 
 $$P(x_1, \dots, x_n, C_k) \approx P(x_1 \mid C_k)\, P(x_2 \mid C_k) \cdots P(x_n \mid C_k)\, P(C_k)$$
 
@@ -93,20 +93,22 @@ $$\hat{y} = \underset{k \in \{1, \dots, K\}}{\arg\max}\; P(C_k) \prod_{i=1}^{n} 
 
 ## 7. When the assumption fails
 
-> **Key point:** The chain rule is exact; the naive product is only exact when the inputs really are independent within each class. Strongly related inputs get counted twice.
+> **Key point:** The chain rule is exact; the naive product is only exact when the features really are independent within each class. Strongly related features get counted twice.
 
-A simulation with two binary inputs and 200,000 rows shows the difference:
+A simulation with two binary features and 200,000 observations shows the difference:
 
-| Inputs within a class | Exact $P(x_1, x_2 \mid C)$ | Chain rule | Naive product |
+| Features within a class | Exact $P(x_1, x_2 \mid C)$ | Chain rule | Naive product |
 |---|---|---|---|
 | independent | 0.476 | 0.476 | 0.477 |
 | $x_2$ is a copy of $x_1$ | 0.800 | 0.800 | 0.639 |
 
-When the inputs are independent, the naive product matches. When $x_2$ simply repeats $x_1$, the naive product multiplies the same evidence twice and is wrong.
+When the features are independent, the naive product matches. When $x_2$ simply repeats $x_1$, the naive product multiplies the same evidence twice and is wrong.
 
-![Copying a column makes Naive Bayes over-confident](images/duplicate.png){height=40%}
+An everyday picture: two friends tell us the same rumour, but both read it in the same newspaper. The rumour feels twice as certain, yet we have only one source.
 
-Figure 2 shows the effect on the cricket prediction: each extra copy of the "toss" column pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
+![Copying a feature makes Naive Bayes over-confident](images/duplicate.png){height=40%}
+
+Figure 2 shows the effect on the cricket prediction: each extra copy of the "toss" feature pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
 
 In practice, Naive Bayes often still picks the right class even when its independence assumption is wrong, because only the **order** of the scores matters for the prediction. Its probabilities, however, tend to be too extreme, so they should not be trusted as exact (Domingos and Pazzani 1997; scikit-learn user guide §1.9).
 

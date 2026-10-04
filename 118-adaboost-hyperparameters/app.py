@@ -27,6 +27,31 @@ def fit(n_estimators=50, learning_rate=1.0, max_depth=1):
     return model, f"train {model.score(X_train, y_train):.2f}, test {model.score(X_test, y_test):.2f}"
 
 
+def averaged_runs(n_datasets=20, n_estimators=1500, learning_rates=(1.0, 0.1, 0.01), depths=(1, 3, 8)):
+    """One split of 100 test points is noisy, so average over n_datasets fresh circles datasets (400 training
+    points each), each scored on 5,000 new points from the same distribution.
+    Returns {learning_rate: (mean train curve, mean test curve)} over stages, and {depth: (train, test)} for 50 trees."""
+    from joblib import Parallel, delayed
+
+    def one(s):
+        Xa, ya = make_circles(n_samples=400, factor=0.1, noise=0.35, random_state=s)
+        Xb, yb = make_circles(n_samples=5000, factor=0.1, noise=0.35, random_state=1000 + s)
+        curves = {}
+        for lr in learning_rates:
+            m = AdaBoostClassifier(n_estimators=n_estimators, learning_rate=lr, random_state=s).fit(Xa, ya)
+            pad = lambda a: np.pad(a, (0, n_estimators - len(a)), mode="edge")   # early stop: hold the last score
+            curves[lr] = (pad(np.array(list(m.staged_score(Xa, ya)))), pad(np.array(list(m.staged_score(Xb, yb)))))
+        deep = {d: (m.score(Xa, ya), m.score(Xb, yb)) for d in depths
+                for m in [AdaBoostClassifier(DecisionTreeClassifier(max_depth=d), n_estimators=50,
+                                             random_state=s).fit(Xa, ya)]}
+        return curves, deep
+
+    runs = Parallel(n_jobs=-1)(delayed(one)(s) for s in range(n_datasets))
+    curves = {lr: tuple(np.mean([r[0][lr][k] for r in runs], axis=0) for k in (0, 1)) for lr in learning_rates}
+    deep = {d: tuple(np.mean([r[1][d][k] for r in runs]) for k in (0, 1)) for d in depths}
+    return curves, deep
+
+
 def traces(model, show_legend=False):
     """Decision regions (predicted class on a grid of points, as in the KNN Note) plus the training points."""
     XX, YY = np.meshgrid(xs, ys)

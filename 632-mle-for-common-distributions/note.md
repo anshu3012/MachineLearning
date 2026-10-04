@@ -6,7 +6,7 @@ title: "MLE for the Binomial, Exponential and Normal Distributions"
 
 > **Key point:** Following the maximum likelihood recipe by hand gives three famous answers: the binomial's $\hat p$ is the share of successes, the exponential's $\hat\lambda$ is one over the average waiting time, and the normal's $\hat\mu$ and $\hat\sigma$ are the mean and standard deviation of the data.
 
-This Note follows the StatQuest lessons "Maximum Likelihood for the Binomial Distribution", "Maximum Likelihood for the Exponential Distribution" and "Maximum Likelihood For the Normal Distribution" (Josh Starmer).
+This Note follows three explanations by Starmer (StatQuest, statquest.org): "Maximum Likelihood for the Binomial Distribution", "Maximum Likelihood for the Exponential Distribution" and "Maximum Likelihood For the Normal Distribution".
 
 ![The PMF of B(7, p) as p slides from 0.05 to 0.95. The orange bar is the probability of the observed count, 4 of 7; traced against p (bottom), it is the likelihood, highest at p = 4/7](images/binomial_sweep.gif)
 
@@ -243,10 +243,10 @@ So maximum likelihood does not promise an unbiased estimate. Maximum likelihood 
 
 ## 7. Sources
 
-- Starmer, J. "Maximum Likelihood for the Binomial Distribution", StatQuest (statquest.org). Section 2.
-- Starmer, J. "Maximum Likelihood for the Exponential Distribution", StatQuest (statquest.org). Section 3.
-- Starmer, J. "Maximum Likelihood For the Normal Distribution", StatQuest (statquest.org). Section 4.
-- SciPy documentation: `scipy.stats.expon` (scale = 1/λ) and `rv_continuous.fit` (maximum likelihood by default). Section 3.3.
+- Starmer, J. "Maximum Likelihood for the Binomial Distribution", StatQuest (statquest.org). Used in Section 2.
+- Starmer, J. "Maximum Likelihood for the Exponential Distribution", StatQuest (statquest.org). Used in Section 3.
+- Starmer, J. "Maximum Likelihood For the Normal Distribution", StatQuest (statquest.org). Used in Section 4.
+- SciPy documentation: `scipy.stats.expon` (scale = 1/λ) and `rv_continuous.fit` (maximum likelihood by default). Used in Section 3.3.
 
 ## 8. Key terms
 

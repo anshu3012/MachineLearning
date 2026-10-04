@@ -16,7 +16,7 @@ title: "Handling Missing Data: Imputing Numerical Columns with SimpleImputer"
 
 > **Key point:** We fill each gap in a numerical column with one number taken from the same column: its mean or median, an arbitrary value, or a value at the end of its distribution.
 
-Note 35 mapped the ways of handling missing data. This Note covers univariate imputation of numerical columns: each gap is filled using only the values of its own column.
+Note 35 mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
 
 Figure 1 shows the three techniques on a small `Age` column with two gaps:
 
@@ -48,20 +48,20 @@ Figure 2 shows both cases on the Titanic training data of Section 3. `Age` is cl
 
 ### 2.2 Advantages
 
-> **Key point:** It is simple to compute and simple to repeat on new data in production.
+> **Key point:** Mean or median imputation is simple to compute and simple to repeat on new data in production.
 
 1. **Simple.** We compute one number per column and put it into every gap.
-2. **Easy to use in production.** The deployed model receives new rows that may have gaps. We store the mean or median from training and fill the new gaps with it.
+2. **Easy to use in production.** The deployed model receives new observations that may have gaps. We store the mean or median from training and fill the new gaps with it.
 
-It gives reasonable results when few values are missing, under about 5% of the column. With more missing values it becomes less reliable.
+Mean or median imputation gives reasonable results when few values are missing, under about 5% of the feature. With more missing values the method becomes less reliable.
 
 ### 2.3 Disadvantages
 
-> **Key point:** It piles values at the centre, which changes the distribution's shape, creates outliers, and weakens the column's relationships with other columns.
+> **Key point:** Mean or median imputation piles values at the centre, which changes the distribution's shape, creates outliers, and weakens the feature's relationships with other features.
 
 1. **The shape of the distribution changes.** Every gap gets the same value, so a tall spike appears at the centre.
 2. **Outliers appear.** With many values at the centre, the middle half of the data becomes narrower. Values that were normal before now fall outside the whiskers of a box plot and count as outliers.
-3. **The covariance and correlation with other columns change.** The filled values ignore the other columns, so the column's relationship with them weakens.
+3. **The covariance and correlation with other features change.** The filled values ignore the other features, so the feature's relationship with them weakens.
 
 All three are bad for a model. Section 3 shows each of them on real data.
 
@@ -84,7 +84,7 @@ Mean and median imputation is used widely because it is so simple. Better techni
 
 > **Key point:** We split into training and test sets first, and compute every fill value from the training set only.
 
-The data has 891 Titanic passengers and four numerical columns: `Age`, `Fare`, `Family` and `Survived`, the target. `Family` is the number of siblings, spouses, parents and children aboard.
+The data has 891 Titanic passengers, one observation each, and four numerical columns: three features, `Age`, `Fare` and `Family`, and the target `Survived`. `Family` is the number of siblings, spouses, parents and children aboard.
 
 `Age` has 177 missing values (19.9%). `Fare` originally had none; 45 values (5.1%) were deleted at random so that it has some. `Family` and `Survived` are complete.
 
@@ -112,7 +112,7 @@ The same is done for `Fare`, with median 14.46 and mean 32.62. The test set is f
 
 > **Key point:** Mean or median imputation always lowers the variance, and the more values are missing, the more it drops.
 
-The variance measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls.
+The variance measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is.
 
 | Column | Original | Median imputed | Mean imputed |
 |---|---|---|---|
@@ -142,9 +142,9 @@ For `Age`, the peak grows from about 0.03 to about 0.05, and the curve becomes n
 
 ### 3.4 Covariance and correlation change
 
-> **Key point:** After imputing `Age`, its covariance with `Fare` drops from 70.7 to about 56, and its correlation with `Family` from $-0.30$ to $-0.24$.
+> **Key point:** A filled value ignores the other features, so imputing `Age` weakens its link with them: its correlation with `Family` falls by about a fifth.
 
-**Covariance** measures how two columns move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. **Correlation** is the covariance rescaled to lie between $-1$ and $1$.
+**Covariance** measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. **Correlation** is the covariance rescaled to lie between $-1$ and $1$.
 
 | Covariance with | `Fare` | `Family` |
 |---|---|---|
@@ -198,7 +198,7 @@ For `Fare`, the box hardly moves. The count of outliers goes from 93 to 94 (medi
 
 > **Key point:** `SimpleImputer` learns the fill value with `fit` on the training set and fills gaps with `transform`; inside a `ColumnTransformer`, each column can get its own strategy.
 
-pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool for real projects. It can go into a pipeline (a later Note), can be tuned with grid search, and its learned values are saved with the model for production.
+pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool for real projects. `SimpleImputer` can go into a pipeline (a later Note), can be tuned with grid search, and its learned values are saved with the model for production.
 
 ### 4.1 The main parameters
 
@@ -242,7 +242,7 @@ trf.named_transformers_["imputer1"].statistics_  # [28.75]
 trf.named_transformers_["imputer2"].statistics_  # [32.6176]
 ```
 
-These are the training median of `Age` and the training mean of `Fare`. `transform` puts the same 28.75 and 32.62 into the gaps of the training set *and* the test set.
+These two numbers are the training median of `Age` and the training mean of `Fare`. `transform` puts the same 28.75 and 32.62 into the gaps of the training set *and* the test set.
 
 ## 5. Arbitrary value imputation
 
@@ -252,14 +252,14 @@ These are the training median of `Age` and the training mean of `Fare`. `transfo
 
 The aim is the opposite of mean imputation. Instead of hiding the gaps, we mark them, so the model can learn whether "missing" itself carries information.
 
-The technique is used mostly for categorical columns, where gaps become a new category such as "Missing" (next Note). It works the same way for numbers.
+The technique is used mostly for categorical features, where gaps become a new category such as "Missing" (next Note). Arbitrary value imputation works the same way for numbers.
 
 ### 5.1 Advantages, disadvantages and when to use it
 
-> **Key point:** It is easy, but it distorts the distribution, variance and covariance; use it when the data is not missing at random.
+> **Key point:** Arbitrary value imputation is easy, but it distorts the distribution, variance and covariance; use it when the data is not missing at random.
 
 - **Advantage:** very easy to apply.
-- **Disadvantages:** the same three as mean imputation, usually worse. A spike appears at the arbitrary value, so the distribution (its density curve, or PDF) changes; the variance changes, often grows a lot; the covariance and correlation with other columns change.
+- **Disadvantages:** the same three as mean imputation, usually worse. A spike appears at the arbitrary value, so the distribution (its density curve, or PDF) changes; the variance changes, often grows a lot; the covariance and correlation with other features change.
 - **When to use it:** when the data is *not* missing completely at random. Then the fact that a value is missing may itself tell the model something.
 
 The distortion is accepted on purpose: it is what makes the missing rows stand out. In practice the technique is not used much, because better ones exist.
@@ -298,7 +298,7 @@ The relationships change too. The covariance of `Age` with `Fare` goes from 70.7
 
 > **Key point:** Instead of guessing an arbitrary value, take one from the far end of the column's own distribution.
 
-Choosing a good arbitrary value is hard: it must be outside the data, but how far? **End of distribution imputation** answers this by filling the gaps with a value at the end of the column's distribution. It is an extension of arbitrary value imputation, and the two share the same aim: mark the missing rows for the model.
+Choosing a good arbitrary value is hard: it must be outside the data, but how far? **End of distribution imputation** answers this by filling the gaps with a value at the end of the column's distribution. The technique is an extension of arbitrary value imputation, and the two share the same aim: mark the missing rows for the model.
 
 How we find the end depends on the shape of the column.
 
@@ -388,7 +388,11 @@ Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 | Median imputation | Filling every gap with the median of the column's known values; better for skewed columns |
 | Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$ |
 | End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\,\text{IQR}$ |
-| Covariance | How two columns move together; positive if they rise together, no fixed limits |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
+| Covariance | How two features move together; positive if they rise together, no fixed limits |
+
 | Correlation | Covariance rescaled to lie between $-1$ and $1$ |
 | `strategy` | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant |
 | `fill_value` | The value `SimpleImputer` uses with `strategy="constant"` |

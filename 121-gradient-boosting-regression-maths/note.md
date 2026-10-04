@@ -18,15 +18,15 @@ title: "Gradient Boosting for Regression: the Maths"
 
 ![The gradient boosting algorithm (after The Elements of Statistical Learning, Algorithm 10.3)](images/algorithm.png){height=46%}
 
-The [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md) ran gradient boosting by hand: the mean, residuals, trees on the residuals, a learning rate. Figure 1 is the same procedure written as the formal algorithm from the textbook *The Elements of Statistical Learning*. This Note explains every line of it and runs each step on three startups.
+The [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md) ran gradient boosting by hand: the mean, residuals, trees on the residuals, a learning rate. Figure 1 is the same procedure written as the formal algorithm from the textbook *The Elements of Statistical Learning*. The present Note explains every line of it and runs each step on three startups.
 
 The same algorithm also solves classification; only the loss function changes ([gradient boosting classification Note](../122-gradient-boosting-classification/note.md)). Before the steps, we need one idea that all boosting algorithms share: additive modelling.
 
 ## 2. A model is a function
 
-> **Key point:** Every ML model is a function $y = f(x)$ that maps the input columns to the output column.
+> **Key point:** Every ML model is a function $y = f(x)$ that maps the features to the target.
 
-Whatever the algorithm, an ML model learns a mathematical relationship between the inputs and the output. With one input $x$ (say CGPA) and an output $y$ (say package), the model is a function $y = f(x)$. With several inputs, it is $y = f(x_1, x_2, x_3)$.
+Whatever the algorithm, an ML model learns a mathematical relationship between the **features** (the input variables, one column of the data table each) and the **target** (the output we predict). With one feature $x$ (say CGPA) and a target $y$ (say package), the model is a function $y = f(x)$. With several features, it is $y = f(x_1, x_2, x_3)$. Each **observation** (one record, one row of the table) gives one pair of $x$ and $y$.
 
 Linear regression learns a straight line ([simple linear regression Note](../50-simple-linear-regression/note.md)): a very simple function. A decision tree is also a function, made of if-else rules ([regression trees Note](../99-regression-trees/note.md)). Learning means finding the function that matches the data.
 
@@ -48,9 +48,9 @@ Some data follows a pattern that wiggles as it rises. A straight line cannot fol
 
 ![A complex function as the sum of two simple ones: a straight line plus a sine wave](images/additive.png){height=26%}
 
-Figure 2 shows such a function: it rises like a line and wiggles like a wave. It is in fact the sum of two simple functions, $y = x$ and $y = \sin x$. If we did not know this, we could still approach it step by step: first catch the rising trend, then catch the wiggle that is left over, and add the two.
+Figure 2 shows such a function: it rises like a line and wiggles like a wave. The function is in fact the sum of two simple functions, $y = x$ and $y = \sin x$. If we did not know this, we could still approach it step by step: first catch the rising trend, then catch the wiggle that is left over, and add the two.
 
-This is **additive modelling**: we approximate a complex function by adding simple functions, each one capturing part of what the others missed.
+Catching the parts one by one and adding them is **additive modelling**: we approximate a complex function by adding simple functions, each one capturing part of what the others missed. A painter works the same way: first the rough outline, then the shading, then the fine details, each pass adding what the earlier ones left out.
 
 $$F(x) = f_0(x) + f_1(x) + f_2(x) + \dots + f_M(x)$$
 
@@ -64,13 +64,13 @@ In gradient boosting, $f_0$ is a constant and every later $f_m$ is a regression 
 
 ## 4. The ingredients: training data and a differentiable loss
 
-> **Key point:** The algorithm needs two inputs: the training rows $(x_i, y_i)$, and a loss function $L(y, F(x))$ that we can differentiate.
+> **Key point:** The algorithm needs two ingredients: the training observations $(x_i, y_i)$, and a loss function $L(y, F(x))$ that we can differentiate.
 
 ### 4.1 Three startups
 
-> **Key point:** Three rows, three input columns (spending), one output (profit): $n = 3$.
+> **Key point:** Three observations, three features (spending), one target (profit): $n = 3$.
 
-We use three rows of the 50 Startups data, a regression dataset of US companies (amounts in thousands):
+We use three observations of the 50 Startups data, a regression dataset of US companies (amounts in thousands):
 
 | Startup | R&D spend | Administration | Marketing | Profit |
 |---|---|---|---|---|
@@ -94,15 +94,15 @@ For regression we take the squared error with a factor of one half.
 3. **Example:** startup 1 with a prediction of 142.41:
    $$L = \frac{1}{2}(192.26 - 142.41)^2 = \frac{1}{2} \times 2485.02 = 1242.51$$
 
-The $\frac{1}{2}$ is for convenience: when we differentiate, the 2 from the square cancels it. It does not change which model is best. If line 1 has squared error 10 and line 2 has 20, halving gives 5 and 10, and line 1 is still the better one.
+The $\frac{1}{2}$ is for convenience: when we differentiate, the 2 from the square cancels it. The factor does not change which model is best. If line 1 has squared error 10 and line 2 has 20, halving gives 5 and 10, and line 1 is still the better one.
 
 ## 5. Step 1: the best constant is the mean
 
 > **Key point:** $F_0$ is the single number $\gamma$ that makes the total loss smallest. For half the squared error, setting the derivative to zero gives the mean of $y$.
 
-Step 1 finds the first function, $F_0$. It does not depend on $x$: it is one number for every row, a leaf on its own.
+Step 1 finds the first function, $F_0$. $F_0$ does not depend on $x$: it is one number for every observation, a leaf on its own.
 
-1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all rows as small as possible. "$\arg\min_\gamma$" means "the value of $\gamma$ that minimises".
+1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all observations as small as possible. "$\arg\min_\gamma$" means "the value of $\gamma$ that minimises".
 2. **Formula:**
    $$F_0 = \arg\min_{\gamma} \sum_{i=1}^{n} \frac{1}{2}\,(y_i - \gamma)^2$$
 3. **Example:** for our three startups we need the $\gamma$ that minimises $\frac{1}{2}\big[(192.26 - \gamma)^2 + (144.26 - \gamma)^2 + (90.71 - \gamma)^2\big]$. The derivation below gives $\gamma = 142.41$.
@@ -115,13 +115,13 @@ Multiplying by $-1$ and writing out the sum for $n = 3$:
 
 $$(\gamma - 192.26) + (\gamma - 144.26) + (\gamma - 90.71) = 0 \quad\Rightarrow\quad 3\gamma = 427.23 \quad\Rightarrow\quad \gamma = 142.41$$
 
-That is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the output column, as the intuition Note claimed. With another loss, step 1 gives another constant.
+The answer, 142.41, is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the target, as the intuition Note claimed. With another loss, step 1 gives another constant.
 
 ## 6. Step 2(a): pseudo-residuals are negative gradients
 
-> **Key point:** For every row, the pseudo-residual is minus the derivative of the loss with respect to the current prediction. For half the squared error, that is exactly actual minus predicted.
+> **Key point:** For every observation, the pseudo-residual is minus the derivative of the loss with respect to the current prediction. For half the squared error, that is exactly actual minus predicted.
 
-Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 trees, $f_1$ to $f_{50}$. Inside the loop, the index $m$ is the tree we are building and $i$ is the row.
+Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 trees, $f_1$ to $f_{50}$. Inside the loop, the index $m$ is the tree we are building and $i$ is the observation.
 
 1. **In words:** differentiate the loss with respect to the prediction $F(x_i)$, plug in the current model $F_{m-1}$, and flip the sign.
 2. **Formula:**
@@ -133,29 +133,29 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
 
 The derivative of the loss is its **gradient**, the same quantity gradient descent follows ([gradient descent Note](../57-gradient-descent/note.md)). Minus the gradient points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a *pseudo*-residual.
 
-> **Extra:** This is where "gradient" in gradient boosting comes from. Gradient descent changes a parameter by a small step against the gradient. Gradient boosting changes the *predictions* by a small step against the gradient: each tree learns the negative gradient, and adding it (times the learning rate) is one step of gradient descent on the predictions. Friedman calls this gradient descent in function space (Friedman 2001).
+> **Extra:** The negative gradient is where "gradient" in gradient boosting comes from. Gradient descent changes a parameter by a small step against the gradient. Gradient boosting changes the *predictions* by a small step against the gradient: each tree learns the negative gradient, and adding it (times the learning rate) is one step of gradient descent on the predictions. Friedman calls this gradient descent in function space (Friedman 2001).
 
 ## 7. Step 2(b): fit a tree; it creates terminal regions
 
-> **Key point:** A regression tree is trained with the inputs as $x$ and the pseudo-residuals as the target. Its leaves cut the input space into terminal regions $R_{jm}$.
+> **Key point:** A regression tree is trained with the features as $x$ and the pseudo-residuals as the target. Its leaves cut the feature space into terminal regions $R_{jm}$.
 
-Next we train a regression tree: the three spends are the inputs, the column $r_{i1}$ is the target. With only three rows we allow a single split (`max_depth=1`); real trees usually have 8 to 32 leaves.
+Next we train a regression tree: the three spends are the features, the column $r_{i1}$ is the target. With only three observations we allow a single split (`max_depth=1`); real trees usually have 8 to 32 leaves.
 
 The tree splits on R&D spend at 64.67 (halfway between 28.66 and 100.67). Startup 3 goes to one leaf; startups 1 and 2 go to the other.
 
 ![The first tree on the pseudo-residuals: one split on R&D spend makes two terminal regions, each with its leaf value](images/regions.png){height=40%}
 
-Each leaf covers a part of the input space, called a **terminal region** $R_{jm}$: region $j$ of tree $m$. In Figure 3, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
+Each leaf covers a part of the feature space, called a **terminal region** $R_{jm}$: region $j$ of tree $m$. In Figure 3, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
 
 The tree's own prediction in each region is the mean of the targets there: $-51.70$ on the left, $(49.85 + 1.85)/2 = 25.85$ on the right.
 
 ## 8. Step 2(c): the best value for each leaf
 
-> **Key point:** Each leaf gets the constant $\gamma_{jm}$ that best corrects the current model for the rows in that leaf. For the squared error, this is the mean of the residuals in the leaf, the same value the tree already gives.
+> **Key point:** Each leaf gets the constant $\gamma_{jm}$ that best corrects the current model for the observations in that leaf. For the squared error, this is the mean of the residuals in the leaf, the same value the tree already gives.
 
-Step 2(c) does not simply trust the tree's leaf values. For each region it solves a small version of step 1, using only the rows that fall in that region.
+Step 2(c) does not simply trust the tree's leaf values. For each region it solves a small version of step 1, using only the observations that fall in that region.
 
-1. **In words:** for each leaf, find the amount $\gamma$ which, added to the current predictions of the rows in that leaf, makes their loss smallest.
+1. **In words:** for each leaf, find the amount $\gamma$ which, added to the current predictions of the observations in that leaf, makes their loss smallest.
 2. **Formula:**
    $$\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\big(y_i,\; F_{m-1}(x_i) + \gamma\big)$$
 3. **Example:** region $R_{11}$ holds only startup 3. Setting the derivative of $\frac{1}{2}(90.71 - 142.41 - \gamma)^2$ to zero:
@@ -165,15 +165,15 @@ Region $R_{21}$ holds startups 1 and 2, so the sum has two terms:
 
 $$-\big[(192.26 - 142.41 - \gamma) + (144.26 - 142.41 - \gamma)\big] = 0 \quad\Rightarrow\quad 51.70 - 2\gamma = 0 \quad\Rightarrow\quad \gamma_{21} = 25.85$$
 
-Both values equal the tree's own leaf values. That is no coincidence: with the squared error, the minimising $\gamma$ is always the mean of the residuals in the leaf, which is exactly what a regression tree predicts. With another loss, step 2(c) gives different values, and then the step matters.
+Both values equal the tree's own leaf values, and not by coincidence: with the squared error, the minimising $\gamma$ is always the mean of the residuals in the leaf, which is exactly what a regression tree predicts. With another loss, step 2(c) gives different values, and then the step matters.
 
 > **Extra:** With the absolute error $L = |y - F(x)|$ (scikit-learn's `loss="absolute_error"`), step 1 gives the **median**, 144.26. The pseudo-residuals become the signs of $y - F$: $+1$, 0 and $-1$, so the tree learns only the direction of each mistake. Step 2(c) then sets each leaf to the median of the actual residuals in it: $-53.55$ for startup 3, and for startups 1 and 2 (residuals 48 and 0) any value between 0 and 48 is a median; scikit-learn takes 0. The tree's own leaf values (the means of the signs, $-1$ and 0.5) are replaced. The Notebook reproduces these numbers.
 
 ## 9. Step 2(d): update the model
 
-> **Key point:** Add the leaf value of the region each row falls in to the current model: $F_m = F_{m-1} + \gamma_{jm}$ (in practice times the learning rate).
+> **Key point:** Add the leaf value of the region each observation falls in to the current model: $F_m = F_{m-1} + \gamma_{jm}$ (in practice times the learning rate).
 
-1. **In words:** each row's new prediction is its old prediction plus the value of the leaf it lands in.
+1. **In words:** each observation's new prediction is its old prediction plus the value of the leaf it lands in.
 2. **Formula:**
    $$F_m(x) = F_{m-1}(x) + \sum_{j=1}^{J_m} \gamma_{jm}\, \mathbf{1}(x \in R_{jm})$$
    $\mathbf{1}(x \in R_{jm})$ is 1 if $x$ lies in region $R_{jm}$ and 0 otherwise, so the sum just picks the value of the one leaf $x$ falls in.
@@ -222,14 +222,14 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 
 - An ML model is a function; additive modelling builds a complex function as a sum of simple ones, and boosting adds them in stages.
 - The algorithm needs training data and a differentiable loss; half the squared error is the standard choice for regression.
-- Step 1 and step 2(c) are both "find the best constant": over all rows for $F_0$, over one leaf's rows for $\gamma_{jm}$.
+- Step 1 and step 2(c) are both "find the best constant": over all observations for $F_0$, over one leaf's observations for $\gamma_{jm}$.
 - The pseudo-residual is the negative gradient of the loss; for squared error it is the ordinary residual, which is why the intuition Note could use actual minus predicted.
 - With squared error, the leaf values equal the tree's own means; with other losses (absolute, Huber, log loss) step 2(c) changes them.
 
 ## 12. Sources
 
-- ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed., Springer. Section 10.10, Algorithm 10.3, "Gradient Tree Boosting Algorithm".
-- Friedman, J. H. (2001). "Greedy function approximation: a gradient boosting machine". *Annals of Statistics* 29(5), 1189–1232.
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed., Springer. §10.10.3, Algorithm 10.3, "Gradient Tree Boosting Algorithm".
+- Friedman, J. H. (2001). Greedy function approximation: a gradient boosting machine. *Annals of Statistics*, 29(5), 1189–1232. (Any differentiable loss; steepest descent in function space.)
 - Runge, C. (1901). "Über empirische Funktionen und die Interpolation zwischen äquidistanten Ordinaten". *Zeitschrift für Mathematik und Physik* 46, 224–243.
 
 ## 13. Key terms
@@ -241,5 +241,5 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives |
 | Arg min | The value of a variable that makes an expression smallest, written $\arg\min$ |
 | Negative gradient | Minus the derivative of the loss with respect to the prediction; the direction that lowers the loss fastest |
-| Terminal region | The part of the input space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$ |
-| Leaf value ($\gamma_{jm}$) | The constant a leaf adds to the model, chosen to minimise the loss of the rows in that leaf |
+| Terminal region | The part of the feature space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$ |
+| Leaf value ($\gamma_{jm}$) | The constant a leaf adds to the model, chosen to minimise the loss of the observations in that leaf |

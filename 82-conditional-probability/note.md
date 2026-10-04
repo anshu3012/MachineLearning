@@ -12,11 +12,11 @@ title: "Naive Bayes Foundations: Conditional Probability"
 
 ## 1. Overview
 
-> **Key point:** The probability of A given B, P(A | B), is the probability of A once we know B has happened. It equals P(A ∩ B) / P(B).
+> **Key point:** The probability of A given B, P(A | B), is the probability of A once we know B has happened. P(A | B) equals P(A ∩ B) / P(B).
 
-The next Notes build the **Naive Bayes** classifier, one of the simplest and fastest classification algorithms, widely used for text such as spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
+The next Notes build the **Naive Bayes** classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
 
-**Conditional probability** answers questions of the form "how likely is A, now that we know B is true?". It is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
+**Conditional probability** answers questions of the form "how likely is A, now that we know B is true?". Conditional probability is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
 
 ## 2. The definition
 
@@ -32,6 +32,8 @@ $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad P(B) \neq 0$$
 ![Conditional probability as a share of B](images/venn.png){height=32%}
 
 The idea (Figure 1): once we know $B$ has happened, every outcome outside $B$ is ruled out. $B$ becomes the whole world, and the question is what share of it also belongs to $A$.
+
+An everyday picture: a friend draws a card from a deck and says "it is red". We stop thinking about all 52 cards and look only at the 26 red ones. The chance that the card is a heart is now 13 out of 26, one half, instead of one quarter.
 
 ## 3. An example with two dice
 
@@ -49,7 +51,7 @@ Figure 2 lays the sample space out as a grid, with the sum of the two dice in ea
 
 With equally likely outcomes, a probability is the number of favourable outcomes divided by the total.
 
-- **A: die 1 shows 5.** That is the whole fifth row: 6 outcomes. $P(A) = 6/36 = 1/6$.
+- **A: die 1 shows 5.** Event A is the whole fifth row of the grid: 6 outcomes. $P(A) = 6/36 = 1/6$.
 - **B: the sum is at most 10.** Only three outcomes break it: (5, 6), (6, 5) and (6, 6), with sums 11, 11 and 12. So $P(B) = 33/36 = 11/12$ (Figure 2, middle).
 
 ### 3.2 A conditional probability by counting
@@ -58,7 +60,7 @@ With equally likely outcomes, a probability is the number of favourable outcomes
 
 Now ask: **what is the probability that die 1 shows 5, given that the sum is at most 10?**
 
-Since B is known to have happened, only its 33 outcomes are possible. This is the **reduced sample space**. Inside it, die 1 shows 5 in the outcomes (5, 1), (5, 2), (5, 3), (5, 4) and (5, 5); the sixth, (5, 6), has sum 11 and is ruled out (Figure 2, right). So
+Since B is known to have happened, only its 33 outcomes are possible. These 33 outcomes form the **reduced sample space**. Inside it, die 1 shows 5 in the outcomes (5, 1), (5, 2), (5, 3), (5, 4) and (5, 5); the sixth, (5, 6), has sum 11 and is ruled out (Figure 2, right). So
 
 $$P(A \mid B) = \frac{5}{33} \approx 0.152$$
 

@@ -41,7 +41,7 @@ But when two models both classify everything correctly, or both make one mistake
 
 > **Key point:** For a green point use P(green) = ŷ; for a red point use P(red) = 1 − ŷ.
 
-The sigmoid turns every point's position into a probability: $\hat{y} = \sigma(w \cdot x)$ is the probability of green (the positive class), and $1 - \hat{y}$ is the probability of red.
+Each point is one **observation** (one record, a row of the data table). Its position is given by its **features** (the input values, such as the two coordinates), and its colour is the **target** (the output we predict). The sigmoid turns every point's position into a probability: $\hat{y} = \sigma(w \cdot x)$ is the probability of green (the positive class), and $1 - \hat{y}$ is the probability of red.
 
 For each point we take the probability the model gives to the colour the point **really** has. Suppose the two models give these values:
 
@@ -75,7 +75,9 @@ Model 2 has the higher likelihood, so it is the better model. **Maximum likeliho
 
 > **Key point:** 10,000 probabilities of 0.7 multiply to about 10⁻¹⁵⁴⁹.
 
-With 4 points the product is already only 0.09. A real dataset may have 10,000 rows. If each point got probability 0.7, the product would be $0.7^{10{,}000}$, about $10^{-1549}$. That is far below the smallest number a standard float can store (about $10^{-308}$), so the computer cannot tell two models apart.
+With 4 points the product is already only 0.09. A real dataset may have 10,000 observations. If each point got probability 0.7, the product would be $0.7^{10{,}000}$, about $10^{-1549}$. Such a number is far below the smallest number a standard float can store (about $10^{-308}$). The product **underflows**: the computer stores the tiniest float it has ($5 \times 10^{-324}$) or 0 instead of the true value, whatever the model, and can no longer tell two models apart.
+
+An everyday picture: halve a sheet of paper again and again. After a few dozen cuts the piece is too small to see, and every model's product ends up as the same invisible scrap.
 
 ### 4.2 Taking logs
 
@@ -119,7 +121,9 @@ The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the pr
 - $p = 0.4$ (on the wrong side): cost 0.92.
 - $p = 0.1$ (confident and wrong): cost 2.30, and it grows without limit as $p$ approaches 0.
 
-So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. That second effect keeps pushing the line towards the middle of the gap, as the push-and-pull idea of the previous Note wanted. On perfectly separable data, gradient descent on this loss slowly turns the line towards the one with the widest gap (Soudry et al. 2018).
+So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. That second effect keeps pushing the line towards the middle of the gap, as the push-and-pull idea of the previous Note wanted.
+
+> **Extra:** On perfectly separable data, gradient descent on this loss slowly turns the line towards the one with the widest gap (Soudry et al. 2018).
 
 ## 6. One formula for both classes
 
@@ -146,7 +150,7 @@ Summing over all points and dividing by $n$ to get an average gives the loss fun
 
 $$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat{y}_i + (1 - y_i)\log(1 - \hat{y}_i)\right], \qquad \hat{y}_i = \sigma(w \cdot x_i)$$
 
-It is called **binary cross entropy** or **log loss**. For model 1 it is $2.41 / 4 = 0.603$.
+This loss is called **binary cross entropy** or **log loss**. For model 1 it is $2.41 / 4 = 0.603$.
 
 > **Python:** Log loss by hand and in scikit-learn.
 >

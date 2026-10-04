@@ -12,7 +12,7 @@ title: "Naive Bayes Foundations: Mutually Exclusive Events"
 
 ## 1. Overview
 
-> **Key point:** Two events are mutually exclusive when they cannot happen together: P(A ∩ B) = 0. This is a different idea from independence, and the two are easily confused.
+> **Key point:** Two events are mutually exclusive when they cannot happen together: P(A ∩ B) = 0. Mutual exclusivity is a different idea from independence, and the two are easily confused.
 
 The previous Note defined **independent** events: they can happen together, but one does not affect the other. **Mutually exclusive** events are different: they can never happen together. The two ideas are easy to mix up, so this Note puts them side by side.
 
@@ -60,7 +60,9 @@ For "die 1 shows 3" ($A$) and "die 1 shows 6" ($B$), each has probability $1/6$:
 - $P(A \cap B) = 0$, so they are mutually exclusive.
 - $P(A) \times P(B) = 1/36 \neq 0$, so they are **not** independent.
 
-In fact this always happens: if both events have a probability above 0, being mutually exclusive rules out being independent. Learning that one happened tells us for certain that the other did not.
+In fact, if both events have a probability above 0, being mutually exclusive always rules out being independent. Learning that one happened tells us for certain that the other did not.
+
+An everyday picture: a light switch is either on or off. The two states are mutually exclusive, and for that very reason, hearing "the switch is on" tells us everything about "off".
 
 > **Extra:** For mutually exclusive events, the probability that one **or** the other happens is a simple sum: $P(A \cup B) = P(A) + P(B)$. Here $1/6 + 1/6 = 1/3$. This "addition rule" is used in the Bayes' theorem Notes to split a probability into separate cases.
 

@@ -14,7 +14,7 @@ title: "Fetching Data with Web Scraping"
 
 > **Key point:** When a website shows data but offers no file and no API, we download its pages, read their HTML and copy the values we need into a DataFrame.
 
-**Web scraping** means writing a program that downloads web pages and pulls data out of them. It is the last resort for getting data: we use it when there is no CSV file to download and no API to ask.
+**Web scraping** means writing a program that downloads web pages and pulls data out of them. Scraping is the last resort for getting data: we use it when there is no CSV file to download and no API to ask.
 
 Figure 1 shows the whole process. The rest of this Note goes through it box by box:
 
@@ -64,7 +64,7 @@ The site has no API and no download button. So our task is to visit the pages on
 > webpage = r.text  # the page's HTML, as one long string
 > ```
 
-The **status code** is a number in the reply that says how the request went. For AmbitionBox, a plain request came back with **403**, and `r.text` held only a short "Access Denied" message instead of the page.
+The **status code** is a number in the reply that says how the request went (RFC 9110, §15). For AmbitionBox, a plain request came back with **403**, and `r.text` held only a short "Access Denied" message instead of the page.
 
 > **Extra:** Common status codes.
 >
@@ -98,7 +98,7 @@ So we send a browser's User-Agent ourselves, in the request's **headers** (extra
 
 With this header, the server sent the whole page. `webpage` now holds exactly the text we see in a browser with right-click, **View Page Source**.
 
-> **Extra:** A 403 comes from the server deciding to block us. It is not caused by **robots.txt**, a different thing: a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309, "These rules are not a form of access authorization"). Section 12 comes back to it.
+> **Extra:** A 403 comes from the server deciding to block us. The block is not caused by **robots.txt**, a different thing: a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309, "These rules are not a form of access authorization"). Section 12 comes back to it.
 
 > **Extra:** What changed since this code was written (checked October 2026).
 >
@@ -111,7 +111,7 @@ With this header, the server sent the whole page. `webpage` now holds exactly th
 
 > **Key point:** An HTML page is a tree of tags; each tag has a name, may have a class, and holds text or other tags.
 
-To pull values out of a page, we need to read its structure. **HTML** (HyperText Markup Language) is the language web pages are written in. It is made of **tags**:
+To pull values out of a page, we need to read its structure. **HTML** (HyperText Markup Language) is the language web pages are written in. HTML is made of **tags**:
 
 - A tag opens with `<name>` and closes with `</name>`. Whatever sits between them is the tag's content: `<h2>TCS</h2>`.
 - Tags sit inside other tags, so a page is a **tree**: one big tag holding smaller ones, holding smaller ones again.
@@ -134,7 +134,7 @@ Figure 2 shows the HTML of one company on the list page. Everything about TCS si
 
 > **Key point:** `BeautifulSoup(webpage, "html.parser")` turns the HTML text into an object we can search tag by tag.
 
-`webpage` is just a long string. To search it by tag and class, we hand it to **BeautifulSoup**, a library for reading HTML. It **parses** the text: it reads it and builds the tree of tags.
+`webpage` is just a long string. To search it by tag and class, we hand it to **BeautifulSoup**, a library for reading HTML. BeautifulSoup **parses** the text: it reads the text and builds the tree of tags.
 
 > **Python:** Parsing HTML.
 >
@@ -147,7 +147,7 @@ Figure 2 shows the HTML of one company on the list page. Everything about TCS si
 >
 > The library is installed as `beautifulsoup4` and imported from `bs4`. The result is usually called `soup`.
 
-`prettify()` prints the HTML with one tag per line, indented by depth, so the nesting is easy to follow. It changes nothing; it only helps us read.
+`prettify()` prints the HTML with one tag per line, indented by depth, so the nesting is easy to follow. `prettify()` changes nothing; it only helps us read.
 
 > **Extra:** The second argument chooses the **parser**, the part that reads the HTML. `"html.parser"` is built into Python. `"lxml"` is faster (Beautiful Soup docs, "Installing a parser") and is included in Anaconda, but in a plain Python setup, including our environment, it needs `pip install lxml` first; without it, `BeautifulSoup(webpage, "lxml")` stops with `FeatureNotFound`. For one page at a time the difference in speed does not matter.
 
@@ -269,7 +269,7 @@ Inside one box there is only one `h2` and one `p` with class `rating`, so `find`
 
 > **Key point:** One list per column; the loop appends one value to each list per company; a dictionary of the lists becomes the DataFrame.
 
-Figure 4 shows the loop at work. Each pass takes one box, reads its values, and adds one row to the table.
+Figure 4 shows the loop at work. Each pass takes one box, reads its values, and adds one row to the table. Each company becomes one **observation** (one record, one row of the table), and each detail we collect becomes a **feature** (a variable describing the company, one column of the table).
 
 ![The loop turns each company box into one row](images/container_loop.gif)
 
@@ -365,7 +365,7 @@ Over hundreds of pages, some company will lack a field. Then `find` returns `Non
 
 On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the details missing for Infosys BPM and HCL Group. Downloading all 333 pages takes a while, so it is worth trying 5 or 10 pages first.
 
-> **Extra:** Another common way to survive missing values is to wrap each line in `try:` ... `except AttributeError:` and append `np.nan` in the `except` part. It works the same. Name the error to catch: a bare `except:` also hides typos and other bugs.
+> **Extra:** Another common way to survive missing values is to wrap each line in `try:` ... `except AttributeError:` and append `np.nan` in the `except` part. The result is the same. Name the error to catch: a bare `except:` also hides typos and other bugs.
 
 > **Extra:** Older code joins pages with `final = final.append(df, ignore_index=True)`. `DataFrame.append` was removed in pandas 2.0 (pandas release notes), so this now fails with an `AttributeError`. Collecting the pieces in a list and calling `pd.concat` once is the current way, and faster.
 
@@ -397,16 +397,20 @@ On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the det
 - Missing tags give `None` or short lists: turn them into NaN, then check the rows that have NaN.
 - Websites block bots and change their layout. Send a User-Agent, pause between requests, respect robots.txt and the terms of use, and save the HTML you download.
 
-## Sources
+## 14. Sources
+
+- Fielding, R., Nottingham, M. and Reschke, J. (2022). HTTP Semantics. RFC 9110, IETF. Section 15: Status Codes.
 
 - Beautiful Soup documentation. Installing a parser. crummy.com/software/BeautifulSoup/bs4/doc.
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 - Koster, M., Illyes, G., Zeller, H. and Sassman, L. (2022). RFC 9309: Robots Exclusion Protocol. IETF.
 
-## 14. Key terms
+## 15. Key terms
 
 | Term | Meaning |
 |---|---|
+| Observation | One record of the data, one row of the table |
+| Feature | A variable describing each observation, one column of the table |
 | Web scraping | Writing a program that downloads web pages and copies data out of them |
 | HTML | The language web pages are written in: a tree of nested tags |
 | Tag | One element of HTML, such as `<h2>TCS</h2>` |

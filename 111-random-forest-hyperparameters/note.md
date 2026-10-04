@@ -18,7 +18,7 @@ title: "Random Forest Hyperparameters"
 
 ![The hyperparameters of RandomForestClassifier, in three groups](images/three_groups.png){height=36%}
 
-A random forest (the [random forest introduction Note](../108-random-forest-intro/note.md)) is a very flexible algorithm with many hyperparameters. Figure 1 sorts them into three groups. `RandomForestClassifier` and `RandomForestRegressor` have nearly the same settings, so learning the classifier's covers the regressor too (section 6).
+A random forest (the [random forest introduction Note](../108-random-forest-intro/note.md)) is a very flexible algorithm with many hyperparameters. Its trees learn from **observations** (records, one row of the data table each); each observation has **features** (input variables, one column each) and a **target** (the output we predict). Figure 1 sorts them into three groups. `RandomForestClassifier` and `RandomForestRegressor` have nearly the same settings, so learning the classifier's covers the regressor too (section 6).
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for each of the four forest-level settings and redraws the decision surface with its test accuracy.
 
@@ -32,58 +32,60 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 ## 3. The forest-level hyperparameters
 
-> **Key point:** n_estimators sets the number of trees, max_samples the rows per tree, max_features the columns considered at each split, and bootstrap whether rows are drawn with replacement.
+> **Key point:** n_estimators sets the number of trees, max_samples the observations per tree, max_features the features considered at each split, and bootstrap whether observations are drawn with replacement.
 
 ### 3.1 The four settings
 
-> **Key point:** Two settings size the forest and its samples; two decide how rows and columns are drawn.
+> **Key point:** Two settings size the forest and its samples; two decide how observations and features are drawn.
 
 | Setting | Default | Meaning |
 |---|---|---|
 | `n_estimators` | 100 | the number of trees in the forest |
-| `max_features` | `"sqrt"` (classifier), 1.0 (regressor) | how many columns each split considers |
-| `bootstrap` | `True` | draw each tree's rows with replacement (`True`) or give every tree the whole training set (`False`) |
-| `max_samples` | `None` (as many rows as the training set) | how many rows each tree gets; only used when `bootstrap=True` |
+| `max_features` | `"sqrt"` (classifier), 1.0 (regressor) | how many features each split considers |
+| `bootstrap` | `True` | draw each tree's observations with replacement (`True`) or give every tree the whole training set (`False`) |
+| `max_samples` | `None` (as many observations as the training set) | how many observations each tree gets; only used when `bootstrap=True` |
 
 `max_features` and `max_samples` accept a whole number (a count) or a decimal (a share), as in `BaggingClassifier` (the [bagging classifier Note](../106-bagging-classifier/note.md), section 3.2).
 
-### 3.2 How many columns max_features means
+### 3.2 How many features max_features means
 
-> **Key point:** "sqrt" takes the square root of the number of columns, "log2" its base-2 logarithm, a decimal a share, and `None` all of them; each rounds down.
+> **Key point:** "sqrt" takes the square root of the number of features, "log2" its base-2 logarithm, a decimal a share, and `None` all of them; each rounds down.
 
-At every split, a tree draws `max_features` columns at random and picks the best split among them (node-level sampling: the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md), section 3.2). With $p$ columns:
+At every split, a tree draws `max_features` features at random and picks the best split among them (node-level sampling: the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md), section 3.2). With $p$ features:
 
-1. **In words:** turn the setting into a number of columns, then round down (but never below 1).
+1. **In words:** turn the setting into a number of features, then round down (but never below 1).
 2. **Formula:**
    $$\text{"sqrt"}: \lfloor\sqrt{p}\rfloor \qquad \text{"log2"}: \lfloor\log_2 p\rfloor \qquad \text{decimal } f: \lfloor f \cdot p\rfloor \qquad \text{None}: p$$
    where $\lfloor\cdot\rfloor$ means rounding down.
-3. **Example:** with $p = 100$ columns: "sqrt" gives $\sqrt{100} = 10$; "log2" gives $\log_2 100 = 6.64$, so **6**; $0.2$ gives 20; `None` gives all 100. The Notebook confirms each one.
+3. **Example:** with $p = 100$ features: "sqrt" gives $\sqrt{100} = 10$; "log2" gives $\log_2 100 = 6.64$, so **6**; $0.2$ gives 20; `None` gives all 100. The Notebook confirms each one.
 
-With the 2 columns of our demo data, "sqrt" gives $\lfloor 1.41 \rfloor = 1$: each split may look at only one randomly chosen column.
+With the 2 features of our demo data, "sqrt" gives $\lfloor 1.41 \rfloor = 1$: each split may look at only one randomly chosen feature.
 
-> **Extra:** Older code and documentation also list `max_features="auto"`, which meant "sqrt" for the classifier and all the columns for the regressor. It was removed in scikit-learn 1.3 and now raises an error; the classifier's default became "sqrt" in 1.1 and the regressor's 1.0 (all columns). (scikit-learn API docs)
+> **Extra:** Older code and documentation also list `max_features="auto"`, which meant "sqrt" for the classifier and all the features for the regressor. The "auto" option was removed in scikit-learn 1.3 and now raises an error; the classifier's default became "sqrt" in 1.1 and the regressor's 1.0 (all features). (scikit-learn API docs)
 
 ### 3.3 Trying the settings on a demo dataset
 
-> **Key point:** More trees smooth the boundary up to a point; very few rows per tree hurt; the other settings change little on 2-column data.
+> **Key point:** More trees smooth the boundary until the score levels off; very few observations per tree hurt; the other settings change little on 2-feature data.
 
 ![Random forests on the demo data with different forest-level settings; titles give the test accuracy](images/forest_settings.png){height=52%}
 
-The demo data has 500 points with 2 columns and 2 classes: two rings of points, each around a blob of the other class. We train on 375 points and test on 125. Figure 2 shows six forests; the Dash app lets us try any combination.
+The demo data has 500 points with 2 features and 2 classes: two rings of points, each around a blob of the other class. We train on 375 points and test on 125. Figure 2 shows six forests on one such split; the Dash app lets us try any combination.
 
-**`n_estimators`.** One tree scores 0.856, 5 trees 0.880, 10 trees 0.888 and 50 trees 0.896, and then it stops improving (100 and 200 trees: 0.896).
+With only 125 test points, one point moves the accuracy by 0.008, so a single split is noisy. The numbers below are averages over 20 random splits (100 trees unless the setting says otherwise).
+
+**`n_estimators`.** One tree scores 0.846, 5 trees 0.868 and 10 trees 0.888. Then the score stops rising: 50, 100 and 200 trees all score about 0.887. Adding trees to a forest does not cause overfitting; the score just levels off (ESL §15.3.4).
 
 - With **few trees** the boundary is erratic, with odd strips and corners that show overfitting (Figure 2a, b).
 - With **more trees** these areas smooth out (Figure 2c).
 - Each extra tree costs training time, so beyond the point where the score stops rising, more trees only add cost.
 
-**`max_samples`** (with 50 trees). Very few rows per tree hurt: 25 rows score 0.808 (Figure 2d), 50 and 100 rows 0.880. With 200 or 280 rows (53% and 75% of 375) the score reaches 0.904 (Figure 2e); all 375 rows give 0.896. On this data the best share is 53% to 75% of the rows. The best share depends on the data: on the heart data of the [random forest tuning Note](../112-random-forest-tuning/note.md), smaller shares do a little better.
+**`max_samples`.** Very few observations per tree hurt: 25 observations score 0.827 (Figure 2d) and 50 score 0.867. From 100 observations (about a quarter of 375) on, the score is flat at about 0.89 (100: 0.889, 200: 0.892, all 375: 0.887; Figure 2e). A tree grown on 25 points has too little data to find the rings, and averaging many such weak trees cannot fix that.
 
-**`max_features`** (with 50 trees). One column per split (the default here) scores 0.896, both columns 0.904 (Figure 2f). Even with one column the forest does well, because each split gets a randomly chosen column, so both columns are used across the tree.
+**`max_features`.** One feature per split (the default here) scores 0.887, both features 0.884 (Figure 2f). Even with one feature the forest does well, because each split gets a randomly chosen feature, so both features are used across the tree.
 
-**`bootstrap`** (with 50 trees). `True` scores 0.896, `False` 0.880. There is little difference; `True`, the default, is the usual choice.
+**`bootstrap`.** `True` scores 0.887, `False` 0.880. Without bootstrap every tree sees the same observations, so the trees are more alike and the average removes less variance (the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md), section 3.3).
 
-> **Extra:** With `bootstrap=False`, every tree is trained on the whole training set: the rows are not drawn without replacement, they are not sampled at all. So `max_samples` cannot be set (scikit-learn raises a `ValueError`). If, on top of that, `max_features=None`, the only randomness left is tie-breaking between equally good splits (scikit-learn API docs, `DecisionTreeClassifier`, `random_state`), and the trees come out nearly identical (45 or 46 leaves each in the Notebook): a forest of copies of one tree.
+> **Extra:** With `bootstrap=False`, every tree is trained on the whole training set: the observations are not drawn without replacement, they are not sampled at all. So `max_samples` cannot be set (scikit-learn raises a `ValueError`). If, on top of that, `max_features=None`, the only randomness left is tie-breaking between equally good splits (scikit-learn API docs, `DecisionTreeClassifier`, `random_state`), and the trees come out nearly identical (45 or 46 leaves each in the Notebook): a forest of copies of one tree.
 
 ## 4. The tree-level hyperparameters
 
@@ -95,9 +97,9 @@ These settings are applied to each tree in the forest. Each is explained, with i
 |---|---|---|
 | `criterion` | `"gini"` | how to measure split quality: `"gini"`, `"entropy"` or `"log_loss"` |
 | `max_depth` | `None` (fully grown) | the deepest a tree may grow |
-| `min_samples_split` | 2 | the fewest rows a node needs before it may split |
-| `min_samples_leaf` | 1 | the fewest rows allowed in a leaf |
-| `min_weight_fraction_leaf` | 0.0 | the same as `min_samples_leaf`, as a share of all the rows |
+| `min_samples_split` | 2 | the fewest observations a node needs before it may split |
+| `min_samples_leaf` | 1 | the fewest observations allowed in a leaf |
+| `min_weight_fraction_leaf` | 0.0 | the same as `min_samples_leaf`, as a share of all the observations |
 | `max_leaf_nodes` | `None` | the most leaves a tree may have |
 | `min_impurity_decrease` | 0.0 | the smallest impurity decrease worth a split |
 | `ccp_alpha` | 0.0 (no pruning) | cost-complexity pruning (Extra below) |
@@ -106,7 +108,7 @@ Most are pruning settings: they stop a tree before it fits every training point.
 
 > **Extra:** `ccp_alpha` prunes a grown tree back. Every subtree is scored by its training error plus `ccp_alpha` times its number of leaves, and the subtree with the lowest score is kept. A larger `ccp_alpha` charges more for each leaf, so the tree gets smaller.
 >
-> In the Notebook, with 50 trees on the demo data: `ccp_alpha=0` leaves 41.6 leaves per tree on average (test accuracy 0.896); 0.002 leaves 39.0 (0.912); 0.01 leaves 12.1 (0.904); 0.05 leaves only 3.7, and the forest underfits (0.752).
+> In the Notebook, with 100 trees on the demo data (accuracy averaged over 20 splits): `ccp_alpha=0` gives 41.9 leaves per tree (0.887); 0.002 gives 39.2 (0.886); 0.01 gives 12.1 (0.878); 0.05 only 3.9, and the forest underfits (0.776). Pruning never helps here, which is why the trees of a forest are left fully grown.
 
 ## 5. The general hyperparameters
 
@@ -114,18 +116,18 @@ Most are pruning settings: they stop a tree before it fits every training point.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `oob_score` | `False` | score the forest on its out-of-bag rows (the [OOB score Note](../113-oob-score/note.md)) |
+| `oob_score` | `False` | score the forest on its out-of-bag observations (the [OOB score Note](../113-oob-score/note.md)) |
 | `n_jobs` | `None` (1 core) | train trees in parallel on several CPU cores; -1 means all |
-| `random_state` | `None` | fixes the random draws of rows and columns, so the same settings give the same forest |
+| `random_state` | `None` | fixes the random draws of observations and features, so the same settings give the same forest |
 | `verbose` | 0 | print progress during training and prediction |
 | `warm_start` | `False` | `True` keeps the trees already trained and adds new ones on the next `fit` |
 | `class_weight` | `None` | weights for each class, for imbalanced data (as in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md)) |
-| `monotonic_cst` | `None` | forces predictions to only rise (1) or only fall (-1) as a column grows |
+| `monotonic_cst` | `None` | forces predictions to only rise (1) or only fall (-1) as a feature grows |
 
 Two of them deserve a closer look:
 
-- **`random_state`.** Without it, training the same forest twice gives slightly different results, because the rows and the columns at every split are drawn at random. Fixing it, for example `random_state=42`, makes the results repeatable.
-- **`warm_start`.** The forest can be trained in stages: train 50 trees, set `n_estimators=100`, call `fit` again, and only the 50 new trees are trained. This is handy for finding how many trees are enough without retraining from scratch.
+- **`random_state`.** Without it, training the same forest twice gives slightly different results, because the observations and the features at every split are drawn at random. Fixing it, for example `random_state=42`, makes the results repeatable.
+- **`warm_start`.** The forest can be trained in stages: train 50 trees, set `n_estimators=100`, call `fit` again, and only the 50 new trees are trained. Training in stages is handy for finding how many trees are enough without retraining from scratch.
 
 > **Python:** Adding trees with warm_start.
 >
@@ -139,7 +141,7 @@ Two of them deserve a closer look:
 >
 > `set_params` changes a setting of a model after it is created. The new trees are trained on the data passed to the second `fit`.
 
-> **Extra:** `monotonic_cst` (added in scikit-learn 1.4) takes one value per column: 1, -1 or 0 (no constraint). For example, a model of house prices can be forced to never predict a lower price for a bigger house. It works for regression and for two-class classification, not for multi-class or multi-output problems (scikit-learn API docs).
+> **Extra:** `monotonic_cst` (added in scikit-learn 1.4) takes one value per feature: 1, -1 or 0 (no constraint). For example, a model of house prices can be forced to never predict a lower price for a bigger house. The constraint works for regression and for two-class classification, not for multi-class or multi-output problems (scikit-learn API docs).
 
 ## 6. The random forest regressor
 
@@ -148,9 +150,9 @@ Two of them deserve a closer look:
 `RandomForestRegressor` has the same settings as the classifier, with two differences:
 
 - **`criterion`:** `"squared_error"` (the default; mean squared error, the variance reduction of the [regression trees Note](../99-regression-trees/note.md)), `"absolute_error"` or `"poisson"`, instead of Gini and entropy.
-- **`max_features`:** the default is 1.0, all the columns at every split, instead of "sqrt".
+- **`max_features`:** the default is 1.0, all the features at every split, instead of "sqrt".
 
-It has no `class_weight`, since there are no classes.
+The regressor has no `class_weight`, since there are no classes.
 
 > **Extra:** Older code uses `criterion="mse"` and `"mae"`; these were renamed `"squared_error"` and `"absolute_error"` and the old names were removed in scikit-learn 1.2. A fourth option, `"friedman_mse"`, is deprecated since 1.9. The setting `min_impurity_split`, listed as deprecated in old documentation, was removed in 1.0; `min_impurity_decrease` replaces it (scikit-learn API docs).
 
@@ -158,23 +160,24 @@ It has no `class_weight`, since there are no classes.
 
 | Group | Settings | Usually |
 |---|---|---|
-| Forest | `n_estimators` | 100 or more, until the score stops rising |
-| | `max_samples` | 50% to 75% of the rows (only with `bootstrap=True`) |
-| | `max_features` | "sqrt" (classifier) or all columns (regressor); tune it |
+| Forest | `n_estimators` | the default 100, or more until the score stops rising |
+| | `max_samples` | the default (all observations); very small samples hurt |
+| | `max_features` | "sqrt" (classifier) or all features (regressor); tune it |
 | | `bootstrap` | `True` |
 | Each tree | `criterion`, `max_depth`, `min_samples_split`, ... | defaults: fully grown trees |
 | General | `n_jobs=-1`, `random_state`, `oob_score`, `warm_start`, `class_weight` | as needed |
 
-- On the demo data, accuracy rose from 0.856 (1 tree) to 0.896 (50 trees), then stayed flat.
-- 25 rows per tree scored only 0.808; 200 rows (about 50%) 0.904.
-- `bootstrap=False` means every tree gets all the rows; `max_samples` then cannot be set.
+- On the demo data, accuracy rose from 0.846 (1 tree) to 0.888 (10 trees), then stayed flat.
+- 25 observations per tree scored only 0.827; from 100 observations on, about 0.89.
+- `bootstrap=False` means every tree gets all the observations; `max_samples` then cannot be set.
 - The regressor differs only in its criteria and its `max_features` default.
 
-## Sources
+## 8. Sources
 
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §15.3.4 (random forests and overfitting).
 - scikit-learn developers. API reference pages for `RandomForestClassifier`, `RandomForestRegressor` and `DecisionTreeClassifier`, versions 0.24, 1.1 and 1.9 (version notes under each parameter).
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -182,4 +185,4 @@ It has no `class_weight`, since there are no classes.
 | ccp_alpha | Cost-complexity pruning strength: the penalty per leaf when a grown tree is pruned back |
 | warm_start | Setting that keeps already-trained trees and adds new ones on the next fit |
 | set_params | Method that changes a model's settings after it is created |
-| monotonic_cst | Setting that forces predictions to only rise or only fall as a column grows |
+| monotonic_cst | Setting that forces predictions to only rise or only fall as a feature grows |

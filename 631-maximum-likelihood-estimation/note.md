@@ -6,7 +6,7 @@ title: "Maximum Likelihood Estimation"
 
 > **Key point:** Maximum likelihood estimation picks the parameter values under which the data we actually observed is most likely. We slide the parameters, compute the likelihood of the fixed data, and keep the peak.
 
-This Note follows the StatQuest lesson "Maximum Likelihood, clearly explained" (Josh Starmer) and *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Section 8.3.1, with the log-transformation remark of Section 9.2.1.
+This Note follows Starmer's "Maximum Likelihood, clearly explained" (StatQuest, statquest.org) and *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Section 8.3.1, with the log-transformation remark of Section 9.2.1.
 
 ![A normal curve with standard deviation 2 slides across five mouse weights. Top: the height of the curve above each mouse. Bottom: the product of the five heights, the likelihood, peaks when the curve's mean is 32](images/likelihood_sweep.gif)
 
@@ -130,7 +130,7 @@ The approach is called **maximum likelihood estimation**. MML (§8.3.4) credits 
 
 > **Key point:** The log always grows when its input grows, so the largest likelihood also has the largest log.
 
-The [log loss Note](../73-log-loss/note.md) (Section 4) introduced the **log-likelihood**, the log of the likelihood, to avoid products too small for a computer. For maximum likelihood estimation it has a second, more important property.
+The [log loss Note](../73-log-loss/note.md) (Section 4) introduced the **log-likelihood**, the log of the likelihood, to avoid products too small for a computer. For maximum likelihood estimation the log-likelihood has a second, more important property.
 
 The log is an **increasing function**: if $a > b$, then $\log a > \log b$. So whichever $\theta$ gives the largest likelihood also gives the largest log-likelihood. Figure 3 shows the two curves for the mice: they have different shapes, but both peak at $\mu = 32$.
 
@@ -280,7 +280,7 @@ So in practice MLE means one of two things:
 
 ## 11. Sources
 
-- Starmer, J. "Maximum Likelihood, clearly explained", StatQuest (statquest.org). Sections 2 and 4.
+- Starmer, J. "Maximum Likelihood, clearly explained", StatQuest (statquest.org). Used in Sections 2 and 4.
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Free PDF at mml-book.github.io. §8.3.1 (likelihood, i.i.d. product, negative log-likelihood, sign convention), §8.3.2 (remark on consistency and 1/N variance), §8.3.4 (Fisher), §9.2.1 (log-transformation remark), §11.4.5 (local maxima).
 
 ## 12. Key terms

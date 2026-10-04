@@ -32,20 +32,23 @@ ML algorithms can be grouped in three different ways:
 
 ### 2.1 Learning from inputs and outputs
 
-> **Key point:** Input columns + output column $\rightarrow$ learn the relationship $\rightarrow$ predict the output for new rows.
+> **Key point:** Features + target $\rightarrow$ learn the relationship $\rightarrow$ predict the target for new observations.
 
-In **supervised learning**, every row of the data has both **input** values and the correct **output**. The algorithm learns the mathematical relationship between them.
+Three words describe any data table. A **feature** is an input variable (one column of the table). The **target** is the output we want to predict (also a column). An **observation** is one record (one row of the table).
+
+In **supervised learning**, every observation has both its feature values and the correct target value. The algorithm learns the mathematical relationship between them.
 
 *Example: campus placements.* We have data on 5,000 past students (Figure 2):
 
-- **Inputs:** IQ and CGPA.
-- **Output:** whether the student was placed.
+- **Features:** IQ and CGPA.
+- **Target:** whether the student was placed.
+- **Observations:** the 5,000 students, one per row.
 
-![Supervised learning: learn from labelled rows, predict for a new row](images/supervised_data.png)
+![Supervised learning: learn from labelled observations, predict for a new one](images/supervised_data.png)
 
 After learning, the algorithm can take a new student, say IQ 73 and CGPA 7.3, and predict *yes* or *no*. Most of the ML used in industry is supervised learning.
 
-> **Extra:** The output column is also called the **target** or the **label**. Data that includes it is called **labelled data**.
+> **Extra:** The target is also called the **label** or the **output**. Data that includes the target is called **labelled data**.
 
 ### 2.2 Numerical and categorical data
 
@@ -62,10 +65,10 @@ Before splitting supervised learning further, we need the two basic types of dat
 
 > **Key point:** Numerical output: regression. Categorical output: classification.
 
-Supervised learning has two sub-types. Which one we have depends only on the **output column**:
+Supervised learning has two sub-types. Which one we have depends only on the **target**:
 
-- **Regression:** the output is numerical. *Example:* predicting a student's salary package (4.5 LPA, 3.0 LPA, ...) from IQ and CGPA.
-- **Classification:** the output is categorical. *Example:* predicting placed / not placed from IQ and CGPA.
+- **Regression:** the target is numerical. *Example:* predicting a student's salary package (4.5 LPA, 3.0 LPA, ...) from IQ and CGPA.
+- **Classification:** the target is categorical. *Example:* predicting placed / not placed from IQ and CGPA.
 
 ![Regression vs classification](images/reg_vs_cls.png)
 
@@ -80,66 +83,66 @@ In Figure 3, regression draws a line that gives a number for any input. Classifi
 
 ## 3. Unsupervised learning
 
-> **Key point:** In unsupervised learning, the data has inputs only. There is nothing to predict, so the algorithm finds structure instead: groups, simpler columns, oddities or links.
+> **Key point:** In unsupervised learning, the data has features only. There is no target to predict, so the algorithm finds structure instead: groups, fewer features, oddities or links.
 
 ### 3.1 Learning from inputs only
 
-> **Key point:** No output column means no prediction. The algorithm describes the data instead.
+> **Key point:** No target means no prediction. The algorithm describes the data instead.
 
-In **unsupervised learning**, the data has only input columns. For example, we have the IQ and CGPA of students, but no placement column.
+In **unsupervised learning**, the data has only features. For example, we have the IQ and CGPA of students, but no placement target.
 
-Without an output, we cannot predict anything. Unsupervised learning performs four other jobs, covered in Sections 3.2 to 3.5.
+Without a target, we cannot predict anything. Unsupervised learning performs four other jobs, covered in Sections 3.2 to 3.5.
 
 ### 3.2 Clustering
 
-> **Key point:** Clustering finds groups of similar rows, without being told what the groups are.
+> **Key point:** Clustering finds groups of similar observations, without being told what the groups are.
 
-**Clustering** splits the data into groups (**clusters**) of similar rows. Figure 4 shows students plotted by IQ and CGPA; the algorithm found three groups on its own.
+**Clustering** splits the data into groups (**clusters**) of similar observations. Figure 4 shows students plotted by IQ and CGPA; the algorithm found three groups on its own.
 
 ![Clustering: groups found without labels](images/clustering.png)
 
 What the groups give us:
 
 - **A category for each student:** for example, high IQ but low CGPA. A new student can be placed in one of the groups.
-- **Labels for free:** we can number the groups (0, 1, 2) and then use them as an output column for supervised learning.
+- **Labels for free:** we can number the groups (0, 1, 2) and then use them as a target for supervised learning.
 - **Customer segments:** an e-commerce site can group its customers by how they behave and treat each group differently.
 
-With two columns we could spot the groups by eye. Clustering also works with hundreds of columns, where no human can see the groups.
+With two features we could spot the groups by eye. Clustering also works with hundreds of features, where no human can see the groups.
 
 ### 3.3 Dimensionality reduction
 
-> **Key point:** Dimensionality reduction cuts down the number of input columns while keeping the information. It speeds up learning and lets us plot high-dimensional data.
+> **Key point:** Dimensionality reduction cuts down the number of features while keeping the information. Fewer features speed up learning and let us plot high-dimensional data.
 
-Each input column is a **dimension**. (A tensor's dimensions mean something else, its number of axes: see Section 5 of the [tensors Note](../11-tensors/note.md).) Images and text can have thousands of input columns, which causes two problems:
+Each feature is a **dimension**. (A tensor's dimensions mean something else, its number of axes: see Section 5 of the [tensors Note](../11-tensors/note.md).) Images and text can have thousands of features, which causes two problems:
 
 1. Algorithms become **slow**.
-2. After a point, extra columns **stop improving** the results.
+2. After a point, extra features **stop improving** the results.
 
-**Dimensionality reduction** removes the extra columns.
+**Dimensionality reduction** removes the extra features.
 
-*Example: house prices.* Number of rooms and number of washrooms carry related information. We can combine them into one column, area (Figure 5).
+*Example: house prices.* Number of rooms and number of washrooms carry related information. We can combine them into one feature, area (Figure 5).
 
-![Combining two related columns into one](images/feature_extraction.png)
+![Combining two related features into one](images/feature_extraction.png)
 
-The data has one column fewer and loses almost no information. Making such a column by hand, from domain knowledge, is called feature construction (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
+The data has one feature fewer and loses almost no information. Making such a feature by hand, from domain knowledge, is called feature construction (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
-When an algorithm such as PCA computes the new columns from the data instead, with no domain knowledge, it is called **feature extraction** (see Section 9 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
+When an algorithm such as PCA computes the new features from the data instead, with no domain knowledge, the process is called **feature extraction** (see Section 9 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
-**Visualisation.** A graph can show at most 3 dimensions. To see data with hundreds of columns, we reduce it to 2 or 3 columns and plot that.
+**Visualisation.** A graph can show at most 3 dimensions. To see data with hundreds of features, we reduce them to 2 or 3 features and plot those.
 
-*Example: handwritten digits.* Each digit is an 8 x 8 grid of pixels, which makes 64 columns. Figure 6 reduces them to 3 columns: images of the same digit land close together.
+*Example: handwritten digits.* Each digit is an 8 x 8 grid of pixels, which makes 64 features, one per pixel. Figure 6 reduces them to 3 features: images of the same digit land close together.
 
-![Handwritten digits: 64 columns reduced to 3](images/digits_3d.png)
+![Handwritten digits: 64 features reduced to 3](images/digits_3d.png)
 
 The technique used for Figure 6 is **PCA** (principal component analysis), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 6 as a 3D plot that we can rotate.
 
-> **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 columns (LeCun et al. 1998). The idea is the same.
+> **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 features (LeCun et al. 1998). The idea is the same.
 
 ### 3.4 Anomaly detection
 
 > **Key point:** Anomaly detection learns what normal data looks like and flags anything far from it.
 
-**Anomaly detection** finds rows that do not fit the pattern of the rest. Typical uses:
+**Anomaly detection** finds observations that do not fit the pattern of the rest. Typical uses:
 
 - spotting defects in manufacturing,
 - catching credit card fraud,
@@ -159,17 +162,17 @@ In Figure 7, almost all transactions are small and close to home. The red one, l
 
 ![Association rules: from past bills to shelf placement](images/association_rules.png)
 
-A famous case: a large US retailer found that customers buying baby diapers often also bought beer. Placing the two side by side increased sales. Hidden patterns like this are hard to spot by hand and easy for an algorithm.
+A famous case: an analysis of shopping baskets at a US store chain found that customers buying baby diapers in the evening often also bought beer. Hidden patterns like this are hard to spot by hand and easy for an algorithm.
 
-> **Extra:** The diapers-and-beer story is usually told about Walmart, but it traces back to a 1992 study of shopping baskets at Osco Drug stores, which did find beer and diapers bought together in the evening. The shops never moved the two products together, so the sales boost in the story is a legend (Power 2002). It is still the standard example of association rules.
+> **Extra:** The diapers-and-beer story is usually told about Walmart, but it traces back to a 1992 study of shopping baskets at Osco Drug stores, which did find beer and diapers bought together in the evening. The shops never moved the two products together, so the popular claim that shelf placement boosted sales is a legend (Power 2002). The beer-and-diapers find is still the standard example of association rules.
 
 ## 4. Semi-supervised learning
 
-> **Key point:** Semi-supervised learning labels a few rows by hand and lets the algorithm label the rest.
+> **Key point:** Semi-supervised learning labels a few observations by hand and lets the algorithm label the rest.
 
 Labels are **expensive**. Collecting inputs is easy; for example, we can download thousands of images in minutes. But someone has to look at each image and write down what is in it, which costs time and money.
 
-**Semi-supervised learning** works with data where only a small part is labelled. We label a few rows, and the algorithm labels the rest automatically.
+**Semi-supervised learning** works with data where only a small part is labelled. We label a few observations, and the algorithm labels the rest automatically.
 
 *Example: Google Photos* (Figure 9).
 
@@ -210,18 +213,18 @@ Figure 11 shows an agent that can walk to fire or to water.
 
 ![An agent learning to choose water over fire](images/rl_fire_water.gif)
 
-1. Its policy says *go to the fire*. It does, and gets a punishment.
-2. It updates its policy to *go to the water*.
-3. It goes to the water and gets a reward.
+1. The agent's policy says *go to the fire*. The agent goes, and gets a punishment.
+2. The agent updates its policy to *go to the water*.
+3. The agent goes to the water and gets a reward.
 
-This is how people learn many things too: nobody hands us a dataset for living in a new city; we try, make mistakes and adjust. Training a pet with treats works the same way.
+People learn many things the same way: nobody hands us a dataset for living in a new city; we try, make mistakes and adjust. Training a pet with treats works the same way.
 
 ### 5.3 Where RL is used
 
 > **Key point:** RL beat the world champion at Go and is used for self-driving cars, but it is harder to build than the other types.
 
 - **Self-driving cars:** the car learns to drive by acting on the road and receiving feedback.
-- **Games:** Go is far more complex than chess, and beating top humans was thought to be years away. In 2016, DeepMind's agent **AlphaGo** beat world champion Lee Sedol in four out of five games.
+- **Games:** Go is far more complex than chess, and beating top humans was thought to be years away. In March 2016, DeepMind's agent **AlphaGo** beat world champion Lee Sedol in four out of five games (DeepMind 2016).
 
 RL is harder to set up than the other types, but its use is growing fast.
 
@@ -232,45 +235,47 @@ RL is harder to set up than the other types, but its use is growing fast.
 | Supervised: regression | Inputs + numerical output | Predict a number | Salary package from IQ and CGPA |
 | Supervised: classification | Inputs + categorical output | Predict a category | Placed or not |
 | Unsupervised: clustering | Inputs only | Find groups | Customer segments |
-| Unsupervised: dimensionality reduction | Inputs only | Fewer columns | Rooms + washrooms $\rightarrow$ area |
-| Unsupervised: anomaly detection | Inputs only | Flag unusual rows | Card fraud |
+| Unsupervised: dimensionality reduction | Inputs only | Fewer features | Rooms + washrooms $\rightarrow$ area |
+| Unsupervised: anomaly detection | Inputs only | Flag unusual observations | Card fraud |
 | Unsupervised: association rules | Inputs only | Find items that go together | Milk and eggs |
-| Semi-supervised | A few labels, many unlabelled rows | Label the rest | Google Photos faces |
+| Semi-supervised | A few labels, many unlabelled observations | Label the rest | Google Photos faces |
 | Reinforcement | No data; rewards from an environment | Learn the best actions | AlphaGo |
 
-- To identify a supervised problem, look at the **output column**: number $\rightarrow$ regression, category $\rightarrow$ classification.
-- No output column $\rightarrow$ unsupervised.
+- To identify a supervised problem, look at the **target**: number $\rightarrow$ regression, category $\rightarrow$ classification.
+- No target $\rightarrow$ unsupervised.
 - Few labels $\rightarrow$ semi-supervised.
 - No data, only feedback $\rightarrow$ reinforcement.
 
-## Sources
+## 7. Sources
 
+- DeepMind (2016). *AlphaGo*. deepmind.google, research/breakthroughs/alphago.
 - LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11).
 - Power, D. (2002). What is the "true story" about data mining, beer and diapers? *DSS News*, 10 November 2002.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
 | Supervision | Correct answers that guide an algorithm while it learns |
 | Supervised learning | Learning from data with inputs and outputs, to predict outputs |
-| Input / output | The columns we know / the column we want to predict |
-| Target, label | Other names for the output column |
-| Labelled data | Data that includes the output column |
+| Feature | An input variable; one column of the data table |
+| Target | The output we want to predict; also called the label |
+| Observation | One record; one row of the data table |
+| Labelled data | Data that includes the target |
 | Numerical data | Data made of numbers |
 | Categorical data | Data made of categories |
 | Regression | Supervised learning with a numerical output |
 | Classification | Supervised learning with a categorical output |
 | Unsupervised learning | Learning from inputs only, to find structure |
-| Clustering | Splitting data into groups of similar rows |
+| Clustering | Splitting data into groups of similar observations |
 | Cluster | One group found by clustering |
-| Dimension | One input column |
-| Dimensionality reduction | Reducing the number of input columns while keeping the information |
-| Feature extraction | New columns computed from existing ones by an algorithm such as PCA |
+| Dimension | One feature |
+| Dimensionality reduction | Reducing the number of features while keeping the information |
+| Feature extraction | New features computed from existing ones by an algorithm such as PCA |
 | PCA | Principal component analysis, a dimensionality reduction technique |
-| Anomaly detection | Finding rows that do not fit the pattern of the rest |
+| Anomaly detection | Finding observations that do not fit the pattern of the rest |
 | Association rule learning | Finding items that tend to occur together |
-| Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones |
+| Semi-supervised learning | Learning from a few labelled observations and many unlabelled ones |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments |
 | Agent | The learner in reinforcement learning |
 | Environment | The world the agent acts in |

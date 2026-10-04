@@ -23,33 +23,33 @@ The [one-sample t-test Note](../301-one-sample-t-test/note.md) compared one samp
 This Note covers:
 
 - the independent two-sample t-test: assumptions, the equal-variance check with Levene's test, the formula and a worked example;
-- a case study: are male Titanic passengers older than female ones?
+- a case study: were first-class Titanic passengers older than third-class ones?
 - the paired t-test: assumptions, the formula and a weight-loss example;
 - why pairing makes a test more powerful;
 - comparing two machine learning models with a paired t-test.
 
 ## 2. The independent two-sample t-test
 
-> **Key point:** It compares the means of two independent groups; $H_0: \mu_1 = \mu_2$, or equivalently $\mu_1 - \mu_2 = 0$.
+> **Key point:** The independent two-sample t-test compares the means of two independent groups; $H_0: \mu_1 = \mu_2$, or equivalently $\mu_1 - \mu_2 = 0$.
 
 The **independent two-sample t-test**, also called the **unpaired t-test**, compares the means of two independent groups to decide whether they differ significantly. Examples:
 
 - the average marks of section A and section B of a class;
-- the mean age of male and female Titanic passengers;
+- the mean age of first-class and third-class Titanic passengers;
 - the average time desktop users and mobile users spend on a website.
 
 $H_0$ says the two population means are equal; $H_1$ says they differ (two-tailed) or that one is larger (one-tailed):
 
 $$H_0: \mu_1 - \mu_2 = 0, \qquad H_1: \mu_1 - \mu_2 \neq 0$$
 
-A t-test compares exactly **two** groups. For a categorical column with three or more categories, such as the three Titanic classes, we use ANOVA instead.
+A t-test compares exactly **two** groups. To compare all three Titanic classes at once, we use ANOVA instead.
 
 ### 2.1 Assumptions
 
-1. **Independence of observations.** There is no relationship between the observations in one group and those in the other. No Titanic passenger is both male and female, so the two age samples are independent. This fails if, say, we compare the marks of a Python course and a machine learning course when some students took both.
+1. **Independence of observations.** An **observation** is one record, here one person's value. There is no relationship between the observations in one group and those in the other. No Titanic passenger travelled in both first and third class, so the two age samples are independent. Independence fails if, say, we compare the marks of a Python course and a machine learning course when some students took both.
 2. **Normality.** The data in each group is approximately normal. With 30 or more values per group the central limit theorem covers us; with fewer, we check each group, with a Q-Q plot, a histogram or the Shapiro-Wilk test (see the [one-sample t-test Note](../301-one-sample-t-test/note.md)).
 3. **Equal variances** (homogeneity of variance). The two populations have about the same variance: $\sigma_1^2 = \sigma_2^2$. Section 2.2 shows how to check it.
-4. **Random sampling.** Each sample is random and representative. Twenty-five Titanic men should come from all three classes, not only from first class.
+4. **Random sampling.** Each sample is random and representative. Forty first-class passengers should be drawn from the whole first-class list, not only from those who boarded at one port.
 
 The sample sizes may differ: 30 desktop users and 25 mobile users is fine.
 
@@ -63,7 +63,9 @@ The sample sizes may differ: 30 desktop users and 25 mobile users is fine.
 
 The **F-test** is another test for comparing variances.
 
-> **Extra:** If the variances clearly differ, we use **Welch's t-test**, which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Delacre, Lakens and Leys (2017) recommend Welch's test as the default: it controls Type I errors when the variances differ and loses little when they are equal. This matches the website data of section 3, where the variances look equal: Welch's test gives $p = 3.0 \times 10^{-6}$, against $2.7 \times 10^{-6}$ for Student's.
+If Levene's test says the variances differ, we use **Welch's t-test**, which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Section 4 uses it.
+
+> **Extra:** Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Delacre, Lakens and Leys (2017) recommend Welch's test as the default: it controls Type I errors when the variances differ and loses little when they are equal. The website data of section 3 agrees: there the variances look equal: Welch's test gives $p = 3.0 \times 10^{-6}$, against $2.7 \times 10^{-6}$ for Student's.
 
 ### 2.3 The test statistic
 
@@ -119,41 +121,47 @@ The two-tailed test says only that the means differ. Here the sign of $t$ shows 
 >                            14.3, 2.7, 30)     # the same result
 > ```
 
-## 4. Case study: are male Titanic passengers older?
+## 4. Case study: were first-class passengers older?
 
-> **Key point:** Samples of 25 men and 25 women give $p = 0.40$, so we fail to reject $H_0$, although the true means do differ by 1.9 years: a Type II error.
+> **Key point:** Samples of 40 first-class and 40 third-class passengers give Welch's $t = 5.46$ and $p = 0.0000004$: first-class passengers were older on average, and the full passenger list confirms it.
 
 ### 4.1 Why a test and not just a plot
 
-A t-test between a numerical column (age) and a two-category column (sex) asks whether the two are related. If the mean age differs between men and women, age depends on sex; if the means are about the same, there is no such relationship.
+A t-test between a numerical **feature** (an input variable, one column of the data table), here age, and a two-category feature, here class, asks whether the two are related. If the mean age differs between the classes, age depends on class; if the means are about the same, there is no such relationship.
 
-A bar chart of mean age by sex would show the difference in our data. But our data is a sample, and the question is about the population. The test tells us whether the difference we see is larger than sampling noise.
+A bar chart of mean age by class would show the difference in our data. But our data is a sample, and the question is about the population. The test tells us whether the difference we see is larger than sampling noise, just as a referee checks the replay before trusting what one camera angle seemed to show.
 
 ### 4.2 The test
 
-Our claim: the average age of male passengers is greater than that of female passengers. Of the 1309 passengers in the Kaggle train and test files, 658 men and 388 women have a known age. We draw a random sample of 25 of each (`random_state=5`).
+Our claim: first-class passengers were older on average than third-class passengers. Of the 1309 passengers in the Kaggle train and test files, 284 first-class and 501 third-class passengers have a known age. We draw a random sample of 40 of each (`random_state=5`).
 
 1. **Hypotheses.**
-   $$H_0: \mu_{\text{male}} = \mu_{\text{female}}, \qquad H_1: \mu_{\text{male}} > \mu_{\text{female}}$$
+   $$H_0: \mu_{\text{first}} = \mu_{\text{third}}, \qquad H_1: \mu_{\text{first}} > \mu_{\text{third}}$$
 2. **Significance level.** $\alpha = 0.05$.
-3. **Assumptions.** Shapiro-Wilk: $p = 0.78$ (men) and $p = 0.52$ (women). Levene: $p = 0.89$. No evidence against normality or equal variances; the groups are independent and randomly sampled.
-4. **Test.** Independent two-sample t-test, right-tailed.
-5. **Statistic.** Men: $\bar{x} = 32.9$, $s = 16.1$. Women: $\bar{x} = 31.8$, $s = 15.1$. Then $t = 0.25$, $df = 48$.
-6. **P-value.** $p = P(T \ge 0.25) = 0.40$.
-7. **Decide.** $0.40 > 0.05$: fail to reject $H_0$.
-8. **Interpret.** These samples give no significant evidence that men were older than women on average.
+3. **Assumptions.** Each group has 40 values, so the central limit theorem covers normality (Shapiro-Wilk does reject it for the third-class ages, $p = 0.004$, which is why the sample size matters). Levene's test gives $p = 0.003$: the variances differ (standard deviations 14.2 and 9.5). The groups are independent and randomly sampled.
+4. **Test.** Because the variances differ, Welch's t-test (section 2.2), right-tailed.
+5. **Statistic.** First class: $\bar{x} = 35.9$, $s = 14.2$. Third class: $\bar{x} = 21.2$, $s = 9.5$. Then $t = 5.46$, with Welch's $df = 68.1$.
+6. **P-value.** $p = P(T \ge 5.46) = 0.0000004$.
+7. **Decide.** $p \le 0.05$: reject $H_0$.
+8. **Interpret.** First-class passengers were significantly older on average than third-class passengers.
 
-![Our samples of 25 male and 25 female ages, with each sample mean and its 95% confidence interval](images/titanic_sex_age.png){height=32%}
+![Our samples of 40 first-class and 40 third-class ages, with each sample mean and its 95% confidence interval](images/titanic_class_age.png){height=32%}
 
-Figure 2 shows why: the two clouds of ages overlap almost completely, and the confidence intervals of the means overlap too.
+Figure 2 shows why: the two clouds of ages are shifted, and the confidence intervals of the means do not overlap.
+
+> **Python:** Levene first, then Welch's test.
+>
+> ```python
+> stats.levene(s_first, s_third).pvalue           # 0.003
+> stats.ttest_ind(s_first, s_third, equal_var=False,
+>                 alternative="greater")          # t = 5.46, p = 3.6e-07
+> ```
 
 ### 4.3 Checking against the population
 
-All 658 known male ages have a mean of **30.59** years and all 388 female ages **28.69**. So the men really were older on average, by 1.9 years, and $H_0$ is false. Our test made a Type II error (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
+All 284 known first-class ages have a mean of **39.16** years and all 501 third-class ages **24.82**: a real gap of about 14 years, as the test concluded. The conclusion does not hang on our one sample: repeating the test on 4000 random pairs of samples of 40, **99.98%** reject $H_0$.
 
-Failing to reject $H_0$ was not a proof that the mean ages are equal; it only said that 25 people per group could not show the difference. A difference of 1.9 years, on ages that spread over 0 to 80 with a standard deviation near 14, is small; it needs a far larger sample.
-
-> **Extra:** Repeating the test on 4000 random pairs of samples of 25, only **10%** reject $H_0$. With this sample size the test has a power of about 0.10: it misses this real but small difference nine times out of ten.
+> **Extra:** A small gap needs a large sample. Men and women on the Titanic also differ in mean age, but only by 1.9 years (30.59 against 28.69), on ages with a standard deviation near 14. With samples of 25 men and 25 women, only **10%** of 4000 repeated tests reject $H_0$: the test has a power of about 0.10, and nine times out of ten it makes a Type II error (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)). Failing to reject in such a test is not proof that the means are equal.
 
 ## 5. The paired t-test
 
@@ -167,6 +175,7 @@ The **paired t-test**, also called the **dependent two-sample t-test**, compares
 - **matched or correlated groups:** two groups matched in pairs, such as siblings, or pairs of people chosen to be similar in age and health.
 
 Before-and-after studies are the more common of the two.
+
 
 ### 5.2 Assumptions
 
@@ -261,7 +270,7 @@ To see this, suppose every "after" weight in our table were 2 kg lower, a real a
 | Paired t-test | 2.43 | **0.015**: significant |
 | Independent t-test (wrong here) | 0.56 | 0.29: nothing |
 
-The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as independent gives $\sqrt{s_1^2/n + s_2^2/n} = 2.75$ kg, more than four times larger. The result is typical, not a lucky table: averaged over 2000 simulated groups of 15 people like ours (weights spread by about 8 kg, a true loss of 1.5 kg), the median p-value is 0.017 for the paired test and 0.31 for the independent test. Analysing paired data as independent throws most of the power away (Rice §11.3; OpenIntro §7.2).
+The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as independent gives $\sqrt{s_1^2/n + s_2^2/n} = 2.75$ kg, more than four times larger. The result is typical, not a lucky table: averaged over 2000 simulated groups of 15 people like ours (weights spread by about 8 kg, a true loss of 1.5 kg), the median p-value is 0.017 for the paired test and 0.31 for the independent test. Analysing paired data as independent throws most of the power away (Rice 2007, §11.3).
 
 > **Extra:** The variance of the mean difference shows when pairing pays off:
 > $$\operatorname{Var}(\bar{d}) = \frac{\sigma_1^2 + \sigma_2^2 - 2\rho\,\sigma_1\sigma_2}{n}$$
@@ -269,9 +278,11 @@ The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as i
 
 ## 8. Comparing two machine learning models
 
-> **Key point:** Scores of two models on the same cross-validation folds are paired, so we compare them with a paired t-test.
+> **Key point:** Scores of two models on the same cross-validation folds are paired, so we compare them with a paired t-test, keeping in mind that the folds are not fully independent.
 
-When two models are evaluated with k-fold cross-validation on the **same folds** (see the [pipelines Note](../29-pipelines/note.md)), each fold gives a pair of scores, one per model, measured on the same test data. A fold that is hard for one model tends to be hard for the other, just as a heavy person is heavy both before and after. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, one of the machine learning uses listed in the [errors, power and tails Note](../292-errors-power-and-tails/note.md).
+When two models are evaluated with k-fold cross-validation on the **same folds** (see the [pipelines Note](../29-pipelines/note.md)), each fold gives a pair of scores, one per model, measured on the same test data, just as each person gives a pair of weights. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, the "k-fold cross-validated paired t test" (Dietterich 1998), one of the machine learning uses listed in the [errors, power and tails Note](../292-errors-power-and-tails/note.md).
+
+> **Extra:** The folds share most of their training data, so the $k$ differences are not independent, and the third assumption of section 5.2 is broken. As a result the test finds a "significant" difference too often when there is none (Dietterich 1998). Nadeau and Bengio (2003) give a corrected version that enlarges the variance to account for the overlap.
 
 ## 9. Summary
 
@@ -286,18 +297,19 @@ When two models are evaluated with k-fold cross-validation on the **same folds**
 
 - The independent two-sample t-test compares two separate groups; Levene's test checks equal variances, and Welch's test drops that assumption.
 - Desktop against mobile: $t = 5.20$, $p = 0.000003$, a clear difference.
-- Titanic men against women, 25 each: $p = 0.40$, a Type II error, since the true means differ by 1.9 years.
+- Titanic first against third class, 40 each: Welch's $p = 0.0000004$; the true means differ by 14 years. A gap of 1.9 years (men against women) is detected only 10% of the time with 25 each.
 - The paired t-test is a one-sample t-test on the differences; the tail follows from $H_1$ and the sign convention of $d$.
 - Pairing removes between-subject variation and greatly raises power when the pairs are strongly linked.
 - Weights 2 kg lower after: paired $p = 0.015$, independent $p = 0.29$. Model scores on shared folds are paired too.
 
-## Sources
+## 10. Sources
 
 - Rice, J. A. (2007). *Mathematical Statistics and Data Analysis*, 3rd ed. Duxbury. §11.3, Comparing paired samples.
-- Diez, D. M., Çetinkaya-Rundel, M. and Barr, C. D. (2019). *OpenIntro Statistics*, 4th ed. §7.2, Paired data.
-- Delacre, M., Lakens, D. and Leys, C. (2017). Why psychologists should by default use Welch's t-test instead of Student's t-test. *International Review of Social Psychology* 30(1), 92–101.
+- Delacre, M., Lakens, D. and Leys, C. (2017). "Why psychologists should by default use Welch's t-test instead of Student's t-test." *International Review of Social Psychology* 30(1), 92–101.
+- Dietterich, T. G. (1998). "Approximate statistical tests for comparing supervised classification learning algorithms." *Neural Computation* 10(7), 1895–1923.
+- Nadeau, C. and Bengio, Y. (2003). "Inference for the generalization error." *Machine Learning* 52(3), 239–281.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

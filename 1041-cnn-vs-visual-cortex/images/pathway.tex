@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.9cm, every node/.append style={font=\sffamily\large}]
+  \node[box=cgrey] (light) {light};
+  \node[box=cblue, right=of light] (ret) {eye: retina\\\small a 2D sheet};
+  \node[box=corange, right=of ret] (lgn) {thalamus: LGN\\\small lateral geniculate\\\small nucleus};
+  \node[box=cgreen, right=of lgn] (v1) {visual cortex: V1\\\small primary visual\\\small cortex};
+  \node[box=cpurple, right=of v1] (deep) {deeper areas\\\small more complex\\\small patterns};
+  \draw[arrow] (light) -- (ret);
+  \draw[arrow] (ret) -- node[above, note] {optic\\nerve} (lgn);
+  \draw[arrow] (lgn) -- node[above, note] {nerve\\fibres} (v1);
+  \draw[arrow] (v1) -- (deep);
+  \node[note, below=0.3cm of ret] {light becomes\\electrochemical signals};
+  \node[note, below=0.3cm of lgn] {passes the signal on\\to V1};
+  \node[note, below=0.3cm of v1] {simple and\\complex cells};
+\end{tikzpicture}
+\end{document}

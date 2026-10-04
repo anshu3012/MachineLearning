@@ -14,13 +14,13 @@ title: "The Perceptron Trick in Code"
 
 ## 1. Overview
 
-> **Key point:** The perceptron trick takes about ten lines of Python. It finds a line that separates the classes, but it stops as soon as no point is misclassified, so the line can end up very close to one class. Logistic regression keeps improving until the line sits well between them.
+> **Key point:** The perceptron trick takes about ten lines of Python. The trick finds a line that separates the classes, but it stops as soon as no point is misclassified, so the line can end up very close to one class. Logistic regression keeps improving until the line sits well between them.
 
 The previous Note described the perceptron trick: start with any line, pick random points, and move the line towards each misclassified one. This Note codes it, watches the line move, and compares the result with scikit-learn's `LogisticRegression`. The comparison shows the trick's weakness, which the following Notes fix.
 
 ## 2. The data
 
-> **Key point:** 100 points with two inputs and two balanced classes, made with make_classification.
+> **Key point:** 100 points with two features and two balanced classes, made with make_classification.
 
 `make_classification` creates classification data, just as `make_regression` creates regression data.
 
@@ -35,7 +35,7 @@ The previous Note described the perceptron trick: start with any line, pick rand
 >     hypercube=False, class_sep=10)
 > ```
 
-`X` has 100 rows and 2 columns ($x_1$ and $x_2$), and `y` holds the class of each row: 50 zeros and 50 ones. `class_sep` sets how far apart the classes are. In the figures, class 1 is green and class 0 is blue.
+`X` has 100 rows and 2 columns. Each row is one **observation** (one record, here one point) and each column is one **feature** (an input variable), $x_1$ or $x_2$. `y` holds the **target**, the output we predict: the class of each observation, 50 zeros and 50 ones. `class_sep` sets how far apart the classes are. In the figures, class 1 is green and class 0 is blue.
 
 ## 3. The code
 
@@ -141,11 +141,11 @@ Three of the five perceptron lines pass within about 0.02 of a green point. The 
 
 > **Key point:** A line that hugs one class misclassifies new points from that class easily. Zero training error is not the same as a good model.
 
-The perceptron trick stops improving as soon as the training error is zero: its only goal is "no misclassified points". Where exactly the line ends up depends on the random order of picks.
+The perceptron trick stops improving as soon as the training error is zero: its only goal is "no misclassified points". Where exactly the line ends up depends on the random order of picks (Bishop §4.1.7).
 
-A new student whose point falls just next to the green cluster could easily land on the wrong side of a line that hugs it. A line in the middle of the gap leaves room for such points.
+A new student whose point falls just next to the green cluster could easily land on the wrong side of a line that hugs it. A line in the middle of the gap leaves room for such points. Think of parking a car in a garage: parked tight against one wall, the smallest drift scrapes the paint; parked in the middle, there is room on both sides.
 
-A test on real data confirms this. On the iris flowers, setosa against versicolor (two species a straight line can separate), the perceptron lines misclassified 5.5% of new flowers on average, against 1.2% for logistic regression. The same idea drives the maximal margin classifier: a line with a wide gap on the training data should also keep a wide gap on new data, and so classify it correctly (ISL §9.1.3).
+A test on real data confirms this. On the iris flowers, setosa against versicolor (two species a straight line can separate), the perceptron lines misclassified 5.5% of new flowers on average, against 1.2% for logistic regression. The same idea drives the maximal margin classifier, taught in the [SVM Notes](../92-svm-intuition/note.md): a line with a wide gap on the training data should also keep a wide gap on new data, and so classify it correctly (ISL §9.1.3).
 
 > **Extra:** The test, in the notebook: sepal length and sepal width (standardised), 10 random training flowers per species, the other 80 flowers as the test set, averaged over 100 random draws.
 
@@ -164,6 +164,7 @@ Logistic regression keeps adjusting the line even when every training point is a
 ## 8. Sources
 
 - **scikit-learn docs:** `sklearn.linear_model.LogisticRegression` (parameters C and penalty), scikit-learn 1.9.
+- **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.1.7, p. 194 (the perceptron's solution depends on the starting weights and the order of the points).
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 9.1.3, p. 371.
 
 ## 9. Key terms

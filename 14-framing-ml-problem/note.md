@@ -14,7 +14,7 @@ title: "How to Frame a Machine Learning Problem"
 
 > **Key point:** Before any code, we turn a vague business goal into a clear ML task, by answering seven questions in order.
 
-A company rarely asks for "a classification model". It brings a business problem, such as "we need more revenue". **Framing** an ML problem means turning that business problem into a precise ML task that a team can build, measure and improve.
+A company rarely asks for "a classification model". The company brings a business problem, such as "we need more revenue". **Framing** an ML problem means turning that business problem into a precise ML task that a team can build, measure and improve.
 
 Figure 1 shows the seven framing steps, applied to one running example: Netflix wants to increase its revenue.
 
@@ -41,8 +41,8 @@ Suppose we are the lead data scientist at Netflix, the largest video streaming (
 
 There are three ways:
 
-1. **Bring in new customers**, through better marketing. This is hard.
-2. **Charge existing customers more.** This is unfair to them.
+1. **Bring in new customers**, through better marketing. Winning new customers is hard.
+2. **Charge existing customers more.** Raising prices is unfair to them.
 3. **Keep the customers who are about to leave.**
 
 The third way looks the most promising. Netflix earns money through a monthly **subscription**, so every customer who stays is one more customer paying each month.
@@ -51,7 +51,7 @@ The third way looks the most promising. Netflix earns money through a monthly **
 
 > **Key point:** The churn rate is the percentage of customers who leave in a given period.
 
-Customers leaving a platform is called **churn**. The **churn rate** measures how fast it happens.
+Customers leaving a platform is called **churn**. The **churn rate** measures how fast customers leave.
 
 **Churn rate**, step by step:
 
@@ -64,9 +64,9 @@ Customers leaving a platform is called **churn**. The **churn rate** measures ho
    $$98 \times 0.98 \approx 96$$
    users remain, and so on.
 
-This does not mean every company slowly disappears. New customers keep joining too, and usually faster than old ones leave, so the customer base grows over time.
+A steady churn rate does not mean every company slowly disappears. New customers keep joining too, and usually faster than old ones leave, so the customer base grows over time.
 
-It works like a population. If the death rate is higher than the birth rate, the population shrinks; if the birth rate is higher, it grows. Here, new customers are the births and churn is the deaths.
+A customer base works like a population. If the death rate is higher than the birth rate, the population shrinks; if the birth rate is higher, it grows. Here, new customers are the births and churn is the deaths.
 
 ## 4. Step 1: Business problem to ML problem
 
@@ -82,7 +82,7 @@ more customers stay, and keep paying, every month.
 
 So we leave the meeting with a clear goal. In our mind, the task is no longer "increase revenue"; it is "churn rate from 4% to 3.75%".
 
-> **Extra:** Netflix does not publish its churn rate (Shapiro 2023). The 4% here is an assumed figure for the example. Outside estimates come from analytics firms such as Antenna, which put the average monthly churn of the big US streaming services at about 5 to 6% in 2022 and 2023 (Antenna, reported in Shapiro 2023).
+> **Extra:** The 4% here is an assumed figure for the example, not a published Netflix number.
 
 ## 5. Step 2: Type of problem
 
@@ -99,9 +99,11 @@ To answer this, we must see the **big picture**: what will the end product be, a
 
 > **Key point:** Our job is to find *which* customers will leave, not *how many*.
 
-Predicting the overall churn rate ("next month, 4% will leave") is a different task, for a different team. It does not stop anyone from leaving.
+Predicting the overall churn rate ("next month, 4% will leave") is a different task, for a different team. A forecast of the rate does not stop anyone from leaving.
 
 To reduce churn, we must stop the customers who are about to leave. So our main task is to **identify the customers who are going to leave the platform**: for each customer, will they leave, yes or no?
+
+In ML terms, each customer in a given month is one **observation** (one record, one row of the data table). Whether that customer leaves is the **target** (the output we predict).
 
 ### 5.2 The end product: a discount
 
@@ -129,9 +131,9 @@ Then a colleague asks: why treat everyone who might leave the same? Some custome
 
 So instead of yes or no, we predict, for each customer, **how likely they are to leave**, as a score from 0 to 100%. The higher the score, the larger the discount. Because the output is now a number, we treat this as a **regression** problem.
 
-> **Extra:** In practice, this task is usually still built as **binary classification** (leaves or stays). Most classifiers, such as logistic regression (Note 13), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn's `predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
+> **Extra:** In practice, this task is usually still built as **binary classification** (leaves or stays). Most classifiers, such as logistic regression (Note 13), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn API docs, `LogisticRegression.predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
 
-The framing changed as we thought more about the end product. This is normal: framing is a thinking process, not a fixed formula.
+The framing changed as we thought more about the end product. Such changes are normal: framing is a thinking process, not a fixed formula.
 
 ## 6. Step 3: Current solutions
 
@@ -139,7 +141,7 @@ The framing changed as we thought more about the end product. This is normal: fr
 
 Before building anything, we ask what solutions already exist. The CTO, who knows the company's systems, is a good person to ask.
 
-Suppose we learn that one team already has a model that predicts Netflix's **overall** churn rate for next month (say, around 5% or 6%), and it is accurate to within about 10%. It solves a different problem from ours, but in the same area.
+Suppose we learn that one team already has a model that predicts Netflix's **overall** churn rate for next month (say, around 5% or 6%), and it is accurate to within about 10%. That model solves a different problem from ours, but in the same area.
 
 So we do not have to start from scratch. We can ask that team which factors they used to predict churn, and use them as a starting point.
 
@@ -147,11 +149,11 @@ So we do not have to start from scratch. We can ask that team which factors they
 
 > **Key point:** We decide carefully which data we need, then work with data engineers to get it.
 
-This is one of the most important steps. We sit down and think: what data do we need, and which columns should it have?
+Getting data is one of the most important steps. We sit down and think: what data do we need, and which **features** (input variables, one column each of the data table) should it have?
 
 To predict how likely a customer is to leave, we study how each customer used Netflix in a given month:
 
-| Column (per customer, per month) | What it tells us |
+| Feature (per customer, per month) | What it tells us |
 |---|---|
 | Watch time (hours on Netflix) | How engaged the customer is |
 | Time spent browsing vs time spent watching | Lots of browsing, little watching: they are not finding what they want |
@@ -161,7 +163,7 @@ To predict how likely a customer is to leave, we study how each customer used Ne
 
 For example, a customer who searched 300 times in a month and did not find 300 of the things they searched for is clearly not getting what they want.
 
-Getting these columns is a job for a **data engineer**. Netflix's day-to-day records live in its **OLTP** database (online transaction processing: the system that records every action as it happens). Data engineers copy this data into a **data warehouse**, where it is organised for analysis, and from there build the dataset we need.
+Getting these features is a job for a **data engineer**. Netflix's day-to-day records live in its **OLTP** database (online transaction processing: the system that records every action as it happens). Data engineers copy this data into a **data warehouse**, where it is organised for analysis, and from there build the dataset we need.
 
 ## 8. Step 5: Metrics
 
@@ -225,7 +227,7 @@ There are many more such assumptions in a real project, and each one is cheaper 
 
 There is no fixed procedure for framing. What matters is the habit: we do not start coding straight away; we first sit down and think the problem through.
 
-This matters most in big organisations, which have high **inertia**: once a team starts moving in one direction, turning back is slow and costly. People are paid by the hour, so work in the wrong direction is wasted money, and it reflects badly on whoever led it.
+Planning first matters most in big organisations, which have high **inertia**: once a team starts moving in one direction, turning back is slow and costly. People are paid by the hour, so work in the wrong direction is wasted money, and it reflects badly on whoever led it.
 
 The same habit is what separates people over time. Of the thousands of freshers who join a company, only a few become managers five years later: usually those who showed this kind of planning and leadership.
 
@@ -236,7 +238,7 @@ The same habit is what separates people over time. Of the thousands of freshers 
 | 1. Business problem $\rightarrow$ ML problem | What number must change, and by how much? | Monthly churn rate from 4% to 3.75% in six months |
 | 2. Type of problem | What will the product be? Supervised or not? Regression or classification? | Supervised: a 0 to 100% score of each customer's chance of leaving; larger score, larger discount |
 | 3. Current solution | What already exists that we can learn from? | A model of the overall churn rate (within 10%): reuse its factors |
-| 4. Getting data | Which columns do we need, and who can get them? | Watch time, browsing vs watching, searches, unfinished shows, recommendation clicks; from data engineers |
+| 4. Getting data | Which features do we need, and who can get them? | Watch time, browsing vs watching, searches, unfinished shows, recommendation clicks; from data engineers |
 | 5. Metrics | How will we know it works? | Predicted vs actual leavers; did the flagged customers really leave? |
 | 6. Online or batch | How will the model keep up with new data? | Online (churn is volatile); else retrain weekly |
 | 7. Check assumptions | What are we taking for granted? | Columns really available? One model for every country? |
@@ -246,17 +248,20 @@ The same habit is what separates people over time. Of the thousands of freshers 
 - Find out what **already exists**, which **data** is needed, and how success will be **measured**, before building.
 - **Check assumptions** early: mistakes found late are expensive.
 
-## Sources
+## 13. Sources
 
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer.
-- Shapiro, E. (2023). Churn, Baby, Churn. *Media War & Peace* (newsletter), eshap.substack.com.
+- scikit-learn API reference. `sklearn.linear_model.LogisticRegression`, method `predict_proba`. scikit-learn.org.
 
-## 13. Key terms
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|
 | Framing an ML problem | Turning a business problem into a precise ML task that can be built and measured |
 | Churn | Customers leaving a platform or service |
+| Observation | One record, one row of the data table |
+| Target | The output we predict |
+| Feature | An input variable, one column of the data table |
 | Churn rate | The percentage of customers who leave during a given period |
 | Subscription | A model where customers pay a fixed amount every month (or year) |
 | Mathematical problem | A business goal restated as a measurable target, such as a churn rate to reach |

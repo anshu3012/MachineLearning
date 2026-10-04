@@ -6,7 +6,7 @@ title: "ReLU Variants: Leaky ReLU, PReLU, ELU and SELU"
 
 > **Key point:** A ReLU node whose weighted sum stays negative outputs 0 with slope 0, so it never learns again: it is dead. Four variants give negative inputs a non-zero output and slope, which keeps every node alive.
 
-ReLU is the default activation for hidden layers (see the [activation functions Note](../1027-activation-functions/note.md)). Its biggest weakness is the **dying ReLU problem**. This Note covers:
+ReLU is the default activation for hidden layers (see the [activation functions Note](../1027-activation-functions/note.md)). ReLU's biggest weakness is the **dying ReLU problem**. This Note covers:
 
 - what a dead node is, why it happens and why it is permanent;
 - three fixes, the third being a change of activation;
@@ -15,7 +15,7 @@ ReLU is the default activation for hidden layers (see the [activation functions 
 
 ![ReLU and its four variants (left) and their derivatives (right). On the negative side ReLU's slope is 0; every variant keeps a slope above 0. The Leaky ReLU slope is drawn as 0.1 instead of 0.01 to make it visible](images/variants.png){width=100%}
 
-Figure 1 shows all five functions. They agree for positive $z$ (SELU is scaled up slightly) and differ only for negative $z$.
+Figure 1 shows all five functions. The five agree for positive $z$ (SELU is scaled up slightly) and differ only for negative $z$.
 
 ## 2. Prerequisites
 
@@ -26,7 +26,7 @@ Figure 1 shows all five functions. They agree for positive $z$ (SELU is scaled u
 
 > **Key point:** A dead node outputs 0 for every input. With more than half the nodes dead, the network cannot capture the patterns in the data; with all of them dead, there is no network left.
 
-A **dead neuron** is a node whose output is 0 for every input. Its output no longer depends on the input, so it carries no information and learns nothing. Worse, it stays dead for the rest of training: in effect it has been removed from the network.
+A **dead neuron** is a node whose output is 0 for every input. The dead node's output no longer depends on the input, so it carries no information and learns nothing. Worse, it stays dead for the rest of training: in effect it has been removed from the network.
 
 How much this matters depends on how many nodes die:
 
@@ -96,10 +96,10 @@ The deaths are permanent. Training the learning-rate-10 network for 20 more epoc
 > **Key point:** Use a lower learning rate, start the biases at a small positive value such as 0.01, or replace ReLU with one of its variants.
 
 1. **A lower learning rate.** In Figure 3, changing only the learning rate, from 10 to 0.1, lowers the dead shares from 41% and 69% to 0% and 9%.
-2. **A positive starting bias.** Starting every bias at a small positive value, typically 0.01, keeps $z$ from starting negative.
+2. **A positive starting bias.** Starting every bias at a small positive value, such as 0.01 or 0.1, makes it very likely that every ReLU node starts active for most inputs (Goodfellow et al. 2016, §6.3.1, suggests 0.1).
 3. **A ReLU variant.** The root cause is that ReLU's slope is exactly 0 for $z < 0$. The variants keep everything good about ReLU but give the negative side a slope.
 
-> **Extra:** A positive bias does not protect against a learning rate that is too high. In Figure 3, a bias of $+0.01$ with learning rate 10 still ends with 75% and 100% dead nodes, no better than bias 0 with the same learning rate (41% and 69%).
+> **Extra:** A positive bias guards the start, not against a learning rate that is too high. Averaged over 5 seeds in the Notebook, a bias of $+0.01$ with learning rate 10 still ends with 49% and 80% dead nodes (bias 0: 49% and 89%), and accuracy stays near 50%. At learning rate 0.1, a starting bias of $+0.1$ lowers the share of second-layer nodes that start dead from 5.6% to 3.1%, and the share dead after training from 7.5% to 5.6%.
 
 > **Python:** Setting the starting bias in Keras.
 >
@@ -133,7 +133,7 @@ Advantages:
 3. **No dying ReLU problem.**
 4. **Close to zero-centred:** outputs can be negative as well as positive, though not symmetric.
 
-Its only questionable point is the constant: why 0.01 and not some other value? The value 0.01 was chosen by experiment. Parametric ReLU lets the data choose it instead.
+The only questionable point of Leaky ReLU is the constant: why 0.01 and not some other value? The value 0.01 was chosen by experiment. Parametric ReLU lets the data choose it instead.
 
 > **Extra:** Keras does not use 0.01 by default (Keras documentation). The string `activation="leaky_relu"` uses slope 0.2, and the layer `keras.layers.LeakyReLU()` uses 0.3. To get 0.01, write `keras.layers.LeakyReLU(negative_slope=0.01)`.
 
@@ -198,7 +198,7 @@ Disadvantage: it needs an exponential, so it is slower to compute than ReLU. Fas
 3. **Example:**
    $$f(1) = 1.0507, \qquad f(-1) = 1.0507 \times 1.6733 \times (0.368 - 1) = -1.111$$
 
-$\lambda$ and $\alpha$ are fixed constants, not trainable parameters. They were derived so that the function has one special property.
+$\lambda$ and $\alpha$ are fixed constants, not trainable parameters. The two constants were derived so that the function has one special property.
 
 The special property is being **self-normalising**: the outputs of a SELU layer have mean about 0 and standard deviation about 1, and the next layer keeps them there. Normalised values between layers make the network converge fast, and SELU also generalises well in experiments.
 
@@ -206,7 +206,7 @@ The special property is being **self-normalising**: the outputs of a SELU layer 
 
 Figure 4 shows this in the Notebook. Standard-normal inputs pass through 30 layers with the same random weights for each activation. With SELU the standard deviation is 1.00 at layer 1 and still 1.00 at layer 30. With ReLU it is 0.59 at layer 1 and $4 \times 10^{-5}$ at layer 30.
 
-Its disadvantage is adoption. SELU is recent (2017), its paper has 9 pages plus a 93-page appendix of proofs, and less research builds on it, so SELU is used in few places so far.
+The disadvantage of SELU is adoption. SELU is recent (2017), its paper has 9 pages plus a 93-page appendix of proofs, and less research builds on it, so SELU is used in few places so far.
 
 > **Extra:** Self-normalisation rests on assumptions in the paper: inputs with mean 0 and variance 1, and weights drawn with variance $1/\text{inputs}$ (Klambauer et al. 2017). Keras' documentation for `selu` therefore asks for `kernel_initializer="lecun_normal"` (as in Figure 4) and for `AlphaDropout` instead of ordinary dropout, which the paper shows disturbs the mean and variance. Starting weights are the subject of the [weight initialisation Note](../1029-weight-initialization/note.md).
 
@@ -239,6 +239,7 @@ Its disadvantage is adoption. SELU is recent (2017), its paper has 9 pages plus 
 
 - Clevert, D.-A., Unterthiner, T. and Hochreiter, S. (2016). Fast and Accurate Deep Network Learning by Exponential Linear Units (ELUs). ICLR 2016. arXiv:1511.07289.
 - He, K., Zhang, X., Ren, S. and Sun, J. (2015). Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification. ICCV 2015. arXiv:1502.01852.
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*, MIT Press, section 6.3.1 (a small positive starting bias keeps ReLU units active at the start).
 - Keras API documentation: `LeakyReLU`, `PReLU`, `selu` (keras.io/api).
 - Klambauer, G., Unterthiner, T., Mayr, A. and Hochreiter, S. (2017). Self-Normalizing Neural Networks. NeurIPS 2017. arXiv:1706.02515.
 - Maas, A. L., Hannun, A. Y. and Ng, A. Y. (2013). Rectifier Nonlinearities Improve Neural Network Acoustic Models. ICML 2013 Workshop on Deep Learning for Audio, Speech and Language Processing.

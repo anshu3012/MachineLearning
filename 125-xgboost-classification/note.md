@@ -18,11 +18,11 @@ title: "XGBoost for Classification"
 
 This Note joins two earlier ones. The flow (log-odds, probabilities, residuals) comes from the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md). The tree (similarity score, gain, output value) comes from the [XGBoost regression Note](../124-xgboost-regression/note.md).
 
-The one real change is the denominator of the formulas, shown in Figure 1. Where the formulas come from is derived in the [XGBoost maths Note](../126-xgboost-maths/note.md).
+The one real change is the denominator of the formulas, shown in Figure 1. Where the formulas come from is derived in the [XGBoost maths Note](../126-xgboost-maths/note.md) (Chen and Guestrin 2016, §2.2).
 
 ## 2. The data: CGPA and placement
 
-> **Key point:** Five students, one input (CGPA) and a class: placed (1) or not (0). Three were placed, two were not.
+> **Key point:** Five students, one feature (CGPA) and a class target: placed (1) or not (0). Three were placed, two were not.
 
 | Student | CGPA | Placed |
 |---|---|---|
@@ -32,7 +32,9 @@ The one real change is the denominator of the formulas, shown in Figure 1. Where
 | 4 | 8.15 | 1 |
 | 5 | 9.60 | 1 |
 
-Given a new student's CGPA, the model must say whether they will be placed. The rows are already sorted by CGPA, which we will need for the splits.
+Each student is one **observation** (one record, a row of the table). CGPA is the only **feature** (an input variable, one column of the table), and "Placed" is the **target** (the output we predict).
+
+Given a new student's CGPA, the model must say whether they will be placed. The table is already sorted by CGPA, which we will need for the splits.
 
 ## 3. Stage 1: the log-odds and its probability
 
@@ -56,18 +58,18 @@ So stage 1 says "probability 0.6" for every student, whatever the CGPA. With a t
 | 4 | 8.15 | 1 | 0.6 | 0.4 |
 | 5 | 9.60 | 1 | 0.6 | 0.4 |
 
-Residuals are always computed from probabilities, never from log-odds. The next model, an XGBoost tree, takes CGPA as input and these residuals as its target.
+Residuals are always computed from probabilities, never from log-odds. The next model, an XGBoost tree, takes CGPA as its feature and these residuals as its target.
 
 ## 5. The similarity score for classification
 
-> **Key point:** Similarity = (sum of residuals)$^2$ divided by ($\sum p(1-p) + \lambda$), where $p$ is each row's previous probability. The root scores 0.
+> **Key point:** Similarity = (sum of residuals)$^2$ divided by ($\sum p(1-p) + \lambda$), where $p$ is each observation's previous probability. The root scores 0.
 
-The numerator is the same as in regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the rows in the leaf, the same quantity as in the gradient boosting leaf formula.
+The numerator is the same as in regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the observations in the leaf, the same quantity as in the gradient boosting leaf formula.
 
-1. **In words:** add the residuals in the leaf and square the sum; divide by the sum of $p(1-p)$ over those rows plus $\lambda$.
+1. **In words:** add the residuals in the leaf and square the sum; divide by the sum of $p(1-p)$ over those observations plus $\lambda$.
 2. **Formula:**
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{\sum p_i(1-p_i) + \lambda}$$
-   Here $p_i$ is row $i$'s predicted probability from the previous stage. As in regression, we take $\lambda = 0$.
+   Here $p_i$ is observation $i$'s predicted probability from the previous stage. As in regression, we take $\lambda = 0$.
 3. **Example:** the root holds all five residuals; every $p_i = 0.6$, so $p_i(1-p_i) = 0.6 \times 0.4 = 0.24$:
    $$\text{similarity}_{\text{root}} = \frac{(-0.6 + 0.4 - 0.6 + 0.4 + 0.4)^2}{5 \times 0.24} = \frac{0^2}{1.2} = 0$$
 
@@ -92,20 +94,20 @@ $$\text{gain} = 1.5 + 0.375 - 0 = 1.875$$
 | CGPA < 7.625 | $-0.6$, 0.4, $-0.6$ | 0.4, 0.4 | 0.89 | 1.33 | **2.22** |
 | CGPA < 8.875 | $-0.6$, 0.4, $-0.6$, 0.4 | 0.4 | 0.17 | 0.67 | 0.83 |
 
-CGPA < 7.625 wins. Its right leaf holds only placed students; its left leaf holds both students who were not placed. We stop at depth 1: one split is enough to show the steps on five rows.
+CGPA < 7.625 wins. Its right leaf holds only placed students; its left leaf holds both students who were not placed. We stop at depth 1: one split is enough to show the steps on five observations.
 
 ## 7. Output values in log-odds
 
 > **Key point:** A leaf's output is (sum of residuals) divided by ($\sum p(1-p) + \lambda$): $-1.11$ for the left leaf and $1.67$ for the right. These outputs are log-odds, so they can be added to the base log-odds.
 
-1. **In words:** add the residuals in the leaf and divide by the sum of $p(1-p)$ over its rows plus $\lambda$.
+1. **In words:** add the residuals in the leaf and divide by the sum of $p(1-p)$ over its observations plus $\lambda$.
 2. **Formula:**
    $$\text{output} = \frac{\sum r_i}{\sum p_i(1-p_i) + \lambda}$$
 3. **Example:** the left leaf (students 1, 2, 3):
    $$\text{output}_{\text{left}} = \frac{-0.6 + 0.4 - 0.6}{3 \times 0.24} = \frac{-0.8}{0.72} = -1.11$$
    The right leaf (students 4, 5): $0.8 / 0.48 = 1.67$.
 
-This is the leaf formula of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), now with $\lambda$ added. Figure 1 shows the finished tree.
+The output formula is the leaf formula of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), now with $\lambda$ added. Figure 1 shows the finished tree.
 
 ## 8. Stage 2: add in log-odds, read in probability
 
@@ -134,7 +136,7 @@ Four of the five residuals move towards 0 (Figure 2). Student 2 is placed but si
 
 > **Key point:** Repeat with the new probabilities: residual 2 and $p^{(2)}(1-p^{(2)})$ go into the next tree's similarity scores and outputs.
 
-Stage 3 grows a tree on CGPA and residual 2. The rows now have different probabilities, so the denominators change from row to row: $0.518 \times 0.482 = 0.250$ on the left, $0.712 \times 0.288 = 0.205$ on the right. On our data the second tree prefers CGPA < 5.975 (gain 1.39), which isolates student 1.
+Stage 3 grows a tree on CGPA and residual 2. The observations now have different probabilities, so the denominators change from one observation to the next: $0.518 \times 0.482 = 0.250$ on the left, $0.712 \times 0.288 = 0.205$ on the right. On our data the second tree prefers CGPA < 5.975 (gain 1.39), which isolates student 1.
 
 The model after $M$ trees is
 
@@ -156,13 +158,13 @@ and a new student is predicted "placed" when $p$ is above the threshold, usually
 
 > **Extra:** With $\lambda = 1$ (XGBoost's default) the outputs shrink much more than in regression, because the denominators $0.72$ and $0.48$ are small next to 1: the leaves give $-0.8/1.72 = -0.47$ and $0.8/1.48 = 0.54$ instead of $-1.11$ and 1.67.
 
-> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight`, which is 1 by default. Here each row contributes 0.24 and all five together only 1.2, so every possible split leaves one child below 1 (the best case is 0.48). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. Since $p(1-p)$ is at most $0.25$ (at $p = 0.5$), every leaf needs at least 4 observations (rows) to reach 1, and more once the predictions move towards 0 or 1. To reproduce this Note, set `min_child_weight=0`.
+> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight`, which is 1 by default. Here each observation contributes 0.24 and all five together only 1.2, so every possible split leaves one child below 1 (the best case is 0.48). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. Since $p(1-p)$ is at most $0.25$ (at $p = 0.5$), every leaf needs at least 4 observations to reach 1, and more once the predictions move towards 0 or 1. To reproduce this Note, set `min_child_weight=0` (XGBoost docs, Parameters).
 
 ## 11. The same in code
 
 > **Key point:** The Notebook grows the tree with NumPy and checks it against the XGBoost library: same split, same gain, same stage-2 log-odds. scikit-learn's gradient boosting classifier agrees on this first tree.
 
-> **Extra:** `GradientBoostingClassifier(loss="log_loss", n_estimators=1, learning_rate=0.3, max_depth=1)` starts from the same log-odds, 0.405, and uses the same leaf outputs with $\lambda = 0$. Its tree picks splits by the squared error of the residuals rather than by XGBoost's gain. On this first tree every row has the same $p(1-p)$, so both pick CGPA < 7.625 and give exactly the log-odds 0.072 and 0.905. From the second tree on the $p(1-p)$ values differ, so the two can choose different splits: XGBoost divides each leaf's $(\sum r)^2$ by $\sum p(1-p)$, the squared-error split by the number of observations. On our second tree they still agree (both split at CGPA < 5.975).
+> **Extra:** `GradientBoostingClassifier(loss="log_loss", n_estimators=1, learning_rate=0.3, max_depth=1)` starts from the same log-odds, 0.405, and uses the same leaf outputs with $\lambda = 0$. Its tree picks splits by the squared error of the residuals rather than by XGBoost's gain. On this first tree every observation has the same $p(1-p)$, so both pick CGPA < 7.625 and give exactly the log-odds 0.072 and 0.905. From the second tree on the $p(1-p)$ values differ, so the two can choose different splits: XGBoost divides each leaf's $(\sum r)^2$ by $\sum p(1-p)$, the squared-error split by the number of observations. On our second tree they still agree (both split at CGPA < 5.975).
 
 > **Python:** The first tree in XGBoost, with every setting matched to this Note.
 >
@@ -186,7 +188,7 @@ and a new student is predicted "placed" when $p$ is above the threshold, usually
 > model.get_booster().get_dump(with_stats=True)
 > ```
 >
-> For classification `base_score` is given as a probability; XGBoost converts it to the log-odds 0.405 itself. The log-odds come out as 0.072 and 0.905. The dump shows the split `f0<7.625` with `gain=2.22` and `cover=1.2`, the sum of $p(1-p)$ over the five rows. The leaves read $-0.333$ and 0.5: the outputs $-1.11$ and 1.67 already multiplied by eta.
+> For classification `base_score` is given as a probability; XGBoost converts it to the log-odds 0.405 itself. The log-odds come out as 0.072 and 0.905. The dump shows the split `f0<7.625` with `gain=2.22` and `cover=1.2`, the sum of $p(1-p)$ over the five observations. The leaves read $-0.333$ and 0.5: the outputs $-1.11$ and 1.67 already multiplied by eta.
 
 With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain 1.39, as in section 9.
 
@@ -209,6 +211,7 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 ## 13. Sources
 
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
+- XGBoost documentation, *XGBoost Parameters* (`min_child_weight`, `base_score`), xgboost.readthedocs.io.
 
 ## 14. Key terms
 
@@ -216,6 +219,6 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 |---|---|
 | Similarity score (classification) | (sum of residuals)$^2$ / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities |
 | Output value (classification) | sum of residuals / ($\sum p(1-p) + \lambda$), in log-odds |
-| `min_child_weight` | Smallest allowed sum of $p(1-p)$ (in regression: number of rows) in a leaf; default 1 |
+| `min_child_weight` | Smallest allowed sum of $p(1-p)$ (in regression: number of observations) in a leaf; default 1 |
 | `base_score` | XGBoost's starting prediction; a probability for classification |
-| Cover | XGBoost's name for the sum of $p(1-p)$ (in regression: the number of rows) in a node |
+| Cover | XGBoost's name for the sum of $p(1-p)$ (in regression: the number of observations) in a node |

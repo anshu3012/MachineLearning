@@ -40,7 +40,7 @@ The other two outcomes are correct: rejecting a false $H_0$, and failing to reje
 
 ### 2.1 Type I error
 
-A **Type I error** occurs when the sample leads us to reject $H_0$ although it is in fact true. It is the mistake of finding a significant effect or relationship when there is none. It is also called a **false positive**.
+A **Type I error** occurs when the sample leads us to reject $H_0$ although it is in fact true. A Type I error is the mistake of finding a significant effect or relationship when there is none, also called a **false positive**.
 
 In the courtroom of the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md), $H_0$ says "no crime". A Type I error convicts an innocent person.
 
@@ -48,7 +48,7 @@ The probability of a Type I error is the significance level $\alpha$ (see the [r
 
 ### 2.2 Type II error
 
-A **Type II error** occurs when the sample leads us to fail to reject $H_0$ although it is in fact false. The researcher fails to detect an effect or relationship that actually exists. It is also called a **false negative**.
+A **Type II error** occurs when the sample leads us to fail to reject $H_0$ although it is in fact false. The researcher fails to detect an effect or relationship that actually exists. A Type II error is also called a **false negative**.
 
 In the courtroom: the accused did commit the crime, but the evidence was too weak and they walk free.
 
@@ -98,7 +98,7 @@ Figure 2 shows it with numbers. For the same true mean of 52:
 | 0.05 | 1.645 | 0.29 | 0.71 |
 | 0.01 | 2.326 | 0.55 | 0.45 |
 
-Cutting $\alpha$ from 5% to 1% almost doubles the chance of missing the effect. The two errors move in opposite directions, so we strike a balance. That is why 0.05 is the usual choice, unless a domain expert has a specific reason to change it.
+Cutting $\alpha$ from 5% to 1% almost doubles the chance of missing the effect. The two errors move in opposite directions, so we strike a balance, much as a smoke alarm is set sensitive enough to catch fires but not so sensitive that it sounds for every slice of toast. The usual setting, 0.05, is such a compromise, unless a domain expert has a specific reason to change it.
 
 > **Extra:** The way to lower both errors is more data. Keeping $\alpha = 0.05$ and the true mean at 52, the power of the training test rises from 0.71 with 30 employees to 0.93 with 60 and 0.99 with 100. A larger sample shrinks the standard error, so the two curves of Figure 2 move apart.
 
@@ -153,17 +153,17 @@ Disadvantages:
 
 1. **Testing the effect of an intervention or treatment.** Does a new filming style raise view time? Does a new drug work? With $\sigma$ known we use a z-test, otherwise a t-test (see the [one-sample t-test Note](../301-one-sample-t-test/note.md)).
 2. **Comparing means and proportions** between two or more groups: customer satisfaction scores, conversion rates (proportions, i.e. percentages), employee performance, the average marks of section A and section B. The tools are t-tests (see the [two-sample t-tests Note](../302-two-sample-and-paired-t-tests/note.md)) and ANOVA.
-3. **Relationships between variables.** Is the correlation between two numerical columns real or chance? Pearson's correlation coefficient (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)) and Spearman's rank correlation each come with a test.
+3. **Relationships between variables.** Is the correlation between two numerical **features** (input variables, columns of the data table) real or chance? Pearson's correlation coefficient (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)) and Spearman's rank correlation each come with a test.
 4. **Goodness of fit.** Does a dataset follow a normal, binomial or Poisson distribution? The chi-square test is one tool.
 5. **Independence of categorical variables.** On the Titanic, are sex (male, female) and survival (1, 0) related, or independent? Is the type of product related to whether customers return it? The chi-square test answers this.
-6. **A/B testing.** Two versions of a web page, thumbnail or product (A and B) are shown to random groups of users, and a test decides which converts or engages better (see the [machine learning development life cycle Note](../09-mldlc/note.md)). Tech companies run such tests constantly; it is hypothesis testing standardized for marketing, product development and website design.
+6. **A/B testing.** Two versions of a web page, thumbnail or product (A and B) are shown to random groups of users, and a test decides which converts or engages better (see the [machine learning development life cycle Note](../09-mldlc/note.md)). Tech companies run such tests constantly; A/B testing is hypothesis testing standardized for marketing, product development and website design.
 
 ### 6.2 In machine learning
 
 1. **Model comparison.** We train XGBoost, a random forest and linear regression on the same data. Is one really better, or did it win by chance on this split? A paired t-test on the scores of the same cross-validation folds (see the [pipelines Note](../29-pipelines/note.md) for cross-validation) answers it; the [two-sample t-tests Note](../302-two-sample-and-paired-t-tests/note.md) runs one.
-2. **Feature selection.** Which features are related to the target, and which can we drop (see the [what is feature engineering Note](../23-what-is-feature-engineering/note.md))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `f_classif` computes the ANOVA F statistic and its p-value for each feature, and `chi2` the chi-square statistic; `SelectKBest` keeps the $k$ features with the highest scores (scikit-learn documentation, `sklearn.feature_selection`).
+2. **Feature selection.** Which features are related to the **target** (the output we predict), and which can we drop (see the [what is feature engineering Note](../23-what-is-feature-engineering/note.md))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `f_classif` computes the ANOVA F statistic and its p-value for each feature, and `chi2` the chi-square statistic; `SelectKBest` keeps the $k$ features with the highest scores (scikit-learn §1.13).
 3. **Hyperparameter tuning.** Two settings of a model give different cross-validation scores (see the [random forest tuning Note](../112-random-forest-tuning/note.md)). A test says whether one setting is significantly better.
-4. **Checking model assumptions.** Linear regression assumes, among other things, normally distributed residuals (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). The Shapiro-Wilk test checks normality (S. S. Shapiro and M. B. Wilk, "An analysis of variance test for normality (complete samples)", *Biometrika* 52, 1965); if the assumptions fail, the model may not suit the data.
+4. **Checking model assumptions.** Linear regression assumes, among other things, normally distributed residuals (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). The Shapiro-Wilk test checks normality (Shapiro and Wilk 1965); if the assumptions fail, the model may not suit the data.
 
 Libraries such as scikit-learn usually run these tests for us. Knowing what happens behind the scenes lets us use those tools better and make better-educated decisions.
 
@@ -183,7 +183,12 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 - Lowering $\alpha$ raises $\beta$; only more data lowers both.
 - Fix the direction of $H_1$ before looking at the data.
 
-## 8. Key terms
+## 8. Sources
+
+- scikit-learn developers. *User Guide*, §1.13 "Feature selection" (univariate selection with `SelectKBest`, `f_classif`, `chi2`). scikit-learn.org, feature_selection.html.
+- Shapiro, S. S. and Wilk, M. B. (1965). "An analysis of variance test for normality (complete samples)." *Biometrika* 52(3–4), 591–611.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

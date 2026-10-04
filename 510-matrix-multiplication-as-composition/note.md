@@ -25,9 +25,9 @@ This Note builds on the [linear transformations and matrices Note](../500-linear
 
 > **Key point:** Applying one linear transformation and then another is again a linear transformation, called their composition; following $\hat{\imath}$ and $\hat{\jmath}$ gives its matrix.
 
-We often want to apply one transformation and then another. The overall effect is again a linear transformation (grid lines are still parallel and evenly spaced, and the origin has not moved). It is called the **composition** of the two transformations.
+We often want to apply one transformation and then another. The overall effect is again a linear transformation (grid lines are still parallel and evenly spaced, and the origin has not moved). The overall effect is called the **composition** of the two transformations.
 
-Like any linear transformation, it has a matrix, found by following $\hat{\imath}$ and $\hat{\jmath}$ to their final places. In Figure 1:
+Like any linear transformation, the composition has a matrix, found by following $\hat{\imath}$ and $\hat{\jmath}$ to their final places. In Figure 1:
 
 - **Rotation by 90°** has the matrix $R$ with columns $[0, 1]$ and $[-1, 0]$: it sends $\hat{\imath}$ to $[0, 1]$ and $\hat{\jmath}$ to $[-1, 0]$.
 - **The shear** has the matrix $S$ with columns $[1, 0]$ and $[1, 1]$: it keeps $[1, 0]$ fixed and sends $[0, 1]$ to $[1, 1]$.
@@ -47,7 +47,7 @@ Applying the rotation and then the shear to a vector $\mathbf{x}$ the long way m
 
 $$S(R\mathbf{x}) = (SR)\,\mathbf{x}$$
 
-Note the order. The transformation on the right ($R$) happens first and the one on the left ($S$) second. This comes from function notation: in $f(g(x))$, $g$ acts first. A matrix product is read from right to left.
+Note the order. The transformation on the right ($R$) happens first and the one on the left ($S$) second. The right-to-left order comes from function notation: in $f(g(x))$, $g$ acts first. A matrix product is read from right to left.
 
 ## 4. Computing a product column by column
 
@@ -75,7 +75,7 @@ The first column of the product is $e\,[a, c] + g\,[b, d]$ and the second is $f\
 
 $$\begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} e & f \\ g & h \end{bmatrix} = \begin{bmatrix} ae + bg & af + bh \\ ce + dg & cf + dh \end{bmatrix}$$
 
-> **Extra:** The same formula read entry by entry is the school rule "row times column". The entry in row $i$, column $j$ of $AB$ is the dot product of row $i$ of $A$ with column $j$ of $B$. In the example, row 1 of $M_2$ is $[0, 2]$ and column 1 of $M_1$ is $[1, 1]$, and $0 \times 1 + 2 \times 1 = 2$, the top-left entry. This is why the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) calls the dot product the building block of matrix multiplication.
+> **Extra:** The same formula read entry by entry is the school rule "row times column". The entry in row $i$, column $j$ of $AB$ is the dot product of row $i$ of $A$ with column $j$ of $B$. In the example, row 1 of $M_2$ is $[0, 2]$ and column 1 of $M_1$ is $[1, 1]$, and $0 \times 1 + 2 \times 1 = 2$, the top-left entry. The row-times-column view is why the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) calls the dot product the building block of matrix multiplication.
 
 > **Python:** `@` multiplies two matrices.
 >
@@ -139,7 +139,7 @@ So far all matrices were $2 \times 2$. In ML the matrices are rectangular, and t
 1. **In words:** the number of columns of the left matrix must equal the number of rows of the right matrix; the result takes the rows of the left and the columns of the right.
 2. **Formula:**
    $$(m \times n)\,(n \times p) = (m \times p)$$
-3. **Example:** the data matrix $X$ with 3 points and 2 features times $A^{\mathsf T}$ in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md) (section 7.1) is $(3 \times 2)(2 \times 2) = 3 \times 2$: three transformed points. PCA's $XW^{\mathsf T}$ with 40 points, 3 features and 2 components is $(40 \times 3)(3 \times 2) = 40 \times 2$ (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 5.1).
+3. **Example:** the data matrix $X$ with 3 points and 2 **features** (input variables, one column each) times $A^{\mathsf T}$ in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md) (section 7.1) is $(3 \times 2)(2 \times 2) = 3 \times 2$: three transformed points. PCA's $XW^{\mathsf T}$ with 40 points, 3 features and 2 components is $(40 \times 3)(3 \times 2) = 40 \times 2$ (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 5.1).
 
 The dot product $a^{\mathsf T}b$, $(1 \times n)(n \times 1) = 1 \times 1$, is the smallest case of this rule.
 
@@ -153,9 +153,9 @@ $$W_2(W_1\mathbf{x}) = (W_2W_1)\,\mathbf{x}$$
 
 With the numbers of Section 4, $W_1 = M_1$ and $W_2 = M_2$: the input $[1, 1]$ goes to $M_1[1, 1] = [-1, 1]$ and then to $M_2[-1, 1] = [2, -1]$. The single matrix $M_2M_1$ sends $[1, 1]$ straight to $[2, -1]$. However many linear layers we stack, the result is still one matrix, one linear transformation.
 
-This is why every layer of a network ends with a non-linear activation such as the [sigmoid](../72-sigmoid-function/note.md). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix. The classic example is XOR: no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
+The collapse is why the hidden layers of a network end with a non-linear activation such as the [sigmoid](../72-sigmoid-function/note.md). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix. The classic example is XOR: no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
 
-> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original columns. Polynomial features (see the [polynomial regression Note](../61-polynomial-regression/note.md)) help precisely because squaring is not linear.
+> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original features. Polynomial features (see the [polynomial regression Note](../61-polynomial-regression/note.md)) help precisely because squaring is not linear.
 
 ## 8. Summary
 
@@ -173,11 +173,11 @@ This is why every layer of a network ends with a non-linear activation such as t
 - Order matters; grouping does not.
 - Stacked linear layers collapse into one matrix; activation functions prevent that.
 
-## Sources
+## 9. Sources
 
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 6.1, learning XOR.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

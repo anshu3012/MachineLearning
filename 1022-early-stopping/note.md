@@ -83,7 +83,7 @@ Up to epoch 469 the validation loss (orange) falls. After that it rises, while t
 
 So the right number of epochs here was about 470. The other 3,000 epochs cost time and made the model worse.
 
-> **Extra:** The decision boundary hardly changes after epoch 469 (Figure 2): what grows is the network's confidence. Its predicted probabilities move towards 0 and 1, and every validation point on the wrong side then costs more loss. That is why the validation loss rises by 70% while the validation accuracy only moves between 70% and 76%.
+> **Extra:** The decision boundary hardly changes after epoch 469 (Figure 2): what grows is the network's confidence. Its predicted probabilities move towards 0 and 1, and every validation point on the wrong side then costs more loss. That is why the validation loss rises by 70% while the validation accuracy only moves between 70% and 76%. The Notebook checks both halves of this story: the two models give the same class on 98% of the plotted area, and the average distance of a validation prediction from 0.5 grows from 0.30 to 0.42. A misclassified validation point now costs 2.74 on average instead of 1.25.
 
 ![Decision boundaries after 3,500 epochs and after early stopping. Dots are training points, crosses validation points.](images/boundaries.png)
 

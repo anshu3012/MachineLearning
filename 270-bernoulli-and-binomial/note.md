@@ -33,7 +33,7 @@ Both are discrete distributions. The distributions of the last few Notes (normal
 
 > **Key point:** Any random experiment with exactly two outcomes, coded 1 (success) and 0 (failure), follows a Bernoulli distribution with one parameter $p$.
 
-Recap: the **Bernoulli distribution** describes one trial with two outcomes, 1 with probability $p$ and 0 with probability $1 - p$; its only parameter is $p$ (see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)). It is named after the Swiss mathematician Jacob Bernoulli, who studied it in the late 1600s.
+Recap: the **Bernoulli distribution** describes one trial with two outcomes, 1 with probability $p$ and 0 with probability $1 - p$; its only parameter is $p$ (see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)). The distribution is named after the Swiss mathematician Jacob Bernoulli, whose book *Ars Conjectandi* (Bernoulli 1713) studied it.
 
 Three experiments with a binary outcome:
 
@@ -43,7 +43,7 @@ Three experiments with a binary outcome:
 | Read a new email | spam | not spam | depends on the inbox |
 | Roll a die | the die shows 5 | anything else (1, 2, 3, 4, 6) | 1/6 |
 
-"Success" is only a label for the outcome coded 1. It need not be a good thing: in a spam filter, finding spam is the success.
+"Success" is only a label for the outcome coded 1. The success need not be a good thing: in a spam filter, finding spam is the success.
 
 ### 2.1 The PMF as one formula
 
@@ -78,9 +78,9 @@ Many ML problems predict a yes/no outcome:
 - is an email spam or not;
 - does a patient have a certain disease or not.
 
-Each target value is a Bernoulli variable, and a binary classifier such as logistic regression estimates its $p$ for every row. The Bernoulli variant of Naive Bayes assumes that each input is a Bernoulli variable, such as "this word is present or not": the scikit-learn user guide (Section 1.9.4, `BernoulliNB`) says each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (see also the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
+The **target** (the output we predict) of each **observation** (one record, one row of the data table) is a Bernoulli variable, and a binary classifier such as logistic regression estimates its $p$ for every observation. The Bernoulli variant of Naive Bayes assumes that each **feature** (an input variable, one column of the data table) is a Bernoulli variable, such as "this word is present or not": each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (scikit-learn §1.9.4; see also the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
 
-> **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution**, the many-outcome version of Bernoulli (Murphy, *Machine Learning: A Probabilistic Perspective*, 2012, Section 2.3.2, which calls it the multinoulli distribution).
+> **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution**, the many-outcome version of Bernoulli (Murphy 2012, §2.3.2, which calls it the multinoulli distribution).
 
 > **Extra:** The mean of a Bernoulli variable is $p$ (see the [expected value Note](../332-expected-value-and-variance/note.md)). Its variance is $p(1 - p)$: by the shortcut formula $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is $p - p^2 = p(1 - p)$. For a fair coin this is $0.5 \times 0.5 = 0.25$, the largest possible; for $p = 0.2$ it is $0.2 \times 0.8 = 0.16$.
 
@@ -130,7 +130,7 @@ Listing outcomes stops working fast. With 10,000 viewers there are $2^{10{,}000}
 Recap: the binomial PMF is $P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}$, where $\binom{n}{x}$ ("$n$ choose $x$") counts the ways to choose $x$ trials out of $n$ (see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)). The tree shows where each part comes from:
 
 - $n$ is the number of trials (3 viewers), $p$ the success probability (0.5), $x$ the number of successes we ask about.
-- $p^x (1-p)^{n-x}$ is the probability of **one** path with $x$ successes, such as LLN. It is the Bernoulli formula, repeated over $n$ trials.
+- $p^x (1-p)^{n-x}$ is the probability of **one** path with $x$ successes, such as LLN. This path probability is the Bernoulli formula, repeated over $n$ trials.
 - $\binom{n}{x}$ is the number of such paths: the leaves of Figure 3 with $x$ likes.
 
 1. **In words:** multiply the number of arrangements of 2 likes among 3 viewers by the probability of one such arrangement.
@@ -210,17 +210,17 @@ Figure 4 repeats the simulation for three coins. The bars are the share of the 1
 
 The simulated bars sit close to the exact dots, and they get closer with more runs. The Notebook measures the largest gap between a bar and its dot: for $p = 0.5$ it is 0.095 with 100 runs, 0.015 with 1000 runs and 0.0015 with 100,000 runs (the other two coins behave the same way).
 
-> **Extra:** The centre of a binomial distribution is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page: mean $1000 \times 0.1 = 100$ purchases, standard deviation $\sqrt{1000 \times 0.1 \times 0.9} = 9.49$. The skewness is $(1 - 2p)/\sqrt{np(1-p)}$ (Johnson, Kemp and Kotz, *Univariate Discrete Distributions*, 3rd ed., 2005, Chapter 3): 0.84 for $p = 0.1$, 0 for $p = 0.5$, $-0.47$ for $p = 0.8$. scipy's `binom(10, p).stats(moments='s')` gives the same three numbers in the Notebook.
+> **Extra:** The centre of a binomial distribution is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page: mean $1000 \times 0.1 = 100$ purchases, standard deviation $\sqrt{1000 \times 0.1 \times 0.9} = 9.49$. The skewness is $(1 - 2p)/\sqrt{np(1-p)}$ (Johnson, Kemp and Kotz 2005, ch. 3): 0.84 for $p = 0.1$, 0 for $p = 0.5$, $-0.47$ for $p = 0.8$. scipy's `binom(10, p).stats(moments='s')` gives the same three numbers in the Notebook.
 
 ## 8. Where the binomial distribution is used
 
 > **Key point:** Binary classification, Naive Bayes, majority voting, hypothesis tests, logistic regression and A/B tests all use the binomial distribution.
 
-- **Binary classification.** The number of positive cases among $n$ independent rows is binomial; for example, the number of spam emails among the next 100.
-- **Naive Bayes.** Its variants assume a distribution for the inputs: Bernoulli, multinomial (the many-category version of binomial) or Gaussian (see the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
+- **Binary classification.** The number of positive cases among $n$ independent observations is binomial; for example, the number of spam emails among the next 100.
+- **Naive Bayes.** Its variants assume a distribution for the features: Bernoulli, multinomial (the many-category version of binomial) or Gaussian (see the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
 - **Majority voting.** The number of correct models in a voting ensemble is binomial (see the [voting ensemble Note](../102-voting-ensemble/note.md)).
 - **Hypothesis testing.** Tests compute the probability of a number of successes in $n$ trials, assuming a claim (the null hypothesis) is true.
-- **Logistic regression and A/B testing.** Logistic regression models the success probability of each row; an A/B test compares the success counts of two versions of a page.
+- **Logistic regression and A/B testing.** Logistic regression models the success probability of each observation; an A/B test compares the success counts of two versions of a page.
 
 ## 9. Summary
 
@@ -238,7 +238,14 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 - $\binom{n}{x}$ counts the paths in the outcome tree; $p^x (1 - p)^{n - x}$ is the probability of one path.
 - A large $p$ shifts the distribution right, a small $p$ left; near $p = 0.5$ it is symmetric and bell-shaped.
 
-## 10. Key terms
+## 10. Sources
+
+- Bernoulli, J. (1713). *Ars Conjectandi*. Basel: Thurneysen.
+- scikit-learn developers. *User Guide*, §1.9.4 "Bernoulli Naive Bayes". scikit-learn.org, naive_bayes.html.
+- Murphy, K. P. (2012). *Machine Learning: A Probabilistic Perspective*. MIT Press. §2.3.2.
+- Johnson, N. L., Kemp, A. W. and Kotz, S. (2005). *Univariate Discrete Distributions*, 3rd ed. Wiley. Chapter 3.
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

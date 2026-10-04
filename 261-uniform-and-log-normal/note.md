@@ -27,7 +27,7 @@ For each one we look at its definition, its PDF and parameters, where it shows u
 
 The **uniform distribution** is a probability distribution in which all outcomes are equally likely within a given range. If we pick a random value from that range, any value is as likely as any other.
 
-It comes in two kinds, one for each kind of random variable:
+The uniform distribution comes in two kinds, one for each kind of random variable:
 
 - **Discrete uniform:** a fair die. Each face from 1 to 6 has probability $1/6$, so the PMF is six bars of equal height (see the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md)).
 - **Continuous uniform:** a continuous random variable spread evenly over a range, such as a production time anywhere between 5 and 6 hours. This Note is about this kind.
@@ -67,19 +67,19 @@ The continuous uniform distribution is **symmetric**, like the normal distributi
 
 ### 2.3 Where the continuous uniform appears
 
-> **Key point:** It appears when a quantity is equally likely anywhere in a fixed range, and it works behind the scenes in many ML techniques.
+> **Key point:** The continuous uniform appears when a quantity is equally likely anywhere in a fixed range, and it works behind the scenes in many ML techniques.
 
 Everyday examples are quantities that are equally likely anywhere within fixed limits:
 
 - the time a machine takes to produce a product, when it ranges evenly from 5 to 6 hours;
 - the waiting time for a bus that comes exactly every 10 minutes, for someone arriving at a random moment: anywhere from 0 to 10 minutes.
 
-A height chosen at random from a group whose heights all lie between 5.6 and 6 feet is sometimes given as an example. It is only a rough one: restricting a normal variable to a range does not make it flat. Cutting a bell curve to a range keeps the bell's shape inside it (the density is just scaled up so its area is 1), so the heights still bunch towards the centre.
+A height chosen at random from a group whose heights all lie between 5.6 and 6 feet is sometimes given as an example. The height example is only a rough one: restricting a normal variable to a range does not make it flat. Cutting a bell curve to a range keeps the bell's shape inside it (the density is just scaled up so its area is 1), so the heights still bunch towards the centre.
 
 In machine learning, the uniform distribution mostly works behind the scenes:
 
 - **Random initialization.** Neural networks and k-means clustering (see the [k-means Note](../128-kmeans-intuition/note.md)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
-- **Sampling.** Splitting data into training and test sets, or drawing a random subset, picks each row with equal probability (the train-test split of the [toy project Note](../13-toy-project/note.md)).
+- **Sampling.** Splitting data into training and test sets, or drawing a random subset, picks each **observation** (one record, one row of the data table) with equal probability (the train-test split of the [toy project Note](../13-toy-project/note.md)).
 - **Data augmentation.** In deep learning with images, a small dataset is enlarged by making new images from old ones: zoomed in a little, shrunk, shifted, rotated. The amounts are drawn at random, often uniformly.
 - **Hyperparameter tuning.** Random search tries hyperparameter values drawn from ranges, often uniformly (scikit-learn `RandomizedSearchCV` docs; see the [random forest tuning Note](../112-random-forest-tuning/note.md)).
 - **Pseudo-random number generators.** Computers first produce uniform random numbers and turn them into samples from other distributions (MML §6.7.1).
@@ -163,7 +163,7 @@ The log-normal distribution appears in biology, medicine, chemistry, hydrology a
 
 > **Key point:** Take the log of every value and check the logs for normality with a Q-Q plot; if the logs are normal, the data is log-normal.
 
-This is a common interview question, and the answer follows from the definition:
+Checking for log-normality is a common interview question, and the answer follows from the definition:
 
 1. Take the natural log of every value of $X$; call the result $Y = \ln X$.
 2. Draw a Q-Q plot of $Y$ against the normal distribution (see the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)).
@@ -173,7 +173,7 @@ Figure 4 does this for 1,000 comment lengths simulated with $\mu = 3$ and $\sigm
 
 ![1,000 comment lengths: raw (left), after the log (middle), and the Q-Q plot of the logs (right)](images/lognormal_check.png)
 
-This is also the payoff of knowing a column is log-normal: the log transform turns it into a normal column, and everything that works on normal data then applies. That transform, and how it helps models such as linear and logistic regression, is in the [function transformer Note](../30-function-transformer/note.md).
+The same check shows the payoff of knowing a **feature** (one variable of the data, one column of the table) is log-normal: the log transform turns it into a normal feature, and everything that works on normal data then applies. That transform, and how it helps models such as linear and logistic regression, is in the [function transformer Note](../30-function-transformer/note.md).
 
 > **Python:** Log-normal values, and the scipy parameters.
 >
@@ -204,19 +204,21 @@ This is also the payoff of knowing a column is log-normal: the log transform tur
 
 - Non-Gaussian simply means not normal.
 - The uniform distribution works behind the scenes in ML: initialization, sampling, augmentation, random search.
-- A right-skewed column is log-normal only if its logs are normal.
+- A right-skewed feature is log-normal only if its logs are normal.
 - Log-normal data becomes normal with a log transform.
 
-## Sources
+## 5. Sources
 
 - Clementi, F. and Gallegati, M. (2005). "Pareto's Law of Income Distribution: Evidence for Germany, the United Kingdom, and the United States." In *Econophysics of Wealth Distributions*, Springer.
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 6.7.1 (sampling with the inverse CDF) and 6.7.2 (change of variables).
 - scikit-learn documentation, `RandomizedSearchCV`.
 
-## 5. Key terms
+## 6. Key terms
 
 | Term | Meaning |
 |---|---|
+| Observation | One record, one row of the data table |
+| Feature | One variable of the data, one column of the table |
 | Non-Gaussian distribution | Any distribution that is not normal |
 | Uniform distribution | A distribution in which every outcome in a range is equally likely |
 | Continuous uniform distribution $U(a, b)$ | A continuous variable spread evenly between $a$ and $b$, with density $1/(b - a)$ |

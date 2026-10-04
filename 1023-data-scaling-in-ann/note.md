@@ -69,7 +69,7 @@ Figure 1 (left, red) shows the validation accuracy. It jumps up and down between
 
 The two values give the game away. Of the 80 validation users, 65% did not buy and 35% did. An accuracy of 65% means the network predicted "did not buy" for everyone; 35% means it predicted "bought" for everyone. It flips between the two and never learns to separate the users.
 
-The training loss tells the same story. Binary cross-entropy of a coin toss is 0.69, yet the loss starts at 3,618 and still swings between about 20 and 80 after 100 epochs.
+The training loss tells the same story. Binary cross-entropy of a coin toss is 0.69, yet the loss starts at 3,618 and still swings between about 20 and 170 in the last 10 epochs.
 
 ## 4. Why unscaled inputs break training
 
@@ -88,7 +88,11 @@ Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one h
    $$\frac{\partial L}{\partial w_1} = 0.01 \times 40 = 0.4, \qquad \frac{\partial L}{\partial w_2} = 0.01 \times 80{,}000 = 800$$
    The salary weight gets a gradient 2,000 times larger.
 
-So nearly all the change during training goes into $w_2$. The algorithm focuses on the salary weights and barely values the age weights, and the large steps on $w_2$ overshoot back and forth. Training is unstable, as in Figure 1.
+So salary takes over. With plain gradient descent, nearly all the change would go into $w_2$. Our network uses Adam, which moves every weight by about the same small amount (Kingma and Ba 2015, §2.1), but salary still takes over, because the same small step moves $z$ 2,000 times further through salary than through age. Think of two volume knobs, one normal and one extremely sensitive: the same small twist barely changes the first, but makes the second jump from silent to full blast.
+
+In numbers: in the first epoch both kinds of weight moved by about 0.004, which shifts $z$ by about $0.004 \times 70{,}000 = 280$ through salary and only $0.004 \times 38 = 0.15$ through age. So $z$ swings wildly from step to step, the predictions flip between all 0 and all 1, and training is unstable, as in Figure 1.
+
+> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller learning rate on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
 
 The Notebook measures this on the real network before any training (Figure 1, right). With raw inputs, the salary weights' gradients average 1,393 and the age weights' 0.73: about 1,900 times smaller, close to the ratio of the average salary to the average age (69,742 / 38). After standardizing, both are around 0.01, within a factor of 2.
 
@@ -159,7 +163,11 @@ Scaling is a standard pre-processing step whenever data goes into a neural netwo
 - Standardize (or normalize) every input, fitting the scaler on the training data only.
 - Make it a habit: scale before any data reaches a network.
 
-## 7. Key terms
+## 7. Sources
+
+- Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, §2.1 (step size about the learning rate, invariant to the scale of the gradient).
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -14,7 +14,7 @@ title: "Feature Scaling: Normalization"
 
 ## 1. Overview
 
-> **Key point:** Normalization rescales every input column into a common, fixed range. Its main technique, min-max scaling, squeezes each column into 0 to 1.
+> **Key point:** Normalization rescales every feature into a common, fixed range. Its main technique, min-max scaling, squeezes each column into 0 to 1.
 
 Feature scaling has two main types: standardization (previous Note) and normalization (this Note). Normalization is a family of techniques; this Note covers four of them: min-max scaling, mean normalization, max-abs scaling and robust scaling.
 
@@ -28,13 +28,13 @@ Figure 1 shows the four techniques side by side, each with its formula, the rang
 
 **Normalization** is a technique often used in data preparation for machine learning. Its goal is to change the values of the numerical columns in a dataset to a common scale, without distorting the differences in the ranges of values or losing information.
 
-Take a dataset that predicts whether a person will buy sports equipment, from inputs such as weight and height. Every numerical quantity has two parts: a **magnitude** (the number) and a **unit**. A weight of 70 has the magnitude 70 and a unit that could be grams, kilograms or pounds.
+Take a dataset that predicts whether a person will buy sports equipment, from **features** (input variables, one column each of the data table) such as weight and height. Each person is one **observation** (one record, one row), and the purchase is the **target** (the output we predict). Every numerical quantity has two parts: a **magnitude** (the number) and a **unit**. A weight of 70 has the magnitude 70 and a unit that could be grams, kilograms or pounds.
 
 In ML it is a good idea to remove the units before training. When every column is brought to a common scale with no units, ML algorithms usually give better results. Removing the units is the whole idea behind normalization.
 
 ## 3. Types of normalization
 
-> **Key point:** We look at four techniques, and min-max scaling is the one used about 90% of the time.
+> **Key point:** We look at four techniques; min-max scaling is the simplest and gets the most attention here.
 
 The four normalization techniques in this Note are:
 
@@ -43,7 +43,7 @@ The four normalization techniques in this Note are:
 3. **Max-abs scaling**.
 4. **Robust scaling**.
 
-scikit-learn's documentation lists more such transformations; these four are the important ones. Min-max scaling gets the most attention here, because whenever we normalize, we use min-max scaling about 90% of the time.
+scikit-learn's documentation lists more such transformations; these four are the important ones. Min-max scaling gets the most attention here, because it is the simplest and the others build on the same idea.
 
 ## 4. Min-max scaling
 
@@ -75,7 +75,7 @@ The new value is smallest when $x_i$ is the minimum. Then the top of the fractio
 
 The new value is largest when $x_i$ is the maximum. Then the top and the bottom of the fraction are equal, so the result is 1. Every other value gives something between 0 and 1.
 
-So whenever we apply min-max scaling, the new column always lies in the range 0 to 1. This is the main guarantee of min-max scaling.
+So whenever we apply min-max scaling, the new column always lies in the range 0 to 1. The fixed 0-to-1 range is the main guarantee of min-max scaling.
 
 ### 4.3 What min-max scaling does to the data
 
@@ -90,7 +90,7 @@ Take two columns, weight and height, and plot every customer as a point. Height 
 
 In Figure 2, the red dot marks the minimum corner and the dashed box runs from the minimum to the maximum of each feature. Feature 1 has range 5, so dividing by 5 squeezes it; feature 2 has range 0.6, so dividing by 0.6 stretches it.
 
-At the end the whole dataset sits inside the **unit square**, the square from $(0, 0)$ to $(1, 1)$. This is the geometric meaning of min-max scaling:
+At the end the whole dataset sits inside the **unit square**, the square from $(0, 0)$ to $(1, 1)$. Pressing the data into a box is the geometric meaning of min-max scaling:
 
 - with two columns, the data is pressed into a unit square;
 - with three columns, into a **unit cube**;
@@ -104,7 +104,7 @@ The structure of the data is kept: the cloud has the same pattern inside the box
 
 ### 5.1 The wine data
 
-> **Key point:** 178 wines in three classes, with two inputs: alcohol and malic acid.
+> **Key point:** 178 wines in three classes, with two features: alcohol and malic acid.
 
 The data is the wine dataset: 178 wines grown in the same region of Italy, from three different cultivars. The file has 14 columns; we keep the first three:
 
@@ -114,7 +114,7 @@ The data is the wine dataset: 178 wines grown in the same region of Italy, from 
 | 1 | 13.20 | 1.78 |
 | 1 | 13.16 | 2.36 |
 
-`Alcohol` and `Malic acid` are the inputs; `Class label` (1, 2 or 3) is the target. Alcohol has bigger numbers (about 11 to 15) than malic acid (about 1 to 6).
+`Alcohol` and `Malic acid` are the features; `Class label` (1, 2 or 3) is the target. Each wine is one observation. Alcohol has bigger numbers (about 11 to 15) than malic acid (about 1 to 6).
 
 > **Python:** Loading three columns of a file with no header row.
 >
@@ -129,7 +129,7 @@ The data is the wine dataset: 178 wines grown in the same region of Italy, from 
 >
 > `header=None` tells pandas the first row is data, not column names. `usecols=[0, 1, 2]` keeps only the first three columns.
 
-> **Extra:** The full wine dataset (13 inputs) comes from the UCI Machine Learning Repository and is also built into scikit-learn as `sklearn.datasets.load_wine` (scikit-learn docs, `load_wine`).
+> **Extra:** The full wine dataset (13 features) comes from the UCI Machine Learning Repository and is also built into scikit-learn as `sklearn.datasets.load_wine` (scikit-learn docs, `load_wine`).
 
 ### 5.2 Split, fit and transform
 
@@ -189,7 +189,7 @@ Before scaling, alcohol ran from 11.03 to 14.75 and malic acid from 0.89 to 5.65
 
 The mean and the standard deviation come out different for each column (0.53 and 0.31, 0.22 and 0.24). Min-max scaling guarantees only the minimum and the maximum, nothing about the centre or the spread.
 
-> **Extra:** The guarantee holds only for the data the scaler was fitted on. The test set is scaled with the training minimum and maximum, so a test value outside the training range lands slightly outside 0 to 1. Here the test set's malic acid runs from $-0.03$ to $1.03$. This is expected and harmless.
+> **Extra:** The guarantee holds only for the data the scaler was fitted on. The test set is scaled with the training minimum and maximum, so a test value outside the training range lands slightly outside 0 to 1. Here the test set's malic acid runs from $-0.03$ to $1.03$. Such small overshoots are expected and harmless.
 
 ## 6. Effect of min-max scaling on the data
 
@@ -227,7 +227,7 @@ So min-max scaling handles outliers badly. For all other purposes it is a good, 
 
 Subtracting the mean is the same mean centring that standardization does: the data moves so that its centre sits at 0. The division then shrinks it, so the values land between -1 and 1. A value below the mean gives a negative number; a value above the mean gives a positive number.
 
-Mean normalization is rarely used. It suits algorithms that need **centred data** (mean 0), but in practice people use standardization for that instead.
+Mean normalization is rarely used. Mean normalization suits algorithms that need **centred data** (mean 0), but in practice people use standardization for that instead.
 
 > **Python:** scikit-learn has no class for mean normalization, so we write the formula ourselves.
 >
@@ -287,9 +287,9 @@ The median (see the [understanding your data Note](../19-understanding-your-data
 
 scikit-learn has a class for it, **`RobustScaler`**, used exactly like the others.
 
-Its biggest strength is outliers. If our data has outliers, robust scaling is the scaler to try; it performs well in that situation.
+The biggest strength of robust scaling is outliers: the median and the IQR are "robust to outliers" (scikit-learn User Guide, "Scaling data with outliers"). If our data has outliers, robust scaling is the scaler to try.
 
-Figure 4 shows why. It scales the same five weights with every technique and puts all the results on one axis.
+Figure 4 shows why. The figure scales the same five weights with every technique and puts all the results on one axis.
 
 ![The five weights after each scaler; the outlier 130 in red](images/scalers_outlier.png)
 
@@ -321,13 +321,13 @@ Choosing between normalization and standardization confuses many people. The ans
 
 **Second question: standardization or normalization?** If scaling is needed, these practical rules help:
 
-- **Standardization** solves most problems. In most cases it gives better results, and it is the most used.
+- **Standardization** is the usual default. Many learning algorithms, such as the RBF kernel of SVMs and the L1 and L2 penalties of linear models, assume features centred around zero with variances of the same order (scikit-learn, "Preprocessing data"), and standardization is much less affected by outliers than min-max scaling (Géron 2019, ch. 2).
 - **Min-max scaling** suits columns whose minimum and maximum are known in advance. In image processing, for example with CNNs, every colour channel of a pixel runs from 0 to 255, so everyone uses min-max scaling there.
 - **Robust scaling** suits columns with outliers.
 - **Max-abs scaling** suits sparse data.
 - **Mean normalization** is rarely needed; standardization does the same centring job.
 
-If we have no idea which to use, we try them all. It costs only a little extra computing time, and seeing which scaler worked best on which data builds the intuition that helps later on real-world datasets.
+If we have no idea which to use, we try them all. Trying costs only a little extra computing time, and seeing which scaler worked best on which data builds the intuition that helps later on real-world datasets.
 
 > **Extra:** Standardization and every normalization technique in this Note are linear: each subtracts one number and divides by another. None of them changes the shape of a column or removes an outlier; they differ only in which two numbers they use. Changing the shape of a distribution is the job of other transformations, such as the log transform, covered in later Notes.
 
@@ -358,21 +358,25 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 | 130 | 1 | 0.627 | 1 | 5.38 |
 
 - Normalization puts numerical columns on a common scale and removes their units.
-- Min-max scaling: $x' = (x - x_{\min}) / (x_{\max} - x_{\min})$; every training value lands in 0 to 1. It is the normalization technique used about 90% of the time.
+- Min-max scaling: $x' = (x - x_{\min}) / (x_{\max} - x_{\min})$; every training value lands in 0 to 1.
 - Geometrically, min-max scaling presses the data into a unit square (cube, hypercube).
 - Split first; fit `MinMaxScaler` on the training set; transform both sets.
 - Min-max scaling keeps the shape of each column, but outliers squeeze the other values together.
 - Robust scaling uses the median and the IQR, so it copes well with outliers.
 - First decide whether scaling is needed; then standardization is the default, with min-max, robust or max-abs scaling for their special cases. When unsure, try several.
 
-## Sources
+## 12. Sources
 
-- scikit-learn documentation. `sklearn.datasets.load_wine`; User Guide, "Scaling sparse data". scikit-learn.org.
+- scikit-learn documentation. `sklearn.datasets.load_wine`; User Guide, "Preprocessing data": "Scaling sparse data" and "Scaling data with outliers". scikit-learn.org.
+- Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 2nd ed. O'Reilly. Chapter 2, "Feature Scaling".
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
 | Normalization | Rescaling numerical columns to a common scale with no units; a family of techniques |
 | Magnitude | The number part of a quantity, as opposed to its unit |
 | Min-max scaling | Subtract the column's minimum and divide by its range, giving values from 0 to 1 |

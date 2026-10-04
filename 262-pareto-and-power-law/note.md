@@ -18,7 +18,7 @@ title: "Pareto Distribution and Power Laws"
 
 Figure 1 shows what the Pareto distribution is known for. On the left, the richest fifth of the population holds 80% of all the wealth and the other four fifths share the remaining 20%. On the right, a different parameter value gives a much more even split.
 
-The Pareto distribution is the third of the famous non-Gaussian continuous distributions (see Figure 1 of the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)). It is common in financial and economic data. This Note covers the power law behind it, its PDF and parameters, how to recognise it in data, and ends with how non-normal data is made normal.
+The Pareto distribution is the third of the famous non-Gaussian continuous distributions (see Figure 1 of the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)). The Pareto distribution is common in financial and economic data. This Note covers the power law behind it, its PDF and parameters, how to recognise it in data, and ends with how non-normal data is made normal.
 
 ## 2. Power laws
 
@@ -40,7 +40,7 @@ The Pareto distribution is a special case of a **power law**: a functional relat
 
 The best-known consequence of a power law is the **80-20 rule**, or **Pareto principle**: about 20% of something accounts for about 80% of the result. In wealth, it says that 20% of the population controls 80% of the wealth, and the other 80% of the people share the remaining 20%.
 
-The Italian economist Vilfredo Pareto found this pattern while studying income and wealth data, and published it in his *Cours d'économie politique* (1896–1897); the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter (Section 3.4).
+The Italian economist Vilfredo Pareto found this pattern while studying income and wealth data, and published it in his *Cours d'économie politique* (Pareto 1896–97); the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter (Section 3.4).
 
 ## 3. The Pareto distribution
 
@@ -94,11 +94,11 @@ In wealth terms, a fat tail (small $\alpha$) means a few individuals hold huge a
    $$F(x) = P(X \le x) = 1 - \left(\frac{x_m}{x}\right)^{\alpha} \qquad \text{for } x \ge x_m$$
 3. **Example:** with $x_m = 1$ and $\alpha = 3$, the share of values above 2 is $(1/2)^3 = 0.125$, so $F(2) = 0.875$. With $\alpha = 1$, the share above 2 is $(1/2)^1 = 0.5$.
 
-In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. That is the fat tail again: a sizeable share of the values lies far out, so it takes a long way along the x axis to collect all of them. A large $\alpha$ reaches 1 quickly, because almost everything sits just above $x_m$.
+In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. The slow climb is the fat tail again: a sizeable share of the values lies far out, so it takes a long way along the x axis to collect all of them. A large $\alpha$ reaches 1 quickly, because almost everything sits just above $x_m$.
 
 > **Extra:** The share of the total held by the richest fraction $p$ of a Pareto population is $p^{\,1 - 1/\alpha}$ (for $\alpha > 1$).
 >
-> It follows from the CDF. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$. Their total is $\int_{x_p}^{\infty} x f(x)\,dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\,1-\alpha}$, and the total of everyone is the same integral from $x_m$, $\frac{\alpha x_m}{\alpha - 1}$. Dividing gives $(x_m/x_p)^{\alpha - 1} = p^{(\alpha-1)/\alpha}$.
+> The formula follows from the CDF. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$. Their total is $\int_{x_p}^{\infty} x f(x)\,dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\,1-\alpha}$, and the total of everyone is the same integral from $x_m$, $\frac{\alpha x_m}{\alpha - 1}$. Dividing gives $(x_m/x_p)^{\alpha - 1} = p^{(\alpha-1)/\alpha}$.
 >
 > 1. **In words:** raise the fraction of people to the power $1 - 1/\alpha$.
 > 2. **Formula:**
@@ -111,9 +111,9 @@ In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 
 > **Key point:** Wealth and income at the top, city and settlement sizes, and file sizes on the internet.
 
-- **Wealth and income:** a small share of people holds most of the wealth. (For most of the population, income is closer to log-normal; the Pareto tail describes the richest few percent. Clementi and Gallegati, "Pareto's Law of Income Distribution: Evidence for Germany, the United Kingdom, and the United States", 2005, find a log-normal fit for the bottom 97–99% of incomes and a Pareto fit for the top 1–3%.)
+- **Wealth and income:** a small share of people holds most of the wealth. (For most of the population, income is closer to log-normal; the Pareto tail describes the richest few percent: income data from Germany, the UK and the US fit a log-normal for the bottom 97–99% and a Pareto for the top 1–3% (Clementi and Gallegati 2005).)
 - **Human settlements:** many people crowd into a small share of the land, and a few live spread over remote areas. Very roughly, 20% of the area holds 80% of the population.
-- **File sizes in internet traffic:** most files are small and a few are huge, so a small share of the files makes up most of the gigabytes transferred.
+- **File sizes in internet traffic:** most files are small and a few are huge, so a small share of the files makes up most of the gigabytes transferred. Measured web file sizes follow a heavy, Pareto-like tail (Crovella and Bestavros 1997).
 
 > **Python:** The Pareto distribution in scipy.
 >
@@ -175,9 +175,9 @@ Figure 3 (right) shows the 1,000 Pareto values against a fitted Pareto ($\alpha 
 
 > **Key point:** Real data is rarely normal; mathematical transformations such as the log, square root, reciprocal, Box-Cox and Yeo-Johnson bring it close to normal.
 
-The normal distribution is so well studied that once data is normal, many calculations and methods become easy. Statistical models such as linear and logistic regression work better on normal-looking columns, while tree-based models do not care. Real data, however, is rarely normal; it is often skewed like the log-normal and Pareto data above.
+The normal distribution is so well studied that once data is normal, many calculations and methods become easy. Statistical models such as linear and logistic regression work better when each **feature** (an input variable, one column of the data table) looks normal, while tree-based models do not care. Real data, however, is rarely normal; it is often skewed like the log-normal and Pareto data above.
 
-Mathematical transformations (see the [function transformer Note](../30-function-transformer/note.md)) apply a formula to every value of a column to bring its distribution close to normal. They are covered in the feature engineering Notes:
+Mathematical transformations (see the [function transformer Note](../30-function-transformer/note.md)) apply a formula to every value of a feature to bring its distribution close to normal. They are covered in the feature engineering Notes:
 
 | Transformation | What it does | Note |
 |---|---|---|
@@ -186,7 +186,7 @@ Mathematical transformations (see the [function transformer Note](../30-function
 | Box-Cox | learns the best power $\lambda$; positive values only | [power transformer Note](../31-power-transformer/note.md) |
 | Yeo-Johnson | Box-Cox adapted to zeros and negative values | [power transformer Note](../31-power-transformer/note.md) |
 
-Each of those Notes checks the result with a Q-Q plot and shows the effect on a model's score, so the workflow is: check the column (density plot, skewness, Q-Q plot), transform it, and check again.
+Each of those Notes checks the result with a Q-Q plot and shows the effect on a model's score, so the workflow is: check the feature (density plot, skewness, Q-Q plot), transform it, and check again.
 
 ## 6. Summary
 
@@ -201,9 +201,15 @@ Each of those Notes checks the result with a Q-Q plot and shows the effect on a 
 - Larger $\alpha$: higher peak at $x_m$, thinner tail, less inequality. Smaller $\alpha$: fatter tail, more inequality.
 - The 80-20 rule holds only for $\alpha \approx 1.16$.
 - Check for Pareto with a log-log plot (straight line) or a Q-Q plot against a fitted Pareto.
-- Non-normal columns are brought close to normal with the transformations of the function and power transformer Notes.
+- Non-normal features are brought close to normal with the transformations of the function and power transformer Notes.
 
-## 7. Key terms
+## 7. Sources
+
+- Pareto, V. (1896–97). *Cours d'économie politique*, 2 vols. Lausanne: F. Rouge.
+- Clementi, F. and Gallegati, M. (2005). "Pareto's law of income distribution: evidence for Germany, the United Kingdom, and the United States." In *Econophysics of Wealth Distributions*, Springer, pp. 3–14. arXiv: physics/0504217.
+- Crovella, M. E. and Bestavros, A. (1997). "Self-similarity in World Wide Web traffic: evidence and possible causes." *IEEE/ACM Transactions on Networking* 5(6), 835–846.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

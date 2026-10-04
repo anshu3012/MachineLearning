@@ -33,7 +33,7 @@ Vectors can be multiplied, but not in the ordinary sense. There are two products
 
 ML uses the dot product almost everywhere, and the cross product rarely. This Note is about the dot product.
 
-> **Extra:** The usual cross product is defined for 3D vectors. For two 3D vectors it gives a third vector perpendicular to both, whose length is the area of the parallelogram they span. A product with these properties exists only in 3 and 7 dimensions (W. S. Massey, "Cross products of vectors in higher dimensional Euclidean spaces", *American Mathematical Monthly* 90, 1983, 697–701). ML meets it only in a few places.
+> **Extra:** The usual cross product is defined for 3D vectors. For two 3D vectors it gives a third vector perpendicular to both, whose length is the area of the parallelogram they span. A product with these properties exists only in 3 and 7 dimensions (Massey 1983). ML meets it only in a few places.
 
 ## 3. Computing the dot product
 
@@ -153,11 +153,11 @@ If we know all the components of $a$ and $b$, in any number of dimensions, we ca
 
 ## 6. Cosine similarity
 
-> **Key point:** Cosine similarity is $\cos\theta$ between two vectors: 1 for the same direction, 0 for orthogonal, -1 for opposite. It compares direction and ignores length.
+> **Key point:** Cosine similarity is $\cos\theta$ between two vectors: 1 for the same direction, 0 for orthogonal, -1 for opposite. Cosine similarity compares direction and ignores length.
 
 ### 6.1 Definition and range
 
-> **Key point:** It runs from -1 to 1, and its sign tells whether the angle is acute or obtuse.
+> **Key point:** Cosine similarity runs from -1 to 1, and its sign tells whether the angle is acute or obtuse.
 
 The **cosine similarity** of two vectors is the cosine of the angle between them,
 
@@ -194,7 +194,7 @@ For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = 
 
 Word counts are never negative, so for texts the cosine similarity always lies between 0 and 1.
 
-> **Extra:** Why cosine beats distance for text. Write B twice in a row, *my name is riya my name is riya*. Its vector is $2B$: same direction, twice as long. Its cosine similarity with B is exactly 1, but its Euclidean distance from B is 2. A long review and a short review on the same topic should count as similar; the angle sees this and the distance does not. Manning, Raghavan and Schütze (*Introduction to Information Retrieval*, 2008, section 6.3.1) make the same point: two documents with very similar content can be far apart "simply because one is much longer than the other", and the standard way to compare two documents is the cosine similarity of their vectors.
+> **Extra:** Why cosine beats distance for text. Write B twice in a row, *my name is riya my name is riya*. Its vector is $2B$: same direction, twice as long. Its cosine similarity with B is exactly 1, but its Euclidean distance from B is 2. A long review and a short review on the same topic should count as similar; the angle sees this and the distance does not. Manning, Raghavan and Schütze (2008, §6.3.1) make the same point: two documents with very similar content can be far apart "simply because one is much longer than the other", and the standard way to compare two documents is the cosine similarity of their vectors.
 
 > **Python:** scikit-learn computes all pairwise cosine similarities at once.
 >
@@ -221,10 +221,15 @@ Word counts are never negative, so for texts the cosine similarity always lies b
 | Cosine similarity | $\dfrac{a \cdot b}{\lVert a \rVert \lVert b \rVert}$, from $-1$ to 1 | B and C: 0.29 |
 
 - The dot product is one number: positive for an acute angle, 0 for a right angle, negative for an obtuse angle.
-- It gives similarity, projections and matrix multiplication; deep learning runs on it.
+- The dot product gives similarity, projections and matrix multiplication; deep learning runs on it.
 - Cosine similarity compares direction only, which makes it the usual choice for comparing texts.
 
-## 8. Key terms
+## 8. Sources
+
+- Massey, W. S. (1983). "Cross products of vectors in higher dimensional Euclidean spaces." *The American Mathematical Monthly* 90(10), 697–701.
+- Manning, C. D., Raghavan, P. and Schütze, H. (2008). *Introduction to Information Retrieval*. Cambridge University Press. §6.3.1.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

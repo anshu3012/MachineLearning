@@ -13,27 +13,27 @@ title: "Forward Propagation: How a Neural Network Predicts"
 
 ## 1. Overview
 
-> **Key point:** To predict, a network passes one row of data forward, layer by layer. Each layer is one matrix product, one added bias and one sigmoid, however many nodes it has.
+> **Key point:** To predict, a network passes one observation forward, layer by layer. Each layer is one matrix product, one added bias and one sigmoid, however many nodes it has.
 
-**Forward propagation** is the computation that turns one row of inputs into a prediction, moving from the input layer through every hidden layer to the output layer. It is how a trained network predicts. It is also the first half of every training step: the network predicts, measures its error, and then **backpropagation**, the training algorithm of later Notes, sends that error backwards to update the weights (previewed in section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md)).
+**Forward propagation** is the computation that turns one **observation** (one record, one row of the data table) into a prediction, moving from the input layer through every hidden layer to the output layer. Forward propagation is how a trained network predicts. The same pass is also the first half of every training step: the network predicts, measures its error, and then **backpropagation**, the training algorithm of later Notes, sends that error backwards to update the weights (previewed in section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md)).
 
 ![Forward propagation through the 4-3-2-1 network: the values of each layer appear in its nodes, with that layer's matrix equation](images/forward_anim.gif){height=45%}
 
 Figure 1 shows the whole computation for one student. The rest of this Note works through it, layer by layer, with every number.
 
-## 2. The network and the row
+## 2. The network and the observation
 
 > **Key point:** The 4-3-2-1 network has 26 parameters. We feed it one student: CGPA 7.2, IQ 72, 10th marks 69, 12th marks 81.
 
 We use the 4-3-2-1 network and the notation of the [MLP notation Note](../1008-mlp-notation/note.md): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output, with $15 + 8 + 3 = 26$ weights and biases. Every node is a perceptron with a sigmoid activation, so every output lies between 0 and 1.
 
-The data has four input columns and the output column *placed*. One row enters the input layer:
+The data has four **features** (input variables, one column each) and the **target** *placed* (the output we predict). One observation enters the input layer:
 
 | CGPA | IQ | 10th marks | 12th marks |
 |---|---|---|---|
 | 7.2 | 72 | 69 | 81 |
 
-Before it enters, we scale the row into the range 0 to 1: CGPA divided by 10, the others by 100. So the input is $a^{0} = (0.72,\ 0.72,\ 0.69,\ 0.81)$.
+Before it enters, we scale the observation into the range 0 to 1: CGPA divided by 10, the others by 100. So the input is $a^{0} = (0.72,\ 0.72,\ 0.69,\ 0.81)$.
 
 > **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme. The sigmoid's slope there, $\sigma(z)(1 - \sigma(z))$ (see the [sigmoid derivative Note](../74-sigmoid-derivative/note.md)), is only $1.9 \times 10^{-9}$, $1.1 \times 10^{-6}$ and $3.7 \times 10^{-6}$, so a small change to a weight hardly changes the node's output. Backpropagation multiplies every gradient through a node by this slope, so these weights would barely move in training. The [data scaling Note](../1023-data-scaling-in-ann/note.md) standardizes the inputs instead (see the [standardization Note](../24-standardization/note.md)); dividing by 10 and 100 keeps the numbers here easy to follow.
 
@@ -82,7 +82,7 @@ To get one sum per node, each column of $W^{1}$ must meet the input. Transposing
    $$z^{1} = \begin{bmatrix} 0.2 & 0.4 & -0.5 & 0.3 \\ -0.3 & 0.1 & 0.2 & -0.4 \\ 0.5 & -0.2 & 0.1 & 0.2 \end{bmatrix} \begin{bmatrix} 0.72 \\ 0.72 \\ 0.69 \\ 0.81 \end{bmatrix} + \begin{bmatrix} 0.1 \\ -0.1 \\ 0.2 \end{bmatrix} = \begin{bmatrix} 0.330 \\ -0.330 \\ 0.447 \end{bmatrix} + \begin{bmatrix} 0.1 \\ -0.1 \\ 0.2 \end{bmatrix} = \begin{bmatrix} 0.430 \\ -0.430 \\ 0.647 \end{bmatrix}$$
    $$a^{1} = \sigma(z^{1}) = \begin{bmatrix} 0.606 \\ 0.394 \\ 0.656 \end{bmatrix} = \begin{bmatrix} O_{11} \\ O_{12} \\ O_{13} \end{bmatrix}$$
 
-The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The vector $a^{1}$, the outputs of layer 1, is called the **activation** of layer 1. It is the input to layer 2.
+The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The vector $a^{1}$, the outputs of layer 1, is called the **activation** of layer 1. The activation $a^{1}$ is the input to layer 2.
 
 ## 5. Layers 2 and 3
 
@@ -98,7 +98,7 @@ $$W^{2} = \begin{bmatrix} 0.6 & -0.4 \\ -0.2 & 0.5 \\ 0.3 & 0.7 \end{bmatrix}, \
 
 $$z^{2} = W^{2\mathsf T} a^{1} + b^{2} = \begin{bmatrix} 0.6 & -0.2 & 0.3 \\ -0.4 & 0.5 & 0.7 \end{bmatrix} \begin{bmatrix} 0.606 \\ 0.394 \\ 0.656 \end{bmatrix} + \begin{bmatrix} 0.1 \\ -0.2 \end{bmatrix} = \begin{bmatrix} 0.582 \\ 0.214 \end{bmatrix}, \qquad a^{2} = \sigma(z^{2}) = \begin{bmatrix} 0.641 \\ 0.553 \end{bmatrix}$$
 
-These are $O_{21}$ and $O_{22}$.
+The two entries are $O_{21}$ and $O_{22}$.
 
 ### 5.2 Layer 3: the prediction
 
@@ -110,13 +110,13 @@ $$W^{3} = \begin{bmatrix} 0.8 \\ -0.6 \end{bmatrix}, \qquad b^{3} = 0.2$$
 
 $$z^{3} = W^{3\mathsf T} a^{2} + b^{3} = 0.8 \times 0.641 - 0.6 \times 0.553 + 0.2 = 0.381, \qquad a^{3} = \sigma(0.381) = 0.594$$
 
-So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probability of being placed. Since it is above 0.5, it predicts *placed*. Four input numbers became one prediction, using nothing but matrix products, additions and sigmoids.
+So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probability of being placed. Since 0.594 is above 0.5, the network predicts *placed*. Four input numbers became one prediction, using nothing but matrix products, additions and sigmoids.
 
 ## 6. The whole network in one formula
 
 > **Key point:** $\hat{y} = \sigma\big(W^{3\mathsf T}\, \sigma(W^{2\mathsf T}\, \sigma(W^{1\mathsf T} a^{0} + b^{1}) + b^{2}) + b^{3}\big)$. More layers only make the chain longer.
 
-Each layer applies the same rule to the activation of the layer before it:
+A network works like an assembly line: each station (layer) takes what the previous station handed over, does the same kind of job on it, and passes the result on. Each layer applies the same rule to the activation of the layer before it:
 
 $$a^{k} = \sigma\left(W^{k\mathsf T} a^{k-1} + b^{k}\right), \qquad k = 1, 2, 3$$
 
@@ -124,7 +124,7 @@ Substituting each activation into the next writes the whole network as one neste
 
 $$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\, \underbrace{\sigma\big(W^{2\mathsf T}\, \underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})}_{a^{1}} + b^{2}\big)}_{a^{2}} + b^{3}\Big)$$
 
-This is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md), section 7.2), and the network would be no more powerful than one perceptron.
+The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md), section 7.2), and the network would be no more powerful than one perceptron.
 
 > **Python:** Forward propagation with NumPy.
 >
@@ -142,7 +142,7 @@ This is what a neural network is, as a function: a chain of matrix products, eac
 >
 > `W1` is the $4 \times 3$ array of Section 4.1 and `b1` the bias of length 3; `W.T` is the transpose and `@` the matrix product. The same three-line loop works for any number of layers.
 
-> **Extra:** Libraries predict many rows at once. Stacking $n$ rows into an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors Note](../11-tensors/note.md)), the first layer becomes $\sigma(XW^{1} + b^{1})$: an $(n \times 4)(4 \times 3) = n \times 3$ matrix, one row of activations per student. With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations Note](../500-linear-transformations-and-matrices/note.md)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
+> **Extra:** Libraries predict many observations at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors Note](../11-tensors/note.md)), the first layer becomes $\sigma(XW^{1} + b^{1})$: an $(n \times 4)(4 \times 3) = n \times 3$ matrix, one row of activations per student. With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations Note](../500-linear-transformations-and-matrices/note.md)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
 
 ## 7. Summary
 
@@ -152,7 +152,7 @@ This is what a neural network is, as a function: a chain of matrix products, eac
 | 2 | $3 \times 2$ | $\sigma(W^{2\mathsf T} a^{1} + b^{2})$ | $(2 \times 3)(3 \times 1)$ | (0.641, 0.553) |
 | 3 | $2 \times 1$ | $\sigma(W^{3\mathsf T} a^{2} + b^{3})$ | $(1 \times 2)(2 \times 1)$ | $\hat{y} = 0.594$ |
 
-- Forward propagation: one row moves from the input layer to the output, layer by layer.
+- Forward propagation: one observation moves from the input layer to the output, layer by layer.
 - Each layer: weighted sums ($W^{\mathsf T} a$), plus bias, then sigmoid.
 - $W^{k}$ has one row per node of layer $k-1$ and one column per node of layer $k$.
 - The whole network is the nested formula $\sigma(W^{3\mathsf T}\sigma(W^{2\mathsf T}\sigma(W^{1\mathsf T}a^{0} + b^{1}) + b^{2}) + b^{3})$.
@@ -166,9 +166,9 @@ This is what a neural network is, as a function: a chain of matrix products, eac
 
 | Term | Meaning |
 |---|---|
-| Forward propagation | Passing one row of inputs through the network, layer by layer, to get the prediction |
+| Forward propagation | Passing one observation through the network, layer by layer, to get the prediction |
 | Backpropagation | The training algorithm that sends the prediction error backwards to update the weights (taught in later Notes) |
-| Activation ($a^{k}$) | The vector of outputs of layer $k$; $a^{0}$ is the input row |
+| Activation ($a^{k}$) | The vector of outputs of layer $k$; $a^{0}$ is the input observation |
 | Weight matrix ($W^{k}$) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$ |
 | Bias vector ($b^{k}$) | The biases of all nodes of layer $k$ |
 | Weighted input ($z^{k}$) | $W^{k\mathsf T} a^{k-1} + b^{k}$: a layer's sums before the activation |

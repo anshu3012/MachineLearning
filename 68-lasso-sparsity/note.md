@@ -14,11 +14,11 @@ title: "Why Lasso Creates Sparsity"
 
 ## 1. Overview
 
-> **Key point:** In the one-input Lasso formula, λ is subtracted from the top of the fraction, so a large enough λ makes the slope exactly 0. In Ridge, λ is added to the bottom, which can only make the slope small.
+> **Key point:** In the Lasso formula for one feature, λ is subtracted from the top of the fraction, so a large enough λ makes the slope exactly 0. In Ridge, λ is added to the bottom, which can only make the slope small.
 
 The Lasso Note showed that Lasso sets coefficients to exactly 0, while Ridge only shrinks them. A model in which many coefficients are exactly 0 is called **sparse**, so the effect is called **sparsity**.
 
-"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on regularisation. This Note answers it with the formula for the slope when there is one input. The same idea carries over to many inputs.
+"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on regularisation. This Note answers it with the formula for the slope when there is one **feature** (an input variable, one column of the data table). The same idea carries over to many features.
 
 ## 2. Reminder: the Ridge slope
 
@@ -41,7 +41,7 @@ $D$ is always positive. $S$ is positive when $y$ tends to rise with $x$, and neg
 
 > **Key point:** The loss is the squared error plus 2λ|m|; the 2 only keeps the result tidy.
 
-With one input, the Lasso loss is
+With one feature, the Lasso loss is
 
 $$L = \sum_{i=1}^{n}(y_i - m x_i - b)^2 + 2\lambda|m|$$
 
@@ -117,7 +117,7 @@ At $\lambda = 100$, the numerator $S - \lambda$ is 0, so the slope is exactly 0.
 
 > **Key point:** Going past 0 would need the other case's formula, which pushes the slope back to the positive side.
 
-At $\lambda = 150$, the positive-case formula gives $(100 - 150)/50 = -1$. That is negative, so that formula no longer applies (Figure 1, dashed). The negative-case formula would give $(100 + 150)/50 = 5$, which is positive, so it does not apply either (dotted).
+At $\lambda = 150$, the positive-case formula gives $(100 - 150)/50 = -1$. The value $-1$ is negative, so the positive-case formula no longer applies (Figure 1, dashed). The negative-case formula would give $(100 + 150)/50 = 5$, which is positive, so it does not apply either (dotted).
 
 Neither side has a valid answer, so the slope stays at $m = 0$. The same happens for every larger $\lambda$.
 
@@ -126,6 +126,8 @@ Neither side has a valid answer, so the slope stays at $m = 0$. The same happens
 ### 4.3 Why Ridge never reaches 0
 
 > **Key point:** With λ only in the denominator, the fraction gets smaller but its top never changes.
+
+An everyday picture: take a bill of 100 rupees. Subtracting a discount of 100 rupees brings it to exactly 0. Splitting it among more and more people only makes each share smaller; no share ever becomes 0. Lasso subtracts λ; Ridge divides by something that grows with λ.
 
 In Ridge's $S / (D + \lambda)$, the numerator stays at 100 however large $\lambda$ gets. Even with $\lambda = 10{,}000{,}000$, the slope is $100 / 10{,}000{,}050$, tiny but not 0.
 
@@ -136,25 +138,27 @@ In short:
 
 ## 5. The dead zone
 
-> **Key point:** For a fixed λ, every input whose S lies between −λ and λ gets a slope of exactly 0.
+> **Key point:** For a fixed λ, every feature whose S lies between −λ and λ gets a slope of exactly 0.
 
 Figure 2 turns the view around: $\lambda$ is fixed at 100, and the slope is drawn for every value of $S$.
 
 ![The slope against S for linear regression, Ridge and Lasso](images/dead_zone.png){height=45%}
 
 - **Linear regression** (grey dashed): the slope is proportional to $S$.
-- **Ridge** (blue): also proportional to $S$, just flatter. It is 0 only when $S$ is exactly 0.
+- **Ridge** (blue): also proportional to $S$, just flatter. The Ridge slope is 0 only when $S$ is exactly 0.
 - **Lasso** (red): flat at 0 for every $S$ between $-100$ and 100, the shaded **dead zone**. Outside it, Lasso follows the linear regression line moved $\lambda / D = 2$ towards 0.
 
-$S$ measures how strongly the input and output move together. So an input with only a weak relationship falls into the dead zone and is dropped. That is the feature selection of the Lasso Note.
+$S$ measures how strongly the feature and the **target** (the output we predict) move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is the feature selection of the Lasso Note.
 
-> **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding**. With several inputs, Lasso has no single formula, but scikit-learn's method (coordinate descent) applies this same soft-threshold step to one coefficient at a time, over and over (ESL §3.8.6; scikit-learn docs, `Lasso`). The repeated soft-threshold step is why many coefficients land exactly on 0.
+Think of λ as an entry fee. A feature's link with the target, $|S|$, must be larger than the fee to get any slope at all, and above the fee the feature keeps only what is left over.
+
+> **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding**. With several features, Lasso has no single formula, but scikit-learn's method (coordinate descent) applies this same soft-threshold step to one coefficient at a time, over and over (ESL §3.8.6; scikit-learn docs, `Lasso`). The repeated soft-threshold step is why many coefficients land exactly on 0.
 
 ## 6. Checking with scikit-learn
 
-> **Key point:** On the 100-point example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
+> **Key point:** On the 100-observation example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
 
-For the 100-point example of the earlier Notes, $S = 2416.73$ and $D = 86.85$. So the slope reaches 0 at $\lambda = 2416.73$.
+For the example of the earlier Notes, with 100 **observations** (records, one row of the data table each), $S = 2416.73$ and $D = 86.85$. So the slope reaches 0 at $\lambda = 2416.73$.
 
 | λ | Formula | scikit-learn `Lasso` |
 |---|---|---|
@@ -166,7 +170,7 @@ For the 100-point example of the earlier Notes, $S = 2416.73$ and $D = 86.85$. S
 
 scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals $\lambda / n$. With $n = 100$, the slope reaches 0 at alpha $= 24.17$: the value found in the Lasso Note.
 
-> **Python:** The one-input Lasso slope.
+> **Python:** The one-feature Lasso slope.
 >
 > ```python
 > def lasso_slope(S, D, lam):
@@ -184,10 +188,10 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 
 | | Ridge | Lasso |
 |---|---|---|
-| Slope, one input | $S / (D + \lambda)$ | $(S - \lambda)/D$, 0, or $(S + \lambda)/D$ |
+| Slope, one feature | $S / (D + \lambda)$ | $(S - \lambda)/D$, 0, or $(S + \lambda)/D$ |
 | Where λ appears | denominator | numerator |
 | Large λ | slope small, never 0 | slope exactly 0 |
-| Weak inputs | kept with small coefficients | dropped (dead zone) |
+| Weak features | kept with small coefficients | dropped (dead zone) |
 
 - Sparsity means many coefficients exactly 0.
 - The absolute value forces the Lasso formula into cases, and λ ends up subtracted from the numerator.

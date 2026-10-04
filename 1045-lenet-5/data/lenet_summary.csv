@@ -1,0 +1,9 @@
+layer,shape,params
+conv2d,"(28, 28, 6)",156
+average_pooling2d,"(14, 14, 6)",0
+conv2d_1,"(10, 10, 16)",2416
+average_pooling2d_1,"(5, 5, 16)",0
+flatten,"(400,)",0
+dense,"(120,)",48120
+dense_1,"(84,)",10164
+dense_2,"(10,)",850

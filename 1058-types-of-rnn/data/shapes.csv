@@ -1,0 +1,6 @@
+type,input_shape,output_shape
+many-to-one,"(3, 4, 5)","(3, 1)"
+many-to-many (same length),"(3, 4, 5)","(3, 4, 4)"
+one-to-many,"(2, 8)","(2, 6, 5)"
+many-to-many (different lengths),"(3, 4, 5)","(3, 6, 7)"
+one-to-one,"(2, 8)","(2, 1)"

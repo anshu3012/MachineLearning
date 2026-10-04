@@ -45,7 +45,7 @@ The dot product multiplies a row by a column and gives one number (see the [dot 
 3. **Example:**
    $$\begin{bmatrix} 1 \\ 3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix} = \begin{bmatrix} 1 & 1 \\ 3 & 3 \end{bmatrix}$$
 
-Every row is a multiple of $\mathbf{v}^{\mathsf T}$ and every column a multiple of $\mathbf{u}$, so the rank is 1. It needs only $m + n$ numbers to describe, instead of $m \times n$.
+Every row is a multiple of $\mathbf{v}^{\mathsf T}$ and every column a multiple of $\mathbf{u}$, so the rank is 1. The outer product needs only $m + n$ numbers to describe, instead of $m \times n$.
 
 ### 2.2 Splitting the SVD into layers
 
@@ -60,7 +60,7 @@ Every row is a multiple of $\mathbf{v}^{\mathsf T}$ and every column a multiple 
 
 Why the cross terms vanish: in $U\Sigma V^{\mathsf T}$, column $i$ of $U$ meets row $j$ of $V^{\mathsf T}$ through the entry $\Sigma_{ij}$, and that is 0 unless $i = j$. Layers with $\sigma_i = 0$ add nothing, so only the first $r$ count.
 
-The first layer is the big one. It already has the right overall size: its entries are close to $A$'s in the bottom row. The second layer is a smaller correction.
+The first layer is the big one. The first layer already has the right overall size: its entries are close to $A$'s in the bottom row. The second layer is a smaller correction.
 
 Figure 2 shows the first four layers of the photo of Figure 1. Each is a column times a row, so each is a pattern of horizontal and vertical stripes. The first one is a blurred brightness map; later ones add finer corrections, positive (blue) in some places and negative (red) in others.
 
@@ -98,7 +98,7 @@ Figure 2 shows the first four layers of the photo of Figure 1. Each is a column 
    $$\text{numbers stored} = k(m + n + 1)$$
 3. **Example:** the photo of Figure 1 is $427 \times 640$, so it has $273{,}280$ numbers. With $k = 20$ we store $20 \times (427 + 640 + 1) = 21{,}360$ numbers, which is 7.8% of the original.
 
-This only pays off when $k$ is small: with $k$ near $\min(m, n)$, the layers cost more than the matrix itself.
+The layered storage only pays off when $k$ is small: with $k$ near $\min(m, n)$, the layers cost more than the matrix itself.
 
 ## 4. The best approximation: Eckart–Young
 
@@ -124,7 +124,7 @@ To say which approximation is "closest", we need the size of the difference $A -
    $$A - \hat{A}_k = \sum_{i=k+1}^{r}\sigma_i\,\mathbf{u}_i\mathbf{v}_i^{\mathsf T}, \qquad \lVert A - \hat{A}_k\rVert_2 = \sigma_{k+1} \le \lVert A - B\rVert_2 \ \text{ for every } B \text{ of rank } k$$
 3. **Example:** for $A$ and $k = 1$, the error is the second layer, rows $[1.5, -1.5]$ and $[-0.5, 0.5]$, whose largest stretch is $\sigma_2 = \sqrt5 \approx 2.24$. A natural alternative rank-1 guess, keeping the second row of $A$ and zeroing the first, $B$ with rows $[0, 0]$ and $[4, 5]$, leaves the error with rows $[3, 0]$ and $[0, 0]$: its largest stretch is 3, worse than 2.24.
 
-The difference $A - \hat{A}_k$ is itself written in SVD form, with singular values $\sigma_{k+1}, \sigma_{k+2}, \dots$. Its largest one is $\sigma_{k+1}$, and the spectral norm of a matrix is its largest singular value. That is the whole proof of the error formula; the harder part is that no other $B$ wins.
+The difference $A - \hat{A}_k$ is itself written in SVD form, with singular values $\sigma_{k+1}, \sigma_{k+2}, \dots$. Its largest one is $\sigma_{k+1}$, and the spectral norm of a matrix is its largest singular value. That reasoning is the whole proof of the error formula; the harder part is that no other $B$ wins.
 
 > **Extra:** Why no other rank-$k$ matrix can win, in outline. A rank-$k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ right singular vectors span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
 
@@ -160,7 +160,7 @@ Two common ways to choose $k$:
 - **The elbow.** Keep the singular values before the curve flattens: the steep part is structure, the flat part detail or noise.
 - **A share of the total.** The sum of the squared singular values equals the sum of all squared entries of the matrix (the Frobenius norm squared). Figure 3 (right) shows that the first 5 singular values keep 96.5% of it, the first 20 keep 98.1%, the first 50 keep 98.9%.
 
-This is the same rule as choosing the number of principal components by explained variance in the [PCA on MNIST Note](../49-pca-mnist/note.md) (section 7). That is not a coincidence: the [SVD in machine learning Note](../613-svd-in-machine-learning/note.md) shows that PCA is an SVD.
+The share rule is the same rule as choosing the number of principal components by explained variance in the [PCA on MNIST Note](../49-pca-mnist/note.md) (section 7). The match is not a coincidence: the [SVD in machine learning Note](../613-svd-in-machine-learning/note.md) shows that PCA is an SVD.
 
 > **Python:** The rank-$k$ approximation of the photo.
 >
@@ -216,7 +216,7 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 - Fast-falling singular values mean a matrix can be compressed well.
 - Noise forms a flat floor of small singular values; truncating below it removes most of the noise.
 
-## Sources
+## 9. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.6 and Theorem 4.25 (MML).
 - Eckart, C. and Young, G. (1936). "The approximation of one matrix by another of lower rank". *Psychometrika* 1(3).
@@ -224,7 +224,7 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 - ITU-R Recommendation BT.601. *Studio encoding parameters of digital television*. Luma weights 0.299, 0.587, 0.114.
 - Wallace, G. K. (1991). "The JPEG Still Picture Compression Standard". *Communications of the ACM* 34(4).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

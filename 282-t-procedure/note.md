@@ -18,7 +18,7 @@ title: "Confidence Intervals with the T-procedure"
 
 ![Choosing between the z-procedure and the t-procedure](images/z_or_t.png){height=30%}
 
-Earlier we built the interval $\bar{x} \pm z_{\alpha/2}\,\sigma/\sqrt{n}$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). It needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure**, the method used in real work.
+Earlier we built the interval $\bar{x} \pm z_{\alpha/2}\,\sigma/\sqrt{n}$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The z-interval needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure**, the method used in real work.
 
 This Note covers:
 
@@ -42,7 +42,9 @@ So in practice the z-procedure is rarely usable. The t-procedure needs no popula
 
 1. **Random sample.** As for the z-procedure: drawn at random and representative.
 2. **Normal population, or a large sample.** The population should be approximately normal. If it is not, a sample of more than about 30 lets the central limit theorem make $\bar{x}$ approximately normal anyway (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
-3. **Independent observations.** One value must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval but not an accurate one. The notebook tests this: for samples of 30 from a normal population where each value is tied to the one before (correlation 0.5), the "95%" t-interval contains $\mu$ only 74.1% of the time, against 95.2% for independent values. Linked observations make the interval too narrow.
+3. **Independent observations.** An **observation** is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval, but one that is too narrow.
+
+> **Extra:** The notebook measures the damage. For samples of 30 from a normal population where each value is tied to the one before (correlation 0.5), the "95%" t-interval contains $\mu$ only 74.1% of the time, against 95.2% for independent values.
 
 The second assumption gives the t-procedure two strengths:
 
@@ -69,9 +71,9 @@ $T$ looks like $Z$, but it is not standard normal. In $Z$ only the numerator var
 
 > **Key point:** A bell-shaped, symmetric distribution like the standard normal but with fatter tails; its only parameter is the degrees of freedom, $n - 1$.
 
-The distribution of $T$ is **Student's t-distribution**. The t-distribution was published in 1908 by William Sealy Gosset, a chemist at the Guinness brewery in Dublin who worked with small samples of barley and beer. Guinness did not let staff publish under their own names, so Gosset signed the paper "Student", and the name stuck (Zabell 2008). The letter t has no special meaning.
+The distribution of $T$ is **Student's t-distribution**. The t-distribution was published in 1908 by William Sealy Gosset, a chemist at the Guinness brewery in Dublin who had to draw conclusions from small samples, for example when choosing the best varieties of barley (Student 1908; Zabell 2008). Guinness did not let staff publish under their own names, so Gosset signed the paper "Student", and the name stuck (Zabell 2008). The letter t has no special meaning.
 
-Unlike the normal and log-normal distributions, which describe raw data such as heights or incomes, the t-distribution was derived for this inference problem. It describes a statistic, $T$, not measurements.
+Unlike the normal and log-normal distributions, which describe raw data such as heights or incomes, the t-distribution was derived for this inference problem. The t-distribution describes a statistic, $T$, not measurements.
 
 ### 5.1 Degrees of freedom
 
@@ -82,7 +84,7 @@ $$df = n - 1$$
 
 A sample of 50 gives 49 degrees of freedom; a sample of 30 gives 29.
 
-The $n - 1$ is the same $n - 1$ as in the sample variance. The $n$ deviations $x_i - \bar{x}$ always add up to zero, so once $n - 1$ of them are known, the last one is fixed: only $n - 1$ of them are free to vary. Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)) divides by these $n - 1$ free deviations. For a normal population, $(n-1)s^2/\sigma^2$ follows a chi-square distribution with $n - 1$ degrees of freedom, and this is why $T$ has $n - 1$ degrees of freedom (G. Casella and R. L. Berger, *Statistical Inference*, 2nd ed., 2002, Section 5.3).
+The $n - 1$ is the same $n - 1$ as in the sample variance. The $n$ deviations $x_i - \bar{x}$ always add up to zero, so once $n - 1$ of them are known, the last one is fixed: only $n - 1$ of them are free to vary. Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)) divides by these $n - 1$ free deviations. For a normal population, $(n-1)s^2/\sigma^2$ follows a chi-square distribution with $n - 1$ degrees of freedom, and this is why $T$ has $n - 1$ degrees of freedom (Casella and Berger 2002, §5.3).
 
 ### 5.2 Shape: fatter tails
 
@@ -106,7 +108,7 @@ The fat tails are the extra uncertainty of $s$, put into the shape. The probabil
 | t, $df = 1000$ | 0.0014 |
 | standard normal | 0.0013 |
 
-As $n$ grows, $s$ becomes a reliable estimate of $\sigma$, the extra uncertainty disappears, and the t-distribution approaches the standard normal. It becomes exactly normal only with infinitely many degrees of freedom, but beyond about 30 to 50 the two are very close.
+As $n$ grows, $s$ becomes a reliable estimate of $\sigma$, the extra uncertainty disappears, and the t-distribution approaches the standard normal. The t-distribution becomes exactly normal only with infinitely many degrees of freedom, but beyond about 30 to 50 the two are very close.
 
 ## 6. The t-procedure formula
 
@@ -195,7 +197,7 @@ We return to the population of the [estimating a mean Note](../272-estimating-a-
    $$\frac{49.74}{\sqrt{30}} = 9.08, \qquad E = 2.045 \times 9.08 = 18.57, \qquad 37.14 \pm 18.57: \ 18.57 \text{ to } 55.72$$
    The true mean, 33.30 pounds, lies inside.
 
-The interval is wide because the fares vary enormously ($s = 49.74$) and the sample is small. At 50% confidence, $t_{0.25,\,29} = 0.683$ and the interval shrinks to 30.94 to 43.35 pounds. That range happens to contain 33.30 too, but such an interval misses half the time.
+The interval is wide because the fares vary enormously ($s = 49.74$) and the sample is small. At 50% confidence, $t_{0.25,\,29} = 0.683$ and the interval shrinks to 30.94 to 43.35 pounds. The 50% range happens to contain 33.30 too, but such an interval misses half the time.
 
 ### 8.1 Several samples: pool them
 
@@ -205,7 +207,7 @@ Suppose we drew 10 samples of 30 fares. One approach averages the 10 sample mean
 
 Pooling all 300 fares into one sample and using $n = 300$ gives 26.20 to 36.64 pounds: about a third of the width, and it still contains 33.30. More data should give a narrower interval, and pooling lets it.
 
-> **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30, or a method that does not assume normality, such as the bootstrap percentile interval that seaborn uses (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md); B. Efron and R. J. Tibshirani, *An Introduction to the Bootstrap*, 1993, Chapter 13). The notebook tests it on the same 4000 samples: the bootstrap percentile interval contains the true mean 86.2% of the time for $n = 30$ and 92.8% for $n = 100$, no better than the t-interval. On data this skewed, only a larger sample helped.
+> **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30, or a method that does not assume normality, such as the bootstrap percentile interval that seaborn uses (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md); Efron and Tibshirani 1993, ch. 13). For small samples from a skewed population, the simple percentile interval is known to fall short of its promised coverage as well, and the t-interval does at least as well up to about 35 values (Hesterberg 2015). The notebook confirms this on the same 4000 samples: the bootstrap percentile interval contains the true mean 86.2% of the time for $n = 30$ and 92.8% for $n = 100$, the same as the t-interval. On data this skewed, the larger sample is what helps.
 
 ## 9. Summary
 
@@ -224,7 +226,15 @@ Pooling all 300 fares into one sample and using $n = 300$ gives 26.20 to 36.64 p
 - For a 95% two-sided interval read the 0.025 column of the t-table, not the 0.05 column.
 - Pool several samples into one; the t-procedure does not fix strong skewness.
 
-## 10. Key terms
+## 10. Sources
+
+- Student [W. S. Gosset] (1908). "The probable error of a mean." *Biometrika* 6(1), 1–25.
+- Zabell, S. L. (2008). "On Student's 1908 article 'The probable error of a mean'." *Journal of the American Statistical Association* 103(481), 1–7.
+- Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd ed. Duxbury. §5.3.
+- Efron, B. and Tibshirani, R. J. (1993). *An Introduction to the Bootstrap*. Chapman and Hall. Chapter 13.
+- Hesterberg, T. C. (2015). "What teachers should know about the bootstrap: resampling in the undergraduate statistics curriculum." *The American Statistician* 69(4), 371–386.
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

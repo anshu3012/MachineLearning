@@ -14,7 +14,7 @@ title: "Measures of Dispersion"
 
 ## 1. Overview
 
-> **Key point:** A measure of dispersion says how spread out a column is around its centre: range, variance, mean absolute deviation, standard deviation and coefficient of variation each do this differently.
+> **Key point:** A measure of dispersion says how spread out a feature is around its centre: range, variance, mean absolute deviation, standard deviation and coefficient of variation each do this differently.
 
 ![Variance of 3, 2, 1, 5, 4: each value's distance from the mean, squared and averaged](images/deviations.png)
 
@@ -22,9 +22,9 @@ Figure 1 shows the idea behind the most used measure, the variance. This Note go
 
 ## 2. Why the centre is not enough
 
-> **Key point:** Two columns can share a mean and still be spread very differently.
+> **Key point:** Two features can share a mean and still be spread very differently.
 
-Take two columns of three values each: $-5, 0, 5$ and $-10, 0, 10$. Both have mean 0, yet the second is clearly more spread out, as the [PCA intuition Note](../47-pca-geometric-intuition/note.md) (section 5.1) shows. A measure of centre alone cannot tell them apart.
+A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row. Take two features of three observations each: $-5, 0, 5$ and $-10, 0, 10$. Both have mean 0, yet the second is clearly more spread out, as the [PCA intuition Note](../47-pca-geometric-intuition/note.md) (section 5.1) shows. A measure of centre alone cannot tell them apart.
 
 A **measure of dispersion** is a statistical measure that describes the spread, or variability, of a dataset: how the data is distributed around its centre.
 
@@ -32,14 +32,14 @@ A **measure of dispersion** is a statistical measure that describes the spread, 
 
 > **Key point:** The range is the largest value minus the smallest; it is simple but ruined by a single outlier.
 
-The **range** is the distance between the two extremes of a column.
+The **range** is the distance between the two extremes of a feature.
 
 1. **In words:** subtract the smallest value from the largest.
 2. **Formula:**
    $$\text{range} = \max(x) - \min(x)$$
-3. **Example:** for $-5, 0, 5$ the range is $5 - (-5) = 10$; for $-10, 0, 10$ it is $10 - (-10) = 20$. The range tells the two columns apart where the mean could not.
+3. **Example:** for $-5, 0, 5$ the range is $5 - (-5) = 10$; for $-10, 0, 10$ it is $10 - (-10) = 20$. The range tells the two features apart where the mean could not.
 
-The range uses only two values, the two extremes, so one outlier can blow it up. If a column's values all lie between 0 and 50 except one at 250, the range jumps from about 50 to 250 because of that one point.
+The range uses only two values, the two extremes, so one outlier can blow it up. If a feature's values all lie between 0 and 50 except one at 250, the range jumps from about 50 to 250 because of that one point.
 
 Salaries in India show the problem. Some of the richest people in the world live in India, and so do many people who earn very little. The range of Indian salaries is therefore huge, yet it says nothing about how most people earn. So the range is rarely used on its own.
 
@@ -63,7 +63,7 @@ Variance is in squared units, so doubling the spread multiplies it by four (work
 
 > **Key point:** The plain distances from the mean always add up to zero, so we need squares (or absolute values) to stop them cancelling.
 
-In Figure 1 the distances are $0, -1, -2, 2, 1$: the values below the mean give negative distances, those above give positive ones, and they add up to 0. That is not a coincidence.
+In Figure 1 the distances are $0, -1, -2, 2, 1$: the values below the mean give negative distances, those above give positive ones, and they add up to 0. The zero total is not a coincidence.
 
 > **Extra:** Proof that the distances from the mean always add up to zero.
 >
@@ -154,15 +154,15 @@ $$\sigma = \sqrt{2.5} \approx 1.58 \text{ LPA}$$
 
 ## 7. Coefficient of variation
 
-> **Key point:** The coefficient of variation divides the standard deviation by the mean, so we can compare the spread of columns measured in different units.
+> **Key point:** The coefficient of variation divides the standard deviation by the mean, so we can compare the spread of features measured in different units.
 
-The coefficient of variation (CV), $\sigma / \mu$, is the unit-free spread taught in the [Pandas Profiling Note](../22-pandas-profiling/note.md) (section 4.2); here we write it as a percentage, $\sigma / \mu \times 100\%$. Its use is comparing columns in different units, such as salaries in lakhs and experience in years.
+The coefficient of variation (CV), $\sigma / \mu$, is the unit-free spread taught in the [Pandas Profiling Note](../22-pandas-profiling/note.md) (section 4.2); here we write it as a percentage, $\sigma / \mu \times 100\%$. Its use is comparing features in different units, such as salaries in lakhs and experience in years.
 
 For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. Then
 $$\text{CV}_{\text{Age}} = \frac{14.53}{29.70} \times 100\% \approx 48.9\%$$
 $$\text{CV}_{\text{Fare}} = \frac{49.69}{32.20} \times 100\% \approx 154.3\%$$
 
-The fares vary about three times as much as the ages, relative to their means. Figure 3 shows why: dividing each column by its own mean puts both on one scale, where 1 is the mean. The ages stay within about 0 to 2.7 times their mean; the fares run from 0 to 16 times theirs.
+The fares vary about three times as much as the ages, relative to their means. Figure 3 shows why: dividing each feature by its own mean puts both on one scale, where 1 is the mean. The ages stay within about 0 to 2.7 times their mean; the fares run from 0 to 16 times theirs.
 
 ![Titanic ages and fares, each divided by its own mean](images/cv_compare.png)
 
@@ -196,18 +196,19 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 - Distances from the mean always add up to 0, so variance squares them.
 - The sample variance divides by $n - 1$ (Bessel's correction); dividing by $n$ is too small on average.
 - The standard deviation is the variance brought back to the data's units.
-- The CV compares the spread of columns in different units.
+- The CV compares the spread of features in different units.
 
+## 9. Sources
 
-## Sources
+- NIST/SEMATECH. *Dataplot Reference Manual*: Coefficient of Variation. itl.nist.gov, Dataplot refman2, coefvari.
 
-- NIST/SEMATECH. *Dataplot Reference Manual*: Coefficient of Variation. https://itl.nist.gov/div898/software/dataplot/refman2/auxillar/coefvari.htm
-
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
-| Measure of dispersion | A number that describes how spread out a column is around its centre |
+| Measure of dispersion | A number that describes how spread out a feature is around its centre |
+| Feature | One variable of the data, one column of the table |
+| Observation | One record, one row of the table |
 | Range | The largest value minus the smallest |
 | Bessel's correction | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average |
 | ddof | NumPy and pandas argument: the number subtracted from $n$ in the variance's denominator |

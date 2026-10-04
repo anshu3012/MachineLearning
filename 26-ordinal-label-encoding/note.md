@@ -14,11 +14,11 @@ title: "Encoding Categorical Data: Ordinal and Label Encoding"
 
 ## 1. Overview
 
-> **Key point:** Ordinal encoding turns ordered categories in the input columns into the numbers 0, 1, 2, ...; label encoding does the same for the categories of the target column.
+> **Key point:** Ordinal encoding turns the ordered categories of a feature into the numbers 0, 1, 2, ...; label encoding does the same for the categories of the target.
 
-Feature transformation changes a column's form so a model can use it. Note 24 covered one of its jobs, feature scaling. This Note covers another job, which comes up in almost every ML problem: **encoding categorical data**, that is, turning categories into numbers.
+Recall the three basic terms. A **feature** is an input variable, one column of the data table. The **target** is the output we predict. An **observation** is one record, one row of the table. Feature transformation changes a feature's form so a model can use it. Note 24 covered one of its jobs, feature scaling. This Note covers another job, which comes up in almost every ML problem: **encoding categorical data**, that is, turning categories into numbers.
 
-Figure 1 shows the whole topic. The kind of categorical column decides the technique: nominal input columns get one-hot encoding (next Note), ordinal input columns get ordinal encoding, and a categorical target gets label encoding.
+Figure 1 shows the whole topic. The kind of categorical data decides the technique: nominal features get one-hot encoding (next Note), ordinal features get ordinal encoding, and a categorical target gets label encoding.
 
 ![Types of data and the encoding technique each one needs](images/overview.png)
 
@@ -52,25 +52,25 @@ Categorical data is mostly stored as strings, such as `"Male"` or `"Good"`. ML a
 
 There are many ways to do this, called **encoding** techniques. The two most popular ones are:
 
-1. **Ordinal encoding**, used on ordinal data. It is the subject of this Note.
-2. One-hot encoding, used on nominal data. It is the subject of the next Note.
+1. **Ordinal encoding**, used on ordinal data: the subject of this Note.
+2. One-hot encoding, used on nominal data: the subject of the next Note.
 
-This Note also covers a third technique, **label encoding**. It does the same job as ordinal encoding, but it is meant for a different column: the target.
+This Note also covers a third technique, **label encoding**. Label encoding does the same job as ordinal encoding, but it is meant for the target instead of the features.
 
 > **Extra:** Numbering nominal categories would invent a false order; the [one-hot encoding Note](../27-one-hot-encoding/note.md) (section "Why nominal data needs its own technique") shows why and how one-hot encoding avoids it.
 
 ## 4. Ordinal encoding versus label encoding
 
-> **Key point:** Use ordinal encoding for ordinal input columns ($X$); use label encoding for a categorical target column ($y$).
+> **Key point:** Use ordinal encoding for ordinal features ($X$); use label encoding for a categorical target ($y$).
 
-Any dataset has input columns and an output column. The input columns together are called $X$, and the output column is called $y$. The two encoders differ in which of these they are for:
+Any dataset for supervised learning has features and a target. The features together are called $X$, and the target is called $y$. The two encoders differ in which of these they are for:
 
-- **Inputs ($X$):** if an input column holds ordinal categories, we apply ordinal encoding.
-- **Output ($y$):** if the target is categorical, we apply label encoding.
+- **Features ($X$):** if a feature holds ordinal categories, we apply ordinal encoding.
+- **Target ($y$):** if the target is categorical, we apply label encoding.
 
 A categorical target is what every **classification** problem has. Examples: will it rain today or not; will a student get placed or not; will a customer leave (customer churn) or not; which class does an image belong to.
 
-Label encoding does the same thing as ordinal encoding: it replaces each category with a number. It is simply designed specially for output labels, which is where its name comes from. That is the main difference between the two.
+Label encoding does the same thing as ordinal encoding: it replaces each category with a number. Label encoding is simply designed for the target's labels, which is where its name comes from. The column it is meant for is the main difference between the two.
 
 ## 5. How ordinal encoding works
 
@@ -92,7 +92,7 @@ The top half of Figure 2 shows this on a few rows, with the label "School" for h
 
 ![Ordinal encoding of the education column, with the order given (top) and without it (bottom)](images/ordinal_mapping.png)
 
-The encoder cannot work out the order by itself. It has no idea what "UG" or "PG" mean, so we must always tell it which category is lowest and which is highest.
+The encoder cannot work out the order by itself. The encoder has no idea what "UG" or "PG" mean, so we must always tell it which category is lowest and which is highest.
 
 ## 6. Ordinal encoding in scikit-learn
 
@@ -110,15 +110,15 @@ The data has 50 customers. When each customer bought a product, some other produ
 | 68 | Female | Poor | UG | No |
 | 70 | Female | Good | PG | No |
 
-`purchased` is the target, so this is a classification problem. Every column except `age` is categorical.
+`purchased` is the target, so the task is a classification problem. Each customer is one observation. Every column except `age` is categorical.
 
 ### 6.2 Which encoder for which column
 
 > **Key point:** Gender is nominal, review and education are ordinal, and the target purchased is categorical.
 
-Before encoding, we identify the type of every categorical column (Figure 3):
+Before encoding, we identify the type of every categorical feature and of the target (Figure 3):
 
-- **gender** (Female, Male): there is no order between male and female, so it is nominal. It needs one-hot encoding.
+- **gender** (Female, Male): there is no order between male and female, so it is nominal. Gender needs one-hot encoding.
 - **review** (Poor, Average, Good): ordinal, so it needs ordinal encoding.
 - **education** (School, UG, PG): ordinal, so it needs ordinal encoding.
 - **purchased** (Yes, No): nominal, and it is the target, so it needs label encoding.
@@ -165,9 +165,9 @@ With 20% of the rows held back for testing, the training set has 40 rows and the
 
 > **Key point:** `categories` takes one list per column, each written from the lowest category to the highest.
 
-scikit-learn's **`OrdinalEncoder`** class does ordinal encoding. When we create it, we pass the parameter **`categories`**: a list that holds one list for each column we want to encode.
+scikit-learn's **`OrdinalEncoder`** class does ordinal encoding. When we create it, we pass the parameter **`categories`**: a list that holds one list for each feature we want to encode.
 
-Here we encode two columns, so we pass two lists:
+Here we encode two features, so we pass two lists:
 
 - **review:** the worst is Poor, then Average, and the best is Good. Good must get the biggest number and Poor the smallest.
 - **education:** School gets the smallest number and PG the biggest.
@@ -185,7 +185,7 @@ Here we encode two columns, so we pass two lists:
 
 If we do not pass `categories`, the encoder chooses the order itself, and Poor might get a bigger number than Good. We do not want that: we want the numbers to follow the real order of the categories.
 
-> **Extra:** Without `categories`, the order is not random: `OrdinalEncoder` sorts the categories alphabetically. That gives Average = 0, Good = 1, Poor = 2, and PG = 0, School = 1, UG = 2. The bottom half of Figure 2 shows the result: the codes no longer follow the real order. For ordinal data, always pass `categories`.
+> **Extra:** Without `categories`, the order is not random: `OrdinalEncoder` sorts the categories alphabetically (scikit-learn API, `OrdinalEncoder`). Sorting gives Average = 0, Good = 1, Poor = 2, and PG = 0, School = 1, UG = 2. The bottom half of Figure 2 shows the result: the codes no longer follow the real order. For ordinal data, always pass `categories`.
 
 ### 6.5 Fit on the training set, transform both
 
@@ -231,7 +231,7 @@ After `fit`, the encoder stores the categories it learned, in order, in the attr
 
 > **Extra:** `transform` returns a NumPy array of decimal numbers (`2.0`, not `2`), without column names. As in Note 24, we can wrap it in `pd.DataFrame(..., columns=...)` to get names back.
 
-> **Extra:** If the test set holds a category that never appeared in the training set, `transform` stops with an error. Passing `handle_unknown="use_encoded_value", unknown_value=-1` to `OrdinalEncoder` makes it write -1 for such categories instead.
+> **Extra:** If the test set holds a category that never appeared in the training set, `transform` stops with an error. Passing `handle_unknown="use_encoded_value", unknown_value=-1` to `OrdinalEncoder` makes it write -1 for such categories instead (scikit-learn API, `OrdinalEncoder`).
 
 ## 7. Label encoding in scikit-learn
 
@@ -241,14 +241,14 @@ After `fit`, the encoder stores the categories it learned, in order, in the attr
 
 > **Key point:** The scikit-learn documentation says `LabelEncoder` should encode target values, $y$, not the input $X$.
 
-A common mistake is to use label encoding on input columns too.
+A common mistake is to use label encoding on features too.
 
-The scikit-learn documentation is clear about this. It describes `LabelEncoder` as a class to "encode target labels with value between 0 and n_classes-1", and says it "should be used to encode target values, i.e. y, and not the input X".
+The scikit-learn documentation is clear about the rule. The documentation describes `LabelEncoder` as a class to "encode target labels with value between 0 and n_classes-1", and says it "should be used to encode target values, i.e. y, and not the input X" (scikit-learn API, `LabelEncoder`).
 
 So the rule is simple:
 
-- an ordinal input column: `OrdinalEncoder`;
-- a categorical target column: `LabelEncoder`.
+- an ordinal feature: `OrdinalEncoder`;
+- a categorical target: `LabelEncoder`.
 
 With 2 classes, the codes are 0 and 1; with 3 classes, they are 0, 1 and 2.
 
@@ -283,7 +283,7 @@ The first five training targets were Yes, Yes, No, No, No. After encoding they a
 
 | | Ordinal encoding | Label encoding | One-hot encoding |
 |---|---|---|---|
-| Used on | ordinal input columns ($X$) | the categorical target ($y$) | nominal input columns ($X$) |
+| Used on | ordinal features ($X$) | the categorical target ($y$) | nominal features ($X$) |
 | Example column | review, education | purchased | gender, state |
 | Result | one column of 0, 1, 2, ... | one column of 0, 1, 2, ... | one new column per category |
 | Order of codes | we give it with `categories` | chosen by the encoder (alphabetical) | no order |
@@ -294,18 +294,25 @@ The first five training targets were Yes, Yes, No, No, No. After encoding they a
 - ML algorithms need numbers, so categories must be encoded.
 - Ordinal encoding replaces ordered categories by 0, 1, 2, ..., following the order we give it.
 - Always pass `categories` to `OrdinalEncoder`; otherwise the order is alphabetical and the real order is lost.
-- Label encoding does the same job, but only for the target $y$; never use it on the inputs.
+- Label encoding does the same job, but only for the target $y$; never use it on the features.
 - Split first; fit the encoder on the training set; transform both sets.
 
-## 9. Key terms
+## 9. Sources
+
+- scikit-learn API reference. `sklearn.preprocessing.OrdinalEncoder` and `sklearn.preprocessing.LabelEncoder`. scikit-learn.org.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
 | Nominal data | Categorical data whose categories have no order, such as states |
 | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good |
 | Encoding | Turning categories into numbers so an ML algorithm can use them |
-| Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns |
-| Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only |
+| Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for features |
+| Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the target only |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories` |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order |
 | LabelEncoder | scikit-learn's class for label encoding the target |

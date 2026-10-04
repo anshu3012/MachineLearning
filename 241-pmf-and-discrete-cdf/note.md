@@ -26,10 +26,10 @@ Random variables, distributions and the PMF/PDF/CDF family are introduced in the
 
 > **Key point:** A PMF assigns a probability to each possible value of a discrete random variable; every probability is at least 0, and together they add up to 1.
 
-The **probability mass function (PMF)** is the probability distribution function of a **discrete** random variable. It assigns a probability to each possible value:
+The **probability mass function (PMF)** is the probability distribution function of a **discrete** random variable. The PMF assigns a probability to each possible value:
 $$p(x) = P(X = x)$$
 
-It reads: "the probability that the random variable $X$ takes the value $x$". On a graph, the possible values go on the x axis and their probabilities on the y axis.
+The formula reads: "the probability that the random variable $X$ takes the value $x$". On a graph, the possible values go on the x axis and their probabilities on the y axis.
 
 ### 2.1 The two conditions
 
@@ -71,7 +71,7 @@ The hat on $\hat{p}$ marks an estimate. Figure 2 compares the simulated PMFs (ba
 
 ![PMFs estimated from 10,000 simulated rolls (bars) and the exact PMFs (diamonds)](images/pmf_simulated.png)
 
-The estimates are close but not exact: the six faces came out between 0.1625 and 0.1718, around $1/6$. A random experiment never matches theory perfectly. For the sum of two dice, the simulated bars follow the same rise to 7 and fall after it as the exact values.
+The estimates are close but not exact: the six faces came out between 0.1625 and 0.1718, around $1/6$. A random experiment rarely matches theory exactly. For the sum of two dice, the simulated bars follow the same rise to 7 and fall after it as the exact values.
 
 > **Python:** Simulating a die and estimating its PMF.
 >
@@ -89,7 +89,7 @@ The estimates are close but not exact: the six faces came out between 0.1625 and
 >
 > `integers(1, 7)` excludes the upper end, so it returns 1 to 6. `normalize=True` divides the counts by their total; without it we would divide by 10,000 ourselves. `sort_index()` puts face 1 first. For two dice, add two such arrays. The Notebook (`notebook.ipynb`) runs both experiments.
 
-> **Extra:** The more trials, the closer the estimate gets to the true probability. This is the **law of large numbers** (Pishro-Nik §7.1.1). With 100 rolls a face typically comes out anywhere from about 0.12 to 0.22; with our 10,000 rolls all six land within about 0.005 of $1/6$ (the Notebook repeats the 100-roll experiment 1,000 times).
+> **Extra:** The more trials, the closer the estimate gets to the true probability. The pull of the estimate towards the true probability is the **law of large numbers** (Pishro-Nik §7.1.1). With 100 rolls a face typically comes out anywhere from about 0.12 to 0.22; with our 10,000 rolls all six land within about 0.005 of $1/6$ (the Notebook repeats the 100-roll experiment 1,000 times).
 
 ## 5. The PMF of the sum of two dice
 
@@ -158,7 +158,7 @@ For a discrete variable, "4 or less" means adding the PMF of every value up to 4
    $$F(4) = p(1) + p(2) + p(3) + p(4) = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} + \frac{1}{6} = \frac{4}{6} \approx 0.667$$
    The CDF of the die climbs $1/6, 2/6, 3/6, 4/6, 5/6, 6/6$: it starts above 0 and ends at exactly 1.
 
-This is the cumulative relative frequency of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), with probabilities in place of relative frequencies.
+The discrete CDF is the cumulative relative frequency of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), with probabilities in place of relative frequencies.
 
 ### 7.1 Reading the CDF of two dice
 
@@ -200,8 +200,8 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 
 > **Extra:** Three facts about every CDF, and two uses of them:
 >
-> - **It runs from 0 to 1 and never goes down.** Each step adds a probability, which is never negative.
-> - **It is defined for every $x$, not only the possible values.** $F(7.5) = P(X \le 7.5) = P(X \le 7) = 21/36$, because no sum lies between 7 and 7.5. So the CDF of a discrete variable is a **step function**: flat between possible values, jumping up at each one by that value's probability (Figure 3, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
+> - **A CDF runs from 0 to 1 and never goes down.** Each step adds a probability, which is never negative.
+> - **A CDF is defined for every $x$, not only the possible values.** $F(7.5) = P(X \le 7.5) = P(X \le 7) = 21/36$, because no sum lies between 7 and 7.5. So the CDF of a discrete variable is a **step function**: flat between possible values, jumping up at each one by that value's probability (Figure 3, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
 > - **The PMF can be read back from the jumps:** the jump at 9 is $F(9) - F(8) = 30/36 - 26/36 = 4/36 = p(9)$.
 > - **Probability of a range:** $P(a < X \le b) = F(b) - F(a)$. For a sum above 5 and at most 9:
 >   $$P(5 < X \le 9) = \frac{30}{36} - \frac{10}{36} = \frac{20}{36} \approx 0.556$$
@@ -221,12 +221,12 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 - Bernoulli: one trial, one parameter $p$. Binomial: successes in $n$ trials, parameters $n$ and $p$.
 - The CDF is the running total of the PMF: a step function from 0 to 1.
 
-## Sources
+## 9. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Example 6.8 (Bernoulli distribution).
 - Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. Section 7.1.1 (law of large numbers).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

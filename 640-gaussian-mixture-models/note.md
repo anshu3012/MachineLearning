@@ -109,12 +109,12 @@ The sum is the law of total probability of the [Bayes problem Note](../86-bayes-
 
 > **Key point:** The mean vector sets the centre; the covariance matrix sets the width in each direction and the tilt.
 
-For data with $D$ columns, a component is a **multivariate normal distribution** $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per column. The **covariance matrix** $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md) and the [PCA step by step Note](../48-pca-step-by-step/note.md)).
+For data with $D$ **features** (input variables, one column each of the data table), a component is a **multivariate normal distribution** $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per feature. The **covariance matrix** $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md) and the [PCA step by step Note](../48-pca-step-by-step/note.md)).
 
 1. **In words:** the density is highest at the mean and falls off with the squared distance from it, measured in a way that accounts for the spread and tilt that $\boldsymbol\Sigma$ describes.
 2. **Formula** (MML §6.5, equation 6.63):
    $$N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma) = (2\pi)^{-D/2}\, \lvert\boldsymbol\Sigma\rvert^{-1/2} \exp\!\Big(-\tfrac12 (\mathbf{x} - \boldsymbol\mu)^{\mathsf T}\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu)\Big)$$
-   Here $\lvert\boldsymbol\Sigma\rvert$ is the determinant and $\boldsymbol\Sigma^{-1}$ the inverse of the covariance matrix. With $D = 1$ and $\boldsymbol\Sigma = \sigma^2$ it is the ordinary normal PDF.
+   Here $\lvert\boldsymbol\Sigma\rvert$ is the determinant and $\boldsymbol\Sigma^{-1}$ the inverse of the covariance matrix. With $D = 1$ and $\boldsymbol\Sigma = \sigma^2$ the formula is the ordinary normal PDF.
 3. **Example:** $D = 2$, mean $(0, 0)$, $\boldsymbol\Sigma$ with diagonal $1, 4$ and zeros elsewhere (variances 1 and 4, no covariance). Then $\lvert\boldsymbol\Sigma\rvert = 4$ and $\boldsymbol\Sigma^{-1}$ has diagonal $1, 1/4$. At $\mathbf{x} = (1, 2)$ the quadratic form is $1^2/1 + 2^2/4 = 2$:
    $$N = \frac{1}{2\pi}\cdot\frac{1}{\sqrt 4}\, e^{-1} = 0.0293$$
 
@@ -247,7 +247,7 @@ The [density estimation Note](../243-density-estimation-kde/note.md) built a ker
 
 The [k-means intuition Note](../128-kmeans-intuition/note.md) assigns each point to its nearest centroid and moves each centroid to the mean of its points. MML (§11.5) relates the two: treat the GMM means as cluster centres and ignore the covariances (set them to the identity), and the result is k-means; k-means makes a hard assignment, a GMM a soft one through the responsibilities.
 
-Figure 5 compares the two on the Iris dataset (scikit-learn's `load_iris`): 150 flowers, each with four **features** (input variables: sepal length, sepal width, petal length, petal width) and a known species. Both methods see only the four features; the species is used afterwards to score them. The **adjusted Rand index** (ARI) measures how well a clustering matches the true groups: 1 for a perfect match, about 0 for random labels (scikit-learn's `adjusted_rand_score` documentation).
+Figure 5 compares the two on the Iris dataset (scikit-learn's `load_iris`): 150 flowers, each with four features (sepal length, sepal width, petal length, petal width) and a known species. Both methods see only the four features; the species is used afterwards to score them. The **adjusted Rand index** (ARI) measures how well a clustering matches the true groups: 1 for a perfect match, about 0 for random labels (scikit-learn's `adjusted_rand_score` documentation).
 
 ![Iris, petal length against petal width. Left: k-means labels. Right: GMM with full covariance matrices; colours mix by responsibility, ellipses show 1 and 2 standard deviations](images/gmm_vs_kmeans.png)
 

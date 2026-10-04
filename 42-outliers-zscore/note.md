@@ -14,27 +14,27 @@ title: "Outlier Detection with the Z-score Method"
 
 ## 1. Overview
 
-> **Key point:** For a roughly normal column, every value more than 3 standard deviations from the mean is an outlier; we then trim those rows or cap the values at the limits.
+> **Key point:** For a roughly normal feature, every value more than 3 standard deviations from the mean is an outlier; we then trim those rows or cap the values at the limits.
 
-Note 41 listed three rules for detecting outliers. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method**. It only fits a column that is normal or close to normal.
+Note 41 listed three rules for detecting outliers. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method**. The z-score method only fits a **feature** (an input variable, one column of the data table) that is normal or close to normal. Each **observation** is one record (one row), here one student.
 
 Figure 1 shows the whole method. We check the shape of the column, compute a lower and an upper limit, and then treat the values outside them by trimming or capping (both defined in Note 41, Section 7).
 
 ![The z-score method: check the column is normal, compute the limits, then trim or cap](images/overview.png)
 
-## 2. The condition: a normal column
+## 2. The condition: a normal feature
 
 > **Key point:** The z-score method works only on a column that is normally distributed, or almost.
 
 A **normal distribution** has the shape of a bell, so its curve is also called the **bell curve**. Most values sit near the centre, and fewer and fewer values lie towards the two ends.
 
-This shape appears all over nature. People's heights and marks in an exam usually follow it, at least roughly.
+People's heights and marks in an exam often follow this shape, at least roughly.
 
-So before we use the method, we plot the column and check that it looks like a bell. A strongly skewed column needs another rule, the IQR fences of Note 43.
+So before we use the method, we plot the feature and check that it looks like a bell. A strongly skewed feature needs another rule, the IQR fences of Note 43.
 
 ## 3. The 68-95-99.7 rule
 
-> **Key point:** In a normal column, about 68.3% of the values lie within 1 standard deviation of the mean, 95.4% within 2, and 99.7% within 3.
+> **Key point:** In a normal feature, about 68.3% of the values lie within 1 standard deviation of the mean, 95.4% within 2, and 99.7% within 3.
 
 A normal distribution always spreads its values in the same fixed way around its mean. Write $\mu$ for the mean and $\sigma$ for the standard deviation. Figure 2 shows the three ranges:
 
@@ -42,13 +42,13 @@ A normal distribution always spreads its values in the same fixed way around its
 - from $\mu - 2\sigma$ to $\mu + 2\sigma$: about 95.4%;
 - from $\mu - 3\sigma$ to $\mu + 3\sigma$: about 99.7%.
 
-This is called the **68-95-99.7 rule** (or the **empirical rule**). It holds for every normal column, whatever its mean and standard deviation.
+This spread is called the **68-95-99.7 rule** (or the **empirical rule**). The rule holds for every normal feature, whatever its mean and standard deviation.
 
 ![The 68-95-99.7 rule; the red tails beyond 3 standard deviations hold only 0.3% of the values](images/empirical_rule.png)
 
-Only about 0.3% of the values lie beyond 3 standard deviations, about 0.13% on each side. A value out there is so rare that the usual practice is to call it an outlier. This simple rule works well in many real problems.
+Only about 0.3% of the values lie beyond 3 standard deviations, about 0.13% on each side. A value out there is so rare that the usual practice is to call it an outlier: like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
 
-> **Extra:** The exact numbers are 68.27%, 95.45% and 99.73%. They come from the area under the bell curve, and they are only true for a perfectly normal column. A real column that is close to normal gives numbers close to them: the `cgpa` column of Section 6 has 67.9%, 95.7% and 99.5% of its values in the three ranges (last cell of the Notebook).
+> **Extra:** The exact numbers are 68.27%, 95.45% and 99.73%. They come from the area under the bell curve, and they are only true for a perfectly normal feature. A real column that is close to normal gives numbers close to them: the `cgpa` column of Section 6 has 67.9%, 95.7% and 99.5% of its values in the three ranges (last cell of the Notebook).
 
 ### 3.1 The limits
 
@@ -96,7 +96,7 @@ Both treatments come from the [outliers Note](../41-what-are-outliers/note.md) (
 
 > **Key point:** The data has 1,000 students; their CGPA is close to normal, but their placement exam marks are skewed, so the method is used on CGPA only.
 
-The data comes from a college: one row per student, 1,000 students, three columns.
+The data comes from a college: one observation per student, 1,000 students, three columns.
 
 | cgpa | placement_exam_marks | placed |
 |---|---|---|
@@ -107,18 +107,18 @@ The data comes from a college: one row per student, 1,000 students, three column
 
 - `cgpa`: the student's CGPA (out of 10) before the placement season.
 - `placement_exam_marks`: marks out of 100 in the aptitude test that companies hold before placement (aptitude, coding, English).
-- `placed`: 1 if the student got a job offer, 0 if not.
+- `placed`: 1 if the student got a job offer, 0 if not. This column is the **target**, the output a model would predict.
 
-Two columns are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 3 plots the distribution of each.
+Two features are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 3 plots the distribution of each.
 
 ![CGPA is bell-shaped; the placement exam marks have a long tail to the right](images/distributions.png)
 
 - **`cgpa`** is close to normal: a bell, with skewness $-0.01$ (0 means perfectly symmetric, Note 20).
-- **`placement_exam_marks`** is right-skewed (skewness 0.84). Many students scored low and only a few scored high, which suggests a hard exam.
+- **`placement_exam_marks`** is right-skewed (skewness 0.84): many students scored low and only a few scored high.
 
-So the z-score method can only be used on `cgpa`. The marks column needs the IQR rule of Note 43.
+So the z-score method can only be used on `cgpa`. The marks feature needs the IQR rule of Note 43.
 
-> **Python:** Loading the data and checking the shape of the columns.
+> **Python:** Loading the data and checking the shape of the features.
 >
 > ```python
 > import pandas as pd
@@ -157,7 +157,7 @@ Five students fall outside the limits (Figure 4, red):
 
 ![The CGPA of 1,000 students with the limits 5.11 and 8.81; the 5 red values lie outside](images/limits.png)
 
-Four of the five were placed. For the two toppers this is no surprise, but two of the three students with a CGPA below 5 were placed too.
+Four of the five were placed, including two of the three students with a CGPA below 5.
 
 > **Python:** Computing the limits and selecting the outliers.
 >
@@ -232,7 +232,7 @@ For capping we go through the column value by value:
 - below the lower limit: replace it with the lower limit;
 - otherwise: leave it as it is.
 
-NumPy's **`np.where`** does this for a whole column at once. It takes three things: a condition, the value to use where the condition is true, and the value to use where it is false. Two conditions need two `np.where` calls, one inside the other.
+NumPy's **`np.where`** does this for a whole column at once. `np.where` takes three things: a condition, the value to use where the condition is true, and the value to use where it is false. Two conditions need two `np.where` calls, one inside the other.
 
 > **Python:** Capping with `np.where`.
 >
@@ -265,13 +265,13 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 
 ![Before and after: the original column, the trimmed column (995 rows) and the capped column (1,000 rows, outliers moved onto the limits)](images/before_after.png){height=62%}
 
-> **Extra:** pandas has a one-line shortcut for capping: `df["cgpa"].clip(lower_limit, upper_limit)`. It gives exactly the same column as the two nested `np.where` calls.
+> **Extra:** pandas has a one-line shortcut for capping: `df["cgpa"].clip(lower_limit, upper_limit)`. `clip` gives exactly the same column as the two nested `np.where` calls.
 
 ## 11. Learning the limits on the training set
 
 > **Key point:** The limits are learned from the data, so they should be learned on the training set only, like the mean and standard deviation of a scaler.
 
-> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. This lets the test rows influence the limits, the same [data leakage](../13-toy-project/note.md) that the toy-project Note avoids for scaling (section seven). The cleaner order is:
+> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. Computing them on all rows lets the test rows influence the limits, the same [data leakage](../13-toy-project/note.md) that the toy-project Note avoids for scaling (section seven). The cleaner order is:
 >
 > 1. Split the data into training and test sets.
 > 2. Compute the mean, standard deviation and limits on the training set only.
@@ -291,26 +291,26 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 > **Key point:** The method is simple and effective, but only for a column that is roughly normal.
 
 - **Simple:** two numbers (mean and standard deviation) give both limits.
-- **Effective:** on a normal column it flags exactly the rare values at the two ends.
-- **Limited:** it assumes a normal column. On a skewed column the limits land in the wrong places. For the skewed marks column they come out as $-25.17$ and 89.62: the lower limit is below 0, so it can never flag anything, and 8 marks (0.8%, not 0.3%) are flagged on the high side. Note 43 handles this case with the IQR rule.
+- **Effective:** on a normal feature it flags exactly the rare values at the two ends.
+- **Limited:** it assumes a normal feature. On a skewed feature the limits land in the wrong places. For the skewed marks feature they come out as $-25.17$ and 89.62: the lower limit is below 0, so it can never flag anything, and 8 marks (0.8%, not 0.3%) are flagged on the high side. Note 43 handles this case with the IQR rule.
 
 > **Extra:** Two more things to keep in mind.
 >
-> - **A perfect normal column still has "outliers".** About 0.27% of the values lie beyond 3 standard deviations by pure chance: about 3 in 1,000. In large data, the method always flags some real, valid values.
-> - **The outliers move the limits they are judged by.** The mean and standard deviation are computed from all the values, the extreme ones included, so a big outlier also widens its own limits. In a small column this can hide it completely: with $n$ values no z-score can be larger than $(n-1)/\sqrt{n}$ (Shiffler 1988; NIST 1.3.5.17). For 10 values that is 2.85, so the method can never flag anything, however extreme.
+> - **A perfect normal feature still has "outliers".** About 0.27% of the values lie beyond 3 standard deviations by pure chance: about 3 in 1,000. In large data, the method always flags some real, valid values.
+> - **The outliers move the limits they are judged by.** The mean and standard deviation are computed from all the values, the extreme ones included, so a big outlier also widens its own limits. In a small sample this can hide it completely: with $n$ values no z-score can be larger than $(n-1)/\sqrt{n}$ (Shiffler 1988; NIST 1.3.5.17). For 10 values that is 2.85, so the method can never flag anything, however extreme.
 
 ## 13. Summary
 
 | Step | What we do | On the placement data |
 |---|---|---|
-| Check the shape | plot the column; it must be roughly normal | `cgpa` normal (skew $-0.01$); marks skewed (0.84), not used |
+| Check the shape | plot the feature; it must be roughly normal | `cgpa` normal (skew $-0.01$); marks skewed (0.84), not used |
 | Detect | limits $\mu \pm 3\sigma$, or $z > 3$ or $z < -3$ | limits 5.11 and 8.81; 5 outliers |
 | Trim | keep the rows inside the limits | 995 rows left |
 | Cap | move values beyond a limit onto it | 1,000 rows; min 5.11, max 8.81 |
 | Better practice | learn the limits on the training set | limits 5.12 and 8.78; 4 outliers in train, 1 in test |
 
-- The z-score method needs a column that is normal or close to it.
-- In a normal column, about 68.3%, 95.4% and 99.7% of the values lie within 1, 2 and 3 standard deviations of the mean.
+- The z-score method needs a feature that is normal or close to it.
+- In a normal feature, about 68.3%, 95.4% and 99.7% of the values lie within 1, 2 and 3 standard deviations of the mean.
 - Values beyond mean ± 3 standard deviations are outliers.
 - The z-score $z = (x - \mu)/\sigma$ is the standardization formula; $|z| > 3$ flags exactly the same values.
 - Trimming deletes the outlier rows; capping replaces each outlier with the limit, so no row is lost.
@@ -326,10 +326,13 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 
 | Term | Meaning |
 |---|---|
-| Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns |
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Target | The output a model predicts |
+| Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal features |
 | Normal distribution | A bell-shaped distribution: most values near the mean, fewer and fewer towards both ends |
 | Bell curve | The curve of a normal distribution |
-| 68-95-99.7 rule (empirical rule) | In a normal column, about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean |
+| 68-95-99.7 rule (empirical rule) | In a normal feature, about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean |
 | Z-score | How many standard deviations a value lies from the mean: $(x - \mu)/\sigma$ |
 | Upper / lower limit | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers |
 | `np.where` | NumPy function that picks one value where a condition is true and another where it is false |

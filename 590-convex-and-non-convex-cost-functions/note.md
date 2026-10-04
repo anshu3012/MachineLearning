@@ -145,7 +145,7 @@ $1.71 > 0$, so the loss is non-convex. A convex function could never have two se
 
 Here both minima are equally good, so landing in either is fine. Real networks have millions of weights, many such symmetries, and also genuine local minima and flat stretches, so their losses are non-convex (Goodfellow et al. §8.2.2–8.2.3).
 
-> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. It is a **saddle point**: the loss rises along one diagonal and falls along the other (see the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
+> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. The midpoint is a **saddle point**: the loss rises along one diagonal and falls along the other (see the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
 
 > **Python:** a numerical chord test. We pick 10,000 random pairs of parameter points and random $\theta$, and record by how much the curve ever rises above the chord. A result above 0 proves the loss is non-convex; 0 is evidence (not proof) that it is convex.
 >
@@ -186,13 +186,13 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 - One failing pair of points is enough to show a function is non-convex.
 - On a non-convex loss, gradient descent can converge to a sub-optimal local minimum.
 
-## Sources
+## 7. Sources
 
 - Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 4.2.2 (local and global optima) and 9.3 (gradient descent).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Sections 8.2.2–8.2.3 (local minima, saddle points) and 8.4 (parameter initialisation).
 - Kleinberg, R., Li, Y. and Yuan, Y. (2018). "An Alternative View: When Does SGD Escape Local Minima?". *ICML*.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

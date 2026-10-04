@@ -53,7 +53,7 @@ Pick a point $x$ on the curve and a second point a step $h$ further. The secant 
 3. **Example:** $f(x) = x^2$ at $x = 1$ with $h = 1$. The points are $(1, 1)$ and $(2, 4)$:
    $$\frac{f(2) - f(1)}{1} = \frac{4 - 1}{1} = 3$$
 
-The secant line has slope 3 (top-left frame of Figure 1). It is the slope a straight line would need to get from the first point to the second, so it is the **average slope** of $f$ between $x$ and $x + h$. A curve that bends in between can be steeper or flatter than this at any single point.
+The secant line has slope 3 (top-left frame of Figure 1). The secant slope is the slope a straight line would need to get from the first point to the second, so it is the **average slope** of $f$ between $x$ and $x + h$. A curve that bends in between can be steeper or flatter than this at any single point.
 
 ## 4. The derivative: shrinking the step to zero
 
@@ -108,9 +108,9 @@ The derivative is the rate of change of the output per unit of input, near $x$. 
 - $f'(x) < 0$: increasing $x$ decreases $f$;
 - $f'(x) = 0$: the tangent is flat, as at the bottom of a valley.
 
-This is all [gradient descent](../57-gradient-descent/note.md) needs: to go downhill, move $x$ against the sign of the derivative. For $f(x) = x^2$ at $x = 1$, $f'(1) = 2 > 0$, so we move left, towards the minimum at 0.
+The sign is all [gradient descent](../57-gradient-descent/note.md) needs: to go downhill, move $x$ against the sign of the derivative. For $f(x) = x^2$ at $x = 1$, $f'(1) = 2 > 0$, so we move left, towards the minimum at 0.
 
-> **Python:** A computer can estimate a derivative with a small $h$, straight from the definition. This is a **numerical derivative** (or finite difference).
+> **Python:** A computer can estimate a derivative with a small $h$, straight from the definition. Such an estimate is a **numerical derivative** (or finite difference).
 >
 > ```python
 > import numpy as np
@@ -191,7 +191,7 @@ Most ML models are long chains of functions: a weighted sum, then a sigmoid, the
 
 > **Key point:** Near a point $x_0$, a function is approximated by a polynomial built from its derivatives at $x_0$; the degree-1 polynomial is the tangent line.
 
-An earlier Note on boosting ([XGBoost maths Note](../126-xgboost-maths/note.md)) introduced the **Taylor series**: near a point, a smooth function is approximated by a polynomial built from its value and derivatives there. It worked through $e^x$ and stopped at the second-order term, a parabola. Here we name the pieces and add what is new.
+An earlier Note on boosting ([XGBoost maths Note](../126-xgboost-maths/note.md)) introduced the **Taylor series**: near a point, a smooth function is approximated by a polynomial built from its value and derivatives there. That Note worked through $e^x$ and stopped at the second-order term, a parabola. Here we name the pieces and add what is new.
 
 ### 6.1 The Taylor polynomial of degree n
 
@@ -228,7 +228,7 @@ a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line o
    $$\sqrt{5} \approx 2 + 0.25 \times 1 = 2.25 \quad (\text{true: } 2.2361)$$
    A step of 0.1 is almost exact; a step of 1 is already visibly off.
 
-This is the picture behind [gradient descent](../57-gradient-descent/note.md). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate keeps the step inside the region where the tangent line is a good guide; with a step that is too large, gradient descent can overshoot and fail to converge (MML §7.1.1).
+Linearisation is the picture behind [gradient descent](../57-gradient-descent/note.md). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate keeps the step inside the region where the tangent line is a good guide; with a step that is too large, gradient descent can overshoot and fail to converge (MML §7.1.1).
 
 ### 6.3 A polynomial is its own Taylor polynomial
 
@@ -242,7 +242,7 @@ For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial i
    $$T_3(x) = 8 + 12(x - 2) + \frac{12}{2!}(x - 2)^2 + \frac{6}{3!}(x - 2)^3 = 8 + 12(x - 2) + 6(x - 2)^2 + (x - 2)^3$$
    Multiplying out: $8 - 24 + 24 - 8 = 0$ for the constant, $12 - 24 + 12 = 0$ for $x$, $6 - 6 = 0$ for $x^2$, and $1 \cdot x^3$. So $T_3(x) = x^3$ exactly.
 
-This explains a result of the [XGBoost maths Note](../126-xgboost-maths/note.md): its second-order approximation of the squared error was exact, because the squared error is already a polynomial of degree 2.
+Exactness for polynomials explains a result of the [XGBoost maths Note](../126-xgboost-maths/note.md): its second-order approximation of the squared error was exact, because the squared error is already a polynomial of degree 2.
 
 > **Extra:** A function equal to its Taylor series everywhere near $x_0$ is called **analytic**; $e^x$, $\sin x$ and $\cos x$ are, at every point. A Taylor series is one example of a **power series**, $\sum a_k (x - c)^k$, a polynomial with infinitely many terms. Functions such as `np.sin` and `np.exp` are computed with polynomial approximations too, though usually not Taylor polynomials: libraries use polynomials tuned to be accurate over a whole interval (Muller 2016).
 
@@ -264,13 +264,13 @@ This explains a result of the [XGBoost maths Note](../126-xgboost-maths/note.md)
 - Sum, product, quotient and chain rules build the derivative of any formula from a short table.
 - A Taylor polynomial approximates a function near a point; degree 1 is the tangent line, and a polynomial is reproduced exactly.
 
-## Sources
+## 8. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 5.1 and 7.1.1 (MML).
 - Muller, J.-M. (2016). *Elementary Functions: Algorithms and Implementation*, 3rd ed. Birkhäuser.
 - Nocedal, J. and Wright, S. J. (2006). *Numerical Optimization*, 2nd ed. Springer. Section 8.1, finite-difference derivative approximations.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

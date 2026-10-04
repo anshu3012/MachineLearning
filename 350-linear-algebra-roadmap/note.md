@@ -49,9 +49,9 @@ Scalars are ordinary numbers such as 2, 5 or -6, and the arithmetic on them. The
 
 ### 4.2 Vectors
 
-> **Key point:** Vectors are where linear algebra starts, and where ML data starts: every row of a dataset is a vector.
+> **Key point:** Vectors are where linear algebra starts, and where ML data starts: every observation of a dataset is a vector.
 
-This module tries to cover everything about vectors that ML uses:
+Each **observation** (one record, one row of the data table) is a vector. This module tries to cover everything about vectors that ML uses:
 
 | Topic | Why ML needs it | Where it is taught |
 |---|---|---|
@@ -93,7 +93,7 @@ Anyone who has studied PCA has met eigenvalues and eigenvectors. They are taught
 
 **Matrix factorisation** (or **decomposition**) writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in the [PCA step by step Note](../48-pca-step-by-step/note.md); the others come in a later maths Note.
 
-> **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see the [Ridge gradient descent Note](../65-ridge-gradient-descent/note.md)). Least-squares problems can be solved through a QR factorisation (Trefethen and Bau, *Numerical Linear Algebra*, 1997, Lecture 11, Algorithm 11.2), and recommender systems use SVD-like factorisations of the user-item rating matrix to predict missing ratings (Koren, Bell and Volinsky, "Matrix factorization techniques for recommender systems", *IEEE Computer* 42(8), 2009, 30–37).
+> **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see the [Ridge gradient descent Note](../65-ridge-gradient-descent/note.md)). Least-squares problems can be solved through a QR factorisation (Trefethen and Bau 1997, Lecture 11, Algorithm 11.2), and recommender systems use SVD-like factorisations of the user-item rating matrix to predict missing ratings (Koren, Bell and Volinsky 2009).
 
 ### 4.7 Advanced topics
 
@@ -124,12 +124,12 @@ All linear algebra in the ML and DL world runs through **NumPy**, so a strong co
 
 ## 5. Resources
 
-> **Key point:** 3Blue1Brown's series for intuition, Gilbert Strang for depth, and chapter 2 of the *Deep Learning* book as a summary.
+> **Key point:** The 3Blue1Brown series for intuition, Gilbert Strang for depth, and chapter 2 of the *Deep Learning* book as a summary.
 
-**Video lectures:**
+**Lesson series:**
 
-- **3Blue1Brown, *Essence of Linear Algebra*.** The best lecture series on the subject. The videos are very dense, so watch each one more than once.
-- **Gilbert Strang's MIT lectures on linear algebra.** About 35 lectures by a renowned professor. It covers far more than ML needs, but it is the place for depth.
+- **Sanderson, G., *Essence of Linear Algebra*, 3Blue1Brown, 3blue1brown.com.** An animated series that builds the geometric intuition for vectors, matrices and transformations. Each lesson is dense, so it pays to go through it more than once.
+- **Strang, G., *18.06 Linear Algebra*, MIT OpenCourseWare, ocw.mit.edu.** About 35 lectures by a renowned professor. The course covers far more than ML needs, but it is the place for depth.
 
 **Books:**
 
@@ -163,7 +163,13 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 - Learn the unmarked topics in one go; leave the "later" topics until an algorithm needs them.
 - For every topic, know where ML uses it.
 
-## 7. Key terms
+## 7. Sources
+
+- Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 11, "Least squares problems", Algorithm 11.2.
+- Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix factorization techniques for recommender systems." *IEEE Computer* 42(8), 30–37.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Chapters 2–4; §4.5.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -26,7 +26,7 @@ The terms random experiment, trial, outcome, sample space and event are defined 
 
 > **Key point:** A probability is a number from 0 to 1 that measures how likely an event is: 0 means it never happens, 1 means it always happens.
 
-A **probability** is a measure of how likely a particular event is to occur. We write the probability of an event $A$ as $P(A)$. It always lies between 0 and 1:
+A **probability** is a measure of how likely a particular event is to occur. We write the probability of an event $A$ as $P(A)$. A probability always lies between 0 and 1:
 
 - $P(A) = 0$: $A$ never happens (the impossible event).
 - $P(A) = 1$: $A$ always happens (the sure event).
@@ -50,7 +50,7 @@ Probability is always computed for an event: "getting a head", "rolling a 3", "t
 3. **Example:** a coin tossed 100 times landed heads 55 times and tails 45 times:
    $$P(\text{head}) = \frac{55}{100} = 0.55$$
 
-This is the relative frequency of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), and the estimated PMF of the [PMF Note](../241-pmf-and-discrete-cdf/note.md), read as the probability of an event.
+Empirical probability is the relative frequency of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), and the estimated PMF of the [PMF Note](../241-pmf-and-discrete-cdf/note.md), read as the probability of an event.
 
 ### 3.1 A bag of marbles
 
@@ -64,7 +64,7 @@ Only the draws enter the calculation, not the contents of the bag. Section 4 com
 
 ### 3.2 Titanic passengers
 
-> **Key point:** On a dataset, the empirical probability of a value is its share of the rows.
+> **Key point:** On a dataset, the empirical probability of a value is its share of the **observations** (records, one row of the data table each).
 
 The Titanic dataset of the [random experiments and events Note](../330-events-and-types-of-events/note.md) has 891 passengers: 216 in class 1, 184 in class 2 and 491 in class 3. For one passenger drawn at random:
 
@@ -88,7 +88,7 @@ Here there is no formula to fall back on: the data is all we have, so the empiri
 
 > **Key point:** When every outcome is equally likely, the theoretical probability of an event is its number of outcomes divided by the size of the sample space; no trials are needed.
 
-**Theoretical probability** (also called **classical probability**) is worked out from the sample space instead of from data. It applies when each outcome in the sample space is **equally likely**, as with a fair die: a 3 is as likely as a 2, a 4 or any other face.
+**Theoretical probability** (also called **classical probability**) is worked out from the sample space instead of from data. Theoretical probability applies when each outcome in the sample space is **equally likely**, as with a fair die: a 3 is as likely as a 2, a 4 or any other face.
 
 1. **In words:** the number of outcomes in the event (the **favourable outcomes**) divided by the number of outcomes in the sample space.
 2. **Formula:**
@@ -129,7 +129,7 @@ Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of
 
 > **Key point:** The more trials we run, the closer the empirical probability gets to the theoretical one; with few trials they can be far apart.
 
-The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This is the law of large numbers, met in the [PMF Note](../241-pmf-and-discrete-cdf/note.md).
+The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the law of large numbers, met in the [PMF Note](../241-pmf-and-discrete-cdf/note.md).
 
 Ten tosses of a fair coin can easily give 3 heads, an empirical probability of 0.3 against the theoretical 0.5. One simulated coin, tossed more and more times:
 
@@ -159,10 +159,10 @@ A die behaves the same way. In 10 simulated rolls, the face 3 did not appear at 
 
 > **Key point:** Theoretical probability needs a known sample space of equally likely outcomes; empirical probability needs only data.
 
-- **Theoretical:** when we know the sample space and its outcomes are equally likely (coins, dice, cards). It shows how the event behaves in principle, before any data exists.
+- **Theoretical:** when we know the sample space and its outcomes are equally likely (coins, dice, cards). Theoretical probability shows how the event behaves in principle, before any data exists.
 - **Empirical:** when the outcomes are not equally likely or the sample space is not fully known, which is the usual case with real data. Statistics and hypothesis testing work with empirical probabilities.
 
-Machine learning models learn from data, and many of their probabilities are counted from it. The class priors in the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md), such as 5 wins in 8 matches, are counted from the training rows.
+Machine learning models learn from data, and many of their probabilities are counted from it. The class priors in the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md), such as 5 wins in 8 matches, are counted from the training observations.
 
 ## 6. The rules every probability follows
 
@@ -174,11 +174,11 @@ Machine learning models learn from data, and many of their probabilities are cou
 
 > **Key point:** Probabilities are never negative, the whole sample space has probability 1, and the probabilities of events with no shared outcomes add up.
 
-Every probability, empirical or theoretical, obeys three rules called the **axioms of probability**. Everything else about probability is derived from them. Modern probability rests on axioms of this kind, due to Kolmogorov (Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, 2020, section 6.1.2); the three below, and the complement and general addition rules of sections 6.2 and 6.3, are Theorems 1.1 and 1.4 of Grinstead and Snell, *Introduction to Probability* (2nd ed., AMS, 1997), section 1.2.
+Every probability, empirical or theoretical, obeys three rules called the **axioms of probability**. Everything else about probability is derived from them. Modern probability rests on axioms of this kind, due to Kolmogorov (MML §6.1.2); the three below, and the complement and general addition rules of sections 6.2 and 6.3, are Theorems 1.1 and 1.4 of Grinstead and Snell (1997, §1.2).
 
 1. **Non-negative:** $P(A) \ge 0$ for every event $A$.
 2. **The sure event has probability 1:** $P(S) = 1$.
-3. **Mutually exclusive events add:** if $A$ and $B$ share no outcome, $P(A \cup B) = P(A) + P(B)$. This is the addition rule of the [mutually exclusive events Note](../84-mutually-exclusive-events/note.md).
+3. **Mutually exclusive events add:** if $A$ and $B$ share no outcome, $P(A \cup B) = P(A) + P(B)$. Axiom 3 is the addition rule of the [mutually exclusive events Note](../84-mutually-exclusive-events/note.md).
 
 Two facts follow at once. $S$ and $\varnothing$ share no outcome and $S \cup \varnothing = S$, so axiom 3 gives $P(S) = P(S) + P(\varnothing)$, hence $P(\varnothing) = 0$. And $P(A) = 1 - P(A^c) \le 1$ by the complement rule of section 6.2 and axiom 1. Together these give the 0-to-1 scale of Figure 2.
 
@@ -196,7 +196,7 @@ $A$ and $A^c$ are mutually exclusive and exhaustive: exactly one of them happens
 3. **Example:** the chance of at least one head in two tosses. Its complement is "no heads" $= \{TT\}$, with probability $1/4$:
    $$P(\text{at least one head}) = 1 - P(TT) = 1 - \frac{1}{4} = \frac{3}{4}$$
 
-This matches the count in section 4. The complement is often the shortcut: "at least one" events have many outcomes, while their complement "none" has one.
+The result matches the count in section 4. The complement is often the shortcut: "at least one" events have many outcomes, while their complement "none" has one.
 
 ### 6.3 The general addition rule
 
@@ -239,7 +239,12 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 - With many trials, the empirical probability approaches the theoretical one; with few, it can be far off.
 - Probabilities such as Naive Bayes class priors are estimated empirically, from the training data.
 
-## 8. Key terms
+## 8. Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. §6.1.2.
+- Grinstead, C. M. and Snell, J. L. (1997). *Introduction to Probability*, 2nd ed. American Mathematical Society. §1.2, Theorems 1.1 and 1.4.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

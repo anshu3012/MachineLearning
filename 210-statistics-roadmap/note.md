@@ -53,13 +53,13 @@ This module describes data that is already in our hands. Its topics, and where e
 
 ### 3.2 Probability distributions
 
-> **Key point:** A probability distribution describes how likely each value of a column is; the hypothesis tests of the next module depend on it.
+> **Key point:** A probability distribution describes how likely each value of a feature is; the hypothesis tests of the next module depend on it.
 
-This module studies the shapes data can take:
+This module studies the shapes data can take. Here a **feature** is an input variable, one column of the data table, and an **observation** is one record, one row of that table:
 
 - **Random variables**, and the functions that describe them: the PMF (for counts), the PDF (for measurements) and the CDF (for running totals of probability).
 - **Kernel density estimation**, the smooth curve over a histogram, met in the density plot of the [univariate analysis Note](../20-univariate-analysis/note.md).
-- **2D density plots**, the same idea for two columns at once.
+- **2D density plots**, the same idea for two features at once.
 - **Named distributions**: normal, uniform, Bernoulli, binomial, log-normal and others. The normal distribution's 68-95-99.7 rule appears in the [z-score outliers Note](../42-outliers-zscore/note.md).
 
 The basic rules of probability are in the [events Note](../330-events-and-types-of-events/note.md) and the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md); conditional probability is in the [conditional probability Note](../82-conditional-probability/note.md).
@@ -99,8 +99,7 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 > **Extra:** Good resources for this roadmap:
 >
 > - **Books:** *An Introduction to Statistical Learning* (James, Witten, Hastie, Tibshirani; statistics through ML), *Practical Statistics for Data Scientists* (Bruce, Bruce, Gedeck; practical, with Python and R), *Think Stats* (Downey; short, Python-based).
-> - **Videos:** StatQuest's *Statistics Fundamentals* series (Josh Starmer).
-> - **Blog:** Machine Learning Mastery (Jason Brownlee) has many short statistics tutorials.
+> - **Online lessons:** Starmer, J., StatQuest, *Statistics Fundamentals*, statquest.org.
 > - **Revision:** a one-page statistics cheat sheet, once the topics are learned.
 
 ## 5. Summary
@@ -115,12 +114,11 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 - Descriptive statistics comes first; inferential statistics depends on probability distributions.
 - About 60 hours covers the whole roadmap.
 
-
-## Sources
+## 6. Sources
 
 - ISLR: James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. Chapter 3 (linear regression), sections 4.3 (logistic regression) and 4.4.4 (naive Bayes).
 - Bruce, P., Bruce, A. and Gedeck, P. (2020). *Practical Statistics for Data Scientists*, 2nd ed. O'Reilly. Chapter 3, Statistical Experiments and Significance Testing.
 
-## 6. Key terms
+## 7. Key terms
 
 This roadmap adds no terms of its own: each term is defined in the Note that teaches it, and listed in the [glossary](../glossary.md).

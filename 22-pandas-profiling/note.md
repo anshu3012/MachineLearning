@@ -44,7 +44,7 @@ Pandas Profiling is not part of pandas; it is a separate library. We install it 
 
 > **Extra:** Version clash (October 2026). The library still requires pandas older than 3.0. In a setup that already has pandas 3, a plain `pip install fg-data-profiling` quietly downgrades pandas (and NumPy, SciPy) to older versions. To keep pandas 3, install it with `pip install --no-deps fg-data-profiling` and then install the few small helper libraries it asks for when imported. The report then works with the one-line fix in Section 2.2. In a fresh setup made just for profiling, the plain command is fine.
 
-> **Extra:** The library has changed its name twice. It began as `pandas-profiling` (import `pandas_profiling`). In 2023 it became `ydata-profiling` (import `ydata_profiling`), and in 2026 `fg-data-profiling` (import `data_profiling`). The old names still appear in many tutorials; `pip install pandas-profiling` now installs only an empty package that says to use the new name, and `import ydata_profiling` warns that it gets no more updates (PyPI pages of the three packages). The report itself and the `ProfileReport` call are the same under all three names.
+> **Extra:** The library has changed its name twice. The library began as `pandas-profiling` (import `pandas_profiling`). In 2023 it became `ydata-profiling` (import `ydata_profiling`), and in 2026 `fg-data-profiling` (import `data_profiling`). The old names still appear in many tutorials; `pip install pandas-profiling` now installs only an empty package that says to use the new name, and `import ydata_profiling` warns that it gets no more updates (PyPI pages of the three packages). The report itself and the `ProfileReport` call are the same under all three names.
 
 ### 2.2 Three lines of code
 
@@ -53,7 +53,7 @@ Pandas Profiling is not part of pandas; it is a separate library. We install it 
 Once installed, building a report takes three steps:
 
 1. Import `ProfileReport` from the library.
-2. Call `ProfileReport` on our DataFrame. This creates a report object.
+2. Call `ProfileReport` on our DataFrame. The call creates a report object.
 3. Save the object as an HTML file with `to_file`.
 
 > **Python:** Building and saving the report.
@@ -74,7 +74,7 @@ The report takes a few seconds to build. The time grows with the size of the dat
 > **Extra:** Two more options are useful:
 >
 > - `ProfileReport(df, minimal=True)` skips the slow parts (correlations, interactions, missing-value charts). On data with many thousands of rows or many columns, the full report can take minutes; the minimal one stays fast.
-> - `profile.to_notebook_iframe()` shows the report inside Jupyter instead of saving a file. It stores the whole page in the notebook, which makes the notebook file several megabytes big.
+> - `profile.to_notebook_iframe()` shows the report inside Jupyter instead of saving a file. The iframe stores the whole page in the notebook, which makes the notebook file several megabytes big.
 
 > **Extra:** The library officially supports pandas versions below 3. With pandas 3, building the report fails with the error `'ArrowExtensionArray' object has no attribute 'sum'`. pandas 3 stores text columns in a new format (Arrow arrays) that the library cannot add up. One line before building the report switches text back to plain Python strings:
 >
@@ -99,7 +99,7 @@ The Overview section opens with the dataset as a whole. Figure 2 shows it for th
 Reading the left table from the top:
 
 - **Number of variables:** 12. The report calls columns **variables**.
-- **Number of observations:** 891. The report calls rows **observations**.
+- **Number of observations:** 891. The report calls rows **observations**: one record each, here one passenger.
 - **Missing cells:** 866, which is 8.1% of all cells.
 - **Duplicate rows:** 0, so no passenger appears twice.
 - **Total size in memory:** 118.9 KiB for the whole table; the **average record size** is 136.6 bytes, the memory one row takes.
@@ -124,7 +124,7 @@ The right table counts the column types. The report sorts the 12 columns into th
 | Categorical | 4 | `Survived`, `Pclass`, `Sex`, `Embarked` |
 | Text | 3 | `Name`, `Ticket`, `Cabin` |
 
-The report decides the type itself, from the values. `Survived` and `Pclass` hold numbers, but only two or three different ones, so the report treats them as categories. This matches the split into numerical and categorical columns from the Note on univariate analysis.
+The report decides the type itself, from the values. `Survived` and `Pclass` hold numbers, but only two or three different ones, so the report treats them as categories. The report's split matches the split into numerical and categorical columns from the Note on univariate analysis.
 
 > **Extra:** "Text" is the report's name for a column of free text, where nearly every value is different (every passenger has their own name and ticket number). Older versions of the library put such columns under "Categorical" and flagged them with a **high cardinality** warning: a categorical column with very many different categories.
 
@@ -146,7 +146,7 @@ The alerts fall into five kinds:
 
 In seconds, the alerts point to the columns that need cleaning and the columns that look useless. Each alert still needs a judgement: many zeros in `SibSp` is simply a fact about the passengers, while 15 free tickets deserve a closer look.
 
-> **Extra:** The third tab, Reproduction, records when the report was made, how long it took, and the library version and settings. It lets someone else rebuild exactly the same report later.
+> **Extra:** The third tab, Reproduction, records when the report was made, how long it took, and the library version and settings. The Reproduction tab lets someone else rebuild exactly the same report later.
 
 ## 4. Variables: univariate analysis of every column
 
@@ -166,7 +166,7 @@ Figure 4 shows the block for `Sex`. On the left, a table gives the basic facts; 
 
 - **Distinct:** 2 different values, male and female. As a share of the 891 rows, that is 0.2%.
 - **Missing:** 0, so every passenger has a recorded sex.
-- **The bars:** 577 male and 314 female passengers. This is the count plot from the Note on univariate analysis, drawn sideways.
+- **The bars:** 577 male and 314 female passengers. The bar chart is the count plot from the Note on univariate analysis, drawn sideways.
 
 The "More details" button opens four further tabs:
 
@@ -269,7 +269,7 @@ Away from the diagonal, a few cells stand out:
 - **`SibSp` and `Parch`: $+0.41$.** Passengers with siblings or a spouse aboard often had parents or children aboard too: they travelled as families.
 - **`Survived` and `Pclass`: $-0.34$**, and **`Survived` and `Fare`: $+0.26$.** Passengers in better classes, who paid more, survived more often.
 
-So at a glance we learn which inputs relate to the output (`Survived`), and which inputs relate to each other. Both matter later: inputs linked to the output are useful, and inputs strongly linked to each other repeat the same information.
+So at a glance we learn which **features** (input variables, one column each) relate to the **target** (`Survived`, the output we predict), and which features relate to each other. Both matter later: features linked to the target are useful, and features strongly linked to each other repeat the same information.
 
 > **Python:** Choosing the coefficients.
 >
@@ -288,7 +288,7 @@ So at a glance we learn which inputs relate to the output (`Survived`), and whic
 > - **Cramér's V** measures the link between two categorical columns, from 0 (none) to 1 (complete) (Cramér 1946).
 > - **Phik** ($\phi_k$) works for any mix of numerical and categorical columns (Baak et al. 2020).
 >
-> The default "Auto" heatmap picks a suitable coefficient for each pair: Spearman's for two numerical columns, and Cramér's V when a categorical column is involved. That is how it found the strong link between `Sex` and `Survived` in the alerts: `Sex` is text, so Pearson's r cannot include it at all. Every pair above 0.5 on the Auto heatmap gets a "High correlation" alert (0.5 is the library's default `threshold`).
+> The default "Auto" heatmap picks a suitable coefficient for each pair: Spearman's for two numerical columns, and Cramér's V when a categorical column is involved. The Auto heatmap is how the report found the strong link between `Sex` and `Survived` in the alerts: `Sex` is text, so Pearson's r cannot include it at all. Every pair above 0.5 on the Auto heatmap gets a "High correlation" alert (0.5 is the library's default `threshold`).
 
 > **Extra:** Next to each Heatmap tab is a Table tab with the exact numbers behind the colours. Older versions of the library also had a button that showed a short explanation of each coefficient.
 
@@ -324,7 +324,7 @@ The last section shows real rows, in two tabs: First rows and Last rows. They gi
 
 > **Key point:** We run a profiling report first on every new dataset, read it section by section, and write down what we notice.
 
-The report covers in seconds what took three Notes by hand. It does not replace understanding: it lists facts, and we decide what they mean. A good way to use it:
+The report covers in seconds what took three Notes by hand. The report does not replace understanding: it lists facts, and we decide what they mean. A good way to use it:
 
 1. Build the report as soon as we get a new dataset.
 2. Read it in order: Overview and Alerts, then each variable, then Interactions, Correlations and Missing values.
@@ -333,7 +333,7 @@ The report covers in seconds what took three Notes by hand. It does not replace 
 
 Reading reports becomes faster with practice. Running the library on three or four different datasets, and writing down observations each time, builds the habit of knowing where to look.
 
-> **Extra:** The report knows nothing about the meaning of the data. It cannot tell that `Survived` is the output we want to predict, that a 0 fare might be a crew member or a free ticket, or that `PassengerId` is a label rather than a measurement. Those judgements still come from us, and from the hand-made EDA of the earlier Notes when a question needs a closer look.
+> **Extra:** The report knows nothing about the meaning of the data. The report cannot tell that `Survived` is the target we want to predict, that a 0 fare might be a crew member or a free ticket, or that `PassengerId` is a label rather than a measurement. Those judgements still come from us, and from the hand-made EDA of the earlier Notes when a question needs a closer look.
 
 ## 10. Summary
 
@@ -354,7 +354,7 @@ Reading reports becomes faster with practice. Running the library on three or fo
 - `minimal=True` keeps the report fast on big data.
 - The report lists facts; we still read it, write down observations and decide what to do.
 
-## Sources
+## 11. Sources
 
 - Baak, M., Koopman, R., Snoek, H. and Klous, S. (2020). A new correlation coefficient between categorical, ordinal and interval variables with Pearson characteristics. *Computational Statistics & Data Analysis* 152.
 - Cramér, H. (1946). *Mathematical Methods of Statistics*. Princeton University Press.
@@ -362,14 +362,16 @@ Reading reports becomes faster with practice. Running the library on three or fo
 - PyPI. pandas-profiling, ydata-profiling and fg-data-profiling project pages. pypi.org.
 - Spearman, C. (1904). The Proof and Measurement of Association between Two Things. *American Journal of Psychology* 15(1).
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
 | Profiling report | An automatic EDA report describing every column and pair of columns of a dataset |
 | Pandas Profiling | The library that builds a profiling report from a DataFrame, now named `fg-data-profiling` |
 | Variable | The report's word for a column |
-| Observation | The report's word for a row |
+| Observation | One record of the data; the report's word for a row |
+| Feature | An input variable, one column of the data table |
+| Target | The output we want to predict |
 | Average record size | The memory one row takes, on average |
 | Alert | A warning in the report about a column that may need attention |
 | High cardinality | A categorical column with very many different categories |

@@ -24,7 +24,7 @@ Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. 
 
 > **Key point:** Quantiles cut sorted data into equal-sized groups; quartiles make 4 groups, quintiles 5, deciles 10 and percentiles 100.
 
-**Quantiles** are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. They help us understand a distribution, compare columns and spot outliers.
+**Quantiles** are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An **observation** is one record, one row of the data table; a **feature** is one variable, one column of that table. Quantiles help us understand a distribution, compare features and spot outliers.
 
 The names are confusing because they sound alike. "Quantile" is the general word; the others are kinds of quantile, named by the number of groups (Figure 2):
 
@@ -72,7 +72,7 @@ So 96.5 marks puts a student at the 75th percentile, although nobody scored exac
 
 The 50th percentile works the same way: $L = 0.5 \times 11 = 5.5$, halfway between the 5th mark (91) and the 6th (93):
 $$P_{50} = 91 + 0.5 \times (93 - 91) = 92$$
-This is the median, as it should be.
+This value, 92, is the median, as it should be.
 
 > **Extra:** Software uses several percentile formulas, and they give slightly different answers on small data. The $(n+1)$ formula above is NumPy's `method="weibull"`. NumPy's and pandas' default, `"linear"`, uses the location $1 + (p/100) \times (n - 1)$ instead: for the ten marks it gives location 7.75 and a 75th percentile of $94 + 0.75 \times 2 = 95.5$, not 96.5. Both are correct conventions; on large data they agree closely. The [understanding your data Note](../19-understanding-your-data/note.md) uses pandas' default.
 
@@ -151,7 +151,7 @@ $$\text{lower fence} = 234 - 141.375 = 92.625, \qquad \text{upper fence} = 328.2
 - **Left:** the fence is at 92.625; the smallest value inside it is 213. So the whisker ends at 213, and 6, below the fence, is drawn as an outlier dot.
 - **Right:** the fence is at 469.625; the last value inside it is 350. The whisker ends at 350, and 1500 is an outlier.
 
-That is the whole construction. Plotting libraries follow the same steps, though their percentile formula can shift the quartiles slightly (Section 3.1).
+These four steps are the whole construction. Plotting libraries follow the same steps, though their percentile formula can shift the quartiles slightly (Section 3.1).
 
 > **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../43-outliers-iqr/note.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean, so the fences sit $0.674 + 1.5 \times 1.349 \approx 2.70$ standard deviations out. Only about 0.7% of normal data falls outside them, so a dot beyond a fence is genuinely unusual.
 
@@ -168,7 +168,7 @@ That is the whole construction. Plotting libraries follow the same steps, though
 
 ## 6. Reading box plots
 
-> **Key point:** A box plot shows the centre, the spread, the skew and the outliers of a column at once, and side-by-side box plots compare groups.
+> **Key point:** A box plot shows the centre, the spread, the skew and the outliers of a feature at once, and side-by-side box plots compare groups.
 
 One box plot answers four questions:
 
@@ -177,7 +177,7 @@ One box plot answers four questions:
 - **Is it skewed?** If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
 - **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method of the [IQR outliers Note](../43-outliers-iqr/note.md)).
 
-Its fifth use is comparison. Splitting a numerical column by a categorical one gives one box plot per category, side by side, as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 5). Figure 4 splits the Titanic ages by ticket class.
+Its fifth use is comparison. Splitting a numerical feature by a categorical one gives one box plot per category, side by side, as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 5). Figure 4 splits the Titanic ages by ticket class.
 
 ![Ages of Titanic passengers for each ticket class](images/box_by_class.png)
 
@@ -206,6 +206,8 @@ Comparing the three boxes:
 
 | Term | Meaning |
 |---|---|
+| Observation | One record, one row of the data table |
+| Feature | One variable, one column of the data table |
 | Quantiles | Values that cut sorted data into equal-sized groups |
 | Quintiles | The 20th, 40th, 60th and 80th percentiles: cuts into 5 groups |
 | Deciles | The 10th, 20th, ..., 90th percentiles: cuts into 10 groups |

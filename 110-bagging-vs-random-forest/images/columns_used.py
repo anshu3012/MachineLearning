@@ -23,11 +23,11 @@ bag_counts = [n_columns(t, c) for t, c in zip(bag.estimators_, bag.estimators_fe
 rf_counts = [n_columns(t, range(5)) for t in rf.estimators_]
 ks = [1, 2, 3, 4, 5]
 print("bagging", np.bincount(bag_counts, minlength=6)[1:], "random forest", np.bincount(rf_counts, minlength=6)[1:])
-fig = go.Figure([go.Bar(x=ks, y=np.bincount(bag_counts, minlength=6)[1:], name="bagging (columns drawn per tree)",
+fig = go.Figure([go.Bar(x=ks, y=np.bincount(bag_counts, minlength=6)[1:], name="bagging (features drawn per tree)",
                         marker_color="#4C78A8", text=[v or "" for v in np.bincount(bag_counts, minlength=6)[1:]], textposition="outside"),
-                 go.Bar(x=ks, y=np.bincount(rf_counts, minlength=6)[1:], name="random forest (columns drawn per node)",
+                 go.Bar(x=ks, y=np.bincount(rf_counts, minlength=6)[1:], name="random forest (features drawn per node)",
                         marker_color="#F58518", text=[v or "" for v in np.bincount(rf_counts, minlength=6)[1:]], textposition="outside")])
-fig.update_xaxes(title="number of different columns the tree splits on (out of 5)", tickvals=ks)
+fig.update_xaxes(title="number of different features the tree splits on (out of 5)", tickvals=ks)
 fig.update_yaxes(title="number of trees (out of 100)", range=[0, 112])
 fig.update_layout(template="simple_white", barmode="group", width=1100, height=560,
                   font=dict(family="Latin Modern Roman", size=20), margin=dict(l=80, r=20, t=30, b=80),

@@ -19,7 +19,7 @@ title: "Sampling Distributions and the Central Limit Theorem"
 
 Figure 1 shows the process this Note is built on. We draw many samples of size $n$ from a population, compute one number per sample (here the mean), and look at the distribution of those numbers. That distribution is a **sampling distribution**.
 
-The **central limit theorem (CLT)** says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. It holds for skewed, flat and even discrete populations. It is the base of the next topics, confidence intervals and hypothesis testing.
+The **central limit theorem (CLT)** says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. The CLT holds for skewed, flat and even discrete populations, and it is the base of the next topics, confidence intervals and hypothesis testing.
 
 This Note covers:
 
@@ -88,23 +88,27 @@ The first two are the topics of later Notes. The third is the subject of this No
 
 Figure 2 runs this experiment. The population on the left is strongly skewed: most values are near 0 and a few are large. Each sample of 30 values gives one mean, which drops into the histogram on the right. After 2000 samples, the histogram is close to the bell of $N(1, 1/30)$.
 
-In the salary example: draw 100 people, record the mean salary, repeat 1000 times, and plot the 1000 means. The CLT says the plot is a normal curve. It does not matter whether the salaries themselves are log-normal, uniform (every salary in a range equally likely), Pareto, binomial, or follow no named distribution at all.
+In the salary example: draw 100 people, record the mean salary, repeat 1000 times, and plot the 1000 means. The CLT says the plot is a normal curve. The shape of the salaries themselves does not matter: log-normal, uniform (every salary in a range equally likely), Pareto, binomial, or no named distribution at all.
+
+An everyday picture: one die is flat, every face from 1 to 6 equally likely. The average of 30 dice, though, almost never lands near 1 or 6, because that needs nearly every die to be low, or nearly every die to be high. Most averages land near 3.5, and the further from 3.5, the rarer they get: a bell.
 
 The CLT makes no claim about the shape of the population or of a single sample. A sample of 100 salaries still looks skewed; only the **means** of many samples form a bell.
 
-> **Extra:** The CLT is a proved theorem, not just an observed fact of nature: Laplace proved a first version in 1810 and Lyapunov a general one in 1901 (Fischer 2011). The intuition: a sample mean adds up many independent pieces, so unusually large and unusually small values tend to cancel, and the sum forgets the shape of each piece. Among shapes with a finite variance, the normal curve is the only one that stays the same when we add copies and rescale (Feller, Vol. II, §VI.1).
+> **Extra:** The CLT is a proved theorem, not just an observed fact of nature: Laplace proved a first version in 1810 and Lyapunov a general one in 1901 (Fischer 2011). The intuition: a sample mean adds up many independent pieces, so unusually large and unusually small values tend to cancel, and the sum forgets the shape of each piece. Among shapes with a finite variance, the normal curve is the only one that stays the same when we add copies and rescale (Feller 1971, §VI.1).
 
 ### 4.1 Conditions
 
 > **Key point:** The CLT needs a large enough sample (usually $n \ge 30$), a population with finite variance, and independent, identically distributed values.
 
-1. **Large enough sample size.** The usual rule is $n \ge 30$. The rule is a rule of thumb, not a sharp limit. How far the means are from normal depends on the population's shape. For independent values the cumulants of a sum add up, just like the variance (the second cumulant). The $r$-th cumulant of $\bar{X}$ is therefore $n\kappa_r/n^r$, and dividing the third by $\sigma_{\bar{x}}^3 = \sigma^3/n^{3/2}$ and the fourth by $\sigma_{\bar{x}}^4 = \sigma^4/n^2$ gives
-   $$\text{skewness of } \bar{X} = \frac{\gamma_1}{\sqrt{n}}, \qquad \text{excess kurtosis of } \bar{X} = \frac{\gamma_2}{n}$$
-   where $\gamma_1$ and $\gamma_2$ are the population's skewness and excess kurtosis. A symmetric population ($\gamma_1 = 0$) gives symmetric means at every $n$: for the uniform population ($\gamma_2 = -1.2$), $n = 5$ already gives skewness 0.02 and excess kurtosis $-0.24$ in the Notebook, matching $-1.2/5$. A very skewed population needs more: the exponential ($\gamma_1 = 2$) still has skewness $2/\sqrt{30} = 0.37$ at $n = 30$ (section 5.1).
-2. **Finite variance.** The population must have a finite variance. Every finite population has one; a theoretical infinite population, such as a Pareto distribution with a small $\alpha$, may not (see the Extra box below).
+1. **Large enough sample size.** The usual rule is $n \ge 30$, a rule of thumb rather than a sharp limit. How many values are enough depends on the population's shape: a symmetric population gives bell-shaped means already at small $n$, while a very skewed one needs more (see the Extra box on how fast the means become normal, and section 5.1).
+2. **Finite variance.** The population must have a finite variance. Every finite population has one; a theoretical infinite population, such as a Pareto distribution with a small $\alpha$, may not (see the Extra box on infinite variance below).
 3. **Independent and identically distributed (i.i.d.) values.** **Independent**: one value does not affect another. **Identically distributed**: every value comes from the same population, so each has the same distribution. Drawing at random from one population gives both.
 
-> **Extra:** When the variance is infinite, the CLT fails. A Pareto distribution with $\alpha = 1.5$ has mean 3 but infinite variance (see the [Pareto Note](../262-pareto-and-power-law/note.md)). In 5000 simulated samples, the skewness of the sample means is 17.8 for $n = 30$ and still 19.5 for $n = 300$: no bell appears. For such tails the generalised CLT says the scaled sums approach a skewed "stable" distribution, not a normal one (Gnedenko and Kolmogorov, *Limit Distributions for Sums of Independent Random Variables*, 1954). The Notebook also shows how one value can dominate: in samples of 300, the largest single value makes up at least 55% of the sample's total in 1% of the Pareto samples, against 3.4% at the same point for the exponential population.
+> **Extra:** How fast the means become normal. For independent values the cumulants of a sum add up, just like the variance (the second cumulant). The $r$-th cumulant of $\bar{X}$ is therefore $n\kappa_r/n^r$, and dividing the third by $\sigma_{\bar{x}}^3 = \sigma^3/n^{3/2}$ and the fourth by $\sigma_{\bar{x}}^4 = \sigma^4/n^2$ gives
+> $$\text{skewness of } \bar{X} = \frac{\gamma_1}{\sqrt{n}}, \qquad \text{excess kurtosis of } \bar{X} = \frac{\gamma_2}{n}$$
+> where $\gamma_1$ and $\gamma_2$ are the population's skewness and excess kurtosis. A symmetric population ($\gamma_1 = 0$) gives symmetric means at every $n$: for the uniform population ($\gamma_2 = -1.2$), $n = 5$ already gives skewness 0.02 and excess kurtosis $-0.24$ in the Notebook, matching $-1.2/5$. A very skewed population needs more: the exponential ($\gamma_1 = 2$) still has skewness $2/\sqrt{30} = 0.37$ at $n = 30$ (section 5.1).
+
+> **Extra:** When the variance is infinite, the CLT fails. A Pareto distribution with $\alpha = 1.5$ has mean 3 but infinite variance (see the [Pareto Note](../262-pareto-and-power-law/note.md)). In 5000 simulated samples, the skewness of the sample means is 17.8 for $n = 30$ and still 19.5 for $n = 300$: no bell appears. For such tails the generalised CLT says the scaled sums approach a skewed "stable" distribution, not a normal one (Gnedenko and Kolmogorov 1954). The Notebook also shows how one value can dominate: in samples of 300, the largest single value makes up at least 55% of the sample's total in 1% of the Pareto samples, against 3.4% at the same point for the exponential population.
 
 ### 4.2 Mean and variance of the sample means
 
@@ -225,7 +229,7 @@ The CLT also justifies many standard techniques:
 
 - **confidence intervals**: a range for a population parameter;
 - **hypothesis tests**, such as the t-test and ANOVA;
-- **linear regression**: its tests on the coefficients rely on normality, which the CLT provides for large samples (Wooldridge, *Introductory Econometrics*, Chapter 5, "OLS Asymptotics").
+- **linear regression**: its tests on the coefficients rely on normality, which the CLT provides for large samples (Wooldridge, ch. 5).
 
 The CLT has one big condition hidden in the word "random": the samples must be random and representative (see sampling bias in the [challenges in ML Note](../07-challenges-in-ml/note.md)). Salaries collected only in cities give a sampling distribution centred on the average city salary, not on India's average. The CLT cannot fix a biased sample.
 
@@ -244,7 +248,14 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 - Larger samples give narrower, more normal sampling distributions.
 - The CLT does not fix biased samples: they must be random and representative.
 
-## 9. Key terms
+## 9. Sources
+
+- Feller, W. (1971). *An Introduction to Probability Theory and Its Applications*, Vol. II, 2nd ed. Wiley. §VI.1.
+- Fischer, H. (2011). *A History of the Central Limit Theorem: From Classical to Modern Probability Theory*. Springer.
+- Gnedenko, B. V. and Kolmogorov, A. N. (1954). *Limit Distributions for Sums of Independent Random Variables*. Addison-Wesley.
+- Wooldridge, J. M. *Introductory Econometrics: A Modern Approach*. Cengage. Chapter 5, "Multiple Regression Analysis: OLS Asymptotics".
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

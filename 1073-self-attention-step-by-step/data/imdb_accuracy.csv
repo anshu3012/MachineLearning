@@ -1,0 +1,7 @@
+model,seed,test_accuracy
+fixed (no parameters),0,0.6915599703788757
+fixed (no parameters),1,0.6909199953079224
+fixed (no parameters),2,0.6891999840736389
+"learned W_Q, W_K, W_V",0,0.8336799740791321
+"learned W_Q, W_K, W_V",1,0.8377599716186523
+"learned W_Q, W_K, W_V",2,0.8362399935722351

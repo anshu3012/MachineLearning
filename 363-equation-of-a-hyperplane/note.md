@@ -19,7 +19,7 @@ title: "The Equation of a Hyperplane"
 
 Figure 1 shows the whole result in 2D. On the left, every vector $x$ on the line makes a right angle with $w$, so $w \cdot x = 0$. On the right, adding a number $w_0$ slides the line to a parallel position. This Note builds that equation step by step from the school equation of a line, and then reads off what $w$ and $w_0$ mean.
 
-It uses the dot product and its geometric form from the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md).
+The Note uses the dot product and its geometric form from the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md).
 
 ## 2. Why ML needs hyperplanes
 
@@ -27,7 +27,7 @@ It uses the dot product and its geometric form from the [dot product and cosine 
 
 In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$D the equivalent is a hyperplane (see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)).
 
-ML data is very often high-dimensional. Even the iris toy dataset has 4 input columns, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../70-perceptron-trick/note.md) and [SVM](../92-svm-intuition/note.md), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
+ML data is very often high-dimensional. Each **feature** (an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../70-perceptron-trick/note.md) and [SVM](../92-svm-intuition/note.md), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
 
 ## 3. From a line to a hyperplane
 
@@ -61,7 +61,7 @@ Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ becom
 
 > **Key point:** The sum $w_1x_1 + \dots + w_nx_n$ is a dot product, so the hyperplane is $w \cdot x + w_0 = 0$, or $w^{\mathsf T}x + w_0 = 0$.
 
-Look at the part $w_1x_1 + w_2x_2 + \dots + w_nx_n$. It multiplies matching components and adds them: it is a dot product. Collect the coefficients into one vector and the coordinates into another:
+Look at the part $w_1x_1 + w_2x_2 + \dots + w_nx_n$. This sum multiplies matching components and adds them, which is exactly a dot product. Collect the coefficients into one vector and the coordinates into another:
 
 $$w = \begin{bmatrix} w_1 \\ w_2 \\ \vdots \\ w_n \end{bmatrix}, \qquad x = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}$$
 
@@ -74,7 +74,7 @@ Both are column vectors, the default. Writing the dot product as a row times a c
    $$w^{\mathsf T}x + w_0 = 2 \times 3 + 3 \times 0 - 6 = 0$$
    so $[3, 0]$ lies on the line $2x_1 + 3x_2 - 6 = 0$.
 
-This one equation is valid in 2D, 3D and $n$D: only the number of components of $w$ and $x$ changes. It is the same $w \cdot u + b$ that SVM uses in the [SVM maths Note](../93-svm-maths/note.md), with $b = w_0$.
+This one equation is valid in 2D, 3D and $n$D: only the number of components of $w$ and $x$ changes. The equation is the same $w \cdot u + b$ that SVM uses in the [SVM maths Note](../93-svm-maths/note.md), with $b = w_0$.
 
 ## 5. What $w_0$ means
 
@@ -95,7 +95,7 @@ $$w^{\mathsf T}x = 0$$
 
 In 2D that is $w_1x_1 + w_2x_2 = 0$; in 4D, $w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4 = 0$.
 
-> **Extra:** The assumption costs nothing, because of a standard trick. Add a constant component $x_0 = 1$ to every point, so $x = [1, x_1, \dots, x_n]$, and put $w_0$ into $w = [w_0, w_1, \dots, w_n]$. Then $w^{\mathsf T}x = w_0 + w_1x_1 + \dots + w_nx_n$, and the equation $w^{\mathsf T}x = 0$ already contains the shift. This is the column of ones in the matrix form of the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md).
+> **Extra:** The assumption costs nothing, because of a standard trick. Add a constant component $x_0 = 1$ to every point, so $x = [1, x_1, \dots, x_n]$, and put $w_0$ into $w = [w_0, w_1, \dots, w_n]$. Then $w^{\mathsf T}x = w_0 + w_1x_1 + \dots + w_nx_n$, and the equation $w^{\mathsf T}x = 0$ already contains the shift. The constant component $x_0 = 1$ is the column of ones in the matrix form of the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md).
 
 ## 6. What $w$ means: the normal vector
 
@@ -136,9 +136,9 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 > X @ w    # array([0, 0, 0]): all on the plane
 > ```
 
-> **Extra:** $w$ stays perpendicular when $w_0 \neq 0$. Take any two points $x$ and $y$ on the hyperplane: $w^{\mathsf T}x + w_0 = 0$ and $w^{\mathsf T}y + w_0 = 0$. Subtracting, $w^{\mathsf T}(x - y) = 0$. The vector $x - y$ runs along the hyperplane, so $w$ is perpendicular to every direction in it. This is why the two lines in Figure 1 (right) share the same $w$ and are parallel.
+> **Extra:** $w$ stays perpendicular when $w_0 \neq 0$. Take any two points $x$ and $y$ on the hyperplane: $w^{\mathsf T}x + w_0 = 0$ and $w^{\mathsf T}y + w_0 = 0$. Subtracting, $w^{\mathsf T}(x - y) = 0$. The vector $x - y$ runs along the hyperplane, so $w$ is perpendicular to every direction in it. The shared normal vector is why the two lines in Figure 1 (right) share the same $w$ and are parallel.
 
-> **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. To see this, start at a point $p$ on the hyperplane and step a distance $t$ along $w$: $x = p + t\,w/\lVert w \rVert$. Then $w^{\mathsf T}x + w_0 = (w^{\mathsf T}p + w_0) + t\,w^{\mathsf T}w/\lVert w \rVert = 0 + t\lVert w \rVert$, which has the sign of $t$. This is the side test of the [perceptron trick Note](../70-perceptron-trick/note.md) and the decision rule of the [SVM maths Note](../93-svm-maths/note.md).
+> **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. To see this, start at a point $p$ on the hyperplane and step a distance $t$ along $w$: $x = p + t\,w/\lVert w \rVert$. Then $w^{\mathsf T}x + w_0 = (w^{\mathsf T}p + w_0) + t\,w^{\mathsf T}w/\lVert w \rVert = 0 + t\lVert w \rVert$, which has the sign of $t$. This sign rule is the side test of the [perceptron trick Note](../70-perceptron-trick/note.md) and the decision rule of the [SVM maths Note](../93-svm-maths/note.md).
 
 ## 7. Summary
 

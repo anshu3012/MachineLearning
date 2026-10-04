@@ -263,13 +263,12 @@ Training with the same loops and $\eta = 0.001$:
 
 The loss barely moves, and every student gets a probability of about 0.54. Is the code wrong? The same network in Keras (sigmoid activations, `loss="binary_crossentropy"`, same weights and settings) gives the same numbers to four digits (Figure 1, right). So backpropagation is computed correctly; the network is simply not learning.
 
-The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0.5 for everyone: the network has learned nothing beyond "two students are placed, two are not". Several causes add up:
+The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0.5 for everyone: the network has learned nothing beyond "two students are placed, two are not". Two causes add up:
 
 - **A tiny learning rate** with tiny hidden gradients (Section 7.3): the weights hardly move.
 - **Identical hidden nodes:** every weight starts at 0.1, so both hidden nodes stay the same, and the network acts as if it had one hidden node.
-- **Four rows:** very little data to learn from.
 
-> **Extra:** With $\eta = 0.1$ and 2,000 epochs the loss falls to 0.49: students 1 and 2 get 0.66 and student 3 gets 0.01, but student 4 still gets 0.66 instead of a low value. The two hidden nodes are still equal, so the network still acts as if it had a single hidden node. With $\eta = 0.5$ the steps are too big and the loss ends higher, at 0.76. Starting weights, learning rate and the sigmoid's small slope are exactly the problems that the Notes on improving a network address.
+> **Extra:** With $\eta = 0.1$ and 2,000 epochs the loss falls to 0.49: students 1 and 2 get 0.66 and student 3 gets 0.01, but student 4 still gets 0.66 instead of a low value. The two hidden nodes are still equal, so the network still acts as if it had a single hidden node. With $\eta = 0.5$ the steps are too big: the loss goes up in 36 of the 2,000 epochs, reaches its lowest value, 0.705, at epoch 194, and ends higher, at 0.76 (Notebook). Starting weights, learning rate and the sigmoid's small slope are exactly the problems that the Notes on improving a network address.
 
 ## 9. Summary
 

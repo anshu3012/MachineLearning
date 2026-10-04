@@ -19,7 +19,7 @@ title: "Kurtosis and Checking Normality with Q-Q Plots"
 
 Figure 1 shows why we need more than one summary number. In each panel the two seasons have the same mean, yet they tell different stories: first the spread differs, then the skew, and finally only the tails.
 
-The first three are known: the mean and the standard deviation (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)) and skewness (see the [univariate analysis Note](../20-univariate-analysis/note.md), section 10). This Note adds the fourth, **kurtosis**. Its second half answers a common interview question: how do we check whether a column is normal? The main tool is the Q-Q plot, which also works for distributions other than the normal.
+The first three are known: the mean and the standard deviation (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)) and skewness (see the [univariate analysis Note](../20-univariate-analysis/note.md), section 10). This Note adds the fourth, **kurtosis**. The Note's second half answers a common interview question: how do we check whether a **feature** (one variable of the data, one column of the table) is normal? The main tool is the Q-Q plot, which also works for distributions other than the normal.
 
 ## 2. Four summary numbers of a distribution
 
@@ -57,7 +57,7 @@ There are higher moments, but these four are the ones in common use.
 
 > **Key point:** Kurtosis measures the tailedness of a distribution: how often values far from the mean occur; fat tails mean more outliers.
 
-**Kurtosis** (from the Greek for "curved, arching") is the fourth statistical moment. It is a measure of the **tailedness** of the probability distribution of a real-valued random variable. Like skewness, it describes one particular aspect of the distribution's shape.
+**Kurtosis** (from the Greek for "curved, arching") is the fourth statistical moment. Kurtosis is a measure of the **tailedness** of the probability distribution of a real-valued random variable. Like skewness, it describes one particular aspect of the distribution's shape.
 
 A **fat tail** (or heavy tail) is a tail that falls to zero slowly. Far-away values then have a noticeable density, so they occur more often than in a curve whose tails drop quickly. In other words:
 
@@ -104,7 +104,7 @@ Every normal distribution, whatever its mean and standard deviation, has kurtosi
    $$\text{excess kurtosis} = \text{kurtosis} - 3$$
 3. **Example:** season A has $1 - 3 = -2$; season B has $4 - 3 = +1$.
 
-**Excess kurtosis** measures how much heavier or lighter a distribution's tails are than those of a normal distribution. It sorts distributions into three types (Figure 2):
+**Excess kurtosis** measures how much heavier or lighter a distribution's tails are than those of a normal distribution. Excess kurtosis sorts distributions into three types (Figure 2):
 
 | Type | Excess kurtosis | Tails compared with normal | Finance example |
 |---|---|---|---|
@@ -133,23 +133,23 @@ The prime example of a mesokurtic distribution is the normal distribution itself
 > pd.Series(b).kurt()               # 3.5
 > ```
 >
-> scipy (by default) and pandas report **excess** kurtosis and simply call it "kurtosis", so a normal column shows about 0, not 3. pandas also corrects for sample size, which matters a lot with 8 values (3.5 against 1.0) and little with hundreds (0.478 against 0.461 for 500 normal values in the Notebook).
+> scipy (by default) and pandas report **excess** kurtosis and simply call it "kurtosis", so a normal feature shows about 0, not 3. pandas also corrects for sample size, which matters a lot with 8 values (3.5 against 1.0) and little with hundreds (0.478 against 0.461 for 500 normal values in the Notebook).
 
 ## 5. Where kurtosis matters: kurtosis risk
 
 > **Key point:** In finance, high kurtosis in an asset's returns means a higher chance of extreme gains and extreme losses, called kurtosis risk.
 
-Kurtosis is not needed in every analysis, but finance uses it constantly. **Kurtosis risk** is the risk that comes from the possibility of extreme outcomes, the fat tails, in the distribution of returns of an asset or a portfolio.
+Kurtosis is not needed in every analysis, but finance is one field that relies on it. **Kurtosis risk** is the risk that comes from the possibility of extreme outcomes, the fat tails, in the distribution of returns of an asset or a portfolio.
 
 Picture the distribution of returns of a mutual fund. A fat tail on both sides means many investors made a lot of money and many lost a lot. Such a fund is called **volatile**.
 
-So analysts plot the return distribution of an asset and compute its kurtosis. If it is high, investors are warned that extreme gains and extreme losses are both more likely than a normal curve would suggest, and they can adjust their strategy for it.
+So analysts plot the return distribution of an asset and compute its kurtosis. If the kurtosis is high, investors are warned that extreme gains and extreme losses are both more likely than a normal curve would suggest, and they can adjust their strategy for it.
 
-## 6. Is a column normally distributed?
+## 6. Is a feature normally distributed?
 
 > **Key point:** Besides plots, a statistical test such as Shapiro-Wilk checks normality with a p-value; it is best read together with a Q-Q plot.
 
-Many methods assume that a column is normally distributed, so "how do we know whether a column is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in the [function transformer Note](../30-function-transformer/note.md) (section 4); the Q-Q plot is the most informative and gets a second look below.
+Many methods assume that a feature is normally distributed, so "how do we know whether a feature is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in the [function transformer Note](../30-function-transformer/note.md) (section 4); the Q-Q plot is the most informative and gets a second look below.
 
 The third way is a **statistical test**. The **Shapiro-Wilk test** (see the [one-sample t-test Note](../301-one-sample-t-test/note.md), section 5) and the **Anderson-Darling test** decide with the help of a p-value; they come after hypothesis testing.
 
@@ -180,7 +180,7 @@ Points on one straight line still mean that $X$ has the same shape as $Y$. The l
 
 > **Key point:** The 150 sepal lengths lie close to the line in the middle and stray at the ends: roughly normal, but not perfectly.
 
-The iris dataset holds measurements of 150 flowers. Its `sepal length` column looks like a bell in a density plot. Figure 4 (left) builds its Q-Q plot by hand, with 99 percentiles of the data against 99 percentiles of 1,000 standard normal values. The right panel is the ready-made version.
+The iris dataset holds measurements of 150 flowers. Its `sepal length` feature looks like a bell in a density plot. Figure 4 (left) builds its Q-Q plot by hand, with 99 percentiles of the data against 99 percentiles of 1,000 standard normal values. The right panel is the ready-made version.
 
 ![Q-Q plot of the iris sepal lengths against the normal distribution, by hand and with scipy](images/iris_qq.png)
 
@@ -227,7 +227,7 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 > **Key point:** Fat tails make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
 
-The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../30-function-transformer/note.md) (Figure 2). Kurtosis explains that fat-tail shape: a leptokurtic column has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
+The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../30-function-transformer/note.md) (Figure 2). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
 
 > **Extra:** The Notebook checks this on 1,000 standardized values from the peaked, fat-tailed Laplace distribution. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
 
@@ -276,22 +276,23 @@ The same idea checks for the log-normal and Pareto distributions in the next two
 | Q-Q plot | Data quantiles against theoretical quantiles | iris sepal length vs normal |
 
 - Kurtosis is about tails, not peakedness.
-- Most software reports excess kurtosis; a normal column gives about 0.
+- Most software reports excess kurtosis; a normal feature gives about 0.
 - Three ways to check normality: plot, Q-Q plot, statistical test.
 - Points on a straight line: same shape. The diagonal $y = x$ only fits standardized data.
 - Fat tails leave the line outwards at both ends; thin tails bend inwards (S shape).
 - Any theoretical distribution can go on the x axis of a Q-Q plot.
 
-## Sources
+## 11. Sources
 
 - Ghasemi, A. and Zahediasl, S. (2012). "Normality Tests for Statistical Analysis: A Guide for Non-Statisticians." *International Journal of Endocrinology and Metabolism* 10(2).
 - statsmodels documentation, `ProbPlot` (`fit=True`) and `qqplot` (`line` options).
 - Westfall, P. H. (2014). "Kurtosis as Peakedness, 1905-2014. R.I.P." *The American Statistician* 68(3).
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | One variable of the data, one column of the table |
 | Statistical moments | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis |
 | Kurtosis | The fourth moment: the average of the z-scores to the fourth power; measures tail heaviness |
 | Tailedness | How much probability lies far from the mean, in the tails |

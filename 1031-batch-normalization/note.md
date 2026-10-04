@@ -8,7 +8,7 @@ title: "Batch Normalisation"
 
 **Batch normalisation** (BN; Ioffe and Szegedy 2015) is an algorithmic method that makes the training of deep neural networks faster and more stable. We already standardise the inputs of a network to mean 0 and standard deviation 1 (see the [data scaling Note](../1023-data-scaling-in-ann/note.md)). But the outputs of each hidden layer are the inputs of the next one, and nobody scales those.
 
-Batch normalisation does exactly that, inside the network. For a chosen hidden layer, it takes the values of each node over the current mini-batch and brings them to mean 0 and standard deviation 1. This step is applied right before or right after the activation function.
+Batch normalisation scales those hidden-layer outputs, inside the network. For a chosen hidden layer, it takes the values of each node over the current mini-batch and brings them to mean 0 and standard deviation 1. The normalisation step is applied right before or right after the activation function.
 
 ![Batch normalisation of one node over a batch of 4 observations: normalise with the batch's mean and variance, then scale by $\gamma$ and shift by $\beta$, then apply the activation](images/bn_steps.png){width=80%}
 
@@ -69,9 +69,9 @@ Batch normalisation fixes the mean and standard deviation of every node's values
 
 > **Key point:** Mini-batch gradient descent; layer by layer and optional per layer; every node on its own.
 
-1. **It needs mini-batches.** Batch normalisation is used with [mini-batch gradient descent](../1020-gradient-descent-in-neural-networks/note.md): its statistics come from the rows of the current batch.
-2. **It is applied layer by layer.** We can apply it to one, some or all hidden layers; it is optional for each.
-3. **It works on each node separately.** In a normalised layer, every node's values are normalised on their own, with their own statistics and their own $\gamma$ and $\beta$.
+1. **Batch normalisation needs mini-batches.** Batch normalisation is used with [mini-batch gradient descent](../1020-gradient-descent-in-neural-networks/note.md): its statistics come from the observations of the current batch.
+2. **Batch normalisation is applied layer by layer.** We can apply it to one, some or all hidden layers; it is optional for each.
+3. **Batch normalisation works on each node separately.** In a normalised layer, every node's values are normalised on their own, with their own statistics and their own $\gamma$ and $\beta$.
 
 ### 4.2 Where it sits in a node
 
@@ -85,7 +85,7 @@ and then its activation $a_{11} = g(z_{11})$. With batch normalisation on this l
 
 ### 4.3 Step 1: normalise with the batch's statistics
 
-> **Key point:** With a batch of $m$ rows, each node has $m$ values of $z$. Their mean $\mu_B$ and variance $\sigma_B^2$ standardise them.
+> **Key point:** With a batch of $m$ observations, each node has $m$ values of $z$. Their mean $\mu_B$ and variance $\sigma_B^2$ standardise them.
 
 With batch size 4, four students enter the network together. Their $4 \times 2$ input matrix times the $2 \times 2$ weight matrix, plus the biases, gives a $4 \times 2$ matrix: four values of $z$ for each of the two nodes, one per student. Each node's four values are normalised separately.
 
@@ -99,7 +99,7 @@ With batch size 4, four students enter the network together. Their $4 \times 2$ 
 
 ### 4.4 Step 2: scale and shift with $\gamma$ and $\beta$
 
-> **Key point:** $z_{BN} = \gamma\hat{z} + \beta$, with $\gamma$ and $\beta$ learned by gradient descent, one pair per node. They let the network choose a different mean and spread if that works better.
+> **Key point:** $z_{BN} = \gamma\hat{z} + \beta$, with $\gamma$ and $\beta$ learned by gradient descent, one pair per node. The two parameters let the network choose a different mean and spread if that works better.
 
 After normalising, each value is multiplied by a parameter $\gamma$ (gamma) and shifted by a parameter $\beta$ (beta):
 
@@ -148,9 +148,9 @@ So every node in a batch normalisation layer stores 4 numbers:
 
 A batch normalisation layer on 3 nodes therefore has $3 \times 4 = 12$ parameters, 6 trainable and 6 non-trainable.
 
-In the Notebook, after training, the first batch normalisation layer's moving means are 0.238, 0.222, 1.495, against the actual means over all 500 rows of 0.226, 0.227, 1.485: a close match.
+In the Notebook, after training, the first batch normalisation layer's moving means are 0.238, 0.222, 1.495, against the actual means over all 500 observations of 0.226, 0.227, 1.485: a close match.
 
-> **Extra:** The two modes really differ. Keras runs a model in training mode inside `fit()` and in prediction mode in `predict()`. Feeding one row in training mode would use that single row's own mean and a variance of 0, so $\hat{z} = 0$ and only $\beta$ survives. In the Notebook the same row gets 0.53 that way, and 0.79 in prediction mode. Keras also stores the variance, not the standard deviation, and adds $\epsilon = 0.001$ before taking the square root.
+> **Extra:** The two modes really differ. Keras runs a model in training mode inside `fit()` and in prediction mode in `predict()`. Feeding one observation in training mode would use that single observation's own mean and a variance of 0, so $\hat{z} = 0$ and only $\beta$ survives. In the Notebook the same observation gets 0.53 that way, and 0.79 in prediction mode. Keras also stores the variance, not the standard deviation, and adds $\epsilon = 0.001$ before taking the square root.
 
 ## 6. Advantages
 
@@ -208,7 +208,7 @@ The 10 non-trainable parameters are the moving means and variances: 6 in the fir
 
 > **Key point:** Same data, same network, 5 runs each: batch normalisation reaches 80% mean validation accuracy at epoch 17 instead of 23, and ends at 0.97 instead of 0.85.
 
-The data is `make_circles`: 500 observations on two concentric circles, with two features and the circle as target (the output we predict), standardised, a classic dataset that is hard to separate. Both models (the one above and the same without its two batch normalisation layers) train with Adam for 200 epochs, batch size 32, holding back 20% of the rows for validation. A network this small depends a lot on its random start (without batch normalisation the 5 runs end anywhere between 0.50 and 0.98), so each model is trained 5 times with different seeds.
+The data is `make_circles`: 500 observations on two concentric circles, with two features and the circle as target (the output we predict), standardised, a classic dataset that is hard to separate. Both models (the one above and the same without its two batch normalisation layers) train with Adam for 200 epochs, batch size 32, holding back 20% of the observations for validation. A network this small depends a lot on its random start (without batch normalisation the 5 runs end anywhere between 0.50 and 0.98), so each model is trained 5 times with different seeds.
 
 ![Validation accuracy on concentric circles. Thin lines: 5 runs each; thick lines: their mean. With batch normalisation (green) the mean rises faster and ends higher](images/val_accuracy.png){width=95%}
 

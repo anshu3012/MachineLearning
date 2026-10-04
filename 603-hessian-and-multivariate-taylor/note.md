@@ -21,7 +21,7 @@ This Note follows Chapter 5 (Sections 5.7 and 5.8) of *Mathematics for Machine L
 
 Figure 1 shows the goal. Near a point, a surface is approximated first by a flat **tangent plane** (left), which only uses the gradient. Adding a term built from second derivatives, the Hessian, bends the approximation so that it follows the surface over a much wider area (right).
 
-An earlier Note on boosting ([XGBoost maths Note](../126-xgboost-maths/note.md)) did this with one variable: it called the second derivative of a row's loss its Hessian $h_i$ and stopped the Taylor series at the second-order term. This Note does the same with many variables. It uses the gradient of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) and the eigenvalues of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
+An earlier Note on boosting ([XGBoost maths Note](../126-xgboost-maths/note.md)) did this with one variable: it called the second derivative of one **observation**'s loss (an observation is one record, a row of the data table) its Hessian $h_i$ and stopped the Taylor series at the second-order term. This Note does the same with many variables. The Note uses the gradient of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) and the eigenvalues of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
 
 ## 2. Higher-order partial derivatives
 
@@ -84,12 +84,12 @@ The second derivative of one variable says whether a curve bends up or down. The
 ![Three surfaces and the eigenvalues of their Hessians: both positive (bowl), opposite signs (saddle), both negative (cap)](images/hessian_shapes.png)
 
 - **Bowl:** all eigenvalues positive. The surface curves up in every direction; a point with zero gradient is a minimum.
-- **Saddle:** positive and negative eigenvalues. It curves up in some directions and down in others; a point with zero gradient is neither a minimum nor a maximum.
-- **Cap:** all eigenvalues negative. It curves down everywhere; a point with zero gradient is a maximum.
+- **Saddle:** positive and negative eigenvalues. The surface curves up in some directions and down in others; a point with zero gradient is neither a minimum nor a maximum.
+- **Cap:** all eigenvalues negative. The surface curves down everywhere; a point with zero gradient is a maximum.
 
-For the bowl of the gradient Note, the eigenvalues of $H$ are $3 \pm \sqrt{2}$, that is $4.41$ and $1.59$. Both are positive, so it is a bowl, as its contour map showed. The ratio $4.41/1.59 = 2.8$ says the bowl curves almost three times as steeply in one direction as in the other: its contour ellipses are stretched. The narrow valleys that slow down gradient descent in the [gradient descent Note](../57-gradient-descent/note.md) (Section 9) are Hessians with a large eigenvalue ratio.
+For the bowl of the gradient Note, the eigenvalues of $H$ are $3 \pm \sqrt{2}$, that is $4.41$ and $1.59$. Both are positive, so the function is a bowl, as its contour map showed. The ratio $4.41/1.59 = 2.8$ says the bowl curves almost three times as steeply in one direction as in the other: its contour ellipses are stretched. The narrow valleys that slow down gradient descent in the [gradient descent Note](../57-gradient-descent/note.md) (Section 9) are Hessians with a large eigenvalue ratio.
 
-> **Extra:** A function whose Hessian has no negative eigenvalues at any point is convex (Boyd and Vandenberghe §3.1.4): a single bowl with no local minima to get stuck in, the property the [gradient descent Note](../57-gradient-descent/note.md) (Section 8) asked of a loss. The least-squares Hessian $2\Phi^{\mathsf T}\Phi$ never has negative eigenvalues, because $\boldsymbol{\delta}^{\mathsf T}\Phi^{\mathsf T}\Phi\boldsymbol{\delta} = \lVert \Phi\boldsymbol{\delta} \rVert^2 \geq 0$ for every $\boldsymbol{\delta}$. This is why linear regression's loss is convex.
+> **Extra:** A function whose Hessian has no negative eigenvalues at any point is convex (Boyd and Vandenberghe §3.1.4): a single bowl with no local minima to get stuck in, the property the [gradient descent Note](../57-gradient-descent/note.md) (Section 8) asked of a loss. The least-squares Hessian $2\Phi^{\mathsf T}\Phi$ never has negative eigenvalues, because $\boldsymbol{\delta}^{\mathsf T}\Phi^{\mathsf T}\Phi\boldsymbol{\delta} = \lVert \Phi\boldsymbol{\delta} \rVert^2 \geq 0$ for every $\boldsymbol{\delta}$. This Hessian is why linear regression's loss is convex.
 
 ## 4. Linearisation: the tangent plane
 
@@ -148,7 +148,7 @@ Figure 1 (right) shows $T_2$: a curved surface that follows $f$ far beyond the r
 
 > **Key point:** The $k$-th term uses a $k$-index array of $k$-th derivatives and $k$ copies of the step; for $k = 2$ these are the Hessian and the outer product $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$.
 
-The pattern continues. The $k$-th derivative at $\mathbf{x}_0$, written $D^k f(\mathbf{x}_0)$, has one entry for every choice of $k$ input indices: a $D \times \cdots \times D$ tensor with $k$ indices. It is combined with $k$ copies of $\boldsymbol{\delta}$.
+The pattern continues. The $k$-th derivative at $\mathbf{x}_0$, written $D^k f(\mathbf{x}_0)$, has one entry for every choice of $k$ input indices: a $D \times \cdots \times D$ tensor with $k$ indices. The tensor is combined with $k$ copies of $\boldsymbol{\delta}$.
 
 1. **In words:** multiply each $k$-th derivative entry by the matching product of step components, add them all, and divide by $k!$.
 2. **Formula:** the **multivariate Taylor series** is
@@ -183,7 +183,7 @@ Multiplying out the brackets gives back $x^3 + xy + y^2$; we checked this symbol
 
 > **Key point:** Minimising the second-order Taylor polynomial instead of the function itself is Newton's method; XGBoost does this for every tree, and other methods use it to approximate distributions.
 
-The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and the bottom of a bowl has a formula. That makes $T_2$ a useful stand-in for a function that is hard to minimise directly.
+The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and the bottom of a bowl has a formula. The formula makes $T_2$ a useful stand-in for a function that is hard to minimise directly.
 
 > **Extra:** **Newton's method in several variables.** Setting the gradient of $T_2$ with respect to $\boldsymbol{\delta}$ to zero gives $\nabla f^{\mathsf T} + H\boldsymbol{\delta} = \mathbf{0}$, so the step to the bottom of the local bowl is
 >
@@ -195,7 +195,7 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 >
 > $$B_{k+1}\,\mathbf{s} = \mathbf{y}$$
 >
-> This is the **secant equation**: the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. It is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). (Nocedal and Wright, ch. 6 for BFGS, §7.2 for L-BFGS.)
+> The condition is the **secant equation**: the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. L-BFGS is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). (Nocedal and Wright, ch. 6 for BFGS, §7.2 for L-BFGS.)
 
 ![The secant idea for $f = x^3$: the line through the slope readings at $x = 1$ and $x = 2$ has slope 9, a stand-in for the true curvatures 6 and 12](images/secant.png)
 
@@ -225,7 +225,7 @@ Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2
 - The multivariate Taylor series adds terms with $k$ copies of the step and the $k$-th derivative tensor; the second-order term is $\tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$.
 - A polynomial of degree $k$ is reproduced exactly by its Taylor polynomial of degree $k$.
 
-## Sources
+## 8. Sources
 
 - Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer. Section 4.4, the Laplace approximation.
 - Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Section 3.1.4, second-order conditions.
@@ -235,7 +235,7 @@ Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2
 - Nocedal, J. and Wright, S. J. (2006). *Numerical Optimization*, 2nd ed. Springer. Chapter 6 and section 7.2.
 - Thrun, S., Burgard, W. and Fox, D. (2005). *Probabilistic Robotics*. MIT Press. Section 3.3, the extended Kalman filter.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

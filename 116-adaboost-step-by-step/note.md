@@ -13,20 +13,22 @@ title: "AdaBoost Step by Step"
 
 ## 1. Overview
 
-> **Key point:** One AdaBoost stage, in seven steps: give the rows weights, fit a stump, add up the weights it got wrong, turn that error into a say alpha, raise the weights of the mistakes and lower the rest, normalise, and draw a new dataset by weight.
+> **Key point:** One AdaBoost stage, in seven steps: give the observations weights, fit a stump, add up the weights it got wrong, turn that error into a say alpha, raise the weights of the mistakes and lower the rest, normalise, and draw a new dataset by weight.
 
 ![One stage of AdaBoost; the new dataset starts the next stage](images/stage_loop.png){height=40%}
 
-We met the idea in the [AdaBoost intuition Note](../115-adaboost-intuition/note.md): stumps trained one after another, each focusing on the previous one's mistakes, combined by a weighted vote. It left two questions open:
+We met the idea in the [AdaBoost intuition Note](../115-adaboost-intuition/note.md): stumps trained one after another, each focusing on the previous one's mistakes, combined by a weighted vote. The intuition Note left two questions open:
 
 - how the say $\alpha$ of each stump is computed;
 - how the mistakes are made "more important" for the next stump.
 
-This Note answers both on a toy dataset of 5 rows, following Figure 1 step by step. The [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md) runs the same steps in Python.
+The present Note answers both on a toy dataset of 5 observations, following Figure 1 step by step. The [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md) runs the same steps in Python.
 
 ## 2. The toy data
 
-> **Key point:** 5 rows, two input columns x1 and x2, and a class y of +1 or -1.
+> **Key point:** 5 observations, two features x1 and x2, and a target y of +1 or -1.
+
+Each **observation** is one record, one row of the table below. Each **feature** is an input variable, one column (x1, x2). The **target** y is the output we predict.
 
 | Row | x1 | x2 | y |
 |---|---|---|---|
@@ -36,28 +38,28 @@ This Note answers both on a toy dataset of 5 rows, following Figure 1 step by st
 | 4 | 9 | 8 | -1 |
 | 5 | 7 | 4 | -1 |
 
-The output has two classes, so this is classification. The number of rows is $n = 5$. As in the intuition Note, the classes are written +1 and -1.
+The output has two classes, so this is classification. The number of observations is $n = 5$. As in the intuition Note, the classes are written +1 and -1.
 
-## 3. Step 1: every row gets the same weight
+## 3. Step 1: every observation gets the same weight
 
-> **Key point:** At the start every row has weight 1/n, so all rows are equally important and the weights add up to 1.
+> **Key point:** At the start every observation has weight 1/n, so all observations are equally important and the weights add up to 1.
 
-AdaBoost gives each row a **sample weight**: a number saying how important that row is. At the start all rows are equally important.
+AdaBoost gives each observation a **sample weight**: a number saying how important that observation is. At the start all observations are equally important.
 
-1. **In words:** each row's starting weight is 1 divided by the number of rows.
+1. **In words:** each observation's starting weight is 1 divided by the number of observations.
 2. **Formula:**
    $$w_i = \frac{1}{n}$$
-3. **Example:** with $n = 5$, every row gets $w_i = 1/5 = 0.2$, and $0.2 \times 5 = 1$.
+3. **Example:** with $n = 5$, every observation gets $w_i = 1/5 = 0.2$, and $0.2 \times 5 = 1$.
 
 The weights always add up to 1. We add them to the table as a new column, *weight*.
 
 ## 4. Step 2: fit a decision stump
 
-> **Key point:** Train a decision stump on the data and record its prediction for every row.
+> **Key point:** Train a decision stump on the data and record its prediction for every observation.
 
-We train a decision stump: a decision tree with `max_depth=1` (the intuition Note, section 2.2). It tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity: the [decision trees Note](../97-decision-trees-intuition/note.md) compares the two). Call the result **model 1**.
+We train a decision stump: a decision tree with `max_depth=1` (the intuition Note, section 2.2). The stump tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity: the [decision trees Note](../97-decision-trees-intuition/note.md) compares the two). Call the result **model 1**.
 
-We then pass the training rows through model 1 and write its predictions in a new column. Suppose they are:
+We then pass the training observations through model 1 and write its predictions in a new column. Suppose they are:
 
 | Row | y | weight | prediction | correct? |
 |---|---|---|---|---|
@@ -67,26 +69,26 @@ We then pass the training rows through model 1 and write its predictions in a ne
 | 4 | -1 | 0.2 | -1 | yes |
 | 5 | -1 | 0.2 | -1 | yes |
 
-Model 1 gets rows 2 and 3 wrong. The predictions are an assumed example: the steps that follow are the same for any stump.
+Model 1 gets observations 2 and 3 wrong. The predictions are an assumed example: the steps that follow are the same for any stump.
 
 ## 5. Step 3: the error is a sum of weights
 
-> **Key point:** A stump's error is the total weight of the rows it misclassified, not simply the share of rows it got wrong.
+> **Key point:** A stump's error is the total weight of the observations it misclassified, not simply the share of observations it got wrong.
 
-1. **In words:** add up the weights of the misclassified rows.
+1. **In words:** add up the weights of the misclassified observations.
 2. **Formula:**
    $$\text{error} = \sum_{i \,:\, \hat{y}_i \neq y_i} w_i$$
-   The sum runs over the rows where the prediction $\hat{y}_i$ differs from the true class $y_i$.
-3. **Example:** rows 2 and 3 are wrong, each with weight 0.2:
+   The sum runs over the observations where the prediction $\hat{y}_i$ differs from the true class $y_i$.
+3. **Example:** observations 2 and 3 are wrong, each with weight 0.2:
    $$\text{error} = 0.2 + 0.2 = 0.4$$
 
-In this first stage all weights are equal, so the error equals the share of rows wrong, 2 out of 5. In later stages the weights differ, and a mistake on a heavy row costs more than a mistake on a light one.
+In this first stage all weights are equal, so the error equals the share of observations wrong, 2 out of 5. In later stages the weights differ, and a mistake on a heavy observation costs more than a mistake on a light one.
 
 ## 6. Step 4: the say of the stump, alpha
 
 > **Key point:** Alpha, half the log of (1 - error)/error, is large and positive for a small error, 0 at error 0.5, and large and negative for an error near 1.
 
-The **model weight** $\alpha$ is the stump's say in the final vote. It must depend on the error: a model that makes many mistakes should have a small say, and a model that makes few a large one.
+The **model weight** $\alpha$ is the stump's say in the final vote. The say must depend on the error: a model that makes many mistakes should have a small say, and a model that makes few a large one.
 
 ### 6.1 What shape alpha should have
 
@@ -114,7 +116,7 @@ So we want a function of the error that:
 
 ![Alpha against the error: model A (error near 0) gets a large positive say, model C (error 0.5) none, model B (error near 1) a large negative say](images/alpha_curve.png){height=40%}
 
-The function in Figure 2 has exactly that shape.
+The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 2, has exactly that shape.
 
 1. **In words:** divide the weight the stump got right by the weight it got wrong, take the natural logarithm, and halve it.
 2. **Formula:**
@@ -127,22 +129,22 @@ So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it g
 
 > **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more on two classes (scikit-learn source; the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md)).
 
-## 7. Step 5: update the row weights
+## 7. Step 5: update the observation weights
 
-> **Key point:** Multiply the weight of each misclassified row by $e^{\alpha}$ (it grows) and of each correct row by $e^{-\alpha}$ (it shrinks).
+> **Key point:** Multiply the weight of each misclassified observation by $e^{\alpha}$ (it grows) and of each correct observation by $e^{-\alpha}$ (it shrinks).
 
-Now we tell the next stump about the mistakes, by **boosting** the weights of the misclassified rows and lowering the rest. This is where boosting gets its name.
+Now we tell the next stump about the mistakes, by **boosting** the weights of the misclassified observations and lowering the rest. Raising these weights is where boosting gets its name.
 
-1. **In words:** a misclassified row's weight is multiplied by $e$ to the power alpha; a correctly classified row's weight by $e$ to the power minus alpha.
+1. **In words:** a misclassified observation's weight is multiplied by $e$ to the power alpha; a correctly classified observation's weight by $e$ to the power minus alpha.
 2. **Formula:**
-   $$w_i^{\text{new}} = \begin{cases} w_i \, e^{\alpha} & \text{if row } i \text{ was misclassified} \\ w_i \, e^{-\alpha} & \text{if row } i \text{ was classified correctly} \end{cases}$$
+   $$w_i^{\text{new}} = \begin{cases} w_i \, e^{\alpha} & \text{if observation } i \text{ was misclassified} \\ w_i \, e^{-\alpha} & \text{if observation } i \text{ was classified correctly} \end{cases}$$
 3. **Example:** with $w_i = 0.2$ and $\alpha_1 = 0.2027$:
    $$\text{misclassified: } 0.2 \times e^{0.2027} = 0.2 \times 1.2247 = 0.2449$$
    $$\text{correct: } 0.2 \times e^{-0.2027} = 0.2 \times 0.8165 = 0.1633$$
 
-Rows 2 and 3 rise from 0.2 to about 0.24; rows 1, 4 and 5 fall to about 0.16. Why the exponential is the right choice is shown in the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md).
+Observations 2 and 3 rise from 0.2 to about 0.24; observations 1, 4 and 5 fall to about 0.16. Why the exponential is the right choice is shown in the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md).
 
-> **Extra:** With classes +1 and -1, both cases fit in one formula: $w_i^{\text{new}} = w_i\, e^{-\alpha\, y_i\, h(x_i)}$. If the stump is right, $y_i h(x_i) = (+1)(+1)$ or $(-1)(-1) = +1$, giving $e^{-\alpha}$. If it is wrong, $y_i h(x_i) = -1$, giving $e^{\alpha}$. This is another reason AdaBoost uses +1 and -1.
+> **Extra:** With classes +1 and -1, both cases fit in one formula: $w_i^{\text{new}} = w_i\, e^{-\alpha\, y_i\, h(x_i)}$. If the stump is right, $y_i h(x_i) = (+1)(+1)$ or $(-1)(-1) = +1$, giving $e^{-\alpha}$. If it is wrong, $y_i h(x_i) = -1$, giving $e^{\alpha}$. The single formula is another reason AdaBoost uses +1 and -1.
 
 ## 8. Step 6: normalise the weights
 
@@ -158,25 +160,25 @@ After the update the weights no longer add up to 1.
 
 Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. The two mistakes now carry half of the total weight between them, against 40% before.
 
-> **Extra:** Here the misclassified rows end up with exactly half the total weight. That is always so after a normalised AdaBoost update. Before normalising, the mistakes weigh $\text{error} \cdot e^{\alpha}$ in total and the correct rows $(1-\text{error}) \cdot e^{-\alpha}$. With $e^{\alpha} = \sqrt{(1-\text{error})/\text{error}}$ from step 4, both totals equal $\sqrt{\text{error}\,(1-\text{error})}$: in our example $\sqrt{0.4 \times 0.6} = 0.4899$, the two equal halves of the sum above. So the old stump, judged on the new weights, has an error of exactly 0.5 and would get $\alpha = 0$: repeating it adds nothing to the vote, and the next stump only earns a say by doing better on the reweighted rows.
+> **Extra:** Here the misclassified observations end up with exactly half the total weight. The half-and-half split holds after every normalised AdaBoost update. Before normalising, the mistakes weigh $\text{error} \cdot e^{\alpha}$ in total and the correct observations $(1-\text{error}) \cdot e^{-\alpha}$. With $e^{\alpha} = \sqrt{(1-\text{error})/\text{error}}$ from step 4, both totals equal $\sqrt{\text{error}\,(1-\text{error})}$: in our example $\sqrt{0.4 \times 0.6} = 0.4899$, the two equal halves of the sum above. So the old stump, judged on the new weights, has an error of exactly 0.5 and would get $\alpha = 0$: repeating it adds nothing to the vote, and the next stump only earns a say by doing better on the reweighted observations.
 
 ## 9. Step 7: upsampling, a new dataset drawn by weight
 
-> **Key point:** Lay the weights end to end on the line from 0 to 1, draw n random numbers, and pick the row whose range each number lands in. Heavy rows get picked more often.
+> **Key point:** Lay the weights end to end on the line from 0 to 1, draw n random numbers, and pick the observation whose range each number lands in. Heavy observations get picked more often.
 
-The new weights are passed on through the data itself. We build a new dataset of the same size, $n = 5$ rows, in which heavy rows appear more often. This is called **upsampling** (resampling by weight).
+The new weights are passed on through the data itself. We build a new dataset of the same size, $n = 5$ observations, in which heavy observations appear more often. Drawing a dataset this way is called **upsampling** (resampling by weight).
 
-![Upsampling: each row owns a stretch of the line from 0 to 1 as long as its weight; five random numbers pick rows 1, 3, 3, 3 and 4](images/ranges.png){height=26%}
+![Upsampling: each observation owns a stretch of the line from 0 to 1 as long as its weight; five random numbers pick observations 1, 3, 3, 3 and 4](images/ranges.png){height=26%}
 
-1. **Make ranges.** Each row owns a stretch of the line from 0 to 1, as long as its weight. Row 1 owns 0 to 0.167, row 2 owns 0.167 to 0.417, row 3 owns 0.417 to 0.667, row 4 owns 0.667 to 0.833, and row 5 owns 0.833 to 1 (Figure 3). Each boundary is the running total, the **cumulative sum**, of the weights.
+1. **Make ranges.** Each observation owns a stretch of the line from 0 to 1, as long as its weight. Observation 1 owns 0 to 0.167, observation 2 owns 0.167 to 0.417, observation 3 owns 0.417 to 0.667, observation 4 owns 0.667 to 0.833, and observation 5 owns 0.833 to 1 (Figure 3). Each boundary is the running total, the **cumulative sum**, of the weights.
 2. **Draw random numbers.** Draw 5 random numbers between 0 and 1, say 0.13, 0.43, 0.62, 0.50 and 0.80.
-3. **Pick rows.** Each number picks the row whose range it falls in: 0.13 picks row 1; 0.43, 0.62 and 0.50 all pick row 3; 0.80 picks row 4.
+3. **Pick observations.** Each number picks the observation whose range it falls in: 0.13 picks observation 1; 0.43, 0.62 and 0.50 all pick observation 3; 0.80 picks observation 4.
 
-The new dataset is rows 1, 3, 3, 3 and 4. Row 3, a mistake, appears three times; rows 2 and 5 do not appear at all. Another draw could give, for example, rows 1, 3, 2, 2 and 5. Either way, rows with larger weights own longer stretches of the line and are picked more often.
+The new dataset is observations 1, 3, 3, 3 and 4. Observation 3, a mistake, appears three times; observations 2 and 5 do not appear at all. Another draw could give, for example, observations 1, 3, 2, 2 and 5. Either way, observations with larger weights own longer stretches of the line and are picked more often.
 
-The next stump trains on this new dataset, so it pays most attention to the rows the first stump got wrong.
+The next stump trains on this new dataset, so it pays most attention to the observations the first stump got wrong.
 
-> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each row in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (scikit-learn source; the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md), section 10).
+> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each observation in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (scikit-learn source; the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md), section 10).
 
 ## 10. Repeat, then vote
 
@@ -184,7 +186,7 @@ The next stump trains on this new dataset, so it pays most attention to the rows
 
 With the new dataset, everything repeats (Figure 1):
 
-1. every row of the new dataset gets weight $1/n$ again;
+1. every observation of the new dataset gets weight $1/n$ again;
 2. a new stump is trained on it, model 2;
 3. its error and its say $\alpha_2$ are computed;
 4. the weights are updated and normalised, and a new dataset is drawn for model 3.
@@ -197,30 +199,31 @@ $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \dots + \al
 
 | Step | What we do | Our numbers (stage 1) |
 |---|---|---|
-| 1 | weight every row $1/n$ | 0.2 each |
-| 2 | fit a decision stump | rows 2 and 3 wrong |
+| 1 | weight every observation $1/n$ | 0.2 each |
+| 2 | fit a decision stump | observations 2 and 3 wrong |
 | 3 | error = sum of the weights of the mistakes | 0.4 |
 | 4 | $\alpha = 0.5 \ln((1-\text{error})/\text{error})$ | 0.20 |
 | 5 | mistakes $\times e^{\alpha}$, correct $\times e^{-\alpha}$ | 0.2449 and 0.1633 |
 | 6 | divide by the sum | 0.25 and 0.1667 |
-| 7 | draw $n$ rows by weight | rows 1, 3, 3, 3, 4 |
+| 7 | draw $n$ observations by weight | observations 1, 3, 3, 3, 4 |
 
-- The error is a weighted error: the total weight of the misclassified rows.
+- The error is a weighted error: the total weight of the misclassified observations.
 - Alpha is large for a small error, 0 at error 0.5, negative above 0.5.
 - The weights of the mistakes grow, the others shrink, and all are rescaled to add up to 1.
-- Upsampling turns weights into a new dataset in which heavy rows appear more often.
+- Upsampling turns weights into a new dataset in which heavy observations appear more often.
 
 ## 12. Sources
 
-- scikit-learn source: `sklearn/ensemble/_weight_boosting.py`, method `_boost` of `AdaBoostClassifier` (it fits each stump with `sample_weight` and stops when the error reaches $1 - 1/K$, which is 0.5 for two classes).
+- Schapire, R. E. (2013). Explaining AdaBoost. In *Empirical Inference*, Springer, pp. 37–52. (Algorithm 1: weights start at $1/m$, $\alpha_t = \tfrac12\ln\frac{1-\epsilon_t}{\epsilon_t}$, weights multiplied by $e^{-\alpha_t y_i h_t(x_i)}$ and normalised.) schapire.net/papers/explaining-adaboost.pdf
+- scikit-learn developers. Source file `sklearn/ensemble/_weight_boosting.py` (version 1.9), method `_boost` of `AdaBoostClassifier`: fits each stump with `sample_weight` and stops when the error reaches $1 - 1/K$, which is 0.5 for two classes. github.com/scikit-learn/scikit-learn
 
 ## 13. Key terms
 
 | Term | Meaning |
 |---|---|
-| Sample weight | A number attached to each row saying how important it is; AdaBoost starts every row at 1/n |
-| Weighted error | The total sample weight of the rows a model misclassifies |
-| Weight update | Multiplying misclassified rows' weights by $e^{\alpha}$ and correct rows' weights by $e^{-\alpha}$ |
+| Sample weight | A number attached to each observation saying how important it is; AdaBoost starts every observation at 1/n |
+| Weighted error | The total sample weight of the observations a model misclassifies |
+| Weight update | Multiplying misclassified observations' weights by $e^{\alpha}$ and correct observations' weights by $e^{-\alpha}$ |
 | Normalisation (of weights) | Dividing every weight by their sum so they add up to 1 |
-| Upsampling (resampling by weight) | Drawing a new dataset in which each row is picked with probability equal to its weight |
+| Upsampling (resampling by weight) | Drawing a new dataset in which each observation is picked with probability equal to its weight |
 | Cumulative sum | The running total of a list of numbers; it turns weights into ranges on the line from 0 to 1 |

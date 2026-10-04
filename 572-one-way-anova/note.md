@@ -17,7 +17,7 @@ title: "One-way ANOVA"
 
 ![Same group means, different spread: the gaps between means are clear on the left and lost in the noise on the right](images/between_within.png)
 
-ANOVA (**analysis of variance**) was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test that compares the means of several groups. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) it is the test for one numerical column against a categorical column with three or more categories.
+ANOVA (**analysis of variance**) was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test that compares the means of several groups. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) ANOVA is the test for one numerical **feature** against a categorical feature with three or more categories (a feature is a variable of the data, one column of the data table, such as age or class).
 
 Figure 1 shows the whole idea. Both panels have the same group means, 5, 7 and 9. On the left the values sit close to their group mean, so the gaps between the means stand out. On the right the values are spread widely, and the same gaps could easily be chance. ANOVA turns this comparison into one number, the F statistic.
 
@@ -64,7 +64,7 @@ $$H_0: \mu_1 = \mu_2 = \dots = \mu_k, \qquad H_1: \text{at least one } \mu_i \te
 
 $H_1$ is not "all means differ". Rejecting $H_0$ tells us that some difference exists, not which groups differ; section 8 answers that.
 
-"One-way" means one categorical column defines the groups. The worked example uses $k = 3$ sections of a class, with the marks (out of 10) of 3 students each:
+"One-way" means one categorical feature defines the groups. The worked example uses $k = 3$ sections of a class, with the marks (out of 10) of 3 students each:
 
 | Section A | Section B | Section C |
 |---|---|---|
@@ -155,7 +155,7 @@ For the right-hand groups of Figure 1 (1, 5, 9; 3, 7, 11; 5, 9, 13) the means an
 
 ![The F distribution with 2 and 6 degrees of freedom: the whole curve (left) and its tail (right)](images/f_curve.png)
 
-The **F distribution** is the distribution of a ratio of two independent variances (NIST Handbook §1.3.6.6.5). Like the chi-square distribution (see the [chi-square tests Note](../571-chi-square-tests/note.md)), it is never negative and is skewed to the right. It has two parameters: the degrees of freedom of the top and of the bottom variance.
+The **F distribution** is the distribution of a ratio of two independent variances (NIST Handbook §1.3.6.6.5). Like the chi-square distribution (see the [chi-square tests Note](../571-chi-square-tests/note.md)), it is never negative and is skewed to the right. The F distribution has two parameters: the degrees of freedom of the top and of the bottom variance.
 
 Only a large $F$ counts against $H_0$ (group means further apart than noise explains), so the test is always right-tailed. Figure 3 shows the F distribution with 2 and 6 degrees of freedom:
 
@@ -257,7 +257,7 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 
 > **Key point:** `f_classif` scores each numerical feature by its ANOVA F against the class labels, for feature selection.
 
-`SelectKBest` can score features with `f_classif` instead of `chi2` (see the [pipelines Note](../29-pipelines/note.md) and the [errors, power and tails Note](../292-errors-power-and-tails/note.md)). For each numerical feature it computes the one-way ANOVA F with the target classes as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
+`SelectKBest` can score features (the input variables of a model) with `f_classif` instead of `chi2` (see the [pipelines Note](../29-pipelines/note.md) and the [errors, power and tails Note](../292-errors-power-and-tails/note.md)). For each numerical feature, `f_classif` computes the one-way ANOVA F with the classes of the **target** (the output we predict) as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
 
 ## 10. Summary
 
@@ -275,20 +275,20 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 - Assumptions: independence, normality in each group, equal variances; Welch's ANOVA or Kruskal-Wallis when they fail.
 - Rejecting $H_0$ says some mean differs; Tukey's HSD says which.
 
-## Sources
+## 11. Sources
 
 - Kruskal, W. H. and Wallis, W. A. (1952). "Use of Ranks in One-Criterion Variance Analysis". *Journal of the American Statistical Association* 47(260).
 - Montgomery, D. C. (2013). *Design and Analysis of Experiments*, 8th ed. Wiley. Section 3.3, analysis of the fixed effects model.
-- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. https://www.itl.nist.gov/div898/handbook/ Section 1.3.6.6.5, F distribution.
+- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 1.3.6.6.5, F distribution.
 - scikit-learn documentation. `sklearn.feature_selection.f_classif`.
 - Tukey, J. W. (1949). "Comparing Individual Means in the Analysis of Variance". *Biometrics* 5(2).
 - Welch, B. L. (1951). "On the Comparison of Several Mean Values: An Alternative Approach". *Biometrika* 38(3/4).
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
-| One-way ANOVA | A test of whether three or more group means are equal, with the groups defined by one categorical column |
+| One-way ANOVA | A test of whether three or more group means are equal, with the groups defined by one categorical feature |
 | Grand mean | The mean of all values from all groups together |
 | Sum of squares (SST, SSB, SSW) | Total, between-group and within-group squared distances; $SST = SSB + SSW$ |
 | Mean square (MSB, MSW) | A sum of squares divided by its degrees of freedom: a variance |

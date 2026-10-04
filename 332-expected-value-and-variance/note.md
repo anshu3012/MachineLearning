@@ -26,7 +26,7 @@ Random variables, discrete and continuous ones, and probability distributions ar
 
 > **Key point:** Despite its name, a random variable is not a variable but a function: its input is an outcome from the sample space, its output is a real number, and the rule in between is set by the event we want to study.
 
-The name "random variable" is misleading. A random variable is a **function**: a rule that takes an input and turns it into an output. In the context of probability:
+The name "random variable" is misleading. A random variable is a **function**: a rule that takes an input and turns it into an output, like a vending machine that turns a button press into a snack.
 
 Stated as a definition: a random variable is a function that maps each outcome of a random experiment (each member of the sample space) to a real number.
 
@@ -139,7 +139,7 @@ More examples with the same formula:
 
 The difference has expected value 0 because the table is symmetric: each positive value is balanced by a negative one with the same probability. Neither die is favoured.
 
-> **Extra:** For a coin with head = 1, $E[X] = P(\text{head})$. This holds for any Bernoulli variable (see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)): $E[X] = 1 \cdot p + 0 \cdot (1 - p) = p$. The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md).
+> **Extra:** For a coin with head = 1, $E[X] = P(\text{head})$. The same holds for any Bernoulli variable (see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)): $E[X] = 1 \cdot p + 0 \cdot (1 - p) = p$. The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md).
 
 ### 3.3 Checking by simulation
 
@@ -165,7 +165,7 @@ The result is not a coincidence: the expected value is exactly the number such a
 
 > **Key point:** The variance $\mathrm{Var}(X)$ is the expected squared distance of the random variable from its expected value; for a die it is $35/12 \approx 2.92$.
 
-The variance of a column of data is the average squared distance of the values from their mean (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The variance of a random variable is built the same way, with the expected value taking the place of every average.
+The variance of a set of data values is the average squared distance of the values from their mean (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The variance of a random variable is built the same way, with the expected value taking the place of every average.
 
 ### 4.1 From the data formula to the random-variable formula
 
@@ -174,7 +174,7 @@ The variance of a column of data is the average squared distance of the values f
 For data, the (population) variance is
 $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
-It does three things: subtract the mean from each value, square each distance, and average the squares. For a random variable:
+The data formula does three things: subtract the mean from each value, square each distance, and average the squares. For a random variable:
 
 - the mean $\bar{x}$ becomes the expected value $E[X]$;
 - each value $x_i$ becomes the random variable $X$ itself, so the squared distance is the random quantity $(X - E[X])^2$;
@@ -206,9 +206,9 @@ Expanding the square gives a second formula that is often quicker.
    $$\mathrm{Var}(X) = \frac{91}{6} - 3.5^2 = \frac{91}{6} - \frac{49}{4} = \frac{182 - 147}{12} = \frac{35}{12}$$
    The same value as the definition.
 
-The derivation uses three rules for expected values. They hold for any random variables, and need no independence (Grinstead and Snell, *Introduction to Probability*, 2nd ed., 1997, section 6.1, Theorem 6.2, which notes that expectations add whether or not the summands are independent):
+The derivation uses three rules for expected values. They hold for any random variables, and need no independence (Grinstead and Snell 1997, §6.1, Theorem 6.2, which notes that expectations add whether or not the summands are independent):
 
-- **Constants:** a constant $c$ has $E[c] = c$. It takes one value with probability 1, so its average is itself. $E[X]$ is a constant too, a single number such as 3.5.
+- **Constants:** a constant $c$ has $E[c] = c$. A constant takes one value with probability 1, so its average is itself. $E[X]$ is a constant too, a single number such as 3.5.
 - **Scaling:** $E[cX] = c\,E[X]$. Multiplying every value by $c$ multiplies the weighted average by $c$.
 - **Sums:** $E[X + Y] = E[X] + E[Y]$, the **linearity of expectation**.
 
@@ -253,7 +253,7 @@ Figure 3 compares one die with the **average** of two dice, $(d_1 + d_2)/2$. Bot
 
 The expected value says where the outcomes centre; the variance says how much a single outcome can be trusted to land near it.
 
-> **Extra:** Averaging two independent dice halved the variance, from $35/12$ to $35/24$. In general, the average of $n$ independent copies has variance $\sigma^2 / n$ (Grinstead and Snell, Theorem 6.9). With $n = 2$ and $\sigma^2 = 35/12$ this gives $35/24$, as in the table. The models averaged in [bagging](../105-bagging-intuition/note.md) are not independent, since they are trained on overlapping data. If each pair has correlation $\rho$, the average of $B$ of them has variance $\rho\sigma^2 + \frac{1 - \rho}{B}\sigma^2$ (Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., 2009, section 15.2, equation 15.1). Averaging still lowers the variance, but only the second term shrinks as $B$ grows.
+> **Extra:** Averaging two independent dice halved the variance, from $35/12$ to $35/24$. In general, the average of $n$ independent copies has variance $\sigma^2 / n$ (Grinstead and Snell, Theorem 6.9). With $n = 2$ and $\sigma^2 = 35/12$ this gives $35/24$, as in the table. The models averaged in [bagging](../105-bagging-intuition/note.md) are not independent, since they are trained on overlapping data. If each pair has correlation $\rho$, the average of $B$ of them has variance $\rho\sigma^2 + \frac{1 - \rho}{B}\sigma^2$ (ESL §15.2, eq. 15.1). Averaging still lowers the variance, but only the second term shrinks as $B$ grows.
 
 ## 5. Summary
 
@@ -271,7 +271,12 @@ The expected value says where the outcomes centre; the variance says how much a 
 - The variance is the expected squared distance from the expected value; the shortcut $E[X^2] - (E[X])^2$ gives the same number.
 - Expected values are linear: constants come out, sums split. No independence is needed for this.
 
-## 6. Key terms
+## 6. Sources
+
+- Grinstead, C. M. and Snell, J. L. (1997). *Introduction to Probability*, 2nd ed. American Mathematical Society. §6.1 (Theorems 6.2, 6.4) and §6.2 (Theorems 6.6, 6.9).
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer. §15.2, eq. 15.1.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

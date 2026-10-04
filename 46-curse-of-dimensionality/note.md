@@ -20,52 +20,52 @@ Of the four parts of feature engineering (see Figure 1 of the [feature engineeri
 
 Two parts remain:
 
-- **Feature selection**: keep only the useful columns. It is usually done after a model is built, to check whether removing columns helps the model.
-- **Feature extraction**: build a few new columns from the old ones. Its most important technique, PCA, comes next.
+- **Feature selection**: keep only the useful features. Feature selection is usually done after a model is built, to check whether removing features helps the model.
+- **Feature extraction**: build a few new features from the old ones. Its most important technique, PCA, comes next.
 
 Both rest on one idea: the curse of dimensionality. This Note explains that idea, why it matters, and how we deal with it.
 
 ## 2. What the curse of dimensionality is
 
-> **Key point:** Every dataset has an optimal number of columns. Past it, extra columns do not help, and often make the model worse and slower.
+> **Key point:** Every dataset has an optimal number of features. Past it, extra features do not help, and often make the model worse and slower.
 
-In ML, each column (feature) of the data is called a dimension (see the [types of ML Note](../03-types-of-ml/note.md), section 3.3). A dataset with 10 columns is 10-dimensional, and one with 1,000 columns is **high-dimensional**. This is the "dimensions of a vector" sense, not the number of axes of a tensor; the [tensors Note](../11-tensors/note.md), section 5, separates the two.
+In ML, each **feature** (an input variable, one column of the data table) is called a dimension. Each **observation** is one record (one row), here one image, and the **target** is the output we predict, here the digit (see the [types of ML Note](../03-types-of-ml/note.md), section 3.3). A dataset with 10 features is 10-dimensional, and one with 1,000 features is **high-dimensional**. Here "dimension" has the "dimensions of a vector" sense, not the number of axes of a tensor; the [tensors Note](../11-tensors/note.md), section 5, separates the two.
 
-It seems that more columns should always help, since the model gets more information. In practice it does not work that way.
+More features seem as if they should always help, since the model gets more information. In practice more features do not always help. Think of a detective handed a thousand pages of witness statements, most of them about the weather: the few useful clues get harder to find, not easier.
 
-Every dataset has an **optimal number of features**. Up to that number, each new column improves the model. Beyond it:
+Every dataset has an **optimal number of features**. Up to that number, each new feature improves the model. Beyond it:
 
 - performance stops improving, and often gets worse;
 - the model needs more computation and becomes more complex.
 
-This is the **curse of dimensionality**: the problems that appear when data has too many dimensions.
+These problems together are the **curse of dimensionality**: the problems that appear when data has too many dimensions (a name from Bellman; ESL §2.5).
 
 ## 3. An example: images of digits
 
-> **Key point:** In images, every pixel is a column. Many pixels, such as the ones at the edges, carry almost no information.
+> **Key point:** In images, every pixel is a feature. Many pixels, such as the ones at the edges, carry almost no information.
 
-Image data shows the curse clearly: every pixel is one column, and the blank edge pixels of MNIST carry almost nothing (see the [feature engineering Note](../23-what-is-feature-engineering/note.md), section 8.1). Here we measure this on a smaller version, scikit-learn's digits dataset: 1,797 images of 8 × 8 pixels, so 64 columns. Figure 1 shows one image and how much each pixel changes across all the images.
+Image data shows the curse clearly: every pixel is one feature, and the blank edge pixels of MNIST carry almost nothing (see the [feature engineering Note](../23-what-is-feature-engineering/note.md), section 8.1). Here we measure this on a smaller version, scikit-learn's digits dataset: 1,797 images of 8 × 8 pixels, so 64 features. Figure 1 shows one image and how much each pixel changes across all the images.
 
 ![Edge pixels barely change from image to image](images/pixel_usefulness.png)
 
 The digit is always drawn in the middle. The pixels at the left and right edges are almost always blank: 3 pixels never change at all, and 16 have a standard deviation below 1.
 
-A pixel that is the same in every image cannot help tell one digit from another. It is a column the model has to process, with nothing to learn from.
+A pixel that is the same in every image cannot help tell one digit from another. Such a pixel is a feature the model has to process, with nothing to learn from.
 
 ### 3.1 Measuring the effect
 
-> **Key point:** Accuracy rose to 96% with the useful pixels, then fell to 80% as we added useless columns.
+> **Key point:** Accuracy rose to 96% with the useful pixels, then fell to 80% as we added useless features.
 
 Figure 2 shows a real experiment with KNN, a classifier that labels a point by looking at its nearest neighbours.
 
-![KNN accuracy as columns are added (real measurement)](images/accuracy_vs_features.png)
+![KNN accuracy as features are added (real measurement)](images/accuracy_vs_features.png)
 
-1. **Blue line:** we add the 64 pixels one group at a time, most useful first. Accuracy rises fast, from 21% with 1 pixel to 90% with 16 pixels. It levels off at 96% from about 40 pixels on.
-2. **Red line:** we keep all 64 pixels and add columns of random numbers. Accuracy drops steadily, to 80% with 400 extra columns.
+1. **Blue line:** we add the 64 pixels one group at a time, most useful first. Accuracy rises fast, from 21% with 1 pixel to 90% with 16 pixels. Accuracy levels off at 96% from about 40 pixels on.
+2. **Red line:** we keep all 64 pixels and add features of random numbers. Accuracy drops steadily, to 80% with 400 extra features.
 
-The blue line shows the optimal number of features: after about 40 pixels, adding more brings nothing. The red line shows that useless columns actively hurt.
+The blue line shows the optimal number of features: after about 40 pixels, adding more brings nothing. The red line shows that useless features actively hurt.
 
-> **Python:** Accuracy for different numbers of columns (full code in the Notebook).
+> **Python:** Accuracy for different numbers of features (full code in the Notebook).
 >
 > ```python
 > from sklearn.model_selection import cross_val_score
@@ -79,7 +79,7 @@ The blue line shows the optimal number of features: after about 40 pixels, addin
 > score(np.hstack([X, noise[:, :400]])) # 64 pixels + 400 random: 80%
 > ```
 
-> **Extra:** Cross-validation, used in `cross_val_score`, splits the data into 5 parts and tests on each part in turn. It gives a more reliable accuracy than a single train/test split. It is covered in detail later.
+> **Extra:** Cross-validation, used in `cross_val_score`, splits the data into 5 parts and tests on each part in turn. Cross-validation gives a more reliable accuracy than a single train/test split. It is covered in detail later.
 
 ## 4. Why more dimensions cause trouble
 
@@ -99,35 +99,35 @@ The wallet is the same in each case. Only the number of dimensions changed, and 
 
 ### 4.2 The same data spreads thin
 
-> **Key point:** With 5 bins per column, each new column multiplies the number of cells by 5, while the number of points stays the same.
+> **Key point:** With 5 bins per feature, each new feature multiplies the number of cells by 5, while the number of points stays the same.
 
-Figure 3 applies the wallet idea to data. We take the same 20 points and split each column into 5 bins.
+Figure 3 applies the wallet idea to data. We take the same 20 points and split each feature into 5 bins.
 
-![The same 20 points in 1, 2 and 3 columns](images/sparsity.gif)
+![The same 20 points in 1, 2 and 3 features](images/sparsity.gif)
 
-| Columns | Like | Cells | Empty cells |
+| Features | Like | Cells | Empty cells |
 |---|---|---|---|
 | 1 | a road in 5 stretches | 5 | 0 (0%) |
 | 2 | a campus of 5 × 5 blocks | 25 | 11 (44%) |
 | 3 | a building of 5 floors, 5 × 5 rooms each | 125 | 107 (86%) |
 
-The number of cells grows as $5^d$, where $d$ is the number of columns. Twenty points are enough to fill a road, but they leave a building almost empty.
+The number of cells grows as $5^d$, where $d$ is the number of features. Twenty points are enough to fill a road, but they leave a building almost empty.
 
 Data where most of the space is empty is called **sparse**. In sparse data, every point is far from the others.
 
-This is a different meaning from the sparse data of the [normalization Note](../25-normalization/note.md) (section 8), where sparse means a table whose values are mostly zeros. Here it means a space that is mostly empty.
+This "sparse" has a different meaning from the sparse data of the [normalization Note](../25-normalization/note.md) (section 8), where sparse means a table whose values are mostly zeros. Here it means a space that is mostly empty.
 
 ### 4.3 Why this hurts models
 
 > **Key point:** Many algorithms rely on distances between points. When every point is far from every other, distances stop being useful.
 
-Many algorithms, such as KNN, make a prediction by finding the points closest to a new point. That only works if "close" means something.
+Many algorithms, such as KNN, make a prediction by finding the points closest to a new point. Finding the closest points only works if "close" means something.
 
 In high dimensions, every point is far from every other point. The nearest neighbour is not really near, so the prediction is based on points that are not similar. These dissimilar neighbours are why the KNN accuracy in Figure 2 fell as we added useless features.
 
 > **Extra:** We checked this on the red line of Figure 2. For every image we found its nearest other image and asked whether it shows the same digit (Notebook, after the accuracy table):
 >
-> | Columns | Nearest neighbour shows the same digit | Nearest distance / average distance |
+> | Features | Nearest neighbour shows the same digit | Nearest distance / average distance |
 > |---|---|---|
 > | 64 | 98.8% | 0.34 |
 > | 164 | 91.0% | 0.76 |
@@ -135,29 +135,29 @@ In high dimensions, every point is far from every other point. The nearest neigh
 >
 > With more useless features, the nearest image is almost as far away as an average one, and more and more often it shows a different digit. KNN votes with these neighbours, so its accuracy falls with them.
 
-> **Extra:** In very high dimensions, distances also become almost all the same: the farthest point is hardly farther than the nearest (Beyer et al. 1999). Figure 4 measures the distance from one random point to 500 others. With 2 columns, the farthest point is 67 times farther than the nearest; with 1,000 columns, only 1.1 times. When everything is about equally far, "nearest" carries almost no information.
+> **Extra:** In very high dimensions, distances also become almost all the same: the farthest point is hardly farther than the nearest (Beyer et al. 1999). Figure 4 measures the distance from one random point to 500 others. With 2 features, the farthest point is 67 times farther than the nearest; with 1,000 features, only 1.1 times. When everything is about equally far, "nearest" carries almost no information.
 
-![Distances from one point to 500 others, in 2 to 1,000 columns](images/distances.png)
+![Distances from one point to 500 others, in 2 to 1,000 features](images/distances.png)
 
 ## 5. The two problems
 
 > **Key point:** Too many dimensions cause two problems: lower performance and more computation.
 
-1. **Performance decreases.** Useless columns spread the data thin and push the truly similar points apart (Section 4.3). In Figure 2, accuracy fell from 96% to 80%.
-2. **Computation increases.** Every extra column is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 columns took about 1.6 times as long as with 64 (timings vary from machine to machine).
+1. **Performance decreases.** Useless features spread the data thin and push the truly similar points apart (Section 4.3). In Figure 2, accuracy fell from 96% to 80%.
+2. **Computation increases.** Every extra feature is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 features took about 1.6 times as long as with 64 (timings vary from machine to machine).
 
-The fix for both is to bring the number of columns down to the optimal number.
+The fix for both is to bring the number of features down to the optimal number.
 
 ## 6. The solution: dimensionality reduction
 
-> **Key point:** Dimensionality reduction lowers the number of columns. It comes in two kinds: feature selection keeps the best columns; feature extraction builds new ones.
+> **Key point:** Dimensionality reduction lowers the number of features. Dimensionality reduction comes in two kinds: feature selection keeps the best features; feature extraction builds new ones.
 
-**Dimensionality reduction** means reducing the number of columns in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in the [feature engineering Note](../23-what-is-feature-engineering/note.md), sections 8 and 9:
+**Dimensionality reduction** means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in the [feature engineering Note](../23-what-is-feature-engineering/note.md), sections 8 and 9:
 
-- **Feature selection** keeps a subset of the existing columns unchanged, for example with forward selection or backward elimination.
-- **Feature extraction** builds new columns, each a mix of all the old ones, so that a few new columns hold most of the information.
+- **Feature selection** keeps a subset of the existing features unchanged, for example with forward selection or backward elimination.
+- **Feature extraction** builds new features, each a mix of all the old ones, so that a few new features hold most of the information.
 
-Figure 5 shows both on five columns, F1 to F5: selection keeps F1 and F3, while extraction builds two new columns, PC1 and PC2, neither equal to any original column. The main extraction techniques:
+Figure 5 shows both on five features, F1 to F5: selection keeps F1 and F3, while extraction builds two new features, PC1 and PC2, neither equal to any original feature. The main extraction techniques:
 
 - **PCA** (principal component analysis), covered next;
 - **LDA** (linear discriminant analysis);
@@ -165,19 +165,19 @@ Figure 5 shows both on five columns, F1 to F5: selection keeps F1 and F3, while 
 
 ![Feature selection vs feature extraction](images/selection_vs_extraction.png)
 
-> **Extra:** The F2 column in Figure 5 is 0 in every row, like the edge pixels in Figure 1. Removing such a constant column is the simplest feature selection there is. In scikit-learn it is done by `VarianceThreshold`.
+> **Extra:** The F2 feature in Figure 5 is 0 in every observation, like the edge pixels in Figure 1. Removing such a constant feature is the simplest feature selection there is. In scikit-learn it is done by `VarianceThreshold`.
 
 ## 7. Summary
 
 | | Feature selection | Feature extraction |
 |---|---|---|
-| What it does | keeps the best existing columns | builds new columns from all the old ones |
-| Output columns | a subset of the originals | new, mixed columns |
+| What it does | keeps the best existing features | builds new features from all the old ones |
+| Output features | a subset of the originals | new, mixed features |
 | Techniques | forward selection, backward elimination | PCA, LDA, t-SNE |
 | When | usually after a first model is built | next Notes (PCA) |
 
-- Each column of the data is a dimension.
-- Every dataset has an optimal number of features; past it, extra columns hurt.
+- Each feature of the data is a dimension.
+- Every dataset has an optimal number of features; past it, extra features hurt.
 - More dimensions spread the same data thinner: cells grow as $5^d$, points stay the same.
 - Sparse data makes distances less useful, which hurts distance-based algorithms like KNN.
 - Two problems: lower performance and more computation.
@@ -186,14 +186,17 @@ Figure 5 shows both on five columns, F1 to F5: selection keeps F1 and F3, while 
 
 ## 8. Sources
 
+- ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §2.5, Local Methods in High Dimensions.
 - Beyer, K., Goldstein, J., Ramakrishnan, R. and Shaft, U. (1999). When is "nearest neighbor" meaningful? *Proceedings of the International Conference on Database Theory (ICDT)*, 217–235.
 
 ## 9. Key terms
 
 | Term | Meaning |
 |---|---|
-| High-dimensional data | Data with a very large number of columns |
-| Optimal number of features | The number of columns at which a model performs best |
+| Feature | An input variable: one column of the data table; also called a dimension |
+| Observation | One record: one row of the data table |
+| High-dimensional data | Data with a very large number of features |
+| Optimal number of features | The number of features at which a model performs best |
 | Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation |
 | Sparse data | Data where most of the space holds no points |
-| Dimensionality reduction | Reducing the number of columns while keeping the useful information |
+| Dimensionality reduction | Reducing the number of features while keeping the useful information |

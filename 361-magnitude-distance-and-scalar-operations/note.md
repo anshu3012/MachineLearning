@@ -26,7 +26,7 @@ Vectors, components and dimensions are defined in the [vectors and feature vecto
 
 > **Key point:** The magnitude of a vector is the square root of the sum of its squared components; the same formula works in every dimension.
 
-The **magnitude** of a vector is its distance from the origin: the length of the arrow from its tail to its head. It is also called the length or the norm of the vector (the name used in the [SVM maths Note](../93-svm-maths/note.md)), and written $\lVert x \rVert$.
+The **magnitude** of a vector is its distance from the origin: the length of the arrow from its tail to its head. The magnitude is also called the length or the norm of the vector (the name used in the [SVM maths Note](../93-svm-maths/note.md)), and written $\lVert x \rVert$.
 
 ### 2.1 In 2D and 3D
 
@@ -59,7 +59,7 @@ The same logic holds in 3D. A vector $[a, b, c]$ has length $\sqrt{a^2 + b^2 + c
 >
 > `np.linalg` is NumPy's linear algebra module. The same call works unchanged for a 15-dimensional or a 500-dimensional vector.
 
-> **Extra:** This is one norm among several. It is the **L2 norm**; adding the absolute values instead, $\lvert x_1 \rvert + \dots + \lvert x_n \rvert$, gives the **L1 norm**. Ridge regression penalises the squared L2 norm of the coefficients and Lasso their L1 norm (see the [Ridge](../63-ridge-regression-intuition/note.md) and [Lasso](../67-lasso-regression/note.md) Notes), which is why the roadmap lists vector norms under regularisation.
+> **Extra:** The magnitude is one norm among several, the **L2 norm**; adding the absolute values instead, $\lvert x_1 \rvert + \dots + \lvert x_n \rvert$, gives the **L1 norm**. Ridge regression penalises the squared L2 norm of the coefficients and Lasso their L1 norm (see the [Ridge](../63-ridge-regression-intuition/note.md) and [Lasso](../67-lasso-regression/note.md) Notes), which is why the roadmap lists vector norms under regularisation.
 
 ## 3. Euclidean distance
 
@@ -90,7 +90,7 @@ The squared differences in the distance formula are the squared components of $p
 
 > **Key point:** Many algorithms decide by distance: a new point gets the class of the vectors nearest to it.
 
-A lot of ML algorithms compute Euclidean distances inside. The clearest example is [K-nearest neighbours](../91-knn/note.md) (KNN), a classification algorithm. To classify a new iris flower from its sepal length and petal length, it treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
+A lot of ML algorithms compute Euclidean distances inside. The clearest example is [K-nearest neighbours](../91-knn/note.md) (KNN), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
 
 ![Five labelled vectors in 3D and a query vector; the query takes the class of the nearest one](images/knn_3d.png){height=45%}
 
@@ -120,13 +120,13 @@ Subtraction works the same way, with $s$ subtracted from every component: $[2, 3
 
 Changing every component moves the point to a new place in the coordinate system (Figure 3, left). So adding or subtracting a scalar is called **shifting**.
 
-> **Extra:** Strictly, adding a scalar to a vector is not an operation of linear algebra; a vector space has only two operations, adding two vectors and multiplying a vector by a scalar (Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, 2020, Definition 2.9). NumPy allows it through **broadcasting**: in the words of the NumPy user guide ("Broadcasting"), the scalar is "stretched" into an array of the same shape, here the vector $[s, s, \dots, s]$, and that is added. So $[2, 3] + 3$ is really $[2, 3] + [3, 3]$.
+> **Extra:** Strictly, adding a scalar to a vector is not an operation of linear algebra; a vector space has only two operations, adding two vectors and multiplying a vector by a scalar (MML Definition 2.9). NumPy allows it through **broadcasting**: in the words of the NumPy user guide (NumPy, "Broadcasting"), the scalar is "stretched" into an array of the same shape, here the vector $[s, s, \dots, s]$, and that is added. So $[2, 3] + 3$ is really $[2, 3] + [3, 3]$.
 
 ## 5. Mean centring: shifting in ML
 
-> **Key point:** Mean centring is a scalar subtraction on vectors: each column minus its own mean.
+> **Key point:** Mean centring is a scalar subtraction on vectors: each feature minus its own mean.
 
-Mean centring, the first half of standardization (see the [standardization Note](../24-standardization/note.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation it is shifting: each column is a vector, its mean is a scalar, and $x_1 - \bar{x}_1$ subtracts that scalar from every component. For the column $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
+Mean centring, the first half of standardization (see the [standardization Note](../24-standardization/note.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (an input variable, one column of the data table) is a vector of values, its mean is a scalar, and $x_1 - \bar{x}_1$ subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
 
 > **Python:** Mean centring is one line: subtracting a row of means from a table subtracts each mean from its own column.
 >
@@ -160,15 +160,20 @@ Mean centring, the first half of standardization (see the [standardization Note]
 | Magnitude | $\lVert x \rVert = \sqrt{\sum x_i^2}$ | $\lVert [3, 4] \rVert = 5$ |
 | Euclidean distance | $\lVert p - q \rVert$ | $[1, 1]$ to $[4, 5]$: 5 |
 | Shifting | $v + s$: add $s$ to every component | $[2, 3] + 3 = [5, 6]$ |
-| Mean centring | each column minus its mean | $3, 5, 7 \rightarrow -2, 0, 2$ |
+| Mean centring | each feature minus its mean | $3, 5, 7 \rightarrow -2, 0, 2$ |
 | Scaling | $s\,v$: multiply every component by $s$ | $2 \times [2, 3] = [4, 6]$ |
 
 - Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any dimension.
 - Distance = magnitude of the difference: `np.linalg.norm(p - q)`.
 - KNN, K-means and recommender systems all decide by distance.
-- Shifting moves a vector, scaling stretches it; mean centring is shifting applied to whole columns.
+- Shifting moves a vector, scaling stretches it; mean centring is shifting applied to whole features.
 
-## 8. Key terms
+## 8. Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. Definition 2.9 (Vector Space).
+- NumPy developers. *NumPy User Guide*, "Broadcasting". numpy.org, basics.broadcasting.html.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

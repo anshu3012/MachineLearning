@@ -88,6 +88,8 @@ A neural network spends almost all its time multiplying matrices; deep learning 
 
 > **Key point:** Training adjusts every weight against the slope of the loss, and the chain rule carries that slope back through the layers.
 
+Training is like walking downhill in fog: we cannot see the valley, but we can feel which way the ground slopes under our feet and step that way. The slope is a derivative, one per weight. The [derivatives Note](../600-derivatives-of-one-variable/note.md) and the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) teach everything we need.
+
 > **Extra:** Training a network is calculus. Backpropagation applies the chain rule layer by layer; section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md) previews it.
 
 ## 4. Summary
@@ -109,6 +111,7 @@ A neural network spends almost all its time multiplying matrices; deep learning 
 - Vaswani et al., "Attention Is All You Need", NeurIPS 2017.
 - Brown et al., "Language Models are Few-Shot Learners", NeurIPS 2020.
 - TensorFlow guide, "Introduction to Tensors", tensorflow.org.
+- Linux Foundation, "Meta Transitions PyTorch to the Linux Foundation" (press release, 12 September 2022), linuxfoundation.org, press releases.
 
 ## 6. Key terms
 
@@ -116,4 +119,4 @@ A neural network spends almost all its time multiplying matrices; deep learning 
 |---|---|
 | TensorFlow | Google's deep learning library |
 | Keras | The high-level interface built into TensorFlow for defining and training networks |
-| PyTorch | Deep learning library first built at Meta (Facebook), now run by the PyTorch Foundation; most used in research |
+| PyTorch | Deep learning library first built at Meta (Facebook), run by the PyTorch Foundation since 2022 (Linux Foundation 2022); most used in research |

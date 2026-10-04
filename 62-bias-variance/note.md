@@ -16,15 +16,15 @@ title: "The Bias-Variance Trade-off"
 
 > **Key point:** A model's error on new data comes from two sources: bias (it is too simple to capture the pattern) and variance (it changes too much with the training data). Making one smaller usually makes the other larger (ISL §2.2.2).
 
-The polynomial regression Note showed that a degree too low underfits and a degree too high overfits. This Note gives the two problems their standard names, **bias** and **variance**, and explains why reducing one tends to increase the other. This tension is the **bias-variance trade-off**, one of the central ideas of ML.
+The polynomial regression Note showed that a degree too low underfits and a degree too high overfits. This Note gives the two problems their standard names, **bias** and **variance**, and explains why reducing one tends to increase the other. The tension between them is the **bias-variance trade-off**, one of the central ideas of ML.
 
-It is also a very common interview question.
+Throughout, a **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row).
 
 ## 2. Bias
 
 > **Key point:** Bias is a model's inability to capture the true relationship. A high-bias model makes the same kind of mistake whatever data it is trained on.
 
-Suppose the true relationship between input and output is a curve, and we fit a straight line. However the line is placed, it cannot bend to follow the curve. The error that comes from the model's shape being too simple is its **bias**.
+Suppose the true relationship between a feature and the target is a curve, and we fit a straight line. However the line is placed, it cannot bend to follow the curve. The error that comes from the model's shape being too simple is its **bias**.
 
 A high-bias model:
 
@@ -36,7 +36,7 @@ A high-bias model:
 
 > **Key point:** Variance is how much a model changes when trained on a different sample of data. A high-variance model fits the noise of whichever sample it saw.
 
-Now fit a very flexible model, such as a high-degree polynomial. It can bend through almost every training point, so its training error is tiny. But train it again on a different random sample from the same source, and it bends differently, because it followed the noise of each sample.
+Now fit a very flexible model, such as a high-degree polynomial. The polynomial can bend through almost every training point, so its training error is tiny. But train it again on a different random sample from the same source, and it bends differently, because it followed the noise of each sample.
 
 How much the model's predictions change from one training set to another is its **variance**. A high-variance model:
 
@@ -45,13 +45,13 @@ How much the model's predictions change from one training set to another is its 
 - shows a big gap between training and test performance;
 - is **overfitting**.
 
-This is a different meaning from the variance of a column, the average squared distance of its values from their mean (see the [understanding your data Note](../19-understanding-your-data/note.md), section seven point one, and the [PCA geometric intuition Note](../47-pca-geometric-intuition/note.md), section five). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
+Model variance has a different meaning from the variance of a feature, the average squared distance of its values from their mean (see the [understanding your data Note](../19-understanding-your-data/note.md), section seven point one, and the [PCA geometric intuition Note](../47-pca-geometric-intuition/note.md), section five). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
 
 ## 4. Seeing bias and variance
 
 > **Key point:** Train the same model on many training sets. The spread of the resulting curves is the variance; how far their average is from the truth is the bias.
 
-Figure 1 makes this concrete. We use one **feature** $x$ (the input variable) and one **target** $y$ (the output we predict); each **observation** is one $(x, y)$ pair. The true relationship is a wave (dashed black).
+Figure 1 makes the two ideas concrete. We use one feature $x$ and the target $y$; each observation is one $(x, y)$ pair. The true relationship is a wave (dashed black).
 
 We build many training sets of 20 observations. Every set uses the same 20 values of $x$ (the grey ticks); only the random noise in $y$ is new each time, the standard setting for measuring bias and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
 
@@ -95,7 +95,7 @@ Figure 3 measures all three for degrees 1 to 11. The test error here is the erro
 - Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11.
 - The total error is smallest in between, here at degree 5 (0.326), close to the noise floor of 0.25.
 
-Making a model more flexible buys lower bias at the price of higher variance, and the reverse. That is the trade-off. The goal is not zero bias or zero variance, but the lowest total error.
+Making a model more flexible buys lower bias at the price of higher variance, and the reverse: like a tailor choosing between one standard size that fits nobody well and a suit cut so tight to one fitting that it fails the next day. This exchange of one error for the other is the trade-off. The goal is not zero bias or zero variance, but the lowest total error.
 
 > **Extra:** The shapes in Figure 3 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
 >
@@ -135,19 +135,22 @@ Three standard techniques, all covered later, target this trade-off directly:
 - More complexity lowers bias and raises variance; the best model balances them.
 - On the wave example, degree 5 gives the lowest total error (0.33), against 0.70 for a line and 0.40 for degree 11.
 
-## Sources
+## 8. Sources
 
-- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021.
+- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. §2.2.2 (the bias-variance trade-off, equation 2.7), §6.2.1 (ridge regression), §8.2.1 (bagging), §8.2.3 (boosting).
 - **ESL**: Hastie, Tibshirani, Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 7.3, "The Bias-Variance Decomposition".
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Target | The output we predict |
 | Bias | Error from a model being too simple to capture the true relationship |
 | Variance | How much a model's predictions change when it is trained on a different sample of data |
 | Bias-variance trade-off | Lowering bias by adding complexity tends to raise variance, and the reverse |
 | Noise (irreducible error) | Randomness in the data that no model can predict |
 | Regularisation | Penalising large coefficients to reduce a model's variance |
 | Bagging | Averaging many models trained on different samples of the data to reduce variance |
-| Boosting | Combining many simple models in sequence to reduce bias |
+| Boosting | Combining many simple models in sequence, each fitted to the errors left by the ones before |

@@ -24,11 +24,11 @@ This Note turns it into a class with `fit` and `predict`, like scikit-learn's `L
 
 ## 2. The data
 
-> **Key point:** 442 diabetes patients, 10 input columns, and a number to predict: how far the disease progressed one year later.
+> **Key point:** 442 diabetes patients, 10 features, and a number to predict: how far the disease progressed one year later.
 
-The example is scikit-learn's built-in **diabetes dataset**. Each row is a patient; the 10 inputs are age, sex, body mass index (bmi), average blood pressure (bp) and six blood measurements (s1 to s6). The target is a number measuring disease progression one year later.
+The example is scikit-learn's built-in **diabetes dataset**. Each **observation** (one record, one row of the data table) is a patient. The 10 **features** (input variables, one column each) are age, sex, body mass index (bmi), average blood pressure (bp) and six blood measurements (s1 to s6). The **target**, the output we predict, is a number measuring disease progression one year later.
 
-> **Extra:** The inputs come already scaled: each column is centred on 0 and shrunk so that its squares add up to 1 (scikit-learn docs, Diabetes dataset). The scaling explains why the values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
+> **Extra:** The features come already scaled: each column is centred on 0 and shrunk so that its squares add up to 1 (scikit-learn docs, Diabetes dataset). The scaling explains why the values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
 
 We split the data 80/20: 353 patients to train, 89 to test.
 
@@ -76,7 +76,7 @@ An R² of 0.44 means the 10 measurements explain less than half the variation in
 
 > **Key point:** A prediction is the inputs times the coefficients plus the intercept: $\hat{y} = X\beta + \beta_0$.
 
-For new data we do not need the column of 1s: we multiply the inputs by the 10 coefficients and add the intercept separately. For the test set that is an 89 × 10 matrix times a vector of 10, giving 89 predictions.
+For new data we do not need the column of 1s: we multiply the inputs by the 10 coefficients and add the intercept separately. For the test set the product is an 89 × 10 matrix times a vector of 10, giving 89 predictions.
 
 > **Python:** Multiple linear regression from scratch.
 >
@@ -110,9 +110,9 @@ Figure 1 (left) puts the 10 coefficients side by side: the two models are indist
 
 The right panel plots the 89 test predictions against the true values. If the model were perfect, all points would lie on the dashed diagonal; the wide scatter is what an R² of 0.44 looks like.
 
-The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+517). Because the inputs are standardised, these can be compared with each other.
+The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+517). Because the features are standardised, these coefficients can be compared with each other.
 
-> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of multicollinearity: s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely. Their individual sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
+> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of multicollinearity: s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely, like two people carrying one box who can shift the load between them without the box moving. Collinearity makes the individual coefficients very uncertain (ISLR §3.3.3), so their sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
 >
 > - **Strongly related:** correlation 0.895; variance inflation factors 56 and 37, against under 2 for age, sex, bmi and bp.
 > - **Trading weight:** over 200 bootstrap refits, the s1 and s2 coefficients swing far more than bmi's (standard deviation 464 and 369 against 77), in opposite directions (correlation $-0.97$).
@@ -120,7 +120,7 @@ The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+5
 
 ## 6. Solving without an explicit inverse
 
-> **Key point:** In practice, libraries solve the least-squares problem from $X$ itself instead of computing an inverse; the result is the same, and more accurate when columns are nearly copies of each other.
+> **Key point:** In practice, libraries solve the least-squares problem from $X$ itself instead of computing an inverse; the result is the same, and more accurate when features are nearly copies of each other.
 
 Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it can lose accuracy when the matrix is close to having no inverse. Two other NumPy functions give the same coefficients:
 
@@ -143,18 +143,22 @@ Both agree with scikit-learn to within $10^{-11}$ here (see the Notebook). The s
 
 - The normal equation needs only matrix products, a transpose and an inverse.
 - Our class reproduces `LinearRegression` to about twelve decimal places.
-- Real libraries avoid the explicit inverse; `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate when columns are nearly copies of each other.
+- Real libraries avoid the explicit inverse; `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate when features are nearly copies of each other.
 
-## Sources
+## 8. Sources
 
-- scikit-learn documentation, Toy datasets, Diabetes dataset. https://scikit-learn.org/stable/datasets/toy_dataset.html
+- ISLR: James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. §3.3.3, Potential Problems: Collinearity.
+- scikit-learn documentation, Toy datasets, *Diabetes dataset* (scikit-learn.org, datasets/toy_dataset).
 - scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section (uses `scipy.linalg.lstsq`).
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
-| Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised inputs, and disease progression one year later |
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Target | The output we predict |
+| Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised features, and disease progression one year later |
 | np.insert | NumPy function that inserts values into an array at a given position |
 | @ (matrix multiplication) | Python's operator for multiplying matrices and vectors |
 | np.linalg.inv | NumPy function that computes the inverse of a square matrix |

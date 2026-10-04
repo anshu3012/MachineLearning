@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+  \node[box=cgrey, text width=3.2cm] (in) {\textbf{input sentence}\\``turn off the lights''};
+  \node[box=cblue, text width=3.6cm, minimum height=3.2cm, right=1.3cm of in] (enc) {\textbf{encoder}\\[4pt]a stack of\\encoder blocks\\[4pt]\small self-attention,\\dense layers};
+  \node[box=corange, text width=3.6cm, minimum height=3.2cm, right=1.6cm of enc] (dec) {\textbf{decoder}\\[4pt]a stack of\\decoder blocks\\[4pt]\small self-attention,\\cross-attention,\\dense layers};
+  \node[box=cgrey, text width=3.2cm, right=1.3cm of dec] (out) {\textbf{output sentence}\\``light band karo''};
+  \draw[arrow] (in) -- (enc);
+  \draw[arrow] (enc) -- (dec);
+  \draw[arrow] (dec) -- (out);
+  \node[note, below=0.25cm of enc, text width=4.2cm] {reads all input words\\at the same time};
+  \node[note, below=0.25cm of dec, text width=4.2cm] {writes the output\\word by word};
+  \node[font=\sffamily\bfseries, text=cred, above=0.3cm of $(enc.north)!0.5!(dec.north)$] {no RNN, no LSTM};
+\end{tikzpicture}
+\end{document}

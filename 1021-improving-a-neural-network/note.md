@@ -41,7 +41,7 @@ A hyperparameter is a setting of an algorithm chosen before training (see the [p
 
 A network has three kinds of layer: the input layer, where the data enters; the output layer, where the prediction comes out; and the hidden layers in between. How many hidden layers to use is the first question.
 
-In theory one hidden layer with many neurons can capture complex patterns. In practice, several hidden layers with fewer neurons each usually work better. For example, three hidden layers of 32 neurons give better results in more problems than one hidden layer of 512 neurons. Figure 2 (a) and (b) shows the two shapes.
+In theory one hidden layer with many neurons can capture complex patterns. In practice, several hidden layers with fewer neurons each usually work better: deeper models can need far fewer units and often generalise better (Goodfellow et al. 2016, §6.4.1). For example, three hidden layers of 32 neurons give better results in more problems than one hidden layer of 512 neurons. Figure 2 (a) and (b) shows the two shapes.
 
 ![(a) One wide hidden layer. (b) Several narrow layers, each building on the features of the one before. (c) A layer too small to pass on what the inputs carry.](images/layer_shapes.png)
 
@@ -61,7 +61,7 @@ How many layers, then: 3, 30 or 300? We keep adding hidden layers while the resu
 
 Two layers are already decided:
 
-- **Input layer:** one neuron per input column. A placement problem with the columns CGPA and IQ has 2 input neurons.
+- **Input layer:** one neuron per **feature** (an input variable, one column of the data table). A placement problem with the features CGPA and IQ has 2 input neurons.
 - **Output layer:** one neuron for regression and for binary classification; one neuron per class for multi-class classification.
 
 For the hidden layers there is no hard and fast rule; people go by experience. An older rule of thumb was the **pyramid structure**: fewer neurons in each later hidden layer, for example 64, then 32, then 16. The logic was that there are many primitive features and fewer combined ones.
@@ -82,13 +82,13 @@ An **optimizer** is the rule that turns the gradients into weight updates. Plain
 
 > **Key point:** Small batches (8 to 32) train slowly but generalise well; large batches (up to about 8,192) train fast but are less stable. A learning rate warm-up can give large batches the good results too.
 
-Mini-batch gradient descent updates the weights after every `batch_size` rows (see the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md), section 6). The batch size is a hyperparameter, and there are two schools of thought:
+Mini-batch gradient descent updates the weights after every `batch_size` observations (see the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md), section 6). The batch size is a hyperparameter, and there are two schools of thought:
 
 | | Small batches (8 to 32) | Large batches (up to about 8,192) |
 |---|---|---|
 | Training speed | slow | fast |
 | Training | stable | less stable |
-| Results on new data | better, a proven approach | often worse |
+| Results on new data | better, a proven approach | often worse (Keskar et al. 2017) |
 
 The upper limit of a large batch depends on the memory of the GPU.
 
@@ -134,7 +134,7 @@ With sigmoid in a deep network, the gradients shrink layer by layer on the way b
 The biggest difference between ML and DL is that deep learning needs a lot of data (see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 4.1). Two techniques help when we have too little:
 
 - **Transfer learning** (section 3.1): reuse a network that someone trained on a large, similar dataset, at least its early layers.
-- **Unsupervised pre-training:** first train the early layers on plenty of unlabelled data, then train the whole network on the few labelled rows.
+- **Unsupervised pre-training:** first train the early layers on plenty of unlabelled data, then train the whole network on the few labelled **observations** (records, one row of the data table each).
 
 ### 4.3 Slow training
 
@@ -177,6 +177,8 @@ Overfitting means learning the training data too closely, noise included, so tha
 
 ## 6. Sources
 
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.4.1 (depth reduces the number of units needed; deeper models generalise better in their experiments).
+- Keskar et al., "On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima", ICLR 2017 (large batches give worse results on new data).
 - Goyal et al., "Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour", arXiv:1706.02677, 2017 (linear scaling of the learning rate; 5-epoch warm-up; batches of 8,192).
 - Keras documentation, `keras.layers.Dense` (defaults `kernel_initializer="glorot_uniform"`, `bias_initializer="zeros"`).
 

@@ -30,7 +30,7 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 In the **bootstrapping** step, each base model is trained on its own random sample of the data, as before. So pasting, random subspaces and random patches are all available too.
 
-In the **aggregation** step, each base model returns a number, since this is regression. The bagging regressor returns their **mean**. That is the only change.
+In the **aggregation** step, each base model returns a number, since this is regression. The bagging regressor returns their **mean**. Taking the mean is the only change.
 
 scikit-learn's `BaggingRegressor` has exactly the same hyperparameters as `BaggingClassifier` (the [bagging classifier Note](../106-bagging-classifier/note.md), section 6): `estimator`, `n_estimators`, `max_samples`, `max_features`, `bootstrap`, `bootstrap_features` and `oob_score`.
 
@@ -38,36 +38,40 @@ scikit-learn's `BaggingRegressor` has exactly the same hyperparameters as `Baggi
 
 > **Key point:** One fully grown tree passes through every training point (test R² 0.92); 50 bagged trees give a smooth curve that follows the pattern (0.95).
 
-The demo data has one input column. Its output is two Gaussian bumps (a small one at 0 and a larger one at 2) plus a little noise, with 150 training points and 100 test points. With a single input there are no columns to sample, so the app only offers row settings: the base model (decision tree, SVR or KNN), `n_estimators`, `max_samples` and `bootstrap`.
+The demo data has one **feature** (input variable, one column of the data table). Its **target** (the output we predict) is two Gaussian bumps (a small one at 0 and a larger one at 2) plus a little noise, with 150 training **observations** (points, one row of the table each) and 100 test points. With a single feature there are no features to sample, so the app only offers observation settings: the base model (decision tree, SVR or KNN), `n_estimators`, `max_samples` and `bootstrap`.
 
-![(a) One fully grown regression tree; (b) a bagging regressor of 50 trees, each trained on 25 rows drawn with replacement](images/tree_vs_bagging.png){height=40%}
+![(a) One fully grown regression tree; (b) a bagging regressor of 50 trees, each trained on 25 observations drawn with replacement](images/tree_vs_bagging.png){height=40%}
 
-Figure 1 compares a single decision tree with bagging (50 trees, 25 rows each, with replacement):
+Figure 1 compares a single decision tree with bagging (50 trees, 25 observations each, with replacement):
 
 - **(a) The single tree** tries to pass through every training point, outliers included: low bias, high variance, so it overfits. Test $R^2$: **0.92**.
-- **(b) The bagging regressor** gives a smooth curve. It does not touch every point; it follows the underlying pattern. Test $R^2$: **0.95**.
+- **(b) The bagging regressor** gives a smooth curve. The curve does not touch every point; it follows the underlying pattern. Test $R^2$: **0.95**.
 
-This is the same effect as in classification: bagging keeps the low bias and removes much of the variance.
+The smoothing is the same effect as in classification: bagging keeps the low bias and removes much of the variance.
 
-Changing the settings makes little difference on this easy data: 100 trees score 0.952, and pasting (75 rows, `bootstrap=False`) scores 0.947. Bagging is not always an improvement, though: bagged KNN (0.832) and bagged SVR (0.871) both do worse than a single KNN (0.954) or SVR (0.894) here.
+Changing the settings makes little difference on this easy data: 100 trees score 0.952, and pasting (75 observations, `bootstrap=False`) scores 0.947.
+
+> **Extra:** Bagging helps unstable models, whose fit swings with small changes in the data, such as trees; it can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3; the [bagging classifier Note](../106-bagging-classifier/note.md), section 2.2). The bumps data agrees: bagged KNN (0.832) and bagged SVR (0.871) both do worse than a single KNN (0.954) or SVR (0.894).
 
 ## 4. BaggingRegressor on the Boston housing data
 
-> **Key point:** Out of the box, bagged trees (test R² 0.83) beat linear regression (0.66), a single tree (0.38) and KNN (0.55).
+> **Key point:** Out of the box, bagged trees (mean test R² 0.84) beat linear regression (0.71), a single tree (0.72) and KNN (0.50).
 
 ### 4.1 Three single regressors
 
-> **Key point:** Linear regression 0.66, decision tree 0.38, KNN 0.55 on one test split.
+> **Key point:** Averaged over 100 random splits: linear regression 0.71, decision tree 0.72, KNN 0.50.
 
-The Boston housing data (the [regression trees Note](../99-regression-trees/note.md), section 7.1) has 506 districts, 13 input columns and the median house price. We split it into 404 training rows and 102 test rows, and train three single regressors:
+The Boston housing data (the [regression trees Note](../99-regression-trees/note.md), section 7.1) has 506 districts (observations), 13 features and the median house price as the target. We split it into 404 training observations and 102 test observations, and train three single regressors.
+
+A test set of 102 observations is small, so one split gives a noisy score: on our first split, for example, the single tree scores only 0.38. So the Notebook repeats the split 100 times, with a different random shuffle each time, and every number in this section is the mean over those 100 splits:
 
 | Model | Linear regression | Decision tree | KNN |
 |---|---|---|---|
-| Test $R^2$ | 0.659 | 0.380 | 0.548 |
+| Mean test $R^2$ | 0.708 | 0.716 | 0.504 |
 
 ### 4.2 A bagging regressor with default settings
 
-> **Key point:** Ten bagged trees, nothing tuned: training R² 0.98, test R² 0.83.
+> **Key point:** Ten bagged trees, nothing tuned: mean test R² 0.84, above every single model.
 
 > **Python:** A bagging regressor with every setting at its default.
 >
@@ -76,17 +80,17 @@ The Boston housing data (the [regression trees Note](../99-regression-trees/note
 >
 > bag = BaggingRegressor(random_state=1)
 > bag.fit(X_train, y_train)
-> bag.score(X_train, y_train)    # 0.980
-> bag.score(X_test, y_test)      # 0.828
+> bag.score(X_train, y_train)    # 0.980 (first split)
+> bag.score(X_test, y_test)      # 0.828 (first split)
 > ```
 >
-> The defaults: `estimator=None` (a decision tree), `n_estimators=10`, every training row per model (`max_samples=None`), drawn with replacement, and every column. `score` returns $R^2$ for a regressor.
+> The defaults: `estimator=None` (a decision tree), `n_estimators=10`, as many observations per model as the training set (`max_samples=None`), drawn with replacement, and every feature. `score` returns $R^2$ for a regressor.
 
-Without tuning anything, the bagging regressor beats all three single models. The gap between training (0.98) and test (0.83) shows some overfitting remains.
+Without tuning anything, the bagging regressor scores a mean test $R^2$ of **0.841** over the 100 splits, well above all three single models (0.708, 0.716 and 0.504). The ten trees are each as unstable as the single tree, but their average is far steadier. On the first split, the gap between training (0.98) and test (0.83) shows some overfitting remains.
 
 ### 4.3 Tuning with GridSearchCV
 
-> **Key point:** A grid search over 144 combinations picks 50 bagged trees on full bootstrap samples; cross-validation R² 0.87, test R² 0.81.
+> **Key point:** A grid search over 144 combinations picks 50 bagged trees on full bootstrap samples; over the 100 splits these settings score 0.857, above the default's 0.841.
 
 Instead of trying pasting, random subspaces and random patches by hand, we let `GridSearchCV` try them all (the [KNN Note](../91-knn/note.md), section 4.2):
 
@@ -110,23 +114,27 @@ Instead of trying pasting, random subspaces and random patches by hand, we let `
 >
 > The base model itself is a hyperparameter here: `None` stands for the default decision tree. With `bootstrap` and `bootstrap_features` both tried as `True` and `False`, the search covers bagging, pasting, random subspaces and random patches.
 
-That is $3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$ combinations, each with 3-fold cross-validation: 432 fits, 13 seconds with `n_jobs=-1`. The best settings:
+The grid holds $3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$ combinations, each with 3-fold cross-validation: 432 fits, under a minute with `n_jobs=-1`. The best settings:
 
 - base model: **decision tree**;
 - `bootstrap=True`: **bagging**, not pasting;
-- `bootstrap_features=False`, `max_features=1.0`: **no column sampling**;
-- `max_samples=1.0`: every model gets as many rows as the training set;
+- `bootstrap_features=False`, `max_features=1.0`: **no feature sampling**;
+- `max_samples=1.0`: every model gets as many observations as the training set;
 - `n_estimators=50`.
 
-Their cross-validation $R^2$ is **0.871**, and the test $R^2$ is **0.806**.
+Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, these settings score a mean test $R^2$ of **0.857**, close to the cross-validation estimate and above the default bagging regressor (0.841); they beat the default on 79 of the 100 splits.
 
-> **Extra:** The 0.871 is an average over the three validation folds of the training data; the 0.806 is measured on the 102 test rows. The two differ because they are measured on different rows, and 102 rows is a small, noisy test. With 100 different random splits, the same settings score anywhere from 0.63 to 0.94 on the test rows (mean 0.857, close to the 0.871 from cross-validation), so one 102-row test score can land far from the average. Expecting the test score to match `best_score_` exactly is a common mistake. Here the tuned model scores slightly lower on this test set than the default one (0.828); the search picks settings that do best on average, not on this particular test set. Over the same 100 splits, the tuned settings beat the default on 79 (mean 0.857 against 0.841).
+| Model | Linear regression | Decision tree | KNN | Bagging, default | Bagging, tuned |
+|---|---|---|---|---|---|
+| Mean test $R^2$ (100 splits) | 0.708 | 0.716 | 0.504 | 0.841 | **0.857** |
+
+> **Extra:** One split can mislead. On the first split alone, the tuned model scores 0.806 and the default 0.828, the opposite order. Over the 100 splits, the tuned settings score anywhere from 0.63 to 0.94, so one 102-observation test score can land far from the average. The search picks settings that do best on average, which is what the mean over many splits measures. Expecting one test score to match `best_score_` exactly is a common mistake.
 
 ### 4.4 The out-of-bag score
 
-> **Key point:** With `oob_score=True`, the regressor reports R² on the out-of-bag rows: 0.870 here.
+> **Key point:** With `oob_score=True`, the regressor reports R² on the out-of-bag observations: 0.870 here.
 
-`oob_score` works for regression too (the [bagging classifier Note](../106-bagging-classifier/note.md), section 4). For a regressor, `oob_score_` is the $R^2$ on the rows each model never saw. With 50 trees it is **0.870**, close to the cross-validation score.
+`oob_score` works for regression too (the [bagging classifier Note](../106-bagging-classifier/note.md), section 4). For a regressor, `oob_score_` is the $R^2$ on the observations each model never saw. With 50 trees on the first split, the OOB $R^2$ is **0.870**, close to the cross-validation score.
 
 ## 5. Summary
 
@@ -140,11 +148,19 @@ Their cross-validation $R^2$ is **0.871**, and the test $R^2$ is **0.806**.
 
 - Only aggregation changes for regression: the mean replaces the vote.
 - On the bumps data, bagging smooths one overfitting tree into a curve that follows the pattern: test $R^2$ 0.92 to 0.95.
-- On Boston, default bagged trees score 0.83 against 0.66 for the best single model; a grid search picks plain bagging of 50 trees (cross-validation 0.87).
+- On Boston (mean over 100 splits), default bagged trees score 0.84 against 0.72 for the best single model; a grid search picks plain bagging of 50 trees, which scores 0.86.
+- Bagging helps unstable models such as trees; bagged KNN and SVR do worse than single ones.
 
-## 6. Key terms
+## 6. Sources
+
+- Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140, sections 1 and 6.3.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|
+| Observation | One record of the data: one row of the data table |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
 | Bagging regressor | A bagging ensemble of regressors that predicts the mean of their predictions |
 | BaggingRegressor | scikit-learn class for bagging, pasting, random subspaces and random patches in regression |

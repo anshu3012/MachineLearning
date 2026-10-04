@@ -1,0 +1,8 @@
+% Shared styles for the unrolled RNN shapes (input by \input from each figure)
+\tikzset{
+  cell/.style={draw=cpurple, fill=cpurple!12, rounded corners=3pt, minimum width=1.25cm, minimum height=0.85cm, font=\sffamily\small},
+  inp/.style={draw=cblue, fill=cblue!12, rounded corners=3pt, minimum width=1.0cm, minimum height=0.6cm, font=\sffamily\small},
+  outp/.style={draw=cgreen, fill=cgreen!12, rounded corners=3pt, minimum width=1.0cm, minimum height=0.6cm, font=\sffamily\small},
+  rec/.style={-{Stealth[length=2.5mm]}, draw=cred, line width=1.3pt},
+  up/.style={-{Stealth[length=2.5mm]}, draw=cgrey, line width=1.1pt},
+}

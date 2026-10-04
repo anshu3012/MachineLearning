@@ -44,7 +44,7 @@ Both ways bring their own problems, because we are pulling large amounts of data
 
 Suppose we have two algorithms: A is clearly better than B. We give A a small dataset and B a much larger one. Very often, B ends up performing better.
 
-Researchers tested this on a language task: choosing the right word in sentences such as "*to* / *two* / *too*". They trained several very different algorithms on more and more data. As the data grew, the algorithms' accuracies came closer and closer together (Figure 2).
+Researchers tested this on a language task: choosing the right word in sentences such as "*to* / *two* / *too*". They trained several very different algorithms on more and more data. As the data grew, the algorithms' accuracies came closer and closer together (Figure 2; Géron 2019, Ch. 1).
 
 ![With enough data, the choice of algorithm matters less](images/data_effectiveness.png)
 
@@ -56,7 +56,7 @@ This effect is known as the **unreasonable effectiveness of data**. The catch: f
 
 > **Key point:** Inputs are easy to collect; the correct answers usually need a human.
 
-For supervised learning, every row needs its correct output (its label). Collecting inputs is often easy: we can download thousands of images in minutes. But someone still has to look at each image and write down whether it shows a cat or a dog.
+For supervised learning, every **observation** (one record, one row of the data table) needs its correct output, the **target**, also called its **label**. Collecting inputs is often easy: we can download thousands of images in minutes. But someone still has to look at each image and write down whether it shows a cat or a dog.
 
 So even with plenty of data, we may not have enough **labelled** data.
 
@@ -68,7 +68,7 @@ So even with plenty of data, we may not have enough **labelled** data.
 
 > **Key point:** A model can only learn the pattern that is in its data.
 
-Our data is a **sample**: a small part of everything that exists in the real world. It is **representative** when it reflects the whole situation fairly.
+Our data is a **sample**: a small part of everything that exists in the real world. A sample is **representative** when it reflects the whole situation fairly.
 
 ![A non-representative sample suggests the wrong pattern](images/non_representative.png)
 
@@ -78,7 +78,7 @@ In Figure 3, we collected data only from one narrow range (blue points), so the 
 
 > **Key point:** A sample can be unrepresentative because it is too small (noise) or because of how it was collected (bias).
 
-Suppose we run a survey: *which team will win the T20 World Cup?* Figure 4 shows three ways to do it.
+The two names come from Géron (2019, Ch. 1). Suppose we run a survey: *which team will win the T20 World Cup?* Figure 4 shows three ways to do it.
 
 ![Three ways to run the same survey](images/survey_designs.png)
 
@@ -99,17 +99,17 @@ Real data is messy:
 - **outliers** (values far from the rest, often mistakes),
 - the same thing written in different formats.
 
-No algorithm can make good predictions from bad data. This is often summed up as **garbage in, garbage out** (Figure 5).
+No algorithm can make good predictions from bad data. The rule is often summed up as **garbage in, garbage out** (Figure 5).
 
 ![Garbage in, garbage out, and where the time goes](images/gigo.png)
 
-Fixing data quality is called **data cleaning**. It takes most of a project's time: in a one-year project, we can spend around eight months just getting the data right. Many later Notes are about exactly this.
+Fixing data quality is called **data cleaning**. Data cleaning takes most of a project's time: in a one-year project, we can spend around eight months just getting the data right. Many later Notes are about exactly this.
 
 ## 6. Irrelevant features
 
-> **Key point:** Columns that say nothing about the output only add noise. Remove them, or combine columns into more useful ones.
+> **Key point:** Features that say nothing about the output only add noise. Remove them, or combine features into more useful ones.
 
-Data often contains features (columns) that have nothing to do with what we want to predict. They do not help the model, and can make it worse: garbage in, garbage out again.
+Data often contains **features** (input variables, one column each in the data table) that have nothing to do with the **target** (the output we want to predict). They do not help the model, and can make it worse: garbage in, garbage out again.
 
 *Example: predicting who will run a marathon.* We have each person's weight, height, age and location.
 
@@ -126,7 +126,7 @@ Data often contains features (columns) that have nothing to do with what we want
 
 ![Dropping an irrelevant feature and combining two others](images/feature_selection.png)
 
-Figure 6 shows the result. Choosing, removing and creating features like this is called **feature engineering**. Deciding which columns to keep is hard, and gets easier with experience.
+Figure 6 shows the result. Choosing, removing and creating features like this is called **feature engineering**. Deciding which features to keep is hard, and gets easier with experience.
 
 ## 7. Overfitting and underfitting
 
@@ -136,9 +136,9 @@ Figure 6 shows the result. Choosing, removing and creating features like this is
 
 > **Key point:** An overfit model memorises its training data and fails on new data.
 
-**Overfitting** happens when a model learns its training data too closely, noise and accidents included, instead of the general pattern. It looks perfect on the training data and does badly on new data.
+**Overfitting** happens when a model learns its training data too closely, noise and accidents included, instead of the general pattern. An overfit model looks perfect on the training data and does badly on new data.
 
-People do this too. Someone moves to Gurgaon, pays 500 rupees for one movie ticket, and concludes that *everything* in Gurgaon is expensive. One example was turned into a general rule.
+People overfit too. Someone moves to Gurgaon, pays 500 rupees for one movie ticket, and concludes that *everything* in Gurgaon is expensive. One example was turned into a general rule.
 
 ![Underfitting, a good fit and overfitting on the same 12 points](images/fitting.gif)
 
@@ -150,11 +150,11 @@ Overfitting is one of the biggest challenges in ML. For every algorithm in these
 
 > **Key point:** An underfit model is too simple to capture the pattern, so it is bad on all data.
 
-**Underfitting** is the opposite: the model is too simple for the data. In the first stage of Figure 7, a straight line cannot follow the wave in the data. It does badly on the training data and on new data alike.
+**Underfitting** is the opposite: the model is too simple for the data. In the first stage of Figure 7, a straight line cannot follow the wave in the data. The line does badly on the training data and on new data alike.
 
 The middle stage is a **good fit**: it follows the overall wave and ignores the small noise in individual points. Its error on new data is the lowest of the three.
 
-A model that scores 100% on its training data is a warning sign, not a success. It has probably memorised the data.
+A model that scores 100% on its training data is a warning sign, not a success. Such a model has probably memorised the data.
 
 The Notebook for this Note (`notebook.ipynb`) has a slider for model complexity, showing the training error and the new-data error at every step.
 
@@ -162,7 +162,7 @@ The Notebook for this Note (`notebook.ipynb`) has a slider for model complexity,
 
 > **Key point:** A model is only useful inside a product, and every platform needs it in a different form.
 
-A model is never the end product. It is a part of some software that helps users: a recommender inside a website, a fraud detector inside a banking app.
+A model is never the end product. The model is a part of some software that helps users: a recommender inside a website, a fraud detector inside a banking app.
 
 So after building the model, we have to **integrate** it into that software, and the software may run on many platforms (Figure 8).
 
@@ -208,7 +208,7 @@ The best way to learn these challenges is to go one step further than building a
 | 2 | Not enough data | More data often beats a better algorithm; labels are scarce |
 | 3 | Non-representative data | A one-sided sample teaches the wrong pattern |
 | 4 | Poor-quality data | Garbage in, garbage out; cleaning takes most of the time |
-| 5 | Irrelevant features | Drop useless columns; combine useful ones (feature engineering) |
+| 5 | Irrelevant features | Drop useless features; combine useful ones (feature engineering) |
 | 6 | Overfitting | Memorises the training data; fails on new data |
 | 7 | Underfitting | Too simple; fails on all data |
 | 8 | Software integration | Every platform needs the model in a different form |
@@ -219,20 +219,24 @@ The best way to learn these challenges is to go one step further than building a
 - A model must learn the **pattern**, not the noise.
 - A model creates value only once it runs inside a product that real users can reach.
 
-## Sources
+## 12. Sources
 
+- Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras and TensorFlow*, 2nd ed. O'Reilly. Ch. 1, "Main Challenges of Machine Learning".
 - Banko, M. and Brill, E. (2001). Scaling to Very Very Large Corpora for Natural Language Disambiguation. *Proceedings of ACL*.
 - Halevy, A., Norvig, P. and Pereira, F. (2009). The Unreasonable Effectiveness of Data. *IEEE Intelligent Systems* 24(2).
 - Sculley, D. et al. (2015). Hidden Technical Debt in Machine Learning Systems. *NeurIPS*.
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
 | API | A service that returns data when our code asks for it |
 | Web scraping | Writing code that extracts data from web pages |
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same |
-| Labelled data | Data whose rows include the correct output |
+| Labelled data | Data whose observations include the correct output |
+| Feature | An input variable, one column of the data table |
+| Target | The output we want to predict |
+| Observation | One record, one row of the data table |
 | Sample | The part of the real world that our data covers |
 | Representative sample | A sample that reflects the whole situation fairly |
 | Sampling noise | An unrepresentative sample caused by being too small |

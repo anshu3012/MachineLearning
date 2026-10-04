@@ -36,7 +36,7 @@ The same three penalties as in the regularised regression Notes are available:
 | Elastic Net | `0 < l1_ratio < 1` | `penalty="elasticnet"` |
 | no penalty | `C=np.inf` | `penalty=None` |
 
-On the breast-cancer data (569 tumours, 30 measurements, inputs standardised, 5-fold cross-validation):
+On the breast-cancer data: 569 tumours, each one **observation** (one record, a row of the data table), with 30 **features** (input variables, one column each: measurements of the tumour, standardised). The **target** (the output we predict) is malignant or benign. Scores come from 5-fold cross-validation:
 
 | Setting | CV accuracy | Non-zero coefficients |
 |---|---|---|
@@ -77,9 +77,9 @@ Our own gradient descent (the gradient descent Note) was one way to minimise the
 |---|---|---|---|---|---|
 | `lbfgs` (default) | yes | | | yes | good general choice |
 | `newton-cg` | yes | | | yes | |
-| `newton-cholesky` | yes | | | yes | fast when rows far outnumber columns |
+| `newton-cholesky` | yes | | | yes | fast when observations far outnumber features |
 | `liblinear` | yes | yes | | | small data; two classes only (wrap in `OneVsRestClassifier` for more) |
-| `sag` | yes | | | yes | large data; needs scaled inputs |
+| `sag` | yes | | | yes | large data; needs features on similar scales |
 | `saga` | yes | yes | yes | yes | large data; the only one for Elastic Net |
 
 Asking for a combination that is not supported raises an error, for example `LogisticRegression(l1_ratio=1, solver="lbfgs")` fails with "Solver lbfgs supports only 'l2' or None penalties". For L1 use `liblinear` or `saga`; for Elastic Net use `saga`.
@@ -97,7 +97,7 @@ Asking for a combination that is not supported raises an error, for example `Log
 | `n_jobs` | None | has no effect; deprecated since 1.8 |
 | `random_state` | None | seed for solvers that shuffle the data (`sag`, `saga`, `liblinear`) |
 
-If scikit-learn prints a `ConvergenceWarning`, the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the inputs, raise `max_iter`, or both. Lowering `tol` is rarely needed.
+If scikit-learn prints a `ConvergenceWarning`, the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the features, raise `max_iter`, or both. Lowering `tol` is rarely needed.
 
 ## 5. Other settings
 
@@ -107,29 +107,31 @@ If scikit-learn prints a `ConvergenceWarning`, the solver stopped at `max_iter` 
 |---|---|---|
 | `class_weight` | None | `"balanced"` gives rare classes more weight in the loss |
 | `fit_intercept` | True | learn the intercept $w_0$; almost always leave it on |
-| `dual` | False | an alternative formulation for `liblinear` with L2, useful only when columns outnumber rows |
+| `dual` | False | an alternative formulation for `liblinear` with L2, useful only when features outnumber observations |
 | `intercept_scaling` | 1 | a technical setting for `liblinear` only |
 
 ### 5.1 class_weight
 
-> **Key point:** On a dataset with 5% positives, "balanced" raised recall from 0.79 to 0.88 with no loss of precision.
+> **Key point:** On real data with 5% positives, "balanced" raised recall from 0.77 to 0.85, at some cost in precision.
 
-On imbalanced data (the accuracy Note), the loss is dominated by the common class, so the model tends to neglect the rare one. `class_weight="balanced"` multiplies each row's loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
+On imbalanced data (the accuracy Note), the loss is dominated by the common class, so the model tends to neglect the rare one. `class_weight="balanced"` multiplies each observation's loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
 
-On a synthetic dataset with 5% positives (33 in a 600-row test set):
+An everyday picture: if an exam has one rare question type worth the same marks as the rest, a student can skip it and still score well. Give that question type extra marks, and skipping it becomes costly.
+
+To test this on real data, we make the breast-cancer data imbalanced: all 357 benign tumours plus 20 malignant ones drawn at random, so 5% are positive. Half is used for training and half for testing (10 malignant in each test set). The results are averaged over 30 random draws:
 
 | class_weight | Recall | Precision |
 |---|---|---|
-| None | 0.788 | 1.000 |
-| `"balanced"` | 0.879 | 1.000 |
+| None | 0.770 | 0.989 |
+| `"balanced"` | 0.850 | 0.872 |
 
-The weighted model finds three more of the 33 rare cases. In general, weighting raises recall and may lower precision, so check both.
+The weighted model finds more of the rare malignant tumours (recall up by 0.08), but also raises more false alarms (precision down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note). The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations over the number of classes times that class's count (scikit-learn docs).
 
 ## 6. Multi-class settings
 
 > **Key point:** With three or more classes, LogisticRegression uses softmax automatically; one-vs-rest needs OneVsRestClassifier.
 
-Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). It has been removed: with three or more classes, all solvers except `liblinear` now fit the softmax model of the previous Note, and `liblinear` raises an error (scikit-learn docs, `LogisticRegression`). For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
+Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). The setting has been removed: with three or more classes, all solvers except `liblinear` now fit the softmax model of the previous Note, and `liblinear` raises an error (scikit-learn docs, `LogisticRegression`). For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
 
 ## 7. An interactive playground
 
@@ -142,7 +144,7 @@ The folder of this Note contains `app.py`, a small Dash app. Run `python app.py`
 Things to try:
 
 - **C** from 3 down to $-3$ (that is, $10^3$ to $10^{-3}$) with L2: the boundaries stay straight but the coefficients shrink and the model becomes less sure.
-- **L1 with small C**: one of the two coefficients drops to exactly 0, and the boundary becomes vertical or horizontal (it uses only one input).
+- **L1 with small C**: one of the two coefficients drops to exactly 0, and the boundary becomes vertical or horizontal (the model uses only one feature).
 - **Penalty L1 with solver lbfgs**: the app shows the "not allowed" error.
 - **max_iter = 10**: the solver stops early and the boundary is not yet in place.
 

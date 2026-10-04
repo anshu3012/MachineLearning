@@ -29,7 +29,7 @@ The class is in `kmeans.py` in this Note's folder; running `python kmeans.py` ch
 
 ## 3. The shape of the class
 
-> **Key point:** The constructor stores k and a limit on the number of rounds; `fit_predict` runs the loop and returns one cluster number per row.
+> **Key point:** The constructor stores k and a limit on the number of rounds; `fit_predict` runs the loop and returns one cluster number per observation.
 
 We copy scikit-learn's interface, so our class is used exactly like the real one:
 
@@ -67,7 +67,7 @@ The constructor takes two settings:
 
 > **Key point:** Pick k different row numbers at random and take those rows as the first centroids.
 
-`X` is a 2-D NumPy array: with 100 points in 2 columns, it holds 100 rows of 2 numbers each. To start, we pick k different row numbers between 0 and 99 at random, then take those rows.
+`X` is a 2-D NumPy array: with 100 points in 2 columns, it holds 100 rows of 2 numbers each. Each row is an **observation** (one record of the data) and each column a **feature** (an input variable). To start, we pick k different row numbers between 0 and 99 at random, then take those rows.
 
 > **Python:** Choosing the starting centroids.
 >
@@ -87,15 +87,15 @@ The constructor takes two settings:
 
 > **Key point:** For every row, compute its distance to every centroid and record the index of the smallest one.
 
-### 5.1 One distance formula for any number of columns
+### 5.1 One distance formula for any number of features
 
-> **Key point:** The squared Euclidean distance is the dot product of the difference vector with itself, so `np.sqrt(np.dot(a - b, a - b))` works for 2, 3 or 100 columns.
+> **Key point:** The squared Euclidean distance is the dot product of the difference vector with itself, so `np.sqrt(np.dot(a - b, a - b))` works for 2, 3 or 100 features.
 
-The Euclidean distance (the [KNN imputer Note](../39-knn-imputer/note.md), section 4.1) gains one term per column, so code written term by term would change with the number of columns. The sum of squared differences is the dot product (the [PCA step-by-step Note](../48-pca-step-by-step/note.md)) of the difference vector with itself, which needs no change:
+The Euclidean distance (the [KNN imputer Note](../39-knn-imputer/note.md), section 4.1) gains one term per feature, so code written term by term would change with the number of features. The sum of squared differences is the dot product (the [PCA step-by-step Note](../48-pca-step-by-step/note.md)) of the difference vector with itself, which needs no change:
 
 $$d(a, b) = \sqrt{(b - a) \cdot (b - a)}$$
 
-For $a = (1, 2)$, $b = (4, 5)$: $b - a = (3, 3)$, $(3, 3) \cdot (3, 3) = 18$ and $d = \sqrt{18} \approx 4.24$. With a third column, $(1, 2, 3)$ and $(4, 5, 6)$, the dot product is 27 and $d = \sqrt{27} \approx 5.196$, from the same code.
+For $a = (1, 2)$, $b = (4, 5)$: $b - a = (3, 3)$, $(3, 3) \cdot (3, 3) = 18$ and $d = \sqrt{18} \approx 4.24$. With a third feature, $(1, 2, 3)$ and $(4, 5, 6)$, the dot product is 27 and $d = \sqrt{27} \approx 5.196$, from the same code.
 
 > **Python:** The distance in NumPy.
 >
@@ -204,13 +204,13 @@ Figure 2 shows all four results: every group found, every centroid in the middle
 
 > **Key point:** If the starting centroids fall badly, k-means gets stuck in poor clusters; more rounds do not help, but restarting from other random points does.
 
-Sometimes the class returns wrong clusters. It is tempting to blame `max_iter` and raise it, but the round counts say otherwise. Across 30 random starts on the four blobs, k-means never needed more than 10 rounds; at most 10 of the 100 allowed rounds were ever used.
+Sometimes the class returns wrong clusters. Blaming `max_iter` and raising it is tempting, but the round counts say otherwise. Across 30 random starts on the four blobs, k-means never needed more than 10 rounds; at most 10 of the 100 allowed rounds were ever used.
 
 Figure 3 shows the real cause on the students. With one random start (left), two centroids end up in the bottom-left group. That group gets split in two, while two real groups, the top ones, have to share one centroid placed in the empty space between them. After 3 rounds nothing changes any more, so the algorithm stops, stuck. Raising `max_iter` to 500 gives exactly the same result.
 
 ![The same students and k = 4 from two random starts: stuck in poor clusters (left) and the right clusters (right)](images/bad_start.png)
 
-The two runs can be compared by their WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple:
+The two runs can be compared by their WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple (ESL §14.3.6):
 
 1. run k-means from several random starts;
 2. keep the run with the lowest WCSS.
@@ -235,16 +235,17 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 | `move_centroids` | 4 | Each centroid becomes the column means of its rows |
 | check in `fit_predict` | 5 | Stops when the centroids no longer move |
 
-- The Euclidean distance for any number of columns: `np.sqrt(np.dot(a - b, a - b))`.
+- The Euclidean distance for any number of features: `np.sqrt(np.dot(a - b, a - b))`.
 - `X[cluster_group == k].mean(axis=0)` is the new centroid of cluster k.
 - On the four blobs, k-means stopped within 10 rounds from all 30 starts; the wrong result on the students came from a bad random start, not from too few rounds.
 - Fix bad starts by restarting several times and keeping the lowest WCSS.
 
-## Sources
+## 11. Sources
 
+- ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.6 (k-means; restarting from several random starts and keeping the lowest objective).
 - scikit-learn source, `_k_means_common.pyx`: the function `_relocate_empty_clusters_dense` in `sklearn/cluster/_k_means_common.pyx`, scikit-learn 1.9.
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

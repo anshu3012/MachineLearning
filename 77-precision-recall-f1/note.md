@@ -47,7 +47,7 @@ A missed job offer in the spam folder is far worse than an extra advert in the i
 
 $$\text{precision} = \frac{TP}{TP + FP}$$
 
-In words: of everything the model **predicted** positive, how much really was positive? It uses the "predicted 1" column of the confusion matrix (Figure 1, left).
+In words: of everything the model **predicted** positive, how much really was positive? Precision uses the "predicted 1" column of the confusion matrix (Figure 1, left).
 
 - Model A: $100 / (100 + 100) = 0.50$. Half of what it calls spam is not spam.
 - Model B: $100 / (100 + 10) = 0.91$.
@@ -82,14 +82,14 @@ The false negative is far more dangerous, so we want the model with fewer of the
 
 $$\text{recall} = \frac{TP}{TP + FN}$$
 
-In words: of everything that **really** is positive, how much did the model catch? It uses the "actual 1" row of the confusion matrix (Figure 1, right).
+In words: of everything that **really** is positive, how much did the model catch? Recall uses the "actual 1" row of the confusion matrix (Figure 1, right).
 
 - Model A: $150 / (150 + 10) = 0.94$.
 - Model B: $100 / (100 + 60) = 0.63$.
 
 Model A has the higher recall, matching the choice above.
 
-> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (Fawcett 2006, §2); "sensitivity" is the usual name in medicine.
+> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994).
 
 ### 3.3 Choosing between them
 
@@ -106,7 +106,7 @@ Precision and recall usually pull against each other: making a model flag more c
 
 ## 4. F1 score
 
-> **Key point:** F1 = 2PR / (P + R), the harmonic mean of precision and recall. It is high only if both are high.
+> **Key point:** F1 = 2PR / (P + R), the harmonic mean of precision and recall. F1 is high only if both are high.
 
 ### 4.1 When neither mistake clearly matters more
 
@@ -120,7 +120,9 @@ For a model that tells cats from dogs, calling a cat a dog is no worse than the 
 
 $$F_1 = \frac{2 \times \text{precision} \times \text{recall}}{\text{precision} + \text{recall}}$$
 
-This is the **harmonic mean** of the two, not the ordinary (arithmetic) average.
+This formula is the **harmonic mean** of the two, not the ordinary (arithmetic) average.
+
+An everyday picture: a chain is only as strong as its weakest link. F1 behaves the same way: one weak score drags the whole number down, however good the other score is.
 
 | Precision | Recall | Arithmetic mean | F1 |
 |---|---|---|---|
@@ -220,6 +222,7 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 
 ## 8. Sources
 
+- **Altman and Bland 1994:** Altman, D. G. and Bland, J. M. "Diagnostic tests 1: sensitivity and specificity." *BMJ* 308(6943), 1552, 1994.
 - **Fawcett 2006:** Fawcett, T. "An Introduction to ROC Analysis." *Pattern Recognition Letters* 27(8), 861–874, 2006. Section 2 and Figure 1.
 - **scikit-learn docs:** `sklearn.metrics.precision_score` (pos_label); example "Precision-Recall", scikit-learn 1.9.
 

@@ -16,7 +16,7 @@ title: "Computing the SVD by Hand"
 
 > **Key point:** Multiplying $A$ by its own transpose makes one of the two orthogonal matrices disappear. The eigenvectors of $A^{\mathsf T}A$ are the right singular vectors, its eigenvalues are the squared singular values, and $\mathbf{u}_i = A\mathbf{v}_i / \sigma_i$ gives the left singular vectors.
 
-This Note follows MIT OpenCourseWare 18.06 Linear Algebra, Lecture 29 (Gilbert Strang), and *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.5.2.
+This Note follows Strang's *Introduction to Linear Algebra* (Strang §7.2) and *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.5.2.
 
 ![The four steps of computing an SVD by hand](images/svd_recipe.png)
 
@@ -63,7 +63,7 @@ The right side of the formula is exactly an eigen-decomposition $PDP^{-1}$ (see 
 
 $A$ itself may have no useful eigenvectors, but $A^{\mathsf T}A$ always does, for two reasons.
 
-- **It is symmetric.** Its transpose is $A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$, itself. A symmetric matrix always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 4.3). So $V$ can always be built as an orthogonal matrix.
+- **$A^{\mathsf T}A$ is symmetric.** Its transpose is $A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$, itself. A symmetric matrix always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 4.3). So $V$ can always be built as an orthogonal matrix.
 - **Its eigenvalues are never negative.** For a unit eigenvector $\mathbf{v}$ with eigenvalue $\lambda$, $\lambda = \mathbf{v}^{\mathsf T}A^{\mathsf T}A\mathbf{v} = \lVert A\mathbf{v}\rVert^2 \ge 0$. So the square root $\sigma = \sqrt\lambda$ is a real, non-negative number. The formula also says $\sigma$ is the length of $A\mathbf{v}$, as in the geometry Note.
 
 So $A^{\mathsf T}A$ is symmetric and positive semi-definite, for every matrix $A$ of any shape.
@@ -74,7 +74,7 @@ So $A^{\mathsf T}A$ is symmetric and positive semi-definite, for every matrix $A
 
 By the same steps, $AA^{\mathsf T} = U\Sigma V^{\mathsf T}V\Sigma^{\mathsf T}U^{\mathsf T} = U\,\Sigma\Sigma^{\mathsf T}\,U^{\mathsf T}$. So the left singular vectors $\mathbf{u}_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$.
 
-For $A$: $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, a different matrix from $A^{\mathsf T}A$. Yet both have the eigenvalues 45 and 5. This is no accident: $AB$ and $BA$ always share their non-zero eigenvalues.
+For $A$: $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, a different matrix from $A^{\mathsf T}A$. Yet both have the eigenvalues 45 and 5. The match is no accident: $AB$ and $BA$ always share their non-zero eigenvalues.
 
 ## 3. The recipe, worked on a $2 \times 2$ matrix
 
@@ -98,9 +98,9 @@ For $\lambda_1 = 45$, $A^{\mathsf T}A - 45I$ has rows $[-20, 20]$ and $[20, -20]
 
 $$\mathbf{v}_1 = \frac{1}{\sqrt2}\begin{bmatrix} 1 \\ 1 \end{bmatrix}, \qquad \mathbf{v}_2 = \frac{1}{\sqrt2}\begin{bmatrix} -1 \\ 1 \end{bmatrix}$$
 
-They are perpendicular, as Section 2.2 promised.
+The two vectors are perpendicular, as Section 2.2 promised.
 
-**Step 3: $\mathbf{u}_i = A\mathbf{v}_i / \sigma_i$.** This is the singular value equation $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ solved for $\mathbf{u}_i$.
+**Step 3: $\mathbf{u}_i = A\mathbf{v}_i / \sigma_i$.** The step is the singular value equation $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ solved for $\mathbf{u}_i$.
 
 1. **In words:** apply $A$ to each right singular vector and divide by its singular value. The result is automatically a unit vector.
 2. **Formula:**
@@ -171,7 +171,7 @@ $\mathbf{v}_2$ is the direction $C$ squishes to nothing: $C[-1, 2] = [-2 + 2, -4
 
 $$\mathbf{u}_1 = \frac{1}{5}C\mathbf{v}_1 = \frac{1}{5\sqrt5}\begin{bmatrix} 5 \\ 10 \end{bmatrix} = \frac{1}{\sqrt5}\begin{bmatrix} 1 \\ 2 \end{bmatrix}$$
 
-**Step 4.** $\mathbf{u}_2 = C\mathbf{v}_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf{u}_1$ completes $U$ to an orthogonal matrix; we take $\mathbf{u}_2 = \frac{1}{\sqrt5}[-2, 1]$. It is multiplied by $\sigma_2 = 0$, so it never affects the product.
+**Step 4.** $\mathbf{u}_2 = C\mathbf{v}_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf{u}_1$ completes $U$ to an orthogonal matrix; we take $\mathbf{u}_2 = \frac{1}{\sqrt5}[-2, 1]$. This $\mathbf{u}_2$ is multiplied by $\sigma_2 = 0$, so it never affects the product.
 
 **Result.**
 
@@ -232,7 +232,7 @@ So $\sigma_1 = \sqrt3 \approx 1.732$ and $\sigma_2 = 1$, with $\mathbf{v}_1 = \f
 
 $$\mathbf{u}_1 = \frac{1}{\sqrt3}B\mathbf{v}_1 = \frac{1}{\sqrt6}\begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix} \approx \begin{bmatrix} 0.816 \\ 0.408 \\ 0.408 \end{bmatrix}, \qquad \mathbf{u}_2 = \frac{1}{1}B\mathbf{v}_2 = \frac{1}{\sqrt2}\begin{bmatrix} 0 \\ -1 \\ 1 \end{bmatrix}$$
 
-**Step 4.** $U$ is $3 \times 3$ and needs a third column, perpendicular to both. $\mathbf{u}_3 = \frac{1}{\sqrt3}[1, -1, -1]$ works: its dot products with $[2, 1, 1]$ and with $[0, -1, 1]$ are both 0. It spans the left null space, the one direction in 3D that $B$ never reaches.
+**Step 4.** $U$ is $3 \times 3$ and needs a third column, perpendicular to both. $\mathbf{u}_3 = \frac{1}{\sqrt3}[1, -1, -1]$ works: its dot products with $[2, 1, 1]$ and with $[0, -1, 1]$ are both 0. The vector $\mathbf{u}_3$ spans the left null space, the one direction in 3D that $B$ never reaches.
 
 The other route, eigenvectors of $BB^{\mathsf T}$, would mean a $3 \times 3$ eigenvalue problem (eigenvalues 3, 1 and 0), and would still risk the sign trap of Section 4. For a tall data matrix with thousands of rows, $A^{\mathsf T}A$ is the small one, so we always start from it.
 
@@ -253,7 +253,7 @@ The recipe is for understanding and for small examples. On a computer it has a f
 
 So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine `gesdd` (NumPy docs, `numpy.linalg.svd`). That routine reduces $A$ itself step by step with orthogonal matrices, which do not magnify rounding errors, until the singular values can be read off (Trefethen and Bau, Lecture 31).
 
-> **Extra:** The ratio $\sigma_1 / \sigma_n$ of the largest to the smallest singular value is the **condition number** of a matrix. It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). This is why the least-squares solvers of the [multiple linear regression code Note](../55-multiple-lr-code/note.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
+> **Extra:** The ratio $\sigma_1 / \sigma_n$ of the largest to the smallest singular value is the **condition number** of a matrix. It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). The squaring is why the least-squares solvers of the [multiple linear regression code Note](../55-multiple-lr-code/note.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
 
 ## 9. Summary
 
@@ -272,14 +272,14 @@ So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine 
 - The SVD gives perpendicular bases for the row space, null space, column space and left null space.
 - Computers compute the SVD from $A$ directly, because $A^{\mathsf T}A$ loses small singular values.
 
-## Sources
+## 10. Sources
 
 - NumPy documentation. `numpy.linalg.svd` (uses LAPACK `gesdd`).
-- Strang, G. MIT OpenCourseWare 18.06 Linear Algebra, Lecture 29: Singular value decomposition.
+- Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Section 7.2, bases and matrices in the SVD.
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.5.2 (MML).
 - Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 12 (conditioning), Lecture 19 (least squares and the normal equations), Lecture 31 (computing the SVD).
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

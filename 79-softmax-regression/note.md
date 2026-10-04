@@ -13,11 +13,11 @@ title: "Softmax Regression (Multinomial Logistic Regression)"
 
 ## 1. Overview
 
-> **Key point:** Softmax regression extends logistic regression to more than two classes. It computes one score per class and turns the scores into probabilities that add up to 1, using the softmax function.
+> **Key point:** Softmax regression extends logistic regression to more than two classes. The model computes one score per class and turns the scores into probabilities that add up to 1, using the softmax function.
 
 The logistic regression of the previous Notes handles **binary** classification: placed or not, spam or not. Many problems have more classes. A student might be placed, not placed, or opt out of placements altogether; an iris flower can be one of three species.
 
-**Softmax regression**, also called **multinomial logistic regression**, handles any number of classes. It is also the standard output layer of neural networks that classify, so it matters for deep learning too (Goodfellow et al. §6.2.2.3). With two classes it reduces exactly to ordinary logistic regression.
+**Softmax regression**, also called **multinomial logistic regression**, handles any number of classes. Softmax is also the standard output layer of neural networks that classify, so it matters for deep learning too (Goodfellow et al. §6.2.2.3). With two classes it reduces exactly to ordinary logistic regression.
 
 ## 2. The softmax function
 
@@ -58,7 +58,7 @@ With two classes, divide the top and bottom by $e^{z_1}$:
 
 $$\frac{e^{z_1}}{e^{z_1} + e^{z_2}} = \frac{1}{1 + e^{-(z_1 - z_2)}} = \sigma(z_1 - z_2)$$
 
-This is the sigmoid of the sigmoid Note. So binary logistic regression is the special case of softmax regression with two classes.
+The result is the sigmoid of the sigmoid Note. So binary logistic regression is the special case of softmax regression with two classes.
 
 ## 3. How the model predicts
 
@@ -72,7 +72,7 @@ With $K$ classes, the model has $K$ weight vectors, one per class (Figure 2). To
 2. apply softmax to get $K$ probabilities;
 3. predict the class with the largest probability.
 
-On the iris data with two inputs (sepal length and petal length), the trained model has three weight vectors:
+On the iris data, each flower is one **observation** (one record, a row of the data table). We use two **features** (input variables, one column each): sepal length and petal length. The **target** (the output we predict) is the species. The trained model has three weight vectors:
 
 | Class | Intercept | Sepal length | Petal length |
 |---|---|---|---|
@@ -92,19 +92,19 @@ For a flower with sepal length 3.4 and petal length 2.7, the setosa score is $11
 
 A simple way to picture training is to **one-hot encode** the output (the one-hot encoding Note). A column with values 0, 1, 2 becomes three columns: "is it class 0?", "is it class 1?", "is it class 2?". Each column is a binary problem, so one logistic regression could be trained per column, giving three weight vectors.
 
-This is close to how the method is often explained, and it works (scikit-learn calls it **one-vs-rest**). But training K separate models is slow on large data, and their probabilities are not designed to add up to 1.
+The one-model-per-class picture works, and scikit-learn offers it as **one-vs-rest**. But the K models are trained separately, so nothing makes their probabilities add up to 1.
 
 ### 4.2 The real approach: one loss for all classes
 
-> **Key point:** L = −(1/m) Σᵢ Σₖ yᵢₖ log ŷᵢₖ. For each row, only the log probability of its true class counts.
+> **Key point:** L = −(1/m) Σᵢ Σₖ yᵢₖ log ŷᵢₖ. For each observation, only the log probability of its true class counts.
 
 Softmax regression instead trains all $K$ weight vectors together, by minimising one loss function, the **categorical cross entropy**:
 
 $$L = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K} y_{ik}\log \hat{y}_{ik}$$
 
-Here $y_{ik}$ is the one-hot value (1 if row $i$ is class $k$, else 0) and $\hat{y}_{ik}$ the softmax probability of class $k$. For each row, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the binary cross entropy.
+Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0) and $\hat{y}_{ik}$ the softmax probability of class $k$. For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the binary cross entropy.
 
-With 2 inputs and 3 classes there are $3 \times 3 = 9$ weights. Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in the gradient descent Note for logistic regression.
+With 2 features and 3 classes there are $3 \times 3 = 9$ weights. Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in the gradient descent Note for logistic regression.
 
 ## 5. In scikit-learn
 
@@ -129,7 +129,7 @@ On 30 test flowers, the model gets 29 right (accuracy 0.967); the one mistake is
 
 ![Decision regions of softmax regression on iris](images/regions.png){height=50%}
 
-Figure 3 shows the **decision regions**: each point of the plane is coloured by the class the model would predict. The boundaries between regions are straight lines, because each score is a linear function of the inputs, so softmax regression is still a linear classifier. The query flower (star) sits in the setosa region, close to the versicolor boundary, which matches its 73%/27% split.
+Figure 3 shows the **decision regions**: each point of the plane is coloured by the class the model would predict. The boundaries between regions are straight lines, because each score is a linear function of the features, so softmax regression is still a linear classifier. The query flower (star) sits in the setosa region, close to the versicolor boundary, which matches its 73%/27% split.
 
 ## 6. Summary
 
@@ -153,4 +153,4 @@ Figure 3 shows the **decision regions**: each point of the plane is coloured by 
 | Softmax function | Turns a list of scores into probabilities: $e^{z_k} / \sum_j e^{z_j}$ |
 | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class) |
 | One-vs-rest | Training one binary classifier per class, each separating that class from all others |
-| Decision region | The part of the input space in which a model predicts a given class |
+| Decision region | The part of the feature space in which a model predicts a given class |

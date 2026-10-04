@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 254 of 254 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked when their Note is written. So far, 254 of 254 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -385,11 +385,11 @@ The full map has 254 Concepts, too many for one page, so it is shown in six area
 
 ## 4. The Learning path
 
-> **Key point:** Before each Video, read the Notes it builds on.
+> **Key point:** Before each Note, read the Notes it builds on.
 
-Each row lists a Video's Concepts and the Notes to read first. Videos marked *coming* or *deferred* do not have a Note yet.
+Each row lists one Note's Concepts and the Notes to read first. Rows marked *coming* or *deferred* do not have a Note yet.
 
-| Video | Concepts | Read first | Note |
+| Note | Concepts | Read first | Status |
 |---|---|---|---|
 | 1 | Data mining, Machine learning | nothing | written |
 | 2 | Artificial intelligence, Deep learning, Features, Machine learning, Neural networks, Symbolic AI and expert systems | nothing | written |

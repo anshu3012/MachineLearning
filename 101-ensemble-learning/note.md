@@ -22,7 +22,7 @@ The word **ensemble** means a group, for example a group of musicians. Ensemble 
 
 Ensembles are tried in almost every serious ML project and in almost every Kaggle competition. This Note covers:
 
-- the idea behind it, the wisdom of the crowd;
+- the idea behind ensembles, the wisdom of the crowd;
 - how an ensemble predicts, and why its models must differ;
 - the four main types: voting, stacking, bagging and boosting (each gets its own Notes later);
 - why ensembles work, what they cost, and when to use them.
@@ -47,7 +47,7 @@ Ensemble learning rests on the same fact: a crowd of models knows more than one 
 
 > **Key point:** Every base model predicts; the ensemble takes the majority vote (classification) or the mean (regression).
 
-Every ML algorithm has two stages: **training**, where it finds the pattern in the data, and **prediction**, where it answers for a new query point (a new input row, as in the [KNN Note](../91-knn/note.md)). Training differs between the types of ensemble (section 4). Prediction works the same way for all of them.
+Every ML algorithm has two stages: **training**, where it finds the pattern in the data, and **prediction**, where it answers for a new query point (a new **observation**, one record or row of the data table, as in the [KNN Note](../91-knn/note.md)). Each observation has **features** (input variables, one column each) and a **target** (the output we predict). Training differs between the types of ensemble (section 4). Prediction works the same way for all of them.
 
 An ensemble is a collection of smaller models, called **base models**. They can be any algorithms: decision trees, SVMs, KNN, linear regression and so on.
 
@@ -103,29 +103,29 @@ Take, say, an SVM, a logistic regression and a decision tree, and train all thre
 
 Stacking starts like voting: different algorithms trained on the same data. Then a further model, the **meta-model** (for example KNN), is trained on the base models' outputs.
 
-Each training row gives the meta-model one example: what the SVM said, what the logistic regression said, what the tree said, and what the true answer was. For instance, (1, 0, 1) with true answer 1, or (0, 0, 1) with true answer 1.
+Each training observation gives the meta-model one example: what the SVM said, what the logistic regression said, what the tree said, and what the true answer was. For instance, (1, 0, 1) with true answer 1, or (0, 0, 1) with true answer 1.
 
-From such rows the meta-model learns a weight for each base model: more weight to the models that are usually right, less to the ones that often err. In voting every model's vote counts the same, as in a democracy. In stacking, some votes count more than others. Stacking comes last in the ensemble Notes.
+From such observations the meta-model learns a weight for each base model: more weight to the models that are usually right, less to the ones that often err. In voting every model's vote counts the same, as in a democracy. In stacking, some votes count more than others. Stacking comes last in the ensemble Notes.
 
 ### 4.3 Bagging
 
-> **Key point:** One algorithm, many copies, each trained on a different random sample of the rows; the answers are then voted or averaged.
+> **Key point:** One algorithm, many copies, each trained on a different random sample of the observations; the answers are then voted or averaged.
 
 **Bagging** is short for **bootstrap aggregation**. All base models use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
 
-Suppose the data D has 1,000 students and we decide to show each model 500 of them. We draw 500 rows at random to make D1 and train model 1 on it. Then we put those rows back and draw another 500 at random for D2, and so on. Drawing random samples like this is called **bootstrapping**.
+Suppose the data D has 1,000 students and we decide to show each model 500 of them. We draw 500 observations at random, with replacement (each drawn observation is put back, so the same one can be drawn twice), to make D1 and train model 1 on it. Then we draw another 500 the same way for D2, and so on. Drawing random samples like this is called **bootstrapping**.
 
 The samples differ, so the models learn differently. At prediction time we vote or average as before.
 
-When the base models are decision trees, the bagging ensemble gets its own name: a **random forest**, a "forest" of trees. Strictly, a random forest also picks a random subset of the columns at every split (Breiman 2001); the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) covers the difference. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests in the [random forest Note](../108-random-forest-intro/note.md).
+When the base models are decision trees, the bagging ensemble gets its own name: a **random forest**, a "forest" of trees. Strictly, a random forest also picks a random subset of the features at every split (Breiman 2001); the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) covers the difference. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests in the [random forest Note](../108-random-forest-intro/note.md).
 
 ### 4.4 Boosting
 
 > **Key point:** Models are trained one after another; each one concentrates on the mistakes of the one before.
 
-**Boosting** also uses one algorithm, but the models are trained **in series**, not side by side. The first model is trained on the data and notes which rows it got wrong. The next model is told about those rows and pays extra attention to them, fixing some of them.
+**Boosting** also uses one algorithm, but the models are trained **in series**, not side by side. The first model is trained on the data and notes which observations it got wrong. The next model is told about those observations and pays extra attention to them, fixing some of them.
 
-It then passes its own mistakes to the third model, and so on. Down the chain the mistakes shrink, and the combined model makes far fewer than the first. Boosting is the most powerful of the four, and also the most complex; it has several Notes of its own, starting with AdaBoost.
+The second model then passes its own mistakes to the third model, and so on. Down the chain the mistakes shrink, and the combined model makes far fewer than the first. Boosting is the most powerful of the four, and also the most complex; it has several Notes of its own, starting with AdaBoost.
 
 ## 5. Why ensembles work
 
@@ -171,7 +171,7 @@ A single model usually trades bias against variance (the [bias-variance Note](..
 
 > **Key point:** The ensemble's performance changes little when the data changes.
 
-A **robust** model keeps performing well when the data it sees changes somewhat. This is closely related to low variance, but it is often listed as a benefit in its own right.
+A **robust** model keeps performing well when the data it sees changes somewhat. Robustness is closely related to low variance, but it is often listed as a benefit in its own right.
 
 ## 7. When to use an ensemble
 
@@ -179,7 +179,7 @@ A **robust** model keeps performing well when the data it sees changes somewhat.
 
 There is rarely a reason not to try an ensemble. In a project, it usually comes last: after data cleaning, preprocessing, feature engineering, model building and evaluation, we combine models and check whether the result improves. Most of the time it does.
 
-Ensembles made Kaggle competitions famous, and Kaggle in turn made XGBoost, a boosting algorithm, famous. On small and medium-sized tables of data, tree ensembles often beat deep learning; on very large datasets, such as images or text, deep learning tends to win. A benchmark on 45 medium-sized tables found tree-based models still ahead of deep networks (Grinsztajn et al. 2022).
+Ensembles made Kaggle competitions famous, and Kaggle in turn made XGBoost, a boosting algorithm, famous: in 2015, 17 of the 29 winning solutions published on Kaggle's blog used XGBoost (Chen and Guestrin 2016). On small and medium-sized tables of data, tree ensembles often beat deep learning; on very large datasets, deep learning can take the lead. A benchmark on 45 medium-sized tables found tree-based models still ahead of deep networks (Grinsztajn et al. 2022).
 
 The order of the coming Notes: voting, then bagging, then random forests, then boosting, and stacking last.
 
@@ -189,22 +189,23 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 |---|---|---|---|---|
 | Voting | different algorithms | the same data | majority vote or mean | errors of individual models |
 | Stacking | different algorithms | the same data | a meta-model that learns weights | errors of individual models |
-| Bagging | one algorithm (random forest: trees) | random samples of the rows | majority vote or mean | variance |
-| Boosting | one algorithm, in series | rows weighted toward earlier mistakes | weighted combination | bias |
+| Bagging | one algorithm (random forest: trees) | random samples of the observations | majority vote or mean | variance |
+| Boosting | one algorithm, in series | observations weighted toward earlier mistakes | weighted combination | bias |
 
 - An ensemble combines several base models: majority vote for classification, mean for regression.
 - The base models must differ: different algorithms, different data, or both.
 - Ensembles cost more computation but usually improve performance, lower bias and variance, and are more robust.
 - On two-moons data, three models scoring 0.860 to 0.875 give a vote scoring 0.890.
 
-## Sources
+## 9. Sources
 
 - **Breiman 2001:** L. Breiman, "Random Forests", *Machine Learning* 45, 5–32, 2001.
+- **Chen and Guestrin 2016:** T. Chen and C. Guestrin, "XGBoost: A Scalable Tree Boosting System", *Proceedings of KDD 2016*, 785–794. arxiv.org/abs/1603.02754
 - **Galton 1907:** F. Galton, "Vox Populi", *Nature* 75, 450–451, 1907.
 - **Grinsztajn et al. 2022:** L. Grinsztajn, E. Oyallon and G. Varoquaux, "Why do tree-based models still outperform deep learning on typical tabular data?", NeurIPS 2022 Datasets and Benchmarks Track.
 - **Surowiecki 2004:** J. Surowiecki, *The Wisdom of Crowds*, Doubleday, 2004.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

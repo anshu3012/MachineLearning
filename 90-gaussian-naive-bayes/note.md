@@ -14,15 +14,15 @@ title: "Naive Bayes with Numerical Data: Gaussian Naive Bayes"
 
 ## 1. Overview
 
-> **Key point:** Numerical inputs rarely repeat exactly, so counting fails. Gaussian Naive Bayes assumes each input follows a normal distribution within each class, and uses the normal curve's height (density) in place of a counted probability.
+> **Key point:** Numerical features rarely repeat exactly, so counting fails. Gaussian Naive Bayes assumes each feature follows a normal distribution within each class, and uses the normal curve's height (density) in place of a counted probability.
 
-So far every input was categorical, so probabilities came from counting. This Note handles **numerical** inputs such as height or weight, and introduces **Gaussian Naive Bayes**, the most common variant for them.
+So far every **feature** (input variable, one column of the data table) was categorical, so probabilities came from counting. This Note handles **numerical** features such as height or weight, and introduces **Gaussian Naive Bayes**, the most common variant for them.
 
 ## 2. The problem
 
 > **Key point:** No man in the data is exactly 185 cm tall, so P(height = 185 | male) by counting is 0.
 
-The data has 8 people with height (cm), weight (pounds) and gender:
+The data has 8 people. Each person is one **observation** (one record, a row of the table). The two features are height (cm) and weight (pounds); the **target** (the output we predict) is gender:
 
 | Height (cm) | Weight (lb) | Gender |
 |---|---|---|
@@ -45,20 +45,20 @@ and the same for female. The prior is easy: 4 of 8 are male, so $P(\text{male}) 
 
 ## 3. The assumption: normal distributions
 
-> **Key point:** Assume each column is normally distributed within each class. Estimate the mean and standard deviation, then read off the curve's height at the new value.
+> **Key point:** Assume each feature is normally distributed within each class. Estimate the mean and standard deviation, then read off the curve's height at the new value.
 
-Gaussian Naive Bayes assumes that, within each class, each numerical input follows a **normal** (Gaussian) distribution, the bell curve of the earlier statistics Notes.
+Gaussian Naive Bayes assumes that, within each class, each numerical feature follows a **normal** (Gaussian) distribution, the bell curve of the earlier statistics Notes.
 
-For each class and each column:
+For each class and each feature:
 
-1. compute the **mean** $\mu$ and **standard deviation** $\sigma$ of that column for that class's rows;
+1. compute the **mean** $\mu$ and **standard deviation** $\sigma$ of that feature over that class's observations;
 2. for a new value $x$, compute the normal density
 
 $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
 
 3. use $f(x)$ in place of $P(x \mid \text{class})$ in the Naive Bayes product.
 
-![A normal curve per class for each column; the dots mark the new person's values](images/gaussians.png){height=52%}
+![A normal curve per class for each feature; the dots mark the new person's values](images/gaussians.png){height=52%}
 
 Figure 1 shows the four fitted curves. The new person's height (185 cm) sits on the right flank of the male curve but far out in the tail of the female curve; the same holds for the weight (170 pounds).
 
@@ -66,7 +66,7 @@ Figure 1 shows the four fitted curves. The new person's height (185 cm) sits on 
 
 > **Key point:** Male score 5.5 × 10⁻⁴ against female 1.1 × 10⁻⁵: predict male, with about 98% probability.
 
-| Class | Column | Mean | Std. deviation | Density at the new value |
+| Class | Feature | Mean | Std. deviation | Density at the new value |
 |---|---|---|---|---|
 | male | height | 178.45 | 5.69 | 0.03615 |
 | male | weight | 176.25 | 11.09 | 0.03070 |
@@ -98,23 +98,23 @@ The male score is about 49 times larger, so the prediction is **male**. As proba
 
 > **Key point:** The normal assumption can be wrong. Other variants assume other distributions: multinomial for counts, Bernoulli for yes/no, categorical for categories.
 
-The normal assumption is a choice, and it can be poor, for example for a skewed column like income. Naive Bayes can use any distribution that suits the data, giving different variants:
+The normal assumption is a choice, and it can be poor, for example for a skewed feature like income. Naive Bayes can use any distribution that suits the data, giving different variants:
 
-| Variant | Assumed distribution | Typical inputs | scikit-learn |
+| Variant | Assumed distribution | Typical features | scikit-learn |
 |---|---|---|---|
 | Gaussian | normal | continuous measurements | `GaussianNB` |
 | Multinomial | multinomial | counts, such as word counts in a document | `MultinomialNB` |
 | Bernoulli | Bernoulli (yes/no) | binary features, such as "word present or not" | `BernoulliNB` |
 | Categorical | categorical | categories, as in the Play Tennis Note | `CategoricalNB` |
 
-The approach is to look at each column's distribution and pick the variant whose assumption fits best (scikit-learn user guide §1.9). A strongly skewed numerical column can also be transformed first (the power transformer Note) so that it looks more normal.
+Each variant suits one kind of data (scikit-learn user guide §1.9), so we look at each feature's distribution and pick the variant whose assumption fits it. A strongly skewed numerical feature can also be transformed first (the power transformer Note) so that it looks more normal.
 
 ## 6. Summary
 
 - Numerical values rarely repeat, so $P(x \mid \text{class})$ cannot be counted.
-- Gaussian Naive Bayes fits a normal curve (mean, standard deviation) per class and column, and uses the density at $x$.
+- Gaussian Naive Bayes fits a normal curve (mean, standard deviation) per class and feature, and uses the density at $x$.
 - New person 185 cm, 170 lb: male score $5.5 \times 10^{-4}$, female $1.1 \times 10^{-5}$: male (98%).
-- Other variants (multinomial, Bernoulli, categorical) suit other kinds of inputs.
+- Other variants (multinomial, Bernoulli, categorical) suit other kinds of features.
 
 ## 7. Sources
 
@@ -124,8 +124,8 @@ The approach is to look at each column's distribution and pick the variant whose
 
 | Term | Meaning |
 |---|---|
-| Gaussian Naive Bayes | Naive Bayes that models each numerical input as normally distributed within each class |
+| Gaussian Naive Bayes | Naive Bayes that models each numerical feature as normally distributed within each class |
 | Probability density | The height of a continuous distribution's curve; compares how likely nearby values are |
 | GaussianNB | scikit-learn's Gaussian Naive Bayes |
 | MultinomialNB | Naive Bayes for count data, such as word counts |
-| BernoulliNB | Naive Bayes for binary (yes/no) inputs |
+| BernoulliNB | Naive Bayes for binary (yes/no) features |

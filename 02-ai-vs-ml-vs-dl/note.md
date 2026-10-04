@@ -46,7 +46,7 @@ AGI is the long-term goal of the field. Every AI system we use today is narrow A
 
 ## 3. Symbolic AI and expert systems
 
-> **Key point:** Early AI worked by having humans write down rules. This works for problems with clear rules and fails for everything else.
+> **Key point:** Early AI worked by having humans write down rules. Hand-written rules work for problems with clear rules and fails for everything else.
 
 ![Timeline of approaches to AI](images/timeline.png)
 
@@ -82,7 +82,7 @@ Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, a
 
 > **Key point:** In Machine Learning, we do not write the rules. We give the machine examples with answers, and it works out the rules itself.
 
-**Machine Learning (ML)** is a branch of computer science that uses statistical techniques to find patterns in data. It became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../01-what-is-ml/note.md)).
+**Machine Learning (ML)** is a branch of computer science that uses statistical techniques to find patterns in data. ML became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../01-what-is-ml/note.md)).
 
 ### 4.1 Learning rules from data
 
@@ -117,15 +117,15 @@ The process is the same as in ML. We give data to an algorithm and **train** it:
 
 > **Key point:** Neural networks are inspired by the brain, but they do not work like the brain.
 
-DL uses **neural networks**, which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. It is a mathematical model that borrows one idea: many simple units connected together.
+DL uses **neural networks**, which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. A neural network is a mathematical model that borrows one idea: many simple units connected together.
 
-The smallest unit of a neural network is the **perceptron**, an artificial neuron. It is covered in detail in later Notes.
+The smallest unit of a neural network is the **perceptron**, an artificial neuron. The perceptron is covered in detail in later Notes.
 
 ### 5.2 Features: chosen by us or learned
 
 > **Key point:** In ML, we choose the features. In DL, the network learns them.
 
-A **feature** is one piece of information about an example that a model uses to make its decision. For example, to predict whether a student will get a job in campus placements, our data might look like this:
+A **feature** is an input variable: one piece of information that a model uses to make its decision, stored as one column of the data table. For example, to predict whether a student will get a job in campus placements, our data might look like this:
 
 | Student | CGPA | IQ | Certifications | Placed? |
 |---|---|---|---|---|
@@ -133,7 +133,7 @@ A **feature** is one piece of information about an example that a model uses to 
 | B | 6.1 | 105 | 0 | No |
 | C | 7.5 | 112 | 2 | Yes |
 
-Here CGPA, IQ and Certifications are the features, and "Placed?" is the answer we want to predict.
+Here CGPA, IQ and Certifications are the features. "Placed?" is the **target**: the output we want to predict. Each student is one **observation**: one record, one row of the table.
 
 ![Feature selection in ML vs DL (student placement example)](images/features_ml_vs_dl.png)
 
@@ -142,7 +142,7 @@ Figure 6 shows the difference:
 - **ML:** we decide which features matter and supply them. Choosing well requires a good understanding of the data. A useful feature we leave out can never be used by the model.
 - **DL:** we supply the raw data, and the network works out which information matters.
 
-This makes DL valuable when nobody knows what the right features are. For example, nobody can list the features that make a photo a dog photo.
+Learning its own features makes DL valuable when nobody knows what the right features are. For example, nobody can list the features that make a photo a dog photo.
 
 ### 5.3 Layers build up understanding
 
@@ -171,7 +171,9 @@ Figure 8 shows how performance changes as we add data:
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
 
-This is why DL now outperforms ML on tasks with very large datasets: image classification, object detection, and text and speech tasks.
+The steady gain with more data is why DL now outperforms ML on tasks with very large datasets: image classification, object detection, and text and speech tasks.
+
+> **Extra:** Figure 8 is a sketch, not a measurement. A measured case: Sun et al. (2017) trained image networks on up to 300 million images, and performance on vision tasks kept rising, roughly by the same amount each time the data grew tenfold (a logarithmic increase).
 
 ## 6. Choosing between ML and DL
 
@@ -203,13 +205,14 @@ Many organisations, such as banks and insurance companies, do not have that much
 - With more data, DL keeps improving while ML levels off.
 - With little data, use ML.
 
-## Sources
+## 8. Sources
 
 - Russell, S. and Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*, 4th ed. Pearson.
+- Sun, C., Shrivastava, A., Singh, S. and Gupta, A. (2017). Revisiting Unreasonable Effectiveness of Data in Deep Learning Era. *ICCV*.
 - Turing, A. (1950). Computing Machinery and Intelligence. *Mind* 59(236).
 - Zeiler, M. and Fergus, R. (2014). Visualizing and Understanding Convolutional Networks. *ECCV*.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -227,5 +230,7 @@ Many organisations, such as banks and insurance companies, do not have that much
 | Train | Let a model learn by repeatedly reducing its errors |
 | Neural network | A model of many connected simple units, loosely inspired by the brain |
 | Perceptron | The smallest unit of a neural network; an artificial neuron |
-| Feature | One piece of information about an example that a model uses |
+| Feature | An input variable; one column of the data table |
+| Target | The output we want to predict |
+| Observation | One record; one row of the data table |
 | Layer | One stage of a neural network, building on the previous stage |

@@ -22,7 +22,7 @@ This Note grows one XGBoost tree by hand on four students, then uses it for the 
 
 ## 2. The data: CGPA and package
 
-> **Key point:** Four students, one input (CGPA) and one output (package in LPA, lakhs of rupees per year).
+> **Key point:** Four students, one feature (CGPA) and one target (package in LPA, lakhs of rupees per year).
 
 | Student | CGPA | Package (LPA) |
 |---|---|---|
@@ -31,13 +31,15 @@ This Note grows one XGBoost tree by hand on four students, then uses it for the 
 | 3 | 7.5 | 6 |
 | 4 | 5.0 | 8 |
 
-The relationship is not a straight line (Figure 2, left). Our goal: given a new student's CGPA, predict the package. One input column keeps every calculation small enough to do by hand.
+Each student is one **observation** (one record, a row of the table). CGPA is the only **feature** (an input variable, one column of the table), and the package is the **target** (the output we predict).
+
+The relationship is not a straight line (Figure 2, left). Our goal: given a new student's CGPA, predict the package. One feature keeps every calculation small enough to do by hand.
 
 ## 3. Stage 1: the mean and its residuals
 
 > **Key point:** The first model predicts the mean, 7.375, for every student; the residuals are actual minus 7.375.
 
-As in gradient boosting, the first model ignores the input and predicts the mean of the output column:
+As in gradient boosting, the first model ignores the feature and predicts the mean of the target:
 
 $$f_0 = \frac{4.5 + 11 + 6 + 8}{4} = \frac{29.5}{4} = 7.375$$
 
@@ -58,7 +60,7 @@ Figure 2 (left) shows the residuals as dotted lines. The next model, an XGBoost 
 
 > **Key point:** Put all the residuals in one leaf and score it: (sum of residuals)$^2$ divided by (number of residuals + $\lambda$). Residuals that agree in sign score high; residuals that cancel score low.
 
-An XGBoost tree starts as a single leaf holding every residual. It then tries to split that leaf so that each part holds residuals that are alike.
+An XGBoost tree starts as a single leaf holding every residual. The tree then tries to split that leaf so that each part holds residuals that are alike.
 
 1. **In words:** add up the residuals in the leaf, square the sum, and divide by the number of residuals plus $\lambda$.
 2. **Formula:**
@@ -103,7 +105,7 @@ Figure 3 shows all three candidates:
 | CGPA < 7.1 | $-2.875$, 0.625 | 3.625, $-1.375$ | 2.53 | 2.53 | 5.06 |
 | CGPA < 8.25 | $-2.875$, $-1.375$, 0.625 | 3.625 | 4.38 | 13.14 | **17.52** |
 
-CGPA < 8.25 wins. It isolates the one large positive residual (student 2) from the rest, so both leaves hold residuals that mostly agree.
+CGPA < 8.25 wins. The split isolates the one large positive residual (student 2) from the rest, so both leaves hold residuals that mostly agree.
 
 ## 7. The second split
 
@@ -116,7 +118,7 @@ The right leaf holds a single residual and cannot be split. The left leaf holds 
 - **CGPA < 7.1:** left $\{0.625, -2.875\}$, right $\{-1.375\}$.
   $$\text{gain} = \frac{(-2.25)^2}{2} + \frac{(-1.375)^2}{1} - 4.38 = 2.53 + 1.89 - 4.38 = 0.04$$
 
-CGPA < 5.85 wins: it keeps the two negative residuals together. We stop here, at depth 2, because with four rows a deeper tree would only memorise them. XGBoost's default is `max_depth=6`, meant for real datasets.
+CGPA < 5.85 wins: it keeps the two negative residuals together. We stop here, at depth 2, because with four observations a deeper tree would only memorise them. XGBoost's default is `max_depth=6`, meant for real datasets.
 
 ## 8. Output values of the leaves
 
@@ -170,15 +172,17 @@ and the residuals shrink again, to $-1.79$, 1.78, $-0.29$ and 0.31. The number o
 
 > **Key point:** Trying every midpoint is the exact greedy algorithm, good for small data. On large data XGBoost tries only bin edges, the approximate algorithm.
 
-What we did in sections 5 to 7, sorting the values and testing every midpoint, is the exact greedy algorithm of the [XGBoost introduction Note](../123-xgboost-intro/note.md), section 8.4. It finds the best split but checks every value, which is slow on millions of rows.
+What we did in sections 5 to 7, sorting the values and testing every midpoint, is the exact greedy algorithm of the [XGBoost introduction Note](../123-xgboost-intro/note.md), section 8.4. The exact greedy algorithm finds the best split but checks every value, which is slow on millions of observations.
 
-For large data XGBoost first groups each column into bins and only tests the bin edges: the **approximate algorithm**, introduced in the [XGBoost introduction Note](../123-xgboost-intro/note.md).
+For large data XGBoost first groups each feature into bins and only tests the bin edges: the **approximate algorithm**, introduced in the [XGBoost introduction Note](../123-xgboost-intro/note.md).
 
-> **Extra:** With several input columns, each column is searched in the same way and the split with the largest gain over all columns wins, exactly as in the [regression trees Note](../99-regression-trees/note.md), section 5 (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical columns are usually encoded as numbers first ([one-hot encoding Note](../27-one-hot-encoding/note.md)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
+> **Extra:** With several features, each feature is searched in the same way and the split with the largest gain over all features wins, exactly as in the [regression trees Note](../99-regression-trees/note.md), section 5 (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical features are usually encoded as numbers first ([one-hot encoding Note](../27-one-hot-encoding/note.md)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
 
 ## 12. Lambda: shrinking scores and outputs
 
 > **Key point:** $\lambda$ is added to the number of residuals in every denominator. Similarity scores, gains and outputs all shrink, and leaves with few residuals shrink the most.
+
+An everyday picture: we trust a restaurant with one five-star review less than one with twenty. $\lambda$ works like adding $\lambda$ imaginary residuals of 0 to every leaf: they barely move a leaf with many residuals, but pull a leaf with one residual strongly towards 0. On our tree, $\lambda = 1$ halves the one-residual leaves (0.625 becomes 0.31) and cuts the two-residual leaf by a third.
 
 > **Extra:** So far $\lambda = 0$. XGBoost's default is $\lambda = 1$ (`reg_lambda=1`). The same tree with $\lambda = 1$:
 >
@@ -188,11 +192,13 @@ For large data XGBoost first groups each column into bins and only tests the bin
 > | 5.85 to 8.25 | $-2.875$, $-1.375$ | $-2.125$ | $-4.25/3 = -1.42$ |
 > | CGPA $\geq$ 8.25 | 3.625 | 3.625 | $3.625/2 = 1.81$ |
 >
-> The one-residual leaves lose half their output; the two-residual leaf loses a third. The intuition: a leaf built on a single observation (row) is the least trustworthy, so it is pulled hardest towards 0. The formula shows the same: the fewer observations a leaf has, the harder $\lambda$ pulls it towards 0, because the output is $\frac{n}{n+\lambda}$ times the mean of the residuals, which is $\frac{1}{2}$ of the mean for $n = 1$ and $\frac{2}{3}$ for $n = 2$. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. This is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../64-ridge-regression-maths/note.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
+> The one-residual leaves lose half their output; the two-residual leaf loses a third. The intuition: a leaf built on a single observation is the least trustworthy, so it is pulled hardest towards 0. The formula shows the same: the fewer observations a leaf has, the harder $\lambda$ pulls it towards 0, because the output is $\frac{n}{n+\lambda}$ times the mean of the residuals, which is $\frac{1}{2}$ of the mean for $n = 1$ and $\frac{2}{3}$ for $n = 2$. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. The shrinking is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../64-ridge-regression-maths/note.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
 
 ## 13. Gamma: pruning weak splits
 
 > **Key point:** A split is kept only if its gain minus $\gamma$ is positive. Pruning starts from the bottom of the tree; a large $\gamma$ removes weak splits, and a very large one removes them all.
+
+An everyday picture: every split must pay a fee of $\gamma$. A split whose gain cannot pay the fee is removed. On our tree, $\gamma = 6$ removes the lower split (gain 5.04) and keeps the root split (gain 17.52).
 
 > **Extra:** $\gamma$ (gamma, `gamma` or `min_split_loss` in XGBoost, default 0) is a second regularisation parameter. After the tree is grown, XGBoost checks each split from the bottom up (the Notebook confirms each case with the library):
 >
@@ -256,7 +262,7 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 ## 16. Sources
 
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
-- XGBoost documentation, *Categorical Data* tutorial.
+- XGBoost documentation, *Categorical Data* tutorial; *XGBoost Parameters* (defaults of `eta`, `max_depth`, `reg_lambda`, `gamma`, `min_child_weight`), xgboost.readthedocs.io.
 
 ## 17. Key terms
 

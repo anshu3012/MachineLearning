@@ -44,7 +44,7 @@ Students applying to universities abroad take the **GRE** and **TOEFL** exams an
 | Research | 1 if the student has research experience | 0 or 1 |
 | Chance of Admit | **Output:** chance of admission | 0 to 1 |
 
-> **Extra:** The file is `Admission_Predict_Ver1.1.csv` (500 rows, 16 KB) from the Graduate Admission 2 dataset on Kaggle. An older version, `Admission_Predict.csv`, has only the first 400 rows; we use the newer one. Two column names end in a stray space (`"LOR "`, `"Chance of Admit "`); the Notebook strips them.
+> **Extra:** The file is `Admission_Predict_Ver1.1.csv` (500 rows, 16 KB) from the Graduate Admission 2 dataset on Kaggle. Two column names end in a stray space (`"LOR "`, `"Chance of Admit "`); the Notebook strips them.
 
 > **Python:** Loading and checking the data.
 >
@@ -97,7 +97,7 @@ In classification the output node squeezes its weighted sum into a probability w
 
 The rule: **for regression, the output layer has one node per number to predict, with the linear activation.** Hidden layers keep a non-linear activation such as ReLU; otherwise the whole network would collapse into one linear model (see the [MLP intuition Note](../1009-mlp-intuition/note.md), section 3.4).
 
-> **Extra:** A linear output is not limited to 0 to 1, and in our results a few predictions come out slightly above 1 (up to 1.01). Since the target here is a proportion, a sigmoid output node would keep every prediction inside 0 to 1. The linear output is the general rule because most regression targets, such as prices or temperatures, have no such limit.
+> **Extra:** A linear output is not limited to 0 to 1, and in our results one prediction from each network comes out slightly above 1 (up to 1.01). Since the target here is a proportion, a sigmoid output node would keep every prediction inside 0 to 1. The linear output is the general rule because most regression targets, such as prices or temperatures, have no such limit.
 
 ### 4.2 The first architecture
 
@@ -163,7 +163,7 @@ For regression the usual loss is **mean squared error (MSE)**: the average of th
 
 The first network scores **$R^2 = -0.06$**: worse than predicting the average 0.725 for every student. In numbers, its mean squared error on the test set is 0.0204, while always predicting the average gives 0.0193, and $1 - 0.0204 / 0.0193 = -0.06$.
 
-Figure 2 (left) shows why: after 10 epochs the loss is still falling steeply. The network simply has not finished learning.
+Figure 2 (left) shows why: after 10 epochs the loss is still falling steeply. The network simply has not finished learning. The Notebook confirms that epochs matter most: the same one-layer network trained for 100 epochs reaches $R^2$ between 0.42 and 0.78 over three random starts, against $-16.4$ to 0.19 after 10 epochs.
 
 ![Training and validation loss. Left: the first network is still learning when it stops after 10 epochs. Right: the second network, trained for 100 epochs, levels off.](images/curves.png)
 
@@ -196,7 +196,7 @@ The test R² rises to **0.80**. Figure 2 (right) shows the loss falling fast in 
 
 Figure 3 shows the difference on the test students. The first network's predictions scatter widely around the dashed line of perfect predictions; the second network's hug it, with a few misses among students with a low chance.
 
-> **Extra:** On this small table of 400 rows, plain linear regression on the same scaled inputs scores $R^2 = 0.82$, slightly better than our network (see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)). The relationship here is close to linear, and a network needs much data and tuning before its extra flexibility pays off. Deep learning shines on large data and on images, text and sound, not necessarily on small tables (see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 4).
+> **Extra:** On this small table of 400 rows, plain linear regression on the same scaled inputs scores $R^2 = 0.82$, slightly better than our network (see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)). The relationship here is close to linear, and a network needs much data and tuning before its extra flexibility pays off. Deep learning shines on large data and on images, text and sound, not necessarily on small tables (see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 4; Grinsztajn et al. 2022).
 
 ## 7. Summary
 
@@ -209,7 +209,7 @@ The three projects side by side:
 | Output layer | 1 node, sigmoid | 10 nodes, softmax | 1 node, linear |
 | Loss | binary cross-entropy | sparse categorical cross-entropy | mean squared error |
 | From output to answer | probability > 0.5 | argmax | the number itself |
-| Score | accuracy 86.45% | accuracy 97.63% | R² 0.80 |
+| Score | accuracy 86.45% | accuracy 97.69% | R² 0.80 |
 
 - Regression output: one node per predicted number, linear activation; hidden layers stay non-linear (ReLU).
 - Loss for regression: mean squared error; score with R² instead of accuracy.
@@ -217,7 +217,11 @@ The three projects side by side:
 - A network that stops too early can score below 0 in R²: worse than predicting the average. More epochs and a little more capacity fixed it.
 - Training and validation losses that stay together mean no overfitting.
 
-## 8. Key terms
+## 8. Sources
+
+- Grinsztajn, Oyallon and Varoquaux, "Why do tree-based models still outperform deep learning on typical tabular data?", NeurIPS 2022 (Datasets and Benchmarks).
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

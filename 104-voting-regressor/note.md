@@ -28,68 +28,81 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 > **Key point:** Train every regressor on the same data; to predict, average their numerical outputs.
 
-We have base models M1, M2 and M3, all regression algorithms, trained on the same dataset D. For a new query point $x_q$, each returns a number, and the voting regressor returns their mean (the [introduction to ensemble learning Note](../101-ensemble-learning/note.md), section 3.3, works an example). With weights, it returns the weighted mean, exactly as in soft voting (the [voting classifier Note](../103-voting-classifier/note.md), section 4.4).
+We have base models M1, M2 and M3, all regression algorithms, trained on the same dataset D. For a new query point $x_q$, each returns a number, and the voting regressor returns their mean (the [introduction to ensemble learning Note](../101-ensemble-learning/note.md), section 3.3, works an example). With weights, it returns the weighted mean, exactly as in soft voting (the [voting classifier Note](../103-voting-classifier/note.md), section 4.3).
 
 ## 3. Seeing it on a curve
 
-> **Key point:** The voting regressor's curve runs between its base models' curves, smoothing out the extremes of each.
+> **Key point:** The voting regressor's curve runs between its base models' curves and smooths out the extremes of each. Its score is never below the average score of its members.
 
 The demo data is a sine wave of 80 points between 0 and 5, with every fifth point pushed up or down at random: a non-linear pattern with a few outliers. We train on 72 points and keep 8 for testing. Figure 1 shows three base regressors and the voting regressor.
 
 ![Three base regressors (dash-dot) and the voting regressor (solid blue) on noisy sine data; legend gives R² and MAE on the 8 test points](images/voting_fit.png){height=48%}
 
-Adding models one at a time (R² on the 8 test points):
+Think of three friends guessing a distance: one always guesses short, one guesses well, one guesses wildly. The average of their guesses is rarely the single best guess, but it is never as bad as the worst one, and it is steadier than the wild guesser.
 
-| Base models | Each model's R² | Voting regressor's R² |
-|---|---|---|
-| linear regression | 0.18 | 0.18 |
-| linear regression, SVR | 0.18, 0.47 | 0.51 |
-| linear regression, SVR, decision tree | 0.18, 0.47, 0.38 | 0.52 |
+The picture shows the same thing:
 
-- With **linear regression alone**, the voting regressor is that same line: one model averaged with nothing. A straight line cannot follow a wave, so $R^2$ (the [regression metrics Note](../52-regression-metrics/note.md)) is only 0.18.
-- **Adding SVR** (support vector regression, the [SVM intuition Note](../92-svm-intuition/note.md)): SVR follows the wave well. The voting curve runs exactly halfway between the line and the SVR curve, and its $R^2$ (0.51) beats both.
-- **Adding a decision tree** (depth 5): the tree jumps to reach many single points, outliers included. The voting curve follows its jumps only a third of the way, so it is much smoother than the tree. $R^2$ rises a little, to 0.52.
+- **Linear regression** draws a straight line, which cannot follow a wave.
+- **SVR** (support vector regression, the [SVM intuition Note](../92-svm-intuition/note.md)) follows the wave well.
+- **A decision tree** (depth 5) jumps to reach many single points, outliers included.
+- **The voting curve** runs between them. With two models it sits exactly halfway between the line and the SVR curve; with three, it follows the tree's jumps only a third of the way, so it is much smoother than the tree.
 
-The point is the picture: averaging pulls each model's extremes toward the others.
+A score from 8 test points depends heavily on which 8 points we drew. So the Notebook draws 30 fresh datasets with the same recipe and averages $R^2$ (the [regression metrics Note](../52-regression-metrics/note.md)) on their test points:
 
-> **Extra:** The legend also shows MAE (mean absolute error). By MAE, SVR and the tree (both 0.23) beat the voting regressor (0.31): with only 8 test points, and one of them an outlier, different metrics can rank models differently. A score from 8 points is a rough guide only; cross-validation, used below, is more reliable.
+| Base models | Each model's mean $R^2$ | Average of the members | Voting regressor |
+|---|---|---|---|
+| linear regression, SVR | 0.45, 0.77 | 0.61 | **0.69** |
+| linear regression, SVR, decision tree | 0.45, 0.77, 0.53 | 0.58 | **0.72** |
+
+The vote is always well above the average of its members. It does not beat SVR here, because SVR alone already fits this smooth wave almost as well as any model can, and the line drags the average down. Voting pays off most when the members are about equally good and make different mistakes, as on the real data below.
+
+> **Extra:** Why can the vote never be worse than the average member? Take one test point with true value $y$, and let model $i$ predict $f_i$. The vote predicts $\bar f = \frac{1}{n}\sum_i f_i$. Its error is the mean of the members' errors, $\bar f - y = \frac{1}{n}\sum_i (f_i - y)$, and the square of a mean is never larger than the mean of the squares:
+> $$(\bar f - y)^2 = \frac{1}{n}\sum_{i=1}^{n} (f_i - y)^2 \;-\; \frac{1}{n}\sum_{i=1}^{n} (f_i - \bar f)^2$$
+> The last term is the spread of the members around their mean, which Krogh and Vedelsby (1995) call the **ambiguity**. The more the members disagree, the more the vote gains over the average member. Since $R^2$ falls as squared error rises, the vote's $R^2$ is at least the average of the members' $R^2$ on any test set.
 
 ## 4. VotingRegressor on the Boston housing data
 
-> **Key point:** Three weak models (R² 0.20, -0.07 and -0.41) combine into a voting regressor with R² 0.43; weights lift it to 0.45.
+> **Key point:** Three base models with R² 0.71, 0.73 and 0.67 combine into a voting regressor with R² 0.81, better than each; weights lift it to 0.82.
 
 ### 4.1 The data and the base models
 
-> **Key point:** 506 districts, 13 inputs, median house price; linear regression, a decision tree and SVR, each scored by 10-fold cross-validation.
+> **Key point:** 506 districts, 13 features, median house price; linear regression, a decision tree and SVR, each scored by shuffled 10-fold cross-validation.
 
-The Boston housing data (the [regression trees Note](../99-regression-trees/note.md), section 7.1, describes it and why `load_boston` was removed from scikit-learn) has 506 rows and 13 input columns. The output, `MEDV`, is the median house price of each district. The Notebook reads it from `data/boston.csv`.
+The Boston housing data (the [regression trees Note](../99-regression-trees/note.md), section 7.1, describes it and why `load_boston` was removed from scikit-learn) has 506 **observations** (one record each, here a district; one row of the data table) and 13 **features** (input variables, one column each). The **target**, the output we predict, is `MEDV`, the median house price of each district. The Notebook reads it from `data/boston.csv`.
+
+We score each model under three conditions:
+
+- **shuffled folds:** the observations are stored town by town, so we shuffle them before cutting the 10 folds (section 4.5 shows why);
+- **five repeats:** the whole 10-fold cross-validation is repeated with 5 different shuffles, and we report the mean;
+- **scaled SVR:** SVR measures distances between observations, so it gets standardized features (the [standardization Note](../24-standardization/note.md)) through a pipeline (the [pipelines Note](../29-pipelines/note.md)).
 
 > **Python:** Each base model alone.
 >
 > ```python
 > boston = pd.read_csv("data/boston.csv")
 > X, y = boston.drop(columns="MEDV"), boston["MEDV"]
+> cv = RepeatedKFold(n_splits=10, n_repeats=5, random_state=0)
 >
 > estimators = [("lr", LinearRegression()),
 >               ("dt", DecisionTreeRegressor(random_state=0)),
->               ("svr", SVR())]
+>               ("svr", make_pipeline(StandardScaler(), SVR()))]
 > for name, model in estimators:
 >     scores = cross_val_score(model, X, y,
->                              scoring="r2", cv=10)
+>                              scoring="r2", cv=cv)
 >     print(name, scores.mean())
 > ```
 >
-> `scoring="r2"` makes `cross_val_score` report $R^2$ instead of accuracy.
+> `scoring="r2"` makes `cross_val_score` report $R^2$ instead of accuracy. `RepeatedKFold` shuffles the observations before cutting each set of folds.
 
 | Model | Linear regression | Decision tree | SVR |
 |---|---|---|---|
-| Mean $R^2$ (10 folds) | 0.20 | -0.07 | -0.41 |
+| Mean $R^2$ | 0.71 | 0.73 | 0.67 |
 
-All three are poor: a negative $R^2$ means worse than always predicting the mean price. We could tune each one, but here we only want to compare them with voting.
+The three models are about equally good, and they work in very different ways: a straight-line formula, a set of yes/no rules, and a smooth curved surface. Those are the right conditions for a vote: members that are accurate and make different mistakes (the [voting ensemble Note](../102-voting-ensemble/note.md), section 5.2).
 
 ### 4.2 The voting regressor
 
-> **Key point:** Passing the same three models to `VotingRegressor` doubles the best R², from 0.20 to 0.43.
+> **Key point:** Passing the same three models to `VotingRegressor` lifts R² from the best member's 0.73 to 0.81.
 
 > **Python:** The voting regressor.
 >
@@ -97,38 +110,54 @@ All three are poor: a negative $R^2$ means worse than always predicting the mean
 > from sklearn.ensemble import VotingRegressor
 >
 > vr = VotingRegressor(estimators)
-> cross_val_score(vr, X, y, scoring="r2", cv=10).mean()   # 0.43
+> cross_val_score(vr, X, y, scoring="r2", cv=cv).mean()   # 0.81
 > ```
 >
 > `VotingRegressor` takes the same list of (name, model) tuples as `VotingClassifier`, plus optional `weights` and `n_jobs`. There is no `voting` setting: regression always averages.
 
-`n_jobs=-1` trains the base models in parallel on all CPU cores. On small data like this it does not pay: here it made fitting slower (about 1.6 seconds against 0.11), because starting parallel work has a cost of its own (scikit-learn User Guide §10.3.1).
+The vote scores **0.81**, clearly above every member (0.71, 0.73 and 0.67). Where the tree makes a jump that the line does not, and the SVR smooths both, the errors partly cancel in the average.
+
+`n_jobs=-1` trains the base models in parallel on all CPU cores. On small data like this it does not pay: in the Notebook one fit takes about 0.1 seconds on one core but several seconds with `n_jobs=-1` (the exact time depends on the machine and its load), because starting parallel work has a cost of its own (scikit-learn User Guide §10.3.1).
 
 ### 4.3 Weights
 
-> **Key point:** Trying weights 1 to 3 for each model, the best is (2, 1, 1), giving R² 0.45.
+> **Key point:** Trying weights 1 to 3 for each model, the best is (2, 3, 1), giving R² 0.82.
 
 As for classification, we try each weight from 1 to 3 for each model, 27 combinations:
 
-| Weights (lr, dt, svr) | (1, 1, 1) | (3, 1, 1) | (3, 2, 2) | **(2, 1, 1)** |
+| Weights (lr, dt, svr) | (1, 1, 1) | (1, 2, 1) | (3, 3, 1) | **(2, 3, 1)** |
 |---|---|---|---|---|
-| Mean $R^2$ | 0.429 | 0.433 | 0.445 | **0.447** |
+| Mean $R^2$ | 0.809 | 0.818 | 0.818 | **0.820** |
 
-The best weights give linear regression, the best single model, twice the say of the others. The gain over equal weights is small here.
+The best weights give the tree, the best single model, the biggest say, and SVR, the weakest, the smallest. The gain over equal weights is small here.
 
 ### 4.4 One algorithm, different settings
 
-> **Key point:** Five trees of depth 1, 3, 5, 7 and unlimited score between -0.85 and 0.04; their vote scores 0.19.
+> **Key point:** Five trees of depth 1, 3, 5, 7 and unlimited score between 0.35 and 0.74; their vote scores 0.76, above the best of them.
 
 We can also vote over one algorithm with different hyperparameter values. Five decision trees of different depths:
 
 | max_depth | 1 | 3 | 5 | 7 | None | Vote of all five |
 |---|---|---|---|---|---|---|
-| Mean $R^2$ | -0.85 | -0.23 | 0.04 | -0.07 | -0.07 | **0.19** |
+| Mean $R^2$ | 0.35 | 0.67 | 0.74 | 0.74 | 0.73 | **0.76** |
 
-Every tree alone is poor, yet their average is clearly better than each of them.
+The vote beats every tree, even though one member (depth 1) is very weak. The gain is smaller than in section 4.2, because five trees grown on the same data make more similar mistakes than three different algorithms do.
 
-> **Extra:** Why are all these scores so low? `cv=10` cuts the rows into 10 folds **in order**, without shuffling, and the Boston rows are stored grouped by town: each town's rows sit together (Gilley and Pace, 1996). So most test rows come from towns the model never saw in training: 453 of the 506 with folds in order, against only 19 with shuffled folds. Shuffling first, with `cv=KFold(n_splits=10, shuffle=True, random_state=42)`, gives far higher scores: linear regression 0.72, decision tree 0.76, SVR 0.19, voting 0.75, and the vote of the five trees **0.79**. Holding out whole towns picked at random (`GroupKFold`) gives scores in between (linear regression 0.55), so unseen towns are part of the reason for the drop. Note that with shuffled folds the plain vote (0.75) no longer beats the decision tree (0.76): voting is worth trying, not guaranteed to win.
+### 4.5 Why we shuffle the folds
+
+> **Key point:** Without shuffling, every test fold holds towns the model never saw, and all scores collapse.
+
+The Boston observations are stored grouped by town: each town's observations sit together (Gilley and Pace, 1996). Plain `cv=10` cuts the folds **in order**, without shuffling, so most test observations come from towns the model never saw in training: 453 of the 506 with folds in order, against only 19 with shuffled folds.
+
+With folds in order (and the older unscaled SVR), the same models score far lower:
+
+| Model | Linear regression | Decision tree | SVR (unscaled) | Vote |
+|---|---|---|---|---|
+| $R^2$, folds in order | 0.20 | -0.07 | -0.41 | 0.43 |
+
+A negative $R^2$ means worse than always predicting the mean price.
+
+> **Extra:** Holding out whole towns picked at random (`GroupKFold`, with the town names from the corrected data) gives scores in between: linear regression 0.55, decision tree 0.36, scaled SVR 0.61, vote 0.68. So predicting for unseen towns is genuinely harder, and the vote still beats every member there.
 
 ## 5. Summary
 
@@ -140,18 +169,21 @@ Every tree alone is poor, yet their average is clearly better than each of them.
 | scikit-learn class | `VotingClassifier` | `VotingRegressor` |
 
 - A voting regressor predicts the mean (or weighted mean) of its base regressors' predictions.
-- On the noisy sine data, the voting curve smooths out the tree's jumps: $R^2$ 0.52 against 0.18, 0.47 and 0.38.
-- On Boston, three poor models give a vote of 0.43 (0.45 with weights 2, 1, 1); five trees of different depths give 0.19.
-- Shuffle the rows before cross-validation when the data is stored in a meaningful order.
+- The vote's squared error is never worse than the average member's; the more the members disagree, the bigger the gain.
+- On the noisy sine data, the voting curve smooths out the tree's jumps and scores well above the average member (0.72 against 0.58).
+- On Boston, three different models (0.71, 0.73, 0.67) give a vote of 0.81 (0.82 with weights 2, 3, 1); five trees of different depths give 0.76.
+- Shuffle the observations before cross-validation when the data is stored in a meaningful order.
 
-## Sources
+## 6. Sources
 
 - Gilley, O. W. and Pace, R. K. (1996). "On the Harrison and Rubinfeld Data". *Journal of Environmental Economics and Management* 31, 403–405. Corrected data with town names: StatLib, `boston_corrected.txt` (copy in `data/`).
-- scikit-learn developers. User Guide, section 10.3.1, "Parallelism". https://scikit-learn.org/stable/computing/parallelism.html
+- Krogh, A. and Vedelsby, J. (1995). "Neural Network Ensembles, Cross Validation, and Active Learning". *Advances in Neural Information Processing Systems 7*, MIT Press, 231–238.
+- scikit-learn developers. User Guide, section 10.3.1, "Parallelism". scikit-learn.org, computing/parallelism.
 
-## 6. Key terms
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|
 | Voting regressor | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions |
+| Ambiguity | The spread of the members' predictions around their mean; the amount by which the vote's squared error beats the average member's |
 | n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all |

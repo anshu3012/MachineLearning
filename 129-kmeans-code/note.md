@@ -16,7 +16,7 @@ title: "K-Means in Python with scikit-learn"
 
 > **Key point:** With scikit-learn, k-means takes a few lines: plot the elbow curve with `inertia_`, pick k, call `fit_predict`, and colour the points by cluster.
 
-This Note runs k-means (the [k-means Note](../128-kmeans-intuition/note.md)) on 200 students described by CGPA and IQ. The elbow method picks k = 4, and k-means finds four groups of students that a placement cell can train in four different ways (Figure 1). Then the same code clusters data with three columns.
+This Note runs k-means (the [k-means Note](../128-kmeans-intuition/note.md)) on 200 students described by CGPA and IQ. The elbow method picks k = 4, and k-means finds four groups of students that a placement cell can train in four different ways (Figure 1). Then the same code clusters data with three features.
 
 ![The 200 students (left) and the 4 clusters k-means finds (right); crosses are the centroids](images/student_clusters.png)
 
@@ -29,9 +29,9 @@ The Notebook (`notebook.ipynb`) runs every step.
 
 ## 3. The student data
 
-> **Key point:** 200 final-year students, two columns: `cgpa` and `iq`. No output column: this is unsupervised learning.
+> **Key point:** 200 final-year students, two features: `cgpa` and `iq`. No target: this is unsupervised learning.
 
-The file `data/student_clustering.csv` holds the CGPA and IQ of 200 final-year students. It is a toy dataset, generated for practice, so its groups are much cleaner than in real data.
+The file `data/student_clustering.csv` holds the CGPA and IQ of 200 final-year students. Each student is an **observation** (one record, a row of the table); CGPA and IQ are the two **features** (input variables, one column each). There is no **target** (an output we want to predict), which makes this unsupervised learning. The file is a toy dataset, generated for practice, so its groups are much cleaner than in real data.
 
 > **Python:** Loading the data.
 >
@@ -67,13 +67,13 @@ CGPA runs from 4.6 to 9.3 and IQ from 83 to 121. Plotted (Figure 1, left), the s
 
 ![Elbow curve of the 200 students: WCSS falls steeply up to k = 4, then stays flat](images/elbow_students.png)
 
-Figure 2 plots the ten values. WCSS starts at 29,958 for one cluster and drops to 4,184 for two. It keeps falling to 2,503 at k = 3 and 682 at k = 4. After that it barely moves: 530 at k = 5, 421 at k = 6.
+Figure 2 plots the ten values. WCSS starts at 29,958 for one cluster and drops to 4,184 for two. WCSS keeps falling to 2,503 at k = 3 and 682 at k = 4. After that it barely moves: 530 at k = 5, 421 at k = 6.
 
 The curve bends twice: a sharp bend at k = 2 and a second one at k = 4. After k = 4 nothing changes much, so k = 4 is the elbow, the same number we counted in Figure 1. With two bends to choose from, the plot of the data in Figure 1 confirms k = 4.
 
 ## 5. Training k-means with k = 4
 
-> **Key point:** `fit_predict` trains the model and returns one cluster number per row, from 0 to k - 1.
+> **Key point:** `fit_predict` trains the model and returns one cluster number per observation, from 0 to k - 1.
 
 > **Python:** Fitting and predicting in one call.
 >
@@ -100,7 +100,9 @@ The first student is in cluster 3, the second in cluster 2, and so on. The numbe
 >
 > The second default, `n_init="auto"`, sets how many times the whole algorithm restarts from new centroids; the run with the lowest inertia is kept. With `k-means++` it runs once; with `init="random"` it runs 10 times. Other defaults: `n_clusters=8` and `max_iter=300` rounds at most (scikit-learn `KMeans` docs).
 
-> **Extra:** The data was not scaled here, although k-means is distance-based (the [k-means Note](../128-kmeans-intuition/note.md), section 4.3). In the Notebook, running k-means on standardized columns puts every student in the same group as before (adjusted Rand index 1.0). The reason: in both versions every student is nearer its own group's centroid than any other centroid, so the assign step moves nobody and the same four groups are a finished k-means result either way (Notebook: the smallest ratio of nearest-other to own distance is 1.08 raw and 2.56 standardized). On other data, scaling can change the clusters.
+> **Extra:** The data was not scaled here, although k-means is distance-based (the [k-means Note](../128-kmeans-intuition/note.md), section 4.3). On this toy data the four groups are so far apart that scaling changes nothing: in the Notebook, k-means on standardized features puts every student in the same group as before. The reason is that, scaled or not, every student is nearer its own group's centroid than any other centroid, so the assign step moves nobody. On real data, where groups are closer, scaling can change the clusters (ESL §14.3.3), so how to scale the features is a choice worth checking.
+>
+> *Detail:* the two labelings agree exactly (adjusted Rand index 1.0, a score of agreement between two groupings). The smallest ratio of nearest-other-centroid distance to own-centroid distance is 1.08 raw and 2.56 standardized.
 
 ## 6. Plotting the clusters with boolean indexing
 
@@ -139,11 +141,11 @@ The placement cell can now plan four kinds of preparation. The same idea cluster
 
 ## 8. k-means in three dimensions
 
-> **Key point:** The exact same code clusters data with 3 columns, and would with 100.
+> **Key point:** The exact same code clusters data with 3 features, and would with 100.
 
-To see k-means beyond two columns, we generate 200 points around four centres in three dimensions with `make_blobs`.
+To see k-means beyond two features, we generate 200 points around four centres in three dimensions with `make_blobs`.
 
-> **Python:** Data with three columns.
+> **Python:** Data with three features.
 >
 > ```python
 > from sklearn.datasets import make_blobs
@@ -159,7 +161,7 @@ To see k-means beyond two columns, we generate 200 points around four centres in
 
 The elbow loop, run for k = 1 to 20 without changing a line, gives WCSS 11,144, 4,122, 2,552, 593, then 544: the elbow is again at k = 4. Training with k = 4 and colouring by cluster gives Figure 3. In the Notebook, `plotly.express.scatter_3d` draws it as a 3-D plot we can rotate.
 
-![k-means with k = 4 on 200 points with three columns](images/blobs_3d.png){height=45%}
+![k-means with k = 4 on 200 points with three features](images/blobs_3d.png){height=45%}
 
 What k-means did in 2 dimensions it does in 3, and in any higher number of dimensions, with the same code. Only the plotting stops at 3.
 
@@ -176,24 +178,25 @@ What k-means did in 2 dimensions it does in 3, and in any higher number of dimen
 | 3-D test data | `make_blobs(..., n_features=3)` |
 
 - `inertia_` is scikit-learn's name for WCSS; the elbow on the students is at k = 4.
-- `fit_predict` returns one cluster number per row; the numbers are labels, not ranks.
+- `fit_predict` returns one cluster number per observation; the numbers are labels, not ranks.
 - `KMeans` starts with `k-means++` and keeps the best of `n_init` runs.
 - Name each cluster by its centroid to turn it into a decision.
-- The same code works for any number of columns.
+- The same code works for any number of features.
 
-## Sources
+## 10. Sources
 
+- ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.3 (scaling the features changes the clusters).
 - Arthur and Vassilvitskii 2007: D. Arthur and S. Vassilvitskii, *k-means++: The Advantages of Careful Seeding*, Proceedings of SODA 2007, 1027–1035.
 - scikit-learn `KMeans` docs: the `init` and `n_init` parameters of `sklearn.cluster.KMeans`, scikit-learn 1.9 API reference.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
 | KMeans | scikit-learn's k-means class, in `sklearn.cluster` |
 | inertia_ | The WCSS of a fitted `KMeans` model |
-| fit_predict | Trains a clustering model and returns the cluster of every row |
-| labels_ | The cluster number of every training row, after fitting |
+| fit_predict | Trains a clustering model and returns the cluster of every observation |
+| labels_ | The cluster number of every training observation, after fitting |
 | cluster_centers_ | The coordinates of the final centroids of a fitted `KMeans` |
 | k-means++ | The default start of `KMeans`: centroids picked one by one, far-away points more likely |
 | n_init | How many times `KMeans` restarts from new centroids; the run with the lowest inertia is kept |

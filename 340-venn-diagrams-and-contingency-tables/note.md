@@ -81,7 +81,7 @@ $$P\big((A \cup B)^c\big) = 1 - P(A \cup B) = 1 - \frac{4}{6} = \frac{2}{6}$$
 
 Both routes agree with the counts in the table above.
 
-> **Extra:** "Neither $A$ nor $B$" can also be built as "not $A$ and not $B$": $A^c \cap B^c = \{1, 2, 3\} \cap \{1, 3, 5\} = \{1, 3\}$. This is **De Morgan's law**: $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the right panel is exactly the region outside both circles.
+> **Extra:** "Neither $A$ nor $B$" can also be built as "not $A$ and not $B$": $A^c \cap B^c = \{1, 2, 3\} \cap \{1, 3, 5\} = \{1, 3\}$. The identity is **De Morgan's law**: $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the right panel is exactly the region outside both circles.
 
 > **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [mutually exclusive events Note](../84-mutually-exclusive-events/note.md)) are circles that do not touch. Whether two overlapping events are independent needs a calculation: here $P(A) \cdot P(B) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4}$, but $P(A \cap B) = \frac{2}{6} = \frac{1}{3}$. The two differ, so $A$ and $B$ are dependent (see the [independent events Note](../83-independent-events/note.md)): knowing the roll is even makes "at least 4" more likely, $2/3$ instead of $1/2$.
 
@@ -89,7 +89,7 @@ Both routes agree with the counts in the table above.
 
 > **Key point:** A contingency table puts the categories of one event in the rows and of the other in the columns; each inner cell counts the outcomes in one Venn region, and the totals count whole circles.
 
-A contingency table (also called a crosstab, see the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)) counts every pair of categories of two columns. Applied to two events, it holds the same information as the Venn diagram, arranged as a grid.
+A contingency table (also called a crosstab, see the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)) counts every pair of categories of two categorical **features** (a feature is a variable, one column of the data table). Applied to two events, it holds the same information as the Venn diagram, arranged as a grid.
 
 ### 3.1 The die as a table
 
@@ -167,7 +167,7 @@ The Venn diagram and the contingency table carry exactly the same information:
 Each view suits different work:
 
 - A **Venn diagram** shows how events overlap at a glance, and makes unions, complements and De Morgan's law easy to see.
-- A **contingency table** scales to real data with many rows and more than two categories, such as three passenger classes. pandas builds it in one call, which the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md) uses on the Titanic data.
+- A **contingency table** scales to real data with many **observations** (records, one row of the data table each) and more than two categories, such as three passenger classes. pandas builds it in one call, which the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md) uses on the Titanic data.
 
 ## 5. Summary
 

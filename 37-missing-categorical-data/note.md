@@ -14,9 +14,9 @@ title: "Handling Missing Categorical Data: Most Frequent Value and Missing Categ
 
 ## 1. Overview
 
-> **Key point:** A gap in a categorical column is filled either with the most frequent category (mode imputation) or with a new category called "Missing".
+> **Key point:** A gap in a categorical feature is filled either with the most frequent category (mode imputation) or with a new category called "Missing".
 
-Note 35 mapped the techniques for missing data, and Note 36 filled gaps in numerical columns with the mean or median. A categorical column has no mean or median, so it needs its own techniques. This Note covers the two main ones.
+Note 35 mapped the techniques for missing data, and Note 36 filled gaps in numerical features with the mean or median. A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). A categorical feature has no mean or median, so it needs its own techniques. This Note covers the two main ones.
 
 Figure 1 shows both on a small `city` column with two gaps:
 
@@ -25,7 +25,7 @@ Figure 1 shows both on a small `city` column with two gaps:
 
 ![Two ways to fill gaps in a categorical column: the most frequent category, or a new category "Missing"](images/overview.png)
 
-Both are univariate techniques: they look only at the column with the gap. scikit-learn's `SimpleImputer` does both.
+Both are univariate techniques: they look only at the feature with the gap. scikit-learn's `SimpleImputer` does both.
 
 > **Extra:** A third technique, filling each gap with a random value drawn from the column, works for numerical and categorical columns alike. Note 38 covers it.
 
@@ -49,8 +49,8 @@ Mode imputation also works on a numerical column, since numbers have a mode too.
 
 Mode imputation rests on three conditions:
 
-1. **The data is MCAR** (missing completely at random, Note 35). The gaps have no pattern, so the missing rows look like the others.
-2. **Few values are missing**, as a rule of thumb up to about 5% of the column. This is the same limit as for mean and median imputation.
+1. **The data is MCAR** (missing completely at random, Note 35). The gaps have no pattern, so the observations with a gap look like the others.
+2. **Few values are missing**, as a rule of thumb up to about 5% of the feature. The 5% limit is the same as for mean and median imputation.
 3. **One category dominates.** The mode should appear far more often than every other category. If Mumbai, Delhi and Kolkata each make up about a third of the column, guessing Mumbai for every gap is wrong two times out of three.
 
 ### 2.3 Advantages and disadvantages
@@ -91,7 +91,7 @@ So the "Missing" category suits two cases:
 
 ### 3.3 Advantages and disadvantages
 
-> **Key point:** It is easy, keeps the existing categories intact and captures why data is missing, but it fills nothing in.
+> **Key point:** The "Missing" category is easy, keeps the existing categories intact and captures why data is missing, but it fills nothing in.
 
 **Advantages:**
 
@@ -111,7 +111,7 @@ The data is the training file of Kaggle's *House Prices: Advanced Regression Tec
 
 - `GarageQual`: quality of the garage.
 - `FireplaceQu`: quality of the fireplaces.
-- `SalePrice`: the price the house sold for, in dollars. This is the target, so this is a regression problem.
+- `SalePrice`: the price the house sold for, in dollars. `SalePrice` is the target; since the target is a number, the task is regression.
 
 Both quality columns use the same five categories:
 
@@ -277,7 +277,7 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 > imp.statistics_           # ['Missing', 'Missing']
 > ```
 >
-> `strategy="constant"` fills every gap with `fill_value`. It learns nothing from the data, so `fit` only records the fill value. In pandas, the same is `X_train[col].fillna("Missing")`.
+> `strategy="constant"` fills every gap with `fill_value`. The constant strategy learns nothing from the data, so `fit` only records the fill value. In pandas, the same is `X_train[col].fillna("Missing")`.
 
 ## 7. Choosing between the two
 
@@ -303,10 +303,10 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 ## 8. Summary
 
 - A categorical column has no mean or median, so its gaps are filled with the mode or with a new category.
-- **Mode imputation** fills every gap with the most frequent category. It suits MCAR data with few gaps (about 5% or less) and one dominant category. It is easy to deploy but inflates the mode.
-- **Missing category imputation** fills every gap with "Missing". It suits columns with many gaps or gaps that are not random. Existing categories keep their counts.
+- **Mode imputation** fills every gap with the most frequent category. Mode imputation suits MCAR data with few gaps (about 5% or less) and one dominant category; the method is easy to deploy but inflates the mode.
+- **Missing category imputation** fills every gap with "Missing". The "Missing" category suits features with many gaps or gaps that are not random. Existing categories keep their counts.
 - After imputing, compare each category's share before and after. On the house data, TA in `GarageQual` moved from 95.1% to 95.4%, but Gd in `FireplaceQu` jumped from 49.1% to 72.9%.
-- Also compare the target for the most frequent category against the rows with gaps: here the gaps marked cheaper houses.
+- Also compare the target for the most frequent category against the observations with gaps: here the gaps marked cheaper houses.
 - Split first, then fit `SimpleImputer` on the training set and transform both sets with it.
 
 ## 9. Sources
@@ -318,7 +318,11 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
 | Mode | The most frequent value of a column |
+
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode |
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing" |
 | Arbitrary value imputation | Filling gaps with a value that cannot occur naturally, such as 99, -1 or "Missing" |

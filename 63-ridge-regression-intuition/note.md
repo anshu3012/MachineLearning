@@ -16,7 +16,7 @@ title: "Ridge Regression: Regularisation and Intuition"
 
 > **Key point:** Regularisation adds a penalty to the loss so the model cannot overfit as easily. Ridge regression penalises the squares of the coefficients, which keeps them small.
 
-**Regularisation** is a technique that adds extra information to a model to reduce overfitting. It sits next to bagging and boosting as one of the main tools against high variance, and it is especially important for linear models: linear regression, logistic regression and others.
+**Regularisation** is a technique that adds extra information to a model to reduce overfitting. Regularisation sits next to bagging and boosting as one of the main tools against high variance, and it is especially important for linear models: linear regression, logistic regression and others.
 
 There are three standard regularised versions of linear regression:
 
@@ -34,7 +34,7 @@ This Note covers the idea of regularisation and of Ridge. The next three Notes d
 
 Overfitting means a model performs very well on the training data but poorly on new data, and gives very different results when trained on different samples (the high variance of the previous Note).
 
-For linear regression, overfitting shows up in the coefficients. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
+For linear regression, overfitting shows up in the coefficients. Each **feature** (an input variable, one column of the data table) gets one coefficient, and each **observation** (one record, one row of the table) is one training point. The **target** is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
 
 So the warning sign of an overfitting linear model is **large coefficients**: the line or plane tilts sharply to fit the training points exactly.
 
@@ -55,21 +55,23 @@ With numbers, Figure 1 has two training points, $(1, 2)$ and $(3, 5)$, and $\lam
 - **The least-squares line** passes through both points: slope 1.5, errors 0. With the penalty, its loss is $0 + 1 \times 1.5^2 = 2.25$.
 - **A flatter line** with slope 0.9 misses both points slightly: errors $0.72$. Its loss is $0.72 + 1 \times 0.9^2 = 1.53$.
 
-With the penalty, the flatter line has the lower loss, so Ridge prefers it. In Figure 1 the grey test points come from a flatter pattern, so here the flatter line also fits new data better (test error 0.43 against 0.93). Figure 1 is a made-up example to show the idea; Section 4.3 tries it on real data.
+With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 1 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. Section 4.3 tests the idea on real data.
 
 Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
+
+Think of a tailor who fits a suit to one photo of a customer. A suit that follows every fold of that one photo fits badly on the real day. A tailor who keeps the cut a little plain, trusting the photo less, does better on average. Ridge keeps the coefficients plain in the same way.
 
 ## 4. The effect of λ
 
 > **Key point:** λ = 0 is ordinary linear regression. As λ grows, the coefficients shrink towards 0. Too large a λ flattens the model into underfitting.
 
-### 4.1 One input
+### 4.1 One feature
 
-> **Key point:** With one input, a larger penalty gives a flatter line.
+> **Key point:** With one feature, a larger penalty gives a flatter line.
 
-Figure 2 (left) fits 100 points with one input. In scikit-learn the penalty strength is called `alpha` instead of $\lambda$.
+Figure 2 (left) fits 100 observations with one feature. In scikit-learn the penalty strength is called `alpha` instead of $\lambda$.
 
-![The effect of alpha with one input and with a degree-16 polynomial](images/alpha_effects.png){height=45%}
+![The effect of alpha with one feature and with a degree-16 polynomial](images/alpha_effects.png){height=45%}
 
 | alpha | Slope |
 |---|---|
@@ -91,16 +93,21 @@ Regularisation matters most for flexible models. Figure 2 (right) fits a degree-
 
 The best alpha is somewhere in between and is found by trying values on held-out data, like any hyperparameter.
 
-### 4.3 Many inputs: the diabetes data
+### 4.3 Many features: the diabetes data
 
-> **Key point:** As alpha grows, every coefficient is pulled towards 0. A small alpha slightly improved test R²; a huge alpha destroyed the model.
+> **Key point:** As alpha grows, every coefficient is pulled towards 0. With few training observations, a small alpha raises test R² a lot; a huge alpha destroys the model.
 
-Figure 3 trains Ridge on the 10-input diabetes data with alpha from 0.0001 to 100,000.
+Figure 3 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
 
 ![Coefficients and test R² against alpha on the diabetes data](images/diabetes_alpha.png){height=45%}
 
-- **Left:** at a large alpha every coefficient ends near 0, though not always in a straight line (age and s6 first grow, s3 changes sign). The biggest one, s1 ($-971$), shrinks fastest. Why was it so big? s1 and s2 are strongly correlated ($r = 0.90$). Plain linear regression gives such a pair large opposite coefficients ($-971$ and $+574$) that partly cancel each other, and Ridge's limit on coefficient size stops this (ESL §3.4.1). At alpha 0.01 the pair is already down to $-421$ and $+138$.
-- **Right:** test R² is 0.519 for plain linear regression and peaks at 0.523 around alpha 0.02. Beyond about alpha 1 it falls, and with alpha 100,000 every coefficient is about 0.005 and $R^2 = 0.00$: the model just predicts the average.
+- **Left** (one split, 353 training observations): at a large alpha every coefficient ends near 0, though not always in a straight line (age and s6 first grow, s3 changes sign). The biggest one, s1 ($-971$), shrinks fastest. Why was it so big? s1 and s2 are strongly correlated ($r = 0.90$). Plain linear regression gives such a pair large opposite coefficients ($-971$ and $+574$) that partly cancel each other, and Ridge's limit on coefficient size stops this (ESL §3.4.1). At alpha 0.01 the pair is already down to $-421$ and $+138$.
+- **Right** (mean test R² over 200 random splits; dashed lines are plain linear regression):
+  - **40 training observations:** plain linear regression scores 0.29. Ridge at alpha 0.04 scores 0.42, a large gain.
+  - **353 training observations:** 0.478 against 0.480, almost no gain.
+  - **Huge alpha:** with alpha 100,000 every coefficient is about 0 and $R^2 \approx 0$: the model just predicts the average.
+
+Why the difference? With 40 observations and 10 features, the least-squares coefficients swing a lot from sample to sample (high variance), so taming them pays off. With 353 observations the least-squares fit is already stable, so there is little variance to remove. Ridge works best where least squares has high variance (ISL §6.2.1).
 
 > **Python:** Ridge in scikit-learn.
 >
@@ -113,25 +120,25 @@ Figure 3 trains Ridge on the 10-input diabetes data with alpha from 0.0001 to 10
 > ridge.score(X_test, y_test)
 > ```
 
-> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their inputs. An input measured in grams gets a much smaller coefficient than the same input in kilograms, so it would be penalised less. That is why inputs are standardised before Ridge (ISL §6.2.1). The diabetes inputs already come scaled (scikit-learn docs, `load_diabetes`). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
+> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their features. A feature measured in grams gets a much smaller coefficient than the same feature in kilograms, so it would be penalised less. For this reason features are standardised before Ridge (ISL §6.2.1; ESL §3.4.1). The diabetes features already come scaled (scikit-learn docs, `load_diabetes`). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
 
 ## 5. Summary
 
 | alpha (λ) | Effect |
 |---|---|
 | 0 | ordinary linear regression |
-| small | smaller coefficients; here slightly better test R² |
+| small | smaller coefficients; better test R² when training data is small |
 | large | coefficients near 0, the model underfits |
 
 - Overfitting linear models have extreme coefficients.
 - Ridge adds $\lambda \sum \beta_j^2$ to the loss; the intercept is not penalised.
-- It trades a little bias for less variance.
-- alpha is tuned on held-out data; inputs should be standardised first.
+- Ridge trades a little bias for less variance, and helps most where least squares has high variance.
+- alpha is tuned on held-out data; features should be standardised first.
 
 ## 6. Sources
 
-- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.1, pp. 237–240.
-- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.1, pp. 237–241.
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, pp. 63–64.
 - **scikit-learn docs:** `sklearn.datasets.load_diabetes`, scikit-learn 1.9 documentation.
 
 ## 7. Key terms
@@ -145,3 +152,4 @@ Figure 3 trains Ridge on the 10-input diabetes data with alpha from 0.0001 to 10
 | Elastic Net | Linear regression with a mix of the L1 and L2 penalties |
 | λ (lambda), alpha | The strength of the regularisation penalty; alpha in scikit-learn |
 | Shrinkage | The pulling of coefficients towards 0 by a penalty |
+| Feature, target, observation | An input variable (column); the value predicted; one record (row) |

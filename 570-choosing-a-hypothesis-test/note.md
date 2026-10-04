@@ -13,16 +13,16 @@ title: "Choosing a Hypothesis Test"
 
 ## 1. Overview
 
-> **Key point:** The kinds of columns a question involves (categorical or numerical, one or two) decide which hypothesis test to run; every test then ends with the same rule, reject $H_0$ when $p \le \alpha$.
+> **Key point:** The kinds of features a question involves (categorical or numerical, one or two) decide which hypothesis test to run; every test then ends with the same rule, reject $H_0$ when $p \le \alpha$.
 
-![Choosing a test from the columns involved](images/test_chooser.png)
+![Choosing a test from the features involved](images/test_chooser.png)
 
-The earlier hypothesis-testing Notes built the z-test and three t-tests. Real questions come with data of many kinds: counts of men and women, heights, age groups. Figure 1 is the guide this Note follows: name the columns the question is about, and the test follows.
+The earlier hypothesis-testing Notes built the z-test and three t-tests. Real questions come with data of many kinds: counts of men and women, heights, age groups. Figure 1 is the guide this Note follows: name the **features** the question is about, and the test follows. A feature is a variable of the data, one column of the data table, such as gender or height.
 
 This Note covers:
 
 - the decision logic shared by every test, with three common misreadings;
-- a small dataset with two categorical and two numerical columns;
+- a small dataset with two categorical and two numerical features;
 - one test for each kind of question: the one-sample proportion test, the chi-square test, the t-tests, the correlation test and ANOVA.
 
 Two of these tests are new here and taught in full: the one-sample proportion test and the correlation test. The chi-square tests and ANOVA each get their own Note: the [chi-square tests Note](../571-chi-square-tests/note.md) and the [one-way ANOVA Note](../572-one-way-anova/note.md).
@@ -35,7 +35,7 @@ Every test in this Note follows the eight steps of a hypothesis test (see the [n
 
 1. **Hypotheses.** $H_0$ says there is no difference or no relationship; $H_1$ says there is one.
 2. **Significance level.** Fix $\alpha$, usually 0.05, before running the test (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)).
-3. **Test.** Choose the test from the columns involved (Figure 1) and compute its statistic.
+3. **Test.** Choose the test from the features involved (Figure 1) and compute its statistic.
 4. **P-value.** The probability, if $H_0$ were true, of a result at least as extreme as ours (see the [p-values Note](../300-p-values/note.md)).
 5. **Decision.** $p \le \alpha$: reject $H_0$. $p > \alpha$: fail to reject $H_0$.
 
@@ -48,14 +48,14 @@ With $\alpha = 0.05$ in a two-tailed test, the rejection region is the outer 2.5
 These three mix-ups are common enough to correct here; each is explained in the Note linked.
 
 - **"$H_0$ is always true."** We **assume** $H_0$ while computing the p-value, as a starting point. The test exists because $H_0$ may be false.
-- **"The p-value is the probability that $H_1$ is true."** It is the probability of data this extreme if $H_0$ were true (see the [p-values Note](../300-p-values/note.md)). It says nothing directly about how likely either hypothesis is.
+- **"The p-value is the probability that $H_1$ is true."** The p-value is the probability of data this extreme if $H_0$ were true (see the [p-values Note](../300-p-values/note.md)). The p-value says nothing directly about how likely either hypothesis is.
 - **"$p > 0.05$, so we accept $H_0$."** A large p-value means the sample gives too little evidence against $H_0$. We say we **fail to reject** $H_0$; absence of evidence is not proof (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
 
 ## 3. The example dataset
 
-> **Key point:** 60 people with two categorical columns (gender, age group) and two numerical columns (height, weight); each pair of column kinds leads to a different test.
+> **Key point:** 60 people with two categorical features (gender, age group) and two numerical features (height, weight); each pair of feature kinds leads to a different test.
 
-We use one sample of 60 people with four columns:
+We use one sample of 60 people with four features. Each person is one **observation** (one record, a row of the table):
 
 | gender | age_group | height (m) | weight (kg) |
 |---|---|---|---|
@@ -65,15 +65,15 @@ We use one sample of 60 people with four columns:
 | female | child | 1.29 | 33.9 |
 | female | child | 1.17 | 18.2 |
 
-The data is simulated (`data/make_people.py` builds `data/people.csv` with a fixed seed), so that every test has clean, reproducible numbers. It has:
+The data is simulated (`data/make_people.py` builds `data/people.csv` with a fixed seed), so that every test has clean, reproducible numbers. The dataset has:
 
-- **gender:** a categorical column with two categories, 34 female and 26 male;
-- **age_group:** a categorical column with three categories, 20 child, 26 adult, 14 elderly;
-- **height** and **weight:** numerical (continuous) columns.
+- **gender:** a categorical feature with two categories, 34 female and 26 male;
+- **age_group:** a categorical feature with three categories, 20 child, 26 adult, 14 elderly;
+- **height** and **weight:** numerical (continuous) features.
 
-It is a **sample**. A bar chart of gender shows the proportions in these 60 people; the test tells whether they say anything about the population the sample came from (see the [what is statistics Note](../220-what-is-statistics/note.md)).
+The dataset is a **sample**. A bar chart of gender shows the proportions in these 60 people; the test tells whether they say anything about the population the sample came from (see the [what is statistics Note](../220-what-is-statistics/note.md)).
 
-## 4. One categorical column: the one-sample proportion test
+## 4. One categorical feature: the one-sample proportion test
 
 > **Key point:** Does the share of one category differ from a claimed value? Compare the sample proportion with the claim, in standard errors.
 
@@ -81,11 +81,11 @@ It is a **sample**. A bar chart of gender shows the proportions in these 60 peop
 
 > **Key point:** Is the proportion of men in the population different from 0.5?
 
-With one categorical column, the natural question is about proportions: is there a difference between the proportion of men and women? With two categories, the share of men $\pi$ settles the question:
+With one categorical feature, the natural question is about proportions: is there a difference between the proportion of men and women? With two categories, the share of men $\pi$ settles the question:
 
 $$H_0: \pi = 0.5, \qquad H_1: \pi \neq 0.5$$
 
-Our sample has 26 men out of 60, a **sample proportion** $\hat{p} = 26/60 = 0.433$. It is below 0.5, but a sample of 60 can easily miss by that much.
+Our sample has 26 men out of 60, a **sample proportion** $\hat{p} = 26/60 = 0.433$. The sample proportion is below 0.5, but a sample of 60 can easily miss by that much.
 
 ### 4.2 The z statistic for a proportion
 
@@ -123,15 +123,15 @@ Since $0.30 > 0.05$, we fail to reject $H_0$. A 26-to-34 split in 60 people is w
 > stats.binomtest(26, n=60, p=0.5)    # p = 0.37, exact
 > ```
 
-> **Extra:** The count of men is binomial, $B(60, \pi)$, so the p-value can also be computed exactly from binomial tail areas, as for the coin in the [p-values Note](../300-p-values/note.md); `stats.binomtest` does this. It gives 0.37 here. The z version is the normal approximation, good when $n\pi_0 \ge 10$ and $n(1 - \pi_0) \ge 10$, the success-failure condition (OpenIntro §6.1); here both are 30.
+> **Extra:** The count of men is binomial, $B(60, \pi)$, so the p-value can also be computed exactly from binomial tail areas, as for the coin in the [p-values Note](../300-p-values/note.md); `stats.binomtest` does this. The exact test gives 0.37 here. The z version is the normal approximation, good when $n\pi_0$ and $n(1 - \pi_0)$ are both at least 5 (NIST Handbook §7.2.4); here both are 30.
 
-> **Extra:** With three or more categories (child, adult, elderly against claimed shares), one proportion no longer describes the column. The test for that case is the **chi-square goodness-of-fit test** (see the [chi-square tests Note](../571-chi-square-tests/note.md)).
+> **Extra:** With three or more categories (child, adult, elderly against claimed shares), one proportion no longer describes the feature. The test for that case is the **chi-square goodness-of-fit test** (see the [chi-square tests Note](../571-chi-square-tests/note.md)).
 
-## 5. Two categorical columns: the chi-square test
+## 5. Two categorical features: the chi-square test
 
-> **Key point:** Does the proportion of men differ between age groups? Two categorical columns are tested with the chi-square test of independence.
+> **Key point:** Does the proportion of men differ between age groups? Two categorical features are tested with the chi-square test of independence.
 
-Adding a second categorical column changes the question: is there a difference between the proportion of men and women **across age groups**? Equivalently: are gender and age group related?
+Adding a second categorical feature changes the question: is there a difference between the proportion of men and women **across age groups**? Equivalently: are gender and age group related?
 
 - $H_0$: gender and age group are independent (the share of men is the same in every age group);
 - $H_1$: they are related.
@@ -145,21 +145,21 @@ The counts go in a contingency table, as in the [contingency tables Note](../340
 
 The **chi-square test of independence** gives $\chi^2 = 2.50$ with $p = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$: the sample does not show that the gender mix changes with age group. How the statistic is built is the subject of the [chi-square tests Note](../571-chi-square-tests/note.md).
 
-## 6. One numerical column: the one-sample t-test
+## 6. One numerical feature: the one-sample t-test
 
-> **Key point:** Does the mean height differ from a known earlier value? One numerical column against a claimed mean is the one-sample t-test.
+> **Key point:** Does the mean height differ from a known earlier value? One numerical feature against a claimed mean is the one-sample t-test.
 
 Our sample's mean height is 1.533 m. An earlier sample from the same population had a mean of 1.55 m. Is there a difference?
 
 $$H_0: \mu = 1.55, \qquad H_1: \mu \neq 1.55$$
 
-This is the one-sample t-test of the [one-sample t-test Note](../301-one-sample-t-test/note.md): $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$ with $n - 1$ degrees of freedom. With $s = 0.211$ and $n = 60$:
+The question calls for the one-sample t-test of the [one-sample t-test Note](../301-one-sample-t-test/note.md): $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$ with $n - 1$ degrees of freedom. With $s = 0.211$ and $n = 60$:
 
 $$t = \frac{1.5327 - 1.55}{0.211 / \sqrt{60}} = \frac{-0.0173}{0.0273} = -0.64, \qquad df = 59, \quad p = 0.53$$
 
 We fail to reject $H_0$: the mean height is consistent with 1.55 m.
 
-## 7. Two numerical columns: the correlation test
+## 7. Two numerical features: the correlation test
 
 > **Key point:** Are height and weight related? Pearson's $r$ measures the relationship; the correlation test asks whether $r$ is far enough from 0 to rule out chance.
 
@@ -167,7 +167,7 @@ We fail to reject $H_0$: the mean height is consistent with 1.55 m.
 
 > **Key point:** $H_0$: the population correlation $\rho$ is 0, no linear relationship; $H_1$: $\rho \neq 0$.
 
-Pearson's correlation coefficient $r$ runs from $-1$ to $+1$; a value near 0 means no linear relationship (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)). But $r$ comes from a sample. Two unrelated columns give a small non-zero $r$ in a sample by chance, so we test:
+Pearson's correlation coefficient $r$ runs from $-1$ to $+1$; a value near 0 means no linear relationship (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)). But $r$ comes from a sample. Two unrelated features give a small non-zero $r$ in a sample by chance, so we test:
 
 $$H_0: \rho = 0 \ \text{(no relationship)}, \qquad H_1: \rho \neq 0$$
 
@@ -209,9 +209,9 @@ We reject $H_0$: taller people in this population are heavier.
 
 > **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 2: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)).
 
-## 8. One numerical and one categorical column: t-test or ANOVA
+## 8. One numerical and one categorical feature: t-test or ANOVA
 
-> **Key point:** A numerical column compared across the groups of a categorical column: two groups need a t-test, three or more need ANOVA.
+> **Key point:** A numerical feature compared across the groups of a categorical feature: two groups need a t-test, three or more need ANOVA.
 
 ### 8.1 Two groups: the two-sample t-test
 
@@ -233,11 +233,11 @@ $$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}, \qquad H_
 
 The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA Note](../572-one-way-anova/note.md) builds the F statistic and explains why three t-tests would not do.
 
-> **Extra:** With one numerical column and **two** categorical columns (weight by gender and age group together), the test is **two-way ANOVA**. It asks about each categorical column and about their interaction (Montgomery, ch. 5).
+> **Extra:** With one numerical feature and **two** categorical features (weight by gender and age group together), the test is **two-way ANOVA**. Two-way ANOVA asks about each categorical feature and about their interaction (Montgomery, ch. 5).
 
 ## 9. Summary
 
-| Columns in the question | Test | Result here |
+| Features in the question | Test | Result here |
 |---|---|---|
 | one categorical, 2 categories | one-sample proportion test | share of men: $z = -1.03$, $p = 0.30$ |
 | one categorical, 3+ categories | chi-square goodness of fit | see the chi-square tests Note |
@@ -247,22 +247,22 @@ The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.00
 | numerical + 2 groups | two-sample t-test | adult height by gender: $p = 0.00003$ |
 | numerical + 3+ groups | one-way ANOVA | weight by age group: $F = 203$, $p < 0.001$ |
 
-- The kinds of columns decide the test; the decision rule is always $p \le \alpha$ $\Rightarrow$ reject $H_0$.
+- The kinds of features decide the test; the decision rule is always $p \le \alpha$ $\Rightarrow$ reject $H_0$.
 - $H_0$ is assumed while computing $p$; the p-value is not the probability of $H_1$; a large $p$ means "fail to reject", not "accept".
 - The one-sample proportion test is a z-test on $\hat{p}$ with standard error $\sqrt{\pi_0(1 - \pi_0)/n}$.
 - The correlation test is a t-test on $r$ with $n - 2$ degrees of freedom; a weak $r$ needs a large sample to be significant.
 
-## Sources
+## 10. Sources
 
-- Diez, D., Çetinkaya-Rundel, M. and Barr, C. (2019). *OpenIntro Statistics*, 4th ed. Section 6.1, the success-failure condition.
 - Montgomery, D. C. (2013). *Design and Analysis of Experiments*, 8th ed. Wiley. Chapter 5, factorial designs.
+- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 7.2.4, testing a proportion (normal approximation when $\min(Np_0, N(1-p_0)) \ge 5$).
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
 | One-sample proportion test | A z-test of whether the proportion of one category in the population equals a claimed value $\pi_0$ |
 | Sample proportion $\hat{p}$ | The share of a category in the sample, such as 26 men out of 60 |
 | Correlation test | A t-test of $H_0: \rho = 0$, using $t = r\sqrt{n-2}/\sqrt{1-r^2}$ with $n - 2$ degrees of freedom |
-| Population correlation $\rho$ | The correlation between two columns in the whole population; $r$ estimates it |
-| Two-way ANOVA | ANOVA for one numerical column and two categorical columns |
+| Population correlation $\rho$ | The correlation between two features in the whole population; $r$ estimates it |
+| Two-way ANOVA | ANOVA for one numerical feature and two categorical features |

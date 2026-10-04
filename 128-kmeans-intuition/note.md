@@ -16,9 +16,9 @@ title: "K-Means Clustering: How It Works"
 
 > **Key point:** k-means splits the data into k clusters by repeating two moves: give every point to its nearest centroid, then move every centroid to the mean of its points. The elbow method helps us choose k.
 
-**K-means** is a clustering algorithm: it puts similar rows in the same group without being told what the groups are (clustering, the [types of ML Note](../03-types-of-ml/note.md), section 3.2). Clustering is used everywhere: e-commerce sites cluster customers, colleges cluster students, photo apps cluster images.
+**K-means** is a clustering algorithm: it puts similar **observations** (records, one row of the data table each) in the same group without being told what the groups are (clustering, the [types of ML Note](../03-types-of-ml/note.md), section 3.2). Clustering is used everywhere: e-commerce sites cluster customers, colleges cluster students, photo apps cluster images.
 
-The binning Note ([Note 32](../32-binning-binarization/note.md), section 7.1) already ran the k-means loop on a single column. This Note runs it on two columns, where each point is a row and distances are measured in a plane, and adds what was missing there: the starting centroids, the stopping test and how to choose k. Figure 1 shows the whole algorithm on 18 students.
+The binning Note ([Note 32](../32-binning-binarization/note.md), section 7.1) already ran the k-means loop on a single column. This Note runs it on two **features** (input variables, one column of the data table each), where each observation is a point and distances are measured in a plane, and adds what was missing there: the starting centroids, the stopping test and how to choose k. Figure 1 shows the whole algorithm on 18 students.
 
 ![k-means with k = 3 on 18 students: random start, assign, move, repeat until the centroids stop moving](images/kmeans_2d.gif){height=48%}
 
@@ -27,23 +27,23 @@ The binning Note ([Note 32](../32-binning-binarization/note.md), section 7.1) al
 - Clustering and unsupervised learning: the [types of ML Note](../03-types-of-ml/note.md).
 - k-means on one column, and the word centroid: the [binning Note](../32-binning-binarization/note.md).
 - The Euclidean distance: the [KNN imputer Note](../39-knn-imputer/note.md), section 4.1.
-- Putting columns on one scale (standardization): the [standardization Note](../24-standardization/note.md).
+- Putting features on one scale (standardization): the [standardization Note](../24-standardization/note.md).
 
 ## 3. Why we need a clustering algorithm
 
-> **Key point:** With two columns we can see the clusters by eye; with ten or a hundred columns we cannot, and k-means does the same job in any number of dimensions.
+> **Key point:** With two features we can see the clusters by eye; with ten or a hundred features we cannot, and k-means does the same job in any number of dimensions.
 
 Take the training and placement cell of a college. It has the CGPA and IQ of every final-year student and wants to split the students into groups, so that each group can be prepared for placements in its own way.
 
-With only two columns, a scatter plot is enough: we look at it and see, say, three groups. No algorithm is needed. Now add marks in class 10, marks in class 12, home state and parents' monthly income: 10 to 15 columns. We can no longer draw the data, so we can no longer see the groups.
+With only two features, a scatter plot is enough: we look at it and see, say, three groups. No algorithm is needed. Now add marks in class 10, marks in class 12, home state and parents' monthly income: 10 to 15 features. We can no longer draw the data, so we can no longer see the groups.
 
-This is where k-means earns its place. We explain it in two dimensions, because two dimensions can be drawn. k-means needs only distances and means, and both work with any number of columns, exactly as for KNN (the [KNN Note](../91-knn/note.md), section 2.2), so every step runs unchanged in 100 dimensions.
+Many features are where k-means earns its place. We explain k-means in two dimensions, because two dimensions can be drawn. k-means needs only distances and means, and both work with any number of features, exactly as for KNN (the [KNN Note](../91-knn/note.md), section 2.2), so every step runs unchanged in 100 dimensions.
 
 ## 4. The five steps of k-means
 
 > **Key point:** 1 choose k; 2 pick k starting centroids; 3 assign every point to its nearest centroid; 4 move each centroid to the mean of its points; 5 stop if no centroid moved, otherwise go back to step 3.
 
-Steps 3 to 5 are the loop of the [binning Note](../32-binning-binarization/note.md), section 7.1: assign every value to its nearest centroid, move each centroid to the mean of its values, repeat until nothing changes. Here we add what that Note left out: choosing k, the starting centroids, and the loop on two columns, run on the 18 students of Figure 1.
+Steps 3 to 5 are the loop of the [binning Note](../32-binning-binarization/note.md), section 7.1: assign every value to its nearest centroid, move each centroid to the mean of its values, repeat until nothing changes. Here we add what that Note left out: choosing k, the starting centroids, and the loop on two features, run on the 18 students of Figure 1.
 
 ### 4.1 Step 1: choose k
 
@@ -51,7 +51,7 @@ Steps 3 to 5 are the loop of the [binning Note](../32-binning-binarization/note.
 
 **k** is the number of clusters we want. k-means does not work it out from the data: looking at the students, it cannot decide whether there should be 3 or 4 groups. Choosing k is our job.
 
-This sounds odd: if we cannot plot high-dimensional data, how can we know k? Section 5 answers this with the elbow method. Until then we assume we know it: k = 3 for the students.
+The requirement sounds odd: if we cannot plot data with many features, how can we know k? Section 5 answers this with the elbow method. Until then we assume we know it: k = 3 for the students.
 
 ### 4.2 Step 2: pick the starting centroids
 
@@ -61,9 +61,9 @@ At the start there are no clusters yet, so k-means simply picks k data points at
 
 In Figure 1 (top left), three students were picked at random. They are marked with crosses: blue, orange and green. Two of them happen to sit in the same group of students, a poor start; the next steps repair it.
 
-### 4.3 Steps 3 and 4 on two columns
+### 4.3 Steps 3 and 4 on two features
 
-> **Key point:** Distances become Euclidean distances in the plane, and each new centroid is the mean of each column over the cluster's points.
+> **Key point:** Distances become Euclidean distances in the plane, and each new centroid is the mean of each feature over the cluster's points.
 
 **Assign.** For every point we compute its Euclidean distance (the [KNN imputer Note](../39-knn-imputer/note.md), section 4.1) to each of the k centroids, and the point joins the nearest one. With 18 students and 3 centroids, that is $18 \times 3 = 54$ distances per round. In Figure 1 (top right), the green centroid is nearest to every student on the right and at the bottom, so all of them turn green; the orange centroid wins the top group; the blue centroid has only itself.
 
@@ -73,7 +73,7 @@ $$\left(\frac{1 + 3 + 2}{3},\ \frac{2 + 2 + 5}{3}\right) = (2,\ 3).$$
 
 In Figure 1 (bottom left), the green centroid moves to the middle of its many points, between the right and bottom groups. The orange centroid moves up into the top group.
 
-> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like KNN (the [KNN Note](../91-knn/note.md), section 3.2), k-means is distance-based, so Figure 1 uses standardized values (the [standardization Note](../24-standardization/note.md)). How the columns are scaled changes which clusters come out, and standardizing is not always the right choice either (ESL §14.3.3).
+> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like KNN (the [KNN Note](../91-knn/note.md), section 3.2), k-means is distance-based, so Figure 1 uses standardized values (the [standardization Note](../24-standardization/note.md)). How the features are scaled changes which clusters come out, and standardizing is not always the right choice either (ESL §14.3.3).
 
 ### 4.4 Step 5: stop when the centroids stop moving
 
@@ -129,16 +129,16 @@ So the curve starts high at k = 1 and falls towards 0 as k approaches the number
 
 > **Key point:** The elbow point is where WCSS stops falling fast: adding one more cluster after it gains little.
 
-Figure 3 is the elbow curve for 150 points that form three groups. WCSS falls from 376 at k = 1 to 174 at k = 2 and 48 at k = 3. After that it hardly moves: 41 at k = 4, 34 at k = 5.
+Figure 3 is the elbow curve for a real dataset: 272 eruptions of the Old Faithful geyser, each described by two features, the eruption's duration and the waiting time before it (standardized, as section 4.3 recommends). The dataset also labels every eruption as short or long: two kinds. WCSS falls from 544 at k = 1 to 80 at k = 2. After that it hardly moves: 56 at k = 3, 44 at k = 4, 34 at k = 5.
 
-![Elbow curve: WCSS against k for 150 points in three groups; the curve bends at k = 3](images/elbow.png)
+![Elbow curve: WCSS against k for the 272 Old Faithful eruptions (standardized); the curve bends at k = 2](images/elbow.png)
 
-The **elbow point** is where the curve bends, the k after which the fall flattens out. Here it is k = 3:
+The **elbow point** is where the curve bends, the k after which the fall flattens out. Here it is k = 2, the two kinds of eruption:
 
-- Going from 1 to 2 clusters, and from 2 to 3, cut WCSS a lot: these extra clusters were worth it.
-- Going from 3 to 4, and beyond, barely helps: the extra clusters only split real groups in pieces.
+- Going from 1 to 2 clusters cuts WCSS by 85%: the second cluster was worth it.
+- Going from 2 to 3, and beyond, barely helps: the extra clusters only split real groups in pieces.
 
-A memorable picture: imagine the curve is a mountain and we are sliding down it from the left. On the steep part we fall fast and feel scared. The point where the slope suddenly eases and we stop feeling scared is the elbow.
+A memorable picture: the curve is a hill we slide down from the left. On the steep part we drop fast. The point where the slope suddenly eases is the elbow: from there on, each extra cluster buys almost no drop.
 
 > **Extra:** On real data the bend is often not sharp, and it is easy to read the wrong k from it (Schubert 2022). Other ways to choose k exist for this reason, such as the silhouette score (Rousseeuw 1987).
 
@@ -153,18 +153,18 @@ A memorable picture: imagine the curve is a mountain and we are sliding down it 
 | 5. Check | Centroids unchanged: stop; else back to step 3 | stopped after 4 rounds |
 
 - k-means only needs distances and means, so it works the same in 2 or 100 dimensions.
-- Scale the columns first: k-means is distance-based.
+- Scale the features first: k-means is distance-based.
 - WCSS (inertia) = the sum of squared distances from each point to its own centroid.
 - WCSS always falls as k grows and reaches 0 when every point is its own cluster.
 - The elbow method picks the k where the WCSS curve bends from steep to flat.
 
-## Sources
+## 7. Sources
 
 - ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.3 (object dissimilarity and standardization in clustering).
 - Schubert 2022: E. Schubert, *Stop using the elbow criterion for k-means and how to choose the number of clusters instead*, arXiv:2212.12189, 2022.
 - Rousseeuw 1987: P. J. Rousseeuw, *Silhouettes: a graphical aid to the interpretation and validation of cluster analysis*, Journal of Computational and Applied Mathematics 20, 1987, 53–65.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

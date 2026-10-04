@@ -18,7 +18,7 @@ title: "Ridge Regression with Gradient Descent"
 
 The previous Note found the Ridge coefficients in one step with a formula. Like plain linear regression, Ridge can instead be trained with **gradient descent**: start somewhere, and repeatedly step downhill on the loss.
 
-Gradient descent is useful when there are many input columns, because the formula needs the inverse of a large matrix (the gradient descent Notes). This Note derives the Ridge gradient, codes it from scratch, and shows the scikit-learn options.
+Here a **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** $y$ is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (the gradient descent Notes). This Note derives the Ridge gradient, codes it from scratch, and shows the scikit-learn options.
 
 ## 2. The gradient
 
@@ -32,7 +32,7 @@ The Ridge loss from the previous Note, multiplied by $\frac{1}{2}$:
 
 $$L = \frac{1}{2}(Xw - y)^{\mathsf T}(Xw - y) + \frac{1}{2}\lambda\, w^{\mathsf T}w$$
 
-Halving every value of the loss leaves the lowest point at the same $w$. It just makes the derivative tidier, as the 2 from differentiating a square cancels the $\frac{1}{2}$.
+Halving every value of the loss leaves the lowest point at the same $w$. The ½ just makes the derivative tidier, as the 2 from differentiating a square cancels the $\frac{1}{2}$.
 
 ### 2.2 Expanding and differentiating
 
@@ -60,18 +60,18 @@ $$w_{\text{new}} = w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{
 
 where $\eta$ is the learning rate. The first entry of $w$ is the intercept, which is not penalised. So, as before, the $\lambda w$ term uses $\lambda I w$ with the top-left entry of $I$ set to 0.
 
-> **Extra:** Rearranging the update gives $w_{\text{new}} = (1 - \eta\lambda)\,w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$. So every step first shrinks the coefficients by the factor $1 - \eta\lambda$, then takes the ordinary linear regression step. This is why the L2 penalty is also called **weight decay**, the name used for neural networks (ESL §3.4.1).
+> **Extra:** Rearranging the update gives $w_{\text{new}} = (1 - \eta\lambda)\,w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$. So every step first shrinks the coefficients by the factor $1 - \eta\lambda$, then takes the ordinary linear regression step. The per-step shrinking is why the L2 penalty is also called **weight decay**, the name used for neural networks (ESL §3.4.1).
 
 ## 3. Seeing the paths
 
 > **Key point:** Gradient descent finds the bottom of whichever loss it is given. With λ = 100, the bottom sits at a smaller slope.
 
-Figure 1 runs 60 steps of gradient descent on the one-input example of the previous Notes, from the same start point ($m = -5$, $b = 20$, learning rate 0.005).
+Figure 1 runs 60 steps of gradient descent on the one-feature example of the previous Notes, from the same start point ($m = -5$, $b = 20$, learning rate 0.005).
 
 ![Gradient descent on the loss with λ = 0 and λ = 100](images/paths.png){height=52%}
 
 - **λ = 0:** the path ends at $m = 27.8$, $b = -2.3$, the linear regression answer.
-- **λ = 100:** the penalty moves the bottom of the bowl to $m = 12.9$, $b = -1.4$. These are exactly the Ridge values from the formula in the previous Note.
+- **λ = 100:** the penalty moves the bottom of the bowl to $m = 12.9$, $b = -1.4$. These values are exactly the Ridge values from the formula in the previous Note.
 
 The penalty makes the bowl steeper in the $m$ direction only: its curvature there, $\partial^2 L / \partial m^2 = \sum x_i^2 + \lambda$, grows from 87 to 187, while the $b$ direction is unchanged.
 
@@ -104,13 +104,35 @@ The penalty makes the bowl steeper in the $m$ direction only: its curvature ther
 
 On the diabetes data (test size 0.2, random state 4) with alpha 0.001, learning rate 0.005 and 500 epochs, test R² is 0.474 and the intercept 150.87.
 
-> **Extra:** This gradient adds up the errors of all rows instead of averaging them, so its size grows with the number of rows. That is why the learning rate must be tiny here. The maths: write $H = X^{\mathsf T}X + \lambda I$ and $w^\ast$ for the exact answer. One update turns the error $w - w^\ast$ into $(I - \eta H)(w - w^\ast)$. Along each eigenvector of $H$ with eigenvalue $h$, the error is multiplied by $1 - \eta h$ every step, so it shrinks only if $\eta < 2/h$ for the largest $h$. On this training set (353 rows) the largest eigenvalue is 353, so the limit is $\eta < 2/353 = 0.0057$. 0.005 is just below it; 0.006 is just above it, and the steps overshoot and grow: after 100 epochs the largest coefficient is about 15,000.
+> **Extra:** This gradient adds up the errors of all observations instead of averaging them, so its size grows with the number of observations. The summed gradient is why the learning rate must be tiny here. The maths: write $H = X^{\mathsf T}X + \lambda I$ and $w^\ast$ for the exact answer. One update turns the error $w - w^\ast$ into $(I - \eta H)(w - w^\ast)$. Along each eigenvector of $H$ with eigenvalue $h$, the error is multiplied by $1 - \eta h$ every step, so it shrinks only if $\eta < 2/h$ for the largest $h$. On this training set (353 observations) the largest eigenvalue is 353, so the limit is $\eta < 2/353 = 0.0057$. 0.005 is just below it; 0.006 is just above it, and the steps overshoot and grow: after 100 epochs the largest coefficient is about 15,000.
 
 ## 5. Gradient descent stops early
 
-> **Key point:** After 500 epochs, gradient descent is still far from the exact answer. Stopping early keeps the coefficients small, so early stopping is a regulariser of its own, much like the ridge penalty.
+> **Key point:** Stopping gradient descent early keeps the coefficients small, so early stopping is a regulariser of its own, much like the ridge penalty.
 
-The exact Ridge answer from the previous Note scores test R² 0.463 here. Figure 2 tracks gradient descent for up to a million epochs.
+Think of pouring water into an ice-cube tray: stop pouring early and every cube is only partly full. Gradient descent starts with small coefficients and fills them up step by step; stopping early leaves the slow ones small.
+
+### 5.1 Early stopping rescues an overfitting model
+
+> **Key point:** On data where linear regression overfits badly, stopping early helps about as much as the ridge penalty.
+
+We give the model 65 features (the 10 diabetes measurements plus their squares and pairwise products) and train on 200 patients, as in the [batch gradient descent Note](../58-batch-gradient-descent/note.md) (section five). With so many features for so few observations, plain least squares has high variance, the case where shrinkage helps (ISL §6.2.1). Averaged over 50 random splits, test R² is:
+
+| Model | Test R² |
+|---|---|
+| Linear regression (no regularisation) | 0.06 |
+| Ridge, alpha chosen by cross-validation on the training data | 0.44 |
+| Gradient descent without a penalty, stopped early | 0.40 |
+
+Both regularisers rescue the badly overfitting linear regression, and by a similar amount. For a linear model, stopping early and adding the ridge penalty are close cousins (Goodfellow et al. §7.8).
+
+> **Extra:** In the 65-feature experiment both models use standardised features. The stopping epoch is chosen on a validation part of the training data, and ridge's alpha by cross-validation on the training data, so the test data is used only once. Early stopping is one of the most common regularisers in deep learning (Goodfellow et al. §7.8).
+
+### 5.2 Why the slow directions stay small
+
+> **Key point:** Gradient descent creeps along flat directions of the loss bowl, so after a few hundred steps the coefficients in those directions are still small.
+
+Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 2 tracks gradient descent for up to a million epochs.
 
 ![Test R² and distance from the exact answer, per epoch](images/convergence.png){height=42%}
 
@@ -121,26 +143,12 @@ The exact Ridge answer from the previous Note scores test R² 0.463 here. Figure
 | 50,000 | 0.464 | 104 |
 | 1,000,000 | 0.463 | 0.0 |
 
-- **Left:** test R² rises, peaks around 500 epochs at 0.474, then drifts down to the exact answer's 0.463.
+- **Left:** test R² rises, peaks around 500 epochs, then settles at the exact answer's 0.463.
 - **Right:** the coefficients need about a million epochs to reach the exact values.
 
-Why so slow? s1 and s2 are strongly correlated (the [first Ridge Note](../63-ridge-regression-intuition/note.md)), so the bowl is almost flat along the direction "raise s2, lower s1", and gradient descent creeps along it. Stopping early leaves the coefficients in that direction smaller, which acts like extra regularisation (Goodfellow et al. §7.8).
-
-**When does that extra regularisation pay off?** Only when the plain least squares fit overfits. With the 10 diabetes features (input variables, the columns of the data table) and 353 training observations (patients, the rows) it barely does, so the small rise from 0.463 to 0.474 on this one split means little. Shrinkage helps most when the least squares fit has high variance, for example with many features for few observations (ISL §6.2.1).
-
-To see it pay off, we change one thing: we give the model 65 features (the 10 measurements plus their squares and pairwise products) and train on 200 patients, as in the [batch gradient descent Note](../58-batch-gradient-descent/note.md) (section five). Averaged over 50 random splits, test R² is:
-
-| Model | Test R² |
-|---|---|
-| Linear regression (no regularisation) | 0.06 |
-| Ridge, alpha chosen by cross-validation on the training data | 0.44 |
-| Gradient descent without a penalty, stopped early | 0.40 |
-
-Both regularisers rescue the badly overfitting linear regression, and by a similar amount. For a linear model, stopping early and adding the ridge penalty are close cousins (Goodfellow et al. §7.8).
+The slow direction comes from s1 and s2, which are strongly correlated (the [first Ridge Note](../63-ridge-regression-intuition/note.md)). The bowl is almost flat along "raise s2, lower s1", so gradient descent creeps along it, and stopping early leaves the coefficients in that direction smaller (Goodfellow et al. §7.8). With 353 observations least squares barely overfits (the first Ridge Note), so on this data the size of the test-R² change says little; the 65-feature experiment above is the real test.
 
 > **Extra:** The numbers behind this. Along an eigenvector of $H = X^{\mathsf T}X + \lambda I$ with eigenvalue $h$, the error shrinks by $1 - \eta h$ per step, so it needs about $1/(\eta h)$ steps. The smallest eigenvalue here is 0.0083, giving about $1/(0.005 \times 0.0083) \approx 24{,}000$ steps, and its eigenvector is mostly s1 ($-0.71$) and s2 ($+0.55$). After 500 epochs, almost the whole gap from the exact answer (1,146 of it) lies along this one direction, and the coefficient vector is about half as long as the exact one (774 against 1,455).
-
-> **Extra:** In the 65-feature experiment both models use standardised features. The stopping epoch is chosen on a validation part of the training data, and ridge's alpha by cross-validation on the training data, so the test data is used only once. Early stopping is one of the most common regularisers in deep learning (Goodfellow et al. §7.8).
 
 ## 6. Ridge with gradient descent in scikit-learn
 
@@ -167,7 +175,7 @@ Both regularisers rescue the badly overfitting linear regression, and by a simil
 
 `Ridge` has no learning-rate setting at all, even with an iterative solver (scikit-learn docs, `Ridge`). Here `sparse_cg` reaches the exact answer, 0.463.
 
-> **Extra:** `SGDRegressor` averages the loss over the rows, while `Ridge` adds it up. The `SGDRegressor` objective is (scikit-learn user guide §1.5.8) $\frac{1}{n}\sum \frac{1}{2}(y_i - \hat y_i)^2 + \alpha \cdot \frac{1}{2}\lVert w \rVert^2$. Multiplying by $2n$ gives $\sum (y_i - \hat y_i)^2 + n\alpha \lVert w \rVert^2$, the `Ridge` loss with alpha $n\alpha$. So the same `alpha` means a stronger penalty in `SGDRegressor`: its `alpha` equals `Ridge`'s `alpha` divided by the number of rows. With 353 training rows, `SGDRegressor(alpha=0.001)` matches `Ridge(alpha=0.353)`: run long, its coefficients land within 3 of that model's, but up to 840 away from `Ridge(alpha=0.001)`.
+> **Extra:** `SGDRegressor` averages the loss over the observations, while `Ridge` adds it up. The `SGDRegressor` objective is (scikit-learn user guide §1.5.8) $\frac{1}{n}\sum \frac{1}{2}(y_i - \hat y_i)^2 + \alpha \cdot \frac{1}{2}\lVert w \rVert^2$. Multiplying by $2n$ gives $\sum (y_i - \hat y_i)^2 + n\alpha \lVert w \rVert^2$, the `Ridge` loss with alpha $n\alpha$. So the same `alpha` means a stronger penalty in `SGDRegressor`: its `alpha` equals `Ridge`'s `alpha` divided by the number of observations. With 353 training observations, `SGDRegressor(alpha=0.001)` matches `Ridge(alpha=0.353)`: run long, its coefficients land within 3 of that model's, but up to 840 away from `Ridge(alpha=0.001)`.
 
 ## 7. Summary
 

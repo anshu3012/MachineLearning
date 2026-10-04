@@ -17,13 +17,13 @@ title: "Chi-square Tests"
 
 ![The chi-square test in four steps](images/observed_expected.png)
 
-The chi-square test was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test for categorical data. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) it is the test for two categorical columns. Figure 1 shows how every chi-square test works: observed counts and expected counts go into one number, $\chi^2$, and its tail area under the chi-square distribution is the p-value.
+The chi-square test was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test for categorical data. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) the chi-square test is the test for two categorical **features** (a feature is a variable of the data, one column of the data table, such as gender). Figure 1 shows how every chi-square test works: observed counts and expected counts go into one number, $\chi^2$, and its tail area under the chi-square distribution is the p-value.
 
 This Note covers:
 
 - the chi-square statistic and the chi-square distribution;
-- the **goodness-of-fit test**: does one categorical column match claimed proportions?
-- the **test of independence**: are two categorical columns related?
+- the **goodness-of-fit test**: does one categorical feature match claimed proportions?
+- the **test of independence**: are two categorical features related?
 - a case study on the Titanic, the conditions the test needs, and its strength measure, Cramér's V.
 
 > **Extra:** All of this Note is extra material beyond the "which test when" guide; the guide only names the chi-square test.
@@ -36,9 +36,9 @@ This Note covers:
 
 > **Key point:** Observed counts come from the data; expected counts are what $H_0$ predicts for a sample of the same size.
 
-A categorical column is summarised by counts, one per category (see the [frequency tables Note](../223-frequency-tables-and-graphs/note.md)). For a chi-square test we need two sets of counts:
+A categorical feature is summarised by counts, one per category (see the [frequency tables Note](../223-frequency-tables-and-graphs/note.md)). For a chi-square test we need two sets of counts:
 
-- **observed counts** $O$: how many rows of the sample fall in each category or cell;
+- **observed counts** $O$: how many **observations** (records, one row of the data table each) of the sample fall in each category or cell;
 - **expected counts** $E$: how many would fall there, on average, if $H_0$ were true.
 
 If $H_0$ is true, $O$ and $E$ differ only by chance. A large mismatch is evidence against $H_0$.
@@ -53,7 +53,7 @@ If $H_0$ is true, $O$ and $E$ differ only by chance. A large mismatch is evidenc
 3. **Example:** three cells with $O = 20, 26, 14$ and $E = 15, 33, 12$ (section 4):
    $$\chi^2 = \frac{(20 - 15)^2}{15} + \frac{(26 - 33)^2}{33} + \frac{(14 - 12)^2}{12} = 1.667 + 1.485 + 0.333 = 3.48$$
 
-$\chi^2$ is 0 only when every observed count equals its expected count. It can never be negative.
+$\chi^2$ is 0 only when every observed count equals its expected count. $\chi^2$ can never be negative.
 
 ## 3. The chi-square distribution
 
@@ -69,17 +69,17 @@ The **chi-square distribution** is a continuous distribution on the positive num
 
 Only large $\chi^2$ values count as evidence against $H_0$, so the p-value is always the **right-tail** area beyond our $\chi^2$. The 5% critical values are 3.84 for 1 df, 5.99 for 2 df and 7.81 for 3 df.
 
-> **Extra:** Where the distribution comes from: the sum of the squares of $k$ independent standard normal variables follows a chi-square distribution with $k$ df (this is its definition). Each $(O - E)/\sqrt{E}$ is roughly normal for large counts, but the terms are not independent, because the counts must add up to $n$. Pearson (1900) showed that $\chi^2$ still follows a chi-square distribution for large samples, with one df lost to that constraint. The notebook checks it: 20,000 samples of 60 people drawn with the census shares of section 4 true give a mean $\chi^2$ of 1.99, close to $df = 2$, and 4.9% of them pass the 5% critical value 5.99.
+> **Extra:** Where the distribution comes from: the sum of the squares of $k$ independent standard normal variables follows a chi-square distribution with $k$ df (this is its definition). Each $(O - E)/\sqrt{E}$ is roughly normal for large counts, but the terms are not independent, because the counts must add up to $n$. Pearson (1900) showed that $\chi^2$ still follows a chi-square distribution for large samples, with one df lost to that constraint. The notebook checks this: 200,000 samples of 60 people drawn with the census shares of section 4 true give a mean $\chi^2$ of 2.00, equal to $df = 2$, and 4.9% of them pass the 5% critical value 5.99.
 
 ## 4. The goodness-of-fit test
 
-> **Key point:** One categorical column against claimed proportions: expected count $=$ sample size $\times$ claimed proportion, and the degrees of freedom are the number of categories minus 1.
+> **Key point:** One categorical feature against claimed proportions: expected count $=$ sample size $\times$ claimed proportion, and the degrees of freedom are the number of categories minus 1.
 
 ### 4.1 The question
 
 > **Key point:** Do the age groups in our sample of 60 match a population that is 25% children, 55% adults and 20% elderly?
 
-The **goodness-of-fit test** asks whether the counts of one categorical column fit a claimed distribution. We use the 60 people of the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md). Suppose a census says the population is 25% children, 55% adults and 20% elderly.
+The **goodness-of-fit test** asks whether the counts of one categorical feature fit a claimed distribution. We use the 60 people of the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md). Suppose a census says the population is 25% children, 55% adults and 20% elderly.
 
 - $H_0$: the age groups occur in the claimed proportions 0.25, 0.55, 0.20;
 - $H_1$: at least one proportion differs.
@@ -134,17 +134,17 @@ $$\chi^2 = \frac{(26 - 30)^2}{30} + \frac{(34 - 30)^2}{30} = 0.533 + 0.533 = 1.0
 
 With 1 df this gives $p = 0.302$. The proportion test in the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) gave $z = -1.033$, and $(-1.033)^2 = 1.067$, with the same $p = 0.302$. The goodness-of-fit test is the proportion test extended to any number of categories.
 
-> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [Poisson distribution Note](../560-poisson-distribution/note.md)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom: $df = k - 1 - (\text{number of estimated parameters})$. The notebook tests this: 5,000 samples of 200 Poisson counts in 5 categories, with $\lambda$ estimated each time, give a mean $\chi^2$ of 3.06, matching $df = 3$ rather than 4. Judged with the df = 4 critical value, only 2.4% of the samples are rejected instead of 5%; with df = 3 it is 5.4%.
+> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [Poisson distribution Note](../560-poisson-distribution/note.md)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom: $df = k - 1 - (\text{number of estimated parameters})$. The notebook tests this: 5,000 samples of 200 Poisson counts in 5 categories, with $\lambda$ estimated each time, give a mean $\chi^2$ of 3.03, matching $df = 3$ rather than 4. Judged with the df = 4 critical value, only 2.2% of the samples are rejected instead of 5%; with df = 3 the rate is 5.1%.
 
 ## 5. The test of independence
 
-> **Key point:** Two categorical columns in a contingency table: if they are independent, each expected count is row total $\times$ column total $/$ grand total, and $df = (r - 1)(c - 1)$.
+> **Key point:** Two categorical features in a contingency table: if they are independent, each expected count is row total $\times$ column total $/$ grand total, and $df = (r - 1)(c - 1)$.
 
 ### 5.1 The question and the table
 
 > **Key point:** Is the gender mix the same in every age group, or do gender and age group go together?
 
-The **chi-square test of independence** asks whether two categorical columns are related. The counts go in a contingency table (see the [contingency tables Note](../340-venn-diagrams-and-contingency-tables/note.md)):
+The **chi-square test of independence** asks whether two categorical features are related. The counts go in a contingency table (see the [contingency tables Note](../340-venn-diagrams-and-contingency-tables/note.md)):
 
 | | child | adult | elderly | row total |
 |---|---|---|---|---|
@@ -181,7 +181,7 @@ The expected table has the same totals as the observed one; only the inside is s
 
 > **Key point:** $\chi^2 = 2.50$ with 2 df gives $p = 0.29$: no evidence that gender and age group are related.
 
-The contribution $(O - E)^2/E$ of each cell; for female children it is $(12 - 11.33)^2 / 11.33 = 0.039$:
+The contribution $(O - E)^2/E$ of each cell; for female children the contribution is $(12 - 11.33)^2 / 11.33 = 0.039$:
 
 | | child | adult | elderly |
 |---|---|---|---|
@@ -248,15 +248,25 @@ The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \tim
 
 > **Key point:** Counts, independence, and large enough expected counts.
 
-1. **Counts, not percentages.** The formula needs the number of rows in each cell. Percentages or means give a wrong $\chi^2$.
-2. **Independent observations.** Each row is counted in exactly one cell, and rows do not influence each other. The same person measured twice breaks this.
-3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the chi-square distribution is only a large-sample approximation. The rule is cautious: in the notebook's simulation of the age-group test with only 8 people (smallest expected count 1.6), 5.0% of samples still passed the 5% critical value. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
+1. **Counts, not percentages.** The formula needs the number of observations in each cell. Percentages or means give a wrong $\chi^2$.
+2. **Independent observations.** Each observation is counted in exactly one cell, and observations do not influence each other. The same person measured twice breaks this.
+3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the chi-square distribution is only a large-sample approximation. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
+
+> **Extra:** What goes wrong below the rule. A ruler marked in metres is fine for a room but useless for a grain of rice; the chi-square curve is likewise only a good ruler for large counts. The notebook draws 200,000 samples with $H_0$ true, so a correct 5% test should reject 5% of them:
+>
+> | Claimed shares | $n$ | Smallest $E$ | Rejected at 5% |
+> |---|---|---|---|
+> | 0.25, 0.55, 0.20 | 60 | 12 | 4.9% |
+> | 0.90, 0.05, 0.05 | 8 | 0.4 | 11.2% |
+> | 0.90, 0.05, 0.05 | 10 | 0.5 | 2.7% |
+>
+> With large expected counts the test keeps its 5% promise. With two rare categories and tiny samples, the false-alarm rate drifts away from 5%, more than double in one case and about half in the other, so the p-value can no longer be trusted.
 
 ### 7.2 Strength of a relationship: Cramér's V
 
 > **Key point:** Cramér's V rescales $\chi^2$ to a number between 0 (no relationship) and 1 (perfect relationship) (Cramér 1946).
 
-$\chi^2$ grows with the sample size: the same pattern in 10 times as many rows gives a 10 times larger $\chi^2$. To measure strength, we divide the size out.
+$\chi^2$ grows with the sample size: the same pattern in 10 times as many observations gives a 10 times larger $\chi^2$. To measure strength, we divide the size out.
 
 1. **In words:** divide $\chi^2$ by the sample size and by one less than the smaller table dimension, then take the square root.
 2. **Formula:**
@@ -270,14 +280,14 @@ For class and survival, $V = \sqrt{102.9 / 891} = 0.34$. Both relationships are 
 
 > **Key point:** Feature selection with `SelectKBest(chi2)` ranks categorical features by how strongly they are related to the target.
 
-Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](../29-pipelines/note.md)) scores each feature against the target with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). It is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
+Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](../29-pipelines/note.md)) scores each feature against the **target** (the output we predict) with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). The score is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
 
 ## 8. Summary
 
 | | Goodness of fit | Test of independence |
 |---|---|---|
-| Columns | one categorical | two categorical |
-| $H_0$ | the categories have the claimed proportions | the two columns are independent |
+| Features | one categorical | two categorical |
+| $H_0$ | the categories have the claimed proportions | the two features are independent |
 | Expected count | $n \times \pi_i$ | row total $\times$ column total $/ n$ |
 | Degrees of freedom | $k - 1$ | $(r - 1)(c - 1)$ |
 | scipy | `chisquare` | `chi2_contingency` |
@@ -285,26 +295,26 @@ Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](
 
 - Under $H_0$, $\chi^2 = \sum (O - E)^2/E$ follows a chi-square distribution; the p-value is the right-tail area.
 - With two categories, goodness of fit is the one-sample proportion test: $\chi^2 = z^2$.
-- The test needs raw counts, independent rows and expected counts of at least 5.
+- The test needs raw counts, independent observations and expected counts of at least 5.
 
-## Sources
+## 9. Sources
 
 - Cochran, W. G. (1954). "Some Methods for Strengthening the Common $\chi^2$ Tests". *Biometrics* 10(4).
 - Cramér, H. (1946). *Mathematical Methods of Statistics*. Princeton University Press.
-- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. https://www.itl.nist.gov/div898/handbook/ Section 1.3.6.6.6, chi-square distribution.
+- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 1.3.6.6.6, chi-square distribution.
 - Pearson, K. (1900). "On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling". *Philosophical Magazine* 50(302).
 - scikit-learn documentation. `sklearn.feature_selection.chi2`.
 - Yates, F. (1934). "Contingency Tables Involving Small Numbers and the $\chi^2$ Test". *Supplement to the Journal of the Royal Statistical Society* 1(2).
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
-| Observed count $O$ | The number of sample rows in a category or table cell |
-| Expected count $E$ | The number of rows a category or cell would hold on average if $H_0$ were true |
+| Observed count $O$ | The number of observations in a category or table cell |
+| Expected count $E$ | The number of observations a category or cell would hold on average if $H_0$ were true |
 | Chi-square statistic $\chi^2$ | $\sum (O - E)^2 / E$: the total mismatch between observed and expected counts |
 | Chi-square distribution | The distribution of $\chi^2$ under $H_0$: positive, right-skewed, with one parameter, the degrees of freedom |
-| Goodness-of-fit test | A chi-square test of whether one categorical column follows claimed proportions; $df = k - 1$ |
-| Chi-square test of independence | A chi-square test of whether two categorical columns are related; $df = (r - 1)(c - 1)$ |
+| Goodness-of-fit test | A chi-square test of whether one categorical feature follows claimed proportions; $df = k - 1$ |
+| Chi-square test of independence | A chi-square test of whether two categorical features are related; $df = (r - 1)(c - 1)$ |
 | Yates' continuity correction | A small adjustment to $\chi^2$ for 2 by 2 tables, applied by default in `chi2_contingency` |
 | Fisher's exact test | An exact test for small 2 by 2 tables, used when expected counts fall below 5 |

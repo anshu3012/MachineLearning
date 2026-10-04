@@ -23,19 +23,26 @@ def knn(a, b):
     return acc, time.perf_counter() - t
 
 rows = [("raw pixels", 784, *knn(X_train, X_test))]
-sc = StandardScaler().fit(X_train)
-Xs_train, Xs_test = sc.transform(X_train), sc.transform(X_test)
-rows.append(("standardised", 784, *knn(Xs_train, Xs_test)))
-full = PCA().fit(Xs_train)
+# main run: PCA on the raw pixels (PCA centres them itself; all pixels share one unit, 0-255)
+full = PCA().fit(X_train)
 pd.DataFrame({"component": np.arange(1, len(full.explained_variance_ratio_) + 1),
               "ratio": full.explained_variance_ratio_}).to_csv(out / "explained_variance.csv", index=False)
 for k in [1, 2, 3, 5, 10, 20, 30, 50, 75, 100, 150, 200, 300]:
-    p = PCA(n_components=k).fit(Xs_train)
-    rows.append((f"PCA {k}", k, *knn(p.transform(Xs_train), p.transform(Xs_test))))
+    p = PCA(n_components=k).fit(X_train)
+    rows.append((f"PCA {k}", k, *knn(p.transform(X_train), p.transform(X_test))))
     print(rows[-1], flush=True)
+# comparison for the Extra: standardise every pixel first
+sc = StandardScaler().fit(X_train)
+Xs_train, Xs_test = sc.transform(X_train), sc.transform(X_test)
+rows.append(("standardised", 784, *knn(Xs_train, Xs_test)))
+for k in [50, 100]:
+    p = PCA(n_components=k).fit(Xs_train)
+    rows.append((f"std PCA {k}", k, *knn(p.transform(Xs_train), p.transform(Xs_test))))
 pd.DataFrame(rows, columns=["setup", "columns", "accuracy", "seconds"]).to_csv(out / "knn_results.csv", index=False)
-p3 = PCA(n_components=3).fit(Xs_train)
-Z = p3.transform(Xs_test)
+p3 = PCA(n_components=3).fit(X_train)
+Z = p3.transform(X_test)
+print("first 3 eigenvalues:", p3.explained_variance_.round(1), "sum all:", full.explained_variance_.sum().round(1))
+print("PC1 vs ink:", np.corrcoef(Z[:, 0], (X_test > 0).sum(axis=1))[0, 1].round(2))
 pd.DataFrame({"PC1": Z[:, 0], "PC2": Z[:, 1], "PC3": Z[:, 2], "label": y_test}).round(3).to_csv(out / "test_pca3.csv", index=False)
 print(pd.read_csv(out / "knn_results.csv"))
 cum = np.cumsum(full.explained_variance_ratio_)

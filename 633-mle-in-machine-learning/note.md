@@ -10,7 +10,7 @@ This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong
 
 ![A line y = wx through four points, with the slope sweeping from 1.4 to 2.6. Each grey bell is the normal distribution of y around the line; the green bar is its height at the observed y. Bottom: the negative log-likelihood and the mean squared error against w, lowest at the same slope](images/gaussian_noise.gif)
 
-The [maximum likelihood estimation Note](../631-maximum-likelihood-estimation/note.md) fitted one distribution to a column of numbers. In ML we predict a **target** $y$ (the output we want) from **features** $x$ (the input variables, one column each of the data table). One record, the features of one case together with its target, is an **observation** (one observation of the table). The distribution of $y$ changes with $x$. Figure 1 shows the idea for regression: around the line sits a bell, and a good line puts every point near the top of its bell.
+The [maximum likelihood estimation Note](../631-maximum-likelihood-estimation/note.md) fitted one distribution to a column of numbers. In ML we predict a **target** $y$ (the output we want) from **features** $x$ (the input variables, one column each of the data table). One record, the features of one case together with its target, is an **observation** (one row of the data table). The distribution of $y$ changes with $x$. Figure 1 shows the idea for regression: around the line sits a bell, and a good line puts every point near the top of its bell.
 
 Figure 2 is the map of this Note. Each model of the target turns, through maximum likelihood, into a loss we already know; each prior on the parameters turns, through MAP estimation, into a penalty we already know.
 
@@ -88,7 +88,7 @@ Treating $\sigma$ as a parameter too and setting its derivative to 0 (MML §9.2.
 
 So the training MSE of a least squares fit is the maximum likelihood estimate of the noise variance.
 
-> **Extra:** Choosing a different noise distribution gives a different loss. With **Laplace noise**, density $e^{-\lvert y - \hat y\rvert / b}/(2b)$, the log of one density is $-\log(2b) - \lvert y - \hat y\rvert / b$. Summing and changing the sign, the NLL is $\sum_i\lvert y_i - \hat y_i\rvert / b + n\log(2b)$: with $b$ fixed, minimising it minimises the absolute errors, the mean absolute error of the [regression metrics Note](../52-regression-metrics/note.md), called the L1 loss in the [loss functions Note](../1014-dl-loss-functions/note.md). The Notebook checks this by minimising the Laplace NLL numerically. The Laplace curve has heavier tails than the normal curve, so a far-away point is less surprising under it; in loss terms, an outlier adds its distance, not its squared distance. This is why the absolute-error loss is more robust to outliers (Murphy §7.4).
+> **Extra:** Choosing a different noise distribution gives a different loss. With **Laplace noise**, density $e^{-\lvert y - \hat y\rvert / b}/(2b)$, the log of one density is $-\log(2b) - \lvert y - \hat y\rvert / b$. Summing and changing the sign, the NLL is $\sum_i\lvert y_i - \hat y_i\rvert / b + n\log(2b)$: with $b$ fixed, minimising it minimises the absolute errors, the mean absolute error of the [regression metrics Note](../52-regression-metrics/note.md), called the L1 loss in the [loss functions Note](../1014-dl-loss-functions/note.md). The Notebook checks this by minimising the Laplace NLL numerically. The Laplace curve has heavier tails than the normal curve, so a far-away point is less surprising under it; in loss terms, an outlier adds its distance, not its squared distance. The heavier tails are why the absolute-error loss is more robust to outliers (Murphy §7.4).
 
 ## 4. A Bernoulli target gives the log loss
 
@@ -189,7 +189,7 @@ Figure 4 applies this to the degree-9 polynomial of Figure 3, with prior $N(0, 0
 1. **In words:** the Laplace prior has a sharp peak at 0, so it believes many weights are exactly 0. Minus its log is the absolute value of each weight divided by $b$.
 2. **Formula:** with $p(\theta_j) = e^{-\lvert\theta_j\rvert/b}/(2b)$,
    $$\text{NLL}(\theta) - \log p(\theta) \;\propto\; \sum_{i}(y_i - \hat y_i)^2 + \frac{2\sigma^2}{b}\sum_j\lvert\theta_j\rvert$$
-   This is the loss of the [lasso regression Note](../67-lasso-regression/note.md), with $\lambda = 2\sigma^2/b$.
+   The result is the loss of the [lasso regression Note](../67-lasso-regression/note.md), with $\lambda = 2\sigma^2/b$.
 3. **Example:** with $\sigma = 1$ and $b = 0.5$, $\lambda = 2/0.5 = 4$; a weight of 0.3 costs a penalty of $4 \times 0.3 = 1.2$.
 
 MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term $\lvert\theta_j\rvert / b$ has a corner at 0, the same corner of $\lvert m\rvert$ that lets lasso coefficients reach exactly 0 in the [lasso sparsity Note](../68-lasso-sparsity/note.md).

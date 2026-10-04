@@ -1,0 +1,14 @@
+label,kind,x,y
+money,money,-0.604,0.078
+cash,money,-0.708,0.098
+loan,money,-0.609,0.058
+account,money,-0.378,0.143
+grows,money,-0.038,-1.048
+river,river,0.695,0.121
+lake,river,0.595,-0.138
+boat,river,0.457,0.15
+flows,river,0.605,0.239
+bridge,river,0.597,-0.034
+bank,static,-0.356,0.208
+bank in 'money bank grows',contextual,-0.367,-0.066
+bank in 'river bank flows',contextual,0.11,0.193

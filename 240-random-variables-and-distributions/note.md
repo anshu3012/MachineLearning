@@ -18,7 +18,7 @@ title: "Random Variables and Probability Distributions"
 
 ![The family of probability distribution functions](images/dist_family.png)
 
-Figure 1 is the map of this Note and the three after it. A **probability distribution function** is a formula that links every outcome to its probability. It has two kinds, one for each kind of random variable, and both lead to a third function, the CDF.
+Figure 1 is the map of this Note and the three after it. A **probability distribution function** is a formula that links every outcome to its probability. The function has two kinds, one for each kind of random variable, and both lead to a third function, the CDF.
 
 This Note builds the base: random variables, distributions as tables, why we want a formula instead, the famous distributions, and their parameters. The three functions themselves are taught in the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md), the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md) and the [density estimation Note](../243-density-estimation-kde/note.md).
 
@@ -32,9 +32,9 @@ This Note builds the base: random variables, distributions as tables, why we wan
 
 In algebra, a variable stands for one unknown value. In $x + 5 = 10$ we simplify and get $x = 5$: there is exactly one answer.
 
-Statistics and probability use a different kind of variable. A **random variable** is the set of possible numerical values of a random experiment. It differs from an algebra variable in two ways:
+Statistics and probability use a different kind of variable. A **random variable** is the set of possible numerical values of a random experiment. A random variable differs from an algebra variable in two ways:
 
-- **It holds many values.** A die can show any of 1 to 6.
+- **A random variable holds many values.** A die can show any of 1 to 6.
 - **The value that appears is random.** We cannot solve for it; we can only say how likely each value is.
 
 ### 2.2 Random experiments
@@ -68,7 +68,7 @@ The difference decides which function describes the variable (Figure 1): a PMF f
 
 > **Key point:** A probability distribution lists every possible outcome of a random variable with its probability, like a frequency table with probabilities in place of counts.
 
-A **probability distribution** is a list of all the possible outcomes of a random variable, each with its probability. It looks like the frequency table of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), with probabilities instead of counts.
+A **probability distribution** is a list of all the possible outcomes of a random variable, each with its probability. The list looks like the frequency table of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), with probabilities instead of counts.
 
 **Coin toss.** Two outcomes, equally likely:
 
@@ -117,7 +117,7 @@ The most likely sum is 7; the least likely are 2 and 12. The counts rise by one 
 
 > **Key point:** A table fails when there are too many outcomes or infinitely many; a formula $y = f(x)$ from outcome to probability works in both cases, and it can be graphed.
 
-A table works for a coin or two dice. It breaks down in two situations:
+A table works for a coin or two dice. A table breaks down in two situations:
 
 - **Too many outcomes.** With 10 dice the sum runs from 10 to 60: 51 sums, built from $6^{10} = 60{,}466{,}176$ equally likely combinations. Writing that table by hand is tedious.
 - **A continuous random variable.** A CGPA can be any number between 0 and 10, so the outcomes cannot even be listed.
@@ -127,7 +127,7 @@ The way out is a function. Call the outcome $x$ and its probability $y$. Instead
 1. **Any outcome at once:** we plug in any $x$ and the formula returns its $y$.
 2. **A graph:** a formula can be plotted, and the graph shows the shape of the distribution at a glance.
 
-This formula is the **probability distribution function**: a mathematical function that links every possible outcome of a random variable to its probability. For one die it is $f(x) = 1/6$ for $x$ in 1 to 6, and 0 for any other $x$.
+The formula $y = f(x)$ is the **probability distribution function**: a mathematical function that links every possible outcome of a random variable to its probability. For one die it is $f(x) = 1/6$ for $x$ in 1 to 6, and 0 for any other $x$.
 
 > **Extra:** "Probability distribution" (the table, or the idea) and "probability distribution function" (the formula) are used interchangeably in most books. Both mean the description of how likely each value is; the table and the formula are two ways of writing it down.
 
@@ -168,7 +168,7 @@ When people in many fields (science, medicine, engineering, economics) plotted t
 - **Continuous:** normal, uniform, log-normal, exponential.
 - **Others** we will meet later: beta, chi-square, Pareto.
 
-When we plot the distribution of a real column, there is a good chance it resembles one of these. The normal distribution is the most famous; the [z-score outliers Note](../42-outliers-zscore/note.md) already used its 68-95-99.7 rule. The binomial distribution appeared in the [voting ensemble Note](../102-voting-ensemble/note.md). Each named distribution gets its own Note later.
+When we plot the distribution of a real **feature** (one variable of the data, one column of the table), there is a good chance it resembles one of these. The normal distribution is the most famous; the [z-score outliers Note](../42-outliers-zscore/note.md) already used its 68-95-99.7 rule. The binomial distribution appeared in the [voting ensemble Note](../102-voting-ensemble/note.md). Each named distribution gets its own Note later.
 
 ## 7. Why distributions matter
 
@@ -182,7 +182,7 @@ The graph of a distribution is only $x$ (outcomes) against $y$ (their probabilit
 - If most marks sit around 8, with few below 7, most of the class is strong.
 - If a country's salary distribution has a big mass of high earners, it is probably a developed country; if most of the mass sits at low salaries, poverty is likely widespread.
 
-**2. Ready-made knowledge.** If our data's shape matches a famous distribution, we can apply everything known about that distribution to our data. The normal distribution has been studied for a long time and its mathematics is fully worked out. Knowing that a column is normal, we immediately know, for example, that about 95% of its values lie within two standard deviations of the mean.
+**2. Ready-made knowledge.** If our data's shape matches a famous distribution, we can apply everything known about that distribution to our data. The normal distribution has been studied for a long time and its mathematics is fully worked out. Knowing that a feature is normal, we immediately know, for example, that about 95% of its values lie within two standard deviations of the mean.
 
 ## 8. Parameters of a distribution
 
@@ -199,7 +199,7 @@ Figure 5 turns the two knobs of the normal distribution:
 
 Different distributions have different sets of parameters. Whenever we study a distribution, we study what each of its parameters does.
 
-This is the same word as in the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind the [density estimation Note](../243-density-estimation-kde/note.md).
+The word "parameter" is the same as in the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind the [density estimation Note](../243-density-estimation-kde/note.md).
 
 > **Extra:** The normal distribution's scale parameter is $\sigma$; its square, $\sigma^2$, is the variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). Some sources list the parameters as $(\mu, \sigma)$, others as $(\mu, \sigma^2)$: the same curve, written two ways. For example, SciPy's `norm` takes $\mu$ and $\sigma$ (SciPy `norm` docs), while MML §6.5 writes $\mathcal{N}(\mu, \sigma^2)$.
 
@@ -220,15 +220,16 @@ This is the same word as in the [what is statistics Note](../220-what-is-statist
 - In these Notes, PDF means probability density function.
 - A distribution shows the shape of the data; matching a famous one lets us reuse its known mathematics.
 
-## Sources
+## 10. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.1.2 (random variable as a function), section 6.5 (Gaussian).
 - SciPy documentation, `scipy.stats.norm`.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | One variable of the data, one column of the table |
 | Random experiment | An experiment whose outcome cannot be predicted, such as a coin toss |
 | Random variable | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers |
 | Discrete random variable | A random variable that takes separate values, such as a die's face |

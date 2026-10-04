@@ -37,7 +37,7 @@ $$\mathbf{f}(r, \theta) = \begin{bmatrix} r\cos\theta \\ r\sin\theta \end{bmatri
 
 At $r = 2$, $\theta = \pi/6$ (30°), the output is $(2 \times 0.866,\ 2 \times 0.5) = (1.732,\ 1)$, the black dot of Figure 1.
 
-ML is full of such functions: a neural network layer turns a vector of inputs into a vector of outputs, and so does a prediction for all rows of a dataset at once.
+ML is full of such functions: a neural network layer turns a vector of inputs into a vector of outputs, and so does a prediction for all **observations** (records, one row of the data table each) of a dataset at once.
 
 ## 3. The Jacobian
 
@@ -84,7 +84,7 @@ The [linear transformations and matrices Note](../500-linear-transformations-and
    $$\begin{bmatrix} 1.732 \\ 1 \end{bmatrix} + \begin{bmatrix} 0.866 & -1 \\ 0.5 & 1.732 \end{bmatrix} \begin{bmatrix} 0.1 \\ 0.05 \end{bmatrix} = \begin{bmatrix} 1.732 + 0.037 \\ 1 + 0.137 \end{bmatrix} = \begin{bmatrix} 1.769 \\ 1.137 \end{bmatrix}$$
    The exact value $\mathbf{f}(2.1,\ \pi/6 + 0.05)$ is $(1.764,\ 1.140)$: off by only 0.005.
 
-This is the tangent line of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md), in several dimensions. Figure 1 shows it as a picture: the orange cell lands on a curved cell, and the green parallelogram spanned by the Jacobian's columns (each times the cell's side) almost covers it. The smaller the cell, the better the match.
+The linear approximation is the tangent line of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md), in several dimensions. Figure 1 shows it as a picture: the orange cell lands on a curved cell, and the green parallelogram spanned by the Jacobian's columns (each times the cell's side) almost covers it. The smaller the cell, the better the match.
 
 ### 4.2 For a linear function, the Jacobian is its matrix
 
@@ -96,7 +96,7 @@ This is the tangent line of the [derivatives of one variable Note](../600-deriva
 3. **Example:** for the matrix of the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md), $A$ with rows $[1, 3]$ and $[-2, 0]$, we have $f_1 = x_1 + 3x_2$ and $f_2 = -2x_1$, so
    $$J = \begin{bmatrix} 1 & 3 \\ -2 & 0 \end{bmatrix} = A$$
 
-A linear map needs no approximation: the "best local linear map" is the map itself. This is the matrix version of "the derivative of $ax$ is $a$".
+A linear map needs no approximation: the "best local linear map" is the map itself. The statement is the matrix version of "the derivative of $ax$ is $a$".
 
 ## 5. The Jacobian determinant: how areas scale
 
@@ -107,7 +107,7 @@ The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note
 1. **In words:** a tiny region of area $\Delta A$ around $\mathbf{x}_0$ lands on a region of area about $|\det J(\mathbf{x}_0)|\,\Delta A$.
 2. **Formula:** the **Jacobian determinant** for polar coordinates is
    $$\det J = \cos\theta \cdot r\cos\theta - (-r\sin\theta)\sin\theta = r(\cos^2\theta + \sin^2\theta) = r$$
-3. **Example:** the orange cell of Figure 1 has sides $\Delta r = 0.4$ and $\Delta\theta = 0.2$, area $0.08$ in the input. It sits around $r \approx 2.2$, so it lands on an area of about $2.2 \times 0.08 = 0.176$ (here the exact area is also 0.176).
+3. **Example:** the orange cell of Figure 1 has sides $\Delta r = 0.4$ and $\Delta\theta = 0.2$, area $0.08$ in the input. The cell sits around $r \approx 2.2$, so it lands on an area of about $2.2 \times 0.08 = 0.176$ (here the exact area is also 0.176).
 
 So polar coordinates stretch cells more the further they are from the origin: in Figure 1, cells on the outer arcs are bigger. For a linear map, $\det J = \det A$ everywhere: $A$ above has $\det A = 1 \cdot 0 - 3 \cdot (-2) = 6$, so every area grows 6 times.
 
@@ -126,7 +126,7 @@ The [partial derivatives and gradients Note](../601-partial-derivatives-and-grad
    $$\frac{dh}{dt} = \begin{bmatrix} x_2^2 & 2x_1x_2 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 4 & 8 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \end{bmatrix} = 16$$
    Directly: $h(t) = 2t(t + 1)^2$ has $h'(t) = 2(t + 1)^2 + 4t(t + 1)$, which is $8 + 8 = 16$ at $t = 1$.
 
-This is the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md) again, zoomed in: near a point each function is a linear map, and doing one linear map after another multiplies their matrices.
+The Jacobian chain rule is the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md) again, zoomed in: near a point each function is a linear map, and doing one linear map after another multiplies their matrices.
 
 ## 7. Example: the gradient of the least-squares loss
 
@@ -134,7 +134,7 @@ This is the [matrix multiplication as composition Note](../510-matrix-multiplica
 
 The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) differentiated the squared error by expanding it and applying two rules of **matrix calculus**. The chain rule gives the same result in three short steps, and the steps scale to models that are too deep to expand.
 
-The model is $\hat{\mathbf{y}} = \Phi\boldsymbol{\theta}$, with $\Phi$ the $N \times D$ data matrix (one row per data point) and $\boldsymbol{\theta}$ the $D$ parameters. Define two functions:
+The model is $\hat{\mathbf{y}} = \Phi\boldsymbol{\theta}$, with $\Phi$ the $N \times D$ data matrix (one row per observation) and $\boldsymbol{\theta}$ the $D$ parameters. Define two functions:
 
 $$\mathbf{e}(\boldsymbol{\theta}) = \mathbf{y} - \Phi\boldsymbol{\theta} \quad (N \text{ errors}), \qquad L(\mathbf{e}) = \lVert \mathbf{e} \rVert^2 = \mathbf{e}^{\mathsf T}\mathbf{e} \quad (\text{one number})$$
 
@@ -235,7 +235,7 @@ The practical method breaks the function into elementary steps, a **computation 
 
 The backward pass has one step per forward step, each a multiplication by a local derivative, so computing the gradient takes work of the same order as computing $f$ itself (MML §5.6). This backward pass is **backpropagation**; done automatically by software for any program, it is **automatic differentiation** (reverse mode). Backpropagation is taught in full with neural networks, in the Deep Learning Notes.
 
-> **Extra:** Automatic differentiation is neither symbolic differentiation (which writes out a formula for $f'$) nor a numerical difference quotient (which only estimates it). It gives the exact derivative, up to rounding, by applying the chain rule to the actual operations a program runs. It has a **forward mode**, which multiplies the Jacobians from the input side, and a **reverse mode**, which starts from the output. With far more inputs (weights) than outputs (the loss), the reverse mode is significantly cheaper (MML §5.6; Baydin et al. 2018), which is why deep learning libraries use it for training.
+> **Extra:** Automatic differentiation is neither symbolic differentiation (which writes out a formula for $f'$) nor a numerical difference quotient (which only estimates it). Automatic differentiation gives the exact derivative, up to rounding, by applying the chain rule to the actual operations a program runs. The method has a **forward mode**, which multiplies the Jacobians from the input side, and a **reverse mode**, which starts from the output. With far more inputs (weights) than outputs (the loss), the reverse mode is significantly cheaper (MML §5.6; Baydin et al. 2018), which is why deep learning libraries use it for training.
 
 ## 11. Summary
 
@@ -254,7 +254,7 @@ The backward pass has one step per forward step, each a multiplication by a loca
 - The chain rule multiplies Jacobians; checking shapes first prevents most mistakes.
 - Backpropagation applies this chain rule backward through a computation graph.
 
-## Sources
+## 12. Sources
 
 - Baydin, A. G., Pearlmutter, B. A., Radul, A. A. and Siskind, J. M. (2018). "Automatic Differentiation in Machine Learning: a Survey". *Journal of Machine Learning Research* 18(153).
 - Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer. Section 2.3.4, maximum likelihood for the Gaussian.
@@ -262,7 +262,7 @@ The backward pass has one step per forward step, each a multiplication by a loca
 - Petersen, K. B. and Pedersen, M. S. (2012). *The Matrix Cookbook*. Technical University of Denmark.
 - Rezende, D. J. and Mohamed, S. (2015). "Variational Inference with Normalizing Flows". *ICML*.
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|

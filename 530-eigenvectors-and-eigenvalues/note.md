@@ -27,7 +27,7 @@ This Note goes deeper, with the same matrix:
 - transformations with no eigenvectors, one line of them, or every vector (Section 5);
 - the eigenbasis, which turns a matrix into a diagonal one and makes its powers easy (Section 6).
 
-It reads matrices as transformations, as in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md).
+The Note reads matrices as transformations, as in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md).
 
 ## 2. Eigenvectors stay on their own span
 
@@ -41,7 +41,7 @@ For $A$ with columns $[3, 0]$ and $[1, 2]$ (rows $[3, 1]$ and $[0, 2]$):
 - **The diagonal line through $[-1, 1]$.** $[-1, 1]$ lands on $[-2, 2]$, 2 times itself. Every vector on that line is stretched by 2: $[2, -2]$ lands on $[4, -4]$.
 - **Every other vector** is turned off its line, like $[1, 1] \to [4, 2]$.
 
-So "the eigenvectors" really means whole lines of them: any non-zero multiple of an eigenvector is an eigenvector with the same eigenvalue. This is why NumPy returns them scaled to length 1, and why their sign can differ from what we expect.
+So "the eigenvectors" really means whole lines of them: any non-zero multiple of an eigenvector is an eigenvector with the same eigenvalue. The whole-line freedom is why NumPy returns them scaled to length 1, and why their sign can differ from what we expect.
 
 Eigenvalues need not be positive. An eigenvalue of $-\tfrac{1}{2}$ means the eigenvector is flipped to point the other way and squished to half its length. What matters is that it stays on its line.
 
@@ -234,13 +234,13 @@ Not every matrix has an eigenbasis. The shear of Figure 2 has only one line of e
 - With an eigenbasis, $P^{-1}AP$ is diagonal and powers become easy: $A^k = PD^kP^{-1}$.
 - Covariance matrices always have an eigenbasis, which is why PCA works for any data.
 
-## Sources
+## 9. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.1 (determinant as signed volume, Example 4.2) and Theorem 4.15 (spectral theorem) (MML).
 - Page, L., Brin, S., Motwani, R. and Winograd, T. (1999). "The PageRank Citation Ranking: Bringing Order to the Web". Stanford InfoLab technical report.
 - Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 25, overview of eigenvalue algorithms.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

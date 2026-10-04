@@ -16,7 +16,7 @@ title: "Decision Tree Hyperparameters: Overfitting and Underfitting"
 
 > **Key point:** A decision tree left alone grows until every leaf is pure, which overfits. Its hyperparameters are brakes: each one stops the tree earlier, and too much braking underfits.
 
-Decision trees (the [decision tree intuition Note](../97-decision-trees-intuition/note.md)) are strong models with one big weakness: they tend to **overfit**. They score very well on the training data and worse on new data (overfitting, [Note 7](../07-challenges-in-ml/note.md)).
+Decision trees (the [decision tree intuition Note](../97-decision-trees-intuition/note.md)) are strong models with one big weakness: they tend to **overfit**. They score very well on the training data and worse on new data (overfitting, [Note 7](../07-challenges-in-ml/note.md)). A tree asks questions about the **features** (input variables, one column each of the data table) of each **observation** (one record, one row of the table) and predicts the **target** (the output).
 
 To control this, scikit-learn's `DecisionTreeClassifier` offers several **hyperparameters**, settings we choose before training (the [pipelines Note](../29-pipelines/note.md)), that act as tuning knobs. This Note covers:
 
@@ -28,31 +28,31 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 ## 2. Overfitting and underfitting in a tree
 
-> **Key point:** Depth is the main knob: too deep and leaves rest on a handful of noisy rows; too shallow and the tree ignores most of the pattern.
+> **Key point:** Depth is the main knob: too deep and leaves rest on a handful of noisy observations; too shallow and the tree ignores most of the pattern.
 
-The **depth** of a tree is the number of questions on its longest path from the root to a leaf. The hyperparameter `max_depth` caps it. It is the main cause of both overfitting and underfitting.
+The **depth** of a tree is the number of questions on its longest path from the root to a leaf. The hyperparameter `max_depth` caps it. Depth is the main cause of both overfitting and underfitting.
 
 ### 2.1 A fully grown tree overfits
 
-> **Key point:** With no limit, the tree keeps splitting until its leaves hold a few rows, and those rows may be noise.
+> **Key point:** With no limit, the tree keeps splitting until its leaves hold a few observations, and those observations may be noise.
 
-Take 200 rows (Figure 1a). A split on some column sends 140 rows one way and 60 the other. Suppose the 60 form a leaf, but the 140 are split again, then again, and so on. Eventually we reach a leaf with only **2 rows**, both "no".
+Take 200 observations (Figure 1a). A split on some feature sends 140 observations one way and 60 the other. Suppose the 60 form a leaf, but the 140 are split again, then again, and so on. Eventually we reach a leaf with only **2 observations**, both "no".
 
 ![(a) A fully grown tree ends in tiny leaves; (b) a tree of depth 1 stops after one question](images/fit_trees.png){height=38%}
 
-Every new point that reaches this leaf is labelled "no", because of those 2 rows alone. If they are noise, outliers or data-entry errors, all that if-else logic ends up relying on two untrustworthy rows. The tree is perfect on the training data and fails on new data: overfitting.
+Every new point that reaches this leaf is labelled "no", because of those 2 observations alone. If they are noise, outliers or data-entry errors, all that if-else logic ends up relying on two untrustworthy observations. The tree is perfect on the training data and fails on new data: overfitting.
 
-By default `max_depth=None`, so the tree grows until every leaf is pure. That default invites exactly this.
+By default `max_depth=None`, so the tree grows until every leaf is pure. That default invites exactly this tiny-leaf overfitting.
 
-Geometrically, the tree keeps cutting the plane with axis-parallel lines until each small box holds a single class. A lone green point surrounded by red ones gets its own tiny green box. Any new point landing in that box is called green, although everything around it says red. This is the same problem as KNN with k = 1 (the [KNN Note](../91-knn/note.md), section 6.1).
+Geometrically, the tree keeps cutting the plane with axis-parallel lines until each small box holds a single class. A lone green point surrounded by red ones gets its own tiny green box. Any new point landing in that box is called green, although everything around it says red. Such a tiny box is the same problem as KNN with k = 1 (the [KNN Note](../91-knn/note.md), section 6.1).
 
 ### 2.2 A tree of depth 1 underfits
 
 > **Key point:** With one question, each leaf predicts its majority class even when the leaf is badly mixed.
 
-Now set `max_depth=1`: one split only (Figure 1b). The 200 rows (100 yes, 100 no) split into 140 rows (80 yes, 60 no) and 60 rows (20 yes, 40 no). Both children become leaves at once.
+Now set `max_depth=1`: one split only (Figure 1b). The 200 observations (100 yes, 100 no) split into 140 observations (80 yes, 60 no) and 60 observations (20 yes, 40 no). Both children become leaves at once.
 
-A leaf predicts its majority class. A new point that falls in the 140-row leaf is called "yes", because yes outnumbers no there, even though 60 of those 140 training rows were "no". The tree has barely looked at the data before answering confidently: underfitting.
+A leaf predicts its majority class. A new point that falls in the 140-observation leaf is called "yes", because yes outnumbers no there, even though 60 of those 140 training observations were "no". The tree has barely looked at the data before answering confidently: underfitting.
 
 Geometrically, one line cuts the plane in two, and each half gets a single class, however mixed it is.
 
@@ -62,7 +62,7 @@ So `max_depth` needs a middle value: too small underfits, too large (or `None`) 
 
 > **Key point:** On age and salary, the fully grown tree draws islands around single points; depth 1 draws one line; depths 2 to 5 follow the real pattern.
 
-The Social Network Ads data (the [standardization Note](../24-standardization/note.md)) records each user's age and estimated salary, and whether they bought a product after seeing an ad. We train trees of several depths on 300 rows and test on the other 100, then draw each decision surface the same way as in the [KNN Note](../91-knn/note.md) (section 5.2): predict on a dense `meshgrid` and colour every point by its class.
+The Social Network Ads data (the [standardization Note](../24-standardization/note.md)) records each user's age and estimated salary, and whether they bought a product after seeing an ad. We train trees of several depths on 300 observations and test on the other 100, then draw each decision surface the same way as in the [KNN Note](../91-knn/note.md) (section 5.2): predict on a dense `meshgrid` and colour every point by its class.
 
 ![Decision surfaces for six values of max_depth on the Social Network Ads data](images/depth_surfaces.png){height=55%}
 
@@ -74,9 +74,9 @@ Figure 2 shows the results:
 
 From depth 5 onwards, strips around single points start to appear again: overfitting returns.
 
-Picking the depth by eye works for two columns we can plot. With tens of columns we cannot see the surface, so we choose `max_depth` by cross-validation with `GridSearchCV`, exactly as for k in the [KNN Note](../91-knn/note.md) (section 4.2).
+Picking the depth by eye works for two features we can plot. With tens of features we cannot see the surface, so we choose `max_depth` by cross-validation with `GridSearchCV`, exactly as for k in the [KNN Note](../91-knn/note.md) (section 4.2).
 
-> **Extra:** On this data, 5-fold cross-validation over `max_depth` in {1, 2, 3, 4, 5, 6, 8, 10, None} picks **depth 2** (average 0.90), with a test accuracy of 0.94. The deeper trees in Figure 2 score similar test accuracies on these 100 test rows, but their cross-validation averages fall steadily after depth 2: 0.883 at depth 3, 0.837 at depth 5, 0.820 fully grown. One test split of 100 rows is a noisy measure; cross-validation averages over several splits and is steadier (ISLR §5.1). So we trust the cross-validation ranking.
+> **Extra:** On this data, 5-fold cross-validation over `max_depth` in {1, 2, 3, 4, 5, 6, 8, 10, None} picks **depth 2** (average 0.90), with a test accuracy of 0.94. The deeper trees in Figure 2 score similar test accuracies on these 100 test observations, but their cross-validation averages fall steadily after depth 2: 0.883 at depth 3, 0.837 at depth 5, 0.820 fully grown. One test split of 100 observations is a noisy measure; cross-validation averages over several splits and is steadier (ISLR §5.1). So we trust the cross-validation ranking.
 
 ## 4. The main hyperparameters
 
@@ -88,23 +88,23 @@ For the rest of the Note we use a toy dataset: two interleaving half-moons, 500 
 
 > **Key point:** The impurity measure used to score splits; the two usually give similar accuracy.
 
-`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from the [decision tree intuition Note](../97-decision-trees-intuition/note.md) (section 8). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy.
-
-The difference is small, and in practice Gini often does as well or better. Both are worth trying when tuning.
+`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from the [decision tree intuition Note](../97-decision-trees-intuition/note.md) (section 8). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy on this split. Averaged over 50 fresh moons datasets, the two are level (0.866 against 0.867). Both are worth trying when tuning.
 
 ### 4.2 splitter: best or random
 
-> **Key point:** `"random"` picks thresholds at random instead of searching for the best, which adds randomness and can reduce overfitting.
+> **Key point:** `"random"` picks thresholds at random instead of searching for the best. On a single tree this adds randomness without a gain; the randomness pays off when many trees are averaged.
 
-For a numerical column, the tree normally checks every candidate threshold and keeps the one with the highest information gain. That is `splitter="best"`, the default.
+For a numerical feature, the tree normally checks every candidate threshold and keeps the one with the highest information gain. This full search is `splitter="best"`, the default.
 
-With `splitter="random"`, the threshold of each column is drawn at random, and the tree keeps the best of these random splits. The tree fits the training data less tightly, so its results on new data can be more stable: overfitting is reduced. On the moons data the change is small (test accuracy 0.856 against 0.864). It is rarely used on a single tree.
+With `splitter="random"`, the threshold of each feature is drawn at random, and the tree keeps the best of these random splits. Each split is a little worse, so the tree needs more of them: fully grown on the moons data, it ends with about 99 leaves instead of 45 (average over 50 datasets). Test accuracy does not improve: 0.862 against 0.866 for `"best"`.
+
+Think of one guesser who guesses wildly: no better on their own. Ask a crowd of such guessers and average them, and the wild guesses cancel out. Random splits work the same way: scikit-learn builds its random-split trees for use inside ensembles such as Extra Trees, not alone (sklearn reference, `ExtraTreeClassifier`). The [ensemble learning Note](../101-ensemble-learning/note.md) explains why averaging helps.
 
 ### 4.3 max_depth
 
 > **Key point:** Caps the number of questions on any path: small values underfit, large values or None overfit.
 
-Section 2 covered it in detail. On the moons data:
+Section 2 covered `max_depth` in detail. On the moons data:
 
 | max_depth | Leaves | Train accuracy | Test accuracy |
 |---|---|---|---|
@@ -115,44 +115,44 @@ Section 2 covered it in detail. On the moons data:
 
 ### 4.4 min_samples_split
 
-> **Key point:** A node is split only if it holds at least this many rows. Higher values stop the tree earlier.
+> **Key point:** A node is split only if it holds at least this many observations. Higher values stop the tree earlier.
 
-`min_samples_split` (default 2) is the smallest number of rows a node must hold to be split. Stopping a tree early in this way is a form of **pruning**: cutting the tree back so it stays general.
+`min_samples_split` (default 2) is the smallest number of observations a node must hold to be split. Stopping a tree early in this way is a form of **pruning**: cutting the tree back so it stays general.
 
-The root of the moons tree holds 375 rows and splits into 216 and 159. With `min_samples_split=100`:
+The root of the moons tree holds 375 observations and splits into 216 and 159. With `min_samples_split=100`:
 
-- a node with 78, 71 or 59 rows is not split again: it becomes a leaf;
-- a node with 137 rows is still split, because $137 \ge 100$.
+- a node with 78, 71 or 59 observations is not split again: it becomes a leaf;
+- a node with 137 observations is still split, because $137 \ge 100$.
 
-The result has 7 leaves (Figure 3, top right). With `min_samples_split=301`, the root (375 rows) splits, but neither child (216 or 159 rows) reaches 301, so the tree stops after one question.
+The result has 7 leaves (Figure 3, top right). With `min_samples_split=301`, the root (375 observations) splits, but neither child (216 or 159 observations) reaches 301, so the tree stops after one question.
 
 So: **higher value, more underfitting; lower value, more overfitting.**
 
 ### 4.5 min_samples_leaf
 
-> **Key point:** Every leaf must keep at least this many rows; a split that would create a smaller leaf is not made.
+> **Key point:** Every leaf must keep at least this many observations; a split that would create a smaller leaf is not made.
 
-`min_samples_leaf` (default 1) is the smallest number of rows allowed in a leaf. A split is only made if **both** children keep at least that many rows.
+`min_samples_leaf` (default 1) is the smallest number of observations allowed in a leaf. A split is only made if **both** children keep at least that many observations.
 
-With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split would leave fewer than 100 rows on one side. With `min_samples_leaf=20` it has 11 leaves (Figure 3, bottom left).
+With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split would leave fewer than 100 observations on one side. With `min_samples_leaf=20` it has 11 leaves (Figure 3, bottom left).
 
-It works much like `min_samples_split`: a higher value underfits, a lower value overfits.
+`min_samples_leaf` works much like `min_samples_split`: a higher value underfits, a lower value overfits.
 
 ![Four ways to stop the tree early on the moons data](images/stopping_rules.png){height=60%}
 
 ### 4.6 max_features
 
-> **Key point:** At each split, the tree considers only this many randomly chosen columns.
+> **Key point:** At each split, the tree considers only this many randomly chosen features.
 
-Normally every split considers every column: at each node, the tree computes the information gain of all columns and picks the best. With `max_features`, each node only gets a **random subset** of the columns. For example, with 100 columns and `max_features=50`, each node computes the gain of 50 randomly chosen columns and picks the best of those.
+Normally every split considers every feature: at each node, the tree computes the information gain of all features and picks the best. With `max_features`, each node only gets a **random subset** of the features. For example, with 100 features and `max_features=50`, each node computes the gain of 50 randomly chosen features and picks the best of those.
 
-This adds randomness on purpose. The tree fits the training data a little worse, which reduces overfitting. It helps most on high-dimensional data, with many columns.
+On the moons data there are only 2 features, so `max_features=1` means each node may look at only one, chosen at random. One node may only see x1, the next only x2.
 
-On the moons data there are only 2 columns, so `max_features=1` means each node may look at only one, chosen at random. One node may only see x1, the next only x2.
+The random subset adds randomness on purpose, so two trees grown on the same data differ. On a single tree the gain is absent: on the moons data, `max_features=1` scores 0.857 against 0.866 for all features (average over 50 datasets). The payoff comes from averaging many such trees: different trees make different errors, and the average cancels part of them (ESL §15.2).
 
-The same idea is the heart of **random forests** (see the [random forest Note](../108-random-forest-intro/note.md) and [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md)): many trees, each seeing random columns at every split.
+The same idea is the heart of **random forests** (see the [random forest Note](../108-random-forest-intro/note.md) and [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md)): many trees, each seeing random features at every split.
 
-> **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the columns at each node. When two columns give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible (sklearn reference, `random_state`).
+> **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the features at each node. When two features give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible (sklearn reference, `random_state`).
 
 ### 4.7 max_leaf_nodes
 
@@ -170,11 +170,11 @@ Every split is chosen to lower the impurity (Gini or entropy). `min_impurity_dec
 
 The decrease is measured with weights, so that a split of a small node counts less than a split of a big one (sklearn reference, `min_impurity_decrease`).
 
-1. **In words:** take the node's share of all training rows, and multiply it by (the node's impurity minus the weighted impurity of its two children).
+1. **In words:** take the node's share of all training observations, and multiply it by (the node's impurity minus the weighted impurity of its two children).
 2. **Formula:**
    $$\Delta = \frac{N_t}{N}\left(G_t - \frac{N_L}{N_t}G_L - \frac{N_R}{N_t}G_R\right)$$
-   where $N$ is the number of training rows, $N_t$ the rows in the node, $N_L$ and $N_R$ the rows in its children, and $G$ the impurities.
-3. **Example:** the moons root: $N = N_t = 375$, Gini 0.5; its children hold 216 rows (Gini 0.351) and 159 rows (Gini 0.210):
+   where $N$ is the number of training observations, $N_t$ the observations in the node, $N_L$ and $N_R$ the observations in its children, and $G$ the impurities.
+3. **Example:** the moons root: $N = N_t = 375$, Gini 0.5; its children hold 216 observations (Gini 0.351) and 159 observations (Gini 0.210):
    $$\Delta = \frac{375}{375}\left(0.5 - \frac{216}{375}(0.351) - \frac{159}{375}(0.210)\right) = 0.5 - 0.202 - 0.089 = 0.209$$
 
 With `min_impurity_decrease=0.01` the tree keeps 7 leaves. With 0.1, only the root split (0.209) is large enough, so the tree stops after one question. Higher value: underfitting; lower value: overfitting.
@@ -188,7 +188,7 @@ The best way to get a feel for these hyperparameters is to experiment. Run `pyth
 - **max_depth 1, 2, 5, then 0 (no limit):** watch the surface go from one line to small islands.
 - **min_samples_split 100, then 301:** read the printed tree and check where splitting stops.
 - **min_impurity_decrease 0.01, then 0.1:** the tree shrinks to a single question.
-- **splitter "random"** or **max_features 1:** the tree changes a little on every setting.
+- **splitter "random"** or **max_features 1:** the tree changes on every setting, a sign of the randomness that ensembles later average away.
 
 Decision trees are the building blocks of **bagging**, **random forests** and **gradient boosting**, which come later. All of them are tuned through these same knobs, so knowing how each one moves a single tree pays off there too.
 
@@ -197,33 +197,34 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 | Hyperparameter | Default | What it controls | Raise it to |
 |----------------------------|------------|------------------------------|-----------------|
 | `criterion` | `"gini"` | impurity measure: `"gini"`, `"entropy"`, `"log_loss"` | (no direction) |
-| `splitter` | `"best"` | best threshold, or best of random thresholds | `"random"`: less overfitting |
+| `splitter` | `"best"` | best threshold, or best of random thresholds | `"random"`: more randomness (for ensembles) |
 | `max_depth` | `None` | longest path from root to leaf | overfit more |
-| `min_samples_split` | 2 | rows a node needs to be split | underfit more |
-| `min_samples_leaf` | 1 | rows every leaf must keep | underfit more |
-| `max_features` | `None` (all) | columns considered at each split | overfit more |
+| `min_samples_split` | 2 | observations a node needs to be split | underfit more |
+| `min_samples_leaf` | 1 | observations every leaf must keep | underfit more |
+| `max_features` | `None` (all) | features considered at each split | less randomness |
 | `max_leaf_nodes` | `None` | number of leaves | overfit more |
 | `min_impurity_decrease` | 0 | weighted impurity drop a split must give | underfit more |
 
-- A fully grown tree (`max_depth=None`) has pure leaves resting on a few rows: overfitting. One split (`max_depth=1`): underfitting.
+- A fully grown tree (`max_depth=None`) has pure leaves resting on a few observations: overfitting. One split (`max_depth=1`): underfitting.
 - On the Social Network Ads data, depths 2 to 5 follow the real pattern; cross-validation picks depth 2.
-- Every hyperparameter except `criterion` either limits growth or adds randomness. Tune them with cross-validation, not by eye.
+- Every hyperparameter except `criterion` either limits growth or adds randomness; the randomness pays off in ensembles. Tune them with cross-validation, not by eye.
 
-## Sources
+## 7. Sources
 
 - **ISLR:** G. James, D. Witten, T. Hastie and R. Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. Sections 5.1.1 and 5.1.3.
-- **sklearn reference:** scikit-learn `DecisionTreeClassifier` API reference (parameters `random_state`, `max_leaf_nodes`, `min_impurity_decrease`).
+- **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 15.2, Definition of random forests.
+- **sklearn reference:** scikit-learn `DecisionTreeClassifier` API reference (parameters `random_state`, `max_leaf_nodes`, `min_impurity_decrease`) and `ExtraTreeClassifier` API reference ("Extra-trees should only be used within ensemble methods"). scikit-learn.org/stable/api/sklearn.tree.html
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
 | Depth | The number of questions on the longest path from a tree's root to a leaf |
 | max_depth | The cap on a tree's depth; None lets it grow until every leaf is pure |
 | splitter | "best" searches every threshold; "random" draws thresholds at random |
-| min_samples_split | The smallest number of rows a node must hold to be split |
-| min_samples_leaf | The smallest number of rows every leaf must keep |
-| max_features | The number of randomly chosen columns a tree considers at each split |
+| min_samples_split | The smallest number of observations a node must hold to be split |
+| min_samples_leaf | The smallest number of observations every leaf must keep |
+| max_features | The number of randomly chosen features a tree considers at each split |
 | max_leaf_nodes | The cap on the number of leaves; the tree grows best-first until it is reached |
 | min_impurity_decrease | The smallest weighted impurity decrease a split must give to be made |
 | Pruning | Stopping a tree early or cutting it back so it does not overfit |

@@ -14,19 +14,21 @@ title: "Stochastic Gradient Descent"
 
 ## 1. Overview
 
-> **Key point:** Stochastic gradient descent updates the coefficients after every single random row. Each step is cheap and noisy, so it gets close to the answer in far fewer epochs than batch gradient descent, but it jitters around the minimum.
+> **Key point:** Stochastic gradient descent updates the coefficients after every single random observation. Each step is cheap and noisy, so it gets close to the answer in far fewer epochs than batch gradient descent, but it jitters around the minimum.
 
-Batch gradient descent, from the previous Note, uses every row of the training data for each update. **Stochastic gradient descent (SGD)** uses just one row, picked at random, for each update. SGD and its variants are probably the most used optimisation algorithms in machine learning, and nearly all of deep learning is trained with it (Goodfellow §8.3.1, §5.9).
+A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the output we predict.
+
+Batch gradient descent, from the previous Note, uses every observation of the training data for each update. **Stochastic gradient descent (SGD)** uses just one observation, picked at random, for each update. SGD and its variants are probably the most used optimisation algorithms in machine learning, and nearly all of deep learning is trained with it (Goodfellow §8.3.1, §5.9).
 
 This Note explains the problem with batch gradient descent, how SGD works, its behaviour, and how to use it in scikit-learn.
 
 ## 2. The problem with batch gradient descent
 
-> **Key point:** Every batch update touches every row and every column. With big data, that is a huge amount of work per step, and the whole dataset must sit in memory.
+> **Key point:** Every batch update touches every observation and every feature. With big data, every step is a huge amount of work, and the whole dataset must sit in memory.
 
-To update once, batch gradient descent computes the derivative for every coefficient, and each derivative sums over all $n$ rows. So one epoch costs about $n \times m$ multiplications, and the whole run costs about $n \times m \times \text{epochs}$.
+To update once, batch gradient descent computes the derivative for every coefficient, and each derivative sums over all $n$ observations. So one epoch costs about $n \times m$ multiplications, and the whole run costs about $n \times m \times \text{epochs}$.
 
-With numbers: a dataset of 100,000 rows and 100 columns, trained for 1,000 epochs, needs about
+With numbers: a dataset of 100,000 observations and 100 features, trained for 1,000 epochs, needs about
 
 $$100{,}000 \times 100 \times 1{,}000 = 10^{10}$$
 
@@ -36,24 +38,24 @@ So each step is slow and needs the whole dataset in memory: the two disadvantage
 
 ## 3. How stochastic gradient descent works
 
-> **Key point:** In each epoch, repeat n times: pick one random row, compute the derivatives from that row alone, and update.
+> **Key point:** In each epoch, repeat n times: pick one random observation, compute the derivatives from that observation alone, and update.
 
 The word **stochastic** means random. The algorithm:
 
 1. Start with any coefficients, for example $\beta_0 = 0$ and every $\beta_j = 1$.
 2. For each epoch, repeat $n$ times:
-   - pick one row $i$ at random;
+   - pick one observation $i$ at random;
    - compute its prediction $\hat{y}_i$ and error $y_i - \hat{y}_i$;
-   - update every coefficient using the derivatives from that one row.
+   - update every coefficient using the derivatives from that one observation.
 3. Stop after the chosen number of epochs.
 
-The derivatives are the batch ones with the sum over rows removed: only row $i$ remains.
+The derivatives are the batch ones with the sum over observations removed: only observation $i$ remains.
 
 $$\frac{\partial L}{\partial \beta_0} = -2(y_i - \hat{y}_i) \qquad \frac{\partial L}{\partial \beta_j} = -2(y_i - \hat{y}_i)\,x_{ij}$$
 
-With numbers: if row $i$ has error $y_i - \hat{y}_i = 5$ and $x_{ij} = 0.04$, then $\partial L / \partial \beta_j = -2 \times 5 \times 0.04 = -0.4$, and with learning rate 0.01 the coefficient rises by $0.004$.
+With numbers: if observation $i$ has error $y_i - \hat{y}_i = 5$ and $x_{ij} = 0.04$, then $\partial L / \partial \beta_j = -2 \times 5 \times 0.04 = -0.4$, and with learning rate 0.01 the coefficient rises by $0.004$.
 
-So an epoch of SGD makes $n$ small updates instead of one big one. On the diabetes data that is 353 updates per epoch.
+So an epoch of SGD makes $n$ small updates instead of one big one. On the diabetes data an epoch is 353 updates per epoch.
 
 > **Python:** Stochastic gradient descent from scratch.
 >
@@ -75,9 +77,9 @@ So an epoch of SGD makes $n$ small updates instead of one big one. On the diabet
 >         return self
 > ```
 >
-> The fixed seed makes the random choice of rows the same on every run, so the results repeat.
+> The fixed seed makes the random choice of observations the same on every run, so the results repeat.
 
-> **Extra:** Picking rows at random can choose some rows twice in an epoch and others not at all. An alternative is to shuffle the rows once per epoch and walk through them in that order, so each row is used exactly once. scikit-learn's `SGDRegressor` does this by default: its `shuffle` parameter, `True` unless changed, shuffles the training data after each epoch (scikit-learn docs).
+> **Extra:** Picking observations at random can choose some observations twice in an epoch and others not at all. An alternative is to shuffle the observations once per epoch and walk through them in that order, so each observation is used exactly once. scikit-learn's `SGDRegressor` does this by default: its `shuffle` parameter, `True` unless changed, shuffles the training data after each epoch (scikit-learn docs).
 
 ## 4. Faster progress per epoch
 
@@ -93,19 +95,19 @@ Figure 1 compares the two on the diabetes data, epoch by epoch.
 | 40 epochs | 0.19 | 0.42 |
 | OLS | 0.44 | 0.44 |
 
-SGD updates 353 times per epoch, batch only once. So per epoch, SGD makes far more progress, even though each of its steps is based on a single row.
+SGD updates 353 times per epoch, batch only once. So per epoch, SGD makes far more progress, even though each of its steps is based on a single observation.
 
-> **Extra:** Per epoch, the Python loop above is slower than batch gradient descent (0.1 seconds for 40 epochs against a few milliseconds), because a Python loop over rows is slow and batch uses one fast matrix product. scikit-learn's SGD runs the same loop in compiled code, so it is fast. The real advantage of SGD is elsewhere: one update costs the same however many observations (rows) the data has, so SGD is the main way to train linear models on very large datasets (Goodfellow §5.9).
+> **Extra:** Per epoch, the Python loop above is slower than batch gradient descent (under a second for 40 epochs against a few milliseconds), because a Python loop over observations is slow and batch uses one fast matrix product. scikit-learn's SGD runs the same loop in compiled code, so it is fast. The real advantage of SGD is elsewhere: one update costs the same however many observations the data has, so SGD is the main way to train linear models on very large datasets (Goodfellow §5.9).
 
 ## 5. A noisy path
 
-> **Key point:** One row is a rough estimate of the whole gradient, so SGD's path zigzags. That makes it fast and able to escape local minima, but it never settles exactly at the minimum.
+> **Key point:** One observation gives a rough estimate of the whole gradient, so SGD's path zigzags. The noise makes SGD fast and able to escape local minima, but it never settles exactly at the minimum.
 
 ### 5.1 The zigzag
 
 > **Key point:** Each step points roughly, not exactly, downhill.
 
-The gradient from one row is a noisy estimate of the gradient from all rows. Figure 2 (left) shows the consequence on the 100-point example: batch gradient descent (red) walks straight down the bowl, while SGD (orange) wanders but reaches the bottom area within one epoch.
+The gradient from one observation is a noisy estimate of the gradient from all observations. Figure 2 (left) shows the consequence on the 100-point example: batch gradient descent (red) walks straight down the bowl, while SGD (orange) wanders but reaches the bottom area within one epoch.
 
 ![Batch vs stochastic paths, and the effect of a learning schedule](images/paths.png){height=50%}
 
@@ -113,14 +115,14 @@ The gradient from one row is a noisy estimate of the gradient from all rows. Fig
 
 > **Key point:** The noise speeds SGD up on large data and can shake it out of a local minimum.
 
-- **Large data:** SGD needs only one row at a time in memory, and it gets close to the answer in few passes.
-- **Non-convex losses:** with a loss that has local minima (the gradient descent Note), batch gradient descent settles in whichever dip it reaches first. SGD's random jumps can carry it out of a shallow local minimum and on towards the global one.
+- **Large data:** SGD needs only one observation at a time in memory, and it gets close to the answer in few passes.
+- **Non-convex losses:** with a loss that has local minima (the gradient descent Note), batch gradient descent settles in whichever dip it reaches first. SGD's random jumps can carry it out of a sharp, shallow local minimum (Kleinberg et al. 2018), like shaking a tray so a marble hops out of a small dent.
 
 ### 5.3 Disadvantage: jitter at the bottom
 
 > **Key point:** With a constant learning rate, SGD keeps jumping around the minimum instead of stopping at it.
 
-Near the minimum, every new row still pushes the coefficients in its own direction. So SGD keeps bouncing around the best values (Figure 2, right, orange) and never stops exactly there. Running it twice with different random rows also gives slightly different answers.
+Near the minimum, every new observation still pushes the coefficients in its own direction. So SGD keeps bouncing around the best values (Figure 2, right, orange) and never stops exactly there. Running it twice with different random observations also gives slightly different answers.
 
 ## 6. Learning schedules
 
@@ -165,9 +167,11 @@ The main parameters:
 | `eta0` | the starting learning rate |
 | `learning_rate` | the schedule: `"constant"`, `"invscaling"` (the default, $\eta_0 / t^{0.25}$), `"optimal"` or `"adaptive"` |
 | `tol` | stop early when the loss stops improving by at least this much |
-| `random_state` | fixes the random order of rows |
+| `random_state` | fixes the random order of observations |
 
-On the diabetes data, `"constant"` with `eta0=0.01` reaches test R² 0.43 in 97 epochs. The default `"invscaling"` schedule, with the same starting rate 0.01 and only the schedule changed, stops at 0.16 after 100 epochs. The rate $0.01 / t^{0.25}$ shrinks so fast that 100 epochs are not enough: without the shrinking the same run reaches 0.43, and with it the run needs about 5,000 epochs (notebook). Schedules need tuning like any other hyperparameter.
+On the diabetes data, `"constant"` with `eta0=0.01` reaches test R² 0.43 in 97 epochs. The default `"invscaling"` schedule shrinks the rate as $\eta_0 / t^{0.25}$, so it needs a larger start: with `eta0=0.2` it reaches 0.45 in 75 epochs, the best of these runs and above OLS's 0.44. A shrinking schedule is like a car braking as it nears a parking spot: it must start fast enough to arrive at all.
+
+> **Extra:** With the same small start, `eta0=0.01`, the shrinking schedule stops at test R² 0.16 after 100 epochs: the steps shrink before the coefficients get near the answer. The same schedule reaches 0.39 after 1,000 epochs and 0.45 after 5,000; switching the shrinking off (`power_t=0`) gives 0.43 in 100 epochs. Starting rates between: 0.05 gives 0.38, 0.1 gives 0.43 (notebook). Schedules need tuning like any other hyperparameter (Goodfellow §8.3.1).
 
 > **Extra:** scikit-learn may print a `ConvergenceWarning` when `max_iter` runs out before its stopping rule (`tol`) is met. The warning is not an error; its own message suggests increasing `max_iter`.
 
@@ -177,10 +181,10 @@ On the diabetes data, `"constant"` with `eta0=0.01` reaches test R² 0.43 in 97 
 
 | | Batch | Stochastic |
 |---|---|---|
-| Rows per update | all | one |
+| Observations per update | all | one |
 | Path | smooth, exact gradient | noisy, zigzags |
 | Progress per epoch | slow | fast |
-| Memory | whole dataset | one row |
+| Memory | whole dataset | one observation |
 | Final answer | settles at the minimum | jitters around it (use a schedule) |
 | Local minima | can get stuck | can escape |
 
@@ -189,25 +193,29 @@ Mini-batch gradient descent, the next Note, sits between the two and is what mos
 ## 9. Summary
 
 - Batch gradient descent needs about $n \times m$ operations per update: too slow and too memory-hungry for big data.
-- SGD updates after each random row: $n$ updates per epoch, each using one row's derivatives.
+- SGD updates after each random observation: $n$ updates per epoch, each using one observation's derivatives.
 - On the diabetes data, 40 epochs of SGD reach test R² 0.42, against 0.19 for batch.
 - The noise makes SGD fast and able to escape local minima, but it jitters at the bottom.
-- A learning schedule (shrinking rate) lets it settle; `SGDRegressor` offers several.
+- A learning schedule (shrinking rate) lets SGD settle, if its starting rate is large enough; `SGDRegressor` offers several.
 
-## Sources
+## 10. Sources
 
-- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org).
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §5.9 (SGD for large datasets), §8.3.1 (SGD and decaying learning rates).
 - **scikit-learn docs**: scikit-learn documentation, `sklearn.linear_model.SGDRegressor` (version 1.9).
-- **Kirkpatrick et al.**: S. Kirkpatrick, C. D. Gelatt, M. P. Vecchi, "Optimization by Simulated Annealing", *Science* 220(4598), 1983.
+- **Kirkpatrick et al.**: S. Kirkpatrick, C. D. Gelatt, M. P. Vecchi, "Optimization by Simulated Annealing", *Science* 220(4598), 671–680, 1983.
+- **Kleinberg et al. 2018**: R. Kleinberg, Y. Li, Y. Yuan, "An Alternative View: When Does SGD Escape Local Minima?", *Proceedings of the 35th International Conference on Machine Learning (ICML)*, PMLR 80, 2018.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one observation of the data table |
+| Target | The output we predict |
 | Stochastic | Involving randomness |
-| Stochastic gradient descent (SGD) | Gradient descent that updates the coefficients after each single random row |
+| Stochastic gradient descent (SGD) | Gradient descent that updates the coefficients after each single random observation |
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it |
 | SGDRegressor | scikit-learn's linear regression trained with stochastic gradient descent |
 | eta0 | The starting learning rate in SGDRegressor |
 | max_iter | The maximum number of epochs in SGDRegressor |
-| Simulated annealing | Lowering the learning rate gradually so the search settles down |
+| Simulated annealing | An optimisation method that lowers a "temperature" step by step so the search settles into a low state; the idea behind shrinking learning rates |

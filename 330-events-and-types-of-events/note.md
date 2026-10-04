@@ -55,7 +55,7 @@ An **outcome** is one possible result of a trial. If the first toss lands heads,
 
 > **Key point:** The sample space is the set of all possible outcomes of the experiment; whatever happens in a trial is always one of its members.
 
-The sample space is defined in the [conditional probability Note](../82-conditional-probability/note.md) as the set of all possible outcomes of an experiment. It is written in curly brackets, usually named $S$ (some books use $\Omega$):
+The sample space is defined in the [conditional probability Note](../82-conditional-probability/note.md) as the set of all possible outcomes of an experiment. The sample space is written in curly brackets, usually named $S$ (some books use $\Omega$):
 
 - Toss a coin: $S = \{H, T\}$.
 - Roll a die: $S = \{1, 2, 3, 4, 5, 6\}$.
@@ -122,9 +122,9 @@ The pairs $HT$ and $TH$ are different outcomes: the order of the tosses is recor
 
 ### 3.3 Drawing a Titanic passenger
 
-> **Key point:** Picking a random row of a dataset is a random experiment too; its sample space is the set of values the chosen column can take.
+> **Key point:** Picking a random observation of a dataset is a random experiment too; its sample space is the set of values the chosen feature can take.
 
-The Titanic dataset (used in the [frequency tables Note](../223-frequency-tables-and-graphs/note.md)) lists 891 passengers. The column `Pclass` is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment.
+The Titanic dataset (used in the [frequency tables Note](../223-frequency-tables-and-graphs/note.md)) lists 891 passengers; each passenger is one **observation** (one record, one row of the data table). The **feature** `Pclass` (a feature is an input variable, one column of the data table) is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment.
 
 | Term | Drawing a Titanic passenger |
 |---|---|
@@ -134,7 +134,7 @@ The Titanic dataset (used in the [frequency tables Note](../223-frequency-tables
 | Sample space | $\{1, 2, 3\}$ |
 | Event | "The passenger is in class 2" $= \{2\}$; "not in first class" $= \{2, 3\}$ |
 
-This is how probability meets machine learning: each row of a dataset is the outcome of a trial, and a column's possible values form a sample space. The probabilities of these events, from the counts in the data, are worked out in the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md).
+Here probability meets machine learning: each observation of a dataset is the outcome of a trial, and a feature's possible values form a sample space. The probabilities of these events, from the counts in the data, are worked out in the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md).
 
 ## 4. Types of events
 
@@ -209,7 +209,7 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 | $\{1, 2, 3, 4\}$, $\{3, 4, 5, 6\}$ | no (share 3, 4) | yes |
 | $\{1, 2, 3\}$, $\{3, 4, 5\}$ | no (share 3) | no (6 missing) |
 
-> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The **law of total probability** needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then $P(A) = \sum_i P(A \mid B_i)\,P(B_i)$ (Orloff and Bloom, MIT 18.05 *Introduction to Probability and Statistics*, Class 3 notes, Spring 2022, section "Law of total probability"). That is why the Bayes' theorem Notes can split a probability into one term per class. The card calculation of section 4.4 is one case: "spade first" and "not spade first" partition the first draw, and $\frac{13}{52} \cdot \frac{12}{51} + \frac{39}{52} \cdot \frac{13}{51} = \frac{1}{4}$.
+> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The **law of total probability** needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then $P(A) = \sum_i P(A \mid B_i)\,P(B_i)$ (Blitzstein and Hwang 2019, §2.3). The law of total probability is why the Bayes' theorem Notes can split a probability into one term per class. The card calculation of section 4.4 is one case: "spade first" and "not spade first" partition the first draw, and $\frac{13}{52} \cdot \frac{12}{51} + \frac{39}{52} \cdot \frac{13}{51} = \frac{1}{4}$.
 
 ### 4.7 Impossible and sure events
 
@@ -217,8 +217,8 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 
 The two extreme events:
 
-- An **impossible event** contains no outcome of the sample space. "Rolling a 7" with one die can never happen. It is the empty set, written $\varnothing$, and its probability is 0.
-- A **sure event** (or **certain event**) contains every outcome. "Rolling a number from 1 to 6" always happens. It is the whole sample space $S$, and its probability is 1.
+- An **impossible event** contains no outcome of the sample space. "Rolling a 7" with one die can never happen. The impossible event is the empty set, written $\varnothing$, and its probability is 0.
+- A **sure event** (or **certain event**) contains every outcome. "Rolling a number from 1 to 6" always happens. The sure event is the whole sample space $S$, and its probability is 1.
 
 All other events lie between these two, with probabilities between 0 and 1 (Figure 3, bottom).
 
@@ -247,7 +247,11 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 - An outcome is one result; an event is a set of results, possibly just one.
 - Mutually exclusive and exhaustive are separate properties; both together make a partition.
 
-## 6. Key terms
+## 6. Sources
+
+- Blitzstein, J. K. and Hwang, J. (2019). *Introduction to Probability*, 2nd ed. CRC Press. §2.3 "Bayes' rule and the law of total probability".
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

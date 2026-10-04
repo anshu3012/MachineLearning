@@ -102,7 +102,7 @@ Flatten only rearranges numbers, so it has no weights and nothing to train.
 Figure 2 shows the network:
 
 - **Input layer:** 784 nodes, one per pixel.
-- **Hidden layer:** 128 nodes with the ReLU activation, which usually works best in hidden layers (activation functions get their own Notes later).
+- **Hidden layer:** 128 nodes with the ReLU activation, the usual default for hidden layers (Goodfellow et al. 2016, §6.3; activation functions get their own Notes later).
 - **Output layer:** 10 nodes, one per class.
 
 With more than two classes the output layer has **one node per class**, and the class whose node gives the highest probability is the prediction (see the [MLP intuition Note](../1009-mlp-intuition/note.md), section 4.3). The 10 nodes use **softmax**, which turns their 10 scores into 10 probabilities that add up to 1 (see the [softmax regression Note](../79-softmax-regression/note.md)). So for every image the network gives P(0), P(1), ..., P(9).
@@ -181,7 +181,7 @@ The optimizer is again Adam; optimizers are taught later.
 >                      validation_split=0.2)
 > ```
 
-Keras trains on 48,000 images and validates on the other 12,000. With batches of 32 that is 1,500 weight updates per epoch (`1500/1500` in the output). The training loss falls from 0.280 after the first epoch to 0.014 after the tenth. The validation loss is lowest after epoch 5 (0.088) and has risen to 0.104 by epoch 10: a first sign of overfitting.
+Keras trains on 48,000 images and validates on the other 12,000. With batches of 32 that is 1,500 weight updates per epoch (`1500/1500` in the output). The training loss falls from 0.280 after the first epoch to 0.014 after the tenth. The validation loss is lowest after epoch 4 (0.088) and has risen to 0.099 by epoch 10: a first sign of overfitting.
 
 ## 6. Predicting with argmax
 
@@ -203,18 +203,18 @@ To turn the 10 probabilities into one digit we take the position of the largest:
 >
 > y_prob = model.predict(X_test)      # shape (10000, 10)
 > y_pred = y_prob.argmax(axis=1)      # [7 2 1 ...]
-> accuracy_score(y_test, y_pred)      # 0.9763
+> accuracy_score(y_test, y_pred)      # 0.9769
 > ```
 >
 > `axis=1` takes the argmax across each row, one answer per image.
 
-The first network gets **97.63%** of the 10,000 test images right. For comparison, KNN on all 784 pixels reached 96.8% in the [PCA on MNIST Note](../49-pca-mnist/note.md), and took far longer to predict. A plain network with one hidden layer and no tuning already does better.
+The first network gets **97.69%** of the 10,000 test images right. For comparison, KNN on all 784 pixels reached 96.8% in the [PCA on MNIST Note](../49-pca-mnist/note.md), on a different split of MNIST. KNN compares each new image with every stored image (33,600 there), while the network needs only its two matrix products. A plain network with one hidden layer and no tuning already does better.
 
-> **Extra:** Image data is the home ground of the **convolutional neural network (CNN)**, which looks at small patches of pixels instead of treating every pixel as a separate input. CNNs reach over 99% on MNIST; they are taught in later Notes.
+> **Extra:** Image data is the home ground of the **convolutional neural network (CNN)**, which looks at small patches of pixels instead of treating every pixel as a separate input. CNNs reach over 99% on MNIST: LeNet-5 had a test error of 0.95% (LeCun et al. 1998). CNNs are taught in later Notes.
 
 ## 7. A bigger network and its training curves
 
-> **Key point:** An extra hidden layer and 25 epochs make the training accuracy reach 99.7%, but the test accuracy drops slightly to 97.54%: the network overfits.
+> **Key point:** An extra hidden layer and 25 epochs make the training accuracy reach 99.7%, but the test accuracy barely moves (97.72%): the network overfits.
 
 ### 7.1 The second network
 
@@ -240,26 +240,26 @@ $$\underbrace{784 \times 128 + 128}_{100{,}480} + \underbrace{128 \times 32 + 32
 >                      validation_split=0.2)
 > ```
 
-The test accuracy is **97.54%**, a little *lower* than the first network's 97.63%. More capacity and more epochs did not help.
+The test accuracy is **97.72%**, almost the same as the first network's 97.69%. More capacity and more epochs did not help.
 
 ### 7.2 Reading the curves
 
-> **Key point:** The training loss keeps falling while the validation loss climbs after epoch 4: a clear case of overfitting.
+> **Key point:** The training loss keeps falling while the validation loss climbs after epoch 3: a clear case of overfitting.
 
-![Training curves of the second network. The circle marks the lowest validation loss, after epoch 4.](images/curves.png)
+![Training curves of the second network. The circle marks the lowest validation loss, after epoch 3.](images/curves.png)
 
 Figure 3 explains the result:
 
-- **Loss (left):** the training loss falls steadily to 0.008. The validation loss is lowest after epoch 4 (0.097), then rises to 0.195 by epoch 25.
+- **Loss (left):** the training loss falls to about 0.01. The validation loss is lowest after epoch 3 (0.095), then rises, to 0.155 by epoch 25.
 - **Accuracy (right):** training accuracy climbs to 99.7%, validation accuracy stays around 97 to 97.6%.
 
-After epoch 4 the network keeps getting better on the images it trains on and worse on images it has not seen. It is memorising the training set: **overfitting** (see the [bias-variance Note](../62-bias-variance/note.md)). The churn network showed a small gap; here it is large. Regularization, dropout and stopping training at the right epoch fix this; they come in later Notes.
+After epoch 3 the network keeps getting better on the images it trains on and worse on images it has not seen. It is memorising the training set: **overfitting** (see the [bias-variance Note](../62-bias-variance/note.md)). The churn network showed a small gap; here it is large. Regularization, dropout and stopping training at the right epoch fix this; they come in later Notes.
 
 > **Extra:** If an accuracy curve is requested but `metrics=["accuracy"]` was not given to `compile`, `history.history` has no `accuracy` key and the plot fails with a `KeyError`. The model must be compiled again with the metric and retrained.
 
 ## 8. Where the network goes wrong
 
-> **Key point:** 246 of the 10,000 test images are misclassified; the most common mistake is a 2 read as a 7.
+> **Key point:** 228 of the 10,000 test images are misclassified; the most common mistake is a 4 read as a 9.
 
 ![Confusion matrix of the second network on the 10,000 test images. Rows: actual digit; columns: predicted digit.](images/confusion.png){height=48%}
 
@@ -267,12 +267,14 @@ Figure 4 is the 10 × 10 confusion matrix (see the [accuracy and confusion matri
 
 | Actual | Predicted | Count |
 |---|---|---|
-| 2 | 7 | 19 |
-| 9 | 4 | 11 |
-| 7 | 1 | 10 |
-| 9 | 7 | 10 |
+| 4 | 9 | 35 |
+| 7 | 2 | 9 |
+| 2 | 7 | 7 |
+| 8 | 0 | 7 |
 
-These pairs look alike when handwritten: a 2 with a straight base resembles a 7, a 9 with an open top resembles a 4. Figure 5 shows five of the misclassified test images; several are hard even for a person.
+These pairs look alike when handwritten: a 4 with a closed top resembles a 9, a 2 with a straight base resembles a 7. Figure 5 shows five of the misclassified test images; several are hard to read even for a person.
+
+> **Extra:** Are the confused digits close in raw pixels? A nearest-centroid classifier, which compares each test image only with the average image of each digit, makes the network's top mistake too: 4 read as 9 is its 2nd most common mistake of 79. But 7 read as 2 is only 30th and 2 read as 7 only 36th, so not every confusion comes from two digits with similar average images (Notebook).
 
 ![Five test images the second network gets wrong](images/wrong.png)
 
@@ -299,15 +301,20 @@ The first two test images, a 7 and a 2, are both predicted correctly, each with 
 | Output layer | 1 node, sigmoid | 10 nodes, softmax |
 | Loss | binary cross-entropy | sparse categorical cross-entropy |
 | Prediction | probability > 0.5 | argmax of 10 probabilities |
-| Test accuracy | 86.45% | 97.63% (first), 97.54% (second) |
+| Test accuracy | 86.45% | 97.69% (first), 97.72% (second) |
 
 - MNIST: 60,000 training and 10,000 test images of 28 × 28 pixels, loaded with `keras.datasets.mnist.load_data()`.
 - Divide pixels by 255; a Flatten layer turns each image into 784 inputs.
 - Multi-class output: one softmax node per class; predict with `argmax(axis=1)`.
 - Sparse categorical cross-entropy for integer labels, categorical cross-entropy for one-hot labels.
-- A bigger network trained longer overfitted: training loss down, validation loss up after epoch 4.
+- A bigger network trained longer overfitted: training loss down, validation loss up after epoch 3.
 
-## 11. Key terms
+## 11. Sources
+
+- LeCun, Bottou, Bengio and Haffner, "Gradient-Based Learning Applied to Document Recognition", *Proceedings of the IEEE*, 1998.
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.3 (rectified linear units as the default hidden unit).
+
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -51,11 +51,11 @@ Informally, a convex set has no dents and no holes (Figure 1). Common convex set
 
 > **Key point:** The overlap (intersection) of convex sets is convex; their union usually is not.
 
-If $\mathbf{x}$ and $\mathbf{y}$ lie in both $A$ and $B$, the segment between them lies in $A$ (because $A$ is convex) and in $B$ (because $B$ is convex), so it lies in the overlap. This is why a feasible region made of many convex constraints is convex: it is the overlap of one convex set per constraint. A box, for example, is the overlap of $2n$ half-spaces.
+If $\mathbf{x}$ and $\mathbf{y}$ lie in both $A$ and $B$, the segment between them lies in $A$ (because $A$ is convex) and in $B$ (because $B$ is convex), so it lies in the overlap. The overlap rule is why a feasible region made of many convex constraints is convex: it is the overlap of one convex set per constraint. A box, for example, is the overlap of $2n$ half-spaces.
 
 A union does not keep convexity. Two separate discs together form a set where the segment from one disc to the other crosses empty space.
 
-> **Extra:** The set where a convex function stays at or below a level, $\{\mathbf{x} : g(\mathbf{x}) \le c\}$, is always convex (Boyd and Vandenberghe §3.1.6). This is why convex optimisation asks for convex functions $g_i$ in its inequality constraints $g_i(\mathbf{x}) \le 0$ (Section 6): each constraint then cuts out a convex set. The set where a convex function is exactly 0 is not convex in general (the circle $x^2 + y^2 = 1$ is not), which is why equality constraints must be linear.
+> **Extra:** The set where a convex function stays at or below a level, $\{\mathbf{x} : g(\mathbf{x}) \le c\}$, is always convex (Boyd and Vandenberghe §3.1.6). The level-set rule is why convex optimisation asks for convex functions $g_i$ in its inequality constraints $g_i(\mathbf{x}) \le 0$ (Section 6): each constraint then cuts out a convex set. The set where a convex function is exactly 0 is not convex in general (the circle $x^2 + y^2 = 1$ is not), which is why equality constraints must be linear.
 
 ## 3. Convex functions and their sets
 
@@ -95,7 +95,7 @@ Figure 2 (right) shows the test failing. For $q(w) = w^2(w - 1)^2$, the tangent 
 
 The first-order condition gives the most useful fact about convex functions in one line. If $\nabla f(\mathbf{x}^*) = \mathbf{0}$, the condition becomes $f(\mathbf{y}) \ge f(\mathbf{x}^*)$ for every $\mathbf{y}$. So for a convex function, any point with zero gradient is a global minimum. Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
 
-> **Extra:** Softplus is the [log loss](../73-log-loss/note.md) in disguise. For a row with label 0 and score $z$, the loss $-\ln(1 - \sigma(z))$ equals $\ln(1 + e^{z})$; for label 1, $-\ln \sigma(z) = \ln(1 + e^{-z})$. Both are convex in $z$, and $z = \mathbf{w}^{\mathsf T}\mathbf{x}$ is linear in the weights. A convex function of a linear function is convex (Boyd and Vandenberghe §3.2.2), so the loss of logistic regression is convex in $\mathbf{w}$: gradient descent on it reaches the global minimum.
+> **Extra:** Softplus is the [log loss](../73-log-loss/note.md) in disguise. For an **observation** (one record, a row of the data table) with label 0 and score $z$, the loss $-\ln(1 - \sigma(z))$ equals $\ln(1 + e^{z})$; for label 1, $-\ln \sigma(z) = \ln(1 + e^{-z})$. Both are convex in $z$, and $z = \mathbf{w}^{\mathsf T}\mathbf{x}$ is linear in the weights. A convex function of a linear function is convex (Boyd and Vandenberghe §3.2.2), so the loss of logistic regression is convex in $\mathbf{w}$: gradient descent on it reaches the global minimum.
 
 ### 4.2 Second-order condition: curving up everywhere
 
@@ -166,7 +166,7 @@ This rule covers the regularised losses of earlier Notes:
 2. **Formula:** the problem
    $$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0, \qquad h_j(\mathbf{x}) = 0$$
    is a **convex optimisation problem** when $f$ and every $g_i$ are convex functions and every $h_j$ is affine, $h_j(\mathbf{x}) = \mathbf{a}_j^{\mathsf T}\mathbf{x} - b_j$. Then the feasible region is a convex set (Section 2.2).
-3. **Example:** the problem of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md): minimise $x^2 + 2y^2$ (Hessian with eigenvalues 2 and 4, convex) subject to $3 - x - y \le 0$ (linear, so convex). It is a convex optimisation problem.
+3. **Example:** the problem of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md): minimise $x^2 + 2y^2$ (Hessian with eigenvalues 2 and 4, convex) subject to $3 - x - y \le 0$ (linear, so convex). The problem is therefore a convex optimisation problem.
 
 ### 6.2 What convexity guarantees
 
@@ -210,13 +210,13 @@ For the convex ones, the answer does not depend on the starting point or the sol
 - For a convex function, zero gradient means global minimum.
 - Convex problems have no local-minimum traps and satisfy strong duality.
 
-## Sources
+## 8. Sources
 
 - Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 3.1–3.2 (convex functions and the operations that keep convexity) and 5.2.3 (Slater's condition).
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 7.3 (MML).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 8.2, challenges in neural network optimisation.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

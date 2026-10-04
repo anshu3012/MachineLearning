@@ -60,7 +60,7 @@ The loop in Figure 1 needs a rule to end it. Two are common:
 1. **A fixed number of loops**, for example 1,000. If the line is not good yet, run more, such as 10,000.
 2. **[Convergence](../70-perceptron-trick/note.md):** after every update, count the misclassified training points. Stop as soon as the count is 0, since no point can move the line any more.
 
-Rule 2 only ever stops on linearly separable data: if no line separates the classes, some point is always misclassified. That is why the two rules are often combined: stop at convergence, or after the maximum number of loops, whichever comes first.
+Rule 2 only ever stops on linearly separable data: if no line separates the classes, some point is always misclassified. Data that no line separates is why the two rules are often combined: stop at convergence, or after the maximum number of loops, whichever comes first.
 
 > **Extra:** scikit-learn's `Perceptron` uses a similar combination, with a looser early stop. `max_iter` caps the number of epochs (default 1,000). With `tol` set (default $10^{-3}$), training also stops once the loss has failed to improve by at least `tol` for `n_iter_no_change` epochs in a row (default 5) (scikit-learn docs, `Perceptron`). This stop can fire before every point is classified correctly: in the [perceptron Note](../1004-perceptron/note.md), section 8, it ended training after 7 epochs at 75% training accuracy.
 
@@ -82,9 +82,9 @@ Because the picks are random, a stretch of 100 picks does not visit every point 
 
 ## 6. Why it is only a trick
 
-> **Key point:** It finds a separating line, but cannot say how good that line is, and different random orders give different lines.
+> **Key point:** The trick finds a separating line, but cannot say how good that line is, and different random orders give different lines.
 
-The perceptron trick is simple and usually works. But on the same data, different random orders give different final lines, some hugging one class (see section 6 of the [perceptron code Note](../71-perceptron-code/note.md)). Nothing in the trick measures which line is better.
+The perceptron trick is simple and usually works. But on the same data, different random orders give different final lines, some hugging one class (see section 6 of the [perceptron code Note](../71-perceptron-code/note.md)). Nothing in the trick measures which line is better. The trick is like a student who stops revising the moment every practice question is right: they pass, but they never learn their score, so they cannot tell a narrow pass from a safe one.
 
 The fix is a [loss function](../73-log-loss/note.md): a number that scores every possible line, so training can look for the best one. The [perceptron loss Note](../1006-perceptron-loss/note.md) builds it.
 

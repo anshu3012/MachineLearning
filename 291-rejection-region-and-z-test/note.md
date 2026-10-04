@@ -41,11 +41,13 @@ This Note covers:
 
 > **Key point:** $\alpha$ is the probability of rejecting $H_0$ when it is actually true; we fix it before the test, usually at 0.05.
 
-The **significance level**, written $\alpha$, is a threshold fixed before the test. It decides whether $H_0$ will be rejected. In words:
+The **significance level**, written $\alpha$, is a threshold fixed before the test. The significance level decides whether $H_0$ will be rejected. In words:
 
 > $\alpha$ is the probability of rejecting the null hypothesis when it is actually true.
 
 With $\alpha = 0.05$, if we ran many tests in which $H_0$ was in fact true, about 5 in 100 would still reject it. This mistake is called a Type I error (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
+
+Think of $\alpha$ as the sensitivity setting of a smoke alarm. A very sensitive alarm (large $\alpha$) goes off for burnt toast as well as for real fires; a dull one (small $\alpha$) rarely gives false alarms but needs more smoke before it sounds.
 
 The usual choices are 0.05 (5%) and 0.01 (1%). For most problems 0.05 works well and is treated as the standard. In a specialised field, a domain expert may choose another value from knowledge of the domain.
 
@@ -83,7 +85,7 @@ We divide by $\sigma/\sqrt{n}$, not by $\sigma$, because we are standardizing a 
 
 > **Key point:** The rejection region is the tail of the standard normal curve with area $\alpha$, on the side that $H_1$ points to; its boundary is the critical value.
 
-The **rejection region** (also called the **critical region**) is the set of values of the test statistic for which we reject $H_0$. It lies in the tail or tails that $H_1$ points to, and its area is $\alpha$. The rest of the curve is the region where we fail to reject $H_0$.
+The **rejection region** (also called the **critical region**) is the set of values of the test statistic for which we reject $H_0$. The rejection region lies in the tail or tails that $H_1$ points to, and its area is $\alpha$. The rest of the curve is the region where we fail to reject $H_0$.
 
 The **critical value** is the boundary of the rejection region:
 
@@ -150,7 +152,7 @@ A snack company claims that its packets of chips weigh **50 g** on average. A co
 7. **Decide.** $H_1$ uses $\neq$: we do not know the direction, so the test is two-tailed. $\alpha = 0.05$ is split into 0.025 in each tail, giving critical values $\pm 1.96$. Since $-1.96 < -1.58 < 1.96$, $z$ falls between them (Figure 1, right): we **fail to reject $H_0$**.
 8. **Interpret.** The 40 packets do not give enough evidence that the mean weight differs from 50 g. The watchdog has no case against the company.
 
-This does not prove that the packets weigh exactly 50 g on average. As the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) showed, failing to reject $H_0$ only means the evidence was not strong enough.
+Failing to reject does not prove that the packets weigh exactly 50 g on average. As the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) showed, failing to reject $H_0$ only means the evidence was not strong enough.
 
 ## 8. How $\alpha$ moves the rejection region
 
@@ -169,7 +171,7 @@ Figure 2 shows a two-tailed test at three significance levels:
 - **Lower $\alpha$** (5% to 1%): the critical values move out and the region where we fail to reject grows. A true $H_0$ is rejected less often.
 - **Higher $\alpha$** (say 30%): the rejection region grows. Even when $H_0$ is true, the statistic now often lands in the rejection region by chance, and we wrongly reject $H_0$.
 
-This is the meaning of "the probability of rejecting $H_0$ when it is actually true": it is exactly the red area. A lower $\alpha$ has a cost too, which the [errors, power and tails Note](../292-errors-power-and-tails/note.md) explains.
+The red area is exactly what "the probability of rejecting $H_0$ when it is actually true" means. A lower $\alpha$ has a cost too, which the [errors, power and tails Note](../292-errors-power-and-tails/note.md) explains.
 
 ## 9. The weakness of the rejection region approach
 
@@ -188,7 +190,7 @@ The rejection region approach gives a yes-or-no answer, and that causes two prob
 
 A z of 15 is so unlikely under $H_0$ that it leaves almost no doubt, while a z of 2 is the kind of value that turns up 2 or 3 times in 100 by chance. The rejection region approach treats them the same.
 
-The fix is to compute one more number, the **p-value**, which measures the strength of the evidence against $H_0$. It is the approach used in practice, and the subject of the [p-values Note](../300-p-values/note.md).
+The fix is to compute one more number, the **p-value**, which measures the strength of the evidence against $H_0$. The p-value approach is the one used in practice, and the subject of the [p-values Note](../300-p-values/note.md).
 
 ## 10. Summary
 

@@ -204,16 +204,16 @@ Each orange bound is a parabola that lies under the black curve and touches it a
 
 "Never decreases" does not mean "finds the highest point". MML (§11.4.5) notes that EM can converge to a local maximum of the log-likelihood and suggests several runs from different starting points.
 
-Old Faithful is too easy to show this: from 20 random starts, EM found the same answer every time (Notebook, Section 4). So the Notebook builds a harder dataset: 500 observations in three clusters, two long and tilted, one round. It runs EM 20 times, each time starting from three randomly chosen observations as means:
+Old Faithful is too easy to show this: from 20 random starts, EM found the same answer every time (Notebook, Section 4). The Iris flowers are harder: 150 observations with four features each and three overlapping species, the data of the [Gaussian mixture models Note](../640-gaussian-mixture-models/note.md) (Section 9.2). The Notebook runs EM 20 times with three components, each run starting its means at three randomly chosen observations. The ARI (adjusted Rand index) scores how well the result matches the species: 1 for a perfect match.
 
-| Final log-likelihood | Number of starts |
-|---|---|
-| $-1984.0$ (the three true clusters) | 16 |
-| about $-2250$ (three different local maxima, between $-2254$ and $-2246$) | 4 |
+| Final log-likelihood | ARI against the species | Number of starts |
+|---|---|---|
+| $-180.2$ (the best) | 0.90 | 9 |
+| $-186.6$ to $-203.5$ (nine different lower hilltops) | 0.47 to 0.72 | 11 |
 
 An analogy: a hiker who always walks uphill in fog reaches a summit, but which summit depends on where the hiker started.
 
-Each of the four lower runs stopped on a hilltop and stayed there. The same problem appeared for k-means in the [k-means from scratch Note](../130-kmeans-from-scratch/note.md) (Section 9, bad random starts), with the same fix. scikit-learn's `GaussianMixture` starts from a k-means solution by default (`init_params="kmeans"`) and keeps the best of `n_init` starts (default 1), per its documentation.
+Each of the eleven lower runs stopped on a hilltop and stayed there. Keeping the best of the 20 runs recovers the top answer, the fit with ARI 0.90. The same problem appeared for k-means in the [k-means from scratch Note](../130-kmeans-from-scratch/note.md) (Section 9, bad random starts), with the same fix. scikit-learn's `GaussianMixture` starts from a k-means solution by default (`init_params="kmeans"`) and keeps the best of `n_init` starts (default 1), per its documentation.
 
 ## 8. K-means as "hard" EM
 

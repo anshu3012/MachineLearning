@@ -27,25 +27,28 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 ## 2. The core idea, on decision surfaces
 
-> **Key point:** Each base model draws its own boundary; the voting classifier's boundary mixes them, and often generalises better than each one.
+> **Key point:** Each base model draws its own boundary; the voting classifier's boundary mixes them, and can generalise better than each one.
 
 Recall the setup: base models M1, M2, M3 are trained on the same data D. For a query point $x_q$, each predicts a class (0 or 1 for a two-class problem), and the voting classifier returns the most common one, the **mode** of the predictions.
 
-A decision surface (the [KNN Note](../91-knn/note.md), section 5) shows this best. The app `app.py` offers six toy datasets with two input columns, such as concentric circles, a U shape, two spirals and XOR, and five base models: KNN, logistic regression, Gaussian naive Bayes, SVM and random forest (a forest of trees, covered in later Notes). It trains the chosen models and the voting classifier on 80% of the points and reports accuracy on the other 20%.
+A decision surface (the [KNN Note](../91-knn/note.md), section 5) shows this best. The app `app.py` offers six toy datasets with two **features** (input variables, the columns of the data table), such as concentric circles, a U shape, two spirals and XOR, and five base models: KNN, logistic regression, Gaussian naive Bayes, SVM and random forest (a forest of trees, covered in later Notes). The app trains the chosen models and the voting classifier on 80% of the **observations** (the points, one row of the table each) and reports accuracy on the other 20%.
 
-On the concentric-circles data, one class forms rings around the other, so no straight line separates them:
+On the concentric-circles data, one class forms rings around the other, so no straight line separates them. With logistic regression and Gaussian naive Bayes (hard voting):
 
-| Base models (hard voting) | Each model's test accuracy | Voting classifier |
+| Base models | Each model's test accuracy | Voting classifier |
 |---|---|---|
-| logistic regression, Gaussian naive Bayes | 0.53, 0.60 | 0.63 |
-| logistic regression, SVM | 0.53, 0.87 | 0.76 |
-| logistic regression, Gaussian naive Bayes, random forest | 0.53, 0.60, 0.89 | 0.66 |
+| logistic regression, Gaussian naive Bayes | 0.53, 0.60 | **0.63** |
 
 Logistic regression draws a straight line, which cannot follow rings, so it scores barely better than guessing. Naive Bayes draws a curved boundary and does a little better. Voting with both gives 0.63, above each of them: the vote's boundary mixes the line and the curve.
 
-With more models, the vote's boundary takes something from each. With few test points (here 100), accuracies jump around, so the shape of the boundary is often a better guide than the last digit of the score: a smooth boundary that follows the data tends to generalise better.
+With few test points (here 100), accuracies jump around, so the shape of the boundary is often a better guide than the last digit of the score: a smooth boundary that follows the data tends to generalise better.
 
-The vote does **not** always win. Adding the strong random forest (0.89) to two weak models gives a hard vote of only 0.66: the two weak models outvote the good one. In such a case we simply use the random forest alone. Soft voting, below, rescues this case.
+**When the vote loses.** The [voting ensemble Note](../102-voting-ensemble/note.md), section 4, needs every member to beat a coin toss clearly. Logistic regression (0.53) barely does, so mixing it with a strong model can drag the vote down:
+
+- logistic regression with an SVM (0.53 and 0.87): hard vote **0.76**, below the SVM;
+- logistic regression, naive Bayes and random forest (0.53, 0.60 and 0.89): hard vote **0.66**, because the two weak models outvote the good one.
+
+In such a case we drop the weak members, or switch to soft voting, below, which rescues the second case.
 
 ## 3. Hard voting and soft voting
 
@@ -57,7 +60,7 @@ Almost every classification algorithm can give its answer as probabilities: for 
 
 > **Key point:** Each model casts one vote for its predicted label; the label with most votes wins.
 
-**Hard voting** is what we have done so far: each model's predicted label counts as one vote, and the majority wins. It is scikit-learn's default, `voting="hard"`.
+**Hard voting** is what we have done so far: each model's predicted label counts as one vote, and the majority wins. Hard voting is scikit-learn's default, `voting="hard"`.
 
 Take two models on a two-class problem. M1 gives (class 0: 0.6, class 1: 0.4) and predicts 0; M2 gives (0.8, 0.2) and also predicts 0. Hard voting: 0 and 0, so the answer is **0**.
 
@@ -111,59 +114,51 @@ Why? The forest is sure of its answers, while the two weak models hover near 50/
 
 ![Decision surfaces on the concentric-circles data: three base models, then hard and soft voting. Titles give test accuracy](images/hard_soft_surfaces.png){height=58%}
 
-Soft voting also tends to give a smoother decision surface, and that smoothing is sometimes why it does better. It is not a rule, though: on the iris data in section 4, soft voting does slightly worse. The voting type is a hyperparameter like any other, so we try both and keep the better.
+Soft voting also tends to give a smoother decision surface, and that smoothing is sometimes why it does better. Soft voting does not always win, though: on the hard iris problem in section 4.3, soft voting does slightly worse than hard (0.64 against 0.67). The voting type is a hyperparameter like any other, so we try both and keep the better.
 
-> **Extra:** Soft voting needs every base model to give probabilities, through a `predict_proba` method. Most classifiers have one. An SVM does not by default: older code wrote `SVC(probability=True)`, which is deprecated in scikit-learn 1.9. The current way is to wrap the SVM: `CalibratedClassifierCV(SVC(), ensemble=False)`.
+> **Extra:** Soft voting needs every base model to give probabilities, through a `predict_proba` method. Most classifiers have one. An SVM does not by default: older code wrote `SVC(probability=True)`, which is deprecated in scikit-learn 1.9 and due to be removed in 1.11. The current way is to wrap the SVM: `CalibratedClassifierCV(SVC(), ensemble=False)` (scikit-learn 1.9 deprecation message for `SVC`).
 
-## 4. VotingClassifier on the iris data
+## 4. VotingClassifier on the heart disease data
 
-> **Key point:** On a hard two-species iris problem, logistic regression alone (0.75) beats both voting classifiers (0.67 hard, 0.64 soft); weights lift the vote to 0.71.
+> **Key point:** Three base models of about equal accuracy (0.825, 0.817, 0.821) combine into a vote that beats each of them: 0.834 hard, 0.841 soft.
 
-### 4.1 Making the problem hard
+### 4.1 The data and the conditions
 
-> **Key point:** Keep only the two species that overlap and only the two sepal columns.
+> **Key point:** 303 patients, 13 features, target "heart disease or not"; every score is a repeated, shuffled 10-fold cross-validation.
 
-The iris data (the [softmax regression Note](../79-softmax-regression/note.md)) is easy: most algorithms reach 98 to 99% accuracy. To make it hard, we keep only the two sepal columns (length and width) and only versicolor and virginica. In these two columns the two species overlap heavily, while setosa sits apart. That leaves 100 rows.
+We use the heart disease data from the [accuracy and confusion matrix Note](../76-accuracy-confusion-matrix/note.md): 303 **observations** (one patient each, one row of the data table), 13 **features** (input variables such as age, cholesterol and maximum heart rate) and a yes/no **target** (the output we predict): does the patient have heart disease.
 
-> **Python:** Building the harder problem.
+The conditions follow the [voting ensemble Note](../102-voting-ensemble/note.md): the members should be about equally accurate and make different mistakes. So we pick three very different algorithms, logistic regression, random forest and KNN, and give logistic regression and KNN standardized features (the [standardization Note](../24-standardization/note.md)), since both are sensitive to the scale of each feature.
+
+Each score is 10-fold cross-validation (the [pipelines Note](../29-pipelines/note.md), section 8): the data is cut into 10 parts, the model is trained on 9 and tested on the tenth, ten times. With only 303 patients one cut is noisy, so we repeat the whole procedure with 5 different shuffles and report the mean.
+
+> **Python:** Loading the data and scoring each base model.
 >
 > ```python
-> from sklearn.datasets import load_iris
+> from sklearn.model_selection import (RepeatedStratifiedKFold,
+>                                      cross_val_score)
+> from sklearn.pipeline import make_pipeline
+> from sklearn.preprocessing import StandardScaler
 >
-> df = load_iris(as_frame=True).frame
-> df = df.rename(columns={"target": "species"})
-> # drop setosa (species 0); keep sepals and label
-> new_df = df[df["species"] != 0][
->     ["sepal length (cm)", "sepal width (cm)", "species"]]
-> X = new_df.iloc[:, 0:2]
-> y = new_df.iloc[:, -1]
-> ```
-
-### 4.2 Each base model alone
-
-> **Key point:** Logistic regression scores 0.75, random forest 0.60 and KNN 0.61.
-
-We use three base models: logistic regression, random forest and KNN. Each is scored with 10-fold cross-validation (the [pipelines Note](../29-pipelines/note.md), section 8): the data is cut into 10 parts, the model is trained on 9 and tested on the tenth, ten times, and we average the 10 accuracies.
-
-> **Python:** Scoring each base model.
+> heart = pd.read_csv("data/heart.csv")
+> X, y = heart.drop(columns="target"), heart["target"]
+> cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=5,
+>                              random_state=0)
 >
-> ```python
-> from sklearn.model_selection import cross_val_score
->
-> estimators = [("lr", LogisticRegression()),
->               ("rf", RandomForestClassifier(random_state=42)),
->               ("knn", KNeighborsClassifier())]
+> estimators = [
+>     ("lr", make_pipeline(StandardScaler(), LogisticRegression())),
+>     ("rf", RandomForestClassifier(random_state=42)),
+>     ("knn", make_pipeline(StandardScaler(), KNeighborsClassifier()))]
 > for name, model in estimators:
->     scores = cross_val_score(model, X, y, cv=10,
->                              scoring="accuracy")
->     print(name, scores.mean())   # lr 0.75, rf 0.60, knn 0.61
+>     print(name, cross_val_score(model, X, y, cv=cv).mean())
+> # lr 0.825, rf 0.817, knn 0.821
 > ```
 >
 > `estimators` is a **list of tuples**: each tuple is (a name as a string, the model object). `VotingClassifier` takes exactly this format.
 
-### 4.3 Hard and soft voting
+### 4.2 Hard and soft voting
 
-> **Key point:** Hard voting 0.67, soft voting 0.64: here the best single model wins.
+> **Key point:** Hard voting 0.834, soft voting 0.841: both beat every base model.
 
 > **Python:** The voting classifier.
 >
@@ -171,19 +166,23 @@ We use three base models: logistic regression, random forest and KNN. Each is sc
 > from sklearn.ensemble import VotingClassifier
 >
 > vc = VotingClassifier(estimators=estimators, voting="hard")
-> cross_val_score(vc, X, y, cv=10).mean()      # 0.67
+> cross_val_score(vc, X, y, cv=cv).mean()      # 0.834
 >
 > vc = VotingClassifier(estimators=estimators, voting="soft")
-> cross_val_score(vc, X, y, cv=10).mean()      # 0.64
+> cross_val_score(vc, X, y, cv=cv).mean()      # 0.841
 > ```
 >
 > `voting` is `"hard"` by default. `fit` trains every base model; `predict` combines them.
 
-Both votes beat random forest and KNN but not logistic regression (0.75). This happens: the two weaker models outvote the best one. The honest choice here is logistic regression alone.
+| Model | Logistic regression | Random forest | KNN | Hard vote | Soft vote |
+|---|---|---|---|---|---|
+| Accuracy | 0.825 | 0.817 | 0.821 | 0.834 | **0.841** |
 
-### 4.4 Weights
+Both votes beat the best single model. The gain is about one to two points: the three models disagree on only some patients, and on those the majority is right more often than any one of them, as section 5 of the voting ensemble Note predicts.
 
-> **Key point:** `weights` gives each model's vote a different importance. Giving logistic regression weight 3 lifts soft voting from 0.64 to 0.71.
+### 4.3 Weights
+
+> **Key point:** `weights` gives each model's vote a different importance. With members this close, the best weights (3, 3, 2) add almost nothing: 0.844 against 0.841.
 
 By default every model's vote counts the same, as in a democracy. The `weights` hyperparameter changes that: `weights=[5, 1]` makes the first model's vote count five times as much as the second's. In hard voting it multiplies the votes; in soft voting it gives a weighted average of the probabilities.
 
@@ -204,19 +203,21 @@ To find good weights, we try them all: each weight from 1 to 3 for each of the t
 >         for k in range(1, 4):
 >             vc = VotingClassifier(estimators=estimators,
 >                     voting="soft", weights=[i, j, k])
->             acc = cross_val_score(vc, X, y, cv=10).mean()
+>             acc = cross_val_score(vc, X, y, cv=cv).mean()
 >             print(i, j, k, round(acc, 3))
 > ```
 
-The best combination is **(3, 1, 1)** with **0.71**, up from 0.64. It gives logistic regression, the best single model, the biggest say, which makes sense. Trying values and keeping the best is hyperparameter tuning; `GridSearchCV` (the [KNN Note](../91-knn/note.md), section 4.2) can run the same search for us.
+The best combination is **(3, 3, 2)** with **0.844**, against 0.841 for equal weights. When the members are about equally good, equal weights are already close to the best. Trying values and keeping the best is hyperparameter tuning; `GridSearchCV` (the [KNN Note](../91-knn/note.md), section 4.2) can run the same search for us.
+
+> **Extra:** Weights matter when one member is much stronger than the rest. Take a hard version of the iris data (the [softmax regression Note](../79-softmax-regression/note.md)): only versicolor and virginica, and only the two sepal features, where the two species overlap heavily (100 observations, plain 10-fold cross-validation). Logistic regression scores 0.75, random forest 0.60 and KNN 0.61. The weak pair outvotes the strong model: hard voting scores 0.67 and soft voting 0.64, both below logistic regression alone. Weights (3, 1, 1), which give logistic regression the biggest say, lift soft voting to 0.71, still below 0.75. Voting needs members that are both accurate and diverse (Dietterich, 2000, section 1); when one member is far ahead, the honest choice is that member alone.
 
 ## 5. One algorithm, different settings
 
 > **Key point:** Instead of picking the best of five SVMs, vote over all five: 0.928, above the best single one (0.894).
 
-Voting does not need different algorithms. It can combine **one algorithm with different hyperparameter values**, and this is often the more useful approach.
+Voting does not need different algorithms. Voting can also combine **one algorithm with different hyperparameter values**.
 
-Tuning is hard because we do not know which value is right. Take an SVM with a polynomial kernel (the [kernel trick Note](../96-kernel-trick-code/note.md)) and an unknown degree. On a synthetic dataset of 1,000 rows and 20 columns (`make_classification`), we try degrees 1 to 5, each scored by 10-fold cross-validation:
+Tuning is hard because we do not know which value is right. Take an SVM with a polynomial kernel (the [kernel trick Note](../96-kernel-trick-code/note.md)) and an unknown degree. On a synthetic dataset of 1,000 observations and 20 features (`make_classification`), we try degrees 1 to 5, each scored by 10-fold cross-validation:
 
 | Degree | 1 | 2 | 3 | 4 | 5 | Soft vote of all five |
 |---|---|---|---|---|---|---|
@@ -247,17 +248,26 @@ Both approaches are used: different algorithms, or one algorithm with several se
 | Rule | most common label | highest average probability |
 | Needs | `predict` | `predict_proba` on every model |
 | Concentric circles (LR, NB, RF) | 0.66 | 0.92 |
-| Iris, two species, two columns | 0.67 | 0.64 (0.71 with weights 3, 1, 1) |
+| Heart disease (LR, RF, KNN: 0.825, 0.817, 0.821) | 0.834 | 0.841 (0.844 with weights 3, 3, 2) |
+| Iris, two species, two features (one strong member) | 0.67 | 0.64 (0.71 with weights 3, 1, 1) |
 
 - `VotingClassifier(estimators=[(name, model), ...], voting="hard" or "soft", weights=[...])`.
 - Soft voting is sometimes better and gives a smoother surface, but not always: treat the voting type as a hyperparameter.
-- A vote can lose to its best member; then use that member alone.
+- A vote beats its members when they are about equally accurate and different (heart data); it can lose when one member is far ahead or barely beats chance, and then that member alone is the better choice.
 - Voting over one algorithm with different settings (five SVM degrees: 0.928) can beat picking the best setting (0.894).
 
-## 7. Key terms
+## 7. Sources
+
+- Dietterich, T. G. (2000). "Ensemble Methods in Machine Learning". *Multiple Classifier Systems* (MCS 2000), LNCS 1857, Springer, section 1.
+- scikit-learn developers. `sklearn.svm.SVC`, version 1.9: the `probability` parameter is deprecated in 1.9 and will be removed in 1.11. scikit-learn.org, modules/generated/sklearn.svm.SVC.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable: one column of the data table |
+| Observation | One record of the data: one row of the data table |
+| Target | The output we predict |
 | Voting classifier | A classifier that combines several trained classifiers by voting |
 | Hard voting | Predicting the label that most base models predict |
 | Soft voting | Predicting the class with the highest average predicted probability across the base models |

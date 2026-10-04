@@ -18,7 +18,7 @@ title: "The Normal Distribution"
 
 ![The normal curve of adult men's heights, N(68, 3) inches](images/bell_anatomy.png)
 
-Figure 1 shows the most famous probability distribution: the heights of adult men in a population, with mean 68 inches and standard deviation 3 inches. It was met briefly in earlier Notes: its 68-95-99.7 rule in the [z-score outliers Note](../42-outliers-zscore/note.md), its formula in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), its parameters in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md).
+Figure 1 shows the most famous probability distribution: the heights of adult men in a population, with mean 68 inches and standard deviation 3 inches. The normal distribution was met briefly in earlier Notes: its 68-95-99.7 rule in the [z-score outliers Note](../42-outliers-zscore/note.md), its formula in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), its parameters in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md).
 
 This Note studies it properly: what it is, why it matters, where its formula comes from, its properties and its CDF. The [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) then turns it into probabilities with the z-table, and the [skewness Note](../252-skewness/note.md) measures how far real data departs from its symmetry.
 
@@ -32,7 +32,7 @@ The **normal distribution**, also called the **Gaussian distribution** or the be
 - **The tails:** the two ends where the curve flattens out. They come closer and closer to the x axis without ever touching it: the curve is **asymptotic** to the axis. Any value, however extreme, has some tiny density.
 - **The shape:** many values lie near the centre, some lie far below it and some far above it, fewer and fewer the further out we go.
 
-That last point is the whole summary of the normal distribution. The y axis is probability density (see the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md)): high near 68 because many men have heights around there, low at 59 or 77 because few do.
+The shape point is the whole summary of the normal distribution. The y axis is probability density (see the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md)): high near 68 because many men have heights around there, low at 59 or 77 because few do.
 
 ## 3. Parameters and notation
 
@@ -62,7 +62,7 @@ The name says it: the shape is **normal**, meaning common. Many natural phenomen
 - IQ scores of a population;
 - measurement errors in repeated measurements (Taylor 1997, ch. 5).
 
-For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. So it was studied in great depth, and today its mathematics is completely worked out. That is why, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
+For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
 
 ## 5. The PDF of the normal distribution
 
@@ -97,9 +97,9 @@ The formula looks frightening, but it can be built term by term (Figure 2):
 
 1. **$y = e^{x}$** is exponential growth: it climbs faster and faster.
 2. **$y = e^{-x}$** puts a minus sign in front: exponential decay.
-3. **$y = e^{-x^2}$** squares $x$. Now $x = 2$ and $x = -2$ give the same value, so the curve decays on **both** sides of 0: a bell. This is the heart of the normal distribution. However far $x$ moves from 0, in either direction, $y$ gets smaller but never reaches 0.
-4. **$y = e^{-(x - \mu)^2}$** moves the bell so that its peak sits at $\mu$ instead of 0. This lets the formula describe a normal distribution centred anywhere: at 68 inches, at $-2$, anywhere.
-5. **Divide the exponent by $2\sigma^2$,** giving $y = e^{-(x - \mu)^2/(2\sigma^2)}$. This stretches the bell sideways: a larger $\sigma$, a wider bell.
+3. **$y = e^{-x^2}$** squares $x$. Now $x = 2$ and $x = -2$ give the same value, so the curve decays on **both** sides of 0: a bell. The bell $e^{-x^2}$ is the heart of the normal distribution. However far $x$ moves from 0, in either direction, $y$ gets smaller but never reaches 0.
+4. **$y = e^{-(x - \mu)^2}$** moves the bell so that its peak sits at $\mu$ instead of 0. The shift lets the formula describe a normal distribution centred anywhere: at 68 inches, at $-2$, anywhere.
+5. **Divide the exponent by $2\sigma^2$,** giving $y = e^{-(x - \mu)^2/(2\sigma^2)}$. The division stretches the bell sideways: a larger $\sigma$, a wider bell.
 6. **Divide by $\sigma\sqrt{2\pi}$.** The area under every PDF must be 1. The area under the curve of step 5 turns out to be exactly $\sigma\sqrt{2\pi}$ (3.76 for $\sigma = 1.5$), so dividing by it brings the area to 1.
 
 ![Building the normal PDF term by term: the bell, the shift, the width, the area](images/pdf_build.gif){height=55%}
@@ -133,7 +133,7 @@ Reading Figure 3:
 
 - **Every CDF passes 0.5 at its mean.** By symmetry, half the area lies left of the mean. For the green curve, with $\mu = -2$, $P(X \le -2) = 0.5$; for the heights, $P(X \le 68) = 0.5$.
 - **The standard deviation sets the steepness.** With $\sigma = 0.5$ (blue) the S rises sharply near 0; with $\sigma = 2$ (orange) it rises slowly and reaches 1 far from the centre.
-- **The shape is an S.** It looks like the sigmoid function of the [sigmoid function Note](../72-sigmoid-function/note.md), though the two are different functions.
+- **The shape is an S.** The S looks like the sigmoid function of the [sigmoid function Note](../72-sigmoid-function/note.md), though the two are different functions.
 
 1. **In words:** the CDF at $x$ is the area under the normal PDF from minus infinity up to $x$.
 2. **Formula:**
@@ -142,7 +142,7 @@ Reading Figure 3:
    $$F(72) = P(X \le 72) = 0.909$$
    so about 91% of men are 72 inches or shorter.
 
-> **Extra:** This integral has no formula in elementary functions: no combination of powers, logs and exponentials gives the normal CDF exactly (Conrad, "Impossibility theorems"). So it is computed numerically, either by software or, in the past, by printed tables. Those tables are the z-tables of the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
+> **Extra:** The normal CDF integral has no formula in elementary functions: no combination of powers, logs and exponentials gives the normal CDF exactly (Rosenlicht 1972). So the normal CDF is computed numerically, either by software or, in the past, by printed tables. Those tables are the z-tables of the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
 
 > **Python:** The CDF in scipy.
 >
@@ -167,13 +167,13 @@ Reading Figure 3:
 - The formula is a bell $e^{-x^2}$, shifted by $\mu$, widened by $\sigma$, scaled to area 1.
 - The CDF is an S-curve through 0.5 at the mean.
 
-## Sources
+## 9. Sources
 
 - Taylor, J. R. (1997). *An Introduction to Error Analysis*, 2nd ed. University Science Books. Chapter 5, "The Normal Distribution".
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.5 (Gaussian distribution).
-- Conrad, B. "Impossibility theorems for elementary integration". Proves that $e^{-x^2}$ has no elementary antiderivative.
+- Rosenlicht, M. (1972). Integration in finite terms. *American Mathematical Monthly*, 79(9), 963-972. Shows that $e^{-x^2}$ has no elementary antiderivative.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

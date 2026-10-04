@@ -45,13 +45,13 @@ We already made this change for confidence intervals in the [t-procedure Note](.
 | Tail areas from | the z-table, `stats.norm` | the t-table, `stats.t` |
 | Used when | $\sigma$ known (rare) | $\sigma$ unknown (usual) |
 
-A rule of thumb also says the t-test suits small samples. That is a practical observation, not a mathematical requirement: the t-test works for any $n$ once $\sigma$ is unknown, and for large $n$ it gives nearly the same answer as the z-test.
+A rule of thumb also says the t-test suits small samples. The rule is a practical observation, not a mathematical requirement: the t-test works for any $n$ once $\sigma$ is unknown, and for large $n$ it gives nearly the same answer as the z-test.
 
 ## 3. The three types of t-test
 
 > **Key point:** One sample against a known mean; two independent groups against each other; or the same subjects measured twice.
 
-1. **One-sample t-test.** Compares the mean of one sample with a known population mean. $H_0$: there is no difference between the population mean and the claimed value. This is what we did with the z-test, without $\sigma$.
+1. **One-sample t-test.** Compares the mean of one sample with a known population mean. $H_0$: there is no difference between the population mean and the claimed value. The one-sample t-test is the z-test we already ran, but without $\sigma$.
 2. **Independent two-sample t-test.** Compares the means of two independent samples, for example the marks of section A and section B. "Independent" means the groups do not overlap: no student is in both sections. $H_0$: the two population means are equal.
 3. **Paired t-test** (dependent two-sample t-test). Compares two samples that are linked, such as the same students' marks in a test before and after a training program. $H_0$: the mean difference is zero.
 
@@ -59,14 +59,14 @@ The rest of this Note is about the first; the [two-sample t-tests Note](../302-t
 
 ## 4. The one-sample t-test
 
-> **Key point:** It checks whether a sample mean differs from a claimed population mean when $\sigma$ is unknown, using $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$.
+> **Key point:** The one-sample t-test checks whether a sample mean differs from a claimed population mean when $\sigma$ is unknown, using $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$.
 
 ### 4.1 Assumptions
 
 The one-sample t-test needs four things:
 
 1. **Normality.** The population the sample comes from is normally distributed. If we cannot check the population, we check the sample (section 5); with $n \ge 30$, the central limit theorem makes $\bar{X}$ approximately normal anyway (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
-2. **Independence.** The value of one observation does not influence another. The weight of one chips packet does not affect the weight of the next.
+2. **Independence.** One **observation** (one record, here one measured item) does not influence another. The weight of one chips packet does not affect the weight of the next.
 3. **Random sampling.** The sample is a random, representative subset of the population. Picking all the packets from one shop shelf would not be.
 4. **Unknown $\sigma$.** If $\sigma$ were known, we would use the z-test.
 
@@ -97,7 +97,7 @@ A manufacturer claims that its new chocolate bar weighs **50 g** on average. We 
 
 Figure 2 shows the two red tails. The t-distribution with 24 degrees of freedom is already close to the standard normal (dashed), but its tails are slightly fatter, so the p-value is slightly larger than a z-test would give (0.211).
 
-The degrees of freedom matter: they set the shape of the curve and so the tail areas. That is why `stats.t.cdf` takes `df` as well as the point.
+The degrees of freedom matter: they set the shape of the curve and so the tail areas. For this reason `stats.t.cdf` takes `df` as well as the point.
 
 > **Python:** The t-distribution's CDF replaces the t-table.
 >
@@ -115,36 +115,36 @@ The degrees of freedom matter: they set the shape of the curve and so the tail a
 
 When we have the raw values and $n < 30$, we check normality before the t-test. Plots work (a histogram, or a Q-Q plot, see the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)). A formal option is the **Shapiro-Wilk test**: we give it the numbers, and it returns a statistic and a p-value.
 
-Since it is a hypothesis test, everything from the earlier Notes applies:
+Since the Shapiro-Wilk test is itself a hypothesis test, everything from the earlier Notes applies:
 
 - $H_0$: the data comes from a normal distribution; $H_1$: it does not;
 - $p \le 0.05$: reject $H_0$, the data is not normal;
 - $p > 0.05$: fail to reject $H_0$; we have no evidence against normality and may go on with the t-test.
 
-"$p > 0.05$ means the data is normal" is the common way to say it, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power, so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give $p = 6 \times 10^{-11}$. It is best read together with a plot (Ghasemi and Zahediasl, "Normality tests for statistical analysis: a guide for non-statisticians", *International Journal of Endocrinology and Metabolism* 10(2), 2012, 486–489, make all three points).
+"$p > 0.05$ means the data is normal" is the common way to say it, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power, so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give $p = 6 \times 10^{-11}$. The test is best read together with a plot (Ghasemi and Zahediasl 2012 make all three points).
 
 ## 6. Case study: the mean age of Titanic passengers
 
-> **Key point:** A random sample of 25 ages gives $t = -3.38$ and a one-tailed $p = 0.0012$, so we conclude that the mean age is below 35; the true mean is 29.88.
+> **Key point:** A random sample of 25 ages gives $t = -5.55$ and a one-tailed $p = 0.000005$, so we conclude that the mean age is below 40; the true mean is 29.88.
 
-The Titanic carried 1309 passengers in the Kaggle train and test files together, and 1046 of them have a known age. Suppose we claim, without seeing all the data, that **the mean age of Titanic passengers is less than 35 years**. We test it on a random sample of 25 ages (`random_state=0`); afterwards we can check against all 1046.
+The Titanic carried 1309 passengers in the Kaggle train and test files together, and 1046 of them have a known age. Suppose we claim, without seeing all the data, that **the mean age of Titanic passengers is less than 40 years**. We test it on a random sample of 25 ages (`random_state=0`); afterwards we can check against all 1046.
 
 ### 6.1 The test
 
 1. **Hypotheses.**
-   $$H_0: \mu = 35, \qquad H_1: \mu < 35$$
+   $$H_0: \mu = 40, \qquad H_1: \mu < 40$$
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.** With only 25 values, normality must be checked. The Shapiro-Wilk test gives $p = 0.299 > 0.05$: no evidence against normality. The sample is random, ages of different passengers are independent, and $\sigma$ is unknown.
 4. **Test.** One-sample t-test, left-tailed.
 5. **Statistic.** The sample has $\bar{x} = 27.20$ and $s = 11.53$:
-   $$t = \frac{27.20 - 35}{11.53/\sqrt{25}} = \frac{-7.80}{2.31} = -3.38, \qquad df = 24$$
-6. **P-value.** $H_1$ uses $<$, so the p-value is the left tail: $p = P(T \le -3.38) = 0.0012$.
-7. **Decide.** $0.0012 \le 0.05$: reject $H_0$.
-8. **Interpret.** The mean age of Titanic passengers is significantly less than 35 years.
+   $$t = \frac{27.20 - 40}{11.53/\sqrt{25}} = \frac{-12.80}{2.31} = -5.55, \qquad df = 24$$
+6. **P-value.** $H_1$ uses $<$, so the p-value is the left tail: $p = P(T \le -5.55) = 0.000005$.
+7. **Decide.** $0.000005 \le 0.05$: reject $H_0$.
+8. **Interpret.** The mean age of Titanic passengers is significantly less than 40 years.
 
 ![All 1046 known Titanic ages and our random sample of 25, with the H₀ value and the two means](images/titanic_age_sample.png){height=32%}
 
-All 1046 known ages have a mean of **29.88** years (Figure 3): below 35, as the test concluded. Our sample mean, 27.20, happened to be lower than the true mean, which helped the test.
+All 1046 known ages have a mean of **29.88** years (Figure 3): below 40, as the test concluded. The conclusion does not hang on this one sample: section 6.3 shows that 95% of random samples of 25 reach it.
 
 > **Python:** `ttest_1samp` does steps 5 and 6. `alternative` says which tail $H_1$ points to: `"less"`, `"greater"` or `"two-sided"` (the default).
 >
@@ -152,46 +152,46 @@ All 1046 known ages have a mean of **29.88** years (Figure 3): below 35, as the 
 > from scipy import stats
 >
 > stats.shapiro(sample_age).pvalue          # 0.299
-> res = stats.ttest_1samp(sample_age, popmean=35,
+> res = stats.ttest_1samp(sample_age, popmean=40,
 >                         alternative="less")
-> res.statistic, res.pvalue                 # -3.38, 0.0012
+> res.statistic, res.pvalue                 # -5.55, 0.000005
 > ```
 
 ### 6.2 One-tailed p-values from a two-sided function
 
-Without `alternative`, scipy's t-test functions return a **two-sided** p-value; here 0.0025. A common shortcut is to halve it for a one-tailed test. That is right only when $t$ falls on the side $H_1$ points to:
+Without `alternative`, scipy's t-test functions return a **two-sided** p-value; here 0.00001. A common shortcut is to halve it for a one-tailed test. Halving is right only when $t$ falls on the side $H_1$ points to:
 
-- $t$ on the side of $H_1$ (here $t < 0$ for $H_1: \mu < 35$): one-tailed $p$ = two-sided $p / 2 = 0.0025/2 = 0.0012$;
+- $t$ on the side of $H_1$ (here $t < 0$ for $H_1: \mu < 40$): one-tailed $p$ = two-sided $p / 2 = 0.00001/2 = 0.000005$;
 - $t$ on the other side: one-tailed $p = 1 - (\text{two-sided } p)/2$, which is large.
 
-Halving blindly would turn a sample mean of, say, 40 into "significant evidence that the mean is below 35". Passing `alternative` avoids the trap.
+Halving blindly would turn a sample mean of, say, 45 into "significant evidence that the mean is below 40". Passing `alternative` avoids the trap.
 
 ### 6.3 How often would a sample of 25 find it?
 
-> **Extra:** Our sample rejected $H_0$, but another sample might not. Drawing 4000 random samples of 25 ages and testing each, only **53%** reject $H_0$ at the 5% level, although $H_0$ is false (the true mean is 29.88). That 53% is the power of this test (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)); the other 47% of samples would make a Type II error. A larger sample would raise it.
+> **Extra:** Drawing 4000 random samples of 25 ages and testing each, **95%** reject $H_0: \mu = 40$ at the 5% level. That 95% is the power of this test (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)): the true mean, 29.88, is far from 40, so almost every sample sees the gap. A claim closer to the truth is harder to reject: against $H_0: \mu = 35$, only 53% of samples of 25 reject, and the other 47% make a Type II error. A smaller gap needs a larger sample, just as a faint star needs a bigger telescope.
 
-## 7. Back to the five videos
+## 7. Back to the five lessons
 
-> **Key point:** The five whiteboard videos give $t = 2.12$ and one-tailed $p = 0.051$: just above 0.05, so the evidence that they beat 6 minutes is not quite significant.
+> **Key point:** The five whiteboard lessons give $t = 2.12$ and one-tailed $p = 0.051$: just above 0.05, so the evidence that they beat 6 minutes is not quite significant.
 
-> **Extra:** The [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) asked whether five videos with average view durations of 7, 9, 5, 11 and 13 minutes show that the new style beats the old average of 6 minutes. With $H_0: \mu = 6$, $H_1: \mu > 6$:
+> **Extra:** The [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) asked whether five lessons with average view durations of 7, 9, 5, 11 and 13 minutes show that the new style beats the old average of 6 minutes. With $H_0: \mu = 6$, $H_1: \mu > 6$:
 >
 > 1. **In words:** a one-sample, right-tailed t-test on the five values.
 > 2. **Formula:** $\bar{x} = 9$, $s = 3.16$, $n = 5$:
 >    $$t = \frac{9 - 6}{3.16/\sqrt{5}} = \frac{3}{1.41} = 2.12, \qquad df = 4$$
 > 3. **Example:** $p = P(T \ge 2.12) = 0.051$.
 >
-> At $\alpha = 0.05$ we fail to reject $H_0$, by a hair. On the scale of the [p-values Note](../300-p-values/note.md) this is weak evidence: worth a few more videos before deciding, and certainly not proof that the new style fails.
+> At $\alpha = 0.05$ we fail to reject $H_0$, by a hair. On the scale of the [p-values Note](../300-p-values/note.md) this is weak evidence: worth a few more lessons before deciding, and certainly not proof that the new style fails.
 
 ## 8. Summary
 
 | | Chocolate bars | Titanic ages |
 |---|---|---|
-| $H_0$ / $H_1$ | $\mu = 50$ / $\mu \neq 50$ | $\mu = 35$ / $\mu < 35$ |
+| $H_0$ / $H_1$ | $\mu = 50$ / $\mu \neq 50$ | $\mu = 40$ / $\mu < 40$ |
 | Data | $n = 25$, $\bar{x} = 49.7$, $s = 1.2$ | $n = 25$, $\bar{x} = 27.20$, $s = 11.53$ |
 | Normality | assumed (only summary data) | Shapiro-Wilk $p = 0.299$ |
-| $t$, $df$ | $-1.25$, 24 | $-3.38$, 24 |
-| P-value | 0.223 (two-tailed) | 0.0012 (left-tailed) |
+| $t$, $df$ | $-1.25$, 24 | $-5.55$, 24 |
+| P-value | 0.223 (two-tailed) | 0.000005 (left-tailed) |
 | Decision | fail to reject $H_0$ | reject $H_0$ |
 
 - The t-test replaces $\sigma$ by $s$ and the normal curve by Student's t with $n - 1$ degrees of freedom.
@@ -200,7 +200,11 @@ Halving blindly would turn a sample mean of, say, 40 into "significant evidence 
 - The Shapiro-Wilk test checks normality; $p > 0.05$ means no evidence against it, not proof.
 - Use `alternative=` for one-tailed tests instead of halving a two-sided p-value.
 
-## 9. Key terms
+## 9. Sources
+
+- Ghasemi, A. and Zahediasl, S. (2012). "Normality tests for statistical analysis: a guide for non-statisticians." *International Journal of Endocrinology and Metabolism* 10(2), 486–489.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

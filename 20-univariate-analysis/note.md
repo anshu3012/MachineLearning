@@ -31,7 +31,7 @@ The Notebook (`notebook.ipynb`) draws every graph as an interactive Plotly chart
 
 > **Key point:** Studying one column is univariate analysis, two columns together is bivariate, and more than two is multivariate.
 
-Each column of a dataset is called a **variable**. EDA has three levels, named by how many variables we look at together (Figure 2):
+Each column of a dataset is called a **variable**. In ML, an input variable is called a **feature**, and the variable we want to predict is the **target**. Each row, one record, is an **observation**. EDA has three levels, named by how many variables we look at together (Figure 2):
 
 - **Univariate analysis:** one variable on its own ("uni" means one). For example, how old were the passengers?
 - **Bivariate analysis:** two variables together ("bi" means two). For example, did older passengers survive less often?
@@ -73,7 +73,7 @@ We use the Titanic passenger list again: 891 passengers, and for each one whethe
 Some columns need a word of explanation:
 
 - **PassengerId:** an ID does not cause survival. In an earthquake, nobody dies because of their roll number, and the same logic applies here.
-- **Pclass:** first class was the most expensive and carried the richest passengers; third was the cheapest. It is like the AC, sleeper and general coaches of an Indian train.
+- **Pclass:** first class was the most expensive and carried the richest passengers; third was the cheapest. The three classes are like the AC, sleeper and general coaches of an Indian train.
 - **SibSp and Parch:** both hold numbers, but with only a few possible values (0, 1, 2, ...), so we can also treat each value as a category.
 - **Embarked:** the ship picked up passengers at three ports: S for Southampton, C for Cherbourg and Q for Queenstown.
 
@@ -106,9 +106,7 @@ What each plot tells us:
 - **Sex:** 577 men and 314 women.
 - **Embarked:** most passengers boarded at Southampton (644), the fewest at Queenstown (77).
 
-The `Pclass` result raises a question: why did more people travel first class than second? The average fare per class gives a hint. First class cost 84.15 on average, second 20.66 and third 13.68.
-
-A likely reason: second class cost much more than third, so passengers ready to pay that much often went one step further to first. Answering questions like this is the point of EDA: each graph should lead to a finding, and each finding to its likely reason.
+The `Pclass` result raises a question: why did more people travel first class than second? The average fare per class gives a hint. First class cost 84.15 on average, second 20.66 and third 13.68. Raising questions like this, and checking them against other columns, is the point of EDA: each graph should lead to a finding, and each finding to its likely reason.
 
 > **Python:** Counting the categories.
 >
@@ -131,7 +129,7 @@ A likely reason: second class cost much more than third, so passengers ready to 
 
 > **Key point:** A pie chart shows the same counts as shares of a circle, so we read each category's percentage directly.
 
-A **pie chart** divides a circle into slices, one per category, each sized by its share of the rows. It holds the same information as a count plot, given as percentages instead of counts.
+A **pie chart** divides a circle into slices, one per category, each sized by its share of the rows. A pie chart holds the same information as a count plot, given as percentages instead of counts.
 
 Figure 4 shows pie charts of three columns:
 
@@ -163,7 +161,7 @@ So a categorical column has two graphs: the count plot for counts, the pie chart
 
 Numerical columns are more interesting. Their values are not a few groups but any number in a range: an age can be 22, 22.5 or 71. So we cannot count each value; we count ranges instead.
 
-A **histogram** splits the range of the column into equal intervals called **bins**. It counts the values in each bin and draws one bar per bin. For ages from 0 to 80, eight bins of 10 years each would give 0-10, 10-20, and so on up to 70-80.
+A **histogram** splits the range of the column into equal intervals called **bins**. The histogram counts the values in each bin and draws one bar per bin. For ages from 0 to 80, eight bins of 10 years each would give 0-10, 10-20, and so on up to 70-80.
 
 The result shows the **distribution** of the data: how the values spread out, where most of them sit, and where few do. Whenever we meet a numerical column, a histogram is the first graph to try.
 
@@ -212,13 +210,13 @@ The PDF matters again in bivariate and multivariate analysis, where we compare s
 
 > **Python:** The old `distplot`.
 >
-> Older code draws this graph with `sns.distplot(df["Age"])`. That function was removed from seaborn. Today we write `sns.histplot(df["Age"], kde=True, stat="density")`, or in Plotly a histogram with `histnorm="probability density"` plus a KDE curve from `scipy.stats.gaussian_kde` (see the Notebook).
+> Older code draws this graph with `sns.distplot(df["Age"])`. seaborn deprecated `distplot` in version 0.11, and it now prints a warning (seaborn release notes, v0.11.0). Today we write `sns.histplot(df["Age"], kde=True, stat="density")`, or in Plotly a histogram with `histnorm="probability density"` plus a KDE curve from `scipy.stats.gaussian_kde` (see the Notebook).
 
 ## 8. Box plot
 
 > **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible outliers.
 
-A **box plot** draws a column's **five-number summary** (Figure 7). It is built from the median and percentiles of the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2, "Percentiles").
+A **box plot** draws a column's **five-number summary** (Figure 7). The summary is built from the median and percentiles of the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2, "Percentiles").
 
 ![The parts of a box plot, drawn for the Titanic ages](images/box_anatomy.png)
 
@@ -236,7 +234,7 @@ The box holds the middle half of the data. Its width, Q3 - Q1, is the **interqua
 
 > **Key point:** The whiskers stop at 1.5 IQR beyond the box; any value further out is drawn as a dot and flagged as a possible outlier.
 
-In a box plot, the minimum and maximum are not simply the smallest and largest values. They are calculated limits, called **fences**, set 1.5 IQR beyond the edges of the box. A value outside the fences is a possible **outlier**: a value that does not follow the pattern of the rest of the data.
+In a box plot, the minimum and maximum are not simply the smallest and largest values. They are calculated limits, called **fences**, set 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). A value outside the fences is a possible **outlier**: a value that does not follow the pattern of the rest of the data.
 
 > **Extra:** The fences, step by step.
 >
@@ -252,7 +250,7 @@ In a box plot, the minimum and maximum are not simply the smallest and largest v
 >
 > Each whisker is drawn to the last real value inside its fence: 0.42 on the left and 64 on the right.
 
-This is the main use of a box plot: it shows outliers at a glance. When data looks noisy, a box plot tells us how much of it lies outside the normal range, and outliers can then be checked and, if wrong, removed.
+Spotting outliers is the main use of a box plot: it shows them at a glance. When data looks noisy, a box plot tells us how much of it lies outside the normal range, and outliers can then be checked and, if wrong, removed.
 
 ### 8.2 The fare box plot
 
@@ -321,7 +319,7 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 >    $$g_1 = \frac{36}{10^{3/2}} = \frac{36}{31.62} \approx 1.14$$
 >    Positive: the single far value, 10, makes a long tail to the right.
 >
-> pandas multiplies $g_1$ by a small correction for sample size, $\sqrt{n(n-1)}/(n-2)$, so `skew()` gives 1.70 for these five values. With hundreds of rows, the correction hardly matters.
+> pandas multiplies $g_1$ by a small correction for sample size, $\sqrt{n(n-1)}/(n-2)$ (Joanes and Gill 1998), so `skew()` gives 1.70 for these five values. With hundreds of rows, the correction hardly matters.
 
 > **Extra:** Skew also pulls the mean towards the tail, as Figure 9 shows. In right-skewed data the mean is above the median: for `Fare`, 32.20 against 14.45. So the median describes a skewed column's typical value better than the mean.
 
@@ -344,15 +342,21 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 - Skewness of 0 means symmetric; positive means a long right tail, negative a long left tail.
 - Every graph should lead to a finding, and every finding to its likely reason.
 
-## Sources
+## 12. Sources
 
 - Cleveland, W. and McGill, R. (1984). Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods. *Journal of the American Statistical Association* 79(387).
+- Joanes, D. N. and Gill, C. A. (1998). Comparing Measures of Sample Skewness and Kurtosis. *Journal of the Royal Statistical Society, Series D (The Statistician)* 47(1), 183-189.
+- seaborn release notes. v0.11.0 (September 2020). seaborn.pydata.org/whatsnew.
+- Tukey, J. W. (1977). *Exploratory Data Analysis*. Addison-Wesley.
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
 | Variable | One column of a dataset |
+| Feature | An input variable, one column of the data table |
+| Target | The variable we want to predict |
+| Observation | One record, one row of the data table |
 | Univariate analysis | Studying one variable on its own |
 | Bivariate analysis | Studying two variables together |
 | Multivariate analysis | Studying more than two variables together |

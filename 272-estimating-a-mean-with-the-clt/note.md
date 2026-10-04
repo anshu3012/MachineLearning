@@ -91,7 +91,7 @@ By the CLT, the sample means are centred on the population mean. So their averag
 3. **Example:** for our 100 sample means,
    $$\hat{\mu} = \frac{37.27 + 25.21 + 34.21 + \dots}{100} = 31.87 \text{ pounds}$$
 
-A point estimate is almost never exactly right. The CLT says it is close to $\mu$, not equal to it. So instead of claiming "the average fare is 31.87 pounds", we give a range.
+A point estimate is almost never exactly right. The CLT says it is close to $\mu$, not equal to it. So instead of claiming "the average fare is 31.87 pounds", we give a range, just as a weather forecast says "28 to 32 degrees tomorrow" rather than one exact temperature.
 
 ## 5. A range for the population mean
 
@@ -108,7 +108,7 @@ The standard deviation of an estimate is its standard error (SE). Our estimate a
    $$SE = \frac{7.56}{\sqrt{100}} = \frac{7.56}{10} = 0.756, \qquad 31.87 \pm 2 \times 0.756 = 31.87 \pm 1.51$$
    The range is **30.35 to 33.38 pounds**.
 
-Now we look at the truth: the mean fare of all 1308 passengers is **33.30 pounds**. It lies inside the range, near its upper end. The point estimate alone (31.87) was off by 1.43 pounds; the range says honestly how far off it might be.
+Now we look at the truth: the mean fare of all 1308 passengers is **33.30 pounds**. The true mean lies inside the range, near its upper end. The point estimate alone (31.87) was off by 1.43 pounds; the range says honestly how far off it might be.
 
 The 7.56 itself confirms the CLT: it should be $\sigma/\sqrt{50}$, and the population standard deviation of the fares is $\sigma = 51.74$, giving $51.74/\sqrt{50} = 7.32$.
 
@@ -139,7 +139,7 @@ Two sizes appear in this method, and they are easy to swap:
 - $n = 50$, the **sample size**: the standard deviation of the sample means is already $\sigma/\sqrt{50}$; the division by $\sqrt{n}$ has happened once, inside the CLT.
 - $k = 100$, the **number of samples**: averaging the 100 sample means divides their spread by $\sqrt{100}$.
 
-Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ and the range 29.73 to 34.00. It also contains 33.30, but it is the wrong width. Figure 2 shows what each version does when the whole experiment is repeated 1000 times.
+Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ and the range 29.73 to 34.00. This wrong range also contains 33.30, but it is the wrong width. Figure 2 shows what each version does when the whole experiment is repeated 1000 times.
 
 ![Three ranges for the mean fare against the true mean 33.30; each label gives how often that method caught the true mean in 1000 repetitions](images/fare_intervals.png)
 
@@ -153,11 +153,11 @@ Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ an
 Drawing 100 samples is a teaching device: it lets us see the sampling distribution. A real survey collects one sample. Then the CLT is used directly: the one sample mean $\bar{x}$ is the point estimate, and the standard error $\sigma/\sqrt{n}$ is estimated with the sample's own standard deviation $s$:
 $$\bar{x} \pm 2\,\frac{s}{\sqrt{n}}$$
 
-For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 2, blue). It contains 33.30, and it is much wider: its standard error is $\sigma/\sqrt{50}$, while the average of 100 samples of 50 has standard error $(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$, ten times smaller.
+For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 2, blue). The one-sample range contains 33.30, and it is much wider: its standard error is $\sigma/\sqrt{50}$, while the average of 100 samples of 50 has standard error $(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$, ten times smaller.
 
 By the same formula, 100 samples of 50 give the same standard error, $\sigma/\sqrt{5000}$, as one large sample of 5000. If we have several samples, we can pool them into one.
 
-> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of 1000 repetitions, not 95% (89.0% in a second run of 2000). The fares are so skewed that only 38 of the 1308 passengers paid more than 200 pounds. The Notebook tests whether missing those tickets is the cause. Of 221 misses in the 2000-run, 218 fell below the true mean. A sample with no fare above 200 missed 44.6% of the time; a sample with at least one missed 1.2% of the time. The sample mean and $s$ move together (correlation 0.86), so a sample without the expensive tickets has both $\bar{x}$ and $s$ too small at once: the range is too low and too narrow. With $n = 200$ the share rises to 95.6%. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; the [t-procedure Note](../282-t-procedure/note.md) handles that part.
+> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of the 1000 repetitions of Figure 2, not 95%. The fares are so skewed that only 38 of the 1308 passengers paid more than 200 pounds. The Notebook tests whether missing those tickets is the cause, with 2000 fresh samples of 50. Of their 221 misses, 218 fell below the true mean. A sample with no fare above 200 missed 44.6% of the time; a sample with at least one missed 1.2% of the time. The sample mean and $s$ move together (correlation 0.86), so a sample without the expensive tickets has both $\bar{x}$ and $s$ too small at once: the range is too low and too narrow. With $n = 200$ the share rises to 95.6%. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; the [t-procedure Note](../282-t-procedure/note.md) handles that part.
 
 ## 8. Template: the average income of a country
 

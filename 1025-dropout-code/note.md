@@ -19,7 +19,7 @@ The [dropout Note](../1024-dropout/note.md) explained dropout: switch off a rand
 
 ![Regression: the network's prediction (blue) for dropout rates 0, 0.2, 0.5 and 0.75. Black: the 20 training points. Red: the 20 test points.](images/regression_fits.png)
 
-Figure 1 is the main result: without dropout the network bends to pass through every training point; with $p = 0.2$ or $0.5$ it follows the trend; with $p = 0.75$ it no longer fits the data well. The Notebook (`notebook.ipynb`) runs every step.
+Every number in the tables is the average of 5 training runs with different random seeds; the figures show one of those runs. Figure 1 is the main result: without dropout the network bends to pass through every training point; with $p = 0.2$ or $0.5$ it follows the trend; with $p = 0.75$ it no longer fits the data well. The Notebook (`notebook.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
@@ -29,25 +29,25 @@ Figure 1 is the main result: without dropout the network bends to pass through e
 
 ## 3. Dropout for regression
 
-> **Key point:** Without dropout: training MSE 0.008, test MSE 0.182. With $p = 0.2$: 0.024 and 0.135. Training gets worse, testing gets better, and the gap shrinks.
+> **Key point:** Without dropout: training MSE 0.006, test MSE 0.186. With $p = 0.2$: 0.024 and 0.134. Training gets worse, testing gets better, and the gap shrinks.
 
 ### 3.1 The data and the network
 
 > **Key point:** 20 noisy points on the line $y = x$; two hidden layers of 128 ReLU nodes; 500 epochs.
 
-The data is made up: 20 training points with $x$ evenly spaced from $-1$ to $1$ and $y = x$ plus random noise, and 20 test points at the same $x$ values with fresh noise. The true relationship is a straight line, so a good model is close to a line.
+The data is made up. Each **observation** (one record, one row of the data table) is a point with one **feature** (input variable) $x$ and a **target** (the output we predict) $y$. There are 20 training points with $x$ evenly spaced from $-1$ to $1$ and $y = x$ plus random noise, and 20 test points at the same $x$ values with fresh noise. The true relationship is a straight line, so a good model is close to a line.
 
-The network is deliberately too big for 20 points: an input node, two hidden layers of 128 ReLU nodes and a linear output node. It is compiled with Adam (learning rate 0.01) and the mean squared error as loss (see the [loss functions Note](../1014-dl-loss-functions/note.md)), and trained for 500 epochs. Training for that long on so little data invites overfitting.
+The network is deliberately too big for 20 points: an input node, two hidden layers of 128 ReLU nodes and a linear output node. The network is compiled with Adam (learning rate 0.01) and the mean squared error as loss (see the [loss functions Note](../1014-dl-loss-functions/note.md)), and trained for 500 epochs. Training for that long on so little data invites overfitting.
 
 ### 3.2 Without dropout
 
-> **Key point:** The prediction zigzags through the training points; the test MSE is 23 times the training MSE.
+> **Key point:** The prediction zigzags through the training points; the test MSE is about 29 times the training MSE.
 
 | | Training MSE | Test MSE |
 |---|---|---|
-| No dropout | 0.008 | 0.182 |
+| No dropout | 0.006 | 0.186 |
 
-The network fits its 20 training points almost exactly, but its error on the test points is 23 times larger. Figure 1 (top left) shows why: the blue curve bends to pass through the black training points, and these bends mean nothing for the red test points.
+The network fits its 20 training points almost exactly, but its error on the test points is about 29 times larger. Figure 1 (top left) shows why: the blue curve bends to pass through the black training points, and these bends mean nothing for the red test points.
 
 Figure 2 (top left) gives the second sign. The validation loss (orange) is lowest early on, then rises steadily, while the training loss (blue) keeps falling. The gap between them is overfitting.
 
@@ -80,22 +80,22 @@ The new model has the same layers, with a **`Dropout` layer** after each hidden 
 
 | | Training MSE | Test MSE |
 |---|---|---|
-| No dropout | 0.008 | 0.182 |
-| $p = 0.2$ | 0.024 | 0.135 |
+| No dropout | 0.006 | 0.186 |
+| $p = 0.2$ | 0.024 | 0.134 |
 
 The training error rose, and the test error fell by a quarter. In Figure 1 (top right) the curve is much smoother: it reacts less to the small ups and downs of the training points and follows the overall trend. In Figure 2 (top right) the validation loss no longer climbs and the gap between the curves stays the same over the 500 epochs.
 
-> **Extra:** The training loss that Keras prints during `fit` is computed with dropout switched on, on the shrunken sub-networks, so it is noisier and higher than the loss of the full network. The table's training MSE comes from `evaluate`, which runs the full network with dropout off (Keras FAQ, training versus testing loss). This is why the blue curve in Figure 2 (top right) is jagged.
+> **Extra:** The training loss that Keras prints during `fit` is computed with dropout switched on, on the shrunken sub-networks, so it is noisier and higher than the loss of the full network. The table's training MSE comes from `evaluate`, which runs the full network with dropout off (Keras FAQ, training versus testing loss). Dropout during training is why the blue curve in Figure 2 (top right) is jagged.
 
 ## 4. Dropout for classification
 
-> **Key point:** Without dropout: 88% training accuracy, 71% validation accuracy and a wiggly boundary. With $p = 0.5$: 84% and 74%, a smoother boundary, and a validation loss three times smaller.
+> **Key point:** Without dropout: 95% training accuracy, 69% validation accuracy and a wiggly boundary. With $p = 0.5$: 85% and 74%, a smoother boundary, and a validation loss three times smaller.
 
 ### 4.1 The data and the network
 
 > **Key point:** Two overlapping clouds of 200 points each; the same network with a sigmoid output.
 
-The data is again made up: two clouds of points with two inputs, class 1 centred at $(0.6, 0.6)$ and class 0 at $(-0.6, -0.6)$, each with standard deviation 1. The clouds overlap, so some points of each class sit in the other's region: a straight line separates them reasonably, but not perfectly. There are 200 training points and 200 validation points.
+The data is again made up: two clouds of points with two features, class 1 centred at $(0.6, 0.6)$ and class 0 at $(-0.6, -0.6)$, each with standard deviation 1. The clouds overlap, so some points of each class sit in the other's region: a straight line separates them reasonably, but not perfectly. There are 200 training points and 200 validation points.
 
 The network is the same as in section 3, with 2 inputs and a sigmoid output node for binary classification, trained with binary cross-entropy for 500 epochs.
 
@@ -105,17 +105,17 @@ The network is the same as in section 3, with 2 inputs and a sigmoid output node
 
 | Dropout rate | Training accuracy | Validation accuracy | Final validation loss |
 |---|---|---|---|
-| 0 | 88% | 71% | 2.84 |
-| 0.2 | 92% | 71% | 1.91 |
-| 0.5 | 84% | 74% | 0.94 |
+| 0 | 95% | 69% | 2.80 |
+| 0.2 | 91% | 70% | 1.76 |
+| 0.5 | 85% | 74% | 0.86 |
 
-Without dropout (Figure 3, left), the boundary is irregular: it builds small islands and long fingers to capture individual points of one class in the other's region. These shapes come from the noise of the training data and will not hold on new data. The validation loss climbs from 0.5 to almost 3 (Figure 2, bottom left), while the training loss keeps falling.
+Without dropout (Figure 3, left), the boundary is irregular: it builds small islands and long fingers to capture individual points of one class in the other's region. The islands and fingers come from the noise of the training data and will not hold on new data. The validation loss climbs from 0.5 to almost 3 (Figure 2, bottom left), while the training loss keeps falling.
 
 ![Classification: decision boundaries for dropout rates 0, 0.2 and 0.5, with the training points.](images/boundaries.png)
 
-With $p = 0.2$ the validation loss is lower, but the boundary still has islands and the validation accuracy does not improve. The overfitting tendency is reduced, not removed.
+With $p = 0.2$ the validation loss is lower, but the boundary still has islands and the validation accuracy barely improves (69% to 70%). The overfitting tendency is reduced, not removed.
 
-With $p = 0.5$ the boundary (Figure 3, right) is much simpler: one main dividing line with only small bends near the overlap. The validation accuracy rises from 71% to 74%, and the validation loss falls from 2.84 to 0.94. In Figure 2 (bottom right) the gap between the curves still grows slowly, but far less than without dropout.
+With $p = 0.5$ the boundary (Figure 3, right) is much simpler: one main dividing line with only small bends near the overlap. The validation accuracy rises from 69% to 74%, and the validation loss falls from 2.80 to 0.86. In Figure 2 (bottom right) the gap between the curves still grows slowly, but far less than without dropout.
 
 Dropout is a form of regularisation; because it works by random choices, it is sometimes called regularisation by randomisation.
 
@@ -127,14 +127,14 @@ Figure 1 shows all four rates on the regression problem:
 
 | Dropout rate | Training MSE | Test MSE | In Figure 1 |
 |---|---|---|---|
-| 0 | 0.008 | 0.182 | zigzags through the training points: overfitting |
-| 0.2 | 0.024 | 0.135 | smoother |
-| 0.5 | 0.030 | 0.130 | smoother still, close to a line |
-| 0.75 | 0.062 | 0.171 | too flat at the right end: underfitting |
+| 0 | 0.006 | 0.186 | zigzags through the training points: overfitting |
+| 0.2 | 0.024 | 0.134 | smoother |
+| 0.5 | 0.029 | 0.128 | smoother still, close to a line |
+| 0.75 | 0.053 | 0.165 | too flat at the right end: underfitting |
 
 1. **In words:** as $p$ grows, the training error always rises. The test error first falls, then rises again.
 2. **The rule:** small $p$ overfits; large $p$ underfits. The best $p$ is in between.
-3. **Example:** here the test MSE is lowest at $p = 0.5$ (0.130). At $p = 0.75$, three out of four nodes are dropped at each step, the curve can no longer reach the points at the right end, and the test MSE climbs back to 0.171.
+3. **Example:** here the test MSE is lowest at $p = 0.5$ (0.128). At $p = 0.75$, three out of four nodes are dropped at each step, the curve can no longer reach the points at the right end, and the test MSE climbs back to 0.165.
 
 The same holds for classification: $p = 0.2$ was too little, $p = 0.5$ worked. The dropout rate is a hyperparameter, so the final choice comes from trying a few values.
 
@@ -162,8 +162,8 @@ Rates above 50% rarely help.
 
 Dropout has two main costs:
 
-1. **Slower convergence.** Each step trains only part of the network, so the network takes longer to reach good weights and biases. Experiments show training with dropout needs more epochs.
-2. **A loss that keeps changing.** The loss is computed from the whole network, but at each step a different set of nodes is missing, so in effect the loss function itself changes every step. That makes the gradients hard to interpret and debugging harder: when training goes wrong, it is difficult to tell whether something is broken or the loss is just jumping around (compare the jagged blue curves of Figure 2).
+1. **Slower convergence.** Each step trains only part of the network, so the network takes longer to reach good weights and biases. Experiments show training with dropout needs more epochs: the original paper reports that a dropout network typically takes 2 to 3 times longer to train (Srivastava et al. 2014, §9).
+2. **A loss that keeps changing.** The loss is computed from the whole network, but at each step a different set of nodes is missing, so in effect the loss function itself changes every step. The changing loss makes the gradients hard to interpret and debugging harder: when training goes wrong, it is difficult to tell whether something is broken or the loss is just jumping around (compare the jagged blue curves of Figure 2).
 
 Apart from these, dropout has few downsides, and it usually helps. For the mathematics, the original paper (Srivastava et al. 2014, about 30 pages) is worth reading once.
 
@@ -171,10 +171,10 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 
 | | No dropout | $p$ = 0.2 | $p$ = 0.5 | $p$ = 0.75 |
 |---|---|---|---|---|
-| Regression: training MSE | 0.008 | 0.024 | 0.030 | 0.062 |
-| Regression: test MSE | 0.182 | 0.135 | **0.130** | 0.171 |
-| Classification: training accuracy | 88% | 92% | 84% | |
-| Classification: validation accuracy | 71% | 71% | **74%** | |
+| Regression: training MSE | 0.006 | 0.024 | 0.029 | 0.053 |
+| Regression: test MSE | 0.186 | 0.134 | **0.128** | 0.165 |
+| Classification: training accuracy | 95% | 91% | 85% | |
+| Classification: validation accuracy | 69% | 70% | **74%** | |
 
 - In Keras, dropout is a `Dropout(p)` layer placed after the layer whose nodes it drops; never after the output layer.
 - Dropout raises the training error and lowers the test error: smoother curves and boundaries, smaller gaps between the training curves.
@@ -183,7 +183,7 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 
 ## 9. Sources
 
-- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014, Appendix A.4 (dropout rates).
+- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014, Appendix A.4 (dropout rates), §9 (longer training time).
 - Keras FAQ, "Why is my training loss much higher than my testing loss?" (dropout is off at test time; the training loss is averaged over the epoch's batches).
 
 ## 10. Key terms

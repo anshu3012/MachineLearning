@@ -19,7 +19,7 @@ title: "The Perceptron Loss Function and the Flexible Perceptron"
 
 The [perceptron trick Note](../1005-perceptron-trick/note.md) trained a perceptron by pulling a line towards misclassified points. This Note replaces the trick with a proper method: write down a loss, then minimise it. Figure 1 shows the result: the line moves and the loss falls to 0.
 
-The last section shows why the perceptron is so useful as a building block. Its design lets us change two parts, the activation and the loss, and get a whole family of models.
+The last section shows why the perceptron is so useful as a building block. The perceptron's design lets us change two parts, the activation and the loss, and get a whole family of models.
 
 ## 2. Prerequisites
 
@@ -31,10 +31,10 @@ The last section shows why the perceptron is so useful as a building block. Its 
 
 > **Key point:** The trick cannot tell us how good a line is, and nothing guarantees it settles on a good one.
 
-The perceptron trick usually finds a line that separates the classes. It has two weaknesses:
+The perceptron trick usually finds a line that separates the classes. The trick has two weaknesses:
 
-1. **It cannot quantify its result.** Two different lines can both separate the training data. Different random orders give different lines (see section 6 of the [perceptron code Note](../71-perceptron-code/note.md)), and the trick has no number that says which one is better.
-2. **It may not converge.** It only moves when it happens to pick a misclassified point, so a long run of correct picks leaves the line where it is. On data that no line can separate, it never stops changing at all (see the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md)).
+1. **The trick cannot quantify its result.** Two different lines can both separate the training data. Different random orders give different lines (see section 6 of the [perceptron code Note](../71-perceptron-code/note.md)), and the trick has no number that says which one is better.
+2. **The trick may not converge.** The trick only moves when it happens to pick a misclassified point, so a long run of correct picks leaves the line where it is. On data that no line can separate, it never stops changing at all (see the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md)).
 
 ML algorithms avoid both problems with a [loss function](../73-log-loss/note.md): a single number that scores how good the current parameters are.
 
@@ -60,9 +60,9 @@ Familiar examples: linear regression uses the mean squared error (see the [regre
 
 > **Key point:** The 0-1 loss counts misclassified points, so a point just over the line costs as much as one far away.
 
-The simplest loss is the number of misclassified points. A line with 7 mistakes is worse than a line with 5. This is called the **0-1 loss**: each point costs 1 if it is misclassified and 0 if not.
+The simplest loss is the number of misclassified points. A line with 7 mistakes is worse than a line with 5. The mistake count is called the **0-1 loss**: each point costs 1 if it is misclassified and 0 if not.
 
-Its flaw is that every mistake counts the same. A point just across the line is a small mistake; a point far on the wrong side is a big one. A good loss should weigh mistakes by their size.
+The flaw of the 0-1 loss is that every mistake counts the same. A point just across the line is a small mistake; a point far on the wrong side is a big one. A good loss should weigh mistakes by their size.
 
 > **Extra:** The 0-1 loss is also useless for gradient descent. Moving the line a little usually changes no point's class, so the loss stays flat and its slope is 0 almost everywhere: there is no direction to follow.
 
@@ -70,11 +70,11 @@ Its flaw is that every mistake counts the same. A point just across the line is 
 
 > **Key point:** Add up the perpendicular distances of the misclassified points from the line.
 
-A better loss adds up the perpendicular distance of every misclassified point from the line. With two mistakes at distances $d_1 = 10$ and $d_2 = 13$, the loss is $10 + 13 = 23$. Big mistakes now count more than small ones.
+A better loss adds up the perpendicular distance of every misclassified point from the line. With two mistakes at distances $d_1 = 10$ and $d_2 = 13$, the loss is $10 + 13 = 23$. Big mistakes now count more than small ones, much as a speeding fine grows with how far over the limit a driver was, instead of being the same for 1 km/h and 50 km/h.
 
 ### 5.3 Use the value in the line's equation
 
-> **Key point:** Put each misclassified point into Ax + By + C and add up the absolute values. This is proportional to the distance and needs only a dot product.
+> **Key point:** Put each misclassified point into Ax + By + C and add up the absolute values. The sum is proportional to the distance and needs only a dot product.
 
 Computing distances takes some work. A simpler number does the same job: put the point into the left-hand side of the line's equation, as in the side test of the [perceptron trick Note](../70-perceptron-trick/note.md).
 
@@ -84,7 +84,7 @@ Computing distances takes some work. A simpler number does the same job: put the
 3. **Example:** the line $2x + 3y + 4 = 0$ misclassifies the points $(4, 6)$ and $(-2, -2)$:
    $$|2 \times 4 + 3 \times 6 + 4| + |2 \times (-2) + 3 \times (-2) + 4| = |30| + |-6| = 30 + 6 = 36$$
 
-The further a point is from the line, the bigger this value. This is exactly the idea the perceptron loss uses.
+The further a point is from the line, the bigger this value. The perceptron loss uses exactly this idea.
 
 > **Extra:** The value is the distance times a fixed number. The distance from a point to the line $Ax + By + C = 0$ is $|Ax + By + C| / \sqrt{A^2 + B^2}$ (see the [equation of a hyperplane Note](../363-equation-of-a-hyperplane/note.md)). Here $\sqrt{2^2 + 3^2} = 3.61$, so the distances are $30 / 3.61 = 8.32$ and $6 / 3.61 = 1.66$. Dividing every term by the same 3.61 does not change which line is best.
 
@@ -98,14 +98,14 @@ The further a point is from the line, the bigger this value. This is exactly the
 
 scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the perceptron (scikit-learn User Guide, SGD). For this loss, the two classes are labelled $y = +1$ and $y = -1$, not 1 and 0.
 
-1. **In words:** for each row, multiply its label by its value $f(x)$ in the line's equation and flip the sign; keep it if it is positive, otherwise use 0; then average over all rows.
-2. **Formula:** with $f(x_i) = w_1 x_{i1} + w_2 x_{i2} + b$ (row $i$, columns 1 and 2) and $n$ rows,
+1. **In words:** for each **observation** (one record, one row of the data table), multiply its label by its value $f(x)$ in the line's equation and flip the sign; keep it if it is positive, otherwise use 0; then average over all observations.
+2. **Formula:** with $f(x_i) = w_1 x_{i1} + w_2 x_{i2} + b$ (observation $i$, **features** 1 and 2, where a feature is an input variable, one column of the data table) and $n$ observations,
    $$L(w_1, w_2, b) = \frac{1}{n} \sum_{i=1}^{n} \max\big(0,\ -y_i\, f(x_i)\big)$$
 3. **Example:** for the line $2x + 3y + 4 = 0$ and the two misclassified points of Section 5.3, $(4, 6)$ with $y = -1$ and $(-2, -2)$ with $y = +1$:
    $$\max(0, -(-1)(30)) + \max(0, -(1)(-6)) = 30 + 6 = 36,$$
    and dividing by $n = 2$ gives $L = 18$.
 
-$f(x_i)$ is the perceptron's $z$ for row $i$. The quantity $\max(0, s)$ is just "$s$ if $s$ is positive, otherwise 0".
+$f(x_i)$ is the perceptron's $z$ for observation $i$. The quantity $\max(0, s)$ is just "$s$ if $s$ is positive, otherwise 0".
 
 > **Extra:** The full formula in scikit-learn also adds a regularisation term $\alpha R(w)$, as in [Ridge regression](../63-ridge-regression-intuition/note.md). We leave it out here (no regularisation).
 
@@ -128,7 +128,7 @@ So the formula is the "value in the line's equation" loss of Section 5.3, writte
 
 Figure 2 plots the loss of one point against $s = y f(x)$. The perceptron loss (red) is 0 for every point on its correct side and rises steadily the further a point is on the wrong side.
 
-> **Extra:** The SVM's [hinge loss](../94-svm-soft-margin/note.md) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line. Once every point is on its correct side, every row's gradient is 0 (section 7.1), so the updates stop at the first separating line reached, even one that passes very close to the points of one class.
+> **Extra:** The SVM's [hinge loss](../94-svm-soft-margin/note.md) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line. Once every point is on its correct side, every observation's gradient is 0 (section 7.1), so the updates stop at the first separating line reached, even one that passes very close to the points of one class.
 
 ### 6.3 Minimising it
 
@@ -146,13 +146,13 @@ with a learning rate $\eta$ such as 0.1 (see the [gradient descent Note](../57-g
 
 ## 7. The gradient of the perceptron loss
 
-> **Key point:** For a misclassified row, $\partial L/\partial w_1 = -y x_1$, $\partial L/\partial w_2 = -y x_2$ and $\partial L/\partial b = -y$; for a correct row, all three are 0.
+> **Key point:** For a misclassified observation, $\partial L/\partial w_1 = -y x_1$, $\partial L/\partial w_2 = -y x_2$ and $\partial L/\partial b = -y$; for a correct observation, all three are 0.
 
 ### 7.1 The derivatives
 
 > **Key point:** The chain rule splits the derivative into $\partial L/\partial f$, which is 0 or $-y$, times $\partial f/\partial w_1$, which is $x_1$.
 
-Take the loss of one row, $L_i = \max(0, -y_i f(x_i))$. By the [chain rule](../74-sigmoid-derivative/note.md),
+Take the loss of one observation, $L_i = \max(0, -y_i f(x_i))$. By the [chain rule](../74-sigmoid-derivative/note.md),
 
 $$\frac{\partial L_i}{\partial w_1} = \frac{\partial L_i}{\partial f} \cdot \frac{\partial f}{\partial w_1}$$
 
@@ -161,7 +161,7 @@ $$\frac{\partial L_i}{\partial w_1} = \frac{\partial L_i}{\partial f} \cdot \fra
 
 Putting them together:
 
-1. **In words:** a correct row has no slope; a misclassified row has slope $-y$ times the input (and $-y$ for the bias, whose input is 1).
+1. **In words:** a correct observation has no slope; a misclassified observation has slope $-y$ times the input (and $-y$ for the bias, whose input is 1).
 2. **Formula:**
    $$\frac{\partial L_i}{\partial w_1} = \begin{cases} 0 & y_i f(x_i) \geq 0 \\ -y_i\, x_{i1} & y_i f(x_i) < 0 \end{cases} \qquad \frac{\partial L_i}{\partial w_2} = \begin{cases} 0 \\ -y_i\, x_{i2} \end{cases} \qquad \frac{\partial L_i}{\partial b} = \begin{cases} 0 \\ -y_i \end{cases}$$
 3. **Example:** line $2x_1 + 3x_2 + 4 = 0$ and the point $(-2, -2)$ with $y = +1$. Then $f = -6$, so $y f = -6 < 0$: misclassified, loss 6. The slopes are $-1 \times (-2) = 2$, $2$ and $-1$. One step with $\eta = 0.1$:
@@ -172,13 +172,13 @@ Putting them together:
 
 ### 7.2 The update rule
 
-> **Key point:** For each misclassified row: w ← w + η y x. This is the perceptron trick's update, now derived from a loss.
+> **Key point:** For each misclassified observation: w ← w + η y x. The update is the perceptron trick's update, now derived from a loss.
 
-Subtracting $\eta$ times the slope gives, for a misclassified row,
+Subtracting $\eta$ times the slope gives, for a misclassified observation,
 
 $$w_1 \leftarrow w_1 + \eta\, y_i x_{i1}, \qquad w_2 \leftarrow w_2 + \eta\, y_i x_{i2}, \qquad b \leftarrow b + \eta\, y_i$$
 
-and no change for a correct row. Updating after every row, instead of averaging over all rows first, is [stochastic gradient descent](../59-stochastic-gradient-descent/note.md).
+and no change for a correct observation. Updating after every observation, instead of averaging over all observations first, is [stochastic gradient descent](../59-stochastic-gradient-descent/note.md).
 
 > **Python:** Training with the perceptron loss.
 >
@@ -200,13 +200,13 @@ and no change for a correct row. Updating after every row, instead of averaging 
 >
 > `np.where(condition, a, b)` takes `a` where the condition holds and `b` elsewhere.
 
-Figure 1 runs this on 100 points made with `make_classification` (`class_sep=15`, `random_state=41`), starting from the poor line $-x_1 + x_2 + 0.5 = 0$. In the first epoch, 12 rows are misclassified when visited; after those 12 updates the average loss is 0, and later epochs change nothing.
+Figure 1 runs this on 100 points made with `make_classification` (`class_sep=15`, `random_state=41`), starting from the poor line $-x_1 + x_2 + 0.5 = 0$. In the first epoch, 12 observations are misclassified when visited; after those 12 updates the average loss is 0, and later epochs change nothing.
 
-The loss is the average over all rows, while each update looks at one row. So a single update can raise the total loss: here the first update moves it from 1.687 to 1.712. The trend is still steadily down.
+The loss is the average over all observations, while each update looks at one observation. So a single update can raise the total loss: here the first update moves it from 1.687 to 1.712. The trend is still steadily down.
 
 > **Extra:** With labels $\pm 1$, $\eta\,y\,x$ is exactly the perceptron trick's $\eta(y - \hat{y})x$ up to a factor of 2: a positive point on the wrong side gets $+\eta x$, a negative one $-\eta x$. So the trick was gradient descent on the perceptron loss all along. What the loss adds is a number we can watch go down, and compare between lines.
 
-> **Extra:** The labels must be $-1$ and $+1$. With `make_classification`'s labels 0 and 1, `y[i] * z` is 0 for every class-0 row, so the condition `< 0` never holds and those rows never update the line. The model then learns only from class 1. From the start line of Figure 1 it ends with all 50 class-0 points misclassified; from the start $(1, 1, 1)$ it happens to work, because class 0 is already on the correct side of that line.
+> **Extra:** The labels must be $-1$ and $+1$. With `make_classification`'s labels 0 and 1, `y[i] * z` is 0 for every class-0 observation, so the condition `< 0` never holds and those observations never update the line. The model then learns only from class 1. From the start line of Figure 1 it ends with all 50 class-0 points misclassified; from the start $(1, 1, 1)$ it happens to work, because class 0 is already on the correct side of that line.
 
 ## 8. One perceptron, many models
 
@@ -217,10 +217,10 @@ The loss is the average over all rows, while each update looks at one row. So a 
 The perceptron's design has two free slots (Figure 3): the activation function, which shapes the output, and the loss function, used in training. The weighted sum and the training method (gradient descent) stay the same.
 
 - **Step + perceptron loss:** the perceptron of this Note. Output: a class, $+1$ or $-1$.
-- **[Sigmoid](../72-sigmoid-function/note.md) + [binary cross-entropy](../73-log-loss/note.md):** output a probability between 0 and 1 for two classes. This is logistic regression. The loss is
+- **[Sigmoid](../72-sigmoid-function/note.md) + [binary cross-entropy](../73-log-loss/note.md):** output a probability between 0 and 1 for two classes. Sigmoid with binary cross-entropy is logistic regression. The loss is
   $$L = -\frac{1}{n}\sum_{i=1}^{n} \big[ y_i \log \hat{y}_i + (1 - y_i)\log(1 - \hat{y}_i) \big]$$
-- **[Softmax](../79-softmax-regression/note.md) + categorical cross-entropy:** one output per class, probabilities that add to 1. This is softmax regression, for more than two classes.
-- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. This is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat{y}_i)^2$ (see the [simple linear regression Note](../50-simple-linear-regression/note.md)).
+- **[Softmax](../79-softmax-regression/note.md) + categorical cross-entropy:** one output per class, probabilities that add to 1. Softmax with categorical cross-entropy is softmax regression, for more than two classes.
+- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat{y}_i)^2$ (see the [simple linear regression Note](../50-simple-linear-regression/note.md)).
 
 So "a perceptron is logistic regression" is only true for one choice of the two slots: sigmoid and binary cross-entropy. The same flexibility carries over to every neuron of a neural network: regression networks end in a linear output, and classification networks in a sigmoid or softmax output.
 
@@ -250,7 +250,7 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 - The perceptron trick cannot score a line; a loss function can.
 - Counting mistakes (0-1 loss) treats all mistakes alike; the value $|f(x)|$ grows with the distance from the line.
 - Perceptron loss: $L = \frac{1}{n}\sum \max(0, -y_i f(x_i))$ with labels $\pm 1$; correct points cost 0.
-- Its gradient for a misclassified row is $-y x$ (and $-y$ for $b$), so SGD updates $w \leftarrow w + \eta\, y\, x$: the perceptron trick, derived.
+- The loss's gradient for a misclassified observation is $-y x$ (and $-y$ for $b$), so SGD updates $w \leftarrow w + \eta\, y\, x$: the perceptron trick, derived.
 - Changing the activation and the loss turns one perceptron into several classic models.
 
 ## 10. Sources

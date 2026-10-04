@@ -12,9 +12,11 @@ title: "Handling Mixed Variables"
 
 ## 1. Overview
 
-> **Key point:** A mixed variable holds numbers and categories in the same column; we split it into one numerical column and one categorical column.
+> **Key point:** A mixed variable holds numbers and categories in the same column; we split it into one numerical feature and one categorical feature.
 
-Every column so far has been either numerical or categorical. Some real columns are both at once. This Note shows the two ways that happens and how to split each one.
+A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). Every feature so far has been either numerical or categorical. Some real features are both at once. This Note shows the two ways a feature can be mixed and how to split each one.
+
+Think of a postal address such as "Flat 12B": a number and a letter packed into one label. To sort flats by floor or by block, we first pull the two parts apart.
 
 Figure 1 shows both types and what splitting produces. The work is all done with pandas string tools.
 
@@ -24,7 +26,7 @@ Figure 1 shows both types and what splitting produces. The work is all done with
 
 > **Key point:** In Type 1, one cell holds a category and a number together; in Type 2, some cells hold a number and others a category.
 
-A **mixed variable** is a column whose values contain both numerical and categorical data. A model cannot use such a column as it is: it is neither a clean number nor a short list of categories.
+A **mixed variable** is a feature whose values contain both numerical and categorical data. A model cannot use such a feature as it is: the values are neither clean numbers nor a short list of categories.
 
 Mixed variables come in two types.
 
@@ -39,7 +41,7 @@ The Titanic `Cabin` column holds values such as `C85` and `C123`. Each value pac
 
 Indian Railways coach labels work the same way: in `S5` or `B2`, the letter gives the class and the number gives the coach.
 
-Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two columns: a categorical column for the letter and a numerical column for the number.
+Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new features: a categorical feature for the letter and a numerical feature for the number.
 
 ### 2.2 Type 2: number in some rows, category in others
 
@@ -89,7 +91,7 @@ The first five rows:
 > # Cabin, Ticket, number: str    Survived: int64
 > ```
 >
-> Since pandas 3, text columns get the dtype **`str`** (pandas' string type) instead of the old `object`. All three mixed columns are text, because every one of them contains at least one letter.
+> Since pandas 3, text columns get the dtype **`str`** (pandas' string type) instead of the old `object` (pandas release notes, What's new in 3.0.0). All three mixed columns are text, because every one of them contains at least one letter.
 
 ## 4. Splitting a Type 2 column
 
@@ -105,7 +107,7 @@ The `number` column has seven values: `1` to `6` and `A`. `A` (alone) is the mos
 
 **`pd.to_numeric`** converts values to numbers. By default it stops with an error at the first value it cannot read, such as `A`. With **`errors="coerce"`**, it writes NaN for that value instead and carries on.
 
-So `5` becomes 5, and `A` becomes NaN. That is exactly the numerical column we want.
+So `5` becomes 5, and `A` becomes NaN. The result is exactly the numerical column we want.
 
 ### 4.2 The categorical part
 
@@ -135,15 +137,15 @@ The result on the first six rows:
 | 4 | A | \<NA\> | A |
 | 5 | 2 | 2 | NaN |
 
-> **Extra:** Why `.astype("Int64")`. A NumPy integer column cannot hold NaN, so `pd.to_numeric` returns floats: 5.0, 3.0, NaN. The option `downcast="integer"`, often seen in older code, cannot change this while a NaN is present, and the column stays float. **`Int64`** (capital I) is pandas' **nullable integer** type: whole numbers plus a missing marker, shown as `<NA>`.
+> **Extra:** Why `.astype("Int64")`. A NumPy integer column cannot hold NaN, so `pd.to_numeric` returns floats: 5.0, 3.0, NaN. The option `downcast="integer"`, often seen in older code, cannot change this while a NaN is present, and the column stays float. **`Int64`** (capital I) is pandas' **nullable integer** type: whole numbers plus a missing marker, shown as `<NA>` (pandas user guide, "Nullable integer data type").
 
-> **Extra:** Older code builds the categorical part with `np.where(num.isnull(), df["number"], np.nan)`. That returns a plain NumPy array of mixed objects. `df["number"].where(num.isna())` gives the same values and keeps pandas' `str` type.
+> **Extra:** Older code builds the categorical part with `np.where(num.isnull(), df["number"], np.nan)`. `np.where` returns a plain NumPy array of mixed objects. `df["number"].where(num.isna())` gives the same values and keeps pandas' `str` type.
 
 ## 5. Splitting a Type 1 column: Cabin
 
 > **Key point:** A regular expression pulls out the digits; the first character gives the deck letter.
 
-`Cabin` has 147 different values, and 687 of the 891 passengers have no cabin at all (NaN). With 147 categories for only 204 known cabins, the column is useless as it stands.
+`Cabin` has 147 different values, and 687 of the 891 passengers have no cabin at all (NaN). With 147 categories for only 204 known cabins, the feature is useless as it stands.
 
 ### 5.1 The number part
 
@@ -151,7 +153,7 @@ The result on the first six rows:
 
 A **regular expression** (regex) is a short pattern that describes text. The pattern `\d+` means "one or more digits", and the brackets mark the part to keep. So `str.extract(r"(\d+)")` returns `85` from `C85` and `123` from `C123`.
 
-The **`.str`** accessor applies a text method to every value of a column at once. It is how pandas reaches string tools such as `extract`, `split` and `isdigit`.
+The **`.str`** accessor applies a text method to every value of a column at once. The accessor is how pandas reaches string tools such as `extract`, `split` and `isdigit`.
 
 ### 5.2 The category part
 
@@ -186,7 +188,7 @@ After the split, `cabin_cat` has only 8 categories, the decks A to G and T (righ
 
 > **Extra:** Three changes from older pandas code:
 >
-> - Without the `r`, `"(\d+)"` makes recent Python print a `SyntaxWarning: invalid escape sequence`.
+> - Without the `r`, `"(\d+)"` makes Python 3.12 and later print a `SyntaxWarning: invalid escape sequence` (Python docs, What's New in Python 3.12).
 > - `str.extract` returns text, so `cabin_num` would hold the strings `"85"` and `"123"`. `pd.to_numeric` turns them into numbers.
 > - In pandas 3, `cabin_cat` has the `str` dtype, and its missing values are NaN.
 
@@ -239,10 +241,10 @@ The 681 tickets have become 43 ticket categories plus a number. Four tickets rea
 
 Splitting always leaves gaps. In Type 2, every row is missing one of its two new columns. In Type 1, a value with no number or no letter leaves a gap too.
 
-Models in scikit-learn do not accept missing values, so we fill them:
+Many scikit-learn models do not accept missing values (scikit-learn User Guide, "Imputation of missing values"), so we fill them:
 
-- **Numerical column:** a value that makes sense for the data. In `number_numerical`, NaN came from `A`, alone, so it means 0 companions: fill with 0.
-- **Categorical column:** a new category of its own, such as `"missing"`.
+- **Numerical feature:** a value that makes sense for the data. In `number_numerical`, NaN came from `A`, alone, so it means 0 companions: fill with 0.
+- **Categorical feature:** a new category of its own, such as `"missing"`.
 
 > **Python:** Filling the gaps.
 >
@@ -273,9 +275,9 @@ The first five rows, with all the new columns filled:
 
 `cabin_num` is left unfilled here: no single number stands for "no cabin". Filling it is a missing-values question, covered in the Notes on imputation.
 
-The new columns are then ready for the earlier Notes' tools: one-hot encoding for the categorical ones, scaling for the numerical ones.
+The new features are then ready for the earlier Notes' tools: one-hot encoding for the categorical ones, scaling for the numerical ones.
 
-> **Extra:** The split columns carry information the raw ones hid. Survival rate by deck:
+> **Extra:** The split features carry information the raw ones hid. Survival rate by deck:
 >
 > | Deck | B | C | D | E | no cabin |
 > |---|---|---|---|---|---|
@@ -294,7 +296,7 @@ The new columns are then ready for the earlier Notes' tools: one-hot encoding fo
 | Category column | the letters of every value | the value where it is not a number, else NaN |
 | pandas tools | `.str.extract`, `.str[0]`, `.str.split()` | `pd.to_numeric(errors="coerce")`, `.where` |
 
-- A mixed variable holds numerical and categorical data in one column; we split it into one numerical and one categorical column.
+- A mixed variable holds numerical and categorical data in one feature; we split it into one numerical and one categorical feature.
 - `pd.to_numeric(errors="coerce")` keeps what is a number and turns the rest into NaN.
 - The `.str` accessor applies text methods (extract, split, first character) to a whole column at once.
 - Use the nullable `Int64` type for whole numbers with gaps.
@@ -302,11 +304,21 @@ The new columns are then ready for the earlier Notes' tools: one-hot encoding fo
 - Splitting leaves NaNs: fill numbers with a sensible value and categories with `"missing"`.
 - Check the unusual values: no simple rule fits every one.
 
-## 9. Key terms
+## 9. Sources
+
+- pandas release notes. What's new in 3.0.0 (dedicated string data type by default). pandas.pydata.org/docs/whatsnew.
+- pandas user guide. Nullable integer data type. pandas.pydata.org/docs/user_guide/integer_na.html.
+- Python documentation. What's New in Python 3.12: invalid escape sequences now raise SyntaxWarning. docs.python.org.
+- scikit-learn User Guide. Imputation of missing values. scikit-learn.org.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
-| Mixed variable | A column holding both numerical and categorical data |
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
+| Mixed variable | A feature holding both numerical and categorical data |
 | Type 1 mixed variable | A column whose cells each contain a category and a number together, such as `C85` |
 | Type 2 mixed variable | A column with a number in some rows and a category in others |
 | pd.to_numeric | The pandas function that converts values to numbers |

@@ -117,8 +117,8 @@ University lectures and textbooks are accurate, but most of them write equations
 Three visual resources cover most of what ML needs:
 
 - **Khan Academy.** The school mathematics chapters ML uses: statistics, probability, limits and derivatives, and vector algebra.
-- **3Blue1Brown.** Two series: *Essence of Linear Algebra* (worth watching several times before deep learning) and *Essence of Calculus*.
-- **StatQuest (Josh Starmer).** A statistics series of about 60 lessons, animation first and definitions after.
+- **3Blue1Brown** (Sanderson, G., 3blue1brown.com). Two animated series: *Essence of Linear Algebra* (worth studying several times before deep learning) and *Essence of Calculus*.
+- **StatQuest** (Starmer, J., statquest.org). A statistics series of about 60 lessons, picture first and definitions after.
 
 After the picture, the formal sources: university lectures (for example NPTEL or Stanford) and books. The roadmap Notes list books for [statistics](../210-statistics-roadmap/note.md) and [linear algebra](../350-linear-algebra-roadmap/note.md).
 

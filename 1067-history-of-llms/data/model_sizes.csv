@@ -1,0 +1,5 @@
+model,year,parameters,source
+GPT-1,2018,117000000.0,"Radford et al. 2019 (GPT-2 paper), Table 2: the 117M model equals the original GPT"
+BERT-Large,2018,340000000.0,"Devlin et al. 2019, section 3"
+GPT-2,2019,1542000000.0,"Radford et al. 2019, Table 2"
+GPT-3,2020,175000000000.0,"Brown et al. 2020, Table 2.1"

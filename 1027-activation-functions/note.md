@@ -74,7 +74,7 @@ Stacked matrices without an activation multiply into a single matrix (see the [m
    $$a_2 = 3(2x + 1) - 1 = 6x + 2$$
    Two layers, and the result is still a straight line in $x$.
 
-The Notebook checks this on the trained linear network of Figure 2. Its three weight matrices multiply into one $2 \times 1$ matrix $W'$, and one layer with $W'$ and $b'$ gives the same predictions to within $6 \times 10^{-8}$. A network with linear activations is therefore [linear regression](../53-multiple-linear-regression/note.md) (regression output) or [logistic regression](../72-sigmoid-function/note.md) (sigmoid output), however many layers it has.
+The Notebook checks the collapse on the trained linear network of Figure 2. The network's three weight matrices multiply into one $2 \times 1$ matrix $W'$, and one layer with $W'$ and $b'$ gives the same predictions to within $6 \times 10^{-8}$. A network with linear activations is therefore [linear regression](../53-multiple-linear-regression/note.md) (regression output) or [logistic regression](../72-sigmoid-function/note.md) (sigmoid output), however many layers it has.
 
 With a non-linear $g$, such as the sigmoid, $g(W_1 a_0 + b_1)$ is no longer a degree-1 expression. Feeding it into the next layer gives a relationship between input and output that is not a polynomial of degree 1, so the network can follow non-linear patterns. Capturing non-linear patterns is the whole reason activation functions exist.
 
@@ -147,7 +147,7 @@ $z$ becomes large in two ways:
 - **Large inputs.** Usually not the cause, because we scale the inputs first.
 - **Large weights and biases.** If the starting weights are big, $z$ is big and the node starts saturated (see the [weight initialisation Note](../1029-weight-initialization/note.md)).
 
-Saturation is the main reason the sigmoid has disappeared from hidden layers.
+Saturation is the main reason the sigmoid has disappeared from hidden layers (Goodfellow et al. 2016, §6.3.2).
 
 **2. Not zero-centred, so training is slow.** Every sigmoid output is positive. Take two sigmoid nodes, with outputs $a_{21}$ and $a_{22}$, feeding one output node through weights $w_{21}$ and $w_{22}$:
 
@@ -188,7 +188,7 @@ Like the sigmoid, its derivative is written in terms of the function itself. The
 
 > **Extra:** Tanh is a rescaled sigmoid: $\tanh(z) = 2\sigma(2z) - 1$. To see it, multiply the top and bottom of $2\sigma(2z) - 1$ by $e^{z}$:
 > $$2\sigma(2z) - 1 = \frac{2}{1 + e^{-2z}} - 1 = \frac{1 - e^{-2z}}{1 + e^{-2z}} = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}} = \tanh(z)$$
-> The Notebook confirms it numerically. Its steeper middle also means it flattens sooner: at $z = 3$ its slope is 0.0099, against the sigmoid's 0.045.
+> The Notebook confirms the identity numerically. The steeper middle of tanh also means tanh flattens sooner: at $z = 3$ its slope is 0.0099, against the sigmoid's 0.045.
 
 ### 7.2 Advantages and disadvantages
 
@@ -198,7 +198,7 @@ Advantages:
 
 1. **Non-linear**, so it captures non-linear patterns.
 2. **Differentiable** everywhere.
-3. **Zero-centred.** Outputs are both positive and negative. The gradients of the weights into a node can then have different signs, and training is faster than with the sigmoid. In the Notebook, over all 300 observations, a 128-node tanh layer has mean output 0.000 with half the values positive, while a sigmoid layer has mean 0.500 with every value positive.
+3. **Zero-centred.** Outputs are both positive and negative. The gradients of the weights into a node can then have different signs, and training is faster than with the sigmoid (LeCun et al. 1998, §4.4). In the Notebook, over all 300 observations, a 128-node tanh layer has mean output 0.000 with half the values positive, while a sigmoid layer has mean 0.500 with every value positive.
 
 Disadvantages:
 
@@ -211,7 +211,7 @@ Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not th
 
 > **Key point:** ReLU, $\max(0, z)$, is non-linear, does not saturate for positive $z$, is cheap and converges faster than sigmoid and tanh. Its weaknesses: no derivative at 0, not zero-centred, and dying nodes.
 
-[ReLU](../1018-vanishing-exploding-gradients/note.md) (rectified linear unit) is $\max(0, z)$: 0 for negative $z$, $z$ itself for positive $z$ (Figure 1, right). ReLU is the most used activation in hidden layers today.
+[ReLU](../1018-vanishing-exploding-gradients/note.md) (rectified linear unit) is $\max(0, z)$: 0 for negative $z$, $z$ itself for positive $z$ (Figure 1, right). ReLU is the most used activation in hidden layers today, the recommended default (Goodfellow et al. 2016, §6.3).
 
 ### 8.1 Advantages
 
@@ -231,7 +231,7 @@ Figure 4 shows the result: a curve with two corners. The ReLU boundary in Figure
 
 **3. Computationally inexpensive.** Computing it is one comparison, and its derivative is 0 or 1. No exponentials.
 
-**4. Faster convergence** than sigmoid and tanh.
+**4. Faster convergence** than sigmoid and tanh. On the CIFAR-10 images, a four-layer ReLU network reached a 25% training error about six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1, Figure 1).
 
 ### 8.2 Disadvantages
 
@@ -279,7 +279,9 @@ Figure 4 shows the result: a curve with two corners. The ReLU boundary in Figure
 
 ## 10. Sources
 
-- LeCun, Y., Bottou, L., Orr, G. B. and Müller, K.-R. (1998). Efficient BackProp. In *Neural Networks: Tricks of the Trade*, Springer, section 4.3 (all-positive inputs make the weight updates zigzag).
+- LeCun, Y., Bottou, L., Orr, G. B. and Müller, K.-R. (1998). Efficient BackProp. In *Neural Networks: Tricks of the Trade*, Springer, section 4.3 (all-positive inputs make the weight updates zigzag) and section 4.4 (symmetric sigmoids such as tanh converge faster than the logistic sigmoid).
+- Krizhevsky, A., Sutskever, I. and Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. NeurIPS, section 3.1 (ReLU trains several times faster than tanh).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*, MIT Press, section 6.3 (ReLU as the default hidden unit; sigmoid hidden units discouraged because they saturate).
 
 ## 11. Key terms
 

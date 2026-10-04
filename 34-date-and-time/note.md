@@ -14,7 +14,7 @@ title: "Handling Date and Time Variables"
 
 > **Key point:** A date or time column hides many useful features (year, month, weekday, hour, time passed); we convert the column to a datetime type and pull each one out with `.dt`.
 
-A single value such as `2019-12-10 23:40:00` looks like one piece of information. It actually holds a dozen: the year, the month, the weekday, whether it is a weekend, the hour, and more.
+A **feature** is an input variable (one column of the data table), and an **observation** is one record (one row). A single value such as `2019-12-10 23:40:00` looks like one piece of information. The value actually holds a dozen, like a train ticket that also tells the day, the season and whether you travel at night: the year, the month, the weekday, whether it is a weekend, the hour, and more.
 
 Figure 1 shows one value split into these features. The rest of the Note shows the pandas code for each one. The Notebook (`notebook.ipynb`) runs every example.
 
@@ -101,7 +101,7 @@ The table itself looks the same before and after: only `orders.info()` shows the
 
 > **Extra:** The `[us]` in `datetime64[us]` is the **resolution**: the smallest step the column can store, here one microsecond. Older pandas always used nanoseconds and showed `datetime64[ns]`. Since pandas 3, text is parsed at microsecond resolution (pandas release notes, 3.0.0). The dates and every result in this Note are the same either way.
 
-> **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row (pandas release notes, 2.0.0, "Datetimes are now parsed with a consistent format"). That causes two surprises with day/month dates:
+> **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row (pandas release notes, 2.0.0, "Datetimes are now parsed with a consistent format"). The single guessed format causes two surprises with day/month dates:
 >
 > - `"10/12/2019"` is read month first, as 12 October 2019.
 > - `["10/12/2019", "25/12/2019"]` stops with `ValueError: time data "25/12/2019" doesn't match format "%m/%d/%Y"`, because there is no month 25.
@@ -115,7 +115,7 @@ The table itself looks the same before and after: only `orders.info()` shows the
 
 > **Key point:** `column.dt.<part>` returns one part of every date in the column at once.
 
-The **`.dt` accessor** gives a datetime column its date tools, the way `.str` gives a text column its text tools. Each tool returns a new column with one value per row. We store each one as a new feature.
+The **`.dt` accessor** gives a datetime column its date tools, the way `.str` gives a text column its text tools. Each tool returns a new column with one value per observation. We store each one as a new feature.
 
 ### 5.1 Year
 
@@ -217,7 +217,7 @@ A year has 52 weeks, and sometimes 53. The week number tells us where in the yea
 >
 > `.dt.isocalendar()` returns a table with three columns, `year`, `week` and `day`; `.week` takes the week column.
 
-Older code writes `orders["date"].dt.week`. It was deprecated in pandas 1.1 and removed in pandas 2, so it now fails with `AttributeError: 'DatetimeProperties' object has no attribute 'week'`. The new way gives exactly the same numbers.
+Older code writes `orders["date"].dt.week`. `.dt.week` was deprecated in pandas 1.1 and removed in pandas 2, so it now fails with `AttributeError: 'DatetimeProperties' object has no attribute 'week'`. The new way gives exactly the same numbers.
 
 > **Extra:** The week numbers follow the **ISO calendar**: weeks run Monday to Sunday, and week 1 is the week that contains the year's first Thursday (ISO 8601). So the last days of December can belong to week 1 of the next year. 29 December 2019 (a Sunday) is in week 52 of 2019, but 30 December 2019 (a Monday) is in week 1 of 2020. For such dates `isocalendar().year` differs from `.dt.year`.
 
@@ -317,7 +317,7 @@ To get months, older code divides by `np.timedelta64(1, "M")`, one month. Curren
 
 $$\text{months} = \text{round}\left(\frac{\text{days passed}}{30.436875}\right)$$
 
-The 30.436875 days are one year of 365.2425 days, the average length of a calendar year, divided by 12. This is exactly the length `np.timedelta64(1, "M")` used to stand for.
+The 30.436875 days are one year of 365.2425 days, the average length of a calendar year, divided by 12. The same average month is exactly the length `np.timedelta64(1, "M")` used to stand for: NumPy converts `np.timedelta64(1, "M")` to exactly 30.436875 days.
 
 For row 0, ordered on 10 December 2019:
 
@@ -381,9 +381,9 @@ The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row
 | 3 | 2014-11-28 00:31:00 | 0 | 31 | 0 | 00:31:00 |
 | 4 | 2013-10-26 23:11:00 | 23 | 11 | 0 | 23:11:00 |
 
-`.dt.time` keeps only the time of day and drops the date. It is useful when only the clock time matters.
+`.dt.time` keeps only the time of day and drops the date. The time of day is useful when only the clock time matters.
 
-The hour feature already tells a story. Figure 2 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: this is a night-time chat app.
+The hour feature already tells a story. Figure 2 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: the app is used for night-time chat.
 
 > **Extra:** `.dt.time` returns a column of Python `datetime.time` objects (dtype `object`), not a datetime column. The `.dt` tools no longer work on it, and a model cannot use it directly. For a model, the `hour` and `min` numbers are the better features.
 
@@ -424,7 +424,7 @@ The unit letters are case-sensitive:
 
 > **Extra:** `since.dt.total_seconds()` gives the same seconds without NumPy. Dividing by `pd.Timedelta(hours=1)` or `pd.Timedelta(minutes=1)` works too, and reads more clearly than the single letters.
 
-> **Extra:** Dates and times can also carry a **time zone**, such as India's +05:30. Mixing values from different time zones needs extra care (`.dt.tz_localize` and `.dt.tz_convert`). This is rarely needed in ML datasets; our two files have no time zone.
+> **Extra:** Dates and times can also carry a **time zone**, such as India's +05:30. Mixing values from different time zones needs extra care (`.dt.tz_localize` and `.dt.tz_convert`). Time zones rarely matter in our ML datasets; our two files have no time zone.
 
 ## 9. Summary
 
@@ -451,15 +451,17 @@ The unit letters are case-sensitive:
 - Fix "today" as a constant so that results do not change between runs.
 - Give `pd.to_datetime` a `format` when dates are written day first.
 
-## Sources
+## 10. Sources
 
-- ISO 8601. Date and time format, week dates. International Organization for Standardization.
-- pandas release notes. What's new in 2.0.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.
+- ISO 8601-1:2019. Date and time: Representations for information interchange, Part 1 (week dates). International Organization for Standardization.
+- pandas release notes. What's new in 1.1.0, 2.0.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Observation | One record, one row of the data table |
 | Datetime | A value pandas understands as a point in time, with date and time parts |
 | pd.to_datetime | The pandas function that converts text to datetime values |
 | datetime64 | The pandas column type for datetimes; `[us]` means microsecond resolution |

@@ -1,0 +1,16 @@
+quantity,value
+h_1,0.462117
+h_2,0.353724
+h_3,0.654413
+y_hat,0.658004
+loss,0.418544
+dL/dz,-0.341996
+dL/dw_o,-0.223807
+dL/dw_i,-0.281637
+dL/dw_h,-0.132408
+dL/dw_i term t=3,-0.195534
+dL/dw_i term t=2,-0.0
+dL/dw_i term t=1,-0.086103
+dL/dw_h term t=3,-0.069165
+dL/dw_h term t=2,-0.063243
+dL/dw_h term t=1,-0.0

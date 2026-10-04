@@ -34,7 +34,7 @@ The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md), define
 
 > **Key point:** The covariance matrix is $X_c^{\mathsf T}X_c/n$, and $X_c^{\mathsf T}X_c = V\Sigma^2V^{\mathsf T}$: its eigenvectors are the right singular vectors of the data.
 
-The [PCA step by step Note](../48-pca-step-by-step/note.md) found the principal components as the eigenvectors of the covariance matrix, after centring each column. In matrix form, the covariance matrix of centred data with $n$ rows is $X_c^{\mathsf T}X_c / n$: entry $(j, k)$ is the sum of products of columns $j$ and $k$, divided by $n$.
+The [PCA step by step Note](../48-pca-step-by-step/note.md) found the principal components as the eigenvectors of the covariance matrix, after centring each **feature** (an input variable, one column of the data table). In matrix form, the covariance matrix of centred data with $n$ rows (one per **observation**, a record) is $X_c^{\mathsf T}X_c / n$: entry $(j, k)$ is the sum of products of columns $j$ and $k$, divided by $n$.
 
 The [computing the SVD Note](../611-computing-the-svd/note.md) (section 2.1) showed that $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$ for any matrix. With $A = X_c$:
 
@@ -55,11 +55,11 @@ Figure 1 maps each part of the SVD to its PCA meaning:
 
 > **Key point:** The SVD works on the data directly, which is more accurate, and gives the projected data for free.
 
-Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose accuracy (the [computing the SVD Note](../611-computing-the-svd/note.md), section 8). The SVD of $X_c$ avoids that step. The squaring matters little for a few well-behaved columns, but it matters for data with nearly dependent columns.
+Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose accuracy (the [computing the SVD Note](../611-computing-the-svd/note.md), section 8). The SVD of $X_c$ avoids that step. The squaring matters little for a few well-behaved features, but it matters for data with nearly dependent features.
 
 > **Extra:** What scikit-learn actually does (version 1.9; scikit-learn docs, `PCA`). `PCA(svd_solver="auto")` picks a method from the shape of the data:
 >
-> - fewer than 1,000 columns and more than 10 times as many rows: it eigen-decomposes the covariance matrix (`"covariance_eigh"`, added in version 1.5), because a small $d \times d$ matrix is fastest there;
+> - fewer than 1,000 columns and more than 10 times as many rows: scikit-learn eigen-decomposes the covariance matrix (`"covariance_eigh"`, added in version 1.5), because a small $d \times d$ matrix is fastest there;
 > - otherwise, small data (no side above 500): a full SVD of the centred data (`"full"`, LAPACK through SciPy);
 > - otherwise, when few components are wanted: a **randomized SVD**, which finds only the top $k$ singular vectors.
 >
@@ -85,7 +85,7 @@ Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose ac
 
 > **Key point:** Bag-of-words vectors only see shared words, so two texts on the same topic with no word in common have cosine similarity 0.
 
-The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6) turned texts into bag-of-words count vectors, and the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) (section 6) compared them by angle. That only sees shared words. Take seven short documents (common words such as "a" and "and" removed):
+The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6) turned texts into bag-of-words count vectors, and the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) (section 6) compared them by angle. The angle only sees shared words. Take seven short documents (common words such as "a" and "and" removed):
 
 | | Document |
 |---|---|
@@ -114,7 +114,7 @@ Figure 2 shows why. d3 contains all the cricket words together, so the SVD learn
 
 ![The seven documents in the 2D topic space of LSA: cricket (green), food (orange), and the mixed d7 (purple)](images/lsa_docs.png){width=75%}
 
-This is a rank-$k$ approximation (the [low-rank approximation Note](../612-low-rank-approximation/note.md)) used for meaning rather than compression: dropping the small singular directions drops the accidents of word choice and keeps the shared themes. LSA was introduced for exactly this purpose, to find documents on a topic even when they use other words than the query (Deerwester et al. 1990).
+LSA is a rank-$k$ approximation (the [low-rank approximation Note](../612-low-rank-approximation/note.md)) used for meaning rather than compression: dropping the small singular directions drops the accidents of word choice and keeps the shared themes. LSA was introduced for exactly this purpose, to find documents on a topic even when they use other words than the query (Deerwester et al. 1990).
 
 > **Python:** `TruncatedSVD` keeps the top $k$ singular directions.
 >
@@ -128,7 +128,7 @@ This is a rank-$k$ approximation (the [low-rank approximation Note](../612-low-r
 > cosine_similarity(Z)[0, 1]       # d1 vs d2: 1.0 (0 before)
 > ```
 >
-> Unlike `PCA`, `TruncatedSVD` does not centre the columns. Centring would turn a sparse count matrix (scikit-learn docs, `TruncatedSVD`) (mostly zeros, stored compactly) into a dense one, which is impossible for a real vocabulary of 50,000 words.
+> Unlike `PCA`, `TruncatedSVD` does not centre the columns. Centring would turn a sparse count matrix (mostly zeros, stored compactly) into a dense one (scikit-learn docs, `TruncatedSVD`), which is impossible for a real vocabulary of 50,000 words.
 
 ## 4. Ratings and recommenders
 
@@ -148,8 +148,8 @@ Recommender systems work on a table of ratings: one row per viewer, one column p
 
 The singular values are 14.6, 6.6, 1.5 and 0.6. The first two dominate.
 
-- **$\mathbf{v}_1 = [-0.54, -0.51, -0.49, -0.46]$:** all four films with the same sign and similar size. This is "how much a viewer likes films at all". The rank-1 approximation (Figure 3, middle) gives each viewer roughly the same rating for every film: Esha high, the others near 3.
-- **$\mathbf{v}_2 = [0.44, 0.51, -0.50, -0.55]$:** positive for the action films, negative for the romance films. This is a taste axis. The matching $\mathbf{u}_2 = [0.48, 0.42, -0.57, -0.51, 0.08]$ puts Asha and Ben on the action side, Chitra and Dev on the romance side, and Esha near 0: she has no preference.
+- **$\mathbf{v}_1 = [-0.54, -0.51, -0.49, -0.46]$:** all four films with the same sign and similar size. The first pattern is "how much a viewer likes films at all". The rank-1 approximation (Figure 3, middle) gives each viewer roughly the same rating for every film: Esha high, the others near 3.
+- **$\mathbf{v}_2 = [0.44, 0.51, -0.50, -0.55]$:** positive for the action films, negative for the romance films. The second pattern is a taste axis. The matching $\mathbf{u}_2 = [0.48, 0.42, -0.57, -0.51, 0.08]$ puts Asha and Ben on the action side, Chitra and Dev on the romance side, and Esha near 0: she has no preference.
 
 Adding the second layer (Figure 3, right) recovers the table: no entry is off by more than 0.55. The third and fourth layers carry only small details, so the data is essentially two-dimensional: one "general liking" axis and one "action or romance" axis. In the language of the book's movie example, the $\mathbf{v}_i$ are stereotypical films and the $\mathbf{u}_i$ stereotypical viewers; each real viewer is a mix of them.
 
@@ -158,7 +158,7 @@ Adding the second layer (Figure 3, right) recovers the table: no entry is off by
    $$\hat{r}_{ab} = \sum_{i=1}^{k}\sigma_i\,u_{ai}\,v_{bi}$$
 3. **Example:** for Asha and Action 1 with $k = 2$: $14.63 \times (-0.39) \times (-0.54) + 6.57 \times 0.48 \times 0.44 \approx 3.06 + 1.39 = 4.45$, against her real rating of 5.
 
-> **Extra:** Real ratings tables are mostly empty: a viewer has rated a handful of thousands of films. The plain SVD needs every entry. Recommenders therefore fit the same form, $\hat{r}_{ab} = \sum_i p_{ai}q_{bi}$ (a viewer vector times a film vector), by gradient descent on the known ratings only, and use it to fill in the unknown ones. This **matrix factorisation** became famous as "Funk SVD" in the Netflix Prize (2006–2009) (Funk 2006; Koren et al. 2009), although strictly it is not an SVD: its vectors are not forced to be orthonormal.
+> **Extra:** Real ratings tables are mostly empty: a viewer has rated a handful of thousands of films. The plain SVD needs every entry. Recommenders therefore fit the same form, $\hat{r}_{ab} = \sum_i p_{ai}q_{bi}$ (a viewer vector times a film vector), by gradient descent on the known ratings only, and use it to fill in the unknown ones. This **matrix factorisation** became widely used during the Netflix Prize (2006–2009) (Koren et al. 2009). The method is often called "SVD", although strictly it is not an SVD: its vectors are not forced to be orthonormal.
 
 ## 5. The pseudo-inverse and least squares
 
@@ -186,7 +186,7 @@ The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) (se
 
 $$(X^{\mathsf T}X)^{-1}X^{\mathsf T} = V\Sigma^{-2}V^{\mathsf T}\,V\Sigma U^{\mathsf T} = V\Sigma^{-1}U^{\mathsf T} = X^{+}$$
 
-1. **In words:** the least-squares coefficients are the pseudo-inverse of the design matrix times the targets.
+1. **In words:** the least-squares coefficients are the pseudo-inverse of the design matrix times the vector of **target** values (the outputs we predict).
 2. **Formula:**
    $$\beta = X^{+}\mathbf{y}$$
 3. **Example:** the four students of that Note (CGPA 6.89, 5.12, 7.82, 7.42; packages 3.26, 1.98, 3.25, 3.67), with a column of 1s for the intercept. $X$ has singular values 13.92 and 0.30, and $X^{+}\mathbf{y} = [-0.81, 0.57]$: intercept $-0.81$ and slope $0.57$, the same as the normal equation.
@@ -195,7 +195,7 @@ $$(X^{\mathsf T}X)^{-1}X^{\mathsf T} = V\Sigma^{-2}V^{\mathsf T}\,V\Sigma U^{\ma
 
 > **Key point:** With a column that copies another, $X^{\mathsf T}X$ has no inverse and the normal equation can return nonsense; the pseudo-inverse still gives a sensible answer.
 
-The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) (section 7) warned that $X^{\mathsf T}X$ has no inverse when one column can be built from others. Add a third column to the student data: the percentage, computed as $9.5 \times$ CGPA. Now the columns are dependent.
+The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) (section 7) warned that $X^{\mathsf T}X$ has no inverse when one column can be built from others. Add a third feature to the student data: the percentage, computed as $9.5 \times$ CGPA. Now the columns are dependent.
 
 - **The SVD shows it.** The singular values of the new $X$ are 131.65, 0.30 and $2 \times 10^{-15}$: the last is zero up to rounding, so the rank is 2, not 3.
 - **The normal equation fails quietly.** Here NumPy's `inv` raised no error and returned $[3.14, 0.06, 0.02]$. Its predictions for the four students are about 4.5 to 5.2, against real packages of 2 to 3.7: garbage. (On another computer it may instead raise an error.)
@@ -233,18 +233,17 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 - A ratings matrix's top singular vectors read as viewer types and film types.
 - The pseudo-inverse inverts only the non-zero singular values; it gives least squares without the normal equation's breakdowns.
 
-## Sources
+## 7. Sources
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 4.5–4.6, Examples 4.14 and 4.15 (MML).
 - Deerwester, S., Dumais, S. T., Furnas, G. W., Landauer, T. K. and Harshman, R. (1990). "Indexing by Latent Semantic Analysis". *Journal of the American Society for Information Science* 41(6).
-- Funk, S. (2006). "Netflix Update: Try This at Home". Blog post, sifter.org.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.1, ridge regression and the SVD (ESL).
 - Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix Factorization Techniques for Recommender Systems". *IEEE Computer* 42(8).
 - NumPy documentation. `numpy.linalg.lstsq`, `numpy.linalg.pinv`. SciPy documentation. `scipy.linalg.lstsq` (default driver `gelsd`).
 - Penrose, R. (1956). "On best approximate solutions of linear matrix equations". *Mathematical Proceedings of the Cambridge Philosophical Society* 52(1).
 - scikit-learn documentation (version 1.9). `sklearn.decomposition.PCA` (the `svd_solver="auto"` policy; `"covariance_eigh"` added in 1.5) and `sklearn.decomposition.TruncatedSVD`.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

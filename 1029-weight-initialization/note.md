@@ -100,7 +100,7 @@ $$\frac{\partial L}{\partial W^1_{11}} = \frac{\partial L}{\partial \hat{y}} \cd
 - $z_{11} = z_{12}$, so the sigmoid slopes are equal.
 - The last factor is $x_1$ in both.
 
-So the two gradients are equal at every step. The two weights from $x_1$ start equal and move together; so do the two weights from $x_2$. Equal gradients for equal weights are the symmetry noted in the Extra of section 7.2 of the [backpropagation what Note](../1015-backpropagation-what/note.md): nodes that start identical stay identical.
+So the two gradients are equal at every step. Think of two identical twins who sit the same lessons, hear the same feedback and make the same corrections: nothing ever makes them differ. The two weights from $x_1$ start equal and move together; so do the two weights from $x_2$. Equal gradients for equal weights are the symmetry noted in the Extra of section 7.2 of the [backpropagation what Note](../1015-backpropagation-what/note.md): nodes that start identical stay identical.
 
 ![(a) After a start where all weights are equal, every weight leaving $x_1$ has one value $u$ and every weight leaving $x_2$ one value $v$, so the hidden nodes all compute the same $a$. (b) The network behaves like a single hidden node](images/symmetry.png){width=90%}
 
@@ -158,7 +158,7 @@ The next layer multiplies these small activations by small weights again, so eve
 
 - **Tanh:** the activations collapse towards 0, as just shown; the gradients vanish strongly, and the weights may not update at all.
 - **Sigmoid:** $\sigma(0) = 0.5$, so the activations cluster around 0.5 (standard deviation 0.055, then 0.027), not around 0. The vanishing gradient is weaker than with tanh, but training is very slow or stalls.
-- **ReLU:** the activations also shrink (standard deviation 0.131, 0.021, 0.003), though ReLU does not squash them. The gradients do not vanish as strongly, but convergence is extremely slow: a small ReLU network started this way can need well over a thousand epochs.
+- **ReLU:** the activations also shrink (standard deviation 0.131, 0.021, 0.003), though ReLU does not squash them. The gradients do not vanish as strongly, but convergence is extremely slow: in section 6.3 a small ReLU network started this way does not move in 100 epochs.
 
 The problem gets worse with depth. A shallow network has few factors to multiply; a deep one has many.
 

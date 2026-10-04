@@ -16,7 +16,7 @@ title: "Machine Learning Pipelines"
 
 > **Key point:** A pipeline chains every preprocessing step and the model into one object, so the same steps run in the same order on the training data, the test data and every new input.
 
-Figure 1 shows the whole topic. Five steps (fill missing values, one-hot encode, scale, keep the best columns, train a decision tree) live inside one object called `pipe`. Calling `pipe.fit` sends the 712 training rows through every step; calling `pipe.predict` sends one new passenger through the same fitted steps and gives a prediction.
+Figure 1 shows the whole topic. Five steps (fill missing values, one-hot encode, scale, keep the best columns, train a decision tree) live inside one object called `pipe`. Calling `pipe.fit` sends the 712 training observations (records, one row each) through every step; calling `pipe.predict` sends one new passenger through the same fitted steps and gives a prediction.
 
 ![One pipeline object: fit on the training data, then predict for one new passenger with the same fitted steps](images/overview.png)
 
@@ -24,9 +24,9 @@ Figure 1 shows the whole topic. Five steps (fill missing values, one-hot encode,
 
 > **Key point:** In a pipeline, the output of each step is the input of the next one, and scikit-learn passes the data along by itself.
 
-A **pipeline** is a mechanism that chains several steps together, so that the output of each step is used as the input to the next. We give the data to the first step and take the result from the last one; everything in between is handled internally.
+A **pipeline** is a mechanism that chains several steps together, so that the output of each step is used as the input to the next. Think of a car assembly line: each station does one job and passes the car on, and every car goes through the same stations in the same order. We give the data to the first step and take the result from the last one; everything in between is handled internally.
 
-Suppose a dataset has missing values and categorical columns. Building a model then takes three steps:
+Suppose a dataset has missing values and categorical features (input variables, one column each of the data table). Building a model then takes three steps:
 
 1. Fill the missing values.
 2. Encode the categorical columns.
@@ -38,7 +38,7 @@ Done separately, these are three pieces of code. With a pipeline they become one
 
 > **Key point:** Every input the model ever sees needs exactly the same preprocessing, and a pipeline guarantees that.
 
-The training set, the test set and every future input must go through the same preprocessing. The future inputs are the important case: once a model is **deployed** to a server, for example behind a website, each new input arrives raw. It may have missing values to fill and categories to encode before the model can use it.
+The training set, the test set and every future input must go through the same preprocessing. The future inputs are the important case: once a model is **deployed** to a server, for example behind a website, each new input arrives raw. A raw input may have missing values to fill and categories to encode before the model can use it.
 
 Without a pipeline, every preprocessing step must be written a second time in the website's code. With a pipeline, the steps travel with the model, so nothing has to be repeated.
 
@@ -46,9 +46,9 @@ To see the difference, we build the same small project twice: first without a pi
 
 ## 3. The Titanic data
 
-> **Key point:** 891 passengers; we predict `Survived` (1 = survived, 0 = died) from seven columns, two of which have missing values.
+> **Key point:** 891 passengers; we predict `Survived` (1 = survived, 0 = died) from seven features, two of which have missing values.
 
-The data is Kaggle's Titanic training file: one row per passenger on the Titanic. We drop four columns that are not useful here: `PassengerId`, `Name`, `Ticket` and `Cabin`. Eight columns remain.
+The data is Kaggle's Titanic training file: one row per passenger on the Titanic, so each passenger is one **observation**. We drop four columns that are not useful here: `PassengerId`, `Name`, `Ticket` and `Cabin`. Eight columns remain.
 
 | Survived | Pclass | Sex | Age | SibSp | Parch | Fare | Embarked |
 |---|---|---|---|---|---|---|---|
@@ -58,7 +58,7 @@ The data is Kaggle's Titanic training file: one row per passenger on the Titanic
 
 The columns mean:
 
-- **Survived:** the target. 1 if the passenger survived, 0 if not.
+- **Survived:** the **target**, the output we predict. 1 if the passenger survived, 0 if not.
 - **Pclass:** ticket class, 1, 2 or 3.
 - **Sex:** male or female.
 - **Age:** age in years.
@@ -67,7 +67,7 @@ The columns mean:
 - **Fare:** ticket price.
 - **Embarked:** port where the passenger boarded: C (Cherbourg), Q (Queenstown) or S (Southampton).
 
-The task is a model that takes a passenger's seven input columns and predicts whether that passenger survives.
+The other seven columns are the **features**. The task is a model that takes a passenger's seven features and predicts whether that passenger survives.
 
 ### 3.1 What the columns need
 
@@ -249,7 +249,7 @@ The code above has three problems:
 - **Fragile order:** the 10 columns must be joined in exactly the training order. One swap gives wrong predictions without any error.
 - **Changes spread:** if we change one preprocessing step in training, we must change the production code to match.
 
-This is a poor way to write code, and it is why pipelines are used.
+Repeating and re-ordering steps by hand is a poor way to write code, and the reason pipelines are used.
 
 ## 5. Building a pipeline
 
@@ -267,7 +267,7 @@ The pipeline has five steps, named `trf1` to `trf5`:
 4. **trf4, feature selection:** keep only the 8 most useful of the 10 columns.
 5. **trf5, model:** a decision tree.
 
-Feature selection is not needed for this data. It is included to show how such a step fits into a pipeline.
+Feature selection is not needed for this data. The step is included to show how such a step fits into a pipeline.
 
 The data is split exactly as before. `X_train` still has the seven raw columns.
 
@@ -310,7 +310,7 @@ The column transformer puts the transformed columns first and the `remainder` co
 
 The original positions of Sex and Embarked, `[1, 6]`, would be wrong here. Position 6 is now Fare, so the encoder would one-hot encode every distinct fare. The data would grow from 10 columns to 228, and the test accuracy would drop from 78.8% to 62.6%, with no error message.
 
-> **Extra:** This is a common pipeline bug. Before choosing positions for a step, check what the previous step outputs, for example with `pipe[:1].fit_transform(X_train)[:3]`. Section 10 shows a way to use column names instead.
+> **Extra:** Wrong positions are a common pipeline bug. Before choosing positions for a step, check what the previous step outputs, for example with `pipe[:1].fit_transform(X_train)[:3]`. Section 10 shows a way to use column names instead.
 
 ### 5.4 Step 2: one-hot encoding
 
@@ -318,7 +318,7 @@ The original positions of Sex and Embarked, `[1, 6]`, would be wrong here. Posit
 
 Without a pipeline we needed two encoders, because Embarked and Sex lived in different arrays. Inside the pipeline both come out of `trf1` in one array, so one encoder handles both.
 
-Its output has 3 Embarked columns, 2 Sex columns and the 5 other columns: 10 columns.
+The output of `trf2` has 3 Embarked columns, 2 Sex columns and the 5 other columns: 10 columns.
 
 > **Python:** Step 2.
 >
@@ -337,7 +337,7 @@ Its output has 3 Embarked columns, 2 Sex columns and the 5 other columns: 10 col
 
 `trf3` applies `MinMaxScaler` (normalization) to all 10 columns. Standardization would also scale the data, but it gives negative values. The feature selection test in the next step only accepts values of 0 or more, so normalization is the right choice here.
 
-The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 10. That covers all 10 columns coming out of `trf2`.
+The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 10. The slice covers all 10 columns coming out of `trf2`.
 
 > **Python:** Step 3.
 >
@@ -355,9 +355,9 @@ The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 1
 
 > **Key point:** `SelectKBest` scores each column against the target and keeps the `k` best; it needs no column transformer because it looks at every column.
 
-Feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)) keeps only the most useful input columns. **`SelectKBest`** does it simply: it gives every column a score and keeps the `k` columns with the highest scores.
+Feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)) keeps only the most useful features. **`SelectKBest`** does the job simply: it gives every column a score and keeps the `k` columns with the highest scores.
 
-The score here comes from `chi2`, the **chi-squared test**. It measures how strongly each column is linked to the target; it only works on values of 0 or more (scikit-learn docs, `chi2`).
+The score here comes from `chi2`, the **chi-squared test**. The test measures how strongly each column is linked to the target; it only works on values of 0 or more (scikit-learn docs, `chi2`).
 
 With `k=8`, two of the 10 columns are dropped. How the test works is covered with feature selection in a later Note.
 
@@ -513,7 +513,7 @@ For example, to find the mean age that the first imputer learned:
 
 **Cross-validation** tests a model more reliably than one train-test split. The training data is cut into 5 parts; the model is trained on 4 parts and tested on the fifth, five times over, so each part is the test part once.
 
-The average of the five accuracies is the result. It is covered fully in a later Note.
+The average of the five accuracies is the result. Cross-validation is covered fully in a later Note.
 
 `cross_val_score` accepts a pipeline wherever it accepts a model. Here the average accuracy is 78.7%.
 
@@ -526,7 +526,7 @@ The average of the five accuracies is the result. It is covered fully in a later
 >                 scoring="accuracy").mean()   # 0.787
 > ```
 
-> **Extra:** Because every step is inside the pipeline, every step is refitted on the 4 training parts each time. The imputer's mean, the scaler's minimum and maximum, and the chosen columns never see the part used for testing. Preprocessing the whole training set first and then cross-validating only the model would let the test part leak into training. This is a quiet form of data leakage that pipelines prevent (scikit-learn User Guide, "Common pitfalls").
+> **Extra:** Because every step is inside the pipeline, every step is refitted on the 4 training parts each time. The imputer's mean, the scaler's minimum and maximum, and the chosen columns never see the part used for testing. Preprocessing the whole training set first and then cross-validating only the model would let the test part leak into training. Pipelines prevent this quiet form of data leakage (scikit-learn User Guide, "Common pitfalls").
 
 ## 9. Hyperparameter tuning with a pipeline
 
@@ -534,7 +534,7 @@ The average of the five accuracies is the result. It is covered fully in a later
 
 A **hyperparameter** is a setting of an algorithm that we choose before training. A decision tree's `max_depth`, for example, limits how many questions deep the tree can grow, and changing it can make the model better or worse. **Hyperparameter tuning** means trying several values and keeping the best.
 
-`GridSearchCV` does this automatically. It cross-validates the pipeline once for each value and keeps the value with the best average score.
+`GridSearchCV` does the search automatically. The search cross-validates the pipeline once for each value and keeps the value with the best average score.
 
 For a single model, we would name the parameter just `max_depth`. In a pipeline, scikit-learn needs to know which step the parameter belongs to, so the name is **`step__parameter`**: the step's name, two underscores, then the parameter. Our tree is the step named `trf5`, so the name is `trf5__max_depth`.
 
@@ -592,7 +592,7 @@ The bigger gain comes later. Suppose we change the training: add a step, remove 
 
 We save the new pipeline over `pipe.pkl` and put that file on the server. The production code does not change at all, so a change in training cannot break the website.
 
-> **Extra:** `joblib` does the same job as pickle with simpler calls, and it handles models holding large NumPy arrays better (scikit-learn User Guide, "Model persistence"): `joblib.dump(pipe, "models/pipe.joblib")` and `pipe = joblib.load("models/pipe.joblib")`. With either tool, only load files from sources you trust: loading a pickle file can run any code hidden in it. Load the file with the same scikit-learn version that saved it (same source).
+> **Extra:** `joblib` does the same job as pickle with simpler calls, and it handles models holding large NumPy arrays better (scikit-learn User Guide, "Model persistence"): `joblib.dump(pipe, "models/pipe.joblib")` and `pipe = joblib.load("models/pipe.joblib")`. With either tool, only load files from sources you trust: loading a pickle file can run any code hidden in it. Load the file with the same scikit-learn version that saved it (scikit-learn User Guide, "Model persistence").
 
 > **Extra:** The new input is passed as a one-row DataFrame with the training column names. A bare NumPy array also works for this pipeline, because every step uses positions, but scikit-learn then warns that the input has no feature names.
 
@@ -600,7 +600,7 @@ We save the new pipeline over `pipe.pkl` and put that file on the server. The pr
 
 > **Key point:** With `set_output(transform="pandas")`, every step passes a DataFrame to the next, so steps can pick columns by name.
 
-> **Extra:** This subsection goes beyond the basics: it uses newer scikit-learn tools that remove the position counting of Section 5.3.
+> **Extra:** Section 10.1 goes beyond the basics: it uses newer scikit-learn tools that remove the position counting of Section 5.3.
 
 Positions were needed because each column transformer outputs a nameless NumPy array. Calling **`set_output(transform="pandas")`** on the pipeline makes every step output a DataFrame instead, so the next step can find columns by name.
 
@@ -635,7 +635,7 @@ With `verbose_feature_names_out=False`, the column transformers keep plain names
 > # Pclass, SibSp, Parch, Fare
 > ```
 
-It gives the same 78.8% accuracy, and `get_feature_names_out` shows which 8 columns reached the tree: Age and Embarked_Q were the two dropped. `pipe_named[:-1]` means every step except the last, the same slicing as for a list.
+The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` shows which 8 columns reached the tree: Age and Embarked_Q were the two dropped. `pipe_named[:-1]` means every step except the last, the same slicing as for a list.
 
 ## 11. Summary
 
@@ -657,16 +657,19 @@ It gives the same 78.8% accuracy, and `get_feature_names_out` shows which 8 colu
 - `cross_val_score` and `GridSearchCV` accept a pipeline; a step's parameter is named `step__parameter`.
 - One pickled pipeline is all the production code needs.
 
-## Sources
+## 12. Sources
 
 - scikit-learn release notes. Version 1.1. scikit-learn.org/stable/whats_new.
-- scikit-learn documentation. `sklearn.feature_selection.chi2`. scikit-learn.org.
+- scikit-learn API reference. `sklearn.feature_selection.chi2`. scikit-learn.org.
 - scikit-learn User Guide. Common pitfalls and recommended practices; Model persistence. scikit-learn.org.
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
 | Pipeline | A chain of steps where each step's output is the next step's input, run as one object |
 | Pipeline (class) | The scikit-learn class (in `sklearn.pipeline`) that builds a pipeline from a list of (name, object) tuples |
 | make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class |
@@ -676,8 +679,8 @@ It gives the same 78.8% accuracy, and `get_feature_names_out` shows which 8 colu
 | transformers_ | List of a fitted column transformer's (name, transformer, columns) tuples |
 | handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10 |
-| SelectKBest | scikit-learn class that scores every column and keeps the `k` best |
-| Chi-squared test (chi2) | A test scoring how strongly a column is linked to the target; needs values of 0 or more |
+| SelectKBest | scikit-learn class that scores every feature and keeps the `k` best |
+| Chi-squared test (chi2) | A test scoring how strongly a feature is linked to the target; needs values of 0 or more |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data |
 | Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth` |
 | Hyperparameter tuning | Trying several hyperparameter values and keeping the best |

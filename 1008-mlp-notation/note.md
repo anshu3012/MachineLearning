@@ -25,7 +25,7 @@ This Note does two things, both on the network in Figure 1:
 
 ## 2. The setup: layers and data
 
-> **Key point:** Layers are numbered from 0 (the input layer) to the output layer; row $i$ of the data enters the input layer as $x_{i1}, x_{i2}, \dots$
+> **Key point:** Layers are numbered from 0 (the input layer) to the output layer; observation $i$ of the data enters the input layer as $x_{i1}, x_{i2}, \dots$
 
 ### 2.1 Numbering the layers
 
@@ -33,7 +33,7 @@ This Note does two things, both on the network in Figure 1:
 
 The network in Figure 1 has four layers:
 
-- **Layer 0**, the input layer: 4 nodes, one per input column. These nodes do no calculation; they only pass the values on.
+- **Layer 0**, the input layer: 4 nodes, one per **feature** (an input variable, one column of the data table). These nodes do no calculation; they only pass the values on.
 - **Layer 1**, the first hidden layer: 3 perceptrons.
 - **Layer 2**, the second hidden layer: 2 perceptrons.
 - **Layer 3**, the output layer: 1 perceptron, whose output is the prediction $\hat{y}_i$.
@@ -42,9 +42,9 @@ We describe such a network by its layer sizes: a **4-3-2-1 network**. Input, hid
 
 ### 2.2 Naming the inputs
 
-> **Key point:** $x_{ij}$ is the value in row $i$, column $j$ of the data.
+> **Key point:** $x_{ij}$ is the value of feature $j$ for observation $i$: row $i$, column $j$ of the data table.
 
-The data has $m$ rows (students) and $n = 4$ input columns, plus the output column:
+The data has $m$ **observations** (records, one row of the table per student) and $n = 4$ features, plus the **target** (the output we predict, here Placed):
 
 | Row | CGPA | IQ | 10th marks | 12th marks | Placed |
 |---|---|---|---|---|---|
@@ -52,7 +52,7 @@ The data has $m$ rows (students) and $n = 4$ input columns, plus the output colu
 | ... | ... | ... | ... | ... | ... |
 | $i$ | $x_{i1}$ | $x_{i2}$ | $x_{i3}$ | $x_{i4}$ | $y_i$ |
 
-The network takes the data one row at a time. For row $i$, the four values $x_{i1}, x_{i2}, x_{i3}, x_{i4}$ enter the four input nodes, and the network produces $\hat{y}_i$. For row 1 above, 7.2 enters the first input node, 72 the second, 69 the third and 81 the fourth.
+The network takes the data one observation at a time. For observation $i$, the four values $x_{i1}, x_{i2}, x_{i3}, x_{i4}$ enter the four input nodes, and the network produces $\hat{y}_i$. For observation 1 above, 7.2 enters the first input node, 72 the second, 69 the third and 81 the fourth.
 
 ## 3. Counting trainable parameters
 
@@ -127,9 +127,9 @@ So $W^{k}_{ij}$ reads "into layer $k$, from node $i$ to node $j$". The four high
 | $W^{2}_{22}$ | 2 | 2 of layer 1 | 2 of layer 2 |
 | $W^{3}_{11}$ | 3 | 1 of layer 2 | 1 of layer 3 |
 
-The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W^{1}_{11}, W^{1}_{21}, W^{1}_{31}, W^{1}_{41}$, all entering node 1 of layer 1. These are the weights that node uses in its weighted sum, together with its bias $b_{11}$.
+The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W^{1}_{11}, W^{1}_{21}, W^{1}_{31}, W^{1}_{41}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its weighted sum, together with its bias $b_{11}$.
 
-> **Extra:** Books do not all agree on this order. Some write the weight from node $i$ to node $j$ as $w_{ji}$ (destination first), because then row $j$ of the weight matrix holds the weights entering node $j$, and a layer's weighted sums are simply $W\mathbf{x}$ (Nielsen, Ch. 2). The meaning is the same; only the order of the indices changes. Whichever we use, we keep it fixed, so that a symbol never has two meanings.
+> **Extra:** Books do not all agree on this order. Some write the weight from node $i$ to node $j$ as $w_{ji}$ (destination first), because then row $j$ of the weight matrix holds the weights entering node $j$, and a layer's weighted sums are simply $W\mathbf{x}$ (Bishop, §5.1, eq. 5.2). The meaning is the same; only the order of the indices changes. Whichever we use, we keep it fixed, so that a symbol never has two meanings.
 
 > **Python:** The same parameters as NumPy arrays.
 >
@@ -151,7 +151,7 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 
 | Symbol | Meaning | Example |
 |---|---|---|
-| $x_{ij}$ | Value in row $i$, column $j$ of the data | $x_{i3}$: the 10th marks of student $i$ |
+| $x_{ij}$ | Value of feature $j$ for observation $i$ | $x_{i3}$: the 10th marks of student $i$ |
 | $b_{ij}$ | Bias of node $j$ in layer $i$ | $b_{22}$: second node of layer 2 |
 | $O_{ij}$ | Output of node $j$ in layer $i$ | $O_{31} = \hat{y}_i$ |
 | $W^{k}_{ij}$ | Weight into layer $k$, from node $i$ to node $j$ | $W^{1}_{42}$: input 4 to node 2 of layer 1 |
@@ -162,7 +162,7 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 
 ## 7. Sources
 
-- Nielsen, *Neural Networks and Deep Learning*, Determination Press, 2015, Chapter 2.
+- Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006, §5.1 (eq. 5.2 writes the weight into hidden unit $j$ from input $i$ as $w_{ji}$).
 
 ## 8. Key terms
 

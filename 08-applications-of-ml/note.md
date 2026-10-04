@@ -76,14 +76,14 @@ A wrong decision here can cost crores of rupees. Every e-commerce site that runs
 
 > **Key point:** Shops ask for our phone number to link all our purchases to one profile. The profile tells advertisers exactly what we are likely to buy.
 
-At the checkout of a large store (such as Spencer's or Big Bazaar), the first thing we are asked for is our phone number. The main reason is not to send us offers by SMS. It is to track our **buying behaviour**: every bill gets linked to the same number.
+At the checkout of a large store (such as Spencer's or Big Bazaar), the first thing we are asked for is our phone number. The main reason is not to send us offers by SMS. The number is there to track our **buying behaviour**: every bill gets linked to the same number.
 
 From these bills, the store builds a **customer profile**: a summary of what kind of buyer we are.
 
 - Someone who buys many milk products and health items: *health-conscious*.
 - Others may show up as buying spicy food, sports goods or cosmetics.
 
-The store can then sell these profiled numbers to other companies. This is why we get SMS from unknown numbers about a gym, a sports class or a course.
+The store can then sell these profiled numbers to other companies. Such sales are why we get SMS from unknown numbers about a gym, a sports class or a course.
 
 ![From bills to profiles to targeted SMS](images/targeted_marketing.png)
 
@@ -102,7 +102,7 @@ Google and Facebook do the same with the data of their users. Most internet prod
 
 > **Key point:** Association rule learning finds products that are often bought together, and the shop places them next to each other.
 
-In a supermarket, someone has decided which product sits next to which in the aisles. This is often decided with ML.
+In a supermarket, someone has decided which product sits next to which in the aisles. The placement is often decided with ML.
 
 **Association rule learning** finds how strongly two products are linked: how often they are bought together. If the link is strong, the shop keeps the two products next to each other. The classic example is baby diapers and beer, covered in [Note 3](../03-types-of-ml/note.md).
 
@@ -125,7 +125,7 @@ Not everyone who applies for a loan gets one. The applicant first submits a prof
 
 The ML stage decides which applications reach the officer:
 
-- **High similarity** to past defaulters (say 80 out of 100): the model reports an 80% chance that this person will not repay. This is a red alarm, and the application is rejected.
+- **High similarity** to past defaulters (say 80 out of 100): the model reports an 80% chance that this person will not repay. Such a score is a red alarm, and the application is rejected.
 - **Low similarity** (say 10, 15 or 20): the application is passed on to the loan officer.
 
 > **Extra:** Predicting "will repay / will not repay" is a classification problem ([Note 3](../03-types-of-ml/note.md)). In banking it is called **credit scoring**, and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
@@ -150,7 +150,7 @@ The wider finance sector, including insurance and the share market (trading), al
 
 > **Key point:** When demand is much higher than the supply of cabs, the fare goes up. The extra money pulls nearby drivers into that area.
 
-Ola and Uber sometimes charge much more than the normal fare at certain times, such as mornings and evenings. A ride that normally costs 100 rupees may cost 200 or 300 rupees. This is called **surge pricing**.
+Ola and Uber sometimes charge much more than the normal fare at certain times, such as mornings and evenings. A ride that normally costs 100 rupees may cost 200 or 300 rupees. Raising the fare like this is called **surge pricing**.
 
 The reason becomes clear from the driver's side. Ola and Uber each have two apps: a user app for riders and a driver app for drivers. The driver app shows a map of the city with some regions marked in red. A driver who reaches a red region in the next 10 minutes and takes a pickup there earns more than usual, for example 2 times the normal fare.
 
@@ -207,7 +207,7 @@ As soon as the drop is detected, engineers are sent to repair that robotic arm.
 - **Usual maintenance:** we repair a machine after it breaks.
 - **Predictive maintenance:** we predict that a machine is going to break, and repair it before it does.
 
-The same idea works in any factory, not only Tesla's. It is one of the ways ML is changing the manufacturing sector.
+The same idea works in any factory, not only Tesla's. Predictive maintenance is one of the ways ML is changing the manufacturing sector.
 
 > **Extra:** Spotting readings that drift away from a machine's normal behaviour is a form of **anomaly detection**, which [Note 3](../03-types-of-ml/note.md) lists as a use of unsupervised learning.
 
@@ -219,14 +219,14 @@ The same idea works in any factory, not only Tesla's. It is one of the ways ML i
 
 > **Key point:** Sentiment analysis reads a piece of text and decides whether its writer feels positive or negative.
 
-**Sentiment analysis** decides whether the writer of a text is expressing a positive or a negative opinion. It belongs to **natural language processing (NLP)**, the part of ML that works with human language, and is used a lot today, for example in chatbots.
+**Sentiment analysis** decides whether the writer of a text is expressing a positive or a negative opinion. Sentiment analysis belongs to **natural language processing (NLP)**, the part of ML that works with human language, and is used a lot today, for example in chatbots.
 
 As an example, consider a small website that rates movies from their reviews:
 
 1. We type a movie name, for example *Dunkirk* (Christopher Nolan, 2017).
 2. The site collects all the reviews of that movie from IMDb.
-3. It reads each review and labels it positive or negative.
-4. It combines the numbers of good and bad reviews into one rating score for the movie.
+3. The site reads each review and labels it positive or negative.
+4. The site combines the numbers of good and bad reviews into one rating score for the movie.
 
 ![Sentiment analysis of movie reviews](images/sentiment_analysis.png)
 
@@ -246,7 +246,7 @@ Figure 6 shows three real reviews of *Dunkirk* and the labels the model gave the
 
 For many years, Twitter earned very little money. Facebook and Google had become profitable within a few years, and Twitter's investors feared the company would have to shut down for lack of income. One reported plan to earn money was to use the tweets themselves, through sentiment analysis.
 
-The example below shows how such a plan could work. It is an illustration only: there is no proof that Twitter did exactly this.
+The example below shows how such a plan could work. The example is an illustration only: there is no proof that Twitter did exactly this.
 
 Suppose an election is coming in a state, and people tweet about it under one hashtag. Figure 7 shows the plan step by step.
 
@@ -254,7 +254,7 @@ Suppose an election is coming in a state, and people tweet about it under one ha
 
 1. **Collect.** Twitter gathers all the tweets with the election hashtag, say 50,000.
 2. **Analyse.** Sentiment analysis shows that 35,000 of them (70%) say candidate A will win. People tend to tweet what they really believe, so this works like an opinion poll before the election, and it is likely close to the real result.
-3. **Sell the forecast.** The most valuable buyer is not a media house. It is a **stock-broking company**, such as Morgan Stanley or JP Morgan, which invests rich people's money in the share market.
+3. **Sell the forecast.** The most valuable buyer is not a media house. The best buyer is a **stock-broking company**, such as Morgan Stanley or JP Morgan, which invests rich people's money in the share market.
 4. **Buy shares.** The broker buys many shares of companies expected to gain if A wins, while the price is low, say 20 rupees per share.
 5. **The result.** A wins. Now everyone wants those shares, so the price rises, say to 100 rupees.
 6. **Sell.** The broker sells at the high price. The profit goes to the investors, and a part goes to Twitter, which supplied the forecast.
@@ -263,10 +263,10 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 
 > **Extra:** Some real events match this idea:
 >
-> - Twitter earns money by **licensing its data**: selling other companies access to the stream of tweets. In 2014 it bought Gnip, a company that resold that data (Twitter 10-K 2018).
+> - Twitter earns money by **licensing its data**: selling other companies access to the stream of tweets. In 2014 Twitter bought Gnip, a company that resold that data (Twitter 10-K 2014).
 > - A 2011 study, *Twitter mood predicts the stock market*, found that the mood of tweets helped predict moves of the Dow Jones index a few days later (Bollen et al. 2011).
 >
-> Twitter was founded in 2006 and made its first full-year profit only in 2018 (Twitter 10-K 2018).
+> Twitter was founded in 2006 and made its first full-year profit only in 2018 (Twitter 10-K 2014; Twitter 10-K 2018).
 
 ## 8. Summary
 
@@ -297,13 +297,14 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 >
 > Route planning is mostly an optimisation problem (finding the shortest or cheapest route); ML helps it by predicting travel times.
 
-## Sources
+## 9. Sources
 
 - Bollen, J., Mao, H. and Zeng, X. (2011). Twitter Mood Predicts the Stock Market. *Journal of Computational Science* 2(1).
 - Thomas, L., Edelman, D. and Crook, J. (2002). *Credit Scoring and Its Applications*. SIAM.
+- Twitter, Inc. (2015). *Form 10-K for the fiscal year 2014*. US Securities and Exchange Commission, sec.gov (EDGAR).
 - Twitter, Inc. (2019). *Form 10-K for the fiscal year 2018*. US Securities and Exchange Commission.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

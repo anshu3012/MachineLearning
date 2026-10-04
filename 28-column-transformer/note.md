@@ -15,7 +15,7 @@ title: "Column Transformer"
 
 > **Key point:** A column transformer sends each column to its own transformer and joins all the outputs into one array, in a single step.
 
-Real datasets mix column types. One column has missing values, another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
+Real datasets mix feature types. A **feature** is an input variable, one column of the data table. One feature has missing values, another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
 
 Figure 1 shows the whole topic. Every column goes to the transformer that fixes its problem, and scikit-learn's **`ColumnTransformer`** runs all of them at once and joins their outputs into one array of numbers.
 
@@ -25,22 +25,22 @@ Figure 1 shows the whole topic. Every column goes to the transformer that fixes 
 
 > **Key point:** When columns need different transformations, doing them one by one means many separate arrays that we must glue back together.
 
-Take customer data with four input columns:
+Take customer data with four features:
 
-- **age:** numerical, but some values are missing. It needs simple imputation to fill them.
-- **city:** nominal categories. It needs one-hot encoding.
-- **gender:** nominal categories. It also needs one-hot encoding.
-- **review:** ordinal categories, such as good and excellent. It needs ordinal encoding.
+- **age:** numerical, but some values are missing. Age needs simple imputation to fill them.
+- **city:** nominal categories. City needs one-hot encoding.
+- **gender:** nominal categories. Gender also needs one-hot encoding.
+- **review:** ordinal categories, such as good and excellent. Review needs ordinal encoding.
 
 If we apply each transformation separately, we get three separate NumPy arrays: one from imputing age, one from one-hot encoding city and gender, and one from ordinal encoding review. We then have to join the three into one big array before we can train a model.
 
-That is a lot of manual work, and it grows with every column. A **column transformer** is a scikit-learn class that does the whole job in one go: it takes the DataFrame and returns one finished array.
+Gluing arrays by hand is a lot of manual work, and the work grows with every feature. Think of a kitchen where each cook prepares one ingredient: a column transformer is the head chef who hands each ingredient to the right cook and plates the results together. A **column transformer** is a scikit-learn class that does the whole job in one go: it takes the DataFrame and returns one finished array.
 
 ## 3. The COVID toy data
 
 > **Key point:** 100 made-up patients; fever has missing values, cough is ordinal, gender and city are nominal, and age is ready as it is.
 
-The data is a small made-up dataset of 100 patients, with six columns: age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough, city, and the target `has_covid` (Yes or No). It is a toy dataset for practising the technique, not real medical data.
+The data is a small made-up dataset of 100 patients. Each patient is one **observation** (one record, one row of the table). There are six columns: the features age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough and city, and the **target** `has_covid` (Yes or No), the output we would predict. The dataset is a toy for practising the technique, not real medical data.
 
 | age | gender | fever | cough | city | has_covid |
 |---|---|---|---|---|---|
@@ -69,7 +69,7 @@ A few quick counts describe the columns:
 
 ### 3.1 What each column needs
 
-> **Key point:** Four input columns need a transformation; age needs none.
+> **Key point:** Four features need a transformation; age needs none.
 
 | Column | Type | Problem | Transformation |
 |---|---|---|---|
@@ -79,13 +79,13 @@ A few quick counts describe the columns:
 | gender | nominal | text | one-hot encoding (`OneHotEncoder`) |
 | city | nominal | text | one-hot encoding (`OneHotEncoder`) |
 
-The target `has_covid` is categorical too, so it would need label encoding. We leave it out here: the focus is the input columns.
+The target `has_covid` is categorical too, so it would need label encoding. We leave it out here: the focus is the features.
 
 ### 3.2 Split before transforming
 
 > **Key point:** As always, we split first; every transformer learns from the training set only.
 
-We split the data into a training set (80 rows) and a test set (20 rows) before any transformation. The inputs are every column except `has_covid`.
+We split the data into a training set (80 rows) and a test set (20 rows) before any transformation. The features are every column except `has_covid`.
 
 > **Python:** Splitting the data.
 >
@@ -195,7 +195,7 @@ Age needs no transformation, but it still has to become an array so it can be jo
 > # (80, 7) and (20, 7)
 > ```
 
-This works, but it is hectic for only four columns. With 50 columns, it would take a very long time, and every step has to be written twice: once for the training set and once for the test set.
+The hand-made way works, but it is hectic for only four features. With 50 columns, it would take a very long time, and every step has to be written twice: once for the training set and once for the test set.
 
 ## 5. The easy way: ColumnTransformer
 
@@ -223,7 +223,7 @@ Our data needs three tuples: one for the imputer, one for the ordinal encoder, a
 
 Sometimes we do not transform every column. The parameter **`remainder`** says what to do with the rest:
 
-- **`"drop"`:** remove them from the output. This is the default.
+- **`"drop"`:** remove them from the output. Dropping is the default.
 - **`"passthrough"`:** keep them as they are.
 
 Here age has no transformer. We want to keep it, so we use `remainder="passthrough"`. With `"drop"`, age would disappear and the output would have 6 columns.
@@ -286,7 +286,7 @@ The column transformer combines naturally with another scikit-learn tool, the pi
 
 > **Key point:** `get_feature_names_out` gives the name of every output column, and `set_output(transform="pandas")` returns a DataFrame with those names instead of a bare array.
 
-> **Extra:** This whole section goes beyond the basics: it uses newer scikit-learn tools that make the output easier to read.
+> **Extra:** Section 6 goes beyond the basics: it uses newer scikit-learn tools that make the output easier to read.
 
 The result of `fit_transform` is a NumPy array without column names, so it is easy to forget which column is which. Two tools fix this.
 
@@ -346,6 +346,9 @@ Calling **`set_output(transform="pandas")`** once makes every later `fit_transfo
 
 | Term | Meaning |
 |---|---|
+| Feature | An input variable, one column of the data table |
+| Target | The output we predict |
+| Observation | One record, one row of the data table |
 | Column transformer | A scikit-learn class that applies a different transformer to each set of columns and joins the outputs into one array |
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer |
 | transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples |

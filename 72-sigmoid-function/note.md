@@ -43,7 +43,7 @@ The strength of each push or pull depends on the point's distance from the line:
 | Correctly classified | strong push | weak push |
 | Misclassified | weak pull | strong pull |
 
-This makes sense. A correct point right next to the line is at risk, so it should push hard. A correct point far away is safe, so it hardly needs to act. A badly misclassified point, far on the wrong side, is a big error, so it should pull hard.
+The table matches common sense. A correct point right next to the line is at risk, so it should push hard. A correct point far away is safe, so it hardly needs to act. A badly misclassified point, far on the wrong side, is a big error, so it should pull hard.
 
 ## 3. Why the step function cannot do this
 
@@ -59,7 +59,7 @@ $y$ is the true class from the data, so it cannot change. What can change is how
 
 ## 4. The sigmoid function
 
-> **Key point:** σ(z) = 1 / (1 + e^(−z)). It squeezes any number into the range 0 to 1, with σ(0) = 0.5.
+> **Key point:** σ(z) = 1 / (1 + e^(−z)). The sigmoid squeezes any number into the range 0 to 1, with σ(0) = 0.5.
 
 The **sigmoid function** is
 
@@ -77,11 +77,11 @@ Its key properties (Figure 1, right):
 |---|---|---|---|---|---|
 | $\sigma(z)$ | 0.018 | 0.119 | 0.5 | 0.881 | 0.982 |
 
-However large or small the input, the output always stays strictly between 0 and 1. It never actually reaches 0 or 1. The S shape gives the function its name: "sigmoid" means "shaped like the Greek letter sigma", here like an S (Online Etymology Dictionary).
+However large or small the input, the output always stays strictly between 0 and 1. The sigmoid never actually reaches 0 or 1. The S shape gives the function its name: "sigmoid" means S-shaped (Bishop §4.2).
 
 ## 5. Sigmoid as a probability
 
-> **Key point:** σ(w · x) can be read as the probability that the point belongs to the positive class. It is 0.5 on the line and rises towards 1 further onto the positive side.
+> **Key point:** σ(w · x) can be read as the probability that the point belongs to the positive class. The probability is 0.5 on the line and rises towards 1 further onto the positive side.
 
 ### 5.1 The new prediction
 
@@ -148,7 +148,7 @@ For a positive point (green, $y = 1$):
 - on the line ($z = 0$): $0.5$;
 - deep on the correct side ($z = 4$): $1 - 0.982 = 0.018$, a very weak push.
 
-For a correct point, the push is strongest when it is just on the correct side, near the line, and fades as it gets further away. The negative points (blue) mirror this. That is exactly the behaviour planned in the table of Section 2.2.
+For a correct point, the push is strongest when it is just on the correct side, near the line, and fades as it gets further away. The negative points (blue) mirror this. The curve shows exactly the behaviour planned in the table of Section 2.2.
 
 ## 7. Does it help?
 
@@ -195,7 +195,7 @@ What we still lack is a way to say which line is best: a **loss function**, one 
 > | 100,000 | 2.61, 1.62 | 2.19, 1.93 |
 > | 1,000,000 | 2.48, 1.76 | 2.18, 2.00 |
 >
-> scikit-learn's line has gaps 2.20 and 1.97. Without a penalty, the line keeps drifting slowly: on separable data such as this, plain log loss has no finite best line, and the weights grow for ever (Bishop §4.3.2). The penalty fixes that and gives one definite answer.
+> scikit-learn's line has gaps 2.20 and 1.97. Without a penalty, the line keeps drifting slowly: on separable data such as this, the loss that logistic regression minimises (log loss, the [next Note](../73-log-loss/note.md)) has no finite best line, and the weights grow for ever (Bishop §4.3.2). The penalty fixes that and gives one definite answer.
 
 ## 8. Summary
 
@@ -207,8 +207,7 @@ What we still lack is a way to say which line is best: a **loss function**, one 
 
 ## 9. Sources
 
-- **Online Etymology Dictionary:** "sigmoid", etymonline.com.
-- **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.3.2, pp. 205–207.
+- **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.2, p. 197 (the logistic sigmoid; "sigmoid" means S-shaped); Section 4.3.2, pp. 205–207 (logistic regression gradient; separable data).
 
 ## 10. Key terms
 

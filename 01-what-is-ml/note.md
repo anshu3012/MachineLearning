@@ -50,7 +50,7 @@ In simpler terms: Machine Learning is all about learning from data.
 
 **Explicit programming** means writing code for each specific scenario. For every situation the program must handle, we write the logic for it.
 
-This is how traditional software is built. The top half of Figure 1 shows the flow: we write a **program** containing our logic, give it an input, and get an output.
+Explicit programming is how traditional software is built. The top half of Figure 1 shows the flow: we write a **program** containing our logic, give it an input, and get an output.
 
 ### 3.2 Learning patterns from data
 
@@ -58,7 +58,7 @@ This is how traditional software is built. The top half of Figure 1 shows the fl
 
 In ML we do not write the logic. The bottom half of Figure 1 shows what we do instead:
 
-1. We collect **data** that contains both inputs and their outputs.
+1. We collect **data** that contains both inputs and their outputs. Each input variable is a **feature** (one column of the data table), the output we want to predict is the **target**, and each record is an **observation** (one row of the table).
 2. We give the data to an **ML algorithm**, a general method for finding patterns.
 3. The algorithm explores the data and finds the **pattern** between input and output. This step is called **training**.
 4. The result is a **model**: the logic, found by the algorithm instead of written by us.
@@ -83,7 +83,7 @@ The advantage: we do not have to write code for each condition or case. The ML a
 
 When the model trains on this data, it discovers that the pattern is addition. After training, whether we give it two, four or ten numbers, it adds them all.
 
-The hand-written program cannot do this. It was coded to add exactly two numbers, so with more than two it fails until we rewrite it. This is the key difference, and a large part of why ML is so powerful in industry.
+The hand-written program cannot do this. The program was coded to add exactly two numbers, so with more than two it fails until we rewrite it. Being free of the cases we coded is the key difference, and a large part of why ML is so powerful in industry.
 
 > **Extra:** Addition is a toy example; in practice we would just write the one line of code. Also, a model only learns the cases its data covers: a basic model trained only on pairs of numbers expects exactly two inputs, so to handle four or ten numbers, the training data must include rows like that. The point holds: the logic comes from the data, so new cases are handled by adding data, not by rewriting code.
 
@@ -119,13 +119,13 @@ Advertising companies find out about the rule and write "big" or "massive" inste
 
 *With Machine Learning* (Figure 2, right), the logic comes from the data. When advertisers change their words, we add the new labelled emails to the data, and the change is reflected in the logic automatically. We write one algorithm, and it handles everything else.
 
-> **Extra:** This is how real spam filters moved to ML. Paul Graham spent months writing spam rules by hand, then found that a simple filter which learns word probabilities from labelled emails worked far better: it missed fewer than 5 in 1,000 spams and wrongly flagged no real emails (Graham 2002). That method, Naive Bayes, is covered in [Note 87](../87-naive-bayes-intuition/note.md).
+> **Extra:** Real spam filters moved to ML in exactly this way. An early study trained a simple filter that learns word probabilities from labelled emails. Using words alone, 97.1% of the emails it flagged as junk really were junk, and it caught 94.3% of all junk (Sahami et al. 1998, Table 1). That method, Naive Bayes, is covered in [Note 87](../87-naive-bayes-intuition/note.md).
 
 ### 4.2 When there are too many cases: recognising dogs
 
 > **Key point:** Some problems have so many cases that no one can write them all. We learn them from examples instead, as humans do.
 
-Suppose we want a program that tells whether a picture contains a dog. This is an **image classification** problem.
+Suppose we want a program that tells whether a picture contains a dog. Deciding what a picture contains is an **image classification** problem.
 
 There are hundreds of dog breeds:
 
@@ -159,7 +159,7 @@ Most of the time, when we need to extract hidden patterns from data, we use ML. 
 
 ## 5. A short history of Machine Learning
 
-> **Key point:** ML is decades old. It took off only after 2010, once we had enough data and hardware powerful enough to learn from it.
+> **Key point:** ML is decades old. ML took off only after 2010, once we had enough data and hardware powerful enough to learn from it.
 
 ### 5.1 Old ideas, late success
 
@@ -238,18 +238,18 @@ Figure 5 shows this pattern for any technology: the salary premium first rises, 
 - ML is decades old; data and hardware made it take off after 2010.
 - ML skills pay well because demand is ahead of supply; this will even out over time.
 
-## Sources
+## 8. Sources
 
-- Graham, P. (2002). *A Plan for Spam*. paulgraham.com/spam.html.
 - Han, J., Kamber, M. and Pei, J. (2011). *Data Mining: Concepts and Techniques*, 3rd ed. Morgan Kaufmann.
 - ITU (2022, 2024). *Measuring Digital Development: Facts and Figures 2022* and *2024*. International Telecommunication Union.
 - Krizhevsky, A., Sutskever, I. and Hinton, G. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS*.
 - Mitchell, T. (1997). *Machine Learning*. McGraw-Hill.
 - Rosenblatt, F. (1957). *The Perceptron: A Perceiving and Recognizing Automaton*. Report 85-460-1, Cornell Aeronautical Laboratory.
+- Sahami, M., Dumais, S., Heckerman, D. and Horvitz, E. (1998). A Bayesian Approach to Filtering Junk E-Mail. *AAAI-98 Workshop on Learning for Text Categorization*, Technical Report WS-98-05.
 - Samuel, A. (1959). Some Studies in Machine Learning Using the Game of Checkers. *IBM Journal of Research and Development* 3(3).
 - IBM (2013). *IBM Smarter Computing: Big Data* (brochure). public.dhe.ibm.com.
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -257,6 +257,9 @@ Figure 5 shows this pattern for any technology: the salary premium first rises, 
 | Explicit programming | Writing code for each specific scenario a program must handle |
 | Program | Logic written by us that turns an input into an output |
 | Data | Examples of inputs together with their outputs |
+| Feature | An input variable; one column of the data table |
+| Target | The output we want to predict |
+| Observation | One record; one row of the data table |
 | ML algorithm | A general method that finds the pattern between inputs and outputs in data |
 | Pattern | The relationship between input and output that the algorithm discovers |
 | Training | The step in which an algorithm learns the pattern from data |

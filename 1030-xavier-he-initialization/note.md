@@ -33,7 +33,7 @@ Figure 1 shows the effect. Only the scale of the random weights changes between 
 
 > **Key point:** With 250 inputs, weights of $\pm 0.01$ give a $z$ near 0; weights of $\pm 3$ give a $z$ that can reach $\pm 250$. A fixed scale cannot suit every layer size.
 
-Take a hidden layer whose nodes each receive 250 inputs. Its 250 × 250 weights were drawn in two ways in the previous Note:
+Take a hidden layer whose nodes each receive 250 inputs. The layer's 250 × 250 weights were drawn in two ways in the previous Note:
 
 - `np.random.randn(250, 250) * 0.01`: weights around $\pm 0.01$. Multiplied by inputs around $\pm 1$ and summed, they give a small $z$, which the activation turns into almost 0.
 - `np.random.randn(250, 250) * 1`: weights mostly between $-3$ and 3. The sum of 250 such products can be anywhere from about $-250$ to 250, and the activation saturates.
@@ -64,7 +64,7 @@ The rule is to draw the weights with variance $1/n$, where $n$ is the fan-in. Th
    $$W = \texttt{randn} \times \sqrt{\frac{1}{\text{fan-in}}}, \qquad \text{Var}(W) = \frac{1}{\text{fan-in}}$$
 3. **Example:** with 250 inputs, $\sqrt{1/250} = 0.063$, so the weights are mostly between about $-0.19$ and 0.19. With only 2 inputs, $\sqrt{1/2} = 0.71$: fewer inputs, larger weights.
 
-The intuition is a balance. If there are many inputs, each weight is made small so that the sum $\sum w_i x_i$ does not grow too big. If there are few inputs, each weight is made larger so that the sum is not too small.
+The intuition is a balance. If there are many inputs, each weight is made small so that the sum $\sum w_i x_i$ does not grow too big. If there are few inputs, each weight is made larger so that the sum is not too small. Think of a chain of loudspeakers, each feeding the next: if every speaker turns the sound down, the last one is silent; if every one turns it up, the last one distorts. Each speaker's volume knob must be set so that the sound leaves it as loud as it came in.
 
 > **Extra:** Why exactly $1/n$? For independent $w_i$ and $x_i$ with mean 0, the variance of a product is the product of the variances, $\text{Var}(wx) = E[w^2x^2] - (E[wx])^2 = E[w^2]\,E[x^2] - 0 = \text{Var}(w)\,\text{Var}(x)$, and variances of independent terms add (see the [expected value and variance Note](../332-expected-value-and-variance/note.md) for variance). So
 > $$\text{Var}(z) = \text{Var}\Big(\sum_{i=1}^{n} w_i x_i\Big) = n\,\text{Var}(w)\,\text{Var}(x)$$

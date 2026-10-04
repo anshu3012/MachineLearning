@@ -15,7 +15,7 @@ title: "Outlier Detection with the Percentile Method and Winsorization"
 
 > **Key point:** We pick a low and a high percentile, such as the 1st and the 99th; every value below the first or above the second is an outlier, and we trim those rows or cap the values at the limits.
 
-Note 41 listed three rules for detecting outliers. Note 42 covered the z-score rule for normal columns and Note 43 the IQR rule for skewed ones. This Note covers the third and simplest rule: the **percentile method**, which works on a column of any shape.
+Note 41 listed three rules for detecting outliers. Note 42 covered the z-score rule for normal features and Note 43 the IQR rule for skewed ones. This Note covers the third and simplest rule: the **percentile method**, which works on a **feature** (an input variable, one column of the data table) of any shape. Each **observation** is one record (one row), here one person.
 
 Figure 1 shows the whole method. We choose two cut-offs, turn them into a lower and an upper limit, and treat the values outside them by trimming or capping. Capping with percentile limits has its own name: **winsorization**.
 
@@ -25,9 +25,9 @@ Figure 1 shows the whole method. We choose two cut-offs, turn them into a lower 
 
 > **Key point:** Everything below the 1st percentile or above the 99th percentile is an outlier; the two cut-offs are our choice.
 
-The $p$-th percentile is the value that $p$% of the column lies below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains; it uses only the order of the values, never their shape.
+The $p$-th percentile is the value that $p$% of the feature's values lie below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains; it uses only the order of the values, never their shape.
 
-The method has a single step: cut off a small slice at each end of the column. Everything beyond the cut is an outlier.
+The method has a single step: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an outlier.
 
 The usual cut-offs are the 1st and the 99th percentile. Other common pairs are:
 
@@ -36,7 +36,7 @@ The usual cut-offs are the 1st and the 99th percentile. Other common pairs are:
 
 The limits, step by step:
 
-1. **In words:** the lower limit is the value that 1% of the column lies below; the upper limit is the value that 99% lies below.
+1. **In words:** the lower limit is the value that 1% of the values lie below; the upper limit is the value that 99% lies below.
 2. **Formula:** with $P_p$ the $p$-th percentile,
    $$\text{lower} = P_1, \qquad \text{upper} = P_{99}$$
 3. **Example:** the 10,000 heights of Section 4, sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
@@ -45,13 +45,13 @@ The limits, step by step:
 
 ## 3. Trimming and capping (winsorization)
 
-> **Key point:** Trimming removes the rows beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
+> **Key point:** Trimming removes the observations beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
 
 Trimming and capping work as in the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers), with the percentile limits as the limits.
 
 When the capping limits are percentiles, the technique is called **winsorization**, after the statistician who proposed it. Trimming with percentiles has no special name; it is simply trimming.
 
-> **Extra:** The name honours the statistician Charles P. Winsor, a colleague of John Tukey, who introduced the box plot (Note 20). The two worked on these methods together (Hastings et al. 1947), and Winsor had a big influence on Tukey (Brillinger).
+> **Extra:** The name honours the statistician Charles P. Winsor, a colleague of John Tukey, who introduced the box plot (Note 20). The two worked on these methods together (Hastings et al. 1947), and Tukey credited Winsor with converting him to statistics (Brillinger 2002, §6.3).
 
 ### 3.1 Variants of capping
 
@@ -81,7 +81,7 @@ The data is a table of 10,000 people, 5,000 men and 5,000 women, published on Ka
 - `Height`: in inches.
 - `Weight`: in pounds.
 
-We work on `Height`. `Weight` has almost no outliers by the box-plot rule (1 value beyond the fences), so it shows little; the same steps work on it.
+We work on `Height`. `Weight` has almost no outliers by the box-plot rule (1 value beyond the fences), so it shows little; the same steps work on it. `Gender` and `Weight` are not used, so there is no **target** (an output to predict) here: outlier handling is a cleaning step done before any model.
 
 The summary numbers of `Height`:
 
@@ -89,7 +89,7 @@ The summary numbers of `Height`:
 |---|---|---|---|---|---|---|---|
 | 10,000 | 66.37 | 3.85 | 54.26 | 63.51 | 66.32 | 69.17 | 79.00 |
 
-Figure 2 shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the column does hold extreme values.
+Figure 2 shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
 
 > **Extra:** One inch is 2.54 cm. The heights run from 54.26 inches (138 cm) to 79.00 inches (201 cm), with a mean of 66.37 inches (169 cm).
 
@@ -133,7 +133,7 @@ The percentile limits sit well inside the box-plot whiskers. The box plot flags 
 
 ## 6. Trimming in code
 
-> **Key point:** Keeping only the rows between 58.13 and 74.79 removes 200 rows and leaves 9,800.
+> **Key point:** Keeping only the observations between 58.13 and 74.79 removes 200 and leaves 9,800.
 
 Trimming is a filter: keep the rows whose height lies between the two limits.
 
@@ -164,7 +164,7 @@ The mean and median stay almost the same. The standard deviation drops a little,
 
 > **Key point:** Each height above 74.79 becomes 74.79 and each height below 58.13 becomes 58.13; all 10,000 rows stay.
 
-Capping goes through the column value by value, as in Notes 42 and 43:
+Capping goes through the feature value by value, as in Notes 42 and 43:
 
 - above the upper limit: replace it with the upper limit;
 - below the lower limit: replace it with the lower limit;
@@ -206,7 +206,7 @@ Only the minimum and maximum change much: they are now exactly the limits. Figur
 > **Extra:** Two shortcuts give the same kind of result.
 >
 > - pandas: `df["Height"].clip(lower_limit, upper_limit)` gives exactly the same column as the two `np.where` calls.
-> - SciPy has a ready-made function, `scipy.stats.mstats.winsorize(values, limits=(0.01, 0.01))`. It caps at the most extreme value that is kept (58.1345 and 74.7857), not at the interpolated percentile, so its limits differ in the fourth decimal. The `np.where` code is short enough that the extra library is not needed.
+> - SciPy has a ready-made function, `scipy.stats.mstats.winsorize(values, limits=(0.01, 0.01))`. `winsorize` caps at the most extreme value that is kept (58.1345 and 74.7857), not at the interpolated percentile, so its limits differ in the fourth decimal. The `np.where` code is short enough that the extra library is not needed.
 
 ## 8. Choosing the cut-offs
 
@@ -234,29 +234,29 @@ The limits follow the same train-only rule as the z-score limits of the [z-score
 > - **Training set**, 8,000 rows: 80 below the lower limit, 80 above the upper limit.
 > - **Test set**, 2,000 rows: 23 below, 16 above.
 >
-> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, and that is just chance. Each test height has a 1% chance of falling below the training limit, so out of 2,000 we expect about 20, give or take about 4 (the standard deviation $\sqrt{2000 \times 0.01 \times 0.99} = 4.4$). The 23 and 16 we see are well within that. Trimming the training set leaves 7,840 rows; the Notebook shows both steps.
+> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, as expected from random sampling. Each test height has a 1% chance of falling below the training limit, so out of 2,000 we expect about 20, give or take about 4 (the standard deviation $\sqrt{2000 \times 0.01 \times 0.99} = 4.4$). The 23 and 16 we see are well within that. Trimming the training set leaves 7,840 rows; the Notebook shows both steps.
 
 ## 10. Strengths and limits of the percentile method
 
-> **Key point:** The method is simple and works on any shape, but it always flags the chosen share of values, even when the column has no real outliers.
+> **Key point:** The method is simple and works on any shape, but it always flags the chosen share of values, even when the feature has no real outliers.
 
 - **Simple:** two percentiles give both limits; one line of code each.
-- **Shape-free:** it needs no bell shape and works on skewed columns too.
+- **Shape-free:** the percentile method needs no bell shape and works on skewed features too.
 - **Robust:** percentiles depend only on the order of the values, so extreme values cannot drag the limits out.
 
 > **Extra:** The catch is the fixed share. With the 1st and 99th percentiles, exactly 2% of the rows are flagged, whatever the data looks like. `Height` is almost normal: the z-score rule finds only 7 outliers in it and the IQR rule only 8, yet the percentile rule flags 200. `Weight`, with only 1 value beyond its box-plot fences, would also lose 200 values (last cell of the Notebook). So the percentile method decides *how many* values to treat, not *whether* a value is truly unusual. The intuition: winsorization calms the tails a little; it does not hunt for errors.
 
 ## 11. Comparing the three detection rules
 
-> **Key point:** Use the z-score rule for a normal column, the IQR rule for a skewed one, and the percentile rule when we want to treat a fixed share of each tail in any column.
+> **Key point:** Use the z-score rule for a normal feature, the IQR rule for a skewed one, and the percentile rule when we want to treat a fixed share of each tail in any feature.
 
-This Note closes the outlier group. Figure 4 applies all three rules to the same `Height` column. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
+This Note closes the outlier group. Figure 4 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
 
 ![The three detection rules on Height: the z-score and IQR limits lie close to the ends and flag 7 and 8 values; the 1st and 99th percentiles lie further in and flag 200](images/three_rules.png){height=48%}
 
 | | Z-score (Note 42) | IQR (Note 43) | Percentile (this Note) |
 |---|---|---|---|
-| Fits | roughly normal column | skewed column | any column |
+| Fits | roughly normal feature | skewed feature | any feature |
 | Built on | mean and standard deviation | $Q_1$ and $Q_3$ | two chosen percentiles |
 | Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\,\text{IQR}$, $Q_3 + 1.5\,\text{IQR}$ | $P_1$, $P_{99}$ |
 | Pulled by outliers | yes | hardly | hardly |
@@ -276,23 +276,25 @@ This Note closes the outlier group. Figure 4 applies all three rules to the same
 
 - The percentile rule flags every value below a low percentile or above a high one; the cut-offs are our choice.
 - Capping with percentile limits is called winsorization.
-- The rule works on any shape, but always flags the same share of rows (2% with 1 and 99).
+- The rule works on any shape, but always flags the same share of observations (2% with 1 and 99).
 - Use the variables for the limits, never rounded numbers typed by hand.
 - The limits should be learned on the training set only.
 
 
 ## 13. Sources
 
-- pandas documentation. `pandas.Series.quantile`. https://pandas.pydata.org/docs/reference/api/pandas.Series.quantile.html
+- pandas documentation, API reference, `pandas.Series.quantile`. pandas.pydata.org.
 - Hyndman, R. J. and Fan, Y. (1996). Sample quantiles in statistical packages. *The American Statistician*, 50(4), 361–365.
 - Hastings, C., Mosteller, F., Tukey, J. W. and Winsor, C. P. (1947). Low moments for small samples: a comparative study of order statistics. *Annals of Mathematical Statistics*, 18(3), 413–426.
-- Brillinger, D. R. Tukey, John Wilder (encyclopedia entry). https://www.stat.berkeley.edu/~brill/Papers/jwtencyc.pdf
+- Brillinger, D. R. (2002). John W. Tukey: his life and professional contributions. *Annals of Statistics*, 30(6), 1535–1575.
 
 ## 14. Key terms
 
 | Term | Meaning |
 |---|---|
-| Percentile method | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any column |
+| Feature | An input variable: one column of the data table |
+| Observation | One record: one row of the data table |
+| Percentile method | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any feature |
 | Winsorization | Capping with limits set by percentiles: values beyond a limit are replaced with the limit |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95 |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default |

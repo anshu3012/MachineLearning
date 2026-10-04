@@ -12,9 +12,9 @@ title: "The Kernel Trick in Code"
 
 ## 1. Overview
 
-> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the kernel to RBF, or to a degree-2 polynomial, scores 100%, using the same two input columns.
+> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the kernel to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
 
-The [kernel trick intuition Note](../95-kernel-trick-intuition/note.md) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new columns are needed. Figure 1 shows the four models we train.
+The [kernel trick intuition Note](../95-kernel-trick-intuition/note.md) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new features are needed. Figure 1 shows the four models we train.
 
 ![Decision regions of four SVMs on the circles data; ringed points are support vectors](images/kernels.png){height=58%}
 
@@ -24,7 +24,7 @@ All the code is in the Notebook of this Note (`notebook.ipynb`).
 
 > **Key point:** make_circles generates 100 points: one class in a small inner circle, the other in a ring around it.
 
-scikit-learn's sample generators create toy datasets. `make_circles` makes two concentric circles of points: 100 points, 50 per class, with two columns, the x and y coordinates. Class 1 (red) sits in the centre and class 0 (blue) in a ring around it.
+scikit-learn's sample generators create toy datasets. `make_circles` makes two concentric circles of points: 100 **observations** (one record each, one row of the data table), 50 per class, with two **features** (input variables, one column each): the x and y coordinates. The **target** (the output we predict) is the class. Class 1 (red) sits in the centre and class 0 (blue) in a ring around it.
 
 > **Python:** Generating the data.
 >
@@ -74,7 +74,7 @@ The [kernel trick intuition Note](../95-kernel-trick-intuition/note.md), section
 
 $$z = e^{-x_1^2} + e^{-x_2^2}$$
 
-It behaves the same way: points near the centre, where both coordinates are small, get the largest $z$.
+The per-coordinate bump behaves the same way: points near the centre, where both coordinates are small, get the largest $z$.
 
 - A centre point, $(0.1, 0.05)$: $z = e^{-0.01} + e^{-0.0025} = 0.990 + 0.998 = 1.99$.
 - A ring point, $(1, 0)$: $z = e^{-1} + e^{0} = 0.368 + 1 = 1.37$.
@@ -97,15 +97,15 @@ On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the r
 
 > **Key point:** The bump only works if it is centred on the right class. Without knowing the centre, we would need one bump per point, which is expensive.
 
-This worked because the bump $e^{-x^2}$ is centred at 0, exactly where the inner class sits. If the inner class were centred at 5, we would need $e^{-(x - 5)^2}$ instead. In higher dimensions we cannot look at the data and see where the centre is.
+The lift worked because the bump $e^{-x^2}$ is centred at 0, exactly where the inner class sits. If the inner class were centred at 5, we would need $e^{-(x - 5)^2}$ instead. In higher dimensions we cannot look at the data and see where the centre is.
 
-So SVM in effect tries a bump centred on each data point and keeps the combination that separates the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new columns at all (Section 7).
+So SVM in effect tries a bump centred on each data point and keeps the combination that separates the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new features at all (Section 7).
 
-> **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its decision function is a weighted sum of such bumps, one centred on each support vector: $\sum_{i \in SV} y_i \alpha_i K(x_i, x) + b$ (sklearn UG §1.4.7).
+> **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. The SVM's decision function is a weighted sum of such bumps, one centred on each support vector: $\sum_{i \in SV} y_i \alpha_i K(x_i, x) + b$ (sklearn UG §1.4.7).
 
 ## 5. The RBF kernel
 
-> **Key point:** SVC(kernel="rbf") reaches 100% test accuracy, with the same two columns and no feature engineering.
+> **Key point:** SVC(kernel="rbf") reaches 100% test accuracy, with the same two features and no feature engineering.
 
 Now we let SVM do it. We train a new SVC with `kernel="rbf"` instead of `"linear"` and change nothing else.
 
@@ -119,13 +119,13 @@ Now we let SVM do it. We train a new SVC with `kernel="rbf"` instead of `"linear
 
 The test accuracy is 1.0. Figure 1, top right, shows its boundary: a closed curve around the centre class.
 
-We did not create any extra feature: only the original two columns went into the model, and the kernel did the calculation internally. Compare this with [polynomial regression](../61-polynomial-regression/note.md), where we had to add a new column for every power of the inputs.
+We did not create any extra feature: only the original two features went into the model, and the kernel did the calculation internally. Compare this with [polynomial regression](../61-polynomial-regression/note.md), where we had to add a new feature for every power of the inputs.
 
 ## 6. The polynomial kernel
 
 > **Key point:** kernel="poly" uses degree 3 by default and scores 45% here. With degree=2 it scores 100%. The degree is a hyperparameter.
 
-The polynomial kernel is chosen with `kernel="poly"`. It has an extra setting, `degree`, the degree of the polynomial. Its default is 3, and it is ignored by all other kernels.
+The polynomial kernel is chosen with `kernel="poly"`. The polynomial kernel has an extra setting, `degree`, the degree of the polynomial. The default degree is 3, and it is ignored by all other kernels.
 
 | Kernel | Test accuracy | Support vectors (of 80) |
 |---|---|---|
@@ -156,7 +156,7 @@ The table also shows the support vectors. The linear model needs almost every tr
 
 ## 7. Why it is a trick
 
-> **Key point:** A kernel gives the dot product of two points in the higher-dimensional space directly from the original coordinates, so the new columns are never built.
+> **Key point:** A kernel gives the dot product of two points in the higher-dimensional space directly from the original coordinates, so the new features are never built.
 
 SVM's training and predictions only need **dot products** between pairs of points (MML §12.4). A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
 
@@ -169,7 +169,7 @@ With numbers, for $a = (1, 2)$ and $b = (3, 1)$:
 - Kernel: $a \cdot b = 3 + 2 = 5$, so $K(a, b) = 5^2 = 25$.
 - Explicit features: $\phi(a) = (1,\ 2\sqrt{2},\ 4)$ and $\phi(b) = (9,\ 3\sqrt{2},\ 1)$, so $\phi(a) \cdot \phi(b) = 9 + 12 + 4 = 25$.
 
-The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). This is the trick that made SVM famous.
+The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). Getting the dot product without building the features is exactly the kernel trick.
 
 ## 8. An interactive playground
 
@@ -199,18 +199,18 @@ Things to try:
 
 - A linear SVM cannot separate circular classes.
 - Lifting with $z = e^{-x_1^2} + e^{-x_2^2}$ makes them separable by a plane in 3D.
-- With a kernel, SVM gets the same effect from the original two columns: no new features.
+- With a kernel, SVM gets the same effect from the original two features: no new features built.
 - The kernel's settings (degree, gamma) and C are hyperparameters to tune.
-- A kernel returns the dot product in the higher-dimensional space directly: that is the trick.
+- A kernel returns the dot product in the higher-dimensional space directly: the kernel trick.
 
-## Sources
+## 10. Sources
 
 - **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 12.2.1.
 - **MML:** M. P. Deisenroth, A. A. Faisal and C. S. Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020. Section 12.4, Kernels.
-- **sklearn UG:** scikit-learn User Guide, Section 1.4, Support Vector Machines (1.4.6 Kernel functions, 1.4.7 Mathematical formulation), and the `SVC` reference page.
-- **sklearn, "RBF SVM parameters":** scikit-learn example gallery, *RBF SVM parameters*.
+- **sklearn UG:** scikit-learn User Guide, Section 1.4, Support Vector Machines (1.4.6 Kernel functions, 1.4.7 Mathematical formulation), and the `SVC` reference page. scikit-learn.org/stable/modules/svm.html
+- **sklearn, "RBF SVM parameters":** scikit-learn example gallery, *RBF SVM parameters*. scikit-learn.org, auto_examples/svm/plot_rbf_parameters
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

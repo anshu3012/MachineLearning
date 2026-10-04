@@ -25,7 +25,7 @@ The Notebook for this Note (`notebook.ipynb`) runs every example, with the data 
 
 > **Key point:** JSON is a plain-text data format that almost every programming language can read, which makes it the standard way programs exchange data.
 
-**JSON** stands for **JavaScript Object Notation**. It started in the JavaScript language, but it is now a universal format: Java, Python, JavaScript and almost every other language can read and write it.
+**JSON** stands for **JavaScript Object Notation**. JSON started in the JavaScript language, but it is now a universal format: Java, Python, JavaScript and almost every other language can read and write it.
 
 Its most important use is in APIs. An **API** (application programming interface) is a service that other programs can send requests to. When a program sends a request to an API, the reply usually comes back as JSON, so any language can use it.
 
@@ -37,7 +37,7 @@ JSON is very common in ML work. Many datasets on sites such as Kaggle come as JS
 > - **Array:** an ordered list inside square brackets, `["garlic", "pepper", "salt"]`.
 > - **Values:** text in double quotes, numbers, `true`, `false`, `null`, or another object or array inside.
 >
-> Objects and arrays can sit inside each other to any depth. That is how JSON stores data that does not fit a flat table.
+> Objects and arrays can sit inside each other to any depth. Nesting is how JSON stores data that does not fit a flat table.
 
 > **Python:** JSON objects look like Python dictionaries, and JSON arrays look like Python lists.
 >
@@ -54,7 +54,7 @@ JSON is very common in ML work. Many datasets on sites such as Kaggle come as JS
 
 > **Key point:** SQL is the language for asking a database for data; a lot of real-world data lives in SQL databases.
 
-**SQL** stands for **Structured Query Language**. It is the language we use to pull data out of a **database**: a program that stores data as tables and answers requests for it.
+**SQL** stands for **Structured Query Language**. SQL is the language we use to pull data out of a **database**: a program that stores data as tables and answers requests for it.
 
 A request written in SQL is called a **query**. Company data (customers, orders, payments) usually lives in databases, and many datasets online are shared as SQL files. So for ML we often need to get data out of a database and into a DataFrame.
 
@@ -68,7 +68,7 @@ Our example is a recipe dataset, `train.json`, from a Kaggle competition. Each r
 - its `cuisine` (Greek, Indian, Mexican and so on),
 - its `ingredients`, a list of text.
 
-The ML task behind this dataset is classification: look at a dish's ingredients and predict which cuisine it belongs to. Here we only load the data; building the model is a job for later.
+The ML task behind this dataset is classification: look at a dish's ingredients and predict which cuisine it belongs to. Each dish is one **observation** (one record, one row of the table). The ingredients are the **feature** (the input variable the model learns from), and the cuisine is the **target** (the output we predict). Here we only load the data; building the model is a job for later.
 
 > **Python:** Reading a JSON file.
 >
@@ -106,9 +106,9 @@ Figure 3 counts the dishes of each cuisine. There are 20 cuisines, and they are 
 | `nrows` | Read only the first few rows |
 | `chunksize` | Read a large file a piece at a time, so it does not fill the computer's memory (RAM) |
 
-The pandas documentation for `read_json` lists every option. It is worth trying them on a few different JSON datasets.
+The pandas documentation for `read_json` lists every option. Trying the options is worthwhile on a few different JSON datasets.
 
-> **Extra:** `nrows` and `chunksize` only work with `lines=True`. That setting is for **JSON Lines** files (`.jsonl`), which hold one JSON object per line instead of one big list. `train.json` is one big list, so `pd.read_json("data/train.json", nrows=5)` gives an error: "nrows can only be passed if lines=True".
+> **Extra:** `nrows` and `chunksize` only work with `lines=True`. The `lines=True` setting is for **JSON Lines** files (`.jsonl`), which hold one JSON object per line instead of one big list. `train.json` is one big list, so `pd.read_json("data/train.json", nrows=5)` gives an error: "nrows can only be passed if lines=True".
 
 > **Extra:** In older pandas, `read_json` also accepted JSON text itself, for example `pd.read_json('[{"a": 1}]')`. pandas 2.1 deprecated this (pandas release notes), and pandas 3.0 treats any text as a file name and fails with `FileNotFoundError`. To read JSON text, wrap the text first: `pd.read_json(io.StringIO(text))`, after `import io`.
 
@@ -174,7 +174,7 @@ After the import, the database holds three tables:
 
 Python and a database are two separate programs. To let them talk, we need a **connector**: a library that opens a **connection** between them.
 
-For MySQL it is `mysql.connector`; for SQLite it is `sqlite3`, which comes with Python. Figure 5 shows the bridge.
+For MySQL the connector is `mysql.connector`; for SQLite it is `sqlite3`, which comes with Python. Figure 5 shows the bridge.
 
 ![Python talks to the database through a connection](images/sql_flow.png)
 
@@ -284,17 +284,20 @@ There are other ways to work with SQL from Python, but this one is simple and co
 - `read_sql_query` runs the query and returns a DataFrame. `WHERE` filters rows inside the database.
 - The pandas code is the same for MySQL and SQLite; only the connection changes.
 
-## Sources
+## 10. Sources
 
-- pandas documentation. `pandas.read_sql`. pandas.pydata.org.
+- pandas documentation. `pandas.read_json` and `pandas.read_sql`. pandas.pydata.org.
 - pandas release notes. What's new in 2.1.0. pandas.pydata.org/docs/whatsnew.
 - PyPI. mysql-connector 2.2.9 (released 1 April 2019). pypi.org/project/mysql-connector.
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
 | JSON (JavaScript Object Notation) | A plain-text data format of objects and arrays that almost every language can read |
+| Observation | One record of the data, one row of the table |
+| Feature | An input variable a model learns from |
+| Target | The output a model predicts |
 | API | A service that programs send requests to; it usually replies in JSON |
 | JSON Lines | A JSON file with one object per line, read with `lines=True` |
 | SQL (Structured Query Language) | The language for asking a database for data |

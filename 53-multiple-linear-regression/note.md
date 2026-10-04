@@ -14,11 +14,13 @@ title: "Multiple Linear Regression: Geometric Intuition and Code"
 
 ## 1. Overview
 
-> **Key point:** Multiple linear regression is simple linear regression with more than one input column. With two inputs it fits a plane; with more, a hyperplane.
+> **Key point:** Multiple linear regression is simple linear regression with more than one feature. With two inputs it fits a plane; with more, a hyperplane.
 
-Simple linear regression used one input, CGPA, to predict the package. Real data almost always has several input columns: CGPA, gender, IQ, 12th-grade marks, and so on. Linear regression with more than one input column is called **multiple linear regression**.
+A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row).
 
-Nothing new has to be learned for it: everything from simple linear regression carries over. Simple linear regression is just the special case with one input column. This Note covers the geometry and the code; the next two Notes derive the mathematics and code it from scratch.
+Simple linear regression used one feature, CGPA, to predict the package. Real data almost always has several features: CGPA, gender, IQ, 12th-grade marks, and so on. Linear regression with more than one feature is called **multiple linear regression**.
+
+Nothing new has to be learned for multiple linear regression: everything from simple linear regression carries over. Simple linear regression is just the special case with one feature. A recipe works the same way: the cake's taste depends on sugar, flour and butter together, each in its own amount, instead of on sugar alone. This Note covers the geometry and the code; the next two Notes derive the mathematics and code it from scratch.
 
 ## 2. From a line to a hyperplane
 
@@ -60,11 +62,11 @@ $$\hat{y} = -1.9 + 58.6 x_1 + 29.1 x_2$$
 
 For a point with $x_1 = 1$ and $x_2 = 0.5$: $\hat{y} = -1.9 + 58.6 + 14.6 = 71.3$.
 
-With $n$ input columns there are $n + 1$ numbers to find: one **coefficient** per column plus the intercept. Training the model means finding them.
+With $n$ features there are $n + 1$ numbers to find: one **coefficient** per feature plus the intercept. Training the model means finding them.
 
 ### 3.1 What the coefficients mean
 
-> **Key point:** Each coefficient is the change in the output when its input rises by 1 and the other inputs stay the same. It acts as the input's weight.
+> **Key point:** Each coefficient is the change in the output when its feature rises by 1 and the other features stay the same: the feature's weight.
 
 The meaning carries over from the slope $m$:
 
@@ -78,11 +80,11 @@ So the coefficients act as **weights**: in Figure 1, the target depends about tw
 
 ## 4. Multiple linear regression in scikit-learn
 
-> **Key point:** The code is exactly the same as for one input; LinearRegression simply returns one coefficient per column.
+> **Key point:** The code is exactly the same as for one feature; LinearRegression simply returns one coefficient per feature.
 
-The example data has 100 rows, 2 input columns and some noise, made with scikit-learn's `make_regression`.
+The example data has 100 observations, 2 features and some noise, made with scikit-learn's `make_regression`.
 
-> **Python:** Training on two input columns.
+> **Python:** Training on two features.
 >
 > ```python
 > from sklearn.datasets import make_regression
@@ -95,13 +97,13 @@ The example data has 100 rows, 2 input columns and some noise, made with scikit-
 >     X, y, test_size=0.2, random_state=3)
 >
 > lr = LinearRegression().fit(X_train, y_train)
-> lr.coef_         # [58.6, 29.1]: one per input column
+> lr.coef_         # [58.6, 29.1]: one per feature
 > lr.intercept_    # -1.9
 > ```
 >
 > `make_regression` invents data that follows a linear pattern plus random noise; `random_state` fixes it so the numbers repeat.
 
-On the 20 test rows: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook).
+On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook).
 
 > **Extra:** To draw the plane, we predict on a grid of $(x_1, x_2)$ points and plot the predictions as a surface. The Notebook does this with Plotly, and the 3D plot can be turned with the mouse to see the points above and below the plane.
 
@@ -119,16 +121,19 @@ On the 20 test rows: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to t
 - Each coefficient is the change in the output per unit of its input, with the other inputs fixed: a weight.
 - The intercept $\beta_0$ is the prediction when every input is 0.
 
-## Sources
+## 6. Sources
 
 - Gelman, A. (2008). Scaling regression inputs by dividing by two standard deviations. *Statistics in Medicine* 27(15): 2865–2873.
 
-## 6. Key terms
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|
-| Multiple linear regression | Linear regression with two or more input columns |
-| Plane | A flat surface in 3D; the model for two input columns |
-| Hyperplane | A flat surface in more than three dimensions; the model for three or more input columns |
-| Coefficient ($\beta_i$) | The weight of one input column: the change in the output per unit of that input, others fixed |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
+| Multiple linear regression | Linear regression with two or more features |
+| Plane | A flat surface in 3D; the model for two features |
+| Hyperplane | A flat surface in more than three dimensions; the model for three or more features |
+| Coefficient ($\beta_i$) | The weight of one feature: the change in the output per unit of that input, others fixed |
 | make_regression | scikit-learn function that generates data following a linear pattern plus noise |
