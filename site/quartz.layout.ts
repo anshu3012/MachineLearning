@@ -12,11 +12,12 @@ const sortFn: Options["sortFn"] = (a, b) => {
 
 // Explorer: show the number in front of the title ("06 Regression", "ML-049 Simple Linear Regression ...").
 const mapFn: Options["mapFn"] = (node) => {
-  const m = node.slugSegment.match(/^(\d{2}|[A-Z]{2}-\d{3})-/)
-  if (m && node.displayName !== node.slugSegment) node.displayName = `${m[1]} ${node.displayName}`
+  const seg = node.slugSegment ?? ""            // the root node has no segment: guard it, or the tree never builds
+  const m = seg.match(/^(\d{2}|[A-Z]{2}-\d{3})-/)
+  if (m && node.displayName !== seg) node.displayName = `${m[1]} ${node.displayName}`
 }
 
-const explorer = Component.Explorer({ sortFn, mapFn, folderClickBehavior: "link" })
+const explorer = Component.Explorer({ sortFn, mapFn, folderClickBehavior: "collapse" })
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
