@@ -1,0 +1,70 @@
+import { PageLayout, SharedLayout } from "./quartz/cfg"
+import * as Component from "./quartz/components"
+import { Options } from "./quartz/components/Explorer"
+
+// CampusX Notes layout. Copied over Quartz's quartz.layout.ts by site/build-content.sh.
+
+// Explorer: order by slug (file name), so chapters and Notes follow their numbers, folders first.
+const sortFn: Options["sortFn"] = (a, b) => {
+  if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1
+  return a.slug.localeCompare(b.slug)
+}
+
+// Explorer: show the number in front of the title ("06 Regression", "ML-049 Simple Linear Regression ...").
+const mapFn: Options["mapFn"] = (node) => {
+  const m = node.slugSegment.match(/^(\d{2}|[A-Z]{2}-\d{3})-/)
+  if (m && node.displayName !== node.slugSegment) node.displayName = `${m[1]} ${node.displayName}`
+}
+
+const explorer = Component.Explorer({ sortFn, mapFn, folderClickBehavior: "link" })
+
+export const sharedPageComponents: SharedLayout = {
+  head: Component.Head(),
+  header: [],
+  afterBody: [],
+  footer: Component.Footer({
+    links: {
+      "Source on GitHub": "https://github.com/anshu3012/MachineLearning",
+    },
+  }),
+}
+
+// single Note pages
+export const defaultContentPageLayout: PageLayout = {
+  beforeBody: [
+    Component.ConditionalRender({
+      component: Component.Breadcrumbs(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ArticleTitle(),
+    Component.ContentMeta(),
+    Component.TagList(),
+  ],
+  left: [
+    Component.PageTitle(),
+    Component.MobileOnly(Component.Spacer()),
+    Component.Flex({
+      components: [
+        { Component: Component.Search(), grow: true },
+        { Component: Component.Darkmode() },
+        { Component: Component.ReaderMode() },
+      ],
+    }),
+    explorer,
+  ],
+  right: [Component.DesktopOnly(Component.TableOfContents()), Component.Backlinks()],
+}
+
+// folder (chapter) and tag listing pages
+export const defaultListPageLayout: PageLayout = {
+  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  left: [
+    Component.PageTitle(),
+    Component.MobileOnly(Component.Spacer()),
+    Component.Flex({
+      components: [{ Component: Component.Search(), grow: true }, { Component: Component.Darkmode() }],
+    }),
+    explorer,
+  ],
+  right: [],
+}
