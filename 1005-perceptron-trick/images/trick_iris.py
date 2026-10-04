@@ -36,7 +36,7 @@ def frame(k):
     for cls, col, name in ((0, BLUE, "setosa (0)"), (1, ORANGE, "versicolor (1)")):
         fig.add_trace(go.Scatter(x=P[y == cls, 0], y=P[y == cls, 1], mode="markers", name=name,
                                  marker=dict(color=col, size=11, opacity=0.8)))
-    xs = np.array([0.0, 6.0])
+    xs = np.array([-3.0, 6.0])
     fig.add_trace(go.Scatter(x=xs, y=-(w[0] + w[1] * xs) / w[2], mode="lines", line=dict(color="black", width=4),
                              name="decision boundary"))
     col = RED if wrong else GREEN
@@ -46,7 +46,7 @@ def frame(k):
                       title=dict(text=f"pick {k + 1}: <span style='color:{col}'><b>"
                                       f"{'misclassified, the line moves' if wrong else 'correct, the line stays'}</b></span>"
                                       f"<br>misclassified points now: <b>{miss}</b>", x=0.5),
-                      xaxis=dict(title="petal length (cm)", range=[0.5, 5.5]), yaxis=dict(title="petal width (cm)", range=[-0.3, 2.2]),
+                      xaxis=dict(title="petal length (cm)", range=[-2, 5.5]), yaxis=dict(title="petal width (cm)", range=[-1.6, 2.3]),
                       legend=dict(x=0.01, y=0.99), margin=dict(l=80, r=20, t=120, b=70))
     return fig
 

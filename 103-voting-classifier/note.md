@@ -19,10 +19,10 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 The idea and the probability behind voting are in the [voting ensemble Note](../102-voting-ensemble/note.md). This Note applies them to classification:
 
-- a demo of decision surfaces, showing what voting does to the decision boundary;
-- the two kinds of voting, **hard** and **soft**, and how they differ;
-- scikit-learn's `VotingClassifier` on a real dataset, with its `weights` hyperparameter;
-- voting over one algorithm with different settings.
+- a demo of decision surfaces, showing what voting does to the decision boundary (section 2);
+- the two kinds of voting, **hard** and **soft**, and how they differ (section 3);
+- scikit-learn's `VotingClassifier` on a real dataset, with its `weights` hyperparameter (section 4);
+- voting over one algorithm with different settings (section 5).
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` lets us pick a dataset, base models and the voting type, and redraws every decision surface.
 
@@ -41,7 +41,7 @@ The app trains the chosen models and the voting classifier on 80% of the **obser
 
 On the concentric-circles data, one class forms rings around the other, so no straight line separates them. With logistic regression and Gaussian naive Bayes (hard voting):
 
-| Base models | Each model's test accuracy | Voting classifier |
+| Base models | Each model's test accuracy | Voting classifier (G-2095) |
 |---|---|---|
 | logistic regression, Gaussian naive Bayes | 0.53, 0.60 | **0.63** |
 
@@ -202,7 +202,7 @@ Both votes beat the best single model. The gain is about one to two points: the 
 
 > **Key point:** `weights` gives each model's vote a different importance. With members this close, the best weights (3, 3, 2) add almost nothing: 0.844 against 0.841.
 
-By default every model's vote counts the same, as in a democracy. The `weights` hyperparameter changes that: `weights=[5, 1]` makes the first model's vote count five times as much as the second's. In hard voting it multiplies the votes; in soft voting it gives a weighted average of the probabilities.
+By default every model's vote counts the same, as in a democracy. The `weights` (G-2120) hyperparameter changes that: `weights=[5, 1]` makes the first model's vote count five times as much as the second's. In hard voting it multiplies the votes; in soft voting it gives a weighted average of the probabilities.
 
 1. **In words:** each model's probability is multiplied by its weight, and the sum is divided by the total weight.
 2. **Formula:** with weights $w_1, \dots, w_n$,
@@ -225,9 +225,15 @@ To find good weights, we try them all: each weight from 1 to 3 for each of the t
 >             print(i, j, k, round(acc, 3))
 > ```
 
+Figure 6 shows all 27 scores. Each panel fixes the KNN weight; inside a panel, the logistic regression weight runs left to right and the random forest weight bottom to top.
+
+![Soft-vote accuracy on the heart disease data for all 27 weight triples (each weight 1 to 3). Red outline: the best, (3, 3, 2), 0.844. Dashed outline: equal weights, 0.841. Every cell lies between 0.833 and 0.844](images/weights_grid.png){height=30%}
+
+In Figure 6, watch how little the numbers move: the worst triple scores 0.833 and the best 0.844.
+
 The best combination is **(3, 3, 2)** with **0.844**, against 0.841 for equal weights. When the members are about equally good, equal weights are already close to the best. Trying values and keeping the best is hyperparameter tuning; `GridSearchCV` (the [KNN Note](../91-knn/note.md), section 4.2) can run the same search for us.
 
-> **Extra:** Weights matter when one member is much stronger than the rest. Take a hard version of the iris data (the [softmax regression Note](../79-softmax-regression/note.md)): only versicolor and virginica, and only the two sepal features, where the two species overlap heavily (100 observations, plain 10-fold cross-validation). Logistic regression scores 0.75, random forest 0.60 and KNN 0.61. The weak pair outvotes the strong model: hard voting scores 0.67 and soft voting 0.64, both below logistic regression alone. Weights (3, 1, 1), which give logistic regression the biggest say, lift soft voting to 0.71, still below 0.75. Voting needs members that are both accurate and diverse (Dietterich, 2000, section 1); when one member is far ahead, the honest choice is that member alone.
+> **Extra:** Weights matter when one member is much stronger than the rest. Take a hard version of the iris data (the [softmax regression Note](../79-softmax-regression/note.md)): only versicolor and virginica, and only the two sepal features, where the two species overlap heavily (100 observations, plain 10-fold cross-validation). Logistic regression scores 0.75, random forest 0.60 and KNN 0.61. The weak pair outvotes the strong model: hard voting scores 0.67 and soft voting 0.64, both below logistic regression alone. Weights (3, 1, 1), which give logistic regression the biggest say, lift soft voting to 0.71, still below 0.75. Voting needs members that are both accurate and diverse (Dietterich, 2000, section 1); when one member is far ahead, the honest choice is that member alone. The loss is what the [voting ensemble Note](../102-voting-ensemble/note.md) (section 3) predicts: a vote cannot be relied on to beat a member that is much stronger than the others, because the weaker members can outvote it.
 
 ## 5. One algorithm, different settings
 
@@ -245,7 +251,7 @@ Normally we would keep degree 3. Putting all five SVMs into a soft-voting classi
 
 ![Polynomial-kernel SVMs of degree 1 to 5, each alone, and all five in one soft vote (10-fold cross-validation)](images/svm_degrees.png)
 
-In Figure 6, compare the green bar with the orange one: the vote of all five settings beats the best single setting by 3.4 points.
+In Figure 7, compare the green bar with the orange one: the vote of all five settings beats the best single setting by 3.4 points.
 
 > **Python:** Voting over five SVMs.
 >
@@ -264,7 +270,7 @@ Both approaches are used: different algorithms, or one algorithm with several se
 
 ## 6. Summary
 
-| | Hard voting | Soft voting |
+| | Hard voting (G-878) | Soft voting (G-1828) |
 |---|---|---|
 | Combines | predicted labels | predicted probabilities |
 | Rule | most common label | highest average probability |
@@ -293,11 +299,11 @@ Both approaches are used: different algorithms, or one algorithm with several se
 
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record of the data: one row of the data table |
-| Target | The output we predict |
-| Voting classifier | A classifier that combines several trained classifiers by voting |
-| Hard voting | Predicting the label that most base models predict |
-| Soft voting | Predicting the class with the highest average predicted probability across the base models |
-| weights | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance |
-| CalibratedClassifierCV | scikit-learn wrapper that gives a classifier, such as an SVM, calibrated probabilities |
+| Feature (G-772) | An input variable: one column of the data table |
+| Observation (G-1374) | One record of the data: one row of the data table |
+| Target (G-1949) | The output we predict |
+| Voting classifier (G-2095) | A classifier that combines several trained classifiers by voting |
+| Hard voting (G-878) | Predicting the label that most base models predict |
+| Soft voting (G-1828) | Predicting the class with the highest average predicted probability across the base models |
+| weights (G-2120) | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance |
+| CalibratedClassifierCV (G-340) | scikit-learn wrapper that gives a classifier, such as an SVM, calibrated probabilities |

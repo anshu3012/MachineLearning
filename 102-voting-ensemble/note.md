@@ -18,7 +18,7 @@ tags: [subject/ml, area/descriptive, area/models-2, step/foundations, step/model
 
 A **voting ensemble** (G-2096) is the simplest ensemble ([introduction to ensemble learning Note](../101-ensemble-learning/note.md), section 4.1). This Note and the next two cover it:
 
-- this Note: the core idea, why voting works (with probability), and the two assumptions it needs;
+- this Note: the core idea (section 2), a puzzle (section 3), the two assumptions voting needs (section 4), and why voting works, with probability (section 5);
 - hard and soft voting, code and hyperparameters: the [voting classifier Note](../103-voting-classifier/note.md);
 - the same ideas for regression: the [voting regressor Note](../104-voting-regressor/note.md).
 
@@ -35,6 +35,11 @@ Take a few models, say M1, M2 and M3. The models inside an ensemble are its **ba
 ![Training: every model learns from the same data. Prediction: every model answers the query, and the majority (or mean) is returned](images/train_predict.png){height=28%}
 
 In Figure 1, follow the query $x_q$: it reaches all three models, two answer A and one answers B, so the ensemble answers A.
+
+Two small examples with numbers:
+
+- **Classification.** For a query point, M1 predicts 1, M2 predicts 0 and M3 predicts 0. Class 0 has two votes of three, so the ensemble predicts 0.
+- **Regression.** M1 predicts 0.5, M2 predicts 0.8 and M3 predicts 0.55. The ensemble predicts their mean, $(0.5 + 0.8 + 0.55) / 3 = 0.617$.
 
 Those two steps are the whole algorithm. A voting ensemble works like an election, which is where the name comes from.
 
@@ -76,6 +81,17 @@ Because the models are independent, the probability of a combination of outcomes
 
 The majority is right when **at least two** models are right. Four of the eight combinations qualify.
 
+Figure 5 adds those four up, one at a time:
+
+1. All three right: $0.7 \times 0.7 \times 0.7 = 0.343$.
+2. M1 and M2 right, M3 wrong: $0.7 \times 0.7 \times 0.3 = 0.147$. Running total 0.490.
+3. M1 and M3 right, M2 wrong: 0.147. Running total 0.637.
+4. M2 and M3 right, M1 wrong: 0.147. Running total 0.784.
+
+![The eight combinations of Figure 4 as bars. The four where the majority is right light up in turn, and their probabilities stack up on the right: 0.343, 0.490, 0.637, 0.784, above the 0.7 of one model](images/tree_sum.gif){height=50%}
+
+In Figure 5, watch the stacked bar on the right pass the blue bar of a single model when the last piece is added. The general rule behind the four steps:
+
 1. **In words:** add the probabilities of "all three right" and of the three ways to have exactly two right.
 2. **Formula:** with each model right with probability $p$,
    $$P(\text{vote right}) = p^3 + 3\thinspace p^2(1-p)$$
@@ -104,7 +120,7 @@ A vote accuracy of about 22% is worse than every single model (30%). The value 0
 
 ![(a) Accuracy of the vote against the number of independent models; (b) 11 models of accuracy 0.7 whose answers are partly copied from a common source](images/majority_vote.png){height=45%}
 
-Figure 5a uses the formula of the Extra box for 1 to 101 models:
+Figure 6a uses the formula of the Extra box for 1 to 101 models:
 
 | Each model | 3 models | 11 models | 101 models |
 |---|---|---|---|
@@ -115,15 +131,15 @@ Figure 5a uses the formula of the Extra box for 1 to 101 models:
 
 Even models only slightly better than chance (0.6) reach a vote of 0.98 with 101 of them. Models at exactly 0.5 gain nothing, and models below 0.5 drive the vote to 0.
 
-The dots in Figure 5a come from a simulation: 20,000 random trials of independent models of accuracy 0.6. They sit on the formula's line, so the formula is right.
+The dots in Figure 6a come from a simulation: 20,000 random trials of independent models of accuracy 0.6. They sit on the formula's line, so the formula is right.
 
-Figure 5b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answer is, with some probability, copied from one shared source instead of being the model's own:
+Figure 6b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answer is, with some probability, copied from one shared source instead of being the model's own:
 
 - with no copying (independent models), the vote scores about **0.92**;
 - with half the answers copied, about **0.74**;
 - with everything copied, the eleven models act as one, and the vote scores **0.7**, no better than a single model.
 
-> **Extra:** Models trained on the same data are usually correlated, so real gains are smaller than Figure 5a promises: the correlation between the models limits what combining them can gain (ESL §15.2), just as Figure 5b shows. An ensemble beats its members only when they are both accurate and *diverse*, meaning they make different errors (Dietterich, 2000). Correlation is the reason ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
+> **Extra:** Models trained on the same data are usually correlated, so real gains are smaller than Figure 6a promises: the correlation between the models limits what combining them can gain (ESL §15.2), just as Figure 6b shows. An ensemble beats its members only when they are both accurate and *diverse*, meaning they make different errors (Dietterich, 2000). Correlation is the reason ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
 
 ## 6. Summary
 
@@ -154,7 +170,8 @@ Figure 5b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 
 | Term | Meaning |
 |---|---|
-| Voting ensemble | Several models trained on the same data, combined by majority vote (classification) or mean (regression) |
+| Voting ensemble (G-2096) | Several models trained on the same data, combined by majority vote (classification) or mean (regression) |
+| Base model (G-260) | One of the models inside an ensemble |
 | Independent models | Models whose mistakes are unrelated, so one being wrong says nothing about the others |
-| Binomial distribution | The distribution of the number of successes in $n$ independent trials with the same success probability |
-| Condorcet's jury theorem | A majority of independent voters, each right with probability above 0.5, is right more often than any one voter, and more so as voters are added |
+| Binomial distribution (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability |
+| Condorcet's jury theorem (G-445) | A majority of independent voters, each right with probability above 0.5, is right more often than any one voter, and more so as voters are added |

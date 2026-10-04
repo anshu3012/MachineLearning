@@ -120,7 +120,7 @@ So `n_estimators` needs a middle value, like `max_depth` for a decision tree (th
 
 1. **In words:** each stump's say is the usual alpha (the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md), section 6) times the learning rate $\eta$ (eta).
 2. **Formula:**
-   $$\alpha_t = \eta \times \frac{1}{2}\ln\left(\frac{1-\text{error}_t}{\text{error}_t}\right)$$
+   $$\alpha_t = \eta \times \frac{1}{2}\ln\left(\frac{1-\text{error} _t}{\text{error} _t}\right)$$
 3. **Example:** a stump with error 0.3 has the usual alpha 0.4236 (the from-scratch Note). With $\eta = 0.1$:
    $$\alpha = 0.1 \times 0.4236 = 0.0424$$
 

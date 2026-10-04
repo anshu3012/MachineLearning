@@ -159,7 +159,7 @@ A random forest adds nothing new: each tree computes its importances as in secti
 
 1. **In words:** a feature's importance in the forest is the mean of its importance in each tree.
 2. **Formula:** for a forest of $T$ trees,
-   $$\text{importance}_{\text{forest}}(j) = \frac{1}{T}\sum_{t=1}^{T} \text{importance}_t(j)$$
+   $$\text{importance} _{\text{forest}}(j) = \frac{1}{T}\sum_{t=1}^{T} \text{importance} _t(j)$$
 3. **Example:** a forest of 2 trees on the 5-observation data. Tree 1 gives (0.625, 0.375); tree 2 splits only on feature 1 and gives (0, 1):
    $$\text{column 0}: \frac{0.625 + 0}{2} = 0.3125 \qquad \text{column 1}: \frac{0.375 + 1}{2} = 0.6875$$
    `rf.feature_importances_` gives exactly (0.3125, 0.6875).

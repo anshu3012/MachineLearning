@@ -19,9 +19,10 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 The **voting regressor** (G-2097) is the regression version of the voting classifier (the [voting classifier Note](../103-voting-classifier/note.md)). Only the aggregation step changes: instead of a vote, we take the **mean** (G-1203) of the **base models'** (G-260) outputs. This Note covers:
 
-- the core idea and a demo with curves;
-- scikit-learn's `VotingRegressor` on the Boston housing data, with `weights`;
-- voting over one algorithm with different settings.
+- the core idea (section 2) and a demo with curves (section 3);
+- scikit-learn's `VotingRegressor` on the Boston housing data, with `weights` (sections 4.1 to 4.3);
+- voting over one algorithm with different settings (section 4.4);
+- why the cross-validation folds must be shuffled on this data (section 4.5).
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` lets us tick base regressors and redraws their curves next to the voting regressor's.
 
@@ -31,6 +32,11 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 We have base models M1, M2 and M3, all regression algorithms, trained on the same dataset D. For a new query point $x_q$, each returns a number, and the voting regressor returns their mean (the [introduction to ensemble learning Note](../101-ensemble-learning/note.md), section 3.3, works an example). With weights, it returns the weighted mean, exactly as in soft voting (the [voting classifier Note](../103-voting-classifier/note.md), section 4.3).
 
+1. **In words:** add the base models' predictions and divide by how many there are.
+2. **Formula:** with $n$ base models predicting $f_1, \dots, f_n$ for the query point, and optional weights $w_1, \dots, w_n$,
+   $$\hat y = \frac{1}{n}\sum_{i=1}^{n} f_i \qquad\text{or, with weights,}\qquad \hat y = \frac{\sum_{i=1}^{n} w_i f_i}{\sum_{i=1}^{n} w_i}$$
+3. **Example:** three models predict 0.5, 0.8 and 0.55. The vote is $(0.5 + 0.8 + 0.55)/3 = 0.617$. With weights (1, 2, 1) it is $(0.5 + 1.6 + 0.55)/4 = 0.663$, pulled towards the second model.
+
 ![A query point sweeps across the sine data of section 3; at each position the three base regressors give a number each (coloured dots), and the vote is their mean (blue star)](images/voting_scan.gif){height=60%}
 
 In Figure 1, watch the star: at every $x_q$ it sits at the mean of the three dots, and its trail is the voting regressor's curve.
@@ -39,9 +45,9 @@ In Figure 1, watch the star: at every $x_q$ it sits at the mean of the three dot
 
 > **Key point:** The voting regressor's curve runs between its base models' curves and smooths out the extremes of each. Its score is never below the average score of its members.
 
-The demo data is a sine wave of 80 points between 0 and 5, with every fifth point pushed up or down at random: a non-linear pattern with a few outliers. We train on 72 points and keep 8 for testing. Figure 2 shows three base regressors and the voting regressor.
+The demo data is a sine wave of 80 points between 0 and 5, with every fifth point pushed up or down at random: a non-linear pattern with a few outliers. We train on 72 points and keep 8 for testing. Figure 2 adds three base regressors one at a time and redraws the voting regressor after each.
 
-![Three base regressors (dash-dot) and the voting regressor (solid blue) on noisy sine data; legend gives R² and MAE on the 8 test points](images/voting_fit.png){height=48%}
+![Base regressors (dash-dot) added one at a time on the noisy sine data, and the voting regressor (solid blue) after each addition: the line alone, then halfway between line and SVR, then the mean of line, SVR and tree. Legends give R² and MAE on the 8 test points](images/add_members.gif){height=55%}
 
 Think of three friends guessing a distance: one always guesses short, one guesses well, one guesses wildly. The average of their guesses is rarely the single best guess, but it is never as bad as the worst one, and it is steadier than the wild guesser.
 
@@ -54,7 +60,7 @@ The picture shows the same thing:
 
 A score from 8 test points depends heavily on which 8 points we drew. So the Notebook draws 30 fresh datasets with the same recipe and averages the **R² score** (G-1717; 1 means perfect predictions, 0 means no better than always predicting the mean; the [regression metrics Note](../52-regression-metrics/note.md)) on their test points:
 
-| Base models | Each model's mean $R^2$ | Average of the members | Voting regressor |
+| Base models | Each model's mean $R^2$ | Average of the members | Voting regressor (G-2097) |
 |---|---|---|---|
 | linear regression, SVR | 0.45, 0.77 | 0.61 | **0.69** |
 | linear regression, SVR, decision tree | 0.45, 0.77, 0.53 | 0.58 | **0.72** |
@@ -162,6 +168,10 @@ The vote beats every tree, even though one member (depth 1) is very weak. The ga
 
 The Boston observations are stored grouped by town: each town's observations sit together (Gilley and Pace, 1996). Plain `cv=10` cuts the folds **in order**, without shuffling, so most test observations come from towns the model never saw in training: 453 of the 506 with folds in order, against only 19 with shuffled folds.
 
+Figure 5 shows the difference on the rows of the data file. Each grey band in the top strip is one town. In the middle strip, the test rows of one fold cut in order form a solid block: 49 of its 51 rows come from towns that have no row in the training part. In the bottom strip, the test rows of a shuffled fold are spread over the whole file, and only 2 of 51 come from towns the model has not seen.
+
+![The 506 Boston rows in file order. Top: the towns, one band each. Middle: the test rows of one of 10 folds cut in order, a block of whole towns. Bottom: the test rows of one of 10 shuffled folds, spread across all towns](images/fold_strips.png){height=30%}
+
 With folds in order (and the older unscaled SVR), the same models score far lower:
 
 | Model | Linear regression | Decision tree | SVR (unscaled) | Vote |
@@ -170,7 +180,7 @@ With folds in order (and the older unscaled SVR), the same models score far lowe
 
 ![Mean R² with shuffled folds (blue) and with folds in order (orange), per model](images/boston_folds.png){height=34%}
 
-In Figure 5, watch every orange bar fall far below its blue partner; the tree and the unscaled SVR drop below zero.
+In Figure 6, watch every orange bar fall far below its blue partner; the tree and the unscaled SVR drop below zero.
 
 A negative $R^2$ means worse than always predicting the mean price.
 
@@ -178,7 +188,7 @@ A negative $R^2$ means worse than always predicting the mean price.
 
 ## 5. Summary
 
-| | Voting classifier | Voting regressor |
+| | Voting classifier | Voting regressor (G-2097) |
 |---|---|---|
 | Base models | classifiers | regressors |
 | Aggregation | majority vote (hard) or average probability (soft) | mean of the predictions |
@@ -207,6 +217,6 @@ A negative $R^2$ means worse than always predicting the mean price.
 
 | Term | Meaning |
 |---|---|
-| Voting regressor | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions |
-| Ambiguity | The spread of the members' predictions around their mean; the amount by which the vote's squared error beats the average member's |
+| Voting regressor (G-2097) | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions |
+| Ambiguity (G-2155) | The spread of the members' predictions around their mean; the amount by which the vote's squared error beats the average member's |
 | n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all |

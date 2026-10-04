@@ -34,7 +34,7 @@ L = {s: loss(v) for s, v in W.items()}
 print({s: round(v, 3) for s, v in L.items()})
 steps = list(W)
 assert all(L[a] > L[b] - 1e-12 for a, b in zip(steps, steps[1:]))
-xs = np.linspace(4.5, 9.5, 200)
+xs = np.linspace(3, 9, 200)
 
 
 def frame(k):
@@ -51,11 +51,11 @@ def frame(k):
                              marker=dict(size=13, color=[GREEN if v else BLUE for v in y])), 1, 1)
     fig.add_trace(go.Scatter(x=list(range(1, k + 2)), y=[L[t] for t in steps[:k + 1]], mode="lines+markers",
                              line=dict(color=RED, width=4), marker=dict(size=9)), 1, 2)
-    fig.update_xaxes(title="CGPA", range=[4.5, 9.5], row=1, col=1)
+    fig.update_xaxes(title="CGPA", range=[3, 9], row=1, col=1)
     fig.update_yaxes(title="P(placed)", range=[-0.08, 1.08], tickvals=[0, 0.5, 1],
                      ticktext=["0 (not placed)", "0.5", "1 (placed)"], row=1, col=1)
     fig.update_xaxes(title="curve number", range=[0, len(steps) + 1], row=1, col=2)
-    fig.update_yaxes(range=[0, 1.05], row=1, col=2)
+    fig.update_yaxes(range=[0, 1.3], row=1, col=2)
     fig.update_layout(template="simple_white", width=1150, height=600, showlegend=False,
                       font=dict(family="Latin Modern Roman", size=22), margin=dict(l=150, r=20, t=80, b=70))
     fig.update_annotations(font_size=26)
