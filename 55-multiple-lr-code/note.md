@@ -148,6 +148,12 @@ Both agree with scikit-learn to within $10^{-11}$ here (see the Notebook). The s
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Multiple Linear Regression | Part 3 | Code From Scratch", YouTube, https://www.youtube.com/watch?v=VmZWXzxmNrE
+
+**Other references**
+
 - ISLR: James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. §3.3.3, Potential Problems: Collinearity.
 - scikit-learn documentation, Toy datasets, *Diabetes dataset* (scikit-learn.org, datasets/toy_dataset).
 - scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section (uses `scipy.linalg.lstsq`).

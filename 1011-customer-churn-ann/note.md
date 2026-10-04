@@ -8,8 +8,8 @@ tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)).
-> - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Early stopping ([Note 1021](../1021-improving-a-neural-network/note.md)).
+> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Imbalanced data ([Note 133](../133-imbalanced-data/note.md)).
+> - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Early stopping ([Note 1021](../1021-improving-a-neural-network/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
 > - **Compare with:** K-nearest neighbours ([Note 91](../91-knn/note.md)); ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 <!-- /where-this-fits -->
 
@@ -376,6 +376,12 @@ The gap between the two curves measures overfitting. Here it is small, but it is
 - Improve by changing epochs, activation, nodes and layers; watch the training curves for a gap that signals overfitting.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Customer Churn Prediction using ANN | Keras and Tensorflow | Deep Learning Classification", YouTube, https://www.youtube.com/watch?v=9wmImImmgcI
+
+**Other references**
 
 - Keras documentation, `Model.fit`, keras.io/api/models/model_training_apis (`batch_size` defaults to 32; `validation_split` takes the last samples, before shuffling).
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.3 (rectified linear units as the default hidden unit), §8.5.3 (Adam is fairly robust to the choice of its settings).

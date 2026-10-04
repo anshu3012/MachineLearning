@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large},
+  w/.style={draw=cblue, fill=cblue!25, minimum size=0.55cm, inner sep=0pt, line width=1pt},
+  b/.style={draw=corange, fill=corange!35, minimum size=0.55cm, inner sep=0pt, line width=1pt}]
+  % block for each layer: rows = previous layer nodes, columns = this layer nodes; bias row on top
+  \foreach \X/\p/\n/\tot/\lab in {0/4/3/15/into layer 1, 4.2/3/2/8/into layer 2, 7.6/2/1/3/into layer 3} {
+    \foreach \r in {1,...,\p} \foreach \c in {1,...,\n} \node[w] at (\X+0.65*\c, -0.65*\r) {};
+    \foreach \c in {1,...,\n} \node[b] at (\X+0.65*\c, 0.45) {};
+    \node[align=center] at (\X+0.325*\n+0.325, -3.6) {\textbf{\lab}\\$\p\times\n + \n = \tot$};
+  }
+  \node[w, label={[font=\sffamily\large]right:weight}] at (0.65,-5.0) {};
+  \node[b, label={[font=\sffamily\large]right:bias}] at (3.6,-5.0) {};
+  \node[font=\sffamily\bfseries\large] at (7.6,-5.0) {total $= 26$};
+\end{tikzpicture}
+\end{document}

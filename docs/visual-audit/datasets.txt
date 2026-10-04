@@ -1,0 +1,288 @@
+01-course-map/: mnist; sad; churn;
+01-what-is-ml/: spam; students; salary;
+02-ai-vs-ml-vs-dl/: student; placement; cgpa;
+03-types-of-ml/: cgpa; student; students;
+04-batch-learning/: spam;
+05-online-learning/: stock; weather;
+06-instance-vs-model-based/: student; cgpa; students;
+07-challenges-in-ml/: height;
+08-applications-of-ml/: stock; placement; insurance;
+09-mldlc/: height; students;
+11-tensors/: student; height; students;
+12-setup-anaconda-jupyter-colab/: titanic; heart;
+13-toy-project/: cgpa; students; placement;
+14-framing-ml-problem/: churn; height; happy;
+15-working-with-csv/:
+16-working-with-json-and-sql/: height;
+17-fetching-data-from-api/: height; weather;
+18-web-scraping/:
+19-understanding-your-data/: titanic;
+20-univariate-analysis/: titanic; height; students;
+21-bivariate-multivariate-analysis/: titanic; tips; flights;
+22-pandas-profiling/: titanic; height;
+23-what-is-feature-engineering/: mnist; titanic; students;
+24-standardization/: salary; height;
+25-normalization/: wine; height;
+26-ordinal-label-encoding/: student; churn;
+27-one-hot-encoding/: churn;
+28-column-transformer/:
+29-pipelines/: titanic;
+30-function-transformer/: titanic; placement;
+31-power-transformer/: height; heart;
+32-binning-binarization/: titanic; adult;
+33-mixed-variables/: titanic;
+34-date-and-time/:
+35-complete-case-analysis/: sad; height; student;
+36-imputing-numerical-data/: sad; titanic; height;
+37-missing-categorical-data/: sad; boston;
+38-missing-indicator-random-sample/: titanic; sad;
+39-knn-imputer/: titanic; sad;
+40-iterative-imputer-mice/: sad;
+41-what-are-outliers/: students; student; salary;
+42-outliers-zscore/: cgpa; placement; students;
+43-outliers-iqr/: placement; students; student;
+44-outliers-percentile/: height;
+45-feature-construction-splitting/: titanic; height;
+46-curse-of-dimensionality/: weather; mnist;
+47-pca-geometric-intuition/:
+48-pca-step-by-step/:
+49-pca-mnist/: mnist; height;
+50-simple-linear-regression/: cgpa; student; students;
+51-linear-regression-maths/: cgpa; students; placement;
+52-regression-metrics/: placement; cgpa; student;
+53-multiple-linear-regression/: cgpa; student; placement;
+54-multiple-lr-maths/: cgpa; students; placement;
+55-multiple-lr-code/: diabetes;
+56-linear-regression-assumptions/: height;
+57-gradient-descent/: sad; height;
+58-batch-gradient-descent/: sad; diabetes; student;
+59-stochastic-gradient-descent/: diabetes; sad; height;
+60-mini-batch-gradient-descent/: diabetes;
+61-polynomial-regression/: height;
+62-bias-variance/: height;
+63-ridge-regression-intuition/: diabetes; height;
+64-ridge-regression-maths/: height; diabetes;
+65-ridge-gradient-descent/: diabetes; height;
+66-ridge-key-points/: height; diabetes;
+67-lasso-regression/: diabetes; height;
+68-lasso-sparsity/: height;
+69-elastic-net/: diabetes; height;
+70-perceptron-trick/: student; height; cgpa;
+71-perceptron-code/: make_classification; iris; height;
+72-sigmoid-function/: height; student; make_classification;
+73-log-loss/: height; churn;
+74-sigmoid-derivative/: height;
+75-logistic-gradient-descent/: height; make_classification;
+76-accuracy-confusion-matrix/: heart; iris; students;
+77-precision-recall-f1/: spam; height; heart;
+78-roc-auc/: diabetes; spam; height;
+79-softmax-regression/: iris; height; student;
+80-polynomial-logistic-regression/: make_moons; tips; height;
+81-logistic-hyperparameters/: height; breast-cancer; student;
+82-conditional-probability/: height; spam; heart;
+83-independent-events/: spam; height;
+84-mutually-exclusive-events/:
+85-bayes-theorem/: spam; height;
+86-bayes-problem/: height;
+87-naive-bayes-intuition/: weather; height;
+88-naive-bayes-maths/: height; weather;
+89-naive-bayes-code/: weather;
+90-gaussian-naive-bayes/: height; student;
+91-knn/: breast cancer; height; student;
+92-svm-intuition/: height; iris;
+93-svm-maths/: height;
+94-svm-soft-margin/: height;
+95-kernel-trick-intuition/: height;
+96-kernel-trick-code/: make_circles; height;
+97-decision-trees-intuition/: height; student; iris;
+98-decision-tree-hyperparameters/: height; salary; heart;
+99-regression-trees/: boston; students; california;
+100-dtreeviz/: iris; height; boston;
+101-ensemble-learning/: student; height; cgpa;
+102-voting-ensemble/: height;
+103-voting-classifier/: heart; iris; height;
+104-voting-regressor/: boston; height;
+105-bagging-intuition/: placement; height; iris;
+106-bagging-classifier/: placement; make_classification; height;
+107-bagging-regressor/: boston; placement; height;
+108-random-forest-intro/: placement; make_classification; height;
+109-random-forest-bias-variance/: make_circles; height;
+110-bagging-vs-random-forest/: spam; make_classification; height;
+111-random-forest-hyperparameters/: placement; height;
+112-random-forest-tuning/: heart; height; placement;
+113-oob-score/: heart; california; placement;
+114-feature-importance/: mnist; height; make_classification;
+115-adaboost-intuition/: students; cgpa; student;
+116-adaboost-step-by-step/: height;
+117-adaboost-from-scratch/: height;
+118-adaboost-hyperparameters/: height;
+119-bagging-vs-boosting/: height;
+120-gradient-boosting-intuition/: student; cgpa; students;
+121-gradient-boosting-regression-maths/: height; iris; cgpa;
+122-gradient-boosting-classification/: student; students; cgpa;
+123-xgboost-intro/: height; titanic; students;
+124-xgboost-regression/: cgpa; student; students;
+125-xgboost-classification/: cgpa; student; students;
+126-xgboost-maths/: cgpa; student; height;
+127-stacking-blending/: heart; student; students;
+128-kmeans-intuition/: students; cgpa; student;
+129-kmeans-code/: cgpa; student; students;
+130-kmeans-from-scratch/: students; height; student;
+131-hierarchical-clustering/: height; mall customers;
+132-dbscan/: height;
+133-imbalanced-data/: placement; sad; students;
+134-optuna/: diabetes; tips; placement;
+210-statistics-roadmap/: height;
+220-what-is-statistics/: salary; titanic; students;
+221-measures-of-central-tendency/: students; student; salary;
+222-measures-of-dispersion/: titanic; student; salary;
+223-frequency-tables-and-graphs/: tips; height; titanic;
+230-percentiles-and-box-plots/: titanic; student; students;
+231-covariance-and-correlation/: salary; weather; students;
+240-random-variables-and-distributions/: cgpa; student; height;
+241-pmf-and-discrete-cdf/: height;
+242-pdf-and-continuous-cdf/: height; cgpa; students;
+243-density-estimation-kde/: height; students; sad;
+250-normal-distribution/: height; adult; student;
+251-standard-normal-and-z-table/: height; titanic; adult;
+252-skewness/: titanic; height;
+253-pdf-and-cdf-in-practice/: iris; height; titanic;
+260-kurtosis-and-qq-plots/: iris; height;
+261-uniform-and-log-normal/: height;
+262-pareto-and-power-law/:
+270-bernoulli-and-binomial/: spam; height; students;
+271-sampling-distribution-and-clt/: salary; height;
+272-estimating-a-mean-with-the-clt/: titanic; weather; salary;
+280-confidence-intervals-z-procedure/: titanic; placement; height;
+281-interpreting-confidence-intervals/:
+282-t-procedure/: student; titanic; height;
+290-null-and-alternative-hypotheses/: height;
+291-rejection-region-and-z-test/:
+292-errors-power-and-tails/: sad; titanic; height;
+300-p-values/: height;
+301-one-sample-t-test/: titanic; student; height;
+302-two-sample-and-paired-t-tests/: student; titanic; students;
+330-events-and-types-of-events/: placement; titanic; spam;
+331-empirical-and-theoretical-probability/: titanic; placement;
+332-expected-value-and-variance/: student; height; cgpa;
+340-venn-diagrams-and-contingency-tables/: students; student; titanic;
+341-joint-marginal-conditional-probability/: titanic; placement; height;
+350-linear-algebra-roadmap/: height;
+360-vectors-and-feature-vectors/: iris; height; titanic;
+361-magnitude-distance-and-scalar-operations/: iris; height;
+362-dot-product-and-cosine-similarity/:
+363-equation-of-a-hyperplane/: mnist; iris; height;
+440-role-of-maths-in-ml/: salary; height;
+490-linear-combinations-span-and-basis/: tips; iris; height;
+500-linear-transformations-and-matrices/: height;
+510-matrix-multiplication-as-composition/: height;
+520-dot-product-and-duality/:
+530-eigenvectors-and-eigenvalues/: heart;
+560-poisson-distribution/: students; insurance; height;
+570-choosing-a-hypothesis-test/: height; adult; student;
+571-chi-square-tests/: adult; titanic; student;
+572-one-way-anova/: titanic; height; students;
+580-learning-maths-for-ml/: spam; height;
+590-convex-and-non-convex-cost-functions/: sad; height;
+600-derivatives-of-one-variable/: height;
+601-partial-derivatives-and-gradients/: height;
+602-jacobian-and-matrix-gradients/: height;
+603-hessian-and-multivariate-taylor/: sad;
+610-svd-geometry/:
+611-computing-the-svd/:
+612-low-rank-approximation/: mnist; height;
+613-svd-in-machine-learning/: mnist; cgpa; students;
+620-lagrange-multipliers/: height;
+621-convex-sets-and-functions/: sad; height;
+622-linear-and-quadratic-programming/: height; stock;
+630-probability-vs-likelihood/: height;
+631-maximum-likelihood-estimation/: height;
+632-mle-for-common-distributions/: height;
+633-mle-in-machine-learning/: height;
+640-gaussian-mixture-models/: iris; old faithful; height;
+641-expectation-maximization/: old faithful; iris; height;
+1001-dl-scope-and-prerequisites/:
+1002-what-is-deep-learning/: students; student; height;
+1003-nn-types-history-applications/: churn; students; student;
+1004-perceptron/: cgpa; student; placement;
+1005-perceptron-trick/: student; height;
+1006-perceptron-loss/: height; make_classification;
+1007-problem-with-perceptron/:
+1008-mlp-notation/: student; height; churn;
+1009-mlp-intuition/: height; student; cgpa;
+1010-forward-propagation/: student; cgpa; placement;
+1011-customer-churn-ann/: churn; salary; mnist;
+1012-mnist-ann/: mnist; churn; height;
+1013-graduate-admission-ann/: students; student; mnist;
+1014-dl-loss-functions/: student; students; sad;
+1015-backpropagation-what/: student; cgpa; students;
+1016-backpropagation-how/: student; students; cgpa;
+1017-backpropagation-why/: student; students; height;
+1018-vanishing-exploding-gradients/: make_moons; height;
+1019-mlp-memoization/: height;
+1020-gradient-descent-in-neural-networks/: salary; sad; height;
+1021-improving-a-neural-network/: churn; placement; mnist;
+1022-early-stopping/: churn; make_circles;
+1023-data-scaling-in-ann/: salary; mnist; churn;
+1024-dropout/:
+1025-dropout-code/: churn; tips;
+1026-regularization-in-dl/: make_moons; student; heart;
+1027-activation-functions/: sad; make_circles; cifar;
+1028-relu-variants/: sad; make_moons;
+1029-weight-initialization/: cgpa; student; placement;
+1030-xavier-he-initialization/: make_moons;
+1031-batch-normalization/: cgpa; students; student;
+1032-optimizers-in-deep-learning/: sad; height;
+1033-exponentially-weighted-moving-average/:
+1034-sgd-with-momentum/: mnist; height; sad;
+1035-nesterov-accelerated-gradient/: mnist;
+1036-adagrad/: students; imdb; student;
+1037-rmsprop/: mnist; students;
+1038-adam/: mnist; students;
+1039-keras-tuner/: mnist; diabetes; churn;
+1040-cnn-intuition/: mnist; height;
+1041-cnn-vs-visual-cortex/:
+1042-convolution-operation/: mnist; height;
+1043-padding-and-strides/: height; mnist;
+1044-pooling/: height; sad; placement;
+1045-lenet-5/: mnist; height;
+1046-cnn-vs-ann/: mnist; fashion; height;
+1047-backpropagation-in-cnn/: mnist;
+1048-backpropagation-cnn-layers/: mnist;
+1049-cat-vs-dog-cnn/: cats and dogs; height; churn;
+1050-data-augmentation/: cats and dogs; cat vs dog; students;
+1051-pretrained-models/: cifar; cat vs dog; cats and dogs;
+1052-visualizing-cnn/: cats and dogs; height; cat vs dog;
+1053-transfer-learning/: cats and dogs; cat and dog;
+1054-keras-functional-api/: salary; height; churn;
+1055-why-rnn/: imdb; student; placement;
+1056-rnn-forward-propagation/:
+1057-rnn-sentiment-analysis/: imdb; mnist; placement;
+1058-types-of-rnn/:
+1059-backpropagation-through-time/: imdb;
+1060-problems-with-rnn/: imdb;
+1061-lstm/: imdb;
+1062-lstm-architecture/: imdb; height;
+1063-lstm-next-word-prediction/:
+1064-gru/: imdb; happy;
+1065-deep-rnns/: imdb; happy; sad;
+1066-bidirectional-rnn/: imdb; sad;
+1067-history-of-llms/: imdb; cats and dogs;
+1068-encoder-decoder/: height;
+1069-attention-mechanism/:
+1070-bahdanau-vs-luong-attention/: placement;
+1071-introduction-to-transformers/: sad;
+1072-what-is-self-attention/:
+1073-self-attention-step-by-step/: imdb; height;
+1074-scaled-dot-product-attention/: imdb; height;
+1075-self-attention-geometric-intuition/: imdb; height;
+1076-why-self-attention/:
+1077-multi-head-attention/:
+1078-positional-encoding/: height;
+1079-layer-normalization/: imdb;
+1080-transformer-encoder/: imdb; height;
+1081-masked-self-attention/: height;
+1082-cross-attention/:
+1083-transformer-decoder/: height;
+1084-transformer-inference/: height;
+1085-transformer-end-to-end/: imdb; height;

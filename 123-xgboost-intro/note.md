@@ -345,6 +345,12 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Introduction to XGBOOST | Machine Learning | CampusX", YouTube, https://www.youtube.com/watch?v=C6aDw4y8qJ0
+
+**Other references**
+
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
 - Chen, T. and He, T. (2015). *Higgs Boson Discovery with Boosted Trees*. Proceedings of the NIPS 2014 Workshop on High-energy Physics and Machine Learning, PMLR 42, 69–80.
 - Ke, G. et al. (2017). *LightGBM: A Highly Efficient Gradient Boosting Decision Tree*. NeurIPS 2017.

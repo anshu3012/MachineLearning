@@ -1,0 +1,4 @@
+model,all_words,ambiguous_words,other_words,'s,that,as,have,new,about
+"unidirectional LSTM, 64 nodes",0.9303,0.91,0.9345,0.9922,0.7242,0.8457,0.993,1.0,0.8235
+"bidirectional LSTM, 64 + 64 nodes",0.9471,0.9437,0.9478,0.9969,0.8817,0.9394,0.9883,1.0,0.9771
+"unidirectional LSTM, 100 nodes (same parameters)",0.9322,0.9126,0.9363,0.9977,0.7506,0.8499,0.9907,1.0,0.8235

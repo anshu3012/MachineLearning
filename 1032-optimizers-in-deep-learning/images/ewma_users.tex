@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+  \node[box=cpurple, text width=4.2cm] (e) at (0,0) {\textbf{EWMA}\\running average,\\recent values weigh more};
+  \node[box=cblue, text width=3.6cm] (m) at (7,2.4) {\textbf{Momentum}\\EWMA of gradients};
+  \node[box=corange, text width=3.6cm] (r) at (7,0) {\textbf{RMSProp}\\EWMA of squared\\gradients};
+  \node[box=cgreen, text width=3.6cm] (a) at (7,-2.4) {\textbf{Adam}\\both averages};
+  \draw[arrow] (e.east) -- (m.west);
+  \draw[arrow] (e.east) -- (r.west);
+  \draw[arrow] (e.east) -- (a.west);
+  \node[note, font=\sffamily\large] at (0,-1.8) {studied first};
+\end{tikzpicture}
+\end{document}

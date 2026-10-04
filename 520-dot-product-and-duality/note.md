@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/dot-product
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)).
-> - **Leads to:** Perceptron ([Note 1004](../1004-perceptron/note.md)).
+> - **Leads to:** Perceptron ([Note 1004](../1004-perceptron/note.md)); Meaning as direction in embedding space ([Note 1086](../1086-meaning-as-direction/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -140,6 +140,10 @@ So the dot product with a vector of any length is: project onto its line, then m
 
 Look back at what happened. We defined a linear transformation from the plane to the number line by pure geometry, projection, with no dot product in sight. Because it is linear, it has a $1 \times 2$ matrix. And because a $1 \times 2$ matrix times a vector is the same arithmetic as a dot product, the transformation is a dot product with some vector, here $\hat{u}$.
 
+Figure 3 shows the same thing for a transformation defined with no vector at all, only by where $\hat{\imath}$ and $\hat{\jmath}$ land (1 and $-2$). Watch the grid points squish onto the number line, $[4, 3]$ landing on $-2$; then the $1 \times 2$ matrix is tipped upright into the vector $\mathbf{v} = [1, -2]$, and projecting $[4, 3]$ onto its line and multiplying by its length gives the same $-2$. The picture follows Sanderson's *Essence of Linear Algebra*, chapter 9 (3Blue1Brown).
+
+![Duality: a linear map to numbers, fixed by where the basis vectors land, sends every grid point to $x_1 - 2x_2$; the same numbers read as the vector $[1, -2]$ give the same answer as a projection](images/duality.gif)
+
 The same holds for every linear transformation whose output is a number, however it was defined: there is exactly one vector $\mathbf{v}$ such that applying the transformation is the same as taking the dot product with $\mathbf{v}$. The vector is the transformation's matrix tipped upright.
 
 This natural but surprising correspondence between two kinds of objects is an example of **duality**. For linear algebra:
@@ -187,6 +191,12 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 - A linear model's weights, a neuron's weights and a principal component are all dual vectors: linear functions to numbers written as arrows.
 
 ## 9. Sources
+
+**Built from**
+
+- Sanderson, G. (3Blue1Brown), "Dot products and duality | Chapter 9, Essence of linear algebra", 2016, 3blue1brown.com/lessons/dot-products, https://www.youtube.com/watch?v=LyGKycYT2v0
+
+**Other references**
 
 - Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix Factorization Techniques for Recommender Systems". *IEEE Computer* 42(8).
 

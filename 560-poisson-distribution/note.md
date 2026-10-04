@@ -224,9 +224,9 @@ More examples with $\lambda = 4$:
 
 A website has 1000 visitors a day, and each visitor buys with probability 0.004. The number of buyers is binomial, $B(1000, 0.004)$, with mean $np = 4$. The count is also, very nearly, $\text{Po}(4)$.
 
-![Binomial PMFs with $np = 4$ (bars) against the Poisson PMF with $\lambda = 4$ (dots)](images/binomial_to_poisson.png)
+![A day cut into n moments, each with a question with probability 4/n (top); the binomial PMF B(n, 4/n) (bars) settles onto the Poisson PMF with $\lambda = 4$ (dots) as n grows from 5 to 1000](images/binomial_limit.gif){height=45%}
 
-Figure 4 keeps $np = 4$ and lets $n$ grow:
+Figure 4 keeps $np = 4$ and lets $n$ grow. The top strip shows one simulated day cut into $n$ moments, with a dot where a question arrived. Watch the bars: at $n = 5$ they are bunched around 4, and as the moments get finer they spread out and sit on the Poisson dots.
 
 | $n$ | $p$ | Largest gap between the two PMFs |
 |---|---|---|
@@ -279,6 +279,12 @@ In machine learning, a **target** (the output we predict) that is a count, such 
 - A binomial with large $n$ and small $p$ is approximately Poisson with $\lambda = np$.
 
 ## 10. Sources
+
+**Built from**
+
+- 365 Data Science, "Data Science & Statistics Tutorial: The Poisson Distribution", YouTube, https://www.youtube.com/watch?v=BbLfV0wOeyc
+
+**Other references**
 
 - Maher, M. J. (1982). "Modelling Association Football Scores". *Statistica Neerlandica* 36(3).
 - NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 1.3.6.6.19, Poisson distribution.

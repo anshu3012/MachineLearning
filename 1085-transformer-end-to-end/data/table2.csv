@@ -1,0 +1,11 @@
+model,ensemble,bleu_en_de,bleu_en_fr,cost_en_de,cost_en_fr
+ByteNet,False,23.75,,,
+Deep-Att + PosUnk,False,,39.2,,1.0e20
+GNMT + RL,False,24.6,39.92,2.3e19,1.4e20
+ConvS2S,False,25.16,40.46,9.6e18,1.5e20
+MoE,False,26.03,40.56,2.0e19,1.2e20
+Deep-Att + PosUnk Ensemble,True,,40.4,,8.0e20
+GNMT + RL Ensemble,True,26.30,41.16,1.8e20,1.1e21
+ConvS2S Ensemble,True,26.36,41.29,7.7e19,1.2e21
+Transformer (base model),False,27.3,38.1,3.3e18,3.3e18
+Transformer (big),False,28.4,41.8,2.3e19,2.3e19

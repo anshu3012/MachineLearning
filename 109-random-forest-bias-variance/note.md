@@ -47,6 +47,10 @@ The data is made with `make_circles` (the [kernel trick code Note](../96-kernel-
 - Training accuracy: still **1.00**.
 - Test accuracy: **0.91**: the variance has dropped.
 
+Variance means how much a model changes when the training data changes, so Figure 2 changes the data. It draws the circles eight times with the same recipe (draw 1 is the data of Figure 1) and trains both models on each draw. Watch the left panel: the tree's strips and boxes jump to new places with every draw. The forest's disc barely moves. The last frame overlays all eight surfaces: white marks the places where the draws disagree. Two draws of the tree disagree on 11% of the plane; two draws of the forest on 5%. Averaged over the eight draws, test accuracy is 0.80 for the tree and 0.83 for the forest.
+
+![The circles data drawn eight times. Each frame: one fully grown tree (left) and a random forest of 500 trees (right) trained on that draw, with test accuracy. Last frame: the share of the eight surfaces that say blue; white means the draws disagree](images/resample_variance.gif){height=55%}
+
 > **Python:** The two models.
 >
 > ```python
@@ -73,7 +77,7 @@ The data is made with `make_circles` (the [kernel trick code Note](../96-kernel-
 
 ![Two bumps plus noise: (a) one fully grown regression tree; (b) bagging with 1,000 fully grown trees; (c) a random forest of 1,000 trees. The dashed curve is the true pattern](images/curves.png){height=36%}
 
-The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-regressor/note.md), which compares one tree with bagging. Here we add the random forest. We train on 150 points and test on 1,000; the dashed curve in Figure 2 is the true pattern.
+The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-regressor/note.md), which compares one tree with bagging. Here we add the random forest. We train on 150 points and test on 1,000; the dashed curve in Figure 3 is the true pattern.
 
 - **(a) One fully grown tree** (red) passes through every training point: training error 0, test **mean squared error (MSE)** (the [regression metrics Note](../52-regression-metrics/note.md)) **0.0192**.
 - **(b) Bagging with 1,000 fully grown trees** (green) no longer reaches every outlier and stays closer to the dashed curve: test MSE **0.0140**.
@@ -98,6 +102,12 @@ Panels (b) and (c) match because the data has a single feature. A random forest 
 - The result keeps the low bias and cuts the variance: smoother boundaries and curves, better scores on new data.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "How Random Forest Performs So Well? Bias Variance Trade-Off in Random Forest", YouTube, https://www.youtube.com/watch?v=jHgG4gjuFAk
+
+**Other references**
 
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §7.11 (the bootstrap holds about 63.2% of distinct observations).
 

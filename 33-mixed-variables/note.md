@@ -42,6 +42,10 @@ The Titanic `Cabin` column holds values such as `C85` and `C123`. Each value pac
 
 Indian Railways coach labels work the same way: in `S5` or `B2`, the letter gives the class and the number gives the coach.
 
+![A Type 1 value packs a category and a number into one cell](images/cell_anatomy.png){width=75%}
+
+Figure 2 pulls the two parts of each value apart.
+
 Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new features: a categorical feature for the letter and a numerical feature for the number.
 
 ### 2.2 Type 2: number in some rows, category in others
@@ -72,6 +76,10 @@ The data has four columns for the 891 passengers of the Titanic training file:
 
 `Cabin` and `Ticket` are the real Titanic columns. The `number` column was added by hand to build a Type 2 example, so its values are made up and say nothing about survival.
 
+![The four columns, shown on passenger 1, with the type of each](images/data_columns.png){width=85%}
+
+Figure 3 tags each column with its type.
+
 The first five rows:
 
 | | Cabin | Ticket | number | Survived |
@@ -98,7 +106,7 @@ The first five rows:
 
 > **Key point:** Convert the column to numbers, letting failures become NaN; the rows that failed are the categorical part.
 
-The `number` column has seven values: `1` to `6` and `A`. `A` (alone) is the most common value, with 139 passengers; the numbers each have 117 to 131 (left of Figure 2).
+The `number` column has seven values: `1` to `6` and `A`. `A` (alone) is the most common value, with 139 passengers; the numbers each have 117 to 131 (left of Figure 4).
 
 ![Left: passengers per value of the mixed column `number`. Right: passengers per deck after splitting `Cabin`](images/counts.png){width=100%}
 
@@ -183,7 +191,11 @@ The result, on some first rows and on every unusual kind of value:
 | 75 | F G73 | 73 | F |
 | 292 | D | \<NA\> | D |
 
-After the split, `cabin_cat` has only 8 categories, the decks A to G and T (right of Figure 2). C is the most common deck, then B.
+![Splitting `Cabin` on the rows of the table above: the first character becomes the deck, the first run of digits the number](images/cabin_split.png){width=75%}
+
+Figure 5 shows the same rows as the table: watch the unusual values, where only the first deck letter and the first number survive.
+
+After the split, `cabin_cat` has only 8 categories, the decks A to G and T (right of Figure 4). C is the most common deck, then B.
 
 > **Extra:** Some values break the simple rule. A passenger booked into several cabins, such as `C23 C25 C27`, keeps only the first number, 23. `F G73` gives deck F, although the cabin is G73. `D` and `T` have no number, so `cabin_num` is missing. These are 14 of the 147 values; check them before relying on the split.
 
@@ -199,7 +211,7 @@ After the split, `cabin_cat` has only 8 categories, the decks A to G and T (righ
 
 `Ticket` is messier: 681 different values in 891 rows. Most tickets are a prefix and a number, such as `A/5 21171` or `PC 17599`, but many are digits only, such as `113803`.
 
-The rule, shown in Figure 3:
+The rule, shown in Figure 6:
 
 1. Split the value at its spaces into pieces.
 2. **Number part:** the last piece, converted with `pd.to_numeric(..., errors="coerce")`.
@@ -246,6 +258,10 @@ Many scikit-learn models do not accept missing values (scikit-learn User Guide, 
 
 - **Numerical feature:** a value that makes sense for the data. In `number_numerical`, NaN came from `A`, alone, so it means 0 companions: fill with 0.
 - **Categorical feature:** a new category of its own, such as `"missing"`.
+
+![The gaps of the Type 2 split (rows 0, 1 and 4), before and after filling](images/fill_gaps.png){width=90%}
+
+Figure 7 shows both fills on three rows of the `number` split.
 
 > **Python:** Filling the gaps.
 >
@@ -306,6 +322,12 @@ The new features are then ready for the earlier Notes' tools: one-hot encoding f
 - Check the unusual values: no simple rule fits every one.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Handling Mixed Variables | Feature Engineering", YouTube, https://www.youtube.com/watch?v=9xiX-I5_LQY
+
+**Other references**
 
 - pandas release notes. What's new in 3.0.0 (dedicated string data type by default). pandas.pydata.org/docs/whatsnew.
 - pandas user guide. Nullable integer data type. pandas.pydata.org/docs/user_guide/integer_na.html.

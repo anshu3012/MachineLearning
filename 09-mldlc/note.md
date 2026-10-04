@@ -394,6 +394,12 @@ Where the two differ:
 
 ## 14. Sources
 
+**Built from**
+
+- CampusX, "Machine Learning Development Life Cycle | MLDLC in Data Science", YouTube, https://www.youtube.com/watch?v=iDbhQGz_rEo
+
+**Other references**
+
 - Dietterich, T. (2000). Ensemble Methods in Machine Learning. *Multiple Classifier Systems*, LNCS 1857. Springer.
 - Dunn, J. (1974). Well-Separated Clusters and Optimal Fuzzy Partitions. *Journal of Cybernetics* 4(1).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press.

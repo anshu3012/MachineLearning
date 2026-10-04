@@ -8,7 +8,7 @@ tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Eigenvectors and eigenvalues ([Note 48](../48-pca-step-by-step/note.md)); Derivatives of one variable ([Note 51](../51-linear-regression-maths/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 122](../122-gradient-boosting-classification/note.md)); Missing values ([Note 123](../123-xgboost-intro/note.md)).
+> - **Builds on:** Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Eigenvectors and eigenvalues ([Note 48](../48-pca-step-by-step/note.md)); Derivatives of one variable ([Note 51](../51-linear-regression-maths/note.md)); Partial derivatives and gradients ([Note 57](../57-gradient-descent/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 122](../122-gradient-boosting-classification/note.md)).
 > - **Leads to:** Convex and non-convex loss ([Note 590](../590-convex-and-non-convex-cost-functions/note.md)).
 <!-- /where-this-fits -->
 
@@ -220,6 +220,10 @@ with $p_i$ the previous stage's probability.
 
 For log loss the parabola is only an approximation (Figure 5). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
 
+Figure 6 moves the touching point. Watch the parabola: wherever we expand, it touches the loss at that point $a$ with the same slope and curvature, and its minimum (the star, $a - g/h$) is a good guess only when $a$ is near the true minimum; from $a = 1.2$ it overshoots to $-2.39$. Each tree expands around the current predictions, so XGBoost always uses the parabola where it fits. At the end, $\lambda$ grows from 0 to 3: the parabola gets steeper and $w^\ast= -0.8/(0.72 + \lambda)$ shrinks towards 0, as section 10 says.
+
+![The second-order approximation of this leaf's log loss, animated. The red parabola touches the exact loss (blue) at the expansion point a; the star is its minimum, the Newton step. Last part: back at a = 0, lambda grows and the leaf output w* shrinks towards 0. Watching the minimum move towards 0 as lambda grows follows StatQuest's "XGBoost Part 3 (of 4): Mathematical Details" (Starmer)](images/newton_leaf.gif)
+
 > **Extra:** The exact best output of a leaf solves $\sum_i \sigma(z_i + w) = \sum_i y_i$, where $z_i$ is observation $i$'s previous log-odds (set the derivative of the leaf's log loss to 0). Here all three observations share one $z_i$, so the equation has a formula; in general it does not, and XGBoost uses the parabola instead. Does the parabola's small error build up? The Notebook (section 6) grows 100 trees of depth 3 ($\eta = 0.3$) on 2,000 synthetic observations, half for testing, twice with the same tree-growing rule: once with the Newton outputs $-G/H$, once with each leaf's exact minimum.
 >
 > | Trees | Train log loss, Newton | Train log loss, exact | Test log loss, Newton | Test log loss, exact |
@@ -297,6 +301,13 @@ The XGBoost library follows the same convention as those Notes. Its tree dump pr
 - The gain is the drop in the best objective after a split; the library drops the $\frac{1}{2}$ and compares with `gamma`.
 
 ## 16. Sources
+
+**Built from**
+
+- CampusX, "The Maths Behind XGBoost | Machine Learning | CampusX", YouTube, https://www.youtube.com/watch?v=0Eo-_5bfers
+- Starmer, J. (StatQuest). "XGBoost Part 3 (of 4): Mathematical Details." statquest.org. The idea of plotting a leaf's loss against its output value and watching the minimum move towards 0 as λ grows (last part of Figure 6).
+
+**Other references**
 
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
 - Sigrist, F. (2021). *Gradient and Newton Boosting for Classification and Regression*. Expert Systems with Applications (arXiv:1808.03064), section on software implementations.

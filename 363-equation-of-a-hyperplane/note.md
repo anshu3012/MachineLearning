@@ -90,6 +90,10 @@ Now slide the line down until it passes through the origin. Its intercept $b$ be
 - A line, plane or hyperplane passes through the origin exactly when $w_0 = 0$.
 - A non-zero $w_0$ moves it parallel to itself, away from the origin. In Figure 1 (right), $2x_1 + 3x_2 = 0$ passes through the origin, while $2x_1 + 3x_2 - 6 = 0$ crosses the $x_2$ axis at $-(-6)/3 = 2$.
 
+Figure 2 turns both knobs on real data: the iris setosa and versicolor flowers, plotted by petal length $x_1$ and petal width $x_2$ (in cm). Watch the line while $w_0$ changes: it slides without turning, and the arrow $w$ keeps its direction. Turning $w$ instead tilts the line, which stays at 90° to $w$ (Section 6). The shaded side is where $w^{\mathsf T}x + w_0 > 0$, the side $w$ points to (the sign rule at the end of Section 6). With $w = [1, 1]$ and $w_0 = -3.2$, all 50 versicolor flowers fall on the shaded side and all 50 setosa flowers on the other.
+
+![The two knobs of $w^{\mathsf T}x + w_0 = 0$ on iris setosa (blue) and versicolor (orange): changing $w_0$ slides the line, turning $w$ tilts it; the shaded side is where $w^{\mathsf T}x + w_0 > 0$](images/hyperplane_knobs.gif)
+
 So we often take the simplifying assumption that the hyperplane passes through the origin. The equation then shrinks to
 
 $$w^{\mathsf T}x = 0$$
@@ -122,7 +126,7 @@ $$2 \times 3 + 3 \times (-2) = 0, \qquad 2 \times (-1.5) + 3 \times 1 = 0$$
 
 ![The plane x1 + 2x2 + 2x3 = 0 and its normal vector w = [1, 2, 2]](images/plane_normal.png){height=45%}
 
-Figure 2 shows the plane $x_1 + 2x_2 + 2x_3 = 0$. Its coefficients form $w = [1, 2, 2]$, drawn in orange. The three blue vectors lie in the plane, for example $[2, -1, 0]$, with $1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$. The orange $w$ stands at 90° to all of them.
+Figure 3 shows the plane $x_1 + 2x_2 + 2x_3 = 0$. Its coefficients form $w = [1, 2, 2]$, drawn in orange. The three blue vectors lie in the plane, for example $[2, -1, 0]$, with $1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$. The orange $w$ stands at 90° to all of them.
 
 So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$D we cannot draw it, but the argument of Section 6.1 never used the number of dimensions.
 
@@ -154,7 +158,13 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 - $w_0$ shifts the hyperplane; $w_0 = 0$ means it passes through the origin.
 - $w$ is the normal vector: perpendicular to the hyperplane, because $w \cdot x = 0$ means a 90° angle.
 
-## 8. Key terms
+## 8. Sources
+
+**Built from**
+
+- CampusX, "Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1", YouTube, https://www.youtube.com/watch?v=mQewAJb8oJ8
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -137,13 +137,28 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
 So $\beta_0 = -0.81$ (intercept) and $\beta_1 = 0.57$ (slope): exactly what the simple linear regression formulas give for these four points. The simple formulas are the normal equation with a single feature.
 
+### 6.2 The picture: a projection
+
+> **Key point:** Every prediction $X\beta$ lies in the plane spanned by the columns of $X$. The best one is the point of that plane closest to $y$, where the error $y - X\hat\beta$ is perpendicular to every column; that right angle is the normal equation.
+
+The normal equation also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ targets as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the **column space** of $X$. Unless the data lie exactly on a line, $y$ is not in it.
+
+With three observations every vector has three entries, so we can draw it. Figure 2 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
+
+![The column space of X for three students is a plane (the two blue columns span it). The target y (orange) sticks out of it. Moving the prediction Xβ through the plane, the error length is smallest, 0.36, at the foot of the perpendicular from y, where the residual meets the plane at a right angle](images/projection.gif)
+
+- **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of Section 3. It is smallest, 0.36, at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
+- **Right angle:** there the residual $y - X\hat\beta = [0.29, -0.10, -0.19]$ is perpendicular to both columns: its dot product with $\mathbf 1$ and with cgpa is 0. Stacked as one equation, that is $X^{\mathsf T}(y - X\hat\beta) = 0$, which rearranges to the normal equations $X^{\mathsf T}X\hat\beta = X^{\mathsf T}y$ of Section 5.
+
+So the calculus of Section 5 and the right angle of Figure 2 give the same equations. The figure draws the $\mathbf 1$ direction four times shorter so that the small residual is visible; shrinking a direction inside the plane does not change the right angle or which point is closest.
+
 ## 7. The cost of the inverse
 
 > **Key point:** Inverting $X^{\mathsf T}X$ takes time that grows roughly with the cube of the number of features. With very many features, gradient descent is used instead.
 
 $X^{\mathsf T}X$ is a square matrix with one row and one column per coefficient, $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the features makes the work about 8 times larger.
 
-Figure 2 measures it on this computer.
+Figure 3 measures it on this computer.
 
 ![Time to invert a matrix as its size grows](images/inverse_cost.png)
 
@@ -175,7 +190,14 @@ For most tabular data the number of features is small, and `LinearRegression` is
 
 ## 9. Sources
 
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. §5.5 Useful Identities for Computing Gradients.
+**Built from**
+
+- CampusX, "Multiple Linear Regression | Part 2 | Mathematical Formulation From Scratch", YouTube, https://www.youtube.com/watch?v=NU37mF5q8VE
+
+**Other references**
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. §3.8 Orthogonal Projections and §5.5 Useful Identities for Computing Gradients.
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. (ESL). Springer. §3.2 and Figure 3.2 (the geometry of least squares: $y$ projected onto the column space of $X$).
 - scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section (uses `scipy.linalg.lstsq`).
 - LAPACK documentation, DGELSD: minimum-norm least-squares solution using the SVD, for a matrix that may be rank-deficient. netlib.org/lapack.
 

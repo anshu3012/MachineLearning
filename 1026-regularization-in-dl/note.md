@@ -9,6 +9,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, area/models-1, a
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Vector magnitude, distance and scalar operations ([Note 361](../361-magnitude-distance-and-scalar-operations/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)); Gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
+> - **Leads to:** Hyperparameter tuning ([Note 1039](../1039-keras-tuner/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Data augmentation ([Note 1050](../1050-data-augmentation/note.md)); Transfer learning (feature extraction and fine-tuning) ([Note 1053](../1053-transfer-learning/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
 > - **Compare with:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Ridge regression ([Note 66](../66-ridge-key-points/note.md)); Lasso regression ([Note 68](../68-lasso-sparsity/note.md)); Decision surface and boundary ([Note 91](../91-knn/note.md)); Underfitting ([Note 91](../91-knn/note.md)); Dropout ([Note 1025](../1025-dropout-code/note.md)).
 <!-- /where-this-fits -->
 
@@ -207,6 +208,10 @@ Figure 4 compares the two networks.
 
 Without regularisation, 90% of the weights lie between about $-0.8$ and $0.4$, with outliers out to $-2.45$ and $2.85$. With L2 the whole range has shrunk: the box collapses to a line at 0, and the density curve (orange) is one tall peak at 0, while the unregularised one (blue) is spread out. The weights have decayed.
 
+Figure 5 shows the decay as it happens. Both networks start from the same weights, all between $-0.21$ and $0.21$. Watch the blue weights spread out as the network fits the training points, while the orange ones are pulled back into a tall spike at 0. With L2 the largest weight grows to 0.68 by epoch 300, then shrinks to 0.52 by epoch 2,000: the penalty keeps pulling it back.
+
+![The 256 first-layer weights during training, same start: without regularisation (blue) they spread out, up to 2.85 in size; with L2, $\lambda = 0.03$ (orange), they stay in a spike around 0](images/weight_decay_anim.gif){width=90%}
+
 Section 7.6 asks whether any of these weights become exactly 0.
 
 ### 7.5 L1
@@ -235,7 +240,7 @@ To see this cleanly, we train the same network on the same data with plain gradi
 | L2, $\lambda = 0.03$ | 3% | 0.24 | 90% |
 | L1, $\lambda = 0.003$ | 56% | 0.63 | 90% |
 
-Figure 5 shows the difference at a glance. Almost no L2 weight is 0: most are small, between 0.01 and 0.1. The L1 weights split into two groups: more than half are 0, while more of the others stay above 0.1 than with L2 (49 against 29). Both networks score the same 90% on the validation points, but the L1 network does it with fewer than half of its first-layer weights: a sparse model.
+Figure 6 shows the difference at a glance. Almost no L2 weight is 0: most are small, between 0.01 and 0.1. The L1 weights split into two groups: more than half are 0, while more of the others stay above 0.1 than with L2 (49 against 29). Both networks score the same 90% on the validation points, but the L1 network does it with fewer than half of its first-layer weights: a sparse model.
 
 > **Extra:** Two details.
 >
@@ -263,6 +268,12 @@ Figure 5 shows the difference at a glance. Almost no L2 weight is 0: most are sm
 - In Keras: `kernel_regularizer=regularizers.L2(λ)` on each hidden layer. Here it turned a validation loss of 1.28 into 0.21 and shrank the weights from $\pm 2.8$ to $\pm 0.5$.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Regularization in Deep Learning | L2 Regularization in ANN | L1 Regularization | Weight Decay in ANN", YouTube, https://www.youtube.com/watch?v=4xRonrhtkzc
+
+**Other references**
 
 - Loshchilov and Hutter, "Decoupled Weight Decay Regularization", ICLR 2019, §2 (L2 regularisation and weight decay differ under Adam).
 - Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, Algorithm 1 and §2.1 (the step size is about the learning rate).

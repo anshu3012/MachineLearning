@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cblue, text width=4.6cm] (x) at (0,0) {\textbf{Feature} ($X$)\\with ordered categories};
+  \node[box=cblue, fill=white, text width=3.6cm] (oe) at (7.2,0) {\textbf{ordinal}\\\textbf{encoding}};
+  \node[box=cgreen, text width=4.6cm] (y) at (0,-2.8) {\textbf{Target} ($y$)\\with categories};
+  \node[box=cgreen, fill=white, text width=3.6cm] (le) at (7.2,-2.8) {\textbf{label}\\\textbf{encoding}};
+  \draw[arrow] (x) -- (oe); \draw[arrow] (y) -- (le);
+  \node[note, text width=11cm] at (3.6,-4.6) {every classification target: rain or not,\\placed or not, churn or not, image class};
+  \node[note] at (3.6,1.6) {same job: each category $\rightarrow$ a number};
+\end{tikzpicture}
+\end{document}

@@ -232,6 +232,12 @@ If the data has no high-cardinality features, the impurity-based importance of `
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Feature Importance using Random Forest and Decision Trees | How is Feature Importance calculated", YouTube, https://www.youtube.com/watch?v=R47JAob1xBY
+
+**Other references**
+
 - Strobl, C., Boulesteix, A.-L., Zeileis, A. and Hothorn, T. (2007). Bias in random forest variable importance measures. *BMC Bioinformatics* 8: 25.
 - scikit-learn developers. User Guide, §5.2 "Permutation feature importance" (version 1.9). scikit-learn.org/stable/modules/permutation_importance.html
 - scikit-learn source code, `sklearn/ensemble/_forest.py`, property `feature_importances_` (version 1.9).

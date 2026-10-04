@@ -287,6 +287,12 @@ There are other ways to work with SQL from Python, but this one is simple and co
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Working with JSON/SQL | Day 16 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=fFwRC-fapIU
+
+**Other references**
+
 - pandas documentation. `pandas.read_json` and `pandas.read_sql`. pandas.pydata.org.
 - pandas release notes. What's new in 2.1.0. pandas.pydata.org/docs/whatsnew.
 - PyPI. mysql-connector 2.2.9 (released 1 April 2019). pypi.org/project/mysql-connector.

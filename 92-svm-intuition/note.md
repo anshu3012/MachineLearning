@@ -148,6 +148,12 @@ The idea is so central that it gives the algorithm its name. The support vectors
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Support Vector Machines | Geometric Intuition", YouTube, https://www.youtube.com/watch?v=ugTxMLjLS8M
+
+**Other references**
+
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Chapter 9 introduction (p. 367), Sections 9.1.3 (p. 371) and 9.2.1 (p. 374).
 - **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 7.1, p. 330.
 - **Cortes and Vapnik 1995:** Cortes, C. and Vapnik, V. "Support-Vector Networks." *Machine Learning* 20, 273–297, 1995. Section 1 (history: optimal hyperplanes 1965, kernels 1992).

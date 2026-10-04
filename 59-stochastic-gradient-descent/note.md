@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sgd]
 >
 > - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)).
 > - **Leads to:** Perceptron loss ([Note 1006](../1006-perceptron-loss/note.md)); Batch size in Keras ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
-> - **Compare with:** Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)).
+> - **Compare with:** Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)); SGD with momentum ([Note 1034](../1034-sgd-with-momentum/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -56,7 +56,11 @@ $$\frac{\partial L}{\partial \beta_0} = -2(y_i - \hat y_i) \qquad \frac{\partial
 
 With numbers: if observation $i$ has error $y_i - \hat y_i = 5$ and $x_{ij} = 0.04$, then $\partial L / \partial \beta_j = -2 \times 5 \times 0.04 = -0.4$, and with learning rate 0.01 the coefficient rises by $0.004$.
 
-So an epoch of SGD makes $n$ small updates instead of one big one. On the diabetes data an epoch is 353 updates per epoch.
+So an epoch of SGD makes $n$ small updates instead of one big one. On the diabetes data an epoch is 353 updates.
+
+Figure 1 makes the race fair: every frame, each method reads the same 10 observations of the 100-point example (one feature, so only the slope $m$ and intercept $b$ to learn). Watch the orange SGD path: 10 small jumps per frame, so it reaches the bottom of the bowl within half an epoch, then keeps zigzagging there. Batch gradient descent (red) has to read all 100 observations before its first step.
+
+![Batch, mini-batch and stochastic gradient descent reading the same data, 10 observations per frame, learning rate 0.05. Left: the paths on the loss contours. Right: the loss against the observations read.](images/gd_race.gif)
 
 > **Python:** Stochastic gradient descent from scratch.
 >
@@ -86,7 +90,7 @@ So an epoch of SGD makes $n$ small updates instead of one big one. On the diabet
 
 > **Key point:** In 40 epochs, SGD reaches test R² 0.42 on the diabetes data; batch gradient descent only reaches 0.19.
 
-Figure 1 compares the two on the diabetes data, epoch by epoch.
+Figure 2 compares the two on the diabetes data, epoch by epoch.
 
 ![Test R² after each epoch: batch vs stochastic](images/batch_vs_sgd.png)
 
@@ -108,7 +112,7 @@ SGD updates 353 times per epoch, batch only once. So per epoch, SGD makes far mo
 
 > **Key point:** Each step points roughly, not exactly, downhill.
 
-The gradient from one observation is a noisy estimate of the gradient from all observations. Figure 2 (left) shows the consequence on the 100-point example: batch gradient descent (red) walks straight down the bowl, while SGD (orange) wanders but reaches the bottom area within one epoch.
+The gradient from one observation is a noisy estimate of the gradient from all observations. Figure 3 (left) shows the consequence on the 100-point example: batch gradient descent (red) walks straight down the bowl, while SGD (orange) wanders but reaches the bottom area within one epoch.
 
 ![Batch vs stochastic paths, and the effect of a learning schedule](images/paths.png){height=50%}
 
@@ -123,7 +127,7 @@ The gradient from one observation is a noisy estimate of the gradient from all o
 
 > **Key point:** With a constant learning rate, SGD keeps jumping around the minimum instead of stopping at it.
 
-Near the minimum, every new observation still pushes the coefficients in its own direction. So SGD keeps bouncing around the best values (Figure 2, right, orange) and never stops exactly there. Running it twice with different random observations also gives slightly different answers.
+Near the minimum, every new observation still pushes the coefficients in its own direction. So SGD keeps bouncing around the best values (Figure 3, right, orange) and never stops exactly there. Running it twice with different random observations also gives slightly different answers.
 
 ## 6. Learning schedules
 
@@ -141,7 +145,11 @@ where $t$ counts the updates done so far, and $t_0$ and $t_1$ are constants. Wit
 |---|---|---|---|---|
 | Learning rate | 0.1 | 0.033 | 0.0048 | 0.0005 |
 
-In Figure 2 (right), the scheduled run (green) stays much closer to the minimum than the constant-rate run (orange): over the last 200 updates its average distance from the best values is 2.1, against 4.7.
+Figure 4 plots the same schedule over 10,000 updates. Watch where the green curve crosses the constant rate 0.05: before update 50 the schedule takes bigger steps, and after it the steps keep shrinking.
+
+![The learning schedule 5 / (t + 50) against a constant rate of 0.05, both axes on a log scale](images/schedule.png)
+
+In Figure 3 (right), the scheduled run (green) stays much closer to the minimum than the constant-rate run (orange): over the last 200 updates its average distance from the best values is 2.1, against 4.7.
 
 > **Extra:** The idea resembles *simulated annealing*, an optimisation method named after annealing metal: cooled slowly, a metal settles into a stable, low-energy state. Simulated annealing likewise lowers a "temperature" step by step (Kirkpatrick et al.).
 
@@ -200,6 +208,13 @@ Mini-batch gradient descent, the next Note, sits between the two and is what mos
 - A learning schedule (shrinking rate) lets SGD settle, if its starting rate is large enough; `SGDRegressor` offers several.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Stochastic Gradient Descent", YouTube, https://www.youtube.com/watch?v=V7KBAa_gh4c
+- Starmer, J. (StatQuest), "Stochastic Gradient Descent, Clearly Explained!!!", statquest.org. The intuition of one random observation per step behind Figure 1; we redraw it with our own data.
+
+**Other references**
 
 - **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §5.9 (SGD for large datasets), §8.3.1 (SGD and decaying learning rates).
 - **scikit-learn docs**: scikit-learn documentation, `sklearn.linear_model.SGDRegressor` (version 1.9).

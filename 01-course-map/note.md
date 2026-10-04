@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their source when their Note is written. So far, 289 of 289 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their source when their Note is written. So far, 335 of 335 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -215,9 +215,12 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | SMOTE | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Bag of words | [Note 360](../360-vectors-and-feature-vectors/note.md) | confirmed |
 | Scaling inputs for neural networks | [Note 1023](../1023-data-scaling-in-ann/note.md) | confirmed |
+| Data augmentation | [Note 1050](../1050-data-augmentation/note.md) | confirmed |
 | Sequence padding | [Note 1055](../1055-why-rnn/note.md), [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
 | Tokenization and integer encoding of text | [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
 | Word embeddings | [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
+| Contextual embeddings | [Note 1072](../1072-what-is-self-attention/note.md) | confirmed |
+| Meaning as direction in embedding space | [Note 1086](../1086-meaning-as-direction/note.md) | confirmed |
 
 ### 2.7 Step 6: Reduce dimensions
 
@@ -329,13 +332,53 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | AdaGrad | [Note 1036](../1036-adagrad/note.md) | confirmed |
 | RMSProp | [Note 1037](../1037-rmsprop/note.md) | confirmed |
 | Adam | [Note 1038](../1038-adam/note.md) | confirmed |
+| Convolutional neural network (CNN) | [Note 1040](../1040-cnn-intuition/note.md), [Note 1041](../1041-cnn-vs-visual-cortex/note.md), [Note 1046](../1046-cnn-vs-ann/note.md) | confirmed |
+| Convolution operation and feature maps | [Note 1042](../1042-convolution-operation/note.md) | confirmed |
+| Padding and strides | [Note 1043](../1043-padding-and-strides/note.md) | confirmed |
+| Pooling | [Note 1044](../1044-pooling/note.md) | confirmed |
+| CNN architecture (LeNet-5) | [Note 1045](../1045-lenet-5/note.md) | confirmed |
+| Backpropagation in a CNN | [Note 1047](../1047-backpropagation-in-cnn/note.md), [Note 1048](../1048-backpropagation-cnn-layers/note.md) | confirmed |
+| Image classification with a CNN (cats vs dogs) | [Note 1049](../1049-cat-vs-dog-cnn/note.md) | confirmed |
+| Pretrained models and ImageNet | [Note 1051](../1051-pretrained-models/note.md) | confirmed |
+| Transfer learning (feature extraction and fine-tuning) | [Note 1053](../1053-transfer-learning/note.md) | confirmed |
+| Keras functional API | [Note 1054](../1054-keras-functional-api/note.md) | confirmed |
+| Skip connections | [Note 1054](../1054-keras-functional-api/note.md) | confirmed |
 | Recurrent neural network (RNN) | [Note 1055](../1055-why-rnn/note.md), [Note 1056](../1056-rnn-forward-propagation/note.md), [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
 | Parameter sharing across time steps | [Note 1056](../1056-rnn-forward-propagation/note.md), [Note 1059](../1059-backpropagation-through-time/note.md) | confirmed |
 | Types of RNN (many-to-one, one-to-many, many-to-many) | [Note 1058](../1058-types-of-rnn/note.md) | confirmed |
-| Sequence-to-sequence (encoder-decoder) | [Note 1058](../1058-types-of-rnn/note.md) | confirmed |
+| Sequence-to-sequence (encoder-decoder) | [Note 1058](../1058-types-of-rnn/note.md), [Note 1068](../1068-encoder-decoder/note.md) | confirmed |
 | Backpropagation through time (BPTT) | [Note 1059](../1059-backpropagation-through-time/note.md) | confirmed |
 | Long-term dependency problem | [Note 1060](../1060-problems-with-rnn/note.md) | confirmed |
+| LSTM (long short-term memory) | [Note 1061](../1061-lstm/note.md), [Note 1062](../1062-lstm-architecture/note.md), [Note 1063](../1063-lstm-next-word-prediction/note.md) | confirmed |
+| LSTM gates (forget, input, output) and cell state | [Note 1062](../1062-lstm-architecture/note.md) | confirmed |
+| Next-word prediction with an LSTM | [Note 1063](../1063-lstm-next-word-prediction/note.md) | confirmed |
+| GRU (gated recurrent unit) | [Note 1064](../1064-gru/note.md) | confirmed |
+| Deep (stacked) RNNs | [Note 1065](../1065-deep-rnns/note.md) | confirmed |
+| Bidirectional RNNs | [Note 1066](../1066-bidirectional-rnn/note.md) | confirmed |
 | Large language models (LLMs) | [Note 1067](../1067-history-of-llms/note.md) | confirmed |
+| Teacher forcing | [Note 1068](../1068-encoder-decoder/note.md), [Note 1081](../1081-masked-self-attention/note.md) | confirmed |
+| Attention mechanism | [Note 1069](../1069-attention-mechanism/note.md) | confirmed |
+| Bahdanau (additive) attention | [Note 1069](../1069-attention-mechanism/note.md), [Note 1070](../1070-bahdanau-vs-luong-attention/note.md) | confirmed |
+| Luong (multiplicative) attention | [Note 1070](../1070-bahdanau-vs-luong-attention/note.md) | confirmed |
+| Transformer | [Note 1071](../1071-introduction-to-transformers/note.md), [Note 1080](../1080-transformer-encoder/note.md), [Note 1083](../1083-transformer-decoder/note.md) | confirmed |
+| Self-attention (query, key, value) | [Note 1072](../1072-what-is-self-attention/note.md), [Note 1073](../1073-self-attention-step-by-step/note.md), [Note 1075](../1075-self-attention-geometric-intuition/note.md), [Note 1076](../1076-why-self-attention/note.md) | confirmed |
+| Scaled dot-product attention | [Note 1074](../1074-scaled-dot-product-attention/note.md) | confirmed |
+| Multi-head attention | [Note 1077](../1077-multi-head-attention/note.md) | confirmed |
+| Positional encoding | [Note 1078](../1078-positional-encoding/note.md) | confirmed |
+| Layer normalisation | [Note 1079](../1079-layer-normalization/note.md) | confirmed |
+| Residual connections and add & norm | [Note 1080](../1080-transformer-encoder/note.md) | confirmed |
+| Transformer encoder | [Note 1080](../1080-transformer-encoder/note.md) | confirmed |
+| Masked self-attention | [Note 1081](../1081-masked-self-attention/note.md) | confirmed |
+| Cross-attention | [Note 1082](../1082-cross-attention/note.md) | confirmed |
+| Transformer decoder | [Note 1083](../1083-transformer-decoder/note.md) | confirmed |
+| Transformer inference (autoregressive decoding, KV cache, beam search) | [Note 1084](../1084-transformer-inference/note.md) | confirmed |
+| The transformer end to end (capstone) | [Note 1085](../1085-transformer-end-to-end/note.md) | confirmed |
+| Label smoothing | [Note 1085](../1085-transformer-end-to-end/note.md) | confirmed |
+| Decoder-only GPT | [Note 1087](../1087-decoder-only-gpt/note.md) | confirmed |
+| GELU activation | [Note 1087](../1087-decoder-only-gpt/note.md) | confirmed |
+| Unembedding, logits, temperature and sampling | [Note 1088](../1088-unembedding-and-sampling/note.md) | confirmed |
+| MLP blocks as fact storage | [Note 1089](../1089-mlp-stores-facts/note.md) | confirmed |
+| Superposition and nearly perpendicular directions | [Note 1090](../1090-superposition/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -353,6 +396,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Decision surface and boundary | [Note 91](../91-knn/note.md) | confirmed |
 | OOB score | [Note 105](../105-bagging-intuition/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 113](../113-oob-score/note.md) | confirmed |
 | Training curves (History) | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md), [Note 1022](../1022-early-stopping/note.md) | confirmed |
+| Visualising what a CNN learns | [Note 1052](../1052-visualizing-cnn/note.md) | confirmed |
+| Logit lens | [Note 1088](../1088-unembedding-and-sampling/note.md) | confirmed |
 
 ### 2.11 Step 10: Tune
 
@@ -367,6 +412,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Improving a neural network | [Note 1021](../1021-improving-a-neural-network/note.md) | confirmed |
 | Early stopping | [Note 1021](../1021-improving-a-neural-network/note.md), [Note 1022](../1022-early-stopping/note.md) | confirmed |
 | Keras Tuner | [Note 1039](../1039-keras-tuner/note.md) | confirmed |
+| Learning-rate warm-up schedule | [Note 1085](../1085-transformer-end-to-end/note.md) | confirmed |
 
 ### 2.12 Step 11: Deploy
 
@@ -404,7 +450,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 289 Concepts, too many for one page, so each topic has its own mind map (Figures 2 to 17). Each map tells the topic's story from left to right and shows only its key Concepts and links; the grey number in each box is the Note that teaches it, and dashed boxes lead to other maps. To see every Concept and every link, use the interactive app (`python course_map/app.py`): click a Concept to light up everything it connects to.
+The full map has 335 Concepts, too many for one page, so each topic has its own mind map (Figures 2 to 19). Each map tells the topic's story from left to right and shows only its key Concepts and links; the grey number in each box is the Note that teaches it, and dashed boxes lead to other maps. To see every Concept and every link at once, open `course_map/concept_map_3d.html` in a browser: a 3D network you can rotate and zoom, with one colour per area (rebuilt by `python course_map/map_3d.py`). The interactive app (`python course_map/app.py`) lists each Concept's links with the Notes that teach them.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){width=100%}
 
@@ -436,7 +482,11 @@ The full map has 289 Concepts, too many for one page, so each topic has its own 
 
 ![Concept map: Deep learning: optimizers](images/concept_map_dl_optimizers.png){width=100%}
 
+![Concept map: Deep learning: convolutional networks](images/concept_map_dl_cnn.png){width=100%}
+
 ![Concept map: Deep learning: recurrent networks](images/concept_map_dl_rnn.png){width=100%}
+
+![Concept map: Deep learning: LLMs, attention and transformers](images/concept_map_dl_transformers.png){width=100%}
 
 ## 4. The Learning path
 
@@ -687,13 +737,57 @@ Each row lists a Note's Concepts and the Notes to read first. Notes marked *comi
 | 1037 | RMSProp | [Note 1032](../1032-optimizers-in-deep-learning/note.md), [Note 1033](../1033-exponentially-weighted-moving-average/note.md), [Note 1036](../1036-adagrad/note.md) | written |
 | 1038 | Adam | [Note 1032](../1032-optimizers-in-deep-learning/note.md), [Note 1033](../1033-exponentially-weighted-moving-average/note.md), [Note 1034](../1034-sgd-with-momentum/note.md), [Note 1037](../1037-rmsprop/note.md) | written |
 | 1039 | Hyperparameter tuning, Keras Tuner | [Note 1026](../1026-regularization-in-dl/note.md) | written |
+| 1040 | Convolutional neural network (CNN) | [Note 1002](../1002-what-is-deep-learning/note.md) | written |
+| 1041 | Convolutional neural network (CNN) | [Note 1002](../1002-what-is-deep-learning/note.md) | written |
+| 1042 | Convolution operation and feature maps | nothing | written |
+| 1043 | Padding and strides | [Note 1042](../1042-convolution-operation/note.md) | written |
+| 1044 | Pooling | [Note 1042](../1042-convolution-operation/note.md) | written |
+| 1045 | CNN architecture (LeNet-5) | [Note 1042](../1042-convolution-operation/note.md), [Note 1043](../1043-padding-and-strides/note.md), [Note 1044](../1044-pooling/note.md) | written |
+| 1046 | Convolutional neural network (CNN) | [Note 1002](../1002-what-is-deep-learning/note.md), [Note 1042](../1042-convolution-operation/note.md), [Note 1044](../1044-pooling/note.md) | written |
+| 1047 | Backpropagation in a CNN | [Note 1019](../1019-mlp-memoization/note.md), [Note 1042](../1042-convolution-operation/note.md) | written |
+| 1048 | Backpropagation in a CNN | [Note 1019](../1019-mlp-memoization/note.md), [Note 1042](../1042-convolution-operation/note.md) | written |
+| 1049 | Image classification with a CNN (cats vs dogs) | [Note 1023](../1023-data-scaling-in-ann/note.md), [Note 1026](../1026-regularization-in-dl/note.md), [Note 1045](../1045-lenet-5/note.md) | written |
+| 1050 | Data augmentation | [Note 7](../07-challenges-in-ml/note.md), [Note 1026](../1026-regularization-in-dl/note.md) | written |
+| 1051 | Pretrained models and ImageNet | [Note 7](../07-challenges-in-ml/note.md), [Note 1045](../1045-lenet-5/note.md) | written |
+| 1052 | Visualising what a CNN learns | [Note 1042](../1042-convolution-operation/note.md), [Note 1051](../1051-pretrained-models/note.md) | written |
+| 1053 | Transfer learning (feature extraction and fine-tuning) | [Note 7](../07-challenges-in-ml/note.md), [Note 1026](../1026-regularization-in-dl/note.md), [Note 1051](../1051-pretrained-models/note.md) | written |
+| 1054 | Keras functional API, Skip connections | [Note 1026](../1026-regularization-in-dl/note.md), [Note 1030](../1030-xavier-he-initialization/note.md) | written |
 | 1055 | Recurrent neural network (RNN), Sequence padding, Sequential data | [Note 1010](../1010-forward-propagation/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1029](../1029-weight-initialization/note.md) | written |
 | 1056 | Parameter sharing across time steps, Recurrent neural network (RNN) | [Note 1010](../1010-forward-propagation/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1029](../1029-weight-initialization/note.md), [Note 1055](../1055-why-rnn/note.md) | written |
 | 1057 | Recurrent neural network (RNN), Sequence padding, Tokenization and integer encoding of text, Word embeddings | [Note 1027](../1027-activation-functions/note.md), [Note 1029](../1029-weight-initialization/note.md), [Note 1055](../1055-why-rnn/note.md), [Note 1056](../1056-rnn-forward-propagation/note.md) | written |
 | 1058 | Sequence-to-sequence (encoder-decoder), Types of RNN (many-to-one, one-to-many, many-to-many) | [Note 1057](../1057-rnn-sentiment-analysis/note.md) | written |
 | 1059 | Backpropagation through time (BPTT), Parameter sharing across time steps | [Note 1019](../1019-mlp-memoization/note.md) | written |
 | 1060 | Exploding gradient and gradient clipping, Long-term dependency problem, Vanishing gradient | [Note 1019](../1019-mlp-memoization/note.md), [Note 1022](../1022-early-stopping/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1059](../1059-backpropagation-through-time/note.md) | written |
+| 1061 | LSTM (long short-term memory) | [Note 1057](../1057-rnn-sentiment-analysis/note.md), [Note 1060](../1060-problems-with-rnn/note.md) | written |
+| 1062 | LSTM (long short-term memory), LSTM gates (forget, input, output) and cell state | [Note 1057](../1057-rnn-sentiment-analysis/note.md), [Note 1060](../1060-problems-with-rnn/note.md) | written |
+| 1063 | LSTM (long short-term memory), Next-word prediction with an LSTM | [Note 1057](../1057-rnn-sentiment-analysis/note.md), [Note 1060](../1060-problems-with-rnn/note.md), [Note 1062](../1062-lstm-architecture/note.md) | written |
+| 1064 | GRU (gated recurrent unit) | [Note 1057](../1057-rnn-sentiment-analysis/note.md), [Note 1062](../1062-lstm-architecture/note.md) | written |
+| 1065 | Deep (stacked) RNNs | [Note 1057](../1057-rnn-sentiment-analysis/note.md), [Note 1063](../1063-lstm-next-word-prediction/note.md), [Note 1064](../1064-gru/note.md) | written |
+| 1066 | Bidirectional RNNs | [Note 1057](../1057-rnn-sentiment-analysis/note.md), [Note 1063](../1063-lstm-next-word-prediction/note.md), [Note 1064](../1064-gru/note.md) | written |
 | 1067 | Large language models (LLMs) | nothing | written |
+| 1068 | Sequence-to-sequence (encoder-decoder), Teacher forcing | [Note 1058](../1058-types-of-rnn/note.md), [Note 1063](../1063-lstm-next-word-prediction/note.md) | written |
+| 1069 | Attention mechanism, Bahdanau (additive) attention | [Note 1068](../1068-encoder-decoder/note.md) | written |
+| 1070 | Bahdanau (additive) attention, Luong (multiplicative) attention | [Note 1069](../1069-attention-mechanism/note.md) | written |
+| 1071 | Transformer | [Note 1068](../1068-encoder-decoder/note.md) | written |
+| 1072 | Contextual embeddings, Self-attention (query, key, value) | [Note 1057](../1057-rnn-sentiment-analysis/note.md), [Note 1069](../1069-attention-mechanism/note.md) | written |
+| 1073 | Self-attention (query, key, value) | [Note 1069](../1069-attention-mechanism/note.md) | written |
+| 1074 | Scaled dot-product attention | [Note 1073](../1073-self-attention-step-by-step/note.md) | written |
+| 1075 | Self-attention (query, key, value) | [Note 1069](../1069-attention-mechanism/note.md) | written |
+| 1076 | Self-attention (query, key, value) | [Note 1069](../1069-attention-mechanism/note.md) | written |
+| 1077 | Multi-head attention | [Note 1074](../1074-scaled-dot-product-attention/note.md) | written |
+| 1078 | Positional encoding | [Note 1076](../1076-why-self-attention/note.md) | written |
+| 1079 | Layer normalisation | nothing | written |
+| 1080 | Residual connections and add & norm, Transformer, Transformer encoder | [Note 1068](../1068-encoder-decoder/note.md), [Note 1077](../1077-multi-head-attention/note.md), [Note 1078](../1078-positional-encoding/note.md), [Note 1079](../1079-layer-normalization/note.md) | written |
+| 1081 | Masked self-attention, Teacher forcing | [Note 1076](../1076-why-self-attention/note.md) | written |
+| 1082 | Cross-attention | nothing | written |
+| 1083 | Transformer, Transformer decoder | [Note 1068](../1068-encoder-decoder/note.md), [Note 1080](../1080-transformer-encoder/note.md), [Note 1081](../1081-masked-self-attention/note.md), [Note 1082](../1082-cross-attention/note.md) | written |
+| 1084 | Transformer inference (autoregressive decoding, KV cache, beam search) | [Note 1083](../1083-transformer-decoder/note.md) | written |
+| 1085 | Label smoothing, Learning-rate warm-up schedule, The transformer end to end (capstone) | [Note 1038](../1038-adam/note.md), [Note 1080](../1080-transformer-encoder/note.md), [Note 1083](../1083-transformer-decoder/note.md), [Note 1084](../1084-transformer-inference/note.md) | written |
+| 1086 | Meaning as direction in embedding space | [Note 520](../520-dot-product-and-duality/note.md), [Note 1057](../1057-rnn-sentiment-analysis/note.md) | written |
+| 1087 | Decoder-only GPT, GELU activation | [Note 1027](../1027-activation-functions/note.md), [Note 1081](../1081-masked-self-attention/note.md), [Note 1083](../1083-transformer-decoder/note.md) | written |
+| 1088 | Logit lens, Unembedding, logits, temperature and sampling | [Note 79](../79-softmax-regression/note.md) | written |
+| 1089 | MLP blocks as fact storage | [Note 1087](../1087-decoder-only-gpt/note.md) | written |
+| 1090 | Superposition and nearly perpendicular directions | [Note 1086](../1086-meaning-as-direction/note.md) | written |
 
 ## 5. The Algorithm chooser
 
@@ -703,7 +797,18 @@ Each row lists a Note's Concepts and the Notes to read first. Notes marked *comi
 
 Figure 8 is a starting point, not a rule: in practice we try several suitable algorithms and compare them on a test set. It is a draft until the algorithm Notes are written.
 
-## 6. Key terms
+## 6. Sources
+
+**Built from**
+- CampusX, "100 Days of Machine Learning", YouTube playlist (134 videos), https://www.youtube.com/playlist?list=PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH
+- CampusX, "100 Days of Deep Learning", YouTube playlist (84 videos), https://www.youtube.com/playlist?list=PLKnIA16_RmvYuZauWaPlRTC54KxSNLtNn
+- CampusX, "Maths for Machine Learning", YouTube playlist (23 sessions), https://www.youtube.com/playlist?list=PLKnIA16_RmvbYFaaeLY28cWeqV-3vADST
+- Every Note listed in the Learning path: each Note's own Sources name the video, book or paper it was built from.
+
+**Other references**
+- The Concept map data: `course_map/concepts.yaml` in this repository.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

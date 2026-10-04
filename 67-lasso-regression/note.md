@@ -202,6 +202,12 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Lasso Regression | Intuition and Code Sample | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=HLF4bFbBgwk
+
+**Other references**
+
 - **Tibshirani 1996:** Tibshirani, R. "Regression Shrinkage and Selection via the Lasso." *Journal of the Royal Statistical Society B* 58(1), 267–288, 1996. Section 1.
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 2.2.2, p. 34; Section 6.2.2, pp. 242, 246.
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Sections 3.4.1 (p. 63) and 3.4.2 (p. 68).

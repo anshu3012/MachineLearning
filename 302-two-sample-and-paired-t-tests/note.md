@@ -305,6 +305,12 @@ When two models are evaluated with k-fold cross-validation on the **same folds**
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Session 46 - Hypothesis Testing Part 2 | p-values | t-tests | DSMP 2023", YouTube, https://www.youtube.com/watch?v=xHTMjxx14sU
+
+**Other references**
+
 - Rice, J. A. (2007). *Mathematical Statistics and Data Analysis*, 3rd ed. Duxbury. §11.3, Comparing paired samples.
 - Delacre, M., Lakens, D. and Leys, C. (2017). "Why psychologists should by default use Welch's t-test instead of Student's t-test." *International Review of Social Psychology* 30(1), 92–101.
 - Dietterich, T. G. (1998). "Approximate statistical tests for comparing supervised classification learning algorithms." *Neural Computation* 10(7), 1895–1923.

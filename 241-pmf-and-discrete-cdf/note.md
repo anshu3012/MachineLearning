@@ -10,7 +10,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 >
 > - **Builds on:** Probability density function (PDF) ([Note 90](../90-gaussian-naive-bayes/note.md)); Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)).
 > - **Leads to:** Poisson distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); P-values ([Note 300](../300-p-values/note.md)).
-> - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Poisson distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
+> - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Poisson distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -226,6 +226,12 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 - The CDF is the running total of the PMF: a step function from 0 to 1.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Session 40 - Probability Distribution Functions - PDF, PMF & CDF | DSMP 2023", YouTube, https://www.youtube.com/watch?v=C_QAURbgBqY
+
+**Other references**
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Example 6.8 (Bernoulli distribution).
 - Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. Section 7.1.1 (law of large numbers).

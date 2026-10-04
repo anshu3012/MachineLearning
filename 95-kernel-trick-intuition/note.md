@@ -109,6 +109,12 @@ In summary: if the data is not linearly separable in its own dimension, a kernel
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Kernel Trick in SVM | Geometric Intuition", YouTube, https://www.youtube.com/watch?v=egxjT0p7_K8
+
+**Other references**
+
 - **Lin and Lin 2003:** H.-T. Lin and C.-J. Lin, *A Study on Sigmoid Kernels for SVM and the Training of non-PSD Kernels by SMO-type Methods*, National Taiwan University, 2003. csie.ntu.edu.tw/~cjlin/papers/tanh.pdf
 - **MML:** M. P. Deisenroth, A. A. Faisal and C. S. Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020. Section 12.4, Kernels.
 

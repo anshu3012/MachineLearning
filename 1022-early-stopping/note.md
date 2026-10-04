@@ -9,6 +9,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, step
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
+> - **Leads to:** Vanishing gradient ([Note 1029](../1029-weight-initialization/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -17,7 +18,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, step
 
 Every call to `fit` needs a number of epochs: 100, 1,000, 10,000? Training too long is not harmless. On some data the network starts to overfit: its results keep improving on the training data and get worse on new data. Think of baking a cake: we do not trust a fixed timer, we check the cake and take it out when it is done. Early stopping (see the [batch gradient descent Note](../58-batch-gradient-descent/note.md), section 5) means stopping training when the score on held-out data is best; this Note shows how Keras does it for us (Goodfellow et al. 2016, §7.8).
 
-![Training and validation loss of the same network. Left: trained for 3,500 epochs, the validation loss is lowest at epoch 469 and rises after. Right: with early stopping, training ends at epoch 503; the grey band is the patience window after the best epoch.](images/loss_curves.png)
+![Training and validation loss of the same network. Left: trained for 3,500 epochs, the validation loss is lowest at epoch 469 and rises after. Right: with early stopping, training ends at epoch 503; the grey band runs from the best epoch to the stop.](images/loss_curves.png)
 
 Figure 1 shows the whole story. Section 3 trains a network for 3,500 epochs and watches it overfit; section 4 adds the `EarlyStopping` callback; section 5 explains its settings. The Notebook (`notebook.ipynb`) runs every step.
 
@@ -126,7 +127,11 @@ We build and compile exactly the same network, with the same starting weights. T
 >
 > `epochs=3500` is now only an upper limit. `callbacks` takes a list, so several callbacks can run together.
 
-Training stops by itself at epoch 503 (Figure 1, right). The best validation loss, 0.449, was at epoch 469, the same epoch as in the long run; Keras waited 50 more epochs for an improvement, saw none, and stopped.
+Training stops by itself at epoch 503 (Figure 1, right). The best validation loss, 0.449, was at epoch 469, the same epoch as in the long run. But the drops after epoch 453 were each smaller than `min_delta` (0.00001), so they did not count as improvements: Keras counted from epoch 453, waited 50 epochs for a real improvement, saw none, and stopped.
+
+Figure 3 replays this run. Watch the patience counter: it stays at 0 while the validation loss keeps falling, climbs once the curve flattens, and stops training at 50. The second part lets the same run go on to epoch 3,500: the validation loss rises, while the decision boundary barely changes.
+
+![Early stopping as it happens. Left: training and validation loss with Keras' patience counter and the best epoch so far (black dot). Right: the decision boundary at the same epoch. After the stop at epoch 503, the same run continues without early stopping to epoch 3,500](images/early_stop_anim.gif){width=100%}
 
 The result:
 
@@ -199,6 +204,12 @@ Here the difference is tiny: validation loss 0.449 with the restored weights aga
 - Give it enough patience to ride out short bumps; consider `restore_best_weights=True`.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Early Stopping In Neural Networks | End to End Deep Learning Course", YouTube, https://www.youtube.com/watch?v=Ygvskt5HadI
+
+**Other references**
 
 - Goodfellow, I., Bengio, Y. and Courville, A., *Deep Learning*, MIT Press, 2016, §7.8 "Early Stopping" (stop when the validation error has not improved for a set number of steps).
 - Keras documentation, Callbacks API: EarlyStopping, keras.io/api/callbacks/early_stopping (the meaning of `monitor`, `min_delta`, `patience`, `mode`, `baseline` and `restore_best_weights`).

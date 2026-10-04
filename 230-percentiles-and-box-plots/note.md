@@ -206,7 +206,13 @@ Comparing the three boxes:
 - Five-number summary: minimum, $Q_1$, median, $Q_3$, maximum.
 - Whiskers stop at the last value inside the fences; values beyond are outliers.
 
-## 8. Key terms
+## 8. Sources
+
+**Built from**
+
+- CampusX, "Session 39 - Descriptive Statistics Part 2 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=1ndVC500-EU
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

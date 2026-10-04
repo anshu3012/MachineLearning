@@ -35,9 +35,9 @@ Take two inputs, CGPA ($x_1$) and IQ ($x_2$), and the package ($y$) as output. E
 
 In 2D we drew the line that passes closest to all points. In 3D we draw a flat **plane** that cuts through the cloud of points: some points lie above it, some below, and the plane keeps as close as possible to all of them (Figure 1).
 
-![100 points in 3D and the fitted plane](images/plane.png){height=50%}
+![100 observations in 3D, then the fitted plane, then each observation's error as a stick to the plane (green above, red below), while the view circles once](images/plane_orbit.gif){height=50%}
 
-In Figure 1, the blue points lie above the plane; the points seen through the orange plane lie below it.
+Watch the sticks as the view turns: about half the points sit above the plane (50 of 100) and half below, and from the side the plane cuts through the middle of the cloud. Fitting the plane means making these sticks, squared and added up, as small as possible, just as with the line.
 
 ### 2.2 More inputs: a hyperplane
 
@@ -75,6 +75,10 @@ The meaning carries over from the slope $m$:
 - $\beta_2$: the same for $x_2$, and so on.
 - $\beta_0$: the prediction when every input is 0.
 
+Figure 3 slices the plane of Figure 1 at three fixed values of feature2. Each slice is a line with slope 58.6, and the slices sit 29.1 apart: one coefficient per direction.
+
+![Slices of the fitted plane at feature2 = −1, 0 and 1. One step along feature1 adds 58.6 (orange); one step in feature2 lifts the whole line by 29.1 (red)](images/coef_slices.png){height=40%}
+
 So the coefficients act as **weights**: in Figure 1, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ.
 
 > **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. Standardising the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 1 the comparison is fair: both inputs from `make_regression` already have a standard deviation of about 1.
@@ -104,7 +108,9 @@ The example data has 100 observations, 2 features and some noise, made with scik
 >
 > `make_regression` invents data that follows a linear pattern plus random noise; `random_state` fixes it so the numbers repeat.
 
-On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook).
+On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook). Figure 4 shows the test predictions for all three: as the noise falls, the points close in on the diagonal of perfect predictions.
+
+![Predicted against actual target on the 20 test observations, for the same recipe with noise 50, 25 and 0](images/noise_fit.png)
 
 > **Extra:** To draw the plane, we predict on a grid of $(x_1, x_2)$ points and plot the predictions as a surface. The Notebook does this with Plotly, and the 3D plot can be turned with the mouse to see the points above and below the plane.
 
@@ -123,6 +129,12 @@ On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise ad
 - The intercept $\beta_0$ is the prediction when every input is 0.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Multiple Linear Regression | Geometric Intuition & Code", YouTube, https://www.youtube.com/watch?v=ashGekqstl8
+
+**Other references**
 
 - Gelman, A. (2008). Scaling regression inputs by dividing by two standard deviations. *Statistics in Medicine* 27(15): 2865–2873.
 

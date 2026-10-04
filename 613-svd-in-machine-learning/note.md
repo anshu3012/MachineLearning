@@ -236,7 +236,12 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 
 ## 7. Sources
 
+**Built from**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 4.5–4.6, Examples 4.14 and 4.15 (MML).
+
+**Other references**
+
 - Deerwester, S., Dumais, S. T., Furnas, G. W., Landauer, T. K. and Harshman, R. (1990). "Indexing by Latent Semantic Analysis". *Journal of the American Society for Information Science* 41(6).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.1, ridge regression and the SVD (ESL).
 - Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix Factorization Techniques for Recommender Systems". *IEEE Computer* 42(8).

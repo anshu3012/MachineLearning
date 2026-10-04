@@ -381,6 +381,12 @@ Because the power transformer chooses from many formulas, including the log and 
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Power Transformer | Box - Cox Transform | Yeo - Johnson Transform", YouTube, https://www.youtube.com/watch?v=lV_Z4HbNAx0
+
+**Other references**
+
 - Box, G. E. P. and Cox, D. R. (1964). An Analysis of Transformations. *Journal of the Royal Statistical Society, Series B* 26(2), 211-252.
 - scikit-learn documentation. `sklearn.preprocessing.PowerTransformer`. scikit-learn.org.
 - Yeh, I-C. (1998). Modeling of Strength of High-Performance Concrete Using Artificial Neural Networks. *Cement and Concrete Research* 28(12), 1797-1808. Data: UCI Machine Learning Repository, Concrete Compressive Strength.

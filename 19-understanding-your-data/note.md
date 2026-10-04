@@ -407,6 +407,12 @@ The correlation check is useful at the start, and we repeat it later, after clea
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Understanding Your Data | Day 19 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=mJlRTUuVr04
+
+**Other references**
+
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 - pandas user guide. Scaling to large datasets: use efficient datatypes. pandas.pydata.org/docs/user_guide/scale.html.
 

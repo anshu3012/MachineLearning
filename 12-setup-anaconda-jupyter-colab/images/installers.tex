@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cblue, text width=5.0cm, minimum height=3.6cm] (m) at (0,0) {\textbf{Miniforge}\\[3pt]under 100 MB\\conda + Python\\channel: conda-forge (free)\\[3pt]\textit{we add the rest}};
+  \node[box=cgrey, text width=5.0cm, minimum height=3.6cm] (a) at (6.4,0) {\textbf{Anaconda}\\[3pt]about 1 GB\\conda + Python\\+ hundreds of libraries\\+ Navigator, Spyder};
+  \node[box=cgreen, text width=8.6cm] (c) at (3.2,-3.4) {\textbf{conda} inside both: the same commands};
+  \draw[arrow] (m) -- (m |- c.north); \draw[arrow] (a) -- (a |- c.north);
+  \node[font=\sffamily\bfseries\large, text=cblue] at (0,2.3) {we use};
+\end{tikzpicture}
+\end{document}

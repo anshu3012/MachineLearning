@@ -263,6 +263,21 @@ notes:
   1037: 1037-rmsprop
   1038: 1038-adam
   1039: 1039-keras-tuner
+  1040: 1040-cnn-intuition
+  1041: 1041-cnn-vs-visual-cortex
+  1042: 1042-convolution-operation
+  1043: 1043-padding-and-strides
+  1044: 1044-pooling
+  1045: 1045-lenet-5
+  1046: 1046-cnn-vs-ann
+  1047: 1047-backpropagation-in-cnn
+  1048: 1048-backpropagation-cnn-layers
+  1049: 1049-cat-vs-dog-cnn
+  1050: 1050-data-augmentation
+  1051: 1051-pretrained-models
+  1052: 1052-visualizing-cnn
+  1053: 1053-transfer-learning
+  1054: 1054-keras-functional-api
   1055: 1055-why-rnn
   1056: 1056-rnn-forward-propagation
   1057: 1057-rnn-sentiment-analysis
@@ -270,6 +285,35 @@ notes:
   1059: 1059-backpropagation-through-time
   1060: 1060-problems-with-rnn
   1067: 1067-history-of-llms
+  1061: 1061-lstm
+  1062: 1062-lstm-architecture
+  1063: 1063-lstm-next-word-prediction
+  1064: 1064-gru
+  1065: 1065-deep-rnns
+  1066: 1066-bidirectional-rnn
+  1068: 1068-encoder-decoder
+  1069: 1069-attention-mechanism
+  1070: 1070-bahdanau-vs-luong-attention
+  1071: 1071-introduction-to-transformers
+  1072: 1072-what-is-self-attention
+  1073: 1073-self-attention-step-by-step
+  1074: 1074-scaled-dot-product-attention
+  1075: 1075-self-attention-geometric-intuition
+  1076: 1076-why-self-attention
+  1077: 1077-multi-head-attention
+  1078: 1078-positional-encoding
+  1079: 1079-layer-normalization
+  1080: 1080-transformer-encoder
+  1081: 1081-masked-self-attention
+  1082: 1082-cross-attention
+  1083: 1083-transformer-decoder
+  1084: 1084-transformer-inference
+  1085: 1085-transformer-end-to-end
+  1086: 1086-meaning-as-direction
+  1087: 1087-decoder-only-gpt
+  1088: 1088-unembedding-and-sampling
+  1089: 1089-mlp-stores-facts
+  1090: 1090-superposition
 
 concepts:
   # 0 Foundations
@@ -419,7 +463,7 @@ concepts:
   - {id: sequence_padding, name: Sequence padding, step: 5, videos: [1055, 1057], status: confirmed}
   - {id: word_embedding, name: Word embeddings, step: 5, videos: [1057], status: confirmed}
   - {id: rnn_types, name: "Types of RNN (many-to-one, one-to-many, many-to-many)", step: 8, videos: [1058], status: confirmed}
-  - {id: seq2seq, name: Sequence-to-sequence (encoder-decoder), step: 8, videos: [1058], status: confirmed}
+  - {id: seq2seq, name: Sequence-to-sequence (encoder-decoder), step: 8, videos: [1058, 1068], status: confirmed}
   - {id: bptt, name: Backpropagation through time (BPTT), step: 8, videos: [1059], status: confirmed}
   - {id: long_term_dependency, name: Long-term dependency problem, step: 8, videos: [1060], status: confirmed}
   - {id: optimizers, name: Optimizers in deep learning, step: 8, videos: [1032], status: confirmed}
@@ -431,6 +475,52 @@ concepts:
   - {id: rmsprop, name: RMSProp, step: 8, videos: [1037], status: confirmed}
   - {id: adam, name: Adam, step: 8, videos: [1038], status: confirmed}
   - {id: keras_tuner, name: Keras Tuner, step: 10, videos: [1039], status: confirmed}
+  - {id: cnn, name: Convolutional neural network (CNN), step: 8, videos: [1040, 1041, 1046], status: confirmed}
+  - {id: convolution, name: Convolution operation and feature maps, step: 8, videos: [1042], status: confirmed}
+  - {id: padding_stride, name: Padding and strides, step: 8, videos: [1043], status: confirmed}
+  - {id: pooling, name: Pooling, step: 8, videos: [1044], status: confirmed}
+  - {id: cnn_architecture, name: CNN architecture (LeNet-5), step: 8, videos: [1045], status: confirmed}
+  - {id: cnn_backprop, name: Backpropagation in a CNN, step: 8, videos: [1047, 1048], status: confirmed}
+  - {id: cnn_project, name: Image classification with a CNN (cats vs dogs), step: 8, videos: [1049], status: confirmed}
+  - {id: data_augmentation, name: Data augmentation, step: 5, videos: [1050], status: confirmed}
+  - {id: pretrained_model, name: Pretrained models and ImageNet, step: 8, videos: [1051], status: confirmed}
+  - {id: cnn_visualisation, name: Visualising what a CNN learns, step: 9, videos: [1052], status: confirmed}
+  - {id: transfer_learning, name: Transfer learning (feature extraction and fine-tuning), step: 8, videos: [1053], status: confirmed}
+  - {id: functional_api, name: Keras functional API, step: 8, videos: [1054], status: confirmed}
+  - {id: skip_connection, name: Skip connections, step: 8, videos: [1054], status: confirmed}
+  - {id: lstm, name: LSTM (long short-term memory), step: 8, videos: [1061, 1062, 1063], status: confirmed}
+  - {id: lstm_gates, name: "LSTM gates (forget, input, output) and cell state", step: 8, videos: [1062], status: confirmed}
+  - {id: next_word_prediction, name: Next-word prediction with an LSTM, step: 8, videos: [1063], status: confirmed}
+  - {id: gru, name: GRU (gated recurrent unit), step: 8, videos: [1064], status: confirmed}
+  - {id: deep_rnn, name: Deep (stacked) RNNs, step: 8, videos: [1065], status: confirmed}
+  - {id: bidirectional_rnn, name: Bidirectional RNNs, step: 8, videos: [1066], status: confirmed}
+  - {id: teacher_forcing, name: Teacher forcing, step: 8, videos: [1068, 1081], status: confirmed}
+  - {id: attention, name: Attention mechanism, step: 8, videos: [1069], status: confirmed}
+  - {id: bahdanau_attention, name: Bahdanau (additive) attention, step: 8, videos: [1069, 1070], status: confirmed}
+  - {id: luong_attention, name: Luong (multiplicative) attention, step: 8, videos: [1070], status: confirmed}
+  - {id: transformer, name: Transformer, step: 8, videos: [1071, 1080, 1083], status: confirmed}
+  - {id: contextual_embedding, name: Contextual embeddings, step: 5, videos: [1072], status: confirmed}
+  - {id: self_attention, name: "Self-attention (query, key, value)", step: 8, videos: [1072, 1073, 1075, 1076], status: confirmed}
+  - {id: scaled_dot_product, name: Scaled dot-product attention, step: 8, videos: [1074], status: confirmed}
+  - {id: multi_head_attention, name: Multi-head attention, step: 8, videos: [1077], status: confirmed}
+  - {id: positional_encoding, name: Positional encoding, step: 8, videos: [1078], status: confirmed}
+  - {id: layer_norm, name: Layer normalisation, step: 8, videos: [1079], status: confirmed}
+  - {id: residual_connection, name: Residual connections and add & norm, step: 8, videos: [1080], status: confirmed}
+  - {id: transformer_encoder, name: Transformer encoder, step: 8, videos: [1080], status: confirmed}
+  - {id: masked_attention, name: Masked self-attention, step: 8, videos: [1081], status: confirmed}
+  - {id: cross_attention, name: Cross-attention, step: 8, videos: [1082], status: confirmed}
+  - {id: transformer_decoder, name: Transformer decoder, step: 8, videos: [1083], status: confirmed}
+  - {id: transformer_inference, name: "Transformer inference (autoregressive decoding, KV cache, beam search)", step: 8, videos: [1084], status: confirmed}
+  - {id: transformer_end_to_end, name: "The transformer end to end (capstone)", step: 8, videos: [1085], status: confirmed}
+  - {id: lr_warmup_schedule, name: Learning-rate warm-up schedule, step: 10, videos: [1085], status: confirmed}
+  - {id: label_smoothing, name: Label smoothing, step: 8, videos: [1085], status: confirmed}
+  - {id: meaning_as_direction, name: Meaning as direction in embedding space, step: 5, videos: [1086], status: confirmed}
+  - {id: gpt, name: Decoder-only GPT, step: 8, videos: [1087], status: confirmed}
+  - {id: gelu, name: GELU activation, step: 8, videos: [1087], status: confirmed}
+  - {id: unembedding_sampling, name: "Unembedding, logits, temperature and sampling", step: 8, videos: [1088], status: confirmed}
+  - {id: logit_lens, name: Logit lens, step: 9, videos: [1088], status: confirmed}
+  - {id: mlp_fact_storage, name: MLP blocks as fact storage, step: 8, videos: [1089], status: confirmed}
+  - {id: superposition, name: Superposition and nearly perpendicular directions, step: 8, videos: [1090], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -945,6 +1035,102 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [meaning_as_direction, needs, word_embedding, confirmed]
+  - [meaning_as_direction, needs, dot_product, confirmed]
+  - [contextual_embedding, needs, meaning_as_direction, confirmed]
+  - [gpt, is a kind of, transformer, confirmed]
+  - [gpt, needs, masked_attention, confirmed]
+  - [gpt, needs, transformer_decoder, confirmed]
+  - [gelu, is a kind of, activation_functions, confirmed]
+  - [gelu, used in, gpt, confirmed]
+  - [unembedding_sampling, used in, gpt, confirmed]
+  - [unembedding_sampling, needs, softmax, confirmed]
+  - [logit_lens, needs, unembedding_sampling, confirmed]
+  - [mlp_fact_storage, used in, transformer_encoder, confirmed]
+  - [mlp_fact_storage, needs, gpt, confirmed]
+  - [superposition, needs, meaning_as_direction, confirmed]
+  - [superposition, compared with, curse_dim, confirmed]
+  - [llm, needs, gpt, confirmed]
+  - [transformer_end_to_end, needs, transformer_encoder, confirmed]
+  - [transformer_end_to_end, needs, transformer_decoder, confirmed]
+  - [transformer_end_to_end, needs, transformer_inference, confirmed]
+  - [lr_warmup_schedule, used in, transformer, confirmed]
+  - [lr_warmup_schedule, needs, adam, confirmed]
+  - [label_smoothing, used in, transformer, confirmed]
+  - [label_smoothing, fixes, overfitting, confirmed]
+  - [lstm, used in, deep_rnn, confirmed]
+  - [lstm, used in, bidirectional_rnn, confirmed]
+  - [gru, used in, deep_rnn, confirmed]
+  - [gru, used in, bidirectional_rnn, confirmed]
+  - [lstm, fixes, long_term_dependency, confirmed]
+  - [lstm, is a kind of, rnn, confirmed]
+  - [lstm_gates, used in, lstm, confirmed]
+  - [next_word_prediction, needs, lstm, confirmed]
+  - [next_word_prediction, needs, word_embedding, confirmed]
+  - [gru, is a kind of, rnn, confirmed]
+  - [gru, compared with, lstm, confirmed]
+  - [gru, needs, lstm_gates, confirmed]
+  - [deep_rnn, is a kind of, rnn, confirmed]
+  - [bidirectional_rnn, is a kind of, rnn, confirmed]
+  - [teacher_forcing, used in, seq2seq, confirmed]
+  - [seq2seq, needs, lstm, confirmed]
+  - [attention, fixes, seq2seq, confirmed]
+  - [bahdanau_attention, is a kind of, attention, confirmed]
+  - [luong_attention, is a kind of, attention, confirmed]
+  - [bahdanau_attention, compared with, luong_attention, confirmed]
+  - [self_attention, is a kind of, attention, confirmed]
+  - [self_attention, used in, contextual_embedding, confirmed]
+  - [contextual_embedding, needs, word_embedding, confirmed]
+  - [scaled_dot_product, is a kind of, self_attention, confirmed]
+  - [multi_head_attention, needs, scaled_dot_product, confirmed]
+  - [positional_encoding, needs, self_attention, confirmed]
+  - [layer_norm, compared with, batch_norm, confirmed]
+  - [transformer, compared with, lstm, confirmed]
+  - [transformer_encoder, needs, multi_head_attention, confirmed]
+  - [transformer_encoder, needs, positional_encoding, confirmed]
+  - [transformer_encoder, needs, layer_norm, confirmed]
+  - [transformer_encoder, needs, residual_connection, confirmed]
+  - [masked_attention, needs, teacher_forcing, confirmed]
+  - [masked_attention, is a kind of, self_attention, confirmed]
+  - [cross_attention, compared with, self_attention, confirmed]
+  - [cross_attention, compared with, bahdanau_attention, confirmed]
+  - [transformer_decoder, needs, masked_attention, confirmed]
+  - [transformer_decoder, needs, cross_attention, confirmed]
+  - [transformer_decoder, needs, transformer_encoder, confirmed]
+  - [transformer, needs, transformer_encoder, confirmed]
+  - [transformer, needs, transformer_decoder, confirmed]
+  - [transformer_inference, needs, transformer_decoder, confirmed]
+  - [transformer, fixes, seq2seq, confirmed]
+  - [llm, needs, transformer, confirmed]
+  - [cnn, compared with, mlp, confirmed]
+  - [cnn, needs, representation_learning, confirmed]
+  - [convolution, used in, cnn, confirmed]
+  - [padding_stride, needs, convolution, confirmed]
+  - [pooling, used in, cnn, confirmed]
+  - [pooling, needs, convolution, confirmed]
+  - [cnn_architecture, needs, convolution, confirmed]
+  - [cnn_architecture, needs, pooling, confirmed]
+  - [cnn_architecture, needs, padding_stride, confirmed]
+  - [cnn_backprop, is a kind of, backpropagation, confirmed]
+  - [cnn_backprop, needs, convolution, confirmed]
+  - [cnn_project, needs, cnn_architecture, confirmed]
+  - [cnn_project, needs, keras, confirmed]
+  - [cnn_project, needs, input_scaling, confirmed]
+  - [data_augmentation, fixes, overfitting, confirmed]
+  - [data_augmentation, fixes, data_quantity, confirmed]
+  - [data_augmentation, is a kind of, regularisation, confirmed]
+  - [data_augmentation, used in, cnn_project, confirmed]
+  - [pretrained_model, needs, cnn_architecture, confirmed]
+  - [pretrained_model, needs, labelled_data, confirmed]
+  - [pretrained_model, used in, transfer_learning, confirmed]
+  - [cnn_visualisation, needs, convolution, confirmed]
+  - [cnn_visualisation, needs, pretrained_model, confirmed]
+  - [transfer_learning, fixes, data_quantity, confirmed]
+  - [transfer_learning, fixes, overfitting, confirmed]
+  - [transfer_learning, compared with, cnn_project, confirmed]
+  - [functional_api, needs, keras, confirmed]
+  - [skip_connection, fixes, vanishing_gradient, confirmed]
+  - [skip_connection, needs, functional_api, confirmed]
   - [hessian, needs, gradient, confirmed]
   - [independent_events, needs, conditional_probability, confirmed]
   - [box_plot, is a kind of, descriptive_stats, confirmed]

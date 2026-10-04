@@ -103,13 +103,17 @@ Cutting $\alpha$ from 5% to 1% almost doubles the chance of missing the effect. 
 
 > **Extra:** The way to lower both errors is more data. Keeping $\alpha = 0.05$ and the true mean at 52, the power of the training test rises from 0.71 with 30 employees to 0.93 with 60 and 0.99 with 100. A larger sample shrinks the standard error, so the two curves of Figure 2 move apart.
 
+Figure 3 turns the three knobs one at a time, using the power formula of section 3. Watch the bars on the right: lowering $\alpha$ moves the critical line right and swaps power for $\beta$; a bigger sample or a bigger true effect pushes the dashed curve away from $H_0$, and power climbs while $\alpha$ stays at 0.05.
+
+![The three knobs of a test's power, for the training-program test. 1: α from 0.10 to 0.01 (β grows from 0.18 to 0.55). 2: n from 10 to 100 (power reaches 0.99). 3: the true mean from 50 to 54 (at 50 the power equals α). Red = α, orange = β, green = power](images/power_sweep.gif){height=45%}
+
 ## 5. One-tailed and two-tailed tests
 
 > **Key point:** $H_1$ with $>$ or $<$ gives a one-tailed test with all of $\alpha$ in one tail; $H_1$ with $\neq$ gives a two-tailed test with $\alpha/2$ in each tail.
 
 ![Rejection regions (red) at α = 0.05 for the three kinds of alternative hypothesis](images/tails.png)
 
-The form of $H_1$ fixes where the rejection region goes (Figure 3).
+The form of $H_1$ fixes where the rejection region goes (Figure 4).
 
 - A **one-tailed test** (one-sided test) is used when we test for an effect in one specific direction. $H_1$ contains an inequality sign:
   - **right-tailed**, $H_1: \mu > \mu_0$: "the new filming style increases the mean view duration"; "a new medication increases the average recovery rate compared with the existing one";
@@ -185,6 +189,12 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 - Fix the direction of $H_1$ before looking at the data.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Session 45 - Hypothesis Testing Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=S94mx6OL7kM
+
+**Other references**
 
 - scikit-learn developers. *User Guide*, §1.13 "Feature selection" (univariate selection with `SelectKBest`, `f_classif`, `chi2`). scikit-learn.org, feature_selection.html.
 - Shapiro, S. S. and Wilk, M. B. (1965). "An analysis of variance test for normality (complete samples)." *Biometrika* 52(3–4), 591–611.

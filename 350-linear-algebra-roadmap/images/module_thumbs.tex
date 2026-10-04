@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large},
+  thumb/.style={draw=#1, line width=2pt, rounded corners=3pt, inner sep=4pt},
+  cap/.style={font=\sffamily\large, text=#1, align=center}]
+  \foreach \X/\Y/\c/\d/\f/\t in {
+     0/0/cblue/360-vectors-and-feature-vectors/vector_point/{4.2 a vector is a point},
+     7.6/0/cblue/362-dot-product-and-cosine-similarity/cosine_scale/{4.2 dot product, similarity},
+     0/-4.6/cgreen/500-linear-transformations-and-matrices/transform_gallery/{4.3 a matrix moves space},
+     7.6/-4.6/corange/11-tensors/tensor_ladder/{4.4 tensors of every rank},
+     0/-9.2/cred/530-eigenvectors-and-eigenvalues/special_cases/{4.5 eigenvectors only stretch},
+     7.6/-9.2/cpurple/48-pca-step-by-step/eigen_cov/{4.6 eigen-decomposition in PCA}} {
+    \node[thumb=\c] (n) at (\X,\Y) {\includegraphics[width=6.4cm,height=3.4cm,keepaspectratio]{../../\d/images/\f.png}};
+    \node[cap=\c, below=2pt of n] {\t};
+  }
+\end{tikzpicture}
+\end{document}

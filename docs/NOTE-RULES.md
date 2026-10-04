@@ -6,7 +6,7 @@ These rules collect everything the user has decided. They apply to every Note, e
 The project exists so that a beginner can **learn**, building intuition from basic to advanced. Every rule below serves that purpose.
 
 ## 2. Voice and style
-- **Voice:** a professional textbook in the "we" voice. Never mention a video, the teacher (including by name in examples, such as "Nitish"), "he", the course, CampusX, YouTube, or "Video N". No narration about a lecture, and no fluff.
+- **Voice:** a professional textbook in the "we" voice. Never mention a video, the teacher (including by name in examples, such as "Nitish"), "he", the course, CampusX, YouTube, or "Video N" in the body text. The one exception is the **Built from** list in Sources (section 8), which credits the source videos by channel, title and link. No narration about a lecture, and no fluff.
 - **Order:** the transcript drives the content and its order, invisibly. Material beyond the transcript is marked as an Extra box, or sourced in the text.
 - **Language:** plain, simple English. Short sentences, one idea per paragraph. Write "rupees", never the ₹ sign.
 - **Naming** (see `docs/STYLE-naming.md`):
@@ -60,3 +60,23 @@ Every fact and every explanation of a result must rest on one of these:
 ## 7. Maths that renders on GitHub
 
 GitHub drops the backslash from `\,` `\;` `\!` `\{` `\}` `\|` `\\` `\%` `\_` `\&` `\#` inside maths. Write `\thinspace`, `\thickspace`, `\negthinspace`, `\lbrace`, `\rbrace`, `\Vert` and `\cr` (row break) instead; `tools/build.sh` converts the first seven automatically. Keep `%`, `_`, `&` and `#` out of maths: write "percent" in words, and put code names such as `max_depth` in code text outside the formula.
+
+## 8. Sources: credit what the Note was built from (user, 2026-10-03)
+
+Every Note's Sources section starts with a **Built from** list: every source the Note was actually built from.
+- **Each playlist video:** channel, title, year if known, and its link (https://www.youtube.com/watch?v=ID). Credit the channel ("CampusX"), not the teacher by name.
+- **Each 3Blue1Brown, StatQuest or DeepMind/UCL lecture used:** the same format.
+- **Each book chapter and paper the Note rests on.**
+
+The **Built from** list is followed by the other references. This is the one place a video or channel is named; the body text still never narrates a video, the teacher, or the course. Why: crediting the origin makes every Note traceable and lets anyone check it against its source.
+
+Format:
+
+    **Built from**
+    - CampusX, "<video title>", YouTube, https://www.youtube.com/watch?v=<ID>
+    - Sanderson, G. (3Blue1Brown), "<lesson title>", <year>, 3blue1brown.com/lessons/<slug>
+
+    **Other references**
+    - <the remaining books, papers and docs>
+
+The **Other references** label is needed: without it, pandoc merges the two lists into one.

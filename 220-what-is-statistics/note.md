@@ -82,7 +82,13 @@ Different ways of building samples are called **sampling techniques**; a later m
 
 A number computed from the whole population, such as India's true average salary, is a **parameter**. The same number computed from a sample is a **statistic**, and we use it as an estimate of the parameter.
 
-The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different. So we always keep track of which one we have, and write them differently:
+The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different.
+
+Figure 2 shows this with a population we can see in full: the 891 fares of the Titanic passengers, whose mean is the parameter $\mu = 32.2$. We draw one random sample, one passenger at a time. Watch the orange sample mean $\bar{x}$: after 3 passengers it is 67.0, after 10 it is 65.0, and even after 100 it is 36.4, near $\mu$ but not equal to it.
+
+![One random sample of Titanic fares drawn one passenger at a time: the sample mean (orange) swings widely while the sample is small and ends near, but not on, the population mean (blue)](images/sample_mean_walk.gif){height=55%}
+
+So we always keep track of which one we have, and write them differently:
 
 | Quantity | Population (parameter) | Sample (statistic) |
 |---|---|---|
@@ -111,7 +117,7 @@ Inferential statistics has a set of standard tools. Each gets its own Note later
 
 > **Key point:** Every feature is categorical (nominal or ordinal) or numerical (discrete or continuous); the type decides which statistics and graphs make sense.
 
-Descriptive statistics starts by asking what type of data each feature holds (Figure 2). We mostly work with tables. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row of the table. So "data" here means the values of one feature.
+Descriptive statistics starts by asking what type of data each feature holds (Figure 3). We mostly work with tables. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row of the table. So "data" here means the values of one feature.
 
 ![The four types of data](images/data_types.png)
 
@@ -164,6 +170,12 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 - Check each feature's type before choosing a measure or a graph.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Session 38 - Descriptive Statistics Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=Uv3Blie7F3g
+
+**Other references**
 
 - Stevens, S. S. (1946). On the Theory of Scales of Measurement. *Science*, 103(2684), 677-680. Table 1.
 

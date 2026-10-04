@@ -127,6 +127,10 @@ Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag int
 
 In the real network all 9 parameters move at once, each against its own slope. The loss surface has 9 dimensions instead of one, but the reasoning is the same along every direction.
 
+![Gradient descent on two of the nine knobs at once, $W_{21}^{1}$ and $b_{21}$, over all four students; the other seven stay at their starting values. Left: the path on the contours of the mean loss (the star is the lowest point). Right: the predicted packages (diamonds) move onto the real ones (dots). Learning rate 0.2.](images/loss_walk.gif){height=50%}
+
+Figure 2 shows two knobs moving together, each against its own slope. Watch the first step: the ball drops straight into the long valley (mean loss 28.0 to 1.8) and the predictions jump up to the real packages. After that the slope along the valley is gentle, so the steps are small and the ball slides slowly towards the star: the mean loss is 0.25 after 100 steps and settles at 0.045 near step 1,000. The picture of a ball rolling down a loss surface follows Sanderson (3Blue1Brown), here redrawn with our own network.
+
 ## 9. When to stop: convergence
 
 > **Key point:** At the minimum the slope is zero, so $W_{\text{new}} = W_{\text{old}}$: updates stop changing anything. In practice we run a fixed number of epochs.
@@ -154,6 +158,13 @@ So the "right" loop is "repeat until convergence". In practice we write a loop o
 - On $L(b_{21}) = (3.68 - b_{21})^2$ each update multiplies the distance to the minimum by $1 - 2\eta$.
 
 ## 11. Sources
+
+**Built from**
+
+- CampusX, "Backpropagation Part 3 | The Why | Complete Deep Learning Playlist", YouTube, https://www.youtube.com/watch?v=6xO-x8y0YSY
+- Sanderson, G. (3Blue1Brown), "Gradient descent, how neural networks learn", 3blue1brown.com/lessons/gradient-descent.
+
+**Other references**
 
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.2 (non-convex losses; iterative gradient-based training).
 

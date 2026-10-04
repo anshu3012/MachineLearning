@@ -250,6 +250,12 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 
 ## 6. Sources
 
+**Built from**
+
+- CampusX, "Master Probability in Data Science: The Ultimate Crash Course! | Part 1 | CampusX", YouTube, https://www.youtube.com/watch?v=DUT4WEUngt0
+
+**Other references**
+
 - Blitzstein, J. K. and Hwang, J. (2019). *Introduction to Probability*, 2nd ed. CRC Press. §2.3 "Bayes' rule and the law of total probability".
 
 ## 7. Key terms

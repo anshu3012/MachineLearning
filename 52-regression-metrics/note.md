@@ -75,6 +75,12 @@ $$\text{MSE} = 0.121$$
 - **Squared units.** 0.121 is in LPA², which has no everyday meaning.
 - **Sensitive to outliers.** Squaring makes a large error dominate: an error of 3 counts 9, while ten errors of 0.3 together count only 0.9.
 
+Figure 1 shows the effect on the 40 test errors. Watch the right panel: squaring flattens the small errors and stretches the large ones.
+
+![The 40 test errors sorted by size: absolute (left) and squared (right). The dashed line is the mean, MAE on the left and MSE on the right.](images/abs_vs_squared.png)
+
+The 5 largest errors make up 28% of the absolute total but 46% of the squared total.
+
 ## 4. Root mean squared error (RMSE)
 
 > **Key point:** RMSE is the square root of MSE: back in the target's units, but still punishing large errors. On the placement data it is 0.35 LPA.
@@ -112,7 +118,7 @@ RMSE is in LPA again, like MAE, so it is easy to report. RMSE is always at least
 
 > **Key point:** One very wrong prediction barely moves MAE but pushes RMSE up sharply.
 
-Figure 1 takes the 40 test predictions and makes one of them worse and worse.
+Figure 2 takes the 40 test predictions and makes one of them worse and worse.
 
 ![One bad prediction among 40: MAE and RMSE](images/outlier_effect.png)
 
@@ -133,9 +139,9 @@ So the choice depends on the problem:
 
 MAE, MSE and RMSE have a weakness: their size depends on the units. An RMSE of 0.35 is small for packages in LPA but would be huge for a target measured in thousands. We need a comparison point.
 
-The simplest model of all ignores the feature and predicts the average package, 2.96 LPA, for every test student: the flat red line in Figure 2 (left). Its squared errors add up to 22.13. The regression line (right) has squared errors adding up to only 4.85.
+The simplest model of all ignores the feature and predicts the average package, 2.96 LPA, for every test student: the flat line in the first frame of Figure 3. Each error is drawn as a square, so the total orange area is the sum of squared errors: 22.13. Watch the line turn into the regression line: the squares shrink until their total is only 4.85, and the R² bar fills.
 
-![Squared errors of the average versus the regression line](images/r2_visual.png)
+![The average line turns into the regression line. Each square's side is one student's error; the bars show the total squared error and R². Comparing the error around the average line with the error around the regression line follows StatQuest's "R-squared, Clearly Explained!!!" (Starmer).](images/r2_sweep.gif)
 
 ### 6.2 The formula
 
@@ -147,7 +153,7 @@ $$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum (y_i - \hat y_i)^2}{\sum 
 
 Here $SS_{res}$ (the **residual sum of squares**) is the model's total squared error, and $SS_{tot}$ (the **total sum of squares**) is the total squared error of always predicting the mean $\bar{y}$.
 
-With numbers from Figure 2:
+With numbers from Figure 3:
 
 $$R^2 = 1 - \frac{4.85}{22.13} = 1 - 0.219 = 0.781$$
 
@@ -180,7 +186,7 @@ R² is also called the **coefficient of determination**.
 
 Suppose we add a feature of random numbers to the placement data, one that has nothing to do with packages. On the training data, R² still creeps up. The new feature gives the model one more number to tune, and setting that number to 0 gives back the old model, so the fit on the training data can never get worse. A random feature almost always matches the leftover errors a little by chance, so R² usually rises.
 
-Figure 3 adds 0 to 20 features of random numbers next to CGPA. The split is the same each time; only the random numbers change, and every score is the average over 200 draws of them.
+Figure 4 adds 0 to 20 features of random numbers next to CGPA. The split is the same each time; only the random numbers change, and every score is the average over 200 draws of them.
 
 ![R² and adjusted R² as useless random features are added](images/adjusted_r2.png)
 
@@ -210,7 +216,7 @@ How it behaves:
 - **A useless feature:** $k$ goes up by 1, which makes the fraction larger, while $R^2$ barely changes. Adjusted R² falls.
 - **A useful feature:** $R^2$ rises enough to outweigh the penalty. Adjusted R² rises.
 
-In Figure 3, adjusted R² on the training data stays flat at 0.772 however many random features are added: adjusted R² is not fooled. On the small test set (40 observations), the penalty is strong, and adjusted R² falls from 0.775 to 0.468 with 20 random features.
+In Figure 4, adjusted R² on the training data stays flat at 0.772 however many random features are added: adjusted R² is not fooled. On the small test set (40 observations), the penalty is strong, and adjusted R² falls from 0.775 to 0.468 with 20 random features.
 
 > **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data: it is target leakage: information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression, the next Note.
 
@@ -232,6 +238,13 @@ In Figure 3, adjusted R² on the training data stays flat at 0.772 however many 
 - R² never falls on the training data when features are added; adjusted R² penalises each feature and so detects useless ones.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Regression Metrics | MSE, MAE & RMSE | R2 Score & Adjusted R2 Score", YouTube, https://www.youtube.com/watch?v=Ti7c-Hz7GSM
+- Starmer, J. (StatQuest). "R-squared, Clearly Explained!!!" statquest.org. The idea of comparing the variation around the mean line with the variation around the fitted line (Figure 3); drawing the errors as squares is our own.
+
+**Other references**
 
 - James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning* (ISLR), 2nd ed. Springer. §6.1.3 (adjusted R²).
 - Kaufman, S., Rosset, S., Perlich, C. and Stitelman, O. (2012). Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM Transactions on Knowledge Discovery from Data* 6(4).

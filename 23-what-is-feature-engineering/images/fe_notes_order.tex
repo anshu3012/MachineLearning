@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \tikzset{blk/.style={box=#1, minimum height=1.2cm, font=\sffamily\large}}
+  \node[blk=cblue, text width=8.2cm] (t) at (0,0) {\textbf{Transformation}\quad Notes 24--44};
+  \node[blk=cpurple, text width=8.2cm] (c) at (0,-1.7) {\textbf{Construction}\quad Note 45};
+  \node[blk=cgreen, text width=8.2cm] (e) at (0,-3.4) {\textbf{Extraction}\quad Notes 46--49};
+  \node[blk=corange, text width=8.2cm] (s) at (0,-5.1) {\textbf{Selection}\quad after the main algorithms};
+  \draw[arrow] (t) -- (c); \draw[arrow] (c) -- (e); \draw[arrow] (e) -- (s);
+\end{tikzpicture}
+\end{document}

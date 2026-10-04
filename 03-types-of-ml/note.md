@@ -249,6 +249,12 @@ RL is harder to set up than the other types, but its use is growing fast.
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Types of Machine Learning for Beginners | Types of Machine learning in Hindi | Types of ML in Depth", YouTube, https://www.youtube.com/watch?v=81ymPYEtFOw
+
+**Other references**
+
 - DeepMind (2016). *AlphaGo*. deepmind.google, research/breakthroughs/alphago.
 - LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11).
 - Power, D. (2002). What is the "true story" about data mining, beer and diapers? *DSS News*, 10 November 2002.

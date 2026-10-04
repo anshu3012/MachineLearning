@@ -343,7 +343,13 @@ Calling **`set_output(transform="pandas")`** once makes every later `fit_transfo
 - Split first; `fit_transform` on the training set, `transform` on the test set.
 - `get_feature_names_out` and `set_output(transform="pandas")` tell us which output column is which.
 
-## 8. Key terms
+## 8. Sources
+
+**Built from**
+
+- CampusX, "Column Transformer in Machine Learning | How to use ColumnTransformer in Sklearn", YouTube, https://www.youtube.com/watch?v=5TVj6iEBR4I
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

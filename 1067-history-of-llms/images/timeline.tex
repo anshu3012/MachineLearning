@@ -12,6 +12,42 @@
     \node[stage=\c] (s\i) at (4.7*\i, 0) {\textbf{\yr}\\[2pt]\textbf{\name}\\[3pt]{\small \idea}\\[2pt]{\small\itshape \who}};
   }
   \foreach \i/\j in {1/2, 2/3, 3/4, 4/5} \draw[arrow] (s\i.east) -- (s\j.west);
+  % architecture icons above the stages
+  \tikzset{cell/.style={circle, draw=#1, fill=#1!20, minimum size=4.5mm, inner sep=0pt, line width=1pt},
+           blk/.style={rectangle, draw=#1, fill=#1!20, minimum width=7mm, minimum height=4mm, inner sep=0pt, line width=1pt}}
+  % 1: LSTM chain -> one context vector -> LSTM chain
+  \begin{scope}[shift={(4.7,2.45)}]
+    \foreach \k in {0,1,2} \node[cell=cblue] (e\k) at (-1.55+0.55*\k, 0) {};
+    \node[rectangle, fill=cblue, minimum size=3mm, inner sep=0pt] (c) at (0, 0) {};
+    \foreach \k in {0,1,2} \node[cell=corange] (d\k) at (0.45+0.55*\k, 0) {};
+    \draw[cgrey, line width=0.8pt, ->] (e0) -- (e1); \draw[cgrey, line width=0.8pt, ->] (e1) -- (e2);
+    \draw[cgrey, line width=0.8pt, ->] (e2) -- (c); \draw[cgrey, line width=0.8pt, ->] (c) -- (d0);
+    \draw[cgrey, line width=0.8pt, ->] (d0) -- (d1); \draw[cgrey, line width=0.8pt, ->] (d1) -- (d2);
+  \end{scope}
+  % 2: every encoder state feeds the decoder step
+  \begin{scope}[shift={(9.4,2.45)}]
+    \foreach \k in {0,1,2} \node[cell=cblue] (a\k) at (-1.1+0.55*\k, -0.25) {};
+    \node[cell=corange] (b) at (1.0, 0.3) {};
+    \draw[cpurple, line width=2pt] (a0) -- (b); \draw[cpurple, line width=0.6pt] (a1) -- (b); \draw[cpurple, line width=1.2pt] (a2) -- (b);
+  \end{scope}
+  % 3: all words attend to all words at once
+  \begin{scope}[shift={(14.1,2.45)}]
+    \foreach \k in {0,1,2,3} {\node[blk=corange] (t\k) at (-1.2+0.8*\k, -0.3) {}; \node[blk=corange] (u\k) at (-1.2+0.8*\k, 0.4) {};}
+    \foreach \k in {0,1,2,3} \foreach \m in {0,1,2,3} \draw[corange, line width=0.4pt] (t\k.north) -- (u\m.south);
+  \end{scope}
+  % 4: big pre-training block, then a small fine-tuning step
+  \begin{scope}[shift={(18.8,2.45)}]
+    \node[rectangle, draw=cgreen, fill=cgreen!20, minimum width=1.5cm, minimum height=0.8cm, font=\sffamily\scriptsize, align=center] (pt) at (-0.6, 0) {pre-train\\lots of text};
+    \node[rectangle, draw=cgreen, fill=cgreen!45, minimum width=0.8cm, minimum height=0.5cm, font=\sffamily\scriptsize] (ft) at (1.0, 0) {tune};
+    \draw[arrow, line width=1pt] (pt) -- (ft);
+  \end{scope}
+  % 5: a tall stack of transformer blocks and a chat bubble
+  \begin{scope}[shift={(23.5,2.75)}]
+    \foreach \k in {0,...,5} \node[blk=cred, minimum width=11mm, minimum height=1.6mm] at (-0.5, -0.45+0.18*\k) {};
+    \node[draw=cred, fill=white, rounded corners=3pt, font=\sffamily\scriptsize, inner sep=2pt] (q) at (0.85, 0.15) {Hi!};
+    \draw[cred, line width=0.8pt] (q.south west) -- ++(-0.2,-0.2);
+  \end{scope}
+
   \foreach \x/\txt in {7.05/{one context vector forgets long sentences}, 11.75/{still one word at a time: slow to train}, 16.45/{training from scratch needs huge data}, 21.15/{still an LSTM, not yet a transformer}}
     \node[prob, anchor=north] at (\x, -1.75) {\txt};
   \node[note] at (14.1, -3.25) {red: the problem each stage left, which the next stage fixed};

@@ -14,7 +14,17 @@ rsync -az --delete --exclude '.ipynb_checkpoints' "$ROOT/$DIR/" "$HOST:$RROOT/$D
 rsync -az "$ROOT/tools/" "$HOST:$RROOT/tools/" 2> >(grep -v bashrc >&2)
 ssh -o BatchMode=yes "$HOST" "cd $RROOT/$DIR && mkdir -p .logs && export PATH=\$HOME/miniforge3/envs/campusx/bin:\$PATH PYTHONNOUSERSITE=1 TF_FORCE_GPU_ALLOW_GROWTH=true && $CMD" 2> >(grep -v bashrc >&2)
 # bring back what the run produced
+# outputs only: never copy sources back (an edit made locally during the run would be overwritten), never older files
 for sub in data .logs images; do
-  rsync -az "$HOST:$RROOT/$DIR/$sub/" "$ROOT/$DIR/$sub/" 2>/dev/null || true   # folder may not exist
+  rsync -az --update --exclude '*.py' --exclude '*.tex' --exclude '*.sh' \
+    "$HOST:$RROOT/$DIR/$sub/" "$ROOT/$DIR/$sub/" 2>/dev/null || true   # folder may not exist
 done
+# executed notebooks live in the project-root .logs/<ID>-notebook.ipynb, never inside a Note folder
+if [ -f "$ROOT/$DIR/.logs/notebook.ipynb" ]; then
+  mkdir -p "$ROOT/.logs" && mv "$ROOT/$DIR/.logs/notebook.ipynb" "$ROOT/.logs/${DIR%%-*}-notebook.ipynb"
+  rmdir "$ROOT/$DIR/.logs" 2>/dev/null || true
+fi
+# a different machine (GPU, TF32) can change results: say loudly if tracked data files changed
+changed=$(git -C "$ROOT" diff --stat -- "$DIR/data" 2>/dev/null | tail -1)
+[ -n "$changed" ] && echo "WARNING: $DIR/data changed after the remote run ($changed). Check the numbers still match the Note, or restore with git checkout -- $DIR/data"
 echo "remote run done: $DIR on $HOST"

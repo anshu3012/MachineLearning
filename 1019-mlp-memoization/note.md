@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
-> - **Leads to:** Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
+> - **Leads to:** Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Weight initialisation ([Note 1029](../1029-weight-initialization/note.md)); Vanishing gradient ([Note 1029](../1029-weight-initialization/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)); Backpropagation in a CNN ([Note 1047](../1047-backpropagation-in-cnn/note.md)); Backpropagation through time (BPTT) ([Note 1059](../1059-backpropagation-through-time/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -233,6 +233,12 @@ On the computation graph of section 10 of the [Jacobian Note](../602-jacobian-an
 - Backpropagation is the chain rule applied with memoization.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "MLP Memoization | Complete Deep Learning Playlist", YouTube, https://www.youtube.com/watch?v=rW0eeTXas4k
+
+**Other references**
 
 - Python documentation, `functools.lru_cache`.
 - Cormen, Leiserson, Rivest and Stein, *Introduction to Algorithms*, 3rd ed., MIT Press, 2009, Ch. 15 (dynamic programming; memoization in §15.3).

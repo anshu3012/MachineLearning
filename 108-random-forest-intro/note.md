@@ -57,6 +57,10 @@ The two steps are those of bagging (the [bagging Note](../105-bagging-intuition/
 
 Because every tree sees different data, every tree learns a different structure: one splits first on feature 3, another on feature 7, and they grow to different shapes (Figure 1, middle).
 
+Figure 2 builds a forest of 100 trees this way on the student placement data of the [toy project Note](../13-toy-project/note.md) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). Watch each single tree draw odd strips around a few points, while the forest's vote map on the right settles into one clean border near CGPA 6; after about 20 trees, adding more changes it very little.
+
+![A random forest grows. Left: the newest tree's own bootstrap sample and its regions. Right: the share of all trees so far that vote "placed". Each tree is a bootstrap sample plus a fully grown tree with a random feature choice at each split, as in RandomForestClassifier. Growing the forest tree by tree follows StatQuest's "Random Forests Part 1" (Starmer)](images/forest_grows.gif)
+
 ## 5. A random forest by hand
 
 > **Key point:** Three trees, each trained on its own random subset of a dataset of 100 observations, vote on one query point; with row, column or combined sampling, the majority gets it right even when one tree is wrong.
@@ -165,6 +169,13 @@ The forest of 100 trees also predicts **0**. Two things differ from our hand-bui
 - A random forest works for classification and regression, and gives strong results with little tuning (ESL §15.1).
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Introduction to Random Forest | Intuition behind the Algorithm", YouTube, https://www.youtube.com/watch?v=F9uESCHGjhA
+- Starmer, J. (StatQuest). "Random Forests Part 1 - Building, Using and Evaluating." statquest.org. The idea of showing the forest built one bootstrapped tree at a time (Figure 2).
+
+**Other references**
 
 - Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140.
 - Breiman, L. (2001). "Random Forests". *Machine Learning* 45(1), 5–32.

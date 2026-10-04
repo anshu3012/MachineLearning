@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/understand, step/clean, concept/kde, concept/
 >
 > - **Builds on:** Poor-quality data ([Note 9](../09-mldlc/note.md)); Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)).
 > - **Leads to:** Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Feature selection ([Note 23](../23-what-is-feature-engineering/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)).
-> - **Compare with:** Missing values ([Note 9](../09-mldlc/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Kurtosis and moments ([Note 22](../22-pandas-profiling/note.md)).
+> - **Compare with:** Missing values ([Note 9](../09-mldlc/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Kurtosis and moments ([Note 22](../22-pandas-profiling/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -344,6 +344,12 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 - Every graph should lead to a finding, and every finding to its likely reason.
 
 ## 12. Sources
+
+**Built from**
+
+- CampusX, "EDA using Univariate Analysis | Day 20 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=4HyTlbHUKSw
+
+**Other references**
 
 - Cleveland, W. and McGill, R. (1984). Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods. *Journal of the American Statistical Association* 79(387).
 - Joanes, D. N. and Gill, C. A. (1998). Comparing Measures of Sample Skewness and Kurtosis. *Journal of the Royal Statistical Society, Series D (The Statistician)* 47(1), 183-189.

@@ -206,6 +206,12 @@ Each of those Notes checks the result with a Q-Q plot and shows the effect on a 
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Session 42 - Non-Gaussian Probability Distributions | DSMP 2023", YouTube, https://www.youtube.com/watch?v=U6QCc_3zgUk
+
+**Other references**
+
 - Pareto, V. (1896–97). *Cours d'économie politique*, 2 vols. Lausanne: F. Rouge.
 - Clementi, F. and Gallegati, M. (2005). "Pareto's law of income distribution: evidence for Germany, the United Kingdom, and the United States." In *Econophysics of Wealth Distributions*, Springer, pp. 3–14. arXiv: physics/0504217.
 - Crovella, M. E. and Bestavros, A. (1997). "Self-similarity in World Wide Web traffic: evidence and possible causes." *IEEE/ACM Transactions on Networking* 5(6), 835–846.

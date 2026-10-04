@@ -312,6 +312,12 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Handling Missing Categorical Data | Simple Imputer | Most Frequent Imputation | Missing Category Imp", YouTube, https://www.youtube.com/watch?v=l_Wip8bEDFQ
+
+**Other references**
+
 - De Cock, D. (2011). Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project. *Journal of Statistics Education* 19(3); its data documentation file.
 - pandas User Guide, *Copy-on-Write (CoW)*, section on chained assignment.
 

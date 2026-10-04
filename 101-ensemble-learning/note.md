@@ -144,6 +144,10 @@ Each boundary is wrong in its own places. The majority vote (black) follows a bo
 
 **Regression.** In Figure 3b, four lines are fitted, each to a different set of 10 random points. One is too steep, one too flat, two are in between. Their mean (black) is not extreme in any direction: it lands in the middle, close to the real trend.
 
+Figure 4 keeps adding lines, each fitted to its own 10 random points, up to 25. Watch the black mean settle near the true trend (red dashed) while single lines keep scattering. Averaged over 500 such crowds, one line misses the true trend by 0.75 (root mean squared gap), the mean of 5 lines by 0.45 and the mean of 25 by 0.37.
+
+![Lines added one at a time, each fitted to 10 random points of the same data. Left: the lines (blue), their mean (black) and the true trend (red dashed). Right: the gap between the mean line and the true trend, averaged over 500 crowds](images/crowd_of_lines.gif)
+
 The vote does not always beat the best model; the [voting classifier Note](../103-voting-classifier/note.md) shows a case where it does not. Why and when combining helps is proved with probability in the [voting ensemble Note](../102-voting-ensemble/note.md).
 
 ## 6. Costs and benefits
@@ -199,6 +203,12 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 - On two-moons data, three models scoring 0.860 to 0.875 give a vote scoring 0.890.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Introduction to Ensemble Learning | Ensemble Techniques in Machine Learning", YouTube, https://www.youtube.com/watch?v=bHK1fE_BUms
+
+**Other references**
 
 - **Breiman 2001:** L. Breiman, "Random Forests", *Machine Learning* 45, 5–32, 2001.
 - **Chen and Guestrin 2016:** T. Chen and C. Guestrin, "XGBoost: A Scalable Tree Boosting System", *Proceedings of KDD 2016*, 785–794. arxiv.org/abs/1603.02754

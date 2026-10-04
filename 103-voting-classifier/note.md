@@ -103,7 +103,7 @@ Class 2 has the highest average, so soft voting predicts **class 2**. Hard votin
 
 > **Key point:** Soft voting is sometimes better, but not always. The voting type is a hyperparameter: try both.
 
-Soft voting can do better. On the concentric circles with logistic regression, naive Bayes and random forest (Figure 2):
+Soft voting can do better. On the concentric circles with logistic regression, naive Bayes and random forest (Figure 3):
 
 - the base models score 0.53, 0.60 and 0.89;
 - **hard** voting scores **0.66**: the two weak models outvote the forest;
@@ -112,6 +112,10 @@ Soft voting can do better. On the concentric circles with logistic regression, n
 Why? The forest is sure of its answers, while the two weak models hover near 50/50. In the hard vote their two shaky votes beat the forest's one; in the soft vote their near-0.5 probabilities barely move the average, so the forest decides (the effect of section 3.3).
 
 > **Extra:** We checked this in the Notebook. On the 100 test points, hard and soft voting disagree on 30; soft voting is right on 28 of them and sides with the random forest on all 30. On those points the forest's probability is on average 0.35 away from 0.5, against 0.01 for logistic regression and 0.06 for naive Bayes.
+
+Figure 2 replays the count for three of those 30 test points. Watch the two weak models fall just on one side of 0.5 and win the hard vote, while in the average the forest's confident probability decides.
+
+![Hard and soft voting on single test points of the concentric circles. Left: the test set, with the current point as a star. Right: each model's probability of class 1 (bar colour = its vote), then the soft average. Last frame: all 30 points where the two votes disagree](images/vote_tally.gif)
 
 ![Decision surfaces on the concentric-circles data: three base models, then hard and soft voting. Titles give test accuracy](images/hard_soft_surfaces.png){height=58%}
 
@@ -258,6 +262,12 @@ Both approaches are used: different algorithms, or one algorithm with several se
 - Voting over one algorithm with different settings (five SVM degrees: 0.928) can beat picking the best setting (0.894).
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Voting Ensemble | Classification | Voting Classifier | Hard Voting Vs Soft Voting | Part 2", YouTube, https://www.youtube.com/watch?v=pGQnNYdPTvY
+
+**Other references**
 
 - Dietterich, T. G. (2000). "Ensemble Methods in Machine Learning". *Multiple Classifier Systems* (MCS 2000), LNCS 1857, Springer, section 1.
 - scikit-learn developers. `sklearn.svm.SVC`, version 1.9: the `probability` parameter is deprecated in 1.9 and will be removed in 1.11. scikit-learn.org, modules/generated/sklearn.svm.SVC.

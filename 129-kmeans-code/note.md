@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)).
 > - **Leads to:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
-> - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
+> - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -185,6 +185,12 @@ What k-means did in 2 dimensions it does in 3, and in any higher number of dimen
 - The same code works for any number of features.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "K-Means Clustering Algorithm in Python | Practical Example | Student Clustering Example | sklearn", YouTube, https://www.youtube.com/watch?v=UPvv9SprgVo
+
+**Other references**
 
 - ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.3 (scaling the features changes the clusters).
 - Arthur and Vassilvitskii 2007: D. Arthur and S. Vassilvitskii, *k-means++: The Advantages of Careful Seeding*, Proceedings of SODA 2007, 1027–1035.

@@ -1,0 +1,4 @@
+layer,unidirectional,bidirectional,dense_uni,dense_bi
+SimpleRNN,190,380,6,11
+LSTM,760,1520,6,11
+GRU,585,1170,6,11

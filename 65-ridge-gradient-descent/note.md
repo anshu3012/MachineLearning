@@ -63,11 +63,19 @@ where $\eta$ is the learning rate. The first entry of $w$ is the intercept, whic
 
 > **Extra:** Rearranging the update gives $w_{\text{new}} = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$. So every step first shrinks the coefficients by the factor $1 - \eta\lambda$, then takes the ordinary linear regression step. The per-step shrinking is why the L2 penalty is also called **weight decay**, the name used for neural networks (ESL §3.4.1).
 
+Figure 1 splits the first step of the one-feature example of Section 3 ($\lambda = 100$, $\eta = 0.005$) into its two parts. Watch the red arrow: the shrink halves the slope before the ordinary step is taken.
+
+![One Ridge step in two parts, on the squared-error contours: shrink the slope by $1 - \eta\lambda = 0.5$ (red), then take the ordinary least-squares step (blue). The intercept is not shrunk](images/decay_step.png){height=38%}
+
 ## 3. Seeing the paths
 
 > **Key point:** Gradient descent finds the bottom of whichever loss it is given. With λ = 100, the bottom sits at a smaller slope.
 
-Figure 1 runs 60 steps of gradient descent on the one-feature example of the previous Notes, from the same start point ($m = -5$, $b = 20$, learning rate 0.005).
+Figure 2 runs gradient descent on the one-feature example of the previous Notes for three values of λ, from the same start point ($m = -5$, $b = 20$, learning rate 0.005). The contours belong to the plain squared error, so only λ = 0 heads for their centre. Watch where each path stops: the larger λ, the closer to $m = 0$, and the flatter its line on the data (right).
+
+![Gradient descent with λ = 0, 100 and 250 from the same start. Left: the paths on the squared-error contours; the dashed curve holds every Ridge answer as λ grows from 0. Right: each path's current line on the data](images/ridge_race.gif)
+
+With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so steep in the $m$ direction that a step of 0.005 overshoots, and each overshoot is smaller than the last (the Extra in Section 4 gives the limit). Figure 3 draws the bowls themselves for λ = 0 and λ = 100 over 60 steps.
 
 ![Gradient descent on the loss with λ = 0 and λ = 100](images/paths.png){height=52%}
 
@@ -133,7 +141,7 @@ Both regularisers rescue the badly overfitting linear regression, and by a simil
 
 > **Key point:** Gradient descent creeps along flat directions of the loss bowl, so after a few hundred steps the coefficients in those directions are still small.
 
-Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 2 tracks gradient descent for up to a million epochs.
+Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 4 tracks gradient descent for up to a million epochs.
 
 ![Test R² and distance from the exact answer, per epoch](images/convergence.png){height=42%}
 
@@ -194,6 +202,12 @@ The slow direction comes from s1 and s2, which are strongly correlated (the [fir
 - In scikit-learn: `SGDRegressor(penalty="l2")` or `Ridge` with an iterative solver.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Ridge Regression Part 3 | Gradient Descent | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=Fci_wwMp8G8
+
+**Other references**
 
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
 - **Goodfellow et al.:** Goodfellow, I., Bengio, Y. and Courville, A. *Deep Learning*. MIT Press, 2016. Section 7.8, "Early Stopping".

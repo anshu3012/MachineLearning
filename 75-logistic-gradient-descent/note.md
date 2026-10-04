@@ -137,7 +137,9 @@ Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \e
 
 The test data has 100 points with two features whose classes overlap a little (`make_classification`, `class_sep=1.5`, random state 4). scikit-learn's `LogisticRegression(penalty=None)` fits the same model without regularisation, so the two should agree.
 
-![Log loss per epoch, and the line moving into place](images/training.png){height=56%}
+![Batch gradient descent on the 100 points. Left: the line where p = 0.5 turns into place; the dashed line is scikit-learn's. Right: the log loss per epoch (log scale) falls to scikit-learn's minimum.](images/boundary_gd.gif){height=56%}
+
+In Figure 2, watch the orange line swing from its start at w = (1, 1, 1) onto the dashed scikit-learn line while the loss curve flattens onto the dashed minimum.
 
 | | Intercept | $w_1$ | $w_2$ | Log loss |
 |---|---|---|---|---|
@@ -147,7 +149,7 @@ The test data has 100 points with two features whose classes overlap a little (`
 | After 5,000 epochs | $-1.568$ | $-0.220$ | 3.623 | 0.1366 |
 | scikit-learn | $-1.569$ | $-0.220$ | 3.623 | 0.1366 |
 
-The loss falls quickly at first and then levels off at scikit-learn's minimum (Figure 2, left). The line turns into place and ends on top of scikit-learn's (right). The model classifies 92% of the points correctly; the rest lie in the overlap, where no straight line can be perfect.
+The loss falls quickly at first and then levels off at scikit-learn's minimum (Figure 2, right). The line turns into place and ends on top of scikit-learn's (left). The model classifies 92% of the points correctly; the rest lie in the overlap, where no straight line can be perfect.
 
 > **Python:** The scikit-learn equivalent.
 >
@@ -175,6 +177,10 @@ On the data of the perceptron Notes, where the classes are perfectly separated (
 
 The weights keep growing, and the loss keeps shrinking towards 0 without ever reaching it.
 
+![Batch gradient descent on perfectly separated points. Left: the pale band is where the model is unsure (0.1 < p < 0.9); the orange line is p = 0.5. Right: the length of the weight vector per epoch (log scale).](images/separable_growth.gif){height=56%}
+
+In Figure 3, the line turns only slowly, yet the weights keep growing and the unsure band keeps narrowing: the model grows ever more confident instead of settling.
+
 The reason: once every point is on its correct side, multiplying all the weights by 2 keeps the same line but makes every $z$ twice as large, so every $\hat{y}$ moves closer to its correct 0 or 1. The loss always decreases, so there is no finite minimum (Bishop §4.3.2). The line itself still turns slowly: its slope $-w_1/w_2$ goes from $-30$ to $-23$ to $-18$ in the table. Gradient descent turns it towards the line with the widest gap, but only very slowly (Soudry et al. 2018).
 
 In practice this is handled by stopping after a fixed number of epochs, or by adding regularisation, the standard fix (Bishop §4.3.2). scikit-learn uses a penalty by default.
@@ -188,6 +194,12 @@ In practice this is handled by stopping after a fixed number of epochs, or by ad
 - On perfectly separable data the weights grow without limit; regularisation or early stopping keeps them finite.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Logistic Regression Part 5 | Gradient Descent & Code From Scratch", YouTube, https://www.youtube.com/watch?v=ABrrSwMYWSg
+
+**Other references**
 
 - **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.3.2, pp. 205–207.
 - **Soudry et al. 2018:** Soudry, D., Hoffer, E., Nacson, M. S., Gunasekar, S. and Srebro, N. "The Implicit Bias of Gradient Descent on Separable Data." *Journal of Machine Learning Research* 19(70), 1–57, 2018.

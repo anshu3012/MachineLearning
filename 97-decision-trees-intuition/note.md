@@ -453,6 +453,12 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Decision Trees Geometric Intuition | Entropy | Gini impurity | Information Gain", YouTube, https://www.youtube.com/watch?v=IZnno-dKgVQ
+
+**Other references**
+
 - **Cover and Thomas:** T. M. Cover and J. A. Thomas, *Elements of Information Theory*, 2nd ed., Wiley, 2006. Example 8.1.2.
 - **sklearn UG:** scikit-learn User Guide, Section 1.10, Decision Trees (advantages and disadvantages; 1.10.4 Complexity; 1.10.7.1 Classification criteria). scikit-learn.org/stable/modules/tree.html
 - **sklearn source:** scikit-learn 1.9, file `sklearn/tree/_splitter.pyx` (threshold set to the mean of two neighbouring sorted values).

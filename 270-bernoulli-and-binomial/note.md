@@ -197,13 +197,17 @@ One binomial **experiment** here is "toss a coin 10 times and count the heads". 
 
 Most runs give 4, 5 or 6 heads, because each toss is a head half the time. Runs with 2 or 8 heads are rarer, and 0 or 10 almost never happen: 5 heads appeared 244 times, 8 heads 42 times, 0 heads never.
 
+Figure 4 plays the same 1000 runs as a Galton board. Each run is one ball: every head steps it right, every tail steps it left, so after 10 tosses it lands in the bin of its head count. Watch the bins: a few balls land almost anywhere, but as the runs pile up the bars take the binomial shape, and the exact PMF dots sit on top of them.
+
+![A Galton board for 10 fair-coin tosses: each ball is one run of 10 Bernoulli trials and lands in the bin of its head count. The bins fill with the 1000 runs above; the dots are the exact binomial PMF. Idea after Sanderson (3Blue1Brown), "But what is the Central Limit Theorem?"](images/galton_binomial.gif){height=60%}
+
 ### 7.1 How $p$ moves the shape
 
 > **Key point:** A large $p$ pushes the distribution to the right, a small $p$ to the left; around $p = 0.5$ it is symmetric and looks like a bell.
 
 ![1000 simulated runs of 10 tosses (bars) against the exact binomial PMF (dots)](images/binomial_shapes.png)
 
-Figure 4 repeats the simulation for three coins. The bars are the share of the 1000 runs with each head count; the dots are the exact PMF.
+Figure 5 repeats the simulation for three coins. The bars are the share of the 1000 runs with each head count; the dots are the exact PMF.
 
 - **$p = 0.1$:** heads are rare, so small counts dominate. The distribution sits on the left with a long tail to the right: it is right-skewed (see the [skewness Note](../252-skewness/note.md)).
 - **$p = 0.5$:** the distribution is centred at 5 and symmetric, close to a normal curve.
@@ -241,9 +245,17 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Session 43 - Central Limit Theorem | DSMP 2023", YouTube, https://www.youtube.com/watch?v=-WmJDYBor7c
+- Sanderson, G. (3Blue1Brown), lesson at 3blue1brown.com/lessons/clt: *But what is the Central Limit Theorem?* The lesson starts from a Galton board (video section "A simplified Galton Board"); Figure 4 redraws that picture with our simulation.
+
+**Other references**
+
 - Bernoulli, J. (1713). *Ars Conjectandi*. Basel: Thurneysen.
 - scikit-learn developers. *User Guide*, §1.9.4 "Bernoulli Naive Bayes". scikit-learn.org, naive_bayes.html.
 - Murphy, K. P. (2012). *Machine Learning: A Probabilistic Perspective*. MIT Press. §2.3.2.
+- Galton, F. (1889). *Natural Inheritance*. Macmillan. Chapter V, pp. 63–64 and Fig. 7: describes the board, with its pins "disposed in a quincunx fashion".
 - Johnson, N. L., Kemp, A. W. and Kotz, S. (2005). *Univariate Discrete Distributions*, 3rd ed. Wiley. Chapter 3.
 
 ## 11. Key terms

@@ -357,6 +357,12 @@ Reading reports becomes faster with practice. Running the library on three or fo
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Pandas Profiling | Day 22 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=E69Lg2ZgOxg
+
+**Other references**
+
 - Baak, M., Koopman, R., Snoek, H. and Klous, S. (2020). A new correlation coefficient between categorical, ordinal and interval variables with Pearson characteristics. *Computational Statistics & Data Analysis* 152.
 - Cramér, H. (1946). *Mathematical Methods of Statistics*. Princeton University Press.
 - Kendall, M. (1938). A New Measure of Rank Correlation. *Biometrika* 30(1/2).

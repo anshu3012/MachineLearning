@@ -41,11 +41,19 @@ Consider an expense-tracker app that reports how a user spends money. The raw da
 
 Each question needs one extracted feature: a weekend flag, the month, the hour. Building such columns is a kind of feature engineering.
 
+![Each expense question needs one extracted feature](images/questions_features.png){width=70%}
+
+Figure 2 pairs each question with its feature.
+
 ## 3. The data
 
 > **Key point:** Two small files: `orders.csv` holds dates only, `messages.csv` holds dates with times.
 
 We use two files of 1,000 rows each.
+
+![The date range of each file, and the fixed "today" used for time passed](images/date_ranges.png){width=90%}
+
+Figure 3 places the two files on one time line; the gap to "today" is why the elapsed times in Sections 6 and 8 are so large.
 
 | File | Columns | Range |
 |---|---|---|
@@ -77,6 +85,10 @@ The first rows:
 > **Key point:** `read_csv` reads dates as text; `pd.to_datetime` converts them, and only then do the date tools work.
 
 When pandas loads a CSV file, a date column arrives as plain text (dtype `str`). As text, `2019-12-10` is just ten characters: pandas cannot tell its month or weekday. So the first step is always to change the column's type.
+
+![As text, a date is ten characters; as a datetime, pandas can read its parts](images/text_vs_datetime.png){width=75%}
+
+Figure 4 shows what the conversion buys us.
 
 **`pd.to_datetime`** converts text into **datetime** values: values that pandas understands as points in time.
 
@@ -198,7 +210,7 @@ There is no ready-made `.dt` tool for this, so we build it from the weekday. Sat
 | 3 | 2019-08-17 | 5 | Saturday | 1 |
 | 4 | 2019-01-06 | 6 | Sunday | 1 |
 
-284 of the 1,000 orders fall on a weekend. Figure 2 (left) shows the rows per weekday.
+284 of the 1,000 orders fall on a weekend. Figure 5 (left) shows the rows per weekday.
 
 ![Left: rows of `orders.csv` per day of the week. Right: messages per hour of the day in `messages.csv`](images/counts.png){width=100%}
 
@@ -281,7 +293,7 @@ How long ago an order was placed is often a useful feature, for example "days si
 
 > **Key point:** `today - orders["date"]` gives one Timedelta per row: a length of time in days, hours, minutes and seconds.
 
-A **Timedelta** is a length of time, such as `498 days 16:02:16`. Subtracting one Timestamp from another gives one. Figure 3 shows it for one order.
+A **Timedelta** is a length of time, such as `498 days 16:02:16`. Subtracting one Timestamp from another gives one. Figure 6 shows it for one order.
 
 ![The time between an order and "today", and three ways to turn it into a number](images/elapsed.png){width=100%}
 
@@ -352,7 +364,7 @@ For row 0: $12 \times (2021 - 2019) + (4 - 12) = 24 - 8 = 16$ months.
 | 4 | 2019-01-06 | 27 | 27 |
 | 11 | 2019-08-02 | 21 | 20 |
 
-The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row 11 shows why (Figure 3): from 2 August 2019 to 21 April 2021 is 20 months and 19 days. The average-month way gives 20.65 and rounds it up to 21; the calendar way counts 20.
+The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row 11 shows why (Figure 6): from 2 August 2019 to 21 April 2021 is 20 months and 19 days. The average-month way gives 20.65 and rounds it up to 21; the calendar way counts 20.
 
 > **Extra:** Neither way is wrong; they answer slightly different questions. The average-month way measures a length of time, the calendar way counts month changes. Pick one and use it for every row. For a model, days passed (`.dt.days`) is often the simplest choice: it is exact and needs no rounding.
 
@@ -384,7 +396,11 @@ The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row
 
 `.dt.time` keeps only the time of day and drops the date. The time of day is useful when only the clock time matters.
 
-The hour feature already tells a story. Figure 2 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: the app is used for night-time chat.
+The hour feature already tells a story. Figure 5 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: the app is used for night-time chat.
+
+![The same night-time pattern on a 24-hour clock: almost every message falls in the shaded arc](images/night_clock.png){width=45%}
+
+Figure 7 wraps the hours around a clock, so the arc from 22:00 to 03:00 reads as one stretch of night.
 
 > **Extra:** `.dt.time` returns a column of Python `datetime.time` objects (dtype `object`), not a datetime column. The `.dt` tools no longer work on it, and a model cannot use it directly. For a model, the `hour` and `min` numbers are the better features.
 
@@ -412,6 +428,10 @@ The subtraction works as in Section 6, now with times included. Only the unit we
 | 4 | 2733 days 16:51:16 | 236,191,876 | 3,936,531.3 | 65,608.85 |
 
 Check row 0 in hours: 2684 days are $2684 \times 24 = 64{,}416$ hours, and 15:12:16 adds 15.20 hours, so 64,431.20 hours.
+
+![Row 0's Timedelta divided by one hour, one minute and one second](images/timedelta_units.png){width=70%}
+
+Figure 8 shows the three divisions for row 0.
 
 The unit letters are case-sensitive:
 
@@ -453,6 +473,12 @@ The unit letters are case-sensitive:
 - Give `pd.to_datetime` a `format` when dates are written day first.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Handling Date and Time Variables | Day 34 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=J73mvgG9fFs
+
+**Other references**
 
 - ISO 8601-1:2019. Date and time: Representations for information interchange, Part 1 (week dates). International Organization for Standardization.
 - pandas release notes. What's new in 1.1.0, 2.0.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.

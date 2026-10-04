@@ -1,0 +1,4 @@
+method,test_accuracy,test_accuracy_std
+always the most common word,0.0733,0.0
+bigram (previous word only),0.1569,0.0
+LSTM (mean of 5 seeds),0.1751,0.0024

@@ -344,6 +344,12 @@ Splitting and construction often work together. From the split-out title we can 
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Feature Construction | Feature Splitting", YouTube, https://www.youtube.com/watch?v=ma-h30PoFms
+
+**Other references**
+
 - Kuhn, M. and Johnson, K. (2019). *Feature Engineering and Selection: A Practical Approach for Predictive Models*, Section 1.1 (trying the ratio of two predictors). CRC Press. feat.engineering.
 - Wickham, H. and Grolemund, G. (2017). *R for Data Science*, Section 12.2, "Tidy data". O'Reilly.
 - scikit-learn User Guide, Preprocessing data, Encoding categorical features, "Infrequent categories". scikit-learn.org.

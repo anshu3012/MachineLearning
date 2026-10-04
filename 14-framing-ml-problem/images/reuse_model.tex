@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cgrey, text width=4.2cm] (o) at (0,0) {\textbf{Existing model}\\overall churn rate\\(within 10\%)};
+  \node[box=corange, text width=4.2cm] (f) at (0,-3.2) {\textbf{Its factors}\\what drives churn};
+  \node[box=cblue, text width=4.2cm] (n) at (6.2,-3.2) {\textbf{Our model}\\which customers\\will leave};
+  \draw[arrow] (o) -- node[right, note] {ask that team} (f);
+  \draw[arrow] (f) -- node[above, note] {start} (n);
+\end{tikzpicture}
+\end{document}

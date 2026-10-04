@@ -523,6 +523,12 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 
 ## 20. Sources
 
+**Built from**
+
+- CampusX, "Working with CSV files | Day 15 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=a_XrmKlaGTs
+
+**Other references**
+
 - Banko, M. and Brill, E. (2001). Scaling to Very Very Large Corpora for Natural Language Disambiguation. *Proceedings of ACL 2001*, 26-33.
 - pandas API reference. `pandas.read_csv`. pandas.pydata.org/docs.
 - pandas release notes. What's new in 1.3.0, 2.0.0, 2.2.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.

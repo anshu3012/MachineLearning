@@ -211,6 +211,12 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 
 ## 13. Sources
 
+**Built from**
+
+- CampusX, "XGBoost For Classification | How XGBoost works on Classification Problems | CampusX", YouTube, https://www.youtube.com/watch?v=mELtxVUNNrw
+
+**Other references**
+
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
 - XGBoost documentation, *XGBoost Parameters* (`min_child_weight`, `base_score`), xgboost.readthedocs.io.
 

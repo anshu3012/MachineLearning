@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)).
-> - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
+> - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Weight initialisation ([Note 1029](../1029-weight-initialization/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)); Backpropagation in a CNN ([Note 1047](../1047-backpropagation-in-cnn/note.md)); Backpropagation through time (BPTT) ([Note 1059](../1059-backpropagation-through-time/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -226,6 +226,10 @@ Compared with regression, each hidden derivative has one extra factor, $O(1 - O)
 
 > **Key point:** $-(y - \hat{y}) = -0.4585$; output weights get $-0.381$, hidden weights $-0.0513$.
 
+![Backpropagation on the classification network for student 1. Forward, values flow left to right (blue). Backward, the gradient flows right to left (red): it starts as $\hat{y} - y = -0.4585$ at the output and is multiplied by one local derivative per step, $\times 0.1$ along $W_{11}^{2}$, $\times 0.140$ through the hidden sigmoid, $\times 8$ along $W_{11}^{1}$, until every weight holds its gradient](images/backprop_chain.gif){width=100%}
+
+In Figure 3, watch the running product along the bottom: each step back multiplies the gradient by one number, and the two small factors, 0.1 and 0.140, shrink it from $-0.4585$ to $-0.0513$. Picturing the chain rule as a product of local sensitivities along the path follows 3Blue1Brown's "Backpropagation calculus".
+
 1. **In words:** compute $-(y - \hat{y})$ once, then multiply by each parameter's factors.
 2. **Formula:** the formulas of Sections 7.1 and 7.2.
 3. **Example:** $y = 1$, $\hat{y} = 0.5415$, $O_{11} = 0.832$:
@@ -289,6 +293,13 @@ The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0
 - Correct backpropagation can still fail to learn: starting weights and the learning rate matter.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Backpropagation Part 2 | The How | Complete Deep Learning Playlist", YouTube, https://www.youtube.com/watch?v=ma6hWrU-LaI
+- Sanderson, G. (3Blue1Brown), "Backpropagation calculus", *Neural Networks*, chapter 5, 3blue1brown.com/lessons/backpropagation-calculus (the chain rule as a product of local derivatives along the network; Figure 3 recreates the idea on our own network and numbers).
+
+**Other references**
 
 - Goodfellow, I., Bengio, Y. and Courville, A., *Deep Learning*, MIT Press, 2016, §8.4 (Parameter Initialization Strategies: initial parameters must break symmetry between hidden units). deeplearningbook.org
 

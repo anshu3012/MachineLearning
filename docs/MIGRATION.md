@@ -53,7 +53,7 @@ tools/ docs/ transcripts/ reference/ course_map/ glossary.md CONTEXT.md   (stay 
 | DL | 03-optimizers | 1032–1039 |
 | DL | 04-cnn | 1040–1054 |
 | DL | 05-rnn | 1055–1066 |
-| DL | 06-transformers | 1067–1084 |
+| DL | 06-transformers | 1067–1090: order 1067–1071, 1086 (meaning as direction), 1072–1085, then 1087–1090 (GPT, sampling, MLP facts, superposition) |
 
 The reading order inside each Chapter is today's number order unless a Note's prerequisites say otherwise. The script checks that no Note comes before a Note it needs.
 
@@ -66,3 +66,12 @@ The reading order inside each Chapter is today's number order unless a Note's pr
 5. **Front matter:** tags (as now), plus `prerequisites: ["[[MA-012-dot-product]]", …]` generated from the `needs` links in `concepts.yaml`.
 6. Rebuild every PDF and the maps. Check that every link resolves, every PDF builds, and no Note precedes a prerequisite.
 7. Commit as one change.
+
+## Watch for during the migration
+- **Figures that read other Notes' files:**
+  - 210 `module_gallery`, 350 `module_thumbs` and 1001 `family_thumbs` read other Notes' PNGs.
+  - 60's `gd_race.py` writes into 58 and 59.
+  - 108 and 220 hold copies of other Notes' data.
+
+  Rewrite these paths too, then rebuild with `FORCE=1`.
+- **Stray `.logs/` folders inside Note folders** (git-ignored; about 80 of them from remote runs): move their contents to the root `.logs/` before moving the folders.

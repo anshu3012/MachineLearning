@@ -1,0 +1,6 @@
+input,row_dot_e,plus_bias,after_relu,gelu,basketball_before,basketball_after,basketball_if_no_relu
+Michael Jordan,2.0,1.0,1.0,0.8411919906082768,0.0,1.0,1.0
+Michael Phelps,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Alexis Jordan,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Michael,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Phelps,0.0,-1.0,0.0,-0.1588080093917233,0.0,0.0,-1.0

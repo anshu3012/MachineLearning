@@ -87,6 +87,10 @@ The [linear transformations and matrices Note](../500-linear-transformations-and
 
 The linear approximation is the tangent line of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md), in several dimensions. Figure 1 shows it as a picture: the orange cell lands on a curved cell, and the green parallelogram spanned by the Jacobian's columns (each times the cell's side) almost covers it. The smaller the cell, the better the match.
 
+![The polar map bends a straight $(r, \theta)$ grid into rays and arcs. Then we zoom on the orange cell at $(2, \pi/6)$: as the cell shrinks (shown magnified to a fixed size), its curved image (orange) becomes the parallelogram spanned by the Jacobian's columns times the cell's sides (green)](images/local_linear.gif)
+
+Figure 3 animates the same idea. Watch the gap between the orange and green outlines: at full size the curved cell sticks out, but with sides 20 times smaller the two outlines coincide. Zoomed in far enough, the function is the linear map $J$. The zoom-in picture of local linearity follows Sanderson's Khan Academy lessons on the Jacobian.
+
 ### 4.2 For a linear function, the Jacobian is its matrix
 
 > **Key point:** The Jacobian of $\mathbf{f}(\mathbf{x}) = A\mathbf{x}$ is $A$ itself, at every point.
@@ -225,7 +229,7 @@ The bowl of the [partial derivatives and gradients Note](../601-partial-derivati
 
 A neural network computes its output as a composition of layers, $\mathbf f_K(\cdots \mathbf f_2(\mathbf f_1(\mathbf{x})))$, each layer with its own weights. By Section 6, the gradient of the loss with respect to the weights of an early layer is a product of the Jacobians of all later layers. Writing that product as one formula quickly becomes enormous.
 
-The practical method breaks the function into elementary steps, a **computation graph**, and applies the chain rule one step at a time. Figure 3 does this for $f(x) = x^2 + e^{x^2}$.
+The practical method breaks the function into elementary steps, a **computation graph**, and applies the chain rule one step at a time. Figure 4 does this for $f(x) = x^2 + e^{x^2}$.
 
 ![The computation graph of $f(x) = x^2 + e^{x^2}$: values flow forward (grey), derivatives flow backward (red)](images/computation_graph.png){height=30%}
 
@@ -257,9 +261,15 @@ The backward pass has one step per forward step, each a multiplication by a loca
 
 ## 12. Sources
 
+**Built from**
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 5.3–5.6 and 6.7 (MML).
+- Sanderson, G. (Khan Academy). "Local linearity for a multivariable function" and "The Jacobian matrix", *Multivariable calculus*, lesson ["Jacobian"](https://www.khanacademy.org/math/multivariable-calculus/multivariable-derivatives/jacobian).
+
+**Other references**
+
 - Baydin, A. G., Pearlmutter, B. A., Radul, A. A. and Siskind, J. M. (2018). "Automatic Differentiation in Machine Learning: a Survey". *Journal of Machine Learning Research* 18(153).
 - Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer. Section 2.3.4, maximum likelihood for the Gaussian.
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 5.3–5.6 and 6.7 (MML).
 - Petersen, K. B. and Pedersen, M. S. (2012). *The Matrix Cookbook*. Technical University of Denmark.
 - Rezende, D. J. and Mohamed, S. (2015). "Variational Inference with Normalizing Flows". *ICML*.
 

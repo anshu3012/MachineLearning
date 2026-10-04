@@ -1,0 +1,21 @@
+model,question,target,top_all,second_all,top_excl,rank_excl,cos_target,cos_top_all
+GloVe,king − man + woman,queen,king,queen,"queen, monarch, throne",1,0.783,0.855
+GloVe,uncle − man + woman,aunt,aunt,daughter,"aunt, daughter, mother",1,0.828,0.828
+GloVe,nephew − man + woman,niece,niece,daughter,"niece, daughter, granddaughter",1,0.866,0.866
+GloVe,father − man + woman,mother,mother,daughter,"mother, daughter, wife",1,0.914,0.914
+GloVe,son − man + woman,daughter,daughter,son,"daughter, wife, mother",1,0.919,0.919
+GloVe,boy − man + woman,girl,girl,boy,"girl, mother, child",1,0.911,0.911
+GloVe,husband − man + woman,wife,husband,wife,"wife, mother, daughter",1,0.844,0.883
+GloVe,prince − man + woman,princess,prince,princess,"princess, daughter, queen",1,0.762,0.853
+GloVe,brother − man + woman,sister,daughter,wife,"daughter, wife, mother",6,0.828,0.895
+GloVe,hitler − germany + italy,mussolini,mussolini,hitler,"mussolini, fascist, stalin",1,0.816,0.816
+GloVe,sushi − japan + germany,bratwurst,pastry,sushi,"pastry, ducasse, gourmet",123,0.396,0.528
+GPT-2,king − man + woman,queen, king, queen," queen,  princess,  Queen",1,0.709,0.776
+GPT-2,uncle − man + woman,aunt, uncle, aunt," aunt,  niece,  grandmother",1,0.696,0.816
+GPT-2,nephew − man + woman,niece, nephew, niece," niece,  granddaughter,  daughter",1,0.797,0.832
+GPT-2,father − man + woman,mother, father, mother," mother,  grandmother,  daughter",1,0.753,0.764
+GPT-2,son − man + woman,daughter, daughter, son," daughter,  granddaughter,  daughters",1,0.817,0.817
+GPT-2,boy − man + woman,girl, girl, boy," girl,  girls,  Girl",1,0.798,0.798
+GPT-2,husband − man + woman,wife, husband, wife," wife,  spouse, husband",1,0.703,0.815
+GPT-2,prince − man + woman,princess, prince, princess," princess,  princes,  Princess",1,0.706,0.812
+GPT-2,brother − man + woman,sister, brother, sister," sister,  sisters,  wife",1,0.747,0.772

@@ -214,6 +214,12 @@ The same check shows the payoff of knowing a **feature** (one variable of the da
 
 ## 5. Sources
 
+**Built from**
+
+- CampusX, "Session 42 - Non-Gaussian Probability Distributions | DSMP 2023", YouTube, https://www.youtube.com/watch?v=U6QCc_3zgUk
+
+**Other references**
+
 - Clementi, F. and Gallegati, M. (2005). "Pareto's Law of Income Distribution: Evidence for Germany, the United Kingdom, and the United States." In *Econophysics of Wealth Distributions*, Springer.
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 6.7.1 (sampling with the inverse CDF) and 6.7.2 (change of variables).
 - scikit-learn documentation, `RandomizedSearchCV`.

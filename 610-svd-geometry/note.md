@@ -292,6 +292,8 @@ The two agree for one important family. A **symmetric matrix** equals its own tr
 
 ## 9. Sources
 
+**Built from**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Definition 3.8, Theorem 4.22, sections 4.5–4.6 (MML).
 - Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Sections 7.2 (bases and matrices in the SVD) and 7.4 (the geometry of the SVD).
 

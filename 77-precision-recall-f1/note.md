@@ -105,6 +105,10 @@ Model A has the higher recall, matching the choice above.
 
 Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). A later Note looks at this trade-off (scikit-learn docs, "Precision-Recall" example).
 
+Figure 2 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
+
+![The decision threshold slides across the heart-disease test set. Each dot is a patient at its predicted probability of disease, in the lane of its true class; the shaded side is flagged. Green: caught; orange: missed; red: false alarm; grey: correctly cleared. Right: precision, recall and F1 at that threshold](images/threshold_sweep.gif)
+
 ## 4. F1 score
 
 > **Key point:** F1 = 2PR / (P + R), the harmonic mean of precision and recall. F1 is high only if both are high.
@@ -170,7 +174,7 @@ Logistic regression misses fewer patients (higher recall), which matters most fo
 
 > **Key point:** Each class in turn is treated as "positive" and all the others as "negative".
 
-A model sorts 108 animals into dog, cat and rabbit (Figure 3).
+A model sorts 108 animals into dog, cat and rabbit (Figure 4).
 
 ![A three-class confusion matrix with per-class precision and recall](images/multiclass.png){height=48%}
 
@@ -222,6 +226,12 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 - With several classes, compute per class and combine with a macro or weighted average.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Precision, Recall and F1 Score | Classification Metrics Part 2", YouTube, https://www.youtube.com/watch?v=iK-kdhJ-7yI
+
+**Other references**
 
 - **Altman and Bland 1994:** Altman, D. G. and Bland, J. M. "Diagnostic tests 1: sensitivity and specificity." *BMJ* 308(6943), 1552, 1994.
 - **Fawcett 2006:** Fawcett, T. "An Introduction to ROC Analysis." *Pattern Recognition Letters* 27(8), 861–874, 2006. Section 2 and Figure 1.

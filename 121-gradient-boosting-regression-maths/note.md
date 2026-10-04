@@ -229,6 +229,12 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 
 ## 12. Sources
 
+**Built from**
+
+- CampusX, "Gradient Boosting Regression Part 2 | Mathematics of Gradient Boosting", YouTube, https://www.youtube.com/watch?v=nMNiTZm-qY0
+
+**Other references**
+
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed., Springer. §10.10.3, Algorithm 10.3, "Gradient Tree Boosting Algorithm".
 - Friedman, J. H. (2001). Greedy function approximation: a gradient boosting machine. *Annals of Statistics*, 29(5), 1189–1232. (Any differentiable loss; steepest descent in function space.)
 - Runge, C. (1901). "Über empirische Funktionen und die Interpolation zwischen äquidistanten Ordinaten". *Zeitschrift für Mathematik und Physik* 46, 224–243.

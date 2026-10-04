@@ -285,6 +285,12 @@ The same idea checks for the log-normal and Pareto distributions in the next two
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Session 42 - Non-Gaussian Probability Distributions | DSMP 2023", YouTube, https://www.youtube.com/watch?v=U6QCc_3zgUk
+
+**Other references**
+
 - Ghasemi, A. and Zahediasl, S. (2012). "Normality Tests for Statistical Analysis: A Guide for Non-Statisticians." *International Journal of Endocrinology and Metabolism* 10(2).
 - statsmodels documentation, `ProbPlot` (`fit=True`) and `qqplot` (`line` options).
 - Westfall, P. H. (2014). "Kurtosis as Peakedness, 1905-2014. R.I.P." *The American Statistician* 68(3).

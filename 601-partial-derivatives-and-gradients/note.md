@@ -9,7 +9,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/gradient]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)).
-> - **Leads to:** Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
+> - **Leads to:** Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)); Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)); Maximum likelihood estimation (MLE) ([Note 631](../631-maximum-likelihood-estimation/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -127,6 +127,10 @@ At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its oppos
 >
 > A dot product with a unit vector is largest when the two point the same way (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md)). This alignment is why the gradient is the direction of steepest ascent.
 
+![At $(1, 1)$ a unit direction $\mathbf{u}$ turns full circle (left); the slope $\nabla f \cdot \mathbf{u}$ is traced against its angle (right): 3 along the $x_1$-axis, a peak of 5.83 when $\mathbf{u}$ lines up with $\nabla f = [3, 5]$, 0 along the contour line, $-5.83$ straight downhill](images/direction_sweep.gif)
+
+Figure 3 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
+
 ## 5. Rules for gradients
 
 > **Key point:** Sum, product and chain rules still hold with vectors, but the factors are now vectors and matrices, so their order matters.
@@ -160,7 +164,7 @@ $$\frac{\partial}{\partial \mathbf{x}}\thinspace\mathbf{a}^{\mathsf T}\mathbf{x}
 
 > **Key point:** The rate of change of $f$ with $t$ is the sum over both paths of (slope of $f$ along the path) times (rate of the intermediate variable): a row vector times a column vector.
 
-Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for example a point moving around a circle: $x_1 = \cos t$, $x_2 = \sin t$. How fast does $f(x_1, x_2)$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 3).
+Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for example a point moving around a circle: $x_1 = \cos t$, $x_2 = \sin t$. How fast does $f(x_1, x_2)$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 4).
 
 ![The multivariate chain rule: multiply the derivatives along each path from $t$ to $f$, then add the paths](images/chain_paths.png){height=34%}
 
@@ -249,7 +253,13 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 
 ## 9. Sources
 
+**Built from**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 5.2, remark on verifying a gradient implementation (MML).
+- Sanderson, G. (Khan Academy). "Why the gradient is the direction of steepest ascent", *Multivariable calculus*. khanacademy.org/math/multivariable-calculus/multivariable-derivatives/gradient-and-directional-derivatives. Figure 3 recreates its idea with our own function and code.
+
+**Other references**
+
 - PyTorch documentation. "Gradcheck mechanics" and `torch.autograd.gradcheck`.
 
 ## 10. Key terms

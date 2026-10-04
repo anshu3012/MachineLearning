@@ -163,6 +163,12 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "OOB Score | Out of Bag Evaluation in Random Forest | Machine Learning", YouTube, https://www.youtube.com/watch?v=tdDhyFoSG94
+
+**Other references**
+
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §15.3.1 (out-of-bag samples).
 - Janitza, S. and Hornung, R. (2018). On the overestimation of random forest's out-of-bag error. *PLoS ONE* 13(8): e0201904.
 

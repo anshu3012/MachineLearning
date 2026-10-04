@@ -15,9 +15,9 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 > **Key point:** A probability can be counted from data (empirical) or from the sample space (theoretical); as the number of trials grows, the empirical value settles on the theoretical one.
 
-![The share of heads after each toss, in three runs of 100,000 tosses](images/convergence.png)
+![A fair coin tossed up to 100,000 times in three runs: the share of heads so far (left) and run 1's head and tail counts (right) settle on the theoretical 0.5](images/coin_flips.gif){height=40%}
 
-Figure 1 tosses a fair coin 100,000 times, three separate times, and plots the share of heads after each toss. Early on the share jumps around between 0 and 1. After thousands of tosses all three runs sit on 0.5, the value we get from the sample space $\lbrace H, T\rbrace$ without tossing at all.
+Figure 1 tosses a fair coin 100,000 times, three separate times, and plots the share of heads after each toss; the bars on the right count run 1's heads and tails (the idea follows Seeing Theory, Kunin et al.). Watch the three lines: early on the share jumps around between 0 and 1. After thousands of tosses all three runs sit on 0.5, the value we get from the sample space $\lbrace H, T\rbrace$ without tossing at all.
 
 These are the two kinds of probability in this Note. The **empirical probability** is the share we observe in data; the **theoretical probability** is the share we work out from the sample space. A last section adds the rules that every probability obeys.
 
@@ -117,7 +117,9 @@ For the marble bag, each of the 50 marbles is equally likely to be drawn, so the
 | Blue | $70/200 = 0.35$ | $15/50 = 0.30$ |
 | Green | $50/200 = 0.25$ | $15/50 = 0.30$ |
 
-Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)), so the share of blue has standard deviation $\sqrt{p(1-p)/n} = \sqrt{0.3 \times 0.7 / 200} = 0.032$. A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
+![The marble bag: empirical shares from 200 draws (solid) against the theoretical shares from the bag's contents (hatched)](images/marbles.png){height=28%}
+
+Figure 3 puts the two side by side. Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)), so the share of blue has standard deviation $\sqrt{p(1-p)/n} = \sqrt{0.3 \times 0.7 / 200} = 0.032$. A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
 
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >
@@ -205,7 +207,7 @@ The result matches the count in section 4. The complement is often the shortcut:
 
 The addition rule of axiom 3 holds only for mutually exclusive events. When $A$ and $B$ share outcomes, $P(A) + P(B)$ is too large.
 
-Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 3 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1.
+Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 4 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1.
 
 ![The general addition rule on one die: the overlap $\lbrace5\rbrace$ is counted twice by $P(A) + P(B)$](images/addition.png)
 
@@ -242,8 +244,15 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Master Probability in Data Science: The Ultimate Crash Course! | Part 1 | CampusX", YouTube, https://www.youtube.com/watch?v=DUT4WEUngt0
+
+**Other references**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. §6.1.2.
 - Grinstead, C. M. and Snell, J. L. (1997). *Introduction to Probability*, 2nd ed. American Mathematical Society. §1.2, Theorems 1.1 and 1.4.
+- Kunin, D., Guo, J., Devlin, T. D. and Xiang, D. *Seeing Theory*, Brown University, chapter 1 "Basic Probability", section "Chance Events". seeing-theory.brown.edu/basic-probability. The idea of Figure 1, watching the share of heads settle as the tosses grow, follows its coin-flipping demonstration; data and code are our own.
 
 ## 9. Key terms
 

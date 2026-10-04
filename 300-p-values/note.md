@@ -217,6 +217,12 @@ A printed z-table stops around $z = 4$, where the area is practically 1. For lar
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Session 46 - Hypothesis Testing Part 2 | p-values | t-tests | DSMP 2023", YouTube, https://www.youtube.com/watch?v=xHTMjxx14sU
+
+**Other references**
+
 - Greenland, S., Senn, S. J., Rothman, K. J., Carlin, J. B., Poole, C., Goodman, S. N. and Altman, D. G. (2016). "Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations." *European Journal of Epidemiology* 31(4), 337–350.
 
 ## 9. Key terms

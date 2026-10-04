@@ -68,6 +68,10 @@ and apply $M_1$ first, then $M_2$.
    - $\hat{\jmath}$ first lands on $[-2, 0]$. Then $M_2 [-2, 0] = -2 \cdot [0, 1] + 0 \cdot [2, 0] = [0, -2]$.
    $$M_2 M_1 = \begin{bmatrix} 0 & 2 \cr1 & 0 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix} = \begin{bmatrix} 2 & 0 \cr1 & -2 \end{bmatrix}$$
 
+Figure 2 runs this example on the grid. Watch $\hat{\imath}$ (green) and $\hat{\jmath}$ (red): after $M_1$ they sit on the columns of $M_1$, and after $M_2$ each one's final position fills one column of the product. Following the basis vectors like this is the approach of Sanderson's *Essence of Linear Algebra*, chapter 4 (3Blue1Brown).
+
+![The product $M_2 M_1$ built column by column: $M_1$ moves the basis vectors to its columns, $M_2$ then moves them to $[2, 1]$ and $[0, -2]$, the columns of the product](images/column_by_column.gif)
+
 The same reasoning with letters gives the general rule. Take
 
 $$M_1 = \begin{bmatrix} e & f \cr g & h \end{bmatrix}, \qquad M_2 = \begin{bmatrix} a & b \cr c & d \end{bmatrix}$$
@@ -95,7 +99,7 @@ $$\begin{bmatrix} a & b \cr c & d \end{bmatrix} \begin{bmatrix} e & f \cr g & h 
 
 > **Key point:** In general $AB \neq BA$: shearing then rotating is a different transformation from rotating then shearing.
 
-Does the order of the two matrices matter? Thinking in transformations, we can answer by picturing them (Figure 2).
+Does the order of the two matrices matter? Thinking in transformations, we can answer by picturing them (Figure 3).
 
 ![The same two transformations in the two possible orders](images/order_matters.png){height=40%}
 
@@ -175,6 +179,12 @@ The collapse is why the hidden layers of a network end with a non-linear activat
 - Stacked linear layers collapse into one matrix; activation functions prevent that.
 
 ## 9. Sources
+
+**Built from**
+
+- Sanderson, G. (3Blue1Brown), "Matrix multiplication as composition | Chapter 4, Essence of linear algebra", 2016, 3blue1brown.com/lessons/matrix-multiplication, https://www.youtube.com/watch?v=XkY2DOUCWMU
+
+**Other references**
 
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 6.1, learning XOR.
 

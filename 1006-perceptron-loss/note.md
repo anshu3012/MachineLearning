@@ -256,6 +256,12 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Perceptron Loss Function | Hinge Loss | Binary Cross Entropy | Sigmoid Function", YouTube, https://www.youtube.com/watch?v=2_gCL5RAkHc
+
+**Other references**
+
 - scikit-learn User Guide, Stochastic Gradient Descent, Mathematical formulation.
 - scikit-learn documentation, `sklearn.linear_model.Perceptron` (equivalent to `SGDClassifier(loss="perceptron", eta0=1, learning_rate="constant", penalty=None)`).
 

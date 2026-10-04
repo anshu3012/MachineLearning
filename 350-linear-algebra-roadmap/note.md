@@ -30,6 +30,10 @@ Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in se
 
 > **Key point:** Each topic is marked by importance, and topics needed only by a few algorithms are marked "later".
 
+![The marks on the roadmap: three levels of importance, and "later" for topics only particular algorithms need](images/reading_key.png){width=65%}
+
+Figure 2 is the key to the marks; everything above the dashed line is worth covering in one go.
+
 The roadmap marks every topic in three ways:
 
 - **Importance.** A *very important* topic appears almost everywhere in ML and DL; an *important* topic appears in several places; a *normal* topic is still worth learning.
@@ -41,6 +45,10 @@ Everything not marked "later" is worth covering in one go before moving deep int
 ## 4. The eight modules
 
 > **Key point:** Vectors and matrices are the core; tensors, eigenvectors and factorisations build on them; a few advanced topics wait until an algorithm needs them.
+
+![A preview of six modules, each picture taken from the Note that teaches it: a vector as a point (Note 360), cosine similarity (Note 362), matrices as transformations (Note 500), tensors (Note 11), eigenvectors (Note 530) and the eigen-decomposition in PCA (Note 48)](images/module_thumbs.png){width=85%}
+
+Figure 3 shows what each module looks like once we study it; the subsection numbers match the captions.
 
 ### 4.1 Scalars
 
@@ -165,6 +173,12 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 - For every topic, know where ML uses it.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Linear Algebra Roadmap for Machine Learning and Deep Learning | Complete Guide | CampusX", YouTube, https://www.youtube.com/watch?v=rIsCKVyh4dI
+
+**Other references**
 
 - Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 11, "Least squares problems", Algorithm 11.2.
 - Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix factorization techniques for recommender systems." *IEEE Computer* 42(8), 30–37.

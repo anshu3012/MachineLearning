@@ -48,6 +48,10 @@ No. One lesson proves very little:
 
 So the channel records five more lessons in the new style. Their average view durations are 7, 9, 5, 11 and 13 minutes. Their mean, 9 minutes, is above 6. Is that enough? The question has not changed: are five lessons enough evidence, or could the old style give such numbers by chance?
 
+![The five new-style lessons. Their mean, 9 minutes, sits above the old 6-minute average, but two lessons are close to 6 and one is below it](images/lessons.png){width=85%}
+
+Figure 2 shows the five lessons against the old average. The spread is the problem: with lessons ranging from 5 to 13 minutes, a mean of 9 might come from the old style by chance. The Extra at the end of Section 6 gives the verdict.
+
 ### 2.2 The same question in business
 
 A chips company sells a green packet and launches a purple one. Before replacing green with purple everywhere, it wants to know whether the purple packet really sells better. It can ask customers for feedback, but then: how many customers, and how good must the feedback be before we believe it?
@@ -91,6 +95,10 @@ The two statements are mutually exclusive: they cannot both be true, and the tes
 |---|---|---|
 | Channel: mean view duration in minutes | $\mu = 6$ | $\mu > 6$ |
 | Chips: mean packet weight in grams | $\mu = 100$ | $\mu \neq 100$ |
+
+![The two examples on a number line. $H_0$ is a single value (blue dot); $H_1$ covers the values it rules out (orange): one side for the channel, both sides for the chips](images/hypothesis_lines.png){width=80%}
+
+Figure 3 draws the table: the channel's $H_1$ points one way, the chips' $H_1$ points both ways.
 
 The channel's $H_1$ has a direction: the new style should **increase** the duration. The chips' $H_1$ has none: the weight is wrong, whether too high or too low. This difference decides between a one-tailed and a two-tailed test (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
 
@@ -136,6 +144,10 @@ A courtroom makes this clear:
 | Strong evidence: verdict "guilty" | Reject $H_0$ |
 | Weak evidence: verdict "not guilty" | Fail to reject $H_0$ |
 
+![The courtroom and the hypothesis test, step for step. Both end in one of two verdicts, and the weak-evidence verdict proves nothing](images/courtroom.png){width=75%}
+
+Figure 4 lines up the two procedures. Watch the green boxes: neither "not guilty" nor "fail to reject" is a proof.
+
 A "not guilty" verdict does not prove that no crime happened. The verdict says the prosecutor could not prove it. In the same way, if the five lessons do not let us reject $H_0$, the new style may still work: our evidence was simply too weak to show it.
 
 For the same reason, rejecting $H_0$ for the channel would not show that the whiteboard style is the best possible. Rejecting $H_0$ would only show that the new style beats the old average of 6 minutes.
@@ -148,7 +160,7 @@ For the same reason, rejecting $H_0$ for the channel would not show that the whi
 
 ![The eight steps of a hypothesis test (rejection region approach)](images/test_steps.png){height=45%}
 
-There are two ways to carry out a test. The **rejection region approach** compares the test statistic with a fixed boundary (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)). The **p-value approach** computes one extra number that also measures how strong the evidence is (see the [p-values Note](../300-p-values/note.md)); it is the approach used in practice. Both follow the steps in Figure 2.
+There are two ways to carry out a test. The **rejection region approach** compares the test statistic with a fixed boundary (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)). The **p-value approach** computes one extra number that also measures how strong the evidence is (see the [p-values Note](../300-p-values/note.md)); it is the approach used in practice. Both follow the steps in Figure 5.
 
 1. **State $H_0$ and $H_1$.** For the channel: $H_0: \mu = 6$, $H_1: \mu > 6$.
 2. **Choose a significance level $\alpha$.** Usually 0.05 (5%), sometimes 0.01 (1%). The significance level is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. The [rejection region Note](../291-rejection-region-and-z-test/note.md) explains it fully.
@@ -185,6 +197,12 @@ Steps 1 and 2 come before looking at the data: the decision needs a fixed bounda
 - Eight steps: hypotheses, $\alpha$, assumptions, test, statistic, compute, decide, interpret.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Session 45 - Hypothesis Testing Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=S94mx6OL7kM
+
+**Other references**
 
 - Altman, D. G. and Bland, J. M. (1995). "Absence of evidence is not evidence of absence." *BMJ* 311(7003), 485.
 

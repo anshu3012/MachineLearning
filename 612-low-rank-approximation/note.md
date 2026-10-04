@@ -144,6 +144,10 @@ Reading Figure 1 in order of $k$:
 - **$k = 20$** (7.8%): the building and the trees are recognisable.
 - **$k = 50$** (19.5%) and **$k = 100$** (39.1%): close to the original, with some graininess in the flat sky.
 
+Figure 3 replays the rebuild one layer at a time. Watch the right panel: the first layers are broad stripes that set the overall light and dark, later ones are fine detail, and the red dot on the singular values slides down as each added layer matters less.
+
+![The photo rebuilt layer by layer, k = 1 to 100: the sum of the first k layers (left), the layers just added (right, blue positive, red negative) and the singular values kept so far (filled)](images/rank_rebuild.gif){height=55%}
+
 The "error" in each title is $\sigma_{k+1}/\sigma_1$: the spectral error of Section 4, relative to the size of the image. It drops from 18.4% at $k = 1$ to 2.3% at $k = 20$.
 
 > **Extra:** Real image formats such as JPEG do not use the SVD. They use a fixed set of patterns (cosine waves on small $8 \times 8$ blocks), which is faster and needs no $U$ and $V$ to be stored for each picture (Wallace 1991). The SVD example shows the idea of keeping the important directions, not how photos are actually compressed.
@@ -152,14 +156,14 @@ The "error" in each title is $\sigma_{k+1}/\sigma_1$: the spectral error of Sect
 
 > **Key point:** Plot the singular values: they usually fall steeply and then flatten. Keep the steep part, or keep enough to reach a chosen share of $\sum\sigma_i^2$.
 
-Figure 3 (left) plots all 427 singular values of the photo on a log scale. The first is 326.7, the fifth 18.6, the fiftieth about 4.4, and the last about 0.01. A few directions carry most of the picture.
+Figure 4 (left) plots all 427 singular values of the photo on a log scale. The first is 326.7, the fifth 18.6, the fiftieth about 4.4, and the last about 0.01. A few directions carry most of the picture.
 
 ![Singular values of the photo, and the share of $\sum\sigma_i^2$ kept by the first $k$](images/singular_decay.png)
 
 Two common ways to choose $k$:
 
 - **The elbow.** Keep the singular values before the curve flattens: the steep part is structure, the flat part detail or noise.
-- **A share of the total.** The sum of the squared singular values equals the sum of all squared entries of the matrix (the Frobenius norm squared). Figure 3 (right) shows that the first 5 singular values keep 96.5% of it, the first 20 keep 98.1%, the first 50 keep 98.9%.
+- **A share of the total.** The sum of the squared singular values equals the sum of all squared entries of the matrix (the Frobenius norm squared). Figure 4 (right) shows that the first 5 singular values keep 96.5% of it, the first 20 keep 98.1%, the first 50 keep 98.9%.
 
 The share rule is the same rule as choosing the number of principal components by explained variance in the [PCA on MNIST Note](../49-pca-mnist/note.md) (section 7). The match is not a coincidence: the [SVD in machine learning Note](../613-svd-in-machine-learning/note.md) shows that PCA is an SVD.
 
@@ -182,11 +186,11 @@ The share rule is the same rule as choosing the number of principal components b
 
 > **Key point:** Random noise spreads its energy thinly over all singular values, while structure piles up in a few large ones. Keeping only the large ones removes most of the noise.
 
-Figure 4 starts from a simple $120 \times 160$ picture made of a square and two bars. Each shape is a rectangle of constant brightness, which is an outer product (a column of 1s and 0s times a row of 1s and 0s), so the picture has rank 3. We add random noise to every pixel (normal, with standard deviation 0.3).
+Figure 5 starts from a simple $120 \times 160$ picture made of a square and two bars. Each shape is a rectangle of constant brightness, which is an outer product (a column of 1s and 0s times a row of 1s and 0s), so the picture has rank 3. We add random noise to every pixel (normal, with standard deviation 0.3).
 
 ![Noise reduction: a rank-3 picture, the same with noise, and the rank-3 approximation of the noisy one](images/denoise.png)
 
-The singular values of the noisy picture (Figure 4, bottom left) split into two groups:
+The singular values of the noisy picture (Figure 5, bottom left) split into two groups:
 
 - three large ones, 42.1, 21.4 and 13.3: the shapes;
 - a flat **noise floor** of values near 5 to 7: the noise.
@@ -196,7 +200,7 @@ The intuition: noise has no structure, so no direction is special and its contri
 1. **In words:** measure the error as the size of (approximation minus clean picture) relative to the size of the clean picture, both in the Frobenius norm. Keep the singular values above the noise floor.
 2. **Formula:**
    $$\text{error} = \frac{\lVert \hat A_k - A_{\text{clean}}\rVert_F}{\lVert A_{\text{clean}}\rVert_F}$$
-3. **Example:** the noisy picture itself has an error of 87%. Its rank-3 approximation has 19%. Keeping more layers makes it worse again: 24% at $k = 4$, 41% at $k = 10$, 77% at $k = 50$ (Figure 4, bottom right), because each extra layer adds back mostly noise.
+3. **Example:** the noisy picture itself has an error of 87%. Its rank-3 approximation has 19%. Keeping more layers makes it worse again: 24% at $k = 4$, 41% at $k = 10$, 77% at $k = 50$ (Figure 5, bottom right), because each extra layer adds back mostly noise.
 
 The same idea, keeping only the singular values above the noise floor, is a standard way to remove noise from a data matrix (Gavish and Donoho 2014). Picking $k$ at the edge of the noise floor is the elbow rule of Section 6.
 
@@ -219,7 +223,12 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 
 ## 9. Sources
 
+**Built from**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.6 and Theorem 4.25 (MML).
+
+**Other references**
+
 - Eckart, C. and Young, G. (1936). "The approximation of one matrix by another of lower rank". *Psychometrika* 1(3).
 - Gavish, M. and Donoho, D. L. (2014). "The Optimal Hard Threshold for Singular Values is $4/\sqrt{3}$". *IEEE Transactions on Information Theory* 60(8).
 - ITU-R Recommendation BT.601. *Studio encoding parameters of digital television*. Luma weights 0.299, 0.587, 0.114.

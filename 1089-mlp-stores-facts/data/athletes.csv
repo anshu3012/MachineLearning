@@ -1,0 +1,20 @@
+athlete,true,top1,p_top1,p_true,rank_true,best_of_10_sports,correct_top1
+Michael Jordan,basketball,basketball,0.13529944745772923,0.13529944745772923,1,basketball,True
+LeBron James,basketball,basketball,0.26644041409401303,0.26644041409401303,1,basketball,True
+Kobe Bryant,basketball,basketball,0.6166659496250352,0.6166659496250352,1,basketball,True
+Shaquille O'Neal,basketball,basketball,0.1133539283477614,0.1133539283477614,1,basketball,True
+Tiger Woods,golf,golf,0.6152397031815003,0.6152397031815003,1,golf,True
+Phil Mickelson,golf,football,0.07072814011657165,0.048604017206590626,2,football,False
+Wayne Gretzky,hockey,hockey,0.3780968752060198,0.3780968752060198,1,hockey,True
+Sidney Crosby,hockey,hockey,0.5584527318391568,0.5584527318391568,1,hockey,True
+Serena Williams,tennis,tennis,0.057390033929690006,0.057390033929690006,1,tennis,True
+Roger Federer,tennis,tennis,0.5403533501763425,0.5403533501763425,1,tennis,True
+Rafael Nadal,tennis,tennis,0.42755934684653635,0.42755934684653635,1,tennis,True
+Babe Ruth,baseball,baseball,0.05629063654194752,0.05629063654194752,1,baseball,True
+Derek Jeter,baseball,baseball,0.46415258470585874,0.46415258470585874,1,baseball,True
+Tom Brady,football,football,0.5443364055193712,0.5443364055193712,1,football,True
+Peyton Manning,football,football,0.4235276613523033,0.4235276613523033,1,football,True
+Michael Phelps,swimming,swimming,0.10497347460289577,0.10497347460289577,1,swimming,True
+Muhammad Ali,boxing,boxing,0.38940825560391684,0.38940825560391684,1,boxing,True
+Sachin Tendulkar,cricket,cricket,0.4150885840573599,0.4150885840573599,1,cricket,True
+Lionel Messi,football,football,0.3509562482009647,0.3509562482009647,1,football,True

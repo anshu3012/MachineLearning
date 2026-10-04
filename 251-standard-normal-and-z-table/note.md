@@ -49,6 +49,10 @@ $$z = \frac{x - \mu}{\sigma}$$
 
 For Figure 1, $x = 10$ becomes $z = (10 - 5)/2.5 = 2$: the value 10 lies two standard deviations above the mean. Every tick on the top axis lines up with its z-score below.
 
+Figure 2 shows the two steps as motion. Subtracting 5 slides the curve left until its centre sits at 0. Dividing by 2.5 squeezes it 2.5 times narrower, and the curve grows 2.5 times taller so the total area stays 1. Watch the shaded tail: the cut-off rides from 10 to 2, and the area beyond it stays 0.0228 the whole time. That unchanged area is why $P(X > 10) = P(Z > 2)$, and why one table of $Z$ serves every normal variable.
+
+![Standardizing as motion: X ~ N(5, 2.5²) slides left by its mean, then squeezes by its standard deviation into N(0, 1); the shaded tail beyond 10, later beyond z = 2, keeps the same area 0.0228](images/squash_to_z.gif)
+
 Real data works the same way. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row. The `Age` feature of the Titanic data (714 known ages) is roughly bell-shaped, with mean 29.70 years and standard deviation 14.53 years. Standardizing it gives a feature with mean $2 \times 10^{-16}$ (0 up to rounding) and standard deviation 1.
 
 > **Python:** Standardizing a feature by hand.
@@ -81,14 +85,14 @@ A **z-table** (standard normal table) lists the CDF of the standard normal distr
 
 $$\Phi(z) = P(Z \le z) = \text{area under the curve from } -\infty \text{ to } z$$
 
-The table gives an **area**, so a probability, not the height of the curve at $z$ (Figure 2, left). There are two tables: one for negative $z$ and one for positive $z$.
+The table gives an **area**, so a probability, not the height of the curve at $z$ (Figure 3, left). There are two tables: one for negative $z$ and one for positive $z$.
 
 To look up a z-score with two decimals, such as 1.33:
 
 1. Choose the positive table, because 1.33 is positive.
 2. Find the row for the first two digits, **1.3**.
 3. Find the column for the second decimal, **0.03**.
-4. Read the cell where they cross: **0.90824** (Figure 2, right).
+4. Read the cell where they cross: **0.90824** (Figure 3, right).
 
 ![The area to the left of z = 1.33 (left) and where it sits in the z-table (right)](images/z_table.png)
 
@@ -187,6 +191,12 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 - Values beyond 3 standard deviations are rare: 0.27% in all.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Session 41 - Normal Distribution | DSMP 2023", YouTube, https://www.youtube.com/watch?v=ADqYqSdtyW8
+
+**Other references**
 
 - Davis, C. (2000). *The Best of the Best: A Study of Batting and Bowling in Test Cricket*. ABC Books. Bradman's average 4.4 standard deviations above the mean of Test batsmen.
 - Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. Section 7.1.2 (central limit theorem; needs a finite variance).

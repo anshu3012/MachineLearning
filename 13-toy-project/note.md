@@ -267,6 +267,12 @@ This model is far from perfect: it learned from only 90 students and was not tun
 
 ## 12. Sources
 
+**Built from**
+
+- CampusX, "End to End Toy Project | Day 13 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=dr7z7a_8lQw
+
+**Other references**
+
 - Amazon Web Services. AWS Free Tier. aws.amazon.com/free.
 - Google Cloud. Free Program (free trial and Free Tier). cloud.google.com/free.
 - Heroku (2022). Free Heroku Dynos, Heroku Postgres and Heroku Data for Redis are no longer available. Heroku Dev Center changelog, 28 November 2022. devcenter.heroku.com/changelog-items/2502.

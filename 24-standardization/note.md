@@ -360,6 +360,12 @@ Tree-based algorithms only compare values within one feature, asking questions l
 
 ## 12. Sources
 
+**Built from**
+
+- CampusX, "Feature Scaling - Standardization | Day 24 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=1Yw9sC0PNwY
+
+**Other references**
+
 - scikit-learn examples. Importance of Feature Scaling. scikit-learn.org (auto_examples/preprocessing).
 - scikit-learn documentation. `sklearn.linear_model.LogisticRegression` (note on the `sag` and `saga` solvers). scikit-learn.org.
 - scikit-learn documentation. `sklearn.preprocessing.StandardScaler`. scikit-learn.org.

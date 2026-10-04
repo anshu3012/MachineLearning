@@ -8,8 +8,8 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, step/model, step/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)).
-> - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Early stopping ([Note 1021](../1021-improving-a-neural-network/note.md)).
+> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Imbalanced data ([Note 133](../133-imbalanced-data/note.md)).
+> - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Early stopping ([Note 1021](../1021-improving-a-neural-network/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
 > - **Compare with:** K-nearest neighbours ([Note 91](../91-knn/note.md)); ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 <!-- /where-this-fits -->
 
@@ -311,6 +311,12 @@ The first two test images, a 7 and a 2, are both predicted correctly, each with 
 - A bigger network trained longer overfitted: training loss down, validation loss up after epoch 3.
 
 ## 11. Sources
+
+**Built from**
+
+- CampusX, "Handwritten Digit Classification using ANN | MNIST Dataset", YouTube, https://www.youtube.com/watch?v=3xPT2Pk0Jds
+
+**Other references**
 
 - LeCun, Bottou, Bengio and Haffner, "Gradient-Based Learning Applied to Document Recognition", *Proceedings of the IEEE*, 1998.
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.3 (rectified linear units as the default hidden unit).

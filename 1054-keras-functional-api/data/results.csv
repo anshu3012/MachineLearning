@@ -1,0 +1,10 @@
+model,seed,head_params,age_mae,gender_accuracy
+two_outputs,0,4195330,9.7776,0.8629
+age_only,0,2097665,9.0585,
+gender_only,0,2097665,,0.8439
+two_outputs,1,4195330,8.5982,0.8631
+age_only,1,2097665,8.3345,
+gender_only,1,2097665,,0.8682
+two_outputs,2,4195330,9.0873,0.8631
+age_only,2,2097665,8.5669,
+gender_only,2,2097665,,0.8635

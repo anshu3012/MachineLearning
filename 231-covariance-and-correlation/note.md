@@ -9,7 +9,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)).
-> - **Leads to:** Correlation significance test ([Note 570](../570-choosing-a-hypothesis-test/note.md)).
+> - **Leads to:** Correlation significance test ([Note 570](../570-choosing-a-hypothesis-test/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -183,6 +183,12 @@ Establishing causation needs more than data that happens to be collected: contro
 - Correlation does not imply causation; a confounding variable can drive both features.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Session 39 - Descriptive Statistics Part 2 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=1ndVC500-EU
+
+**Other references**
 
 - Akoglu, H. (2018). User's guide to correlation coefficients. *Turkish Journal of Emergency Medicine*, 18(3), 91-93. Table 1.
 - Freedman, D., Pisani, R. and Purves, R. (2007). *Statistics*, 4th ed. W. W. Norton. Chapter 2, Observational Studies (association is not causation; confounding factors).

@@ -208,6 +208,12 @@ Many organisations, such as banks and insurance companies, do not have that much
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "AI Vs ML Vs DL for Beginners in Hindi", YouTube, https://www.youtube.com/watch?v=1v3_AQ26jZ0
+
+**Other references**
+
 - Russell, S. and Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*, 4th ed. Pearson.
 - Sun, C., Shrivastava, A., Singh, S. and Gupta, A. (2017). Revisiting Unreasonable Effectiveness of Data in Deep Learning Era. *ICCV*.
 - Turing, A. (1950). Computing Machinery and Intelligence. *Mind* 59(236).

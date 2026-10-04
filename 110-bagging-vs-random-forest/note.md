@@ -167,6 +167,12 @@ The random forest makes about 13% fewer mistakes than bagging (4.7% against 5.4%
 
 ## 6. Sources
 
+**Built from**
+
+- CampusX, "Bagging Vs Random Forest | What is the difference between Bagging and Random Forest | Very Important", YouTube, https://www.youtube.com/watch?v=l93jRojZMqU
+
+**Other references**
+
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §15.2 (eq. 15.1, variance of an average of correlated trees; Figure 15.1, bagging against random forest on the spam data).
 - Hopkins, M., Reeber, E., Forman, G. and Suermondt, J. (1999). Spambase \[dataset\]. UCI Machine Learning Repository. archive.ics.uci.edu/dataset/94/spambase
 - scikit-learn developers. User Guide, §1.11 "Ensembles", Random forests. scikit-learn.org/stable/modules/ensemble.html

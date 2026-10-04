@@ -27,6 +27,10 @@ Figure 1 shows the four branches and the job each one does. This Note gives a fi
 
 Linear algebra stores every kind of data (tables, text, images, video) as vectors, matrices and tensors, and acts on a whole container in one step; section 3 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) explains why ML needs it. How each kind of data becomes a tensor is shown in the [tensors Note](../11-tensors/note.md).
 
+![Three rows of the placement data as a table and as a matrix. Each column of the matrix is a vector](images/table_matrix.png){width=75%}
+
+Figure 2 shows the first step of linear algebra in ML: the table we read becomes a matrix the computer can act on in one step.
+
 The [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists every linear algebra topic ML needs.
 
 ## 3. Calculus: reducing the error
@@ -39,6 +43,10 @@ An ML model predicts something, and its predictions are never exactly right. The
 
 Most optimisation methods are built on calculus. The derivative of the error tells us in which direction to change each part of the model so the error goes down. [Gradient descent](../57-gradient-descent/note.md) does exactly this, one small step at a time.
 
+![Error against one model setting $w$. At the red point the slope is positive, so a step to the left lowers the error](images/error_slope.png){width=60%}
+
+Figure 3 shows the idea: the sign of the slope says which way the error rises, and the model steps the other way, towards the green minimum.
+
 > **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the irreducible error (ISLR §2.1.1). So a perfect score often signals a mistake, such as test data leaking into training (data leakage, see the [toy project Note](../13-toy-project/note.md); Kaufman et al. 2012).
 
 Calculus first appears in the [linear regression maths Note](../51-linear-regression-maths/note.md), where a derivative set to zero gives the best line. Differential calculus gets its own treatment in a later maths Note.
@@ -50,6 +58,10 @@ Calculus first appears in the [linear regression maths Note](../51-linear-regres
 Often the data leaves a grey zone, where no answer is certain. Suppose we want to guess a person's gender from their salary alone. In the salary range 4 to 5 lakh rupees, there are both men and women, so salary cannot decide.
 
 Probability still lets us decide. If 40% of the people in that range are men and 60% are women, then for a new person earning 4.5 lakh rupees the more likely answer is "woman", and that is what we predict. The chances inside one range add up to 100%.
+
+![Salary cannot separate the two groups between 4 and 5 lakh rupees (the ranges outside that zone are drawn for illustration). With the shares 60% women and 40% men in that range, the prediction for a new person earning 4.5 lakh is "woman"](images/grey_zone.png){width=90%}
+
+Figure 4 draws the grey zone: both groups overlap there, so we predict the class with the larger share.
 
 Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../87-naive-bayes-intuition/note.md) work: compute the probability of every class, then pick the largest. The rules of probability are taught from the [random experiments and events Note](../330-events-and-types-of-events/note.md) to the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md), and [Bayes' theorem](../85-bayes-theorem/note.md) builds on them.
 
@@ -66,6 +78,10 @@ In real work, nobody hands us a dataset with a list of questions. We get the dat
 - **Which algorithm suits this data?** The shape of the data points to suitable algorithms.
 - **Is this feature related to the target?** A **feature** is an input variable (one column of the data table), and the **target** is the output we predict. If a feature is unrelated to the target, there is no reason to feed it to the algorithm. Measures such as [correlation](../231-covariance-and-correlation/note.md) answer this.
 
+![The questions statistics answers at each stage of an ML project](images/stats_stages.png){width=95%}
+
+Figure 5 places the four questions along a project, from receiving the data to choosing the algorithm.
+
 Data analysis, which ML depends on heavily, is built almost entirely on statistics (see the [understanding your data Note](../19-understanding-your-data/note.md)). The [statistics roadmap Note](../210-statistics-roadmap/note.md) maps the whole subject.
 
 ## 6. Summary
@@ -81,6 +97,12 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 - Statistics is used the most; linear algebra does the heavy lifting of storing and transforming data.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Role of Mathematics in Machine Learning", YouTube, https://www.youtube.com/watch?v=hIMzczMO_Yc
+
+**Other references**
 
 - James, G., Witten, D., Hastie, T. and Tibshirani, R. (2013). *An Introduction to Statistical Learning*. Springer. Section 2.1.1, reducible and irreducible error.
 - Kaufman, S., Rosset, S. and Perlich, C. (2012). "Leakage in Data Mining: Formulation, Detection, and Avoidance". *ACM Transactions on Knowledge Discovery from Data* 6(4).

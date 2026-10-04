@@ -9,6 +9,7 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, co
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)); Gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
+> - **Leads to:** Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)).
 > - **Compare with:** Normalization ([Note 25](../25-normalization/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)).
 <!-- /where-this-fits -->
 
@@ -99,9 +100,13 @@ The Notebook measures this on the real network before any training (Figure 1, ri
 
 ### 4.2 The shape of the loss
 
-> **Key point:** Unscaled inputs make the loss a long, narrow valley that gradient descent zigzags through; scaled inputs make it round.
+> **Key point:** Unscaled inputs make the loss a long, narrow valley that gradient descent zigzags across or crawls along; scaled inputs make it round.
 
-The same effect has a geometric picture, taught in the [gradient descent Note](../57-gradient-descent/note.md), section 9. With inputs on very different scales, the contours of the loss are long, narrow ellipses: steep in one direction, flat in the other. Gradient descent oscillates across the valley before it gets anywhere. With inputs on the same scale, the contours are nearly circles, and gradient descent heads straight for the minimum (LeCun et al. 1998, §4.3 and §5.3).
+The same effect has a geometric picture, taught in the [gradient descent Note](../57-gradient-descent/note.md), section 9. With inputs on very different scales, the contours of the loss are long, narrow ellipses: steep in one direction, flat in the other. A step large enough to make progress along the flat direction makes gradient descent oscillate across the valley; a step small enough for the steep direction makes it crawl along the valley floor. Either way it is slow. With inputs on the same scale, the contours are nearly circles, and gradient descent heads straight for the minimum (LeCun et al. 1998, §4.3 and §5.3).
+
+![Gradient descent on the loss of one sigmoid node (logistic regression) for our 320 training users, drawn over the age weight and the salary weight, with the bias held at its best value. Both runs start at (0, 0) with a learning rate matched to their surface (1 divided by its steepest curvature at the minimum); the star is the minimum. Left: age in years, salary in thousands. Right: both standardized.](images/scaling_contours.gif){height=50%}
+
+Figure 2 shows both pictures for our data on the simplest model, a single sigmoid node. Watch the left run: it drops quickly to the floor of the long valley, then crawls along it and needs 82 steps to come within 0.001 of the lowest loss. The standardized run on the right, on nearly round contours, gets there in 2. The narrowness can be measured as the ratio of the steepest to the flattest curvature at the minimum: about 23 on the left and 2.8 on the right. With salary in plain rupees the ratio is about 16 million, and 2,000 steps do not reach the minimum.
 
 ## 5. The fix: scale the inputs
 
@@ -160,11 +165,17 @@ Scaling is a standard pre-processing step whenever data goes into a neural netwo
 | Training loss after 100 epochs | 55 | 0.24 |
 
 - A weight's gradient is proportional to its input, so large inputs dominate the updates.
-- Geometrically, unscaled inputs stretch the loss into a narrow valley that gradient descent zigzags through.
+- Geometrically, unscaled inputs stretch the loss into a narrow valley that gradient descent zigzags across or crawls along.
 - Standardize (or normalize) every input, fitting the scaler on the training data only.
 - Make it a habit: scale before any data reaches a network.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Data Scaling in Neural Network | Feature Scaling in ANN | End to End Deep Learning Course", YouTube, https://www.youtube.com/watch?v=mzRO0cVppQ0
+
+**Other references**
 
 - LeCun, Y., Bottou, L., Orr, G. B. and Müller, K.-R. (1998). Efficient BackProp. In *Neural Networks: Tricks of the Trade*, Springer, §4.3 "Normalizing the inputs" (shift inputs to mean 0 and scale them to equal spread, so all weights learn at similar speed) and §5.3 (inputs with very different spreads make the cost surface steep in some directions and shallow in others, so learning is slow).
 - Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, §2.1 (step size about the learning rate, invariant to the scale of the gradient).

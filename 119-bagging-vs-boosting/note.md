@@ -68,6 +68,10 @@ The type of base model is the most important of the three differences.
 
 **Boosting is sequential** (Figure 1, right). The data goes to model 1, which does its job and passes its mistakes on to model 2. Model 2 does its job and passes its own mistakes to model 3, and so on. Model 2 cannot start before model 1 has finished, because it learns from model 1's mistakes.
 
+Figure 2 runs both on the noisy circles of the Notebook, one base model per frame. Watch the marker sizes on the left. In bagging (top) each tree's sample is a fresh random draw: big and small markers land anywhere, whatever the earlier trees got wrong. In boosting (bottom) the weights pile up on the observations the stumps so far keep missing, near the border of the disc, so each stump depends on all the ones before it. The right panels show difference 1 as well: bagging's deep trees fit the training data at once (training accuracy 0.89 with one tree, 1.00 by 50), while boosting's stumps start weak (0.61) and climb stage by stage (0.85 after 100).
+
+![Bagging (top: fully grown trees, each on its own random sample; marker size = copies drawn) against AdaBoost (bottom: stumps; marker size = weight from earlier mistakes) on the noisy circles, one base model per frame. Right: the vote so far; white means a split vote](images/parallel_vs_sequential.gif){height=60%}
+
 > **Extra:** Parallel training has a practical side. Bagging can spread its models over every CPU core (`n_jobs=-1` in `BaggingClassifier` and `RandomForestClassifier`); `AdaBoostClassifier` has no `n_jobs`, because its stages must run one at a time.
 
 ## 4. Difference 3: the weight of each base model
@@ -96,6 +100,12 @@ When a new query point arrives, every trained base model gives its answer. The t
 - Bagging trains in parallel and votes equally; boosting trains in sequence and weights each vote.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Bagging Vs Boosting | What is the difference between Bagging and Boosting", YouTube, https://www.youtube.com/watch?v=7M5oWXCpDEw
+
+**Other references**
 
 - Grinsztajn, L., Oyallon, E. and Varoquaux, G. (2022). Why do tree-based models still outperform deep learning on typical tabular data? *NeurIPS 2022, Datasets and Benchmarks Track*. arxiv.org/abs/2207.08815
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer. §15.2 (bagging reduces variance only; boosting removes bias).

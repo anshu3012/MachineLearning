@@ -50,6 +50,10 @@ With a decision tree, 100 estimators, 50 observations each, drawn with replaceme
 - **One tree** (Figure 1, top left): 0.856. Its surface has small boxes of one colour inside the other: overfitting. The tree is right on the training data, wrong on new data.
 - **Bagging** (top middle): 0.912. The boundary is much smoother: the bias stays low and the variance falls, as the [bagging Note](../105-bagging-intuition/note.md) predicted.
 
+Figure 2 builds the same bagging classifier one tree at a time. Watch the left panel: every tree draws its own 50 points (large markers; bigger means drawn more than once) and cuts its own boxes. On the right, the vote of all trees so far turns from one tree's hard boxes into a smooth band of shared votes, and test accuracy climbs from 0.816 with one tree to 0.912 after 10 trees; from there on it only wobbles between 0.896 and 0.928 and ends at 0.912 with 100 trees.
+
+![Bagging builds up on the moons data. Left: the newest tree alone, trained on its 50 drawn points. Right: the share of trees so far that vote blue, with the ensemble's test accuracy](images/bagging_grows.gif){height=55%}
+
 ### 2.2 Other base models
 
 > **Key point:** Bagging helps unstable models such as trees; here KNN and the SVM gain nothing, or lose a little.
@@ -213,6 +217,12 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 - Try bagging and pasting, start `max_samples` at 0.25 to 0.5, sample features only when there are many, and tune with a grid search.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Bagging Ensemble | Part 2 | Bagging Classifiers", YouTube, https://www.youtube.com/watch?v=-1T54G_E-ys
+
+**Other references**
 
 - Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140, sections 1 and 6.3.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2, equation 15.1.

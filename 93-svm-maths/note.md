@@ -239,6 +239,12 @@ The formulation of this Note is called the **hard-margin SVM**: it works only on
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Mathematics of SVM | Support Vector Machines | Hard margin SVM", YouTube, https://www.youtube.com/watch?v=yCAlHPDgWtM
+
+**Other references**
+
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd edition. Springer, 2021. Section 9.1.5, p. 373.
 
 ## 10. Key terms

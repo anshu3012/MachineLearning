@@ -241,6 +241,12 @@ Figure 5 shows this pattern for any technology: the salary premium first rises, 
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "What is Machine Learning? | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=ZftI2fEz0Fw
+
+**Other references**
+
 - Han, J., Kamber, M. and Pei, J. (2011). *Data Mining: Concepts and Techniques*, 3rd ed. Morgan Kaufmann.
 - ITU (2022, 2024). *Measuring Digital Development: Facts and Figures 2022* and *2024*. International Telecommunication Union.
 - Krizhevsky, A., Sutskever, I. and Hinton, G. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS*.

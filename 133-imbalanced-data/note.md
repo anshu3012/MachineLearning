@@ -493,6 +493,12 @@ The techniques here are the most common. imbalanced-learn has many more, grouped
 
 ## 12. Sources
 
+**Built from**
+
+- CampusX, "Imbalanced Data in Machine Learning | Undersampling | Oversampling | SMOTE", YouTube, https://www.youtube.com/watch?v=yh2AKoJCV3k
+
+**Other references**
+
 - Chawla et al. 2002: N. V. Chawla, K. W. Bowyer, L. O. Hall and W. P. Kegelmeyer, *SMOTE: Synthetic Minority Over-sampling Technique*, Journal of Artificial Intelligence Research 16, 2002, 321–357, §4.1 and §4.2 (copies against SMOTE on the mammography data).
 - imbalanced-learn user guide: imbalanced-learn 0.14 documentation, sections "Over-sampling" and "Common pitfalls and recommended practices" (data leakage).
 - imbalanced-learn API reference: `imblearn.ensemble`, imbalanced-learn 0.14.

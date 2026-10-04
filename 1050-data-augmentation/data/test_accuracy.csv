@@ -1,0 +1,7 @@
+augmentation,seed,test_accuracy
+without,0,0.755
+without,1,0.695
+without,2,0.722
+with,0,0.783
+with,1,0.762
+with,2,0.802

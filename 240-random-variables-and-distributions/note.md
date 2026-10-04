@@ -223,6 +223,12 @@ The word "parameter" is the same as in the [what is statistics Note](../220-what
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Session 40 - Probability Distribution Functions - PDF, PMF & CDF | DSMP 2023", YouTube, https://www.youtube.com/watch?v=C_QAURbgBqY
+
+**Other references**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.1.2 (random variable as a function), section 6.5 (Gaussian).
 - SciPy documentation, `scipy.stats.norm`.
 

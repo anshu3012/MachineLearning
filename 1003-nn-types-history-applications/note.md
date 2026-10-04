@@ -10,6 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 >
 > - **Builds on:** Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); What deep learning is ([Note 1002](../1002-what-is-deep-learning/note.md)); Neural networks ([Note 1002](../1002-what-is-deep-learning/note.md)).
 > - **Leads to:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
+> - **Compare with:** Convolutional neural network (CNN) ([Note 1040](../1040-cnn-intuition/note.md)); Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -160,6 +161,10 @@ The reasons for this final success are the five forces of section 5 in the [what
 
 Deep learning is everywhere: recommendation engines such as Netflix's, chatbots, and much more. The [applications of ML Note](../08-applications-of-ml/note.md) covers business uses such as retail and banking; this section lists uses that rely on deep learning.
 
+![The applications of deep learning in four groups, one per subsection below](images/app_map.png){width=85%}
+
+Figure 3 is the map of this section: each coloured group is one of the subsections 4.1 to 4.4.
+
 ### 4.1 Mainstream applications
 
 > **Key point:** Self-driving cars, game-playing agents, and virtual assistants.
@@ -219,6 +224,12 @@ GANs generate data that never existed: photos of people who never lived, a predi
 - Data, hardware, frameworks and community ended the winters.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Types of Neural Networks | History of Deep Learning | Applications of Deep Learning", YouTube, https://www.youtube.com/watch?v=fne_UE7hDn0
+
+**Other references**
 
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016: §6.4.1 (universal approximation, depth), §14.1 and §14.5 (autoencoders, denoising).
 - Goodfellow et al., "Generative Adversarial Nets", NeurIPS 2014.

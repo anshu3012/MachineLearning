@@ -125,6 +125,12 @@ The number of new features grows quickly. With 2 features, degree 2 gives 6; deg
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Polynomial Regression | Machine Learning", YouTube, https://www.youtube.com/watch?v=BNWLf3cKdbQ
+
+**Other references**
+
 - **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §4.2 (poor conditioning, condition number).
 - **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. §6.4.2 (what goes wrong in high dimensions).
 

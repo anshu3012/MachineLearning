@@ -61,6 +61,10 @@ With more repetitions the share approaches 95%:
 | 1,000 | 94.50% |
 | 100,000 | 94.94% |
 
+Figure 2 replays the same simulation one interval at a time and then keeps going. Watch the running share in the lower panel: it jumps around while there are few intervals, then flattens onto the 95% line.
+
+![Intervals drop in one by one: blue contains the population mean 50, red misses it. Lower panel: the running share that contain the mean, from 1 to 100,000 intervals (log scale); 93% after 100, 94.94% after 100,000. Idea after Seeing Theory, "Frequentist Inference"](images/coverage_drop.gif){height=60%}
+
 All intervals have the same width here, because $\sigma$ and $n$ are fixed: only their centres $\bar{x}$ move. The width of an interval shows the **precision** of the estimate: a narrow interval pins $\mu$ down tightly.
 
 > **Python:** One simulated interval per sample.
@@ -110,7 +114,7 @@ The centre $\bar{x}$ moves from sample to sample. The width, twice the margin of
 - the **population standard deviation** $\sigma$;
 - the **sample size** $n$.
 
-The margin of error is half the distance between the limits: $E = (\text{upper} - \text{lower})/2$. Figure 2 changes one factor at a time, starting from 95%, $\sigma = 15$ and $n = 50$, where $E = 1.96 \times 15/\sqrt{50} = 4.16$.
+The margin of error is half the distance between the limits: $E = (\text{upper} - \text{lower})/2$. Figure 3 changes one factor at a time, starting from 95%, $\sigma = 15$ and $n = 50$, where $E = 1.96 \times 15/\sqrt{50} = 4.16$.
 
 ![Margin of error as each factor changes, the other two fixed](images/margin_factors.png)
 
@@ -118,7 +122,7 @@ The margin of error is half the distance between the limits: $E = (\text{upper} 
 
 > **Key point:** More confidence means a wider interval; 100% confidence needs an infinitely wide one.
 
-A wider range is more likely to be right but says less, as the betting game of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md) (section 3) shows. Figure 2 (left) puts numbers on this trade-off:
+A wider range is more likely to be right but says less, as the betting game of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md) (section 3) shows. Figure 3 (left) puts numbers on this trade-off:
 
 | Confidence level | $z_{\alpha/2}$ | Margin of error ($\sigma = 15$, $n = 50$) |
 |---|---|---|
@@ -135,7 +139,7 @@ Near 100% the curve shoots up: $z_{\alpha/2}$ grows without limit, and a 100% in
 
 > **Key point:** The margin of error is proportional to $\sigma$: a more variable population gives a wider interval.
 
-Doubling $\sigma$ doubles the margin of error: $\sigma = 5$ gives 1.39, $\sigma = 15$ gives 4.16, $\sigma = 30$ gives 8.32 (Figure 2, middle, a straight line).
+Doubling $\sigma$ doubles the margin of error: $\sigma = 5$ gives 1.39, $\sigma = 15$ gives 4.16, $\sigma = 30$ gives 8.32 (Figure 3, middle, a straight line).
 
 The link between spread and width is common sense. A batsman whose scores swing wildly, 10 in one match and 200 in the next, is hard to predict: a 95% range might be 20 to 80 runs. A very consistent batsman, such as Rahul Dravid in his prime, could get a 95% range of 40 to 45. The more the data varies, the less precisely its mean can be pinned down.
 
@@ -143,7 +147,7 @@ The link between spread and width is common sense. A batsman whose scores swing 
 
 > **Key point:** The margin of error falls as $1/\sqrt{n}$: fast at first, then slowly; quadrupling the sample halves the margin.
 
-Larger samples give narrower intervals, but not in proportion (Figure 2, right):
+Larger samples give narrower intervals, but not in proportion (Figure 3, right):
 
 | $n$ | 10 | 30 | 50 | 120 | 500 | 1000 |
 |---|---|---|---|---|---|---|
@@ -166,7 +170,7 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 > **Key point:** 95% is the common compromise between being right often and giving a useful, narrow range.
 
-The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 2 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
+The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 3 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
 
 The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
 
@@ -192,6 +196,13 @@ The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Session 44 - Confidence Intervals | DSMP 2023", YouTube, https://www.youtube.com/watch?v=X52HK2qkiIE
+
+**Other references**
+
+- Kunin, D., Guo, J., Devlin, T. D. and Xiang, D. *Seeing Theory*, chapter "Frequentist Inference", Brown University. seeing-theory.brown.edu/frequentist-inference. Figure 2 follows its confidence-interval animation, redrawn with our simulation.
 - Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. §9.1.9 "Bayesian Interval Estimation". Also at probabilitycourse.com.
 
 ## 8. Key terms

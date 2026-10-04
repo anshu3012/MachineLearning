@@ -1,0 +1,4 @@
+model,embedding,layer_1,layer_2,dense,total
+deep SimpleRNN,320000,190,55,6,320251
+deep LSTM,320000,760,220,6,320986
+deep GRU,320000,585,180,6,320771

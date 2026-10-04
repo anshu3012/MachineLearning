@@ -251,6 +251,12 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Session 43 - Central Limit Theorem | DSMP 2023", YouTube, https://www.youtube.com/watch?v=-WmJDYBor7c
+
+**Other references**
+
 - Feller, W. (1971). *An Introduction to Probability Theory and Its Applications*, Vol. II, 2nd ed. Wiley. §VI.1.
 - Fischer, H. (2011). *A History of the Central Limit Theorem: From Classical to Modern Probability Theory*. Springer.
 - Gnedenko, B. V. and Kolmogorov, A. N. (1954). *Limit Distributions for Sums of Independent Random Variables*. Addison-Wesley.

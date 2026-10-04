@@ -376,6 +376,12 @@ Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Handling missing data | Numerical Data | Simple Imputer", YouTube, https://www.youtube.com/watch?v=mCL2xLBDw8M
+
+**Other references**
+
 - scikit-learn User Guide, *Common pitfalls and recommended practices*, section "Data leakage".
 - scikit-learn API reference, `SimpleImputer`.
 - pandas API reference, `DataFrame.cov` and `DataFrame.corr`.

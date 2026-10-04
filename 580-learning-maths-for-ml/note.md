@@ -160,7 +160,13 @@ A roadmap fixes this. For each topic it lists the parts ML uses and where each p
 - ML needs four topics: statistics, probability, linear algebra (mostly matrices) and differential calculus for optimisation.
 - The attitude comes first; without it the other four habits do not get used.
 
-## 8. Key terms
+## 8. Sources
+
+**Built from**
+
+- CampusX, "How to Overcome the Fear of Maths in Data Science? | Maths Roadmap for Machine Learning", YouTube, https://www.youtube.com/watch?v=o4g4OTyCyDM
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

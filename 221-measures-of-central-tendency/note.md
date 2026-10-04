@@ -9,7 +9,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
-> - **Leads to:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Standardization ([Note 1023](../1023-data-scaling-in-ann/note.md)).
+> - **Leads to:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Standardization ([Note 1023](../1023-data-scaling-in-ann/note.md)).
 > - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Expected value and variance of a random variable ([Note 332](../332-expected-value-and-variance/note.md)).
 <!-- /where-this-fits -->
 
@@ -74,6 +74,10 @@ If that sixth value were 60,000 instead of 6, the sorted list would be 1, 2, 3, 
 
 The unchanged median of 3.5 shows why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 2, the founder moves the median only from 33 to 34 thousand rupees.
 
+Figure 3 drags the tenth salary up step by step, from 40 to 2,000 thousand rupees. Watch the red mean climb with it while the blue median and the green trimmed mean (section 7) stay flat at about 34.
+
+![The tenth salary dragged from 40 to 2,000 thousand rupees: the mean follows it up to 230.3, the median stays at 34 and the 10% trimmed mean at 34.4](images/salary_drag.gif){height=55%}
+
 The same reasoning gives practical advice: when comparing colleges or companies, look at the median package, not the average one. One student with a package of 1 crore raises the average for everyone, but leaves the median almost untouched.
 
 > **Python:** Mean and median.
@@ -98,6 +102,8 @@ The **mode** is the value that appears most often in the data.
 2. **Formula:** with $f(v)$ the number of times value $v$ appears,
    $$\text{mode} = \text{the value } v \text{ with the largest } f(v)$$
 3. **Example:** in 1, 2, 1, 3, 1, 4, 2, 1, the value 1 appears 4 times, 2 appears twice, and 3 and 4 once each. The mode is 1.
+
+![Counting each value of 1, 2, 1, 3, 1, 4, 2, 1: the tallest bar is the mode](images/mode_counts.png){height=28%}
 
 The mode is most useful for:
 
@@ -131,6 +137,8 @@ In the ordinary mean, every value counts equally. The **weighted mean** gives ea
 3. **Example:** we predict a house price with three models: linear regression says 10 lakh rupees, a random forest 15 lakh, and XGBoost 12 lakh. From past results, we trust them with weights 0.2, 0.3 and 0.5. Then
    $$\bar x_w = \frac{0.2 \times 10 + 0.3 \times 15 + 0.5 \times 12}{0.2 + 0.3 + 0.5} = \frac{2 + 4.5 + 6}{1} = 12.5 \text{ lakh rupees}$$
    The plain mean would be $(10 + 15 + 12)/3 = 12.33$ lakh; the weighted mean leans towards XGBoost, the model we trust most.
+
+![The three predictions as weights on a beam, each dot sized by its weight: the weighted mean (orange) is the balance point, pulled towards the heaviest dot](images/weighted_mean.png){height=28%}
 
 This weighting is exactly what a voting regressor with weights does (see the [voting regressor Note](../104-voting-regressor/note.md)). The ordinary mean is the special case where every weight is equal.
 
@@ -206,6 +214,12 @@ When there are no outliers, the mean is the better summary: it uses every value,
 - Ties give several modes: bimodal or multimodal data.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Session 38 - Descriptive Statistics Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=Uv3Blie7F3g
+
+**Other references**
 
 - Wilcox, R. R. (2012). *Introduction to Robust Estimation and Hypothesis Testing*, 3rd ed. Academic Press. Chapter 3, the trimmed mean (20% trimming as a general-purpose choice).
 - FIG (Fédération Internationale de Gymnastique). *Rhythmic Gymnastics Code of Points 2022-2024*: section 3.6.1, Execution panel: the highest and lowest of four scores are eliminated.

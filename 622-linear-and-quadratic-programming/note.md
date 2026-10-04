@@ -47,6 +47,10 @@ Each constraint is a half-plane, and the feasible region is their overlap: a con
 
 Figure 1 is the level-curve picture of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) with straight lines instead of ellipses. In Figure 1, the lines of equal profit $3x_1 + 2x_2 = p$ are parallel. Raising $p$ slides them up and to the right. The line $p = 11$ is the last one that still touches the region, at the single corner $(3, 1)$. Think of pushing a ruler across a cut-out cardboard shape while keeping it parallel to itself: the last bit of cardboard under the ruler is a corner (or a whole edge).
 
+![The profit line $3x_1 + 2x_2 = p$ slides outward; its feasible part (thick orange) shrinks until it touches only the corner $(3, 1)$ at $p = 11$. Then one more oven hour moves the best corner to $(3, 2)$, profit 13. Key frames: $p = 6$, $9.5$, $11$, and oven limit 5](images/lp_sweep.gif)
+
+Figure 2 runs the ruler. Watch the thick orange part of the line: it is the set of plans that earn exactly $p$, and it shrinks to a single point at the last corner. The last frame previews Section 2.4.
+
 Because the answer is at a corner, checking the corners is enough for a small problem:
 
 | Corner | Profit $3x_1 + 2x_2$ |
@@ -80,7 +84,7 @@ The primal has $d$ variables and $m$ constraints; the dual has $m$ variables and
 
 > **Key point:** Each multiplier is the extra profit one more unit of that resource would bring; a resource with spare capacity is worth 0.
 
-The multipliers are the shadow prices of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) (Section 4.2). Changing one limit by one unit and solving again confirms each one:
+The multipliers are the shadow prices of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) (Section 4.2). The last frame of Figure 2 shows the oven's multiplier: one more oven hour moves the best corner from $(3, 1)$ to $(3, 2)$ and the profit from 11 to 13. Changing one limit by one unit and solving again confirms each one:
 
 | Constraint | At the answer | Multiplier | Re-solved with one more unit |
 |---|---|---|---|
@@ -108,7 +112,7 @@ Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothin
 
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}
 
-Without constraints, the gradient $Q\mathbf{x} + \mathbf{c}$ is zero at $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. That point is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 2). It does not have to be a corner, as it would for a linear program.
+Without constraints, the gradient $Q\mathbf{x} + \mathbf{c}$ is zero at $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. That point is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 3). It does not have to be a corner, as it would for a linear program.
 
 ### 3.2 Solving it with the KKT conditions
 
@@ -186,7 +190,12 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
 ## 5. Sources
 
+**Built from**
+
 - Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020, Chapter 7.
+
+**Other references**
+
 - Boyd and Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004. Chapter 5 (duality; strong duality for linear constraints, Sec. 5.2.3 to 5.2.4), Chapter 11 (interior-point methods).
 - Tibshirani, "Regression Shrinkage and Selection via the Lasso", *Journal of the Royal Statistical Society B*, 1996, Section 6.
 - scikit-learn documentation: `QuantileRegressor`; User Guide, Support Vector Machines, Mathematical formulation.

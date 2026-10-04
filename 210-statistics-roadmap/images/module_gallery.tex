@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large},
+  thumb/.style={draw=#1, line width=1.4pt, rounded corners=4pt, inner sep=4pt, fill=white}]
+  \foreach \x/\y/\c/\h/\f/\n in {
+     0/0/cblue/{1. Descriptive}/{../../230-percentiles-and-box-plots/images/box_by_class.png}/{box plots, Note 230},
+     8.2/0/cgreen/{2. Distributions}/{../../243-density-estimation-kde/images/kde_build.png}/{KDE, Note 243},
+     0/-6.4/corange/{3. Inferential}/{../../281-interpreting-confidence-intervals/images/coverage.png}/{confidence intervals, Note 281},
+     8.2/-6.4/cpurple/{4. Miscellaneous}/{../../260-kurtosis-and-qq-plots/images/iris_qq.png}/{Q-Q plot, Note 260}} {
+    \node[thumb=\c] (t) at (\x,\y) {\includegraphics[width=7cm,height=3.4cm,keepaspectratio]{\f}};
+    \node[box=\c, font=\sffamily\bfseries\large, inner sep=4pt, minimum height=0.8cm, anchor=south] at ([yshift=3pt]t.north) {\h};
+    \node[text=\c, below=2pt] at (t.south) {\n};
+  }
+\end{tikzpicture}
+\end{document}

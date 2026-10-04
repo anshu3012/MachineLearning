@@ -9,8 +9,8 @@ tags: [subject/ml, area/features, area/models-1, step/features, step/model, conc
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)).
-> - **Leads to:** Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Assumptions of linear regression ([Note 56](../56-linear-regression-assumptions/note.md)); Elastic Net ([Note 69](../69-elastic-net/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Moore-Penrose pseudo-inverse ([Note 613](../613-svd-in-machine-learning/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
-> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)); Linear combinations, span and basis ([Note 490](../490-linear-combinations-span-and-basis/note.md)).
+> - **Leads to:** Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Assumptions of linear regression ([Note 56](../56-linear-regression-assumptions/note.md)); Elastic Net ([Note 69](../69-elastic-net/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Moore-Penrose pseudo-inverse ([Note 613](../613-svd-in-machine-learning/note.md)); Categorical and sparse categorical cross-entropy ([Note 633](../633-mle-in-machine-learning/note.md)).
+> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)); Linear combinations, span and basis ([Note 490](../490-linear-combinations-span-and-basis/note.md)); Word embeddings ([Note 1057](../1057-rnn-sentiment-analysis/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -373,6 +373,12 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 - In ML projects, split first, fit `OneHotEncoder` on the training set, and transform both sets.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "One Hot Encoding | Handling Categorical Data | Day 27 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=U5oCv3JKWKA
+
+**Other references**
 
 - Kuhn, M. and Johnson, K. (2019). *Feature Engineering and Selection: A Practical Approach for Predictive Models*. CRC Press. §5.1 Creating Dummy Variables for Unordered Categories; §5.8 Factors versus Dummy Variables in Tree-Based Models. feat.engineering.
 - scikit-learn API reference. `sklearn.preprocessing.OneHotEncoder`. scikit-learn.org.

@@ -1,0 +1,56 @@
+sentence,step,english,weight
+we're friends .,1,we're,0.7803
+we're friends .,1,friends,0.2092
+we're friends .,1,.,0.0105
+we're friends .,2,we're,0.625
+we're friends .,2,friends,0.3372
+we're friends .,2,.,0.0378
+we're friends .,3,we're,0.0033
+we're friends .,3,friends,0.9165
+we're friends .,3,.,0.0803
+we're friends .,4,we're,0.0485
+we're friends .,4,friends,0.4027
+we're friends .,4,.,0.5487
+we're friends .,5,we're,0.1147
+we're friends .,5,friends,0.0522
+we're friends .,5,.,0.833
+i think you're right .,1,i,0.6119
+i think you're right .,1,think,0.3809
+i think you're right .,1,you're,0.0039
+i think you're right .,1,right,0.001
+i think you're right .,1,.,0.0023
+i think you're right .,2,i,0.0053
+i think you're right .,2,think,0.9926
+i think you're right .,2,you're,0.0005
+i think you're right .,2,right,0.0006
+i think you're right .,2,.,0.0009
+i think you're right .,3,i,0.0566
+i think you're right .,3,think,0.1814
+i think you're right .,3,you're,0.4238
+i think you're right .,3,right,0.1593
+i think you're right .,3,.,0.1789
+i think you're right .,4,i,0.0097
+i think you're right .,4,think,0.0887
+i think you're right .,4,you're,0.8411
+i think you're right .,4,right,0.0276
+i think you're right .,4,.,0.033
+i think you're right .,5,i,0.0032
+i think you're right .,5,think,0.0456
+i think you're right .,5,you're,0.4606
+i think you're right .,5,right,0.4147
+i think you're right .,5,.,0.0759
+i think you're right .,6,i,0.0008
+i think you're right .,6,think,0.0084
+i think you're right .,6,you're,0.0796
+i think you're right .,6,right,0.8051
+i think you're right .,6,.,0.1061
+i think you're right .,7,i,0.0337
+i think you're right .,7,think,0.0309
+i think you're right .,7,you're,0.0436
+i think you're right .,7,right,0.1583
+i think you're right .,7,.,0.7335
+i think you're right .,8,i,0.0349
+i think you're right .,8,think,0.0171
+i think you're right .,8,you're,0.1974
+i think you're right .,8,right,0.1509
+i think you're right .,8,.,0.5996

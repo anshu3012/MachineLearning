@@ -79,6 +79,10 @@ Picking the depth by eye works for two features we can plot. With tens of featur
 
 > **Extra:** On this data, 5-fold cross-validation over `max_depth` in {1, 2, 3, 4, 5, 6, 8, 10, None} picks **depth 2** (average 0.90), with a test accuracy of 0.94. The deeper trees in Figure 2 score similar test accuracies on these 100 test observations, but their cross-validation averages fall steadily after depth 2: 0.883 at depth 3, 0.837 at depth 5, 0.820 fully grown. One test split of 100 observations is a noisy measure; cross-validation averages over several splits and is steadier (ISLR §5.1). So we trust the cross-validation ranking.
 
+Figure 3 grows the tree one level per frame. Watch the surface split into ever smaller boxes while the two accuracy curves part: training accuracy climbs to 1.00, and cross-validation accuracy peaks at depth 2 and then falls.
+
+![max_depth from 1 to 13 (fully grown) on the Social Network Ads data. Left: the decision surface. Right: training accuracy and 5-fold cross-validation accuracy on the 300 training observations](images/depth_sweep.gif)
+
 ## 4. The main hyperparameters
 
 > **Key point:** Each hyperparameter either changes how splits are chosen or stops splitting earlier; a stronger brake means less overfitting and more risk of underfitting.
@@ -125,7 +129,7 @@ The root of the moons tree holds 375 observations and splits into 216 and 159. W
 - a node with 78, 71 or 59 observations is not split again: it becomes a leaf;
 - a node with 137 observations is still split, because $137 \ge 100$.
 
-The result has 7 leaves (Figure 3, top right). With `min_samples_split=301`, the root (375 observations) splits, but neither child (216 or 159 observations) reaches 301, so the tree stops after one question.
+The result has 7 leaves (Figure 4, top right). With `min_samples_split=301`, the root (375 observations) splits, but neither child (216 or 159 observations) reaches 301, so the tree stops after one question.
 
 So: **higher value, more underfitting; lower value, more overfitting.**
 
@@ -135,7 +139,7 @@ So: **higher value, more underfitting; lower value, more overfitting.**
 
 `min_samples_leaf` (default 1) is the smallest number of observations allowed in a leaf. A split is only made if **both** children keep at least that many observations.
 
-With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split would leave fewer than 100 observations on one side. With `min_samples_leaf=20` it has 11 leaves (Figure 3, bottom left).
+With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split would leave fewer than 100 observations on one side. With `min_samples_leaf=20` it has 11 leaves (Figure 4, bottom left).
 
 `min_samples_leaf` works much like `min_samples_split`: a higher value underfits, a lower value overfits.
 
@@ -159,7 +163,7 @@ The same idea is the heart of **random forests** (see the [random forest Note](.
 
 > **Key point:** Caps the number of leaves; the tree keeps the splits that reduce impurity the most.
 
-`max_leaf_nodes` limits how many leaves the tree may have. With `max_leaf_nodes=2` there is one split and two leaves; with 5, exactly 5 leaves (Figure 3, bottom right).
+`max_leaf_nodes` limits how many leaves the tree may have. With `max_leaf_nodes=2` there is one split and two leaves; with 5, exactly 5 leaves (Figure 4, bottom right).
 
 When this limit is set, scikit-learn grows the tree **best-first**: it always makes the split with the largest impurity decrease next, wherever it is in the tree, until the leaf budget is used up (sklearn reference, `max_leaf_nodes`). Higher value: overfitting; lower value: underfitting.
 
@@ -211,6 +215,12 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 - Every hyperparameter except `criterion` either limits growth or adds randomness; the randomness pays off in ensembles. Tune them with cross-validation, not by eye.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Decision Trees - Hyperparameters | Overfitting and Underfitting in Decision Trees", YouTube, https://www.youtube.com/watch?v=mDEV0Iucwz0
+
+**Other references**
 
 - **ISLR:** G. James, D. Witten, T. Hastie and R. Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. Sections 5.1.1 and 5.1.3.
 - **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 15.2, Definition of random forests.

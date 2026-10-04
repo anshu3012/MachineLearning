@@ -9,7 +9,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
-> - **Leads to:** Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)).
+> - **Leads to:** Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 > - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
 
@@ -171,6 +171,12 @@ Reading Figure 3:
 - The CDF is an S-curve through 0.5 at the mean.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Session 41 - Normal Distribution | DSMP 2023", YouTube, https://www.youtube.com/watch?v=ADqYqSdtyW8
+
+**Other references**
 
 - Taylor, J. R. (1997). *An Introduction to Error Analysis*, 2nd ed. University Science Books. Chapter 5, "The Normal Distribution".
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.5 (Gaussian distribution).

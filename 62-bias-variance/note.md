@@ -52,9 +52,15 @@ Model variance has a different meaning from the variance of a feature, the avera
 
 > **Key point:** Train the same model on many training sets. The spread of the resulting curves is the variance; how far their average is from the truth is the bias.
 
-Figure 1 makes the two ideas concrete. We use one feature $x$ and the target $y$; each observation is one $(x, y)$ pair. The true relationship is a wave (dashed black).
+We use one feature $x$ and the target $y$; each observation is one $(x, y)$ pair. The true relationship is a wave (dashed black).
 
-We build many training sets of 20 observations. Every set uses the same 20 values of $x$ (the grey ticks); only the random noise in $y$ is new each time, the standard setting for measuring bias and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
+We build many training sets of 20 observations, as in Figure 1 and Figure 2. Every set uses the same 20 values of $x$ (the grey ticks); only the random noise in $y$ is new each time, the standard setting for measuring bias and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
+
+Figure 1 shows the experiment as it happens, for two of the models. Each frame draws a new training set and refits both; the earlier fits stay behind as faint ghosts. Watch the lines stay together but miss the wave, while the degree-11 curves scatter more with every new set.
+
+![A straight line and a degree-11 polynomial refitted on 20 training sets (same 20 inputs, new noise each time). At the end, the blue average of the 20 fits shows the bias; the spread of the ghosts shows the variance.](images/resample_fits.gif)
+
+Figure 2 collects the result for three models, with a middle model added.
 
 ![The same model trained on 20 different training sets. The grey ticks mark the 20 inputs shared by every training set.](images/many_fits.png)
 
@@ -68,7 +74,7 @@ We build many training sets of 20 observations. Every set uses the same 20 value
 - **Degree 11** follows the wave on average (its average curve sits on the truth) but every curve swings differently, wildly so between the inputs near the edges: high variance.
 - **Degree 5** has both low: the target.
 
-The dartboard in Figure 2 is a common way to picture the four combinations: bias is how far the throws land from the centre on average, variance is how scattered they are.
+The dartboard in Figure 3 is a common way to picture the four combinations: bias is how far the throws land from the centre on average, variance is how scattered they are.
 
 ![Bias and variance as a dartboard](images/dartboard.png){height=42%}
 
@@ -86,7 +92,7 @@ $$\text{expected error} = \text{bias}^2 + \text{variance} + \text{noise}$$
 
 With numbers, for degree 5: $0.0011 + 0.075 + 0.25 = 0.326$. For degree 1: $0.4195 + 0.025 + 0.25 = 0.695$.
 
-Figure 3 measures all three for degrees 1 to 11. The test error here is the error on a new noisy target at the same 20 inputs.
+Figure 4 measures all three for degrees 1 to 11. The test error here is the error on a new noisy target at the same 20 inputs.
 
 ![Bias², variance and expected test error against the degree](images/tradeoff.png){height=48%}
 
@@ -98,7 +104,7 @@ Figure 3 measures all three for degrees 1 to 11. The test error here is the erro
 
 Making a model more flexible buys lower bias at the price of higher variance, and the reverse: like a tailor choosing between one standard size that fits nobody well and a suit cut so tight to one fitting that it fails the next day. This exchange of one error for the other is the trade-off. The goal is not zero bias or zero variance, but the lowest total error.
 
-> **Extra:** The shapes in Figure 3 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
+> **Extra:** The shapes in Figure 4 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
 >
 > - **Bias² never rises with the degree.** Every polynomial of degree 5 is also a polynomial of degree 6 (with a zero last coefficient), so a larger family can always fit the true curve at least as well as a smaller one.
 > - **Variance grows in a straight line:** it equals $\sigma^2 p / N$, where $\sigma^2 = 0.25$ is the noise, $p$ is the number of coefficients (degree + 1) and $N = 20$ is the number of observations. For degree 11: $0.25 \times 12 / 20 = 0.150$, the value we measured.
@@ -137,6 +143,12 @@ Three standard techniques, all covered later, target this trade-off directly:
 - On the wave example, degree 5 gives the lowest total error (0.33), against 0.70 for a line and 0.40 for degree 11.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Bias Variance Trade-off | Overfitting and Underfitting in Machine Learning", YouTube, https://www.youtube.com/watch?v=74DU02Fyrhk
+
+**Other references**
 
 - **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. §2.2.2 (the bias-variance trade-off, equation 2.7), §6.2.1 (ridge regression), §8.2.1 (bagging), §8.2.3 (boosting).
 - **ESL**: Hastie, Tibshirani, Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 7.3, "The Bias-Variance Decomposition".

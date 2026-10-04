@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 >
 > - **Builds on:** Clustering ([Note 3](../03-types-of-ml/note.md)); Outliers ([Note 23](../23-what-is-feature-engineering/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)).
 > - **Leads to:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); XGBoost ([Note 123](../123-xgboost-intro/note.md)).
-> - **Compare with:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)); Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
+> - **Compare with:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)); Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -478,6 +478,12 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 - Cross-validate a transformation inside a pipeline, and try several settings: no strategy is always best.
 
 ## 15. Sources
+
+**Built from**
+
+- CampusX, "Binning and Binarization | Discretization | Quantile Binning | KMeans Binning", YouTube, https://www.youtube.com/watch?v=kKWsJGKcMvo
+
+**Other references**
 
 - scikit-learn documentation. `sklearn.preprocessing.KBinsDiscretizer`; example "Using KBinsDiscretizer to discretize continuous features". scikit-learn.org.
 

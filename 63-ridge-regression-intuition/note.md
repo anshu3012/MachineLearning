@@ -37,6 +37,10 @@ Overfitting means a model performs very well on the training data but poorly on 
 
 For linear regression, overfitting shows up in the coefficients. Each **feature** (an input variable, one column of the data table) gets one coefficient, and each **observation** (one record, one row of the table) is one training point. The **target** is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
 
+Figure 1 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of Section 3: the Ridge slopes stay between 0 and 0.7.
+
+![20 samples of two points from the same pattern (dashed). Left: the least-squares line through each pair. Right: Ridge with λ = 1 on the same pairs; the lines stay close together but lean flatter than the pattern](images/two_point_samples.png){height=40%}
+
 So the warning sign of an overfitting linear model is **large coefficients**: the line or plane tilts sharply to fit the training points exactly.
 
 ## 3. The idea: penalise large coefficients
@@ -49,14 +53,18 @@ $$L = \sum_{i=1}^{n} (y_i - \hat y_i)^2 + \lambda m^2$$
 
 $\lambda$ (lambda) is a hyperparameter, at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
 
-With numbers, Figure 1 has two training points, $(1, 2)$ and $(3, 5)$, and $\lambda = 1$.
+With numbers, Figure 2 has two training points, $(1, 2)$ and $(3, 5)$, and $\lambda = 1$.
 
 ![Two training points: the exact fit vs a flatter line](images/two_points.png){height=45%}
 
 - **The least-squares line** passes through both points: slope 1.5, errors 0. With the penalty, its loss is $0 + 1 \times 1.5^2 = 2.25$.
 - **A flatter line** with slope 0.9 misses both points slightly: errors $0.72$. Its loss is $0.72 + 1 \times 0.9^2 = 1.53$.
 
-With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 1 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. Section 4.3 tests the idea on real data.
+With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 2 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. Section 4.3 tests the idea on real data.
+
+Figure 3 lets λ grow on the same two points. Watch the line pivot about the middle point $(2, 3.5)$ and flatten, while the bars trade off: the errors grow, and the penalty first grows and then shrinks as the slope nears 0. At λ = 1 the best line has slope 1.0 and loss $0.50 + 1.00 = 1.50$, a little below the 1.53 of the slope-0.9 line.
+
+![λ grows from 0 to 30 on the two training points. The green line is the Ridge fit (dotted: least squares); red sticks are its errors. The bars show the squared errors, the penalty λm² and their sum. After StatQuest's "Regularization Part 1: Ridge (L2) Regression" (Starmer)](images/lambda_sweep.gif)
 
 Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
 
@@ -70,7 +78,7 @@ Think of a tailor who fits a suit to one photo of a customer. A suit that follow
 
 > **Key point:** With one feature, a larger penalty gives a flatter line.
 
-Figure 2 (left) fits 100 observations with one feature. In scikit-learn the penalty strength is called `alpha` instead of $\lambda$.
+Figure 4 (left) fits 100 observations with one feature. In scikit-learn the penalty strength is called `alpha` instead of $\lambda$.
 
 ![The effect of alpha with one feature and with a degree-16 polynomial](images/alpha_effects.png){height=45%}
 
@@ -86,7 +94,7 @@ The slope shrinks as alpha grows, while the intercept changes little.
 
 > **Key point:** On a degree-16 polynomial, α = 0 overfits, α = 20 follows the pattern, α = 200 is too stiff.
 
-Regularisation matters most for flexible models. Figure 2 (right) fits a degree-16 polynomial to curved data:
+Regularisation matters most for flexible models. Figure 4 (right) fits a degree-16 polynomial to curved data:
 
 - **alpha = 0:** the curve bends to chase individual points and swings at the edges: overfitting.
 - **alpha = 20:** the penalty keeps the many coefficients small, and the curve follows the overall pattern.
@@ -98,7 +106,7 @@ The best alpha is somewhere in between and is found by trying values on held-out
 
 > **Key point:** As alpha grows, every coefficient is pulled towards 0. With few training observations, a small alpha raises test R² a lot; a huge alpha destroys the model.
 
-Figure 3 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
+Figure 5 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
 
 ![Coefficients and test R² against alpha on the diabetes data](images/diabetes_alpha.png){height=45%}
 
@@ -137,6 +145,13 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 - alpha is tuned on held-out data; features should be standardised first.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Ridge Regression Part 1 | Geometric Intuition and Code | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=aEow1QoTLo0
+- Starmer, J. "Regularization Part 1: Ridge (L2) Regression." statquest.org. The idea of animating the line as λ grows (Figure 3).
+
+**Other references**
 
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.1, pp. 237–241.
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, pp. 63–64.

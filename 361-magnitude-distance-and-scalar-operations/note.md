@@ -172,6 +172,12 @@ Mean centring, the first half of standardization (see the [standardization Note]
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1", YouTube, https://www.youtube.com/watch?v=mQewAJb8oJ8
+
+**Other references**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. Definition 2.9 (Vector Space).
 - NumPy developers. *NumPy User Guide*, "Broadcasting". numpy.org, basics.broadcasting.html.
 

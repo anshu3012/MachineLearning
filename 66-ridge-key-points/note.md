@@ -154,6 +154,12 @@ Regularisation fights overfitting caused by many, large coefficients. With one f
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "5 Key Points - Ridge Regression | Part 4 | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=8osKeShYVRQ
+
+**Other references**
+
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 2.2.2, p. 34; Sections 6.2.1–6.2.2, pp. 240–241.
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
 - **Hoerl and Kennard 1970:** Hoerl, A. E. and Kennard, R. W. "Ridge Regression: Biased Estimation for Nonorthogonal Problems." *Technometrics* 12(1), 55–67, 1970. Section 2.

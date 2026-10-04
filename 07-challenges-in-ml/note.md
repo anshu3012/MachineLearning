@@ -222,6 +222,12 @@ The best way to learn these challenges is to go one step further than building a
 
 ## 12. Sources
 
+**Built from**
+
+- CampusX, "Challenges in Machine Learning | Problems in Machine Learning", YouTube, https://www.youtube.com/watch?v=WGUNAJki2S4
+
+**Other references**
+
 - Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras and TensorFlow*, 2nd ed. O'Reilly. Ch. 1, "Main Challenges of Machine Learning".
 - Banko, M. and Brill, E. (2001). Scaling to Very Very Large Corpora for Natural Language Disambiguation. *Proceedings of ACL*.
 - Halevy, A., Norvig, P. and Pereira, F. (2009). The Unreasonable Effectiveness of Data. *IEEE Intelligent Systems* 24(2).

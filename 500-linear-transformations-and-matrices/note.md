@@ -47,6 +47,10 @@ Together these mean that grid lines stay parallel and evenly spaced. Some exampl
 
 Rotations about the origin, stretches along the axes and the slanting of Figure 1 are linear.
 
+Figure 2 runs the test on four warps of the same grid; the black ring marks where the origin started. Watch the orange diagonal and the origin dot: the first three warps each break one rule, and only the last, a shear, keeps both. The test and its pictures follow Sanderson's *Essence of Linear Algebra*, chapter 3 (3Blue1Brown).
+
+![The linearity test on four warps of one grid: a curving warp, a slide that moves the origin, a warp that keeps the grid lines straight but bends the diagonal, and a shear, the only linear one](images/linear_test.gif)
+
 > **Extra:** The formal definition says the same thing with algebra. A transformation $L$ is linear when it respects the two operations of linear algebra: $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v})$ for every scalar $c$ (MML Def. 2.15). Section 4 is exactly these two rules in action.
 
 ## 4. Two vectors decide everything
@@ -103,7 +107,7 @@ The formula on the right, $[ax + by,\ cx + dy]$, is the rule usually memorised i
 
 > **Key point:** Read the columns, move $\hat{\imath}$ and $\hat{\jmath}$ there, and let the rest of the grid follow.
 
-Every matrix can be read as a transformation, and every linear transformation has a matrix. Figure 2 shows four of them; in each, green is where $\hat{\imath}$ lands and red is where $\hat{\jmath}$ lands.
+Every matrix can be read as a transformation, and every linear transformation has a matrix. Figure 3 shows four of them; in each, green is where $\hat{\imath}$ lands and red is where $\hat{\jmath}$ lands.
 
 ![Four matrices read as transformations of the grid](images/transform_gallery.png){height=75%}
 
@@ -114,7 +118,7 @@ Every matrix can be read as a transformation, and every linear transformation ha
 
 The last case links back to the [linear combinations, span and basis Note](../490-linear-combinations-span-and-basis/note.md): every output is a linear combination of the columns, so all outputs lie in the span of the columns. Independent columns span the plane; dependent ones only a line.
 
-> **Extra:** The span of the columns is called the **column space** of the matrix, one of the topics the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists. Its dimension is the rank of the matrix: 2 for the first three matrices of Figure 2, 1 for the squishing one.
+> **Extra:** The span of the columns is called the **column space** of the matrix, one of the topics the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists. Its dimension is the rank of the matrix: 2 for the first three matrices of Figure 3, 1 for the squishing one.
 
 ## 7. Where ML uses linear transformations
 
@@ -179,6 +183,12 @@ A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its pi
 - Every matrix is a transformation of space; $XA^{\mathsf T}$ applies it to a whole dataset.
 
 ## 9. Sources
+
+**Built from**
+
+- Sanderson, G. (3Blue1Brown), "Linear transformations and matrices | Chapter 3, Essence of linear algebra", 2016, 3blue1brown.com/lessons/linear-transformations, https://www.youtube.com/watch?v=kYB8IZa5AuE
+
+**Other references**
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Definition 2.15 (MML).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 6.1, learning XOR.

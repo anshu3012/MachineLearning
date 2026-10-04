@@ -183,6 +183,12 @@ Logistic regression's curve lies above the tree's for most thresholds, so it sep
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "ROC Curve in Machine Learning | ROC-AUC in Machine Learning Simplified | CampusX", YouTube, https://www.youtube.com/watch?v=gdW6hj9IXaA
+
+**Other references**
+
 - **Fawcett 2006:** Fawcett, T. "An Introduction to ROC Analysis." *Pattern Recognition Letters* 27(8), 861–874, 2006. Sections 3 and 7.
 - **Youden 1950:** Youden, W. J. "Index for Rating Diagnostic Tests." *Cancer* 3(1), 32–35, 1950.
 - **scikit-learn docs:** `sklearn.metrics.roc_curve` (drop_intermediate), scikit-learn 1.9.

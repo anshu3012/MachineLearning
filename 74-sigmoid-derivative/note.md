@@ -9,6 +9,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 > ![](images/where_this_fits.png)
 >
 > - **Leads to:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
+> - **Compare with:** Tanh ([Note 1027](../1027-activation-functions/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -69,7 +70,7 @@ Putting the two pieces together:
 
 $$\boxed{\sigma'(z) = \sigma(z)\thinspace\bigl(1 - \sigma(z)\bigr)}$$
 
-With numbers: at $z = 2$, $\sigma(2) = 0.88$, so $\sigma'(2) = 0.88 \times 0.12 = 0.105$.
+With numbers: at $z = 2$, $\sigma(2) = 0.88$, so $\sigma'(2) = 0.88 \times 0.12 = 0.105$. Figure 1 (Section 4) draws the two factors as the blue and orange parts of a bar of height 1.
 
 The form $\sigma(1-\sigma)$ is very convenient. When a model has already computed $\sigma(z)$ for its prediction, the derivative costs just one subtraction and one multiplication.
 
@@ -77,7 +78,9 @@ The form $\sigma(1-\sigma)$ is very convenient. When a model has already compute
 
 > **Key point:** The derivative is largest, 0.25, at z = 0 and falls towards 0 on both sides.
 
-![The sigmoid and its derivative](images/derivative.png){height=42%}
+![A tangent line (red) rides the sigmoid; its slope is traced below. The bar at $z$ splits into $\sigma(z)$ (blue) and $1 - \sigma(z)$ (orange), and the slope is their product. Key frames: $z = -4$, $0$, $2$, $6$](images/tangent_ride.gif)
+
+In Figure 1, watch the two coloured parts of the bar: the slope is large only when both parts are large, which happens at $z = 0$, where each is 0.5. Reading the derivative as the slope of a tangent line that moves along the curve follows Sanderson's *Essence of Calculus* (3Blue1Brown, "The paradox of the derivative").
 
 | $z$ | $-4$ | $-2$ | 0 | 2 | 4 |
 |---|---|---|---|---|---|
@@ -114,6 +117,13 @@ The form $\sigma(1-\sigma)$ is very convenient. When a model has already compute
 - The next Note uses it to derive the gradient of the log loss.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Derivative of Sigmoid Function", YouTube, https://www.youtube.com/watch?v=awjXaFR1jOM
+- Sanderson, G. (3Blue1Brown), "The paradox of the derivative", *Essence of Calculus*, chapter 2. 3blue1brown.com/lessons/derivatives
+
+**Other references**
 
 - **Goodfellow et al.:** Goodfellow, I., Bengio, Y. and Courville, A. *Deep Learning*. MIT Press, 2016. Sections 6.1 and 6.3.2.
 

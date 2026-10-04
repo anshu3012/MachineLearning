@@ -3,10 +3,10 @@
 \begin{document}
 \begin{tikzpicture}[w/.style={draw=#1, fill=#1!12, rounded corners=3pt, minimum height=0.75cm, minimum width=1.75cm, font=\sffamily},
                     w/.default=cblue, pad/.style={draw=cgrey, dashed, rounded corners=3pt, minimum height=0.75cm, minimum width=1.75cm, text=cgrey}]
-  \node[title] at (5.2,1.3) {sentence: \textit{a lion was awakened from sleep}};
+  \node[title] at (5.2,1.3) {sentence: \textit{a certain king had a beautiful}};
   \node[title, text=cblue] at (4.6,0.4) {input $X$ (zeros in front)};
   \node[title, text=cgreen] at (11.3,0.4) {output $y$};
-  \foreach \r/\words/\nxt in {1/{a}/lion, 2/{a,lion}/was, 3/{a,lion,was}/awakened, 4/{a,lion,was,awakened}/from, 5/{a,lion,was,awakened,from}/sleep} {
+  \foreach \r/\words/\nxt in {1/{a}/certain, 2/{a,certain}/king, 3/{a,certain,king}/had, 4/{a,certain,king,had}/a, 5/{a,certain,king,had,a}/beautiful} {
     \pgfmathsetmacro{\yy}{-0.95*\r}
     \foreach \k in {1,...,5} \node[pad] at (1.85*\k - 1.0, \yy) {0};
     \foreach \word [count=\c] in \words {

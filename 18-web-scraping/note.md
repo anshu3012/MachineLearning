@@ -400,8 +400,13 @@ On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the det
 
 ## 14. Sources
 
-- Fielding, R., Nottingham, M. and Reschke, J. (2022). HTTP Semantics. RFC 9110, IETF. Section 15: Status Codes.
+**Built from**
 
+- CampusX, "Fetching data using Web Scraping | Day 18 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=8NOdgjC1988
+
+**Other references**
+
+- Fielding, R., Nottingham, M. and Reschke, J. (2022). HTTP Semantics. RFC 9110, IETF. Section 15: Status Codes.
 - Beautiful Soup documentation. Installing a parser. crummy.com/software/BeautifulSoup/bs4/doc.
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 - Koster, M., Illyes, G., Zeller, H. and Sassman, L. (2022). RFC 9309: Robots Exclusion Protocol. IETF.

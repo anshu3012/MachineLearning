@@ -1,0 +1,10 @@
+layer,neuron,activation,contribution,share_of_layer,top_tokens
+8,2957,2.33720130194979,0.05032608000565431,0.11373488808671096,poker | Dialogue | pond | rex | chess | vigil | rug | rel
+8,2664,0.9102365877005562,0.04012979078716291,0.09069169034441583,ILLE | minist | submit | aturdays | OLOG | elf | ELF | atche
+8,2244,1.6284097781071765,0.03778479806010654,0.08539210243003939,amateur | Amateur | Cosmetic | medi | Hardcore | Comed | Popular | mechanical
+9,1704,1.5861242459242562,0.1648145972962218,0.6897437616904606,championships | competitions | Championships | tennis | tournament | championship | tournaments | Olympic
+9,1253,2.4967290195530425,0.0511939019956563,0.214244824896382,", | the | - | and | a | . | in | """
+9,502,3.221340056163856,0.04436236053323916,0.18565504472076422,trade | fishing | trades | trading | farming | Fishing | Trade | commerce
+10,992,0.9500433548596816,0.06926608404925969,0.4384938069343549,calories | Exercise | Calories | workout | calorie | exercise | diet | diets
+10,906,-0.1402946829973249,0.044333332705181625,0.2806552744941874,£ | £ | enqu | Yorkshire | Scotland | Cardiff | apologise | England
+10,2237,0.6460430813760153,0.036291230657995936,0.22974418300073504,propensity | preference | motivations | rity | advantage | tendency | motivation | flair

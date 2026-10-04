@@ -238,6 +238,12 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Simple Linear Regression | Code + Intuition | Simplest Explanation in Hindi", YouTube, https://www.youtube.com/watch?v=UZPfbG0jNec
+
+**Other references**
+
 - NIST/SEMATECH *e-Handbook of Statistical Methods*, §4.1.4.1 Linear Least Squares Regression (Disadvantages). itl.nist.gov/div898/handbook.
 
 ## 8. Key terms

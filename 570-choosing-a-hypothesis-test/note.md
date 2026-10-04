@@ -42,6 +42,10 @@ Every test in this Note follows the eight steps of a hypothesis test (see the [n
 
 With $\alpha = 0.05$ in a two-tailed test, the rejection region is the outer 2.5% at each end of the test statistic's distribution, 5% in total (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
 
+![The six tests of this Note, sorted by the one shared rule](images/p_sort.png){width=80%}
+
+Figure 2 previews the results of every test in this Note: the rule is the same, only the statistic behind each p-value differs.
+
 ### 2.1 Three misreadings to avoid
 
 > **Key point:** $H_0$ is assumed, not known to be true; the p-value is not the probability that $H_1$ is true; and a large p-value does not let us "accept" $H_0$.
@@ -71,6 +75,10 @@ The data is simulated (`data/make_people.py` builds `data/people.csv` with a fix
 - **gender:** a categorical feature with two categories, 34 female and 26 male;
 - **age_group:** a categorical feature with three categories, 20 child, 26 adult, 14 elderly;
 - **height** and **weight:** numerical (continuous) features.
+
+![The two categorical features of the 60 people](images/dataset_counts.png){width=85%}
+
+Figure 3 shows the counts of the two categorical features, the raw material of Sections 4 and 5.
 
 The dataset is a **sample**. A bar chart of gender shows the proportions in these 60 people; the test tells whether they say anything about the population the sample came from (see the [what is statistics Note](../220-what-is-statistics/note.md)).
 
@@ -112,6 +120,10 @@ $$p = 2\thinspace P(Z \ge 1.03) = 2 \times 0.151 = 0.30$$
 
 Since $0.30 > 0.05$, we fail to reject $H_0$. A 26-to-34 split in 60 people is well within what a 50/50 population produces by chance.
 
+![How the share of men would vary across samples of 60 if the population were 50/50 (normal curve with standard error 0.0645). The shaded tails, at least as far from 0.5 as our 0.433, hold 30% of the area](images/proportion_null.png){width=85%}
+
+Figure 4 shows where the p-value comes from: our sample sits well inside the curve, so samples this far from 0.5 are common under $H_0$.
+
 > **Python:** The z-test by hand, and scipy's exact version.
 >
 > ```python
@@ -144,7 +156,11 @@ The counts go in a contingency table, as in the [contingency tables Note](../340
 | female | 12 | 12 | 10 |
 | male | 8 | 14 | 4 |
 
-The **chi-square test of independence** gives $\chi^2 = 2.50$ with $p = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$: the sample does not show that the gender mix changes with age group. How the statistic is built is the subject of the [chi-square tests Note](../571-chi-square-tests/note.md).
+The **chi-square test of independence** gives $\chi^2 = 2.50$ with $p = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$: the sample does not show that the gender mix changes with age group.
+
+![Share of men in each age group, with the overall share as the dashed line](images/chi_square_shares.png){width=75%}
+
+Figure 5 shows the three shares from the table. They differ, from 4 in 14 to 14 in 26, but with groups this small the differences are within chance. How the statistic is built is the subject of the [chi-square tests Note](../571-chi-square-tests/note.md).
 
 ## 6. One numerical feature: the one-sample t-test
 
@@ -194,7 +210,7 @@ So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ fr
 
 ![Height against weight for the 60 people](images/height_weight.png){height=32%}
 
-Figure 2 shows a tight upward pattern. Here $r = 0.980$ and $n = 60$:
+Figure 6 shows a tight upward pattern. Here $r = 0.980$ and $n = 60$:
 
 $$t = \frac{0.980 \times \sqrt{58}}{\sqrt{1 - 0.961}} = 37.9, \qquad p = 1.2 \times 10^{-42}$$
 
@@ -208,7 +224,7 @@ We reject $H_0$: taller people in this population are heavier.
 > result.pvalue        # 1.2e-42
 > ```
 
-> **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 2: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)).
+> **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 6: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)).
 
 ## 8. One numerical and one categorical feature: t-test or ANOVA
 
@@ -234,6 +250,10 @@ $$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}, \qquad H_
 
 The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA Note](../572-one-way-anova/note.md) builds the F statistic and explains why three t-tests would not do.
 
+![Left: heights of adult women and men, two groups. Right: weights of children, adults and the elderly, three groups](images/groups.png){width=95%}
+
+Figure 7 shows both comparisons. On the left the two boxes do not overlap; on the right the child group sits far below the other two, which is why both tests reject $H_0$.
+
 > **Extra:** With one numerical feature and **two** categorical features (weight by gender and age group together), the test is **two-way ANOVA**. Two-way ANOVA asks about each categorical feature and about their interaction (Montgomery, ch. 5).
 
 ## 9. Summary
@@ -254,6 +274,12 @@ The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.00
 - The correlation test is a t-test on $r$ with $n - 2$ degrees of freedom; a weak $r$ needs a large sample to be significant.
 
 ## 10. Sources
+
+**Built from**
+
+- Krish Naik, "Tutorial 32- All About P Value,T test,Chi Square Test, Anova Test and When to Use What?", YouTube, https://www.youtube.com/watch?v=YrhlQB3mQFI
+
+**Other references**
 
 - Montgomery, D. C. (2013). *Design and Analysis of Experiments*, 8th ed. Wiley. Chapter 5, factorial designs.
 - NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 7.2.4, testing a proportion (normal approximation when $\min(Np_0, N(1-p_0)) \ge 5$).

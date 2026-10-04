@@ -37,10 +37,18 @@ def arrow(fig, a, b, color, label, width=3, dash=False):
     fig.add_annotation(x=b[0], y=b[1], ax=a[0], ay=a[1], xref="x", yref="y", axref="x", ayref="y", showarrow=True,
                        arrowhead=2, arrowsize=1.2, arrowwidth=width, arrowcolor=color, opacity=0.55 if dash else 1)
     if label:
-        below = label.startswith("k<") or label.startswith("e<sub>bank")       # keys: label under the tip
-        fig.add_annotation(x=b[0], y=b[1], text=label, showarrow=False, xshift=22 if below else -12 if label.startswith("q<sub>m") else 14,
-                           yshift=-14 if below else 12,
-                           font=dict(color=color, size=19))
+        xs, ys, anchor = next((v for k, v in POS.items() if label.startswith(k)), (14, 12, "center"))
+        if label[0].isdigit():                       # scaled value vectors of frame 4
+            xs, ys, anchor = (-10, 0, "right") if "money" in label else (10, -16, "left")
+        fig.add_annotation(x=b[0], y=b[1], text=label, showarrow=False, xshift=xs, yshift=ys, xanchor=anchor,
+                           bgcolor="rgba(255,255,255,0.85)", font=dict(color=color, size=19))
+
+
+# label offsets (pixels) and anchor per label, chosen so no label sits on another vector
+POS = {"q<sub>money": (8, 4, "left"), "q<sub>bank": (8, 8, "left"), "k<sub>money": (14, -30, "left"),
+       "k<sub>bank": (8, -10, "left"), "e<sub>money": (-10, 0, "right"), "e<sub>bank": (8, -10, "left"),
+       "v<sub>money": (0, 16, "center"), "v<sub>river": (8, 12, "left"), 
+       "y<sub>bank</sub>\u200b": (26, -4, "left"), "y<sub>bank": (-22, 12, "right")}
 
 
 def frame(arrows, title, note="", segments=()):
@@ -93,10 +101,10 @@ for t in np.linspace(0, 1, 7):                                             # 5. 
                         segments=[(P["v"]["money"], P["v"]["bank"], PURPLE)] if t == 1 else []))
 frames += [frames[-1]] * 5
 final = [(O, P["v"]["money"], GREEN, "v<sub>money</sub>", 2, True), (O, P["v"]["bank"], GREEN, "v<sub>bank</sub>", 2, True),
-         (O, v_r, GREEN, "v<sub>river</sub>", 2, True), (O, y_b, PURPLE, "y<sub>bank</sub> (money bank)", 4),
-         (O, y_rb, BLUE, "y<sub>bank</sub> (river bank)", 4)]
+         (O, v_r, GREEN, "v<sub>river</sub>", 2, True), (O, y_b, PURPLE, "y<sub>bank</sub>", 4),
+         (O, y_rb, BLUE, "y<sub>bank</sub>\u200b", 4)]
 frames += [frame(final, "6. Same word, different context, different output",
-                 f"money bank: weight {w_m.x:.2f} on money<br>river bank: weight {w_r:.2f} on river",
+                 f"<span style='color:{PURPLE}'>purple: money bank</span>, weight {w_m.x:.2f} on money<br><span style='color:{BLUE}'>blue: river bank</span>, weight {w_r:.2f} on river",
                  [(P["v"]["money"], P["v"]["bank"], PURPLE), (v_r, P["v"]["bank"], BLUE)])] * 10
 
 if __name__ == "__main__":

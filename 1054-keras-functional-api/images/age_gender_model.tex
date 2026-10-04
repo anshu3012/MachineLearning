@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[b/.style={box=#1, minimum width=3.0cm, minimum height=0.9cm, inner sep=4pt, font=\sffamily\small}]
+  \node[b=cgrey] (x) at (0, 0) {face photo\\$128 \times 128 \times 3$};
+  \node[b=cblue, minimum height=1.6cm] (base) at (0, -2.2) {VGG16 convolutional base\\frozen: 14,714,688 weights\\output $4 \times 4 \times 512$};
+  \node[b=cgrey] (fl) at (0, -4.3) {Flatten: 8,192 numbers};
+  \node[b=cgreen] (d1) at (-2.6, -6.1) {\texttt{age\_hidden}\\Dense 256, ReLU};
+  \node[b=cgreen] (d2) at (2.6, -6.1) {\texttt{gender\_hidden}\\Dense 256, ReLU};
+  \node[b=cred] (o1) at (-2.6, -8.0) {\texttt{age}: Dense 1, linear\\loss: mean absolute error};
+  \node[b=cred] (o2) at (2.6, -8.0) {\texttt{gender}: Dense 1, sigmoid\\loss: binary cross-entropy};
+  \draw[arrow] (x) -- (base); \draw[arrow] (base) -- (fl); \draw[arrow] (fl) -- (d1); \draw[arrow] (fl) -- (d2);
+  \draw[arrow] (d1) -- (o1); \draw[arrow] (d2) -- (o2);
+  \node[note, anchor=west] at (2.0, -2.2) {the same for both outputs:\\each photo passes through once};
+\end{tikzpicture}
+\end{document}

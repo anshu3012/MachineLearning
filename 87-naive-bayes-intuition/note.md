@@ -114,6 +114,12 @@ Figure 2 (left) shows why: winning teams mostly won the toss and played in sunny
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 6 | Intuition", YouTube, https://www.youtube.com/watch?v=ZR1_QtLk_4U
+
+**Other references**
+
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 4.4.4, pp. 153–155.
 
 ## 10. Key terms

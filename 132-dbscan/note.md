@@ -9,6 +9,7 @@ tags: [subject/ml, area/models-2, step/model, concept/anomaly-detection, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)).
+> - **Leads to:** K-means ([Note 641](../641-expectation-maximization/note.md)).
 > - **Compare with:** K-means ([Note 130](../130-kmeans-from-scratch/note.md)); Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)).
 <!-- /where-this-fits -->
 
@@ -264,6 +265,12 @@ Things to try:
 - Choose eps with care, for example from the bend of the k-distance plot.
 
 ## 15. Sources
+
+**Built from**
+
+- CampusX, "DBSCAN Clustering Algorithms | Density Based Clustering | How DBSCAN Works | CampusX", YouTube, https://www.youtube.com/watch?v=1_bLnsNmhCI
+
+**Other references**
 
 - Ester et al. 1996: M. Ester, H.-P. Kriegel, J. Sander and X. Xu, *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise*, Proceedings of KDD 1996, Definition 1 and §4.2.
 - scikit-learn `DBSCAN` docs: the `min_samples` parameter of `sklearn.cluster.DBSCAN` ("This includes the point itself"), scikit-learn 1.9 API reference.

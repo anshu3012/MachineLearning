@@ -205,6 +205,12 @@ The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 
 ## 5. Sources
 
+**Built from**
+
+- CampusX, "Ridge Regression Part 2 | Mathematical Formulation & Code from scratch | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=oDlZBQjk_3A
+
+**Other references**
+
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 64 (which credits Hoerl and Kennard, 1970).
 - **Hoerl and Kennard (1970):** Hoerl, A. E. and Kennard, R. W. "Ridge regression: biased estimation for nonorthogonal problems." *Technometrics* 12(1), 55–67.
 - **scikit-learn docs:** `sklearn.linear_model.Ridge` (fit_intercept, solver="cholesky"), scikit-learn 1.9 documentation; centring step in `sklearn/linear_model/_base.py` (`_preprocess_data`).

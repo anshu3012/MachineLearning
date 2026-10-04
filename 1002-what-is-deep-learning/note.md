@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-basics, area/foundations, step/foundations
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Linear transformations and matrices ([Note 500](../500-linear-transformations-and-matrices/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)).
-> - **Leads to:** Types of neural networks ([Note 1003](../1003-nn-types-history-applications/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)).
+> - **Leads to:** Types of neural networks ([Note 1003](../1003-nn-types-history-applications/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Convolutional neural network (CNN) ([Note 1040](../1040-cnn-intuition/note.md)).
 > - **Compare with:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 
@@ -22,6 +22,10 @@ The [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) already placed deep lear
 1. What a neural network looks like, and the technical definition of DL built on **representation learning**.
 2. Five practical differences between DL and ML.
 3. Why DL took off only after about 2012, although its ideas are much older.
+
+![Who finds the features. In ML we choose them (size, colour); in DL the layers learn them, from edges to shapes to a face](images/feature_learning.png){width=95%}
+
+Figure 1 shows the idea that runs through this Note: in DL the features come from the network's layers, not from us.
 
 ## 2. Two definitions of deep learning
 
@@ -41,7 +45,7 @@ The reasoning behind the brain as a model is simple: to build intelligent machin
 
 ![The parts of an artificial neural network: input layer, two hidden layers, output layer](images/ann_anatomy.png){height=40%}
 
-Figure 1 shows the simplest kind of network, the **artificial neural network (ANN)**:
+Figure 2 shows the simplest kind of network, the **artificial neural network (ANN)**:
 
 - Each circle is a **neuron**, also called a **perceptron**: the network's basic unit.
 - Each line connecting two neurons carries a **weight**, a number the network learns.
@@ -87,6 +91,10 @@ The output layer then gives the answer. Section 5.3 of the [AI vs ML vs DL Note]
 
 DL is used in computer vision, speech recognition, natural language processing, machine translation, bioinformatics, drug design, medical image analysis, climate science, material inspection and board-game programs. Few methods reach that many fields.
 
+![The fields where deep learning is used, as listed in section 3.1](images/fields_fan.png){width=80%}
+
+Figure 3 shows the reach: one family of methods, ten very different fields.
+
 ### 3.2 Performance
 
 > **Key point:** In many fields DL holds the state-of-the-art result, and in some it beats human experts.
@@ -96,6 +104,10 @@ In most of these fields, the best results today come from DL. In March 2016 the 
 ## 4. Five differences between DL and ML
 
 > **Key point:** DL needs more data, stronger hardware and longer training, but it predicts fast, learns its own features, and is hard to interpret.
+
+![The five differences of sections 4.1 to 4.5 as a trade: what DL costs and what it gives](images/dl_tradeoffs.png){width=75%}
+
+Figure 4 is the balance this section weighs: four costs on the left, two gains on the right.
 
 ### 4.1 Data
 
@@ -161,7 +173,7 @@ Since DL is so strong, why not use it everywhere? Because on small or tabular da
 
 > **Key point:** Five forces: large public datasets, faster hardware, easy frameworks, ready-made architectures, and a large community.
 
-The core ideas of neural networks are decades old (the [history section](../1003-nn-types-history-applications/note.md) tells the story), yet DL became famous only around 2012. Figure 2 shows the five forces behind the change.
+The core ideas of neural networks are decades old (the [history section](../1003-nn-types-history-applications/note.md) tells the story), yet DL became famous only around 2012. Figure 5 shows the five forces behind the change.
 
 ![The five forces that made deep learning practical](images/why_now.png){height=42%}
 
@@ -261,6 +273,12 @@ None of the above would exist without people. Researchers worked on neural netwo
 - ML stays the better choice for small or tabular data and when decisions must be explained.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "What is Deep Learning? Deep Learning Vs Machine Learning | Complete Deep Learning Course", YouTube, https://www.youtube.com/watch?v=fHF22Wxuyw4
+
+**Other references**
 
 - Silver et al., "Mastering the game of Go without human knowledge", *Nature*, 2017 (AlphaGo against Lee Sedol, March 2016).
 - NVIDIA, "CUDA Toolkit Archive" (CUDA Toolkit 1.0, June 2007), developer.nvidia.com.

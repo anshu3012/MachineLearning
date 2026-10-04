@@ -1,0 +1,25 @@
+sentence,block,ratio,cosine
+He sat on the river bank,1,6.4123,0.2303
+He sat on the river bank,2,0.2514,0.9685
+He sat on the river bank,3,0.1542,0.9895
+He sat on the river bank,4,0.1629,0.9888
+He sat on the river bank,5,0.0945,0.9959
+He sat on the river bank,6,0.1428,0.9902
+He sat on the river bank,7,0.1425,0.9922
+He sat on the river bank,8,0.2051,0.9847
+He sat on the river bank,9,0.1329,0.9935
+He sat on the river bank,10,0.196,0.9902
+He sat on the river bank,11,0.2373,0.9893
+He sat on the river bank,12,1.1038,0.8114
+She works at the money bank,1,5.9205,0.2504
+She works at the money bank,2,0.1926,0.9813
+She works at the money bank,3,0.1473,0.9908
+She works at the money bank,4,0.1308,0.9928
+She works at the money bank,5,0.1387,0.9917
+She works at the money bank,6,0.1277,0.9923
+She works at the money bank,7,0.1393,0.9923
+She works at the money bank,8,0.1367,0.9929
+She works at the money bank,9,0.1209,0.9942
+She works at the money bank,10,0.1327,0.9943
+She works at the money bank,11,0.2323,0.9897
+She works at the money bank,12,1.1557,0.8063

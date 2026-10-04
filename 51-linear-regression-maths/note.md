@@ -83,6 +83,10 @@ The values $x_i$ (CGPA) and $y_i$ (package) are the data: we cannot change them.
 
 So the task becomes: **find the $m$ and $b$ that make $E(m, b)$ as small as possible.**
 
+Figure 2 links the two views. On the left, each error is drawn as a square with side $|d_i|$; both axes use the same unit, so $E$ is the total orange area. On the right, the same line is a single dot on a map of $E(m, b)$, where darker means smaller. First the line turns with $b$ fixed, then it slides with $m$ fixed. Watch the squares shrink and grow: each time the area is smallest when the dot crosses the black cross, the line with $m = 0.558$ and $b = -0.896$.
+
+![Turning and sliding a line through the 160 training students. Left: the squared errors as squares, with total area E. Right: the same line as a dot on the contour map of E(m, b); the black cross marks the smallest E.](images/least_squares.gif)
+
 ## 4. Finding the minimum
 
 > **Key point:** At the lowest point of E, its slope is zero in the m direction and in the b direction. Setting both derivatives to zero gives two equations for m and b.
@@ -91,7 +95,7 @@ So the task becomes: **find the $m$ and $b$ that make $E(m, b)$ as small as poss
 
 > **Key point:** E is a bowl. Its lowest point is the best line, and there the bowl is flat in every direction.
 
-Figure 2 draws $E(m, b)$ for the 160 training students: each point of the surface is one line, and its height is that line's total error.
+Figure 3 draws $E(m, b)$ for the 160 training students: each point of the surface is one line, and its height is that line's total error.
 
 ![The error function: a bowl with the best line at the bottom](images/loss_surface.png)
 
@@ -151,7 +155,7 @@ $$m = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 
 The top of the $m$ formula is $n$ times the covariance of $x$ and $y$; the bottom is $n$ times the variance of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
-> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of straight-line expressions, a bowl that only curves upward (Figure 2). The check uses the second derivatives:
+> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of straight-line expressions, a bowl that only curves upward (Figure 3). The check uses the second derivatives:
 >
 > $$\frac{\partial^2 E}{\partial b^2} = 2n, \qquad \frac{\partial^2 E}{\partial m^2} = 2\sum x_i^2, \qquad \frac{\partial^2 E}{\partial m\thinspace\partial b} = 2\sum x_i$$
 >
@@ -172,6 +176,10 @@ Then
 $$m = \frac{101.204}{181.384} = 0.558$$
 
 $$b = 3.0039 - 0.558 \times 6.9899 = -0.896$$
+
+Figure 4 draws this line on the training students. As Step 1 promised, the line passes exactly through the point of means $(\bar{x}, \bar{y})$.
+
+![The OLS line on the 160 training students passes through the point of means (6.99, 3.00)](images/through_means.png)
 
 These are the numbers `LinearRegression` reported. scikit-learn reaches them by a different route: instead of these sums, `LinearRegression` solves the same least-squares problem with a matrix method, `scipy.linalg.lstsq` (scikit-learn docs, LinearRegression). The same problem has the same answer, so both give the same $m$ and $b$.
 
@@ -223,6 +231,13 @@ The predictions match scikit-learn's to every digit shown. The Notebook also che
 - scikit-learn's `LinearRegression` solves the same least-squares problem (with `scipy.linalg.lstsq`) and gets the same $m$ and $b$.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Simple Linear Regression | Mathematical Formulation | Coding from Scratch", YouTube, https://www.youtube.com/watch?v=dXHIDLPKdmA
+- Starmer, J. (StatQuest), "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression)", statquest.org. The intuition of turning a line and watching the squared errors change, behind Figure 2; we redraw it with our own data.
+
+**Other references**
 
 - scikit-learn API reference, `sklearn.linear_model.LinearRegression`, Notes section. scikit-learn.org.
 - *The Python Language Reference*, §8.8 Class definitions. docs.python.org.

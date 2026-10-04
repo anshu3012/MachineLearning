@@ -166,6 +166,12 @@ Figure 4 (right) shows positive autocorrelation: long runs above 0 followed by l
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "What are the main Assumptions of Linear Regression? | Top 5 Assumptions of Linear Regression", YouTube, https://www.youtube.com/watch?v=EmSNAtcHLm8
+
+**Other references**
+
 - **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. §3.3.3, Potential Problems.
 - **Kutner**: Kutner, Nachtsheim, Neter, Li, *Applied Linear Statistical Models*, 5th ed., McGraw-Hill, 2005. Ch. 3 (diagnostics and remedial measures), §7.6 (multicollinearity and its effects).
 - **Hoerl and Kennard**: A. E. Hoerl and R. W. Kennard, "Ridge Regression: Biased Estimation for Nonorthogonal Problems", *Technometrics* 12(1), 55–67, 1970.

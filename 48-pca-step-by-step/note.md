@@ -293,6 +293,12 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Principle Component Analysis (PCA) | Part 2 | Problem Formulation and Step by Step Solution", YouTube, https://www.youtube.com/watch?v=tXXnxjj2wM4
+
+**Other references**
+
 - Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*, Section 12.1.1, "Maximum variance formulation". Springer.
 - Strang, G. (2016). *Introduction to Linear Algebra*, 5th edition, Section 6.4, "Symmetric matrices". Wellesley-Cambridge Press.
 

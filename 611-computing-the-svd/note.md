@@ -67,6 +67,10 @@ $A$ itself may have no useful eigenvectors, but $A^{\mathsf T}A$ always does, fo
 - **$A^{\mathsf T}A$ is symmetric.** Its transpose is $A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$, itself. A symmetric matrix always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 4.3). So $V$ can always be built as an orthogonal matrix.
 - **Its eigenvalues are never negative.** For a unit eigenvector $\mathbf{v}$ with eigenvalue $\lambda$, $\lambda = \mathbf{v}^{\mathsf T}A^{\mathsf T}A\mathbf{v} = \lVert A\mathbf{v}\rVert^2 \ge 0$. So the square root $\sigma = \sqrt\lambda$ is a real, non-negative number. The formula also says $\sigma$ is the length of $A\mathbf{v}$, as in the geometry Note.
 
+Figure 2 shows where these numbers live for $A$ with rows $[3, 0]$ and $[4, 5]$. A unit vector $\mathbf{v}$ goes round the circle, $A\mathbf{v}$ goes round an ellipse, and the graph tracks the length $\lVert A\mathbf{v} \rVert$. Watch the peak and the trough: the longest stretch, $\sqrt{45} = 6.71$, comes at $\mathbf v_1 = [1, 1]/\sqrt2$, and the shortest, $\sqrt5 = 2.24$, at $\mathbf v_2 = [-1, 1]/\sqrt2$, exactly the eigenvectors and the square roots of the eigenvalues that Section 3 computes.
+
+![A unit vector $\mathbf{v}$ sweeps the circle and $A\mathbf{v}$ sweeps an ellipse; the length of $A\mathbf{v}$ peaks at $\sigma_1 = \sqrt{45}$ along $\mathbf v_1$ and bottoms out at $\sigma_2 = \sqrt5$ along $\mathbf v_2$, at 90° to $\mathbf v_1$](images/stretch_sweep.gif)
+
 So $A^{\mathsf T}A$ is symmetric and positive semi-definite, for every matrix $A$ of any shape.
 
 ### 2.3 $AA^{\mathsf T}$ gives $U$, with the same numbers
@@ -198,7 +202,7 @@ A column times a row is a whole matrix of rank 1. The [low-rank approximation No
 
 > **Key point:** The $\mathbf{v}$'s split the input space into the row space and the null space; the $\mathbf{u}$'s split the output space into the column space and the left null space. The SVD gives perpendicular bases for all four.
 
-The rank-1 example shows a pattern that holds for every matrix. Figure 2 draws it for $C$.
+The rank-1 example shows a pattern that holds for every matrix. Figure 3 draws it for $C$.
 
 ![The SVD of $C$ gives a basis for each of its four subspaces](images/four_subspaces.png)
 
@@ -275,9 +279,15 @@ So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine 
 
 ## 10. Sources
 
-- NumPy documentation. `numpy.linalg.svd` (uses LAPACK `gesdd`).
+**Built from**
+
 - Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Section 7.2, bases and matrices in the SVD.
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.5.2 (MML).
+- Strang, G., MIT OpenCourseWare 18.06 *Linear Algebra*, "Lecture 29: Singular value decomposition" (video, recorded 1999), ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition. The recipe, the sign trap, the rank-1 example and the four subspaces (Sections 3 to 6).
+
+**Other references**
+
+- NumPy documentation. `numpy.linalg.svd` (uses LAPACK `gesdd`).
 - Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 12 (conditioning), Lecture 19 (least squares and the normal equations), Lecture 31 (computing the SVD).
 
 ## 11. Key terms

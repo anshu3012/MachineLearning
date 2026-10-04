@@ -8,8 +8,8 @@ tags: [subject/ml, area/features, area/foundations, step/foundations, step/featu
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)); Categorical and sparse categorical cross-entropy ([Note 1012](../1012-mnist-ann/note.md)).
-> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)).
+> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)); Categorical and sparse categorical cross-entropy ([Note 633](../633-mle-in-machine-learning/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
+> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)); Word embeddings ([Note 1057](../1057-rnn-sentiment-analysis/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -237,6 +237,12 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 - A 1D tensor with *n* items is an *n*-dimensional vector: two different meanings of "dimension".
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "What are Tensors | Tensor In-depth Explanation | Tensor in Machine Learning", YouTube, https://www.youtube.com/watch?v=vVhD2EyS41Y
+
+**Other references**
 
 - Le Gall, D. (1991). MPEG: A Video Compression Standard for Multimedia Applications. *Communications of the ACM* 34(4).
 - NumPy documentation. The N-dimensional array (`ndarray`). numpy.org/doc.

@@ -230,6 +230,12 @@ In ML we use either form, depending on what a calculation needs. When a book or 
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1", YouTube, https://www.youtube.com/watch?v=mQewAJb8oJ8
+
+**Other references**
+
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §12.1.2 "GPU Implementations".
 - scikit-learn developers. *User Guide*, §8.3.4 "Encoding categorical features". scikit-learn.org, preprocessing.html.
 

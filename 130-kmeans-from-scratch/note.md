@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/clustering, concept/kmeans
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Elbow method and WCSS ([Note 129](../129-kmeans-code/note.md)).
 > - **Leads to:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
-> - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
+> - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -242,6 +242,12 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 - Fix bad starts by restarting several times and keeping the lowest WCSS.
 
 ## 11. Sources
+
+**Built from**
+
+- CampusX, "K-Means Clustering Algorithm From Scratch In Python | ML Algorithms From Scratch", YouTube, https://www.youtube.com/watch?v=MFraC1JObUo
+
+**Other references**
 
 - ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.6 (k-means; restarting from several random starts and keeping the lowest objective).
 - scikit-learn source, `_k_means_common.pyx`: the function `_relocate_empty_clusters_dense` in `sklearn/cluster/_k_means_common.pyx`, scikit-learn 1.9.

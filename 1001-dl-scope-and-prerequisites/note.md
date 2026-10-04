@@ -25,6 +25,10 @@ Figure 1 shows the plan. Each family builds on the one before it, and each suits
 
 > **Key point:** ANNs come first and take about a third of the Notes; CNNs, RNNs and transformers each reuse the ANN machinery for one kind of data.
 
+![One picture from each family, taken from the Notes ahead: the perceptron (Note 1004), learned convolution filters (Note 1042), a recurrent layer (Note 1056) and an attention map (Note 1069)](images/family_thumbs.png){width=90%}
+
+Figure 2 previews what each family looks like once we reach it.
+
 ### 2.1 Artificial neural networks
 
 > **Key point:** From one artificial neuron to a full network: how it predicts, how it is trained, and how to make it train well.
@@ -57,6 +61,10 @@ Most deep learning code in these Notes uses **TensorFlow** with **Keras**, its b
 ## 3. What to know first
 
 > **Key point:** Four things: basic Python, the overall flow of an ML project, vectors and matrices, and derivatives.
+
+![Where each prerequisite shows up in one layer of a network, $\sigma(W\mathbf{x} + \mathbf{b})$](images/prereq_neuron.png){width=75%}
+
+Figure 3 ties the four prerequisites to one formula: linear algebra builds $W\mathbf{x} + \mathbf{b}$, logistic regression supplies the sigmoid, derivatives train the weights, and Python runs it.
 
 The Deep Learning Notes assume four things. Each row of the table links to the Notes that teach it:
 
@@ -108,6 +116,12 @@ Training is like walking downhill in fog: we cannot see the valley, but we can f
 - Read the logistic regression and gradient descent Notes first: a sigmoid neuron computes the same formula as logistic regression, and every network is trained with gradient descent.
 
 ## 5. Sources
+
+**Built from**
+
+- CampusX, "100 Days of Deep Learning | Course Announcement", YouTube, https://www.youtube.com/watch?v=2dH_qjc9mFg
+
+**Other references**
 
 - Vaswani et al., "Attention Is All You Need", NeurIPS 2017.
 - Brown et al., "Language Models are Few-Shot Learners", NeurIPS 2020.

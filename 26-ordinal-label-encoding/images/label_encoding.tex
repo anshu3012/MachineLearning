@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \tikzset{cell/.style={draw=#1, fill=white, minimum width=2.4cm, minimum height=0.75cm}}
+  \node[box=cgrey, minimum width=2.4cm, minimum height=0.8cm, inner sep=3pt, font=\sffamily\bfseries\large] at (0,0) {purchased};
+  \foreach \v [count=\i] in {Yes,Yes,No,No,No} \node[cell=cgrey] at (0,-0.78*\i) {\v};
+  \draw[arrow] (1.6,-2.3) -- (3.4,-2.3);
+  \node[box=cgreen, minimum width=2.4cm, minimum height=0.8cm, inner sep=3pt, font=\sffamily\bfseries\large] at (5,0) {purchased};
+  \foreach \v [count=\i] in {1,1,0,0,0} \node[cell=cgreen] at (5,-0.78*\i) {\v};
+  \node[box=cgreen, fill=white, align=left, anchor=west] at (7.0,-2.3) {No $\rightarrow$ 0\\Yes $\rightarrow$ 1};
+  \node[note, anchor=west, text width=4.6cm, align=left] at (7.0,-4.0) {alphabetical;\\we cannot choose};
+\end{tikzpicture}
+\end{document}

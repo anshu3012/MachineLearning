@@ -8,7 +8,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/derivative, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
+> - **Leads to:** Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Maximum likelihood estimation (MLE) ([Note 631](../631-maximum-likelihood-estimation/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -79,6 +79,10 @@ The slopes approach 2. Figure 1 shows the same thing as a picture: the secant li
 3. **Example:** the algebra explains the table. For $f(x) = x^2$,
    $$\frac{(x + h)^2 - x^2}{h} = \frac{x^2 + 2xh + h^2 - x^2}{h} = 2x + h \thickspace\longrightarrow\thickspace2x$$
    At $x = 1$ the difference quotient is $2 + h$: that is 3 for $h = 1$, 2.1 for $h = 0.1$, and the limit is $f'(1) = 2$.
+
+![A square of side $x = 1$ grows by $h$. The new area is two orange strips of area $xh$ and a green corner $h^2$, so the change divided by $h$ is $2x + h$. Key frames: $h = 1$, $0.5$, $0.1$, and the limit](images/square_area.gif)
+
+Figure 2 shows the same algebra as areas. Watch the green corner: it is $h^2$, so it shrinks much faster than the two strips, and only the strips, $2xh$, are left to divide by $h$. The picture is Sanderson's (3Blue1Brown, "Power Rule through geometry"), redrawn with our numbers.
 
 The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A function whose derivative exists at a point is **differentiable** there. Gradient descent uses the derivative of the loss at every step, so it needs a loss that is differentiable.
 
@@ -159,6 +163,10 @@ Write $f'$ and $g'$ for the derivatives of two functions $f$ and $g$.
 - **Product rule:** differentiate one factor at a time, keep the other, and add.
   $$\big(f(x)\thinspace g(x)\big)' = f'(x)\thinspace g(x) + f(x)\thinspace g'(x)$$
   Example: $x^2(3x + 1)$ at $x = 1$ gives $2x(3x + 1) + x^2 \cdot 3 = 2 \cdot 4 + 1 \cdot 3 = 11$. Multiplying out first, $3x^3 + x^2$ has derivative $9x^2 + 2x = 11$: the same.
+
+  ![The product $f g$ as the area of a rectangle with sides $f = x^2$ and $g = 3x + 1$ (1 by 4 at $x = 1$). Nudging $x$ by $h$ adds a right strip $g\thinspace df$, a top strip $f\thinspace dg$ and a tiny corner; the change divided by $h$ settles at 11](images/product_area.gif)
+
+  Figure 3 draws the product rule as a growing rectangle, again after Sanderson (3Blue1Brown, "Visualizing the chain rule and product rule"). Watch the corner $df\thinspace dg$ vanish: what remains is one strip per factor, $f'g + fg'$.
 - **Quotient rule:** for a fraction,
   $$\left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)\thinspace g(x) - f(x)\thinspace g'(x)}{g(x)^2}$$
   Example: $\dfrac{x}{x^2 + 1}$ at $x = 2$ gives
@@ -210,7 +218,7 @@ We write $f^{(k)}$ for the $k$-th derivative: $f^{(0)} = f$, $f^{(1)} = f'$, $f^
 
 ![Taylor polynomials of $\sin x$ around $x_0 = 0$ (blue dot): each higher degree follows the curve over a wider range](images/taylor_sin.png){height=38%}
 
-Figure 2 shows the pattern. Near $x_0$ every polynomial is close to $\sin x$. Further away, the low-degree ones drift off, while $T_9$ stays on the curve for a whole wave. A Taylor polynomial is a **local** approximation: good near $x_0$, getting worse with distance.
+Figure 4 shows the pattern. Near $x_0$ every polynomial is close to $\sin x$. Further away, the low-degree ones drift off, while $T_9$ stays on the curve for a whole wave. A Taylor polynomial is a **local** approximation: good near $x_0$, getting worse with distance.
 
 ### 6.2 Degree 1: the tangent line
 
@@ -267,7 +275,13 @@ Exactness for polynomials explains a result of the [XGBoost maths Note](../126-x
 
 ## 8. Sources
 
+**Built from**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 5.1 and 7.1.1 (MML).
+- Sanderson, G. (3Blue1Brown). "Power Rule through geometry" and "Visualizing the chain rule and product rule", *Essence of Calculus*, chapters 3 and 5. 3blue1brown.com/lessons/derivatives-power-rule and 3blue1brown.com/lessons/chain-rule-and-product-rule
+
+**Other references**
+
 - Muller, J.-M. (2016). *Elementary Functions: Algorithms and Implementation*, 3rd ed. Birkhäuser.
 - Nocedal, J. and Wright, S. J. (2006). *Numerical Optimization*, 2nd ed. Springer. Section 8.1, finite-difference derivative approximations.
 

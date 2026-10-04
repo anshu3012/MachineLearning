@@ -9,7 +9,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 119](../119-bagging-vs-boosting/note.md)).
-> - **Leads to:** XGBoost ([Note 123](../123-xgboost-intro/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
+> - **Leads to:** XGBoost ([Note 123](../123-xgboost-intro/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)); AdaGrad ([Note 1036](../1036-adagrad/note.md)).
 > - **Compare with:** AdaBoost ([Note 118](../118-adaboost-hyperparameters/note.md)).
 <!-- /where-this-fits -->
 
@@ -157,6 +157,10 @@ Before adding model 3, we measure how wrong the combined model of stage 2 is.
 
 Every residual moved towards 0: $-1.8$ became $-1.62$, $3.2$ became $2.88$. A residual of 0 means no gap between actual and predicted, so the goal is to keep adding models until the residuals are close to 0.
 
+Figure 3 keeps going past the table. Watch the residual bars on the right: each tree removes a tenth of what is left, so they shrink by the same share at every stage. After 50 trees every residual is within 0.02 of 0, and the blue bars fill the outlines of the actual packages.
+
+![Gradient boosting on the five students, learning rate 0.1. Left: actual package (outline) and the model's prediction (blue bar). Right: the residuals the next tree is trained on](images/five_students.gif){height=45%}
+
 Model 3 is again a regression tree: features IQ and CGPA, target *res2*. Model 3 predicts the mistakes of models 1 and 2 together. On this tiny dataset model 3 splits like tree 1, with leaves $-1.62$, $-0.72$, $2.88$ and $1.08$. Adding $0.1$ times its output gives *pred3*, and *res3* is smaller again.
 
 ## 10. Predicting for a new student
@@ -179,7 +183,7 @@ The same steps on a bigger dataset show what each stage does. We take 100 points
 
 ![Gradient boosting on the curve, learning rate 0.5: residuals of the current model (grey), the tree trained on them (green), and the model after adding half of it (red)](images/residual_fitting.gif)
 
-Figure 3 runs three stages, with learning rate 0.5:
+Figure 4 runs three stages, with learning rate 0.5:
 
 1. **Stage 1:** the model is the mean of $y$, 0.265: a flat red line.
 2. **Residuals:** the grey sticks are the residuals; the lower panel shows them as points.
@@ -188,7 +192,7 @@ Figure 3 runs three stages, with learning rate 0.5:
 
 ![The model after 0, 1, 2, 3, 10 and 50 trees (learning rate 1, 8 leaves per tree), with training and test error](images/stages.png){height=46%}
 
-Figure 4 continues further, with learning rate 1. One tree already captures the U shape, and the training error falls from 0.0557 to 0.0033. After 10 and 50 trees the red line zigzags through every training point and the training error reaches 0. The test error rises: averaged over 20 fresh datasets of the same kind, each tested on 5,000 new points, from 0.00450 after 3 trees to 0.00506 after 50 (Figure 4's titles show the single dataset drawn). Rising test error with falling training error is overfitting again, this time from too many trees.
+Figure 5 continues further, with learning rate 1. One tree already captures the U shape, and the training error falls from 0.0557 to 0.0033. After 10 and 50 trees the red line zigzags through every training point and the training error reaches 0. The test error rises: averaged over 20 fresh datasets of the same kind, each tested on 5,000 new points, from 0.00450 after 3 trees to 0.00506 after 50 (Figure 5's titles show the single dataset drawn). Rising test error with falling training error is overfitting again, this time from too many trees.
 
 > **Python:** The whole loop is a few lines.
 >
@@ -220,6 +224,10 @@ The trade-off is the one of the [AdaBoost hyperparameters Note](../118-adaboost-
 | 0.1 | **0.00350** | 35 trees | 0.00463 |
 
 With learning rate 1 the training error reaches 0 after about 50 trees, while the test error climbs back up. Learning rate 0.1 needs more trees, but its best test error is the lowest of the three, and after 200 trees it has climbed the least. ESL §10.12.1 reports the same: smaller learning rates give better test error and need more trees. (The noise in $y$ alone gives a test error of $0.05^2 = 0.0025$, the floor no model can beat.)
+
+Figure 6 runs the three learning rates side by side. Watch the stars in the lower panel: learning rate 1 reaches its lowest test error first (4 trees) but the highest; learning rate 0.1 takes 35 trees to get there and lands lowest, and its curve climbs back the slowest. In the upper panels, learning rates 1 and 0.5 zigzag through the noise after 50 trees, while 0.1 still follows the U shape with far fewer jumps.
+
+![Gradient boosting with learning rates 1, 0.5 and 0.1 (8 leaves per tree), tree by tree. Top: the model on the curve data. Bottom: test error averaged over 20 fresh datasets; stars mark each learning rate's lowest test error; the dotted line is the noise floor](images/lr_race.gif){height=55%}
 
 The Notebook's playground (`app.py`, a Dash app) lets us change the number of trees, the learning rate and the leaves per tree, and watch the curve and both errors change.
 
@@ -256,6 +264,12 @@ The leaf count depends on the data: about 8 leaves for small datasets, up to abo
 - Unlike AdaBoost: bigger trees (commonly 8 to 32 leaves), and the same learning rate for every tree.
 
 ## 15. Sources
+
+**Built from**
+
+- CampusX, "Gradient Boosting Explained | How Gradient Boosting Works?", YouTube, https://www.youtube.com/watch?v=fbKz7N92mhQ
+
+**Other references**
 
 - Chen, T. and Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *Proceedings of KDD 2016*, Section 1. arxiv.org/abs/1603.02754
 - Friedman, J. H. (2001). Greedy function approximation: a gradient boosting machine. *Annals of Statistics*, 29(5), 1189–1232. (Gradient boosting with regression trees, "TreeBoost".)

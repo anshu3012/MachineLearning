@@ -165,6 +165,12 @@ The Notebook for this Note (`notebook.ipynb`) has a slider for the retraining sc
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Batch Machine Learning | Offline Vs Online Learning | Machine Learning Types", YouTube, https://www.youtube.com/watch?v=nPrhFxEuTYU
+
+**Other references**
+
 - Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M. and Bouchachia, A. (2014). A Survey on Concept Drift Adaptation. *ACM Computing Surveys* 46(4).
 
 ## 8. Key terms

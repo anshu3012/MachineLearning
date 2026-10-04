@@ -202,6 +202,12 @@ So on imbalanced data, accuracy alone is the wrong metric. The next Note introdu
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Accuracy and Confusion Matrix | Type 1 and Type 2 Errors | Classification Metrics Part 1", YouTube, https://www.youtube.com/watch?v=c09drtuCS3c
+
+**Other references**
+
 - **Fawcett 2006:** Fawcett, T. "An Introduction to ROC Analysis." *Pattern Recognition Letters* 27(8), 861–874, 2006. Figure 1.
 
 ## 9. Key terms

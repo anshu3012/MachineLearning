@@ -235,6 +235,12 @@ This picture is exactly the idea of the [regression trees Note](../99-regression
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Awesome Decision Tree Visualization using dtreeviz library", YouTube, https://www.youtube.com/watch?v=SlMZqfvl5uw
+
+**Other references**
+
 - **dtreeviz README:** T. Parr et al., dtreeviz, README at github.com/parrt/dtreeviz (supported libraries).
 - **dtreeviz 2.0.0 release notes:** github.com/parrt/dtreeviz/releases/tag/2.0.0 (the API re-organized around `dtreeviz.model`).
 - **dtreeviz source, `trees.py`:** class `DTreeVizAPI` in github.com/parrt/dtreeviz, file `dtreeviz/trees.py` (methods `view`, `explain_prediction_path`, `instance_feature_importance`, `rtree_feature_space`, `rtree_feature_space3D`).

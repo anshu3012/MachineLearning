@@ -189,6 +189,10 @@ Things to try:
 
 > **Extra:** `gamma` sets how far the influence of one training point reaches in the RBF kernel $e^{-\gamma \lVert a - b \rVert^2}$. A small gamma makes each bump wide, giving smooth boundaries (risk of underfitting). A large gamma makes each bump narrow, so the boundary wraps around individual points (risk of overfitting). scikit-learn's default, `gamma="scale"`, sets it from the spread of the data: $1 / (p \times \text{variance of } X)$, where $p$ is `n_features`, the number of features. C and gamma are usually tuned together with a grid search (sklearn, "RBF SVM parameters").
 
+Figure 3 runs that gamma sweep on the moons data, from 0.01 to 1000, with C = 1. Watch the boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
+
+![RBF SVM on the moons data as gamma grows. Left: decision regions, with support vectors ringed. Right: training accuracy and accuracy on a fresh test set of 5,000 points](images/gamma_sweep.gif)
+
 ## 9. Summary
 
 | Model | Code | Test accuracy |
@@ -205,6 +209,12 @@ Things to try:
 - A kernel returns the dot product in the higher-dimensional space directly: the kernel trick.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Kernel Trick in SVM | Code Example", YouTube, https://www.youtube.com/watch?v=pjvmVMDrzVU
+
+**Other references**
 
 - **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 12.2.1.
 - **MML:** M. P. Deisenroth, A. A. Faisal and C. S. Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020. Section 12.4, Kernels.

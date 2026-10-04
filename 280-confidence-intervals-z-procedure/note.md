@@ -243,6 +243,12 @@ The critical value completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and 
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Session 44 - Confidence Intervals | DSMP 2023", YouTube, https://www.youtube.com/watch?v=X52HK2qkiIE
+
+**Other references**
+
 - Waskom, M. L. (2021). "seaborn: statistical data visualization." *Journal of Open Source Software* 6(60), 3021.
 - seaborn developers. *seaborn v0.13 documentation*: tutorial "Statistical estimation and error bars", and API reference `seaborn.barplot` (`errorbar=("ci", 95)`, `n_boot=1000`). seaborn.pydata.org.
 

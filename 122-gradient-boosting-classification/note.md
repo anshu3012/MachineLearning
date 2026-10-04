@@ -191,6 +191,10 @@ Each student's new log-odds adds both trees: student 4 gets $0.51 + 0.18 - 1.09 
 
 All eight students are now on the correct side of 0.5. Not every probability improved: students 1, 6 and 7 moved slightly away from their class, because tree 2 put them in a leaf with student 4. Taken together, though, the model got better: the average log loss fell from 0.66 (stage 1) to 0.31 (stage 2) and 0.22 (stage 3).
 
+Figure 3 plays the stages, and continues for two more trees built the same way. Watch the residual bars, the red gaps between each probability and its true class: every tree shortens most of them, student 4's long bar shrinks with tree 2, and the log loss on the right keeps falling (0.13 and 0.08 after trees 3 and 4).
+
+![Each student's probability of placement (filled dot) moves towards its true class (ring) stage by stage; the red bar is the pseudo-residual y - p that the next tree learns. Right: average log loss. Learning rate 1, trees with 3 leaves, as in the tables. Drawing residuals as bars to the true class follows StatQuest's "Gradient Boost Part 3: Classification" (Starmer)](images/prob_climb.gif)
+
 ## 11. Predicting a new student
 
 > **Key point:** Add $F_0$ and the leaf values of every tree to get the log-odds, apply the sigmoid, and compare with the threshold.
@@ -227,11 +231,11 @@ To see what the stages do, we use a harder dataset of 1,500 points with two feat
 
 ![The data lifted to height 0 (class 0) or 1 (class 1), with the model's probability surface after one tree](images/view3d.png){height=42%}
 
-In Figure 3, each point sits at the height of its class: class 0 on the floor, class 1 at height 1. Stage 1 is a flat surface at the share of class 1, 0.5. One tree with 4 leaves cuts the plane into 4 rectangles and lifts or lowers the surface over each one, towards the points above or below it.
+In Figure 4, each point sits at the height of its class: class 0 on the floor, class 1 at height 1. Stage 1 is a flat surface at the share of class 1, 0.5. One tree with 4 leaves cuts the plane into 4 rectangles and lifts or lowers the surface over each one, towards the points above or below it.
 
 ![Probability of class 1 after 0, 1, 2, 10, 30 and 100 trees (learning rate 0.5, 4 leaves per tree); blue above 0.5, orange below](images/surfaces.png){height=50%}
 
-Figure 4 looks at the same surface from above, after more trees:
+Figure 5 looks at the same surface from above, after more trees:
 
 | Trees | Training accuracy | Test accuracy |
 |---|---|---|
@@ -263,6 +267,13 @@ Each tree adds a few axis-parallel rectangles, so the boundary is built from str
 - Geometrically, each tree raises or lowers a probability surface over rectangles of the feature space; many trees give a curved, flexible boundary.
 
 ## 14. Sources
+
+**Built from**
+
+- CampusX, "Gradient Boosting for Classification | Geometric Intuition | CampusX", YouTube, https://www.youtube.com/watch?v=4p5EQtyxSyI
+- Starmer, J. (StatQuest). "Gradient Boost Part 3 (of 4): Classification." statquest.org. The idea of drawing each residual as the gap between a probability and its class (Figure 3).
+
+**Other references**
 
 - Friedman, J. H. (2001). Greedy function approximation: a gradient boosting machine. *Annals of Statistics*, 29(5), 1189–1232. (Two-class logistic regression: leaf values from a single Newton–Raphson step.)
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed., Springer. §10.12 (the number of trees $M$ is chosen to avoid overfitting).

@@ -8,7 +8,7 @@ tags: [subject/ml, area/probability, step/foundations, concept/conditional-proba
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Bayes' theorem ([Note 85](../85-bayes-theorem/note.md)).
+> - **Leads to:** Independent and mutually exclusive events ([Note 83](../83-independent-events/note.md)); Bayes' theorem ([Note 85](../85-bayes-theorem/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -67,6 +67,10 @@ $$P(A \mid B) = \frac{5}{33} \approx 0.152$$
 
 Knowing B has lowered the chance of A slightly, from $6/36 \approx 0.167$, because B ruled out one of A's outcomes.
 
+Figure 3 shows the shrinking as motion, after the geometric picture of Bayes' rule by Sanderson (3Blue1Brown). Watch the three cells outside B disappear; the 33 cells left are then laid out again to fill the same area as the original 36, because B is now the whole world. A's 5 cells (red) take $5/33$ of it. The last scene swaps the roles, as in section 4.
+
+![Conditioning shrinks the sample space: the 3 outcomes outside B are ruled out, the 33 left become the whole world and A covers 5 of them; given A instead, B covers 5 of A's 6 outcomes](images/shrink_space.gif)
+
 ### 3.3 The same answer from the formula
 
 > **Key point:** P(A ∩ B) = 5/36 and P(B) = 33/36; dividing gives 5/33.
@@ -102,7 +106,7 @@ The order matters. Given that die 1 shows 5, the reduced space is its 6 outcomes
 
 $$P(B \mid A) = \frac{P(A \cap B)}{P(A)} = \frac{5/36}{6/36} = \frac{5}{6}$$
 
-So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$. Confusing the two is a classic mistake. Bayes' theorem (two Notes later) is exactly the rule that converts one into the other.
+So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$ (Figure 3, last scene). Confusing the two is a classic mistake. Bayes' theorem (two Notes later) is exactly the rule that converts one into the other.
 
 ## 5. Summary
 
@@ -111,6 +115,13 @@ So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$. Confusing the two is a classi
 - Two dice: $P(\text{die 1} = 5 \mid \text{sum} \leq 10) = 5/33$, against $P(\text{sum} \leq 10 \mid \text{die 1} = 5) = 5/6$.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 1 | Conditional Probability", YouTube, https://www.youtube.com/watch?v=Ty7knppVo9E
+- **Sanderson, G. (3Blue1Brown):** "Bayes' theorem", 3blue1brown.com/lessons/bayes-theorem. The picture of conditioning as shrinking the space of possibilities; Figure 3 recreates it with our own dice example.
+
+**Other references**
 
 - **scikit-learn user guide:** Section 1.9, "Naive Bayes", scikit-learn 1.9.
 

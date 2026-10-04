@@ -135,6 +135,10 @@ $$\text{new coefficients} = \text{old coefficients} - \eta \times (x, y, 1)$$
 
 With $\eta = 0.1$, the first example gives $(2 - 0.5,\ 3 - 0.2,\ 5 - 0.1) = (1.5,\ 2.8,\ 4.9)$. The point's value drops from 21 to 18: the line has moved a little towards it. Repeated small steps get it to the correct side.
 
+![The perceptron trick in small steps, learning rate 0.1. First, the negative point (5, 2) sits on the positive (green) side; each step subtracts $0.1 \times (5, 2, 1)$ from the coefficients, its value falls by 3 (21, 18, 15, ...), and at step 8 the point is on the negative side. Then the positive point $(-3, -2)$; each step adds $0.1 \times (-3, -2, 1)$, its value rises by 1.4 from $-7$, and it crosses at step 6. The dashed line is the start line $2x + 3y + 5 = 0$](images/small_steps.gif){width=100%}
+
+In Figure 5, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount, because, writing the point as $p = (x, y, 1)$, $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$: the change is $0.1 \times (25 + 4 + 1) = 3$ for $(5, 2)$ and $0.1 \times (9 + 4 + 1) = 1.4$ for $(-3, -2)$.
+
 ## 7. Writing the algorithm compactly
 
 > **Key point:** With a column of 1s and weights w, the line is Σ wᵢxᵢ = 0, and all four cases fit in one update rule.
@@ -199,6 +203,12 @@ So the loop needs no if-statements: for each random point, compute $\hat{y}$ and
 - The perceptron trick finds a separating line, but not necessarily the best one; which line it finds depends on the starting line and the order of the points (Bishop §4.1.7). The next Notes fix this.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Logistic Regression Part 1 | Perceptron Trick", YouTube, https://www.youtube.com/watch?v=XNXzVfItWGY
+
+**Other references**
 
 - **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.1.7, pp. 192–196 (the perceptron algorithm; p. 194 on many solutions).
 

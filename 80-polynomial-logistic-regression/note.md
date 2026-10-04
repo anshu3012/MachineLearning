@@ -61,7 +61,9 @@ The number of features grows quickly with the degree: 2 at degree 1, 5 at degree
 
 The data has 200 points in two interlocking half-moon shapes (`make_moons` with noise 0.25). No straight line can separate them. Each model is scored on a large fresh test set of 5,000 points from the same generator. Regularisation is kept weak (`C=10000`) so that the effect of the degree is visible. The figure shows one training set; the table averages 20 training sets, so that one lucky or unlucky sample cannot decide the result.
 
-![Decision regions for degrees 1, 2, 3, 4, 10 and 25](images/degrees.png){height=58%}
+Figure 1 raises the degree one step per frame. Watch the black boundary bend around the moons, and the two accuracy curves split apart after degree 3.
+
+![Degree swept from 1 to 25. Left: decision regions for one training set (black line: the boundary). Right: training and test accuracy, averaged over 20 training sets](images/degree_sweep.gif)
 
 | Degree | Features | Training accuracy | Test accuracy | Gap |
 |---|---|---|---|---|
@@ -107,7 +109,13 @@ On real data with strongly non-linear patterns, decision trees, random forests o
 - On the moons data: test accuracy 0.854 (straight line) rises to 0.935 (degree 3), then falls at higher degrees while training accuracy keeps rising.
 - Choose the degree on data not used for training; standardise the new features; regularisation limits overfitting.
 
-## 6. Key terms
+## 6. Sources
+
+**Built from**
+
+- CampusX, "Polynomial Features in Logistic Regression | Non Linear Logistic Regression | Logistic Regression 7", YouTube, https://www.youtube.com/watch?v=WnBYW_DX3sM
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

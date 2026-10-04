@@ -9,7 +9,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Events and sample spaces ([Note 330](../330-events-and-types-of-events/note.md)); Venn diagrams and contingency tables ([Note 340](../340-venn-diagrams-and-contingency-tables/note.md)).
-> - **Leads to:** Chi-square tests ([Note 571](../571-chi-square-tests/note.md)).
+> - **Leads to:** Chi-square tests ([Note 571](../571-chi-square-tests/note.md)); MAP estimation ([Note 633](../633-mle-in-machine-learning/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -339,7 +339,13 @@ With one input **feature** (an input variable, one column of the data table) we 
 - By counting: reduce the sample space to the condition, then count the event inside it.
 - Independent events have $P(A \mid B) = P(A)$; class and survival on the Titanic are dependent.
 
-## 8. Key terms
+## 8. Sources
+
+**Built from**
+
+- CampusX, "Mastering Probability for ML: Joint | Marginal | Conditional Probability and Bayes' Theorem", YouTube, https://www.youtube.com/watch?v=ndHDsvqmbuI
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -9,7 +9,7 @@ tags: [subject/ml, area/models-1, step/model, concept/minibatch-gd]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)).
-> - **Leads to:** Batch size in Keras ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
+> - **Leads to:** Batch size in Keras ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)).
 > - **Compare with:** Stochastic gradient descent ([Note 59](../59-stochastic-gradient-descent/note.md)).
 <!-- /where-this-fits -->
 
@@ -83,13 +83,13 @@ where $|B|$ is the number of observations in the batch.
 
 > **Key point:** In three epochs, batch barely moves, stochastic arrives but zigzags, and mini-batch arrives on a smoother path.
 
-Figure 1 runs all three for 3 epochs on the 100-point example, with the same learning rate of 0.05.
+Figure 1 runs all three for 3 epochs on the 100-point example, with the same learning rate of 0.05. The race is fair: in every frame, each method reads the same 10 observations. Watch the green mini-batch path: one step per frame, straighter than the orange stochastic path, and far ahead of the red batch path.
 
-![Batch, stochastic and mini-batch gradient descent over 3 epochs](images/three_paths.png)
+![Batch, mini-batch and stochastic gradient descent reading the same data, 10 observations per frame, for 3 epochs. Left: the paths on the loss contours. Right: the loss against the observations read.](images/gd_race.gif)
 
 - **Batch** (3 updates in total) has only just started.
 - **Stochastic** (300 updates) reaches the minimum, then jumps around it.
-- **Mini-batch of 10** (30 updates) follows a much smoother path and is almost there.
+- **Mini-batch of 10** (30 updates) follows a much smoother path and is almost there. In its last epoch its path is about as long as the distance it covers (ratio 1.05), while the stochastic path is 27 times longer than its net move.
 
 Averaging the derivative over 10 observations cancels much of the noise of a single observation, while still updating 10 times as often as batch. The noise of an average of $B$ values is $1/\sqrt{B}$ of the noise of one value (Goodfellow §8.1.3), so with $B = 10$ each step carries about a third ($0.32$) of a single observation's noise.
 
@@ -163,6 +163,12 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 - In scikit-learn, `partial_fit` on successive batches gives mini-batch-style training.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Mini-Batch Gradient Descent", YouTube, https://www.youtube.com/watch?v=_scscQ4HVTY
+
+**Other references**
 
 - **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §8.1.3 (batch and minibatch algorithms).
 - **Masters and Luschi**: D. Masters and C. Luschi, "Revisiting Small Batch Training for Deep Neural Networks", arXiv:1804.07612, 2018.

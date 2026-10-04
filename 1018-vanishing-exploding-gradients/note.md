@@ -9,7 +9,8 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, step/model, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Training curves (History) ([Note 1013](../1013-graduate-admission-ann/note.md)); Backpropagation ([Note 1017](../1017-backpropagation-why/note.md)).
-> - **Leads to:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
+> - **Leads to:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Dying ReLU problem ([Note 1028](../1028-relu-variants/note.md)); Weight initialisation ([Note 1029](../1029-weight-initialization/note.md)); Skip connections ([Note 1054](../1054-keras-functional-api/note.md)); Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)).
+> - **Compare with:** Tanh ([Note 1027](../1027-activation-functions/note.md)); Leaky ReLU, PReLU, ELU and SELU ([Note 1028](../1028-relu-variants/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -134,6 +135,12 @@ Two signs:
 1. **The loss does not change.** Keras prints the loss after every epoch. If it stays at its starting value, as in Figure 2, the gradients may be vanishing.
 2. **The weights do not change.** Plot a weight such as $W_{11}^{1}$ against the epoch. A flat line means it is not being updated. Tools such as TensorBoard draw these plots automatically during training.
 
+Figure 3 shows both signs at once. Watch the red bars: in the backward pass each sigmoid layer cuts the gradient again, and during training the first layer's bar stays near $10^{-9}$ while the red loss stays flat at 0.70.
+
+![The gradient of every layer for 10 sigmoid layers (red) and 10 ReLU layers (green), log scale. First the backward pass at the start, from layer 11 (output) to layer 1 (input); then training, every second epoch, with the loss below](images/gradient_flow.gif){width=100% height=58%}
+
+The ReLU gradients are about the same size in every layer throughout. They grow while the network learns and shrink after epoch 75 because the loss is then close to 0: every gradient carries the output error $(y - \hat{y})$ as a factor (section 3.2), and that error is almost 0 once the network fits the data.
+
 ## 6. Five ways to fix it
 
 > **Key point:** Fewer layers; ReLU instead of sigmoid; better starting weights; batch normalisation; residual connections. The first two are shown here; the others have their own Notes later.
@@ -250,6 +257,12 @@ With clipping the same network produces finite numbers: the loss falls from 12,1
 - 3 sigmoid layers or 10 ReLU layers learn the moons data; 10 sigmoid layers cannot.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Vanishing Gradient Problem in ANN | Exploding Gradient Problem | Code Example", YouTube, https://www.youtube.com/watch?v=uCrevbBh0zM
+
+**Other references**
 
 - Glorot, X. and Bengio, Y., "Understanding the difficulty of training deep feedforward neural networks", AISTATS 2010.
 - He, K., Zhang, X., Ren, S. and Sun, J., "Delving Deep into Rectifiers", ICCV 2015 (He initialisation).

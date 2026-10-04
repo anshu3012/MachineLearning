@@ -260,6 +260,12 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 
 ## 12. Sources
 
+**Built from**
+
+- CampusX, "Outlier Detection and Removal using the IQR Method | Handing Outliers Part 3", YouTube, https://www.youtube.com/watch?v=Ccv1-W5ilak
+
+**Other references**
+
 - Tukey, J. W. (1977). *Exploratory Data Analysis*. Addison-Wesley.
 - NIST/SEMATECH. *e-Handbook of Statistical Methods*, Section 7.1.6, "What are outliers in the data?". https://www.itl.nist.gov/div898/handbook/
 

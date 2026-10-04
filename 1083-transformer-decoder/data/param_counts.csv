@@ -1,0 +1,5 @@
+part,parameters
+6 encoder blocks,18914304
+6 decoder blocks,25224192
+"shared embedding (37,000 x 512)",18944000
+total,63082496

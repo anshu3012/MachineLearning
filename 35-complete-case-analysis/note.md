@@ -350,6 +350,12 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Handling Missing Data | Part 1 | Complete Case Analysis", YouTube, https://www.youtube.com/watch?v=aUnNWZorGmk
+
+**Other references**
+
 - Rubin, D. B. (1976). Inference and Missing Data. *Biometrika* 63(3), 581–592.
 - Little, R. J. A. (1988). A Test of Missing Completely at Random for Multivariate Data with Missing Values. *Journal of the American Statistical Association* 83(404), 1198–1202.
 - scikit-learn User Guide, *Imputation of missing values*, section "Estimators that handle NaN values"; release highlights for versions 1.3 and 1.4.

@@ -128,6 +128,12 @@ Figure 2b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Voting Ensemble | Introduction and Core Idea | Part 1", YouTube, https://www.youtube.com/watch?v=_W1i-c_6rOk
+
+**Other references**
+
 - Condorcet, Marquis de (1785). *Essai sur l'application de l'analyse à la probabilité des décisions rendues à la pluralité des voix*. Paris.
 - Dietterich, T. G. (2000). "Ensemble Methods in Machine Learning". *Multiple Classifier Systems* (MCS 2000), LNCS 1857, Springer, section 1.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2.

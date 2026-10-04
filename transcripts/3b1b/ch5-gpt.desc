@@ -1,0 +1,38 @@
+wjZofJX0v4M|20240401|1634|Transformers, the tech behind LLMs | Deep Learning Chapter 5
+Breaking down how Large Language Models work, visualizing how data flows through.
+Instead of sponsored ad reads, these lessons are funded directly by viewers: https://3b1b.co/support
+
+---
+
+Here are a few other relevant resources
+
+Build a GPT from scratch, by Andrej Karpathy
+https://youtu.be/kCc8FmEb1nY
+
+If you want a conceptual understanding of language models from the ground up, @vcubingx just started a short series of videos on the topic:
+https://youtu.be/1il-s4mgNdI?si=XaVxj6bsdy3VkgEX
+
+If you're interested in the herculean task of interpreting what these large networks might actually be doing, the Transformer Circuits posts by Anthropic are great. In particular, it was only after reading one of these that I started thinking of the combination of the value and output matrices as being a combined low-rank map from the embedding space to itself, which, at least in my mind, made things much clearer than other sources.
+https://transformer-circuits.pub/2021/framework/index.html
+
+History of language models by Brit Cruise,  @ArtOfTheProblem  
+https://youtu.be/OFS90-FX6pg
+
+An early paper on how directions in embedding spaces have meaning:
+https://arxiv.org/pdf/1301.3781.pdf
+
+Звуковая дорожка на русском языке: Влад Бурмистров.
+
+---
+
+Timestamps
+
+0:00 - Predict, sample, repeat
+3:03 - Inside a transformer
+6:36 - Chapter layout
+7:20 - The premise of Deep Learning
+12:27 - Word embeddings
+18:25 - Embeddings beyond words
+20:22 - Unembedding
+22:22 - Softmax with temperature
+26:03 - Up next

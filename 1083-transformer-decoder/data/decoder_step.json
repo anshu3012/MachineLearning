@@ -1,0 +1,55 @@
+{
+ "source": "1085-transformer-end-to-end/data/capstone.json, step 3 (exported by 1084-transformer-inference/notebook.ipynb, section 8)",
+ "english": [
+  "we're",
+  "friends",
+  "."
+ ],
+ "decoder_input": [
+  "<start>",
+  "nous",
+  "sommes"
+ ],
+ "self_weights_block1": [
+  0.9009,
+  0.0966,
+  0.0025
+ ],
+ "cross_weights_block1": [
+  0.1145,
+  0.7055,
+  0.1801
+ ],
+ "self_weights_block2": [
+  0.6591,
+  0.2033,
+  0.1375
+ ],
+ "cross_weights_block2": [
+  0.0187,
+  0.8538,
+  0.1275
+ ],
+ "top": [
+  [
+   "amies",
+   0.9868
+  ],
+  [
+   "amis",
+   0.011
+  ],
+  [
+   "des",
+   0.0018
+  ],
+  [
+   "ami",
+   0.0001
+  ],
+  [
+   "intelligentes",
+   0.0
+  ]
+ ]
+}

@@ -9,7 +9,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)); Grid and random search ([Note 107](../107-bagging-regressor/note.md)).
-> - **Leads to:** Grid and random search ([Note 112](../112-random-forest-tuning/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Balanced random forest ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
+> - **Leads to:** Grid and random search ([Note 112](../112-random-forest-tuning/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Balanced random forest ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
 
@@ -174,6 +174,12 @@ The regressor has no `class_weight`, since there are no classes.
 - The regressor differs only in its criteria and its `max_features` default.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Random Forest Hyper-parameters", YouTube, https://www.youtube.com/watch?v=WOFVY_wQ9wU
+
+**Other references**
 
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §15.3.4 (random forests and overfitting).
 - scikit-learn developers. API reference pages for `RandomForestClassifier`, `RandomForestRegressor` and `DecisionTreeClassifier`, versions 0.24, 1.1 and 1.9 (version notes under each parameter).

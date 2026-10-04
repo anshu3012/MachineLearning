@@ -9,7 +9,7 @@ tags: [subject/ml, area/probability, step/foundations, concept/bayes-theorem]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Conditional probability ([Note 82](../82-conditional-probability/note.md)).
-> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)).
+> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); MAP estimation ([Note 633](../633-mle-in-machine-learning/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -47,6 +47,10 @@ $$P(M3 \mid D) = \frac{P(D \mid M3) \times P(M3)}{P(D)}$$
 
 Everything on the right is known except $P(D)$, the overall probability that a marker is defective.
 
+![The problem as counts in a batch of 1000 markers. Top: the priors, with widths to scale. Bottom: one square per defective marker, from each machine's count times its defect rate](images/counts_1000.png){width=95%}
+
+Figure 1 turns the priors and likelihoods into expected counts for 1000 markers. Watch the bottom row: M3 makes the most markers but supplies the fewest defective squares.
+
 ## 4. The evidence: total probability
 
 > **Key point:** A defective marker came from exactly one machine, so P(D) is the sum of the three "defective and from machine i" probabilities.
@@ -63,7 +67,7 @@ This sum is the **law of total probability**. With numbers:
 
 $$P(D) = 0.05 \times 0.2 + 0.03 \times 0.3 + 0.01 \times 0.5 = 0.010 + 0.009 + 0.005 = 0.024$$
 
-So 2.4% of all markers are defective. Figure 1 shows the same calculation as a probability tree.
+So 2.4% of all markers are defective. Figure 2 shows the same calculation as a probability tree.
 
 ![Probability tree: each path multiplies its branches](images/tree.png){width=100%}
 
@@ -83,7 +87,7 @@ The same calculation for every machine:
 
 ![Share of all markers against share of defective markers](images/posterior.png){height=40%}
 
-Seeing that the marker is defective changes the picture completely (Figure 2). Before, M3 was the most likely source (50%). After, M3 is the least likely (21%), because M3 rarely makes defects.
+Seeing that the marker is defective changes the picture completely (Figure 3). Before, M3 was the most likely source (50%). After, M3 is the least likely (21%), because M3 rarely makes defects.
 
 An everyday picture: three cooks share a kitchen, and one dish comes out burnt. The cook who makes the most dishes is not the likely culprit if that cook almost never burns anything. M1 makes only 20% of markers but 42% of the defective ones.
 
@@ -112,13 +116,23 @@ A Naive Bayes classifier follows exactly this procedure. The machines become the
 
 Since the evidence is the same for every class, step 2 does not change which class wins; it only turns the scores into probabilities.
 
+![The three Naive Bayes steps on the marker problem](images/nb_pattern.png){width=95%}
+
+Figure 4 runs the three steps on the marker numbers: M1 has the largest score both before and after dividing by 0.024.
+
 ## 7. Summary
 
 - Priors: production shares; likelihoods: defect rates; posterior: which machine, given a defect.
 - Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$.
 - Answer: $P(M3 \mid D) = 0.208$; M1 is the most likely source (0.417).
 
-## 8. Key terms
+## 8. Sources
+
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 5 | Problem based upon Bayes Theorem", YouTube, https://www.youtube.com/watch?v=aAEHjXDHtbE
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, step/model, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)).
-> - **Leads to:** Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)).
+> - **Leads to:** Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Meaning as direction in embedding space ([Note 1086](../1086-meaning-as-direction/note.md)).
 > - **Compare with:** Vector magnitude, distance and scalar operations ([Note 361](../361-magnitude-distance-and-scalar-operations/note.md)).
 <!-- /where-this-fits -->
 
@@ -226,6 +226,12 @@ Word counts are never negative, so for texts the cosine similarity always lies b
 - Cosine similarity compares direction only, which makes it the usual choice for comparing texts.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1", YouTube, https://www.youtube.com/watch?v=mQewAJb8oJ8
+
+**Other references**
 
 - Massey, W. S. (1983). "Cross products of vectors in higher dimensional Euclidean spaces." *The American Mathematical Monthly* 90(10), 697–701.
 - Manning, C. D., Raghavan, P. and Schütze, H. (2008). *Introduction to Information Retrieval*. Cambridge University Press. §6.3.1.

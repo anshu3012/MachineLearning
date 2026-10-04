@@ -9,7 +9,7 @@ tags: [subject/ml, area/models-1, step/model, concept/softmax]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)).
-> - **Leads to:** ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)); Categorical and sparse categorical cross-entropy ([Note 1012](../1012-mnist-ann/note.md)).
+> - **Leads to:** Categorical and sparse categorical cross-entropy ([Note 633](../633-mle-in-machine-learning/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)); Unembedding, logits, temperature and sampling ([Note 1088](../1088-unembedding-and-sampling/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -141,6 +141,12 @@ Figure 3 shows the **decision regions**: each point of the plane is coloured by 
 - Decision boundaries are straight lines.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Softmax Regression || Multinomial Logistic Regression || Logistic Regression Part 6", YouTube, https://www.youtube.com/watch?v=Z8noL_0M4tw
+
+**Other references**
 
 - **Goodfellow et al.:** Goodfellow, I., Bengio, Y. and Courville, A. *Deep Learning*. MIT Press, 2016. Section 6.2.2.3, "Softmax Units for Multinoulli Output Distributions".
 - **scikit-learn docs:** `sklearn.linear_model.LogisticRegression`, scikit-learn 1.9.

@@ -36,6 +36,10 @@ In data, an **outlier** is a data point (an **observation**: one record, one row
 
 Take a class of nine people with salaries between 15,000 and 22,000 rupees a month. Now a billionaire, such as Bill Gates, joins the class. The class's mean salary jumps into the crores, a number that describes nobody in the room.
 
+![Nine salaries, then the same nine plus one of 10 crore: the mean leaves the chart, the median moves by 500 rupees](images/mean_jump.png){width=85%}
+
+Figure 2 draws the numbers worked out in the box below: watch the mean fly off while the median stays among the nine.
+
 > **Extra:** The numbers, step by step.
 >
 > 1. **In words:** the mean is the sum of the values divided by how many there are. One huge value makes the sum huge.
@@ -60,6 +64,10 @@ Two students studied very little and still scored top marks. These two outliers 
 > **Key point:** Remove an outlier when it is an error; keep it when it is real and is exactly what the problem is about.
 
 Outliers are not always harmful. Deciding whether an outlier is dangerous or a genuine part of the data is an important skill.
+
+![The three cases of this section as one decision path](images/keep_or_remove.png){width=65%}
+
+Figure 3 puts Sections 4.1 to 4.3 in order as questions to ask about an outlier.
 
 ### 4.1 Remove: errors in the data
 
@@ -99,6 +107,10 @@ Spotting outliers is usually simple; the rules in Section 8 do it. The hard part
 > **Key point:** Algorithms that learn weights (linear and logistic regression, AdaBoost, deep learning) are strongly affected; tree-based algorithms hardly are.
 
 Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest.
+
+![A weight-based fit is pulled by a far point; a tree's split depends only on the order of the values](images/weights_vs_trees.png){width=85%}
+
+Figure 4 shows the two behaviours side by side.
 
 | Affected strongly | Hardly affected |
 |---|---|
@@ -144,7 +156,7 @@ Section 7 maps the treatments, Section 8 the detection rules. Notes 42 to 44 the
 
 > **Key point:** Capping keeps the observations but replaces every value beyond a limit with the limit itself.
 
-Outliers always sit at an end of the data, either too high or too low. **Capping** sets the two limits and moves every value beyond them back onto the limit. Figure 2 compares it with trimming, with limits 20 and 90.
+Outliers always sit at an end of the data, either too high or too low. **Capping** sets the two limits and moves every value beyond them back onto the limit. Figure 5 compares it with trimming, with limits 20 and 90.
 
 ![Trimming deletes the four outliers; capping keeps all 20 rows and moves the outliers onto the limits](images/trim_cap.png)
 
@@ -167,7 +179,7 @@ Trimming and capping are used far more, and they are what Notes 42 to 44 focus o
 
 > **Key point:** The feature's shape decides the rule: mean ± 3 standard deviations for a normal feature, the IQR fences for a skewed one, percentiles for any feature.
 
-Many detection methods exist; these three are the most important. Figure 3 applies each to example data, with the limits as dashed lines and the flagged values in red.
+Many detection methods exist; these three are the most important. Figure 6 applies each to example data, with the limits as dashed lines and the flagged values in red.
 
 ![The three detection rules: mean plus or minus 3 standard deviations, the IQR fences, and the 1st and 99th percentiles](images/detection.png){width=100%}
 
@@ -189,7 +201,7 @@ The box-plot fences of the [univariate analysis Note](../20-univariate-analysis/
 
 The third rule works whatever the shape of the feature. We pick two percentiles, for example the 1st and the 99th, and every value below the first or above the second is an outlier.
 
-The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 3, right). Note 44 covers this rule together with winsorization.
+The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 6, right). Note 44 covers this rule together with winsorization.
 
 ## 9. The outlier Notes, in order
 
@@ -217,6 +229,12 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 - Trimming deletes outlier observations (fast, but loses data); capping moves outliers onto the limits (keeps every observation).
 
 ## 11. Sources
+
+**Built from**
+
+- CampusX, "What are Outliers | Outliers in Machine Learning", YouTube, https://www.youtube.com/watch?v=Lln1PKgGr_M
+
+**Other references**
 
 - ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 10.7 and Table 10.1 (trees, neural networks and SVMs and outliers in the inputs), Section 10.6 (squared-error and exponential losses are not robust) and Section 10.9 (robust losses for boosting), Section 14.3.10 (k-means and outliers).
 - Hubert, M., Rousseeuw, P. J. and Vanden Branden, K. (2005). ROBPCA: A New Approach to Robust Principal Component Analysis. *Technometrics* 47(1), 64–79.

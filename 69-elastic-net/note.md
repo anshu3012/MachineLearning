@@ -70,8 +70,17 @@ For two coefficients, Figure 1 draws all the points where each penalty equals 1.
 ![The penalty shapes of Ridge, Lasso and Elastic Net](images/shapes.png){height=45%}
 
 - **Ridge** gives a circle: smooth everywhere.
-- **Lasso** gives a diamond with sharp corners on the axes, where one coefficient is 0. Those corners are why Lasso answers often land exactly on 0 (the Lasso sparsity Note).
+- **Lasso** gives a diamond with sharp corners on the axes, where one coefficient is 0. Those corners are why Lasso answers often land exactly on 0 (the [Lasso sparsity Note](../68-lasso-sparsity/note.md), section 5.2, grows the loss ellipse until it touches the diamond).
 - **Elastic Net** is between the two. Its sides bulge outwards like the circle, but it keeps the corners, so it can still produce exact zeros (Zou and Hastie 2005, Fig. 1).
+
+Figure 2 turns the shape from diamond into circle on real data: two diabetes features, bmi and s1, from the training split of the [Lasso Note](../67-lasso-regression/note.md), each scaled to standard deviation 1. The budget is fixed and only `l1_ratio` changes; the allowed region is $r\thinspace(\lvert b_1\rvert + \lvert b_2\rvert)/15 + (1 - r)(b_1^2 + b_2^2)/15^2 \le 1$, with $r$ the `l1_ratio`, so every shape keeps the same corners. Watch the dot where the loss ellipse first touches the shape, and the s1 coefficient traced on the right.
+
+![The allowed region morphs from Lasso's diamond (l1_ratio 1) to Ridge's circle (l1_ratio 0) on two diabetes features. The s1 coefficient, where the loss ellipse first touches the region, stays exactly 0 down to l1_ratio 0.6 and then grows to 4.28](images/shape_morph.gif)
+
+- **l1_ratio from 1 down to 0.6:** the touch stays on the corner, so the s1 coefficient is exactly 0, as in Lasso.
+- **Below 0.6:** the shape is round enough that the touch slides off the axis; at 0 (Ridge) the s1 coefficient is 4.28.
+
+The weak feature s1 is dropped over a whole range of mixes, not only at pure Lasso. The picture follows the estimation picture of ESL Figure 3.11 and the shapes of Zou and Hastie (2005, Fig. 1), redrawn with our data.
 
 ## 5. Correlated features: the grouping effect
 
@@ -79,7 +88,7 @@ For two coefficients, Figure 1 draws all the points where each penalty equals 1.
 
 Elastic Net is especially recommended when features are strongly correlated with each other: **multicollinearity** (the regression assumptions Note). Height and weight are a typical pair: when one rises, the other usually does too.
 
-Figure 2 uses 200 **observations** (records, one row of the data table each) with six features. $x_1$, $x_2$ and $x_3$ are three almost identical copies of one signal, and the **target** (the output we predict) is 3 times that signal plus noise. The other three features are pure noise.
+Figure 3 uses 200 **observations** (records, one row of the data table each) with six features. $x_1$, $x_2$ and $x_3$ are three almost identical copies of one signal, and the **target** (the output we predict) is 3 times that signal plus noise. The other three features are pure noise.
 
 ![Coefficients of four models on three correlated inputs and three noise inputs](images/grouping.png){height=50%}
 
@@ -158,8 +167,14 @@ In practice, Elastic Net with l1_ratio tuned by cross-validation covers all thre
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "ElasticNet Regression | Intuition and Code Example | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=2g2DBkFhTTY
+
+**Other references**
+
 - **Zou and Hastie 2005:** Zou, H. and Hastie, T. "Regularization and Variable Selection via the Elastic Net." *Journal of the Royal Statistical Society B* 67(2), 301–320, 2005. Sections 1, 2.1 (Fig. 1) and 2.3.
-- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63; Section 3.4.3, Figure 3.11.
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Chapter 6 introduction, pp. 225–226; Section 6.2.1, p. 241; Section 6.2.2, pp. 246–247.
 - **scikit-learn docs:** `sklearn.linear_model.ElasticNet`; user guide Section 1.5.2 (SGD regression), scikit-learn 1.9.
 

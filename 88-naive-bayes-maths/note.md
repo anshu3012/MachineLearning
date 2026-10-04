@@ -28,6 +28,10 @@ The previous Note used the Naive Bayes recipe on a small example. This Note deri
 
 The goal: for each class $C_k$, compute $P(C_k \mid x)$, then pick the largest.
 
+![The notation on the cricket example: three features and a target with two classes](images/notation.png){width=90%}
+
+Figure 2 puts the symbols on the cricket table: each feature column is one $x_i$, and the result column holds the class.
+
 ## 3. Step 1: Bayes' theorem without the evidence
 
 > **Key point:** P(Cₖ | x) is proportional to P(x | Cₖ) P(Cₖ) = P(x₁, ..., xₙ, Cₖ).
@@ -76,6 +80,10 @@ Conditional independence is the independence of the independent events Note, $P(
 
 $$P(x_1, \dots, x_n, C_k) \approx P(x_1 \mid C_k)\thinspace P(x_2 \mid C_k) \cdots P(x_n \mid C_k)\thinspace P(C_k)$$
 
+![Who depends on whom, for three features. Left: the chain rule allows every feature to depend on the class and on the other features (red arrows). Right: the naive assumption keeps only the arrows from the class](images/naive_graph.png){width=90%}
+
+Figure 3 shows what the assumption removes: the red links between features. Each remaining factor needs only one feature and the class, which the training data can count reliably.
+
 ## 6. The formula and the MAP rule
 
 > **Key point:** Score each class by P(Cₖ) Π P(xᵢ | Cₖ) and predict the largest: the maximum a posteriori rule.
@@ -109,7 +117,7 @@ An everyday picture: two friends tell us the same rumour, but both read it in th
 
 ![Copying a feature makes Naive Bayes over-confident](images/duplicate.png){height=40%}
 
-Figure 2 shows the effect on the cricket prediction: each extra copy of the "toss" feature pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
+Figure 4 shows the effect on the cricket prediction: each extra copy of the "toss" feature pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
 
 In practice, Naive Bayes often still picks the right class even when its independence assumption is wrong, because only the **order** of the scores matters for the prediction. Its probabilities, however, tend to be too extreme, so they should not be trusted as exact (Domingos and Pazzani 1997; scikit-learn user guide §1.9).
 
@@ -126,6 +134,12 @@ In practice, Naive Bayes often still picks the right class even when its indepen
 | MAP rule | predict $\arg\max_k$ of the formula |
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 7 | Mathematics behind Naive Bayes Algorithm", YouTube, https://www.youtube.com/watch?v=2PVRG45eVrY
+
+**Other references**
 
 - **Domingos and Pazzani 1997:** Domingos, P. and Pazzani, M. "On the Optimality of the Simple Bayesian Classifier under Zero-One Loss." *Machine Learning* 29, 103–130, 1997.
 - **scikit-learn user guide:** Section 1.9, "Naive Bayes", scikit-learn 1.9.

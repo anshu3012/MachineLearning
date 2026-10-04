@@ -284,6 +284,12 @@ This Note closes the outlier group. Figure 4 applies all three rules to the same
 
 ## 13. Sources
 
+**Built from**
+
+- CampusX, "Outlier Detection using the Percentile Method | Winsorization Technique", YouTube, https://www.youtube.com/watch?v=bcXA4CqRXvM
+
+**Other references**
+
 - pandas documentation, API reference, `pandas.Series.quantile`. pandas.pydata.org.
 - Hyndman, R. J. and Fan, Y. (1996). Sample quantiles in statistical packages. *The American Statistician*, 50(4), 361–365.
 - Hastings, C., Mosteller, F., Tukey, J. W. and Winsor, C. P. (1947). Low moments for small samples: a comparative study of order statistics. *Annals of Mathematical Statistics*, 18(3), 413–426.

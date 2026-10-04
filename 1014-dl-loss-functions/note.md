@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, area/models-1, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)).
+> - **Builds on:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Maximum likelihood estimation (MLE) ([Note 633](../633-mle-in-machine-learning/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)).
 > - **Leads to:** Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)).
 > - **Compare with:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Hinge loss and soft margin ([Note 94](../94-svm-soft-margin/note.md)); Entropy, information gain and Gini ([Note 97](../97-decision-trees-intuition/note.md)).
 <!-- /where-this-fits -->
@@ -339,6 +339,12 @@ Loss functions are not limited to these. Variational autoencoders use the KL div
   - more classes, integer labels: `"sparse_categorical_crossentropy"`.
 
 ## 13. Sources
+
+**Built from**
+
+- CampusX, "Loss Functions in Deep Learning | Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=gb5nm_3jBIo
+
+**Other references**
 
 - Keras documentation, Losses (default reduction `"sum_over_batch_size"`: the average over the batch); `keras.losses.Huber`.
 - Huber, P. J., "Robust Estimation of a Location Parameter", *Annals of Mathematical Statistics*, 1964.

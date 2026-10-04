@@ -9,7 +9,7 @@ tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, co
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
-> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)).
+> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 > - **Compare with:** IQR outlier method ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
 
@@ -319,6 +319,12 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 
 
 ## 14. Sources
+
+**Built from**
+
+- CampusX, "Outlier Detection and Removal using Z-score Method | Handling Outliers Part 2", YouTube, https://www.youtube.com/watch?v=OnPE-Z8jtqM
+
+**Other references**
 
 - Shiffler, R. E. (1988). Maximum Z scores and outliers. *The American Statistician*, 42(1), 79–80.
 - NIST/SEMATECH. *e-Handbook of Statistical Methods*, Section 1.3.5.17, "Detection of Outliers". https://www.itl.nist.gov/div898/handbook/

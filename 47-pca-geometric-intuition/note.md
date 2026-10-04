@@ -231,6 +231,12 @@ PCA therefore looks for the direction of maximum variance. That direction keeps 
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Principle Component Analysis (PCA) | Part 1 | Geometric Intuition", YouTube, https://www.youtube.com/watch?v=iRbsBi5W0-c
+
+**Other references**
+
 - Pearson, K. (1901). On lines and planes of closest fit to systems of points in space. *Philosophical Magazine*, 2(11), 559–572.
 - Hotelling, H. (1933). Analysis of a complex of statistical variables into principal components. *Journal of Educational Psychology*, 24(6), 417–441.
 - Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd edition, Theorem 5.2.6. Duxbury.

@@ -447,6 +447,12 @@ At first it explores all three. For a while it favours gradient boosting, then i
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Hyperparameter Tuning using Optuna | Bayesian Optimization using Optuna", YouTube, https://www.youtube.com/watch?v=E2b3SKMw934
+
+**Other references**
+
 - Shahriari et al. 2016: B. Shahriari, K. Swersky, Z. Wang, R. P. Adams and N. de Freitas, *Taking the Human Out of the Loop: A Review of Bayesian Optimization*, Proceedings of the IEEE 104(1), 2016.
 - Jones et al. 1998: D. R. Jones, M. Schonlau and W. J. Welch, *Efficient Global Optimization of Expensive Black-Box Functions*, Journal of Global Optimization 13, 1998.
 - Bergstra et al. 2011: J. Bergstra, R. Bardenet, Y. Bengio and B. Kégl, *Algorithms for Hyper-Parameter Optimization*, NeurIPS 2011.

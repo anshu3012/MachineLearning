@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, step/features, step/reduce, concept/curse-dim,
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Kernel density estimation (KDE) ([Note 20](../20-univariate-analysis/note.md)); Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Chi-square tests ([Note 29](../29-pipelines/note.md)).
 > - **Leads to:** PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)).
-> - **Compare with:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)).
+> - **Compare with:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Superposition and nearly perpendicular directions ([Note 1090](../1090-superposition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Where we are in feature engineering
@@ -186,6 +186,12 @@ Figure 5 shows both on five features, F1 to F5: selection keeps F1 and F3, while
 
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Curse of Dimensionality", YouTube, https://www.youtube.com/watch?v=ToGuhynu-No
+
+**Other references**
 
 - ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §2.5, Local Methods in High Dimensions.
 - Beyer, K., Goldstein, J., Ramakrishnan, R. and Shaft, U. (1999). When is "nearest neighbor" meaningful? *Proceedings of the International Conference on Database Theory (ICDT)*, 217–235.

@@ -9,7 +9,7 @@ tags: [subject/ml, area/models-2, step/model, concept/clustering, concept/hierar
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)).
-> - **Leads to:** DBSCAN ([Note 132](../132-dbscan/note.md)).
+> - **Leads to:** DBSCAN ([Note 132](../132-dbscan/note.md)); K-means ([Note 641](../641-expectation-maximization/note.md)).
 > - **Compare with:** K-means ([Note 130](../130-kmeans-from-scratch/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
 <!-- /where-this-fits -->
 
@@ -301,6 +301,12 @@ Limitation:
 - Memory grows with $n^2$, so big datasets are out of reach.
 
 ## 13. Sources
+
+**Built from**
+
+- CampusX, "Agglomerative Hierarchical Clustering | Python Code Example", YouTube, https://www.youtube.com/watch?v=Ka5i9TVUT-E
+
+**Other references**
 
 - ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.12 (hierarchical clustering; chaining in single linkage).
 - Ester et al. 1996: M. Ester, H.-P. Kriegel, J. Sander and X. Xu, *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise*, Proceedings of KDD 1996.

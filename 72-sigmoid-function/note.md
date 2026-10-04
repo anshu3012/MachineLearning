@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression, conce
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
 > - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
-> - **Compare with:** Support vector machines ([Note 92](../92-svm-intuition/note.md)).
+> - **Compare with:** Support vector machines ([Note 92](../92-svm-intuition/note.md)); Tanh ([Note 1027](../1027-activation-functions/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -207,6 +207,12 @@ What we still lack is a way to say which line is best: a **loss function**, one 
 - Using $\hat{y} = \sigma(z)$ in the update lets every point act and improves the line, but not yet to logistic regression's quality.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Logistic Regression Part 3 | Sigmoid Function | 100 Days of ML", YouTube, https://www.youtube.com/watch?v=ehO0-6i9qD4
+
+**Other references**
 
 - **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.2, p. 197 (the logistic sigmoid; "sigmoid" means S-shaped); Section 4.3.2, pp. 205–207 (logistic regression gradient; separable data).
 

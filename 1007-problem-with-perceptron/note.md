@@ -78,6 +78,12 @@ So when all four observations are misclassified in turn, as here, each epoch's u
 
 More epochs would not help. Whatever the perceptron does, it can only ever draw one straight line.
 
+Figure 2 tries every line. A line turns through 340 degrees, and at each angle it takes the position that classifies the most observations correctly.
+
+![A line turning through every angle on the four XOR observations, always at its best position. The green side predicts 1; a black ring marks a wrong observation. The count never reaches 4 of 4. Last frame: two lines, $x_1 + x_2 = 0.5$ and $x_1 + x_2 = 1.5$, with the 1s between them](images/xor_sweep.gif){width=100%}
+
+Watch the black ring: at every angle some corner is on the wrong side, and the count never passes 3 of 4. The Extra below proves that no line can do better.
+
 > **Extra:** Why no line can separate XOR. A line works if $b < 0$ for $(0, 0)$, $w_2 + b \geq 0$ for $(0, 1)$, $w_1 + b \geq 0$ for $(1, 0)$, and $w_1 + w_2 + b < 0$ for $(1, 1)$. Adding the middle two gives $w_1 + w_2 + 2b \geq 0$, so $w_1 + w_2 + b \geq -b$. Since $b < 0$, $-b > 0$, so $w_1 + w_2 + b > 0$, which contradicts the last condition. No $w_1, w_2, b$ can satisfy all four.
 
 ## 5. The same failure on larger data
@@ -90,7 +96,7 @@ The Notebook repeats this experiment in scikit-learn with `LogisticRegression`, 
 
 ![One sigmoid neuron on linearly separable, XOR-shaped and circular data](images/playground.png)
 
-- **Two blobs** (Figure 2, left): a line separates them, accuracy 100%.
+- **Two blobs** (Figure 3, left): a line separates them, accuracy 100%.
 - **XOR quadrants** (middle): class 1 where $x_1$ and $x_2$ have the same sign. A line cuts across all four quadrants, accuracy 52%.
 - **Circles** (right): one class inside a ring of the other. A line cannot enclose anything, accuracy 50%.
 
@@ -105,7 +111,7 @@ So the problem is not the four-row table: any data whose classes need a bent or 
 
 > **Key point:** Combining several perceptrons in layers gives curved boundaries: the multi-layer perceptron.
 
-A single perceptron is a linear model, so it can only capture linear relationships. The fix is to use several perceptrons and feed their outputs into another one. The [MLP intuition Note](../1009-mlp-intuition/note.md) shows how two lines combined give a curved boundary, and how such a network solves XOR on the Playground.
+A single perceptron is a linear model, so it can only capture linear relationships. The fix is to use several perceptrons and feed their outputs into another one. The last frame of Figure 2 shows the idea with two lines, one per hidden perceptron: $x_1 + x_2 = 0.5$ (the OR line of section 4) and $x_1 + x_2 = 1.5$. The sum $x_1 + x_2$ is 0 for $(0, 0)$, 1 for $(0, 1)$ and $(1, 0)$, and 2 for $(1, 1)$, so exactly the two 1s fall between the lines. The [MLP intuition Note](../1009-mlp-intuition/note.md) shows how two lines combined give a curved boundary, and how such a network solves XOR on the Playground.
 
 ## 7. Summary
 
@@ -122,7 +128,13 @@ A single perceptron is a linear model, so it can only capture linear relationshi
 - XOR puts each class on opposite corners of a square: no line separates them, which a short proof confirms.
 - More training never fixes this; more neurons, in layers, do.
 
-## 8. Key terms
+## 8. Sources
+
+**Built from**
+
+- CampusX, "Problem with Perceptron", YouTube, https://www.youtube.com/watch?v=Jp44b27VnOg
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

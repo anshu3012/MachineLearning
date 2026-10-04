@@ -203,6 +203,12 @@ Halving blindly would turn a sample mean of, say, 45 into "significant evidence 
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Session 46 - Hypothesis Testing Part 2 | p-values | t-tests | DSMP 2023", YouTube, https://www.youtube.com/watch?v=xHTMjxx14sU
+
+**Other references**
+
 - Ghasemi, A. and Zahediasl, S. (2012). "Normality tests for statistical analysis: a guide for non-statisticians." *International Journal of Endocrinology and Metabolism* 10(2), 486–489.
 
 ## 10. Key terms

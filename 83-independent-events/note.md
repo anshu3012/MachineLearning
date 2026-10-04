@@ -8,6 +8,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/independent-event
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Conditional probability ([Note 82](../82-conditional-probability/note.md)).
 > - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)).
 <!-- /where-this-fits -->
 
@@ -42,6 +43,10 @@ $$P(A \cap B) = \frac{1}{36} = \frac{1}{6} \times \frac{1}{6} = P(A) \times P(B)
 
 The two events are independent.
 
+![The 36 outcomes of two dice. Purple cells are in both events. Left: row $B$ and column $A$ cross in one cell, so $P(A \cap B) = 1/36 = P(A) \times P(B)$. Right: the "sum at least 10" cells crowd into row $D$, so the product rule fails](images/dice_grid.png){width=95%}
+
+Figure 1 draws both checks on the grid of outcomes. In the left grid, the shaded column takes 1 of the 6 cells inside row $B$, the same share it takes of the whole grid (6 of 36). In the right grid, the red cells take 3 of the 6 cells inside row $D$ but only 6 of 36 overall: knowing $D$ makes $C$ three times as likely.
+
 ## 4. Why this means "no difference"
 
 > **Key point:** Substituting P(A ∩ B) = P(A) P(B) into the conditional probability formula gives P(A | B) = P(A).
@@ -60,7 +65,7 @@ Knowing $B$ happened leaves the probability of $A$ exactly as it was. The same a
 
 ![Conditioning on die 1 leaves one event unchanged and changes the other](images/independence.png){height=50%}
 
-Figure 1 conditions two different events on what die 1 shows:
+Figure 2 conditions two different events on what die 1 shows:
 
 - **Left:** "die 2 shows 6" has probability $1/6$ whatever die 1 shows. Independent.
 - **Right:** "the sum is at least 10" has probability $1/6$ overall, but given die 1 it ranges from 0 (die 1 shows 1, 2 or 3) to $1/2$ (die 1 shows 6). Knowing die 1 changes it a lot, so these events are **not** independent.
@@ -73,6 +78,10 @@ Checking with the definition for $C$ = "sum at least 10" and $D$ = "die 1 shows 
 
 With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence. The **target** (the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (ISL §4.4.4; the Naive Bayes intuition Note).
 
+![Under independence, the probability of all three words given spam is the product of the three single-word probabilities](images/nb_product.png){width=85%}
+
+Figure 3 shows the product: each word's probability is estimated on its own, then the three are multiplied.
+
 ## 7. Summary
 
 - Independent: $P(A \cap B) = P(A) \times P(B)$, equivalently $P(A \mid B) = P(A)$.
@@ -80,6 +89,12 @@ With independent events, the probability of several things happening together is
 - Coins and separate dice are independent; "die 1 = 6" and "sum ≥ 10" are not.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 2 | Independent Events in Probability", YouTube, https://www.youtube.com/watch?v=0GD480CnrO4
+
+**Other references**
 
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 4.4.4, p. 155.
 

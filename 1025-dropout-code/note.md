@@ -9,7 +9,8 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
-> - **Compare with:** Random forest ([Note 114](../114-feature-importance/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
+> - **Leads to:** Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
+> - **Compare with:** Random forest ([Note 114](../114-feature-importance/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)); Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -137,6 +138,10 @@ Figure 1 shows all four rates on the regression problem:
 2. **The rule:** small $p$ overfits; large $p$ underfits. The best $p$ is in between.
 3. **Example:** here the test MSE is lowest at $p = 0.5$ (0.128). At $p = 0.75$, three out of four nodes are dropped at each step, the curve can no longer reach the points at the right end, and the test MSE climbs back to 0.165.
 
+Figure 4 sweeps $p$ from 0 to 0.8 in steps of 0.1 (5 seeds per rate). Watch the two curves on the right part ways: the training MSE (grey) only rises, while the test MSE (red) drops at once, stays low from 0.1 to 0.5 with its minimum at 0.5, and climbs again from 0.6 as the fit on the left turns flat.
+
+![Dropout rate sweep on the regression problem. Left: the network's prediction for one seed. Right: training and test MSE, mean of 5 seeds, traced as $p$ grows from 0 to 0.8](images/dropout_sweep.gif){width=100%}
+
 The same holds for classification: $p = 0.2$ was too little, $p = 0.5$ worked. The dropout rate is a hyperparameter, so the final choice comes from trying a few values.
 
 ## 6. Practical tips
@@ -183,6 +188,12 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 - The price: slower training and a loss that is harder to monitor.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Dropout Layers in ANN | Code Example | Regression | Classification", YouTube, https://www.youtube.com/watch?v=tgIx04ML7-Y
+
+**Other references**
 
 - Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014, Appendix A.4 (dropout rates), §9 (longer training time).
 - Keras FAQ, "Why is my training loss much higher than my testing loss?" (dropout is off at test time; the training loss is averaged over the epoch's batches).

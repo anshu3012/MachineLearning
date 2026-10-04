@@ -36,11 +36,19 @@ Two ideas matter:
 
 A model gives good results only when its features are good. Turning raw data into such features is feature engineering.
 
+![Feature engineering turns raw data into good features, guided by domain knowledge](images/raw_to_features.png){width=80%}
+
+Figure 2 puts the definition in one picture.
+
 ## 3. Why feature engineering matters
 
 > **Key point:** Good features with a simple algorithm usually beat poor features with a powerful algorithm.
 
 A well-known saying in ML: give a weak algorithm excellent features and a powerful algorithm poor features, and the weak one usually wins. Domingos (2012, §8) puts the same point plainly: of all the factors that decide whether an ML project succeeds, "easily the most important factor is the features used". Think of a cook: a simple recipe with fresh ingredients beats a fancy recipe with stale ones. The features we give a model limit what it can learn, however clever the model is.
+
+![Good features with a simple algorithm usually beat poor features with a powerful one](images/features_vs_algorithm.png){width=75%}
+
+Figure 3 shows the saying as two pairings.
 
 Feature engineering is also more an art than a science. Like programming, it has known techniques, but each person combines them in their own way.
 
@@ -51,6 +59,10 @@ Two data scientists given the same data will often build different features. The
 > **Key point:** Feature engineering comes after the data is gathered, studied and given a first clean-up, and before any model is trained.
 
 In the steps of an ML project, data first arrives and gets some initial preprocessing. Feature engineering comes next. Only then is the prepared data given to an algorithm to train a model.
+
+![Feature engineering sits between studying the data and training a model](images/project_steps.png){width=85%}
+
+Figure 4 marks where feature engineering sits.
 
 | Step | What happens |
 |---|---|
@@ -71,6 +83,10 @@ Figure 1 groups everything feature engineering does into four parts:
 2. **Feature construction:** create a new feature by hand, from existing ones, when we think it will give better results.
 3. **Feature selection:** give the algorithm only the useful features and drop the rest.
 4. **Feature extraction:** let an algorithm build completely new features out of the existing ones.
+
+![Each part on a few Titanic rows: change a column, add a column, keep some columns, or build new columns by an algorithm](images/four_parts_rows.png){width=95%}
+
+Figure 5 shows what each part does to a table, using the first three Titanic passengers (the age groups follow the binning table in section 6.3).
 
 The next four sections take the parts in this order.
 
@@ -120,7 +136,7 @@ Grouping numbers into ranges like this is called **binning**. Binning is one mor
 
 An **outlier** is a value very different from the rest. In a class where most students score around 50 out of 100, one student scoring 98 is an outlier.
 
-Outliers are risky because some algorithms are very sensitive to them. **Linear regression** draws the straight line that runs as close as possible to all the points. Figure 2 shows what three outliers do to it.
+Outliers are risky because some algorithms are very sensitive to them. **Linear regression** draws the straight line that runs as close as possible to all the points. Figure 6 shows what three outliers do to it.
 
 ![Three outliers pull the regression line away from the other points](images/outlier_line.png)
 
@@ -155,7 +171,11 @@ There is no fixed method for it. What we build depends on how well we know the d
 
 > **Key point:** Two Titanic columns, `SibSp` and `Parch`, combine into one clearer column: family size.
 
-On the Titanic, `SibSp` (siblings and spouses on board) and `Parch` (parents and children on board) both describe the passenger's family, so we can add them into one `family_size` column and group it into alone, small and large families. The [feature construction Note](../45-feature-construction-splitting/note.md), section 3, works this example through with code and measures whether it helps.
+On the Titanic, `SibSp` (siblings and spouses on board) and `Parch` (parents and children on board) both describe the passenger's family, so we can add them into one `family_size` column and group it into alone, small and large families.
+
+![Three Titanic passengers: `SibSp` and `Parch` combine into family size, then group into a family type](images/family_size.png){width=85%}
+
+Figure 7 follows three real passengers through both steps. The [feature construction Note](../45-feature-construction-splitting/note.md), section 3, works this example through with code and measures whether it helps.
 
 ### 7.2 Splitting and grouping
 
@@ -179,7 +199,7 @@ Instead of giving the algorithm every feature, we choose the useful ones and rem
 
 The **MNIST dataset** is a well-known collection of 70,000 images of handwritten digits, 0 to 9 (LeCun et al. 1998). Each image is small: 28 × 28 pixels, so 784 pixels in all.
 
-To use images in ML, each image is turned into one row of a table, with one column per pixel (Figure 3). The value in each column is that pixel's brightness. So the MNIST table has 784 features.
+To use images in ML, each image is turned into one row of a table, with one column per pixel (Figure 8). The value in each column is that pixel's brightness. So the MNIST table has 784 features.
 
 ![An image becomes one row with one column per pixel](images/image_to_row.png)
 
@@ -202,11 +222,19 @@ The rooms and washrooms example of the [types of ML Note](../03-types-of-ml/note
 
 **PCA** (principal component analysis), the best-known extraction technique, rotates the axes so that a few new axes hold most of the information, and keeps those; the [PCA Note](../47-pca-geometric-intuition/note.md), section 4, shows the rotation step by step. If we start with 5 columns, PCA creates 5 new ones; we might keep the 2 most useful, so the number of columns goes down and none of the old columns is used directly.
 
+![PCA turns 5 old columns into 5 new ones; we keep the 2 most useful](images/pca_columns.png){width=85%}
+
+Figure 9 draws the 5-column example.
+
 The main extraction techniques are **PCA**, **LDA** (linear discriminant analysis) and **t-SNE**. They are especially useful for high-dimensional data, meaning data with very many columns.
 
 ## 10. The feature engineering Notes, in order
 
 > **Key point:** The Notes that follow work through the four parts in detail, starting with feature transformation.
+
+![The order of the feature engineering Notes](images/fe_notes_order.png){width=60%}
+
+Figure 10 is the short version of the table below.
 
 | Part | Topic | Notes |
 |---|---|---|
@@ -240,6 +268,12 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 - Selection and extraction both reduce the number of columns: selection keeps some old ones, extraction builds new ones.
 
 ## 12. Sources
+
+**Built from**
+
+- CampusX, "What is Feature Engineering | Day 23 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=sluoVhT0ehg
+
+**Other references**
 
 - Domingos, P. (2012). A Few Useful Things to Know about Machine Learning. *Communications of the ACM* 55(10), 78-87.
 - LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11).

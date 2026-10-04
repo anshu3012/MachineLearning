@@ -61,6 +61,12 @@ So the order depends on the side of the tail (Figure 1):
 
 The stronger the skew, the further the mean is from the median and the mode. With little skew the three almost coincide; for a perfect normal distribution they are equal.
 
+Figure 2 shows this as the skewness changes smoothly. Each shape keeps its peak (the mode) at 0 and its standard deviation at 1; only the tail grows, first to the right, then to the left. Watch the mean (red) run ahead into the tail, the median (orange) follow less far, and the marker on the bar below cross from "approximately symmetric" into "highly skewed" (section 6).
+
+![Skewness swept from 0 to 1.6 and to -1.6: the mode stays at the peak while the median and, further, the mean follow the long tail](images/skew_sweep.gif){height=50%}
+
+> **Extra:** The shapes in Figure 2 are gamma distributions, whose skewness is $2/\sqrt{k}$ for shape parameter $k$ (SciPy's `stats.gamma(k).stats(moments="s")` returns this value, and the figure script checks it in every frame), mirrored for negative skew. In every frame the order mode < median < mean (or its mirror) holds.
+
 The mode-median-mean order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005). The order does hold for the features of Figure 1.
 
 ## 5. The sample skewness formula
@@ -88,7 +94,7 @@ In practice nobody computes this by hand: `df["Fare"].skew()` returns 4.79 at on
 
 > **Key point:** Between $-0.5$ and 0.5, approximately symmetric; between 0.5 and 1 in size, moderately skewed; beyond 1 in size, highly skewed.
 
-Real data almost never has a skewness of exactly 0, so we need a scale (Figure 2):
+Real data almost never has a skewness of exactly 0, so we need a scale (Figure 3):
 
 ![A rule of thumb for reading skewness values](images/skew_scale.png){height=30%}
 
@@ -140,6 +146,12 @@ So skewness is one check among several. We look at the shape as well (histogram,
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Session 41 - Normal Distribution | DSMP 2023", YouTube, https://www.youtube.com/watch?v=ADqYqSdtyW8
+
+**Other references**
+
 - Bulmer, M. G. (1979). *Principles of Statistics*. Dover. (The three skewness bands.)
 - Doane, D. P. and Seward, L. E. (2011). "Measuring Skewness: A Forgotten Statistic?" *Journal of Statistics Education* 19(2).
 - Joanes, D. N. and Gill, C. A. (1998). "Comparing measures of sample skewness and kurtosis." *The Statistician* 47(1).
@@ -154,3 +166,4 @@ So skewness is one check among several. We look at the shape as well (histogram,
 | Tail event | An event with a very low probability but a very large effect |
 | Sample skewness $G_1$ | The third moment of the standardized values with a small-sample correction; what pandas' `skew()` returns |
 | Pearson's skewness coefficient | $3(\bar{x} - \text{median})/s$: a simple measure of skew |
+

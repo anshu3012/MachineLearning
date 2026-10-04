@@ -290,6 +290,12 @@ In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "KNN Imputer | Multivariate Imputation | Handling Missing Data Part 5", YouTube, https://www.youtube.com/watch?v=-fK-xEev2I8
+
+**Other references**
+
 - Dixon, J. K. (1979). Pattern Recognition with Partly Missing Data. *IEEE Transactions on Systems, Man, and Cybernetics* 9(10), 617–621.
 - ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §2.9, Model Selection and the Bias–Variance Tradeoff (variance of the k-nearest-neighbour estimate falls as k grows).
 - Troyanskaya, O. et al. (2001). Missing value estimation methods for DNA microarrays. *Bioinformatics* 17(6), 520–525.

@@ -1,0 +1,22 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}, x=1.6cm]
+  \fill[cgrey!15] (4,-0.4) rectangle (5,2.6);
+  \node[text=cgrey, font=\sffamily\large\bfseries] at (4.5,2.9) {grey zone};
+  \draw[cgrey, -{Stealth}] (1.6,0) -- (7.6,0) ;
+  \foreach \v in {2,...,7} {\draw[cgrey] (\v,-0.1) -- (\v,0.1); \node[below=3pt] at (\v,0) {\v};}
+  \draw[cblue, line width=6pt] (2,1.0) -- (5,1.0) node[pos=0.3, above=3pt, text=cblue] {women};
+  \draw[corange, line width=6pt] (4,1.7) -- (7,1.7) node[pos=0.7, above=3pt, text=corange] {men};
+  \draw[cred, line width=1.6pt] (4.5,-0.4) -- (4.5,2.6);
+  \node[text=cred, below=24pt] at (4.5,0) {new person: 4.5};
+  \node[text=cgrey, below=24pt] at (6.4,0) {salary (lakh rupees)};
+  % share bar in the zone
+  \begin{scope}[shift={(8.2,0.3)}, x=1cm]
+    \node[font=\sffamily\large\bfseries] at (1.1,2.6) {in 4 to 5 lakh};
+    \draw[draw=cblue, fill=cblue!25] (0,0) rectangle (2.2,1.2) node[midway] {60\% women};
+    \draw[draw=corange, fill=corange!25] (0,1.2) rectangle (2.2,2.0) node[midway] {40\% men};
+    \node[box=cgreen, below=10pt, inner sep=5pt] at (1.1,0) {predict: woman};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

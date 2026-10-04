@@ -189,7 +189,13 @@ Each view suits different work:
 - A contingency table holds the same four regions as cells, and the circles as row and column totals.
 - Dividing a table of counts by its grand total turns it into a table of probabilities.
 
-## 6. Key terms
+## 6. Sources
+
+**Built from**
+
+- CampusX, "Mastering Probability for ML: Joint | Marginal | Conditional Probability and Bayes' Theorem", YouTube, https://www.youtube.com/watch?v=ndHDsvqmbuI
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

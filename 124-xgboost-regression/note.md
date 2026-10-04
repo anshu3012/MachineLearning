@@ -121,6 +121,10 @@ The right leaf holds a single residual and cannot be split. The left leaf holds 
 
 CGPA < 5.85 wins: it keeps the two negative residuals together. We stop here, at depth 2, because with four observations a deeper tree would only memorise them. XGBoost's default is `max_depth=6`, meant for real datasets.
 
+Figure 4 replays sections 5 to 8 as one search. Watch the dashed threshold slide along CGPA, the residuals switch between the left (blue) and right (orange) leaf, and a gain bar appear at each candidate; the tallest bar locks in as the split, the left leaf is searched the same way, and each final leaf predicts the mean of its residuals.
+
+![The XGBoost split search on the four students (lambda = 0). Left: the residuals, the sliding threshold and the locked splits (green). Right: the gain of each candidate, S_left + S_right - S_parent. Last frame: the outputs of the three leaves. The sliding-threshold picture follows StatQuest's "XGBoost Part 1: Regression" (Starmer)](images/split_search.gif)
+
 ## 8. Output values of the leaves
 
 > **Key point:** A leaf's output is the sum of its residuals divided by (number of residuals + $\lambda$); with $\lambda = 0$ that is simply their mean.
@@ -134,7 +138,7 @@ A normal regression tree predicts the mean in each leaf. An XGBoost leaf has its
 3. **Example:** the leaf holding $-2.875$ and $-1.375$:
    $$\text{output} = \frac{-2.875 - 1.375}{2 + 0} = \frac{-4.25}{2} = -2.125$$
 
-The other two leaves hold one residual each, so their outputs are 0.625 and 3.625. Figure 4 shows the finished tree.
+The other two leaves hold one residual each, so their outputs are 0.625 and 3.625. Figure 5 shows the finished tree.
 
 ![The first XGBoost tree: residuals, similarity scores, gains of the two splits and the outputs of the three leaves](images/final_tree.png){height=42%}
 
@@ -261,6 +265,13 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 - Trying every midpoint is the exact greedy algorithm; large data uses the approximate one.
 
 ## 16. Sources
+
+**Built from**
+
+- CampusX, "XGBoost for Regression | XGBoost Part 2 | CampusX", YouTube, https://www.youtube.com/watch?v=gmp2tS2joaA
+- Starmer, J. (StatQuest). "XGBoost Part 1 (of 4): Regression." statquest.org. The idea of sliding the threshold and comparing gains (Figure 4).
+
+**Other references**
 
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
 - XGBoost documentation, *Categorical Data* tutorial; *XGBoost Parameters* (defaults of `eta`, `max_depth`, `reg_lambda`, `gamma`, `min_child_weight`), xgboost.readthedocs.io.

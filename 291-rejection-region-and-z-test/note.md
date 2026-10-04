@@ -172,6 +172,10 @@ Figure 2 shows a two-tailed test at three significance levels:
 - **Lower $\alpha$** (5% to 1%): the critical values move out and the region where we fail to reject grows. A true $H_0$ is rejected less often.
 - **Higher $\alpha$** (say 30%): the rejection region grows. Even when $H_0$ is true, the statistic now often lands in the rejection region by chance, and we wrongly reject $H_0$.
 
+Figure 3 checks that meaning by simulation. We repeat the chips test of section 7 400 times with packets whose true mean really is 50 g, so $H_0$ is true every time. Watch each sample's z land under the curve: about 5% land in the red tails and wrongly reject $H_0$ (here 24 of 400, 6.0%). Then $\alpha$ sweeps over the same 400 values, and the rejected share follows it (124 of 400 at $\alpha = 0.30$). Last, the watchdog's own $z = -1.58$ lands between the critical values.
+
+![400 z values from samples where H0 is true drop onto the standard normal curve; red dots fall in the rejection region, and their share tracks α as α changes](images/z_drops.gif){height=45%}
+
 The red area is exactly what "the probability of rejecting $H_0$ when it is actually true" means. A lower $\alpha$ has a cost too, which the [errors, power and tails Note](../292-errors-power-and-tails/note.md) explains.
 
 ## 9. The weakness of the rejection region approach
@@ -211,7 +215,13 @@ The fix is to compute one more number, the **p-value**, which measures the stren
 - A smaller $\alpha$ shrinks the rejection region.
 - The approach cannot tell weak from overwhelming evidence; p-values can.
 
-## 11. Key terms
+## 11. Sources
+
+**Built from**
+
+- CampusX, "Session 45 - Hypothesis Testing Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=S94mx6OL7kM
+
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

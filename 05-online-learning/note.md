@@ -10,7 +10,7 @@ tags: [subject/ml, area/foundations, area/models-1, area/production, step/founda
 >
 > - **Builds on:** Model drift ([Note 4](../04-batch-learning/note.md)).
 > - **Leads to:** Framing an ML problem ([Note 9](../09-mldlc/note.md)); Perceptron loss ([Note 1006](../1006-perceptron-loss/note.md)); Batch size in Keras ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
-> - **Compare with:** Batch (offline) learning ([Note 4](../04-batch-learning/note.md)); Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)).
+> - **Compare with:** Batch (offline) learning ([Note 4](../04-batch-learning/note.md)); Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)); SGD with momentum ([Note 1034](../1034-sgd-with-momentum/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -205,6 +205,12 @@ The Notebook for this Note (`notebook.ipynb`) trains a model one row at a time w
 - Protect an online model with monitoring, anomaly detection and rollback.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Online Machine Learning | Online Learning | Online Vs Offline Machine Learning", YouTube, https://www.youtube.com/watch?v=3oOipgCbLIk
+
+**Other references**
 
 - Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 2nd ed. O'Reilly. Ch. 1, Online learning.
 - Montiel, J. et al. (2021). River: Machine Learning for Streaming Data in Python. *Journal of Machine Learning Research* 22(110).

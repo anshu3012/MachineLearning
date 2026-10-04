@@ -134,6 +134,12 @@ The predictions stay the same, but the model is no longer absolutely certain abo
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 8 | Simple Example Code", YouTube, https://www.youtube.com/watch?v=DeeWsqoY4Eo
+
+**Other references**
+
 - **Manning et al.:** Manning, C. D., Raghavan, P. and Schütze, H. *Introduction to Information Retrieval*. Cambridge University Press, 2008. Section 13.2, "Naive Bayes text classification".
 - **scikit-learn docs:** `sklearn.naive_bayes.CategoricalNB` (alpha), scikit-learn 1.9.
 

@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/dropout]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Overfitting ([Note 91](../91-knn/note.md)).
-> - **Compare with:** Random forest ([Note 114](../114-feature-importance/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
+> - **Compare with:** Random forest ([Note 114](../114-feature-importance/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)); Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -57,6 +57,10 @@ Take a binary classification problem with 5 **features** (input variables, one c
 With **dropout**, before each training step we randomly switch off some nodes of the input layer and of the hidden layers. A switched-off node is cut from the network for that step: its weights and bias play no part in the prediction, and backpropagation does not update them. In Figure 1, step 1 drops 2 input nodes, 3 nodes of the first hidden layer and 2 of the second. Step 2 draws a new random set: some of the dropped nodes come back and others go.
 
 So each step trains a different network on the data. Every one of them is a smaller **sub-network** of the full network, using a subset of its nodes and the same shared weights.
+
+![Dropout with p = 0.25 on the network of Figure 1, over four training steps. Each step draws a new random set of switched-off nodes (red crosses), and their connections go grey. At prediction every node is back, and each weight is multiplied by $1 - p = 0.75$](images/dropout_anim.gif){width=100%}
+
+In Figure 2, watch the crosses jump between steps: 4, 3, 1 and then 7 of the 15 droppable nodes are off, because every node is dropped independently (section 4.2). The last frame previews prediction time (section 6).
 
 > **Extra:** The masks are redrawn for every forward pass, which in Keras means for every mini-batch (and each **observation**, one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
 
@@ -122,11 +126,11 @@ The fix is to scale the weights down by the probability that the node was presen
    $$w_{\text{test}} = 0.8 \times (1 - 0.25) = 0.6$$
    On average, the next node then receives the same signal at prediction as it did during training.
 
-Figure 2 (top row) shows this. We never have to do it by hand: Keras handles it behind the scenes.
+Figure 3 (top row) shows this. We never have to do it by hand: Keras handles it behind the scenes.
 
 ![Two equivalent ways to handle dropout. Top: the original paper scales the weights down at prediction. Bottom: Keras scales the kept outputs up during training, so nothing changes at prediction.](images/train_vs_predict.png)
 
-> **Extra:** Keras uses **inverted dropout** (Figure 2, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing (Keras docs, `Dropout`). Both versions give the next layer the same average input.
+> **Extra:** Keras uses **inverted dropout** (Figure 3, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing (Keras docs, `Dropout`). Both versions give the next layer the same average input.
 
 > **Python:** A `Dropout(0.25)` layer on a row of eight 1s.
 >
@@ -156,6 +160,12 @@ Figure 2 (top row) shows this. We never have to do it by hand: Keras handles it 
 - At prediction every node is back, with its weights scaled by $1 - p$ (Keras does the equivalent automatically).
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Dropout Layer in Deep Learning | Dropouts in ANN | End to End Deep Learning", YouTube, https://www.youtube.com/watch?v=gyTlcHVeBjM
+
+**Other references**
 
 - Hinton, Srivastava, Krizhevsky, Sutskever and Salakhutdinov, "Improving neural networks by preventing co-adaptation of feature detectors", arXiv:1207.0580, 2012.
 - Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014: §1 ($2^n$ thinned networks, approximate averaging), §6 (results).

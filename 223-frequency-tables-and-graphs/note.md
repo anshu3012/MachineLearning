@@ -9,7 +9,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
-> - **Leads to:** Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Standardization ([Note 1023](../1023-data-scaling-in-ann/note.md)).
+> - **Leads to:** Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Standardization ([Note 1023](../1023-data-scaling-in-ann/note.md)).
 > - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 <!-- /where-this-fits -->
 
@@ -225,6 +225,12 @@ Figure 4 shows four features at once: bill, tip, meal time (the panels) and smok
 - Histogram shapes: symmetric, bimodal, right skew, left skew, uniform, no pattern.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Session 38 - Descriptive Statistics Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=Uv3Blie7F3g
+
+**Other references**
 
 - NIST/SEMATECH. *e-Handbook of Statistical Methods*, section 1.3.3.14.5, Histogram Interpretation: Bimodal Mixture of 2 Normals. itl.nist.gov, div898 handbook, histogr5.
 

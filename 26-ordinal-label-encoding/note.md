@@ -29,6 +29,10 @@ Figure 1 shows the whole topic. The kind of categorical data decides the techniq
 
 Every column is either numerical or categorical (see the [types of ML Note](../03-types-of-ml/note.md), section "Numerical and categorical data"). Categorical data itself comes in two types, nominal and ordinal.
 
+![Nominal categories sit side by side; ordinal categories stack in order](images/nominal_vs_ordinal.png){width=85%}
+
+Figure 2 contrasts the two types with the examples below.
+
 ### 2.1 Nominal data
 
 > **Key point:** Nominal categories have no relationship and no order among them.
@@ -51,6 +55,10 @@ Education level works the same way. Post-graduate (PG) is higher than under-grad
 
 Categorical data is mostly stored as strings, such as `"Male"` or `"Good"`. ML algorithms expect numbers. So it is our job to convert the categories into numbers before training.
 
+![Encoding sits between text categories and the algorithm](images/text_to_numbers.png){width=90%}
+
+Figure 3 shows where encoding sits.
+
 There are many ways to do this, called **encoding** techniques. The two most popular ones are:
 
 1. **Ordinal encoding**, used on ordinal data: the subject of this Note.
@@ -68,6 +76,10 @@ Any dataset for supervised learning has features and a target. The features toge
 
 - **Features ($X$):** if a feature holds ordinal categories, we apply ordinal encoding.
 - **Target ($y$):** if the target is categorical, we apply label encoding.
+
+![Ordinal encoding for ordered features, label encoding for a categorical target](images/x_vs_y.png){width=70%}
+
+Figure 4 shows the rule: the same job, applied to different columns.
 
 A categorical target is what every **classification** problem has. Examples: will it rain today or not; will a student get placed or not; will a customer leave (customer churn) or not; which class does an image belong to.
 
@@ -89,7 +101,7 @@ Next we tell the encoder the order: high school is the lowest, UG is in the midd
 | UG | 1 |
 | PG | 2 |
 
-The top half of Figure 2 shows this on a few rows, with the label "School" for high school. Every row with School becomes 0, every UG becomes 1, every PG becomes 2.
+The top half of Figure 5 shows this on a few rows, with the label "School" for high school. Every row with School becomes 0, every UG becomes 1, every PG becomes 2.
 
 ![Ordinal encoding of the education column, with the order given (top) and without it (bottom)](images/ordinal_mapping.png)
 
@@ -117,7 +129,7 @@ The data has 50 customers. When each customer bought a product, some other produ
 
 > **Key point:** Gender is nominal, review and education are ordinal, and the target purchased is categorical.
 
-Before encoding, we identify the type of every categorical feature and of the target (Figure 3):
+Before encoding, we identify the type of every categorical feature and of the target (Figure 6):
 
 - **gender** (Female, Male): there is no order between male and female, so it is nominal. Gender needs one-hot encoding.
 - **review** (Poor, Average, Good): ordinal, so it needs ordinal encoding.
@@ -186,7 +198,7 @@ Here we encode two features, so we pass two lists:
 
 If we do not pass `categories`, the encoder chooses the order itself, and Poor might get a bigger number than Good. We do not want that: we want the numbers to follow the real order of the categories.
 
-> **Extra:** Without `categories`, the order is not random: `OrdinalEncoder` sorts the categories alphabetically (scikit-learn API, `OrdinalEncoder`). Sorting gives Average = 0, Good = 1, Poor = 2, and PG = 0, School = 1, UG = 2. The bottom half of Figure 2 shows the result: the codes no longer follow the real order. For ordinal data, always pass `categories`.
+> **Extra:** Without `categories`, the order is not random: `OrdinalEncoder` sorts the categories alphabetically (scikit-learn API, `OrdinalEncoder`). Sorting gives Average = 0, Good = 1, Poor = 2, and PG = 0, School = 1, UG = 2. The bottom half of Figure 5 shows the result: the codes no longer follow the real order. For ordinal data, always pass `categories`.
 
 ### 6.5 Fit on the training set, transform both
 
@@ -278,6 +290,10 @@ With 2 classes, the codes are 0 and 1; with 3 classes, they are 0, 1 and 2.
 
 The first five training targets were Yes, Yes, No, No, No. After encoding they are 1, 1, 0, 0, 0.
 
+![`LabelEncoder` on the first five training targets](images/label_encoding.png){width=70%}
+
+Figure 7 shows these five targets before and after.
+
 > **Extra:** `LabelEncoder` also sorts the classes alphabetically, which is why No comes before Yes. For a target the order does not matter: a classifier only needs a different number for each class. `le.inverse_transform([0, 1])` turns the numbers back into `['No', 'Yes']`, which is useful for reading a model's predictions.
 
 ## 8. Summary
@@ -299,6 +315,12 @@ The first five training targets were Yes, Yes, No, No, No. After encoding they a
 - Split first; fit the encoder on the training set; transform both sets.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Encoding Categorical Data | Ordinal Encoding | Label Encoding", YouTube, https://www.youtube.com/watch?v=w2GglmYHfmM
+
+**Other references**
 
 - scikit-learn API reference. `sklearn.preprocessing.OrdinalEncoder` and `sklearn.preprocessing.LabelEncoder`. scikit-learn.org.
 

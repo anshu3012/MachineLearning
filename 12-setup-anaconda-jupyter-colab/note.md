@@ -46,6 +46,10 @@ A **channel** is an online store of conda packages. Anaconda's own channel is th
 
 **Miniforge** is a small installer (under 100 MB) that sets up only conda, Python and a few basics, with conda-forge as its only channel. Everything else we install into our own environments (Section 4). Miniforge plus our own environments is the setup these Notes use.
 
+![Miniforge and Anaconda both install conda; Miniforge starts small](images/installers.png){width=70%}
+
+Figure 2 compares the two installers.
+
 The full Anaconda distribution works too: every `conda` command in this Note is the same. Anaconda is a much bigger download (about 1 GB today) and installs hundreds of libraries we may never use.
 
 > **Extra:** Why Miniforge rather than Anaconda? Anaconda's terms require a paid licence for its default channel in organisations with 200 or more people, apart from teaching and research at universities (Anaconda ToS FAQ). conda-forge is free for everyone. Miniforge also starts small, so the only libraries on our machine are the ones our projects need.
@@ -100,6 +104,10 @@ We use Jupyter (Section 3) instead of Spyder, and the terminal instead of Naviga
 > **Key point:** In a terminal with our environment active, `jupyter lab` starts a local server and opens it in the web browser.
 
 **Jupyter** is the most popular tool for data science code. A **notebook** is a file (ending in `.ipynb`) made of **cells**, and each cell's output appears right under it. **JupyterLab** is the program that opens and runs notebooks, inside a web browser.
+
+![The three parts of local Jupyter: the browser page, the server in the terminal, and the kernel](images/jupyter_parts.png){width=70%}
+
+Figure 3 shows where our code runs: the browser only shows the cells, and the kernel behind the server runs them.
 
 > **Python:** Starting JupyterLab.
 >
@@ -203,7 +211,7 @@ Working in base causes problems sooner or later:
 - **Conflicts:** one project may need pandas 3 and an older one pandas 1.5. One shared box can hold only one version.
 - **Breakage:** an upgrade made for one project can silently break another.
 
-The fix is one fresh environment per project (Figure 2). Each new environment starts nearly empty, we install only what the project needs, and the server later gets exactly that list. The environment acts like a safe box for the project.
+The fix is one fresh environment per project (Figure 4). Each new environment starts nearly empty, we install only what the project needs, and the server later gets exactly that list. The environment acts like a safe box for the project.
 
 ![Separate environments, each with its own Python and packages](images/environments.png)
 
@@ -276,6 +284,10 @@ If `conda activate myproject` still seems to work right after removing, the term
 > **Key point:** On Linux, two commands rebuild our `campusx` environment exactly; a third adds the profiling library.
 
 An **environment file** (`environment.yml`) lists an environment's name, its channel, and every package with its exact version. Pinning exact versions means everyone who builds from the file gets the same results as these Notes. Ours is generated from the working environment with `conda env export --no-builds`, never written by hand.
+
+![Export the working environment to a file, then create the same environment from it](images/env_file.png){width=95%}
+
+Figure 5 shows the round trip.
 
 The file has three parts: conda packages from conda-forge, a `pip:` section for packages that conda-forge does not have, and a `variables:` section (below). The file lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of Section 5.2 instead. Recreating the environment takes one long download:
 
@@ -356,6 +368,10 @@ Instead of installing anything, we can work in the browser. **Kaggle notebooks**
 
 To start one, we open any dataset on Kaggle (for example the Titanic data) and click **New Notebook** (on the dataset's **Code** tab). Kaggle creates a notebook with that dataset already attached. The Kaggle notebook has the same code and Markdown cells and the same Shift+Enter.
 
+![Where a Kaggle notebook reads and writes files](images/kaggle_notebook.png){width=95%}
+
+Figure 6 shows where things live on Kaggle's server; the paths come up in the code below.
+
 The first cell Kaggle writes for us imports NumPy and pandas, and prints the path of every attached file. We copy a path from its output into `read_csv`:
 
 > **Python:** Reading an attached dataset on Kaggle.
@@ -394,6 +410,10 @@ Files our code writes go to `/kaggle/working/` and appear in the **Output** pane
 - **GPU and TPU:** **Runtime > Change runtime type > Hardware accelerator** switches the notebook to a GPU or TPU. Classic ML code (scikit-learn) does not use a GPU (scikit-learn FAQ); deep learning code runs many times faster on one.
 
 So we do not need an expensive computer to learn deep learning: Colab provides the hardware.
+
+![A Colab session: the notebook runs on Google's machine; only Google Drive outlives the session](images/colab_session.png){width=95%}
+
+Figure 7 shows what a Colab session keeps and what it loses, which Section 7.1 builds on.
 
 > **Extra:** The free GPU has limits. A session ends after a while without activity and after at most about 12 hours (Colab FAQ). When it ends, the machine is wiped: variables and uploaded files are gone, only the notebook stays in Drive.
 
@@ -437,7 +457,7 @@ Most code in these Notes runs on Colab as it is. A few lines depend on new behav
 
 > **Key point:** With a Kaggle API token, Colab downloads a Kaggle dataset straight from Kaggle's servers, however big it is.
 
-Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for example thousands of images) to our computer and uploading it to Colab again is slow. The Kaggle **API** (a way for programs to talk to a website) lets Colab fetch it directly, at the speed of Google's network. Figure 3 shows the steps.
+Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for example thousands of images) to our computer and uploading it to Colab again is slow. The Kaggle **API** (a way for programs to talk to a website) lets Colab fetch it directly, at the speed of Google's network. Figure 8 shows the steps.
 
 ![Downloading a Kaggle dataset straight into Colab](images/kaggle_to_colab.png)
 
@@ -484,6 +504,10 @@ Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for exa
 
 For learning, Kaggle and Colab are enough, and many people use nothing else. A real project, one that goes to a server, needs a local environment with pinned versions.
 
+![The table above as one choice](images/where_to_work.png){width=85%}
+
+Figure 9 sums up the choice.
+
 ## 10. Summary
 
 | Tool | What it is | Key command or click |
@@ -503,6 +527,12 @@ For learning, Kaggle and Colab are enough, and many people use nothing else. A r
 - A Kaggle API token lets Colab download Kaggle datasets directly. Keep it secret.
 
 ## 11. Sources
+
+**Built from**
+
+- CampusX, "Installing Anaconda For Data Science | Jupyter Notebook for Machine Learning | Google Colab for ML", YouTube, https://www.youtube.com/watch?v=82P5N2m41jE
+
+**Other references**
 
 - Anaconda documentation. Anaconda Distribution. anaconda.com/docs.
 - Anaconda (2024). Terms of Service FAQs. anaconda.com.

@@ -9,7 +9,7 @@ tags: [subject/ml, area/probability, step/foundations, concept/bayes-theorem]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Conditional probability ([Note 82](../82-conditional-probability/note.md)).
-> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)).
+> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); MAP estimation ([Note 633](../633-mle-in-machine-learning/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -67,6 +67,8 @@ $$P(B \mid A) = \frac{P(B \cap A)}{P(A)}$$
 
 $$P(A \cap B) = P(B \mid A) \times P(A) \qquad (2)$$
 
+Figure 2 (section 5.2) shows equation (2) as a rectangle: the dark spam piece has width $P(\text{spam}) = 0.2$ and height $P(\text{free} \mid \text{spam}) = 0.6$, so its area is $P(\text{spam} \cap \text{free}) = 0.12$.
+
 Substituting (2) into (1) gives Bayes' theorem:
 
 $$P(A \mid B) = \frac{P(B \mid A) \times P(A)}{P(B)}$$
@@ -97,6 +99,10 @@ Suppose 20% of emails are spam. The word "free" appears in 60% of spam emails an
 
   $$P(\text{spam} \mid \text{free}) = \frac{0.60 \times 0.20}{0.16} = 0.75$$
 
+Figure 2 draws the same sum as areas. The square is all emails. Watch the two dark pieces in step 4: they are all that is left once we know the email says "free", and the spam piece is three times the normal one.
+
+![Bayes' theorem as areas. Prior: a 20% spam strip. Likelihood: the "free" share inside each strip. Evidence: only the two dark pieces remain (0.12 and 0.04). Posterior: rescaled to fill the whole, spam is 0.12 / 0.16 = 75%. Picture after Sanderson (3Blue1Brown), "Bayes' theorem".](images/bayes_square.gif)
+
 Seeing one word has moved the belief from 20% to 75%. The way the evidence was split into "spam" and "not spam" cases is the subject of the next Note, and combining many words is what Naive Bayes does.
 
 ## 6. Summary
@@ -107,6 +113,13 @@ Seeing one word has moved the belief from 20% to 75%. The way the evidence was s
 - Naive Bayes applies the theorem with A = class and B = the observed features.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 4 | Bayes Theorem in Probability", YouTube, https://www.youtube.com/watch?v=Oqw-v-Z7PuU
+- Sanderson, G. (3Blue1Brown). "Bayes' theorem." 3blue1brown.com/lessons/bayes-theorem. The area picture of Figure 2 follows this lesson, redrawn with our spam numbers.
+
+**Other references**
 
 - **Gelman et al. 2013:** Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A. and Rubin, D. B. *Bayesian Data Analysis*, 3rd ed. CRC Press, 2013. Section 1.3, pp. 6–7.
 - **Bayes 1763:** Bayes, T. "An Essay towards Solving a Problem in the Doctrine of Chances." Communicated by R. Price. *Philosophical Transactions of the Royal Society of London* 53, 370–418, 1763.

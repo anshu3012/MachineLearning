@@ -27,6 +27,10 @@ There is no fixed recipe for framing. These seven steps are a good default check
 
 > **Key point:** Junior data scientists get small tasks; leaders plan the whole project, and framing is how they plan it.
 
+![Framing is the step from doing small tasks to planning the whole project](images/roles.png){width=75%}
+
+Figure 2 shows the two roles side by side.
+
 In a company, ML work is done by teams. A big project, such as a recommender system, may have 10 to 20 data scientists.
 
 - **A junior data scientist** gets small, well-defined tasks: preprocessing some data, or training one particular model.
@@ -45,6 +49,10 @@ There are three ways:
 1. **Bring in new customers**, through better marketing. Winning new customers is hard.
 2. **Charge existing customers more.** Raising prices is unfair to them.
 3. **Keep the customers who are about to leave.**
+
+![Three ways to more revenue; we choose the third](images/three_ways.png){width=65%}
+
+Figure 3 shows the three ways and the one we choose.
 
 The third way looks the most promising. Netflix earns money through a monthly **subscription**, so every customer who stays is one more customer paying each month.
 
@@ -65,6 +73,10 @@ Customers leaving a platform is called **churn**. The **churn rate** measures ho
    $$98 \times 0.98 \approx 96$$
    users remain, and so on.
 
+![A 2 percent monthly churn rate, applied to 100 users for two months](images/churn_rate.png){width=75%}
+
+Figure 4 draws the example: the user count drops by 2 percent each month.
+
 A steady churn rate does not mean every company slowly disappears. New customers keep joining too, and usually faster than old ones leave, so the customer base grows over time.
 
 A customer base works like a population. If the death rate is higher than the birth rate, the population shrinks; if the birth rate is higher, it grows. Here, new customers are the births and churn is the deaths.
@@ -76,6 +88,10 @@ A customer base works like a population. If the death rate is higher than the bi
 A goal like "increase revenue" is too vague to build anything from. Our first job is to turn it into a **mathematical problem**: a measurable target we can hand to our team.
 
 Suppose Netflix's monthly churn rate is about 4%. Our target becomes: **bring the churn rate down from 4% to 3.75% within the next six months.**
+
+![A vague goal becomes a measurable target, and the target's size at Netflix scale](images/goal_to_target.png){width=75%}
+
+Figure 5 shows the whole step: vague goal, measurable target, and why the small drop matters.
 
 A drop of 0.25 percentage points sounds small. At Netflix's scale, it is large: for every 10 crore (100 million) subscribers,
 
@@ -128,7 +144,7 @@ The **long-term plan** is separate work with other teams: better content, a bett
 
 At this point, the problem looks like **supervised classification**: for every customer, predict whether they will leave this month (yes or no).
 
-Then a colleague asks: why treat everyone who might leave the same? Some customers are very unhappy, others only a little, and discounts at Netflix's scale are expensive. Figure 2 compares the two ideas.
+Then a colleague asks: why treat everyone who might leave the same? Some customers are very unhappy, others only a little, and discounts at Netflix's scale are expensive. Figure 6 compares the two ideas.
 
 ![A yes or no answer gives everyone the same discount; a score lets the discount grow with the risk](images/yes_no_vs_score.png)
 
@@ -148,6 +164,10 @@ Suppose we learn that one team already has a model that predicts Netflix's **ove
 
 So we do not have to start from scratch. We can ask that team which factors they used to predict churn, and use them as a starting point.
 
+![The existing churn-rate model gives us its factors as a starting point](images/reuse_model.png){width=65%}
+
+Figure 7 shows how the existing model feeds into ours.
+
 ## 7. Step 4: Getting data
 
 > **Key point:** We decide carefully which data we need, then work with data engineers to get it.
@@ -155,6 +175,10 @@ So we do not have to start from scratch. We can ask that team which factors they
 Getting data is one of the most important steps. We sit down and think: what data do we need, and which **features** (input variables, one column each of the data table) should it have?
 
 To predict how likely a customer is to leave, we study how each customer used Netflix in a given month:
+
+![One observation: a customer's month of use as features, and whether they leave as the target](images/customer_row.png){width=85%}
+
+Figure 8 shows one observation; the table below says what each feature tells us.
 
 | Feature (per customer, per month) | What it tells us |
 |---|---|
@@ -175,6 +199,10 @@ Getting these features is a job for a **data engineer**. Netflix's day-to-day re
 We need **metrics**: numbers that tell us, and our team, whether we are moving in the right direction. Without them, we cannot tell whether six months of work achieved anything.
 
 For the churn project, two checks are natural:
+
+![The two checks: do the circles match in size, and how much do they overlap?](images/two_checks.png){width=55%}
+
+Figure 9 draws both checks as two circles: the customers we flagged and the customers who really left.
 
 - **Predicted vs actual leavers:** compare how many customers we predicted would leave with how many actually left. If the difference is small (say, 0.25%), we are on the right track.
 - **The right customers:** check whether the customers we flagged are the same customers who actually left, or different ones.
@@ -207,17 +235,21 @@ A model trained once would quickly fall out of date. So online learning is the b
 
 > **Key point:** Data flows from the app to the OLTP database, to the data warehouse, and into a model that keeps training.
 
-Figure 3 shows the flow we would try to build. New data keeps arriving in the OLTP database, flows on into the data warehouse, and passes through the model, which keeps training and keeps producing a churn score for every customer.
+Figure 10 shows the flow we would try to build. New data keeps arriving in the OLTP database, flows on into the data warehouse, and passes through the model, which keeps training and keeps producing a churn score for every customer.
 
 ![Online learning for churn, with batch learning as a fallback](images/online_vs_batch.png)
 
-Online learning is hard to build, and our data setup may not allow it. In that case we fall back on batch learning: every week, we take the model offline, retrain it on the latest data, and deploy it again (Figure 3, bottom).
+Online learning is hard to build, and our data setup may not allow it. In that case we fall back on batch learning: every week, we take the model offline, retrain it on the latest data, and deploy it again (Figure 10, bottom).
 
 ## 10. Step 7: Checking assumptions
 
 > **Key point:** We list what we have taken for granted and check each point before building.
 
 While framing, we make many assumptions without noticing. The last step is to write them down and check them. For the churn project:
+
+![Each assumption gets a check before we build](images/assumptions.png){width=70%}
+
+Figure 11 pairs each assumption with its check.
 
 - **Is the data really available?** We assumed columns such as watch time and searches exist. We confirm this with the data engineering team.
 - **Does one model work everywhere?** Netflix is a multinational company, and we assumed one model would serve users all over the world. But factors that predict churn in the US may not work as well in India, so we may need separate models for different regions.
@@ -227,6 +259,10 @@ There are many more such assumptions in a real project, and each one is cheaper 
 ## 11. Think before coding
 
 > **Key point:** In a big company, changing direction is slow and expensive, so we plan first and code second.
+
+![Planning first avoids the costly turn back](images/plan_first.png){width=70%}
+
+Figure 12 contrasts the two habits.
 
 There is no fixed procedure for framing. What matters is the habit: we do not start coding straight away; we first sit down and think the problem through.
 
@@ -252,6 +288,12 @@ The same habit is what separates people over time. Of the thousands of freshers 
 - **Check assumptions** early: mistakes found late are expensive.
 
 ## 13. Sources
+
+**Built from**
+
+- CampusX, "How to Frame a Machine Learning Problem | How to plan a Data Science Project Effectively", YouTube, https://www.youtube.com/watch?v=A9SezQlvakw
+
+**Other references**
 
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer.
 - scikit-learn API reference. `sklearn.linear_model.LogisticRegression`, method `predict_proba`. scikit-learn.org.

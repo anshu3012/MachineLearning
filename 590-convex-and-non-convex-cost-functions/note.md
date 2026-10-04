@@ -189,6 +189,12 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Difference between convex & non-convex cost function; what happens when cost function is non-convex?", YouTube, https://www.youtube.com/watch?v=TXVtbgaEyms
+
+**Other references**
+
 - Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 4.2.2 (local and global optima) and 9.3 (gradient descent).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Sections 8.2.2–8.2.3 (local minima, saddle points) and 8.4 (parameter initialisation).
 - Kleinberg, R., Li, Y. and Yuan, Y. (2018). "An Alternative View: When Does SGD Escape Local Minima?". *ICML*.

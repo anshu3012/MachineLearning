@@ -397,6 +397,12 @@ The column tree does the same for the years. Neighbouring years with similar tra
 
 ## 13. Sources
 
+**Built from**
+
+- CampusX, "EDA using Bivariate and Multivariate Analysis | Day 21 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=6D3VtEfCw7w
+
+**Other references**
+
 - Frey, B., Savage, D. and Torgler, B. (2011). Behavior under Extreme Conditions: The Titanic Disaster. *Journal of Economic Perspectives* 25(1).
 - seaborn documentation. `seaborn.barplot`; release notes v0.11.0; source of `seaborn.load_dataset`. seaborn.pydata.org.
 - Silverman, B. (1986). *Density Estimation for Statistics and Data Analysis*. Chapman and Hall.

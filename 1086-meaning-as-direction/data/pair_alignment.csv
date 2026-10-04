@@ -1,0 +1,25 @@
+model,pair,cosine
+GloVe,king → queen,0.451
+GloVe,uncle → aunt,0.5758
+GloVe,nephew → niece,0.6364
+GloVe,father → mother,0.6364
+GloVe,son → daughter,0.6743
+GloVe,brother → sister,0.5791
+GloVe,boy → girl,0.6047
+GloVe,husband → wife,0.1671
+GloVe,prince → princess,0.445
+GloVe,grandfather → grandmother,0.508
+GloVe,he → she,0.6499
+GloVe,actor → actress,0.6596
+GPT-2,king → queen,0.417
+GPT-2,uncle → aunt,0.293
+GPT-2,nephew → niece,0.4105
+GPT-2,father → mother,0.3985
+GPT-2,son → daughter,0.5583
+GPT-2,brother → sister,0.386
+GPT-2,boy → girl,0.5251
+GPT-2,husband → wife,0.3147
+GPT-2,prince → princess,0.3827
+GPT-2,grandfather → grandmother,0.3253
+GPT-2,he → she,0.4331
+GPT-2,actor → actress,0.5329

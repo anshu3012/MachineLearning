@@ -368,7 +368,18 @@ Each row lists a Note's Concepts and the Notes to read first. Notes marked *comi
 
 Figure 8 is a starting point, not a rule: in practice we try several suitable algorithms and compare them on a test set. It is a draft until the algorithm Notes are written.
 
-## 6. Key terms
+## 6. Sources
+
+**Built from**
+- CampusX, "100 Days of Machine Learning", YouTube playlist (134 videos), https://www.youtube.com/playlist?list=PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH
+- CampusX, "100 Days of Deep Learning", YouTube playlist (84 videos), https://www.youtube.com/playlist?list=PLKnIA16_RmvYuZauWaPlRTC54KxSNLtNn
+- CampusX, "Maths for Machine Learning", YouTube playlist (23 sessions), https://www.youtube.com/playlist?list=PLKnIA16_RmvbYFaaeLY28cWeqV-3vADST
+- Every Note listed in the Learning path: each Note's own Sources name the video, book or paper it was built from.
+
+**Other references**
+- The Concept map data: `course_map/concepts.yaml` in this repository.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

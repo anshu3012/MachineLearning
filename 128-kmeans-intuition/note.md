@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)).
 > - **Leads to:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
-> - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
+> - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -160,6 +160,12 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 - The elbow method picks the k where the WCSS curve bends from steep to flat.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "K-Means Clustering Algorithm | Geometric Intuition | Clustering | Unsupervised Learning", YouTube, https://www.youtube.com/watch?v=5shTLzwAdEc
+
+**Other references**
 
 - ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.3 (object dissimilarity and standardization in clustering).
 - Schubert 2022: E. Schubert, *Stop using the elbow criterion for k-means and how to choose the number of clusters instead*, arXiv:2212.12189, 2022.

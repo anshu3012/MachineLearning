@@ -247,6 +247,12 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Hyperparameter Tuning Random Forest using GridSearchCV and RandomizedSearchCV | Code Example", YouTube, https://www.youtube.com/watch?v=4Im0CT43QxY
+
+**Other references**
+
 - Breiman, L. (2001). Random forests. *Machine Learning*, 45(1), 5–32.
 - Cawley, G. C. and Talbot, N. L. C. (2010). On over-fitting in model selection and subsequent selection bias in performance evaluation. *Journal of Machine Learning Research* 11, 2079–2107.
 - Fernández-Delgado, M., Cernadas, E., Barro, S. and Amorim, D. (2014). Do we need hundreds of classifiers to solve real world classification problems? *Journal of Machine Learning Research* 15, 3133–3181.

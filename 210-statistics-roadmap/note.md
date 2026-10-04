@@ -9,7 +9,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
-> - **Leads to:** Measures of central tendency ([Note 221](../221-measures-of-central-tendency/note.md)); Variance ([Note 222](../222-measures-of-dispersion/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Bernoulli and binomial distributions ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
+> - **Leads to:** Measures of central tendency ([Note 221](../221-measures-of-central-tendency/note.md)); Variance ([Note 222](../222-measures-of-dispersion/note.md)); Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -33,6 +33,10 @@ Statistics turns raw data into summaries and decisions. In data work it shows up
 ## 3. The four modules
 
 > **Key point:** Descriptive statistics summarises the data we have; probability distributions describe the shapes data can take; inferential statistics draws conclusions about data we do not have.
+
+![One key figure from each module: box plots of Titanic ages (Note 230), a kernel density estimate built from bumps (Note 243), 100 confidence intervals (Note 281) and a Q-Q plot of iris sepal lengths (Note 260)](images/module_gallery.png){width=95%}
+
+Figure 2 previews what each module produces: summaries of the data in hand, a smooth shape for a distribution, a statement about a population with its uncertainty, and a diagnostic plot.
 
 ### 3.1 Descriptive statistics
 
@@ -116,6 +120,12 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 - About 60 hours covers the whole roadmap.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Statistics Roadmap for Data Science and Data Analysis | Complete Guide | Full Resources | CampusX", YouTube, https://www.youtube.com/watch?v=2GV_ouHBw30
+
+**Other references**
 
 - ISLR: James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. Chapter 3 (linear regression), sections 4.3 (logistic regression) and 4.4.4 (naive Bayes).
 - Bruce, P., Bruce, A. and Gedeck, P. (2020). *Practical Statistics for Data Scientists*, 2nd ed. O'Reilly. Chapter 3, Statistical Experiments and Significance Testing.

@@ -368,6 +368,12 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 
 ## 12. Sources
 
+**Built from**
+
+- CampusX, "Feature Scaling - Normalization | MinMaxScaling | MaxAbsScaling | RobustScaling", YouTube, https://www.youtube.com/watch?v=eBrGyuA2MIg
+
+**Other references**
+
 - scikit-learn documentation. `sklearn.datasets.load_wine`; User Guide, "Preprocessing data": "Scaling sparse data" and "Scaling data with outliers". scikit-learn.org.
 - Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 2nd ed. O'Reilly. Chapter 2, "Feature Scaling".
 

@@ -119,6 +119,10 @@ Nothing forces us to use $\hat{\imath}$ and $\hat{\jmath}$. Take $\mathbf{v} = [
 3. **Example:** for $\mathbf{x} = [3, -2]$, the x-components give $a + b = 3$ and the y-components $a - b = -2$. Adding the two equations, $2a = 1$, so $a = 0.5$ and $b = 2.5$:
    $$0.5\thinspace[1, 1] + 2.5\thinspace[1, -1] = [0.5 + 2.5,\ 0.5 - 2.5] = [3, -2]$$
 
+Figure 3 shows this example. Watch the orange arrow: it never moves. Only the grid we measure it with changes, from the square grid of $\hat{\imath}$ and $\hat{\jmath}$ to the tilted grid of $\mathbf{v}$ and $\mathbf{w}$, and with it the two numbers.
+
+![The arrow $[3, -2]$ measured with two bases: $3\thinspace\hat{\imath} - 2\thinspace\hat{\jmath}$ on the standard grid, and $0.5\thinspace\mathbf{v} + 2.5\thinspace\mathbf{w}$ on the grid of $\mathbf{v} = [1, 1]$ and $\mathbf{w} = [1, -1]$](images/change_basis.gif)
+
 So the same arrow is $[3, -2]$ in the standard basis and $[0.5, 2.5]$ in the basis $\mathbf{v}, \mathbf{w}$. Whenever we write a vector as numbers, we have silently chosen a basis.
 
 > **Python:** Finding the coordinates in a new basis means solving a small system of equations. `np.linalg.solve` takes the basis vectors as the columns of a matrix.
@@ -151,7 +155,7 @@ Let both scalars in $a\mathbf{v} + b\mathbf{w}$ range freely. Three things can h
 
 > **Key point:** Two 3D vectors span a flat sheet through the origin; a third vector either lies on that sheet and adds nothing, or leaves it and unlocks all of 3D space.
 
-In 3D, two vectors that do not line up span a plane through the origin. Picture two knobs, one per scalar: as we turn them, the tip of $a\mathbf{v} + b\mathbf{w}$ sweeps out a flat sheet. In Figure 3, $\mathbf v_1 = [2, 0, 1]$ and $\mathbf v_2 = [0, 2, 1]$ span the blue plane, whose points are all $[2a, 2b, a + b]$.
+In 3D, two vectors that do not line up span a plane through the origin. Picture two knobs, one per scalar: as we turn them, the tip of $a\mathbf{v} + b\mathbf{w}$ sweeps out a flat sheet. In Figure 4, $\mathbf v_1 = [2, 0, 1]$ and $\mathbf v_2 = [0, 2, 1]$ span the blue plane, whose points are all $[2a, 2b, a + b]$.
 
 ![The plane spanned by $\mathbf v_1$ and $\mathbf v_2$, a third vector on it (green) and one off it (red)](images/span_3d.png){height=48%}
 
@@ -166,7 +170,11 @@ A third vector chosen at random almost always lands off the plane.
 
 > **Key point:** Vectors are linearly dependent when one of them is a combination of the others, so it can be removed without shrinking the span; otherwise they are independent.
 
-When a vector adds nothing to the span (the green vector in Figure 3, or two 2D vectors on one line), we need a word for it. Vectors are **linearly dependent** when at least one of them can be written as a linear combination of the others: removing it does not shrink the span. They are **linearly independent** when each one adds a new direction, a new dimension, to the span.
+When a vector adds nothing to the span (the green vector in Figure 4, or two 2D vectors on one line), we need a word for it. Vectors are **linearly dependent** when at least one of them can be written as a linear combination of the others: removing it does not shrink the span. They are **linearly independent** when each one adds a new direction, a new dimension, to the span.
+
+Figure 5 animates the two cases of Figure 4. Watch the sheet: scaling the green vector only slides its tip along the sheet, so the span stays a plane; scaling the red vector lifts copies of the sheet up and down, and the stack of sheets fills all of 3D. The picture follows Sanderson's *Essence of Linear Algebra*, chapter 2 (3Blue1Brown).
+
+![A third vector on the plane of $\mathbf v_1$ and $\mathbf v_2$ (green, dependent) only moves within the plane; a third vector off it (red, independent) sweeps the plane through all of space](images/third_vector.gif)
 
 With numbers:
 
@@ -220,7 +228,13 @@ $\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]
 
 ## 10. Sources
 
-- Sanderson, G. *Essence of Linear Algebra*, 3Blue1Brown (3blue1brown.com).
+**Built from**
+
+- Sanderson, G. (3Blue1Brown), "Vectors | Chapter 1, Essence of linear algebra", 2016, 3blue1brown.com/lessons/vectors, https://www.youtube.com/watch?v=fNk_zzaMoSs
+- Sanderson, G. (3Blue1Brown), "Linear combinations, span, and basis vectors | Chapter 2, Essence of linear algebra", 2016, 3blue1brown.com/lessons/span, https://www.youtube.com/watch?v=k7RM-ot2NWY
+
+**Other references**
+
 - Bengio, Y., Courville, A. and Vincent, P. (2013). "Representation Learning: A Review and New Perspectives". *IEEE Transactions on Pattern Analysis and Machine Intelligence* 35(8).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.2 (ESL).
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 2.6.1 (MML).

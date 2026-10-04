@@ -503,6 +503,12 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Function Transformer | Log Transform | Reciprocal Transform | Square Root Transform", YouTube, https://www.youtube.com/watch?v=cTjj3LE8E90
+
+**Other references**
+
 - Hosmer, D. W., Lemeshow, S. and Sturdivant, R. X. (2013). *Applied Logistic Regression*, 3rd ed. Wiley. Chapter 1.
 - Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). *Applied Linear Statistical Models*, 5th ed. McGraw-Hill. Section 1.8, Normal error regression model.
 - SciPy documentation. `scipy.stats.probplot`. docs.scipy.org.

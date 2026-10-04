@@ -9,7 +9,7 @@ tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 61](../61-polynomial-regression/note.md)).
-> - **Leads to:** Grid and random search ([Note 91](../91-knn/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
+> - **Leads to:** Grid and random search ([Note 91](../91-knn/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -65,6 +65,10 @@ In the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logist
 | 0.1 | 0.977 | 0.597 |
 | 1 | 0.981 | 1.321 |
 | 100 | 0.963 | 7.696 |
+
+The animation below lowers C from 100 to 0.001 and shows all 30 coefficients at each step. Watch the L2 bars (top) shrink together while staying non-zero, and the L1 bars (bottom) vanish one by one into open circles, exact zeros.
+
+![The 30 coefficients on the breast-cancer data as C falls from 100 to 0.001, for L2 (top) and L1 (bottom); titles give the 5-fold CV accuracy](images/c_sweep.gif){height=60%}
 
 C is the hyperparameter most worth tuning, typically by trying values spaced by factors of 10 with cross-validation (the grid search Note).
 
@@ -161,6 +165,12 @@ Things to try:
 | others | | rarely |
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Logistic Regression Hyperparameters || Logistic Regression Part 8", YouTube, https://www.youtube.com/watch?v=ay_OcblJasE
+
+**Other references**
 
 - **scikit-learn docs:** `sklearn.linear_model.LogisticRegression` (penalty, l1_ratio, C, solver, n_jobs, class_weight), scikit-learn 1.9.
 

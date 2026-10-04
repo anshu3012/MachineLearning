@@ -181,6 +181,12 @@ With more stages, the boundary can bend in more places and fit more complicated 
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "How Adaboost Classifier Works? | Geometric Intuition", YouTube, https://www.youtube.com/watch?v=sFKnP0iP0K0
+
+**Other references**
+
 - Freund, Y. and Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. *Journal of Computer and System Sciences* 55(1): 119–139. (Conference version: EuroCOLT 1995.)
 - Viola, P. and Jones, M. (2001). Rapid object detection using a boosted cascade of simple features. *CVPR 2001*.
 - scikit-learn source code, `sklearn/ensemble/_weight_boosting.py`, `AdaBoostClassifier.predict` (version 1.9).

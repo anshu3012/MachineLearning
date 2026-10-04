@@ -1,0 +1,29 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+    layer/.style={draw=#1, fill=#1!12, rounded corners=3pt, align=center, inner sep=4pt,
+                  minimum width=1.75cm, font=\sffamily\small},
+    dims/.style={font=\sffamily\small, text=cgrey, align=center}]
+  \foreach \i/\name/\col/\h/\out/\np in {
+      0/{input}/cgrey/4.0/{256 $\times$ 256\\$\times$ 3}/{},
+      1/{conv\\32 filters\\3 $\times$ 3}/cblue/3.6/{254 $\times$ 254\\$\times$ 32}/{896},
+      2/{max pool\\2 $\times$ 2}/corange/2.8/{127 $\times$ 127\\$\times$ 32}/{0},
+      3/{conv\\64 filters\\3 $\times$ 3}/cblue/2.8/{125 $\times$ 125\\$\times$ 64}/{18,496},
+      4/{max pool\\2 $\times$ 2}/corange/2.1/{62 $\times$ 62\\$\times$ 64}/{0},
+      5/{conv\\128 filters\\3 $\times$ 3}/cblue/2.1/{60 $\times$ 60\\$\times$ 128}/{73,856},
+      6/{max pool\\2 $\times$ 2}/corange/1.6/{30 $\times$ 30\\$\times$ 128}/{0},
+      7/{Flatten}/cgrey/4.0/{115,200}/{0},
+      8/{dense\\128}/cgreen/2.4/{128}/{14,745,728},
+      9/{dense\\64}/cgreen/1.8/{64}/{8,256},
+      10/{dense 1\\sigmoid}/cred/1.4/{P(dog)}/{65}} {
+    \node[layer=\col, minimum height=\h cm] (L\i) at (2.05*\i, 0) {\name};
+    \node[dims, anchor=north] at (2.05*\i, -2.3) {\out};
+    \node[dims, anchor=north, text=black] at (2.05*\i, -3.4) {\np};
+  }
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {0,...,9} \draw[arrow] (L\i) -- (L\j);
+  \node[dims, anchor=east] at (-1.0, -2.75) {output};
+  \node[dims, anchor=east, text=black] at (-1.0, -3.6) {parameters};
+  \node[note, anchor=north] at (2.05*5, -4.3) {ReLU after every convolution and hidden dense layer; `valid' padding; total 14,847,297 parameters, 99.3\% of them in the first dense layer};
+\end{tikzpicture}
+\end{document}

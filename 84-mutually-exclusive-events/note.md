@@ -8,6 +8,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/independent-event
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Conditional probability ([Note 82](../82-conditional-probability/note.md)).
 > - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)).
 <!-- /where-this-fits -->
 
@@ -32,6 +33,10 @@ Examples:
 - A single coin toss cannot land both heads and tails.
 - At a junction, a driver turns either left or right, not both.
 - One die cannot show both 3 and 6 on the same roll.
+
+![One roll of one die, with $A$ = "shows 3" and $B$ = "shows 6". The two events share no face](images/die_faces.png){width=70%}
+
+Figure 1 shows the die example: $A$ and $B$ sit on different faces, so no outcome is in both. Once we know $B$ happened, the roll is face 6, and face 3 is ruled out.
 
 ## 3. Conditional probability for mutually exclusive events
 
@@ -73,7 +78,13 @@ An everyday picture: a light switch is either on or off. The two states are mutu
 - Independent: $P(A \cap B) = P(A)P(B)$; they can happen together, and $P(A \mid B) = P(A)$.
 - Mutually exclusive events with positive probabilities are never independent.
 
-## 6. Key terms
+## 6. Sources
+
+**Built from**
+
+- CampusX, "Naive Bayes Classifier | Part 3 | Mutually Exclusive Events", YouTube, https://www.youtube.com/watch?v=nneTjTYikBE
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -1,0 +1,10 @@
+method,seed,test_accuracy
+scratch,0,0.754
+feature_extraction,0,0.943
+fine_tuning,0,0.958
+scratch,1,0.797
+feature_extraction,1,0.945
+fine_tuning,1,0.955
+scratch,2,0.743
+feature_extraction,2,0.959
+fine_tuning,2,0.959

@@ -10,7 +10,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > - **Builds on:** Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)).
 > - **Leads to:** P-values ([Note 300](../300-p-values/note.md)).
-> - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
+> - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -158,6 +158,12 @@ Strictly, the colour is a probability density, so the plot shows where the proba
 - In a 2D density plot, colour is density: dark centres are the most common combinations.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Session 41 - Normal Distribution | DSMP 2023", YouTube, https://www.youtube.com/watch?v=ADqYqSdtyW8
+
+**Other references**
 
 - Wasserman, L. (2004). *All of Statistics*. Springer. Chapter 7, "Estimating the CDF and Statistical Functionals".
 

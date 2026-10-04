@@ -255,8 +255,13 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 
 ## 11. Sources
 
-- Fielding, R., Nottingham, M. and Reschke, J. (2022). HTTP Semantics. RFC 9110, IETF. Section 15: Status Codes. rfc-editor.org/rfc/rfc9110.
+**Built from**
 
+- CampusX, "Fetching Data From an API | Day 17 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=roTZJaxjnJc
+
+**Other references**
+
+- Fielding, R., Nottingham, M. and Reschke, J. (2022). HTTP Semantics. RFC 9110, IETF. Section 15: Status Codes. rfc-editor.org/rfc/rfc9110.
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 - TMDB. API FAQ (attribution). developer.themoviedb.org/docs/faq.
 - TVmaze. API documentation (show index, rate limiting). tvmaze.com/api.

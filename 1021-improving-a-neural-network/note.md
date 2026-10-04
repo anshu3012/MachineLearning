@@ -9,6 +9,7 @@ tags: [subject/deep-learning, area/dl-training, area/production, step/tune, conc
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Training curves (History) ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)).
+> - **Leads to:** Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -115,6 +116,10 @@ How long should we train? Some people try 100 epochs, then 500, then 1,000. The 
 
 > **Key point:** Vanishing or exploding gradients, not enough data, slow training and overfitting. Each has its own set of fixes.
 
+![The four problems and where each fix is taught. Green chips name the fix and its Note](images/fix_notes.png){width=85%}
+
+Figure 3 is the right half of Figure 1 as a reading list: each fix points to the Note that teaches it.
+
 ### 4.1 Vanishing and exploding gradients
 
 > **Key point:** Fixes: better weight initialisation, other activation functions, batch normalisation, and gradient clipping for exploding gradients.
@@ -177,6 +182,12 @@ Overfitting means learning the training data too closely, noise included, so tha
 - The four problems each have their own Notes, starting with early stopping.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "How to Improve the Performance of a Neural Network", YouTube, https://www.youtube.com/watch?v=Ue_6n1yT_R8
+
+**Other references**
 
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.4.1 (depth reduces the number of units needed; deeper models generalise better in their experiments).
 - Keskar et al., "On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima", ICLR 2017 (large batches give worse results on new data).

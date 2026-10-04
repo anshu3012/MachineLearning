@@ -278,6 +278,12 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 
 ## 11. Sources
 
+**Built from**
+
+- Krish Naik, "Tutorial 32- All About P Value,T test,Chi Square Test, Anova Test and When to Use What?", YouTube, https://www.youtube.com/watch?v=YrhlQB3mQFI
+
+**Other references**
+
 - Kruskal, W. H. and Wallis, W. A. (1952). "Use of Ranks in One-Criterion Variance Analysis". *Journal of the American Statistical Association* 47(260).
 - Montgomery, D. C. (2013). *Design and Analysis of Experiments*, 8th ed. Wiley. Section 3.3, analysis of the fixed effects model.
 - NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 1.3.6.6.5, F distribution.

@@ -300,6 +300,12 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Application of Machine Learning | Real Life Machine Learning Applications", YouTube, https://www.youtube.com/watch?v=UZio8TcTMrI
+
+**Other references**
+
 - Bollen, J., Mao, H. and Zeng, X. (2011). Twitter Mood Predicts the Stock Market. *Journal of Computational Science* 2(1).
 - Thomas, L., Edelman, D. and Crook, J. (2002). *Credit Scoring and Its Applications*. SIAM.
 - Twitter, Inc. (2015). *Form 10-K for the fiscal year 2014*. US Securities and Exchange Commission, sec.gov (EDGAR).

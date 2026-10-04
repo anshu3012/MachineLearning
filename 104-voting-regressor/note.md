@@ -177,6 +177,12 @@ A negative $R^2$ means worse than always predicting the mean price.
 
 ## 6. Sources
 
+**Built from**
+
+- CampusX, "Voting Ensemble | Regression | Part 3", YouTube, https://www.youtube.com/watch?v=ut4vh59rGkw
+
+**Other references**
+
 - Gilley, O. W. and Pace, R. K. (1996). "On the Harrison and Rubinfeld Data". *Journal of Environmental Economics and Management* 31, 403–405. Corrected data with town names: StatLib, `boston_corrected.txt` (copy in `data/`).
 - Krogh, A. and Vedelsby, J. (1995). "Neural Network Ensembles, Cross Validation, and Active Learning". *Advances in Neural Information Processing Systems 7*, MIT Press, 231–238.
 - scikit-learn developers. User Guide, section 10.3.1, "Parallelism". scikit-learn.org, computing/parallelism.

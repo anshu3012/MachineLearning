@@ -22,7 +22,7 @@ The [perceptron Note](../1004-perceptron/note.md) showed how a trained perceptro
 
 The trick itself is taught in full in two earlier Notes, and we do not repeat it here:
 
-- the [perceptron trick Note](../70-perceptron-trick/note.md): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate, and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
+- the [perceptron trick Note](../70-perceptron-trick/note.md): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate (its Figure 5 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
 - the [perceptron code Note](../71-perceptron-code/note.md): the code, an animation of the line moving update by update (its Figure 1), and why the final line depends on the random order.
 
 This Note adds what is new when we see the trick as the training of a perceptron.
@@ -79,7 +79,11 @@ An [epoch](../57-gradient-descent/note.md) is one full pass over the training se
 3. **Example:** 1,000 loops on 100 points:
    $$\frac{1000}{100} = 10 \text{ epochs}$$
 
-Because the picks are random, a stretch of 100 picks does not visit every point once. A given point is missed by one pick with probability $1 - 1/100$, so it is missed by all 100 picks with probability $(1 - 1/100)^{100} \approx 0.37$: in each stretch, about a third of the points are not seen, while others are seen twice or more. Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
+Because the picks are random, a stretch of 100 picks does not visit every point once. A given point is missed by one pick with probability $1 - 1/100$, so it is missed by all 100 picks with probability $(1 - 1/100)^{100} \approx 0.37$: in each stretch, about a third of the points are not seen, while others are seen twice or more.
+
+![Each cell is one of 100 training points, and its number counts how often it has been picked. Left: 100 random picks, as in the perceptron trick; 38 points are never picked while others are picked 2 or 3 times. Right: one shuffled epoch; every point is picked exactly once](images/random_picks.gif){width=100%}
+
+In Figure 2, watch the red cells: on the right they all turn green by pick 100; on the left 38 stay red. Over 2,000 runs the average is 36.6 unseen points, matching $(1 - 1/100)^{100} \approx 0.37$ (the figure's script, `images/random_picks.py`, runs the check). Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
 
 ## 6. Why it is only a trick
 
@@ -106,6 +110,12 @@ The fix is a [loss function](../73-log-loss/note.md): a number that scores every
 - The trick cannot score a line; a loss function can.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Perceptron Trick | How to train a Perceptron | Perceptron Part 2 | Deep Learning Full Course", YouTube, https://www.youtube.com/watch?v=Lu2bruOHN6g
+
+**Other references**
 
 - scikit-learn documentation, `sklearn.linear_model.Perceptron`.
 

@@ -228,6 +228,12 @@ Features should therefore be scaled (standardisation or normalisation, from the 
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Gradient Descent From Scratch | End to End Gradient Descent | Gradient Descent Animation", YouTube, https://www.youtube.com/watch?v=ORyfPJypKuU
+
+**Other references**
+
 - **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §4.3.1 (poor conditioning), Ch. 8 (training deep models; §8.2 non-convexity, §8.3.2 momentum, §8.5 adaptive learning rates), §11.4.3 (grid search on a log scale).
 - **Boyd and Vandenberghe**: S. Boyd and L. Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004. §4.2.2 (local optima of convex problems are global).
 

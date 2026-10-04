@@ -300,6 +300,12 @@ Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](
 
 ## 9. Sources
 
+**Built from**
+
+- Krish Naik, "Tutorial 32- All About P Value,T test,Chi Square Test, Anova Test and When to Use What?", YouTube, https://www.youtube.com/watch?v=YrhlQB3mQFI
+
+**Other references**
+
 - Cochran, W. G. (1954). "Some Methods for Strengthening the Common $\chi^2$ Tests". *Biometrics* 10(4).
 - Cramér, H. (1946). *Mathematical Methods of Statistics*. Princeton University Press.
 - NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 1.3.6.6.6, chi-square distribution.

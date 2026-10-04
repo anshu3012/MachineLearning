@@ -1,0 +1,7 @@
+year,entry,top5_error,kind,source
+2010,NEC,28.2,hand-made features,Russakovsky et al. 2015 Table 5
+2011,XRCE,25.8,hand-made features,Russakovsky et al. 2015 Table 5
+2012,SuperVision (AlexNet),16.4,CNN,Russakovsky et al. 2015 Table 6
+2013,Clarifai,11.7,CNN,Russakovsky et al. 2015 Table 6
+2014,GoogLeNet,6.7,CNN,Russakovsky et al. 2015 Table 7
+2015,ResNet,3.57,CNN,He et al. 2016 Table 5

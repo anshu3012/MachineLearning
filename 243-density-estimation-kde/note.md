@@ -9,6 +9,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Population, sample, parameter and statistic ([Note 220](../220-what-is-statistics/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
+> - **Compare with:** Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -161,12 +162,16 @@ The result has two peaks, matching the two groups. No formula was assumed anywhe
 
 > **Key point:** A small bandwidth gives thin bumps and a spiky curve; a large one gives wide bumps and a smooth curve that can blur real features. The right value is found by trying.
 
+Figure 4 first builds the KDE of the six points one bump at a time, then turns the bandwidth. Watch the orange sum: with thin bumps it becomes six separate spikes, and with wide bumps the two groups melt into one hill.
+
+![The KDE of section 5.1 built step by step: a bump of bandwidth 1 drops onto each of the six points and the orange sum grows (0.206 at x = 3). Then the bandwidth sweeps from 0.2 (six spikes) to 3 (one hill)](images/kde_anim.gif){height=55%}
+
 The bandwidth sets how wide each bump is, and so how smooth the KDE is:
 
 - **Small bandwidth:** thin, tall bumps. Each point shows up as its own spike, and the curve is irregular. The curve follows the noise of this particular sample.
 - **Large bandwidth:** wide, low bumps that overlap a lot. The curve is smooth, but too much smoothing hides real features.
 
-Figure 4 shows this on 1,000 values with two peaks: 300 values around 20 and 700 around 40.
+Figure 5 shows this on 1,000 values with two peaks: 300 values around 20 and 700 around 40.
 
 ![KDE of two-peaked data with bandwidth 0.5, 3 and 5](images/kde_bandwidth.png)
 
@@ -252,6 +257,12 @@ If the sample does not represent the population, for example because of sampling
 - scikit-learn: `score_samples` returns log densities. seaborn: `bw_adjust` multiplies a default bandwidth.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Session 40 - Probability Distribution Functions - PDF, PMF & CDF | DSMP 2023", YouTube, https://www.youtube.com/watch?v=C_QAURbgBqY
+
+**Other references**
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 11.1 and 11.5 (Gaussian mixture models).
 - Silverman, B. W. (1986). *Density Estimation for Statistics and Data Analysis*. Chapman and Hall. Section 3.3.2, Table 3.1 (kernel efficiencies).

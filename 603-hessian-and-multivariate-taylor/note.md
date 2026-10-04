@@ -8,7 +8,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/hessian, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Eigenvectors and eigenvalues ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)).
+> - **Builds on:** Eigenvectors and eigenvalues ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)).
 > - **Leads to:** Convex and non-convex loss ([Note 1017](../1017-backpropagation-why/note.md)).
 <!-- /where-this-fits -->
 
@@ -228,10 +228,15 @@ Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2
 
 ## 8. Sources
 
+**Built from**
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Chapter 5.
+
+**Other references**
+
 - Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer. Section 4.4, the Laplace approximation.
 - Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Section 3.1.4, second-order conditions.
 - Chen, T. and Guestrin, C. (2016). "XGBoost: A Scalable Tree Boosting System". *KDD*. Section 2.2.
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Chapter 5.
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 8.6.1, Newton's method.
 - Nocedal, J. and Wright, S. J. (2006). *Numerical Optimization*, 2nd ed. Springer. Chapter 6 and section 7.2.
 - Thrun, S., Burgard, W. and Fox, D. (2005). *Probabilistic Robotics*. MIT Press. Section 3.3, the extended Kalman filter.

@@ -238,6 +238,12 @@ All four aim at the same thing: give each base model different data, so the mode
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Bagging | Introduction | Part 1", YouTube, https://www.youtube.com/watch?v=LUiBOAy7x6Y
+
+**Other references**
+
 - Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140.
 - Breiman, L. (1999). "Pasting Small Votes for Classification in Large Databases and On-Line". *Machine Learning* 36(1), 85–103.
 - Efron, B. and Tibshirani, R. J. (1993). *An Introduction to the Bootstrap*. Chapman and Hall.

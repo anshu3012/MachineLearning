@@ -9,7 +9,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/convex-optimisati
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Convex and non-convex loss ([Note 590](../590-convex-and-non-convex-cost-functions/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)).
-> - **Leads to:** Linear and quadratic programming ([Note 622](../622-linear-and-quadratic-programming/note.md)).
+> - **Leads to:** Linear and quadratic programming ([Note 622](../622-linear-and-quadratic-programming/note.md)); Local minima and saddle points ([Note 1032](../1032-optimizers-in-deep-learning/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -64,6 +64,10 @@ A union does not keep convexity. Two separate discs together form a set where th
 
 The [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md) defined a **convex function**: $f(\theta\mathbf{a} + (1 - \theta)\mathbf{b}) \le \theta f(\mathbf{a}) + (1 - \theta) f(\mathbf{b})$ for all $\mathbf{a}$, $\mathbf{b}$ and $0 \le \theta \le 1$. One condition was left implicit there: the domain of $f$ must itself be a convex set, so that the mixed point $\theta\mathbf{a} + (1 - \theta)\mathbf{b}$ is somewhere $f$ is defined.
 
+![The chord test. A chord joins two points of each graph and slides. Left: softplus, every chord stays on or above the graph (green). Right: $w^2(w - 1)^2$, the chord from $w = 0.17$ to $0.83$ runs below the hump (red gap), so the function is not convex](images/chord_test.gif)
+
+Figure 2 runs the definition. Watch for red: one chord below the graph is enough to break convexity, while a convex function never shows red, wherever the two ends are placed.
+
 Two related ideas:
 
 - **Concave function:** the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm is concave; so is the dual function $D(\lambda) = 3\lambda - 3\lambda^2/8$ of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md). Maximising a concave function is the same task as minimising a convex one.
@@ -88,11 +92,11 @@ The right-hand side is the tangent plane of $f$ at $\mathbf{x}$, the first-order
    $$f(\mathbf{y}) \thickspace\ge\thickspace f(\mathbf{x}) + \nabla f(\mathbf{x})\thinspace(\mathbf{y} - \mathbf{x})$$
 3. **Example:** the **softplus** function $f(z) = \ln(1 + e^z)$. Its derivative is the [sigmoid](../72-sigmoid-function/note.md) $\sigma(z)$, so at $z = 0$ the slope is $\sigma(0) = 0.5$ and the value is $\ln 2 = 0.693$. At $z = 2$:
    $$f(2) = \ln(1 + e^2) = 2.13, \qquad \text{tangent: } 0.693 + 0.5 \times (2 - 0) = 1.69$$
-   $2.13 \ge 1.69$: the curve is above its tangent (Figure 2, left).
+   $2.13 \ge 1.69$: the curve is above its tangent (Figure 3, left).
 
 ![The first-order test. Left: every tangent of softplus lies below the curve, so it is convex. Right: the tangent of $w^2(w - 1)^2$ at $w = 0.5$ lies above the curve near 0 and 1, so it is not convex](images/first_order.png)
 
-Figure 2 (right) shows the test failing. For $q(w) = w^2(w - 1)^2$, the tangent at $w = 0.5$ is flat at height $0.0625$, but $q(0) = 0$ lies below it.
+Figure 3 (right) shows the test failing. For $q(w) = w^2(w - 1)^2$, the tangent at $w = 0.5$ is flat at height $0.0625$, but $q(0) = 0$ lies below it.
 
 The first-order condition gives the most useful fact about convex functions in one line. If $\nabla f(\mathbf{x}^\ast) = \mathbf{0}$, the condition becomes $f(\mathbf{y}) \ge f(\mathbf{x}^\ast)$ for every $\mathbf{y}$. So for a convex function, any point with zero gradient is a global minimum. Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
 
@@ -151,7 +155,7 @@ This rule covers the regularised losses of earlier Notes:
 **What does not keep convexity.** A difference or a product of convex functions can fail:
 
 - **Difference:** $w^2$ and $2w^2$ are convex, but $w^2 - 2w^2 = -w^2$ is an upside-down bowl.
-- **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product $w^2(w - 1)^2$ has two dips (Figure 2, right). Its chord from 0 to 1 is at height 0, while the curve at 0.5 is $0.0625$.
+- **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product $w^2(w - 1)^2$ has two dips (Figure 3, right). Its chord from 0 to 1 is at height 0, while the curve at 0.5 is $0.0625$.
 
 > **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The hinge loss $\max(0,\ 1 - z)$ of the [SVM soft margin Note](../94-svm-soft-margin/note.md) is the maximum of two straight lines, so it is convex, and with the convex penalty $\tfrac12\lVert \mathbf{w} \rVert^2$ the soft-margin SVM is a convex problem.
 
@@ -213,8 +217,13 @@ For the convex ones, the answer does not depend on the starting point or the sol
 
 ## 8. Sources
 
-- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 3.1–3.2 (convex functions and the operations that keep convexity) and 5.2.3 (Slater's condition).
+**Built from**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 7.3 (MML).
+
+**Other references**
+
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 3.1–3.2 (convex functions and the operations that keep convexity) and 5.2.3 (Slater's condition).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 8.2, challenges in neural network optimisation.
 
 ## 9. Key terms

@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, area/descriptive, area/models-1, step/foundations,
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Bayes' theorem ([Note 86](../86-bayes-problem/note.md)).
 > - **Leads to:** Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)).
-> - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
+> - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -118,6 +118,12 @@ Each variant suits one kind of data (scikit-learn user guide §1.9), so we look 
 - Other variants (multinomial, Bernoulli, categorical) suit other kinds of features.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Naive Bayes Part 9 | Handling Numerical Data", YouTube, https://www.youtube.com/watch?v=TCgK2nBJx9o
+
+**Other references**
 
 - **scikit-learn docs:** `sklearn.naive_bayes.GaussianNB` (var_smoothing); user guide Section 1.9, "Naive Bayes", scikit-learn 1.9.
 

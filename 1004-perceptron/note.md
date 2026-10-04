@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Perceptron trick ([Note 71](../71-perceptron-code/note.md)); Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)); Dot product ([Note 520](../520-dot-product-and-duality/note.md)).
-> - **Leads to:** Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
+> - **Leads to:** Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)); Activation functions ([Note 1027](../1027-activation-functions/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -80,6 +80,12 @@ Like any ML algorithm, the perceptron works in two stages:
 
 Suppose training gave $w_1 = 1$, $w_2 = 2$ and $b = 3$. A new student has IQ 100 and CGPA 5.1. Section 3.2 already computed $z = 113.2$. Since $z \geq 0$, the step function outputs 1: we predict this student will be placed.
 
+Figure 2 runs prediction on real data: the perceptron trained in section 8 on 100 students, with both inputs standardized (rescaled to mean 0 and standard deviation 1). Its learned numbers are $w_1 = 5.82$, $w_2 = 1.48$ and $b = 1$.
+
+![Prediction with a trained perceptron, $z = 5.82 x_1 + 1.48 x_2 + 1$ on standardized CGPA and resume score. For each student the inputs flow in, z fills a bar (green if positive, red if negative), the step function fires 1 or 0, and the student lands on the plane in that colour. At the end all 100 students appear with the line z = 0 between the two regions](images/perceptron_fire.gif){width=100%}
+
+Watch the bar: its sign alone decides the output. Student 4 has $z = 1.19$, just above 0, and lands close to the line. The last frame is the straight boundary of section 7, with 97 of the 100 students on their correct side.
+
 ### 4.1 More inputs
 
 > **Key point:** One more feature means one more input node and one more weight; nothing else changes.
@@ -96,7 +102,7 @@ With $n$ inputs, $z$ is the sum of $n$ products plus the bias. The summation and
 
 ![A biological neuron and a perceptron, part by part](images/neuron_vs_perceptron.png)
 
-The nervous system is a network of billions of **neurons**, the brain cells. Figure 2 sets one beside a perceptron:
+The nervous system is a network of billions of **neurons**, the brain cells. Figure 3 sets one beside a perceptron:
 
 | Neuron | Role | Perceptron |
 |---|---|---|
@@ -173,9 +179,9 @@ So the learned line is $40.26\thinspace x_1 - 36\thinspace x_2 - 25 = 0$, with $
 
 ![The perceptron's line and its two regions, before and after standardizing the inputs](images/decision_regions.png)
 
-Figure 3 (left) colours each region by the class the perceptron predicts there. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
+Figure 4 (left) colours each region by the class the perceptron predicts there. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
 
-The fix is to standardize the inputs first (Figure 3, right). Training accuracy rises to 97%, and the weights become 5.82 for CGPA and 1.48 for resume score. On scaled inputs the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
+The fix is to standardize the inputs first (Figure 4, right). Training accuracy rises to 97%, and the weights become 5.82 for CGPA and 1.48 for resume score. On scaled inputs the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
 
 Why raw inputs hurt here: each training step moves the weights by about 7 (the size of a CGPA or a resume score) but the bias by only 1, because the bias's input is the constant 1. This data needs a large bias, so the bias is like a walker taking baby steps beside two runners: training ends before the bias gets where it needs to be.
 
@@ -207,6 +213,12 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 - Geometrically it is a line, plane or hyperplane: a binary classifier for linearly separable data only.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "What is a Perceptron? Perceptron Vs Neuron | Perceptron Geometric Intuition", YouTube, https://www.youtube.com/watch?v=X7iIKPoZ0Sw
+
+**Other references**
 
 - scikit-learn developers, *sklearn.linear_model.Perceptron*, API reference, scikit-learn.org (parameters `tol`, `n_iter_no_change`, `max_iter`).
 

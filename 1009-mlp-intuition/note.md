@@ -8,8 +8,9 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Neural networks ([Note 1002](../1002-what-is-deep-learning/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); MLP notation and parameter count ([Note 1008](../1008-mlp-notation/note.md)).
+> - **Builds on:** Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Neural networks ([Note 1002](../1002-what-is-deep-learning/note.md)); Types of neural networks ([Note 1003](../1003-nn-types-history-applications/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); MLP notation and parameter count ([Note 1008](../1008-mlp-notation/note.md)).
 > - **Leads to:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
+> - **Compare with:** Convolutional neural network (CNN) ([Note 1040](../1040-cnn-intuition/note.md)); Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -216,6 +217,12 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 - With enough nodes and layers an MLP can approximate any function; in practice the setup (size, activation, solver) decides whether training finds it.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "Multi Layer Perceptron | MLP Intuition", YouTube, https://www.youtube.com/watch?v=qw7wFGgNCSU
+
+**Other references**
 
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.1 (a network with two hidden units that solves XOR), §6.2.2.3 (softmax output units), §6.3 (ReLU as the default hidden unit), §6.4.1 (universal approximation: the weights exist, but training may not find them).
 

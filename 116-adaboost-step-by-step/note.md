@@ -196,6 +196,10 @@ We repeat this for as many stumps as we want, $T$. At the end we have $\alpha_1,
 
 $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \dots + \alpha_T h_T(x)\big)$$
 
+Figure 4 runs three real stages on our 5 observations. Here the stumps are fitted by scikit-learn, so their mistakes differ from the assumed example of section 4, and the weights go straight to each stump as sample weights instead of through upsampling (the Extra in section 9). Watch observation 3 swell to half of all the weight after stump 1 misses it, the next stumps cut around it, and the weighted vote of 3 stumps get all 5 observations right, even though no single stump can.
+
+![Three AdaBoost stages on the toy data. Dot size and label: the observation's weight. Line and shading: the stump's cut and the class on each side; red rings: its mistakes. Right: each stump's alpha. Last frame: the sign of the weighted vote.](images/adaboost_stages.gif)
+
 ## 11. Summary
 
 | Step | What we do | Our numbers (stage 1) |
@@ -214,6 +218,12 @@ $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \dots + \al
 - Upsampling turns weights into a new dataset in which heavy observations appear more often.
 
 ## 12. Sources
+
+**Built from**
+
+- CampusX, "AdaBoost - A Step by Step Explanation", YouTube, https://www.youtube.com/watch?v=RT0t9a3Xnfw
+
+**Other references**
 
 - Schapire, R. E. (2013). Explaining AdaBoost. In *Empirical Inference*, Springer, pp. 37–52. (Algorithm 1: weights start at $1/m$, $\alpha_t = \tfrac12\ln\frac{1-\epsilon_t}{\epsilon_t}$, weights multiplied by $e^{-\alpha_t y_i h_t(x_i)}$ and normalised.) schapire.net/papers/explaining-adaboost.pdf
 - scikit-learn developers. Source file `sklearn/ensemble/_weight_boosting.py` (version 1.9), method `_boost` of `AdaBoostClassifier`: fits each stump with `sample_weight` and stops when the error reaches $1 - 1/K$, which is 0.5 for two classes. github.com/scikit-learn/scikit-learn

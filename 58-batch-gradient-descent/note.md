@@ -171,6 +171,10 @@ On the diabetes data (10 features, 353 training patients), with learning rate 0.
 - **Slow on large data:** one update needs a pass over all $n$ observations. With millions of observations, each step is expensive, and many steps are needed.
 - **Memory:** the whole dataset must fit in memory at once for the matrix product.
 
+Figure 4 shows the cost of waiting for every observation. Three methods read the same data, 10 observations per frame, on a small example with one feature (100 observations, coefficients $m$ and $b$). Watch the red batch path: it moves only once every 10 frames, after reading all 100 observations, while stochastic gradient descent is already near the minimum.
+
+![Batch, mini-batch and stochastic gradient descent reading the same data, 10 observations per frame, learning rate 0.05. Left: the paths on the loss contours. Right: the loss against the observations read.](images/gd_race.gif)
+
 Stochastic and mini-batch gradient descent, in the next two Notes, solve these two problems.
 
 ## 7. Summary
@@ -190,6 +194,12 @@ Stochastic and mini-batch gradient descent, in the next two Notes, solve these t
 - Batch gradient descent is stable but needs the whole dataset for every step.
 
 ## 8. Sources
+
+**Built from**
+
+- CampusX, "Batch Gradient Descent with Code Demo | Simple Explanation in Hindi", YouTube, https://www.youtube.com/watch?v=Jyo53pAyVAM
+
+**Other references**
 
 - **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §4.3.1 (poor conditioning), §7.8 (early stopping as L2 regularisation).
 - **ESL**: Hastie, Tibshirani, Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. §3.4.1 (ridge regression; poorly determined coefficients with many correlated variables).

@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Leads to:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)); Random under- and oversampling ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
-> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 113](../113-oob-score/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)).
+> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 113](../113-oob-score/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -211,6 +211,12 @@ The best pair is **500 stumps at learning rate 0.1**, with a cross-validated acc
 - Averaged over 20 datasets, 1,500 stumps at learning rate 1.0 widen the train-test gap from 0.033 (50 stumps) to 0.074; learning rate 0.1 keeps it at 0.034.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "AdaBoost Hyperparameters | GridSearchCV in Adaboost", YouTube, https://www.youtube.com/watch?v=JmXnztjULnQ
+
+**Other references**
 
 - Dietterich, T. G. (2000). "An experimental comparison of three methods for constructing ensembles of decision trees: bagging, boosting, and randomization". *Machine Learning* 40, 139–157.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed., Springer. §10.12.1, "Shrinkage".

@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large},
+  thumb/.style={draw=#1, line width=2pt, rounded corners=3pt, inner sep=4pt},
+  cap/.style={font=\sffamily\large, text=#1, align=center}]
+  \node[thumb=cblue] (a) at (0,0) {\includegraphics[width=6.6cm,height=3.6cm,keepaspectratio]{../../1004-perceptron/images/perceptron.png}};
+  \node[thumb=cgreen] (c) at (8,0) {\includegraphics[width=6.6cm,height=3.6cm,keepaspectratio]{../../1042-convolution-operation/images/learned_filters.png}};
+  \node[thumb=corange] (r) at (0,-4.7) {\includegraphics[width=6.6cm,height=3.6cm,keepaspectratio]{../../1056-rnn-forward-propagation/images/rnn_architecture.png}};
+  \node[thumb=cpurple] (t) at (8,-4.7) {\includegraphics[width=6.6cm,height=3.6cm,keepaspectratio]{../../1069-attention-mechanism/images/attention_heatmap.png}};
+  \node[cap=cblue, below=2pt of a] {\textbf{1. ANN}: one neuron, then layers};
+  \node[cap=cgreen, below=2pt of c] {\textbf{2. CNN}: filters learned on images};
+  \node[cap=corange, below=2pt of r] {\textbf{3. RNN}: a loop over a sequence};
+  \node[cap=cpurple, below=2pt of t] {\textbf{4. Attention}: which words to read};
+\end{tikzpicture}
+\end{document}

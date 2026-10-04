@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, area/models-2, area/production, step/features,
 >
 > - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)); Cross-validation ([Note 91](../91-knn/note.md)); Decision trees ([Note 98](../98-decision-tree-hyperparameters/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)).
 > - **Leads to:** Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Permutation importance ([Note 114](../114-feature-importance/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
-> - **Compare with:** Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)).
+> - **Compare with:** Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -327,6 +327,12 @@ Feature importance is useful for **feature selection** (the [curse of dimensiona
 - On the Boston data, RM, LSTAT and CRIM are the most important features.
 
 ## 9. Sources
+
+**Built from**
+
+- CampusX, "Regression Trees | Decision Trees Part 3", YouTube, https://www.youtube.com/watch?v=RANHxyAvtM4
+
+**Other references**
 
 - **Cawley and Talbot 2010:** G. C. Cawley and N. L. C. Talbot, "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation", *Journal of Machine Learning Research* 11, 2079–2107, 2010. jmlr.org/papers/v11/cawley10a.html
 - **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Sections 9.2.2, 9.2.4 and 10.6.

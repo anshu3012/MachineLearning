@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[font=\sffamily\bfseries\Huge] (c) at (0,0) {\textcolor{corange}{C}\textcolor{cblue}{85}};
+  \node[box=corange, text width=2.8cm] (d) at (-2.2,-2.2) {\textbf{deck}\\category};
+  \node[box=cblue, text width=2.8cm] (n) at (2.2,-2.2) {\textbf{cabin number}\\number};
+  \draw[arrow, draw=corange] (-0.5,-0.85) -- (d.north);
+  \draw[arrow, draw=cblue] (0.3,-0.85) -- (n.north);
+  \node[title] at (0,1.2) {Titanic cabin};
+  \begin{scope}[xshift=8.4cm]
+  \node[font=\sffamily\bfseries\Huge] at (0,0) {\textcolor{corange}{S}\textcolor{cblue}{5}};
+  \node[box=corange, text width=2.4cm] (d2) at (-1.6,-2.2) {\textbf{class}};
+  \node[box=cblue, text width=2.4cm] (n2) at (1.6,-2.2) {\textbf{coach}};
+  \draw[arrow, draw=corange] (-0.25,-0.5) -- (d2.north);
+  \draw[arrow, draw=cblue] (0.25,-0.5) -- (n2.north);
+  \node[title] at (0,1.2) {Railway coach};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

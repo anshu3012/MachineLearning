@@ -155,6 +155,37 @@ Think of λ as an entry fee. A feature's link with the target, $|S|$, must be la
 
 > **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding**. With several features, Lasso has no single formula, but scikit-learn's method (coordinate descent) applies this same soft-threshold step to one coefficient at a time, over and over (ESL §3.8.6; scikit-learn docs, `Lasso`). The repeated soft-threshold step is why many coefficients land exactly on 0.
 
+### 5.1 Ten features at once
+
+> **Key point:** On the 10-feature diabetes data, Lasso coefficients drop to exactly 0 one after another; Ridge coefficients only shrink.
+
+Figure 3 grows λ for Ridge (left) and Lasso (right) on the diabetes data of the [Lasso Note](../67-lasso-regression/note.md) (same split). Watch the dots: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
+
+![Ridge (left) and Lasso (right) coefficients of the 10 diabetes features as λ grows. Each panel has its own λ range, because Ridge shrinks faster on these features. An open circle marks a coefficient that is exactly 0](images/paths_race.gif)
+
+- **Lasso:** the coefficients reach 0 one at a time, bmi and s5 last; from λ ≈ 825 all 10 are exactly 0.
+- **Ridge:** at λ = 1000, all coefficients are tiny, but the smallest is still 0.069, not 0.
+
+### 5.2 The picture: a diamond and a circle
+
+> **Key point:** Lasso's allowed region is a diamond with corners on the axes; the loss rings around the least-squares answer usually touch it first at a corner, where one coefficient is exactly 0.
+
+The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and Lasso can each be written as "make the loss as small as possible while the coefficients stay inside a budget". With two coefficients and a budget $t$:
+
+- **Lasso:** $\lvert b_1\rvert + \lvert b_2\rvert \le t$, a diamond with its corners on the axes.
+- **Ridge:** $b_1^2 + b_2^2 \le t^2$, a circle.
+
+The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the linear regression (least-squares) answer, and points of equal loss form ellipses around it. Growing the ellipse until it first touches the allowed region gives the answer: the point of the region with the smallest loss.
+
+Figure 4 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
+
+![Lasso (left) and Ridge (right) with the same budget on two diabetes features. The loss ellipse grows from the least-squares point until it first touches each region: the diamond at its corner (bp coefficient exactly 0), the circle at a point where both coefficients are non-zero](images/constraint_touch.gif)
+
+- **Lasso:** the ring first touches the diamond exactly at its corner $(15, 0)$. The bp coefficient is exactly 0.
+- **Ridge:** the circle has no corners, so the ring touches it at $(12.2, 8.8)$. Both coefficients are kept, just smaller than the least-squares $(37.9, 19.7)$.
+
+The corners stick out towards the rings, so the rings often meet a corner first. With more features the diamond has many corners, edges and faces on which some coefficients are 0, so there are even more chances for exact zeros (ESL §3.4.3).
+
 ## 6. Checking with scikit-learn
 
 > **Key point:** On the 100-observation example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
@@ -197,10 +228,17 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 - Sparsity means many coefficients exactly 0.
 - The absolute value forces the Lasso formula into cases, and λ ends up subtracted from the numerator.
 - Once $\lambda \geq |S|$, the slope is 0 and stays there.
+- In pictures: the loss ellipse usually first touches Lasso's diamond at a corner, where a coefficient is exactly 0; Ridge's circle has no corners.
 
 ## 8. Sources
 
-- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.8.6, p. 93.
+**Built from**
+
+- CampusX, "Why Lasso Regression creates sparsity?", YouTube, https://www.youtube.com/watch?v=FN4aZPIAfI4
+
+**Other references**
+
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.3 and Figure 3.11 (the diamond and the disk), and Section 3.8.6, p. 93.
 - **scikit-learn docs:** `sklearn.linear_model.Lasso` (coordinate descent), scikit-learn 1.9.
 
 ## 9. Key terms

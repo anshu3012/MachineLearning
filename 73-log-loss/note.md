@@ -190,6 +190,12 @@ So we use gradient descent: compute the derivative of $L$ with respect to $w$ an
 
 ## 9. Sources
 
+**Built from**
+
+- CampusX, "Logistic Regression Part 4 | Loss Function | Maximum Likelihood | Binary Cross Entropy", YouTube, https://www.youtube.com/watch?v=6bXOo0sxY5c
+
+**Other references**
+
 - **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.3.3, p. 207.
 - **Soudry et al. 2018:** Soudry, D., Hoffer, E., Nacson, M. S., Gunasekar, S. and Srebro, N. "The Implicit Bias of Gradient Descent on Separable Data." *Journal of Machine Learning Research* 19(70), 1–57, 2018.
 

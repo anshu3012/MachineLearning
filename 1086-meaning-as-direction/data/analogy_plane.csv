@@ -1,0 +1,6 @@
+word,x,y,off_plane
+man,0.0,0.0,0.0
+woman,3.364,0.0,0.0
+king,-0.192,5.8,0.0
+queen,1.739,4.442,3.572
+king − man + woman,3.172,5.8,0.0

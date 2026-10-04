@@ -9,8 +9,8 @@ tags: [subject/deep-learning, area/dl-training, area/models-1, step/model, conce
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)); Best-fit line and squared error ([Note 51](../51-linear-regression-maths/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Learning rate ([Note 1017](../1017-backpropagation-why/note.md)); Convex and non-convex loss ([Note 1017](../1017-backpropagation-why/note.md)).
-> - **Leads to:** Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
-> - **Compare with:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)).
+> - **Leads to:** Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)); Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)).
+> - **Compare with:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); SGD with momentum ([Note 1034](../1034-sgd-with-momentum/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -131,13 +131,17 @@ In the same 10 epochs, stochastic gradient descent made 3,200 updates and batch 
 
 Both statements are true, which is why sources disagree about which is "faster": batch is faster per epoch, stochastic is faster per epoch of progress.
 
+![The three variants race for 100 epochs on the same network and data. Left: training loss after each epoch. Right: the updates each variant has made so far (log scale): 1, 10 and 320 per epoch.](images/batch_race.gif){height=50%}
+
+In Figure 2, watch the bars as much as the curves: after 10 epochs stochastic gradient descent has made 3,200 updates and batch gradient descent 10, and the loss curves are ordered the same way, stochastic lowest and batch highest, for all 100 epochs.
+
 ## 8. The path to the minimum
 
 > **Key point:** Batch gradient descent lowers the loss smoothly; stochastic zigzags, because each step follows one random observation. The noise can shake it out of a local minimum, but stops it from settling exactly.
 
 ![Left: training loss per epoch over 100 epochs. Right: loss on all 320 training observations after each single update](images/loss_curves.png){height=33%}
 
-Figure 2 (left) trains each variant for 100 epochs:
+Figure 3 (left) trains each variant for 100 epochs:
 
 | `batch_size` | Loss after 100 epochs | Test accuracy |
 |---|---|---|
@@ -145,7 +149,7 @@ Figure 2 (left) trains each variant for 100 epochs:
 | 32 (mini-batch) | 0.288 | 85.0% |
 | 1 (stochastic) | 0.194 | 87.5% |
 
-Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 2, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. Mini-batch gradient descent, averaging 32 observations per step, never made it rise.
+Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 3, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. Mini-batch gradient descent, averaging 32 observations per step, never made it rise.
 
 Batch gradient descent walks smoothly into the valley of the loss; stochastic gradient descent staggers in. Think of asking for directions: batch asks the whole town and takes the average answer before each step, so every step is good but slow to get; stochastic asks one passer-by per step, so the steps come fast but some point the wrong way. The noise has two sides (see section 5 of the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)):
 
@@ -213,6 +217,12 @@ So there are 3 updates per epoch, the last from fewer observations. With `batch_
 - A batch size that does not divide the number of observations leaves a smaller last batch.
 
 ## 13. Sources
+
+**Built from**
+
+- CampusX, "Gradient Descent in Neural Networks | Batch vs Stochastics vs Mini Batch Gradient Descent", YouTube, https://www.youtube.com/watch?v=7z6yXpYk7sw
+
+**Other references**
 
 - Keras documentation, `Model.fit` (`batch_size` default 32; `validation_split` takes the last fraction of the data).
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §8.1.3 (minibatch algorithms; power-of-2 batch sizes on GPUs).

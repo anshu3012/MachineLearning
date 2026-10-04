@@ -151,6 +151,12 @@ The Notebook for this Note (`notebook.ipynb`) is a small app: move a new student
 
 ## 7. Sources
 
+**Built from**
+
+- CampusX, "Instance-Based Vs Model-Based Learning | Types of Machine Learning", YouTube, https://www.youtube.com/watch?v=ntAOq1ioTKo
+
+**Other references**
+
 - Mitchell, T. (1997). *Machine Learning*. McGraw-Hill.
 
 ## 8. Key terms

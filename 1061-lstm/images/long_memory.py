@@ -1,5 +1,5 @@
 """Validation accuracy of SimpleRNN vs LSTM on IMDB reviews (first 50 words), with no gap and with 25 padding
-steps after the words. Thin lines: 3 seeds; thick lines: their mean (Plotly)."""
+steps after the words. Thin lines: 10 seeds; thick lines: their mean (Plotly)."""
 from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
@@ -15,10 +15,10 @@ for col, gap in enumerate(panels, start=1):
     for kind, c in (("SimpleRNN", GREY), ("LSTM", GREEN)):
         d = a[(a.gap == gap) & (a.model == kind)]
         for _, s in d.groupby("seed"):
-            fig.add_trace(go.Scatter(x=s.epoch, y=s.val_accuracy, showlegend=False, opacity=0.35,
-                                     line=dict(color=c, width=1.5)), row=1, col=col)
+            fig.add_trace(go.Scatter(x=s.epoch, y=s.val_accuracy, showlegend=False, opacity=0.3,
+                                     line=dict(color=c, width=1.2)), row=1, col=col)
         m = d.groupby("epoch").val_accuracy.mean()
-        fig.add_trace(go.Scatter(x=m.index, y=m.values, name=f"{kind} (mean of 3)", showlegend=col == 1,
+        fig.add_trace(go.Scatter(x=m.index, y=m.values, name=f"{kind} (mean of 10)", showlegend=col == 1,
                                  line=dict(color=c, width=5)), row=1, col=col)
     fig.add_hline(y=0.5, line=dict(color=GREY, dash="dot"), row=1, col=col)
     fig.update_xaxes(title_text="epoch", row=1, col=col)

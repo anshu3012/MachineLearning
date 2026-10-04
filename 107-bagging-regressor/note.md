@@ -50,6 +50,10 @@ Figure 1 compares a single decision tree with bagging (50 trees, 25 observations
 
 The smoothing is the same effect as in classification: bagging keeps the low bias and removes much of the variance.
 
+Figure 2 builds the bagging regressor of Figure 1b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77) into a smooth curve (0.95 with 50 trees).
+
+![The bagging regressor built one tree at a time: every tree so far (grey), the newest tree and its 25 drawn points (green), and the mean of the trees, the bagging prediction (blue)](images/bagging_curve_grows.gif){height=55%}
+
 Changing the settings makes little difference on this easy data: 100 trees score 0.952, and pasting (75 observations, `bootstrap=False`) scores 0.947.
 
 > **Extra:** Bagging helps unstable models, whose fit swings with small changes in the data, such as trees; it can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3; the [bagging classifier Note](../106-bagging-classifier/note.md), section 2.2). The bumps data agrees: bagged KNN (0.832) and bagged SVR (0.871) both do worse than a single KNN (0.954) or SVR (0.894).
@@ -153,6 +157,12 @@ Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, thes
 - Bagging helps unstable models such as trees; bagged KNN and SVR do worse than single ones.
 
 ## 6. Sources
+
+**Built from**
+
+- CampusX, "Bagging Ensemble | Part 3 | Bagging Regressor", YouTube, https://www.youtube.com/watch?v=HYVzrETXbkE
+
+**Other references**
 
 - Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140, sections 1 and 6.3.
 

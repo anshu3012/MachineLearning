@@ -164,6 +164,12 @@ Logistic regression keeps adjusting the line even when every training point is a
 
 ## 8. Sources
 
+**Built from**
+
+- CampusX, "Logistic Regression Part 2 | Perceptron Trick Code", YouTube, https://www.youtube.com/watch?v=tLezwPKvPK4
+
+**Other references**
+
 - **scikit-learn docs:** `sklearn.linear_model.LogisticRegression` (parameters C and penalty), scikit-learn 1.9.
 - **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.1.7, p. 194 (the perceptron's solution depends on the starting weights and the order of the points).
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 9.1.3, p. 371.

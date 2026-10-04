@@ -35,16 +35,19 @@ def frame(k):
         fig.add_trace(go.Heatmap(z=grid(gate, k), x=list(range(1, T + 1)), y=list(range(1, U + 1)), zmin=lo, zmax=hi,
                                  colorscale=scale, showscale=True, xgap=1, ygap=1,
                                  colorbar=dict(len=0.16, y=1 - (r - 0.5) * 0.2, thickness=12)), row=r, col=1)
-        fig.update_yaxes(title_text="unit", tickvals=[1, 4, 8], row=r, col=1)
+        fig.update_yaxes(title_text="unit", tickvals=[1, 8], row=r, col=1)
+        fig.add_vrect(x0=k - 0.5, x1=k + 0.5, line=dict(color="black", width=3), fillcolor="rgba(0,0,0,0)",
+                      row=r, col=1)   # current word
     fig.add_trace(go.Scatter(x=p.t[:k], y=p.p[:k], mode="lines+markers", line=dict(color=GREEN, width=3),
                              marker=dict(size=7)), row=5, col=1)
     fig.add_hline(y=0.5, line=dict(color=GREY, dash="dot"), row=5, col=1)
     fig.update_yaxes(range=[0, 1], title_text="P(positive)", row=5, col=1)
     fig.update_xaxes(tickvals=list(range(1, T + 1)), ticktext=words, tickangle=-60, range=[0.5, T + 0.5], row=5, col=1)
-    fig.update_layout(template="simple_white", width=1000, height=1150, font=FONT, showlegend=False,
-                      title=dict(text=f'word {k}: "{words[k - 1]}"', x=0.5, y=0.985),
+    fig.update_layout(template="simple_white", width=1000, height=1150, font=dict(family=FONT["family"], size=20),
+                      showlegend=False, title=dict(text=f'word {k}: "{words[k - 1]}"', x=0.5, y=0.985,
+                                                   font=dict(size=34)),
                       margin=dict(l=80, r=40, t=90, b=120))
-    fig.update_annotations(font=dict(family=FONT["family"], size=17))
+    fig.update_annotations(font=dict(family=FONT["family"], size=24))
     return fig
 
 

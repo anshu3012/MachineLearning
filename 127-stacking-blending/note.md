@@ -269,6 +269,12 @@ Figure 6 shows the result. With 60 training patients, stacking reaches 0.787 and
 
 ## 11. Sources
 
+**Built from**
+
+- CampusX, "Stacking and Blending Ensembles", YouTube, https://www.youtube.com/watch?v=O-aDHBGMqXA
+
+**Other references**
+
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 7.10.1 (K-fold cross-validation when data is scarce) and section 8.8 (stacking with cross-validated predictions).
 - Wolpert, D. H. (1992). Stacked generalization. *Neural Networks*, 5(2), 241–259.
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754), §1.

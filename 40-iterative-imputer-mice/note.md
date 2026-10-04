@@ -323,6 +323,12 @@ The iterative imputer comes closest to the hidden values, because the features a
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Multivariate Imputation by Chained Equations for Missing Value | MICE Algorithm | Iterative Imputer", YouTube, https://www.youtube.com/watch?v=a38ehxv3kyk
+
+**Other references**
+
 - Rubin, D. B. (1987). *Multiple Imputation for Nonresponse in Surveys*. Wiley.
 - van Buuren, S. and Groothuis-Oudshoorn, K. (2011). mice: Multivariate Imputation by Chained Equations in R. *Journal of Statistical Software* 45(3), 1–67.
 - scikit-learn API reference, `IterativeImputer`; User Guide, *Iterative imputation* and *Multiple vs. Single Imputation*.

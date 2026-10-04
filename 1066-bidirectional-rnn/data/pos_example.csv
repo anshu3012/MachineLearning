@@ -1,0 +1,14 @@
+word,true,unidirectional,bidirectional
+In,IN,IN,IN
+the,DT,DT,DT
+$,$,$,$
+300-a-share,JJ,JJ,JJ
+buyout,NN,NNS,NN
+",",",",",",","
+that,WDT,WDT,WDT
+totaled,VBD,VBD,VBD
+about,RB,IN,RB
+$,$,$,$
+76.7,CD,CD,CD
+million,CD,CD,CD
+.,.,.,.

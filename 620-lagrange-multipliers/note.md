@@ -69,6 +69,10 @@ The gradient of a function is perpendicular to its contour lines (see the [parti
 
 Why must they be parallel? If $\nabla f$ had a part along the line, we could slide along the line in the opposite direction and lower $f$ while staying feasible. Only when $\nabla f$ points straight across the line is there no downhill direction left.
 
+![A point slides along the line $x + y = 3$. The gradient $\nabla f$ (blue) has a part along the line (red); stepping against it lowers $f$ without leaving the line. The red part vanishes only at $(2, 1)$, where $\nabla f = 4\thinspace(1, 1)$. Last frame: the line moves to $x + y = 3.3$ and the best value rises by about $\lambda = 4$ per unit](images/slide_along.gif)
+
+Figure 2 makes the argument visible. Watch the red arrow: while it exists, the point can still go downhill along the line, and the dashed level curve through the point crosses the line instead of touching it. The sliding-point picture follows Sanderson's Khan Academy lessons on Lagrange multipliers.
+
 ## 4. The Lagrangian
 
 > **Key point:** We add the constraints to the objective, each multiplied by its own Lagrange multiplier; setting all partial derivatives of this Lagrangian to zero gives the tangency condition and the constraint together.
@@ -98,7 +102,7 @@ The multiplier is more than a helper variable. The multiplier says how much the 
 1. **In words:** if we move the constraint by a small amount, the best value changes by about $\lambda$ times that amount.
 2. **Formula:** for the constraint $x + y = c$, with best value $f^\ast(c)$,
    $$\frac{d f^\ast}{d c} = \lambda$$
-3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^\ast(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$.
+3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^\ast(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$. The last frame of Figure 2 moves the line to $x + y = 3.3$: the best value becomes $7.26$, close to the estimate $6 + 4 \times 0.3 = 7.2$.
 
 > **Extra:** In economics, $\lambda$ is called the **shadow price** of the constraint (Boyd and Vandenberghe §5.6): how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming Note](../622-linear-and-quadratic-programming/note.md) reads multipliers this way.
 
@@ -106,7 +110,7 @@ The multiplier is more than a helper variable. The multiplier says how much the 
 
 > **Key point:** An inequality constraint either holds with equality at the answer (active, $\lambda > 0$) or does not matter there (inactive, $\lambda = 0$); multipliers of inequality constraints are never negative.
 
-Most constraints in ML are inequalities: a margin of at least 1, a weight length of at most $t$. For an inequality $g(\mathbf{x}) \le 0$, two cases can happen (Figure 2).
+Most constraints in ML are inequalities: a margin of at least 1, a weight length of at most $t$. For an inequality $g(\mathbf{x}) \le 0$, two cases can happen (Figure 3).
 
 ![Minimising $x^2 + 2y^2$ with one inequality constraint; the feasible region is shaded and the star is the answer. Left: $x + y \ge 3$ cuts off the unconstrained minimum, so the answer lies on the boundary (active, $\lambda = 4$). Right: $x + y \ge -1$ already contains the unconstrained minimum (inactive, $\lambda = 0$)](images/active_inactive.png)
 
@@ -124,7 +128,7 @@ In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\
 > 3. **Dual feasibility:** $\lambda_i \ge 0$ (the equality multipliers $\nu_j$ can have any sign).
 > 4. **Complementary slackness:** $\lambda_i\thinspace g_i(\mathbf{x}) = 0$ for every $i$.
 >
-> For the active case of Figure 2: $[4, 4] + 4 \times [-1, -1] = \mathbf{0}$; $g = 3 - 2 - 1 = 0$; $\lambda = 4 \ge 0$; $4 \times 0 = 0$. All four hold.
+> For the active case of Figure 3: $[4, 4] + 4 \times [-1, -1] = \mathbf{0}$; $g = 3 - 2 - 1 = 0$; $\lambda = 4 \ge 0$; $4 \times 0 = 0$. All four hold.
 
 ### 5.1 From a wall to a price
 
@@ -159,7 +163,7 @@ The original problem, in the variables $\mathbf{x}$, is the **primal problem**. 
 
 > **Key point:** The dual value is never above the primal minimum (weak duality); for convex problems the two are equal (strong duality).
 
-Figure 3 shows two facts:
+Figure 4 shows two facts:
 
 - **Weak duality:** every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$, $D(2) = 6 - 1.5 = 4.5 \le 6$.
 - **Strong duality:** here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
@@ -245,8 +249,14 @@ Two things are new here:
 
 ## 9. Sources
 
-- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 5.2.3 (Slater's condition), 5.5.3 (KKT conditions), 5.6 (sensitivity and shadow prices).
+**Built from**
+
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 7.2 and 12.3 (MML).
+- Sanderson, G. (Khan Academy). "Lagrange multipliers, using tangency to solve constrained optimization", *Multivariable calculus*, lesson ["Lagrange multipliers and constrained optimization"](https://www.khanacademy.org/math/multivariable-calculus/applications-of-multivariable-derivatives/lagrange-multipliers-and-constrained-optimization).
+
+**Other references**
+
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 5.2.3 (Slater's condition), 5.5.3 (KKT conditions), 5.6 (sensitivity and shadow prices).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.3, Figure 3.11 (ESL).
 
 ## 10. Key terms

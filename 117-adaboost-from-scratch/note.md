@@ -184,6 +184,10 @@ Our draw picks observations **6, 2, 0, 0, 8, 8, 6, 7, 6, 9**. The three mistakes
 
 **Weights start again.** In the new dataset every observation gets weight 0.1 again. The upsampling has already done the reweighting: a observation drawn three times counts three times.
 
+Figure 3 plays the whole loop of sections 3 to 8, one step per frame, for the three stages. Watch the weight bars of the mistakes (red outlines) grow, the stretches of 0 to 1 they own widen, and the random darts land on them more often. A row drawn twice then starts the next stage with weight 0.2: the upsampling has turned weight into copies.
+
+![The AdaBoost loop on the toy data: the stump and its mistakes (red rings), the weight of each original row (a row drawn twice counts 0.2), and the stretch of 0 to 1 each row owns, with the ten random draws as darts](images/weights_stages.gif){height=55%}
+
 > **Extra:** `np.random.default_rng(0)` is NumPy's current way to make random numbers. Older code calls `np.random.random()` with no seed, so every run draws different observations and gives different stumps. Fixing the seed makes the results repeatable. NumPy can also draw by weight in one line: `rng.choice(10, size=10, p=weights)`.
 
 ## 7. Stage 2, and a stump with no mistakes
@@ -314,6 +318,12 @@ Both give alphas 0.8473, 1.2993 and 1.8458 (`abc.estimator_weights_`) and the sa
 - Our three upsampled stumps get 9 of 10 training observations right; scikit-learn's weighted stumps (SAMME, `sample_weight`) get all 10.
 
 ## 12. Sources
+
+**Built from**
+
+- CampusX, "AdaBoost Algorithm | Code from Scratch", YouTube, https://www.youtube.com/watch?v=a20TaKNsriE
+
+**Other references**
 
 - scikit-learn developers. DecisionTreeClassifier, API reference, parameter `random_state`: the features are permuted at random at each split, so tied splits depend on the seed. scikit-learn.org, page sklearn.tree.DecisionTreeClassifier
 - scikit-learn developers. Source file `sklearn/ensemble/_weight_boosting.py` (version 1.9): `AdaBoostClassifier.fit` stops when a stump's error is 0; `_boost` uses $\alpha = \ln((1-\text{error})/\text{error}) + \ln(K-1)$ and multiplies only the mistakes' weights. github.com/scikit-learn/scikit-learn

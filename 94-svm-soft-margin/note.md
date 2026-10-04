@@ -105,9 +105,9 @@ $C$ is a [hyperparameter](../29-pipelines/note.md): a tuning knob we set before 
 - **Large C** (say 1,000 or 10,000): the classification error dominates. The algorithm stops caring about the width of the margin and concentrates on misclassifying no point.
 - **Small C** (say 0.1, 0.01 or 0.001): the margin error dominates. The algorithm keeps the margin wide even if some points end up misclassified.
 
-Figure 3 shows the same data with three values of C. With $C = 1000$ the margin is only 0.37 wide, but no point is misclassified. With $C = 1$ it is 2.22 wide with two mistakes; with $C = 0.05$ it is 4.65 wide.
+Figure 3 lowers C step by step on the same data and pauses at three values. Watch the margin widen as the fine for mistakes falls, while more points need slack (orange). With $C = 1000$ the margin is only 0.37 wide, but no point is misclassified. With $C = 1$ it is 2.22 wide with two mistakes; with $C = 0.05$ it is 4.65 wide.
 
-![Large C: a narrow margin and no mistakes. Small C: a wide margin and some mistakes (ringed)](images/c_effect.png){height=36%}
+![C falling from 1000 to 0.03. Large C: a narrow margin and no mistakes. Small C: a wide margin and some mistakes (ringed); orange sticks are the slacks ξ](images/c_sweep.gif){height=36%}
 
 Neither extreme is right in general. A model with no training mistakes and a thin margin may be fitting outliers; a model with a very wide margin may ignore real structure. So we pick C for each dataset with cross-validation (ISL §9.2.2; ISL's budget C works the other way round), usually through a grid search over values such as 0.001, 0.01, ..., 1,000.
 
@@ -170,6 +170,12 @@ The hard-margin SVM forbids any point inside the margin. The soft-margin SVM rel
 - C plays the role of $1/\lambda$, as in `LogisticRegression`.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Mathematics of Support Vector Machine | Soft Margin SVM", YouTube, https://www.youtube.com/watch?v=utqrvIFAE1k
+
+**Other references**
 
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd edition. Springer, 2021. Sections 9.1.5 (p. 373) and 9.2.2 (p. 377).
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 12.3.2, p. 426.

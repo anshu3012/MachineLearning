@@ -280,6 +280,12 @@ The expected value says where the outcomes centre; the variance says how much a 
 
 ## 6. Sources
 
+**Built from**
+
+- CampusX, "Master Probability in Data Science: The Ultimate Crash Course! | Part 1 | CampusX", YouTube, https://www.youtube.com/watch?v=DUT4WEUngt0
+
+**Other references**
+
 - Grinstead, C. M. and Snell, J. L. (1997). *Introduction to Probability*, 2nd ed. American Mathematical Society. §6.1 (Theorems 6.2, 6.4) and §6.2 (Theorems 6.6, 6.9).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer. §15.2, eq. 15.1.
 

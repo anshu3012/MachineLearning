@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, area/inference, area/production, step/foundati
 >
 > - **Builds on:** Software integration ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Data leakage ([Note 13](../13-toy-project/note.md)); APIs ([Note 17](../17-fetching-data-from-api/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)).
 > - **Leads to:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)).
-> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); One-sample proportion test ([Note 570](../570-choosing-a-hypothesis-test/note.md)).
+> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); One-sample proportion test ([Note 570](../570-choosing-a-hypothesis-test/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -659,6 +659,12 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 - One pickled pipeline is all the production code needs.
 
 ## 12. Sources
+
+**Built from**
+
+- CampusX, "Machine Learning Pipelines A-Z | Day 29 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=xOccYkgRV4Q
+
+**Other references**
 
 - scikit-learn release notes. Version 1.1. scikit-learn.org/stable/whats_new.
 - scikit-learn API reference. `sklearn.feature_selection.chi2`. scikit-learn.org.

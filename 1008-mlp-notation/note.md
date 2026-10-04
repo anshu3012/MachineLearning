@@ -55,6 +55,10 @@ The data has $m$ **observations** (records, one row of the table per student) an
 
 The network takes the data one observation at a time. For observation $i$, the four values $x_{i1}, x_{i2}, x_{i3}, x_{i4}$ enter the four input nodes, and the network produces $\hat y_i$. For observation 1 above, 7.2 enters the first input node, 72 the second, 69 the third and 81 the fourth.
 
+![Observation 1 enters the network: each feature value of row 1 goes to its own input node, $x_{11}$ to $x_{14}$](images/row_to_inputs.png){width=55%}
+
+Figure 2 shows the rule behind the names: the first index of $x_{ij}$ is the row, the second is the column.
+
 ## 3. Counting trainable parameters
 
 > **Key point:** Between two layers there is one weight for every pair of nodes, and every node outside the input layer has one bias. The 4-3-2-1 network has 15 + 8 + 3 = 26 parameters.
@@ -78,6 +82,10 @@ Counting layer by layer in Figure 1:
 3. **Example:** with $n_0 = 4$, $n_1 = 3$, $n_2 = 2$, $n_3 = 1$:
    $$(4 \times 3 + 3) + (3 \times 2 + 2) + (2 \times 1 + 1) = 15 + 8 + 3 = 26$$
 
+![Every parameter of the 4-3-2-1 network as one square. Each block has one weight per pair of nodes (blue) and one bias per receiving node (orange)](images/param_blocks.png){width=75%}
+
+Figure 3 is the formula drawn: each block is $n_{l-1} \times n_l$ weights plus a row of $n_l$ biases, and the squares add up to 26.
+
 Training this network means finding good values for these 26 numbers.
 
 > **Extra:** The count grows fast. A network for 28 × 28 pixel images (784 inputs) with one hidden layer of 128 nodes and 10 outputs already has $784 \times 128 + 128 + 128 \times 10 + 10 = 101{,}770$ parameters. Keras prints this count for every layer with `model.summary()` (see the [customer churn Note](../1011-customer-churn-ann/note.md)), so it is worth being able to check it by hand.
@@ -97,7 +105,7 @@ The bias of a node is written $b_{ij}$, where:
 - $i$ is the layer number;
 - $j$ is the position of the node in that layer, counted from the top.
 
-In Figure 2, the three nodes of layer 1 have biases $b_{11}$, $b_{12}$ and $b_{13}$. Layer 2 has $b_{21}$ and $b_{22}$, and the output node has $b_{31}$. The input layer has no biases, because its nodes do no calculation.
+In Figure 4, the three nodes of layer 1 have biases $b_{11}$, $b_{12}$ and $b_{13}$. Layer 2 has $b_{21}$ and $b_{22}$, and the output node has $b_{31}$. The input layer has no biases, because its nodes do no calculation.
 
 ### 4.2 Outputs
 
@@ -119,7 +127,11 @@ A weight sits on a connection between two nodes, so it needs three numbers:
 - $i$ (first bottom index): the node it **leaves**, in layer $k - 1$;
 - $j$ (second bottom index): the node it **enters**, in layer $k$.
 
-So $W_{ij}^{k}$ reads "into layer $k$, from node $i$ to node $j$". The four highlighted weights in Figure 2:
+![How to read $W_{42}^{1}$: the top index is the layer the weight enters; the bottom indices are the node it leaves and the node it enters](images/weight_index.png){width=60%}
+
+Figure 5 decodes one weight: $W_{42}^{1}$ is the red connection from node 4 of layer 0 into node 2 of layer 1.
+
+So $W_{ij}^{k}$ reads "into layer $k$, from node $i$ to node $j$". The four highlighted weights in Figure 4:
 
 | Weight | Enters layer | Leaves node | Enters node |
 |---|---|---|---|
@@ -162,6 +174,12 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 - Biases and outputs use (layer, node); weights add the layer they enter on top.
 
 ## 7. Sources
+
+**Built from**
+
+- CampusX, "MLP Notation", YouTube, https://www.youtube.com/watch?v=H0_3SJh4Rqs
+
+**Other references**
 
 - Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006, §5.1 (eq. 5.2 writes the weight into hidden unit $j$ from input $i$ as $w_{ji}$).
 

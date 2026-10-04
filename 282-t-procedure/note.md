@@ -112,6 +112,10 @@ The fat tails are the extra uncertainty of $s$, put into the shape. The probabil
 
 As $n$ grows, $s$ becomes a reliable estimate of $\sigma$, the extra uncertainty disappears, and the t-distribution approaches the standard normal. The t-distribution becomes exactly normal only with infinitely many degrees of freedom, but beyond about 30 to 50 the two are very close.
 
+Figure 3 builds the t-distribution from scratch. For each sample size, we draw 20,000 samples from the normal population of section 7 ($\mu = 50$, $\sigma = 15$) and compute $T$ for each. Watch the red tails beyond $\pm 1.96$: they hold 30% of the samples at $n = 2$ and shrink towards 5% as $n$ grows, while the histogram follows the t-curve, not the normal curve.
+
+![Simulated T values for samples of n = 2 to 100 (histogram) against the standard normal (blue) and the t-curve with df = n - 1 (orange); the share beyond ±1.96 falls from 30% towards 5%](images/t_df_sweep.gif){height=45%}
+
 ## 6. The t-procedure formula
 
 > **Key point:** $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$: the z-interval with $s$ for $\sigma$ and a t critical value for $z_{\alpha/2}$.
@@ -172,7 +176,7 @@ We can check by simulation that the t-distribution is needed. As in the [interpr
 
 ![The same 100 samples of n = 10 with two 95% intervals each; coverage over 100,000 samples in the titles](images/z_vs_t_coverage.png)
 
-Over 100,000 samples, the "95%" z-with $s$ intervals contain $\mu$ only 91.9% of the time; the t intervals 95.1% (Figure 3). Repeating more often does not help: the z intervals stay around 92%, because they are built from the wrong distribution. They are systematically too short and skip the true mean more often than promised.
+Over 100,000 samples, the "95%" z-with $s$ intervals contain $\mu$ only 91.9% of the time; the t intervals 95.1% (Figure 4). Repeating more often does not help: the z intervals stay around 92%, because they are built from the wrong distribution. They are systematically too short and skip the true mean more often than promised.
 
 | Sample size $n$ | z with $s$ | t with $s$ |
 |---|---|---|
@@ -229,6 +233,12 @@ Pooling all 300 fares into one sample and using $n = 300$ gives 26.20 to 36.64 p
 - Pool several samples into one; the t-procedure does not fix strong skewness.
 
 ## 10. Sources
+
+**Built from**
+
+- CampusX, "Session 44 - Confidence Intervals | DSMP 2023", YouTube, https://www.youtube.com/watch?v=X52HK2qkiIE
+
+**Other references**
 
 - Student [W. S. Gosset] (1908). "The probable error of a mean." *Biometrika* 6(1), 1–25.
 - Zabell, S. L. (2008). "On Student's 1908 article 'The probable error of a mean'." *Journal of the American Statistical Association* 103(481), 1–7.

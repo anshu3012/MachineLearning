@@ -258,6 +258,12 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 
 ## 10. Sources
 
+**Built from**
+
+- CampusX, "Principle Component Analysis(PCA) | Part 3 | Code Example and Visualization", YouTube, https://www.youtube.com/watch?v=tofVCUDrg4M
+
+**Other references**
+
 - Bishop, C. M. (2006). *Pattern Recognition and Machine Learning* (PRML). Springer. §4.1.4 Fisher's linear discriminant; §12.3 Kernel PCA.
 - ISL: James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. §12.2.4, More on PCA: scaling the variables.
 - van der Maaten, L. and Hinton, G. (2008). Visualizing Data using t-SNE. *Journal of Machine Learning Research* 9: 2579–2605.
