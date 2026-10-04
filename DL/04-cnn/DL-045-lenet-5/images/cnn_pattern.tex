@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.55cm, every node/.append style={font=\sffamily\large}]
+  \node[box=cblue] (in) {input\\image};
+  \node[box=corange, right=of in] (c) {convolution\\+ ReLU};
+  \node[box=cpurple, right=of c] (p) {pooling};
+  \node[box=cgreen, right=1.1cm of p] (f) {flatten};
+  \node[box=cgreen, right=of f] (fc) {fully\\connected};
+  \node[box=cred, right=of fc] (o) {output\\sigmoid / softmax};
+  \draw[arrow] (in) -- (c); \draw[arrow] (c) -- (p); \draw[arrow] (p) -- (f); \draw[arrow] (f) -- (fc); \draw[arrow] (fc) -- (o);
+  \node[draw=cgrey, dashed, rounded corners, fit=(c)(p), inner sep=8pt, label={[text=cgrey]above:repeat 1 or more times}] {};
+  \node[draw=cgrey, dashed, rounded corners, fit=(fc), inner sep=8pt, label={[text=cgrey]above:repeat 0 or more}] {};
+\end{tikzpicture}
+\end{document}

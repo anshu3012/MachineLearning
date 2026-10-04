@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cgreen, minimum width=5.2cm] (t) at (0,0) {2684 days 15:12:16};
+  \node[note] at (0,0.95) {row 0: today $-$ message time};
+  \foreach \u/\v/\y in {{1 hour}/{64,431.20 hours}/-1.9, {1 minute}/{3,865,872.3 minutes}/-3.4, {1 second}/{231,952,336 seconds}/-4.9} {
+    \node[box=cgreen, fill=white, minimum width=5.4cm, anchor=west] (r) at (4.2,\y) {\v};
+    \draw[arrow] (t.south) |- node[pos=0.78, above, font=\sffamily\large] {$\div$ \u} (r.west);
+  }
+\end{tikzpicture}
+\end{document}

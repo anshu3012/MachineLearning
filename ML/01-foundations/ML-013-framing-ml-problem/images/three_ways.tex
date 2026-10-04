@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cgrey, text width=3.0cm] (g) at (0,0) {\textbf{Goal}\\more revenue};
+  \node[box=cgrey, text width=5.4cm] (a) at (6.4,2.6) {\textbf{1. New customers}\\hard to win};
+  \node[box=cgrey, text width=5.4cm] (b) at (6.4,0) {\textbf{2. Charge more}\\unfair to customers};
+  \node[box=cgreen, text width=5.4cm] (c) at (6.4,-2.6) {\textbf{3. Keep leaving customers}\\each one keeps paying\\every month};
+  \draw[arrow] (g) -- (a); \draw[arrow] (g) -- (b); \draw[arrow, draw=cgreen] (g) -- (c);
+  \node[font=\sffamily\bfseries\large, text=cgreen] at (6.4,-4.3) {chosen};
+\end{tikzpicture}
+\end{document}

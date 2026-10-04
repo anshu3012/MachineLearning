@@ -66,11 +66,13 @@ Only when a Video has code or a demo worth playing with. We rebuild his code for
 
 ```
 campusx/
-  01-course-map/        note.md
-  02-ai-vs-ml-vs-dl/    note.md  images/  make_images.py (or .tex for TikZ)
-  13-toy-project/       note.md  notebook.ipynb  images/  ...
-  transcripts/          subtitles for every Video
-  pdf/                  generated PDFs
+  00-course-map/00-course-map.md                       the Course map (also its images/)
+  MA/<NN-chapter>/MA-001-<slug>/MA-001-<slug>.md       Mathematical foundations
+  ML/<NN-chapter>/ML-001-<slug>/ML-001-<slug>.md       Machine learning: each Note folder holds its .md, images/,
+  DL/<NN-chapter>/DL-001-<slug>/DL-001-<slug>.md       Deep learning      data/ and <Note>.ipynb when it has code
+  ML/06-regression/06-regression.md                    chapter index: the Chapter's Notes in reading order
+  pdf/<same layout>/<Note>.pdf                         generated PDFs
+  transcripts/                                         subtitles for every Video
   glossary.md
 ```
 
@@ -82,14 +84,14 @@ campusx/
 
 ## Building a Note
 
-`tools/build.sh 02-ai-vs-ml-vs-dl` builds every image in that Note's `images/` (each `.tex` → PDF + PNG, each `.py` run) and writes `pdf/02-ai-vs-ml-vs-dl.pdf`.
+`tools/build.sh ML/01-foundations/ML-002-ai-vs-ml-vs-dl` builds every image in that Note's `images/` (each `.tex` → PDF + PNG, each `.py` run) and writes `pdf/ML/01-foundations/ML-002-ai-vs-ml-vs-dl.pdf`.
 In the PDF, GIFs are swapped for their `_frames.png` key frames and PNGs for a vector `.pdf` of the same name when one exists (`tools/media-swap.lua`).
 Shared looks: `tools/tikz-style.tex` (diagrams), `tools/pdf-style.tex` (PDF).
 Symbols like ⊃ or → go in Markdown as maths (`$\supset$`, `$\rightarrow$`): the PDF font has no such characters.
 
 ### Course map build
 
-`python course_map/build_map.py` regenerates the Course map Note (`01-course-map/`) and the *Where this fits* block of every written Note from `course_map/concepts.yaml`; run it before `tools/build.sh`. A name containing a comma must be quoted in the YAML (the script checks). The Algorithm chooser is hand-drawn in `course_map/algorithm_chooser.tex`. Interactive version: `python course_map/app.py`, then open http://127.0.0.1:8050.
+`python course_map/build_map.py` regenerates the Course map Note (`00-course-map/`) and the *Where this fits* block of every written Note from `course_map/concepts.yaml`; run it before `tools/build.sh`. A name containing a comma must be quoted in the YAML (the script checks). The Algorithm chooser is hand-drawn in `course_map/algorithm_chooser.tex`. Interactive version: `python course_map/app.py`, then open http://127.0.0.1:8050.
 
 ## Transcripts
 
@@ -129,7 +131,7 @@ Write one Note → you review → fix → next. Video 2 first (locks the style),
 
 ## Deferred
 
-None. The once-deferred Videos are written: Video 1 has two folders, `01-course-map` (the Course map) and `01-what-is-ml` (the lesson); Videos 8, 9, 12 and 14 have their own Notes. Note 12 is written from the pinned `environment.yml`.
+None. The once-deferred Videos are written: Video 1 has two folders, `00-course-map` (the Course map) and `ML/01-foundations/ML-001-what-is-ml` (the lesson); Videos 8, 9, 12 and 14 have their own Notes. Note ML-011 is written from the pinned `environment.yml`.
 
 ## Skipped
 

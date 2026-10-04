@@ -1,0 +1,20 @@
+% Flexibility: one saved model read by every language interface; one library for many kinds of problem.
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[l/.style={box=cblue, minimum width=2.2cm}, p/.style={box=cpurple, minimum width=2.9cm, font=\sffamily\small}]
+  \node[box=cgreen, minimum width=3cm] (py) at (0,0) {trained in\\Python};
+  \node[box=cred, minimum width=3cm] (m) at (4.2,0) {\texttt{model.json}};
+  \draw[arrow] (py) -- node[note, above]{save} (m);
+  \foreach \lang/\y in {Java/2.4, R/1.2, Scala/0, C++/-1.2, Julia/-2.4} {
+    \node[l] (\lang) at (8.6,\y) {\lang};
+    \draw[arrow] (m.east) -- (\lang.west);
+  }
+  \node[note, anchor=east] at (7.3,2.6) {load and predict};
+  \node[title] at (4.2,-3.9) {one library, many kinds of problem};
+  \foreach \t/\x in {regression/-2.6, classification/0.8, ranking/4.2, time series/7.6, anomaly detection/11.0} {
+    \node[p] at (\x,-5.0) {\t};
+  }
+  \node[box=corange, minimum width=6cm, font=\sffamily\small] at (4.6,-6.4) {or our own differentiable loss and metric};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \foreach \r in {1,...,4} {
+    \node[anchor=east, font=\sffamily] at (-0.2,-\r*1.1+0.4) {fit \r};
+    \foreach \c in {1,...,4} {
+      \pgfmathtruncatemacro{\pred}{5-\r}
+      \ifnum\c=\pred
+        \fill[cgreen!35, draw=cgreen] (\c*2.2-2.2,-\r*1.1) rectangle (\c*2.2,-\r*1.1+0.8);
+        \node at (\c*2.2-1.1,-\r*1.1+0.4) {predict};
+      \else
+        \fill[cblue!20, draw=cblue] (\c*2.2-2.2,-\r*1.1) rectangle (\c*2.2,-\r*1.1+0.8);
+        \node at (\c*2.2-1.1,-\r*1.1+0.4) {train};
+      \fi
+    }
+  }
+  \foreach \c in {1,...,4} {\node[note] at (\c*2.2-1.1,0.4) {fold \c\\200 rows};}
+  % the out-of-fold column
+  \fill[cgreen!35, draw=cgreen] (10.2,-4.4) rectangle (11.4,-0.3);
+  \node[rotate=90] at (10.8,-2.35) {LR\_pred: 800 values};
+  \draw[arrow] (8.9,-2.35) -- (10.1,-2.35);
+  \node[note, anchor=west] at (11.7,-2.35) {repeat for the tree\\and for KNN:\\3 columns, 12 fits};
+\end{tikzpicture}
+\end{document}

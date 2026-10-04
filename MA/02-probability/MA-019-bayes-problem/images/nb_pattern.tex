@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+  \node[box=cblue, text width=4.2cm] (s1) at (0,0) {\textbf{1. prior $\times$ likelihood}\\[3pt] M1: 0.010\\ M2: 0.009\\ M3: 0.005};
+  \node[box=corange, text width=4.2cm] (s2) at (6,0) {\textbf{2. divide by the total}\\[3pt] total 0.024\\ 0.417, 0.375, 0.208};
+  \node[box=cgreen, text width=3.4cm] (s3) at (11.4,0) {\textbf{3. largest wins}\\[3pt] M1};
+  \draw[arrow] (s1) -- (s2);
+  \draw[arrow] (s2) -- (s3);
+  \node[note, font=\sffamily] at (6,-2.1) {step 2 rescales every score by the same number: the winner does not change};
+\end{tikzpicture}
+\end{document}

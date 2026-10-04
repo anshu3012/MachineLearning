@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, minimum width=3.3cm, minimum height=1.6cm] (k) at (0,0) {\textbf{1. Kaggle account}\\{\small create API token}\\{\small $\rightarrow$ \texttt{kaggle.json}}};
+  \node[box=cgrey, minimum width=3.3cm, minimum height=1.6cm] (u) at (4.6,0) {\textbf{2. Upload}\\{\small \texttt{kaggle.json}}\\{\small to Colab}};
+  \node[box=corange, minimum width=3.3cm, minimum height=1.6cm] (c) at (9.2,0) {\textbf{3. Copy it to}\\{\small \texttt{\textasciitilde/.kaggle/}}};
+  \node[box=cpurple, minimum width=3.3cm, minimum height=1.6cm] (d) at (9.2,-2.9) {\textbf{4. Download}\\{\small \texttt{!kaggle datasets}}\\{\small \texttt{download \dots}}};
+  \node[box=cgreen, minimum width=3.3cm, minimum height=1.6cm] (z) at (4.6,-2.9) {\textbf{5. Unzip}\\{\small \texttt{zipfile}}};
+  \node[box=cblue, minimum width=3.3cm, minimum height=1.6cm] (g) at (0,-2.9) {\textbf{6. Train}\\{\small on Colab's GPU}};
+  \draw[arrow] (k) -- (u);
+  \draw[arrow] (u) -- (c);
+  \draw[arrow] (c) -- (d);
+  \draw[arrow] (d) -- node[note, above] {.zip} (z);
+  \draw[arrow] (z) -- node[note, above] {files} (g);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,39 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+    cell/.style={draw=cgrey, minimum width=3.2cm, minimum height=0.66cm, font=\small, text height=1.8ex, text depth=0.4ex},
+    bad/.style={cell, draw=cred, fill=cred!14},
+    nm/.style={font=\small\bfseries, anchor=east},
+    hd/.style={font=\bfseries, anchor=west}]
+  % ---- top: one long page-wide list, cut into groups of 4 ----
+  \node[hd] at (-3.4,1.0) {A.\ Page-wide \texttt{find\_all}: 117 values, cut into groups of 4};
+  \node[nm] at (-0.2,0) {Maruti Suzuki};
+  \foreach \t [count=\i from 0] in {Public, New Delhi + 374, 39 years old, 10k-50k}
+    \node[cell] at (1.7+\i*3.3,0) {\t};
+  \node[nm] at (-0.2,-0.8) {Infosys BPM};
+  \foreach \t [count=\i from 0] in {Bangalore + 45, 20 years old, 10k-50k}
+    \node[bad] at (1.7+\i*3.3,-0.8) {\t};
+  \node[bad] at (11.6,-0.8) {Private};
+  \node[nm] at (-0.2,-1.6) {BYJU'S};
+  \foreach \t [count=\i from 0] in {Bangalore + 162, 11 years old, 1k-5k, Private}
+    \node[bad] at (1.7+\i*3.3,-1.6) {\t};
+  \node[note, text=cred, anchor=west] at (-3.4,-2.45) {one missing value shifts every company after it};
+  % ---- bottom: one container at a time ----
+  \begin{scope}[shift={(0,-4.4)}]
+    \node[hd] at (-3.4,1.0) {B.\ Inside each company box};
+    \node[nm] at (-0.2,0) {Maruti Suzuki};
+    \foreach \t [count=\i from 0] in {Public, New Delhi + 374, 39 years old, 10k-50k}
+      \node[cell] at (1.7+\i*3.3,0) {\t};
+    \node[nm] at (-0.2,-0.8) {Infosys BPM};
+    \foreach \t [count=\i from 0] in {Bangalore + 45, 20 years old, 10k-50k}
+      \node[cell, draw=corange, fill=corange!12] at (1.7+\i*3.3,-0.8) {\t};
+    \node[nm] at (-0.2,-1.6) {BYJU'S};
+    \foreach \t [count=\i from 0] in {Private, Bangalore + 162, 11 years old, 1k-5k}
+      \node[cell, draw=cgreen, fill=cgreen!12] at (1.7+\i*3.3,-1.6) {\t};
+    \node[note, text=cgreen, anchor=west] at (-3.4,-2.45) {each company keeps its own values; only Infosys BPM has 3};
+  \end{scope}
+  \foreach \t [count=\i from 0] in {type, headquarters, age, employees}
+    \node[font=\small, text=cgrey] at (1.7+\i*3.3,0.55) {\t};
+\end{tikzpicture}
+\end{document}

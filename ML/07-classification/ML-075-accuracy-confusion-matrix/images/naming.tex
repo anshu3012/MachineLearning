@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[font=\huge] (w) {\textcolor{cgreen}{True}\,/\,\textcolor{cred}{False} \quad \textcolor{cblue}{Positive}\,/\,\textcolor{corange}{Negative}};
+  \node[note, text width=5.2cm, below left=0.5cm and -3.2cm of w] (a) {first word: was the prediction \textbf{right}?};
+  \node[note, text width=5.2cm, below right=0.5cm and -3.6cm of w] (b) {second word: what the model \textbf{predicted}};
+  \node[below=1.6cm of w, align=left] (ex) {%
+    \textcolor{cred}{False} \textcolor{cblue}{Positive}: predicted 1, wrong (really 0) \quad = Type I error\\[2pt]
+    \textcolor{cred}{False} \textcolor{corange}{Negative}: predicted 0, wrong (really 1) \quad = Type II error};
+\end{tikzpicture}
+\end{document}

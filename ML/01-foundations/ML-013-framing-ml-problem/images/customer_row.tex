@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cblue, text width=8.4cm, align=left] (r) at (0,0) {\textbf{One customer, one month}\\[4pt]
+    $\bullet$ watch time\\
+    $\bullet$ browsing time vs watching time\\
+    $\bullet$ searches, and how many found a result\\
+    $\bullet$ shows left unfinished\\
+    $\bullet$ recommendations shown vs clicked};
+  \node[box=corange, text width=3.0cm] (y) at (7.4,0) {\textbf{Target}\\will this\\customer leave?};
+  \draw[arrow] (r) -- (y);
+  \node[note] at (0,-2.9) {features, built by data engineers};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,11 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cred, minimum width=3.4cm, minimum height=1.6cm, font=\sffamily\bfseries] (agent) at (0,0) {Agent\\{\small\mdseries follows its policy}};
+  \node[box=cgrey, minimum width=3.4cm, minimum height=1.6cm, font=\sffamily\bfseries] (env) at (8,0) {Environment\\{\small\mdseries road, game board}};
+  \draw[arrow] (agent.north) to[out=40, in=140] node[note, above, text=black] {1. observes, then takes an \textbf{action}} (env.north);
+  \draw[arrow] (env.south) to[out=-140, in=-40] node[note, below, text=black] {2. returns a \textbf{reward} (good) or \textbf{punishment} (bad)} (agent.south);
+  \draw[arrow, draw=cred] (agent.160) to[out=180, in=180, looseness=2.2] node[note, left, text=cred] {3. updates\\its policy} (agent.200);
+\end{tikzpicture}
+\end{document}

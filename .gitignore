@@ -22,6 +22,6 @@ reference/maths-sources/mml-*.txt
 transcripts/maths-video/*.vtt
 transcripts/teaching-video/*.vtt
 # Kaggle Cats vs Dogs photos: held out of git until the user decides (house rule: never store dataset images)
-01-what-is-ml/data/dog_cat_photos.npz
-1049-cat-vs-dog-cnn/data/batch.npz
-1049-cat-vs-dog-cnn/data/mistakes.npz
+ML/01-foundations/ML-001-what-is-ml/data/dog_cat_photos.npz
+DL/04-cnn/DL-049-cat-vs-dog-cnn/data/batch.npz
+DL/04-cnn/DL-049-cat-vs-dog-cnn/data/mistakes.npz

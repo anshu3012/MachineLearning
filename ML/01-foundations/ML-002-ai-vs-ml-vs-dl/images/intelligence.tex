@@ -1,0 +1,9 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, font=\sffamily\bfseries\Large, minimum width=3.6cm] (i) at (0,0) {Intelligence};
+  \foreach \a/\t in {90/{Logic \&\\reasoning}, 18/{Solving\\puzzles \& problems}, -54/{Writing\\code}, -126/{Emotional\\intelligence}, 162/{Creativity \&\\imagination}}
+    { \node[box=cgrey, minimum width=3.2cm] (n\a) at (\a:4.6) {\t}; \draw[arrow] (i) -- (n\a); }
+\end{tikzpicture}
+\end{document}

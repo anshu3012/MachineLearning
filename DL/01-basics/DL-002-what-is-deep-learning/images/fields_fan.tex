@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+  \node[box=cblue, font=\sffamily\bfseries\Large, minimum width=3.2cm] (c) at (0,0) {deep learning};
+  \foreach \t [count=\i] in {computer vision, speech recognition, language processing, machine translation, bioinformatics,
+                             drug design, medical images, climate science, material inspection, board games} {
+    \pgfmathsetmacro{\a}{90-36*(\i-1)}
+    \node[box=corange, inner sep=4pt, minimum height=0.8cm, text width=2.8cm] (f\i) at ({5.6*cos(\a)},{4.0*sin(\a)}) {\t};
+    \draw[draw=cgrey, line width=1.2pt] (c) -- (f\i);
+  }
+\end{tikzpicture}
+\end{document}

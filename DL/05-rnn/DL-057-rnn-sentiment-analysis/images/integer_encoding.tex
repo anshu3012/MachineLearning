@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=1.0cm]
+  \node[box=cgrey, text width=3.0cm] (txt) {\textbf{text}\\[3pt]``hi there''\\``how are you''};
+  \node[box=cblue, text width=3.0cm, right=of txt] (voc) {\textbf{1. vocabulary}\\[3pt]hi $\to$ 1, there $\to$ 2\\how $\to$ 3, are $\to$ 4\\you $\to$ 5};
+  \node[box=cpurple, text width=3.0cm, right=of voc] (seq) {\textbf{2. replace words}\\[3pt]$[1, 2]$\\$[3, 4, 5]$};
+  \node[box=cgreen, text width=3.0cm, right=of seq] (pad) {\textbf{3. pad with 0}\\[3pt]$[1, 2, 0]$\\$[3, 4, 5]$};
+  \draw[arrow] (txt) -- (voc);
+  \draw[arrow] (voc) -- (seq);
+  \draw[arrow] (seq) -- (pad);
+  \node[note, below=0.25cm of seq] {lengths differ: 2 and 3};
+  \node[note, below=0.25cm of pad] {same length: ready\\for the RNN};
+\end{tikzpicture}
+\end{document}

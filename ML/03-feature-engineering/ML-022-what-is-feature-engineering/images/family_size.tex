@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \tikzset{tab/.style={draw=cgrey, fill=white, rounded corners=3pt, inner sep=5pt, font=\sffamily\large}}
+  \node[tab] (a) at (0,0) {\begin{tabular}{lcc}Passenger & SibSp & Parch\\\hline Heikkinen & 0 & 0\\Braund & 1 & 0\\Palsson & 3 & 1\end{tabular}};
+  \node[tab, draw=cpurple, fill=cpurple!12] (b) at (6.2,0) {\begin{tabular}{c}Family size\\\hline 1\\2\\5\end{tabular}};
+  \node[tab, draw=cpurple, fill=cpurple!12] (c) at (10.4,0) {\begin{tabular}{c}Family type\\\hline alone\\small\\large\end{tabular}};
+  \draw[arrow] (a) -- node[above, note] {combine} (b);
+  \draw[arrow] (b) -- node[above, note] {group} (c);
+  \node[note] at (6.2,-2.1) {Family size = SibSp + Parch + 1};
+\end{tikzpicture}
+\end{document}

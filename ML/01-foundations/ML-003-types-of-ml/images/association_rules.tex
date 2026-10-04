@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \foreach \i/\items in {0/{milk, eggs, bread}, 1/{milk, eggs}, 2/{bread, butter}, 3/{milk, eggs, tea}} {
+    \node[box=cgreen, minimum width=3.2cm, align=left, font=\sffamily\small] at (0,-\i*1.2) {Bill \the\numexpr\i+1\relax: \items};
+  }
+  \node[note] at (0,-4.7) {\dots\ thousands of past bills};
+  \node[box=cgrey, minimum width=3.4cm] (alg) at (5.2,-1.8) {Association rule\\algorithm};
+  \node[box=corange, minimum width=4.2cm] (rule) at (10.2,-1.8) {\textbf{Rule found}\\people who buy milk\\usually also buy eggs};
+  \node[box=cblue, minimum width=4.2cm] (act) at (10.2,-4.4) {Place milk and eggs\\next to each other};
+  \draw[arrow] (1.8,-1.8) -- (alg);
+  \draw[arrow] (alg) -- (rule);
+  \draw[arrow] (rule) -- (act);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[n/.style={box=cgrey, minimum width=3.0cm, minimum height=0.9cm, font=\sffamily\small},
+  l/.style={box=cblue, minimum width=2.2cm, minimum height=1.3cm, font=\sffamily\small},
+  every node/.append style={font=\sffamily\small}]
+  \foreach[count=\k] \x/\t/\L/\SL/\R/\SR/\G/\c in {
+     0/5.85/{0.625}/0.39/{$-2.875$, 3.625, $-1.375$}/0.13/0.52/cgrey,
+     7.2/7.1/{$-2.875$, 0.625}/2.53/{3.625, $-1.375$}/2.53/5.06/cgrey,
+     14.4/8.25/{$-2.875$, $-1.375$, 0.625}/4.38/{3.625}/13.14/17.52/cgreen} {
+    \node[n, draw=\c, fill=\c!12] (p\k) at (\x,0) {CGPA $<$ \t};
+    \node[l] (a\k) at (\x-1.75,-2.0) {\L\\[2pt] sim $=$ \SL};
+    \node[l] (b\k) at (\x+1.75,-2.0) {\R\\[2pt] sim $=$ \SR};
+    \draw[arrow] (p\k) -- node[note, left] {yes} (a\k); \draw[arrow] (p\k) -- node[note, right] {no} (b\k);
+    \node[font=\sffamily\bfseries, text=\c] at (\x,-3.5) {gain $=$ \G};
+  }
+  \node[note] at (7.2,1.2) {root: all four residuals, similarity $= 0^2/4 = 0$};
+\end{tikzpicture}
+\end{document}

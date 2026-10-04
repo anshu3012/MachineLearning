@@ -1,5 +1,5 @@
 """Fail if any paragraph of a Note is missing from its PDF (LaTeX can silently push text off a page).
-Usage: python tools/check_pdf.py 02-ai-vs-ml-vs-dl/note.md pdf/02-ai-vs-ml-vs-dl.pdf"""
+Usage: python tools/check_pdf.py ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md pdf/ML/01-foundations/ML-002-ai-vs-ml-vs-dl.pdf"""
 import re
 import subprocess
 import sys
@@ -29,7 +29,7 @@ def probes(md):
         line = re.sub(r"\*\*?|`", "", line)
         line = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)   # a link shows only its text in the PDF
         line = re.sub(r"\{[^}]*\}", "", line)              # {height=50%} and other attributes are not printed
-        if not line or line.startswith(("![", "|", "---", "title:", "tags:")):
+        if not line or line.startswith(("![", "|", "---", "title:", "tags:", "video:", "prerequisites:")):
             continue
         w = words(line)
         if len(w) >= 5:

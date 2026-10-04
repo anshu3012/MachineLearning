@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\usetikzlibrary{matrix}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{tbl/.style={matrix of nodes, nodes={minimum width=2.3cm, minimum height=0.8cm, anchor=center, draw=cgrey!50},
+           row 1/.style={nodes={font=\sffamily\bfseries}}}}
+  \matrix (a) [tbl, column 1/.style={nodes={fill=cgreen!14}}, column 2/.style={nodes={fill=cgreen!14}},
+               column 3/.style={nodes={fill=corange!15}}]
+  { Rooms & Washrooms & Price \\ 3 & 2 & 85 L \\ 2 & 1 & 52 L \\ 4 & 3 & 120 L \\ };
+  \matrix (b) [tbl, right=3.2cm of a, column 1/.style={nodes={fill=cgreen!30}}, column 2/.style={nodes={fill=corange!15}}]
+  { Area (sq ft) & Price \\ 1400 & 85 L \\ 900 & 52 L \\ 2000 & 120 L \\ };
+  \draw[arrow] (a.east) -- node[note, above, text width=2.8cm] {combine two related\\columns into one} (b.west);
+  \node[note, below=0.3cm of a] {3 columns};
+  \node[note, below=0.3cm of b] {2 columns: one fewer, same information};
+\end{tikzpicture}
+\end{document}

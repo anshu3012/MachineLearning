@@ -1,0 +1,11 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.style={font=\normalsize}]
+  \node (g) {$\underbrace{\dfrac{\partial L}{\partial \beta}}_{m \times 1}$};
+  \node[right=0.2cm of g] (eq) {$=\ -\dfrac{2}{n}$};
+  \node[right=0.1cm of eq] (xt) {$\underbrace{X^{\mathsf T}}_{m \times n}$};
+  \node[right=0.1cm of xt] (e) {$\underbrace{(y - \hat{y})}_{n \times 1}$};
+  \node[right=1cm of e, align=left, font=\small, text=cgrey] {one row per coefficient:\\for coefficient $j$, the errors are\\multiplied by column $j$ of $X$, summed,\\and divided by $n$};
+\end{tikzpicture}
+\end{document}

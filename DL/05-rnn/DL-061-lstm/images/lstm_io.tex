@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cpurple, minimum width=6.2cm, minimum height=3.6cm, text width=6cm] (cell)
+    {\textbf{LSTM cell at time step $t$}\\[6pt]1. update the long-term memory\\(remove old, add new)\\[4pt]2. compute the short-term memory};
+  \node[box=cgreen, text width=3.4cm, anchor=east] (cin) at ([xshift=-1.6cm, yshift=1.05cm]cell.west) {$c_{t-1}$\\previous cell state\\(long-term memory)};
+  \node[box=cred, text width=3.4cm, anchor=east] (hin) at ([xshift=-1.6cm, yshift=-1.05cm]cell.west) {$h_{t-1}$\\previous hidden state\\(short-term memory)};
+  \node[box=cblue, below=1.3cm of cell] (x) {$x_t$\\current input};
+  \node[box=cgreen, text width=2.8cm, anchor=west] (cout) at ([xshift=1.6cm, yshift=1.05cm]cell.east) {$c_t$\\new cell state};
+  \node[box=cred, text width=2.8cm, anchor=west] (hout) at ([xshift=1.6cm, yshift=-1.05cm]cell.east) {$h_t$\\new hidden state};
+  \draw[arrow, draw=cgreen] (cin) -- (cin -| cell.west);
+  \draw[arrow, draw=cred] (hin) -- (hin -| cell.west);
+  \draw[arrow, draw=cblue] (x) -- (cell);
+  \draw[arrow, draw=cgreen] (cout -| cell.east) -- (cout);
+  \draw[arrow, draw=cred] (hout -| cell.east) -- (hout);
+  \node[note, above=0.25cm of cin] {3 inputs};
+  \node[note, above=0.25cm of cout] {2 outputs};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[title] at (4.6,1.5) {Which centre to use};
+  \node[box] (q) at (4.6,0) {What type is the column?};
+  \node[box=corange, minimum width=4.2cm] (cat) at (0,-2.2) {\textbf{Categorical}\\ (or discrete with few values)};
+  \node[box=cblue, minimum width=4.2cm] (num) at (9.2,-2.2) {\textbf{Numerical}};
+  \node[box=corange, minimum width=4.2cm] (mode) at (0,-4.7) {\textbf{mode}\\ most frequent value};
+  \node[box] (out) at (9.2,-4.7) {Outliers or a long tail?};
+  \node[box=cgreen, minimum width=3.6cm] (mean) at (6.6,-7.2) {\textbf{mean}\\ uses every value};
+  \node[box=cred, minimum width=4.6cm] (med) at (11.8,-7.2) {\textbf{median} or\\ \textbf{trimmed mean}};
+  \node[box=cpurple, minimum width=4.2cm] (w) at (-0.4,-7.2) {\textbf{weighted mean}\\ values of unequal importance};
+  \draw[arrow] (q) -- (cat); \draw[arrow] (q) -- (num);
+  \draw[arrow] (cat) -- (mode); \draw[arrow] (num) -- (out);
+  \draw[arrow] (out) -- node[left, font=\sffamily\small, text=cgrey] {no} (mean);
+  \draw[arrow] (out) -- node[right, font=\sffamily\small, text=cgrey] {yes} (med);
+  \draw[arrow, dashed] (mean.west) -- node[below=3pt, font=\sffamily\small, text=cgrey, align=center] {if some values\\ count more} (w.east);
+\end{tikzpicture}
+\end{document}

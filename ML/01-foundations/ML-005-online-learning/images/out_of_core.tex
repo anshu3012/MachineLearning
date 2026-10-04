@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, minimum width=2.6cm, minimum height=4.2cm, align=center] (big) at (0,0) {\textbf{Dataset}\\[4pt]50 GB\\[4pt]{\small too big for}\\{\small 8 GB of RAM}};
+  \foreach \i in {0,...,4} {
+    \node[box=cblue, minimum width=1.6cm, minimum height=0.6cm, font=\small, inner sep=2pt] (c\i) at (4.2,1.6-\i*0.8) {chunk \the\numexpr\i+1\relax};
+  }
+  \node[note] at (4.2,-2.5) {\dots};
+  \draw[arrow] (big.east) -- node[note, above] {split} (3.2,0);
+  \node[box=cgrey, minimum width=2.8cm, minimum height=1.6cm, align=center] (model) at (8.6,0) {\textbf{Model}\\{\small learns from one}\\{\small chunk at a time}};
+  \foreach \i in {0,...,4} \draw[arrow] (c\i.east) -- (model.west);
+  \node[box=cgreen, minimum width=2.6cm, minimum height=1.4cm] (final) at (12.6,0) {\textbf{Trained model}\\{\small then deploy}};
+  \draw[arrow] (model) -- (final);
+  \node[note] at (8.6,-1.6) {all done offline, on our machine};
+\end{tikzpicture}
+\end{document}

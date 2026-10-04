@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+% The scikit-learn AdaBoost loop, with the place each hyperparameter acts on it.
+\begin{document}
+\begin{tikzpicture}[g/.style={box=cgrey, minimum width=5.4cm}, k/.style={box=corange, minimum width=4.4cm, font=\sffamily\large}]
+  \node[g] (w) at (0,0) {every observation gets weight $1/n$};
+  \node[g] (fit) at (0,-1.9) {fit the weak learner\\with \texttt{sample\_weight}};
+  \node[g] (a) at (0,-3.8) {say: $\alpha = \eta \times \ln \dfrac{1-\text{error}}{\text{error}}$};
+  \node[g] (up) at (0,-5.8) {mistakes $\times\, e^{\alpha}$, then normalise};
+  \draw[arrow] (w) -- (fit); \draw[arrow] (fit) -- (a); \draw[arrow] (a) -- (up);
+  \draw[arrow, dashed] (up.west) -- ++(-0.9,0) |- node[note, pos=0.25, left, align=right] {next\\stage} (fit.west);
+  \node[k] (est) at (7.2,-1.9) {\texttt{estimator}\\which weak learner\\(default: a stump)};
+  \node[k] (lr) at (7.2,-3.8) {\texttt{learning\_rate} $=\eta$\\shrinks every say\\(default: 1.0)};
+  \node[k] (n) at (7.2,-5.8) {\texttt{n\_estimators}\\at most this many stages\\(default: 50)};
+  \draw[arrow, draw=corange] (est) -- (fit); \draw[arrow, draw=corange] (lr) -- (a); \draw[arrow, draw=corange] (n) -- (up);
+  \node[note, below=0.25cm of n, text width=5.6cm] {stops sooner if a stage has error 0,\\or error 0.5 or more};
+\end{tikzpicture}
+\end{document}

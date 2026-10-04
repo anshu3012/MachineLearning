@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, minimum width=3.6cm] (dev) at (0,0) {Our machine\\retrained model};
+  \node[box=cgreen, minimum width=4.6cm] (srv) at (8.5,2.4) {Model on a server\\always connected};
+  \node[box=cred, minimum width=4.6cm] (ph) at (8.5,0.8) {Phone in a remote area\\no internet};
+  \node[box=cred, minimum width=4.6cm] (sat) at (8.5,-0.8) {Satellite in orbit};
+  \node[box=cred, minimum width=4.6cm] (tr) at (8.5,-2.4) {Device on a moving train};
+  \draw[arrow, draw=cgreen] (dev.east) -- node[note, above, sloped, text=cgreen] {upload works} (srv.west);
+  \foreach \n in {ph, sat, tr}
+    { \draw[arrow, draw=cred, dashed] (dev.east) -- node[pos=0.55, text=cred, font=\sffamily\bfseries\Large, fill=white, inner sep=1pt] {$\times$} (\n.west); }
+  \node[note] at (4.2,-3.5) {no connection: the old model stays in use};
+\end{tikzpicture}
+\end{document}

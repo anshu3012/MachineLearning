@@ -2,7 +2,7 @@
 
 Usage: python course_map/build_map.py
 Writes:
-  01-course-map/note.md and its images (Pipeline map, Concept maps, Algorithm chooser)
+  00-course-map/00-course-map.md and its images (Pipeline map, Concept maps, Algorithm chooser)
   <note>/images/where_this_fits.tex and the "Where this fits" block of every written Note
 The interactive version is course_map/app.py (it reads the same file)."""
 import re
@@ -16,6 +16,24 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = yaml.safe_load(open(ROOT / "course_map" / "concepts.yaml"))
 STEPS = DATA["steps"]
 NOTES = DATA["notes"]
+
+
+def subject(video):
+    """'MA', 'ML' or 'DL': the Subject prefix of the Note's folder."""
+    return NOTES[video].split("/")[0]
+
+
+def chapter(video):
+    return NOTES[video].split("/")[1]
+
+
+def label(video):
+    """'ML-049': the Note number shown in text."""
+    return Path(NOTES[video]).name[:6]
+
+
+def note_file(video):
+    return ROOT / NOTES[video] / f"{Path(NOTES[video]).name}.md"
 CONCEPTS = {c["id"]: c for c in DATA["concepts"]}
 LINKS = [dict(zip(("a", "type", "b", "status"), link)) for link in DATA["links"]]
 LINK_TYPES = ("needs", "is a kind of", "fixes", "compared with", "used in")
@@ -33,27 +51,34 @@ TREES_AND_GROUPS = {"decision_tree", "regression_tree", "ensemble", "voting", "b
                     "association_rules", "kmeans", "hierarchical", "dbscan"}
 def first_note(c):
     """The Note that teaches the Concept. A maths or statistics Concept (step 0) may first appear in an ML Note
-    that uses it; its home is the maths or statistics Note (200 to 999)."""
+    that uses it; its home is the maths or statistics Note (Subject MA)."""
     if not c["videos"]:
         return 0
-    maths = [v for v in c["videos"] if 200 <= v < 1000]
+    maths = [v for v in c["videos"] if subject(v) == "MA"]
     return min(maths) if c["step"] == 0 and maths else min(c["videos"])
 
 
 def ml(c):  # ML playlist Concepts; maths, statistics and deep learning get their own areas
-    return first_note(c) < 200
+    return subject(first_note(c)) == "ML"
 
 
-# Maths and statistics Notes interleave topics in their numbering, so each topic lists its Note ranges.
-MATHS_TOPICS = {"descriptive": [(200, 263), (270, 271), (560, 561)], "probability": [(330, 342)],
-                "inference": [(271, 303), (570, 573)],
-                "linear_algebra": [(350, 364), (440, 441), (490, 531), (580, 581)],
-                "calculus": [(590, 630)], "likelihood": [(630, 650)]}
+# Maths Chapters by Concept map topic (a topic can span several Chapters).
+MATHS_TOPICS = {"linear_algebra": ("00-why-maths", "05-linear-algebra"),
+                "descriptive": ("01-descriptive-stats", "03-distributions"),
+                "probability": ("02-probability",),
+                "inference": ("04-inference",),
+                "calculus": ("06-calculus", "07-optimisation"),
+                "likelihood": ("08-likelihood",)}
 
 
 def maths_topic(c):
     v = first_note(c)
-    return next((t for t, ranges in MATHS_TOPICS.items() if any(a <= v < b for a, b in ranges)), None)
+    return next((t for t, chapters in MATHS_TOPICS.items() if subject(v) == "MA" and chapter(v) in chapters), None)
+
+
+def dl_chapter(c):
+    v = first_note(c)
+    return chapter(v) if subject(v) == "DL" else None
 
 
 AREAS = [("foundations", "Foundations and framing", lambda c: ml(c) and c["step"] <= 1),
@@ -70,12 +95,12 @@ AREAS = [("foundations", "Foundations and framing", lambda c: ml(c) and c["step"
          ("linear_algebra", "Linear algebra", lambda c: maths_topic(c) == "linear_algebra"),
          ("calculus", "Calculus and optimisation", lambda c: maths_topic(c) == "calculus"),
          ("likelihood", "Likelihood, MLE and mixture models", lambda c: maths_topic(c) == "likelihood"),
-         ("dl_basics", "Deep learning: perceptron to backpropagation", lambda c: 1000 <= first_note(c) < 1020),
-         ("dl_training", "Deep learning: training better networks", lambda c: 1020 <= first_note(c) < 1032),
-         ("dl_optimizers", "Deep learning: optimizers", lambda c: 1032 <= first_note(c) < 1040),
-         ("dl_cnn", "Deep learning: convolutional networks", lambda c: 1040 <= first_note(c) < 1055),
-         ("dl_rnn", "Deep learning: recurrent networks", lambda c: 1055 <= first_note(c) < 1067),
-         ("dl_transformers", "Deep learning: LLMs, attention and transformers", lambda c: first_note(c) >= 1067)]
+         ("dl_basics", "Deep learning: perceptron to backpropagation", lambda c: dl_chapter(c) in ("01-basics",)),
+         ("dl_training", "Deep learning: training better networks", lambda c: dl_chapter(c) in ("02-training",)),
+         ("dl_optimizers", "Deep learning: optimizers", lambda c: dl_chapter(c) in ("03-optimizers",)),
+         ("dl_cnn", "Deep learning: convolutional networks", lambda c: dl_chapter(c) in ("04-cnn",)),
+         ("dl_rnn", "Deep learning: recurrent networks", lambda c: dl_chapter(c) in ("05-rnn",)),
+         ("dl_transformers", "Deep learning: LLMs, attention and transformers", lambda c: dl_chapter(c) in ("06-transformers",))]
 
 
 def validate():
@@ -101,9 +126,9 @@ def validate():
 
 
 def note_ref(video, md_dir):
-    """'Note 7' with a link if written, else 'Video 7 (coming)'."""
+    """A link 'Note ML-007' if written, else the bare video number, marked coming."""
     if video in NOTES:
-        return f"[Note {video}]({md_dir}{NOTES[video]}/note.md)"
+        return f"[Note {label(video)}]({md_dir}{NOTES[video]}/{Path(NOTES[video]).name}.md)"
     return f"Note {video}, coming"
 
 
@@ -150,7 +175,7 @@ def pipeline_strip(steps_here):
         cells.append(f"  \\definecolor{{c{s}}}{{HTML}}{{{colour}}}\n"
                      f"  \\node[rounded corners=3pt, minimum width=2.0cm, minimum height=0.62cm, {style}] "
                      f"at ({x:.2f},{y:.2f}) {{{s} {name}}};")
-    return ("\\documentclass[tikz,border=4pt]{standalone}\n\\input{../../tools/tikz-style.tex}\n"
+    return ("\\documentclass[tikz,border=4pt]{standalone}\n\\input{../../../../tools/tikz-style.tex}\n"
             "\\begin{document}\n\\begin{tikzpicture}\n" + "\n".join(cells) + "\n\\end{tikzpicture}\n\\end{document}\n")
 
 
@@ -164,11 +189,11 @@ def where_block(video):
     steps_here = sorted({CONCEPTS[c]["step"] for c in own})
     lines = [BEGIN,
              "> **Where this fits:** Pipeline map " + ("step " if len(steps_here) == 1 else "steps ")
-             + ", ".join(f"{s} ({STEPS[s]})" for s in steps_here) + ". See the [Course map](../01-course-map/note.md).",
+             + ", ".join(f"{s} ({STEPS[s]})" for s in steps_here) + ". See the [Course map](../../../00-course-map/00-course-map.md).",
              ">", "> ![](images/where_this_fits.png)", ">"]
     for label, items in (("Builds on", before), ("Leads to", after), ("Compare with", compare)):
         if items:
-            lines.append(f"> - **{label}:** {concept_list(items, '../')}.")
+            lines.append(f"> - **{label}:** {concept_list(items, '../../../')}.")
     lines.append(END)
     return "\n".join(lines), steps_here
 
@@ -182,10 +207,10 @@ def note_tags(video):
     here = [c for c in CONCEPTS.values() if video in c["videos"]]
     areas = sorted({a for a, _, member in AREAS for c in here if member(c)})
     steps = sorted({c["step"] for c in here})
-    subject = ("deep-learning" if video >= 1000 else "ml" if video < 200
-               else "statistics" if maths_topic({"videos": [video], "step": 0}) in ("descriptive", "probability", "inference")
-               else "maths")
-    return ([f"subject/{subject}"] + [f"area/{slug(a)}" for a in areas] + [f"step/{slug(SHORT[s])}" for s in steps]
+    subj = {"DL": "deep-learning", "ML": "ml"}.get(subject(video)) or (
+        "statistics" if maths_topic({"videos": [video], "step": 0}) in ("descriptive", "probability", "inference")
+        else "maths")
+    return ([f"subject/{subj}"] + [f"area/{slug(a)}" for a in areas] + [f"step/{slug(SHORT[s])}" for s in steps]
             + sorted(f"concept/{slug(c['id'])}" for c in here))
 
 
@@ -201,7 +226,7 @@ def set_tags(text, video):
 
 def update_note(video):
     folder = ROOT / NOTES[video]
-    note = folder / "note.md"
+    note = note_file(video)
     text = set_tags(note.read_text(), video)
     block, steps_here = where_block(video)
     (folder / "images").mkdir(exist_ok=True)
@@ -242,8 +267,8 @@ def note_title(video):
     """The Note's own title from its front matter; 'Note N, coming' for Notes not written yet."""
     if video not in NOTES:
         return f"Note {video}, coming"
-    m = re.search(r'^title:\s*"(.*)"', (ROOT / NOTES[video] / "note.md").read_text(), re.M)
-    return f"{video}. " + (m.group(1) if m else NOTES[video])
+    m = re.search(r'^title:\s*"(.*)"', note_file(video).read_text(), re.M)
+    return f"{label(video)} " + (m.group(1) if m else Path(NOTES[video]).name)
 
 
 # Hand-designed TikZ mind maps (course_map/mindmaps/<id>.tex), in reading order. Auto-laid-out graphs of the
@@ -274,12 +299,12 @@ def learning_path_rows():
         first = sorted(set(before.values()))
         reads = ", ".join(note_ref(x, "../") for x in first[-4:]) or "nothing"
         status = "written" if v in NOTES else "coming"
-        rows.append(f"| {v} | {names} | {reads} | {status} |")
+        rows.append(f"| {label(v) if v in NOTES else v} | {names} | {reads} | {status} |")
     return rows
 
 
 def course_map_note():
-    out = ROOT / "01-course-map" / "images"
+    out = ROOT / "00-course-map" / "images"
     out.mkdir(parents=True, exist_ok=True)
     (out / "pipeline_overview.tex").write_text(pipeline_overview())
     shutil.copy(ROOT / "course_map" / "algorithm_chooser.tex", out / "algorithm_chooser.tex")
@@ -366,13 +391,13 @@ The full map has {total} Concepts, too many for one page, so each topic has its 
 
 A Note is easiest to read when the ideas it uses are already familiar. The Notes that teach those ideas are its **prerequisites**: the Notes to read first. Each prerequisite has prerequisites of its own, so the reading order grows backwards from the Note we want, one round at a time.
 
-![The reading order for the perceptron Note (1004), grown backwards. Round 1 adds the three Notes it builds on; round 2 adds the Notes that those build on. Arrows point from a prerequisite to the Note that needs it.](images/learning_path.gif)
+![The reading order for the perceptron Note (DL-004), grown backwards. Round 1 adds the three Notes it builds on; round 2 adds the Notes that those build on. Arrows point from a prerequisite to the Note that needs it.](images/learning_path.gif)
 
-Figure {len(maps) + 2} builds the reading order for the perceptron Note (Note 1004) step by step:
+Figure {len(maps) + 2} builds the reading order for the perceptron Note (Note DL-004) step by step:
 
-1. **Goal.** We want to read Note 1004.
-2. **Round 1.** Its row in the table below lists Notes 71, 363 and 520: the perceptron trick in code, the equation of a hyperplane and the dot product.
-3. **Round 2.** Each of those three has its own row. Note 71 builds on Notes 6, 57, 61 and 70; Note 363 on Note 362; Note 520 on Note 360.
+1. **Goal.** We want to read Note DL-004.
+2. **Round 1.** Its row in the table below lists Notes ML-070, MA-051 and MA-055: the perceptron trick in code, the equation of a hyperplane and the dot product.
+3. **Round 2.** Each of those three has its own row. Note ML-070 builds on Notes ML-006, ML-056, ML-060 and ML-069; Note MA-051 on Note MA-050; Note MA-055 on Note MA-048.
 4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
 
 Each row of the table lists a Note's Concepts and the Notes to read first, with at most the four most recent. A row comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3: when a Concept of the Note builds on another Concept, the latest earlier Note that teaches that other Concept is read first. Notes marked *coming* or *deferred* are not written yet.
@@ -413,7 +438,7 @@ Figure {len(maps) + 3} is a starting point, not a rule: in practice we try sever
 | Link (G-2166) | A labelled connection between two Concepts |
 | Draft / confirmed (G-2167) | Guessed from titles / checked against a written Note |
 """
-    (ROOT / "01-course-map" / "note.md").write_text(text)
+    (ROOT / "00-course-map" / "00-course-map.md").write_text(text)
 
 
 if __name__ == "__main__":

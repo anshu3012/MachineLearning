@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+% Section 3: the two places a network normalises: the input features, and the activations of each hidden layer
+% before they feed the next layer.
+\begin{tikzpicture}[l/.style={box=#1, minimum width=2.1cm, minimum height=0.9cm, inner sep=3pt, font=\sffamily\small},
+  n/.style={draw=cgreen, fill=cgreen!20, rounded corners=3pt, font=\sffamily\small, align=center, inner sep=3pt, minimum height=0.9cm}]
+  \node[l=cgrey] (x) at (0, 0) {features};
+  \node[n] (n0) at (2.6, 0) {normalise\\inputs};
+  \node[l=cblue] (h1) at (5.2, 0) {hidden layer 1};
+  \node[n] (n1) at (7.8, 0) {normalise\\activations};
+  \node[l=cblue] (h2) at (10.4, 0) {hidden layer 2};
+  \node[n] (n2) at (13.0, 0) {normalise\\activations};
+  \node[l=cred] (o) at (15.5, 0) {output};
+  \foreach \a/\b in {x/n0, n0/h1, h1/n1, n1/h2, h2/n2, n2/o} \draw[arrow] (\a) -- (\b);
+  \node[note] at (2.6, -1.1) {data scaling};
+  \node[note] at (10.4, -1.1) {batch normalisation or layer normalisation};
+  \draw[cgrey, line width=0.8pt] (7.8, -0.55) -- (7.8, -0.8) -- (13.0, -0.8) -- (13.0, -0.55);
+\end{tikzpicture}
+\end{document}

@@ -1,7 +1,7 @@
 # Brief for a subagent writing one Note
 
-You are writing Notes for a study-notes project built from CampusX playlists: "100 Days of Machine Learning" (Notes 1–134),
-the maths playlists (Notes 210+, see `docs/maths-plan.md`) and "100 Days of Deep Learning" (Notes 1001–1084 = 1000 + Video,
+You are writing Notes for a study-notes project built from CampusX playlists: "100 Days of Machine Learning" (Notes ML-001–ML-128),
+the maths playlists (Notes MA-003+, see `docs/maths-plan.md`) and "100 Days of Deep Learning" (Notes DL-001–DL-085 = 1000 + Video,
 see `dl_map/PLAN.md`).
 The reader is a beginner with ADHD and a visual learner. A reviewer (the main agent) checks your work before the user sees it.
 
@@ -52,7 +52,7 @@ Missing LaTeX package: `tlmgr install <name>`.
 Each concept is taught in ONE Note. Before explaining any concept, check whether a written Note already teaches it:
 - `course_map/concepts.yaml`: find the Concept; its `videos:` list and the `notes:` map at the top tell which Notes cover it.
 - `grep -ril "<term>" [0-9]*/note.md` and `glossary.md` for terms that are not Concepts.
-If it is already taught: give a one-line recap and a link (e.g. "Standardization (see the [standardization Note](../24-standardization/note.md)) puts every column on mean 0, std 1."),
+If it is already taught: give a one-line recap and a link (e.g. "Standardization (see the [standardization Note](../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)) puts every column on mean 0, std 1."),
 then teach only what is NEW in this Video. Do not re-derive, re-draw or re-define it. Reuse the glossary's wording for terms
 already defined. If this Video teaches the same thing in more depth or from a new angle, keep only the new part.
 The same holds between Notes you write in one batch: teach a concept in the first Note that needs it, link from the later ones.

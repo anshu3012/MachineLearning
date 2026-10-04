@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cgrey, text width=4.4cm] (v) at (0,0) {\textbf{Vague goal}\\increase revenue};
+  \node[box=cblue, text width=4.4cm] (t) at (6.4,0) {\textbf{Measurable target}\\churn 4\% $\rightarrow$ 3.75\%\\in six months};
+  \node[box=cgreen, text width=8.6cm] (e) at (3.2,-3.0) {per 100 million subscribers,\\$100{,}000{,}000 \times 0.0025 = 250{,}000$\\more customers stay every month};
+  \draw[arrow] (v) -- (t);
+  \draw[arrow] (t.south) -- ++(0,-0.95);
+\end{tikzpicture}
+\end{document}

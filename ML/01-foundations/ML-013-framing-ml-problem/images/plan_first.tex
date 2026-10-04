@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[font=\sffamily\bfseries\large, text=cgreen, anchor=west] at (-1.5,1.2) {think first};
+  \node[box=cgreen, minimum width=2.6cm] (p) at (0,0) {plan};
+  \node[box=cgreen, minimum width=2.6cm] (c) at (4,0) {code};
+  \node[box=cgreen, minimum width=2.6cm] (d) at (8,0) {done};
+  \draw[arrow] (p) -- (c); \draw[arrow] (c) -- (d);
+  \node[font=\sffamily\bfseries\large, text=cred, anchor=west] at (-1.5,-1.6) {code first};
+  \node[box=cgrey, minimum width=2.6cm] (c2) at (0,-2.8) {code};
+  \node[box=cred, minimum width=2.6cm] (w) at (4,-2.8) {wrong way};
+  \node[box=cgrey, minimum width=2.6cm] (t) at (8,-2.8) {turn back};
+  \draw[arrow] (c2) -- (w); \draw[arrow] (w) -- (t);
+  \node[note] at (6,-4.0) {slow and costly in a big company};
+\end{tikzpicture}
+\end{document}

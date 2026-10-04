@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+% Section 2: every Elastic Net is a point (a, b); the edges of the quarter-plane are Ridge, Lasso and plain regression.
+\begin{document}
+\begin{tikzpicture}[scale=1.6]
+  \fill[cpurple!15] (0,0) rectangle (4,4);
+  \node[font=\sffamily\bfseries\Large, text=cpurple, align=center] at (2.4,2.4) {Elastic Net\\[-2pt]{\normalsize both $a > 0$ and $b > 0$}};
+  \draw[arrow] (0,0) -- (4.4,0) node[right, font=\sffamily\large, align=left] {$a$\\[-2pt]{\small Ridge strength}};
+  \draw[arrow] (0,0) -- (0,4.4) node[above, font=\sffamily\large, align=center] {$b$ {\small Lasso strength}};
+  \draw[cblue, line width=5pt] (0.08,0) -- (3.9,0);
+  \draw[cred, line width=5pt] (0,0.08) -- (0,3.9);
+  \node[font=\sffamily\bfseries\large, text=cblue, below] at (2,-0.15) {$b = 0$: Ridge};
+  \node[font=\sffamily\bfseries\large, text=cred, left, align=right] at (-0.15,2) {$a = 0$:\\Lasso};
+  \fill[black] (0,0) circle (4pt);
+  \node[font=\sffamily\bfseries\large, below left, align=right] at (-0.05,-0.05) {$a = b = 0$:\\linear regression};
+\end{tikzpicture}
+\end{document}

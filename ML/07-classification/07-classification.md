@@ -1,0 +1,26 @@
+# Classification
+
+ML chapter 07. Notes in reading order:
+
+- [ML-069 Logistic Regression: The Perceptron Trick](ML-069-perceptron-trick/ML-069-perceptron-trick.md)
+- [ML-070 The Perceptron Trick in Code](ML-070-perceptron-code/ML-070-perceptron-code.md)
+- [ML-071 Logistic Regression: The Sigmoid Function](ML-071-sigmoid-function/ML-071-sigmoid-function.md)
+- [ML-072 Logistic Regression: Maximum Likelihood and the Log Loss](ML-072-log-loss/ML-072-log-loss.md)
+- [ML-073 The Derivative of the Sigmoid Function](ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)
+- [ML-074 Logistic Regression: Gradient Descent and Code from Scratch](ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md)
+- [ML-075 Classification Metrics: Accuracy and the Confusion Matrix](ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)
+- [ML-076 Classification Metrics: Precision, Recall and F1 Score](ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)
+- [ML-077 Classification Metrics: The ROC Curve and AUC](ML-077-roc-auc/ML-077-roc-auc.md)
+- [ML-078 Softmax Regression (Multinomial Logistic Regression)](ML-078-softmax-regression/ML-078-softmax-regression.md)
+- [ML-079 Polynomial Features in Logistic Regression](ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md)
+- [ML-080 Logistic Regression Hyperparameters](ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md)
+- [ML-081 Naive Bayes: The Intuition](ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)
+- [ML-082 Naive Bayes: The Mathematics](ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md)
+- [ML-083 Naive Bayes: A Worked Example in Code](ML-083-naive-bayes-code/ML-083-naive-bayes-code.md)
+- [ML-084 Naive Bayes with Numerical Data: Gaussian Naive Bayes](ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md)
+- [ML-085 K-Nearest Neighbours (KNN)](ML-085-knn/ML-085-knn.md)
+- [ML-086 Support Vector Machines: The Geometric Intuition](ML-086-svm-intuition/ML-086-svm-intuition.md)
+- [ML-087 The Mathematics of SVM: Hard Margin](ML-087-svm-maths/ML-087-svm-maths.md)
+- [ML-088 Soft-Margin SVM: Slack, Hinge Loss and C](ML-088-svm-soft-margin/ML-088-svm-soft-margin.md)
+- [ML-089 The Kernel Trick: Intuition](ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md)
+- [ML-090 The Kernel Trick in Code](ML-090-kernel-trick-code/ML-090-kernel-trick-code.md)

@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[lab/.style={font=\sffamily\normalsize, align=center}]
+  \node[box=cblue, minimum width=4.2cm, font=\sffamily\large] (src) at (0,0) {\textbf{source task}\\ImageNet\\1.2 million photos\\1,000 classes};
+  \node[box=corange, minimum width=4.0cm, font=\sffamily\large] (f) at (7,0) {\textbf{learned features}\\edges, textures,\\parts, objects};
+  \node[box=cgreen, minimum width=4.2cm, font=\sffamily\large] (tgt) at (14,0) {\textbf{new task}\\cats vs dogs\\2,000 photos\\2 classes};
+  \draw[arrow] (src) -- node[lab, above] {days to weeks} node[lab, below] {of training} (f);
+  \draw[arrow] (f) -- node[lab, above] {reused} node[lab, below] {as they are} (tgt);
+  \node[note, font=\sffamily\normalsize] at (7,-2.0) {like balance learned on a bicycle, reused on a motorcycle};
+\end{tikzpicture}
+\end{document}

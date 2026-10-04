@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[title] at (4.2,3.1) {Read a product from right to left};
+  \node[font=\Huge] (S) at (2.2,1.6) {$S$};
+  \node[font=\Huge] (R) at (4.2,1.6) {$R$};
+  \node[font=\Huge] (x) at (6.2,1.6) {$\mathbf{x}$};
+  \draw[arrow, cred, line width=2pt] (6.9,0.9) -- (1.5,0.9) node[pos=0.5, below, font=\small\bfseries, text=cred] {order of action};
+  \node[note] at (4.2,2.35) {written left to right};
+  % action chain
+  \node[box=cgrey] (a) at (-1.4,-1.4) {$\mathbf{x} = [1, 1]$};
+  \node[box=cgreen] (b) at (4.2,-1.4) {$R\mathbf{x} = [-1, 1]$};
+  \node[box=cblue] (c) at (10.0,-1.4) {$S(R\mathbf{x}) = [0, 1]$};
+  \draw[arrow] (a) -- node[above, font=\small\bfseries] {1st: rotate $R$} (b);
+  \draw[arrow] (b) -- node[above, font=\small\bfseries] {2nd: shear $S$} (c);
+  \node[box=corange] (d) at (4.2,-3.6) {$(SR)\,\mathbf{x} = [0, 1]$: one step, same point};
+  \draw[arrow, corange] (a.south) |- (d.west);
+  \draw[arrow, corange] (d.east) -| (c.south);
+\end{tikzpicture}
+\end{document}

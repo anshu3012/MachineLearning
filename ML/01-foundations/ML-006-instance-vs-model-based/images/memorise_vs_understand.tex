@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cpurple, minimum width=6.2cm, minimum height=1.2cm, font=\large\bfseries] (a) at (0,0) {Memorise the examples};
+  \node[box=cgreen, minimum width=6.2cm, minimum height=1.2cm, font=\large\bfseries] (b) at (8,0) {Understand the rule};
+  \node[note, text=black, align=center] at (0,-1.2) {A student learns past answers by heart,\\then compares each new question to them.};
+  \node[note, text=black, align=center] at (8,-1.2) {A student learns the principle,\\then applies it to any new question.};
+  \node[box=cpurple, minimum width=6.2cm, minimum height=1.2cm] (c) at (0,-3.0) {\textbf{Instance-based learning}\\{\small keeps the data; compares new points to it}};
+  \node[box=cgreen, minimum width=6.2cm, minimum height=1.2cm] (d) at (8,-3.0) {\textbf{Model-based learning}\\{\small learns a function; uses only that}};
+  \draw[arrow] (0,-1.75) -- (c.north); \draw[arrow] (8,-1.75) -- (d.north);
+  \node[note, rotate=90] at (-3.8,0) {people};
+  \node[note, rotate=90] at (-3.8,-3.0) {ML};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.6cm and 1.6cm]
+  % top: shop builds profiles
+  \node[box=cblue, minimum width=3.2cm] (bill) {Bills linked to\\phone numbers};
+  \node[box=cblue, right=of bill, minimum width=3.2cm] (prof) {Customer profile\\{\small ``health-conscious''}};
+  \node[box=cgrey, right=of prof, minimum width=3.2cm] (sell) {Numbers sold to\\advertisers};
+  \draw[arrow] (bill) -- node[note, above] {pattern} (prof);
+  \draw[arrow] (prof) -- (sell);
+  % bottom: random vs targeted
+  \node[box=cred, below=1.6cm of bill, xshift=1.2cm, minimum width=5.4cm, minimum height=1.7cm] (rand) {\textbf{Random:} 1 lakh SMS\\{\small few buyers, very low conversion}};
+  \node[box=cgreen, right=1.2cm of rand, minimum width=5.4cm, minimum height=1.7cm] (targ) {\textbf{Targeted:} 100 SMS\\{\small to health-conscious buyers}\\{\small about the same buyers}};
+  \node[note, above=0.25cm of rand] {gym without the data};
+  \node[note, above=0.25cm of targ] {gym with the data};
+  \draw[arrow] (sell.south) -- (targ.north -| sell.south);
+\end{tikzpicture}
+\end{document}

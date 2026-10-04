@@ -106,7 +106,7 @@ Never open a section with the formula or the jargon. Never stop at the plain wor
 
 ## 12. A named example is a rule for every Note (user, 2026-10-04)
 
-When the user points at one Note or one topic (the Hessian, EM, Note 1026), that is an example of a kind of problem, not the only case. The user said: "I don't have the time to go over 100 of files and tell you each and every single instance." Every fix applies to every Note (ML, maths and DL): check each Note for the whole kind of problem. Standing kinds, from the user's examples so far:
+When the user points at one Note or one topic (the Hessian, EM, Note DL-026), that is an example of a kind of problem, not the only case. The user said: "I don't have the time to go over 100 of files and tell you each and every single instance." Every fix applies to every Note (ML, maths and DL): check each Note for the whole kind of problem. Standing kinds, from the user's examples so far:
 - hard to read: no plain-words start, jargon without a term and glossary ID, no step-by-step mechanism (§10, §11);
 - missing visuals: a process with no animation, a key term with no figure;
 - not following the best beginner teaching path: the order, analogies, worked examples and visuals of the source videos (CampusX, 3Blue1Brown, StatQuest, Khan Academy) are not used.

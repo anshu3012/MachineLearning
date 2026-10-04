@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.25cm, y=1cm]
+  \node[title] at (5.5,3.9) {The 75th percentile of 10 marks};
+  \foreach \v [count=\i] in {78,82,84,88,91,93,94,96,98,99} {
+    \ifnum\i=8 \def\col{cblue}\else\ifnum\i=9 \def\col{cblue}\else\def\col{cgrey}\fi\fi
+    \filldraw[draw=\col, fill=\col!12] (\i-0.42,0) rectangle (\i+0.42,0.9);
+    \node[font=\sffamily] at (\i,0.45) {\v};
+    \node[font=\sffamily\small, text=cgrey] at (\i,-0.35) {\i};
+  }
+  \node[anchor=east, font=\sffamily\small, text=cgrey] at (0.4,0.45) {marks};
+  \node[anchor=east, font=\sffamily\small, text=cgrey] at (0.4,-0.35) {position};
+  \draw[arrow, draw=cred] (8.25,1.95) -- (8.25,0.98);
+  \node[font=\sffamily\small, text=cred, align=center] at (8.25,2.05) [above] {position 8.25\\ value 96.5};
+  \draw[decorate, decoration={brace, amplitude=5pt, mirror}, cblue] (8,-0.7) -- (9,-0.7)
+    node[midway, below=6pt, font=\sffamily\small, text=cblue, align=center] {gap $98 - 96 = 2$};
+  \node[font=\sffamily, align=center] at (5,-2.4) {location $= \dfrac{75}{100}\times(10 + 1) = 8.25$ \qquad value $= 96 + 0.25 \times 2 = 96.5$};
+\end{tikzpicture}
+\end{document}

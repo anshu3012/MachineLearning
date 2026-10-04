@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \def\R{2.6}
+  % shaded night arc 22:00 -> 03:00 (clock angle: 90 - 15*h)
+  \fill[cblue!35] (0,0) -- (90-15*22:\R) arc[start angle=90-15*22, end angle=90-15*27, radius=\R] -- cycle;
+  \draw[cgrey] (0,0) circle (\R);
+  \foreach \h in {0,3,...,21} {
+    \draw[cgrey] (90-15*\h:\R) -- (90-15*\h:\R-0.25);
+    \node[font=\sffamily\large] at (90-15*\h:\R+0.55) {\h:00};
+  }
+  \node[font=\sffamily\bfseries\large, text=cblue, align=center] at (0,-0.9) {998 of 1,000\\messages};
+  \node[note] at (0,-4.0) {22:00 to 03:00: the shaded arc};
+\end{tikzpicture}
+\end{document}

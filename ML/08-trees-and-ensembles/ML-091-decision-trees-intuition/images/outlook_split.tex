@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+  n/.style={box=cblue, minimum width=3.4cm},
+  pure/.style={box=cgreen, minimum width=3.4cm},
+  lab/.style={font=\sffamily\small, fill=white, inner sep=2pt}]
+  \node[n] (p) at (0,0) {\textbf{parent}: 14 days\\9 yes, 5 no\\$H = 0.940$};
+  \node[n] (s) at (-4.6,-3.2) {\textbf{sunny}: 5 days\\2 yes, 3 no\\$H = 0.971$};
+  \node[pure] (o) at (0,-3.2) {\textbf{overcast}: 4 days\\4 yes, 0 no\\$H = 0$ (leaf)};
+  \node[n] (r) at (4.6,-3.2) {\textbf{rain}: 5 days\\3 yes, 2 no\\$H = 0.971$};
+  \draw[arrow] (p) -- node[lab] {sunny} (s);
+  \draw[arrow] (p) -- node[lab] {overcast} (o);
+  \draw[arrow] (p) -- node[lab] {rain} (r);
+  \node[align=center] at (0,-5.4) {weighted entropy of children $= \tfrac{5}{14}(0.971) + \tfrac{4}{14}(0) + \tfrac{5}{14}(0.971) = 0.694$};
+  \node[align=center] at (0,-6.3) {information gain $= 0.940 - 0.694 = \mathbf{0.247}$};
+\end{tikzpicture}
+\end{document}

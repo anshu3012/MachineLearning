@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cblue, text width=4.6cm] (q) at (0,0) {What is the work for?};
+  \foreach \x/\n/\t/\w in {-5.2/l/{\textbf{Local conda}\\pinned versions}/{a project that\\goes to a server}, 0/k/{\textbf{Kaggle}\\data one click away}/{Kaggle data,\\sharing work}, 5.2/c/{\textbf{Colab}\\free GPU}/{deep learning\\on a GPU}} {
+    \node[box=cgreen, text width=3.8cm] (\n) at (\x,-2.8) {\t};
+    \draw[arrow] (q) -- (\n);
+    \node[note, below=0.2cm of \n] {\w};
+  }
+\end{tikzpicture}
+\end{document}

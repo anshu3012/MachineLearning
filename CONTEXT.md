@@ -9,7 +9,7 @@ Material a Note is built from: a playlist video (with its subtitles), a book cha
 _Avoid_: Video (as the unit of the project), lecture, episode
 
 **Note**:
-One lesson on one main idea, built from one or more Sources and complete enough to learn from without them. Identified by its Note number (e.g. Note 38).
+One lesson on one main idea, built from one or more Sources and complete enough to learn from without them. Identified by its Note number (e.g. Note ML-037).
 _Avoid_: Chapter, page, summary
 
 **Subject**:
@@ -45,7 +45,7 @@ A Jupyter notebook that goes with a Note, holding interactive demos and the Sour
 _Avoid_: Code file, script, lab
 
 **Course map**:
-The one overview that ties all Notes together. It has four views: the Pipeline map, the Concept map, the Learning path and the Algorithm chooser. It is also Note 1.
+The one overview that ties all Notes together. It has four views: the Pipeline map, the Concept map, the Learning path and the Algorithm chooser. It lives in `00-course-map/`, outside the Subjects.
 _Avoid_: Index, syllabus, roadmap, architecture
 
 **Pipeline map**:

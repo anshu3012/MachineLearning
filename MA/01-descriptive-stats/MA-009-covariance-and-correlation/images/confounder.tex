@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[title] at (0,2.6) {Correlation is not causation};
+  \node[box=corange, minimum width=4cm] (w) at (0,1.2) {\textbf{hot weather}\\ (hidden cause)};
+  \node[box=cblue, minimum width=4cm] (i) at (-4,-1.4) {\textbf{ice cream sales}};
+  \node[box=cblue, minimum width=4cm] (d) at (4,-1.4) {\textbf{drownings}};
+  \draw[arrow, draw=corange] (w) -- node[left, font=\sffamily\small, text=corange, xshift=-4pt] {causes} (i);
+  \draw[arrow, draw=corange] (w) -- node[right, font=\sffamily\small, text=corange, xshift=4pt] {causes} (d);
+  \draw[cgrey, dashed, line width=1.4pt, {Stealth[length=3mm]}-{Stealth[length=3mm]}] (i) -- node[below=4pt, font=\sffamily\small, text=cgrey, align=center] {correlated, but neither\\ causes the other} (d);
+\end{tikzpicture}
+\end{document}

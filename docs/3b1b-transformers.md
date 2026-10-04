@@ -1,4 +1,4 @@
-# 3Blue1Brown on transformers: what to take for Notes 1067–1085
+# 3Blue1Brown on transformers: what to take for Notes DL-067–DL-086
 
 **Key point:** 3Blue1Brown's 4 transformer videos (plus 1 on cross-entropy) teach about 15 ideas that no Note owns. The four biggest gaps:
 1. The **decoder-only GPT** model itself (no Note walks through it).

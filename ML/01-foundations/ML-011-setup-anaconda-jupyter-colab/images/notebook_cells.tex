@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+% Section 3.2: what the two kinds of cell look like. A Markdown cell before and after Shift+Enter, and a code cell
+% with its output (the Note's own read_csv example).
+\begin{tikzpicture}[cell/.style={draw=#1, line width=1pt, rounded corners=2pt, text width=8.2cm, inner sep=6pt, align=left},
+  tag/.style={font=\sffamily\small, text=cgrey, anchor=east}]
+  \node[title, anchor=west] at (-2.3, 1.2) {Markdown cell};
+  \node[cell=cgrey, fill=black!4, font=\ttfamily\small] (m1) at (4.2, 0) {\# Import the dataset\\{}**Two asterisks** make text bold.};
+  \node[tag] at (-0.15, 0) {as typed};
+  \node[cell=cgreen, fill=cgreen!6] (m2) at (4.2, -1.9) {{\sffamily\bfseries\Large Import the dataset}\\[2pt]{\sffamily \textbf{Two asterisks} make text bold.}};
+  \node[tag] at (-0.15, -1.9) {after Shift+Enter};
+  \draw[arrow] (m1.south) -- (m2.north);
+  \node[title, anchor=west] at (-2.3, -3.4) {Code cell};
+  \node[cell=cblue, fill=cblue!6, font=\ttfamily\small] (c1) at (4.2, -4.6) {import pandas as pd\\df = pd.read\_csv("aug\_train.csv")\\df.shape};
+  \node[tag] at (-0.15, -4.6) {[1]:};
+  \node[cell=white, font=\ttfamily\small] (c2) at (4.2, -6.0) {(19158, 14)};
+  \node[tag] at (-0.15, -6.0) {output};
+  \draw[arrow] (c1.south) -- (c2.north);
+\end{tikzpicture}
+\end{document}

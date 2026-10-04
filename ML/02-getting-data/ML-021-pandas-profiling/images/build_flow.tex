@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+% Section 2.2: the three lines of code as a flow, from the CSV file to the report in a browser.
+\begin{tikzpicture}[b/.style={box=#1, minimum height=1.1cm, inner sep=5pt, align=center, font=\sffamily\small}]
+  \node[b=cgrey] (csv) at (0, 0) {\texttt{titanic\_train.csv}\\891 rows};
+  \node[b=cblue] (df) at (4.4, 0) {DataFrame\\\texttt{df}};
+  \node[b=cgreen] (pr) at (9.4, 0) {report object\\\texttt{profile}};
+  \node[b=corange] (html) at (14.6, 0) {web page\\\texttt{titanic\_report.html}};
+  \draw[arrow] (csv) -- node[above, font=\ttfamily\scriptsize] {pd.read\_csv} (df);
+  \draw[arrow] (df) -- node[above, font=\ttfamily\scriptsize] {ProfileReport(df)} node[below, note] {10 to 15 s} (pr);
+  \draw[arrow] (pr) -- node[above, font=\ttfamily\scriptsize] {.to\_file(...)} (html);
+  \node[note, below=0.3cm of html] {open in any browser};
+\end{tikzpicture}
+\end{document}

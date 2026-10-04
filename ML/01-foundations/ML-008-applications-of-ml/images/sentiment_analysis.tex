@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.5cm and 1.2cm]
+  \tikzset{rev/.style={draw=cgrey, fill=white, rounded corners=3pt, text width=6.2cm, align=left, inner sep=6pt, font=\small\itshape}}
+  \node[rev] (r1) {``Brilliant cinematography, as real as possible.''};
+  \node[rev, below=of r1] (r2) {``I was very disappointed with this movie \dots\ left me feeling cheated.''};
+  \node[rev, below=of r2] (r3) {``Christopher Nolan is a visual genius; the film is just stunning to look at.''};
+  \node[box=cblue, minimum width=3.0cm, minimum height=2.2cm, right=of r2] (m) {\textbf{Sentiment}\\\textbf{model}};
+  \node[box=cgreen, right=of m, yshift=1.3cm, minimum width=2.4cm] (p1) {Positive};
+  \node[box=cred, right=of m, minimum width=2.4cm] (n1) {Negative};
+  \node[box=cgreen, right=of m, yshift=-1.3cm, minimum width=2.4cm] (p2) {Positive};
+  \foreach \r in {r1,r2,r3} \draw[arrow] (\r.east) -- (m.west);
+  \draw[arrow] (m.east) -- (p1.west);
+  \draw[arrow] (m.east) -- (n1.west);
+  \draw[arrow] (m.east) -- (p2.west);
+  \node[note, above=0.2cm of r1] {input: review text};
+  \node[note, above=0.2cm of p1] {output: sentiment};
+\end{tikzpicture}
+\end{document}

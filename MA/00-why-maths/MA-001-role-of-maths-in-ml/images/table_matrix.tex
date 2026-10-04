@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\usetikzlibrary{matrix}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+  \node[title] at (2.2,2.4) {a data table};
+  \node at (2.2,0) {\begin{tabular}{ccc}
+    \textbf{cgpa} & \textbf{iq} & \textbf{placement}\\ \hline
+    6.8 & 123 & 1\\ 5.9 & 106 & 0\\ 5.3 & 121 & 0
+  \end{tabular}};
+  \draw[arrow] (4.6,0) -- (6.4,0);
+  \node[title] at (9.2,2.4) {a matrix};
+  \matrix (m) [matrix of math nodes, left delimiter={[}, right delimiter={]}, column sep=8pt, row sep=2pt] at (9.2,0) {
+    6.8 & 123 & 1\\ 5.9 & 106 & 0\\ 5.3 & 121 & 0\\ };
+  \draw[cblue, line width=1.6pt, rounded corners=3pt] ([shift={(-4pt,4pt)}]m-1-1.north west) rectangle ([shift={(4pt,-4pt)}]m-3-1.south east);
+  \node[text=cblue, below=10pt] at (m-3-1.south) {a column is a vector};
+  \node[note, font=\sffamily] at (5.6,-2.6) {first three rows of the placement data (toy project Note)};
+\end{tikzpicture}
+\end{document}

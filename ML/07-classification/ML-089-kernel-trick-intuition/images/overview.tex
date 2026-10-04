@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.7cm]
+  \node[box=cred, text width=3.6cm] (a) {data in a \textbf{lower} dimension\\ not linearly separable};
+  \node[box=corange, text width=3.4cm, right=of a] (b) {\textbf{feature map} $\phi$\\ e.g.\ $x \mapsto (x, x^2)$};
+  \node[box=cgreen, text width=3.6cm, right=of b] (c) {data in a \textbf{higher} dimension\\ linearly separable};
+  \node[box=cblue, text width=3.4cm, right=of c] (d) {SVM finds a\\ \textbf{linear} boundary there};
+  \draw[arrow] (a) -- (b); \draw[arrow] (b) -- (c); \draw[arrow] (c) -- (d);
+  \draw[decorate, decoration={brace, amplitude=7pt, mirror}, line width=1pt, cgrey]
+    ($(a.south west)+(0,-0.2)$) -- ($(c.south east)+(0,-0.2)$) node[midway, below=9pt, note] {lift to a higher dimension; the kernel does it without building the new axes};
+  \node[note, below=0.25cm of d, text width=3.4cm] {a curve back in\\ the original space};
+\end{tikzpicture}
+\end{document}

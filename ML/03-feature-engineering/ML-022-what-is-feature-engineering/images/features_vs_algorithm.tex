@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cgreen, text width=3.6cm] (a1) at (0,0) {excellent\\features};
+  \node[font=\sffamily\Huge] at (2.65,0) {+};
+  \node[box=cgrey, text width=3.0cm] (b1) at (5.2,0) {simple\\algorithm};
+  \node[box=cgreen, text width=2.4cm] (c1) at (10.0,0) {\textbf{usually}\\\textbf{wins}};
+  \draw[arrow] (b1) -- (c1);
+  \node[box=cred, text width=3.6cm] (a2) at (0,-2.6) {poor\\features};
+  \node[font=\sffamily\Huge] at (2.65,-2.6) {+};
+  \node[box=cgrey, text width=3.0cm] (b2) at (5.2,-2.6) {powerful\\algorithm};
+  \node[box=cred, text width=2.4cm] (c2) at (10.0,-2.6) {usually\\loses};
+  \draw[arrow] (b2) -- (c2);
+  \node[note] at (5,-4.3) {the features limit what any model can learn};
+\end{tikzpicture}
+\end{document}

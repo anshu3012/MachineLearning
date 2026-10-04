@@ -1,0 +1,23 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \draw[cgrey, line width=1.2pt] (0,0) -- (14.4,0);
+  \foreach \y in {2012,...,2021} {
+    \pgfmathsetmacro{\x}{(\y-2012)*1.5}
+    \draw[cgrey] (\x,0.15) -- (\x,-0.15);
+    \node[below, font=\sffamily\large] at (\x,-0.2) {\y};
+  }
+  % messages 2012-01-01 to 2017-01-18
+  \fill[corange!35, draw=corange, rounded corners=3pt] (0,0.6) rectangle (7.57,1.4);
+  \node[font=\sffamily\bfseries\large] at (3.78,1.0) {messages};
+  % orders 2018-07-10 to 2019-12-16
+  \fill[cblue!35, draw=cblue, rounded corners=3pt] (9.78,0.6) rectangle (11.96,1.4);
+  \node[font=\sffamily\bfseries\large, anchor=south] at (10.87,1.5) {orders};
+  % today 2021-04-21
+  \draw[cred, line width=2pt] (13.95,-0.4) -- (13.95,1.9);
+  \node[text=cred, font=\sffamily\bfseries\large, anchor=south] at (13.95,1.95) {today};
+  \node[note] at (6.9,-1.5) {1,000 rows each; ``today'' is fixed at 2021-04-21 for Sections 6 and 8};
+\end{tikzpicture}
+\end{document}

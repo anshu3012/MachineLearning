@@ -1,0 +1,21 @@
+% 10 GB of data, 8 GB of RAM: out-of-core training (one machine, chunk after chunk) versus distributed training (5 nodes at once).
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[ch/.style={box=cblue, minimum width=1.5cm, minimum height=0.9cm, font=\sffamily\small},
+  nd/.style={box=cgreen, minimum width=1.9cm, font=\sffamily\small}]
+  \node[title] at (3.6,2.2) {(a) out-of-core: one machine, 8 GB RAM};
+  \foreach \i in {1,...,5} {\node[ch] (c\i) at (1.8*\i-1.8,0.9) {chunk \i\\2 GB};}
+  \node[nd, minimum width=3.4cm] (m) at (3.6,-1.0) {one machine trains\\chunk 1, then 2, \dots, 5};
+  \foreach \i in {1,...,5} {\draw[arrow] (c\i.south) -- (m.north);}
+  \node[note] at (3.6,-2.2) {the whole 10 GB never sits in RAM at once};
+  \node[title] at (3.6,-3.4) {(b) distributed: 5 nodes at once};
+  \foreach \i in {1,...,5} {
+    \node[ch] (d\i) at (1.8*\i-1.8,-4.7) {chunk \i};
+    \node[nd, minimum width=1.5cm] (n\i) at (1.8*\i-1.8,-6.2) {node \i};
+    \draw[arrow] (d\i) -- (n\i);
+  }
+  \node[box=cred, minimum width=5.4cm] (ms) at (3.6,-8.0) {master node: combine the local\\split statistics, pick the best split};
+  \foreach \i in {1,...,5} {\draw[arrow] (n\i.south) -- (ms.north);}
+\end{tikzpicture}
+\end{document}

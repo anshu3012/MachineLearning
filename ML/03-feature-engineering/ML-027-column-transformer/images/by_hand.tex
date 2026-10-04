@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % step 1: four separate jobs, each giving its own array
+  \foreach \i/\c/\job/\arr/\sh/\w in {
+      0/cgrey/drop the other columns/X\_train\_age/80 $\times$ 1/1,
+      1/cpurple/SimpleImputer/X\_train\_fever/80 $\times$ 1/1,
+      2/corange/OneHotEncoder/X\_train\_gender\_city/80 $\times$ 4/4,
+      3/cblue/OrdinalEncoder/X\_train\_cough/80 $\times$ 1/1} {
+    \node[box=\c, fill=white, text width=3.7cm] (j\i) at (4.6*\i,0) {\job};
+    \node[box=\c, text width=3.7cm, below=0.8cm of j\i] (a\i) {\texttt{\arr}\\[-1pt]\small \sh};
+    \draw[arrow] (j\i) -- (a\i);
+    \draw[arrow] (a\i.south) -- ({6.9+0.9*(\i-1.5)},-4.1);
+  }
+  \node[box=cgreen, text width=7cm, anchor=north] (cat) at (6.9,-4.1) {\texttt{np.concatenate(..., axis=1)}};
+  \node[box=cgrey, fill=white, text width=7cm, below=0.8cm of cat] (out) {\texttt{\textbf{X\_train\_transformed}}: 80 $\times$ 7};
+  \draw[arrow] (cat) -- (out);
+  \node[note, text width=4.5cm, anchor=west] at (11.8,-5.6) {then repeat every\\step for the test set};
+\end{tikzpicture}
+\end{document}

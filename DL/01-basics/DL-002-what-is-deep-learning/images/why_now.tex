@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[f/.style={box=#1, minimum width=3.2cm, text width=3.0cm, minimum height=2.3cm}]
+  \node[box=cpurple, minimum width=4.2cm, minimum height=1.2cm] (dl) at (0,0) {\textbf{Deep learning}\\{\small since about 2012}};
+  \node[f=cblue]   (d) at (-6.4,2.7) {\textbf{Datasets}\\{\small smartphones, cheap internet; public labelled sets}};
+  \node[f=cgreen]  (h) at (-3.2,-2.9) {\textbf{Hardware}\\{\small GPUs, TPUs, FPGAs, NPUs}};
+  \node[f=corange] (fw) at (0,2.7) {\textbf{Frameworks}\\{\small TensorFlow, Keras, PyTorch}};
+  \node[f=cred]    (a) at (3.2,-2.9) {\textbf{Architectures}\\{\small ResNet, BERT, YOLO; transfer learning}};
+  \node[f=cgrey]   (c) at (6.4,2.7) {\textbf{Community}\\{\small researchers, engineers, teachers, Kaggle}};
+  \foreach \n in {d,h,fw,a,c} \draw[arrow] (\n) -- (dl);
+\end{tikzpicture}
+\end{document}

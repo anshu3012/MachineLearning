@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[scale=2.2, p/.style={circle, draw=#1, fill=#1!30, minimum size=0.55cm, inner sep=0pt}]
+  \draw[cgrey, -{Stealth}] (-0.3,0) -- (1.5,0) node[right, note] {input 1};
+  \draw[cgrey, -{Stealth}] (0,-0.3) -- (0,1.5) node[above, note] {input 2};
+  \node[p=cblue] at (0,0) {0}; \node[p=cblue] at (1,1) {0};
+  \node[p=corange] at (1,0) {1}; \node[p=corange] at (0,1) {1};
+  \node[note, below] at (0,-0.15) {(0, 0)}; \node[note, below] at (1,-0.15) {(1, 0)};
+  \node[note, left] at (-0.15,1) {(0, 1)}; \node[note, right] at (1.15,1) {(1, 1)};
+  \draw[cred, dashed] (-0.3,0.45) -- (1.45,0.75); \draw[cred, dashed] (0.4,-0.3) -- (0.75,1.45); \draw[cred, dashed] (-0.3,0.8) -- (0.8,-0.3);
+  \node[note, text=cred, text width=4.2cm, anchor=west] at (1.75,0.55) {every straight line leaves\\a blue point and an orange\\point on the same side};
+\end{tikzpicture}
+\end{document}

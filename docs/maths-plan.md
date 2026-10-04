@@ -2,7 +2,7 @@
 
 Source playlists (see `transcripts/maths_playlist.txt`):
 - "Maths for Machine Learning" (CampusX), sessions M01–M23.
-- "Machine Learning Mathematics" (CampusX), M24–M25. M25 is the same video as ML Video 11, so Note 11 covers it.
+- "Machine Learning Mathematics" (CampusX), M24–M25. M25 is the same video as ML Video 11, so Note ML-010 covers it.
 - Videos from 3Blue1Brown or StatQuest in CampusX's other maths playlists, when they teach a concept the CampusX sessions do not.
 
 ## Numbering

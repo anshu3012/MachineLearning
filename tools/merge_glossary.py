@@ -1,6 +1,6 @@
 """Add a Note's Key terms to glossary.md (terms already there are kept as they are).
 Every glossary row has a fixed ID (G-118) that Notes cite after a term; new terms take the next free number.
-Usage: python tools/merge_glossary.py 46-curse-of-dimensionality
+Usage: python tools/merge_glossary.py ML/05-dimensionality/ML-045-curse-of-dimensionality
        python tools/merge_glossary.py --id "learning rate"     prints the term's ID"""
 import fcntl
 import re
@@ -23,17 +23,16 @@ if sys.argv[1] == "--id":
     sys.exit()
 
 folder = sys.argv[1].rstrip("/")
-video = int(folder.split("-")[0])
-note = (root / folder / "note.md").read_text()
+name = Path(folder).name                            # ML-045-curse-of-dimensionality
+note = (root / folder / f"{name}.md").read_text()
 terms = note.split("Key terms")[-1]
 new = [r for r in re.findall(r"^\| (.+?) \| (.+?) \|$", terms, re.M) if r[0] not in ("Term", "---")]
-kind = "Note" if video < 200 else "Maths Note" if video < 1000 else "DL Note"
 nxt = max(ids.values(), default=0) + 1
 added = []
 for t, m in new:
     if t.lower() in ids or re.search(r"G-\d+", t + m[:12]):     # known term, or the row already cites its ID
         continue
-    added.append(f'| <span id="G-{nxt}">G-{nxt}</span> | {t} | {m.rstrip(".")}. | [{kind} {video}]({folder}/note.md) |')
+    added.append(f'| <span id="G-{nxt}">G-{nxt}</span> | {t} | {m.rstrip(".")}. | [Note {name[:6]}]({folder}/{name}.md) |')
     ids[t.lower()] = nxt
     nxt += 1
 rows = sorted(rows + added, key=lambda r: ROW.match(r).group(2).lower())

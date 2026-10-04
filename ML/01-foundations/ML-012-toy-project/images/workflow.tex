@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{step/.style={box=#1, minimum width=2.9cm, minimum height=1.35cm, font=\small}}
+  \foreach \i/\t/\c/\x/\y in {
+      1/{\textbf{Clean}\\data}/cblue/0/0, 2/{\textbf{Explore}\\(EDA)}/cblue/3.4/0, 3/{\textbf{Choose}\\features}/cblue/6.8/0,
+      4/{\textbf{Split}\\inputs X, output y}/cpurple/10.2/0,
+      5/{\textbf{Split}\\train / test}/cpurple/10.2/-2.2, 6/{\textbf{Scale}\\the inputs}/cpurple/6.8/-2.2,
+      7/{\textbf{Train}\\the model}/corange/3.4/-2.2, 8/{\textbf{Evaluate}\\accuracy}/corange/0/-2.2,
+      9/{\textbf{Deploy}\\as a website}/cgreen/0/-4.4}
+    \node[step=\c] (s\i) at (\x,\y) {\t};
+  \foreach \a/\b in {1/2, 2/3, 3/4, 4/5, 5/6, 6/7, 7/8, 8/9} \draw[arrow] (s\a) -- (s\b);
+  \node[note, anchor=west] at (1.8,-4.4) {(choosing between several algorithms, \emph{model selection}, comes later in the course)};
+\end{tikzpicture}
+\end{document}

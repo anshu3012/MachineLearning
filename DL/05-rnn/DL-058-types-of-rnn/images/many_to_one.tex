@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\input{shapes.tikzdefs}
+\begin{document}
+\begin{tikzpicture}
+\node[title] at (3.0,2.75) {many-to-one: sentiment analysis};
+\node[cell] (c0) at (0.0,0) {RNN};
+\node[inp] (x0) at (0.0,-1.5) {movie}; \draw[up] (x0) -- (c0);
+\node[cell] (c1) at (2.0,0) {RNN};
+\node[inp] (x1) at (2.0,-1.5) {was}; \draw[up] (x1) -- (c1);
+\draw[rec] (c0) -- (c1);
+\node[cell] (c2) at (4.0,0) {RNN};
+\node[inp] (x2) at (4.0,-1.5) {not}; \draw[up] (x2) -- (c2);
+\draw[rec] (c1) -- (c2);
+\node[cell] (c3) at (6.0,0) {RNN};
+\node[inp] (x3) at (6.0,-1.5) {good}; \draw[up] (x3) -- (c3);
+\node[outp] (y3) at (6.0,1.5) {$\hat{y}$ = 0}; \draw[up] (c3) -- (y3);
+\draw[rec] (c2) -- (c3);
+
+\end{tikzpicture}
+\end{document}

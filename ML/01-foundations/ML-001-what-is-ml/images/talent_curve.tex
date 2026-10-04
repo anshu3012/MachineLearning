@@ -1,0 +1,22 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % axes
+  \draw[arrow] (0,0) -- (11,0) node[below left=4pt and 0pt, note] {time};
+  \draw[arrow] (0,0) -- (0,5.6) node[above, note] {salary premium};
+  % rise-then-normalise curve (schematic)
+  \draw[corange, line width=2.4pt] (0.3,0.6) .. controls (2.6,0.8) and (3.6,4.6) .. (5.2,4.6)
+        .. controls (6.6,4.6) and (7.6,1.6) .. (10.6,1.5);
+  % phases
+  \node[note, align=center] at (5.0,1.6) {few experts,\\high demand};
+  \node[note, align=center] at (9.0,3.4) {many experts,\\salaries normalise};
+  % markers
+  \fill[cblue] (3.3,2.7) circle (5pt);
+  \node[box=cblue, anchor=east] at (3.0,4.4) {ML now};
+  \draw[cblue, line width=1.2pt] (3.0,4.2) -- (3.25,2.85);
+  \fill[cpurple] (9.4,1.53) circle (5pt);
+  \node[box=cpurple, anchor=south] at (9.4,-1.9) {Java today};
+  \draw[cpurple, line width=1.2pt] (9.4,-0.8) -- (9.4,1.38);
+\end{tikzpicture}
+\end{document}

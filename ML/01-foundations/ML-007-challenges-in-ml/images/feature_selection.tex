@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\usetikzlibrary{matrix}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{tbl/.style={matrix of nodes, column sep=-\pgflinewidth, row sep=-\pgflinewidth,
+           nodes={minimum width=1.9cm, minimum height=0.7cm, anchor=center, draw=cgrey!50, font=\small},
+           row 1/.style={nodes={font=\small\bfseries}}}}
+  \matrix (a) [tbl, column 4/.style={nodes={fill=cred!15}}, column 5/.style={nodes={fill=corange!15}}]
+  { Weight & Height & Age & Location & Runs? \\ 62 kg & 1.70 m & 28 & Noida & Yes \\ 95 kg & 1.65 m & 45 & Chennai & No \\ 70 kg & 1.82 m & 33 & Pune & Yes \\ };
+  \matrix (b) [tbl, right=2.6cm of a, column 1/.style={nodes={fill=cgreen!25}}, column 3/.style={nodes={fill=corange!15}}]
+  { BMI & Age & Runs? \\ 21.5 & 28 & Yes \\ 34.9 & 45 & No \\ 21.1 & 33 & Yes \\ };
+  \draw[arrow] (a.east) -- (b.west);
+  \node[note, text=cred, below=0.25cm of a-4-4] {says nothing about fitness: drop it};
+  \node[note, text=cgreen, align=center, below=0.25cm of b-4-1] {weight + height\\combined into one};
+\end{tikzpicture}
+\end{document}

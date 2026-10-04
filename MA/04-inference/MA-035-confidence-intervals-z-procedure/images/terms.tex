@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+% Section 2: population and sample, parameter and statistic, on the running example.
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, minimum width=5.4cm, minimum height=3.2cm, text width=5cm] (pop) {\textbf{Population}\\all 77,000 subscribers\\[4pt]
+    \textbf{parameters} (unknown)\\mean age $\mu$, std $\sigma$};
+  \node[box=corange, minimum width=5.4cm, minimum height=3.2cm, text width=5cm, right=4.2cm of pop] (smp) {\textbf{Sample}\\100 subscribers in the chat\\[4pt]
+    \textbf{statistics} (computed)\\$\bar{x} = 28$ years, $s$};
+  \draw[arrow] ([yshift=0.6cm]pop.east) -- node[above, font=\sffamily] {random sample} ([yshift=0.6cm]smp.west);
+  \draw[arrow, draw=cgreen] ([yshift=-0.6cm]smp.west) -- node[below, font=\sffamily, text=cgreen, align=center]
+    {inference: estimate $\mu$\\from $\bar{x}$ (point estimate)} ([yshift=-0.6cm]pop.east);
+  \node[note, below=0.4cm of smp] {CLT: $\bar{x}$ is roughly normal around $\mu$, spread $\sigma/\sqrt{n}$};
+\end{tikzpicture}
+\end{document}

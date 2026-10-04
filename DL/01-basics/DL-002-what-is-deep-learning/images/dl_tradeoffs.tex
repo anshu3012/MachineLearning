@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large},
+  bad/.style={box=cred, text width=5.0cm, minimum height=0.9cm, inner sep=5pt},
+  good/.style={box=cgreen, text width=5.0cm, minimum height=0.9cm, inner sep=5pt}]
+  \node[font=\sffamily\bfseries\Large, text=cred] at (0,0.9) {DL costs more};
+  \node[font=\sffamily\bfseries\Large, text=cgreen] at (6.2,0.9) {DL gives more};
+  \node[bad] at (0,-0.4) {\textbf{4.1} much more data};
+  \node[bad] at (0,-1.6) {\textbf{4.2} a GPU, not a CPU};
+  \node[bad] at (0,-2.8) {\textbf{4.3} slow training};
+  \node[bad] at (0,-4.0) {\textbf{4.5} a black box};
+  \node[good] at (6.2,-0.4) {\textbf{4.3} fast prediction};
+  \node[good] at (6.2,-1.6) {\textbf{4.4} learns its own features};
+  \draw[cgrey, line width=1.4pt, dashed] (3.1,1.3) -- (3.1,-4.6);
+  \node[box=cgrey, text width=11cm] at (3.1,-5.6) {\textbf{4.6} pick ML or DL to fit the problem};
+\end{tikzpicture}
+\end{document}

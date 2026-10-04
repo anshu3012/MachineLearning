@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=cgrey, text width=3.2cm] (u) at (0,0) {\textbf{Our browser}\\nothing to install};
+  \begin{scope}[on background layer]
+    \fill[cblue!6, draw=cblue, rounded corners=6pt] (3.3,2.3) rectangle (17.0,-2.3);
+  \end{scope}
+  \node[font=\sffamily\bfseries\large, text=cblue, anchor=north west] at (3.5,2.2) {Kaggle's server};
+  \node[box=cgreen, text width=3.4cm] (i) at (5.6,-0.3) {\texttt{/kaggle/input}\\attached\\datasets};
+  \node[box=cpurple, text width=2.6cm] (n) at (10.2,-0.3) {\textbf{Notebook}\\cells run here};
+  \node[box=corange, text width=3.6cm] (o) at (14.8,-0.3) {\texttt{/kaggle/working}\\Output panel};
+  \draw[arrow] (u) -- (3.3,0);
+  \draw[arrow] (i) -- node[above] {read} (n);
+  \draw[arrow] (n) -- node[above] {write} (o);
+  \node[note] at (10.2,-3.0) {New Notebook on a dataset attaches it; Add Input uploads our own};
+\end{tikzpicture}
+\end{document}

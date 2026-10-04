@@ -1,7 +1,7 @@
 """GPT-2 small (124M) in plain NumPy: weights, tokenizer and a forward pass that keeps every intermediate.
 
 No torch / transformers. Weights come from Hugging Face `openai-community/gpt2/model.safetensors` by HTTP byte
-ranges (one request per tensor, the way the 1077 Notebook reads BERT), cached as .npy files in
+ranges (one request per tensor, the way the DL-078 Notebook reads BERT), cached as .npy files in
 ~/.cache/campusx/gpt2/ (override with $GPT2_CACHE). The first full load downloads about 500 MB; loading only the
 embedding table (`load_wte`) downloads about 155 MB.
 

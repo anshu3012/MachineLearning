@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[b/.style={box=#1, text width=4.6cm, font=\sffamily\small}]
+  \node[box=cgrey, text width=12.6cm, minimum height=7.6cm] (study) at (0,0) {};
+  \node[title, anchor=north west] at (study.north west) {\ Study\normalfont\small\ \ one data set, one goal: maximise accuracy};
+  \node[b=cpurple] (s) at (-3.3,1.2) {\textbf{Sampler} (TPE)\\[-1pt]looks at all past trials and\\suggests the next values};
+  \node[b=cblue] (t) at (3.3,1.2) {\textbf{Trial} $k$\\[-1pt]\texttt{n\_estimators} = 115\\\texttt{max\_depth} = 18};
+  \node[b=cgreen] (o) at (3.3,-1.9) {\textbf{Objective function}\\[-1pt]train the model with these\\values, return CV accuracy};
+  \node[b=corange] (h) at (-3.3,-1.9) {\textbf{History}\\[-1pt]trial 0: 0.77\quad trial 1: 0.74\\ \ldots\quad trial $k$: 0.78};
+  \draw[arrow] (s) -- node[above, note] {suggest} (t);
+  \draw[arrow] (t) -- node[right, note] {run} (o);
+  \draw[arrow] (o) -- node[below, note] {score} (h);
+  \draw[arrow] (h) -- node[left, note] {learn} (s);
+  \node[box=cred, font=\sffamily\small] (best) at (0,-5.3) {after \texttt{n\_trials}: \texttt{study.best\_trial}, its value and params};
+  \draw[arrow] (study.south) -- (best);
+\end{tikzpicture}
+\end{document}

@@ -36,7 +36,7 @@ Each Note block below has:
 
 - **57 of the 69 Notes now have a StatQuest, Khan or 3Blue1Brown source.**
 - **12 do not:**
-  - **Textbook core, no video** (8): 243 KDE, 253 PDF/CDF in practice, 262 Pareto, 610 SVD geometry, 611 computing the SVD, 612 low-rank approximation, 640 GMM, 641 EM. Notes 610 and 611 have supporting videos for their pieces, but none teaches the SVD itself.
+  - **Textbook core, no video** (8): 243 KDE, 253 PDF/CDF in practice, 262 Pareto, 610 SVD geometry, 611 computing the SVD, 612 low-rank approximation, 640 GMM, 641 EM. Notes MA-057 and MA-058 have supporting videos for their pieces, but none teaches the SVD itself.
   - **CampusX only** (3): 440 role of maths, 580 learning maths for ML (3Blue1Brown preview only), 210 roadmap (no source needed).
   - **Partly textbook** (1): 260 is half video-sourced (Q-Q plots) and half textbook (kurtosis, Westfall 2014).
 - Textbook sections still used for parts of video-sourced Notes are listed in each block (for example MML §5.8 for higher-order Taylor tensors, Boyd & Vandenberghe ch. 5 for KKT and duality).
@@ -192,7 +192,7 @@ In every case below, the Note is right or the difference is only a convention. N
   - fHLhBnmwUM0 00:30 — labels box, whiskers, median line; "50% of data inside the box"; 01:31 outliers as dots beyond whiskers; overlay raw points on the box (sample size visible); 02:03 box plot vs bar plot of same data.
 - **What the video adds:** the "lines that cut the dots into equal groups" picture (IFKQLDmRK0Y 01:02–03:05); overlaying raw data on a box plot (fHLhBnmwUM0 01:31).
 - **Animation ideas:** Manim: 15 dots on a line; vertical lines drop in one at a time (median, then Q1/Q3), each region coloured with its count (IFKQLDmRK0Y@01:02); then the box rises out of the Q1–Q3 region and whiskers extend (09Cx7xuIXig whole).
-- **Textbook-only parts:** 1.5 IQR fences and the "why 1.5" derivation — not in these videos; keep Note 43 / current sources (Tukey's rule).
+- **Textbook-only parts:** 1.5 IQR fences and the "why 1.5" derivation — not in these videos; keep Note ML-042 / current sources (Tukey's rule).
 - **Contradictions:** convention difference, not an error. Khan (09Cx7xuIXig) excludes the median when splitting halves and draws whiskers to the min/max (1 and 22); the Note uses the (n+1)/linear percentile rules and 1.5 IQR fences (Tukey's box plot). Both are valid conventions; the Note's 1.5 IQR version matches seaborn/matplotlib defaults. The Note should say "some textbooks draw whiskers to min/max" so a learner watching Khan is not confused.
 
 ### 231 Covariance and correlation
@@ -375,11 +375,11 @@ In every case below, the Note is right or the difference is only a convention. N
     5. 10:27 — 4 of 7: 0.273. 11:30 binomial test p-value: add equally-or-less likely outcomes: 0.273 + 0.164 + 0.055 + 0.008 = 0.5 for orange side, same for grape → p = 1 → can't reject "equally loved".
     6. 14:34 — Condition: one person's answer must not change the next person's probability (independence).
   - Khan NF0lrkqXIkQ: X = heads in 5 fair flips; bars 1/32, 5/32, 10/32, 10/32, 5/32, 1/32 drawn by hand; 06:11 with 5 million flips the bars narrow and the hump approaches a bell curve.
-  - 3b1b 8idr1WZ1A7Q: seller with true success rate 0.95; 03:42 simulate batches of 10 reviews (≈60% give 10/10); 06:21 simulate 50-review batches → 26.1% give 48/50; 06:52 exact formula C(50,48) = 1225 × 0.95^48 × 0.05² = 0.261 matches simulation; 08:58 slider on s: the binomial pile slides, highlighted 48th bar's height traced in a lower plot (peaks at s = 0.96) — preview of likelihood (Notes 630+).
+  - 3b1b 8idr1WZ1A7Q: seller with true success rate 0.95; 03:42 simulate batches of 10 reviews (≈60% give 10/10); 06:21 simulate 50-review batches → 26.1% give 48/50; 06:52 exact formula C(50,48) = 1225 × 0.95^48 × 0.05² = 0.261 matches simulation; 08:58 slider on s: the binomial pile slides, highlighted 48th bar's height traced in a lower plot (peaks at s = 0.96) — preview of likelihood (Notes MA-069+).
 - **What the video adds:** "count the orders by hand, then show the formula is just that count" (StatQuest 04:13–08:54); simulation-matches-formula (3b1b 06:21–07:56); the binomial-test p-value worked to the end (StatQuest 11:30–14:02).
 - **Animation ideas:** Manim: three Fanta cups O-O-G permute into 3 rows, each row labelled 0.125, sum 0.375; then formula pieces light up over the matching parts (J8jNoF-K8E8@04:13–08:54). Plotly: slider on s with the binomial(50, s) bars and the 48-bar highlighted, lower panel tracing P(48 | s) (8idr1WZ1A7Q@08:58).
 - **Textbook-only parts:** none beyond current.
-- **Contradictions:** Khan NF0lrkqXIkQ 07:45 says the normal arises from "the product of an almost infinite number of random processes"; it is the SUM of many independent pieces that tends to normal (CLT; Feller Vol. II §VIII.4; 3b1b zeJD6dqJ5lo 04:45). Products tend to log-normal (Note 261). The Note does not repeat Khan's slip.
+- **Contradictions:** Khan NF0lrkqXIkQ 07:45 says the normal arises from "the product of an almost infinite number of random processes"; it is the SUM of many independent pieces that tends to normal (CLT; Feller Vol. II §VIII.4; 3b1b zeJD6dqJ5lo 04:45). Products tend to log-normal (Note MA-029). The Note does not repeat Khan's slip.
 
 ### 271 Sampling distribution and the CLT
 - **Sources:** `StatQuest — "The Central Limit Theorem, Clearly Explained!!!" (YAlJCEDH2uY, 7:35)` → §4 CLT (01:01–05:09), §7 why it matters (05:09–06:12), §4.1 conditions (06:12–07:12). `Khan Academy — "Sampling distribution of the sample mean" (FXZ2O1Lv-KE, 10:52)` → §3 sampling distributions (01:00–02:31), §5 simulation (03:01–10:40). `3Blue1Brown — "But what is the Central Limit Theorem?" (zeJD6dqJ5lo, 31:15)` → §4 (03:45–05:15), §6 mean nμ, SD √n σ (11:03–15:12), §4.1 assumptions (28:15–30:18).
@@ -460,7 +460,7 @@ In every case below, the Note is right or the difference is only a convention. N
 - **What the video adds:** the 3-way capture-rate simulation (z+σ / z+s / t+s) showing z+s undercovers (gLE6y_NwmhQ 01:30–03:00) — direct evidence for the Note's §7.
 - **Animation ideas:** Plotly: three panels of 100 intervals each (z+σ, z+s, t+s) from the same samples, n = 12, with running capture % 95 / 92 / 95 (gLE6y_NwmhQ@01:30). Manim: normal vs t(df) overlay, df slider 1 → 30, tails thin toward the normal (hV4pdjHCKuA@01:03, own animation).
 - **Textbook-only parts:** §5 why s/√n gives a t (Student 1908, Gosset) and degrees of freedom derivation — no priority video; keep current sources.
-- **Contradictions:** hV4pdjHCKuA 11:08 ends with "there's a 95% chance that the true population mean will fall in this interval" — same Misreading 1 as above; Note 281 is right (frequentist; Wasserman §6.3.2).
+- **Contradictions:** hV4pdjHCKuA 11:08 ends with "there's a 95% chance that the true population mean will fall in this interval" — same Misreading 1 as above; Note MA-036 is right (frequentist; Wasserman §6.3.2).
 
 ### 290 Null and alternative hypotheses
 - **Sources:** `StatQuest — "Hypothesis Testing and The Null Hypothesis, Clearly Explained!!!" (0oc49DyA3hU, 14:41)` → §2 the problem (00:31–04:40), §3 null hypothesis (08:48–12:57), §5.3 fail to reject ≠ prove (05:11–08:48). `StatQuest — "Alternative Hypotheses: Main Ideas!!!" (5koKb5B_YWo, 9:50)` → §4 alternative (02:05–08:46).
@@ -477,10 +477,10 @@ In every case below, the Note is right or the difference is only a convention. N
     2. 03:05 — Hand-wavy picture: distances of all points to ONE overall mean (null) vs to TWO group means (alternative); two-mean distances much shorter → reject (04:08); about the same → fail to reject.
     3. 05:09 — With 3 groups, alternatives differ ("all different" vs "C = D ≠ E") and can change the decision → state the alternative clearly.
     4. 07:13 — Even after rejecting, we don't "accept" the alternative — other alternatives may fit better.
-- **What the video adds:** reject vs fail-to-reject built from repeated experiments before any formula (0oc49DyA3hU 02:36–08:17); why the null is "no difference" (there are too many specific hypotheses, 08:48–09:48); one-mean vs two-means distance picture (5koKb5B_YWo 03:05–04:38) — a visual bridge to ANOVA (Note 572).
+- **What the video adds:** reject vs fail-to-reject built from repeated experiments before any formula (0oc49DyA3hU 02:36–08:17); why the null is "no difference" (there are too many specific hypotheses, 08:48–09:48); one-mean vs two-means distance picture (5koKb5B_YWo 03:05–04:38) — a visual bridge to ANOVA (Note MA-046).
 - **Animation ideas:** Manim: two groups of dots; draw residual lines to the pooled mean, then morph them to residuals around two group means; bars of total squared length shrink a lot (reject) or barely (fail) (5koKb5B_YWo@03:05).
 - **Textbook-only parts:** §6 the eight steps — CampusX-specific procedure; no video. Keep current sources.
-- **Contradictions:** none of substance. StatQuest (07:13) says we never "accept" H₁ because with 3+ groups many alternatives exist; the Note (§5.2) says "we reject H₀, and H₁ is what remains". For the two-hypothesis case the Note's wording is standard (Casella & Berger §8.1); for multi-group tests StatQuest's caution applies — worth one sentence in Note 572.
+- **Contradictions:** none of substance. StatQuest (07:13) says we never "accept" H₁ because with 3+ groups many alternatives exist; the Note (§5.2) says "we reject H₀, and H₁ is what remains". For the two-hypothesis case the Note's wording is standard (Casella & Berger §8.1); for multi-group tests StatQuest's caution applies — worth one sentence in Note MA-046.
 
 ### 291 Rejection region and the z-test
 - **Sources:** `Khan Academy — "Hypothesis testing and p-values" (-FtlH4svqx4, 11:27)` → full z-test worked example (00:00–10:56). `Khan Academy — "One-tailed and two-tailed tests" (mvye6X_0upA, 6:34)` → one-tailed vs two-tailed regions (00:31–06:28).
@@ -495,7 +495,7 @@ In every case below, the Note is right or the difference is only a convention. N
 - **What the video adds:** a complete one-sample z-test with the empirical rule instead of a table (−FtlH4svqx4 05:48–09:26); same data run as two-tailed then one-tailed (mvye6X_0upA).
 - **Animation ideas:** Manim: bell at μ₀ = 1.2 with SD 0.05; dot at 1.05 slides to z = −3; both tails shade red (0.3%), then one tail fades (0.15%) when H₁ switches to "<" (−FtlH4svqx4@07:22, mvye6X_0upA@03:18).
 - **Textbook-only parts:** the rejection-region (critical value) framing — Khan goes straight to p-values; keep current sources for z_α tables.
-- **Contradictions:** minor slip in mvye6X_0upA 05:25: says "0.13%" then "0.15% / 0.0015" for one tail beyond −3. Exact value is Φ(−3) = 0.00135 (any z-table). Khan also uses s in place of σ and still calls it a z-test (fine for n = 100, but the Note's z-test assumes known σ; the t-test is the exact procedure, Note 301).
+- **Contradictions:** minor slip in mvye6X_0upA 05:25: says "0.13%" then "0.15% / 0.0015" for one tail beyond −3. Exact value is Φ(−3) = 0.00135 (any z-table). Khan also uses s in place of σ and still calls it a z-test (fine for n = 100, but the Note's z-test assumes known σ; the t-test is the exact procedure, Note MA-042).
 
 ### 292 Errors, power and tails
 - **Sources:** `Khan Academy — "Introduction to Type I and Type II errors" (Hdbbx7DIweQ, 5:03)` → §2 the 2×2 error table (02:34–04:39). `StatQuest — "Statistical Power, Clearly Explained!!!" (Rsc5znwR5FA, 8:19)` → §3 power (00:31–07:16). `Khan Academy — "Introduction to power in significance tests" (6_Cuz0QqRWc, 9:45)` → §3–4 what raises power (02:03–09:13). `StatQuest — "StatQuest: One or Two Tailed P-Values" (bsZGt-caXO4, 7:06)` → §5 tails and choosing after looking (02:36–06:12).
@@ -556,13 +556,13 @@ In every case below, the Note is right or the difference is only a convention. N
 ### 330 Events and types of events
 - **Sources** (priority order):
   - `Khan Academy — "Probability explained | Independent and dependent events | Probability and Statistics | Khan Academy" (uzkc-qNVoOk, 8:18)` → Note §2 five terms (00:31–03:07 experiment, equally likely outcomes), §4 mutually exclusive and impossible event (06:47–07:23), compound event "even number" (07:23–08:18)
-  - `Khan Academy — "Addition rule for probability | Probability and Statistics | Khan Academy" (QE2uR6Z-NcU, 10:43)` → Note §4 mutually exclusive events (09:18–10:43); also feeds Note 331 §6 addition rule
+  - `Khan Academy — "Addition rule for probability | Probability and Statistics | Khan Academy" (QE2uR6Z-NcU, 10:43)` → Note §4 mutually exclusive events (09:18–10:43); also feeds Note MA-011 §6 addition rule
   - CampusX — "Master Probability in Data Science ... Part 1" (DUT4WEUngt0, 1:34:05) stays the base source (Hindi; no English captions; Whisper text in transcripts/M13.whisper-en.txt, no timestamps)
 - **Teaching path:**
   - uzkc-qNVoOk (the more beginner-friendly of the two for this Note; it starts from zero):
     1. 00:31 draws a fair coin (a quarter, heads side, tails side). Asks P(heads). Names the flip an "experiment" (03:07: "I know this isn't the kind of experiment you're used to").
     2. 01:33 first definition, in words before symbols: "number of equally likely possibilities that meet my conditions / number of equally likely possibilities". Coin: 1/2 = 50%.
-    3. 03:07 second view of the same number: run the experiment a million times, what share is heads. Suggests shaking 100–200 coins in a box and counting (04:12). This plants the empirical view used in Note 331.
+    3. 03:07 second view of the same number: run the experiment a million times, what share is heads. Suggests shaking 100–200 coins in a box and counting (04:12). This plants the empirical view used in Note MA-011.
     4. 04:43 die drawn with faces 1, 2, 3 visible. P(1) = 1/6; P(1 or 6) = 2/6 = 1/3 (06:16, first compound event).
     5. 06:47 trick question: P(2 and 3) on one roll = 0, then names this "mutually exclusive" (07:23) and crosses it out. The term arrives only after the impossible case is felt.
     6. 07:53 P(even) = 3/6 = 1/2: an event made of three outcomes.
@@ -695,7 +695,7 @@ In every case below, the Note is right or the difference is only a convention. N
   - 3b1b Bayes square: unit square split at P(H) = 1/21; shade 40% of left strip and 10% of right; zoom to the shaded union, show 4/24. Animate sliders for prior and likelihoods. Manim (or Plotly with sliders). Source HZGCoVF3YvM@08:53–09:55.
   - 14 dots in a 2×2 grid (candy × soda); conditioning dims everything outside the given row/column and shows the fraction. Manim. Source 9wCnvr7Xw4E@00:30–05:08.
 - **Textbook-only parts:** §5 independence in formulas has partial video cover (KA uzkc-qNVoOk); the Titanic one-feature classifier is the Note's own data. No textbook needed.
-- **Contradictions:** none. Note on wording only: 3b1b calls P(E|H) the "likelihood" (05:42); this matches Bayes usage in Note 630.
+- **Contradictions:** none. Note on wording only: 3b1b calls P(E|H) the "likelihood" (05:42); this matches Bayes usage in Note MA-069.
 
 ### 350 Linear algebra roadmap
 - **Sources** (priority order):
@@ -704,7 +704,7 @@ In every case below, the Note is right or the difference is only a convention. N
   - CampusX — "Linear Algebra Roadmap ..." (rIsCKVyh4dI, 15:48) stays the base source (Hindi; no English captions; Whisper text in transcripts/M15.whisper-en.txt, no timestamps)
 - **Teaching path:**
   - kjBOesZCoqc: 00:11 students can compute (matrix product, determinant, eigenvalues) without seeing why; 00:42 geometric vs numeric understanding; 01:42 analogy: learning sine only as an infinite polynomial, never as triangles, then facing physics; 03:14 most courses over-weight the numeric half, computers do that half now; 03:46 plan: short visual series. No worked numbers.
-  - ZTt9gsGcdDo (used in full under Note 510; here only 18:56–26:40): iris flower, petal and sepal width → weights → ReLU → second weights → species. Shows every step is "row times matrix, add bias".
+  - ZTt9gsGcdDo (used in full under Note MA-054; here only 18:56–26:40): iris flower, petal and sepal width → weights → ReLU → second weights → species. Shows every step is "row times matrix, add bias".
 - **What the video adds:** the "geometric half vs numeric half" framing for why the roadmap goes visual first; a concrete neural network that is only matrix maths.
 - **Animation ideas:** none needed for a roadmap Note beyond a module map.
 - **Textbook-only parts:** the least-squares remark (Trefethen & Bau Lecture 11) stays textbook.
@@ -1252,8 +1252,8 @@ Not available: 341-sq-conditional-probability (_IgyaD7vOOA; auto-captions are ga
 - **Sources:**
   - `Khan Academy — "Concavity introduction" (LcEqOzNov4E, 9:54)` → §4.2 in 1-D (02:38–09:26)
   - `Khan Academy — "Second derivative test" (-cW5hCsc9Yc, 6:12)` → §4.2 / §6.2 1-D (00:00–05:43)
-  - `Khan Academy — "Second partial derivative test intuition" (sJo7D74PAak)` and `"Saddle points" (8aAU4r_pUUU)` → §4.2 in 2-D (see Note 603)
-  - `CampusX — convex vs non-convex (TXVtbgaEyms)` → §3 chord test (see Note 590)
+  - `Khan Academy — "Second partial derivative test intuition" (sJo7D74PAak)` and `"Saddle points" (8aAU4r_pUUU)` → §4.2 in 2-D (see Note MA-064)
+  - `CampusX — convex vs non-convex (TXVtbgaEyms)` → §3 chord test (see Note MA-065)
   - Files: `transcripts/maths-video/621-*.txt`
 - **Teaching path:**
   1. **Curving up = slope increasing** (KA LcEqOzNov4E): 00:00 three stacked graphs: f (yellow), f′ (mauve), f″ (blue). 02:38 on the "upside-down U" part the slope goes very positive → less positive → 0 → negative, so f′ falls and f″ < 0; 04:43 on the "U" part f′ rises, f″ > 0. 05:49 names: concave down / concave up. 08:26 critical point + concave down → maximum; + concave up → minimum.

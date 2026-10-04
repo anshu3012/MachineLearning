@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large},
+  prob/.style={box=cred, text width=6.2cm, font=\sffamily\bfseries\large, minimum height=1.55cm},
+  chip/.style={box=cgreen, text width=6.2cm, minimum height=0.75cm, inner sep=4pt, align=left}]
+  \foreach \X/\Y/\p/\list in {
+     0/0/{1. Vanishing or exploding gradients}/{weight initialisation{\hfill}Note DL-029, activation functions{\hfill}Note DL-027, batch normalisation{\hfill}Note DL-031, gradient clipping{\hfill}Note DL-018},
+     7.6/0/{2. Not enough data}/{transfer learning{\hfill}section 3.1, unsupervised pre-training},
+     0/-6.5/{3. Slow training}/{optimizers{\hfill}Note DL-032, learning rate scheduler},
+     7.6/-6.5/{4. Overfitting}/{{L1, L2 penalties{\hfill}Note DL-026}, dropout{\hfill}Note DL-024, early stopping{\hfill}Note DL-022}} {
+    \node[prob] (h) at (\X,\Y) {\p};
+    \foreach \c [count=\k] in \list {
+      \node[chip] at (\X, \Y-0.45-1.05*\k) {\c};
+    }
+  }
+\end{tikzpicture}
+\end{document}

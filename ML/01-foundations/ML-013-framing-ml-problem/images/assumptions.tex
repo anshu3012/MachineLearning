@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\sffamily\large}]
+\tikzset{note/.style={font=\sffamily\large, text=cgrey, align=center}}
+  \node[box=corange, text width=4.6cm] (a1) at (0,0) {\textbf{Assumed}\\the columns exist};
+  \node[box=cgreen, text width=4.6cm] (c1) at (6.4,0) {\textbf{Check}\\ask data engineering};
+  \node[box=corange, text width=4.6cm] (a2) at (0,-2.6) {\textbf{Assumed}\\one model for\\every country};
+  \node[box=cgreen, text width=4.6cm] (c2) at (6.4,-2.6) {\textbf{Check}\\do US factors\\fit India?};
+  \draw[arrow] (a1) -- (c1); \draw[arrow] (a2) -- (c2);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[b/.style={box=cblue, minimum width=6.4cm}, g/.style={box=cgrey, minimum width=6.4cm},
+  o/.style={box=corange, minimum width=6.4cm}, r/.style={box=cred, minimum width=4.6cm}]
+  \node[g] (a) at (0,0) {objective = loss + $\Omega$(new tree)};
+  \node[g] (b) at (0,-1.7) {Taylor: second-order approximation\\with gradients $g_i$ and Hessians $h_i$};
+  \node[g] (c) at (0,-3.6) {regroup the rows by leaf: $G_j$, $H_j$};
+  \node[o] (d) at (0,-5.3) {set the derivative to 0};
+  \node[r] (w) at (-3.6,-7.4) {leaf output\\$w_j = -\dfrac{G_j}{H_j + \lambda}$};
+  \node[r] (s) at (3.6,-7.4) {similarity score\\$\dfrac{G_j^2}{H_j + \lambda}$, and the gain};
+  \draw[arrow] (a) -- (b); \draw[arrow] (b) -- (c); \draw[arrow] (c) -- (d);
+  \draw[arrow] (d) -- (w); \draw[arrow] (d) -- (s); \node[note] at (3.6,-6.0) {put $w_j$ back in};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[part/.style={box=#1, minimum width=3.3cm, minimum height=2.5cm, text width=3.0cm}]
+  \node[part=cblue]   (ann) at (0,0)    {\textbf{ANN}\\[2pt]{\small perceptron, MLP,\\training, improving,\\optimisers}};
+  \node[part=cgreen]  (cnn) at (4.4,0)  {\textbf{CNN}\\[2pt]{\small convolution,\\pooling, pretrained\\models}};
+  \node[part=corange] (rnn) at (8.8,0)  {\textbf{RNN}\\[2pt]{\small sequences,\\LSTM, GRU}};
+  \node[part=cpurple] (trf) at (13.2,0) {\textbf{Transformer}\\[2pt]{\small attention,\\self-attention,\\encoder, decoder}};
+  \draw[arrow] (ann) -- (cnn); \draw[arrow] (cnn) -- (rnn); \draw[arrow] (rnn) -- (trf);
+  \node[note, below=0.25cm of ann] {tables of numbers};
+  \node[note, below=0.25cm of cnn] {images};
+  \node[note, below=0.25cm of rnn] {text, speech,\\time series};
+  \node[note, below=0.25cm of trf] {text (language\\models)};
+  \node[box=cgrey, text width=16.4cm, minimum height=1.0cm] (pre) at (6.6,-3.4)
+    {\textbf{Before we start:}\enspace Python\enspace$\cdot$\enspace ML basics\enspace$\cdot$\enspace vectors, matrices, dot product\enspace$\cdot$\enspace derivatives};
+\end{tikzpicture}
+\end{document}

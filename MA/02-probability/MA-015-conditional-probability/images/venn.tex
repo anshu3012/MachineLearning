@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \draw[thick, rounded corners] (-3.2,-2) rectangle (3.2,2);
+  \node[note, anchor=north west] at (-3.1,1.95) {all outcomes};
+  \begin{scope}
+    \clip (-0.7,0) circle (1.4);
+    \fill[cred!35] (0.7,0) circle (1.4);
+  \end{scope}
+  \draw[thick, cblue] (-0.7,0) circle (1.4) node[left=0.45cm] {\large $A$};
+  \draw[thick, corange, fill=corange!12, fill opacity=0.5] (0.7,0) circle (1.4);
+  \node[text=corange] at (1.6,0) {\large $B$};
+  \node at (0,0) {$A \cap B$};
+  \node[align=left, right] at (3.6,0) {$P(A \mid B) = \dfrac{P(A \cap B)}{P(B)}$\\[10pt]
+     \small once $B$ is known to have happened,\\ \small $B$ becomes the whole world:\\ \small what share of $B$ is also $A$?};
+\end{tikzpicture}
+\end{document}

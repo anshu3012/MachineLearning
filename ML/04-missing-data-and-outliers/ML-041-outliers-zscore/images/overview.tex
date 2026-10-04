@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, text width=3.6cm] (col) at (0,0) {\textbf{numeric column}\\[-1pt]\small plot its distribution};
+  \node[box=corange, text width=3.4cm] (q) at (4.8,0) {\textbf{roughly normal?}\\[-1pt]\small bell-shaped};
+  \draw[arrow] (col) -- (q);
+  \node[box=cgrey, fill=white, text width=3.4cm] (iqr) at (4.8,-2.6) {\textbf{skewed}\\[-1pt]\small use the IQR rule\\ \textit{Note ML-042}};
+  \draw[arrow] (q) -- node[right, note] {no} (iqr);
+  \node[box=cpurple, text width=4.4cm] (lim) at (10.8,0) {\textbf{detect}\\[-1pt]\small lower $= \mu - 3\sigma$\\ upper $= \mu + 3\sigma$\\ same as $|z| > 3$};
+  \draw[arrow] (q) -- node[above, note] {yes} (lim);
+  \node[box=cred, text width=3.2cm, minimum height=1.6cm] (trim) at (8.9,-3.2) {\textbf{trimming}\\[-1pt]\small remove the rows};
+  \node[box=cgreen, text width=3.2cm, minimum height=1.6cm] (cap) at (12.7,-3.2) {\textbf{capping}\\[-1pt]\small move values\\ onto the limit};
+  \draw[arrow] (lim) -- (trim); \draw[arrow] (lim) -- (cap);
+\end{tikzpicture}
+\end{document}

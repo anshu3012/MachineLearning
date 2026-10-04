@@ -1,0 +1,28 @@
+# Transformers
+
+DL chapter 06. Notes in reading order:
+
+- [DL-067 From Encoder–Decoder to ChatGPT: A History of Large Language Models](DL-067-history-of-llms/DL-067-history-of-llms.md)
+- [DL-068 The Encoder–Decoder Architecture](DL-068-encoder-decoder/DL-068-encoder-decoder.md)
+- [DL-069 The Attention Mechanism](DL-069-attention-mechanism/DL-069-attention-mechanism.md)
+- [DL-070 Bahdanau Attention and Luong Attention](DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md)
+- [DL-071 Introduction to Transformers](DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)
+- [DL-072 Meaning as Direction in Embedding Space](DL-072-meaning-as-direction/DL-072-meaning-as-direction.md)
+- [DL-073 What Is Self-Attention](DL-073-what-is-self-attention/DL-073-what-is-self-attention.md)
+- [DL-074 Self-Attention Step by Step](DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md)
+- [DL-075 Scaled Dot-Product Attention: Why Divide by the Square Root of d_k](DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md)
+- [DL-076 Self-Attention, Geometrically](DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md)
+- [DL-077 Why Self-Attention Is Called \"Self\"](DL-077-why-self-attention/DL-077-why-self-attention.md)
+- [DL-078 Multi-Head Attention](DL-078-multi-head-attention/DL-078-multi-head-attention.md)
+- [DL-079 Positional Encoding](DL-079-positional-encoding/DL-079-positional-encoding.md)
+- [DL-080 Layer Normalisation](DL-080-layer-normalization/DL-080-layer-normalization.md)
+- [DL-081 The Transformer Encoder](DL-081-transformer-encoder/DL-081-transformer-encoder.md)
+- [DL-082 Masked Self-Attention](DL-082-masked-self-attention/DL-082-masked-self-attention.md)
+- [DL-083 Cross-Attention](DL-083-cross-attention/DL-083-cross-attention.md)
+- [DL-084 The Transformer Decoder](DL-084-transformer-decoder/DL-084-transformer-decoder.md)
+- [DL-085 Transformer Inference](DL-085-transformer-inference/DL-085-transformer-inference.md)
+- [DL-086 The Transformer, End to End](DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md)
+- [DL-087 GPT: the Decoder-Only Transformer](DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md)
+- [DL-088 From the Last Vector to a Token: Unembedding, Logits and Sampling](DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md)
+- [DL-089 How the MLP Block Can Store a Fact](DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md)
+- [DL-090 Superposition: More Features than Dimensions](DL-090-superposition/DL-090-superposition.md)

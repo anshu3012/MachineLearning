@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1.1]
+  \draw[cgrey!30, line width=0.5pt] (-0.5,-0.5) grid (5.5,5.5);
+  \draw[arrow, cgrey] (-0.5,0) -- (5.7,0) node[right] {$x$};
+  \draw[arrow, cgrey] (0,-0.5) -- (0,5.7) node[above] {$y$};
+  \foreach \i in {1,...,5} { \node[below, font=\small, text=cgrey] at (\i,0) {\i}; \node[left, font=\small, text=cgrey] at (0,\i) {\i}; }
+  \draw[corange, dashed, line width=1.6pt] (0,0) -- (3,0) node[midway, below=9pt, font=\small\bfseries] {x-component: 3};
+  \draw[cgreen, dashed, line width=1.6pt] (3,0) -- (3,4) node[midway, right, font=\small\bfseries, align=left] {y-component: 4};
+  \draw[-{Stealth[length=4mm]}, cblue, line width=2.4pt] (0,0) -- (3,4);
+  \fill[cblue] (3,4) circle (3pt);
+  \node[above left, font=\bfseries, text=cblue] at (3,4) {$a = [3, 4]$};
+  \node[below left, font=\small, text=cgrey] at (0,0) {origin};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \shade[left color=cred!50, right color=cgreen!50, middle color=white] (0,-0.25) rectangle (12,0.25);
+  \draw[cgrey, line width=1pt] (0,-0.25) rectangle (12,0.25);
+  \foreach \x/\l in {0/$-1$, 6/0, 12/1} { \draw[cgrey] (\x,-0.4) -- (\x,0.4); \node[below=0.45cm, font=\bfseries] at (\x,0) {\l}; }
+  \node[font=\bfseries] at (6,2.9) {Cosine similarity $\cos\theta$};
+  % little arrow pairs
+  \begin{scope}[shift={(0,1.5)}]
+    \draw[-{Stealth}, cblue, line width=1.6pt] (0,0) -- (0.9,0); \draw[-{Stealth}, corange, line width=1.6pt] (0,0) -- (-0.9,0);
+  \end{scope}
+  \begin{scope}[shift={(6,1.2)}]
+    \draw[-{Stealth}, cblue, line width=1.6pt] (0,0) -- (0.9,0); \draw[-{Stealth}, corange, line width=1.6pt] (0,0) -- (0,0.9);
+  \end{scope}
+  \begin{scope}[shift={(11.4,1.4)}]
+    \draw[-{Stealth}, cblue, line width=1.6pt] (0,0) -- (0.9,0); \draw[-{Stealth}, corange, line width=1.6pt] (0,0.12) -- (0.75,0.12);
+  \end{scope}
+  \node[note, below=1.1cm] at (0,0) {$\theta = 180^\circ$\\ opposite};
+  \node[note, below=1.1cm] at (3,0) {$90^\circ < \theta < 180^\circ$\\ obtuse};
+  \node[note, below=1.1cm] at (6,0) {$\theta = 90^\circ$\\ orthogonal};
+  \node[note, below=1.1cm] at (9,0) {$0^\circ < \theta < 90^\circ$\\ acute};
+  \node[note, below=1.1cm] at (12,0) {$\theta = 0^\circ$\\ same direction};
+\end{tikzpicture}
+\end{document}
