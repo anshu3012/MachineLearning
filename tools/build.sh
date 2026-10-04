@@ -4,6 +4,7 @@ set -euo pipefail
 shopt -s nullglob
 export PATH=$HOME/.local/bin:$HOME/bin:$PATH        # TinyTeX
 export PYTHONNOUSERSITE=1                           # ignore packages in ~/.local
+export PYTHONPATH="$(cd "$(dirname "$0")" && pwd)${PYTHONPATH:+:$PYTHONPATH}"   # tools/sitecustomize.py: HTML twin of every Plotly PNG
 ENV=${CAMPUSX_ENV:-$(conda info --base)/envs/campusx}
 PY=$ENV/bin/python
 root=$(cd "$(dirname "$0")/.." && pwd)

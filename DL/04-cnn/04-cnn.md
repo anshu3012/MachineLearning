@@ -1,4 +1,4 @@
-# Cnn
+# Convolutional networks (CNN)
 
 DL chapter 04. Notes in reading order:
 

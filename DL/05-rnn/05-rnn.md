@@ -1,4 +1,4 @@
-# Rnn
+# Recurrent networks (RNN)
 
 DL chapter 05. Notes in reading order:
 

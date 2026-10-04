@@ -22,7 +22,7 @@ const explorer = Component.Explorer({ sortFn, mapFn, folderClickBehavior: "colla
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [Component.TagList()], // tags after the text, not between the title and the first line
   footer: Component.Footer({
     links: {
       "Source on GitHub": "https://github.com/anshu3012/MachineLearning",
@@ -39,7 +39,6 @@ export const defaultContentPageLayout: PageLayout = {
     }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
-    Component.TagList(),
   ],
   left: [
     Component.PageTitle(),
