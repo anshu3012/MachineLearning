@@ -507,8 +507,8 @@ A Note is easiest to read when the ideas it uses are already familiar. The Notes
 Figure 20 builds the reading order for the perceptron Note (Note DL-004) step by step:
 
 1. **Goal.** We want to read Note DL-004.
-2. **Round 1.** Its row in the table below lists Notes ML-070, MA-051 and MA-055: the perceptron trick in code, the equation of a hyperplane and the dot product.
-3. **Round 2.** Each of those three has its own row. Note ML-070 builds on Notes ML-006, ML-056, ML-060 and ML-069; Note MA-051 on Note MA-050; Note MA-055 on Note MA-048.
+2. **Round 1.** Its row in the table below lists Note ML-069, Note MA-050 and Note MA-051.
+3. **Round 2.** Each of those has its own row: Note ML-069 builds on Note ML-072, Note MA-067; Note MA-050 builds on Note MA-048; Note MA-051 builds on nothing new.
 4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
 
 Each row of the table lists a Note's Concepts and the Notes to read first, with at most the four most recent. A row comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3: when a Concept of the Note builds on another Concept, the latest earlier Note that teaches that other Concept is read first. Notes marked *coming* or *deferred* are not written yet.

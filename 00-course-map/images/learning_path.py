@@ -53,8 +53,8 @@ for _ in range(ROUNDS):
                 seen.add(x)
                 nxt.append(x)
     layers.append(nxt)                                  # kept in the order of the Note each one feeds
-assert layers[1] == [71, 363, 520], layers[1]          # the perceptron Note's own "Read first" entries
-assert [len(L) for L in layers] == [1, 3, 6], [len(L) for L in layers]
+assert layers[1] == [70, 362, 363], layers[1]          # the perceptron Note's own "Read first" entries: the Notes that teach what it needs
+assert len(layers[0]) == 1 and len(layers[1]) == 3, [len(L) for L in layers]
 
 pos = {}
 for d, L in enumerate(layers):

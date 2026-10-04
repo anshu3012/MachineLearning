@@ -303,7 +303,27 @@ def learning_path_rows():
     return rows
 
 
+
+def reading_rounds(target=1004):
+    """The rounds of the reading-order figure (same rule as 00-course-map/images/learning_path.py)."""
+    def read_first(v):
+        _, before, _, _ = neighbours(v)
+        return sorted(set(before.values()))[-4:]
+    r1 = read_first(target)
+    seen = {target, *r1}
+    r2 = []
+    for x in r1:
+        feeds = [y for y in read_first(x) if y not in seen]
+        seen.update(feeds)
+        r2.append((x, feeds))
+    r1_text = ", ".join(f"Note {label(v)}" for v in r1[:-1]) + f" and Note {label(r1[-1])}"
+    parts = []
+    for x, feeds in r2:
+        parts.append(f"Note {label(x)} builds on " + (", ".join(f"Note {label(y)}" for y in feeds) if feeds else "nothing new"))
+    return r1_text, "; ".join(parts)
+
 def course_map_note():
+    r1_text, r2_text = reading_rounds()
     out = ROOT / "00-course-map" / "images"
     out.mkdir(parents=True, exist_ok=True)
     (out / "pipeline_overview.tex").write_text(pipeline_overview())
@@ -396,8 +416,8 @@ A Note is easiest to read when the ideas it uses are already familiar. The Notes
 Figure {len(maps) + 2} builds the reading order for the perceptron Note (Note DL-004) step by step:
 
 1. **Goal.** We want to read Note DL-004.
-2. **Round 1.** Its row in the table below lists Notes ML-070, MA-051 and MA-055: the perceptron trick in code, the equation of a hyperplane and the dot product.
-3. **Round 2.** Each of those three has its own row. Note ML-070 builds on Notes ML-006, ML-056, ML-060 and ML-069; Note MA-051 on Note MA-050; Note MA-055 on Note MA-048.
+2. **Round 1.** Its row in the table below lists {r1_text}.
+3. **Round 2.** Each of those has its own row: {r2_text}.
 4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
 
 Each row of the table lists a Note's Concepts and the Notes to read first, with at most the four most recent. A row comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3: when a Concept of the Note builds on another Concept, the latest earlier Note that teaches that other Concept is read first. Notes marked *coming* or *deferred* are not written yet.
