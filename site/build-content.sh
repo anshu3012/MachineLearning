@@ -61,3 +61,5 @@ h1_to_frontmatter < "$repo/glossary.md" | fix_md "" > "$content/glossary.md"
 cp "$repo/site/quartz.config.ts" "$repo/site/quartz.layout.ts" "$quartz/"
 
 echo "content: $(find "$content" -name '*.md' | wc -l) pages, $(find "$content" -type f ! -name '*.md' | wc -l) images"
+
+# Site build trigger: edit this file to force a rebuild without changing a Note.
