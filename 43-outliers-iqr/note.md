@@ -14,7 +14,7 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/
 
 ## 1. Overview
 
-> **Key point:** For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\thinspace \text{IQR}$ and $Q_3 + 1.5\thinspace \text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
+> **Key point:** For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
 
 Note 41 listed three rules for detecting outliers, and Note 42 put the first one, the z-score method, to work on a normal feature. This Note covers the second rule: the **IQR method**, also called the **IQR proximity rule**. The IQR method is the rule to use when a **feature** (an input variable, one column of the data table) is skewed. Each **observation** is one record (one row), here one student.
 
@@ -42,7 +42,7 @@ $$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
 
 A mark below $-23.5$ or above 84.5 is an outlier. The plan for any skewed feature is therefore short: compute $Q_1$, $Q_3$ and the IQR, compute the two fences, and trim or cap every value outside them.
 
-> **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace \text{IQR}$ (or below $Q_1 - 3\thinspace \text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
+> **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
 ## 4. Treating the outliers: trimming or capping
 
@@ -238,7 +238,7 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 |---|---|---|
 | Check the shape | plot the feature; the method is for skewed features | right-skewed, skewness 0.84 |
 | Quartiles | $Q_1$ = 25th, $Q_3$ = 75th percentile, IQR $= Q_3 - Q_1$ | $Q_1 = 17$, $Q_3 = 44$, IQR $= 27$ |
-| Detect | fences $Q_1 - 1.5\thinspace \text{IQR}$ and $Q_3 + 1.5\thinspace \text{IQR}$ | $-23.5$ and 84.5; 15 outliers, all above |
+| Detect | fences $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$ | $-23.5$ and 84.5; 15 outliers, all above |
 | Trim | keep the rows inside the fences | 985 rows left |
 | Cap | move values beyond a fence onto it | 1,000 rows; maximum 84.5 |
 | Better practice | learn the fences on the training set | same fences; 14 outliers in train, 1 in test |
@@ -247,12 +247,12 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 |---|---|---|
 | Feature shape | roughly normal | skewed |
 | Built on | mean and standard deviation | $Q_1$ and $Q_3$ |
-| Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\thinspace \text{IQR}$, $Q_3 + 1.5\thinspace \text{IQR}$ |
+| Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ |
 | Pulled by outliers | yes | hardly |
 
 - The IQR method is for skewed features; the z-score method of Note 42 is for normal ones.
 - The IQR is $Q_3 - Q_1$, the width of a box plot's box.
-- The fences are $Q_1 - 1.5\thinspace \text{IQR}$ and $Q_3 + 1.5\thinspace \text{IQR}$: the same limits a box plot uses for its dots.
+- The fences are $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$: the same limits a box plot uses for its dots.
 - Values outside the fences are outliers; we trim them (drop the rows) or cap them (set them to the fence).
 - A box plot of trimmed data computes new fences, so a new dot can appear; we do not trim again.
 - The fences should be learned on the training set only.

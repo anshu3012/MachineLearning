@@ -46,15 +46,15 @@ The word **stochastic** means random. The algorithm:
 1. Start with any coefficients, for example $\beta_0 = 0$ and every $\beta_j = 1$.
 2. For each epoch, repeat $n$ times:
    - pick one observation $i$ at random;
-   - compute its prediction $\hat{y}_i$ and error $y_i - \hat{y}_i$;
+   - compute its prediction $\hat y_i$ and error $y_i - \hat y_i$;
    - update every coefficient using the derivatives from that one observation.
 3. Stop after the chosen number of epochs.
 
 The derivatives are the batch ones with the sum over observations removed: only observation $i$ remains.
 
-$$\frac{\partial L}{\partial \beta_0} = -2(y_i - \hat{y}_i) \qquad \frac{\partial L}{\partial \beta_j} = -2(y_i - \hat{y}_i)\thinspace x_{ij}$$
+$$\frac{\partial L}{\partial \beta_0} = -2(y_i - \hat y_i) \qquad \frac{\partial L}{\partial \beta_j} = -2(y_i - \hat y_i)\thinspace x_{ij}$$
 
-With numbers: if observation $i$ has error $y_i - \hat{y}_i = 5$ and $x_{ij} = 0.04$, then $\partial L / \partial \beta_j = -2 \times 5 \times 0.04 = -0.4$, and with learning rate 0.01 the coefficient rises by $0.004$.
+With numbers: if observation $i$ has error $y_i - \hat y_i = 5$ and $x_{ij} = 0.04$, then $\partial L / \partial \beta_j = -2 \times 5 \times 0.04 = -0.4$, and with learning rate 0.01 the coefficient rises by $0.004$.
 
 So an epoch of SGD makes $n$ small updates instead of one big one. On the diabetes data an epoch is 353 updates per epoch.
 

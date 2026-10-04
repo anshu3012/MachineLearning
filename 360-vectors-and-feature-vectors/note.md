@@ -192,7 +192,7 @@ A vector can be written in two ways. The components are the same; only the layou
 - A **row vector** writes the components side by side. Its shape is $1 \times n$: one row, $n$ columns.
   $$a = \begin{bmatrix} a_1 & a_2 & \cdots & a_n \end{bmatrix}$$
 - A **column vector** writes them one below the other. Its shape is $n \times 1$: $n$ rows, one column.
-  $$b = \begin{bmatrix} b_1 \cr  b_2 \cr  \vdots \cr  b_n \end{bmatrix}$$
+  $$b = \begin{bmatrix} b_1 \cr b_2 \cr\vdots \cr b_n \end{bmatrix}$$
 
 Seeing the shape $1 \times n$ or $n \times 1$, we know at once which kind a vector is.
 

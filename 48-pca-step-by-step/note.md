@@ -124,7 +124,7 @@ Variances plus covariances make the covariance matrix a complete summary for PCA
 
 For the flats data (rooms and washrooms):
 
-$$C = \begin{pmatrix} 1.33 & 1.28 \cr  1.28 & 1.33 \end{pmatrix}$$
+$$C = \begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}$$
 
 Both features have variance 1.33, and their large positive covariance, 1.28, says they rise together.
 
@@ -138,13 +138,13 @@ Both features have variance 1.33, and their large positive covariance, 1.28, say
 
 Think of a matrix as an action on the whole plane. Every point, seen as a vector, is multiplied by the matrix and lands somewhere new. Straight grid lines stay straight and evenly spaced, but the grid can be turned, stretched or slanted. Such a change is called a **linear transformation**.
 
-The **identity matrix** $\begin{pmatrix} 1 & 0 \cr  0 & 1 \end{pmatrix}$ leaves every vector where it was. Any other matrix moves vectors.
+The **identity matrix** $\begin{pmatrix} 1 & 0 \cr0 & 1 \end{pmatrix}$ leaves every vector where it was. Any other matrix moves vectors.
 
 ### 4.2 The vectors that do not turn
 
 > **Key point:** An eigenvector keeps its direction under the transformation; its eigenvalue is how much it is stretched.
 
-Figure 4 applies the matrix $A = \begin{pmatrix} 3 & 1 \cr  0 & 2 \end{pmatrix}$ to the whole plane and follows three vectors.
+Figure 4 applies the matrix $A = \begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}$ to the whole plane and follows three vectors.
 
 ![Applying a matrix: most vectors turn, eigenvectors only stretch](images/eigen_transform.gif)
 
@@ -160,7 +160,7 @@ $$A v = \lambda v$$
 
 With numbers, for $v = (-1, 1)$:
 
-$$\begin{pmatrix} 3 & 1 \cr  0 & 2 \end{pmatrix}\begin{pmatrix} -1 \cr  1 \end{pmatrix} = \begin{pmatrix} 3 \times (-1) + 1 \times 1 \cr  0 \times (-1) + 2 \times 1 \end{pmatrix} = \begin{pmatrix} -2 \cr  2 \end{pmatrix} = 2 \begin{pmatrix} -1 \cr  1 \end{pmatrix}$$
+$$\begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}\begin{pmatrix} -1 \cr1 \end{pmatrix} = \begin{pmatrix} 3 \times (-1) + 1 \times 1 \cr0 \times (-1) + 2 \times 1 \end{pmatrix} = \begin{pmatrix} -2 \cr2 \end{pmatrix} = 2 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
 
 so $\lambda = 2$. An eigenvalue can also be negative (the vector flips to point the other way) or between 0 and 1 (it shrinks).
 
@@ -178,7 +178,7 @@ Figure 5 checks this on the flats data.
 
 ![The eigenvectors of the covariance matrix of the flats data](images/eigen_cov.png)
 
-The covariance matrix $\begin{pmatrix} 1.33 & 1.28 \cr  1.28 & 1.33 \end{pmatrix}$ has eigenvectors $(0.707, 0.707)$ and $(-0.707, 0.707)$, with eigenvalues 2.61 and 0.05.
+The covariance matrix $\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}$ has eigenvectors $(0.707, 0.707)$ and $(-0.707, 0.707)$, with eigenvalues 2.61 and 0.05.
 
 The first eigenvector points at 45°, exactly the direction the previous Note found by turning a line and measuring. Its eigenvalue, 2.61, is the variance we measured there. The second has eigenvalue 0.05, the small spread left at right angles.
 
@@ -235,7 +235,7 @@ The example data has 40 points with 3 features, in two classes of 20. Each class
 
 The covariance matrix is
 
-$$C = \begin{pmatrix} 1.026 & 0.205 & 0.080 \cr  0.205 & 1.026 & 0.198 \cr  0.080 & 0.198 & 1.026 \end{pmatrix}$$
+$$C = \begin{pmatrix} 1.026 & 0.205 & 0.080 \cr0.205 & 1.026 & 0.198 \cr0.080 & 0.198 & 1.026 \end{pmatrix}$$
 
 All three features have about the same variance, and the covariances are small and positive. The eigenvalues are 1.354, 0.946 and 0.778.
 

@@ -84,7 +84,7 @@ Higher degrees add more features, $x^3$, $x^4$ and so on, and the curve can bend
 | 10 | 0.98 | 0.28 | overfits |
 | 15 | 0.99 | $-9.35$ | overfits badly: wild swings between and beyond the points |
 
-The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree-$(d+1)$ model contains every degree-$d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this overfitting).
+The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree $(d+1)$ model contains every degree $d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this overfitting).
 
 The degree is a hyperparameter, chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
 
@@ -100,7 +100,7 @@ With two features $x$ and $y$, degree 2 creates all terms of total power up to 2
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
-The product $xy$ is an **interaction term**: it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace  xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\thinspace  y$, which depends on $y$. The fitted model is a curved surface instead of a flat plane.
+The product $xy$ is an **interaction term**: it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\thinspace y$, which depends on $y$. The fitted model is a curved surface instead of a flat plane.
 
 Figure 3 shows data made from $z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$ plus noise. A plane reaches $R^2 = 0.61$; a degree-2 surface reaches 0.98.
 

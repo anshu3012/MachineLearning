@@ -5,7 +5,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adam]
 
 ## 1. Overview
 
-> **Key point:** Adam keeps two EWMAs per parameter: of the gradient, $m_t$ (momentum's idea), and of the squared gradient, $v_t$ (RMSProp's idea). It corrects both for starting at 0, then steps by $\eta\thinspace \hat{m}_t/(\sqrt{\hat{v}_t} + \epsilon)$. It is the most widely used optimizer and the usual starting point.
+> **Key point:** Adam keeps two EWMAs per parameter: of the gradient, $m_t$ (momentum's idea), and of the squared gradient, $v_t$ (RMSProp's idea). It corrects both for starting at 0, then steps by $\eta\thinspace\hat m_t/(\sqrt{\hat v_t} + \epsilon)$. It is the most widely used optimizer and the usual starting point.
 
 **Adam**, short for *adaptive moment estimation* (Kingma and Ba 2015), is the last optimizer of this series and the most used. Whether we train a plain network, a convolutional network or a recurrent network, Adam is usually the first choice.
 
@@ -37,7 +37,7 @@ The two lines of improvement are independent, so it makes sense to combine them.
 
 ## 4. The update rule
 
-> **Key point:** Update $m_t$ (EWMA of gradients) and $v_t$ (EWMA of squared gradients), correct both by dividing by $1 - \beta^t$, then move by $\eta\thinspace \hat{m}_t/(\sqrt{\hat{v}_t}+\epsilon)$.
+> **Key point:** Update $m_t$ (EWMA of gradients) and $v_t$ (EWMA of squared gradients), correct both by dividing by $1 - \beta^t$, then move by $\eta\thinspace\hat m_t/(\sqrt{\hat v_t}+\epsilon)$.
 
 1. **In words:**
    - keep an EWMA of the gradient, $m_t$, as momentum does;
@@ -45,19 +45,19 @@ The two lines of improvement are independent, so it makes sense to combine them.
    - correct both for having started at 0;
    - step in the direction of the corrected average gradient, divided by the root of the corrected average squared gradient.
 2. **Formula:**
-   $$m_t = \beta_1 m_{t-1} + (1 - \beta_1)\thinspace \nabla L(w_t), \qquad v_t = \beta_2 v_{t-1} + (1 - \beta_2)\thinspace \left(\nabla L(w_t)\right)^2$$
-   $$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \qquad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
-   $$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon}\thinspace \hat{m}_t$$
+   $$m_t = \beta_1 m_{t-1} + (1 - \beta_1)\thinspace\nabla L(w_t), \qquad v_t = \beta_2 v_{t-1} + (1 - \beta_2)\thinspace\left(\nabla L(w_t)\right)^2$$
+   $$\hat m_t = \frac{m_t}{1 - \beta_1^t}, \qquad \hat v_t = \frac{v_t}{1 - \beta_2^t}$$
+   $$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat v_t} + \epsilon}\thinspace\hat m_t$$
    with $m_0 = v_0 = 0$, where $t$ counts the updates: 1 for the first mini-batch, 2 for the second, and so on. The suggested defaults are $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\epsilon = 10^{-8}$ (Kingma and Ba 2015, algorithm 1).
 3. **Example:** one weight with gradients 2 and then 1, using the defaults.
-   - $t = 1$: $m_1 = 0.1 \times 2 = 0.2$ and $v_1 = 0.001 \times 4 = 0.004$. Corrected: $\hat{m}_1 = 0.2/0.1 = 2$ and $\hat{v}_1 = 0.004/0.001 = 4$. Step: $0.001 \times 2/\sqrt{4} = 0.001$.
-   - $t = 2$: $m_2 = 0.9 \times 0.2 + 0.1 \times 1 = 0.28$ and $v_2 = 0.999 \times 0.004 + 0.001 \times 1 = 0.004996$. Corrected: $\hat{m}_2 = 0.28/0.19 = 1.474$ and $\hat{v}_2 = 0.004996/0.001999 = 2.499$. Step: $0.001 \times 1.474/\sqrt{2.499} = 0.000932$ (Notebook).
+   - $t = 1$: $m_1 = 0.1 \times 2 = 0.2$ and $v_1 = 0.001 \times 4 = 0.004$. Corrected: $\hat m_1 = 0.2/0.1 = 2$ and $\hat v_1 = 0.004/0.001 = 4$. Step: $0.001 \times 2/\sqrt{4} = 0.001$.
+   - $t = 2$: $m_2 = 0.9 \times 0.2 + 0.1 \times 1 = 0.28$ and $v_2 = 0.999 \times 0.004 + 0.001 \times 1 = 0.004996$. Corrected: $\hat m_2 = 0.28/0.19 = 1.474$ and $\hat v_2 = 0.004996/0.001999 = 2.499$. Step: $0.001 \times 1.474/\sqrt{2.499} = 0.000932$ (Notebook).
 
 The parts come from the earlier optimizers:
 
 - **$m_t$** is momentum's velocity, written as a true EWMA. In Adam it is an estimate of the first moment, the mean, of the gradient (Goodfellow et al. 2016, §8.5.3).
 - **$\sqrt{v_t}$ in the denominator** is RMSProp's. $v_t$ estimates the second moment of the gradient, which gives Adam its name: adaptive **moment** estimation.
-- **$\hat{m}_t$ and $\hat{v}_t$** are new: the bias correction.
+- **$\hat m_t$ and $\hat v_t$** are new: the bias correction.
 
 ## 5. Bias correction
 
@@ -163,7 +163,7 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 | Default learning rate in Keras | 0.01 (SGD) | 0.001 | 0.001 |
 
 - Adam = momentum's average of gradients + RMSProp's average of squared gradients + a correction for starting at 0.
-- The update: $w_{t+1} = w_t - \eta\thinspace \hat{m}_t/(\sqrt{\hat{v}_t}+\epsilon)$, with $\hat{m}_t = m_t/(1-\beta_1^t)$ and $\hat{v}_t = v_t/(1-\beta_2^t)$.
+- The update: $w_{t+1} = w_t - \eta\thinspace\hat m_t/(\sqrt{\hat v_t}+\epsilon)$, with $\hat m_t = m_t/(1-\beta_1^t)$ and $\hat v_t = v_t/(1-\beta_2^t)$.
 - Defaults: $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$; $t$ counts the updates.
 - Adam is the usual first choice; RMSProp and momentum are the usual alternatives. No optimizer wins everywhere.
 

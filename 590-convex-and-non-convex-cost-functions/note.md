@@ -52,7 +52,7 @@ The picture "the chord lies on or above the curve" becomes a formula once we nam
 
 1. **In words:** at every point between $a$ and $b$, the curve is at or below the chord.
 2. **Formula:** $f$ is **convex** if, for all $a$, $b$ and every $\theta$ with $0 \le \theta \le 1$,
-   $$f\big(\theta a + (1 - \theta) b\big) \thickspace \le\thickspace  \theta f(a) + (1 - \theta) f(b)$$
+   $$f\big(\theta a + (1 - \theta) b\big) \thickspace\le\thickspace\theta f(a) + (1 - \theta) f(b)$$
    The left side is the curve; the right side is the chord.
 3. **Example:** $f(w) = w^2$ with $a = -1$, $b = 3$ and $\theta = 0.5$. The midpoint is $0.5 \times (-1) + 0.5 \times 3 = 1$, so
    $$\text{curve: } f(1) = 1, \qquad \text{chord: } 0.5 \times f(-1) + 0.5 \times f(3) = 0.5 \times 1 + 0.5 \times 9 = 5$$
@@ -79,7 +79,7 @@ Optimisation looks for the parameter values where the loss is lowest. Convexity 
 
 The first guarantee follows from the chord test. Suppose some point $c$ were a local minimum and some other point $d$ were lower. The chord from $c$ to $d$ slopes downward, and convexity keeps the curve at or below it, so just next to $c$ the curve already dips below $f(c)$. Then $c$ was not a local minimum after all (Boyd and Vandenberghe §4.2.2).
 
-The second guarantee follows the same way. If a strictly convex $f$ had two different minimum points $c$ and $d$ with the same lowest value $f^*$, the strict chord test at their midpoint would give $f\big(\tfrac{c + d}{2}\big) < \tfrac{1}{2}f^* + \tfrac{1}{2}f^* = f^*$, a value below the lowest one, which is impossible.
+The second guarantee follows the same way. If a strictly convex $f$ had two different minimum points $c$ and $d$ with the same lowest value $f^\ast$, the strict chord test at their midpoint would give $f\big(\tfrac{c + d}{2}\big) < \tfrac{1}{2}f^\ast+ \tfrac{1}{2}f^\ast= f^\ast$, a value below the lowest one, which is impossible.
 
 A non-convex function gives no such promise. In Figure 2 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
 

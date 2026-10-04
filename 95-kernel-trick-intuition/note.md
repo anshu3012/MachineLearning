@@ -62,7 +62,7 @@ There are many kernels. Besides the plain linear one, scikit-learn's SVM comes w
 2. **Polynomial**: built from powers of the inputs. The $x^2$ example above is of this type.
 3. **Sigmoid**: an S-shaped kernel.
 
-> **Extra:** The sigmoid kernel is $\tanh(\gamma\thinspace  x \cdot x' + r)$. The sigmoid kernel has the same S-shape as the [sigmoid function](../72-sigmoid-function/note.md) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. The sigmoid kernel came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
+> **Extra:** The sigmoid kernel is $\tanh(\gamma\thinspace x \cdot x' + r)$. The sigmoid kernel has the same S-shape as the [sigmoid function](../72-sigmoid-function/note.md) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. The sigmoid kernel came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
 
 ## 4. A 2D example: concentric circles
 
@@ -122,4 +122,4 @@ In summary: if the data is not linearly separable in its own dimension, a kernel
 | Non-linear data | Data whose classes no straight line, plane or hyperplane can separate |
 | RBF kernel | Radial basis function kernel, built on $e^{-(\text{distance})^2}$; the most used SVM kernel |
 | Polynomial kernel | A kernel built from powers of the inputs, such as $x^2$ |
-| Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\thinspace  x \cdot x' + r)$ |
+| Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\thinspace x \cdot x' + r)$ |

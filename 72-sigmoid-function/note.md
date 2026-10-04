@@ -52,7 +52,7 @@ The table matches common sense. A correct point right next to the line is at ris
 
 The update rule from the perceptron Notes is
 
-$$w_{\text{new}} = w_{\text{old}} + \eta\thinspace (y - \hat{y})\thinspace x$$
+$$w_{\text{new}} = w_{\text{old}} + \eta\thinspace(y - \hat{y})\thinspace x$$
 
 For a correctly classified point, $y$ and $\hat{y}$ are equal (both 0 or both 1), so $y - \hat{y} = 0$ and nothing changes. To let correct points act, $y - \hat{y}$ must not be 0.
 
@@ -131,8 +131,8 @@ Take four points and suppose the model gives these probabilities:
 
 None of the values is 0, so every point updates the weights.
 
-- **A**: $w$ grows by $0.2\thinspace \eta\thinspace x$. As in the perceptron Note, adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
-- **C**: $w$ grows by $0.7\thinspace \eta\thinspace x$: the same direction but much larger, enough to bring the line towards and past C, a pull.
+- **A**: $w$ grows by $0.2\thinspace\eta\thinspace x$. As in the perceptron Note, adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
+- **C**: $w$ grows by $0.7\thinspace\eta\thinspace x$: the same direction but much larger, enough to bring the line towards and past C, a pull.
 - **B** and **D** work the same way with subtraction.
 
 ### 6.2 Strength and distance

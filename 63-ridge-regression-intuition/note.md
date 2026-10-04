@@ -45,7 +45,7 @@ So the warning sign of an overfitting linear model is **large coefficients**: th
 
 Ridge regression changes the loss function. In words: the loss is the usual sum of squared errors, plus a penalty equal to $\lambda$ times the square of the slope.
 
-$$L = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 + \lambda m^2$$
+$$L = \sum_{i=1}^{n} (y_i - \hat y_i)^2 + \lambda m^2$$
 
 $\lambda$ (lambda) is a hyperparameter, at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
 

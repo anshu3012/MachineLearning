@@ -117,7 +117,7 @@ Figure 1 draws the gradient as an arrow at many points of the contour map. Three
 - **It crosses contour lines at right angles.** Along a contour line $f$ does not change at all, so the steepest direction is straight across it.
 - **Its length is the steepness.** Arrows are long where contour lines are packed close together, and short near the flat bottom.
 
-At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [gradient descent](../57-gradient-descent/note.md) steps in, $\mathbf{x}_{\text{new}} = \mathbf{x} - \eta\thinspace  \nabla f(\mathbf{x})$.
+At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [gradient descent](../57-gradient-descent/note.md) steps in, $\mathbf x_{\text{new}} = \mathbf{x} - \eta\thinspace\nabla f(\mathbf{x})$.
 
 > **Extra:** The slope in any direction follows from the gradient. For a unit vector $\mathbf{u}$ (length 1), the **directional derivative** is the dot product $\nabla f \cdot \mathbf{u}$. At $(1, 1)$:
 >
@@ -135,21 +135,21 @@ The rules of the one-variable case carry over. For functions $f, g: \mathbb{R}^n
 
 $$\text{Sum rule:}\quad \frac{\partial}{\partial \mathbf{x}}\big(f(\mathbf{x}) + g(\mathbf{x})\big) = \frac{\partial f}{\partial \mathbf{x}} + \frac{\partial g}{\partial \mathbf{x}}$$
 
-$$\text{Product rule:}\quad \frac{\partial}{\partial \mathbf{x}}\big(f(\mathbf{x})\thinspace g(\mathbf{x})\big) = \frac{\partial f}{\partial \mathbf{x}}\thinspace g(\mathbf{x}) + f(\mathbf{x})\thinspace \frac{\partial g}{\partial \mathbf{x}}$$
+$$\text{Product rule:}\quad \frac{\partial}{\partial \mathbf{x}}\big(f(\mathbf{x})\thinspace g(\mathbf{x})\big) = \frac{\partial f}{\partial \mathbf{x}}\thinspace g(\mathbf{x}) + f(\mathbf{x})\thinspace\frac{\partial g}{\partial \mathbf{x}}$$
 
-$$\text{Chain rule:}\quad \frac{\partial}{\partial \mathbf{x}}\thinspace g\big(f(\mathbf{x})\big) = \frac{\partial g}{\partial f}\thinspace \frac{\partial f}{\partial \mathbf{x}}$$
+$$\text{Chain rule:}\quad \frac{\partial}{\partial \mathbf{x}}\thinspace g\big(f(\mathbf{x})\big) = \frac{\partial g}{\partial f}\thinspace\frac{\partial f}{\partial \mathbf{x}}$$
 
 With vectors and matrices, $AB$ and $BA$ are different things (see the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md)). So we keep the order written above and check that the shapes fit.
 
 A building block we need: the gradient of a dot product with a fixed vector $\mathbf{a}$. Since $\mathbf{a}^{\mathsf T}\mathbf{x} = a_1x_1 + a_2x_2$, the partial derivatives are $a_1$ and $a_2$:
 
-$$\frac{\partial}{\partial \mathbf{x}}\thinspace \mathbf{a}^{\mathsf T}\mathbf{x} = \mathbf{a}^{\mathsf T}$$
+$$\frac{\partial}{\partial \mathbf{x}}\thinspace\mathbf{a}^{\mathsf T}\mathbf{x} = \mathbf{a}^{\mathsf T}$$
 
 1. **In words (product rule):** differentiate one factor at a time, keep the other, add.
 2. **Formula:** for $f(\mathbf{x}) = (\mathbf{a}^{\mathsf T}\mathbf{x})(\mathbf{b}^{\mathsf T}\mathbf{x})$,
-   $$\nabla f = (\mathbf{b}^{\mathsf T}\mathbf{x})\thinspace \mathbf{a}^{\mathsf T} + (\mathbf{a}^{\mathsf T}\mathbf{x})\thinspace \mathbf{b}^{\mathsf T}$$
+   $$\nabla f = (\mathbf{b}^{\mathsf T}\mathbf{x})\thinspace\mathbf{a}^{\mathsf T} + (\mathbf{a}^{\mathsf T}\mathbf{x})\thinspace\mathbf{b}^{\mathsf T}$$
 3. **Example:** $\mathbf{a} = [1, 2]$, $\mathbf{b} = [3, -1]$, $\mathbf{x} = [1, 1]$. Then $\mathbf{a}^{\mathsf T}\mathbf{x} = 3$ and $\mathbf{b}^{\mathsf T}\mathbf{x} = 2$:
-   $$\nabla f = 2\thinspace [1, 2] + 3\thinspace [3, -1] = [11,\ 1]$$
+   $$\nabla f = 2\thinspace[1, 2] + 3\thinspace[3, -1] = [11,\ 1]$$
    Check by multiplying out: $f = 3x_1^2 + 5x_1x_2 - 2x_2^2$ has partial derivatives $6x_1 + 5x_2 = 11$ and $5x_1 - 4x_2 = 1$.
 
 ## 6. The chain rule with several variables
@@ -166,7 +166,7 @@ Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for exampl
 
 1. **In words:** for each intermediate variable, multiply "how $f$ responds to it" by "how it responds to $t$"; add the results.
 2. **Formula:**
-   $$\frac{df}{dt} = \begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix} \begin{bmatrix} \dfrac{dx_1}{dt} \cr  \dfrac{dx_2}{dt} \end{bmatrix} = \frac{\partial f}{\partial x_1}\frac{dx_1}{dt} + \frac{\partial f}{\partial x_2}\frac{dx_2}{dt}$$
+   $$\frac{df}{dt} = \begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix} \begin{bmatrix} \dfrac{dx_1}{dt} \cr\dfrac{dx_2}{dt} \end{bmatrix} = \frac{\partial f}{\partial x_1}\frac{dx_1}{dt} + \frac{\partial f}{\partial x_2}\frac{dx_2}{dt}$$
 3. **Example:** our bowl on the circle. At $t = \pi/2$ the point is $(0, 1)$, where $\nabla f = [0 + 1,\ 0 + 4] = [1, 4]$. The point moves with velocity $[-\sin t, \cos t] = [-1, 0]$:
    $$\frac{df}{dt} = 1 \cdot (-1) + 4 \cdot 0 = -1$$
    At $t = 0$ the point is $(1, 0)$, $\nabla f = [2, 1]$, velocity $[0, 1]$, so $df/dt = 1$.
@@ -183,9 +183,9 @@ $$\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x_1}\frac{\partial 
 
 1. **In words:** both equations at once are one row vector times one matrix.
 2. **Formula:**
-   $$\frac{df}{d(s, t)} = \underbrace{\begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix}}_{\partial f / \partial \mathbf{x}} \underbrace{\begin{bmatrix} \dfrac{\partial x_1}{\partial s} & \dfrac{\partial x_1}{\partial t} \cr  \dfrac{\partial x_2}{\partial s} & \dfrac{\partial x_2}{\partial t} \end{bmatrix}}_{\partial \mathbf{x} / \partial (s, t)}$$
+   $$\frac{df}{d(s, t)} = \underbrace{\begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix}}_{\partial f / \partial \mathbf{x}} \underbrace{\begin{bmatrix} \dfrac{\partial x_1}{\partial s} & \dfrac{\partial x_1}{\partial t} \cr\dfrac{\partial x_2}{\partial s} & \dfrac{\partial x_2}{\partial t} \end{bmatrix}}_{\partial \mathbf{x} / \partial (s, t)}$$
 3. **Example:** our bowl with $x_1 = s + t$ and $x_2 = st$, at $s = 1$, $t = 2$. Then $x_1 = 3$, $x_2 = 2$, so $\nabla f = [2 \cdot 3 + 2,\ 3 + 4 \cdot 2] = [8, 11]$. The inner derivatives are $\partial x_1/\partial s = 1$, $\partial x_1/\partial t = 1$, $\partial x_2/\partial s = t = 2$, $\partial x_2/\partial t = s = 1$:
-   $$\begin{bmatrix} 8 & 11 \end{bmatrix} \begin{bmatrix} 1 & 1 \cr  2 & 1 \end{bmatrix} = \begin{bmatrix} 8 + 22 & 8 + 11 \end{bmatrix} = \begin{bmatrix} 30 & 19 \end{bmatrix}$$
+   $$\begin{bmatrix} 8 & 11 \end{bmatrix} \begin{bmatrix} 1 & 1 \cr2 & 1 \end{bmatrix} = \begin{bmatrix} 8 + 22 & 8 + 11 \end{bmatrix} = \begin{bmatrix} 30 & 19 \end{bmatrix}$$
 
 The matrix in the middle is the first example of a **Jacobian**, the subject of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md). The chain rule as a product of matrices mirrors the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md): doing one function after another multiplies their matrices.
 

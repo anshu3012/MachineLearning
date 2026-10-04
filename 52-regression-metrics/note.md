@@ -33,7 +33,7 @@ This Note covers five metrics, in order:
 
 No single metric is best for every problem, which is why several exist. All the numbers below come from the simple linear regression of the previous Notes: CGPA to package, tested on 40 students.
 
-Throughout, $y_i$ is a student's actual package, $\hat{y}_i$ the model's prediction, and $n$ the number of test students.
+Throughout, $y_i$ is a student's actual package, $\hat y_i$ the model's prediction, and $n$ the number of test students.
 
 ## 2. Mean absolute error (MAE)
 
@@ -41,7 +41,7 @@ Throughout, $y_i$ is a student's actual package, $\hat{y}_i$ the model's predict
 
 In words: for each point, take the gap between the actual and the predicted value, drop its sign, and average these gaps.
 
-$$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n} |y_i - \hat{y}_i|$$
+$$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n} |y_i - \hat y_i|$$
 
 With numbers: the first test student has an actual package of 4.10 and a prediction of 3.89, an absolute error of 0.21. Averaging all 40 such errors gives
 
@@ -62,7 +62,7 @@ The sign is dropped because some points lie above the line and some below; witho
 
 In words: square each error and average the squares.
 
-$$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+$$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n} (y_i - \hat y_i)^2$$
 
 With numbers: the first student's error of 0.21 becomes $0.21^2 = 0.044$. Averaging all 40 squares gives
 
@@ -81,7 +81,7 @@ $$\text{MSE} = 0.121$$
 
 In words: compute the MSE, then take its square root.
 
-$$\text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n}\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
+$$\text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n}\sum_{i=1}^{n} (y_i - \hat y_i)^2}$$
 
 With numbers:
 
@@ -89,7 +89,7 @@ $$\text{RMSE} = \sqrt{0.121} = 0.348 \text{ LPA}$$
 
 RMSE is in LPA again, like MAE, so it is easy to report. RMSE is always at least as large as MAE (here 0.35 against 0.29), because the squares give extra weight to the larger errors. The two are equal only when every error has the same size.
 
-> **Extra:** The proof. Write $a_i = |y_i - \hat{y}_i|$, so MAE is the average of the $a_i$. Then
+> **Extra:** The proof. Write $a_i = |y_i - \hat y_i|$, so MAE is the average of the $a_i$. Then
 >
 > $$\text{MSE} - \text{MAE}^2 = \frac{1}{n}\sum a_i^2 - \text{MAE}^2 = \frac{1}{n}\sum (a_i - \text{MAE})^2 \ge 0$$
 >
@@ -143,7 +143,7 @@ The simplest model of all ignores the feature and predicts the average package, 
 
 In words: divide the model's sum of squared errors by the average-only model's sum of squared errors, and subtract the result from 1.
 
-$$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}$$
+$$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum (y_i - \hat y_i)^2}{\sum (y_i - \bar{y})^2}$$
 
 Here $SS_{res}$ (the **residual sum of squares**) is the model's total squared error, and $SS_{tot}$ (the **total sum of squares**) is the total squared error of always predicting the mean $\bar{y}$.
 
@@ -199,11 +199,11 @@ The training R² rises from 0.773 to 0.802, which looks like progress. The test 
 
 In words: take the part R² leaves unexplained, $1 - R^2$, make it larger according to how many features $k$ the model uses compared with the number of observations $n$, and subtract that from 1 (ISLR §6.1.3).
 
-$$R^2_{adj} = 1 - \frac{(1 - R^2)(n - 1)}{n - 1 - k}$$
+$$R_{adj}^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - 1 - k}$$
 
 With numbers, for CGPA alone on the test set ($R^2 = 0.781$, $n = 40$, $k = 1$):
 
-$$R^2_{adj} = 1 - \frac{0.219 \times 39}{38} = 1 - 0.225 = 0.775$$
+$$R_{adj}^2 = 1 - \frac{0.219 \times 39}{38} = 1 - 0.225 = 0.775$$
 
 How it behaves:
 
@@ -220,8 +220,8 @@ In Figure 3, adjusted R² on the training data stays flat at 0.772 however many 
 
 | Metric | Formula | Placement data | Units | Outliers |
 |---|---|---|---|---|
-| MAE | $\frac{1}{n}\sum \lvert y_i - \hat{y}_i\rvert$ | 0.288 | LPA | robust |
-| MSE | $\frac{1}{n}\sum (y_i - \hat{y}_i)^2$ | 0.121 | LPA² | sensitive |
+| MAE | $\frac{1}{n}\sum \lvert y_i - \hat y_i\rvert$ | 0.288 | LPA | robust |
+| MSE | $\frac{1}{n}\sum (y_i - \hat y_i)^2$ | 0.121 | LPA² | sensitive |
 | RMSE | $\sqrt{\text{MSE}}$ | 0.348 | LPA | sensitive |
 | R² | $1 - SS_{res}/SS_{tot}$ | 0.781 | none | sensitive |
 | Adjusted R² | $1 - (1 - R^2)\frac{n-1}{n-1-k}$ | 0.775 | none | sensitive |

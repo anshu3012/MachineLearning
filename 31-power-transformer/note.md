@@ -52,7 +52,7 @@ The Box-Cox transform, step by step:
 
 1. **In words:** raise each value to the power $\lambda$, subtract 1, and divide by $\lambda$. When $\lambda$ is exactly 0, that division is impossible, so the log is used instead.
 2. **Formula:**
-   $$x' = \begin{cases} \dfrac{x^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \cr  \ln x & \text{if } \lambda = 0 \end{cases}$$
+   $$x' = \begin{cases} \dfrac{x^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \cr\ln x & \text{if } \lambda = 0 \end{cases}$$
 3. **Example:** for the concrete `Age` feature of Section 6, `PowerTransformer` learns $\lambda = 0.067$. The ages 1, 28 and 365 days become
    $$\frac{1^{0.067} - 1}{0.067} = 0,\quad \frac{28^{0.067} - 1}{0.067} = 3.73,\quad \frac{365^{0.067} - 1}{0.067} = 7.24.$$
    Before, 365 was 13 times 28; after, it is less than 2 times. The long right tail has been pulled in.
@@ -125,7 +125,7 @@ The Yeo-Johnson transform, step by step:
 
 1. **In words:** for a value of 0 or more, add 1 and then apply Box-Cox. For a negative value, flip its sign, add 1, apply Box-Cox with $2 - \lambda$, and flip the sign back.
 2. **Formula:**
-   $$x' = \begin{cases} \dfrac{(x + 1)^{\lambda} - 1}{\lambda} & x \geq 0,\ \lambda \neq 0 \cr  \ln(x + 1) & x \geq 0,\ \lambda = 0 \cr  -\dfrac{(1 - x)^{2 - \lambda} - 1}{2 - \lambda} & x < 0,\ \lambda \neq 2 \cr  -\ln(1 - x) & x < 0,\ \lambda = 2 \end{cases}$$
+   $$x' = \begin{cases} \dfrac{(x + 1)^{\lambda} - 1}{\lambda} & x \geq 0,\ \lambda \neq 0 \cr\ln(x + 1) & x \geq 0,\ \lambda = 0 \cr-\dfrac{(1 - x)^{2 - \lambda} - 1}{2 - \lambda} & x < 0,\ \lambda \neq 2 \cr-\ln(1 - x) & x < 0,\ \lambda = 2 \end{cases}$$
 3. **Example:** with $\lambda = 0.5$, the values $-3$, 0 and 3 become
    $$-\frac{4^{1.5} - 1}{1.5} = -4.67,\qquad \frac{1^{0.5} - 1}{0.5} = 0,\qquad \frac{4^{0.5} - 1}{0.5} = 2.$$
    Zero stays at 0, and the negative value is handled without any error.

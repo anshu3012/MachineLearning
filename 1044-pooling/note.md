@@ -70,9 +70,9 @@ A pooling layer needs three settings:
 
 1. **In words:** split the map into 2 × 2 blocks and keep the largest number of each block.
 2. **Formula:** for output position $(i, j)$, with window size and stride 2,
-   $$P_{ij} = \max\big(A_{2i,\thinspace 2j},\ A_{2i,\thinspace 2j+1},\ A_{2i+1,\thinspace 2j},\ A_{2i+1,\thinspace 2j+1}\big)$$
+   $$P_{ij} = \max\big(A_{2i,\thinspace2j},\ A_{2i,\thinspace2j+1},\ A_{2i+1,\thinspace2j},\ A_{2i+1,\thinspace2j+1}\big)$$
 3. **Example:** with the feature map of Figure 1,
-   $$A = \begin{bmatrix} 1&5&2&3\cr 2&4&0&1\cr 7&1&4&2\cr 3&0&1&3 \end{bmatrix} \quad\Rightarrow\quad P = \begin{bmatrix} \max(1,5,2,4) & \max(2,3,0,1)\cr  \max(7,1,3,0) & \max(4,2,1,3) \end{bmatrix} = \begin{bmatrix} 5&3\cr 7&4 \end{bmatrix}$$
+   $$A = \begin{bmatrix} 1&5&2&3\cr2&4&0&1\cr7&1&4&2\cr3&0&1&3 \end{bmatrix} \quad\Rightarrow\quad P = \begin{bmatrix} \max(1,5,2,4) & \max(2,3,0,1)\cr\max(7,1,3,0) & \max(4,2,1,3) \end{bmatrix} = \begin{bmatrix} 5&3\cr7&4 \end{bmatrix}$$
 
 The 4 × 4 feature map has become 2 × 2. The output size follows the formula of the [padding and strides Note](../1043-padding-and-strides/note.md) without padding: $\lfloor (4 - 2)/2 \rfloor + 1 = 2$ (Dumoulin and Visin 2016, Relationship 7).
 

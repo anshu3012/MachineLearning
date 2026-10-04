@@ -162,7 +162,8 @@ The formula is a definition, not a result derived from something else: since $B$
 Three fair coins are tossed. What is the probability of at least two heads, given at least one head?
 
 Write the sample space first. Three tosses give $2^3 = 8$ equally likely outcomes:
-$$HHH, \thickspace  HHT, \thickspace  HTH, \thickspace  THH, \thickspace  HTT, \thickspace  THT, \thickspace  TTH, \thickspace  TTT$$
+
+$$HHH, \thickspace HHT, \thickspace HTH, \thickspace THH, \thickspace HTT, \thickspace THT, \thickspace TTH, \thickspace TTT$$
 
 The two events:
 
@@ -230,6 +231,7 @@ Cutting the probabilities short before dividing gives a wrong answer for class 1
 > **Key point:** $P(\text{class 3} \mid \text{died}) \approx 0.678$ is a different question from $P(\text{died} \mid \text{class 3}) \approx 0.758$: the condition sets which total we divide by.
 
 Swapping the roles asks: of the passengers who died, what share were in third class? Now the condition is $Y = 0$, so we divide by the column total:
+
 $$P(X = 3 \mid Y = 0) = \frac{372}{549} \approx 0.678$$
 
 Of all who died, 67.8% were in third class, 17.7% in second and 14.6% in first. These three add up to 1, because every passenger who died was in one of the classes.
@@ -293,7 +295,8 @@ Both tests fail, so class and survival are dependent. Knowing the class moves th
 > **Key point:** To predict whether a new male passenger died, Bayes' theorem turns $P(\text{male} \mid \text{died})$, which the data gives directly, into $P(\text{died} \mid \text{male})$, which we want.
 
 Bayes' theorem, its four named parts (posterior, likelihood, prior, evidence) and its two-line proof from the conditional probability formula are in the [Bayes' theorem Note](../85-bayes-theorem/note.md):
-$$P(A \mid B) = \frac{P(B \mid A)\thinspace  P(A)}{P(B)}$$
+
+$$P(A \mid B) = \frac{P(B \mid A)\thinspace P(A)}{P(B)}$$
 
 Here we use it once on a tiny dataset, to see how it predicts. Five passengers:
 
@@ -314,8 +317,9 @@ The three pieces each come from the data:
 - **Likelihood** $P(\text{male} \mid \text{died}) = 2/3$: reduce to the three who died; two are male. $P(\text{male} \mid \text{survived}) = 1/2$: of the two survivors, one is male.
 
 Bayes' theorem:
-$$P(\text{died} \mid \text{male}) = \frac{P(\text{male} \mid \text{died})\thinspace  P(\text{died})}{P(\text{male})} = \frac{\frac{2}{3} \cdot \frac{3}{5}}{\frac{3}{5}} = \frac{2}{3}$$
-$$P(\text{survived} \mid \text{male}) = \frac{P(\text{male} \mid \text{survived})\thinspace  P(\text{survived})}{P(\text{male})} = \frac{\frac{1}{2} \cdot \frac{2}{5}}{\frac{3}{5}} = \frac{1}{3}$$
+
+$$P(\text{died} \mid \text{male}) = \frac{P(\text{male} \mid \text{died})\thinspace P(\text{died})}{P(\text{male})} = \frac{\frac{2}{3} \cdot \frac{3}{5}}{\frac{3}{5}} = \frac{2}{3}$$
+$$P(\text{survived} \mid \text{male}) = \frac{P(\text{male} \mid \text{survived})\thinspace P(\text{survived})}{P(\text{male})} = \frac{\frac{1}{2} \cdot \frac{2}{5}}{\frac{3}{5}} = \frac{1}{3}$$
 
 Since $2/3 > 1/3$, we predict that the male passenger died. The two answers add up to 1, as they must.
 
@@ -327,7 +331,7 @@ With one input **feature** (an input variable, one column of the data table) we 
 |---|---|---|---|
 | Joint | both together? | $P(X = x, Y = y)$ | $P(\text{class 3, died}) = 0.418$ |
 | Marginal | one, whatever the other? | $P(Y = y) = \sum_x P(X = x, Y = y)$ | $P(\text{died}) = 0.616$ |
-| Conditional | one, given the other? | $P(X = x, Y = y) \thinspace /\thinspace  P(X = x)$ | $P(\text{died} \mid \text{class 3}) = 0.758$ |
+| Conditional | one, given the other? | $P(X = x, Y = y) \thinspace/\thinspace P(X = x)$ | $P(\text{died} \mid \text{class 3}) = 0.758$ |
 
 - The joint probabilities of every combination form the joint distribution; they sum to 1.
 - Marginal probabilities are the row and column sums of the joint table; each marginal distribution sums to 1.

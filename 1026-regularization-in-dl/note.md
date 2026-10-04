@@ -79,7 +79,7 @@ Training finds the weights and biases that minimise a cost function: the average
 
 1. **In words:** add the sum of the squares of all $k$ weights of the network, multiplied by $\lambda/(2n)$.
 2. **Formula:**
-   $$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{y}_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} w_j^{2}$$
+   $$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat y_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} w_j^{2}$$
 3. **Example:** a network with 10 weights $w_1$ to $w_{10}$ adds $\lambda/(2n)(w_1^2 + w_2^2 + \dots + w_{10}^2)$. With $\lambda = 0.03$, $n = 100$ observations and the weights $0.5, -1, 2$ and $0.1$ (the others 0):
    $$\frac{0.03}{200}(0.25 + 1 + 4 + 0.01) = 0.00015 \times 5.26 = 0.00079$$
 
@@ -89,9 +89,9 @@ Some points about this formula:
 - **$n$** is the number of observations. The 2 is only for convenience: it cancels when we differentiate. Some books leave it out.
 - **Biases are never penalised**, only weights.
 
-In a network the weights live in layers, so the sum is often written per layer. With $w^{(l)}_{ij}$ the weight from node $i$ of layer $l-1$ to node $j$ of layer $l$, and $L$ layers:
+In a network the weights live in layers, so the sum is often written per layer. With $w_{ij}^{(l)}$ the weight from node $i$ of layer $l-1$ to node $j$ of layer $l$, and $L$ layers:
 
-$$\frac{\lambda}{2n}\sum_{l=1}^{L}\sum_{i}\sum_{j}\left(w^{(l)}_{ij}\right)^{2}$$
+$$\frac{\lambda}{2n}\sum_{l=1}^{L}\sum_{i}\sum_{j}\left(w_{ij}^{(l)}\right)^{2}$$
 
 The per-layer form is the same sum, every weight squared once; it just matches how the weights are stored, which makes it the natural form in code.
 
@@ -101,7 +101,7 @@ The per-layer form is the same sum, every weight squared once; it just matches h
 
 L1 regularisation replaces the squares with absolute values, the L1 norm of the weights:
 
-$$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{y}_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} |w_j|$$
+$$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat y_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} |w_j|$$
 
 As with Lasso, L1 can push weights to exactly 0, giving a sparse model (see the [Lasso sparsity Note](../68-lasso-sparsity/note.md)); in a network, a node whose weights are all 0 is eliminated. L2, like Ridge, makes weights small but never exactly 0 (see the [ridge key points Note](../66-ridge-key-points/note.md), section 2). Using both penalties together is the idea of Elastic Net (see the [Elastic Net Note](../69-elastic-net/note.md)).
 
@@ -113,7 +113,7 @@ The penalty is added to the loss, but how does that make the weights small? Look
 
 1. **In words:** first shrink the weight by the factor $1 - \eta\lambda$, then take the ordinary gradient descent step.
 2. **Formula:**
-   $$w_{\text{new}} = w_{\text{old}} - \eta\left(\frac{\partial L}{\partial w} + \lambda w_{\text{old}}\right) = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\thinspace \frac{\partial L}{\partial w}$$
+   $$w_{\text{new}} = w_{\text{old}} - \eta\left(\frac{\partial L}{\partial w} + \lambda w_{\text{old}}\right) = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
 3. **Example:** with learning rate $\eta = 0.1$ and $\lambda = 0.03$, the factor is $1 - 0.1 \times 0.03 = 0.997$. A weight of 2 becomes $0.997 \times 2 = 1.994$ before the usual step is subtracted.
 
 The second form is the update without regularisation, except that $w_{\text{old}}$ is first multiplied by $1 - \eta\lambda$. Since $\eta$ and $\lambda$ are positive, this factor is below 1, and it acts at every update of every epoch. So the weights keep moving towards 0. They get very small but never reach exactly 0.

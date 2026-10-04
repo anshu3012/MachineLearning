@@ -40,7 +40,7 @@ RMSProp changes only the line that computes $v_t$:
 
 1. **In words:** keep an exponentially weighted moving average of each parameter's squared gradient, then divide the learning rate by its square root, as AdaGrad does.
 2. **Formula:**
-   $$v_t = \beta\thinspace v_{t-1} + (1-\beta)\thinspace \left(\nabla L(w_t)\right)^2, \qquad w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace \nabla L(w_t)$$
+   $$v_t = \beta\thinspace v_{t-1} + (1-\beta)\thinspace\left(\nabla L(w_t)\right)^2, \qquad w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace\nabla L(w_t)$$
    with $v_0 = 0$ and $\beta$ usually 0.9 (Hinton 2012).
 3. **Example:** three squared gradients $g_1^2 = 9$, $g_2^2 = 4$, $g_3^2 = 1$ with $\beta = 0.9$:
    $$v_1 = 0.1 \times 9 = 0.9, \qquad v_2 = 0.9 \times 0.9 + 0.1 \times 4 = 1.21, \qquad v_3 = 0.9 \times 1.21 + 0.1 \times 1 = 1.189$$

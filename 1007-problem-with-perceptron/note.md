@@ -31,7 +31,7 @@ The XOR weakness stalled perceptron research for years (see the [history of deep
 
 > **Key point:** Each table has two binary inputs and four rows. AND outputs 1 only when both inputs are 1; OR when at least one is; XOR when exactly one is.
 
-The three datasets are the logic functions **AND**, **OR** and XOR (exclusive or, defined in the [history section](../1003-nn-types-history-applications/note.md)). Each has inputs $x_1, x_2 \in \lbrace 0, 1\rbrace $, so there are only four possible rows. Each row is one **observation** (one record of the table); $x_1$ and $x_2$ are its two **features** (input variables), and the AND, OR or XOR column is the **target** (the output we predict):
+The three datasets are the logic functions **AND**, **OR** and XOR (exclusive or, defined in the [history section](../1003-nn-types-history-applications/note.md)). Each has inputs $x_1, x_2 \in \lbrace0, 1\rbrace$, so there are only four possible rows. Each row is one **observation** (one record of the table); $x_1$ and $x_2$ are its two **features** (input variables), and the AND, OR or XOR column is the **target** (the output we predict):
 
 | $x_1$ | $x_2$ | AND | OR | XOR |
 |---|---|---|---|---|

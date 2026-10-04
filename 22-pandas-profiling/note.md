@@ -225,7 +225,7 @@ On the right is the histogram of `Age`, the same shape as in the Note on univari
 >
 > 1. **In words:** find the median; measure how far each value is from it; the MAD is the median of those distances.
 > 2. **Formula:**
->    $$\text{MAD} = \text{median}\big(\thinspace |x_i - \text{median}(x)|\thinspace \big)$$
+>    $$\text{MAD} = \text{median}\big(\thinspace|x_i - \text{median}(x)|\thinspace\big)$$
 > 3. **With five values** 1, 2, 3, 4, 10: the median is 3, the distances are 2, 1, 0, 1, 7, and their median is $\text{MAD} = 1$.
 >
 > The far value 10 hardly changes the MAD, while it would raise the standard deviation a lot. For `Age`, the MAD is 9 years.

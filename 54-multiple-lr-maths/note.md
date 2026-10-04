@@ -33,7 +33,7 @@ This Note builds it step by step. The next Note codes it from scratch. The deriv
 
 For one observation $i$ with feature values $x_{i1}, \dots, x_{im}$, the model predicts
 
-$$\hat{y}_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
+$$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
 
 Writing this for every observation gives $n$ equations. Matrices write them all at once (Figure 1).
 
@@ -127,13 +127,13 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 1. **Build $X$:** a column of four 1s next to the four CGPAs.
 2. **Compute the pieces:**
 
-$$X^{\mathsf T}X = \begin{bmatrix} 4 & 27.25 \cr  27.25 & 189.90 \end{bmatrix} \qquad X^{\mathsf T}y = \begin{bmatrix} 12.16 \cr  85.25 \end{bmatrix}$$
+   $$X^{\mathsf T}X = \begin{bmatrix} 4 & 27.25 \cr27.25 & 189.90 \end{bmatrix} \qquad X^{\mathsf T}y = \begin{bmatrix} 12.16 \cr85.25 \end{bmatrix}$$
 
    The top-left 4 counts the rows; 27.25 is the sum of the CGPAs; 189.90 is the sum of their squares; 12.16 is the sum of the packages.
 
 3. **Invert and multiply:**
 
-$$\beta = \begin{bmatrix} 11.158 & -1.601 \cr  -1.601 & 0.235 \end{bmatrix}\begin{bmatrix} 12.16 \cr  85.25 \end{bmatrix} = \begin{bmatrix} -0.81 \cr  0.57 \end{bmatrix}$$
+   $$\beta = \begin{bmatrix} 11.158 & -1.601 \cr-1.601 & 0.235 \end{bmatrix}\begin{bmatrix} 12.16 \cr85.25 \end{bmatrix} = \begin{bmatrix} -0.81 \cr0.57 \end{bmatrix}$$
 
 So $\beta_0 = -0.81$ (intercept) and $\beta_1 = 0.57$ (slope): exactly what the simple linear regression formulas give for these four points. The simple formulas are the normal equation with a single feature.
 

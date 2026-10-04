@@ -51,7 +51,7 @@ In both cases, moving **against the sign of the slope** goes downhill. Moving ag
 
 In words: subtract from the current value the slope multiplied by a small constant $\eta$ (eta), the **learning rate**.
 
-$$b_{\text{new}} = b_{\text{old}} - \eta \thinspace  \frac{\partial L}{\partial b}$$
+$$b_{\text{new}} = b_{\text{old}} - \eta \thinspace\frac{\partial L}{\partial b}$$
 
 Two things happen automatically:
 
@@ -100,15 +100,15 @@ Figure 1 shows the loss curve $L(b)$ and the steps.
 
 Each slope is about one fifth of the previous one, so each step shrinks too. Nothing in the rule tells the algorithm to slow down: the flattening curve does it. Here the distance to the bottom shrinks to exactly one fifth at every step (the Extra below shows why).
 
-> **Extra:** Why exactly one fifth? With $m$ fixed, call $b^*$ the best intercept, where the slope is zero: $\sum (y_i - m x_i - b^*) = 0$. Then
+> **Extra:** Why exactly one fifth? With $m$ fixed, call $b^\ast$ the best intercept, where the slope is zero: $\sum (y_i - m x_i - b^\ast) = 0$. Then
 >
-> $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n} (y_i - m x_i - b) = 2n\thinspace (b - b^*)$$
+> $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n} (y_i - m x_i - b) = 2n\thinspace(b - b^\ast)$$
 >
 > so the update becomes
 >
-> $$b_{\text{new}} - b^* = (1 - 2n\eta)\thinspace (b_{\text{old}} - b^*)$$
+> $$b_{\text{new}} - b^\ast= (1 - 2n\eta)\thinspace(b_{\text{old}} - b^\ast)$$
 >
-> With $n = 4$ points and $\eta = 0.1$, the distance to $b^*$ is multiplied by $1 - 0.8 = 0.2$ at every step: $73.84$, then $14.77$, then $2.95$. With $\eta = 0.26$ (next section) the factor is $1 - 2.08 = -1.08$: the minus sign flips $b$ to the other side, and the distance grows by 8% each step. Any $\eta$ above $0.25$ diverges on this data.
+> With $n = 4$ points and $\eta = 0.1$, the distance to $b^\ast$ is multiplied by $1 - 0.8 = 0.2$ at every step: $73.84$, then $14.77$, then $2.95$. With $\eta = 0.26$ (next section) the factor is $1 - 2.08 = -1.08$: the minus sign flips $b$ to the other side, and the distance grows by 8% each step. Any $\eta$ above $0.25$ diverges on this data.
 
 ## 5. The learning rate
 
@@ -132,7 +132,7 @@ In practice both $m$ and $b$ are unknown. The loss $L(m, b)$ is then the bowl fr
 
 The slope with respect to $b$ is as before. With respect to $m$, the inner derivative of $-m x_i$ is $-x_i$:
 
-$$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n} (y_i - m x_i - b)\thinspace  x_i$$
+$$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n} (y_i - m x_i - b)\thinspace x_i$$
 
 Each epoch updates both at once, using the current values of both:
 

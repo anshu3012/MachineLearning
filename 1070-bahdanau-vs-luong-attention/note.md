@@ -51,7 +51,9 @@ At step 2 the same network runs again with $s_1$ in place of $s_0$. In the $4 \t
 2. **Formula** (Bahdanau et al. 2015, appendix A.1.2):
    $$e_{ij} = v^\top \tanh\left(W [s_{i-1}; h_j]\right) = v^\top \tanh\left(W_a s_{i-1} + U_a h_j\right), \qquad \alpha_{ij} = \frac{\exp(e_{ij})}{\sum_k \exp(e_{ik})}, \qquad c_i = \sum_j \alpha_{ij} h_j$$
    The two forms are the same: multiplying the joined vector $[s; h]$ by $W$ equals multiplying $s$ by the left half of $W$ and $h$ by the right half, and adding.
-3. **Example:** XXADD
+3. **Example:** the decoder state $s = [0.5, -0.2, 0.8, 0.1]$ and four encoder states, the first being $h_1 = [0.3, -0.5, -0.9, -1.0]$ (the Notebook lists all four and the weights $W$ and $v = [0.1, -0.4, 0.2]$). For $j = 1$, the joined row is $[0.5, -0.2, 0.8, 0.1, 0.3, -0.5, -0.9, -1.0]$. Times $W$ it gives $[-0.06, 0.47, 0.44]$; tanh gives $[-0.060, 0.438, 0.414]$; times $v$:
+   $$e_1 = 0.1(-0.060) - 0.4(0.438) + 0.2(0.414) = -0.099$$
+   The four scores are $(-0.099, -0.011, 0.449, -0.116)$, and softmax turns them into the weights $(0.208, 0.227, 0.360, 0.205)$. The score function has $8 \times 3 + 3 = 27$ learned numbers.
 
 Because the score adds a term from $s_{i-1}$ to a term from $h_j$ inside the tanh, Bahdanau attention is also called **additive attention** (Vaswani et al. 2017, section 3.2.1). Since $U_a h_j$ does not depend on $i$, it can be computed once per sentence (Bahdanau et al. 2015, appendix A.1.2).
 
@@ -78,7 +80,9 @@ The dot score requires $s_i$ and $h_j$ to have the same size; the general score 
 1. **In words:** multiply the decoder state and each encoder state element by element and add up (dot), or first transform the encoder state by a learned matrix (general).
 2. **Formula:**
    $$e_{ij} = s_i^\top h_j \ \ \text{(dot)}, \qquad e_{ij} = s_i^\top W_a h_j \ \ \text{(general)}$$
-3. **Example:** XXDOT
+3. **Example:** the same $s = [0.5, -0.2, 0.8, 0.1]$ and $h_1 = [0.3, -0.5, -0.9, -1.0]$:
+   $$e_1 = 0.5(0.3) + (-0.2)(-0.5) + 0.8(-0.9) + 0.1(-1.0) = 0.15 + 0.10 - 0.72 - 0.10 = -0.57$$
+   The four dot scores are $(-0.57, 0.35, 0.25, 0.87)$, with weights $(0.100, 0.251, 0.227, 0.422)$: no learned numbers at all. With a $4 \times 4$ matrix $W_a$ (16 learned numbers, in the Notebook) the general scores are $(0.477, -0.254, 0.975, -0.887)$, with weights $(0.296, 0.142, 0.486, 0.076)$. The three functions rank the four states differently. Here the states and the weights are random numbers; in a trained model, training sets them so that the useful encoder states get the high scores, whichever function is used.
 
 ### 5.2 The current state, and the context on the output side
 

@@ -136,10 +136,10 @@ So the loss punishes confident mistakes very heavily, and keeps rewarding the mo
 
 The cost of a point uses $\hat{y}$ if the point is green and $1 - \hat{y}$ if it is red. Writing it as $-\log \hat{y}$ for every point would be wrong for the red ones. One expression handles both cases:
 
-$$\text{cost}_i = -\left[y_i \log \hat{y}_i + (1 - y_i)\log(1 - \hat{y}_i)\right]$$
+$$\text{cost}_i = -\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
 
-- **Green point** ($y_i = 1$): the second term is multiplied by 0 and vanishes, leaving $-\log \hat{y}_i$.
-- **Red point** ($y_i = 0$): the first term vanishes, leaving $-\log(1 - \hat{y}_i)$.
+- **Green point** ($y_i = 1$): the second term is multiplied by 0 and vanishes, leaving $-\log \hat y_i$.
+- **Red point** ($y_i = 0$): the first term vanishes, leaving $-\log(1 - \hat y_i)$.
 
 With numbers, for model 1: point 2 is red with $\hat{y} = 0.6$, so its cost is $-\log(1 - 0.6) = -\log 0.4 = 0.92$. Point 3 is green with $\hat{y} = 0.4$, so its cost is $-\log 0.4 = 0.92$.
 
@@ -149,7 +149,7 @@ With numbers, for model 1: point 2 is red with $\hat{y} = 0.6$, so its cost is $
 
 Summing over all points and dividing by $n$ to get an average gives the loss function of logistic regression:
 
-$$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat{y}_i + (1 - y_i)\log(1 - \hat{y}_i)\right], \qquad \hat{y}_i = \sigma(w \cdot x_i)$$
+$$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right], \qquad \hat y_i = \sigma(w \cdot x_i)$$
 
 This loss is called **binary cross entropy** or **log loss**. For model 1 it is $2.41 / 4 = 0.603$.
 

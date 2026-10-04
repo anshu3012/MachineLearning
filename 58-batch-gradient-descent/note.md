@@ -37,18 +37,18 @@ The previous Note already used batch gradient descent, on one feature. This Note
 
 For multiple linear regression with $m$ features, the model is
 
-$$\hat{y}_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
+$$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
 
 and there are $m + 1$ coefficients to find. Batch gradient descent:
 
 1. **Start** with any values, for example $\beta_0 = 0$ and every other $\beta_j = 1$.
 2. **Each epoch:** compute the predictions for all observations, then the derivative of the loss with respect to every coefficient, then update all of them at once:
 
-$$\beta_j \leftarrow \beta_j - \eta \frac{\partial L}{\partial \beta_j} \quad \text{for } j = 0, 1, \dots, m$$
+   $$\beta_j \leftarrow \beta_j - \eta \frac{\partial L}{\partial \beta_j} \quad \text{for } j = 0, 1, \dots, m$$
 
 3. **Repeat** for a fixed number of epochs.
 
-The loss used here is the **mean** squared error, $L = \frac{1}{n}\sum (y_i - \hat{y}_i)^2$. Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same learning rate works for small and large datasets.
+The loss used here is the **mean** squared error, $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$. Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same learning rate works for small and large datasets.
 
 ## 3. The derivatives
 
@@ -58,13 +58,13 @@ The loss used here is the **mean** squared error, $L = \frac{1}{n}\sum (y_i - \h
 
 > **Key point:** Writing out the loss for two features shows the pattern: each coefficient's derivative weights the errors by its own feature.
 
-With two features, $\hat{y}_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$. Differentiating the mean squared error with the chain rule, as in the previous Note:
+With two features, $\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$. Differentiating the mean squared error with the chain rule, as in the previous Note:
 
-$$\frac{\partial L}{\partial \beta_0} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)$$
+$$\frac{\partial L}{\partial \beta_0} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)$$
 
-$$\frac{\partial L}{\partial \beta_1} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)\thinspace x_{i1}$$
+$$\frac{\partial L}{\partial \beta_1} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)\thinspace x_{i1}$$
 
-$$\frac{\partial L}{\partial \beta_2} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)\thinspace x_{i2}$$
+$$\frac{\partial L}{\partial \beta_2} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)\thinspace x_{i2}$$
 
 ### 3.2 Any number of features
 
@@ -72,7 +72,7 @@ $$\frac{\partial L}{\partial \beta_2} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat{y}
 
 In words: for coefficient $\beta_j$, take each observation's error, multiply it by that observation's value of feature $j$, add these up, and multiply by $-2/n$.
 
-$$\frac{\partial L}{\partial \beta_j} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)\thinspace x_{ij}$$
+$$\frac{\partial L}{\partial \beta_j} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)\thinspace x_{ij}$$
 
 The intercept fits the same rule if we imagine a column of 1s for it (as in the normal equation Note): multiplying by 1 changes nothing.
 
@@ -178,8 +178,8 @@ Stochastic and mini-batch gradient descent, in the next two Notes, solve these t
 | Item | Batch gradient descent |
 |---|---|
 | Observations per update | all $n$ |
-| Derivative of intercept | $-\frac{2}{n}\sum (y_i - \hat{y}_i)$ |
-| Derivative of coefficient $j$ | $-\frac{2}{n}\sum (y_i - \hat{y}_i)\thinspace x_{ij}$ |
+| Derivative of intercept | $-\frac{2}{n}\sum (y_i - \hat y_i)$ |
+| Derivative of coefficient $j$ | $-\frac{2}{n}\sum (y_i - \hat y_i)\thinspace x_{ij}$ |
 | All at once | $-\frac{2}{n} X^{\mathsf T}(y - \hat{y})$ |
 | Early stopping, 65 features | test R² 0.40 (OLS 0.06), average of 50 splits |
 

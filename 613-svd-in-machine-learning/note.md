@@ -20,7 +20,7 @@ This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2
 
 ![PCA read off the thin SVD of the centred data](images/pca_via_svd.png)
 
-The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md), defined $A = U\Sigma V^{\mathsf T}$, and the [low-rank approximation Note](../612-low-rank-approximation/note.md) showed that the first $k$ layers give the best rank-$k$ approximation. This Note uses both in four ML tools:
+The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md), defined $A = U\Sigma V^{\mathsf T}$, and the [low-rank approximation Note](../612-low-rank-approximation/note.md) showed that the first $k$ layers give the best rank $k$ approximation. This Note uses both in four ML tools:
 
 - PCA computed through the SVD (Section 2 and Figure 1);
 - latent semantic analysis of text (Section 3);
@@ -41,7 +41,7 @@ The [computing the SVD Note](../611-computing-the-svd/note.md) (section 2.1) sho
 
 1. **In words:** the covariance matrix is the data's $A^{\mathsf T}A$ divided by $n$, so its eigenvectors are the right singular vectors of $X_c$ and its eigenvalues are the squared singular values divided by $n$.
 2. **Formula:**
-   $$C = \frac{1}{n}X_c^{\mathsf T}X_c = V\thinspace \frac{\Sigma^2}{n}\thinspace V^{\mathsf T}, \qquad \text{variance along PC } i = \frac{\sigma_i^2}{n}, \qquad Z = X_cV = U\Sigma$$
+   $$C = \frac{1}{n}X_c^{\mathsf T}X_c = V\thinspace\frac{\Sigma^2}{n}\thinspace V^{\mathsf T}, \qquad \text{variance along PC } i = \frac{\sigma_i^2}{n}, \qquad Z = X_cV = U\Sigma$$
 3. **Example:** for the 30 flats (rooms and washrooms) of the PCA Notes, the centred data has singular values 8.843 and 1.243:
    $$\frac{8.843^2}{30} = 2.61, \qquad \frac{1.243^2}{30} = 0.05$$
    exactly the eigenvalues 2.61 and 0.05 found in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.3). The right singular vectors are $[0.707, 0.707]$ and $[-0.707, 0.707]$ (up to sign): PC1 at 45°, as there.
@@ -106,7 +106,7 @@ d1 and d2 are both about cricket, but they share no word, so their cosine simila
 
 Stack the count vectors as the rows of a $7 \times 14$ matrix $X$ (7 documents, 14 words). Its first two singular values are 2.73 and 2.64, and the rest are smaller. **Latent semantic analysis** (**LSA**) keeps the first $k$ and describes each document by its coordinates along them.
 
-1. **In words:** each document's new coordinates are its row of $U_k\Sigma_k$: how strongly it uses each of the $k$ word patterns $\mathbf{v}_1, \dots, \mathbf{v}_k$.
+1. **In words:** each document's new coordinates are its row of $U_k\Sigma_k$: how strongly it uses each of the $k$ word patterns $\mathbf v_1, \dots, \mathbf v_k$.
 2. **Formula:**
    $$Z = U_k\Sigma_k = XV_k$$
 3. **Example:** with $k = 2$, d1 lands at $[0.635, 0.836]$ and d2 at exactly the same point. Their cosine similarity in this 2D topic space is 1.00, up from 0. d4 at $[0.932, -0.737]$ and d5 at $[0.596, -0.564]$ get 1.00 as well.
@@ -115,7 +115,7 @@ Figure 2 shows why. d3 contains all the cricket words together, so the SVD learn
 
 ![The seven documents in the 2D topic space of LSA: cricket (green), food (orange), and the mixed d7 (purple)](images/lsa_docs.png){width=75%}
 
-LSA is a rank-$k$ approximation (the [low-rank approximation Note](../612-low-rank-approximation/note.md)) used for meaning rather than compression: dropping the small singular directions drops the accidents of word choice and keeps the shared themes. LSA was introduced for exactly this purpose, to find documents on a topic even when they use other words than the query (Deerwester et al. 1990).
+LSA is a rank $k$ approximation (the [low-rank approximation Note](../612-low-rank-approximation/note.md)) used for meaning rather than compression: dropping the small singular directions drops the accidents of word choice and keeps the shared themes. LSA was introduced for exactly this purpose, to find documents on a topic even when they use other words than the query (Deerwester et al. 1990).
 
 > **Python:** `TruncatedSVD` keeps the top $k$ singular directions.
 >
@@ -145,21 +145,21 @@ Recommender systems work on a table of ratings: one row per viewer, one column p
 
 ### 4.2 Reading the singular vectors
 
-> **Key point:** $\mathbf{v}_1$ is overall liking, $\mathbf{v}_2$ is action against romance; $\mathbf{u}_i$ says how much each viewer follows each pattern.
+> **Key point:** $\mathbf v_1$ is overall liking, $\mathbf v_2$ is action against romance; $\mathbf u_i$ says how much each viewer follows each pattern.
 
 The singular values are 14.6, 6.6, 1.5 and 0.6. The first two dominate.
 
-- **$\mathbf{v}_1 = [-0.54, -0.51, -0.49, -0.46]$:** all four films with the same sign and similar size. The first pattern is "how much a viewer likes films at all". The rank-1 approximation (Figure 3, middle) gives each viewer roughly the same rating for every film: Esha high, the others near 3.
-- **$\mathbf{v}_2 = [0.44, 0.51, -0.50, -0.55]$:** positive for the action films, negative for the romance films. The second pattern is a taste axis. The matching $\mathbf{u}_2 = [0.48, 0.42, -0.57, -0.51, 0.08]$ puts Asha and Ben on the action side, Chitra and Dev on the romance side, and Esha near 0: she has no preference.
+- **$\mathbf v_1 = [-0.54, -0.51, -0.49, -0.46]$:** all four films with the same sign and similar size. The first pattern is "how much a viewer likes films at all". The rank-1 approximation (Figure 3, middle) gives each viewer roughly the same rating for every film: Esha high, the others near 3.
+- **$\mathbf v_2 = [0.44, 0.51, -0.50, -0.55]$:** positive for the action films, negative for the romance films. The second pattern is a taste axis. The matching $\mathbf u_2 = [0.48, 0.42, -0.57, -0.51, 0.08]$ puts Asha and Ben on the action side, Chitra and Dev on the romance side, and Esha near 0: she has no preference.
 
-Adding the second layer (Figure 3, right) recovers the table: no entry is off by more than 0.55. The third and fourth layers carry only small details, so the data is essentially two-dimensional: one "general liking" axis and one "action or romance" axis. In the language of the book's movie example, the $\mathbf{v}_i$ are stereotypical films and the $\mathbf{u}_i$ stereotypical viewers; each real viewer is a mix of them.
+Adding the second layer (Figure 3, right) recovers the table: no entry is off by more than 0.55. The third and fourth layers carry only small details, so the data is essentially two-dimensional: one "general liking" axis and one "action or romance" axis. In the language of the book's movie example, the $\mathbf v_i$ are stereotypical films and the $\mathbf u_i$ stereotypical viewers; each real viewer is a mix of them.
 
 1. **In words:** the predicted rating of viewer $a$ for film $b$ is the sum, over the kept layers, of (singular value) times (how much $a$ follows the pattern) times (how much $b$ fits it).
 2. **Formula:**
-   $$\hat{r}_{ab} = \sum_{i=1}^{k}\sigma_i\thinspace u_{ai}\thinspace v_{bi}$$
+   $$\hat r_{ab} = \sum_{i=1}^{k}\sigma_i\thinspace u_{ai}\thinspace v_{bi}$$
 3. **Example:** for Asha and Action 1 with $k = 2$: $14.63 \times (-0.39) \times (-0.54) + 6.57 \times 0.48 \times 0.44 \approx 3.06 + 1.39 = 4.45$, against her real rating of 5.
 
-> **Extra:** Real ratings tables are mostly empty: a viewer has rated a handful of thousands of films. The plain SVD needs every entry. Recommenders therefore fit the same form, $\hat{r}_{ab} = \sum_i p_{ai}q_{bi}$ (a viewer vector times a film vector), by gradient descent on the known ratings only, and use it to fill in the unknown ones. This **matrix factorisation** became widely used during the Netflix Prize (2006–2009) (Koren et al. 2009). The method is often called "SVD", although strictly it is not an SVD: its vectors are not forced to be orthonormal.
+> **Extra:** Real ratings tables are mostly empty: a viewer has rated a handful of thousands of films. The plain SVD needs every entry. Recommenders therefore fit the same form, $\hat r_{ab} = \sum_i p_{ai}q_{bi}$ (a viewer vector times a film vector), by gradient descent on the known ratings only, and use it to fill in the unknown ones. This **matrix factorisation** became widely used during the Netflix Prize (2006–2009) (Koren et al. 2009). The method is often called "SVD", although strictly it is not an SVD: its vectors are not forced to be orthonormal.
 
 ## 5. The pseudo-inverse and least squares
 
@@ -173,9 +173,9 @@ The inverse of a product is the product of the inverses in reverse order. For $A
 
 1. **In words:** transpose $\Sigma$, replace each non-zero $\sigma_i$ by $1/\sigma_i$ and leave the zeros; then sandwich it between $V$ and $U^{\mathsf T}$.
 2. **Formula:**
-   $$A^{+} = V\Sigma^{+}U^{\mathsf T} = \sum_{\sigma_i > 0}\frac{1}{\sigma_i}\thinspace \mathbf{v}_i\mathbf{u}_i^{\mathsf T}$$
-3. **Example:** for the rank-1 matrix $C$ with rows $[2, 1]$ and $[4, 2]$ ($\sigma_1 = 5$, $\mathbf{u}_1 = \frac{1}{\sqrt5}[1, 2]$, $\mathbf{v}_1 = \frac{1}{\sqrt5}[2, 1]$, from the [computing the SVD Note](../611-computing-the-svd/note.md), section 5):
-   $$C^{+} = \frac{1}{5}\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 \cr  1 \end{bmatrix}\frac{1}{\sqrt5}\begin{bmatrix} 1 & 2 \end{bmatrix} = \frac{1}{25}\begin{bmatrix} 2 & 4 \cr  1 & 2 \end{bmatrix} = \begin{bmatrix} 0.08 & 0.16 \cr  0.04 & 0.08 \end{bmatrix}$$
+   $$A^{+} = V\Sigma^{+}U^{\mathsf T} = \sum_{\sigma_i > 0}\frac{1}{\sigma_i}\thinspace\mathbf v_i\mathbf u_i^{\mathsf T}$$
+3. **Example:** for the rank-1 matrix $C$ with rows $[2, 1]$ and $[4, 2]$ ($\sigma_1 = 5$, $\mathbf u_1 = \frac{1}{\sqrt5}[1, 2]$, $\mathbf v_1 = \frac{1}{\sqrt5}[2, 1]$, from the [computing the SVD Note](../611-computing-the-svd/note.md), section 5):
+   $$C^{+} = \frac{1}{5}\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 \cr1 \end{bmatrix}\frac{1}{\sqrt5}\begin{bmatrix} 1 & 2 \end{bmatrix} = \frac{1}{25}\begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix} = \begin{bmatrix} 0.08 & 0.16 \cr0.04 & 0.08 \end{bmatrix}$$
 
 $C$ has no inverse (its determinant is 0), but $C^{+}$ undoes it as far as possible: it sends each output on the column space back to the matching input in the row space. For a square matrix that does have an inverse, $A^{+} = A^{-1}$.
 
@@ -223,10 +223,10 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 | ML tool | Matrix we take the SVD of | What the SVD gives |
 |---|---|---|
 | PCA | centred data $X_c$ | PCs = rows of $V^{\mathsf T}$; variances $\sigma_i^2/n$; projected data $U\Sigma$ |
-| Latent semantic analysis | document-word counts | topics = top $\mathbf{v}_i$; documents in topic space $U_k\Sigma_k$ |
-| Ratings / recommenders | viewer-film ratings | viewer types $\mathbf{u}_i$, film types $\mathbf{v}_i$; predictions $\sum\sigma_iu_{ai}v_{bi}$ |
+| Latent semantic analysis | document-word counts | topics = top $\mathbf v_i$; documents in topic space $U_k\Sigma_k$ |
+| Ratings / recommenders | viewer-film ratings | viewer types $\mathbf u_i$, film types $\mathbf v_i$; predictions $\sum\sigma_iu_{ai}v_{bi}$ |
 | Least squares | design matrix $X$ | $\beta = X^{+}\mathbf{y}$, safe even with dependent columns |
-| Compression, noise reduction | any data matrix | best rank-$k$ approximation (see the [low-rank approximation Note](../612-low-rank-approximation/note.md)) |
+| Compression, noise reduction | any data matrix | best rank $k$ approximation (see the [low-rank approximation Note](../612-low-rank-approximation/note.md)) |
 
 - PCA is the SVD of the centred data; the covariance matrix is never needed.
 - Recent scikit-learn picks between the SVD and the covariance route by the shape of the data.
@@ -250,8 +250,8 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 |---|---|
 | PCA through the SVD | Taking the principal components from $V$ of the centred data, with variances $\sigma_i^2/n$ and scores $U\Sigma$ |
 | Randomized SVD | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data |
-| Latent semantic analysis (LSA) | Describing documents by their top-$k$ singular directions of the document-word matrix, so that texts on one topic align |
-| TruncatedSVD | scikit-learn's rank-$k$ SVD without centring; works on sparse matrices |
+| Latent semantic analysis (LSA) | Describing documents by their top $k$ singular directions of the document-word matrix, so that texts on one topic align |
+| TruncatedSVD | scikit-learn's rank $k$ SVD without centring; works on sparse matrices |
 | Matrix factorisation (recommenders) | Predicting ratings as a viewer vector times a film vector, fitted on the known ratings only |
 | Moore–Penrose pseudo-inverse ($A^{+}$) | $V\Sigma^{+}U^{\mathsf T}$: the SVD inverted with zero singular values left at zero |
 | Minimum-norm solution | Among all equally good least-squares solutions, the one with the smallest length; what $A^{+}\mathbf{b}$ returns |

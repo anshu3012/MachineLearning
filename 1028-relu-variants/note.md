@@ -61,7 +61,7 @@ Neither weight changes. If $z_1$ is negative for every observation (every record
 
 > **Key point:** Two causes: a learning rate so high that one update throws the weights negative, and a large negative bias.
 
-**1. A high learning rate.** Suppose that for the first observation $z_1$ is positive, so the gradient is not 0. With a very large learning rate, $\eta\thinspace \partial L/\partial w$ is a big number. Subtracting it from a small weight makes $w_1$ and $w_2$ strongly negative, and in the next round $z_1$ is negative for every observation.
+**1. A high learning rate.** Suppose that for the first observation $z_1$ is positive, so the gradient is not 0. With a very large learning rate, $\eta\thinspace\partial L/\partial w$ is a big number. Subtracting it from a small weight makes $w_1$ and $w_2$ strongly negative, and in the next round $z_1$ is negative for every observation.
 
 **2. A large negative bias.** If $b_1$ is very negative, $z_1 = w_1 x_1 + w_2 x_2 + b_1$ is negative however the inputs vary. The bias can start out negative, or it can be pushed there by updates, again usually because the learning rate is high.
 
@@ -122,7 +122,7 @@ The **linear variants** of ReLU change only the negative side, and change it to 
 
 1. **In words:** the **Leaky ReLU** keeps positive values and multiplies negative ones by 0.01 (Maas et al. 2013).
 2. **Formula:**
-   $$f(z) = \begin{cases} z & z \ge 0 \cr  0.01\thinspace z & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr  0.01 & z < 0 \end{cases}$$
+   $$f(z) = \begin{cases} z & z \ge 0 \cr0.01\thinspace z & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr0.01 & z < 0 \end{cases}$$
 3. **Example:** $f(5) = 5$ and $f(-5) = -0.05$. At $z = -5$ ReLU's slope would be 0; Leaky ReLU's is 0.01.
 
 Because $\partial a/\partial z$ is never 0, the gradient in section 3.1 is never exactly 0. The weights keep changing a little, and a node can climb back out of the negative region: with a starting bias of $-1$, the share of first-layer nodes negative on every observation falls from 72% to 44% during training. In Figure 3, Leaky ReLU (Keras' `"leaky_relu"`, slope 0.2) with a starting bias of $-1$ reaches 89% accuracy, where ReLU stayed at 50%.
@@ -144,7 +144,7 @@ The only questionable point of Leaky ReLU is the constant: why 0.01 and not some
 
 1. **In words:** the **Parametric ReLU (PReLU)** multiplies negative inputs by a slope $a$ that is learned during training.
 2. **Formula:**
-   $$f(z) = \begin{cases} z & z \ge 0 \cr  a\thinspace z & z < 0 \end{cases}$$
+   $$f(z) = \begin{cases} z & z \ge 0 \cr a\thinspace z & z < 0 \end{cases}$$
 3. **Example:** if training sets $a = 0.25$, then $f(-2) = -0.5$; with $a = 0.01$ it would be Leaky ReLU, with $a = 0$ plain ReLU.
 
 The slope $a$ is a parameter like a weight, found by gradient descent from the data. The slope $a$ is not a hyperparameter that we set. Everything else, advantages included, is as for Leaky ReLU. The extra flexibility can help: the paper that introduced PReLU reports better ImageNet accuracy than with ReLU (He et al. 2015).
@@ -172,11 +172,11 @@ The **non-linear variants** of ReLU use a curve, not a straight line, on the neg
 
 1. **In words:** the **ELU** (exponential linear unit; Clevert et al. 2016) is ReLU for positive $z$ and an exponential curve for negative $z$ that levels off at $-\alpha$.
 2. **Formula:**
-   $$f(z) = \begin{cases} z & z \ge 0 \cr  \alpha\thinspace (e^{z} - 1) & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr  f(z) + \alpha & z < 0 \end{cases}$$
+   $$f(z) = \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr f(z) + \alpha & z < 0 \end{cases}$$
 3. **Example:** with $\alpha = 1$ and $z = -1$:
    $$f(-1) = e^{-1} - 1 = 0.368 - 1 = -0.632, \qquad f'(-1) = -0.632 + 1 = 0.368$$
 
-The negative-side slope comes from differentiating: $\frac{d}{dz}\thinspace \alpha(e^{z} - 1) = \alpha e^{z} = f(z) + \alpha$. A larger $\alpha$ pulls the negative side further down.
+The negative-side slope comes from differentiating: $\frac{d}{dz}\thinspace\alpha(e^{z} - 1) = \alpha e^{z} = f(z) + \alpha$. A larger $\alpha$ pulls the negative side further down.
 
 Advantages:
 
@@ -195,7 +195,7 @@ Disadvantage: it needs an exponential, so it is slower to compute than ReLU. Fas
 
 1. **In words:** the **SELU** (scaled exponential linear unit; Klambauer et al. 2017) is ELU with a specific $\alpha$, multiplied by a scale $\lambda$.
 2. **Formula:**
-   $$f(z) = \lambda \begin{cases} z & z \ge 0 \cr  \alpha\thinspace (e^{z} - 1) & z < 0 \end{cases} \qquad \lambda \approx 1.0507,\ \alpha \approx 1.6733$$
+   $$f(z) = \lambda \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases} \qquad \lambda \approx 1.0507,\ \alpha \approx 1.6733$$
 3. **Example:**
    $$f(1) = 1.0507, \qquad f(-1) = 1.0507 \times 1.6733 \times (0.368 - 1) = -1.111$$
 

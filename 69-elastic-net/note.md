@@ -28,7 +28,7 @@ With a large dataset of many features, it is often impossible to know in advance
 
 The Elastic Net loss is the squared error with both penalties added:
 
-$$L = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 + a\sum_{j=1}^{m}\beta_j^2 + b\sum_{j=1}^{m}|\beta_j|$$
+$$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + a\sum_{j=1}^{m}\beta_j^2 + b\sum_{j=1}^{m}|\beta_j|$$
 
 $a$ sets the strength of the Ridge part and $b$ the strength of the Lasso part. They are separate numbers, so the two parts can be weighted differently.
 
@@ -59,7 +59,7 @@ With numbers: alpha 1 and l1_ratio 0.5 give $a = 0.5$ and $b = 0.5$. Going back 
 
 > **Extra:** A common slip is to read l1_ratio 0.9 as "90% Ridge". The name says what it measures: the L1 share. So 0.9 means 90% Lasso (scikit-learn docs, `ElasticNet`).
 
-> **Extra:** As with `Lasso`, scikit-learn scales the terms a little differently: it minimises $\frac{1}{2n}\sum(y_i - \hat{y}_i)^2 + \text{alpha} \cdot r\sum|\beta_j| + \frac{1}{2}\text{alpha}(1 - r)\sum\beta_j^2$, with $r$ the `l1_ratio`. The idea is the same; only the scale of alpha differs (scikit-learn docs, `ElasticNet`).
+> **Extra:** As with `Lasso`, scikit-learn scales the terms a little differently: it minimises $\frac{1}{2n}\sum(y_i - \hat y_i)^2 + \text{alpha} \cdot r\sum|\beta_j| + \frac{1}{2}\text{alpha}(1 - r)\sum\beta_j^2$, with $r$ the `l1_ratio`. The idea is the same; only the scale of alpha differs (scikit-learn docs, `ElasticNet`).
 
 ## 4. The shape of the penalty
 

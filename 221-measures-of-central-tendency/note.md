@@ -36,7 +36,9 @@ There are several such measures. The main ones are the mean, median and mode; th
 > **Key point:** The mean is the sum of the values divided by how many there are; it uses every value, so one extreme value can drag it far away.
 
 The mean, the sum of the values divided by their count, is worked through in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1). What is new here is that the population and the sample get different symbols, as the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2) explains. For a population of $N$ values and a sample of $n$ values,
+
 $$\mu = \frac{1}{N}\sum_{i=1}^{N} x_i \qquad\qquad \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+
 where $\sum_{i=1}^{n} x_i$ means "add up $x_1, x_2, \dots, x_n$". For the values 3, 4, 1, 2 and 5, $\bar{x} = 15/5 = 3$.
 
 The two formulas do the same arithmetic. They differ in what they describe: $\mu$ is the true centre of the whole population, $\bar{x}$ is the centre of one sample. Nothing guarantees they are equal: they can be close, or very different.
@@ -61,10 +63,13 @@ So before using the mean, we check whether the feature has outliers. If it does,
 > **Key point:** The median is the middle value of the sorted data; extreme values sit at the ends of the sorted list, so they cannot move it.
 
 The median, the middle value of the sorted data, and its position $(n+1)/2$ are in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). With an even number of values there is no single middle one, so we take the mean of the two middle ones. For sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$,
-$$\text{median} = \begin{cases} x_{((n+1)/2)} & n \text{ odd} \cr  \dfrac{x_{(n/2)} + x_{(n/2+1)}}{2} & n \text{ even} \end{cases}$$
+
+$$\text{median} = \begin{cases} x_{((n+1)/2)} & n \text{ odd} \cr\dfrac{x_{(n/2)} + x_{(n/2+1)}}{2} & n \text{ even} \end{cases}$$
 
 For example, 1, 2, 3, 4, 5 has median 3. Adding a sixth value, 6, gives 1, 2, 3, 4, 5, 6, and
+
 $$\text{median} = \frac{3 + 4}{2} = 3.5$$
+
 If that sixth value were 60,000 instead of 6, the sorted list would be 1, 2, 3, 4, 5, 60000, and the median would still be 3.5.
 
 The unchanged median of 3.5 shows why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 2, the founder moves the median only from 33 to 34 thousand rupees.
@@ -122,9 +127,9 @@ In the ordinary mean, every value counts equally. The **weighted mean** gives ea
 
 1. **In words:** multiply each value by its weight, add these products, and divide by the sum of the weights.
 2. **Formula:** for values $x_i$ with weights $w_i$,
-   $$\bar{x}_w = \frac{\sum_{i=1}^{n} w_i\thinspace  x_i}{\sum_{i=1}^{n} w_i}$$
+   $$\bar x_w = \frac{\sum_{i=1}^{n} w_i\thinspace x_i}{\sum_{i=1}^{n} w_i}$$
 3. **Example:** we predict a house price with three models: linear regression says 10 lakh rupees, a random forest 15 lakh, and XGBoost 12 lakh. From past results, we trust them with weights 0.2, 0.3 and 0.5. Then
-   $$\bar{x}_w = \frac{0.2 \times 10 + 0.3 \times 15 + 0.5 \times 12}{0.2 + 0.3 + 0.5} = \frac{2 + 4.5 + 6}{1} = 12.5 \text{ lakh rupees}$$
+   $$\bar x_w = \frac{0.2 \times 10 + 0.3 \times 15 + 0.5 \times 12}{0.2 + 0.3 + 0.5} = \frac{2 + 4.5 + 6}{1} = 12.5 \text{ lakh rupees}$$
    The plain mean would be $(10 + 15 + 12)/3 = 12.33$ lakh; the weighted mean leans towards XGBoost, the model we trust most.
 
 This weighting is exactly what a voting regressor with weights does (see the [voting regressor Note](../104-voting-regressor/note.md)). The ordinary mean is the special case where every weight is equal.
@@ -143,9 +148,9 @@ The **trimmed mean** removes a chosen percentage of the smallest and of the larg
 
 1. **In words:** sort the values, remove the lowest $p$ percent and the highest $p$ percent, and take the mean of the rest.
 2. **Formula:** for $n$ sorted values $x_{(1)} \le \dots \le x_{(n)}$, cut $k = \lfloor p\thinspace n \rfloor$ values from each end ($\lfloor\ \rfloor$ means round down):
-   $$\bar{x}_{\text{trim}} = \frac{1}{n - 2k}\sum_{i=k+1}^{n-k} x_{(i)}$$
+   $$\bar x_{\text{trim}} = \frac{1}{n - 2k}\sum_{i=k+1}^{n-k} x_{(i)}$$
 3. **Example:** the class with the founder has $n = 10$ salaries: 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000 thousand rupees. A 10% trim cuts $k = \lfloor 0.1 \times 10 \rfloor = 1$ value from each end: 28 and 2000. Then
-   $$\bar{x}_{\text{trim}} = \frac{30 + 31 + 32 + 33 + 35 + 36 + 38 + 40}{8} = \frac{275}{8} = 34.375$$
+   $$\bar x_{\text{trim}} = \frac{30 + 31 + 32 + 33 + 35 + 36 + 38 + 40}{8} = \frac{275}{8} = 34.375$$
    The plain mean was 230.3; the trimmed mean, 34.4, describes the class again (Figure 2).
 
 The trimmed mean sits between the mean and the median: trimming nothing gives the plain mean, and trimming almost 50% from each end leaves only the middle, the median. In between, it uses more values than the median yet ignores the extremes.

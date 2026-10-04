@@ -63,7 +63,7 @@ The gradient of a function is perpendicular to its contour lines (see the [parti
 
 1. **In words:** at the constrained minimum, the gradient of $f$ is a multiple of the gradient of the constraint function.
 2. **Formula:** for a constraint $h(\mathbf{x}) = 0$,
-   $$\nabla f(\mathbf{x}^*) = -\lambda\thinspace  \nabla h(\mathbf{x}^*) \quad \text{for some number } \lambda$$
+   $$\nabla f(\mathbf{x}^\ast) = -\lambda\thinspace\nabla h(\mathbf{x}^\ast) \quad \text{for some number } \lambda$$
    The number $\lambda$ is the **Lagrange multiplier**. The minus sign is a convention that matches Section 4.
 3. **Example:** at $(2, 1)$, $\nabla f = [2x,\ 4y] = [4,\ 4]$. With $h = 3 - x - y$, $\nabla h = [-1,\ -1]$. Then $[4, 4] = -4 \times [-1, -1]$, so $\lambda = 4$. Figure 1 (last frame) draws $\nabla f$ and $\nabla(x + y) = [1, 1]$: they point the same way.
 
@@ -81,7 +81,7 @@ The tangency condition and the constraint can be packed into one unconstrained f
 
 1. **In words:** the objective plus each constraint times its multiplier.
 2. **Formula:**
-   $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = f(\mathbf{x}) + \sum_{j} \lambda_j\thinspace  h_j(\mathbf{x}) = f(\mathbf{x}) + \boldsymbol{\lambda}^{\mathsf T} \mathbf{h}(\mathbf{x})$$
+   $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = f(\mathbf{x}) + \sum_{j} \lambda_j\thinspace h_j(\mathbf{x}) = f(\mathbf{x}) + \boldsymbol{\lambda}^{\mathsf T} \mathbf{h}(\mathbf{x})$$
    Setting $\nabla_{\mathbf{x}} \mathcal{L} = \mathbf{0}$ gives $\nabla f = -\sum_j \lambda_j \nabla h_j$, the tangency condition. Setting $\partial \mathcal{L}/\partial \lambda_j = 0$ gives back $h_j(\mathbf{x}) = 0$.
 3. **Example:** for our problem, $\mathcal{L}(x, y, \lambda) = x^2 + 2y^2 + \lambda(3 - x - y)$. The three partial derivatives:
    $$\frac{\partial \mathcal{L}}{\partial x} = 2x - \lambda = 0, \qquad \frac{\partial \mathcal{L}}{\partial y} = 4y - \lambda = 0, \qquad \frac{\partial \mathcal{L}}{\partial \lambda} = 3 - x - y = 0$$
@@ -96,9 +96,9 @@ Three equations in three unknowns replaced a search along a line. With $n$ varia
 The multiplier is more than a helper variable. The multiplier says how much the constraint costs.
 
 1. **In words:** if we move the constraint by a small amount, the best value changes by about $\lambda$ times that amount.
-2. **Formula:** for the constraint $x + y = c$, with best value $f^*(c)$,
-   $$\frac{d f^*}{d c} = \lambda$$
-3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^*(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$.
+2. **Formula:** for the constraint $x + y = c$, with best value $f^\ast(c)$,
+   $$\frac{d f^\ast}{d c} = \lambda$$
+3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^\ast(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$.
 
 > **Extra:** In economics, $\lambda$ is called the **shadow price** of the constraint (Boyd and Vandenberghe §5.6): how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming Note](../622-linear-and-quadratic-programming/note.md) reads multipliers this way.
 
@@ -115,14 +115,14 @@ Most constraints in ML are inequalities: a margin of at least 1, a weight length
 
 Why must $\lambda \ge 0$ for an inequality? At an active constraint, $\nabla f = -\lambda \nabla g$. The gradient $\nabla g$ points out of the feasible region, towards larger $g$. With $\lambda \ge 0$, $\nabla f$ points into the region: $f$ increases as we move inside, so the boundary point is indeed lowest. A negative $\lambda$ would mean $f$ decreases inside, and the true answer would lie inside.
 
-In both cases the product $\lambda\thinspace  g(\mathbf{x}^*)$ is 0: either $\lambda = 0$ (inactive) or $g = 0$ (active). For an equality constraint, the multiplier can have either sign.
+In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\lambda = 0$ (inactive) or $g = 0$ (active). For an equality constraint, the multiplier can have either sign.
 
 > **Extra:** These rules together are the **KKT conditions** (Karush–Kuhn–Tucker), the standard check for a constrained minimum (Boyd and Vandenberghe §5.5.3):
 >
 > 1. **Stationarity:** $\nabla f + \sum_i \lambda_i \nabla g_i + \sum_j \nu_j \nabla h_j = \mathbf{0}$.
 > 2. **Primal feasibility:** $g_i(\mathbf{x}) \le 0$ and $h_j(\mathbf{x}) = 0$.
 > 3. **Dual feasibility:** $\lambda_i \ge 0$ (the equality multipliers $\nu_j$ can have any sign).
-> 4. **Complementary slackness:** $\lambda_i\thinspace  g_i(\mathbf{x}) = 0$ for every $i$.
+> 4. **Complementary slackness:** $\lambda_i\thinspace g_i(\mathbf{x}) = 0$ for every $i$.
 >
 > For the active case of Figure 2: $[4, 4] + 4 \times [-1, -1] = \mathbf{0}$; $g = 3 - 2 - 1 = 0$; $\lambda = 4 \ge 0$; $4 \times 0 = 0$. All four hold.
 
@@ -132,7 +132,7 @@ In both cases the product $\lambda\thinspace  g(\mathbf{x}^*)$ is 0: either $\la
 
 One way to remove a constraint is a penalty that is 0 inside the feasible region and infinite outside:
 
-$$J(\mathbf{x}) = f(\mathbf{x}) + \sum_{i} \mathrm{I}\big(g_i(\mathbf{x})\big), \qquad \mathrm{I}(z) = \begin{cases} 0 & z \le 0 \cr  \infty & z > 0 \end{cases}$$
+$$J(\mathbf{x}) = f(\mathbf{x}) + \sum_{i} \mathrm{I}\big(g_i(\mathbf{x})\big), \qquad \mathrm{I}(z) = \begin{cases} 0 & z \le 0 \cr\infty & z > 0 \end{cases}$$
 
 Minimising $J$ gives the same answer as the constrained problem, but a function that jumps to infinity is as hard to minimise as the original. The Lagrangian replaces the infinite wall with the linear term $\lambda_i g_i(\mathbf{x})$: a finite price per unit of violation. For $\lambda \ge 0$ and any feasible point, $\lambda g \le 0$, so $\mathcal{L}$ is never above $J$. This lower bound is the starting point of duality.
 
@@ -193,19 +193,19 @@ Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a cir
 
 ### 7.2 The SVM dual
 
-> **Key point:** In the dual of the hard-margin SVM, $\mathbf{w} = \sum_i \alpha_i y_i \mathbf{x}_i$, the data appears only through dot products $\mathbf{x}_i^{\mathsf T}\mathbf{x}_j$, and only the support vectors have $\alpha_i > 0$.
+> **Key point:** In the dual of the hard-margin SVM, $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, the data appears only through dot products $\mathbf x_i^{\mathsf T}\mathbf x_j$, and only the support vectors have $\alpha_i > 0$.
 
-The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf{x}_i + b) \ge 1$ for every point (see the [SVM soft margin Note](../94-svm-soft-margin/note.md), Section 3). Each point gives one constraint $g_i = 1 - y_i(\mathbf{w}^{\mathsf T}\mathbf{x}_i + b) \le 0$ and one multiplier $\alpha_i \ge 0$.
+The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ for every point (see the [SVM soft margin Note](../94-svm-soft-margin/note.md), Section 3). Each point gives one constraint $g_i = 1 - y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \le 0$ and one multiplier $\alpha_i \ge 0$.
 
 1. **In words:** set the derivatives of the Lagrangian in $\mathbf{w}$ and $b$ to zero and put the results back; what is left is a problem in the multipliers alone.
-2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf{x}_i$, and $\partial \mathcal{L}/\partial b = 0$ gives $\sum_i \alpha_i y_i = 0$. The dual problem is (MML §12.3)
-   $$\max_{\boldsymbol{\alpha} \ge 0} \ \sum_i \alpha_i - \frac12 \sum_i \sum_j \alpha_i \alpha_j y_i y_j\thinspace  \mathbf{x}_i^{\mathsf T}\mathbf{x}_j \quad \text{subject to} \quad \sum_i \alpha_i y_i = 0$$
-3. **Example:** two points, $\mathbf{x}_1 = (1, 1)$ with $y_1 = +1$ and $\mathbf{x}_2 = (-1, -1)$ with $y_2 = -1$. The equality forces $\alpha_1 = \alpha_2 = \alpha$. Then $\mathbf{w} = \alpha(1, 1) + \alpha(1, 1) = (2\alpha, 2\alpha)$, and the dual objective is $2\alpha - \tfrac12 \times 8\alpha^2 = 2\alpha - 4\alpha^2$. Its maximum is at $\alpha = 0.25$, giving $\mathbf{w} = (0.5, 0.5)$ and $b = 0$. The margin is $2/\lVert \mathbf{w} \rVert = 2.83$, exactly the distance between the two points.
+2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, and $\partial \mathcal{L}/\partial b = 0$ gives $\sum_i \alpha_i y_i = 0$. The dual problem is (MML §12.3)
+   $$\max_{\boldsymbol{\alpha} \ge 0} \ \sum_i \alpha_i - \frac12 \sum_i \sum_j \alpha_i \alpha_j y_i y_j\thinspace\mathbf x_i^{\mathsf T}\mathbf x_j \quad \text{subject to} \quad \sum_i \alpha_i y_i = 0$$
+3. **Example:** two points, $\mathbf x_1 = (1, 1)$ with $y_1 = +1$ and $\mathbf x_2 = (-1, -1)$ with $y_2 = -1$. The equality forces $\alpha_1 = \alpha_2 = \alpha$. Then $\mathbf{w} = \alpha(1, 1) + \alpha(1, 1) = (2\alpha, 2\alpha)$, and the dual objective is $2\alpha - \tfrac12 \times 8\alpha^2 = 2\alpha - 4\alpha^2$. Its maximum is at $\alpha = 0.25$, giving $\mathbf{w} = (0.5, 0.5)$ and $b = 0$. The margin is $2/\lVert \mathbf{w} \rVert = 2.83$, exactly the distance between the two points.
 
 Two things are new here:
 
 - **Complementary slackness picks the support vectors.** A point strictly outside the margin has an inactive constraint, so $\alpha_i = 0$ and it does not appear in $\mathbf{w}$. Only points on the margin, the support vectors, have $\alpha_i > 0$.
-- **Only dot products appear.** The data enters the dual only as $\mathbf{x}_i^{\mathsf T}\mathbf{x}_j$. Replacing each dot product by a kernel function is the [kernel trick](../95-kernel-trick-intuition/note.md).
+- **Only dot products appear.** The data enters the dual only as $\mathbf x_i^{\mathsf T}\mathbf x_j$. Replacing each dot product by a kernel function is the [kernel trick](../95-kernel-trick-intuition/note.md).
 
 > **Python:** scipy solves constrained problems with `minimize`. The method `trust-constr` also reports the multipliers. scikit-learn's `SVC` stores $y_i \alpha_i$ of the support vectors in `dual_coef_`.
 >
@@ -234,7 +234,7 @@ Two things are new here:
 | Feasible region | the points that satisfy every constraint | the line $x + y = 3$ |
 | Tangency | at the answer, a level curve of $f$ touches the constraint | ellipse $f = 6$ touches the line at $(2, 1)$ |
 | Lagrangian | $\mathcal{L} = f + \sum_i \lambda_i g_i$; set all its partial derivatives to 0 | $\lambda = 4$, $x = 2$, $y = 1$ |
-| Multiplier | rate of change of the best value as the constraint moves | $df^*/dc = 4$ |
+| Multiplier | rate of change of the best value as the constraint moves | $df^\ast/dc = 4$ |
 | Inequality | active ($\lambda > 0$) or inactive ($\lambda = 0$); $\lambda \ge 0$ | $x + y \ge 3$ active, $x + y \ge -1$ inactive |
 | Dual | $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$, a lower bound; maximise it | $D(\lambda) = 3\lambda - 3\lambda^2/8$, maximum 6 |
 

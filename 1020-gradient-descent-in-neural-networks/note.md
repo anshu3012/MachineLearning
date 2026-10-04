@@ -38,7 +38,7 @@ The three variants trade the accuracy of each update against the time it takes. 
 
 Gradient descent minimises the loss, a function of all the weights and biases, by moving each parameter against its gradient by a learning rate (see the [backpropagation why Note](../1017-backpropagation-why/note.md)). In backpropagation this is the update step:
 
-$$W_{\text{new}} = W_{\text{old}} - \eta\thinspace \frac{\partial L}{\partial W}$$
+$$W_{\text{new}} = W_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial W}$$
 
 The loop of the [backpropagation what Note](../1015-backpropagation-what/note.md) picks one observation, predicts, computes the loss and updates, then moves to the next observation. With 50 observations, the loop makes 50 updates in every epoch. Updating after every observation is **stochastic** gradient descent. The other variants change only how many observations go into each update.
 

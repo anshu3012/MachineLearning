@@ -80,7 +80,7 @@ In a classification tree, a leaf predicts its majority class. In a regression tr
 
 1. **In words:** add up the outputs of the observations in the leaf and divide by how many there are.
 2. **Formula:** for a leaf with $n$ training observations and outputs $y_1, \dots, y_n$:
-   $$\hat{y}_{\text{leaf}} = \bar{y} = \frac{1}{n}\sum_{i=1}^{n} y_i$$
+   $$\hat y_{\text{leaf}} = \bar{y} = \frac{1}{n}\sum_{i=1}^{n} y_i$$
 3. **Example:** the 10 students who studied between 3 and 6 hours scored, in total, 879 marks, so the leaf predicts $879 / 10 = 87.9$.
 
 The three leaves in Figure 2 predict 43.0, 87.9 and 59.0 marks.
@@ -109,7 +109,7 @@ Take a threshold $t$ between two neighbouring points. The threshold splits the o
 
 1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** of that threshold.
 2. **Formula:**
-   $$\text{SSE}(t) = \sum_{x_i \le t} \left(y_i - \bar{y}_{\text{left}}\right)^2 + \sum_{x_i > t} \left(y_i - \bar{y}_{\text{right}}\right)^2$$
+   $$\text{SSE}(t) = \sum_{x_i \le t} \left(y_i - \bar y_{\text{left}}\right)^2 + \sum_{x_i > t} \left(y_i - \bar y_{\text{right}}\right)^2$$
 3. **Example:** 5 students with hours 1, 2, 4, 5, 8 and marks 40, 46, 88, 90, 58. Try $t = 3$ (between 2 and 4):
    - left: 40 and 46, mean 43, so $\text{SSE}_{\text{left}} = (-3)^2 + 3^2 = 18$;
    - right: 88, 90, 58, mean 78.67, so $\text{SSE}_{\text{right}} = 9.33^2 + 11.33^2 + (-20.67)^2 = 642.7$;

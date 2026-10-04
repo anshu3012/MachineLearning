@@ -71,7 +71,7 @@ We follow the recipe of the [Lagrange multipliers Note](../620-lagrange-multipli
    Its gradient in $\mathbf{x}$ is $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$. If that is not zero, $\mathcal{L}$ falls without limit; if it is zero, $D(\boldsymbol{\lambda}) = -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda}$. The dual problem is
    $$\max_{\boldsymbol{\lambda} \in \mathbb{R}^m} \ -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} \quad \text{subject to} \quad \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}, \quad \boldsymbol{\lambda} \ge \mathbf{0}$$
 3. **Example:** for the workshop, $\boldsymbol{\lambda} = [2, 0, 1, 0, 0]^{\mathsf T}$ (one value per constraint, in the order oven, flour, demand, $x_1 \ge 0$, $x_2 \ge 0$). Check the equality:
-   $$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \cr  -2 \end{bmatrix} + 2\begin{bmatrix} 1 \cr  1 \end{bmatrix} + 1\begin{bmatrix} 1 \cr  0 \end{bmatrix} = \begin{bmatrix} 0 \cr  0 \end{bmatrix}$$
+   $$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \cr-2 \end{bmatrix} + 2\begin{bmatrix} 1 \cr1 \end{bmatrix} + 1\begin{bmatrix} 1 \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
    The dual value is $-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 3 \times 1) = -11$, the same as the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. Strong duality holds, as it does for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
 
 The primal has $d$ variables and $m$ constraints; the dual has $m$ variables and $d$ equality constraints. We can solve whichever is smaller. By convention the primal is minimised and the dual maximised.
@@ -90,7 +90,7 @@ The multipliers are the shadow prices of the [Lagrange multipliers Note](../620-
 
 Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
 
-> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
+> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
 
 ## 3. Quadratic programming
 
@@ -104,7 +104,7 @@ Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothin
 2. **Formula:** a **quadratic program** is
    $$\min_{\mathbf{x} \in \mathbb{R}^d} \ \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + \mathbf{c}^{\mathsf T}\mathbf{x} \quad \text{subject to} \quad A\mathbf{x} \le \mathbf{b}$$
    with $Q$ symmetric and **positive definite** (all eigenvalues positive), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md), Section 4.2). The term $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ is a quadratic form (see the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md)).
-3. **Example:** $Q = \begin{bmatrix} 2 & 1 \cr  1 & 2 \end{bmatrix}$ (eigenvalues 1 and 3) and $\mathbf{c} = [-8, -7]^{\mathsf T}$, so the objective is $x_1^2 + x_1 x_2 + x_2^2 - 8x_1 - 7x_2$. The constraints are $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$: a triangle.
+3. **Example:** $Q = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ (eigenvalues 1 and 3) and $\mathbf{c} = [-8, -7]^{\mathsf T}$, so the objective is $x_1^2 + x_1 x_2 + x_2^2 - 8x_1 - 7x_2$. The constraints are $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$: a triangle.
 
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}
 
@@ -131,8 +131,8 @@ The checks of the KKT conditions: both coordinates are positive, so the two sign
    $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T}\mathbf{x} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
    Setting its gradient $Q\mathbf{x} + \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$ to zero gives $\mathbf{x} = -Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})$; $Q$ is invertible because it is positive definite. Substituting:
    $$D(\boldsymbol{\lambda}) = -\tfrac12 (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}, \qquad \text{dual: } \max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
-3. **Example:** at $\boldsymbol{\lambda} = [4.5, 0, 0]^{\mathsf T}$ (edge, $x_1 \ge 0$, $x_2 \ge 0$), $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-8 + 4.5,\ -7 + 4.5]^{\mathsf T} = [-3.5, -2.5]^{\mathsf T}$. With $Q^{-1} = \tfrac13 \begin{bmatrix} 2 & -1 \cr  -1 & 2 \end{bmatrix}$:
-   $$\mathbf{x} = -\tfrac13 \begin{bmatrix} 2(-3.5) - (-2.5) \cr  -(-3.5) + 2(-2.5) \end{bmatrix} = \begin{bmatrix} 1.5 \cr  0.5 \end{bmatrix}, \qquad D = -\tfrac12 \times 6.5 - 4.5 \times 2 = -12.25$$
+3. **Example:** at $\boldsymbol{\lambda} = [4.5, 0, 0]^{\mathsf T}$ (edge, $x_1 \ge 0$, $x_2 \ge 0$), $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-8 + 4.5,\ -7 + 4.5]^{\mathsf T} = [-3.5, -2.5]^{\mathsf T}$. With $Q^{-1} = \tfrac13 \begin{bmatrix} 2 & -1 \cr-1 & 2 \end{bmatrix}$:
+   $$\mathbf{x} = -\tfrac13 \begin{bmatrix} 2(-3.5) - (-2.5) \cr-(-3.5) + 2(-2.5) \end{bmatrix} = \begin{bmatrix} 1.5 \cr0.5 \end{bmatrix}, \qquad D = -\tfrac12 \times 6.5 - 4.5 \times 2 = -12.25$$
    where $6.5 = \tfrac13(2 \times 12.25 - 2 \times 8.75 + 2 \times 6.25)$. The dual maximum equals the primal minimum $-12.25$.
 
 The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$. They are easy to keep: after a gradient step, setting every negative multiplier to 0 restores them.
@@ -141,8 +141,8 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
 > **Key point:** Training a support vector machine is a quadratic program, in its primal form and in its dual form.
 
-- **SVM, primal:** minimise $\tfrac12\lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf{x}_i + b) \ge 1$ (see the [SVM soft margin Note](../94-svm-soft-margin/note.md)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite, because $b$ has no squared term, so the dual is derived as in the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) (Section 7.2) rather than with $Q^{-1}$.
-- **SVM, dual:** maximise $\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf{x}_i^{\mathsf T}\mathbf{x}_j$ subject to $\alpha_i \ge 0$ and $\sum_i \alpha_i y_i = 0$: a quadratic program in the multipliers. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
+- **SVM, primal:** minimise $\tfrac12\lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ (see the [SVM soft margin Note](../94-svm-soft-margin/note.md)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite, because $b$ has no squared term, so the dual is derived as in the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) (Section 7.2) rather than with $Q^{-1}$.
+- **SVM, dual:** maximise $\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf x_i^{\mathsf T}\mathbf x_j$ subject to $\alpha_i \ge 0$ and $\sum_i \alpha_i y_i = 0$: a quadratic program in the multipliers. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
 - **Lasso, constraint form:** least squares subject to $\sum_i |w_i| \le t$ is a quadratic program once each weight is split into a positive and a negative part (Tibshirani 1996, §6).
 
 > **Python:** scipy's `linprog` solves linear programs and reports the multipliers in `ineqlin.marginals` (with scipy's sign, so negative here). `minimize` with `trust-constr` handles the quadratic program.

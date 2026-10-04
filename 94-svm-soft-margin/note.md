@@ -26,7 +26,7 @@ The hard-margin SVM of the [SVM maths Note](../93-svm-maths/note.md) needs data 
 
 The hard-margin SVM solves:
 
-$$\underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace (w^T x_i + b) \geq 1 \ \text{ for all } i$$
+$$\underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 
 Each point is one **observation** (one record, a row of the data table). Its coordinates are its **features** (input variables, one column each), and its class $y_i$ ($+1$ green, $-1$ red) is the **target** (the output we predict).
 
@@ -38,7 +38,7 @@ We need a version that leaves some space for outliers. That version is the soft-
 
 ## 3. From maximising to minimising
 
-> **Key point:** Maximising 2/$\lVert w \rVert$ is the same as minimising $\lVert w \rVert$/2. The minimising form is easier to extend.
+> **Key point:** Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$/2. The minimising form is easier to extend.
 
 Before changing anything, we rewrite the hard-margin problem. Maximising a positive function $f$ gives the same answer as minimising $1/f$: a quantity is largest exactly where its inverse is smallest. So:
 

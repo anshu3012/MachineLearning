@@ -77,7 +77,7 @@ The slopes approach 2. Figure 1 shows the same thing as a picture: the secant li
    $$f'(x) = \frac{df}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}$$
    $\lim_{h \to 0}$, the **limit**, means "the value this approaches as $h$ gets as close to 0 as we like". We never set $h = 0$ itself, which would give $0/0$.
 3. **Example:** the algebra explains the table. For $f(x) = x^2$,
-   $$\frac{(x + h)^2 - x^2}{h} = \frac{x^2 + 2xh + h^2 - x^2}{h} = 2x + h \thickspace \longrightarrow\thickspace  2x$$
+   $$\frac{(x + h)^2 - x^2}{h} = \frac{x^2 + 2xh + h^2 - x^2}{h} = 2x + h \thickspace\longrightarrow\thickspace2x$$
    At $x = 1$ the difference quotient is $2 + h$: that is 3 for $h = 1$, 2.1 for $h = 0.1$, and the limit is $f'(1) = 2$.
 
 The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A function whose derivative exists at a point is **differentiable** there. Gradient descent uses the derivative of the loss at every step, so it needs a loss that is differentiable.
@@ -88,7 +88,7 @@ The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A function whose
 
 The same method works for $x^3$. Multiplying out $(x + h)^3 = x^3 + 3x^2h + 3xh^2 + h^3$:
 
-$$\frac{(x + h)^3 - x^3}{h} = \frac{3x^2h + 3xh^2 + h^3}{h} = 3x^2 + 3xh + h^2 \thickspace \longrightarrow\thickspace  3x^2$$
+$$\frac{(x + h)^3 - x^3}{h} = \frac{3x^2h + 3xh^2 + h^3}{h} = 3x^2 + 3xh + h^2 \thickspace\longrightarrow\thickspace3x^2$$
 
 The $x^3$ cancels, one $h$ divides out of every remaining term, and every term that still has an $h$ goes to 0. Only $3x^2$ is left.
 
@@ -172,7 +172,7 @@ An earlier Note on the sigmoid ([sigmoid derivative Note](../74-sigmoid-derivati
 
 1. **In words:** differentiate the outer function, leaving the inside untouched, then multiply by the derivative of the inside.
 2. **Formula:**
-   $$(g \circ f)'(x) = g'\big(f(x)\big)\thinspace  f'(x)$$
+   $$(g \circ f)'(x) = g'\big(f(x)\big)\thinspace f'(x)$$
 3. **Example:** $h(x) = (x^2 + 1)^3$. The inside is $f(x) = x^2 + 1$ with $f'(x) = 2x$; the outside is $g(u) = u^3$ with $g'(u) = 3u^2$. So
    $$h'(x) = 3(x^2 + 1)^2 \cdot 2x, \qquad h'(1) = 3 \cdot 2^2 \cdot 2 = 24$$
 
@@ -218,7 +218,7 @@ Figure 2 shows the pattern. Near $x_0$ every polynomial is close to $\sin x$. Fu
 
 The first two terms are
 
-$$T_1(x) = f(x_0) + f'(x_0)\thinspace (x - x_0)$$
+$$T_1(x) = f(x_0) + f'(x_0)\thinspace(x - x_0)$$
 
 a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line of Figure 1. Replacing a function by its tangent line near a point is called **linearisation**.
 

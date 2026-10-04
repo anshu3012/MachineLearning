@@ -67,9 +67,9 @@ Three objects take part:
 
 The filter we use is a **horizontal-edge detector**:
 
-$$K = \begin{bmatrix} -1 & -1 & -1 \cr  0 & 0 & 0 \cr  1 & 1 & 1 \end{bmatrix}$$
+$$K = \begin{bmatrix} -1 & -1 & -1 \cr0 & 0 & 0 \cr1 & 1 & 1 \end{bmatrix}$$
 
-The filter subtracts the row above from the row below. Where the two are equal it gives 0; where the lower row is brighter it gives a large number. The symbol $*$ denotes convolution: image $*$ filter = feature map.
+The filter subtracts the row above from the row below. Where the two are equal it gives 0; where the lower row is brighter it gives a large number. The symbol $\ast$ denotes convolution: image $\ast$ filter = feature map.
 
 ### 5.2 One step
 
@@ -91,7 +91,7 @@ The filter moves one pixel to the right at a time. At the end of a row it return
 - **Rows 2 and 3** (filter on rows 1–3 and 2–4): the bottom of the filter sits on white pixels and the top on black or on the boundary, so each sum is $3 \times 255 = 765$.
 - **Row 4** (filter on rows 3–5): all pixels are 255. The top row gives $-765$, the bottom row $+765$, and they cancel to 0.
 
-$$\begin{bmatrix} 0&0&0&0&0&0\cr 0&0&0&0&0&0\cr 0&0&0&0&0&0\cr 255&255&255&255&255&255\cr 255&255&255&255&255&255\cr 255&255&255&255&255&255 \end{bmatrix} * \begin{bmatrix} -1&-1&-1\cr 0&0&0\cr 1&1&1 \end{bmatrix} = \begin{bmatrix} 0&0&0&0\cr 765&765&765&765\cr 765&765&765&765\cr 0&0&0&0 \end{bmatrix}$$
+  $$\begin{bmatrix} 0&0&0&0&0&0\cr0&0&0&0&0&0\cr0&0&0&0&0&0\cr255&255&255&255&255&255\cr255&255&255&255&255&255\cr255&255&255&255&255&255 \end{bmatrix} \ast\begin{bmatrix} -1&-1&-1\cr0&0&0\cr1&1&1 \end{bmatrix} = \begin{bmatrix} 0&0&0&0\cr765&765&765&765\cr765&765&765&765\cr0&0&0&0 \end{bmatrix}$$
 
 The feature map is 0 in flat regions and large along the band where black meets white: it has found the horizontal edge. Shown as an image, it is a bright stripe across the middle.
 
@@ -117,7 +117,7 @@ The Notebook loads the same filter into a Keras `Conv2D` layer: it returns exact
 
 The transpose of the horizontal filter,
 
-$$K_v = \begin{bmatrix} -1 & 0 & 1 \cr  -1 & 0 & 1 \cr  -1 & 0 & 1 \end{bmatrix}$$
+$$K_v = \begin{bmatrix} -1 & 0 & 1 \cr-1 & 0 & 1 \cr-1 & 0 & 1 \end{bmatrix}$$
 
 compares the column on the right with the column on the left, so it is a **vertical-edge detector**. On our 6 × 6 image, which has no vertical edge, it gives a feature map of all 0s (Notebook). On the photo of Figure 2 it lights up the railings. With other values we get filters for slanted edges, or for edges with the dark side on the left, right, top or bottom.
 
@@ -167,7 +167,7 @@ In Figure 3 nobody told the network what to look for, yet filter 0 has turned ne
 
 Take a **left-edge filter**: positive on its left column, negative on its right, so it gives a large positive value where the image is bright on the left and dark on the right.
 
-$$K_{\text{left}} = \begin{bmatrix} 1 & 0 & -1 \cr  1 & 0 & -1 \cr  1 & 0 & -1 \end{bmatrix}$$
+$$K_{\text{left}} = \begin{bmatrix} 1 & 0 & -1 \cr1 & 0 & -1 \cr1 & 0 & -1 \end{bmatrix}$$
 
 ![An MNIST 0 (left), its left-edge feature map (middle; red positive, blue negative) and the map after ReLU (right): only the positive, red values remain](images/digit_relu.png){width=100%}
 

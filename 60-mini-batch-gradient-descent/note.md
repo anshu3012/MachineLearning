@@ -47,7 +47,7 @@ Mini-batch is therefore the general form, and the batch size tunes how it behave
 
 The derivatives are the batch ones, averaged over the observations $B$ of the current batch instead of all $n$ observations:
 
-$$\frac{\partial L}{\partial \beta_j} = -\frac{2}{|B|}\sum_{i \in B}(y_i - \hat{y}_i)\thinspace x_{ij}$$
+$$\frac{\partial L}{\partial \beta_j} = -\frac{2}{|B|}\sum_{i \in B}(y_i - \hat y_i)\thinspace x_{ij}$$
 
 where $|B|$ is the number of observations in the batch.
 

@@ -16,7 +16,7 @@ Figure 1 shows the one new idea. The same $W_i$ enters at every time step, so th
 ## 2. Prerequisites
 
 - The [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md): $h_t = \tanh(x_t W_i + h_{t-1} W_h)$, the unfolded network and the notation.
-- The backpropagation Notes, [part 1](../1015-backpropagation-what/note.md) and [part 2](../1016-backpropagation-how/note.md): gradients as chain-rule products, and the update $w \leftarrow w - \eta\thinspace \partial L/\partial w$.
+- The backpropagation Notes, [part 1](../1015-backpropagation-what/note.md) and [part 2](../1016-backpropagation-how/note.md): gradients as chain-rule products, and the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
 - The [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md): the chain rule with several paths, where the contributions of the paths add up.
 - The [loss functions Note](../1014-dl-loss-functions/note.md): binary cross-entropy.
 
@@ -68,7 +68,7 @@ The loss is binary cross-entropy (see the [loss functions Note](../1014-dl-loss-
 
 Training looks for the values of $W_i$, $W_h$ and $W_o$ that make $L$ smallest. Gradient descent updates each one with the learning rate $\eta$:
 
-$$W_i \leftarrow W_i - \eta\thinspace \frac{\partial L}{\partial W_i}, \qquad W_h \leftarrow W_h - \eta\thinspace \frac{\partial L}{\partial W_h}, \qquad W_o \leftarrow W_o - \eta\thinspace \frac{\partial L}{\partial W_o}$$
+$$W_i \leftarrow W_i - \eta\thinspace\frac{\partial L}{\partial W_i}, \qquad W_h \leftarrow W_h - \eta\thinspace\frac{\partial L}{\partial W_h}, \qquad W_o \leftarrow W_o - \eta\thinspace\frac{\partial L}{\partial W_o}$$
 
 We have the starting weights and $\eta$. So the whole job of BPTT is to compute these three derivatives. Backpropagation goes from the back to the front, so we start with $W_o$, nearest to the output.
 
@@ -80,13 +80,13 @@ $\partial L/\partial W_o$ asks: how much does the loss change if $W_o$ changes a
 
 1. **In words:** follow the single path from $L$ through $\hat{y}$ to $W_o$, multiplying the derivatives along it.
 2. **Formula:**
-   $$\frac{\partial L}{\partial W_o} = \frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial W_o} = h_3^{\mathsf T}\thinspace (\hat{y} - y)$$
+   $$\frac{\partial L}{\partial W_o} = \frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial W_o} = h_3^{\mathsf T}\thinspace(\hat{y} - y)$$
    For a sigmoid output with binary cross-entropy, the two factors combine into $\hat{y} - y$ times the input of the output node, $h_3$ (derived in the [logistic regression gradient descent Note](../75-logistic-gradient-descent/note.md)).
 3. **Example:** a network with **one** hidden node, so every weight is a single number: $w_i = 0.5$, $w_h = 0.8$, $w_o = 1.0$, input sequence $x = (1, 0, 1)$, target $y = 1$. Forward propagation gives
    $$h_1 = \tanh(0.5) = 0.462, \quad h_2 = \tanh(0.8 \times 0.462) = 0.354, \quad h_3 = \tanh(0.5 + 0.8 \times 0.354) = 0.654$$
    $$\hat{y} = \sigma(1.0 \times 0.654) = 0.658, \qquad L = -\log 0.658 = 0.419$$
    Then
-   $$\frac{\partial L}{\partial w_o} = h_3\thinspace (\hat{y} - y) = 0.654 \times (0.658 - 1) = 0.654 \times (-0.342) = -0.224$$
+   $$\frac{\partial L}{\partial w_o} = h_3\thinspace(\hat{y} - y) = 0.654 \times (0.658 - 1) = 0.654 \times (-0.342) = -0.224$$
 
 ## 6. The gradient for $W_i$
 
@@ -115,7 +115,7 @@ In each path, the last factor $\partial h_t/\partial W_i$ is the **immediate** d
 
 Three time steps give three terms; a 10-word review would give 10. Writing them all out is not practical, so we summarise with a sum over the time steps $j$:
 
-$$\frac{\partial L}{\partial W_i} = \sum_{j=1}^{T} \frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial h_j}\thinspace \frac{\partial h_j}{\partial W_i}$$
+$$\frac{\partial L}{\partial W_i} = \sum_{j=1}^{T} \frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial h_j}\thinspace\frac{\partial h_j}{\partial W_i}$$
 
 The middle factor $\partial \hat{y}/\partial h_j$ hides a chain. $\hat{y}$ does not use $h_1$ directly: it uses $h_3$, which uses $h_2$, which uses $h_1$. Expanding it gives back the paths of section 6.1:
 

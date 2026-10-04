@@ -47,7 +47,9 @@ A normal distribution has two parameters:
 Figure 5 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) shows both effects, and the Notebook (`notebook.ipynb`) has two sliders to try them.
 
 In books the normal distribution is written as
+
 $$X \sim N(\mu, \sigma^2)$$
+
 read "$X$ follows a normal distribution with mean $\mu$ and variance $\sigma^2$". The heights of Figure 1 are $X \sim N(68, 3^2)$. Some books write $N(\mu, \sigma)$ instead: the same curve, written with the standard deviation.
 
 So once we know that a variable is normal, its mean and standard deviation are all we need to draw its exact curve and compute any probability about it.
@@ -73,7 +75,7 @@ The bell is a graph, so it has an equation $y = f(x)$, where $y$ is the probabil
 
 1. **In words:** measure how far $x$ is from the mean in units of standard deviation, square it, halve it, and take $e$ to minus that; then divide by $\sigma\sqrt{2\pi}$.
 2. **Formula:**
-   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thickspace  e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
+   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thickspace e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
    Here $\pi = 3.1416$ and $e = 2.7183$ are constants, $x$ is the variable, and $\mu$ and $\sigma$ are the only parameters.
 3. **Example:** heights with $\mu = 68$ and $\sigma = 3$. At the mean, $x = 68$, the exponent is 0 and $e^0 = 1$:
    $$f(68) = \frac{1}{3\sqrt{2\pi}} = \frac{1}{7.520} = 0.1330$$
@@ -106,7 +108,7 @@ The formula looks frightening, but it can be built term by term (Figure 2):
 ![Building the normal PDF term by term: the bell, the shift, the width, the area](images/pdf_build.gif){height=55%}
 
 > **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve (MML §6.5), and the bell's two **inflection points** (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The inflection points follow from two derivatives of $f$:
-> $$f'(x) = -\frac{x - \mu}{\sigma^2}\thinspace  f(x), \qquad f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
+> $$f'(x) = -\frac{x - \mu}{\sigma^2}\thinspace f(x), \qquad f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
 > $f''$ changes sign where $(x - \mu)^2 = \sigma^2$, that is at $x = \mu \pm \sigma$. Without the 2 the same steps would give $\mu \pm \sigma/\sqrt{2}$.
 >
 > The area $\sigma\sqrt{2\pi}$ in step 6 comes from a classic integral, $\int_{-\infty}^{\infty} e^{-t^2/2}\thinspace dt = \sqrt{2\pi} = 2.5066$; we do not prove it here, but the Notebook checks it numerically.
@@ -138,7 +140,7 @@ Reading Figure 3:
 
 1. **In words:** the CDF at $x$ is the area under the normal PDF from minus infinity up to $x$.
 2. **Formula:**
-   $$F(x) = \int_{-\infty}^{x} \frac{1}{\sigma\sqrt{2\pi}}\thickspace  e^{-\frac{(t - \mu)^2}{2\sigma^2}}\thinspace  dt$$
+   $$F(x) = \int_{-\infty}^{x} \frac{1}{\sigma\sqrt{2\pi}}\thickspace e^{-\frac{(t - \mu)^2}{2\sigma^2}}\thinspace dt$$
 3. **Example:** for the heights, the area up to 72 inches is
    $$F(72) = P(X \le 72) = 0.909$$
    so about 91% of men are 72 inches or shorter.

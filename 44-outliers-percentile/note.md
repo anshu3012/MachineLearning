@@ -259,7 +259,7 @@ This Note closes the outlier group. Figure 4 applies all three rules to the same
 |---|---|---|---|
 | Fits | roughly normal feature | skewed feature | any feature |
 | Built on | mean and standard deviation | $Q_1$ and $Q_3$ | two chosen percentiles |
-| Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\thinspace \text{IQR}$, $Q_3 + 1.5\thinspace \text{IQR}$ | $P_1$, $P_{99}$ |
+| Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ | $P_1$, $P_{99}$ |
 | Pulled by outliers | yes | hardly | hardly |
 | Share flagged | depends on the data | depends on the data | fixed by the cut-offs |
 | Limits on `Height` | 54.82 and 77.91 | 55.00 and 77.68 | 58.13 and 74.79 |

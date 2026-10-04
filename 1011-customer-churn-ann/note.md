@@ -285,7 +285,7 @@ Changes 3 and 4 add parameters, so the network can fit more complex patterns. To
 Figure 2(b) shows the new network. Counting its parameters:
 
 1. **In words:** for each layer, weights from every node before plus one bias per node.
-2. **Formula:** $n_{l-1}\thinspace  n_l + n_l$ per layer, added up.
+2. **Formula:** $n_{l-1}\thinspace n_l + n_l$ per layer, added up.
 3. **Example:**
    $$(11 \times 11 + 11) + (11 \times 11 + 11) + (11 \times 1 + 1) = 132 + 132 + 12 = 276$$
 

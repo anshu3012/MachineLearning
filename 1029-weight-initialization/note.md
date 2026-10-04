@@ -47,9 +47,9 @@ Steps 1 to 4 all start from what step 0 chose. When researchers in the 1990s and
 
 > **Key point:** Two inputs (CGPA, IQ), one hidden layer of two nodes, one output node; every weight and bias starts at 0.
 
-Take a regression problem. Each **observation** (one record) is a student; the two **features** (input variables) are CGPA $x_1$ and IQ $x_2$; the **target** (the output we predict) is the placement package in lakhs. The network has two hidden nodes and one linear output node. Write $W^1_{ij}$ for the weight from input $i$ to hidden node $j$, so the hidden nodes compute
+Take a regression problem. Each **observation** (one record) is a student; the two **features** (input variables) are CGPA $x_1$ and IQ $x_2$; the **target** (the output we predict) is the placement package in lakhs. The network has two hidden nodes and one linear output node. Write $W_{ij}^1$ for the weight from input $i$ to hidden node $j$, so the hidden nodes compute
 
-$$z_{11} = W^1_{11} x_1 + W^1_{21} x_2 + b_{11}, \qquad z_{12} = W^1_{12} x_1 + W^1_{22} x_2 + b_{12}$$
+$$z_{11} = W_{11}^1 x_1 + W_{21}^1 x_2 + b_{11}, \qquad z_{12} = W_{12}^1 x_1 + W_{22}^1 x_2 + b_{12}$$
 
 and output $a_{11} = g(z_{11})$, $a_{12} = g(z_{12})$. With every weight and bias at 0, both $z$ are 0 for every student.
 
@@ -61,8 +61,8 @@ With ReLU, $a_{11} = \max(0, 0) = 0$; with tanh, $a_{11} = \tanh(0) = (1 - 1)/(1
 
 1. **In words:** a weight's gradient contains the signal flowing in (an activation or input) and the signal flowing back (through the weights after it). Here one of the two is always 0.
 2. **Formula:** for an output weight and a hidden weight,
-   $$\frac{\partial L}{\partial W^2_{11}} = \frac{\partial L}{\partial \hat{y}}\thinspace  a_{11}, \qquad \frac{\partial L}{\partial W^1_{11}} = \frac{\partial L}{\partial \hat{y}}\thinspace  W^2_{11}\thinspace  g'(z_{11})\thinspace  x_1$$
-3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W^2_{11} = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So $W_{\text{new}} = W_{\text{old}} - \eta \cdot 0 = 0$.
+   $$\frac{\partial L}{\partial W_{11}^2} = \frac{\partial L}{\partial \hat{y}}\thinspace a_{11}, \qquad \frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}}\thinspace W_{11}^2\thinspace g'(z_{11})\thinspace x_1$$
+3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W_{11}^2 = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So $W_{\text{new}} = W_{\text{old}} - \eta \cdot 0 = 0$.
 
 The weights are 0 after the first update, so the same happens again, forever. Only the output bias, whose gradient is just $\partial L/\partial \hat{y}$, can move. The network predicts one constant for every input.
 
@@ -94,10 +94,10 @@ With the sigmoid, $a_{11} = a_{12} = \sigma(0) = 0.5$. The activations are no lo
 
 Compare the gradients of the two weights leaving $x_1$, by the chain rule:
 
-$$\frac{\partial L}{\partial W^1_{11}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{11}} \cdot \frac{\partial a_{11}}{\partial z_{11}} \cdot x_1, \qquad \frac{\partial L}{\partial W^1_{12}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{12}} \cdot \frac{\partial a_{12}}{\partial z_{12}} \cdot x_1$$
+$$\frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{11}} \cdot \frac{\partial a_{11}}{\partial z_{11}} \cdot x_1, \qquad \frac{\partial L}{\partial W_{12}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{12}} \cdot \frac{\partial a_{12}}{\partial z_{12}} \cdot x_1$$
 
 - The first factor is shared.
-- $\partial \hat{y}/\partial a_{11} = W^2_{11}$ and $\partial \hat{y}/\partial a_{12} = W^2_{12}$, which start equal and receive equal updates.
+- $\partial \hat{y}/\partial a_{11} = W_{11}^2$ and $\partial \hat{y}/\partial a_{12} = W_{12}^2$, which start equal and receive equal updates.
 - $z_{11} = z_{12}$, so the sigmoid slopes are equal.
 - The last factor is $x_1$ in both.
 
@@ -187,7 +187,7 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
 
 1. **In words:** $z$ adds up 500 products of inputs around $\pm 1$ and weights around $\pm 1$.
 2. **Formula:** $z = \sum_{i=1}^{500} w_i x_i$
-3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about $500 \times 0.5 = 250$. With cancellation, the variance rule $\text{Var}(z) = n\thinspace \text{Var}(w)\thinspace \text{Var}(x)$ (derived in section 3.3 of the [Xavier and He Note](../1030-xavier-he-initialization/note.md)) gives $\text{Var}(z) = 500$, a standard deviation of $\sqrt{500} \approx 22$: $z$ typically lands in the tens.
+3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about $500 \times 0.5 = 250$. With cancellation, the variance rule $\text{Var}(z) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$ (derived in section 3.3 of the [Xavier and He Note](../1030-xavier-he-initialization/note.md)) gives $\text{Var}(z) = 500$, a standard deviation of $\sqrt{500} \approx 22$: $z$ typically lands in the tens.
 
 **Tanh and sigmoid saturate.** Feeding $z$ of 20 or 50 into tanh gives $-1$ or 1; into the sigmoid, 0 or 1. Figure 1 (bottom row) shows it: in every hidden layer the tanh activations pile up at $-1$ and 1. In layer 3, 90% of them are beyond $\pm 0.99$. At these values the slope is almost 0, so training is slow at best, and in the worst case the gradient vanishes.
 

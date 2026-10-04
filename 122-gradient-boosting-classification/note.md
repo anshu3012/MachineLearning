@@ -158,7 +158,7 @@ Students 1 and 2 now get probability 0.10 of placement, so the model says "not p
 
 > **Key point:** Multiplying each leaf value by a learning rate such as 0.1 turns the big jump into a gradual one.
 
-The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we can shrink it by multiplying each tree's leaf values by the learning rate $\eta$ ([gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md), section 8): $F_1 = F_0 + \eta\thinspace \gamma_j$.
+The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we can shrink it by multiplying each tree's leaf values by the learning rate $\eta$ ([gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md), section 8): $F_1 = F_0 + \eta\thinspace\gamma_j$.
 
 With $\eta = 0.1$, student 1's log-odds becomes $0.51 + 0.1 \times (-2.67) = 0.24$ and its probability 0.56: a small step in the right direction instead of a leap. In practice $\eta$ is around 0.1 and many more trees are used. The toy example keeps $\eta = 1$ so that two trees show visible progress.
 
@@ -197,7 +197,7 @@ All eight students are now on the correct side of 0.5. Not every probability imp
 
 1. **In words:** follow the new observation down each tree, add up $F_0$ and the leaf values (times $\eta$), and convert to a probability.
 2. **Formula:**
-   $$F(x) = F_0 + \eta\thinspace \gamma^{(1)}(x) + \eta\thinspace \gamma^{(2)}(x), \qquad p = \sigma\big(F(x)\big)$$
+   $$F(x) = F_0 + \eta\thinspace\gamma^{(1)}(x) + \eta\thinspace\gamma^{(2)}(x), \qquad p = \sigma\big(F(x)\big)$$
 3. **Example:** a student with CGPA 7.2 and IQ 100 lands in leaf 2 of tree 1 (0.18) and leaf A of tree 2 (0.82); with $\eta = 1$:
    $$F = 0.51 + 0.18 + 0.82 = 1.51, \qquad p = \frac{1}{1 + e^{-1.51}} = 0.82$$
 

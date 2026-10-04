@@ -29,7 +29,7 @@ Textbooks list them in slightly different ways; these five are the core ones (IS
 
 Three words first. A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the output we predict.
 
-The first two assumptions concern the features; the last three concern the **residuals**, the errors $y_i - \hat{y}_i$ on each observation.
+The first two assumptions concern the features; the last three concern the **residuals**, the errors $y_i - \hat y_i$ on each observation.
 
 The example data has 200 observations, three features and one target. A linear regression trained on 70% of it scores $R^2 = 0.96$ on the other 30% (60 observations); each check below uses those 60 test residuals.
 

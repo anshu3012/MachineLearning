@@ -45,13 +45,13 @@ An intuition: the E-step asks each observation "how much do you belong to each c
 
 1. **Initialise** the weights $\pi_k$, means $\boldsymbol\mu_k$ and covariances $\boldsymbol\Sigma_k$.
 2. **E-step:** for every observation $n$ and component $k$,
-   $$r_{nk} = \frac{\pi_k\thinspace  N(\mathbf{x}_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)}{\sum_j \pi_j\thinspace  N(\mathbf{x}_n \mid \boldsymbol\mu_j, \boldsymbol\Sigma_j)}, \qquad N_k = \sum_{n=1}^{N} r_{nk}$$
+   $$r_{nk} = \frac{\pi_k\thinspace N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)}{\sum_j \pi_j\thinspace N(\mathbf x_n \mid \boldsymbol\mu_j, \boldsymbol\Sigma_j)}, \qquad N_k = \sum_{n=1}^{N} r_{nk}$$
 3. **M-step:** in this order (MML §11.3, eqs. 11.54 to 11.56):
-   $$\boldsymbol\mu_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace \mathbf{x}_n, \qquad \boldsymbol\Sigma_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}(\mathbf{x}_n - \boldsymbol\mu_k)(\mathbf{x}_n - \boldsymbol\mu_k)^{\mathsf T}, \qquad \pi_k = \frac{N_k}{N}$$
+   $$\boldsymbol\mu_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace\mathbf x_n, \qquad \boldsymbol\Sigma_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}, \qquad \pi_k = \frac{N_k}{N}$$
    The covariance update uses the **new** means.
-4. **Check:** compute the log-likelihood $\ell = \sum_n \log \sum_k \pi_k N(\mathbf{x}_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$. If it changed by less than a small tolerance, stop; otherwise go back to step 2.
+4. **Check:** compute the log-likelihood $\ell = \sum_n \log \sum_k \pi_k N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$. If it changed by less than a small tolerance, stop; otherwise go back to step 2.
 
-In one dimension, $\boldsymbol\Sigma_k$ is just the variance $\sigma_k^2$, and $(\mathbf{x}_n - \boldsymbol\mu_k)(\mathbf{x}_n - \boldsymbol\mu_k)^{\mathsf T}$ is just $(x_n - \mu_k)^2$.
+In one dimension, $\boldsymbol\Sigma_k$ is just the variance $\sigma_k^2$, and $(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}$ is just $(x_n - \mu_k)^2$.
 
 The algorithm was proposed by Dempster, Laird and Rubin in 1977 (MML §11.3). scikit-learn's `GaussianMixture` runs this loop and stops when the gain of a lower bound on the average log-likelihood falls below `tol` (default $10^{-3}$, from its documentation; Section 6 explains the lower bound).
 
@@ -79,7 +79,7 @@ The E-step at this start is exactly the responsibility table already worked out 
 
 1. **In words:** multiply each observation by its responsibility, add up, and divide by the total responsibility $N_k$.
 2. **Formula:**
-   $$\mu_k = \frac{1}{N_k}\sum_{n} r_{nk}\thinspace  x_n$$
+   $$\mu_k = \frac{1}{N_k}\sum_{n} r_{nk}\thinspace x_n$$
 3. **Example:** $\mu_1 = -2.70$ was computed in the Gaussian mixture models Note (Section 7.2). The other two:
    $$\mu_2 = \frac{0.943 \times (-1) + 1.000 \times 0 + 0.066 \times 2}{2.009} = \frac{-0.811}{2.009} = -0.40$$
    $$\mu_3 = \frac{0.934 \times 2 + 1 \times 4 + 1 \times 5}{2.934} = \frac{10.868}{2.934} = 3.70$$
@@ -116,7 +116,7 @@ After this one iteration (the same numbers as MML Examples 11.3 to 11.5):
 
 The fitted mixture (Notebook, Section 1) is
 
-$$p(x) = 0.29\thinspace  N(x \mid -2.75, 0.06) + 0.28\thinspace  N(x \mid -0.50, 0.25) + 0.43\thinspace  N(x \mid 3.64, 1.63)$$
+$$p(x) = 0.29\thinspace N(x \mid -2.75, 0.06) + 0.28\thinspace N(x \mid -0.50, 0.25) + 0.43\thinspace N(x \mid 3.64, 1.63)$$
 
 the result MML reports after five iterations (eq. 11.57). Figure 2 shows the most change happening in the first iteration: the components jump from where we guessed them to where the observations are.
 
@@ -154,7 +154,7 @@ The log is a concave function: every chord lies below its curve (the [convex set
 
 1. **In words:** for weights $q_k \ge 0$ that add up to 1 and positive numbers $a_k$, the log of the weighted average is at least the weighted average of the logs. The two are equal when all the $a_k$ are the same.
 2. **Formula:**
-   $$\log \sum_k q_k a_k \thickspace \ge\thickspace  \sum_k q_k \log a_k$$
+   $$\log \sum_k q_k a_k \thickspace\ge\thickspace\sum_k q_k \log a_k$$
 3. **Example:** $q = (0.5, 0.5)$, $a = (1, 4)$: $\log 2.5 = 0.916$ on the left, $0.5 \log 1 + 0.5 \log 4 = 0.693$ on the right. With $a = (3, 3)$ both sides are $\log 3$.
 
 ### 6.3 The lower bound
@@ -163,11 +163,11 @@ The log is a concave function: every chord lies below its curve (the [convex set
 
 For one observation, multiply and divide each term of the mixture by any numbers $q_{nk} > 0$ with $\sum_k q_{nk} = 1$. Then Jensen applies:
 
-$$\log \sum_k \pi_k N_k(x_n) = \log \sum_k q_{nk}\thinspace \frac{\pi_k N_k(x_n)}{q_{nk}} \thickspace \ge\thickspace  \sum_k q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
+$$\log \sum_k \pi_k N_k(x_n) = \log \sum_k q_{nk}\thinspace\frac{\pi_k N_k(x_n)}{q_{nk}} \thickspace\ge\thickspace\sum_k q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
 
 Here $N_k(x_n)$ is short for $N(x_n \mid \mu_k, \sigma_k^2)$. Adding over the observations gives a lower bound on the whole log-likelihood:
 
-$$\ell(\theta) \thickspace \ge\thickspace  B(\theta; q) = \sum_{n}\sum_{k} q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
+$$\ell(\theta) \thickspace\ge\thickspace B(\theta; q) = \sum_{n}\sum_{k} q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
 
 **The bound touches when $q$ is the responsibilities.** Choose $q_{nk} = r_{nk}$, the responsibilities computed from the same $\theta$. Then every ratio $\pi_k N_k(x_n)/r_{nk}$ equals $\sum_j \pi_j N_j(x_n) = p(x_n)$, the same number for every $k$, and Jensen holds with equality. So
 
@@ -182,7 +182,7 @@ For the seven observations at the start, the Notebook (Section 3) computes $B = 
 1. **E-step:** set $q = r(\theta_t)$. Now $B(\theta_t; q) = \ell(\theta_t)$ (Section 6.3).
 2. **M-step:** choose $\theta_{t+1}$ to maximise $B(\theta; q)$ with $q$ held fixed. Then $B(\theta_{t+1}; q) \ge B(\theta_t; q)$, because $\theta_t$ was one of the options.
 3. **Chain:** the bound holds for every $\theta$, so
-   $$\ell(\theta_{t+1}) \thickspace \ge\thickspace  B(\theta_{t+1}; q) \thickspace \ge\thickspace  B(\theta_t; q) \thickspace =\thickspace  \ell(\theta_t)$$
+   $$\ell(\theta_{t+1}) \thickspace\ge\thickspace B(\theta_{t+1}; q) \thickspace\ge\thickspace B(\theta_t; q) \thickspace=\thickspace\ell(\theta_t)$$
 
 The update formulas of Section 3 are exactly the maximiser in step 2. With $q$ fixed, the term $-\sum q_{nk}\log q_{nk}$ of $B$ is a constant, and the rest is $\sum_n\sum_k r_{nk}\log(\pi_k N_k(x_n))$: a responsibility-weighted version of the one-normal log-likelihood. Setting its derivative with respect to $\mu_k$ to 0 gives $\sum_n r_{nk}(x_n - \mu_k) = 0$, the weighted mean. The variance and the weights (with a Lagrange multiplier for $\sum\pi_k = 1$, see the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md)) work the same way.
 
@@ -222,7 +222,7 @@ Each of the eleven lower runs stopped on a hilltop and stayed there. Keeping the
 
 MML (§11.5) relates the two: ignore the covariances (set them to the identity), treat the means as cluster centres, and the result is k-means, which makes a **hard** assignment where the GMM makes a soft one. The derivation below shows how the hard assignment arises.
 
-1. **In words:** with equal weights $1/K$ and the same round covariance $\sigma^2\mathbf{I}$ for every component, the responsibilities depend only on the distances $d_{nk} = \lVert\mathbf{x}_n - \boldsymbol\mu_k\rVert$ from the observation to each centre.
+1. **In words:** with equal weights $1/K$ and the same round covariance $\sigma^2\mathbf{I}$ for every component, the responsibilities depend only on the distances $d_{nk} = \lVert\mathbf x_n - \boldsymbol\mu_k\rVert$ from the observation to each centre.
 2. **Formula:** the factors $1/K$ and $(2\pi\sigma^2)^{-D/2}$ are the same in every term, so they cancel:
    $$r_{nk} = \frac{e^{-d_{nk}^2/(2\sigma^2)}}{\sum_j e^{-d_{nj}^2/(2\sigma^2)}}$$
    Divide top and bottom by the term of the nearest centre. Every other term becomes $e^{-(d_{nj}^2 - d_{\min}^2)/(2\sigma^2)}$, which goes to 0 as $\sigma \to 0$. So $r_{nk} \to 1$ for the nearest centre and $\to 0$ for the others.
@@ -235,7 +235,7 @@ With these 0/1 responsibilities the two EM steps become the two steps of the [k-
 | EM step | With hard responsibilities | k-means step |
 |---|---|---|
 | E-step: compute $r_{nk}$ | $r_{nk} = 1$ for the nearest centre, 0 otherwise | assign each observation to its nearest centroid |
-| M-step: $\mu_k = \sum_n r_{nk}\mathbf{x}_n / N_k$ | the plain mean of the observations assigned to $k$ | move each centroid to the mean of its cluster |
+| M-step: $\mu_k = \sum_n r_{nk}\mathbf x_n / N_k$ | the plain mean of the observations assigned to $k$ | move each centroid to the mean of its cluster |
 
 Figure 4 shows the shrinking variance turning the smooth responsibility curve into a step. A GMM keeps the soft curve and also learns each cluster's shape and size; the [Gaussian mixture models Note](../640-gaussian-mixture-models/note.md) (Section 9.2) showed on the Iris flowers that modelling the shape is what lifts the GMM above k-means (ARI 0.90 against 0.73).
 

@@ -95,7 +95,7 @@ Suppose 20% of emails are spam. The word "free" appears in 60% of spam emails an
 - Likelihood: $P(\text{free} \mid \text{spam}) = 0.60$.
 - Evidence: "free" can appear in spam or in normal email, so $P(\text{free}) = 0.60 \times 0.20 + 0.05 \times 0.80 = 0.12 + 0.04 = 0.16$.
 
-$$P(\text{spam} \mid \text{free}) = \frac{0.60 \times 0.20}{0.16} = 0.75$$
+  $$P(\text{spam} \mid \text{free}) = \frac{0.60 \times 0.20}{0.16} = 0.75$$
 
 Seeing one word has moved the belief from 20% to 75%. The way the evidence was split into "spam" and "not spam" cases is the subject of the next Note, and combining many words is what Naive Bayes does.
 

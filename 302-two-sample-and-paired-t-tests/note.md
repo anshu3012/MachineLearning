@@ -72,8 +72,8 @@ If Levene's test says the variances differ, we use **Welch's t-test**, which dro
 
 1. **In words:** the difference between the two sample means, in standard errors of that difference.
 2. **Formula:**
-   $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}, \qquad df = n_1 + n_2 - 2$$
-3. **Example:** the website data of section 3, $\bar{x}_1 = 18.5$, $s_1 = 3.5$, $\bar{x}_2 = 14.3$, $s_2 = 2.7$, $n_1 = n_2 = 30$:
+   $$t = \frac{\bar x_1 - \bar x_2}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}, \qquad df = n_1 + n_2 - 2$$
+3. **Example:** the website data of section 3, $\bar x_1 = 18.5$, $s_1 = 3.5$, $\bar x_2 = 14.3$, $s_2 = 2.7$, $n_1 = n_2 = 30$:
    $$\sqrt{\frac{3.5^2}{30} + \frac{2.7^2}{30}} = \sqrt{\frac{12.25 + 7.29}{30}} = \sqrt{0.651} = 0.807$$
    $$t = \frac{18.5 - 14.3}{0.807} = \frac{4.2}{0.807} = 5.20, \qquad df = 30 + 30 - 2 = 58$$
 
@@ -274,7 +274,7 @@ To see this, suppose every "after" weight in our table were 2 kg lower, a real a
 The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as independent gives $\sqrt{s_1^2/n + s_2^2/n} = 2.75$ kg, more than four times larger. The result is typical, not a lucky table: averaged over 2000 simulated groups of 15 people like ours (weights spread by about 8 kg, a true loss of 1.5 kg), the median p-value is 0.017 for the paired test and 0.31 for the independent test. Analysing paired data as independent throws most of the power away (Rice 2007, §11.3).
 
 > **Extra:** The variance of the mean difference shows when pairing pays off:
-> $$\operatorname{Var}(\bar{d}) = \frac{\sigma_1^2 + \sigma_2^2 - 2\rho\thinspace \sigma_1\sigma_2}{n}$$
+> $$\operatorname{Var}(\bar{d}) = \frac{\sigma_1^2 + \sigma_2^2 - 2\rho\thinspace\sigma_1\sigma_2}{n}$$
 > Here $\rho$ is the correlation between the two measurements of a pair. The independent test ignores the last term, as if $\rho = 0$. A heavy person stays heavy, so $\rho$ is close to 1 and the paired variance is far smaller. If the pairs were barely linked ($\rho$ near 0), pairing would gain little.
 
 ## 8. Comparing two machine learning models
@@ -291,7 +291,7 @@ When two models are evaluated with k-fold cross-validation on the **same folds**
 |---|---|---|---|
 | Data | one sample | two separate groups | the same subjects twice |
 | $H_0$ | $\mu = \mu_0$ | $\mu_1 = \mu_2$ | $\mu_d = 0$ |
-| Statistic | $\dfrac{\bar{x} - \mu_0}{s/\sqrt{n}}$ | $\dfrac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_1^2/n_1 + s_2^2/n_2}}$ | $\dfrac{\bar{d}}{s_d/\sqrt{n}}$ |
+| Statistic | $\dfrac{\bar{x} - \mu_0}{s/\sqrt{n}}$ | $\dfrac{\bar x_1 - \bar x_2}{\sqrt{s_1^2/n_1 + s_2^2/n_2}}$ | $\dfrac{\bar{d}}{s_d/\sqrt{n}}$ |
 | $df$ | $n - 1$ | $n_1 + n_2 - 2$ | $n - 1$ |
 | Extra check | normality | normality of each group, equal variances (Levene) | normality of the differences |
 | scipy | `ttest_1samp` | `ttest_ind` | `ttest_rel` |

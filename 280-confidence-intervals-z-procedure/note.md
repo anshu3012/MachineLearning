@@ -121,13 +121,13 @@ The third assumption is therefore mild. A population of ages with three peaks, a
 
 ## 7. The z-procedure formula
 
-> **Key point:** $\bar{x} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$, where $1 - \alpha$ is the confidence level and $z_{\alpha/2}$ is read from the standard normal curve.
+> **Key point:** $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, where $1 - \alpha$ is the confidence level and $z_{\alpha/2}$ is read from the standard normal curve.
 
 The problem: a sample of $n = 100$ subscribers has mean age $\bar{x} = 28$ years, the population standard deviation is $\sigma = 15$ years, and we want a 95% confidence interval for $\mu$.
 
 1. **In words:** go from the sample mean $z_{\alpha/2}$ standard errors down and up. The standard error is $\sigma/\sqrt{n}$, and the margin of error is $z_{\alpha/2}$ times it.
 2. **Formula:**
-   $$\bar{x} \pm z_{\alpha/2}\thinspace \frac{\sigma}{\sqrt{n}}$$
+   $$\bar{x} \pm z_{\alpha/2}\thinspace\frac{\sigma}{\sqrt{n}}$$
    - $\bar{x}$: the sample mean, our point estimate.
    - $1 - \alpha$: the confidence level. For 95%, $1 - \alpha = 0.95$, so $\alpha = 0.05$ and $\alpha/2 = 0.025$.
    - $z_{\alpha/2}$: the **critical value**, the z-score that leaves an area of $\alpha/2$ in the upper tail of the standard normal curve. For 95% it is 1.96 (section 9).
@@ -156,27 +156,30 @@ The formula leaves two questions: why this formula, and how to find $z_{\alpha/2
 
 > **Key point:** Standardize the sample mean, find the middle 95% of the standard normal curve, and rearrange the inequality so that $\mu$ stands alone.
 
-**Step 1: the sample mean is normal.** By the assumptions (or the CLT), $\bar{X}$ follows a normal distribution with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$. Imagine many online events of 100 subscribers each: their mean ages $\bar{x}_1, \bar{x}_2, \dots$ form this bell (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
+**Step 1: the sample mean is normal.** By the assumptions (or the CLT), $\bar{X}$ follows a normal distribution with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$. Imagine many online events of 100 subscribers each: their mean ages $\bar x_1, \bar x_2, \dots$ form this bell (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
 
 **Step 2: standardize.** Subtracting the mean and dividing by the standard deviation turns any normal variable into the standard normal $Z \sim N(0, 1)$ (see the [standard normal Note](../251-standard-normal-and-z-table/note.md)):
 $$Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
 
 **Step 3: the middle $1 - \alpha$ of $Z$.** We want a range of $z$ values that contains $Z$ with probability $1 - \alpha$ (95%). The curve is symmetric, so the remaining $\alpha$ splits into $\alpha/2$ in each tail (Figure 3). The two cut-off points are $-z_{\alpha/2}$ and $+z_{\alpha/2}$:
-$$P\negthinspace \left(-z_{\alpha/2} < Z < z_{\alpha/2}\right) = 1 - \alpha$$
+$$P\negthinspace\left(-z_{\alpha/2} < Z < z_{\alpha/2}\right) = 1 - \alpha$$
 
 **Step 4: put $\bar{X}$ back in and isolate $\mu$.**
-$$P\negthinspace \left(-z_{\alpha/2} < \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} < z_{\alpha/2}\right) = 1 - \alpha$$
+$$P\negthinspace\left(-z_{\alpha/2} < \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} < z_{\alpha/2}\right) = 1 - \alpha$$
 
 Multiply all three parts by $\sigma/\sqrt{n}$:
-$$P\negthinspace \left(-z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \bar{X} - \mu < z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
+
+$$P\negthinspace\left(-z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \bar{X} - \mu < z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
 
 Subtract $\bar{X}$ from all three parts:
-$$P\negthinspace \left(-\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < -\mu < -\bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
+
+$$P\negthinspace\left(-\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < -\mu < -\bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
 
 Multiply by $-1$, which flips both inequality signs:
-$$P\negthinspace \left(\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \mu < \bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
 
-The two ends are exactly the confidence interval $\bar{X} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$.
+$$P\negthinspace\left(\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \mu < \bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
+
+The two ends are exactly the confidence interval $\bar{X} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$.
 
 **Step 5: what the probability belongs to.** The last line looks like "$\mu$ lies in this range with probability 95%", but $\mu$ is a fixed number: the true mean age of the subscribers does not vary. What varies is $\bar{X}$: the next online event brings different people and a different mean. The probability belongs to the random interval, not to $\mu$.
 
@@ -230,8 +233,8 @@ The critical value completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and 
 | Confidence level | $1 - \alpha$ | 0.95, so $\alpha = 0.05$ |
 | Standard error | $\sigma/\sqrt{n}$ | $15/\sqrt{100} = 1.5$ |
 | Critical value | $\Phi(z_{\alpha/2}) = 1 - \alpha/2$ | $\Phi(1.96) = 0.975$ |
-| Margin of error | $E = z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ | $1.96 \times 1.5 = 2.94$ |
-| Z-interval | $\bar{x} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ | 25.06 to 30.94 years |
+| Margin of error | $E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | $1.96 \times 1.5 = 2.94$ |
+| Z-interval | $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | 25.06 to 30.94 years |
 
 - A point estimate is almost never exactly right; an interval states the uncertainty.
 - A confidence interval is about a population parameter, built from sample statistics.
@@ -251,6 +254,6 @@ The critical value completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and 
 | Confidence level | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$ |
 | Margin of error | The distance from the point estimate to either end of a confidence interval |
 | Lower and upper limit | The two ends of a confidence interval |
-| Z-procedure | The confidence interval $\bar{x} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$, used when $\sigma$ is known |
+| Z-procedure | The confidence interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, used when $\sigma$ is known |
 | Critical value | The z (or t) value that leaves $\alpha/2$ in each tail; 1.96 for 95% on the standard normal curve |
 | $\alpha$ | One minus the confidence level: the share of intervals that miss the parameter |

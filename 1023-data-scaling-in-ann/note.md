@@ -80,7 +80,7 @@ The training loss tells the same story. Binary cross-entropy of a coin toss is 0
 
 > **Key point:** For a first-layer weight, gradient = (error signal of its node) × (its input).
 
-Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. Backpropagation updates both with $w_{\text{new}} = w_{\text{old}} - \eta\thinspace  \partial L/\partial w$.
+Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. Backpropagation updates both with $w_{\text{new}} = w_{\text{old}} - \eta\thinspace\partial L/\partial w$.
 
 1. **In words:** the node computes $z = w_1 x_1 + w_2 x_2 + b$. By the chain rule, the gradient of each weight is the node's error signal $\delta = \partial L/\partial z$ times that weight's input.
 2. **Formula:**

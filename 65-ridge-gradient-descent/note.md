@@ -31,7 +31,7 @@ Here a **feature** is an input variable (one column of the data table), an **obs
 
 The Ridge loss from the previous Note, multiplied by $\frac{1}{2}$:
 
-$$L = \frac{1}{2}(Xw - y)^{\mathsf T}(Xw - y) + \frac{1}{2}\lambda\thinspace  w^{\mathsf T}w$$
+$$L = \frac{1}{2}(Xw - y)^{\mathsf T}(Xw - y) + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
 
 Halving every value of the loss leaves the lowest point at the same $w$. The ½ just makes the derivative tidier, as the 2 from differentiating a square cancels the $\frac{1}{2}$.
 
@@ -41,7 +41,7 @@ Halving every value of the loss leaves the lowest point at the same $w$. The ½ 
 
 Expanding the product as in the normal equation Note:
 
-$$L = \frac{1}{2}\left(w^{\mathsf T}X^{\mathsf T}Xw - 2w^{\mathsf T}X^{\mathsf T}y + y^{\mathsf T}y\right) + \frac{1}{2}\lambda\thinspace  w^{\mathsf T}w$$
+$$L = \frac{1}{2}\left(w^{\mathsf T}X^{\mathsf T}Xw - 2w^{\mathsf T}X^{\mathsf T}y + y^{\mathsf T}y\right) + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
 
 Differentiating with respect to $w$:
 

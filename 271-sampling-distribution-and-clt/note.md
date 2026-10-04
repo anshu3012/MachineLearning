@@ -49,7 +49,7 @@ Now we build a sampling distribution in four steps:
 1. Choose a **sample size**, say $n = 50$ people.
 2. Draw 50 people at random and record their salaries: sample 1.
 3. Repeat, drawing a new random sample of 50 each time, until we have, say, 100 samples: 100 sets of 50 numbers.
-4. Compute the mean of every sample: $\bar{x}_1, \bar{x}_2, \dots, \bar{x}_{100}$.
+4. Compute the mean of every sample: $\bar x_1, \bar x_2, \dots, \bar x_{100}$.
 
 These 100 sample means form the **sampling distribution of the sample mean**. Two sizes must not be confused: the sample size is $n = 50$ (people per sample); the number of samples is 100.
 
@@ -57,10 +57,10 @@ The statistic need not be the mean. If we compute the variance of each of the 10
 
 1. **In words:** a sampling distribution is the distribution of a statistic computed from many independent samples of the same size from one population.
 2. **Formula:** for the mean, from $k$ samples of size $n$,
-   $$\bar{x}_j = \frac{1}{n}\sum_{i=1}^{n} x_{ij}, \qquad j = 1, \dots, k$$
-   and the sampling distribution is the distribution of $\bar{x}_1, \dots, \bar{x}_k$.
+   $$\bar x_j = \frac{1}{n}\sum_{i=1}^{n} x_{ij}, \qquad j = 1, \dots, k$$
+   and the sampling distribution is the distribution of $\bar x_1, \dots, \bar x_k$.
 3. **Example:** three samples of size $n = 3$ give means
-   $$\bar{x}_1 = \frac{2 + 4 + 9}{3} = 5, \quad \bar{x}_2 = \frac{1 + 3 + 5}{3} = 3, \quad \bar{x}_3 = \frac{6 + 7 + 8}{3} = 7$$
+   $$\bar x_1 = \frac{2 + 4 + 9}{3} = 5, \quad \bar x_2 = \frac{1 + 3 + 5}{3} = 3, \quad \bar x_3 = \frac{6 + 7 + 8}{3} = 7$$
    The numbers 5, 3 and 7 are three points of the sampling distribution of the mean.
 
 ### 3.1 Why sampling distributions matter
@@ -81,9 +81,9 @@ The first two are the topics of later Notes. The third is the subject of this No
 
 1. **In words:** the distribution of the sample means of many independent and identically distributed values approaches a normal distribution, regardless of the distribution of the values themselves.
 2. **Formula:** for samples of size $n$ from a population with mean $\mu$ and variance $\sigma^2$,
-   $$\bar{X} \thickspace \approx\thickspace  N\negthinspace \left(\mu,\thickspace  \frac{\sigma^2}{n}\right) \quad \text{for large } n$$
+   $$\bar{X} \thickspace\approx\thickspace N\negthinspace\left(\mu,\thickspace\frac{\sigma^2}{n}\right) \quad \text{for large } n$$
 3. **Example:** an exponential population has $\mu = 1$ and $\sigma^2 = 1$. For samples of $n = 30$, the CLT predicts that the sample means follow
-   $$N\negthinspace \left(1,\thickspace  \frac{1}{30}\right) = N(1,\thickspace  0.0333), \qquad \text{standard deviation } \sqrt{0.0333} = 0.183$$
+   $$N\negthinspace\left(1,\thickspace\frac{1}{30}\right) = N(1,\thickspace0.0333), \qquad \text{standard deviation } \sqrt{0.0333} = 0.183$$
 
 ![Samples of 30 from a skewed exponential population: each sample's mean drops into the histogram, which grows into the normal curve N(1, 1/30)](images/clt_pileup.gif)
 
@@ -238,7 +238,7 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 
 | Idea | Formula | Example |
 |---|---|---|
-| Sampling distribution of the mean | distribution of $\bar{x}_1, \dots, \bar{x}_k$ | 100 means of samples of 50 salaries |
+| Sampling distribution of the mean | distribution of $\bar x_1, \dots, \bar x_k$ | 100 means of samples of 50 salaries |
 | CLT, shape | $\bar{X} \approx N(\mu, \sigma^2/n)$ | exponential, $n = 30$: $N(1, 1/30)$ |
 | Mean of the sample means | $\mu$ | gamma: 1.9974 against 2 |
 | Variance of the sample means | $\sigma^2/n$ | $2/50 = 0.04$; simulated 0.0405 |

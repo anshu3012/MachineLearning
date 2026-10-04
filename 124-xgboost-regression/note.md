@@ -72,7 +72,7 @@ An XGBoost tree starts as a single leaf holding every residual. The tree then tr
 
 The residuals from the mean always add up to exactly 0, so the root's similarity is 0. (If we round the mean to 7.3 first, they add up to 0.3 and the root scores $0.3^2/4 = 0.02$; the rounding changes nothing important.)
 
-Why the name? In a leaf such as $\lbrace -2.875, -1.375\rbrace $ the residuals point the same way, the sum is large and the score is high. In $\lbrace 3.625, -1.375\rbrace $ they cancel, the sum is small and the score is low.
+Why the name? In a leaf such as $\lbrace-2.875, -1.375\rbrace$ the residuals point the same way, the sum is large and the score is high. In $\lbrace3.625, -1.375\rbrace$ they cancel, the sum is small and the score is low.
 
 ## 5. Candidate splits
 
@@ -114,9 +114,9 @@ CGPA < 8.25 wins. The split isolates the one large positive residual (student 2)
 
 The right leaf holds a single residual and cannot be split. The left leaf holds three: $-2.875$ (CGPA 6.7), $-1.375$ (CGPA 7.5) and 0.625 (CGPA 5.0). Its similarity, 4.38, is now the parent score. Two thresholds remain, 5.85 and 7.1.
 
-- **CGPA < 5.85:** left $\lbrace 0.625\rbrace $, right $\lbrace -2.875, -1.375\rbrace $.
+- **CGPA < 5.85:** left $\lbrace0.625\rbrace$, right $\lbrace-2.875, -1.375\rbrace$.
   $$\text{gain} = \frac{0.625^2}{1} + \frac{(-4.25)^2}{2} - 4.38 = 0.39 + 9.03 - 4.38 = 5.04$$
-- **CGPA < 7.1:** left $\lbrace 0.625, -2.875\rbrace $, right $\lbrace -1.375\rbrace $.
+- **CGPA < 7.1:** left $\lbrace0.625, -2.875\rbrace$, right $\lbrace-1.375\rbrace$.
   $$\text{gain} = \frac{(-2.25)^2}{2} + \frac{(-1.375)^2}{1} - 4.38 = 2.53 + 1.89 - 4.38 = 0.04$$
 
 CGPA < 5.85 wins: it keeps the two negative residuals together. We stop here, at depth 2, because with four observations a deeper tree would only memorise them. XGBoost's default is `max_depth=6`, meant for real datasets.
@@ -203,7 +203,7 @@ An everyday picture: every split must pay a fee of $\gamma$. A split whose gain 
 
 > **Extra:** $\gamma$ (gamma, `gamma` or `min_split_loss` in XGBoost, default 0) is a second regularisation parameter. After the tree is grown, XGBoost checks each split from the bottom up (the Notebook confirms each case with the library):
 >
-> $$\text{gain} - \gamma < 0 \thickspace \Rightarrow\thickspace  \text{remove the split}$$
+> $$\text{gain} - \gamma < 0 \thickspace\Rightarrow\thickspace\text{remove the split}$$
 >
 > With $\lambda = 0$ and $\gamma = 6$:
 >

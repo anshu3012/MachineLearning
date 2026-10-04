@@ -14,7 +14,7 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 
 ## 2. Prerequisites
 
-- The [backpropagation Notes](../1015-backpropagation-what/note.md), [how it runs](../1016-backpropagation-how/note.md) and [why it works](../1017-backpropagation-why/note.md): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace \partial L/\partial w$.
+- The [backpropagation Notes](../1015-backpropagation-what/note.md), [how it runs](../1016-backpropagation-how/note.md) and [why it works](../1017-backpropagation-why/note.md): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
 - The [CNN vs ANN Note](../1046-cnn-vs-ann/note.md): a filter works like a node, its values are weights.
 - The [convolution operation Note](../1042-convolution-operation/note.md) and the [pooling Note](../1044-pooling/note.md).
 - The [log loss Note](../73-log-loss/note.md) and the [sigmoid derivative Note](../74-sigmoid-derivative/note.md).
@@ -65,20 +65,20 @@ For a batch of $m$ images the loss is the average of the $m$ single losses. For 
 
 ## 4. Forward propagation
 
-> **Key point:** $Z_1 = X * W_1 + b_1$, $A_1 = \text{ReLU}(Z_1)$, $P_1 = \text{maxpool}(A_1)$, $F = \text{flatten}(P_1)$, $Z_2 = W_2F + b_2$, $A_2 = \sigma(Z_2)$.
+> **Key point:** $Z_1 = X \ast W_1 + b_1$, $A_1 = \text{ReLU}(Z_1)$, $P_1 = \text{maxpool}(A_1)$, $F = \text{flatten}(P_1)$, $Z_2 = W_2F + b_2$, $A_2 = \sigma(Z_2)$.
 
 Figure 1 is the **logical diagram** of the network: each arrow is one operation, each box one tensor. Written as equations:
 
 | Step | Equation | Shape |
 |---|---|---|
-| Convolution | $Z_1 = X * W_1 + b_1$ | 4 × 4 (the feature map) |
+| Convolution | $Z_1 = X \ast W_1 + b_1$ | 4 × 4 (the feature map) |
 | ReLU | $A_1 = \text{ReLU}(Z_1)$ | 4 × 4 |
 | Max pooling | $P_1 = \text{maxpool}(A_1)$ | 2 × 2 |
 | Flatten | $F = \text{flatten}(P_1)$ | 4 × 1 |
 | Output node | $Z_2 = W_2 F + b_2$ | (1 × 4)(4 × 1) = 1 × 1 |
 | Sigmoid | $A_2 = \sigma(Z_2)$ | 1 × 1 (the prediction) |
 
-Here $*$ is the convolution and $b_1$ is added to every cell of the feature map. The product is written $W_2 F$, not $F W_2$, so that the shapes fit: $(1 \times 4)$ times $(4 \times 1)$ gives $1 \times 1$. With these equations we can code the forward pass and predict for any image; the Notebook does it in NumPy.
+Here $\ast$ is the convolution and $b_1$ is added to every cell of the feature map. The product is written $W_2 F$, not $F W_2$, so that the shapes fit: $(1 \times 4)$ times $(4 \times 1)$ gives $1 \times 1$. With these equations we can code the forward pass and predict for any image; the Notebook does it in NumPy.
 
 ## 5. What we need: four derivatives
 
@@ -149,7 +149,7 @@ TensorFlow's `GradientTape`, which differentiates the same network automatically
 
 A derivative is used to update its parameter, so it must have the same shape. $W_2$ is 1 × 4. The error $a_2 - y$ is 1 × 1 and $F$ is 4 × 1, so we use its transpose $F^{\mathsf T}$, 1 × 4:
 
-$$\underbrace{(a_2 - y)}_{1 \times 1}\thickspace \underbrace{F^{\mathsf T}}_{1 \times 4} = \underbrace{\frac{\partial L}{\partial W_2}}_{1 \times 4}$$
+$$\underbrace{(a_2 - y)}_{1 \times 1}\thickspace\underbrace{F^{\mathsf T}}_{1 \times 4} = \underbrace{\frac{\partial L}{\partial W_2}}_{1 \times 4}$$
 
 ## 7. A batch of images
 
@@ -164,7 +164,7 @@ With $m$ images, each column holds one image:
 
 1. **In words:** the same formula, with the matrices of the whole batch. The loss of the batch is the average of the single losses, so a factor $1/m$ appears.
 2. **Formula:**
-   $$\frac{\partial L}{\partial W_2} = \frac{1}{m}\thinspace (A_2 - Y)\thinspace F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = \frac{1}{m}\sum_{i=1}^{m}(a_{2,i} - y_i)$$
+   $$\frac{\partial L}{\partial W_2} = \frac{1}{m}\thinspace(A_2 - Y)\thinspace F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = \frac{1}{m}\sum_{i=1}^{m}(a_{2,i} - y_i)$$
 3. **Example (shapes):** $(1 \times m)(m \times 4) = 1 \times 4$. The $m$ cancels in the matrix product, so the derivative is 1 × 4 whatever the batch size, the shape of $W_2$. In the Notebook, with $m = 32$, the formula and `GradientTape` agree to within $3 \times 10^{-17}$.
 
 The matrix product adds up the 32 single-image gradients, and the $1/m$ turns the sum into an average.

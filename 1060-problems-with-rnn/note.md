@@ -85,7 +85,7 @@ Pascanu, Mikolov and Bengio (2013) call these the temporal contributions of the 
 
 Real sequences have 100 time steps or more. The longest term then reads
 
-$$\frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial h_{100}}\thinspace \frac{\partial h_{100}}{\partial h_{99}}\thinspace \frac{\partial h_{99}}{\partial h_{98}} \cdots \frac{\partial h_2}{\partial h_1}\thinspace \frac{\partial h_1}{\partial w_i}$$
+$$\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial h_{100}}\thinspace\frac{\partial h_{100}}{\partial h_{99}}\thinspace\frac{\partial h_{99}}{\partial h_{98}} \cdots \frac{\partial h_2}{\partial h_1}\thinspace\frac{\partial h_1}{\partial w_i}$$
 
 the second-longest stops at $h_2$, the third at $h_3$, and so on. We can write the long chain compactly as a product:
 
@@ -97,9 +97,9 @@ $$\frac{\partial h_{100}}{\partial h_{99}} \cdots \frac{\partial h_2}{\partial h
 
 1. **In words:** $h_t$ is tanh of something that contains $h_{t-1} w_h$. Differentiating with respect to $h_{t-1}$ gives the slope of tanh at that point times $w_h$.
 2. **Formula:**
-   $$h_t = \tanh(x_t w_i + h_{t-1} w_h) \quad\Rightarrow\quad \frac{\partial h_t}{\partial h_{t-1}} = \tanh'(x_t w_i + h_{t-1} w_h)\thickspace  w_h$$
+   $$h_t = \tanh(x_t w_i + h_{t-1} w_h) \quad\Rightarrow\quad \frac{\partial h_t}{\partial h_{t-1}} = \tanh'(x_t w_i + h_{t-1} w_h)\thickspace w_h$$
    so the long-term term becomes
-   $$\frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial h_{100}} \left(\prod_{t=2}^{100} \tanh'(\cdot)\thinspace  w_h\right) \frac{\partial h_1}{\partial w_i}$$
+   $$\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial h_{100}} \left(\prod_{t=2}^{100} \tanh'(\cdot)\thinspace w_h\right) \frac{\partial h_1}{\partial w_i}$$
 3. **Example:** the slope of tanh is between 0 and 1 (see the [activation functions Note](../1027-activation-functions/note.md)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is $0.8 \times 0.9 = 0.72$, and 99 of them give
    $$0.72^{99} \approx 7.5 \times 10^{-15}$$
 
@@ -175,7 +175,7 @@ Now the long-term terms become so large that they dominate the short-term ones, 
 Two situations make it likely:
 
 - **ReLU with large recurrent weights.** ReLU does not squash: its slope is 1 for every positive input. If the recurrent weights are initialised large, nothing keeps the product small, and it explodes. The $s = 1.1$ line of Figure 3 shows the same growth with no activation at all.
-- **A high learning rate.** The gradient itself does not depend on the learning rate, but the step does: $\Delta W = \eta\thinspace \partial L/\partial W$. A large gradient times a large $\eta$ gives a huge step, which throws the weights far away, the case shown in section 7.1 of the [exploding gradients Note](../1018-vanishing-exploding-gradients/note.md).
+- **A high learning rate.** The gradient itself does not depend on the learning rate, but the step does: $\Delta W = \eta\thinspace\partial L/\partial W$. A large gradient times a large $\eta$ gives a huge step, which throws the weights far away, the case shown in section 7.1 of the [exploding gradients Note](../1018-vanishing-exploding-gradients/note.md).
 
 Goodfellow §10.7 notes that gradients over many steps vanish most of the time and explode rarely, but with much damage to the optimisation.
 

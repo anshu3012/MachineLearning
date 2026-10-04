@@ -97,9 +97,9 @@ After a few rounds, the guess matches the hidden curve well near its top, and th
 > **Extra:** Expected improvement, step by step.
 >
 > 1. **In words:** how much better than the best score so far we expect a point to be, averaging over the surrogate's uncertainty; a point counts as promising if its predicted mean is high, or if its uncertainty is wide enough that it might be high.
-> 2. **Formula:** with best score so far $f^*$, predicted mean $\mu$ and standard deviation $\sigma$ at a point, $\Phi$ the normal distribution's cumulative probability and $\phi$ its density:
->    $$z = \frac{\mu - f^*}{\sigma}, \qquad \text{EI} = (\mu - f^*)\thinspace \Phi(z) + \sigma\thinspace \phi(z)$$
-> 3. **Example:** $f^* = 0.785$, $\mu = 0.790$, $\sigma = 0.010$:
+> 2. **Formula:** with best score so far $f^\ast$, predicted mean $\mu$ and standard deviation $\sigma$ at a point, $\Phi$ the normal distribution's cumulative probability and $\phi$ its density:
+>    $$z = \frac{\mu - f^\ast}{\sigma}, \qquad \text{EI} = (\mu - f^\ast)\thinspace\Phi(z) + \sigma\thinspace\phi(z)$$
+> 3. **Example:** $f^\ast= 0.785$, $\mu = 0.790$, $\sigma = 0.010$:
 >    $$z = \frac{0.790 - 0.785}{0.010} = 0.5, \qquad \Phi(0.5) = 0.6915, \qquad \phi(0.5) = 0.3521$$
 >    $$\text{EI} = 0.005 \times 0.6915 + 0.010 \times 0.3521 = 0.00346 + 0.00352 = 0.0070$$
 >    The two halves are about equal: half of this point's appeal is its high mean, half its uncertainty.

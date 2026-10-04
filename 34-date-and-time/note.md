@@ -322,7 +322,7 @@ The 30.436875 days are one year of 365.2425 days, the average length of a calend
 
 For row 0, ordered on 10 December 2019:
 
-$$\frac{498.668}{30.436875} = 16.38 \thickspace \rightarrow\thickspace  16 \text{ months}$$
+$$\frac{498.668}{30.436875} = 16.38 \thickspace\rightarrow\thickspace16 \text{ months}$$
 
 **Way 2: count calendar months.** Subtract the month numbers, counting 12 for each year in between.
 

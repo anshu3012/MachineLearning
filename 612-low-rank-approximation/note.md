@@ -14,7 +14,7 @@ tags: [subject/maths, area/calculus, step/reduce, concept/low-rank-approx]
 
 ## 1. Overview
 
-> **Key point:** The SVD writes any matrix as a sum of rank-1 layers, ordered from most to least important. Keeping only the first $k$ layers gives the best possible rank-$k$ approximation, and its error is the first singular value left out.
+> **Key point:** The SVD writes any matrix as a sum of rank-1 layers, ordered from most to least important. Keeping only the first $k$ layers gives the best possible rank $k$ approximation, and its error is the first singular value left out.
 
 This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.6 Matrix Approximation.
 
@@ -25,14 +25,14 @@ The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md), introd
 This Note covers:
 
 - the SVD as a sum of rank-1 layers (Section 2);
-- the rank-$k$ approximation (Section 3);
+- the rank $k$ approximation (Section 3);
 - why it is the best one possible, the Eckart–Young theorem (Section 4);
 - compressing an image (Section 5) and choosing $k$ (Section 6);
 - removing noise (Section 7).
 
 ## 2. A matrix as a sum of rank-1 layers
 
-> **Key point:** $A = \sigma_1\mathbf{u}_1\mathbf{v}_1^{\mathsf T} + \sigma_2\mathbf{u}_2\mathbf{v}_2^{\mathsf T} + \dots$: each term is a column times a row, scaled by a singular value.
+> **Key point:** $A = \sigma_1\mathbf u_1\mathbf v_1^{\mathsf T} + \sigma_2\mathbf u_2\mathbf v_2^{\mathsf T} + \dots$: each term is a column times a row, scaled by a singular value.
 
 ### 2.1 The outer product
 
@@ -42,22 +42,22 @@ The dot product multiplies a row by a column and gives one number (see the [dot 
 
 1. **In words:** the **outer product** $\mathbf{u}\mathbf{v}^{\mathsf T}$ of an $m$-vector $\mathbf{u}$ and an $n$-vector $\mathbf{v}$ is the $m \times n$ matrix whose entry in row $i$, column $j$ is $u_i v_j$.
 2. **Formula:**
-   $$\mathbf{u}\mathbf{v}^{\mathsf T} = \begin{bmatrix} u_1 \cr  u_2 \end{bmatrix}\begin{bmatrix} v_1 & v_2 \end{bmatrix} = \begin{bmatrix} u_1v_1 & u_1v_2 \cr  u_2v_1 & u_2v_2 \end{bmatrix}$$
+   $$\mathbf{u}\mathbf{v}^{\mathsf T} = \begin{bmatrix} u_1 \cr u_2 \end{bmatrix}\begin{bmatrix} v_1 & v_2 \end{bmatrix} = \begin{bmatrix} u_1v_1 & u_1v_2 \cr u_2v_1 & u_2v_2 \end{bmatrix}$$
 3. **Example:**
-   $$\begin{bmatrix} 1 \cr  3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix} = \begin{bmatrix} 1 & 1 \cr  3 & 3 \end{bmatrix}$$
+   $$\begin{bmatrix} 1 \cr3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix} = \begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
 
 Every row is a multiple of $\mathbf{v}^{\mathsf T}$ and every column a multiple of $\mathbf{u}$, so the rank is 1. The outer product needs only $m + n$ numbers to describe, instead of $m \times n$.
 
 ### 2.2 Splitting the SVD into layers
 
-> **Key point:** Multiplying out $U\Sigma V^{\mathsf T}$ pairs each $\mathbf{u}_i$ only with its own $\mathbf{v}_i$, because $\Sigma$ is diagonal.
+> **Key point:** Multiplying out $U\Sigma V^{\mathsf T}$ pairs each $\mathbf u_i$ only with its own $\mathbf v_i$, because $\Sigma$ is diagonal.
 
 1. **In words:** a matrix of rank $r$ is the sum of $r$ rank-1 layers. Layer $i$ is the outer product of the $i$-th left and right singular vectors, weighted by the $i$-th singular value.
 2. **Formula:**
-   $$A = U\Sigma V^{\mathsf T} = \sum_{i=1}^{r} \sigma_i\thinspace \mathbf{u}_i\mathbf{v}_i^{\mathsf T}$$
-3. **Example:** for $A$ with rows $[3, 0]$ and $[4, 5]$, with $\sigma_1 = 3\sqrt5$, $\mathbf{u}_1 = \frac{1}{\sqrt{10}}[1, 3]$, $\mathbf{v}_1 = \frac{1}{\sqrt2}[1, 1]$, and $\sigma_2 = \sqrt5$, $\mathbf{u}_2 = \frac{1}{\sqrt{10}}[-3, 1]$, $\mathbf{v}_2 = \frac{1}{\sqrt2}[-1, 1]$:
-   $$\sigma_1\mathbf{u}_1\mathbf{v}_1^{\mathsf T} = \frac{3\sqrt5}{\sqrt{20}}\begin{bmatrix} 1 & 1 \cr  3 & 3 \end{bmatrix} = \begin{bmatrix} 1.5 & 1.5 \cr  4.5 & 4.5 \end{bmatrix}, \qquad \sigma_2\mathbf{u}_2\mathbf{v}_2^{\mathsf T} = \frac{\sqrt5}{\sqrt{20}}\begin{bmatrix} 3 & -3 \cr  -1 & 1 \end{bmatrix} = \begin{bmatrix} 1.5 & -1.5 \cr  -0.5 & 0.5 \end{bmatrix}$$
-   and the two layers add up to $\begin{bmatrix} 3 & 0 \cr  4 & 5 \end{bmatrix} = A$.
+   $$A = U\Sigma V^{\mathsf T} = \sum_{i=1}^{r} \sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T}$$
+3. **Example:** for $A$ with rows $[3, 0]$ and $[4, 5]$, with $\sigma_1 = 3\sqrt5$, $\mathbf u_1 = \frac{1}{\sqrt{10}}[1, 3]$, $\mathbf v_1 = \frac{1}{\sqrt2}[1, 1]$, and $\sigma_2 = \sqrt5$, $\mathbf u_2 = \frac{1}{\sqrt{10}}[-3, 1]$, $\mathbf v_2 = \frac{1}{\sqrt2}[-1, 1]$:
+   $$\sigma_1\mathbf u_1\mathbf v_1^{\mathsf T} = \frac{3\sqrt5}{\sqrt{20}}\begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix} = \begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix}, \qquad \sigma_2\mathbf u_2\mathbf v_2^{\mathsf T} = \frac{\sqrt5}{\sqrt{20}}\begin{bmatrix} 3 & -3 \cr-1 & 1 \end{bmatrix} = \begin{bmatrix} 1.5 & -1.5 \cr-0.5 & 0.5 \end{bmatrix}$$
+   and the two layers add up to $\begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = A$.
 
 Why the cross terms vanish: in $U\Sigma V^{\mathsf T}$, column $i$ of $U$ meets row $j$ of $V^{\mathsf T}$ through the entry $\Sigma_{ij}$, and that is 0 unless $i = j$. Layers with $\sigma_i = 0$ add nothing, so only the first $r$ count.
 
@@ -65,7 +65,7 @@ The first layer is the big one. The first layer already has the right overall si
 
 Figure 2 shows the first four layers of the photo of Figure 1. Each is a column times a row, so each is a pattern of horizontal and vertical stripes. The first one is a blurred brightness map; later ones add finer corrections, positive (blue) in some places and negative (red) in others.
 
-![The first four layers $\sigma_i\mathbf{u}_i\mathbf{v}_i^{\mathsf T}$ of the photo: blue positive, red negative, white zero](images/rank1_layers.png)
+![The first four layers $\sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$ of the photo: blue positive, red negative, white zero](images/rank1_layers.png)
 
 > **Python:** One layer is `s[i] * np.outer(U[:, i], Vt[i])`.
 >
@@ -79,20 +79,20 @@ Figure 2 shows the first four layers of the photo of Figure 1. Each is a column 
 > L1 + L2                                # gives back A
 > ```
 >
-> NumPy's signs of $\mathbf{u}_i$ and $\mathbf{v}_i$ may both be flipped; their outer product, and so the layer, is the same.
+> NumPy's signs of $\mathbf u_i$ and $\mathbf v_i$ may both be flipped; their outer product, and so the layer, is the same.
 
-## 3. The rank-$k$ approximation
+## 3. The rank $k$ approximation
 
 > **Key point:** Stop the sum after $k$ layers. The result has rank $k$ and needs only $k(m + n + 1)$ numbers.
 
-1. **In words:** keep the $k$ largest singular values with their vectors and drop the rest. The result $\hat{A}_k$ ("A hat k") is the **rank-$k$ approximation** of $A$, also called the **truncated SVD**.
+1. **In words:** keep the $k$ largest singular values with their vectors and drop the rest. The result $\hat A_k$ ("A hat k") is the **rank $k$ approximation** of $A$, also called the **truncated SVD**.
 2. **Formula:**
-   $$\hat{A}_k = \sum_{i=1}^{k} \sigma_i\thinspace \mathbf{u}_i\mathbf{v}_i^{\mathsf T} = U_k\Sigma_kV_k^{\mathsf T}$$
+   $$\hat A_k = \sum_{i=1}^{k} \sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T} = U_k\Sigma_kV_k^{\mathsf T}$$
    where $U_k$ is the first $k$ columns of $U$, $\Sigma_k$ the top-left $k \times k$ block of $\Sigma$, and $V_k$ the first $k$ columns of $V$.
 3. **Example:** for $A$ with rows $[3, 0]$ and $[4, 5]$, the rank-1 approximation is the first layer:
-   $$\hat{A}_1 = \begin{bmatrix} 1.5 & 1.5 \cr  4.5 & 4.5 \end{bmatrix}$$
+   $$\hat A_1 = \begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix}$$
 
-**Storage.** An $m \times n$ matrix has $mn$ numbers. $\hat{A}_k$ is stored as $k$ columns of $U$ ($km$ numbers), $k$ singular values, and $k$ columns of $V$ ($kn$ numbers):
+**Storage.** An $m \times n$ matrix has $mn$ numbers. $\hat A_k$ is stored as $k$ columns of $U$ ($km$ numbers), $k$ singular values, and $k$ columns of $V$ ($kn$ numbers):
 
 1. **In words:** each kept layer costs one $\mathbf{u}$, one $\sigma$ and one $\mathbf{v}$.
 2. **Formula:**
@@ -103,7 +103,7 @@ The layered storage only pays off when $k$ is small: with $k$ near $\min(m, n)$,
 
 ## 4. The best approximation: Eckart–Young
 
-> **Key point:** No matrix of rank $k$ is closer to $A$ than $\hat{A}_k$. Its error, measured as the largest stretch of $A - \hat{A}_k$, is exactly $\sigma_{k+1}$.
+> **Key point:** No matrix of rank $k$ is closer to $A$ than $\hat A_k$. Its error, measured as the largest stretch of $A - \hat A_k$, is exactly $\sigma_{k+1}$.
 
 ### 4.1 Measuring the size of a matrix
 
@@ -118,16 +118,16 @@ To say which approximation is "closest", we need the size of the difference $A -
 
 ### 4.2 The Eckart–Young theorem
 
-> **Key point:** Among all rank-$k$ matrices $B$, the truncated SVD makes $\lVert A - B\rVert_2$ smallest, and the smallest value is $\sigma_{k+1}$.
+> **Key point:** Among all rank $k$ matrices $B$, the truncated SVD makes $\lVert A - B\rVert_2$ smallest, and the smallest value is $\sigma_{k+1}$.
 
-1. **In words:** the error of the truncated SVD is the sum of the layers we dropped. The biggest of those is layer $k + 1$, so the largest stretch of the error is $\sigma_{k+1}$. The **Eckart–Young theorem** says no other rank-$k$ matrix does better (MML Thm 4.25; Eckart and Young 1936).
+1. **In words:** the error of the truncated SVD is the sum of the layers we dropped. The biggest of those is layer $k + 1$, so the largest stretch of the error is $\sigma_{k+1}$. The **Eckart–Young theorem** says no other rank $k$ matrix does better (MML Thm 4.25; Eckart and Young 1936).
 2. **Formula:**
-   $$A - \hat{A}_k = \sum_{i=k+1}^{r}\sigma_i\thinspace \mathbf{u}_i\mathbf{v}_i^{\mathsf T}, \qquad \lVert A - \hat{A}_k\rVert_2 = \sigma_{k+1} \le \lVert A - B\rVert_2 \ \text{ for every } B \text{ of rank } k$$
+   $$A - \hat A_k = \sum_{i=k+1}^{r}\sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T}, \qquad \lVert A - \hat A_k\rVert_2 = \sigma_{k+1} \le \lVert A - B\rVert_2 \ \text{ for every } B \text{ of rank } k$$
 3. **Example:** for $A$ and $k = 1$, the error is the second layer, rows $[1.5, -1.5]$ and $[-0.5, 0.5]$, whose largest stretch is $\sigma_2 = \sqrt5 \approx 2.24$. A natural alternative rank-1 guess, keeping the second row of $A$ and zeroing the first, $B$ with rows $[0, 0]$ and $[4, 5]$, leaves the error with rows $[3, 0]$ and $[0, 0]$: its largest stretch is 3, worse than 2.24.
 
-The difference $A - \hat{A}_k$ is itself written in SVD form, with singular values $\sigma_{k+1}, \sigma_{k+2}, \dots$. Its largest one is $\sigma_{k+1}$, and the spectral norm of a matrix is its largest singular value. That reasoning is the whole proof of the error formula; the harder part is that no other $B$ wins.
+The difference $A - \hat A_k$ is itself written in SVD form, with singular values $\sigma_{k+1}, \sigma_{k+2}, \dots$. Its largest one is $\sigma_{k+1}$, and the spectral norm of a matrix is its largest singular value. That reasoning is the whole proof of the error formula; the harder part is that no other $B$ wins.
 
-> **Extra:** Why no other rank-$k$ matrix can win, in outline. A rank-$k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ right singular vectors span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
+> **Extra:** Why no other rank $k$ matrix can win, in outline. A rank $k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ right singular vectors span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
 
 > **Extra:** The theorem also holds for a second common size measure (Eckart and Young 1936), the **Frobenius norm** $\lVert M\rVert_F$: the square root of the sum of all squared entries, the L2 norm of the matrix read as one long vector. It equals $\sqrt{\sigma_1^2 + \sigma_2^2 + \dots}$, and the truncated SVD's error is $\sqrt{\sigma_{k+1}^2 + \sigma_{k+2}^2 + \dots}$. For $A$: $\lVert A\rVert_F = \sqrt{9 + 0 + 16 + 25} = \sqrt{50} = \sqrt{45 + 5}$. In NumPy, `np.linalg.norm(M)` is the Frobenius norm and `np.linalg.norm(M, 2)` the spectral norm.
 
@@ -163,7 +163,7 @@ Two common ways to choose $k$:
 
 The share rule is the same rule as choosing the number of principal components by explained variance in the [PCA on MNIST Note](../49-pca-mnist/note.md) (section 7). The match is not a coincidence: the [SVD in machine learning Note](../613-svd-in-machine-learning/note.md) shows that PCA is an SVD.
 
-> **Python:** The rank-$k$ approximation of the photo.
+> **Python:** The rank $k$ approximation of the photo.
 >
 > ```python
 > from sklearn.datasets import load_sample_image
@@ -195,7 +195,7 @@ The intuition: noise has no structure, so no direction is special and its contri
 
 1. **In words:** measure the error as the size of (approximation minus clean picture) relative to the size of the clean picture, both in the Frobenius norm. Keep the singular values above the noise floor.
 2. **Formula:**
-   $$\text{error} = \frac{\lVert \hat{A}_k - A_{\text{clean}}\rVert_F}{\lVert A_{\text{clean}}\rVert_F}$$
+   $$\text{error} = \frac{\lVert \hat A_k - A_{\text{clean}}\rVert_F}{\lVert A_{\text{clean}}\rVert_F}$$
 3. **Example:** the noisy picture itself has an error of 87%. Its rank-3 approximation has 19%. Keeping more layers makes it worse again: 24% at $k = 4$, 41% at $k = 10$, 77% at $k = 50$ (Figure 4, bottom right), because each extra layer adds back mostly noise.
 
 The same idea, keeping only the singular values above the noise floor, is a standard way to remove noise from a data matrix (Gavish and Donoho 2014). Picking $k$ at the edge of the noise floor is the elbow rule of Section 6.
@@ -205,15 +205,15 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 | Idea | Formula | Example |
 |---|---|---|
 | Outer product | $\mathbf{u}\mathbf{v}^{\mathsf T}$, entry $u_iv_j$; rank 1 | $[1, 3][1, 1]$ has rows $[1, 1]$, $[3, 3]$ |
-| Layers | $A = \sum_i \sigma_i\mathbf{u}_i\mathbf{v}_i^{\mathsf T}$ | $A$ = rows $[1.5, 1.5]$, $[4.5, 4.5]$ $+$ rows $[1.5, -1.5]$, $[-0.5, 0.5]$ |
-| Rank-$k$ approximation | $\hat{A}_k = U_k\Sigma_kV_k^{\mathsf T}$ | $\hat{A}_1$ has rows $[1.5, 1.5]$, $[4.5, 4.5]$ |
+| Layers | $A = \sum_i \sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$ | $A$ = rows $[1.5, 1.5]$, $[4.5, 4.5]$ $+$ rows $[1.5, -1.5]$, $[-0.5, 0.5]$ |
+| Rank $k$ approximation | $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$ | $\hat A_1$ has rows $[1.5, 1.5]$, $[4.5, 4.5]$ |
 | Storage | $k(m + n + 1)$ | photo, $k = 20$: 21,360 of 273,280 (7.8%) |
 | Spectral norm | $\lVert M\rVert_2 = \sigma_1(M)$ | $\lVert A\rVert_2 = 6.71$ |
-| Eckart–Young | $\lVert A - \hat{A}_k\rVert_2 = \sigma_{k+1}$, the smallest possible | error of $\hat{A}_1$: 2.24; another rank-1 guess: 3 |
+| Eckart–Young | $\lVert A - \hat A_k\rVert_2 = \sigma_{k+1}$, the smallest possible | error of $\hat A_1$: 2.24; another rank-1 guess: 3 |
 | Noise reduction | keep the $\sigma_i$ above the noise floor | error 87% $\to$ 19% at $k = 3$ |
 
 - Every matrix is a weighted sum of rank-1 layers, largest weight first.
-- Dropping the small layers gives the best rank-$k$ approximation, with error $\sigma_{k+1}$.
+- Dropping the small layers gives the best rank $k$ approximation, with error $\sigma_{k+1}$.
 - Fast-falling singular values mean a matrix can be compressed well.
 - Noise forms a flat floor of small singular values; truncating below it removes most of the noise.
 
@@ -230,9 +230,9 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 | Term | Meaning |
 |---|---|
 | Outer product | A column vector times a row vector, $\mathbf{u}\mathbf{v}^{\mathsf T}$: a matrix of rank 1 with entries $u_iv_j$ |
-| Rank-1 layer | One term $\sigma_i\mathbf{u}_i\mathbf{v}_i^{\mathsf T}$ of the SVD written as a sum |
-| Rank-$k$ approximation (truncated SVD) | The sum of the first $k$ layers, $\hat{A}_k = U_k\Sigma_kV_k^{\mathsf T}$ |
+| Rank-1 layer | One term $\sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$ of the SVD written as a sum |
+| Rank $k$ approximation (truncated SVD) | The sum of the first $k$ layers, $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$ |
 | Spectral norm | The largest stretch of a matrix, $\lVert M\rVert_2 = \sigma_1$ |
 | Frobenius norm | The square root of the sum of all squared entries of a matrix, $\sqrt{\sum\sigma_i^2}$ |
-| Eckart–Young theorem | The truncated SVD is the closest rank-$k$ matrix to $A$; its spectral error is $\sigma_{k+1}$ |
+| Eckart–Young theorem | The truncated SVD is the closest rank $k$ matrix to $A$; its spectral error is $\sigma_{k+1}$ |
 | Noise floor | The flat run of small singular values that random noise produces |

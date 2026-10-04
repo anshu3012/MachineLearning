@@ -43,10 +43,10 @@ Random variables get capital letters such as $X$ or $Y$; the [random variables a
 
 > **Key point:** For a coin we can map head to 1 and tail to 0; for a die we can map each face to its own number.
 
-**Tossing a coin.** The sample space is $\lbrace H, T\rbrace $. A random variable $X$ can map head to 1 and tail to 0:
+**Tossing a coin.** The sample space is $\lbrace H, T\rbrace$. A random variable $X$ can map head to 1 and tail to 0:
 $$X(H) = 1, \qquad X(T) = 0$$
 
-**Rolling a die.** The sample space is $\lbrace 1, 2, 3, 4, 5, 6\rbrace $. A random variable $Y$ can map each face to itself: $Y(1) = 1$, $Y(2) = 2$, and so on up to $Y(6) = 6$.
+**Rolling a die.** The sample space is $\lbrace1, 2, 3, 4, 5, 6\rbrace$. A random variable $Y$ can map each face to itself: $Y(1) = 1$, $Y(2) = 2$, and so on up to $Y(6) = 6$.
 
 These rules look like a change of names and nothing more. Their use shows once the experiment has more complex outcomes, such as pairs.
 
@@ -110,20 +110,22 @@ The **mean of a random variable**, usually called its **expected value**, is the
 > **Key point:** The ordinary mean can be rewritten as each distinct value times its share of the data; the expected value uses probabilities in place of shares.
 
 Take the six numbers 5, 3, 4, 5, 3, 3. Their mean (see the [measures of central tendency Note](../221-measures-of-central-tendency/note.md)) is
+
 $$\bar{x} = \frac{5 + 3 + 4 + 5 + 3 + 3}{6} = \frac{23}{6} \approx 3.833$$
 
 The same sum can be grouped by value: 5 appears twice, 4 once and 3 three times.
+
 $$\bar{x} = \frac{2 \times 5 + 1 \times 4 + 3 \times 3}{6} = \frac{2}{6} \times 5 + \frac{1}{6} \times 4 + \frac{3}{6} \times 3 = \frac{23}{6}$$
 
 The second form says: take each **distinct** value and multiply it by the share of the data it makes up. A share of the data is an empirical probability (see the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md)). Replacing the shares by true probabilities gives the expected value.
 
 ### 3.2 The formula
 
-> **Key point:** $E[X] = \sum x_i \thinspace  P(X = x_i)$, summed over the possible values.
+> **Key point:** $E[X] = \sum x_i \thinspace P(X = x_i)$, summed over the possible values.
 
 1. **In words:** multiply every possible value of the random variable by its probability, and add the products.
 2. **Formula:** for a random variable with $n$ possible values $x_1, \dots, x_n$,
-   $$E[X] = \sum_{i=1}^{n} x_i \thinspace  P(X = x_i)$$
+   $$E[X] = \sum_{i=1}^{n} x_i \thinspace P(X = x_i)$$
    The expected value is also written $\mu$ (mu).
 3. **Example:** one die, each face with probability $1/6$:
    $$E[X] = 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + 3 \cdot \frac{1}{6} + 4 \cdot \frac{1}{6} + 5 \cdot \frac{1}{6} + 6 \cdot \frac{1}{6} = \frac{21}{6} = 3.5$$
@@ -160,7 +162,7 @@ The difference has expected value 0 because the table is symmetric: each positiv
 
 The result is not a coincidence: the expected value is exactly the number such averages settle on.
 
-> **Extra:** For a continuous random variable, the sum becomes an integral over the PDF $f(x)$ (see the [PDF Note](../242-pdf-and-continuous-cdf/note.md)): $E[X] = \int x \thinspace  f(x)\thinspace  dx$. The idea is the same: each value weighted by how likely it is.
+> **Extra:** For a continuous random variable, the sum becomes an integral over the PDF $f(x)$ (see the [PDF Note](../242-pdf-and-continuous-cdf/note.md)): $E[X] = \int x \thinspace f(x)\thinspace dx$. The idea is the same: each value weighted by how likely it is.
 
 ## 4. Variance of a random variable
 
@@ -173,6 +175,7 @@ The variance of a set of data values is the average squared distance of the valu
 > **Key point:** In the data formula, replace the mean by $E[X]$ and the averaging by another expected value: $\mathrm{Var}(X) = E[(X - E[X])^2]$.
 
 For data, the (population) variance is
+
 $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
 The data formula does three things: subtract the mean from each value, square each distance, and average the squares. For a random variable:
@@ -183,9 +186,9 @@ The data formula does three things: subtract the mean from each value, square ea
 
 1. **In words:** the variance is the expected value of the squared distance between $X$ and its expected value.
 2. **Formula:**
-   $$\mathrm{Var}(X) = E\big[(X - E[X])^2\big] = \sum_{i=1}^{n} (x_i - \mu)^2 \thinspace  P(X = x_i)$$
+   $$\mathrm{Var}(X) = E\big[(X - E[X])^2\big] = \sum_{i=1}^{n} (x_i - \mu)^2 \thinspace P(X = x_i)$$
 3. **Example:** one die, $\mu = 3.5$. The squared distances of the six faces are
-   $$(1 - 3.5)^2 = 6.25, \thickspace  (2 - 3.5)^2 = 2.25, \thickspace  (3 - 3.5)^2 = 0.25, \thickspace  0.25, \thickspace  2.25, \thickspace  6.25$$
+   $$(1 - 3.5)^2 = 6.25, \thickspace(2 - 3.5)^2 = 2.25, \thickspace(3 - 3.5)^2 = 0.25, \thickspace0.25, \thickspace2.25, \thickspace6.25$$
    Each has probability $1/6$:
    $$\mathrm{Var}(X) = \frac{6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25}{6} = \frac{17.5}{6} = \frac{35}{12} \approx 2.917$$
 
@@ -214,12 +217,15 @@ The derivation uses three rules for expected values. They hold for any random va
 - **Sums:** $E[X + Y] = E[X] + E[Y]$, the **linearity of expectation**.
 
 Write $\mu = E[X]$ and expand the square $(X - \mu)^2 = X^2 - 2\mu X + \mu^2$:
+
 $$\mathrm{Var}(X) = E[X^2 - 2\mu X + \mu^2]$$
 
 Split the sum (sums rule) and take the constants $2\mu$ and $\mu^2$ out (scaling and constants rules):
+
 $$\mathrm{Var}(X) = E[X^2] - 2\mu\thinspace E[X] + \mu^2$$
 
 Since $E[X] = \mu$, the middle term is $2\mu^2$:
+
 $$\mathrm{Var}(X) = E[X^2] - 2\mu^2 + \mu^2 = E[X^2] - \mu^2$$
 
 Both formulas are used constantly, for discrete and continuous random variables alike.

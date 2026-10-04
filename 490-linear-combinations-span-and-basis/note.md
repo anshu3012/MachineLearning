@@ -89,7 +89,7 @@ The xy-plane has two special vectors:
 
 Now read each coordinate as a scalar. In $[3, -2]$, the 3 stretches $\hat{\imath}$ to 3 times its length, and the $-2$ flips $\hat{\jmath}$ and stretches it to twice its length. Adding the two scaled vectors gives the vector (Figure 2, right):
 
-$$[3, -2] = 3\thinspace \hat{\imath} + (-2)\thinspace \hat{\jmath} = [3, 0] + [0, -2]$$
+$$[3, -2] = 3\thinspace\hat{\imath} + (-2)\thinspace\hat{\jmath} = [3, 0] + [0, -2]$$
 
 So every vector is a sum of scaled $\hat{\imath}$ and $\hat{\jmath}$. Together, $\hat{\imath}$ and $\hat{\jmath}$ are called the **standard basis** of the plane: the vectors that the coordinates scale.
 
@@ -101,9 +101,9 @@ In 3D a third unit vector $\hat{k} = [0, 0, 1]$ joins them, and in $n$ dimension
 
 Scaling two vectors and adding them,
 
-$$a\thinspace \mathbf{v} + b\thinspace \mathbf{w}, \qquad a, b \text{ any numbers}$$
+$$a\thinspace\mathbf{v} + b\thinspace\mathbf{w}, \qquad a, b \text{ any numbers}$$
 
-is called a **linear combination** of $\mathbf{v}$ and $\mathbf{w}$. With more vectors, we pick one scalar per vector: $a_1\mathbf{v}_1 + a_2\mathbf{v}_2 + \dots + a_k\mathbf{v}_k$.
+is called a **linear combination** of $\mathbf{v}$ and $\mathbf{w}$. With more vectors, we pick one scalar per vector: $a_1\mathbf v_1 + a_2\mathbf v_2 + \dots + a_k\mathbf v_k$.
 
 One way to remember the word "linear": fix $b$ and let only $a$ change. The tip of $a\mathbf{v} + b\mathbf{w}$ then runs along a straight line, parallel to $\mathbf{v}$ (Figure 1, top right).
 
@@ -115,9 +115,9 @@ Nothing forces us to use $\hat{\imath}$ and $\hat{\jmath}$. Take $\mathbf{v} = [
 
 1. **In words:** find the scalars $a$ and $b$ that rebuild the vector from the new basis vectors; they are its coordinates in that basis.
 2. **Formula:**
-   $$a\thinspace \mathbf{v} + b\thinspace \mathbf{w} = \mathbf{x}$$
+   $$a\thinspace\mathbf{v} + b\thinspace\mathbf{w} = \mathbf{x}$$
 3. **Example:** for $\mathbf{x} = [3, -2]$, the x-components give $a + b = 3$ and the y-components $a - b = -2$. Adding the two equations, $2a = 1$, so $a = 0.5$ and $b = 2.5$:
-   $$0.5\thinspace [1, 1] + 2.5\thinspace [1, -1] = [0.5 + 2.5,\ 0.5 - 2.5] = [3, -2]$$
+   $$0.5\thinspace[1, 1] + 2.5\thinspace[1, -1] = [0.5 + 2.5,\ 0.5 - 2.5] = [3, -2]$$
 
 So the same arrow is $[3, -2]$ in the standard basis and $[0.5, 2.5]$ in the basis $\mathbf{v}, \mathbf{w}$. Whenever we write a vector as numbers, we have silently chosen a basis.
 
@@ -144,20 +144,20 @@ The **span** of a set of vectors is the set of all their linear combinations. It
 Let both scalars in $a\mathbf{v} + b\mathbf{w}$ range freely. Three things can happen:
 
 - **Most pairs:** the tips reach every point of the plane. In Figure 1 (bottom left), $\mathbf{v} = [2, 1]$ and $\mathbf{w} = [-1, 1]$ build a slanted grid of reachable points, and filling in all the values between gives the whole plane.
-- **Two vectors on one line:** if $\mathbf{w}$ is a multiple of $\mathbf{v}$, every combination lies on that line. In Figure 1 (bottom right), $\mathbf{w} = [-1, -0.5] = -0.5\thinspace \mathbf{v}$, so the span is the line through the origin along $\mathbf{v}$.
+- **Two vectors on one line:** if $\mathbf{w}$ is a multiple of $\mathbf{v}$, every combination lies on that line. In Figure 1 (bottom right), $\mathbf{w} = [-1, -0.5] = -0.5\thinspace\mathbf{v}$, so the span is the line through the origin along $\mathbf{v}$.
 - **Both vectors zero:** the span is the origin alone.
 
 ### 6.2 Vectors in 3D
 
 > **Key point:** Two 3D vectors span a flat sheet through the origin; a third vector either lies on that sheet and adds nothing, or leaves it and unlocks all of 3D space.
 
-In 3D, two vectors that do not line up span a plane through the origin. Picture two knobs, one per scalar: as we turn them, the tip of $a\mathbf{v} + b\mathbf{w}$ sweeps out a flat sheet. In Figure 3, $\mathbf{v}_1 = [2, 0, 1]$ and $\mathbf{v}_2 = [0, 2, 1]$ span the blue plane, whose points are all $[2a, 2b, a + b]$.
+In 3D, two vectors that do not line up span a plane through the origin. Picture two knobs, one per scalar: as we turn them, the tip of $a\mathbf{v} + b\mathbf{w}$ sweeps out a flat sheet. In Figure 3, $\mathbf v_1 = [2, 0, 1]$ and $\mathbf v_2 = [0, 2, 1]$ span the blue plane, whose points are all $[2a, 2b, a + b]$.
 
-![The plane spanned by $\mathbf{v}_1$ and $\mathbf{v}_2$, a third vector on it (green) and one off it (red)](images/span_3d.png){height=48%}
+![The plane spanned by $\mathbf v_1$ and $\mathbf v_2$, a third vector on it (green) and one off it (red)](images/span_3d.png){height=48%}
 
 A third vector, with a third scalar, gives two cases:
 
-- **On the plane** (green, $[2, 2, 2] = \mathbf{v}_1 + \mathbf{v}_2$): its scaled copies stay on the sheet. The span does not grow.
+- **On the plane** (green, $[2, 2, 2] = \mathbf v_1 + \mathbf v_2$): its scaled copies stay on the sheet. The span does not grow.
 - **Off the plane** (red, $[0, 0, 2.5]$): scaling it lifts the sheet up and down, sweeping it through all of space. The span becomes the whole of 3D.
 
 A third vector chosen at random almost always lands off the plane.
@@ -170,7 +170,7 @@ When a vector adds nothing to the span (the green vector in Figure 3, or two 2D 
 
 With numbers:
 
-- $[1, 2]$ and $[2, 4]$ are dependent, since $[2, 4] = 2\thinspace [1, 2]$. Their span is a line.
+- $[1, 2]$ and $[2, 4]$ are dependent, since $[2, 4] = 2\thinspace[1, 2]$. Their span is a line.
 - $[1, 2]$ and $[3, 1]$ are independent. Their span is the whole plane.
 - $[2, 0, 1]$, $[0, 2, 1]$ and $[2, 2, 2]$ are dependent, since the third is the sum of the first two.
 
@@ -188,7 +188,7 @@ With numbers:
 
 > **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../27-one-hot-encoding/note.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), section 7).
 
-> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf{x}_1 + \dots + \beta_m \mathbf{x}_m$, where $\mathbf{1}$ is the column of ones and $\mathbf{x}_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
+> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$, where $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
 
 ## 8. Basis
 
@@ -208,9 +208,9 @@ $\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]
 | Vector addition | add matching components; tip to tail | $[1, 2] + [3, -1] = [4, 1]$ |
 | Standard basis | unit vectors along the axes | $\hat{\imath} = [1, 0]$, $\hat{\jmath} = [0, 1]$ |
 | Coordinates | the scalars on the basis vectors | $[3, -2] = 3\hat{\imath} - 2\hat{\jmath}$ |
-| Linear combination | scale, then add | $0.5\thinspace [1, 1] + 2.5\thinspace [1, -1] = [3, -2]$ |
+| Linear combination | scale, then add | $0.5\thinspace[1, 1] + 2.5\thinspace[1, -1] = [3, -2]$ |
 | Span | everything reachable by linear combinations | $[2, 1], [-1, 1]$: the whole plane |
-| Linearly dependent | one vector is a combination of the others | $[2, 4] = 2\thinspace [1, 2]$ |
+| Linearly dependent | one vector is a combination of the others | $[2, 4] = 2\thinspace[1, 2]$ |
 | Basis | independent and spanning | $[1, 1], [1, -1]$ |
 
 - Linear algebra is built on two operations: adding vectors and scaling them.
@@ -232,7 +232,7 @@ $\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]
 | Vector addition | Adding matching components; geometrically, placing the second arrow's tail at the first arrow's tip |
 | Scalar | A number used to scale a vector |
 | Standard basis ($\hat{\imath}$, $\hat{\jmath}$) | The unit vectors along the axes, $[1, 0]$ and $[0, 1]$ in 2D |
-| Linear combination | A sum of scaled vectors, $a_1\mathbf{v}_1 + \dots + a_k\mathbf{v}_k$ |
+| Linear combination | A sum of scaled vectors, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$ |
 | Span | The set of all linear combinations of some vectors |
 | Linearly dependent | At least one vector is a linear combination of the others, so it adds nothing to the span |
 | Linearly independent | Every vector adds a new direction to the span |

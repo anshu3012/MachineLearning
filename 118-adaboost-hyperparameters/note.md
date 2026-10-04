@@ -120,7 +120,7 @@ In the Notebook, the first stump's weight on the circles data is 0.5322 with $\e
 
 The weights are updated with $e^{\alpha}$ for mistakes and $e^{-\alpha}$ for correct observations (the step-by-step Note, section 7). With a smaller alpha, both factors stay closer to 1: the update has a smaller **amplitude**. For our error-0.3 stump:
 
-| learning_rate | alpha | mistakes $\times\thinspace  e^{\alpha}$ | correct $\times\thinspace  e^{-\alpha}$ |
+| learning_rate | alpha | mistakes $\times\thinspace e^{\alpha}$ | correct $\times\thinspace e^{-\alpha}$ |
 |---|---|---|---|
 | 1.0 | 0.4236 | 1.53 | 0.65 |
 | 0.1 | 0.0424 | 1.04 | 0.96 |

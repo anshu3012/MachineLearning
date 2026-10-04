@@ -14,7 +14,7 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 
 ## 1. Overview
 
-> **Key point:** We write the SVM line as $w^T x + b = 0$ and its two edges as $w^T x + b = +1$ and $-1$. The margin between the edges is then 2/$\lVert w \rVert$, and SVM maximises it while every point stays on its correct side.
+> **Key point:** We write the SVM line as $w^T x + b = 0$ and its two edges as $w^T x + b = +1$ and $-1$. The margin between the edges is then $2/\lVert w \rVert$, and SVM maximises it while every point stays on its correct side.
 
 The previous Note, the [SVM intuition Note](../92-svm-intuition/note.md), described SVM in pictures: among all lines that separate two classes, choose the one whose margin $d$, the distance between the positive hyperplane $\pi^+$ and the negative hyperplane $\pi^-$, is the largest. This Note turns that picture into a formula that a computer can optimise.
 
@@ -54,11 +54,11 @@ $$w \cdot u \geq c \quad\Leftrightarrow\quad w \cdot u - c \geq 0 \quad\Leftrigh
 
 So the **decision rule** of SVM is:
 
-$$\hat{y} = \begin{cases} +1 & \text{if } w \cdot u + b \geq 0 \cr  -1 & \text{if } w \cdot u + b < 0 \end{cases}$$
+$$\hat{y} = \begin{cases} +1 & \text{if } w \cdot u + b \geq 0 \cr-1 & \text{if } w \cdot u + b < 0 \end{cases}$$
 
 Once we know $w$ and $b$, classifying any new point takes one dot product and one addition.
 
-> **Extra:** Strictly, the projection's length is $w \cdot u / \lVert w \rVert$, where $\lVert w \rVert$ is the length of $w$. Comparing it with $c$ gives $w \cdot u \geq c\thinspace \lVert w \rVert$. The result is the same rule with $b = -c\thinspace \lVert w \rVert$, so the final form does not change.
+> **Extra:** Strictly, the projection's length is $w \cdot u / \lVert w \rVert$, where $\lVert w \rVert$ is the length of $w$. Comparing it with $c$ gives $w \cdot u \geq c\thinspace\lVert w \rVert$. The result is the same rule with $b = -c\thinspace\lVert w \rVert$, so the final form does not change.
 
 ### 2.3 The same rule in 2D
 
@@ -141,7 +141,7 @@ Two separate rules are awkward to work with, so we merge them. Give every green 
 
 Both become one **constraint**, for every training point $i = 1, \dots, n$:
 
-$$y_i\thinspace (w^T x_i + b) \geq 1$$
+$$y_i\thinspace(w^T x_i + b) \geq 1$$
 
 with equality for the support vectors. Figure 4 checks this on the data of the SVM intuition Note, whose best line is $w = (0.049, 0.898)$, $b = -4.485$. For the red point $(2.5, 3)$: $w^T x + b = 0.049 \times 2.5 + 0.898 \times 3 - 4.485 = -1.67$, and $y_i (w^T x_i + b) = (-1)(-1.67) = 1.67 \geq 1$.
 
@@ -151,11 +151,11 @@ The whole formula for the margin relies on these constraints. If a red point ent
 
 ## 5. The margin in terms of w
 
-> **Key point:** Project the vector between two support vectors onto the unit vector w/$\lVert w \rVert$. The result is d = 2/$\lVert w \rVert$.
+> **Key point:** Project the vector between two support vectors onto the unit vector w/$\lVert w \rVert$. The result is d = $2/\lVert w \rVert$.
 
 ### 5.1 The derivation
 
-> **Key point:** $d = (x_2 - x_1) \cdot w / \lVert w \rVert$, and the equations of $\pi^+$ and $\pi^-$ turn this into 2/$\lVert w \rVert$.
+> **Key point:** $d = (x_2 - x_1) \cdot w / \lVert w \rVert$, and the equations of $\pi^+$ and $\pi^-$ turn this into $2/\lVert w \rVert$.
 
 Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Figure 5). The vector from $x_1$ to $x_2$ is $x_2 - x_1$. The vector crosses the margin, but at a slant, so its length is not the margin.
 
@@ -188,11 +188,11 @@ The value 2.22 is the margin $d$ measured in the SVM intuition Note. The $b$ can
 
 ## 6. The optimisation problem
 
-> **Key point:** Find w and b that maximise 2/$\lVert w \rVert$, subject to $y_i (w^T x_i + b) \geq 1$ for every point.
+> **Key point:** Find w and b that maximise $2/\lVert w \rVert$, subject to $y_i (w^T x_i + b) \geq 1$ for every point.
 
 Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin as large as possible while every point respects its constraint:
 
-$$w^*, b^* = \underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace (w^T x_i + b) \geq 1 \ \text{ for all } i$$
+$$w^\ast, b^\ast= \underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 
 The problem is a **constrained optimisation** problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
 

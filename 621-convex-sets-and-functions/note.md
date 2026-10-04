@@ -56,7 +56,7 @@ If $\mathbf{x}$ and $\mathbf{y}$ lie in both $A$ and $B$, the segment between th
 
 A union does not keep convexity. Two separate discs together form a set where the segment from one disc to the other crosses empty space.
 
-> **Extra:** The set where a convex function stays at or below a level, $\lbrace \mathbf{x} : g(\mathbf{x}) \le c\rbrace $, is always convex (Boyd and Vandenberghe §3.1.6). The level-set rule is why convex optimisation asks for convex functions $g_i$ in its inequality constraints $g_i(\mathbf{x}) \le 0$ (Section 6): each constraint then cuts out a convex set. The set where a convex function is exactly 0 is not convex in general (the circle $x^2 + y^2 = 1$ is not), which is why equality constraints must be linear.
+> **Extra:** The set where a convex function stays at or below a level, $\lbrace\mathbf{x} : g(\mathbf{x}) \le c\rbrace$, is always convex (Boyd and Vandenberghe §3.1.6). The level-set rule is why convex optimisation asks for convex functions $g_i$ in its inequality constraints $g_i(\mathbf{x}) \le 0$ (Section 6): each constraint then cuts out a convex set. The set where a convex function is exactly 0 is not convex in general (the circle $x^2 + y^2 = 1$ is not), which is why equality constraints must be linear.
 
 ## 3. Convex functions and their sets
 
@@ -69,7 +69,7 @@ Two related ideas:
 - **Concave function:** the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm is concave; so is the dual function $D(\lambda) = 3\lambda - 3\lambda^2/8$ of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md). Maximising a concave function is the same task as minimising a convex one.
 - **Epigraph:** the region on and above the graph of $f$, as if the bowl were filled with water. A function is convex exactly when its epigraph is a convex set (Boyd and Vandenberghe §3.1.7). This links the two halves of this Note: convex functions are convex sets seen from above.
 
-> **Extra:** The defining inequality is the two-point case of **Jensen's inequality**. With more points and weights $\theta_i \ge 0$ that add up to 1, a convex $f$ satisfies $f\big(\sum_i \theta_i \mathbf{x}_i\big) \le \sum_i \theta_i f(\mathbf{x}_i)$: the function of an average is at most the average of the function. For $f(x) = x^2$ and the points 0, 1, 2 with equal weights: $f(1) = 1 \le (0 + 1 + 4)/3 = 1.67$. With probabilities as weights, this reads $f(E[X]) \le E[f(X)]$ (see the [expected value and variance Note](../332-expected-value-and-variance/note.md)); for $f(x) = x^2$ it says $E[X^2] - (E[X])^2 \ge 0$, that is, a variance is never negative.
+> **Extra:** The defining inequality is the two-point case of **Jensen's inequality**. With more points and weights $\theta_i \ge 0$ that add up to 1, a convex $f$ satisfies $f\big(\sum_i \theta_i \mathbf x_i\big) \le \sum_i \theta_i f(\mathbf x_i)$: the function of an average is at most the average of the function. For $f(x) = x^2$ and the points 0, 1, 2 with equal weights: $f(1) = 1 \le (0 + 1 + 4)/3 = 1.67$. With probabilities as weights, this reads $f(E[X]) \le E[f(X)]$ (see the [expected value and variance Note](../332-expected-value-and-variance/note.md)); for $f(x) = x^2$ it says $E[X^2] - (E[X])^2 \ge 0$, that is, a variance is never negative.
 
 ## 4. Testing convexity with derivatives
 
@@ -85,7 +85,7 @@ The right-hand side is the tangent plane of $f$ at $\mathbf{x}$, the first-order
 
 1. **In words:** the tangent line or plane at any point never rises above the graph.
 2. **Formula:** a differentiable $f$ is convex if and only if, for all $\mathbf{x}$ and $\mathbf{y}$ (Boyd and Vandenberghe §3.1.3),
-   $$f(\mathbf{y}) \thickspace \ge\thickspace  f(\mathbf{x}) + \nabla f(\mathbf{x})\thinspace (\mathbf{y} - \mathbf{x})$$
+   $$f(\mathbf{y}) \thickspace\ge\thickspace f(\mathbf{x}) + \nabla f(\mathbf{x})\thinspace(\mathbf{y} - \mathbf{x})$$
 3. **Example:** the **softplus** function $f(z) = \ln(1 + e^z)$. Its derivative is the [sigmoid](../72-sigmoid-function/note.md) $\sigma(z)$, so at $z = 0$ the slope is $\sigma(0) = 0.5$ and the value is $\ln 2 = 0.693$. At $z = 2$:
    $$f(2) = \ln(1 + e^2) = 2.13, \qquad \text{tangent: } 0.693 + 0.5 \times (2 - 0) = 1.69$$
    $2.13 \ge 1.69$: the curve is above its tangent (Figure 2, left).
@@ -94,7 +94,7 @@ The right-hand side is the tangent plane of $f$ at $\mathbf{x}$, the first-order
 
 Figure 2 (right) shows the test failing. For $q(w) = w^2(w - 1)^2$, the tangent at $w = 0.5$ is flat at height $0.0625$, but $q(0) = 0$ lies below it.
 
-The first-order condition gives the most useful fact about convex functions in one line. If $\nabla f(\mathbf{x}^*) = \mathbf{0}$, the condition becomes $f(\mathbf{y}) \ge f(\mathbf{x}^*)$ for every $\mathbf{y}$. So for a convex function, any point with zero gradient is a global minimum. Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
+The first-order condition gives the most useful fact about convex functions in one line. If $\nabla f(\mathbf{x}^\ast) = \mathbf{0}$, the condition becomes $f(\mathbf{y}) \ge f(\mathbf{x}^\ast)$ for every $\mathbf{y}$. So for a convex function, any point with zero gradient is a global minimum. Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
 
 > **Extra:** Softplus is the [log loss](../73-log-loss/note.md) in disguise. For an **observation** (one record, a row of the data table) with label 0 and score $z$, the loss $-\ln(1 - \sigma(z))$ equals $\ln(1 + e^{z})$; for label 1, $-\ln \sigma(z) = \ln(1 + e^{-z})$. Both are convex in $z$, and $z = \mathbf{w}^{\mathsf T}\mathbf{x}$ is linear in the weights. A convex function of a linear function is convex (Boyd and Vandenberghe §3.2.2), so the loss of logistic regression is convex in $\mathbf{w}$: gradient descent on it reaches the global minimum.
 
@@ -114,8 +114,8 @@ With two variables, compare two quadratic functions. Their Hessians are constant
 
 | Function | Hessian | Eigenvalues | Convex? |
 |---|---|---|---|
-| $x^2 + xy + y^2$ | $\begin{bmatrix} 2 & 1 \cr  1 & 2 \end{bmatrix}$ | $1$ and $3$ | yes: a bowl |
-| $x^2 + 3xy + y^2$ | $\begin{bmatrix} 2 & 3 \cr  3 & 2 \end{bmatrix}$ | $5$ and $-1$ | no: a saddle |
+| $x^2 + xy + y^2$ | $\begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ | $1$ and $3$ | yes: a bowl |
+| $x^2 + 3xy + y^2$ | $\begin{bmatrix} 2 & 3 \cr3 & 2 \end{bmatrix}$ | $5$ and $-1$ | no: a saddle |
 
 The chord test agrees. For $x^2 + 3xy + y^2$, the points $(1, -1)$ and $(-1, 1)$ both give $1 - 3 + 1 = -1$. Their midpoint $(0, 0)$ gives 0, above the chord value $-1$.
 
@@ -166,7 +166,7 @@ This rule covers the regularised losses of earlier Notes:
 1. **In words:** a convex objective, minimised over a feasible region built from convex pieces.
 2. **Formula:** the problem
    $$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0, \qquad h_j(\mathbf{x}) = 0$$
-   is a **convex optimisation problem** when $f$ and every $g_i$ are convex functions and every $h_j$ is affine, $h_j(\mathbf{x}) = \mathbf{a}_j^{\mathsf T}\mathbf{x} - b_j$. Then the feasible region is a convex set (Section 2.2).
+   is a **convex optimisation problem** when $f$ and every $g_i$ are convex functions and every $h_j$ is affine, $h_j(\mathbf{x}) = \mathbf a_j^{\mathsf T}\mathbf{x} - b_j$. Then the feasible region is a convex set (Section 2.2).
 3. **Example:** the problem of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md): minimise $x^2 + 2y^2$ (Hessian with eigenvalues 2 and 4, convex) subject to $3 - x - y \le 0$ (linear, so convex). The problem is therefore a convex optimisation problem.
 
 ### 6.2 What convexity guarantees

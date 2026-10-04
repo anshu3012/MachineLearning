@@ -88,6 +88,7 @@ A value far from the mean has a large distance, and its square is larger still. 
 We compute $s^2$ from a sample to estimate the population's $\sigma^2$. If we divided by $n$, the estimate would be too small on average. Dividing by $n - 1$, a correction called **Bessel's correction**, fixes this.
 
 A tiny example shows it exactly. Take the population 1, 2, 3, 4. Its mean is 2.5 and its variance is
+
 $$\sigma^2 = \frac{(-1.5)^2 + (-0.5)^2 + 0.5^2 + 1.5^2}{4} = \frac{5}{4} = 1.25$$
 
 Now draw every possible sample of two values, picking with replacement: (1, 1), (1, 2), ..., (4, 4), 16 samples in all. For a sample $(a, b)$ the mean is $(a+b)/2$ and both values lie $|a - b|/2$ from it, so the squared distances add up to $(a-b)^2/2$. The table counts the 16 samples by their difference:
@@ -148,6 +149,7 @@ Its weakness is inference. A sample's variance lets us estimate the population's
 The standard deviation is the square root of the variance, $\sigma = \sqrt{\sigma^2}$ for a population and $s = \sqrt{s^2}$ for a sample; the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1) works one through step by step. If we already have the variance, why keep the standard deviation? Because of units.
 
 Four people earn 16, 17, 13 and 14 LPA (lakh rupees per annum). The mean is 15 LPA, the distances are $1, 2, -2, -1$ LPA, and
+
 $$\sigma^2 = \frac{1^2 + 2^2 + (-2)^2 + (-1)^2}{4} = \frac{10}{4} = 2.5 \text{ LPA}^2$$
 $$\sigma = \sqrt{2.5} \approx 1.58 \text{ LPA}$$
 
@@ -160,6 +162,7 @@ $$\sigma = \sqrt{2.5} \approx 1.58 \text{ LPA}$$
 The coefficient of variation (CV), $\sigma / \mu$, is the unit-free spread taught in the [Pandas Profiling Note](../22-pandas-profiling/note.md) (section 4.2); here we write it as a percentage, $\sigma / \mu \times 100$ percent. Its use is comparing features in different units, such as salaries in lakhs and experience in years.
 
 For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. Then
+
 $$\text{CV}_{\text{Age}} = \frac{14.53}{29.70} \times 100\ \text{percent} \approx 48.9\ \text{percent}$$
 $$\text{CV}_{\text{Fare}} = \frac{49.69}{32.20} \times 100\ \text{percent} \approx 154.3\ \text{percent}$$
 

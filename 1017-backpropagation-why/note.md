@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, area/production, st
 
 The [backpropagation what Note](../1015-backpropagation-what/note.md) and the [backpropagation how Note](../1016-backpropagation-how/note.md) showed what backpropagation does and how to code it. All the learning happens in one line, the update
 
-$$W_{\text{new}} = W_{\text{old}} - \eta\thinspace \frac{\partial L}{\partial W}$$
+$$W_{\text{new}} = W_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial W}$$
 
 This Note explains why that line works. The Note reuses ideas from earlier Notes (derivatives, gradients, minima, the learning rate) and applies them to the 2-2-1 regression network.
 
@@ -37,15 +37,15 @@ This Note explains why that line works. The Note reuses ideas from earlier Notes
 
 For the regression network, $L = (y - \hat{y})^2$. The package $y$ comes from the data, so for a given student it is a constant. Only $\hat{y}$ can vary, and $\hat{y}$ is built from the hidden outputs:
 
-$$\hat{y} = W^{2}_{11} O_{11} + W^{2}_{21} O_{12} + b_{21}$$
+$$\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$$
 
 Putting in what $O_{11}$ and $O_{12}$ are writes the whole network as one formula:
 
-$$\hat{y} = W^{2}_{11}\big(W^{1}_{11} x_{i1} + W^{1}_{21} x_{i2} + b_{11}\big) + W^{2}_{21}\big(W^{1}_{12} x_{i1} + W^{1}_{22} x_{i2} + b_{12}\big) + b_{21}$$
+$$\hat{y} = W_{11}^{2}\big(W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}\big) + W_{21}^{2}\big(W_{12}^{1} x_{i1} + W_{22}^{1} x_{i2} + b_{12}\big) + b_{21}$$
 
 In this formula $x_{i1}$ and $x_{i2}$ are the two **features** of student $i$ (input variables, one column of the data table each: CGPA and profile score), so they are constants. Everything else is a parameter:
 
-$$L = L\big(W^{1}_{11}, W^{1}_{12}, W^{1}_{21}, W^{1}_{22}, b_{11}, b_{12}, W^{2}_{11}, W^{2}_{21}, b_{21}\big)$$
+$$L = L\big(W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1}, b_{11}, b_{12}, W_{11}^{2}, W_{21}^{2}, b_{21}\big)$$
 
 $y = f(x)$ is a function of one variable; the loss is a function of nine. Picture the network as a box with 9 knobs: turning any of them changes the loss, and training turns all of them until the loss is as small as possible. The knob picture is the general idea of section 2 of the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), for this network.
 
@@ -67,7 +67,7 @@ A derivative is a **rate of change**: $dy/dx = 2$ means that increasing $x$ by a
 
 A derivative at a point is the slope there. For $y = x^2 + x$, $dy/dx = 2x + 1$; at $x = 5$ it is 11, so near $x = 5$ the function rises 11 times as fast as $x$.
 
-For the network, $\partial L/\partial W^{1}_{11}$ says how the loss responds to a small change in $W^{1}_{11}$. For student 1 at the start it is $-5.888$: raising $W^{1}_{11}$ by 0.001 lowers the loss by about 0.006.
+For the network, $\partial L/\partial W_{11}^{1}$ says how the loss responds to a small change in $W_{11}^{1}$. For student 1 at the start it is $-5.888$: raising $W_{11}^{1}$ by 0.001 lowers the loss by about 0.006.
 
 ## 6. Minimum by setting the derivatives to zero
 
@@ -75,7 +75,7 @@ For the network, $\partial L/\partial W^{1}_{11}$ says how the loss responds to 
 
 At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$.
 
-For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W^{2}_{11} W^{1}_{11}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../57-gradient-descent/note.md) does for linear regression.
+For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W_{11}^{2} W_{11}^{1}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../57-gradient-descent/note.md) does for linear regression.
 
 ## 7. Why we subtract the derivative
 
@@ -100,7 +100,7 @@ $$\frac{\partial L}{\partial b_{21}} = -2(3.68 - b_{21})$$
 The algorithm cannot see the curve; it only knows the slope where it stands. Two cases:
 
 - **Slope positive** (at $b_{21} = 5$, the slope is $+2.64$): raising $b_{21}$ raises the loss. We must lower $b_{21}$, and $b_{21} - \eta \times 2.64$ does.
-- **Slope negative** (at $b_{21} = -5$, the slope is $-17.36$): raising $b_{21}$ lowers the loss. We must raise $b_{21}$, and $b_{21} - \eta \times (-17.36) = b_{21} + 17.36\thinspace \eta$ does.
+- **Slope negative** (at $b_{21} = -5$, the slope is $-17.36$): raising $b_{21}$ lowers the loss. We must raise $b_{21}$, and $b_{21} - \eta \times (-17.36) = b_{21} + 17.36\thinspace\eta$ does.
 
 The minus sign does the right thing in both cases: we always move against the slope, in the direction of the **negative gradient**. The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
 
@@ -111,7 +111,7 @@ The minus sign does the right thing in both cases: we always move against the sl
 Starting from $b_{21} = -5$, where the slope is $-17.36$:
 
 1. **In words:** the new value is the old value minus the learning rate times the slope.
-2. **Formula:** $b_{21} \leftarrow b_{21} - \eta\thinspace \partial L/\partial b_{21}$.
+2. **Formula:** $b_{21} \leftarrow b_{21} - \eta\thinspace\partial L/\partial b_{21}$.
 3. **Example:** with $\eta = 1$, $b_{21} = -5 - (-17.36) = 12.36$. There the slope is $-2(3.68 - 12.36) = 17.36$, so the next value is $12.36 - 17.36 = -5$, back at the start. With $\eta = 0.1$: $b_{21} = -5 + 0.1 \times 17.36 = -3.264$, a smaller and safer step.
 
 Figure 1 runs 10 updates with four learning rates:
@@ -131,7 +131,7 @@ In the real network all 9 parameters move at once, each against its own slope. T
 
 > **Key point:** At the minimum the slope is zero, so $W_{\text{new}} = W_{\text{old}}$: updates stop changing anything. In practice we run a fixed number of epochs.
 
-The algorithm has **converged** when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. Convergence happens when $\eta\thinspace \partial L/\partial W \approx 0$, that is, when the slope is close to zero: we are at a minimum.
+The algorithm has **converged** when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. Convergence happens when $\eta\thinspace\partial L/\partial W \approx 0$, that is, when the slope is close to zero: we are at a minimum.
 
 So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the stopping rules of section 2.3 of the [gradient descent Note](../57-gradient-descent/note.md)).
 

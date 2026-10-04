@@ -101,9 +101,9 @@ The one-model-per-class picture works, and scikit-learn offers it as **one-vs-re
 
 Softmax regression instead trains all $K$ weight vectors together, by minimising one loss function, the **categorical cross entropy**:
 
-$$L = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K} y_{ik}\log \hat{y}_{ik}$$
+$$L = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K} y_{ik}\log \hat y_{ik}$$
 
-Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0) and $\hat{y}_{ik}$ the softmax probability of class $k$. For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the binary cross entropy.
+Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0) and $\hat y_{ik}$ the softmax probability of class $k$. For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the binary cross entropy.
 
 With 2 features and 3 classes there are $3 \times 3 = 9$ weights. Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in the gradient descent Note for logistic regression.
 
@@ -135,7 +135,7 @@ Figure 3 shows the **decision regions**: each point of the plane is coloured by 
 ## 6. Summary
 
 - Softmax regression = logistic regression for $K \geq 2$ classes; also called multinomial logistic regression.
-- Softmax: $\hat{y}_k = e^{z_k} / \sum_j e^{z_j}$; outputs are probabilities that add up to 1.
+- Softmax: $\hat y_k = e^{z_k} / \sum_j e^{z_j}$; outputs are probabilities that add up to 1.
 - One weight vector per class; predict the class with the largest probability.
 - Training minimises the categorical cross entropy with gradient descent; with two classes, everything reduces to the sigmoid and the binary log loss.
 - Decision boundaries are straight lines.

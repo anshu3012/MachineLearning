@@ -19,7 +19,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 
 **Lasso regression** is the second regularised version of linear regression, also called **L1 regularisation**. Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient:
 
-$$L = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
+$$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
 | | Ridge | Lasso |
 |---|---|---|
@@ -49,7 +49,7 @@ Figure 1 fits Lasso to the 100-observation example of the Ridge Notes. scikit-le
 
 From alpha 24.17 on, the slope is exactly 0. The line is then flat at the average of $y$ ($-0.67$): the feature no longer plays any part. With Ridge, the slope only approached 0 (the Ridge maths Note).
 
-> **Extra:** scikit-learn's `Lasso` minimises $\frac{1}{2n}\sum(y_i - \hat{y}_i)^2 + \alpha\sum|\beta_j|$ (scikit-learn docs, `Lasso`): it averages the squared error and halves it. So its `alpha` is on a different scale from the $\lambda$ of the formula above, and from `Ridge`'s `alpha`. The values of alpha for Ridge and Lasso cannot be compared directly.
+> **Extra:** scikit-learn's `Lasso` minimises $\frac{1}{2n}\sum(y_i - \hat y_i)^2 + \alpha\sum|\beta_j|$ (scikit-learn docs, `Lasso`): it averages the squared error and halves it. So its `alpha` is on a different scale from the $\lambda$ of the formula above, and from `Ridge`'s `alpha`. The values of alpha for Ridge and Lasso cannot be compared directly.
 
 ## 3. A flexible model: Lasso picks the right terms
 

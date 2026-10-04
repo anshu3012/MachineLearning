@@ -30,11 +30,11 @@ The [partial derivatives and gradients Note](../601-partial-derivatives-and-grad
 
 A **vector-valued function** takes $n$ numbers in and gives $m$ numbers out. We can always read it as $m$ separate functions stacked on top of each other:
 
-$$\mathbf{f}(\mathbf{x}) = \begin{bmatrix} f_1(\mathbf{x}) \cr  \vdots \cr  f_m(\mathbf{x}) \end{bmatrix} \in \mathbb{R}^m, \qquad f_i: \mathbb{R}^n \to \mathbb{R}$$
+$$\mathbf{f}(\mathbf{x}) = \begin{bmatrix} f_1(\mathbf{x}) \cr\vdots \cr f_m(\mathbf{x}) \end{bmatrix} \in \mathbb{R}^m, \qquad f_i: \mathbb{R}^n \to \mathbb{R}$$
 
 Each $f_i$ has its own gradient, computed exactly as in the previous Note. Our running example is **polar coordinates**: a radius $r$ and an angle $\theta$ go in, a point $(x, y)$ of the plane comes out.
 
-$$\mathbf{f}(r, \theta) = \begin{bmatrix} r\cos\theta \cr  r\sin\theta \end{bmatrix}$$
+$$\mathbf{f}(r, \theta) = \begin{bmatrix} r\cos\theta \cr r\sin\theta \end{bmatrix}$$
 
 At $r = 2$, $\theta = \pi/6$ (30°), the output is $(2 \times 0.866,\ 2 \times 0.5) = (1.732,\ 1)$, the black dot of Figure 1.
 
@@ -52,9 +52,9 @@ The partial derivative of $\mathbf{f}$ with respect to one input $x_j$ is a colu
 
 1. **In words:** entry $(i, j)$ is the partial derivative of output $i$ with respect to input $j$. Row $i$ is the gradient of $f_i$.
 2. **Formula:** the **Jacobian** is
-   $$J = \frac{d\mathbf{f}}{d\mathbf{x}} = \begin{bmatrix} \dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n} \cr  \vdots & & \vdots \cr  \dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{m \times n}, \qquad J_{ij} = \frac{\partial f_i}{\partial x_j}$$
+   $$J = \frac{d\mathbf{f}}{d\mathbf{x}} = \begin{bmatrix} \dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n} \cr\vdots & & \vdots \cr\dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{m \times n}, \qquad J_{ij} = \frac{\partial f_i}{\partial x_j}$$
 3. **Example:** for polar coordinates, differentiate each output with respect to $r$ and to $\theta$:
-   $$J = \begin{bmatrix} \cos\theta & -r\sin\theta \cr  \sin\theta & r\cos\theta \end{bmatrix}, \qquad J(2, \tfrac{\pi}{6}) = \begin{bmatrix} 0.866 & -1 \cr  0.5 & 1.732 \end{bmatrix}$$
+   $$J = \begin{bmatrix} \cos\theta & -r\sin\theta \cr\sin\theta & r\cos\theta \end{bmatrix}, \qquad J(2, \tfrac{\pi}{6}) = \begin{bmatrix} 0.866 & -1 \cr0.5 & 1.732 \end{bmatrix}$$
 
 This arrangement, outputs as rows and inputs as columns, is the **numerator layout**. Some texts use the transpose (the denominator layout); the numbers are the same, only flipped.
 
@@ -70,7 +70,7 @@ Before computing any derivative, we write down its shape: a chain-rule product w
 
 ## 4. The Jacobian as the best local linear map
 
-> **Key point:** Near a point $\mathbf{x}_0$, $\mathbf{f}(\mathbf{x}_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf{x}_0) + J\boldsymbol{\delta}$: the function acts like the linear transformation $J$ on small steps.
+> **Key point:** Near a point $\mathbf x_0$, $\mathbf{f}(\mathbf x_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf x_0) + J\boldsymbol{\delta}$: the function acts like the linear transformation $J$ on small steps.
 
 ### 4.1 Small steps are transformed by J
 
@@ -78,11 +78,11 @@ Before computing any derivative, we write down its shape: a chain-rule product w
 
 The [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md) read a matrix by its columns: where each basis vector lands. The Jacobian's columns say the same thing for small steps: column $j$ is where a small step along input $j$ lands, per unit of step.
 
-1. **In words:** start from the output at $\mathbf{x}_0$ and add the Jacobian times the step.
+1. **In words:** start from the output at $\mathbf x_0$ and add the Jacobian times the step.
 2. **Formula:**
-   $$\mathbf{f}(\mathbf{x}_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf{x}_0) + J(\mathbf{x}_0)\thinspace \boldsymbol{\delta}$$
+   $$\mathbf{f}(\mathbf x_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf x_0) + J(\mathbf x_0)\thinspace\boldsymbol{\delta}$$
 3. **Example:** polar coordinates at $(2, \pi/6)$, step $\boldsymbol{\delta} = (0.1, 0.05)$:
-   $$\begin{bmatrix} 1.732 \cr  1 \end{bmatrix} + \begin{bmatrix} 0.866 & -1 \cr  0.5 & 1.732 \end{bmatrix} \begin{bmatrix} 0.1 \cr  0.05 \end{bmatrix} = \begin{bmatrix} 1.732 + 0.037 \cr  1 + 0.137 \end{bmatrix} = \begin{bmatrix} 1.769 \cr  1.137 \end{bmatrix}$$
+   $$\begin{bmatrix} 1.732 \cr1 \end{bmatrix} + \begin{bmatrix} 0.866 & -1 \cr0.5 & 1.732 \end{bmatrix} \begin{bmatrix} 0.1 \cr0.05 \end{bmatrix} = \begin{bmatrix} 1.732 + 0.037 \cr1 + 0.137 \end{bmatrix} = \begin{bmatrix} 1.769 \cr1.137 \end{bmatrix}$$
    The exact value $\mathbf{f}(2.1,\ \pi/6 + 0.05)$ is $(1.764,\ 1.140)$: off by only 0.005.
 
 The linear approximation is the tangent line of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md), in several dimensions. Figure 1 shows it as a picture: the orange cell lands on a curved cell, and the green parallelogram spanned by the Jacobian's columns (each times the cell's side) almost covers it. The smaller the cell, the better the match.
@@ -95,7 +95,7 @@ The linear approximation is the tangent line of the [derivatives of one variable
 2. **Formula:** for $A \in \mathbb{R}^{m \times n}$,
    $$\frac{d}{d\mathbf{x}}\thinspace A\mathbf{x} = A$$
 3. **Example:** for the matrix of the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md), $A$ with rows $[1, 3]$ and $[-2, 0]$, we have $f_1 = x_1 + 3x_2$ and $f_2 = -2x_1$, so
-   $$J = \begin{bmatrix} 1 & 3 \cr  -2 & 0 \end{bmatrix} = A$$
+   $$J = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix} = A$$
 
 A linear map needs no approximation: the "best local linear map" is the map itself. The statement is the matrix version of "the derivative of $ax$ is $a$".
 
@@ -105,7 +105,7 @@ A linear map needs no approximation: the "best local linear map" is the map itse
 
 The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md) introduced the **determinant**: the factor by which a linear transformation scales areas. Since the Jacobian is the local linear map, its determinant tells how much $\mathbf{f}$ scales small areas near a point.
 
-1. **In words:** a tiny region of area $\Delta A$ around $\mathbf{x}_0$ lands on a region of area about $|\det J(\mathbf{x}_0)|\thinspace \Delta A$.
+1. **In words:** a tiny region of area $\Delta A$ around $\mathbf x_0$ lands on a region of area about $|\det J(\mathbf x_0)|\thinspace\Delta A$.
 2. **Formula:** the **Jacobian determinant** for polar coordinates is
    $$\det J = \cos\theta \cdot r\cos\theta - (-r\sin\theta)\sin\theta = r(\cos^2\theta + \sin^2\theta) = r$$
 3. **Example:** the orange cell of Figure 1 has sides $\Delta r = 0.4$ and $\Delta\theta = 0.2$, area $0.08$ in the input. The cell sits around $r \approx 2.2$, so it lands on an area of about $2.2 \times 0.08 = 0.176$ (here the exact area is also 0.176).
@@ -122,9 +122,9 @@ The [partial derivatives and gradients Note](../601-partial-derivatives-and-grad
 
 1. **In words:** multiply the Jacobian of the outer function (at the inner output) by the Jacobian of the inner function. The inner sizes must match, like any matrix product.
 2. **Formula:** for $\mathbf{g}: \mathbb{R}^n \to \mathbb{R}^k$ and $\mathbf{f}: \mathbb{R}^k \to \mathbb{R}^m$,
-   $$\underbrace{\frac{d\thinspace \mathbf{f}(\mathbf{g}(\mathbf{x}))}{d\mathbf{x}}}_{m \times n} = \underbrace{\frac{\partial \mathbf{f}}{\partial \mathbf{g}}}_{m \times k}\ \underbrace{\frac{\partial \mathbf{g}}{\partial \mathbf{x}}}_{k \times n}$$
+   $$\underbrace{\frac{d\thinspace\mathbf{f}(\mathbf{g}(\mathbf{x}))}{d\mathbf{x}}}_{m \times n} = \underbrace{\frac{\partial \mathbf{f}}{\partial \mathbf{g}}}_{m \times k}\ \underbrace{\frac{\partial \mathbf{g}}{\partial \mathbf{x}}}_{k \times n}$$
 3. **Example:** $h(t) = f(\mathbf{g}(t))$ with $f(\mathbf{x}) = x_1 x_2^2$ and $\mathbf{g}(t) = [2t,\ t + 1]$. At $t = 1$, $\mathbf{x} = (2, 2)$. Shapes: $\partial f/\partial \mathbf{x}$ is $1 \times 2$, $\partial \mathbf{g}/\partial t$ is $2 \times 1$.
-   $$\frac{dh}{dt} = \begin{bmatrix} x_2^2 & 2x_1x_2 \end{bmatrix} \begin{bmatrix} 2 \cr  1 \end{bmatrix} = \begin{bmatrix} 4 & 8 \end{bmatrix} \begin{bmatrix} 2 \cr  1 \end{bmatrix} = 16$$
+   $$\frac{dh}{dt} = \begin{bmatrix} x_2^2 & 2x_1x_2 \end{bmatrix} \begin{bmatrix} 2 \cr1 \end{bmatrix} = \begin{bmatrix} 4 & 8 \end{bmatrix} \begin{bmatrix} 2 \cr1 \end{bmatrix} = 16$$
    Directly: $h(t) = 2t(t + 1)^2$ has $h'(t) = 2(t + 1)^2 + 4t(t + 1)$, which is $8 + 8 = 16$ at $t = 1$.
 
 The Jacobian chain rule is the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md) again, zoomed in: near a point each function is a linear map, and doing one linear map after another multiplies their matrices.
@@ -144,9 +144,9 @@ $$\mathbf{e}(\boldsymbol{\theta}) = \mathbf{y} - \Phi\boldsymbol{\theta} \quad (
    - $\partial L/\partial \mathbf{e} = 2\mathbf{e}^{\mathsf T}$, a $1 \times N$ row: the derivative of $e_1^2 + \dots + e_N^2$ with respect to each $e_n$ is $2e_n$.
    - $\partial \mathbf{e}/\partial \boldsymbol{\theta} = -\Phi$, an $N \times D$ matrix: the Jacobian of a linear function (Section 4.2), with a minus sign.
 2. **Formula:**
-   $$\frac{\partial L}{\partial \boldsymbol{\theta}} = \underbrace{\frac{\partial L}{\partial \mathbf{e}}}_{1 \times N}\ \underbrace{\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}}}_{N \times D} = -2\thinspace \mathbf{e}^{\mathsf T}\Phi = -2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$$
+   $$\frac{\partial L}{\partial \boldsymbol{\theta}} = \underbrace{\frac{\partial L}{\partial \mathbf{e}}}_{1 \times N}\ \underbrace{\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}}}_{N \times D} = -2\thinspace\mathbf{e}^{\mathsf T}\Phi = -2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$$
 3. **Example:** the three points of the gradient checking example in the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md), with a column of ones for the intercept, $\boldsymbol{\theta} = [b, m] = [0, 1]$:
-   $$\Phi = \begin{bmatrix} 1 & 1 \cr  1 & 2 \cr  1 & 3 \end{bmatrix}, \quad \mathbf{y} = \begin{bmatrix} 2 \cr  4 \cr  5 \end{bmatrix}, \quad \mathbf{e} = \begin{bmatrix} 1 \cr  2 \cr  2 \end{bmatrix}, \quad -2\thinspace \mathbf{e}^{\mathsf T}\Phi = -2\thinspace [5,\ 11] = [-10,\ -22]$$
+   $$\Phi = \begin{bmatrix} 1 & 1 \cr1 & 2 \cr1 & 3 \end{bmatrix}, \quad \mathbf{y} = \begin{bmatrix} 2 \cr4 \cr5 \end{bmatrix}, \quad \mathbf{e} = \begin{bmatrix} 1 \cr2 \cr2 \end{bmatrix}, \quad -2\thinspace\mathbf{e}^{\mathsf T}\Phi = -2\thinspace[5,\ 11] = [-10,\ -22]$$
    These are $\partial L/\partial b = -10$ and $\partial L/\partial m = -22$, exactly the values found there by hand.
 
 Transposed, $-2\Phi^{\mathsf T}(\mathbf{y} - \Phi\boldsymbol{\theta}) = 2\Phi^{\mathsf T}\Phi\boldsymbol{\theta} - 2\Phi^{\mathsf T}\mathbf{y}$, the column form of the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md). Setting it to zero gives the normal equation.
@@ -184,7 +184,7 @@ There are two equivalent ways to handle them:
 
 A small example: $\mathbf{f} = A\mathbf{x}$ with $A$ of size $2 \times 3$ and $\mathbf{x} = [1, 2, 3]$, differentiated with respect to $A$. Since $f_1 = A_{11}x_1 + A_{12}x_2 + A_{13}x_3$, the derivative of $f_1$ with respect to the entries of $A$ is $\mathbf{x}$ in the first row and zeros elsewhere:
 
-$$\frac{\partial f_1}{\partial A} = \begin{bmatrix} 1 & 2 & 3 \cr  0 & 0 & 0 \end{bmatrix}, \qquad \frac{\partial f_2}{\partial A} = \begin{bmatrix} 0 & 0 & 0 \cr  1 & 2 & 3 \end{bmatrix}$$
+$$\frac{\partial f_1}{\partial A} = \begin{bmatrix} 1 & 2 & 3 \cr0 & 0 & 0 \end{bmatrix}, \qquad \frac{\partial f_2}{\partial A} = \begin{bmatrix} 0 & 0 & 0 \cr1 & 2 & 3 \end{bmatrix}$$
 
 Stacked, these form a $2 \times 2 \times 3$ tensor. Each output depends only on its own row of $A$; this is why the gradient of a layer's weights is built from its inputs $\mathbf{x}$.
 
@@ -206,7 +206,7 @@ The third row deserves a worked check.
 
 1. **In words:** a quadratic form behaves like $bx^2$, but $B$ and $B^{\mathsf T}$ both contribute; for symmetric $B$ the gradient is $2\mathbf{x}^{\mathsf T}B$.
 2. **Formula:**
-   $$\frac{\partial}{\partial \mathbf{x}}\thinspace \mathbf{x}^{\mathsf T}B\mathbf{x} = \mathbf{x}^{\mathsf T}(B + B^{\mathsf T})$$
+   $$\frac{\partial}{\partial \mathbf{x}}\thinspace\mathbf{x}^{\mathsf T}B\mathbf{x} = \mathbf{x}^{\mathsf T}(B + B^{\mathsf T})$$
 3. **Example:** $B$ with rows $[2, 1]$ and $[0, 3]$, at $\mathbf{x} = [1, 2]$. Then $B + B^{\mathsf T}$ has rows $[4, 1]$ and $[1, 6]$, so
    $$\mathbf{x}^{\mathsf T}(B + B^{\mathsf T}) = [1 \cdot 4 + 2 \cdot 1,\ \ 1 \cdot 1 + 2 \cdot 6] = [6,\ 13]$$
    Multiplied out, $\mathbf{x}^{\mathsf T}B\mathbf{x} = 2x_1^2 + x_1x_2 + 3x_2^2$ has partial derivatives $4x_1 + x_2 = 6$ and $x_1 + 6x_2 = 13$.
@@ -215,7 +215,7 @@ The bowl of the [partial derivatives and gradients Note](../601-partial-derivati
 
 > **Extra:** Reference tables also list rules for traces, determinants and inverses of matrices that depend on $X$, for example
 >
-> $$\frac{\partial}{\partial X}\det(X) = \det(X)\thinspace (X^{-1})^{\mathsf T}, \qquad \frac{\partial}{\partial X}\thinspace \mathbf{a}^{\mathsf T}X^{-1}\mathbf{b} = -(X^{-1})^{\mathsf T}\mathbf{a}\mathbf{b}^{\mathsf T}(X^{-1})^{\mathsf T}$$
+> $$\frac{\partial}{\partial X}\det(X) = \det(X)\thinspace(X^{-1})^{\mathsf T}, \qquad \frac{\partial}{\partial X}\thinspace\mathbf{a}^{\mathsf T}X^{-1}\mathbf{b} = -(X^{-1})^{\mathsf T}\mathbf{a}\mathbf{b}^{\mathsf T}(X^{-1})^{\mathsf T}$$
 >
 > They appear when fitting covariance matrices, as in the maximum likelihood fit of a Gaussian (Bishop §2.3.4). The standard collection is *The Matrix Cookbook* (Petersen and Pedersen 2012).
 
@@ -223,7 +223,7 @@ The bowl of the [partial derivatives and gradients Note](../601-partial-derivati
 
 > **Key point:** A deep network is a long chain of functions, so its gradient is a long product of Jacobians; backpropagation computes that product from the loss backwards, reusing every intermediate result.
 
-A neural network computes its output as a composition of layers, $\mathbf{f}_K(\cdots \mathbf{f}_2(\mathbf{f}_1(\mathbf{x})))$, each layer with its own weights. By Section 6, the gradient of the loss with respect to the weights of an early layer is a product of the Jacobians of all later layers. Writing that product as one formula quickly becomes enormous.
+A neural network computes its output as a composition of layers, $\mathbf f_K(\cdots \mathbf f_2(\mathbf f_1(\mathbf{x})))$, each layer with its own weights. By Section 6, the gradient of the loss with respect to the weights of an early layer is a product of the Jacobians of all later layers. Writing that product as one formula quickly becomes enormous.
 
 The practical method breaks the function into elementary steps, a **computation graph**, and applies the chain rule one step at a time. Figure 3 does this for $f(x) = x^2 + e^{x^2}$.
 
@@ -231,7 +231,7 @@ The practical method breaks the function into elementary steps, a **computation 
 
 1. **In words:** compute and keep every intermediate value going forward; then, starting from $\partial f/\partial f = 1$, multiply by each step's local derivative going backward, adding where two paths meet.
 2. **Formula:** with $a = x^2$ and $b = e^a$,
-   $$\frac{\partial f}{\partial b} = 1, \qquad \frac{\partial f}{\partial a} = 1 + \frac{\partial f}{\partial b}\thinspace e^{a}, \qquad \frac{\partial f}{\partial x} = \frac{\partial f}{\partial a}\thinspace 2x$$
+   $$\frac{\partial f}{\partial b} = 1, \qquad \frac{\partial f}{\partial a} = 1 + \frac{\partial f}{\partial b}\thinspace e^{a}, \qquad \frac{\partial f}{\partial x} = \frac{\partial f}{\partial a}\thinspace2x$$
 3. **Example:** at $x = 1$: forward, $a = 1$, $b = e = 2.718$, $f = 3.718$. Backward, $\partial f/\partial b = 1$, $\partial f/\partial a = 1 + 2.718 = 3.718$, $\partial f/\partial x = 3.718 \times 2 = 7.437$. The formula $f'(x) = 2x + 2x\thinspace e^{x^2}$ gives $2 + 2e = 7.437$.
 
 The backward pass has one step per forward step, each a multiplication by a local derivative, so computing the gradient takes work of the same order as computing $f$ itself (MML §5.6). This backward pass is **backpropagation**; done automatically by software for any program, it is **automatic differentiation** (reverse mode). Backpropagation is taught in full with neural networks, in the Deep Learning Notes.
@@ -250,7 +250,7 @@ The backward pass has one step per forward step, each a multiplication by a loca
 | Gradient with respect to a matrix | tensor | flatten to keep it a matrix |
 
 - A vector-valued function is a stack of ordinary functions; its Jacobian stacks their gradients as rows.
-- Near a point, the function acts like the linear map $J$: $\mathbf{f}(\mathbf{x}_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf{x}_0) + J\boldsymbol{\delta}$.
+- Near a point, the function acts like the linear map $J$: $\mathbf{f}(\mathbf x_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf x_0) + J\boldsymbol{\delta}$.
 - $|\det J|$ is the local area (volume) scaling factor.
 - The chain rule multiplies Jacobians; checking shapes first prevents most mistakes.
 - Backpropagation applies this chain rule backward through a computation graph.

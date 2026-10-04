@@ -46,13 +46,14 @@ The second row is the one to remember. On a PMF we read probabilities straight o
 > **Key point:** A continuous variable has infinitely many possible values, so the probability of any one exact value is 0; probabilities only exist for ranges.
 
 Pick one student and ask the probability that their CGPA is exactly 7.912. Between 0 and 10 there are infinitely many possible values: 7.912, 7.9121, 7.91201 and so on. Spreading a total probability of 1 over infinitely many values leaves 0 for each one:
+
 $$P(X = 7.912) = 0$$
 
 The same shows up in real data. Among 100 students, perhaps one has a CGPA of 7.912 to three decimals. Ask for 7.912959 and almost certainly nobody has it; the finer we ask, the closer the share gets to 0.
 
 Shrinking a range shows it with numbers. For the CGPA curve of Figure 2, the probability of a CGPA between 8 and $8 + h$ falls to 0 as the width $h$ shrinks:
 
-| Width $h$ | $P(8 \le X \le 8 + h)$ | $P(8 \le X \le 8 + h)\thinspace /\thinspace h$ |
+| Width $h$ | $P(8 \le X \le 8 + h)$ | $P(8 \le X \le 8 + h)\thinspace/\thinspace h$ |
 |---|---|---|
 | 1 | 0.2088 | 0.2088 |
 | 0.1 | 0.0261 | 0.2607 |
@@ -71,10 +72,10 @@ A slice of the area gives a smaller probability. The area between 8 and 9 is the
 
 1. **In words:** the probability that $X$ falls between $a$ and $b$ is the area under the PDF from $a$ to $b$.
 2. **Formula:**
-   $$P(a \le X \le b) = \int_a^b f(x)\thinspace  dx$$
+   $$P(a \le X \le b) = \int_a^b f(x)\thinspace dx$$
    The symbol $\int_a^b$ reads "the area from $a$ to $b$ under", and $dx$ marks $x$ as the variable along the horizontal axis.
 3. **Example:** for the CGPA curve,
-   $$P(8 \le X \le 9) = \int_8^9 f(x)\thinspace  dx = 0.209$$
+   $$P(8 \le X \le 9) = \int_8^9 f(x)\thinspace dx = 0.209$$
    About 21% of students have a CGPA between 8 and 9.
 
 ![Probability is area under the PDF: between 8 and 9 (left), and a thin slice from 8 to 8.1 (right)](images/area_probability.png)
@@ -122,7 +123,7 @@ The density histogram of Figure 1 rests on the same idea. A density bar has heig
 The famous continuous distributions of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) (Figure 4) each have a PDF formula:
 
 - **Normal distribution:** parameters $\mu$ (mean, location) and $\sigma$ (standard deviation, scale). Much natural data follows it. Its PDF, worked through in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), is
-  $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace  e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
+  $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
 - **Log-normal distribution:** looks like a normal curve pushed to the left, with a long right tail. Its parameters are also $\mu$ and $\sigma$, those of the logarithm of the variable (SciPy `lognorm` docs).
 
 The **Poisson distribution** (parameter $\lambda$) is often listed beside them, but it counts events (0, 1, 2, ...), so it is discrete and has a PMF, not a PDF. SciPy, for example, gives `poisson` a `pmf` and no `pdf`. Each of these distributions gets its own Note later.
@@ -135,7 +136,7 @@ The CDF has the same definition as for a discrete variable (see the [PMF and dis
 
 1. **In words:** the CDF at $x$ is the whole area under the PDF to the left of $x$.
 2. **Formula:**
-   $$F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\thinspace  dt$$
+   $$F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\thinspace dt$$
    The letter $t$ runs along the axis up to $x$; $-\infty$ means "from the far left".
 3. **Example:** adult heights in a group follow a normal distribution with mean 165 cm and standard deviation 10 cm. Half the area lies left of the mean, so $F(165) = 0.5$: half the people are 165 cm or shorter. The area left of 150 is $F(150) = 0.067$: about 7% are 150 cm or shorter.
 

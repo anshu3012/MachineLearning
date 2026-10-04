@@ -19,7 +19,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 
 ![Choosing between the z-procedure and the t-procedure](images/z_or_t.png){height=30%}
 
-Earlier we built the interval $\bar{x} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The z-interval needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure**, the method used in real work.
+Earlier we built the interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The z-interval needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure**, the method used in real work.
 
 This Note covers:
 
@@ -81,6 +81,7 @@ Unlike the normal and log-normal distributions, which describe raw data such as 
 > **Key point:** The t-distribution has one parameter, the degrees of freedom: $df = n - 1$ for a sample of size $n$.
 
 The normal distribution has two parameters, $\mu$ and $\sigma$. The t-distribution has one, the **degrees of freedom** ($df$):
+
 $$df = n - 1$$
 
 A sample of 50 gives 49 degrees of freedom; a sample of 30 gives 29.
@@ -119,8 +120,8 @@ Since $T$ follows the t-distribution, the derivation of the z-interval (see the 
 
 1. **In words:** go from the sample mean $t_{\alpha/2}$ estimated standard errors down and up, where the standard error is estimated by $s/\sqrt{n}$ and $t_{\alpha/2}$ comes from the t-distribution with $n - 1$ degrees of freedom.
 2. **Formula:**
-   $$\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace \frac{s}{\sqrt{n}}$$
-3. **Example:** 10 subscribers with $\bar{x} = 28$ years and $s = 15$ years, 95% confidence, $df = 9$, so $t_{0.025,\thinspace 9} = 2.262$:
+   $$\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace\frac{s}{\sqrt{n}}$$
+3. **Example:** 10 subscribers with $\bar{x} = 28$ years and $s = 15$ years, 95% confidence, $df = 9$, so $t_{0.025,\thinspace9} = 2.262$:
    $$\frac{s}{\sqrt{n}} = \frac{15}{\sqrt{10}} = 4.743, \qquad E = 2.262 \times 4.743 = 10.73$$
    $$28 \pm 10.73: \quad 17.27 \text{ to } 38.73 \text{ years}$$
    With $z = 1.96$ the margin would be $1.96 \times 4.743 = 9.30$ (18.70 to 37.30): narrower, and, as section 7 shows, too narrow.
@@ -171,7 +172,7 @@ We can check by simulation that the t-distribution is needed. As in the [interpr
 
 ![The same 100 samples of n = 10 with two 95% intervals each; coverage over 100,000 samples in the titles](images/z_vs_t_coverage.png)
 
-Over 100,000 samples, the "95%" z-with-$s$ intervals contain $\mu$ only 91.9% of the time; the t intervals 95.1% (Figure 3). Repeating more often does not help: the z intervals stay around 92%, because they are built from the wrong distribution. They are systematically too short and skip the true mean more often than promised.
+Over 100,000 samples, the "95%" z-with $s$ intervals contain $\mu$ only 91.9% of the time; the t intervals 95.1% (Figure 3). Repeating more often does not help: the z intervals stay around 92%, because they are built from the wrong distribution. They are systematically too short and skip the true mean more often than promised.
 
 | Sample size $n$ | z with $s$ | t with $s$ |
 |---|---|---|
@@ -182,7 +183,7 @@ Over 100,000 samples, the "95%" z-with-$s$ intervals contain $\mu$ only 91.9% of
 
 The gap is large for small samples and fades as $n$ grows, exactly as the t-curve approaches the normal curve. The rule is simple:
 
-- $\sigma$ known: z-procedure, $\bar{x} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$;
+- $\sigma$ known: z-procedure, $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$;
 - $\sigma$ unknown: t-procedure, $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$.
 
 ## 8. Case study: the mean Titanic fare
@@ -191,14 +192,14 @@ The gap is large for small samples and fades as $n$ grows, exactly as the t-curv
 
 We return to the population of the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md): the 1308 known fares of all Titanic passengers, with true mean 33.30 pounds. We know neither $\mu$ nor $\sigma$ (we pretend), so the t-procedure is the right tool.
 
-1. **In words:** draw one random sample of 30 fares, compute $\bar{x}$ and $s$, and use $t_{0.025,\thinspace 29}$.
+1. **In words:** draw one random sample of 30 fares, compute $\bar{x}$ and $s$, and use $t_{0.025,\thinspace29}$.
 2. **Formula:**
-   $$\bar{x} \pm t_{0.025,\thinspace 29}\thinspace \frac{s}{\sqrt{30}}$$
-3. **Example:** the sample gives $\bar{x} = 37.14$ and $s = 49.74$; $t_{0.025,\thinspace 29} = 2.045$:
+   $$\bar{x} \pm t_{0.025,\thinspace29}\thinspace\frac{s}{\sqrt{30}}$$
+3. **Example:** the sample gives $\bar{x} = 37.14$ and $s = 49.74$; $t_{0.025,\thinspace29} = 2.045$:
    $$\frac{49.74}{\sqrt{30}} = 9.08, \qquad E = 2.045 \times 9.08 = 18.57, \qquad 37.14 \pm 18.57: \ 18.57 \text{ to } 55.72$$
    The true mean, 33.30 pounds, lies inside.
 
-The interval is wide because the fares vary enormously ($s = 49.74$) and the sample is small. At 50% confidence, $t_{0.25,\thinspace 29} = 0.683$ and the interval shrinks to 30.94 to 43.35 pounds. The 50% range happens to contain 33.30 too, but such an interval misses half the time.
+The interval is wide because the fares vary enormously ($s = 49.74$) and the sample is small. At 50% confidence, $t_{0.25,\thinspace29} = 0.683$ and the interval shrinks to 30.94 to 43.35 pounds. The 50% range happens to contain 33.30 too, but such an interval misses half the time.
 
 ### 8.1 Several samples: pool them
 
@@ -217,7 +218,7 @@ Pooling all 300 fares into one sample and using $n = 300$ gives 26.20 to 36.64 p
 | Use when | $\sigma$ known (rare) | $\sigma$ unknown (usual) |
 | Spread | $\sigma$ | $s$ |
 | Distribution | standard normal | Student's t, $df = n - 1$ |
-| Interval | $\bar{x} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ | $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$ |
+| Interval | $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$ |
 | 95% critical value | 1.96 | 2.262 ($n = 10$), 2.045 ($n = 30$) |
 | Example | 25.06 to 30.94 ($n = 100$, $\sigma = 15$) | 17.27 to 38.73 ($n = 10$, $s = 15$) |
 

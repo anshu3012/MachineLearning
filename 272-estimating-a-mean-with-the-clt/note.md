@@ -87,7 +87,7 @@ By the CLT, the sample means are centred on the population mean. So their averag
 
 1. **In words:** average the $k$ sample means.
 2. **Formula:**
-   $$\hat{\mu} = \bar{\bar{x}} = \frac{1}{k}\sum_{j=1}^{k} \bar{x}_j$$
+   $$\hat{\mu} = \bar{\bar{x}} = \frac{1}{k}\sum_{j=1}^{k} \bar x_j$$
    The hat on $\hat{\mu}$ marks an estimate of $\mu$; $\bar{\bar{x}}$ ("x double bar") is the mean of the means.
 3. **Example:** for our 100 sample means,
    $$\hat{\mu} = \frac{37.27 + 25.21 + 34.21 + \dots}{100} = 31.87 \text{ pounds}$$
@@ -152,7 +152,8 @@ Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ an
 > **Key point:** In practice we have one sample, and the range is $\bar{x} \pm 2s/\sqrt{n}$; for very skewed data, $n = 50$ is too small for this to be reliable.
 
 Drawing 100 samples is a teaching device: it lets us see the sampling distribution. A real survey collects one sample. Then the CLT is used directly: the one sample mean $\bar{x}$ is the point estimate, and the standard error $\sigma/\sqrt{n}$ is estimated with the sample's own standard deviation $s$:
-$$\bar{x} \pm 2\thinspace \frac{s}{\sqrt{n}}$$
+
+$$\bar{x} \pm 2\thinspace\frac{s}{\sqrt{n}}$$
 
 For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 2, blue). The one-sample range contains 33.30, and it is much wider: its standard error is $\sigma/\sqrt{50}$, while the average of 100 samples of 50 has standard error $(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$, ten times smaller.
 
@@ -181,7 +182,7 @@ The result is only as good as the samples. Biased samples (see sampling bias in 
 
 | Step | Formula | Titanic fares |
 |---|---|---|
-| Sample means | $\bar{x}_1, \dots, \bar{x}_{100}$, each from $n = 50$ | 37.27, 25.21, 34.21, ... |
+| Sample means | $\bar x_1, \dots, \bar x_{100}$, each from $n = 50$ | 37.27, 25.21, 34.21, ... |
 | Point estimate | $\hat{\mu}$ = average of the sample means | 31.87 |
 | Spread of the sample means | $s_{\bar{x}} \approx \sigma/\sqrt{n}$ | 7.56 (CLT: 7.32) |
 | Standard error of the estimate | $s_{\bar{x}}/\sqrt{k}$ | $7.56/\sqrt{100} = 0.756$ |

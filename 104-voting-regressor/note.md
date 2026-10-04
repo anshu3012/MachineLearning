@@ -58,7 +58,7 @@ A score from 8 test points depends heavily on which 8 points we drew. So the Not
 The vote is always well above the average of its members. It does not beat SVR here, because SVR alone already fits this smooth wave almost as well as any model can, and the line drags the average down. Voting pays off most when the members are about equally good and make different mistakes, as on the real data below.
 
 > **Extra:** Why can the vote never be worse than the average member? Take one test point with true value $y$, and let model $i$ predict $f_i$. The vote predicts $\bar f = \frac{1}{n}\sum_i f_i$. Its error is the mean of the members' errors, $\bar f - y = \frac{1}{n}\sum_i (f_i - y)$, and the square of a mean is never larger than the mean of the squares:
-> $$(\bar f - y)^2 = \frac{1}{n}\sum_{i=1}^{n} (f_i - y)^2 \thickspace -\thickspace  \frac{1}{n}\sum_{i=1}^{n} (f_i - \bar f)^2$$
+> $$(\bar f - y)^2 = \frac{1}{n}\sum_{i=1}^{n} (f_i - y)^2 \thickspace-\thickspace\frac{1}{n}\sum_{i=1}^{n} (f_i - \bar f)^2$$
 > The last term is the spread of the members around their mean, which Krogh and Vedelsby (1995) call the **ambiguity**. The more the members disagree, the more the vote gains over the average member. Since $R^2$ falls as squared error rises, the vote's $R^2$ is at least the average of the members' $R^2$ on any test set.
 
 ## 4. VotingRegressor on the Boston housing data

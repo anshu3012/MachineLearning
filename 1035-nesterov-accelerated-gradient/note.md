@@ -15,7 +15,7 @@ Figure 1 shows the difference. On this valley momentum needs 59 steps to bring t
 
 ## 2. Prerequisites
 
-- The [SGD with momentum Note](../1034-sgd-with-momentum/note.md): the velocity $v_t = \beta v_{t-1} + \eta\thinspace \nabla L(w_t)$, and overshooting.
+- The [SGD with momentum Note](../1034-sgd-with-momentum/note.md): the velocity $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$, and overshooting.
 - The [EWMA Note](../1033-exponentially-weighted-moving-average/note.md): the decay factor $\beta$.
 
 ## 3. Momentum's problem: oscillations
@@ -32,9 +32,9 @@ Lowering the decay factor $\beta$ tames the swings, at the cost of some speed. O
 
 Write momentum's update in one line by putting $v_t$ into $w_{t+1} = w_t - v_t$:
 
-$$w_{t+1} = w_t - \beta\thinspace v_{t-1} - \eta\thinspace \nabla L(w_t)$$
+$$w_{t+1} = w_t - \beta\thinspace v_{t-1} - \eta\thinspace\nabla L(w_t)$$
 
-Each step has two parts: the push of the past velocity, $\beta v_{t-1}$, and the push of the current gradient, $\eta\thinspace \nabla L(w_t)$. Plain gradient descent has only the second. Momentum computes both at the current point $w_t$ and applies them together.
+Each step has two parts: the push of the past velocity, $\beta v_{t-1}$, and the push of the current gradient, $\eta\thinspace\nabla L(w_t)$. Plain gradient descent has only the second. Momentum computes both at the current point $w_t$ and applies them together.
 
 NAG changes only **where the gradient is computed**. NAG first applies the momentum part alone, which takes it to a **look-ahead point**. It computes the gradient there and then moves on, or back, according to that gradient (Goodfellow et al. 2016, §8.3.3).
 
@@ -44,12 +44,12 @@ Figure 2 shows one step near the minimum. Hinton's lecture slides put the differ
 
 ## 5. The update rule
 
-> **Key point:** Look-ahead $w_{\text{la}} = w_t - \beta v_{t-1}$; velocity $v_t = \beta v_{t-1} + \eta\thinspace \nabla L(w_{\text{la}})$; update $w_{t+1} = w_t - v_t$. Only the point where the gradient is taken changes.
+> **Key point:** Look-ahead $w_{\text{la}} = w_t - \beta v_{t-1}$; velocity $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_{\text{la}})$; update $w_{t+1} = w_t - v_t$. Only the point where the gradient is taken changes.
 
 1. **In words:** find where the momentum jump alone would take us. Take the gradient there. Build the velocity from the old velocity and that gradient, and move from the current point.
 2. **Formula:**
    $$w_{\text{la}} = w_t - \beta\thinspace v_{t-1}$$
-   $$v_t = \beta\thinspace v_{t-1} + \eta\thinspace \nabla L(w_{\text{la}})$$
+   $$v_t = \beta\thinspace v_{t-1} + \eta\thinspace\nabla L(w_{\text{la}})$$
    $$w_{t+1} = w_t - v_t$$
 3. **Example:** the same start as for momentum: $L(w) = w^2/2$ (gradient $w$), $w_0 = -10$, $\eta = 0.1$, $\beta = 0.9$, $v_0 = 0$.
    - Step 1: the look-ahead is $w_0 - 0.9 \times 0 = -10$, so $v_1 = 0.1 \times (-10) = -1$ and $w_1 = -9$, the same as momentum.
@@ -57,7 +57,7 @@ Figure 2 shows one step near the minimum. Hinton's lecture slides put the differ
    $$v_2 = 0.9 \times (-1) + 0.1 \times (-8.1) = -1.71, \qquad w_2 = -9 - (-1.71) = -7.29$$
    Momentum reached $-7.2$. NAG's step is a little shorter, because the slope at the look-ahead point is gentler (Notebook).
 
-Putting $v_t$ into the last line gives the whole step: $w_{t+1} = w_t - \beta v_{t-1} - \eta\thinspace \nabla L(w_{\text{la}})$. It is the distance to the look-ahead point plus a gradient step taken from the look-ahead point.
+Putting $v_t$ into the last line gives the whole step: $w_{t+1} = w_t - \beta v_{t-1} - \eta\thinspace\nabla L(w_{\text{la}})$. It is the distance to the look-ahead point plus a gradient step taken from the look-ahead point.
 
 ## 6. Why NAG overshoots less
 
@@ -128,8 +128,8 @@ Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity 
 
 `momentum` is the decay factor $\beta$, usually 0.9 or 0.5; `nesterov` switches the look-ahead on.
 
-> **Extra:** Keras never computes the gradient at a separate look-ahead point. Its weights are the look-ahead point itself: write $u_t = w_t - \beta v_{t-1}$. Putting $v_t = \beta v_{t-1} + \eta\thinspace \nabla L(u_t)$ into $u_{t+1} = w_{t+1} - \beta v_t = w_t - v_t - \beta v_t$ gives
-> $$u_{t+1} = u_t - \beta\thinspace v_t - \eta\thinspace \nabla L(u_t)$$
+> **Extra:** Keras never computes the gradient at a separate look-ahead point. Its weights are the look-ahead point itself: write $u_t = w_t - \beta v_{t-1}$. Putting $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(u_t)$ into $u_{t+1} = w_{t+1} - \beta v_t = w_t - v_t - \beta v_t$ gives
+> $$u_{t+1} = u_t - \beta\thinspace v_t - \eta\thinspace\nabla L(u_t)$$
 > a step that needs only the gradient at the stored weights. With $m = -v$ this is Keras' rule $m \leftarrow \beta m - \eta g$, $w \leftarrow w + \beta m - \eta g$ (Keras `SGD` documentation). The Notebook checks it: Keras' weights $-10, -8.1, -5.75, -3.27, \dots$ are exactly our look-ahead points.
 
 ## 10. Summary

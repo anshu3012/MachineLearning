@@ -28,13 +28,14 @@ This Note builds on the [normal distribution Note](../250-normal-distribution/no
 > **Key point:** The standard normal distribution is the normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$.
 
 Among all normal distributions, one is special: the one with $\mu = 0$ and $\sigma = 1$. This distribution is called the **standard normal distribution** (or **standard normal variate**) and is written with the letter $Z$:
+
 $$Z \sim N(0, 1)$$
 
 Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard deviations directly: 1 means one standard deviation above the mean, $-2$ two below.
 
 1. **In words:** put $\mu = 0$ and $\sigma = 1$ into the normal PDF.
 2. **Formula:**
-   $$\phi(z) = \frac{1}{\sqrt{2\pi}}\thickspace  e^{-\frac{z^2}{2}}$$
+   $$\phi(z) = \frac{1}{\sqrt{2\pi}}\thickspace e^{-\frac{z^2}{2}}$$
    The standard normal PDF has its own symbol, $\phi$ (phi), and its CDF is written $\Phi$ (capital phi).
 3. **Example:** at $z = 0$, $\phi(0) = 1/\sqrt{2\pi} = 1/2.5066 = 0.3989$, the height of the peak in Figure 1. At $z = 1$, $\phi(1) = 0.3989 \times e^{-0.5} = 0.3989 \times 0.6065 = 0.2420$.
 
@@ -43,6 +44,7 @@ Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard dev
 > **Key point:** Subtracting the mean and dividing by the standard deviation turns $X \sim N(\mu, \sigma^2)$ into $Z \sim N(0, 1)$.
 
 To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its z-score. Turning values into z-scores is the standardization of the [standardization Note](../24-standardization/note.md):
+
 $$z = \frac{x - \mu}{\sigma}$$
 
 For Figure 1, $x = 10$ becomes $z = (10 - 5)/2.5 = 2$: the value 10 lies two standard deviations above the mean. Every tick on the top axis lines up with its z-score below.
@@ -76,6 +78,7 @@ Two benefits make the standard normal distribution so useful:
 > **Key point:** A z-table lists $\Phi(z)$, the area under the standard normal curve to the left of $z$: the probability that $Z$ is at most $z$.
 
 A **z-table** (standard normal table) lists the CDF of the standard normal distribution for many values of $z$:
+
 $$\Phi(z) = P(Z \le z) = \text{area under the curve from } -\infty \text{ to } z$$
 
 The table gives an **area**, so a probability, not the height of the curve at $z$ (Figure 2, left). There are two tables: one for negative $z$ and one for positive $z$.
@@ -113,7 +116,7 @@ The heights of adult men in a population are normal with mean 68 inches and stan
 
 1. **In words:** turn 72 into a z-score, read the area to its left, and subtract it from 1 to get the area to its right.
 2. **Formula:**
-   $$P(X > 72) = 1 - \Phi\negthinspace \left(\frac{72 - 68}{3}\right)$$
+   $$P(X > 72) = 1 - \Phi\negthinspace\left(\frac{72 - 68}{3}\right)$$
 3. **Example:** the z-score is
    $$z = \frac{72 - 68}{3} = \frac{4}{3} = 1.33$$
    The z-table gives $\Phi(1.33) = 0.90824$, so
@@ -144,6 +147,7 @@ The answer, 34.13%, does not depend on $\mu$ or $\sigma$: it holds for every nor
 > **Key point:** Repeating the calculation for 1, 2 and 3 standard deviations, and doubling by symmetry, gives 68.27%, 95.45% and 99.73%.
 
 By symmetry, the same 34.13% lies between $\mu - \sigma$ and $\mu$. So the share within one standard deviation on either side is
+
 $$P(\mu - \sigma \le X \le \mu + \sigma) = 2 \times 0.3413 = 0.6827$$
 
 The same steps for 2 and 3 standard deviations:

@@ -66,7 +66,7 @@ The recursive version works, but it slows down sharply as $n$ grows: fib(30) alr
 
 Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib(4) needs fib(3) again, and so on. fib(3) is computed twice and fib(2) three times: 15 calls for a single answer. For fib(48) the tree would be astronomically large, almost all of it repeats.
 
-> **Extra:** The number of calls is $2\thinspace \text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\thinspace \text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio). The growth is often loosely called $2^n$; either way it is **exponential time**: each extra step multiplies the work by a constant factor.
+> **Extra:** The number of calls is $2\thinspace\text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\thinspace\text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio). The growth is often loosely called $2^n$; either way it is **exponential time**: each extra step multiplies the work by a constant factor.
 
 ### 3.3 The memoized version
 
@@ -98,7 +98,7 @@ fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1
 
 > **Key point:** 3 inputs, hidden layers of 3 and 2 nodes, 1 output: 23 trainable parameters.
 
-![The 3-3-2-1 network. A change in $W^{1}_{11}$ changes $O_{11}$, which reaches $\hat{y}$ along two paths](images/two_paths.png){height=34%}
+![The 3-3-2-1 network. A change in $W_{11}^{1}$ changes $O_{11}$, which reaches $\hat{y}$ along two paths](images/two_paths.png){height=34%}
 
 The [backpropagation what Note](../1015-backpropagation-what/note.md) used one hidden layer. Figure 3 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ trainable parameters (see the [MLP notation Note](../1008-mlp-notation/note.md)).
 
@@ -106,27 +106,27 @@ The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \h
 
 ### 4.2 A weight of the output layer
 
-> **Key point:** $\partial L/\partial W^{3}_{11} = \partial L/\partial \hat{y} \cdot O_{21}$: one link, as before.
+> **Key point:** $\partial L/\partial W_{11}^{3} = \partial L/\partial \hat{y} \cdot O_{21}$: one link, as before.
 
-$W^{3}_{11}$ connects $O_{21}$ to the output, so
+$W_{11}^{3}$ connects $O_{21}$ to the output, so
 
-$$\frac{\partial L}{\partial W^{3}_{11}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W^{3}_{11}} = -2.387 \times 0.374 = -0.893$$
+$$\frac{\partial L}{\partial W_{11}^{3}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W_{11}^{3}} = -2.387 \times 0.374 = -0.893$$
 
 ### 4.3 A weight of the middle layer
 
-> **Key point:** Through $O_{21}$ only: $\partial L/\partial \hat{y} \cdot \partial \hat{y}/\partial O_{21} \cdot \partial O_{21}/\partial W^{2}_{11}$.
+> **Key point:** Through $O_{21}$ only: $\partial L/\partial \hat{y} \cdot \partial \hat{y}/\partial O_{21} \cdot \partial O_{21}/\partial W_{11}^{2}$.
 
-$W^{2}_{11}$ connects $O_{11}$ to node $O_{21}$. Changing it changes $O_{21}$, which changes $\hat{y}$, which changes $L$:
+$W_{11}^{2}$ connects $O_{11}$ to node $O_{21}$. Changing it changes $O_{21}$, which changes $\hat{y}$, which changes $L$:
 
-$$\frac{\partial L}{\partial W^{2}_{11}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial O_{21}} \cdot \frac{\partial O_{21}}{\partial W^{2}_{11}}$$
+$$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial O_{21}} \cdot \frac{\partial O_{21}}{\partial W_{11}^{2}}$$
 
-Here $\partial \hat{y}/\partial O_{21} = W^{3}_{11}$ and $\partial O_{21}/\partial W^{2}_{11} = O_{21}(1 - O_{21})\thinspace O_{11}$ (sigmoid slope times input). With the network's numbers this is $0.160$. Every one of the 6 middle-layer weights follows the same pattern.
+Here $\partial \hat{y}/\partial O_{21} = W_{11}^{3}$ and $\partial O_{21}/\partial W_{11}^{2} = O_{21}(1 - O_{21})\thinspace O_{11}$ (sigmoid slope times input). With the network's numbers this is $0.160$. Every one of the 6 middle-layer weights follows the same pattern.
 
 ### 4.4 A weight of the first layer: two paths
 
 > **Key point:** $O_{11}$ feeds both $O_{21}$ and $O_{22}$, so its effect on the loss is the sum over both paths.
 
-Now take $W^{1}_{11}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 3): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
+Now take $W_{11}^{1}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 3): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
 
 When a variable affects a function through two intermediate variables, the chain rule multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). For $h(f(x), g(x))$:
 
@@ -134,11 +134,11 @@ $$\frac{dh}{dx} = \frac{\partial h}{\partial f}\frac{df}{dx} + \frac{\partial h}
 
 Applied here:
 
-1. **In words:** follow each path from $L$ back to $W^{1}_{11}$, multiply the derivatives along it, and add the two products.
+1. **In words:** follow each path from $L$ back to $W_{11}^{1}$, multiply the derivatives along it, and add the two products.
 2. **Formula:**
-   $$\frac{\partial L}{\partial W^{1}_{11}} = \frac{\partial L}{\partial \hat{y}}\left[\frac{\partial \hat{y}}{\partial O_{21}}\frac{\partial O_{21}}{\partial O_{11}} + \frac{\partial \hat{y}}{\partial O_{22}}\frac{\partial O_{22}}{\partial O_{11}}\right]\frac{\partial O_{11}}{\partial W^{1}_{11}}$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}}\left[\frac{\partial \hat{y}}{\partial O_{21}}\frac{\partial O_{21}}{\partial O_{11}} + \frac{\partial \hat{y}}{\partial O_{22}}\frac{\partial O_{22}}{\partial O_{11}}\right]\frac{\partial O_{11}}{\partial W_{11}^{1}}$$
 3. **Example:** path a contributes $-0.0110$ and path b $-0.0028$, so
-   $$\frac{\partial L}{\partial W^{1}_{11}} = -0.0110 + (-0.0028) = -0.0138$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.0110 + (-0.0028) = -0.0138$$
 
 `tf.GradientTape` returns $-0.893$, $0.160$ and $-0.0138$ for the three weights, matching the hand formulas (Notebook).
 
@@ -168,7 +168,7 @@ The memoized method keeps one stored number per node: the derivative of the loss
 
 1. **In words:** a node's derivative is built from the stored derivatives of the nodes it feeds; each weight's derivative is then its node's stored derivative times the node's slope times the weight's input.
 2. **Formula:** for node $j$ of layer $l$, with sigmoid slope $s_{l+1,k} = O_{l+1,k}(1 - O_{l+1,k})$ (or 1 for the linear output),
-   $$\frac{\partial L}{\partial O_{lj}} = \sum_{k} \frac{\partial L}{\partial O_{l+1,k}}\thickspace  s_{l+1,k}\thickspace  W^{l+1}_{jk}, \qquad \frac{\partial L}{\partial W^{l}_{ij}} = \frac{\partial L}{\partial O_{lj}}\thickspace  s_{lj}\thickspace  O_{l-1,i}$$
+   $$\frac{\partial L}{\partial O_{lj}} = \sum_{k} \frac{\partial L}{\partial O_{l+1,k}}\thickspace s_{l+1,k}\thickspace W_{jk}^{l+1}, \qquad \frac{\partial L}{\partial W_{ij}^{l}} = \frac{\partial L}{\partial O_{lj}}\thickspace s_{lj}\thickspace O_{l-1,i}$$
 3. **Example:** $\partial L/\partial O_{11}$ is computed once, from the stored $\partial L/\partial O_{21}$ and $\partial L/\partial O_{22}$. Then all three weights entering $O_{11}$ reuse it, and the two-path sum of Section 4.4 is never repeated.
 
 > **Python:** Plain recursion versus memoization.

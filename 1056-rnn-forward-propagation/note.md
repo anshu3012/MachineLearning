@@ -171,7 +171,7 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
    For binary classification $g$ is the sigmoid; for several classes it is the softmax; for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh.
 3. **Example:** small hand-picked weights, all biases 0, on "movie was good".
 
-   $$W_i = \begin{bmatrix} 0.2 & -0.1 & 0.0 \cr  0.0 & 0.1 & 0.1 \cr  0.8 & 0.3 & -0.5 \cr  -0.8 & -0.3 & 0.5 \cr  -0.6 & 0.2 & 0.4 \end{bmatrix}, \qquad W_h = \begin{bmatrix} 0.5 & 0.0 & 0.1 \cr  0.2 & 0.4 & 0.0 \cr  0.0 & -0.3 & 0.5 \end{bmatrix}, \qquad W_o = \begin{bmatrix} 1.5 \cr  0.5 \cr  -1.0 \end{bmatrix}$$
+   $$W_i = \begin{bmatrix} 0.2 & -0.1 & 0.0 \cr0.0 & 0.1 & 0.1 \cr0.8 & 0.3 & -0.5 \cr-0.8 & -0.3 & 0.5 \cr-0.6 & 0.2 & 0.4 \end{bmatrix}, \qquad W_h = \begin{bmatrix} 0.5 & 0.0 & 0.1 \cr0.2 & 0.4 & 0.0 \cr0.0 & -0.3 & 0.5 \end{bmatrix}, \qquad W_o = \begin{bmatrix} 1.5 \cr0.5 \cr-1.0 \end{bmatrix}$$
 
    A one-hot vector times $W_i$ simply picks one row of $W_i$: the row of that word.
 

@@ -92,7 +92,7 @@ With batch size 4, four students enter the network together. Their $4 \times 2$ 
 
 1. **In words:** subtract the batch mean of the node's $z$ values and divide by their standard deviation. A tiny $\epsilon$ prevents division by 0 when all values are equal.
 2. **Formula:**
-   $$\mu_B = \frac{1}{m}\sum_{i=1}^{m} z_i, \qquad \sigma_B^2 = \frac{1}{m}\sum_{i=1}^{m} (z_i - \mu_B)^2, \qquad \hat{z}_i = \frac{z_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
+   $$\mu_B = \frac{1}{m}\sum_{i=1}^{m} z_i, \qquad \sigma_B^2 = \frac{1}{m}\sum_{i=1}^{m} (z_i - \mu_B)^2, \qquad \hat z_i = \frac{z_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
 3. **Example:** one node's values over the batch are $z = 2, 4, 6, 8$.
    $$\mu_B = \frac{2 + 4 + 6 + 8}{4} = 5, \qquad \sigma_B^2 = \frac{9 + 1 + 1 + 9}{4} = 5, \qquad \sigma_B = 2.236$$
    $$\hat{z} = \frac{2 - 5}{2.236},\ \frac{4 - 5}{2.236},\ \frac{6 - 5}{2.236},\ \frac{8 - 5}{2.236} = -1.34,\ -0.45,\ 0.45,\ 1.34$$
@@ -106,14 +106,14 @@ After normalising, each value is multiplied by a parameter $\gamma$ (gamma) and 
 
 1. **In words:** scale the normalised value, then shift it.
 2. **Formula:**
-   $$z_{BN} = \gamma\thinspace \hat{z} + \beta$$
+   $$z_{BN} = \gamma\thinspace\hat{z} + \beta$$
 3. **Example:** with $\gamma = 1.5$ and $\beta = 0.5$, the values above become
    $$1.5 \times (-1.34) + 0.5 = -1.51,\quad -0.17,\quad 1.17,\quad 2.51$$
    which have mean 0.5 and standard deviation 1.5.
 
 $z_{BN}$ then goes into the activation function, giving $a_{11}$. Keras' `BatchNormalization` layer, given the same $\gamma$ and $\beta$, returns exactly these four numbers (Notebook).
 
-**$\gamma$ and $\beta$ are learnable parameters.** They are trained by backpropagation like weights and biases, for example $\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace \partial L/\partial\gamma$. Every step above is differentiable, so their gradients exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
+**$\gamma$ and $\beta$ are learnable parameters.** They are trained by backpropagation like weights and biases, for example $\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace\partial L/\partial\gamma$. Every step above is differentiable, so their gradients exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
 
 **Why undo the normalisation?** Scaling and shifting is the opposite of normalising, which looks strange. If training found $\gamma = \sqrt{\sigma_B^2 + \epsilon}$ and $\beta = \mu_B$, the two steps would cancel and give back the original $z$ (the Notebook gets $2, 4, 6, 8$ back). The possible cancelling is the point: mean 0 and standard deviation 1 may not suit every layer and every dataset. $\gamma$ and $\beta$ give the network the flexibility to keep the normalisation, or to choose another distribution, or to switch it off.
 
@@ -133,7 +133,7 @@ The answer is the **exponentially weighted moving average** (EWMA), taught with 
 
 1. **In words:** keep most of the old average and mix in a little of the new batch value.
 2. **Formula** (Keras' version, momentum 0.99; Keras documentation):
-   $$\mu_{\text{moving}} \leftarrow 0.99\thinspace \mu_{\text{moving}} + 0.01\thinspace \mu_B$$
+   $$\mu_{\text{moving}} \leftarrow 0.99\thinspace\mu_{\text{moving}} + 0.01\thinspace\mu_B$$
    and the same for the variance.
 3. **Example:** with a moving mean of 5.0 and a new batch mean of 6.0:
    $$0.99 \times 5.0 + 0.01 \times 6.0 = 5.01$$

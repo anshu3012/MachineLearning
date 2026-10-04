@@ -73,6 +73,7 @@ The Euclidean distance, the straight-line distance between two points, is define
 > **Key point:** Subtract the two vectors, then take the magnitude of the result.
 
 In Figure 1 (right) the legs of the triangle, 3 and 4, are the components of the difference vector $q - p = [4, 5] - [1, 1] = [3, 4]$. The distance is the hypotenuse, which is exactly the magnitude of that vector:
+
 $$d(p, q) = \lVert p - q \rVert$$
 
 The squared differences in the distance formula are the squared components of $p - q$. So for $p = [6, 7, 8, 9, 10]$ and $q = [1, 2, 3, 4, 5]$ the difference is $[5, 5, 5, 5, 5]$ and the distance is $\sqrt{5 \times 5^2} = \sqrt{125} \approx 11.18$.
@@ -127,7 +128,7 @@ Changing every component moves the point to a new place in the coordinate system
 
 > **Key point:** Mean centring is a scalar subtraction on vectors: each feature minus its own mean.
 
-Mean centring, the first half of standardization (see the [standardization Note](../24-standardization/note.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (an input variable, one column of the data table) is a vector of values, its mean is a scalar, and $x_1 - \bar{x}_1$ subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
+Mean centring, the first half of standardization (see the [standardization Note](../24-standardization/note.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (an input variable, one column of the data table) is a vector of values, its mean is a scalar, and $x_1 - \bar x_1$ subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
 
 > **Python:** Mean centring is one line: subtracting a row of means from a table subtracts each mean from its own column.
 >
@@ -150,7 +151,7 @@ Mean centring, the first half of standardization (see the [standardization Note]
 > 3. **Example:**
 >    $$2 \times [2, 3] = [4, 6]$$
 >
-> The result points in the same direction, but is twice as long (Figure 3, right). In general the magnitude is multiplied by $\lvert s \rvert$, since $\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2} = \lvert s \rvert \thinspace  \lVert x \rVert$; this is why the operation is called **scaling**. Dividing by $s$ is the same as multiplying by $1/s$: $[2, 3] / 2 = [1, 1.5]$.
+> The result points in the same direction, but is twice as long (Figure 3, right). In general the magnitude is multiplied by $\lvert s \rvert$, since $\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2} = \lvert s \rvert \thinspace\lVert x \rVert$; this is why the operation is called **scaling**. Dividing by $s$ is the same as multiplying by $1/s$: $[2, 3] / 2 = [1, 1.5]$.
 >
 > A negative scalar also flips the direction: $-1 \times [2, 3] = [-2, -3]$ points the opposite way. Dividing a vector by its own magnitude scales it to length 1, giving the unit vector used in the [PCA step by step Note](../48-pca-step-by-step/note.md): $[3, 4] / 5 = [0.6, 0.8]$.
 

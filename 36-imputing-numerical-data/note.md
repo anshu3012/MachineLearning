@@ -365,7 +365,7 @@ Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 | Mean imputation | mean of the column | `"mean"` | MCAR, under 5% missing, roughly normal |
 | Median imputation | median of the column | `"median"` | MCAR, under 5% missing, skewed |
 | Arbitrary value | a value that never occurs (99, $-1$) | `"constant"`, fill 99 | not MCAR: missing itself is informative |
-| End of distribution | $\mu + 3\sigma$, or $Q_3 + 1.5\thinspace \text{IQR}$ | `"constant"`, fill the end value | not MCAR, and no obvious arbitrary value |
+| End of distribution | $\mu + 3\sigma$, or $Q_3 + 1.5\thinspace\text{IQR}$ | `"constant"`, fill the end value | not MCAR, and no obvious arbitrary value |
 
 - Univariate imputation fills a column's gaps using only that column.
 - Mean and median imputation hide the gaps at the centre; arbitrary value and end of distribution imputation mark them at the edges.
@@ -388,7 +388,7 @@ Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 | Mean imputation | Filling every gap with the mean of the column's known values |
 | Median imputation | Filling every gap with the median of the column's known values; better for skewed columns |
 | Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$ |
-| End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\thinspace \text{IQR}$ |
+| End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\thinspace\text{IQR}$ |
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
 | Observation | One record: one row of the data table |

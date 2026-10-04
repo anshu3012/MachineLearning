@@ -79,8 +79,8 @@ We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* 
 Now the task is to predict the package, in lakh rupees per year (LPA), from CGPA and IQ. Every base model is a regression model and outputs a number.
 
 1. **In words:** the ensemble's prediction is the mean of the base models' predictions.
-2. **Formula:** with $n$ base models predicting $\hat{y}_1, \dots, \hat{y}_n$,
-   $$\hat{y} = \frac{1}{n}\sum_{i=1}^{n} \hat{y}_i$$
+2. **Formula:** with $n$ base models predicting $\hat y_1, \dots, \hat y_n$,
+   $$\hat{y} = \frac{1}{n}\sum_{i=1}^{n} \hat y_i$$
 3. **Example:** three models predict 6.2, 5.8 and 7.0 LPA:
    $$\hat{y} = \frac{6.2 + 5.8 + 7.0}{3} = \frac{19.0}{3} = 6.33 \text{ LPA}$$
 

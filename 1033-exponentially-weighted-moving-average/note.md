@@ -5,7 +5,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma
 
 ## 1. Overview
 
-> **Key point:** An exponentially weighted moving average keeps one running number and updates it with every new value: $V_t = \beta V_{t-1} + (1-\beta)\thinspace \theta_t$. Recent values count most, old values fade away, and $\beta$ sets how fast they fade.
+> **Key point:** An exponentially weighted moving average keeps one running number and updates it with every new value: $V_t = \beta V_{t-1} + (1-\beta)\thinspace\theta_t$. Recent values count most, old values fade away, and $\beta$ sets how fast they fade.
 
 The **exponentially weighted moving average** (EWMA) is a technique for finding the trend hidden in a time series: data recorded one value after another in time, such as the daily temperature of a city or the daily price of a share. It smooths away the day-to-day noise and keeps the slow pattern.
 
@@ -37,7 +37,7 @@ The formula in section 4 is built to obey exactly these two rules. Section 6 pro
 
 1. **In words:** keep most of the previous average and mix in a small part of the new value. $V_t$ is the EWMA at time $t$, $\theta_t$ (theta) is the value recorded at time $t$, and $\beta$ (beta) is a constant between 0 and 1.
 2. **Formula:**
-   $$V_t = \beta\thinspace V_{t-1} + (1 - \beta)\thinspace \theta_t$$
+   $$V_t = \beta\thinspace V_{t-1} + (1 - \beta)\thinspace\theta_t$$
 3. **Example:** two days with $\theta_1 = 13$ and $\theta_2 = 17$, with $\beta = 0.9$ and the start $V_0 = 0$:
    $$V_1 = 0.9 \times 0 + 0.1 \times 13 = 1.3$$
    $$V_2 = 0.9 \times 1.3 + 0.1 \times 17 = 1.17 + 1.7 = 2.87$$
@@ -95,20 +95,20 @@ An everyday picture: a moody person and a calm person. The moody person's mood i
 
 Start from $V_0 = 0$ and apply the formula four times:
 
-$$V_1 = (1-\beta)\thinspace \theta_1$$
-$$V_2 = \beta V_1 + (1-\beta)\thinspace \theta_2 = \beta(1-\beta)\thinspace \theta_1 + (1-\beta)\thinspace \theta_2$$
-$$V_3 = \beta V_2 + (1-\beta)\thinspace \theta_3 = \beta^2(1-\beta)\thinspace \theta_1 + \beta(1-\beta)\thinspace \theta_2 + (1-\beta)\thinspace \theta_3$$
-$$V_4 = \beta^3(1-\beta)\thinspace \theta_1 + \beta^2(1-\beta)\thinspace \theta_2 + \beta(1-\beta)\thinspace \theta_3 + (1-\beta)\thinspace \theta_4$$
+$$V_1 = (1-\beta)\thinspace\theta_1$$
+$$V_2 = \beta V_1 + (1-\beta)\thinspace\theta_2 = \beta(1-\beta)\thinspace\theta_1 + (1-\beta)\thinspace\theta_2$$
+$$V_3 = \beta V_2 + (1-\beta)\thinspace\theta_3 = \beta^2(1-\beta)\thinspace\theta_1 + \beta(1-\beta)\thinspace\theta_2 + (1-\beta)\thinspace\theta_3$$
+$$V_4 = \beta^3(1-\beta)\thinspace\theta_1 + \beta^2(1-\beta)\thinspace\theta_2 + \beta(1-\beta)\thinspace\theta_3 + (1-\beta)\thinspace\theta_4$$
 
 Taking $(1 - \beta)$ out:
 
-$$V_4 = (1-\beta)\left(\beta^3\thinspace \theta_1 + \beta^2\thinspace \theta_2 + \beta\thinspace \theta_3 + \theta_4\right)$$
+$$V_4 = (1-\beta)\left(\beta^3\thinspace\theta_1 + \beta^2\thinspace\theta_2 + \beta\thinspace\theta_3 + \theta_4\right)$$
 
 The oldest value, $\theta_1$, is multiplied by $\beta^3$; $\theta_2$ by $\beta^2$; $\theta_3$ by $\beta$; the newest, $\theta_4$, by 1. Since $\beta$ lies between 0 and 1, $\beta^3 < \beta^2 < \beta < 1$: the older the value, the smaller its weight. Both rules of section 3 hold.
 
 1. **In words:** the weight of a value $k$ steps in the past is $(1 - \beta)$ times $\beta$ multiplied $k$ times.
 2. **Formula:**
-   $$\text{weight}_k = (1-\beta)\thinspace \beta^k$$
+   $$\text{weight}_k = (1-\beta)\thinspace\beta^k$$
 3. **Example:** with $\beta = 0.9$, the weights on $\theta_4, \theta_3, \theta_2, \theta_1$ are
    $$0.1,\quad 0.1 \times 0.9 = 0.09,\quad 0.1 \times 0.81 = 0.081,\quad 0.1 \times 0.729 = 0.0729$$
    On Delhi's first four days (10.0, 7.4, 7.17, 8.67 °C), the loop and the unrolled sum both give $V_4 = 2.84$ (Notebook).

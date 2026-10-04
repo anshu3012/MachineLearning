@@ -135,7 +135,7 @@ The second derivative is $-n/\lambda^2 < 0$, so this is the peak of Figure 2 (ri
 
 The normal PDF (see the [normal distribution Note](../250-normal-distribution/note.md)) has two parameters, the mean $\mu$ (location) and the standard deviation $\sigma$ (width):
 
-$$f(x \mid \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace  e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
+$$f(x \mid \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
 
 We weigh one mouse: 32 grams. With $\sigma = 2$ fixed, the likelihood of $\mu = 28$ is $f(32 \mid 28, 2) = 0.027$; of $\mu = 30$ it is 0.121; of $\mu = 32$ it is 0.199, the highest. With one point, the best curve is centred on it.
 
@@ -204,7 +204,7 @@ The [measures of dispersion Note](../222-measures-of-dispersion/note.md) (Sectio
 
 1. **In words:** both formulas add the squared distances from the sample mean; they divide by different counts.
 2. **Formula:**
-   $$\hat\sigma^2_{\text{ML}} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2, \qquad s^2 = \frac{1}{n - 1}\sum_{i=1}^{n}(x_i - \bar{x})^2 = \frac{n}{n - 1}\thinspace \hat\sigma^2_{\text{ML}}$$
+   $$\hat\sigma^2_{\text{ML}} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2, \qquad s^2 = \frac{1}{n - 1}\sum_{i=1}^{n}(x_i - \bar{x})^2 = \frac{n}{n - 1}\thinspace\hat\sigma^2_{\text{ML}}$$
 3. **Example:** the sum is 20. $\hat\sigma^2_{\text{ML}} = 20/5 = 4$; $s^2 = 20/4 = 5$.
 
 ### 5.2 Biased but consistent
@@ -215,7 +215,7 @@ An estimator is **unbiased** if its average over many samples equals the true va
 
 1. **In words:** averaged over many samples of size $n$, the MLE variance is the true variance times $(n - 1)/n$.
 2. **Formula:**
-   $$\text{average of } \hat\sigma^2_{\text{ML}} = \frac{n - 1}{n}\thinspace \sigma^2, \qquad \text{average of } s^2 = \sigma^2$$
+   $$\text{average of } \hat\sigma^2_{\text{ML}} = \frac{n - 1}{n}\thinspace\sigma^2, \qquad \text{average of } s^2 = \sigma^2$$
 3. **Example:** for samples of 5 mice from a population with $\sigma^2 = 4$, the MLE variance averages $4/5 \times 4 = 3.2$, while $s^2$ averages 4. With $n = 100$ the factor is 0.99, and the difference hardly matters. The Notebook draws 100,000 samples of 5 and gets 3.21 and 4.01.
 
 > **Extra:** Why the factor is $(n - 1)/n$. Write $x_i - \mu = (x_i - \bar x) + (\bar x - \mu)$, square, and add over $i$. The cross term $2(\bar x - \mu)\sum_i(x_i - \bar x)$ is 0, because the distances from the mean add up to 0. So

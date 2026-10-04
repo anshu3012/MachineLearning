@@ -55,7 +55,7 @@ For each class and each feature:
 1. compute the **mean** $\mu$ and **standard deviation** $\sigma$ of that feature over that class's observations;
 2. for a new value $x$, compute the normal density
 
-$$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace  e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
+   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
 
 3. use $f(x)$ in place of $P(x \mid \text{class})$ in the Naive Bayes product.
 

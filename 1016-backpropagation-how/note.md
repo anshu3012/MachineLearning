@@ -41,7 +41,7 @@ The data and network are those of the [backpropagation what Note](../1015-backpr
    - for each student, in order:
      a. predict $\hat{y}$ with forward propagation;
      b. compute the loss $(y - \hat{y})^2$;
-     c. update the 9 parameters with $W \leftarrow W - \eta\thinspace  \partial L/\partial W$, $\eta = 0.001$.
+     c. update the 9 parameters with $W \leftarrow W - \eta\thinspace\partial L/\partial W$, $\eta = 0.001$.
    - print the average of the 4 losses: the loss of the epoch.
 
 Students are taken in order here. In practice the observations are usually picked in a random order each epoch, which the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) returns to.
@@ -120,7 +120,7 @@ The first epoch is exactly the one worked by hand in the [backpropagation what N
 |---|---|---|---|---|---|
 | Average loss | 26.35 | 19.86 | 10.88 | 3.78 | 1.22 |
 
-After 5 epochs the weights have moved from 0.1 to $W^{1}_{11} = W^{1}_{12} = 0.272$, $W^{1}_{21} = W^{1}_{22} = 0.393$, $W^{2}_{11} = W^{2}_{21} = 0.469$, with biases 0.028 (hidden) and 0.122 (output). The predictions are 5.14, 5.25, 5.36 and 5.84 LPA for packages of 4, 5, 6 and 7. They are in the right range and rising in the right order, but still too close together. After 75 epochs the average loss is 0.177 (Figure 1, left).
+After 5 epochs the weights have moved from 0.1 to $W_{11}^{1} = W_{12}^{1} = 0.272$, $W_{21}^{1} = W_{22}^{1} = 0.393$, $W_{11}^{2} = W_{21}^{2} = 0.469$, with biases 0.028 (hidden) and 0.122 (output). The predictions are 5.14, 5.25, 5.36 and 5.84 LPA for packages of 4, 5, 6 and 7. They are in the right range and rising in the right order, but still too close together. After 75 epochs the average loss is 0.177 (Figure 1, left).
 
 ## 5. The same training in Keras
 
@@ -181,13 +181,13 @@ $$z_f = 0.1 \times 0.832 + 0.1 \times 0.832 = 0.166, \qquad \hat{y} = \sigma(0.1
 
 ### 7.1 The output layer
 
-> **Key point:** Three links, $L \to \hat{y} \to z_f \to W^{2}_{11}$; the first two multiply to $-(y - \hat{y})$.
+> **Key point:** Three links, $L \to \hat{y} \to z_f \to W_{11}^{2}$; the first two multiply to $-(y - \hat{y})$.
 
 ![The chain from the loss to a first-layer weight in the classification network: each arrow multiplies by its local derivative](images/chain.png){width=100%}
 
-Call $z_f = W^{2}_{11} O_{11} + W^{2}_{21} O_{12} + b_{21}$ the weighted sum of the output node, so $\hat{y} = \sigma(z_f)$. A change in $W^{2}_{11}$ changes $z_f$, then $\hat{y}$, then $L$:
+Call $z_f = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$ the weighted sum of the output node, so $\hat{y} = \sigma(z_f)$. A change in $W_{11}^{2}$ changes $z_f$, then $\hat{y}$, then $L$:
 
-$$\frac{\partial L}{\partial W^{2}_{11}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_f} \cdot \frac{\partial z_f}{\partial W^{2}_{11}}$$
+$$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_f} \cdot \frac{\partial z_f}{\partial W_{11}^{2}}$$
 
 The first two factors (Figure 2, left):
 
@@ -199,26 +199,26 @@ Multiplied, the $\hat{y}(1 - \hat{y})$ cancels, the same simplification as in se
 
 $$\frac{\partial L}{\partial z_f} = \hat{y} - y = -(y - \hat{y})$$
 
-The last factor is the same as in regression: $\partial z_f/\partial W^{2}_{11} = O_{11}$, $\partial z_f/\partial W^{2}_{21} = O_{12}$, $\partial z_f/\partial b_{21} = 1$. So:
+The last factor is the same as in regression: $\partial z_f/\partial W_{11}^{2} = O_{11}$, $\partial z_f/\partial W_{21}^{2} = O_{12}$, $\partial z_f/\partial b_{21} = 1$. So:
 
-$$\frac{\partial L}{\partial W^{2}_{11}} = -(y - \hat{y})\thinspace O_{11}, \qquad \frac{\partial L}{\partial W^{2}_{21}} = -(y - \hat{y})\thinspace O_{12}, \qquad \frac{\partial L}{\partial b_{21}} = -(y - \hat{y})$$
+$$\frac{\partial L}{\partial W_{11}^{2}} = -(y - \hat{y})\thinspace O_{11}, \qquad \frac{\partial L}{\partial W_{21}^{2}} = -(y - \hat{y})\thinspace O_{12}, \qquad \frac{\partial L}{\partial b_{21}} = -(y - \hat{y})$$
 
 These are the regression formulas with $-1$ in place of $-2$.
 
 ### 7.2 The hidden layer
 
-> **Key point:** Two more links: $z_f \to O_{11}$ gives $W^{2}_{11}$; $O_{11} \to z_p$ gives the sigmoid derivative $O_{11}(1 - O_{11})$.
+> **Key point:** Two more links: $z_f \to O_{11}$ gives $W_{11}^{2}$; $O_{11} \to z_p$ gives the sigmoid derivative $O_{11}(1 - O_{11})$.
 
-For $W^{1}_{11}$ the chain is five links long (Figure 2). With $z_p = W^{1}_{11} x_{i1} + W^{1}_{21} x_{i2} + b_{11}$ the weighted sum of hidden node 1, so $O_{11} = \sigma(z_p)$:
+For $W_{11}^{1}$ the chain is five links long (Figure 2). With $z_p = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$ the weighted sum of hidden node 1, so $O_{11} = \sigma(z_p)$:
 
-$$\frac{\partial L}{\partial W^{1}_{11}} = \underbrace{\frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial z_f}}_{-(y - \hat{y})} \cdot \underbrace{\frac{\partial z_f}{\partial O_{11}}}_{W^{2}_{11}} \cdot \underbrace{\frac{\partial O_{11}}{\partial z_p}}_{O_{11}(1 - O_{11})} \cdot \underbrace{\frac{\partial z_p}{\partial W^{1}_{11}}}_{x_{i1}}$$
+$$\frac{\partial L}{\partial W_{11}^{1}} = \underbrace{\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial z_f}}_{-(y - \hat{y})} \cdot \underbrace{\frac{\partial z_f}{\partial O_{11}}}_{W_{11}^{2}} \cdot \underbrace{\frac{\partial O_{11}}{\partial z_p}}_{O_{11}(1 - O_{11})} \cdot \underbrace{\frac{\partial z_p}{\partial W_{11}^{1}}}_{x_{i1}}$$
 
-The other five follow the same pattern. Only the last factor changes within a node ($x_{i1}$, $x_{i2}$ or 1), and the second node uses $W^{2}_{21}$ and $O_{12}$:
+The other five follow the same pattern. Only the last factor changes within a node ($x_{i1}$, $x_{i2}$ or 1), and the second node uses $W_{21}^{2}$ and $O_{12}$:
 
 | Parameter | $\partial L / \partial(\text{parameter})$ |
 |---|---|
-| $W^{1}_{11}$, $W^{1}_{21}$, $b_{11}$ | $-(y - \hat{y})\thinspace  W^{2}_{11}\thinspace  O_{11}(1 - O_{11}) \times x_{i1},\ x_{i2},\ 1$ |
-| $W^{1}_{12}$, $W^{1}_{22}$, $b_{12}$ | $-(y - \hat{y})\thinspace  W^{2}_{21}\thinspace  O_{12}(1 - O_{12}) \times x_{i1},\ x_{i2},\ 1$ |
+| $W_{11}^{1}$, $W_{21}^{1}$, $b_{11}$ | $-(y - \hat{y})\thinspace W_{11}^{2}\thinspace O_{11}(1 - O_{11}) \times x_{i1},\ x_{i2},\ 1$ |
+| $W_{12}^{1}$, $W_{22}^{1}$, $b_{12}$ | $-(y - \hat{y})\thinspace W_{21}^{2}\thinspace O_{12}(1 - O_{12}) \times x_{i1},\ x_{i2},\ 1$ |
 
 Compared with regression, each hidden derivative has one extra factor, $O(1 - O)$: the derivative of the hidden node's own sigmoid.
 
@@ -230,10 +230,10 @@ Compared with regression, each hidden derivative has one extra factor, $O(1 - O)
 2. **Formula:** the formulas of Sections 7.1 and 7.2.
 3. **Example:** $y = 1$, $\hat{y} = 0.5415$, $O_{11} = 0.832$:
    $$-(y - \hat{y}) = -(1 - 0.5415) = -0.4585$$
-   $$\frac{\partial L}{\partial W^{2}_{11}} = -0.4585 \times 0.832 = -0.3815, \qquad \frac{\partial L}{\partial b_{21}} = -0.4585$$
-   $$\frac{\partial L}{\partial W^{1}_{11}} = -0.4585 \times 0.1 \times 0.832 \times 0.168 \times 8 = -0.0513, \qquad \frac{\partial L}{\partial b_{11}} = -0.0064$$
+   $$\frac{\partial L}{\partial W_{11}^{2}} = -0.4585 \times 0.832 = -0.3815, \qquad \frac{\partial L}{\partial b_{21}} = -0.4585$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.4585 \times 0.1 \times 0.832 \times 0.168 \times 8 = -0.0513, \qquad \frac{\partial L}{\partial b_{11}} = -0.0064$$
 
-The hidden-layer gradients are about 7 times smaller than the output-layer ones: the factors $W^{2}_{11} = 0.1$ and $O_{11}(1 - O_{11}) = 0.14$ shrink them. Each sigmoid between a weight and the loss multiplies its gradient by at most 0.25, an effect the [vanishing gradient Note](../1018-vanishing-exploding-gradients/note.md) studies.
+The hidden-layer gradients are about 7 times smaller than the output-layer ones: the factors $W_{11}^{2} = 0.1$ and $O_{11}(1 - O_{11}) = 0.14$ shrink them. Each sigmoid between a weight and the loss multiplies its gradient by at most 0.25, an effect the [vanishing gradient Note](../1018-vanishing-exploding-gradients/note.md) studies.
 
 > **Python:** The classification gradients.
 >
@@ -279,7 +279,7 @@ The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0
 | Loss | $(y - \hat{y})^2$ | $-y\log\hat{y} - (1 - y)\log(1 - \hat{y})$ |
 | $\partial L/\partial z$ at the output | $-2(y - \hat{y})$ | $-(y - \hat{y})$ |
 | Output-layer gradient | $-2(y - \hat{y})\thinspace O_{1j}$ | $-(y - \hat{y})\thinspace O_{1j}$ |
-| Hidden-layer gradient | $-2(y - \hat{y})\thinspace W^{2}_{j1}\thinspace x_{ik}$ | $-(y - \hat{y})\thinspace W^{2}_{j1}\thinspace O_{1j}(1 - O_{1j})\thinspace x_{ik}$ |
+| Hidden-layer gradient | $-2(y - \hat{y})\thinspace W_{j1}^{2}\thinspace x_{ik}$ | $-(y - \hat{y})\thinspace W_{j1}^{2}\thinspace O_{1j}(1 - O_{1j})\thinspace x_{ik}$ |
 | Training here | 26.35 to 1.22 in 5 epochs | stuck at 0.694 |
 
 - The code is the algorithm: initialise, then epochs of forward, loss, update, row by row.

@@ -17,7 +17,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 ![The share of heads after each toss, in three runs of 100,000 tosses](images/convergence.png)
 
-Figure 1 tosses a fair coin 100,000 times, three separate times, and plots the share of heads after each toss. Early on the share jumps around between 0 and 1. After thousands of tosses all three runs sit on 0.5, the value we get from the sample space $\lbrace H, T\rbrace $ without tossing at all.
+Figure 1 tosses a fair coin 100,000 times, three separate times, and plots the share of heads after each toss. Early on the share jumps around between 0 and 1. After thousands of tosses all three runs sit on 0.5, the value we get from the sample space $\lbrace H, T\rbrace$ without tossing at all.
 
 These are the two kinds of probability in this Note. The **empirical probability** is the share we observe in data; the **theoretical probability** is the share we work out from the sample space. A last section adds the rules that every probability obeys.
 
@@ -101,11 +101,11 @@ More events, all by counting:
 
 | Experiment | Event | Favourable outcomes | Outcomes in $S$ | $P$ |
 |---|---|---|---|---|
-| Toss a coin | head | $\lbrace H\rbrace $ | 2 | $1/2$ |
-| Roll a die | a 3 | $\lbrace 3\rbrace $ | 6 | $1/6$ |
-| Roll a die | less than 3 | $\lbrace 1, 2\rbrace $ | 6 | $2/6 = 1/3$ |
-| Toss a coin twice | two heads | $\lbrace HH\rbrace $ | 4 | $1/4$ |
-| Toss a coin twice | at least one head | $\lbrace HH, HT, TH\rbrace $ | 4 | $3/4$ |
+| Toss a coin | head | $\lbrace H\rbrace$ | 2 | $1/2$ |
+| Roll a die | a 3 | $\lbrace3\rbrace$ | 6 | $1/6$ |
+| Roll a die | less than 3 | $\lbrace1, 2\rbrace$ | 6 | $2/6 = 1/3$ |
+| Toss a coin twice | two heads | $\lbrace HH\rbrace$ | 4 | $1/4$ |
+| Toss a coin twice | at least one head | $\lbrace HH, HT, TH\rbrace$ | 4 | $3/4$ |
 
 No trial was run for any of these. The probability comes from the structure of the experiment alone.
 
@@ -121,7 +121,7 @@ Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of
 
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >
-> - **Titanic classes:** the sample space $\lbrace 1, 2, 3\rbrace $ has three outcomes, but "1 out of 3" gives $P(\text{class 3}) = 0.333$, while the data says 0.551. Classes are not equally likely, so only the empirical value is right.
+> - **Titanic classes:** the sample space $\lbrace1, 2, 3\rbrace$ has three outcomes, but "1 out of 3" gives $P(\text{class 3}) = 0.333$, while the data says 0.551. Classes are not equally likely, so only the empirical value is right.
 > - **Sum of two dice:** the sums $2, \dots, 12$ are 11 outcomes, but $P(\text{sum } 7)$ is not $1/11$. The equally likely outcomes are the 36 pairs, and 6 of them give 7, so $P = 6/36$ (see the [random variables and distributions Note](../240-random-variables-and-distributions/note.md), section 3.1).
 >
 > The fix is to write the sample space as outcomes that really are equally likely (the 36 pairs), and count those.
@@ -187,14 +187,14 @@ Two facts follow at once. $S$ and $\varnothing$ share no outcome and $S \cup \va
 
 > **Key point:** The probability that $A$ does not happen is 1 minus the probability that it does.
 
-The **complement** of an event $A$, written $A^c$ (or $\bar{A}$, "not $A$"), is the event made of every outcome in the sample space that is not in $A$. On a die, the complement of "odd" $= \lbrace 1, 3, 5\rbrace $ is "even" $= \lbrace 2, 4, 6\rbrace $.
+The **complement** of an event $A$, written $A^c$ (or $\bar{A}$, "not $A$"), is the event made of every outcome in the sample space that is not in $A$. On a die, the complement of "odd" $= \lbrace1, 3, 5\rbrace$ is "even" $= \lbrace2, 4, 6\rbrace$.
 
 $A$ and $A^c$ are mutually exclusive and exhaustive: exactly one of them happens in every trial. So by axioms 2 and 3, $P(A) + P(A^c) = 1$.
 
 1. **In words:** the chance that $A$ does not happen is whatever is left of 1 after the chance that it does.
 2. **Formula:**
    $$P(A^c) = 1 - P(A)$$
-3. **Example:** the chance of at least one head in two tosses. Its complement is "no heads" $= \lbrace TT\rbrace $, with probability $1/4$:
+3. **Example:** the chance of at least one head in two tosses. Its complement is "no heads" $= \lbrace TT\rbrace$, with probability $1/4$:
    $$P(\text{at least one head}) = 1 - P(TT) = 1 - \frac{1}{4} = \frac{3}{4}$$
 
 The result matches the count in section 4. The complement is often the shortcut: "at least one" events have many outcomes, while their complement "none" has one.
@@ -205,16 +205,16 @@ The result matches the count in section 4. The complement is often the shortcut:
 
 The addition rule of axiom 3 holds only for mutually exclusive events. When $A$ and $B$ share outcomes, $P(A) + P(B)$ is too large.
 
-Take one die, with $A$ = "odd" $= \lbrace 1, 3, 5\rbrace $ and $B$ = "greater than 3" $= \lbrace 4, 5, 6\rbrace $. Figure 3 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace 1, 3, 4, 5, 6\rbrace $ misses 2, so its probability must be below 1.
+Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 3 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1.
 
-![The general addition rule on one die: the overlap $\lbrace 5\rbrace $ is counted twice by $P(A) + P(B)$](images/addition.png)
+![The general addition rule on one die: the overlap $\lbrace5\rbrace$ is counted twice by $P(A) + P(B)$](images/addition.png)
 
 1. **In words:** add the two probabilities, then subtract the probability of the overlap, which was counted twice.
 2. **Formula:**
    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
-3. **Example:** with $A \cap B = \lbrace 5\rbrace $,
+3. **Example:** with $A \cap B = \lbrace5\rbrace$,
    $$P(A \cup B) = \frac{3}{6} + \frac{3}{6} - \frac{1}{6} = \frac{5}{6}$$
-   Counting directly: $A \cup B = \lbrace 1, 3, 4, 5, 6\rbrace $ has 5 of the 6 outcomes, so $5/6$.
+   Counting directly: $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ has 5 of the 6 outcomes, so $5/6$.
 
 For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks back to axiom 3.
 

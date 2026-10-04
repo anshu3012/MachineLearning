@@ -48,7 +48,7 @@ Every node does what a single perceptron does (see the [perceptron Note](../1004
 
 1. **In words:** multiply each input by the weight on its connection to this node, add them up, add the node's bias, and pass the total through the sigmoid.
 2. **Formula:**
-   $$O_{11} = \sigma\left(W^{1}_{11}x_{1} + W^{1}_{21}x_{2} + W^{1}_{31}x_{3} + W^{1}_{41}x_{4} + b_{11}\right)$$
+   $$O_{11} = \sigma\left(W_{11}^{1}x_{1} + W_{21}^{1}x_{2} + W_{31}^{1}x_{3} + W_{41}^{1}x_{4} + b_{11}\right)$$
 3. **Example:** with weights $0.2, 0.4, -0.5, 0.3$ and bias $0.1$,
    $$z = 0.2 \times 0.72 + 0.4 \times 0.72 - 0.5 \times 0.69 + 0.3 \times 0.81 + 0.1 = 0.430$$
    $$O_{11} = \sigma(0.430) = \frac{1}{1 + e^{-0.430}} = 0.606$$
@@ -61,11 +61,11 @@ Doing this node by node works, but a large network has thousands of nodes. Linea
 
 ### 4.1 The weight matrix
 
-> **Key point:** Row $i$, column $j$ of $W^{1}$ holds $W^{1}_{ij}$: from input node $i$ to node $j$.
+> **Key point:** Row $i$, column $j$ of $W^{1}$ holds $W_{ij}^{1}$: from input node $i$ to node $j$.
 
 We collect the 12 weights entering layer 1 in a $4 \times 3$ matrix. Row $i$ holds the weights leaving input node $i$; column $j$ holds the weights entering node $j$:
 
-$$W^{1} = \begin{bmatrix} W^{1}_{11} & W^{1}_{12} & W^{1}_{13} \cr  W^{1}_{21} & W^{1}_{22} & W^{1}_{23} \cr  W^{1}_{31} & W^{1}_{32} & W^{1}_{33} \cr  W^{1}_{41} & W^{1}_{42} & W^{1}_{43} \end{bmatrix} = \begin{bmatrix} 0.2 & -0.3 & 0.5 \cr  0.4 & 0.1 & -0.2 \cr  -0.5 & 0.2 & 0.1 \cr  0.3 & -0.4 & 0.2 \end{bmatrix}, \qquad b^{1} = \begin{bmatrix} 0.1 \cr  -0.1 \cr  0.2 \end{bmatrix}$$
+$$W^{1} = \begin{bmatrix} W_{11}^{1} & W_{12}^{1} & W_{13}^{1} \cr W_{21}^{1} & W_{22}^{1} & W_{23}^{1} \cr W_{31}^{1} & W_{32}^{1} & W_{33}^{1} \cr W_{41}^{1} & W_{42}^{1} & W_{43}^{1} \end{bmatrix} = \begin{bmatrix} 0.2 & -0.3 & 0.5 \cr0.4 & 0.1 & -0.2 \cr-0.5 & 0.2 & 0.1 \cr0.3 & -0.4 & 0.2 \end{bmatrix}, \qquad b^{1} = \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix}$$
 
 The first column, $(0.2, 0.4, -0.5, 0.3)$, is exactly the four weights node 1 used in Section 3.
 
@@ -80,8 +80,8 @@ To get one sum per node, each column of $W^{1}$ must meet the input. Transposing
    $$z^{1} = W^{1\mathsf T} a^{0} + b^{1}, \qquad a^{1} = \sigma(z^{1})$$
    The shapes follow the shape rule of the [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md) (section 7.1): $(3 \times 4)(4 \times 1) + (3 \times 1) = 3 \times 1$.
 3. **Example:**
-   $$z^{1} = \begin{bmatrix} 0.2 & 0.4 & -0.5 & 0.3 \cr  -0.3 & 0.1 & 0.2 & -0.4 \cr  0.5 & -0.2 & 0.1 & 0.2 \end{bmatrix} \begin{bmatrix} 0.72 \cr  0.72 \cr  0.69 \cr  0.81 \end{bmatrix} + \begin{bmatrix} 0.1 \cr  -0.1 \cr  0.2 \end{bmatrix} = \begin{bmatrix} 0.330 \cr  -0.330 \cr  0.447 \end{bmatrix} + \begin{bmatrix} 0.1 \cr  -0.1 \cr  0.2 \end{bmatrix} = \begin{bmatrix} 0.430 \cr  -0.430 \cr  0.647 \end{bmatrix}$$
-   $$a^{1} = \sigma(z^{1}) = \begin{bmatrix} 0.606 \cr  0.394 \cr  0.656 \end{bmatrix} = \begin{bmatrix} O_{11} \cr  O_{12} \cr  O_{13} \end{bmatrix}$$
+   $$z^{1} = \begin{bmatrix} 0.2 & 0.4 & -0.5 & 0.3 \cr-0.3 & 0.1 & 0.2 & -0.4 \cr0.5 & -0.2 & 0.1 & 0.2 \end{bmatrix} \begin{bmatrix} 0.72 \cr0.72 \cr0.69 \cr0.81 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix} = \begin{bmatrix} 0.330 \cr-0.330 \cr0.447 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix} = \begin{bmatrix} 0.430 \cr-0.430 \cr0.647 \end{bmatrix}$$
+   $$a^{1} = \sigma(z^{1}) = \begin{bmatrix} 0.606 \cr0.394 \cr0.656 \end{bmatrix} = \begin{bmatrix} O_{11} \cr O_{12} \cr O_{13} \end{bmatrix}$$
 
 The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The vector $a^{1}$, the outputs of layer 1, is called the **activation** of layer 1. The activation $a^{1}$ is the input to layer 2.
 
@@ -95,9 +95,9 @@ The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The ve
 
 Layer 2 has 6 weights, from 3 nodes to 2, in a $3 \times 2$ matrix:
 
-$$W^{2} = \begin{bmatrix} 0.6 & -0.4 \cr  -0.2 & 0.5 \cr  0.3 & 0.7 \end{bmatrix}, \qquad b^{2} = \begin{bmatrix} 0.1 \cr  -0.2 \end{bmatrix}$$
+$$W^{2} = \begin{bmatrix} 0.6 & -0.4 \cr-0.2 & 0.5 \cr0.3 & 0.7 \end{bmatrix}, \qquad b^{2} = \begin{bmatrix} 0.1 \cr-0.2 \end{bmatrix}$$
 
-$$z^{2} = W^{2\mathsf T} a^{1} + b^{2} = \begin{bmatrix} 0.6 & -0.2 & 0.3 \cr  -0.4 & 0.5 & 0.7 \end{bmatrix} \begin{bmatrix} 0.606 \cr  0.394 \cr  0.656 \end{bmatrix} + \begin{bmatrix} 0.1 \cr  -0.2 \end{bmatrix} = \begin{bmatrix} 0.582 \cr  0.214 \end{bmatrix}, \qquad a^{2} = \sigma(z^{2}) = \begin{bmatrix} 0.641 \cr  0.553 \end{bmatrix}$$
+$$z^{2} = W^{2\mathsf T} a^{1} + b^{2} = \begin{bmatrix} 0.6 & -0.2 & 0.3 \cr-0.4 & 0.5 & 0.7 \end{bmatrix} \begin{bmatrix} 0.606 \cr0.394 \cr0.656 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.2 \end{bmatrix} = \begin{bmatrix} 0.582 \cr0.214 \end{bmatrix}, \qquad a^{2} = \sigma(z^{2}) = \begin{bmatrix} 0.641 \cr0.553 \end{bmatrix}$$
 
 The two entries are $O_{21}$ and $O_{22}$.
 
@@ -107,7 +107,7 @@ The two entries are $O_{21}$ and $O_{22}$.
 
 The output layer has 2 weights and 1 bias:
 
-$$W^{3} = \begin{bmatrix} 0.8 \cr  -0.6 \end{bmatrix}, \qquad b^{3} = 0.2$$
+$$W^{3} = \begin{bmatrix} 0.8 \cr-0.6 \end{bmatrix}, \qquad b^{3} = 0.2$$
 
 $$z^{3} = W^{3\mathsf T} a^{2} + b^{3} = 0.8 \times 0.641 - 0.6 \times 0.553 + 0.2 = 0.381, \qquad a^{3} = \sigma(0.381) = 0.594$$
 
@@ -115,7 +115,7 @@ So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probabilit
 
 ## 6. The whole network in one formula
 
-> **Key point:** $\hat{y} = \sigma\big(W^{3\mathsf T}\thinspace  \sigma(W^{2\mathsf T}\thinspace  \sigma(W^{1\mathsf T} a^{0} + b^{1}) + b^{2}) + b^{3}\big)$. More layers only make the chain longer.
+> **Key point:** $\hat{y} = \sigma\big(W^{3\mathsf T}\thinspace\sigma(W^{2\mathsf T}\thinspace\sigma(W^{1\mathsf T} a^{0} + b^{1}) + b^{2}) + b^{3}\big)$. More layers only make the chain longer.
 
 A network works like an assembly line: each station (layer) takes what the previous station handed over, does the same kind of job on it, and passes the result on. Each layer applies the same rule to the activation of the layer before it:
 
@@ -123,7 +123,7 @@ $$a^{k} = \sigma\left(W^{k\mathsf T} a^{k-1} + b^{k}\right), \qquad k = 1, 2, 3$
 
 Substituting each activation into the next writes the whole network as one nested formula:
 
-$$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace  \underbrace{\sigma\big(W^{2\mathsf T}\thinspace  \underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})}_{a^{1}} + b^{2}\big)}_{a^{2}} + b^{3}\Big)$$
+$$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace\underbrace{\sigma\big(W^{2\mathsf T}\thinspace\underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})}_{a^{1}} + b^{2}\big)}_{a^{2}} + b^{3}\Big)$$
 
 The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md), section 7.2), and the network would be no more powerful than one perceptron.
 

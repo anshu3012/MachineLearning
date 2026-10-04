@@ -138,7 +138,7 @@ After training we have three stumps and three alphas. We write each stump as a f
 
 1. **In words:** each stump votes +1 or -1; each vote is multiplied by that stump's say; we add the results; the sign of the total is the prediction.
 2. **Formula:** with $T$ stumps,
-   $$H(x) = \operatorname{sign}\Big(\sum_{t=1}^{T} \alpha_t\thinspace  h_t(x)\Big) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \alpha_3 h_3(x)\big)$$
+   $$H(x) = \operatorname{sign}\Big(\sum_{t=1}^{T} \alpha_t\thinspace h_t(x)\Big) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \alpha_3 h_3(x)\big)$$
    The **sign** of a number is +1 if it is positive and -1 if it is negative.
 3. **Example:** a new student has CGPA 7.5 and IQ 81. Suppose the three stumps say $h_1 = -1$ (not placed), $h_2 = +1$ (placed), $h_3 = -1$, and their alphas are 2, 10 and 1:
    $$2 \times (-1) + 10 \times (+1) + 1 \times (-1) = -2 + 10 - 1 = 7$$
@@ -156,7 +156,7 @@ Each stump on its own is a single straight line, parallel to an axis, and each o
 
 For our 10 students, the vote of the three stumps is
 
-$$H(x) = \operatorname{sign}\big(0.69\thinspace  h_1(x) + 0.97\thinspace  h_2(x) + 1.28\thinspace  h_3(x)\big)$$
+$$H(x) = \operatorname{sign}\big(0.69\thinspace h_1(x) + 0.97\thinspace h_2(x) + 1.28\thinspace h_3(x)\big)$$
 
 and it classifies **all 10 correctly**. The placed region it draws is an L shape: low CGPA with an IQ above 74, or any CGPA with an IQ above 110. No single stump can draw that shape, and no single stump got every student right.
 

@@ -161,7 +161,7 @@ For a student with CGPA 7.5 and IQ 110, the observation is $x = (1,\ 7.5,\ 110)$
 
 The algorithm so far needs two checks: a negative point on the positive side, and a positive point on the negative side. Both fit into a single rule, where $y$ is the true class and $\hat{y}$ the predicted one:
 
-$$w_{\text{new}} = w_{\text{old}} + \eta\thinspace (y - \hat{y})\thinspace x$$
+$$w_{\text{new}} = w_{\text{old}} + \eta\thinspace(y - \hat{y})\thinspace x$$
 
 | True $y$ | Predicted $\hat{y}$ | $y - \hat{y}$ | Update |
 |---|---|---|---|

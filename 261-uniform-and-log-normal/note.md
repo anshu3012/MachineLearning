@@ -38,7 +38,9 @@ The uniform distribution comes in two kinds, one for each kind of random variabl
 > **Key point:** $X \sim U(a, b)$: the two parameters are the lower end $a$ and the upper end $b$ of the range.
 
 We write a continuous uniform random variable as
+
 $$X \sim U(a, b)$$
+
 read "$X$ follows a uniform distribution from $a$ to $b$". The two parameters are the ends of the range: $a$ is the lowest possible value and $b$ the highest, with $b > a$.
 
 ### 2.2 The PDF of the continuous uniform
@@ -49,7 +51,7 @@ The graph of the PDF is a rectangle (Figure 2, left). Its height follows from on
 
 1. **In words:** inside the range, the density is 1 divided by the width of the range; outside, it is 0.
 2. **Formula:**
-   $$f(x) = \begin{cases} \dfrac{1}{b - a} & \text{if } a \le x \le b \cr  0 & \text{otherwise} \end{cases}$$
+   $$f(x) = \begin{cases} \dfrac{1}{b - a} & \text{if } a \le x \le b \cr0 & \text{otherwise} \end{cases}$$
 3. **Example:** a machine takes between 5 and 6 hours to produce one product, every time in that range equally likely: $X \sim U(5, 6)$. The density is $1/(6 - 5) = 1$ per hour. The probability that a product takes between 5.2 and 5.5 hours is the area of a rectangle:
    $$P(5.2 \le X \le 5.5) = (5.5 - 5.2) \times 1 = 0.3$$
 
@@ -111,6 +113,7 @@ A **log-normal distribution** is a heavy-tailed continuous probability distribut
 2. **The log of the data is normal:** take the natural log of every value and plot the new values; they form a bell curve.
 
 The second condition is the test. Not every right-skewed distribution is log-normal, only one whose logs come out normal:
+
 $$X \text{ is log-normal} \iff \ln X \text{ is normal}$$
 
 ### 3.1 Notation and parameters
@@ -118,6 +121,7 @@ $$X \text{ is log-normal} \iff \ln X \text{ is normal}$$
 > **Key point:** The two parameters $\mu$ and $\sigma$ are the mean and standard deviation of $\ln X$, not of $X$.
 
 We write
+
 $$X \sim \text{Lognormal}(\mu, \sigma^2), \qquad \text{which means} \qquad \ln X \sim N(\mu, \sigma^2)$$
 
 The parameters $\mu$ and $\sigma$ look like those of the normal distribution, and they are: but they belong to the logged values. The mean and standard deviation of $X$ itself are different numbers.
@@ -132,7 +136,7 @@ Figure 3 keeps $\mu = 0$ and increases $\sigma$. A larger $\sigma$ spreads the c
 
 1. **In words:** take the normal PDF, put $\ln x$ where $x$ was, and divide by $x$. The extra $x$ comes from the log transformation: the log squeezes large values together, and the factor $1/x$ keeps the total area at 1 (the change-of-variables rule, MML §6.7.2).
 2. **Formula:** for $x > 0$,
-   $$f(x) = \frac{1}{x\thinspace \sigma\sqrt{2\pi}}\thickspace  e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}}$$
+   $$f(x) = \frac{1}{x\thinspace\sigma\sqrt{2\pi}}\thickspace e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}}$$
 3. **Example:** comment lengths on a forum with $\mu = 3$ and $\sigma = 1$ (in log-words). At $x = 20$ words, $\ln 20 = 2.996 \approx 3$, so the exponent is almost 0 and $e^{0} = 1$:
    $$f(20) = \frac{1}{20 \times 1 \times 2.5066} \times 1 = 0.0199$$
 
@@ -144,9 +148,9 @@ The resemblance is only in the formulas. The log-normal variable itself is skewe
 >
 > 1. **In words:** take the log of the cut-off, standardize it with $\mu$ and $\sigma$, and use the normal CDF $\Phi$.
 > 2. **Formula:**
->    $$P(X \le x) = \Phi\negthinspace \left(\frac{\ln x - \mu}{\sigma}\right), \qquad \text{median} = e^{\mu}, \qquad \text{mean} = e^{\mu + \sigma^2/2}$$
+>    $$P(X \le x) = \Phi\negthinspace\left(\frac{\ln x - \mu}{\sigma}\right), \qquad \text{median} = e^{\mu}, \qquad \text{mean} = e^{\mu + \sigma^2/2}$$
 > 3. **Example:** for the comments, the share longer than 100 words is
->    $$P(X > 100) = 1 - \Phi\negthinspace \left(\frac{\ln 100 - 3}{1}\right) = 1 - \Phi(1.605) = 0.054$$
+>    $$P(X > 100) = 1 - \Phi\negthinspace\left(\frac{\ln 100 - 3}{1}\right) = 1 - \Phi(1.605) = 0.054$$
 >    The median comment has $e^3 = 20.1$ words, but the mean is $e^{3.5} = 33.1$: the long right tail pulls the mean above the median.
 
 ### 3.3 Where the log-normal appears

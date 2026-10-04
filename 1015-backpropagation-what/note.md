@@ -26,9 +26,9 @@ Figure 1 runs the whole algorithm once, for one student. The rest of this Note b
 
 ## 2. Prerequisites
 
-- [Gradient descent](../57-gradient-descent/note.md): the update $w \leftarrow w - \eta\thinspace  \partial L/\partial w$.
+- [Gradient descent](../57-gradient-descent/note.md): the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
 - [Forward propagation](../1010-forward-propagation/note.md): how a network makes a prediction.
-- The [MLP notation Note](../1008-mlp-notation/note.md): $W^{k}_{ij}$, $b_{ij}$, $O_{ij}$.
+- The [MLP notation Note](../1008-mlp-notation/note.md): $W_{ij}^{k}$, $b_{ij}$, $O_{ij}$.
 - The chain rule: section 5.3 of the [derivatives Note](../600-derivatives-of-one-variable/note.md).
 
 ## 3. The data and the network
@@ -48,12 +48,12 @@ The network has 2 input nodes, one hidden layer of 2 nodes and 1 output node (Fi
 
 In the notation of the [MLP notation Note](../1008-mlp-notation/note.md):
 
-- Layer 1 has the weights $W^{1}_{11}, W^{1}_{12}, W^{1}_{21}, W^{1}_{22}$ and the biases $b_{11}, b_{12}$; its nodes output $O_{11}$ and $O_{12}$.
-- Layer 2 has the weights $W^{2}_{11}, W^{2}_{21}$ and the bias $b_{21}$; its node outputs $O_{21} = \hat{y}$.
+- Layer 1 has the weights $W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1}$ and the biases $b_{11}, b_{12}$; its nodes output $O_{11}$ and $O_{12}$.
+- Layer 2 has the weights $W_{11}^{2}, W_{21}^{2}$ and the bias $b_{21}$; its node outputs $O_{21} = \hat{y}$.
 
 The count is $(2 \times 2 + 2) + (2 \times 1 + 1) = 6 + 3 = 9$ trainable parameters.
 
-> **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the IQ weights would get gradients about 10 times larger, because a weight's gradient is multiplied by its input ($\partial O_{11}/\partial W^{1}_{11} = x_{i1}$, section 6). One learning rate would then be too large for the IQ weights or too small for the CGPA weights.
+> **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the IQ weights would get gradients about 10 times larger, because a weight's gradient is multiplied by its input ($\partial O_{11}/\partial W_{11}^{1} = x_{i1}$, section 6). One learning rate would then be too large for the IQ weights or too small for the CGPA weights.
 
 ## 4. The steps of backpropagation
 
@@ -71,8 +71,8 @@ Training needs starting values. Common choices are random numbers, or all weight
 
 1. **Select an observation:** student 1, with $x_{11} = 8$, $x_{12} = 8$ and $y = 4$.
 2. **Predict with forward propagation** (see the [forward propagation Note](../1010-forward-propagation/note.md)):
-   $$O_{11} = W^{1}_{11} x_{11} + W^{1}_{21} x_{12} + b_{11} = 0.1 \times 8 + 0.1 \times 8 + 0 = 1.6, \qquad O_{12} = 1.6$$
-   $$\hat{y} = O_{21} = W^{2}_{11} O_{11} + W^{2}_{21} O_{12} + b_{21} = 0.1 \times 1.6 + 0.1 \times 1.6 + 0 = 0.32$$
+   $$O_{11} = W_{11}^{1} x_{11} + W_{21}^{1} x_{12} + b_{11} = 0.1 \times 8 + 0.1 \times 8 + 0 = 1.6, \qquad O_{12} = 1.6$$
+   $$\hat{y} = O_{21} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21} = 0.1 \times 1.6 + 0.1 \times 1.6 + 0 = 0.32$$
 3. **Compute the loss.** For regression we use the squared error (see the [loss functions Note](../1014-dl-loss-functions/note.md)):
    $$L = (y - \hat{y})^2 = (4 - 0.32)^2 = 13.54$$
 
@@ -86,7 +86,7 @@ Every parameter is updated with the [gradient descent](../57-gradient-descent/no
 
 $$W_{\text{new}} = W_{\text{old}} - \eta \frac{\partial L}{\partial W_{\text{old}}}, \qquad b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b_{\text{old}}}$$
 
-For $W^{2}_{11}$ this reads $W^{2}_{11} \leftarrow W^{2}_{11} - \eta\thinspace \partial L/\partial W^{2}_{11}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how the loss changes when each parameter changes. Computing them is the heart of backpropagation, and it is exactly the definition of Section 1: the gradient of the loss with respect to the network's weights.
+For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how the loss changes when each parameter changes. Computing them is the heart of backpropagation, and it is exactly the definition of Section 1: the gradient of the loss with respect to the network's weights.
 
 ## 5. Why the error goes backwards
 
@@ -96,12 +96,12 @@ For $W^{2}_{11}$ this reads $W^{2}_{11} \leftarrow W^{2}_{11} - \eta\thinspace \
 
 The loss $L = (y - \hat{y})^2$ has two parts. $y$ is the true package, fixed by the data. So the only way to lower the loss is to change $\hat{y}$: here, to make it bigger than 0.32.
 
-Figure 2 shows what $\hat{y}$ depends on. Since $\hat{y} = W^{2}_{11} O_{11} + W^{2}_{21} O_{12} + b_{21}$, it depends on 5 things:
+Figure 2 shows what $\hat{y}$ depends on. Since $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$, it depends on 5 things:
 
-- $W^{2}_{11}$, $W^{2}_{21}$ and $b_{21}$: parameters we can change directly;
+- $W_{11}^{2}$, $W_{21}^{2}$ and $b_{21}$: parameters we can change directly;
 - $O_{11}$ and $O_{12}$: outputs of the hidden nodes, which are not parameters themselves.
 
-Each hidden output depends on 5 things in turn. $O_{11}$ depends on the two inputs (fixed data), the weights $W^{1}_{11}$, $W^{1}_{21}$ and the bias $b_{11}$. $O_{12}$ depends on the inputs, $W^{1}_{12}$, $W^{1}_{22}$ and $b_{12}$.
+Each hidden output depends on 5 things in turn. $O_{11}$ depends on the two inputs (fixed data), the weights $W_{11}^{1}$, $W_{21}^{1}$ and the bias $b_{11}$. $O_{12}$ depends on the inputs, $W_{12}^{1}$, $W_{22}^{1}$ and $b_{12}$.
 
 Think of a relay team that lost a race: the coach starts with the last runner, sees how much time was lost there, then asks how much of that came from the handover before, and so on back to the first runner. So the loss is reduced by starting at the output and going **backwards**, layer by layer, adjusting the weights and biases in each. The backward direction gives the algorithm its name: the error is propagated backwards.
 
@@ -111,13 +111,13 @@ Think of a relay team that lost a race: the coach starts with the last runner, s
 
 ### 6.1 What a derivative tells us here
 
-> **Key point:** $\partial L/\partial W^{2}_{11}$ is how much the loss changes for a tiny change in $W^{2}_{11}$.
+> **Key point:** $\partial L/\partial W_{11}^{2}$ is how much the loss changes for a tiny change in $W_{11}^{2}$.
 
-A derivative $dy/dx$ measures how much $y$ changes when $x$ changes a little (see the [derivatives Note](../600-derivatives-of-one-variable/note.md)). So $\partial L/\partial W^{2}_{11}$ asks: if we nudge $W^{2}_{11}$, how much does the loss move?
+A derivative $dy/dx$ measures how much $y$ changes when $x$ changes a little (see the [derivatives Note](../600-derivatives-of-one-variable/note.md)). So $\partial L/\partial W_{11}^{2}$ asks: if we nudge $W_{11}^{2}$, how much does the loss move?
 
-$W^{2}_{11}$ does not appear in $L$ directly. A change in $W^{2}_{11}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The **chain rule** handles exactly this: multiply the two rates (see section 5.3 of the [derivatives Note](../600-derivatives-of-one-variable/note.md)):
+$W_{11}^{2}$ does not appear in $L$ directly. A change in $W_{11}^{2}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The **chain rule** handles exactly this: multiply the two rates (see section 5.3 of the [derivatives Note](../600-derivatives-of-one-variable/note.md)):
 
-$$\frac{\partial L}{\partial W^{2}_{11}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W^{2}_{11}}$$
+$$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W_{11}^{2}}$$
 
 ### 6.2 The output layer: three derivatives
 
@@ -126,33 +126,33 @@ $$\frac{\partial L}{\partial W^{2}_{11}} = \frac{\partial L}{\partial \hat{y}} \
 The two factors:
 
 - From $L = (y - \hat{y})^2$: $\partial L/\partial \hat{y} = -2(y - \hat{y})$ (the $-1$ comes from differentiating $-\hat{y}$ inside the bracket).
-- From $\hat{y} = W^{2}_{11} O_{11} + W^{2}_{21} O_{12} + b_{21}$: only the first term contains $W^{2}_{11}$, so $\partial \hat{y}/\partial W^{2}_{11} = O_{11}$. In the same way $\partial \hat{y}/\partial W^{2}_{21} = O_{12}$ and $\partial \hat{y}/\partial b_{21} = 1$.
+- From $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$: only the first term contains $W_{11}^{2}$, so $\partial \hat{y}/\partial W_{11}^{2} = O_{11}$. In the same way $\partial \hat{y}/\partial W_{21}^{2} = O_{12}$ and $\partial \hat{y}/\partial b_{21} = 1$.
 
 So the three derivatives of the output layer are:
 
-$$\frac{\partial L}{\partial W^{2}_{11}} = -2(y - \hat{y})\thinspace O_{11}, \qquad \frac{\partial L}{\partial W^{2}_{21}} = -2(y - \hat{y})\thinspace O_{12}, \qquad \frac{\partial L}{\partial b_{21}} = -2(y - \hat{y})$$
+$$\frac{\partial L}{\partial W_{11}^{2}} = -2(y - \hat{y})\thinspace O_{11}, \qquad \frac{\partial L}{\partial W_{21}^{2}} = -2(y - \hat{y})\thinspace O_{12}, \qquad \frac{\partial L}{\partial b_{21}} = -2(y - \hat{y})$$
 
 ### 6.3 The hidden layer: six derivatives
 
-> **Key point:** One more link in the chain: $\partial \hat{y}/\partial O_{11} = W^{2}_{11}$, then $\partial O_{11}/\partial W^{1}_{11} = x_{i1}$.
+> **Key point:** One more link in the chain: $\partial \hat{y}/\partial O_{11} = W_{11}^{2}$, then $\partial O_{11}/\partial W_{11}^{1} = x_{i1}$.
 
-$W^{1}_{11}$ is further away. Changing it changes $O_{11}$, which changes $\hat{y}$, which changes $L$. The chain has three links:
+$W_{11}^{1}$ is further away. Changing it changes $O_{11}$, which changes $\hat{y}$, which changes $L$. The chain has three links:
 
-$$\frac{\partial L}{\partial W^{1}_{11}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial O_{11}} \cdot \frac{\partial O_{11}}{\partial W^{1}_{11}}$$
+$$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial O_{11}} \cdot \frac{\partial O_{11}}{\partial W_{11}^{1}}$$
 
-- $\partial \hat{y}/\partial O_{11} = W^{2}_{11}$, because $O_{11}$ appears in $\hat{y}$ only in the term $W^{2}_{11} O_{11}$. Likewise $\partial \hat{y}/\partial O_{12} = W^{2}_{21}$.
-- From $O_{11} = W^{1}_{11} x_{i1} + W^{1}_{21} x_{i2} + b_{11}$: $\partial O_{11}/\partial W^{1}_{11} = x_{i1}$, $\partial O_{11}/\partial W^{1}_{21} = x_{i2}$ and $\partial O_{11}/\partial b_{11} = 1$. The same holds for $O_{12}$ and its own weights.
+- $\partial \hat{y}/\partial O_{11} = W_{11}^{2}$, because $O_{11}$ appears in $\hat{y}$ only in the term $W_{11}^{2} O_{11}$. Likewise $\partial \hat{y}/\partial O_{12} = W_{21}^{2}$.
+- From $O_{11} = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$: $\partial O_{11}/\partial W_{11}^{1} = x_{i1}$, $\partial O_{11}/\partial W_{21}^{1} = x_{i2}$ and $\partial O_{11}/\partial b_{11} = 1$. The same holds for $O_{12}$ and its own weights.
 
 Here $x_{i1}$ and $x_{i2}$ are the CGPA and profile score of the student $i$ being processed. The six derivatives of the hidden layer:
 
 | Parameter | $\partial L / \partial(\text{parameter})$ |
 |---|---|
-| $W^{1}_{11}$ | $-2(y - \hat{y})\thinspace  W^{2}_{11}\thinspace  x_{i1}$ |
-| $W^{1}_{21}$ | $-2(y - \hat{y})\thinspace  W^{2}_{11}\thinspace  x_{i2}$ |
-| $b_{11}$ | $-2(y - \hat{y})\thinspace  W^{2}_{11}$ |
-| $W^{1}_{12}$ | $-2(y - \hat{y})\thinspace  W^{2}_{21}\thinspace  x_{i1}$ |
-| $W^{1}_{22}$ | $-2(y - \hat{y})\thinspace  W^{2}_{21}\thinspace  x_{i2}$ |
-| $b_{12}$ | $-2(y - \hat{y})\thinspace  W^{2}_{21}$ |
+| $W_{11}^{1}$ | $-2(y - \hat{y})\thinspace W_{11}^{2}\thinspace x_{i1}$ |
+| $W_{21}^{1}$ | $-2(y - \hat{y})\thinspace W_{11}^{2}\thinspace x_{i2}$ |
+| $b_{11}$ | $-2(y - \hat{y})\thinspace W_{11}^{2}$ |
+| $W_{12}^{1}$ | $-2(y - \hat{y})\thinspace W_{21}^{2}\thinspace x_{i1}$ |
+| $W_{22}^{1}$ | $-2(y - \hat{y})\thinspace W_{21}^{2}\thinspace x_{i2}$ |
+| $b_{12}$ | $-2(y - \hat{y})\thinspace W_{21}^{2}$ |
 
 ### 6.4 The pattern
 
@@ -161,7 +161,7 @@ Here $x_{i1}$ and $x_{i2}$ are the CGPA and profile score of the student $i$ bei
 Read all nine together:
 
 - The first factor, $-2(y - \hat{y})$, is the same in all of them. We compute it once.
-- The next factor depends on where the parameter sits: the hidden output it multiplies ($O_{11}$, $O_{12}$), or, one layer further back, the weight that carries its node's output forward ($W^{2}_{11}$, $W^{2}_{21}$).
+- The next factor depends on where the parameter sits: the hidden output it multiplies ($O_{11}$, $O_{12}$), or, one layer further back, the weight that carries its node's output forward ($W_{11}^{2}$, $W_{21}^{2}$).
 - The last factor is the input the weight multiplies ($x_{i1}$, $x_{i2}$, $O_{11}$, $O_{12}$), or 1 for a bias.
 
 After forward propagation we know $y$, $\hat{y}$, $O_{11}$, $O_{12}$, every weight and both inputs. So all nine derivatives are plain arithmetic, and step 4 can run.
@@ -180,14 +180,14 @@ For student 1: $y = 4$, $\hat{y} = 0.32$, $O_{11} = O_{12} = 1.6$, $x_{11} = x_{
 2. **Formula:** $\partial L/\partial \hat{y} = -2(y - \hat{y})$, then the formulas of Sections 6.2 and 6.3.
 3. **Example:**
    $$\frac{\partial L}{\partial \hat{y}} = -2(4 - 0.32) = -7.36$$
-   $$\frac{\partial L}{\partial W^{2}_{11}} = -7.36 \times 1.6 = -11.776, \qquad \frac{\partial L}{\partial b_{21}} = -7.36$$
-   $$\frac{\partial L}{\partial W^{1}_{11}} = -7.36 \times 0.1 \times 8 = -5.888, \qquad \frac{\partial L}{\partial b_{11}} = -7.36 \times 0.1 = -0.736$$
+   $$\frac{\partial L}{\partial W_{11}^{2}} = -7.36 \times 1.6 = -11.776, \qquad \frac{\partial L}{\partial b_{21}} = -7.36$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -7.36 \times 0.1 \times 8 = -5.888, \qquad \frac{\partial L}{\partial b_{11}} = -7.36 \times 0.1 = -0.736$$
 
 | Parameters | Gradient |
 |---|---|
-| $W^{2}_{11}$, $W^{2}_{21}$ | $-11.776$ |
+| $W_{11}^{2}$, $W_{21}^{2}$ | $-11.776$ |
 | $b_{21}$ | $-7.36$ |
-| $W^{1}_{11}$, $W^{1}_{21}$, $W^{1}_{12}$, $W^{1}_{22}$ | $-5.888$ |
+| $W_{11}^{1}$, $W_{21}^{1}$, $W_{12}^{1}$, $W_{22}^{1}$ | $-5.888$ |
 | $b_{11}$, $b_{12}$ | $-0.736$ |
 
 Every gradient is negative: raising any parameter would lower the loss, which fits a prediction that is far too small. Figure 1 shows these numbers appearing on the network, from the output back to the inputs.
@@ -215,15 +215,15 @@ Every gradient is negative: raising any parameter would lower the loss, which fi
 
 ### 7.2 The update
 
-> **Key point:** $W^{2}_{11}$: $0.1 \to 0.1118$; $W^{1}_{11}$: $0.1 \to 0.1059$; the prediction rises from 0.32 to 0.386.
+> **Key point:** $W_{11}^{2}$: $0.1 \to 0.1118$; $W_{11}^{1}$: $0.1 \to 0.1059$; the prediction rises from 0.32 to 0.386.
 
 With learning rate $\eta = 0.001$:
 
 1. **In words:** subtract the learning rate times the gradient from each parameter.
-2. **Formula:** $W_{\text{new}} = W_{\text{old}} - \eta\thinspace \partial L/\partial W$.
+2. **Formula:** $W_{\text{new}} = W_{\text{old}} - \eta\thinspace\partial L/\partial W$.
 3. **Example:**
-   $$W^{2}_{11} = 0.1 - 0.001 \times (-11.776) = 0.111776, \qquad b_{21} = 0 - 0.001 \times (-7.36) = 0.00736$$
-   $$W^{1}_{11} = 0.1 - 0.001 \times (-5.888) = 0.105888, \qquad b_{11} = 0 - 0.001 \times (-0.736) = 0.000736$$
+   $$W_{11}^{2} = 0.1 - 0.001 \times (-11.776) = 0.111776, \qquad b_{21} = 0 - 0.001 \times (-7.36) = 0.00736$$
+   $$W_{11}^{1} = 0.1 - 0.001 \times (-5.888) = 0.105888, \qquad b_{11} = 0 - 0.001 \times (-0.736) = 0.000736$$
 
 Running the same student forward again gives $\hat{y} = 0.386$ and a loss of $(4 - 0.386)^2 = 13.06$, down from 13.54. One small step in the right direction.
 
@@ -256,8 +256,8 @@ Updating after every single observation, as here, is [stochastic gradient descen
 | 1 | Pick an observation | CGPA 8, profile 8, package 4 |
 | 2 | Forward propagation | $O_{11} = O_{12} = 1.6$, $\hat{y} = 0.32$ |
 | 3 | Loss | $(4 - 0.32)^2 = 13.54$ |
-| 4a | Derivatives by the chain rule | $\partial L/\partial \hat{y} = -7.36$, $\partial L/\partial W^{2}_{11} = -11.78$, $\partial L/\partial W^{1}_{11} = -5.89$ |
-| 4b | Gradient descent update, $\eta = 0.001$ | $W^{2}_{11} = 0.1118$, $W^{1}_{11} = 0.1059$; loss 13.06 |
+| 4a | Derivatives by the chain rule | $\partial L/\partial \hat{y} = -7.36$, $\partial L/\partial W_{11}^{2} = -11.78$, $\partial L/\partial W_{11}^{1} = -5.89$ |
+| 4b | Gradient descent update, $\eta = 0.001$ | $W_{11}^{2} = 0.1118$, $W_{11}^{1} = 0.1059$; loss 13.06 |
 
 - Backpropagation trains a network: it finds the derivative of the loss with respect to every weight and bias, and gradient descent uses them.
 - Only $\hat{y}$ can change the loss, and $\hat{y}$ depends on earlier layers, so we work backwards from the output.

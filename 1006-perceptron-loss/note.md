@@ -101,7 +101,7 @@ scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the 
 
 1. **In words:** for each **observation** (one record, one row of the data table), multiply its label by its value $f(x)$ in the line's equation and flip the sign; keep it if it is positive, otherwise use 0; then average over all observations.
 2. **Formula:** with $f(x_i) = w_1 x_{i1} + w_2 x_{i2} + b$ (observation $i$, **features** 1 and 2, where a feature is an input variable, one column of the data table) and $n$ observations,
-   $$L(w_1, w_2, b) = \frac{1}{n} \sum_{i=1}^{n} \max\big(0,\ -y_i\thinspace  f(x_i)\big)$$
+   $$L(w_1, w_2, b) = \frac{1}{n} \sum_{i=1}^{n} \max\big(0,\ -y_i\thinspace f(x_i)\big)$$
 3. **Example:** for the line $2x + 3y + 4 = 0$ and the two misclassified points of Section 5.3, $(4, 6)$ with $y = -1$ and $(-2, -2)$ with $y = +1$:
    $$\max(0, -(-1)(30)) + \max(0, -(1)(-6)) = 30 + 6 = 36,$$
    and dividing by $n = 2$ gives $L = 18$.
@@ -141,7 +141,7 @@ $$w_1, w_2, b = \underset{w_1, w_2, b}{\arg\min}\ \frac{1}{n} \sum_{i=1}^{n} \ma
 
 **argmin** means "the values of the variables that make the expression smallest". We find them with gradient descent: start with any values, then repeat for a number of epochs
 
-$$w_1 \leftarrow w_1 - \eta\thinspace \frac{\partial L}{\partial w_1}, \qquad w_2 \leftarrow w_2 - \eta\thinspace \frac{\partial L}{\partial w_2}, \qquad b \leftarrow b - \eta\thinspace \frac{\partial L}{\partial b}$$
+$$w_1 \leftarrow w_1 - \eta\thinspace\frac{\partial L}{\partial w_1}, \qquad w_2 \leftarrow w_2 - \eta\thinspace\frac{\partial L}{\partial w_2}, \qquad b \leftarrow b - \eta\thinspace\frac{\partial L}{\partial b}$$
 
 with a learning rate $\eta$ such as 0.1 (see the [gradient descent Note](../57-gradient-descent/note.md)).
 
@@ -164,7 +164,7 @@ Putting them together:
 
 1. **In words:** a correct observation has no slope; a misclassified observation has slope $-y$ times the input (and $-y$ for the bias, whose input is 1).
 2. **Formula:**
-   $$\frac{\partial L_i}{\partial w_1} = \begin{cases} 0 & y_i f(x_i) \geq 0 \cr  -y_i\thinspace  x_{i1} & y_i f(x_i) < 0 \end{cases} \qquad \frac{\partial L_i}{\partial w_2} = \begin{cases} 0 \cr  -y_i\thinspace  x_{i2} \end{cases} \qquad \frac{\partial L_i}{\partial b} = \begin{cases} 0 \cr  -y_i \end{cases}$$
+   $$\frac{\partial L_i}{\partial w_1} = \begin{cases} 0 & y_i f(x_i) \geq 0 \cr-y_i\thinspace x_{i1} & y_i f(x_i) < 0 \end{cases} \qquad \frac{\partial L_i}{\partial w_2} = \begin{cases} 0 \cr-y_i\thinspace x_{i2} \end{cases} \qquad \frac{\partial L_i}{\partial b} = \begin{cases} 0 \cr-y_i \end{cases}$$
 3. **Example:** line $2x_1 + 3x_2 + 4 = 0$ and the point $(-2, -2)$ with $y = +1$. Then $f = -6$, so $y f = -6 < 0$: misclassified, loss 6. The slopes are $-1 \times (-2) = 2$, $2$ and $-1$. One step with $\eta = 0.1$:
    $$w_1 = 2 - 0.1 \times 2 = 1.8, \quad w_2 = 3 - 0.1 \times 2 = 2.8, \quad b = 4 - 0.1 \times (-1) = 4.1$$
    The point's value becomes $1.8(-2) + 2.8(-2) + 4.1 = -5.1$: its loss drops from 6 to 5.1.
@@ -177,7 +177,7 @@ Putting them together:
 
 Subtracting $\eta$ times the slope gives, for a misclassified observation,
 
-$$w_1 \leftarrow w_1 + \eta\thinspace  y_i x_{i1}, \qquad w_2 \leftarrow w_2 + \eta\thinspace  y_i x_{i2}, \qquad b \leftarrow b + \eta\thinspace  y_i$$
+$$w_1 \leftarrow w_1 + \eta\thinspace y_i x_{i1}, \qquad w_2 \leftarrow w_2 + \eta\thinspace y_i x_{i2}, \qquad b \leftarrow b + \eta\thinspace y_i$$
 
 and no change for a correct observation. Updating after every observation, instead of averaging over all observations first, is [stochastic gradient descent](../59-stochastic-gradient-descent/note.md).
 
@@ -219,9 +219,9 @@ The perceptron's design has two free slots (Figure 3): the activation function, 
 
 - **Step + perceptron loss:** the perceptron of this Note. Output: a class, $+1$ or $-1$.
 - **[Sigmoid](../72-sigmoid-function/note.md) + [binary cross-entropy](../73-log-loss/note.md):** output a probability between 0 and 1 for two classes. Sigmoid with binary cross-entropy is logistic regression. The loss is
-  $$L = -\frac{1}{n}\sum_{i=1}^{n} \big[ y_i \log \hat{y}_i + (1 - y_i)\log(1 - \hat{y}_i) \big]$$
+  $$L = -\frac{1}{n}\sum_{i=1}^{n} \big[ y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i) \big]$$
 - **[Softmax](../79-softmax-regression/note.md) + categorical cross-entropy:** one output per class, probabilities that add to 1. Softmax with categorical cross-entropy is softmax regression, for more than two classes.
-- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat{y}_i)^2$ (see the [simple linear regression Note](../50-simple-linear-regression/note.md)).
+- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat y_i)^2$ (see the [simple linear regression Note](../50-simple-linear-regression/note.md)).
 
 So "a perceptron is logistic regression" is only true for one choice of the two slots: sigmoid and binary cross-entropy. The same flexibility carries over to every neuron of a neural network: regression networks end in a linear output, and classification networks in a sigmoid or softmax output.
 
@@ -251,7 +251,7 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 - The perceptron trick cannot score a line; a loss function can.
 - Counting mistakes (0-1 loss) treats all mistakes alike; the value $|f(x)|$ grows with the distance from the line.
 - Perceptron loss: $L = \frac{1}{n}\sum \max(0, -y_i f(x_i))$ with labels $\pm 1$; correct points cost 0.
-- The loss's gradient for a misclassified observation is $-y x$ (and $-y$ for $b$), so SGD updates $w \leftarrow w + \eta\thinspace  y\thinspace  x$: the perceptron trick, derived.
+- The loss's gradient for a misclassified observation is $-y x$ (and $-y$ for $b$), so SGD updates $w \leftarrow w + \eta\thinspace y\thinspace x$: the perceptron trick, derived.
 - Changing the activation and the loss turns one perceptron into several classic models.
 
 ## 10. Sources

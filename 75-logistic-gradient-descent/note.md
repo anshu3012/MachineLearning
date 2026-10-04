@@ -33,7 +33,7 @@ The log loss Note gave logistic regression its loss function and noted that it h
 
 Take a dataset with $m$ **observations** (records, one row of the data table each) and $n$ **features** (input variables, one column each). The **target** $y$ is the output we predict, here the class 0 or 1. The model has $n + 1$ weights: $w_0$ (the intercept) and $w_1$ to $w_n$. The prediction for observation $i$ is
 
-$$\hat{y}_i = \sigma(w_0 + w_1 x_{i1} + w_2 x_{i2} + \dots + w_n x_{in})$$
+$$\hat y_i = \sigma(w_0 + w_1 x_{i1} + w_2 x_{i2} + \dots + w_n x_{in})$$
 
 ### 2.2 All predictions together
 
@@ -53,9 +53,9 @@ where $\sigma$ is applied to each entry. Stacking the predictions as $Xw$ is the
 
 The log loss from the previous Notes is
 
-$$L = -\frac{1}{m}\sum_{i=1}^{m}\left[y_i \log \hat{y}_i + (1 - y_i)\log(1 - \hat{y}_i)\right]$$
+$$L = -\frac{1}{m}\sum_{i=1}^{m}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
 
-The sum $\sum_i y_i \log \hat{y}_i$ multiplies matching entries of two vectors and adds them up, which is the dot product $y^{\mathsf T}\log \hat{y}$. So
+The sum $\sum_i y_i \log \hat y_i$ multiplies matching entries of two vectors and adds them up, which is the dot product $y^{\mathsf T}\log \hat{y}$. So
 
 $$L = -\frac{1}{m}\left[y^{\mathsf T}\log \hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})\right], \qquad \hat{y} = \sigma(Xw)$$
 
@@ -108,7 +108,7 @@ $X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \t
 
 Gradient descent steps against the gradient:
 
-$$w_{\text{new}} = w_{\text{old}} - \eta\thinspace \frac{\partial L}{\partial w} = w_{\text{old}} + \frac{\eta}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
+$$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w} = w_{\text{old}} + \frac{\eta}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 
 Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \eta(y - \hat{y})x$ for one random point. The new rule is the same idea, averaged over **all** points in each step. The perceptron was one-point stochastic gradient descent on this very loss, run for a fixed number of steps; batch gradient descent, run to the end, reaches the true minimum.
 

@@ -117,7 +117,7 @@ The density of one observation under parameters $\theta$ is written $p(x \mid \t
 
 1. **In words:** the likelihood function multiplies the density of every observation, for a given $\theta$. The maximum likelihood estimate is the $\theta$ that makes this product largest.
 2. **Formula:**
-   $$L(\theta) = \prod_{i=1}^{n} p(x_i \mid \theta), \qquad \hat\theta_{\text{ML}} = \arg\max_{\theta}\thinspace  L(\theta)$$
+   $$L(\theta) = \prod_{i=1}^{n} p(x_i \mid \theta), \qquad \hat\theta_{\text{ML}} = \arg\max_{\theta}\thinspace L(\theta)$$
    The hat on $\hat\theta$ marks an estimate computed from data. $\arg\max$ returns the value of the variable that makes an expression largest, not the largest value itself (as in the [Naive Bayes maths Note](../88-naive-bayes-maths/note.md)).
 3. **Example:** for the mice with $\sigma = 2$, $\max_\mu L(\mu) = 2.59 \times 10^{-5}$, but $\arg\max_\mu L(\mu) = 32$. The MLE is 32.
 
@@ -153,7 +153,7 @@ Three rules of logs do all the work:
 2. **Formula:**
    $$\ell(\theta) = \log L(\theta) = \sum_{i=1}^{n} \log p(x_i \mid \theta)$$
 3. **Example:** for the 29-gram mouse under $N(32, 2^2)$, the normal PDF and its log are
-   $$f(29) = \frac{1}{2\sqrt{2\pi}}\thinspace  e^{-(29 - 32)^2/8}, \qquad \log f(29) = \log\frac{1}{2\sqrt{2\pi}} - \frac{(29 - 32)^2}{8} = -1.612 - 1.125 = -2.737$$
+   $$f(29) = \frac{1}{2\sqrt{2\pi}}\thinspace e^{-(29 - 32)^2/8}, \qquad \log f(29) = \log\frac{1}{2\sqrt{2\pi}} - \frac{(29 - 32)^2}{8} = -1.612 - 1.125 = -2.737$$
    Summing the five such logs gives $\ell = -10.56$, and indeed $\log(2.59 \times 10^{-5}) = -10.56$.
 
 ### 6.3 Why this helps the derivative
@@ -170,7 +170,7 @@ In Figure 3 the log-likelihood for the mean is even an exact upside-down parabol
 
 1. **In words:** the negative log-likelihood is minus the log-likelihood. Its lowest point is at the same $\theta$ as the likelihood's highest point.
 2. **Formula:**
-   $$\text{NLL}(\theta) = -\ell(\theta) = -\sum_{i=1}^{n} \log p(x_i \mid \theta), \qquad \hat\theta_{\text{ML}} = \arg\min_{\theta}\thinspace  \text{NLL}(\theta)$$
+   $$\text{NLL}(\theta) = -\ell(\theta) = -\sum_{i=1}^{n} \log p(x_i \mid \theta), \qquad \hat\theta_{\text{ML}} = \arg\min_{\theta}\thinspace\text{NLL}(\theta)$$
 3. **Example:** for the mice with $\sigma = 2$: $\text{NLL}(30) = 13.06$, $\text{NLL}(32) = 10.56$, $\text{NLL}(34) = 13.06$. The smallest value is at $\mu = 32$.
 
 The minus sign is a convention, not new maths. MML (§8.3.1, remark) calls it a historical artifact: statistics talks about maximising likelihood, while the optimisation literature, including [gradient descent](../57-gradient-descent/note.md), is written for minimising.

@@ -34,7 +34,7 @@ Both are then coded from scratch and checked against scikit-learn's `Ridge`.
 
 > **Key point:** The loss is the usual sum of squared errors plus λ m².
 
-With one feature, the prediction is $\hat{y}_i = m x_i + b$. The Ridge loss is
+With one feature, the prediction is $\hat y_i = m x_i + b$. The Ridge loss is
 
 $$L = \sum_{i=1}^{n} (y_i - m x_i - b)^2 + \lambda m^2$$
 
@@ -117,7 +117,7 @@ However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coeffic
 
 With many features, the predictions are $\hat{y} = Xw$, where $X$ has a first column of 1s and $w$ holds the intercept and all coefficients (the normal equation Note). The sum of squared coefficients is $w^{\mathsf T}w$, so the Ridge loss is
 
-$$L = (y - Xw)^{\mathsf T}(y - Xw) + \lambda\thinspace  w^{\mathsf T}w$$
+$$L = (y - Xw)^{\mathsf T}(y - Xw) + \lambda\thinspace w^{\mathsf T}w$$
 
 ### 3.2 Expanding and differentiating
 
@@ -125,7 +125,7 @@ $$L = (y - Xw)^{\mathsf T}(y - Xw) + \lambda\thinspace  w^{\mathsf T}w$$
 
 Expanding the first part exactly as in the normal equation Note gives
 
-$$L = y^{\mathsf T}y - 2w^{\mathsf T}X^{\mathsf T}y + w^{\mathsf T}X^{\mathsf T}Xw + \lambda\thinspace  w^{\mathsf T}w$$
+$$L = y^{\mathsf T}y - 2w^{\mathsf T}X^{\mathsf T}y + w^{\mathsf T}X^{\mathsf T}Xw + \lambda\thinspace w^{\mathsf T}w$$
 
 Differentiate with respect to $w$, using the rules from that Note ($w^{\mathsf T}w$ behaves like $w^2$, with derivative $2w$):
 
@@ -193,7 +193,7 @@ The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 
 | | Linear regression (OLS) | Ridge |
 |---|---|---|
-| Loss | $\sum (y_i - \hat{y}_i)^2$ | $\sum (y_i - \hat{y}_i)^2 + \lambda \sum \beta_j^2$ |
+| Loss | $\sum (y_i - \hat y_i)^2$ | $\sum (y_i - \hat y_i)^2 + \lambda \sum \beta_j^2$ |
 | Slope, one feature | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2}$ | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2 + \lambda}$ |
 | Intercept, one feature | $\bar{y} - m\bar{x}$ | $\bar{y} - m\bar{x}$ |
 | Many features | $(X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ | $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ |

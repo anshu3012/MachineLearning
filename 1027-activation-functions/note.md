@@ -141,7 +141,7 @@ Its [derivative](../74-sigmoid-derivative/note.md) $\sigma(z)(1 - \sigma(z))$ is
 
 > **Key point:** Saturation causes the vanishing gradient; all-positive outputs force every weight into a node to move in the same direction; the exponential is slow.
 
-**1. Saturating, so the gradient vanishes.** The update is $w_{\text{new}} = w_{\text{old}} - \eta\thinspace \partial L/\partial w$. If $z$ is outside about $-3$ to 3, the sigmoid's slope is near 0, the gradient is near 0 and $w_{\text{new}} \approx w_{\text{old}}$: no training. In a deep network these small slopes multiply from layer to layer (see the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)).
+**1. Saturating, so the gradient vanishes.** The update is $w_{\text{new}} = w_{\text{old}} - \eta\thinspace\partial L/\partial w$. If $z$ is outside about $-3$ to 3, the sigmoid's slope is near 0, the gradient is near 0 and $w_{\text{new}} \approx w_{\text{old}}$: no training. In a deep network these small slopes multiply from layer to layer (see the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)).
 
 $z$ becomes large in two ways:
 

@@ -50,9 +50,9 @@ The best-fit line should pass as close as possible to all the points. For each p
 
 ![The error at each point is the vertical gap to the line](images/residuals.png)
 
-For point $i$, the actual package is $y_i$ and the line predicts $\hat{y}_i$ (read "y-hat"; a hat marks a prediction). The error is
+For point $i$, the actual package is $y_i$ and the line predicts $\hat y_i$ (read "y-hat"; a hat marks a prediction). The error is
 
-$$d_i = y_i - \hat{y}_i$$
+$$d_i = y_i - \hat y_i$$
 
 ### 3.2 Adding the errors up
 
@@ -67,7 +67,7 @@ So we square each error before adding. Squares were chosen over absolute values 
 
 The total is called the **error function** or **loss function**:
 
-$$E = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+$$E = \sum_{i=1}^{n} (y_i - \hat y_i)^2$$
 
 > **Extra:** Dividing $E$ by $n$ gives the average squared error, the mean squared error used as a metric in the next Note. Dividing by a constant does not change which line is best, so here we keep the plain sum.
 
@@ -75,7 +75,7 @@ $$E = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 
 > **Key point:** The data is fixed; only m and b can change. So the error is a function of m and b.
 
-Every prediction comes from the line: $\hat{y}_i = m x_i + b$. Putting this into $E$:
+Every prediction comes from the line: $\hat y_i = m x_i + b$. Putting this into $E$:
 
 $$E(m, b) = \sum_{i=1}^{n} (y_i - m x_i - b)^2$$
 
@@ -153,9 +153,9 @@ The top of the $m$ formula is $n$ times the covariance of $x$ and $y$; the botto
 
 > **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of straight-line expressions, a bowl that only curves upward (Figure 2). The check uses the second derivatives:
 >
-> $$\frac{\partial^2 E}{\partial b^2} = 2n, \qquad \frac{\partial^2 E}{\partial m^2} = 2\sum x_i^2, \qquad \frac{\partial^2 E}{\partial m\thinspace \partial b} = 2\sum x_i$$
+> $$\frac{\partial^2 E}{\partial b^2} = 2n, \qquad \frac{\partial^2 E}{\partial m^2} = 2\sum x_i^2, \qquad \frac{\partial^2 E}{\partial m\thinspace\partial b} = 2\sum x_i$$
 >
-> The first is positive, and $\frac{\partial^2 E}{\partial b^2}\cdot\frac{\partial^2 E}{\partial m^2} - \left(\frac{\partial^2 E}{\partial m\thinspace \partial b}\right)^2 = 4\left(n\sum x_i^2 - (\sum x_i)^2\right) = 4n\sum (x_i - \bar{x})^2$, which is positive whenever the $x_i$ are not all equal. By the second-derivative test for two variables, a flat point with both of these positive is a minimum.
+> The first is positive, and $\frac{\partial^2 E}{\partial b^2}\cdot\frac{\partial^2 E}{\partial m^2} - \left(\frac{\partial^2 E}{\partial m\thinspace\partial b}\right)^2 = 4\left(n\sum x_i^2 - (\sum x_i)^2\right) = 4n\sum (x_i - \bar{x})^2$, which is positive whenever the $x_i$ are not all equal. By the second-derivative test for two variables, a flat point with both of these positive is a minimum.
 
 ## 5. The formulas on the placement data
 
@@ -209,11 +209,11 @@ The predictions match scikit-learn's to every digit shown. The Notebook also che
 
 | Step | Result |
 |---|---|
-| Error at a point | $d_i = y_i - \hat{y}_i$ |
+| Error at a point | $d_i = y_i - \hat y_i$ |
 | Error function | $E(m, b) = \sum (y_i - m x_i - b)^2$ |
 | Minimum | $\partial E / \partial m = 0$ and $\partial E / \partial b = 0$ |
 | Intercept | $b = \bar{y} - m\bar{x}$ |
-| Slope | $m = \sum (x_i - \bar{x})(y_i - \bar{y}) \thinspace /\thinspace  \sum (x_i - \bar{x})^2$ |
+| Slope | $m = \sum (x_i - \bar{x})(y_i - \bar{y}) \thinspace/\thinspace\sum (x_i - \bar{x})^2$ |
 | Placement data | $m = 0.558$, $b = -0.896$, $E = 16.55$ |
 
 - Closed form (OLS) gives $m$ and $b$ directly; gradient descent reaches them step by step.

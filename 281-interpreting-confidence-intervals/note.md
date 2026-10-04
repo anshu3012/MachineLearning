@@ -18,7 +18,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 
 ![100 samples from N(50, 15²), each with its 95% confidence interval; 93 intervals contain the population mean 50 (blue), 7 miss it (orange)](images/coverage.png)
 
-We built the interval $\bar{x} \pm z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ in the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md). Computing it is easy; saying correctly what it means is not, and it is a favourite interview question. Figure 1 shows the answer in one picture.
+We built the interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ in the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md). Computing it is easy; saying correctly what it means is not, and it is a favourite interview question. Figure 1 shows the answer in one picture.
 
 This Note covers:
 
@@ -98,10 +98,11 @@ All three statements below sound reasonable and are wrong.
 
 ## 4. What sets the width of an interval
 
-> **Key point:** The margin of error $z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ grows with the confidence level and with $\sigma$, and shrinks with $\sqrt{n}$.
+> **Key point:** The margin of error $z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ grows with the confidence level and with $\sigma$, and shrinks with $\sqrt{n}$.
 
 The z-interval is
-$$\bar{x} \pm z_{\alpha/2}\thinspace \frac{\sigma}{\sqrt{n}}$$
+
+$$\bar{x} \pm z_{\alpha/2}\thinspace\frac{\sigma}{\sqrt{n}}$$
 
 The centre $\bar{x}$ moves from sample to sample. The width, twice the margin of error, depends on three things:
 
@@ -152,11 +153,11 @@ Going from 10 to 30 people cuts the margin from 9.30 to 5.37: a big gain for 20 
 
 A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin halves again, from 5.37 to 2.68. There is no point beyond which more data stops improving the interval; each improvement just costs more people.
 
-> **Extra:** Solving $E = z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ for $n$ gives the sample size needed for a chosen margin of error.
+> **Extra:** Solving $E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ for $n$ gives the sample size needed for a chosen margin of error.
 >
 > 1. **In words:** square the critical value times $\sigma$ divided by the target margin, then round up.
 > 2. **Formula:**
->    $$n = \left(\frac{z_{\alpha/2}\thinspace \sigma}{E}\right)^2$$
+>    $$n = \left(\frac{z_{\alpha/2}\thinspace\sigma}{E}\right)^2$$
 > 3. **Example:** to know the mean age within $\pm 1$ year at 95%, with $\sigma = 15$:
 >    $$n = \left(\frac{1.96 \times 15}{1}\right)^2 = 29.4^2 = 864.4, \text{ so } 865 \text{ subscribers}$$
 >    Within $\pm 2$ years needs only 217: a quarter of the sample for twice the margin.
@@ -179,7 +180,7 @@ The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 
 | 95% of future sample means fall between 25.06 and 30.94 | No: about 83% on average |
 | 95% of the subscribers are between 25.06 and 30.94 years old | No: the interval is about the mean |
 
-| Factor | Effect on the margin of error $z_{\alpha/2}\thinspace \sigma/\sqrt{n}$ |
+| Factor | Effect on the margin of error $z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ |
 |---|---|
 | Higher confidence level | wider (to infinity at 100%) |
 | Larger $\sigma$ | wider, in proportion |
@@ -199,5 +200,5 @@ The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 
 |---|---|
 | Coverage | The share of intervals from repeated samples that contain the true parameter; equals the confidence level when the assumptions hold |
 | Precision | How narrow a confidence interval is; a narrower interval is a more precise estimate |
-| Required sample size | $n = (z_{\alpha/2}\thinspace \sigma/E)^2$: the smallest sample giving a margin of error $E$ |
+| Required sample size | $n = (z_{\alpha/2}\thinspace\sigma/E)^2$: the smallest sample giving a margin of error $E$ |
 | Credible interval | The Bayesian counterpart of a confidence interval, read as a probability statement about the parameter |

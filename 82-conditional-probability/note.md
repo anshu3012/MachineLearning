@@ -76,7 +76,7 @@ Using the formula instead, with the full sample space of 36:
 - $P(A \cap B)$: die 1 is 5 **and** the sum is at most 10. These are the same 5 outcomes, so $P(A \cap B) = 5/36$.
 - $P(B) = 33/36$.
 
-$$P(A \mid B) = \frac{5/36}{33/36} = \frac{5}{33}$$
+  $$P(A \mid B) = \frac{5/36}{33/36} = \frac{5}{33}$$
 
 The 36s cancel, leaving exactly the count in the reduced sample space. The formula and the counting say the same thing.
 

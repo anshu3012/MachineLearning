@@ -66,6 +66,7 @@ The two mean lines split the scatter plot into four quadrants (Figure 1, left):
 So if most points lie in I and III, the covariance is positive; if most lie in II and IV, it is negative. If the points spread evenly over all four, the products cancel and the covariance is near 0. We can often guess the sign just by imagining the two mean lines on a scatter plot.
 
 The right side of Figure 1 shows the opposite case. Five students have 2, 5, 8, 12 and 13 backlogs and packages of 10, 12, 5, 2 and 1 lakh rupees: more backlogs, lower package. With means 8 and 6, the products are $-24, -18, 0, -16, -25$, so
+
 $$s_{xy} = \frac{-24 - 18 + 0 - 16 - 25}{4} = \frac{-83}{4} = -20.75$$
 
 A third case: if every student got the same package of 10 lakh, whatever their backlogs, then $y - \bar{y} = 0$ for every point. Every product is 0, and the covariance is exactly 0: no linear relationship.
@@ -99,7 +100,7 @@ The Pearson correlation coefficient $r$ appears in the [understanding your data 
 
 1. **In words:** divide the covariance by the standard deviation of $x$ and by the standard deviation of $y$.
 2. **Formula:**
-   $$r = \frac{\text{cov}(x, y)}{s_x\thinspace  s_y}$$
+   $$r = \frac{\text{cov}(x, y)}{s_x\thinspace s_y}$$
    For a population, $\rho = \sigma_{xy} / (\sigma_x \sigma_y)$. The $n - 1$ in the covariance and in the two standard deviations cancel, so both versions give the same number.
 3. **Example:** for the five employees, $s_{xy} = 21.5$, $s_x = 4.637$ years and $s_y = 4.848$ lakh, so
    $$r = \frac{21.5}{4.637 \times 4.848} = \frac{21.5}{22.48} \approx 0.957$$
@@ -127,7 +128,7 @@ In Figure 2, doubling both features quadrupled the covariance but left $r$ at 0.
 >
 > 1. **In words:** multiplying $x$ by $a$ multiplies the covariance by $a$ and the standard deviation of $x$ by $a$ too, so the two cancel. The same holds for $y$. (Adding a constant changes nothing at all, since it moves the mean by the same amount.)
 > 2. **Formula:** for $a, c > 0$,
->    $$r(a\thinspace x,\ c\thinspace y) = \frac{a\thinspace c\ \text{cov}(x, y)}{(a\thinspace s_x)(c\thinspace s_y)} = \frac{\text{cov}(x, y)}{s_x\thinspace  s_y} = r(x, y)$$
+>    $$r(a\thinspace x,\ c\thinspace y) = \frac{a\thinspace c\ \text{cov}(x, y)}{(a\thinspace s_x)(c\thinspace s_y)} = \frac{\text{cov}(x, y)}{s_x\thinspace s_y} = r(x, y)$$
 >    If $a$ or $c$ is negative, the sign of $r$ flips but its size stays.
 > 3. **Example:** experience in months: $\text{cov} = 258$ and $s_x = 12 \times 4.637 = 55.64$, so $r = 258 / (55.64 \times 4.848) \approx 0.957$, as before.
 
@@ -177,7 +178,7 @@ Establishing causation needs more than data that happens to be collected: contro
 | Same package for everyone | 0 | undefined (no spread in $y$) |
 
 - Points in quadrants I and III push the covariance up; II and IV push it down.
-- $\text{cov}(a x, c y) = ac\thinspace \text{cov}(x, y)$, but $r$ stays the same.
+- $\text{cov}(a x, c y) = ac\thinspace\text{cov}(x, y)$, but $r$ stays the same.
 - The covariance of a feature with itself is its variance.
 - Correlation does not imply causation; a confounding variable can drive both features.
 

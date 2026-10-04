@@ -15,7 +15,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/svd]
 
 ## 1. Overview
 
-> **Key point:** Multiplying $A$ by its own transpose makes one of the two orthogonal matrices disappear. The eigenvectors of $A^{\mathsf T}A$ are the right singular vectors, its eigenvalues are the squared singular values, and $\mathbf{u}_i = A\mathbf{v}_i / \sigma_i$ gives the left singular vectors.
+> **Key point:** Multiplying $A$ by its own transpose makes one of the two orthogonal matrices disappear. The eigenvectors of $A^{\mathsf T}A$ are the right singular vectors, its eigenvalues are the squared singular values, and $\mathbf u_i = A\mathbf v_i / \sigma_i$ gives the left singular vectors.
 
 This Note follows Strang's *Introduction to Linear Algebra* (Strang §7.2) and *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.5.2.
 
@@ -23,13 +23,13 @@ This Note follows Strang's *Introduction to Linear Algebra* (Strang §7.2) and *
 
 The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md) showed what $A = U\Sigma V^{\mathsf T}$ means: rotate, stretch, rotate. It gave the factors of
 
-$$A = \begin{bmatrix} 3 & 0 \cr  4 & 5 \end{bmatrix}$$
+$$A = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
 
 without saying where they came from. This Note finds them:
 
 - why $A^{\mathsf T}A$ and $AA^{\mathsf T}$ hold the answer (Section 2);
 - the four-step recipe of Figure 1, worked on $A$ (Section 3);
-- a sign trap, and how $\mathbf{u}_i = A\mathbf{v}_i/\sigma_i$ avoids it (Section 4);
+- a sign trap, and how $\mathbf u_i = A\mathbf v_i/\sigma_i$ avoids it (Section 4);
 - a matrix of rank 1, where a singular value is 0 (Section 5);
 - the four subspaces that the SVD gives bases for (Section 6);
 - a matrix that is not square (Section 7);
@@ -43,19 +43,19 @@ Finding eigenvalues and eigenvectors by hand, with $\det(A - \lambda I) = 0$, is
 
 ### 2.1 $A^{\mathsf T}A$ gives $V$ and the singular values
 
-> **Key point:** $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: its eigenvectors are the $\mathbf{v}_i$, its eigenvalues are the $\sigma_i^2$.
+> **Key point:** $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: its eigenvectors are the $\mathbf v_i$, its eigenvalues are the $\sigma_i^2$.
 
 $A = U\Sigma V^{\mathsf T}$ has two unknown orthogonal matrices. Finding both at once is hard, so we look for an expression in which one of them disappears.
 
 1. **In words:** transpose $A$ (the transpose of a product is the product of the transposes in reverse order), multiply by $A$, and use $U^{\mathsf T}U = I$ (see the [SVD geometry Note](../610-svd-geometry/note.md), section 3.3).
 2. **Formula:**
-   $$A^{\mathsf T}A = (V\Sigma^{\mathsf T}U^{\mathsf T})(U\Sigma V^{\mathsf T}) = V\thinspace \Sigma^{\mathsf T}\Sigma\thinspace V^{\mathsf T} = V\begin{bmatrix} \sigma_1^2 & & \cr  & \ddots & \cr  & & \sigma_n^2 \end{bmatrix}V^{\mathsf T}$$
+   $$A^{\mathsf T}A = (V\Sigma^{\mathsf T}U^{\mathsf T})(U\Sigma V^{\mathsf T}) = V\thinspace\Sigma^{\mathsf T}\Sigma\thinspace V^{\mathsf T} = V\begin{bmatrix} \sigma_1^2 & & \cr& \ddots & \cr& & \sigma_n^2 \end{bmatrix}V^{\mathsf T}$$
 3. **Example:** for $A$ with rows $[3, 0]$ and $[4, 5]$,
-   $$A^{\mathsf T}A = \begin{bmatrix} 3 & 4 \cr  0 & 5 \end{bmatrix}\begin{bmatrix} 3 & 0 \cr  4 & 5 \end{bmatrix} = \begin{bmatrix} 25 & 20 \cr  20 & 25 \end{bmatrix}$$
+   $$A^{\mathsf T}A = \begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix}\begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = \begin{bmatrix} 25 & 20 \cr20 & 25 \end{bmatrix}$$
 
 The right side of the formula is exactly an eigen-decomposition $PDP^{-1}$ (see the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md), section 6.2), with $P = V$ and $P^{-1} = V^{\mathsf T}$. So:
 
-- the right singular vectors $\mathbf{v}_i$ are the eigenvectors of $A^{\mathsf T}A$;
+- the right singular vectors $\mathbf v_i$ are the eigenvectors of $A^{\mathsf T}A$;
 - the squared singular values $\sigma_i^2$ are its eigenvalues, so $\sigma_i = \sqrt{\lambda_i}$.
 
 ### 2.2 Why this always works
@@ -73,13 +73,13 @@ So $A^{\mathsf T}A$ is symmetric and positive semi-definite, for every matrix $A
 
 > **Key point:** Multiplying in the other order removes $V$ instead: $AA^{\mathsf T} = U\Sigma\Sigma^{\mathsf T}U^{\mathsf T}$.
 
-By the same steps, $AA^{\mathsf T} = U\Sigma V^{\mathsf T}V\Sigma^{\mathsf T}U^{\mathsf T} = U\thinspace \Sigma\Sigma^{\mathsf T}\thinspace U^{\mathsf T}$. So the left singular vectors $\mathbf{u}_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$.
+By the same steps, $AA^{\mathsf T} = U\Sigma V^{\mathsf T}V\Sigma^{\mathsf T}U^{\mathsf T} = U\thinspace\Sigma\Sigma^{\mathsf T}\thinspace U^{\mathsf T}$. So the left singular vectors $\mathbf u_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$.
 
 For $A$: $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, a different matrix from $A^{\mathsf T}A$. Yet both have the eigenvalues 45 and 5. The match is no accident: $AB$ and $BA$ always share their non-zero eigenvalues.
 
 ## 3. The recipe, worked on a $2 \times 2$ matrix
 
-> **Key point:** Eigen-decompose $A^{\mathsf T}A$, take square roots, then get each $\mathbf{u}_i$ by applying $A$ to $\mathbf{v}_i$ and dividing by $\sigma_i$.
+> **Key point:** Eigen-decompose $A^{\mathsf T}A$, take square roots, then get each $\mathbf u_i$ by applying $A$ to $\mathbf v_i$ and dividing by $\sigma_i$.
 
 Figure 1 shows the four steps. We follow them for $A$ with rows $[3, 0]$ and $[4, 5]$.
 
@@ -91,33 +91,33 @@ Figure 1 shows the four steps. We follow them for $A$ with rows $[3, 0]$ and $[4
 2. **Formula:**
    $$\det(A^{\mathsf T}A - \lambda I) = 0, \qquad \sigma_i = \sqrt{\lambda_i}$$
 3. **Example:**
-   $$\det\begin{bmatrix} 25 - \lambda & 20 \cr  20 & 25 - \lambda \end{bmatrix} = (25 - \lambda)^2 - 400 = 0 \quad\Longrightarrow\quad 25 - \lambda = \pm 20$$
+   $$\det\begin{bmatrix} 25 - \lambda & 20 \cr20 & 25 - \lambda \end{bmatrix} = (25 - \lambda)^2 - 400 = 0 \quad\Longrightarrow\quad 25 - \lambda = \pm 20$$
    so $\lambda_1 = 45$ and $\lambda_2 = 5$ (largest first), and
    $$\sigma_1 = \sqrt{45} = 3\sqrt5 \approx 6.708, \qquad \sigma_2 = \sqrt5 \approx 2.236$$
 
 For $\lambda_1 = 45$, $A^{\mathsf T}A - 45I$ has rows $[-20, 20]$ and $[20, -20]$, which sends $[x, y]$ to zero when $x = y$. For $\lambda_2 = 5$, $A^{\mathsf T}A - 5I$ has rows $[20, 20]$ and $[20, 20]$, which needs $y = -x$. Scaled to length 1:
 
-$$\mathbf{v}_1 = \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr  1 \end{bmatrix}, \qquad \mathbf{v}_2 = \frac{1}{\sqrt2}\begin{bmatrix} -1 \cr  1 \end{bmatrix}$$
+$$\mathbf v_1 = \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr1 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt2}\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
 
 The two vectors are perpendicular, as Section 2.2 promised.
 
-**Step 3: $\mathbf{u}_i = A\mathbf{v}_i / \sigma_i$.** The step is the singular value equation $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ solved for $\mathbf{u}_i$.
+**Step 3: $\mathbf u_i = A\mathbf v_i / \sigma_i$.** The step is the singular value equation $A\mathbf v_i = \sigma_i\mathbf u_i$ solved for $\mathbf u_i$.
 
 1. **In words:** apply $A$ to each right singular vector and divide by its singular value. The result is automatically a unit vector.
 2. **Formula:**
-   $$\mathbf{u}_i = \frac{1}{\sigma_i}A\mathbf{v}_i$$
+   $$\mathbf u_i = \frac{1}{\sigma_i}A\mathbf v_i$$
 3. **Example:**
-   $$\mathbf{u}_1 = \frac{1}{3\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 3 \cr  9 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr  3 \end{bmatrix}, \qquad \mathbf{u}_2 = \frac{1}{\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} -3 \cr  1 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr  1 \end{bmatrix}$$
+   $$\mathbf u_1 = \frac{1}{3\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 3 \cr9 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix}, \qquad \mathbf u_2 = \frac{1}{\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} -3 \cr1 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
 
-The $\mathbf{u}$'s come out perpendicular without any extra work. In symbols: $(A\mathbf{v}_1)^{\mathsf T}(A\mathbf{v}_2) = \mathbf{v}_1^{\mathsf T}(A^{\mathsf T}A\mathbf{v}_2) = \lambda_2\thinspace \mathbf{v}_1^{\mathsf T}\mathbf{v}_2 = 0$.
+The $\mathbf{u}$'s come out perpendicular without any extra work. In symbols: $(A\mathbf v_1)^{\mathsf T}(A\mathbf v_2) = \mathbf v_1^{\mathsf T}(A^{\mathsf T}A\mathbf v_2) = \lambda_2\thinspace\mathbf v_1^{\mathsf T}\mathbf v_2 = 0$.
 
 **Step 4: complete $U$.** Here there are already two $\mathbf{u}$'s for a $2 \times 2$ matrix, so nothing is missing. Sections 5 and 7 need this step.
 
 **Check.** Multiplying the factors back together:
 
-$$U\Sigma = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr  3 & 1 \end{bmatrix}\begin{bmatrix} 3\sqrt5 & 0 \cr  0 & \sqrt5 \end{bmatrix} = \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr  9 & 1 \end{bmatrix}$$
+$$U\Sigma = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}\begin{bmatrix} 3\sqrt5 & 0 \cr0 & \sqrt5 \end{bmatrix} = \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr9 & 1 \end{bmatrix}$$
 
-$$U\Sigma V^{\mathsf T} = \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr  9 & 1 \end{bmatrix}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr  -1 & 1 \end{bmatrix} = \frac{1}{2}\begin{bmatrix} 6 & 0 \cr  8 & 10 \end{bmatrix} = \begin{bmatrix} 3 & 0 \cr  4 & 5 \end{bmatrix} = A$$
+$$U\Sigma V^{\mathsf T} = \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr9 & 1 \end{bmatrix}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix} = \frac{1}{2}\begin{bmatrix} 6 & 0 \cr8 & 10 \end{bmatrix} = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = A$$
 
 > **Python:** Checking each step with NumPy.
 >
@@ -136,17 +136,17 @@ $$U\Sigma V^{\mathsf T} = \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr  9 & 1 \end
 
 ## 4. The sign trap
 
-> **Key point:** Finding $U$ and $V$ separately as eigenvectors can pick mismatched signs and give a wrong product; computing $\mathbf{u}_i = A\mathbf{v}_i/\sigma_i$ always matches them.
+> **Key point:** Finding $U$ and $V$ separately as eigenvectors can pick mismatched signs and give a wrong product; computing $\mathbf u_i = A\mathbf v_i/\sigma_i$ always matches them.
 
 Section 2.3 suggests a shortcut: take the $\mathbf{u}$'s as the eigenvectors of $AA^{\mathsf T}$, found on their own. For $A$, $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, with eigenvalues 45 and 5. Its eigenvectors are the lines through $[1, 3]$ and through $[3, -1]$.
 
-Every non-zero multiple of an eigenvector is an eigenvector too, so $\frac{1}{\sqrt{10}}[3, -1]$ is as correct an eigenvector as $\frac{1}{\sqrt{10}}[-3, 1]$. But it is the negative of the $\mathbf{u}_2$ that belongs with our $\mathbf{v}_2$. Using it gives
+Every non-zero multiple of an eigenvector is an eigenvector too, so $\frac{1}{\sqrt{10}}[3, -1]$ is as correct an eigenvector as $\frac{1}{\sqrt{10}}[-3, 1]$. But it is the negative of the $\mathbf u_2$ that belongs with our $\mathbf v_2$. Using it gives
 
-$$\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & 3 \cr  3 & -1 \end{bmatrix}\begin{bmatrix} 3\sqrt5 & 0 \cr  0 & \sqrt5 \end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr  -1 & 1 \end{bmatrix} = \begin{bmatrix} 0 & 3 \cr  5 & 4 \end{bmatrix} \ne A$$
+$$\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & 3 \cr3 & -1 \end{bmatrix}\begin{bmatrix} 3\sqrt5 & 0 \cr0 & \sqrt5 \end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix} = \begin{bmatrix} 0 & 3 \cr5 & 4 \end{bmatrix} \ne A$$
 
-Each piece is a valid eigenvector, yet the product is a different matrix. The pairs $(\mathbf{u}_i, \mathbf{v}_i)$ must match: flipping both signs is allowed, flipping one is not (see the [SVD geometry Note](../610-svd-geometry/note.md), section 5.1). The eigenvalue problem for $AA^{\mathsf T}$ knows nothing about $V$, so it cannot keep the pairs matched.
+Each piece is a valid eigenvector, yet the product is a different matrix. The pairs $(\mathbf u_i, \mathbf v_i)$ must match: flipping both signs is allowed, flipping one is not (see the [SVD geometry Note](../610-svd-geometry/note.md), section 5.1). The eigenvalue problem for $AA^{\mathsf T}$ knows nothing about $V$, so it cannot keep the pairs matched.
 
-The fix is Step 3: compute $\mathbf{u}_i = A\mathbf{v}_i / \sigma_i$ from the $\mathbf{v}_i$ already chosen. Then $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ holds by construction, whatever sign each $\mathbf{v}_i$ was given.
+The fix is Step 3: compute $\mathbf u_i = A\mathbf v_i / \sigma_i$ from the $\mathbf v_i$ already chosen. Then $A\mathbf v_i = \sigma_i\mathbf u_i$ holds by construction, whatever sign each $\mathbf v_i$ was given.
 
 ## 5. A matrix of rank 1
 
@@ -154,33 +154,33 @@ The fix is Step 3: compute $\mathbf{u}_i = A\mathbf{v}_i / \sigma_i$ from the $\
 
 Take
 
-$$C = \begin{bmatrix} 2 & 1 \cr  4 & 2 \end{bmatrix}$$
+$$C = \begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
 
 The second row is twice the first, so the rank is 1: $C$ squishes the whole plane onto one line, the line through $[1, 2]$ (its columns $[2, 4]$ and $[1, 2]$ both lie on it).
 
 **Step 1.**
 
-$$C^{\mathsf T}C = \begin{bmatrix} 2 & 4 \cr  1 & 2 \end{bmatrix}\begin{bmatrix} 2 & 1 \cr  4 & 2 \end{bmatrix} = \begin{bmatrix} 20 & 10 \cr  10 & 5 \end{bmatrix}$$
+$$C^{\mathsf T}C = \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}\begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix} = \begin{bmatrix} 20 & 10 \cr10 & 5 \end{bmatrix}$$
 
 **Step 2.** Its determinant is $20 \times 5 - 10 \times 10 = 0$, so one eigenvalue is 0. The eigenvalues of a $2 \times 2$ matrix add up to its diagonal sum, $20 + 5 = 25$, so the other is 25. So $\sigma_1 = 5$ and $\sigma_2 = 0$, and the eigenvectors are
 
-$$\mathbf{v}_1 = \frac{1}{\sqrt5}\begin{bmatrix} 2 \cr  1 \end{bmatrix}, \qquad \mathbf{v}_2 = \frac{1}{\sqrt5}\begin{bmatrix} -1 \cr  2 \end{bmatrix}$$
+$$\mathbf v_1 = \frac{1}{\sqrt5}\begin{bmatrix} 2 \cr1 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt5}\begin{bmatrix} -1 \cr2 \end{bmatrix}$$
 
-$\mathbf{v}_2$ is the direction $C$ squishes to nothing: $C[-1, 2] = [-2 + 2, -4 + 4] = [0, 0]$.
+$\mathbf v_2$ is the direction $C$ squishes to nothing: $C[-1, 2] = [-2 + 2, -4 + 4] = [0, 0]$.
 
 **Step 3.** Only $\sigma_1$ is non-zero:
 
-$$\mathbf{u}_1 = \frac{1}{5}C\mathbf{v}_1 = \frac{1}{5\sqrt5}\begin{bmatrix} 5 \cr  10 \end{bmatrix} = \frac{1}{\sqrt5}\begin{bmatrix} 1 \cr  2 \end{bmatrix}$$
+$$\mathbf u_1 = \frac{1}{5}C\mathbf v_1 = \frac{1}{5\sqrt5}\begin{bmatrix} 5 \cr10 \end{bmatrix} = \frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}$$
 
-**Step 4.** $\mathbf{u}_2 = C\mathbf{v}_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf{u}_1$ completes $U$ to an orthogonal matrix; we take $\mathbf{u}_2 = \frac{1}{\sqrt5}[-2, 1]$. This $\mathbf{u}_2$ is multiplied by $\sigma_2 = 0$, so it never affects the product.
+**Step 4.** $\mathbf u_2 = C\mathbf v_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf u_1$ completes $U$ to an orthogonal matrix; we take $\mathbf u_2 = \frac{1}{\sqrt5}[-2, 1]$. This $\mathbf u_2$ is multiplied by $\sigma_2 = 0$, so it never affects the product.
 
 **Result.**
 
-$$C = \frac{1}{\sqrt5}\begin{bmatrix} 1 & -2 \cr  2 & 1 \end{bmatrix}\begin{bmatrix} 5 & 0 \cr  0 & 0 \end{bmatrix}\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \cr  -1 & 2 \end{bmatrix}$$
+$$C = \frac{1}{\sqrt5}\begin{bmatrix} 1 & -2 \cr2 & 1 \end{bmatrix}\begin{bmatrix} 5 & 0 \cr0 & 0 \end{bmatrix}\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \cr-1 & 2 \end{bmatrix}$$
 
 Only the first column of $U$ and the first row of $V^{\mathsf T}$ meet a non-zero number, so the product shrinks to
 
-$$C = 5\cdot\frac{1}{\sqrt5}\begin{bmatrix} 1 \cr  2 \end{bmatrix}\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \end{bmatrix} = \begin{bmatrix} 1 \cr  2 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 1 \cr  4 & 2 \end{bmatrix}$$
+$$C = 5\cdot\frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \end{bmatrix} = \begin{bmatrix} 1 \cr2 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
 
 A column times a row is a whole matrix of rank 1. The [low-rank approximation Note](../612-low-rank-approximation/note.md) builds every matrix out of such pieces.
 
@@ -206,14 +206,14 @@ For an $m \times n$ matrix of rank $r$ (there are $r$ non-zero singular values):
 
 | Subspace | Where | Basis from the SVD | Dimension | For $C$ |
 |---|---|---|---|---|
-| **Row space** (span of the rows) | input $\mathbb{R}^n$ | $\mathbf{v}_1, \dots, \mathbf{v}_r$ | $r$ | line through $[2, 1]$ |
-| **Null space** (vectors sent to $\mathbf{0}$) | input $\mathbb{R}^n$ | $\mathbf{v}_{r+1}, \dots, \mathbf{v}_n$ | $n - r$ | line through $[-1, 2]$ |
-| **Column space** (span of the columns) | output $\mathbb{R}^m$ | $\mathbf{u}_1, \dots, \mathbf{u}_r$ | $r$ | line through $[1, 2]$ |
-| **Left null space** (outputs never reached, perpendicular to them) | output $\mathbb{R}^m$ | $\mathbf{u}_{r+1}, \dots, \mathbf{u}_m$ | $m - r$ | line through $[-2, 1]$ |
+| **Row space** (span of the rows) | input $\mathbb{R}^n$ | $\mathbf v_1, \dots, \mathbf v_r$ | $r$ | line through $[2, 1]$ |
+| **Null space** (vectors sent to $\mathbf{0}$) | input $\mathbb{R}^n$ | $\mathbf v_{r+1}, \dots, \mathbf v_n$ | $n - r$ | line through $[-1, 2]$ |
+| **Column space** (span of the columns) | output $\mathbb{R}^m$ | $\mathbf u_1, \dots, \mathbf u_r$ | $r$ | line through $[1, 2]$ |
+| **Left null space** (outputs never reached, perpendicular to them) | output $\mathbb{R}^m$ | $\mathbf u_{r+1}, \dots, \mathbf u_m$ | $m - r$ | line through $[-2, 1]$ |
 
 The column space is the span of the columns from the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md) (section 6): every output lands in it. The null space is everything the matrix squishes to the origin.
 
-What makes the SVD's bases special is that they line up in pairs: $A$ sends $\mathbf{v}_1$ to a multiple of $\mathbf{u}_1$, $\mathbf{v}_2$ to a multiple of $\mathbf{u}_2$, and so on, with no mixing. The null-space $\mathbf{v}$'s go to zero, which is where the zeros on the diagonal of $\Sigma$ come from. Any method of making perpendicular bases could give bases of the four subspaces; only the SVD's bases also make the matrix diagonal.
+What makes the SVD's bases special is that they line up in pairs: $A$ sends $\mathbf v_1$ to a multiple of $\mathbf u_1$, $\mathbf v_2$ to a multiple of $\mathbf u_2$, and so on, with no mixing. The null-space $\mathbf{v}$'s go to zero, which is where the zeros on the diagonal of $\Sigma$ come from. Any method of making perpendicular bases could give bases of the four subspaces; only the SVD's bases also make the matrix diagonal.
 
 ## 7. A matrix that is not square
 
@@ -221,19 +221,19 @@ What makes the SVD's bases special is that they line up in pairs: $A$ sends $\ma
 
 Take the $3 \times 2$ matrix $B$ of the [SVD geometry Note](../610-svd-geometry/note.md) (section 6):
 
-$$B = \begin{bmatrix} 1 & 1 \cr  0 & 1 \cr  1 & 0 \end{bmatrix}$$
+$$B = \begin{bmatrix} 1 & 1 \cr0 & 1 \cr1 & 0 \end{bmatrix}$$
 
 **Steps 1 and 2.** $B^{\mathsf T}B$ is only $2 \times 2$:
 
-$$B^{\mathsf T}B = \begin{bmatrix} 2 & 1 \cr  1 & 2 \end{bmatrix}, \qquad (2 - \lambda)^2 - 1 = 0 \ \Longrightarrow\ \lambda = 3,\ 1$$
+$$B^{\mathsf T}B = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}, \qquad (2 - \lambda)^2 - 1 = 0 \ \Longrightarrow\ \lambda = 3,\ 1$$
 
-So $\sigma_1 = \sqrt3 \approx 1.732$ and $\sigma_2 = 1$, with $\mathbf{v}_1 = \frac{1}{\sqrt2}[1, 1]$ and $\mathbf{v}_2 = \frac{1}{\sqrt2}[1, -1]$.
+So $\sigma_1 = \sqrt3 \approx 1.732$ and $\sigma_2 = 1$, with $\mathbf v_1 = \frac{1}{\sqrt2}[1, 1]$ and $\mathbf v_2 = \frac{1}{\sqrt2}[1, -1]$.
 
 **Step 3.**
 
-$$\mathbf{u}_1 = \frac{1}{\sqrt3}B\mathbf{v}_1 = \frac{1}{\sqrt6}\begin{bmatrix} 2 \cr  1 \cr  1 \end{bmatrix} \approx \begin{bmatrix} 0.816 \cr  0.408 \cr  0.408 \end{bmatrix}, \qquad \mathbf{u}_2 = \frac{1}{1}B\mathbf{v}_2 = \frac{1}{\sqrt2}\begin{bmatrix} 0 \cr  -1 \cr  1 \end{bmatrix}$$
+$$\mathbf u_1 = \frac{1}{\sqrt3}B\mathbf v_1 = \frac{1}{\sqrt6}\begin{bmatrix} 2 \cr1 \cr1 \end{bmatrix} \approx \begin{bmatrix} 0.816 \cr0.408 \cr0.408 \end{bmatrix}, \qquad \mathbf u_2 = \frac{1}{1}B\mathbf v_2 = \frac{1}{\sqrt2}\begin{bmatrix} 0 \cr-1 \cr1 \end{bmatrix}$$
 
-**Step 4.** $U$ is $3 \times 3$ and needs a third column, perpendicular to both. $\mathbf{u}_3 = \frac{1}{\sqrt3}[1, -1, -1]$ works: its dot products with $[2, 1, 1]$ and with $[0, -1, 1]$ are both 0. The vector $\mathbf{u}_3$ spans the left null space, the one direction in 3D that $B$ never reaches.
+**Step 4.** $U$ is $3 \times 3$ and needs a third column, perpendicular to both. $\mathbf u_3 = \frac{1}{\sqrt3}[1, -1, -1]$ works: its dot products with $[2, 1, 1]$ and with $[0, -1, 1]$ are both 0. The vector $\mathbf u_3$ spans the left null space, the one direction in 3D that $B$ never reaches.
 
 The other route, eigenvectors of $BB^{\mathsf T}$, would mean a $3 \times 3$ eigenvalue problem (eigenvalues 3, 1 and 0), and would still risk the sign trap of Section 4. For a tall data matrix with thousands of rows, $A^{\mathsf T}A$ is the small one, so we always start from it.
 
@@ -262,13 +262,13 @@ So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine 
 |---|---|---|---|
 | 1 | $A^{\mathsf T}A$ | rows $[25, 20]$, $[20, 25]$ | rows $[20, 10]$, $[10, 5]$ |
 | 2 | eigenvalues $\to \sigma_i = \sqrt{\lambda_i}$ | $45, 5 \to 6.708, 2.236$ | $25, 0 \to 5, 0$ |
-| 2 | eigenvectors $\mathbf{v}_i$ | $\frac{1}{\sqrt2}[1, 1]$, $\frac{1}{\sqrt2}[-1, 1]$ | $\frac{1}{\sqrt5}[2, 1]$, $\frac{1}{\sqrt5}[-1, 2]$ |
-| 3 | $\mathbf{u}_i = A\mathbf{v}_i/\sigma_i$ | $\frac{1}{\sqrt{10}}[1, 3]$, $\frac{1}{\sqrt{10}}[-3, 1]$ | $\frac{1}{\sqrt5}[1, 2]$ |
+| 2 | eigenvectors $\mathbf v_i$ | $\frac{1}{\sqrt2}[1, 1]$, $\frac{1}{\sqrt2}[-1, 1]$ | $\frac{1}{\sqrt5}[2, 1]$, $\frac{1}{\sqrt5}[-1, 2]$ |
+| 3 | $\mathbf u_i = A\mathbf v_i/\sigma_i$ | $\frac{1}{\sqrt{10}}[1, 3]$, $\frac{1}{\sqrt{10}}[-3, 1]$ | $\frac{1}{\sqrt5}[1, 2]$ |
 | 4 | complete $U$ | nothing missing | $\frac{1}{\sqrt5}[-2, 1]$ |
 
-- $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: eigenvectors are the $\mathbf{v}_i$, eigenvalues the $\sigma_i^2$.
+- $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: eigenvectors are the $\mathbf v_i$, eigenvalues the $\sigma_i^2$.
 - $A^{\mathsf T}A$ is always symmetric and positive semi-definite, so this always works.
-- Get the $\mathbf{u}_i$ from $A\mathbf{v}_i/\sigma_i$, not from a separate eigen-problem: that keeps the signs matched.
+- Get the $\mathbf u_i$ from $A\mathbf v_i/\sigma_i$, not from a separate eigen-problem: that keeps the signs matched.
 - Zero singular values belong to the null space; the missing $\mathbf{u}$'s are any perpendicular completion.
 - The SVD gives perpendicular bases for the row space, null space, column space and left null space.
 - Computers compute the SVD from $A$ directly, because $A^{\mathsf T}A$ loses small singular values.
@@ -285,9 +285,9 @@ So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine 
 | Term | Meaning |
 |---|---|
 | $A^{\mathsf T}A$ | The symmetric, positive semi-definite matrix whose eigenvectors are the right singular vectors and whose eigenvalues are the squared singular values |
-| Row space | The span of the rows of a matrix; spanned by the $\mathbf{v}_i$ with $\sigma_i > 0$ |
-| Null space | All vectors a matrix sends to $\mathbf{0}$; spanned by the $\mathbf{v}_i$ with $\sigma_i = 0$ |
-| Column space | The span of the columns: every possible output; spanned by the $\mathbf{u}_i$ with $\sigma_i > 0$ |
-| Left null space | The output directions perpendicular to every column; spanned by the remaining $\mathbf{u}_i$ |
+| Row space | The span of the rows of a matrix; spanned by the $\mathbf v_i$ with $\sigma_i > 0$ |
+| Null space | All vectors a matrix sends to $\mathbf{0}$; spanned by the $\mathbf v_i$ with $\sigma_i = 0$ |
+| Column space | The span of the columns: every possible output; spanned by the $\mathbf u_i$ with $\sigma_i > 0$ |
+| Left null space | The output directions perpendicular to every column; spanned by the remaining $\mathbf u_i$ |
 | Four fundamental subspaces | Row space, null space, column space and left null space of a matrix |
 | Condition number | $\sigma_1 / \sigma_n$: how much a matrix can magnify errors when we solve with it |

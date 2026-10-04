@@ -51,7 +51,7 @@ Two more conditions make this a problem in practice:
 
 In the classification network of the [backpropagation how Note](../1016-backpropagation-how/note.md), the gradient of a first-layer weight was
 
-$$\frac{\partial L}{\partial W^{1}_{11}} = -(y - \hat{y}) \cdot W^{2}_{11} \cdot O_{11}(1 - O_{11}) \cdot x_{i1}$$
+$$\frac{\partial L}{\partial W_{11}^{1}} = -(y - \hat{y}) \cdot W_{11}^{2} \cdot O_{11}(1 - O_{11}) \cdot x_{i1}$$
 
 The factor $O_{11}(1 - O_{11})$ is the slope of the hidden node's sigmoid. The slope is never more than 0.25, and close to 0 when the node is saturated near 0 or 1 (see the [sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Each extra sigmoid layer between the weight and the loss adds one more such factor, together with a weight.
 
@@ -64,7 +64,7 @@ The factor $O_{11}(1 - O_{11})$ is the slope of the hidden node's sigmoid. The s
 
 > **Key point:** A weight of 1 with learning rate 0.01 and gradient 0.0001 becomes 0.999999: no real change, so no learning.
 
-The update is $W_{\text{new}} = W_{\text{old}} - \eta\thinspace  \partial L/\partial W$:
+The update is $W_{\text{new}} = W_{\text{old}} - \eta\thinspace\partial L/\partial W$:
 
 $$W_{\text{new}} = 1 - 0.01 \times 0.0001 = 0.999999$$
 
@@ -132,7 +132,7 @@ Over 100 epochs (Figure 2, red) the training loss goes from 0.704 to 0.700, next
 Two signs:
 
 1. **The loss does not change.** Keras prints the loss after every epoch. If it stays at its starting value, as in Figure 2, the gradients may be vanishing.
-2. **The weights do not change.** Plot a weight such as $W^{1}_{11}$ against the epoch. A flat line means it is not being updated. Tools such as TensorBoard draw these plots automatically during training.
+2. **The weights do not change.** Plot a weight such as $W_{11}^{1}$ against the epoch. A flat line means it is not being updated. Tools such as TensorBoard draw these plots automatically during training.
 
 ## 6. Five ways to fix it
 
@@ -201,7 +201,7 @@ A **residual block** adds a layer's input directly to its output, so the gradien
 If the factors are above 1, the product grows with every one: $1.5^{10} = 58$. Large weights between layers act exactly this way. The update then throws the weight far away:
 
 1. **In words:** a huge gradient times the learning rate gives a huge step.
-2. **Formula:** $W_{\text{new}} = W_{\text{old}} - \eta\thinspace \partial L/\partial W$.
+2. **Formula:** $W_{\text{new}} = W_{\text{old}} - \eta\thinspace\partial L/\partial W$.
 3. **Example:** with $W_{\text{old}} = 1$, $\eta = 0.1$ and $\partial L/\partial W = 1000$:
    $$W_{\text{new}} = 1 - 0.1 \times 1000 = -99$$
 

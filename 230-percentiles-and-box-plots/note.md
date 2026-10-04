@@ -61,9 +61,9 @@ Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). 
 
 1. **In words:** sort the data. Compute the percentile's position. If the position is a whole number, the value there is the answer. If it falls between two positions, start at the lower value and add the same fraction of the gap to the next one.
 2. **Formula:** for the $p$-th percentile of $n$ sorted values $x_{(1)} \le \dots \le x_{(n)}$, the location is
-   $$L = \frac{p}{100}\thinspace (n + 1)$$
+   $$L = \frac{p}{100}\thinspace(n + 1)$$
    Write $L = k + d$, with $k$ its whole part and $d$ its decimal part. Then
-   $$P_p = x_{(k)} + d\thinspace \bigl(x_{(k+1)} - x_{(k)}\bigr)$$
+   $$P_p = x_{(k)} + d\thinspace\bigl(x_{(k+1)} - x_{(k)}\bigr)$$
 3. **Example:** for the 75th percentile,
    $$L = \frac{75}{100} \times (10 + 1) = 8.25$$
    So $k = 8$ and $d = 0.25$. The 8th mark is 96 and the 9th is 98:
@@ -72,7 +72,9 @@ Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). 
 So 96.5 marks puts a student at the 75th percentile, although nobody scored exactly 96.5 (fact 3 of Section 2).
 
 The 50th percentile works the same way: $L = 0.5 \times 11 = 5.5$, halfway between the 5th mark (91) and the 6th (93):
+
 $$P_{50} = 91 + 0.5 \times (93 - 91) = 92$$
+
 This value, 92, is the median, as it should be.
 
 > **Extra:** Software uses several percentile formulas, and they give slightly different answers on small data. The $(n+1)$ formula above is NumPy's `method="weibull"`. NumPy's and pandas' default, `"linear"`, uses the location $1 + (p/100) \times (n - 1)$ instead: for the ten marks it gives location 7.75 and a 75th percentile of $94 + 0.75 \times 2 = 95.5$, not 96.5. Both are correct conventions; on large data they agree closely. The [understanding your data Note](../19-understanding-your-data/note.md) uses pandas' default.
@@ -128,6 +130,7 @@ The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more 
 > **Key point:** Quartiles give the box, fences 1.5 IQR beyond it decide how far the whiskers reach, and any value beyond the fences is drawn as an outlier.
 
 A box plot (box-and-whisker plot) draws the five-number summary; the [univariate analysis Note](../20-univariate-analysis/note.md) (section 8) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
+
 $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
 **Step 1: sort.** The values are already in ascending order.
@@ -193,10 +196,10 @@ Comparing the three boxes:
 | Idea | Formula | Example |
 |---|---|---|
 | Percentile location | $L = (p/100) \times (n+1)$ | 75th of 10 values: 8.25 |
-| Percentile value | $x_{(k)} + d\thinspace (x_{(k+1)} - x_{(k)})$ | $96 + 0.25 \times 2 = 96.5$ |
+| Percentile value | $x_{(k)} + d\thinspace(x_{(k+1)} - x_{(k)})$ | $96 + 0.25 \times 2 = 96.5$ |
 | Percentile rank | $(X + 0.5Y)/n \times 100$ | mark 88: 35th percentile |
 | IQR | $Q_3 - Q_1$ | $328.25 - 234 = 94.25$ |
-| Fences | $Q_1 - 1.5\thinspace \text{IQR}$, $Q_3 + 1.5\thinspace \text{IQR}$ | 92.625 and 469.625 |
+| Fences | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ | 92.625 and 469.625 |
 
 - Quantile is the general word; quartiles (4), quintiles (5), deciles (10) and percentiles (100) are kinds of it.
 - A percentile need not be a value in the data.

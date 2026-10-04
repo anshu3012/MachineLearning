@@ -189,7 +189,7 @@ By default every model's vote counts the same, as in a democracy. The `weights` 
 
 1. **In words:** each model's probability is multiplied by its weight, and the sum is divided by the total weight.
 2. **Formula:** with weights $w_1, \dots, w_n$,
-   $$\bar{p}(c) = \frac{\sum_{i=1}^{n} w_i\thinspace  p_i(c)}{\sum_{i=1}^{n} w_i}$$
+   $$\bar{p}(c) = \frac{\sum_{i=1}^{n} w_i\thinspace p_i(c)}{\sum_{i=1}^{n} w_i}$$
 3. **Example:** in Figure 1, give M1 weight 2 and the others weight 1. For class 1:
    $$\bar{p}(1) = \frac{2(0.1) + 0.6 + 0.55}{2 + 1 + 1} = \frac{1.35}{4} = 0.3375$$
    so class 0 wins even more clearly ($0.6625$).

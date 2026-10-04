@@ -99,7 +99,7 @@ Variance is built from squared distances from a mean (see the [measures of dispe
 
 1. **In words:** square each group mean's distance from the grand mean, multiply by the group size, and add over groups.
 2. **Formula:**
-   $$SSB = \sum_{\text{groups}} n_i (\bar{x}_i - \bar{x})^2$$
+   $$SSB = \sum_{\text{groups}} n_i (\bar x_i - \bar{x})^2$$
 3. **Example:**
    $$SSB = 3(5 - 7)^2 + 3(7 - 7)^2 + 3(9 - 7)^2 = 12 + 0 + 12 = 24$$
 
@@ -109,7 +109,7 @@ Variance is built from squared distances from a mean (see the [measures of dispe
 
 1. **In words:** square each value's distance from its own group mean and add over all values.
 2. **Formula:**
-   $$SSW = \sum_{\text{groups}} \ \sum_{\text{values in group}} (x - \bar{x}_i)^2$$
+   $$SSW = \sum_{\text{groups}} \ \sum_{\text{values in group}} (x - \bar x_i)^2$$
 3. **Example:** each group gives $1 + 0 + 1 = 2$, so
    $$SSW = 2 + 2 + 2 = 6$$
 

@@ -78,7 +78,9 @@ A goal like "increase revenue" is too vague to build anything from. Our first jo
 Suppose Netflix's monthly churn rate is about 4%. Our target becomes: **bring the churn rate down from 4% to 3.75% within the next six months.**
 
 A drop of 0.25 percentage points sounds small. At Netflix's scale, it is large: for every 10 crore (100 million) subscribers,
+
 $$100{,}000{,}000 \times 0.0025 = 250{,}000$$
+
 more customers stay, and keep paying, every month.
 
 So we leave the meeting with a clear goal. In our mind, the task is no longer "increase revenue"; it is "churn rate from 4% to 3.75%".

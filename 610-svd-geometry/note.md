@@ -36,7 +36,7 @@ How to compute the factors by hand comes in the [computing the SVD Note](../611-
 
 One matrix runs through the whole Note:
 
-$$A = \begin{bmatrix} 3 & 0 \cr  4 & 5 \end{bmatrix}$$
+$$A = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
 
 Read as a transformation (as in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md)), $A$ sends $\hat{\imath}$ to $[3, 4]$ and $\hat{\jmath}$ to $[0, 5]$.
 
@@ -56,38 +56,38 @@ Take two perpendicular vectors and apply $A$. Usually the results are not perpen
 
 Turn the perpendicular pair around and at some angle the outputs become perpendicular too. For $A$ this happens for
 
-$$\mathbf{v}_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 1 \cr  1 \end{bmatrix} \approx \begin{bmatrix} 0.707 \cr  0.707 \end{bmatrix}, \qquad \mathbf{v}_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -1 \cr  1 \end{bmatrix} \approx \begin{bmatrix} -0.707 \cr  0.707 \end{bmatrix}$$
+$$\mathbf v_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 1 \cr1 \end{bmatrix} \approx \begin{bmatrix} 0.707 \cr0.707 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -1 \cr1 \end{bmatrix} \approx \begin{bmatrix} -0.707 \cr0.707 \end{bmatrix}$$
 
 Both are unit vectors (length 1), and they are perpendicular. Their outputs:
 
-$$A\mathbf{v}_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 3 \cr  9 \end{bmatrix} \approx \begin{bmatrix} 2.121 \cr  6.364 \end{bmatrix}, \qquad A\mathbf{v}_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -3 \cr  1 \end{bmatrix} \approx \begin{bmatrix} -2.121 \cr  0.707 \end{bmatrix}$$
+$$A\mathbf v_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 3 \cr9 \end{bmatrix} \approx \begin{bmatrix} 2.121 \cr6.364 \end{bmatrix}, \qquad A\mathbf v_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -3 \cr1 \end{bmatrix} \approx \begin{bmatrix} -2.121 \cr0.707 \end{bmatrix}$$
 
 The dot product of the outputs is $\tfrac{1}{2}(3 \times (-3) + 9 \times 1) = 0$: still perpendicular. Their lengths are $\sqrt{90/2} = \sqrt{45} \approx 6.71$ and $\sqrt{10/2} = \sqrt 5 \approx 2.24$.
 
 ### 2.3 The ellipse
 
-> **Key point:** The unit circle becomes an ellipse whose long axis is $A\mathbf{v}_1$ and whose short axis is $A\mathbf{v}_2$.
+> **Key point:** The unit circle becomes an ellipse whose long axis is $A\mathbf v_1$ and whose short axis is $A\mathbf v_2$.
 
-Every point of the unit circle is a unit vector $\mathbf{x}$. Applying $A$ to all of them gives a closed curve, and for a linear transformation that curve is always an ellipse (Figure 2, right). Its two axes are perpendicular, and they are exactly $A\mathbf{v}_1$ and $A\mathbf{v}_2$.
+Every point of the unit circle is a unit vector $\mathbf{x}$. Applying $A$ to all of them gives a closed curve, and for a linear transformation that curve is always an ellipse (Figure 2, right). Its two axes are perpendicular, and they are exactly $A\mathbf v_1$ and $A\mathbf v_2$.
 
 ![Eigenvectors keep their line; singular vectors are the perpendicular pair that stays perpendicular](images/eigen_vs_singular.png){width=90%}
 
-So the longest output any unit vector can reach is 6.71, along $A\mathbf{v}_1$, and the shortest is 2.24, along $A\mathbf{v}_2$. These two numbers are the **singular values** of $A$, written $\sigma_1 = 6.71$ and $\sigma_2 = 2.24$ ($\sigma$ is the Greek letter sigma).
+So the longest output any unit vector can reach is 6.71, along $A\mathbf v_1$, and the shortest is 2.24, along $A\mathbf v_2$. These two numbers are the **singular values** of $A$, written $\sigma_1 = 6.71$ and $\sigma_2 = 2.24$ ($\sigma$ is the Greek letter sigma).
 
 Dividing each output by its length gives the directions of the ellipse's axes, as unit vectors:
 
-$$\mathbf{u}_1 = \frac{A\mathbf{v}_1}{\sigma_1} = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr  3 \end{bmatrix} \approx \begin{bmatrix} 0.316 \cr  0.949 \end{bmatrix}, \qquad \mathbf{u}_2 = \frac{A\mathbf{v}_2}{\sigma_2} = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr  1 \end{bmatrix} \approx \begin{bmatrix} -0.949 \cr  0.316 \end{bmatrix}$$
+$$\mathbf u_1 = \frac{A\mathbf v_1}{\sigma_1} = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix} \approx \begin{bmatrix} 0.316 \cr0.949 \end{bmatrix}, \qquad \mathbf u_2 = \frac{A\mathbf v_2}{\sigma_2} = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix} \approx \begin{bmatrix} -0.949 \cr0.316 \end{bmatrix}$$
 
 ### 2.4 The singular value equation
 
-> **Key point:** $A\mathbf{v}_i = \sigma_i \mathbf{u}_i$: each input direction lands on its output direction, stretched by its singular value.
+> **Key point:** $A\mathbf v_i = \sigma_i \mathbf u_i$: each input direction lands on its output direction, stretched by its singular value.
 
-1. **In words:** $A$ takes the unit vector $\mathbf{v}_i$ to the unit vector $\mathbf{u}_i$, stretched by $\sigma_i$. The $\mathbf{v}$'s are perpendicular, and so are the $\mathbf{u}$'s.
+1. **In words:** $A$ takes the unit vector $\mathbf v_i$ to the unit vector $\mathbf u_i$, stretched by $\sigma_i$. The $\mathbf{v}$'s are perpendicular, and so are the $\mathbf{u}$'s.
 2. **Formula:**
-   $$A\mathbf{v}_i = \sigma_i \mathbf{u}_i$$
-3. **Example:** $A\mathbf{v}_1 = [2.121, 6.364] = 6.71 \times [0.316, 0.949] = \sigma_1 \mathbf{u}_1$, and $A\mathbf{v}_2 = [-2.121, 0.707] = 2.24 \times [-0.949, 0.316] = \sigma_2\mathbf{u}_2$.
+   $$A\mathbf v_i = \sigma_i \mathbf u_i$$
+3. **Example:** $A\mathbf v_1 = [2.121, 6.364] = 6.71 \times [0.316, 0.949] = \sigma_1 \mathbf u_1$, and $A\mathbf v_2 = [-2.121, 0.707] = 2.24 \times [-0.949, 0.316] = \sigma_2\mathbf u_2$.
 
-The singular value equation looks like the eigenvector equation $A\mathbf{v} = \lambda\mathbf{v}$, with one difference: the vector on the right is a different vector, $\mathbf{u}_i$ instead of $\mathbf{v}_i$. Allowing the output direction to differ from the input direction is what makes this work for every matrix.
+The singular value equation looks like the eigenvector equation $A\mathbf{v} = \lambda\mathbf{v}$, with one difference: the vector on the right is a different vector, $\mathbf u_i$ instead of $\mathbf v_i$. Allowing the output direction to differ from the input direction is what makes this work for every matrix.
 
 ## 3. Orthogonal matrices: rotations and flips
 
@@ -97,11 +97,11 @@ The singular value equation looks like the eigenvector equation $A\mathbf{v} = \
 
 > **Key point:** Unit vectors that are all perpendicular to each other are called orthonormal.
 
-A set of vectors is **orthonormal** when each has length 1 and each pair is perpendicular (orthogonal). $\mathbf{v}_1, \mathbf{v}_2$ above are orthonormal, and so are $\mathbf{u}_1, \mathbf{u}_2$.
+A set of vectors is **orthonormal** when each has length 1 and each pair is perpendicular (orthogonal). $\mathbf v_1, \mathbf v_2$ above are orthonormal, and so are $\mathbf u_1, \mathbf u_2$.
 
 A square matrix whose columns are orthonormal is an **orthogonal matrix**. Putting the $\mathbf{v}$'s and the $\mathbf{u}$'s side by side as columns gives two of them:
 
-$$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr  1 & 1 \end{bmatrix}, \qquad U = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr  3 & 1 \end{bmatrix}$$
+$$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}, \qquad U = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}$$
 
 ("Orthonormal matrix" would be more accurate, but "orthogonal matrix" is the convention; MML Def. 3.8.)
 
@@ -125,7 +125,7 @@ The determinant tells the two kinds apart: $+1$ for a rotation, $-1$ for a rotat
 2. **Formula:**
    $$Q^{\mathsf T}Q = I, \qquad Q^{-1} = Q^{\mathsf T}$$
 3. **Example:**
-   $$V^{\mathsf T}V = \frac{1}{2}\begin{bmatrix} 1 & 1 \cr  -1 & 1 \end{bmatrix}\begin{bmatrix} 1 & -1 \cr  1 & 1 \end{bmatrix} = \frac{1}{2}\begin{bmatrix} 2 & 0 \cr  0 & 2 \end{bmatrix} = I$$
+   $$V^{\mathsf T}V = \frac{1}{2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix} = \frac{1}{2}\begin{bmatrix} 2 & 0 \cr0 & 2 \end{bmatrix} = I$$
    So $V^{\mathsf T}$ is the rotation by $-45^\circ$, the move that undoes $V$.
 
 The transpose and the identity matrix were defined in the [PCA step by step Note](../48-pca-step-by-step/note.md), and the inverse in the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md). Computing an inverse is normally expensive; for an orthogonal matrix it is free.
@@ -134,24 +134,24 @@ The transpose and the identity matrix were defined in the [PCA step by step Note
 
 ## 4. Rotate, stretch, rotate: $A = U\Sigma V^{\mathsf T}$
 
-> **Key point:** $V^{\mathsf T}$ rotates $\mathbf{v}_1, \mathbf{v}_2$ onto the axes, $\Sigma$ stretches the axes by the singular values, and $U$ rotates the axes onto $\mathbf{u}_1, \mathbf{u}_2$.
+> **Key point:** $V^{\mathsf T}$ rotates $\mathbf v_1, \mathbf v_2$ onto the axes, $\Sigma$ stretches the axes by the singular values, and $U$ rotates the axes onto $\mathbf u_1, \mathbf u_2$.
 
 ### 4.1 From the singular value equation to the factorisation
 
-> **Key point:** Stack the equations $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ side by side as $AV = U\Sigma$, then multiply by $V^{\mathsf T}$.
+> **Key point:** Stack the equations $A\mathbf v_i = \sigma_i\mathbf u_i$ side by side as $AV = U\Sigma$, then multiply by $V^{\mathsf T}$.
 
-The two equations $A\mathbf{v}_1 = \sigma_1\mathbf{u}_1$ and $A\mathbf{v}_2 = \sigma_2\mathbf{u}_2$ can be written as one matrix equation. On the left, $A$ times the matrix with columns $\mathbf{v}_1, \mathbf{v}_2$ has columns $A\mathbf{v}_1, A\mathbf{v}_2$. On the right, the matrix with columns $\mathbf{u}_1, \mathbf{u}_2$ times a diagonal matrix scales column $i$ by $\sigma_i$:
+The two equations $A\mathbf v_1 = \sigma_1\mathbf u_1$ and $A\mathbf v_2 = \sigma_2\mathbf u_2$ can be written as one matrix equation. On the left, $A$ times the matrix with columns $\mathbf v_1, \mathbf v_2$ has columns $A\mathbf v_1, A\mathbf v_2$. On the right, the matrix with columns $\mathbf u_1, \mathbf u_2$ times a diagonal matrix scales column $i$ by $\sigma_i$:
 
-$$A \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix} = \begin{bmatrix} \mathbf{u}_1 & \mathbf{u}_2 \end{bmatrix} \begin{bmatrix} \sigma_1 & 0 \cr  0 & \sigma_2 \end{bmatrix} \qquad\text{that is}\qquad AV = U\Sigma$$
+$$A \begin{bmatrix} \mathbf v_1 & \mathbf v_2 \end{bmatrix} = \begin{bmatrix} \mathbf u_1 & \mathbf u_2 \end{bmatrix} \begin{bmatrix} \sigma_1 & 0 \cr0 & \sigma_2 \end{bmatrix} \qquad\text{that is}\qquad AV = U\Sigma$$
 
 Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$, the $V$ disappears from the left.
 
 1. **In words:** every matrix is an orthogonal matrix, times a diagonal matrix of non-negative numbers, times another orthogonal matrix.
 2. **Formula:**
    $$A = U\Sigma V^{\mathsf T}$$
-   The columns of $U$ are the **left singular vectors** $\mathbf{u}_i$, the columns of $V$ are the **right singular vectors** $\mathbf{v}_i$, and the diagonal of $\Sigma$ holds the singular values $\sigma_i$.
+   The columns of $U$ are the **left singular vectors** $\mathbf u_i$, the columns of $V$ are the **right singular vectors** $\mathbf v_i$, and the diagonal of $\Sigma$ holds the singular values $\sigma_i$.
 3. **Example:**
-   $$\begin{bmatrix} 3 & 0 \cr  4 & 5 \end{bmatrix} = \underbrace{\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr  3 & 1 \end{bmatrix}}_{U}\ \underbrace{\begin{bmatrix} 6.71 & 0 \cr  0 & 2.24 \end{bmatrix}}_{\Sigma}\ \underbrace{\frac{1}{\sqrt 2}\begin{bmatrix} 1 & 1 \cr  -1 & 1 \end{bmatrix}}_{V^{\mathsf T}}$$
+   $$\begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = \underbrace{\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}}_{U}\ \underbrace{\begin{bmatrix} 6.71 & 0 \cr0 & 2.24 \end{bmatrix}}_{\Sigma}\ \underbrace{\frac{1}{\sqrt 2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}}_{V^{\mathsf T}}$$
    Multiplying out with the exact values $\sigma_1 = 3\sqrt5$ and $\sigma_2 = \sqrt5$ gives back $A$ exactly; the [computing the SVD Note](../611-computing-the-svd/note.md) does it step by step.
 
 ### 4.2 Reading the three factors as moves
@@ -160,9 +160,9 @@ Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$,
 
 A product of matrices is one transformation after another, applied from right to left (see the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md)). Figure 1 follows the unit circle through the three moves:
 
-1. **$V^{\mathsf T}$ rotates.** $V^{\mathsf T}$ is the rotation by $-45^\circ$. It carries $\mathbf{v}_1$ onto $\hat{\imath}$ (written $\mathbf{e}_1$ in the figure) and $\mathbf{v}_2$ onto $\hat{\jmath}$ ($\mathbf{e}_2$). The circle looks the same, since a rotated circle is still a circle.
+1. **$V^{\mathsf T}$ rotates.** $V^{\mathsf T}$ is the rotation by $-45^\circ$. It carries $\mathbf v_1$ onto $\hat{\imath}$ (written $\mathbf e_1$ in the figure) and $\mathbf v_2$ onto $\hat{\jmath}$ ($\mathbf e_2$). The circle looks the same, since a rotated circle is still a circle.
 2. **$\Sigma$ stretches.** $\Sigma$ is a diagonal matrix, so it stretches along the axes only (as feature scaling did in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md), section 7.2): by 6.71 along x and 2.24 along y. The circle becomes an ellipse lying along the axes.
-3. **$U$ rotates.** $U$ is the rotation by 71.6°. The rotation turns the ellipse so that its axes point along $\mathbf{u}_1$ and $\mathbf{u}_2$.
+3. **$U$ rotates.** $U$ is the rotation by 71.6°. The rotation turns the ellipse so that its axes point along $\mathbf u_1$ and $\mathbf u_2$.
 
 The final ellipse is exactly the one $A$ makes in one step (the dashed red curve in the last frame). Every linear transformation of the plane is this simple underneath: a rotation, a stretch along two perpendicular directions, and another rotation. Either rotation may also include a flip.
 
@@ -174,18 +174,18 @@ The final ellipse is exactly the one $A$ makes in one step (the dashed red curve
 
 ### 5.1 Ordering and sign
 
-> **Key point:** We sort $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$; a sign flip of a matching $\mathbf{u}_i$ and $\mathbf{v}_i$ gives an equally valid SVD.
+> **Key point:** We sort $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$; a sign flip of a matching $\mathbf u_i$ and $\mathbf v_i$ gives an equally valid SVD.
 
-- **Never negative.** A singular value is a length (of $A\mathbf{v}_i$), so $\sigma_i \ge 0$. If a stretch would need a negative number, we flip the sign of $\mathbf{u}_i$ instead.
+- **Never negative.** A singular value is a length (of $A\mathbf v_i$), so $\sigma_i \ge 0$. If a stretch would need a negative number, we flip the sign of $\mathbf u_i$ instead.
 - **Largest first.** By convention $\sigma_1 \ge \sigma_2 \ge \dots$. Then $\Sigma$ is unique for every matrix (MML Thm 4.22).
-- **Signs of the vectors.** Changing both $\mathbf{u}_i$ and $\mathbf{v}_i$ to $-\mathbf{u}_i$ and $-\mathbf{v}_i$ keeps $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ true. So libraries may return vectors with signs opposite to ours, as NumPy does below. Flipping only one of the pair is wrong; the [computing the SVD Note](../611-computing-the-svd/note.md) shows what goes wrong.
+- **Signs of the vectors.** Changing both $\mathbf u_i$ and $\mathbf v_i$ to $-\mathbf u_i$ and $-\mathbf v_i$ keeps $A\mathbf v_i = \sigma_i\mathbf u_i$ true. So libraries may return vectors with signs opposite to ours, as NumPy does below. Flipping only one of the pair is wrong; the [computing the SVD Note](../611-computing-the-svd/note.md) shows what goes wrong.
 
 ### 5.2 Rank and the largest stretch
 
 > **Key point:** The rank is the number of non-zero singular values; $\sigma_1$ is the longest $A\mathbf{x}$ can be for a unit vector $\mathbf{x}$.
 
-- **Rank.** Each non-zero $\sigma_i$ gives one independent output direction $\mathbf{u}_i$; a zero $\sigma_i$ squishes its direction to nothing. So the rank of the matrix (see the [linear combinations, span and basis Note](../490-linear-combinations-span-and-basis/note.md), section 7) is the number of non-zero singular values. $A$ has two, so its rank is 2.
-- **Largest stretch.** Every unit vector lands somewhere on the ellipse, and the farthest points of the ellipse are the ends of its long axis. So $\lVert A\mathbf{x}\rVert \le \sigma_1$ for every unit $\mathbf{x}$, and $\sigma_1$ is reached at $\mathbf{x} = \mathbf{v}_1$. In the same way, $\sigma_2$ is the smallest stretch of a $2 \times 2$ matrix.
+- **Rank.** Each non-zero $\sigma_i$ gives one independent output direction $\mathbf u_i$; a zero $\sigma_i$ squishes its direction to nothing. So the rank of the matrix (see the [linear combinations, span and basis Note](../490-linear-combinations-span-and-basis/note.md), section 7) is the number of non-zero singular values. $A$ has two, so its rank is 2.
+- **Largest stretch.** Every unit vector lands somewhere on the ellipse, and the farthest points of the ellipse are the ends of its long axis. So $\lVert A\mathbf{x}\rVert \le \sigma_1$ for every unit $\mathbf{x}$, and $\sigma_1$ is reached at $\mathbf{x} = \mathbf v_1$. In the same way, $\sigma_2$ is the smallest stretch of a $2 \times 2$ matrix.
 
 For $A$: $\hat{\imath}$ lands on $[3, 4]$, of length 5; $\hat{\jmath}$ on $[0, 5]$, also of length 5. Both are below $\sigma_1 = 6.71$ and above $\sigma_2 = 2.24$.
 
@@ -202,7 +202,7 @@ For $A$: $\hat{\imath}$ lands on $[3, 4]$, of length 5; $\hat{\jmath}$ on $[0, 5
 > U @ np.diag(s) @ Vt     # gives back A
 > ```
 >
-> The third output is already $V^{\mathsf T}$: its **rows** are the $\mathbf{v}_i$. NumPy's $\mathbf{u}_1$ and $\mathbf{v}_1$ are both the negatives of ours, an equally valid choice (Section 5.1).
+> The third output is already $V^{\mathsf T}$: its **rows** are the $\mathbf v_i$. NumPy's $\mathbf u_1$ and $\mathbf v_1$ are both the negatives of ours, an equally valid choice (Section 5.1).
 
 ## 6. Matrices that are not square
 
@@ -220,11 +220,11 @@ A data matrix is rarely square: it has many more rows (**observations**, one per
 
 This factorisation is the **full SVD** (Figure 3, top). Take the $3 \times 2$ matrix
 
-$$B = \begin{bmatrix} 1 & 1 \cr  0 & 1 \cr  1 & 0 \end{bmatrix}$$
+$$B = \begin{bmatrix} 1 & 1 \cr0 & 1 \cr1 & 0 \end{bmatrix}$$
 
 $B$ takes 2D vectors to 3D vectors. Its singular values are $\sqrt3 \approx 1.73$ and 1, so
 
-$$\Sigma = \begin{bmatrix} 1.73 & 0 \cr  0 & 1 \cr  0 & 0 \end{bmatrix}$$
+$$\Sigma = \begin{bmatrix} 1.73 & 0 \cr0 & 1 \cr0 & 0 \end{bmatrix}$$
 
 with a row of zeros at the bottom. $U$ is $3 \times 3$; its third column is a direction in 3D that no output of $B$ ever reaches.
 
@@ -278,12 +278,12 @@ The two agree for one important family. A **symmetric matrix** equals its own tr
 
 | Object | Meaning | For $A$ with rows $[3, 0]$, $[4, 5]$ |
 |---|---|---|
-| $\mathbf{v}_1, \mathbf{v}_2$ (columns of $V$) | perpendicular input directions that stay perpendicular | $[0.707, 0.707]$, $[-0.707, 0.707]$ |
+| $\mathbf v_1, \mathbf v_2$ (columns of $V$) | perpendicular input directions that stay perpendicular | $[0.707, 0.707]$, $[-0.707, 0.707]$ |
 | $\sigma_1, \sigma_2$ (diagonal of $\Sigma$) | stretch factors, largest first | 6.71, 2.24 |
-| $\mathbf{u}_1, \mathbf{u}_2$ (columns of $U$) | axes of the output ellipse | $[0.316, 0.949]$, $[-0.949, 0.316]$ |
+| $\mathbf u_1, \mathbf u_2$ (columns of $U$) | axes of the output ellipse | $[0.316, 0.949]$, $[-0.949, 0.316]$ |
 | $V^{\mathsf T}$, $\Sigma$, $U$ | rotate, stretch, rotate | $-45^\circ$; $\times 6.71$ and $\times 2.24$; $+71.6^\circ$ |
 
-- Every matrix sends the unit circle to an ellipse; $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ names its axes.
+- Every matrix sends the unit circle to an ellipse; $A\mathbf v_i = \sigma_i\mathbf u_i$ names its axes.
 - An orthogonal matrix has orthonormal columns, only rotates or flips, and has $Q^{-1} = Q^{\mathsf T}$.
 - $A = U\Sigma V^{\mathsf T}$ for every matrix: rotate, stretch along the axes, rotate.
 - Singular values are $\ge 0$; their count above zero is the rank; $\sigma_1$ is the largest stretch.
@@ -300,10 +300,10 @@ The two agree for one important family. A **symmetric matrix** equals its own tr
 | Term | Meaning |
 |---|---|
 | Singular value decomposition (SVD) | Writing any matrix as $A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal |
-| Singular value ($\sigma_i$) | A stretch factor of a matrix: the length of $A\mathbf{v}_i$; never negative, listed largest first |
-| Right singular vector ($\mathbf{v}_i$) | An input direction of the SVD; a column of $V$ |
-| Left singular vector ($\mathbf{u}_i$) | An output direction of the SVD; a column of $U$ |
-| Singular value equation | $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ |
+| Singular value ($\sigma_i$) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first |
+| Right singular vector ($\mathbf v_i$) | An input direction of the SVD; a column of $V$ |
+| Left singular vector ($\mathbf u_i$) | An output direction of the SVD; a column of $U$ |
+| Singular value equation | $A\mathbf v_i = \sigma_i\mathbf u_i$ |
 | Orthonormal | Vectors of length 1 that are all perpendicular to each other |
 | Orthogonal matrix | A square matrix with orthonormal columns; it rotates or flips, and its inverse is its transpose |
 | Rotation | An orthogonal matrix with determinant $+1$: turns space without stretching or flipping |

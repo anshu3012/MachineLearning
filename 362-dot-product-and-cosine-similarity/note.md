@@ -109,7 +109,7 @@ Two uses in ML follow from these. A recommender system turns items into vectors 
 
 ## 5. The geometric meaning
 
-> **Key point:** $a \cdot b = \lVert a \rVert\thinspace  \lVert b \rVert \cos\theta$, where $\theta$ is the angle between the vectors.
+> **Key point:** $a \cdot b = \lVert a \rVert\thinspace\lVert b \rVert \cos\theta$, where $\theta$ is the angle between the vectors.
 
 ### 5.1 The second formula
 
@@ -119,10 +119,10 @@ So far the dot product was a recipe on components. A second formula gives the sa
 
 1. **In words:** multiply the lengths of the two vectors, and multiply by the cosine of the angle between them.
 2. **Formula:**
-   $$a \cdot b = \lVert a \rVert\thinspace  \lVert b \rVert \cos\theta$$
+   $$a \cdot b = \lVert a \rVert\thinspace\lVert b \rVert \cos\theta$$
    where $\lVert a \rVert$ and $\lVert b \rVert$ are the magnitudes (distances from the origin) and $\theta$ is the angle between $a$ and $b$.
 3. **Example:** for $a = [3, 4]$ and $b = [4, 3]$, the component recipe gives $a \cdot b = 12 + 12 = 24$. Both have length 5, and the angle between them is $16.26^\circ$, with $\cos 16.26^\circ = 0.96$:
-   $$\lVert a \rVert\thinspace  \lVert b \rVert \cos\theta = 5 \times 5 \times 0.96 = 24$$
+   $$\lVert a \rVert\thinspace\lVert b \rVert \cos\theta = 5 \times 5 \times 0.96 = 24$$
 
 In Figure 1, $a = [3, 1]$ has length $\sqrt{10} \approx 3.16$ and $b$ has length 2.5. At $\theta = 30^\circ$ the dot product is $3.16 \times 2.5 \times 0.87 \approx 6.85$, and at $\theta = 0^\circ$ it reaches its maximum, $3.16 \times 2.5 = 7.91$.
 
@@ -148,7 +148,7 @@ If we know all the components of $a$ and $b$, in any number of dimensions, we ca
 
 1. **In words:** compute the dot product, divide by the product of the two lengths; that is $\cos\theta$. The inverse cosine (arccos) turns it into the angle.
 2. **Formula:**
-   $$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace  \lVert b \rVert}, \qquad \theta = \cos^{-1}\negthinspace \left(\frac{a \cdot b}{\lVert a \rVert\thinspace  \lVert b \rVert}\right)$$
+   $$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}, \qquad \theta = \cos^{-1}\negthinspace\left(\frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}\right)$$
 3. **Example:** for $a = [3, 4]$ and $b = [4, 3]$,
    $$\cos\theta = \frac{24}{5 \times 5} = 0.96, \qquad \theta = \cos^{-1}(0.96) \approx 16.26^\circ$$
 
@@ -162,7 +162,7 @@ If we know all the components of $a$ and $b$, in any number of dimensions, we ca
 
 The **cosine similarity** of two vectors is the cosine of the angle between them,
 
-$$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace  \lVert b \rVert}$$
+$$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}$$
 
 computed from the components exactly as in Section 5.3. In ML it is a standard **similarity measure**: a number that says how alike two vectors are.
 
@@ -188,7 +188,7 @@ For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = 
 
 1. **In words:** the dot product of two count vectors counts the shared words; divide by the two lengths.
 2. **Formula:**
-   $$\cos\theta_{BC} = \frac{B \cdot C}{\lVert B \rVert\thinspace  \lVert C \rVert}$$
+   $$\cos\theta_{BC} = \frac{B \cdot C}{\lVert B \rVert\thinspace\lVert C \rVert}$$
 3. **Example:** B and C share one word, *is*, so $B \cdot C = 1$. B has 4 words, so $\lVert B \rVert = \sqrt{4} = 2$; C has 3, so $\lVert C \rVert = \sqrt{3} \approx 1.73$.
    $$\cos\theta_{BC} = \frac{1}{2 \times 1.73} \approx 0.29$$
    A shares no word with B, so $\cos\theta_{AB} = 0$: orthogonal. A user who likes B gets C.

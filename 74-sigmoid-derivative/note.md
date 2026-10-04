@@ -67,7 +67,7 @@ $$\frac{e^{-z}}{1 + e^{-z}} = \frac{(1 + e^{-z}) - 1}{1 + e^{-z}} = 1 - \frac{1}
 
 Putting the two pieces together:
 
-$$\boxed{\sigma'(z) = \sigma(z)\thinspace \bigl(1 - \sigma(z)\bigr)}$$
+$$\boxed{\sigma'(z) = \sigma(z)\thinspace\bigl(1 - \sigma(z)\bigr)}$$
 
 With numbers: at $z = 2$, $\sigma(2) = 0.88$, so $\sigma'(2) = 0.88 \times 0.12 = 0.105$.
 

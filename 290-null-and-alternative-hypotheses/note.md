@@ -115,7 +115,7 @@ Faced with a new problem, we may wonder which statement should be $H_0$. The rul
 The statement with the change, the difference or the effect is $H_1$.
 
 > **Extra:** The equals sign always goes in $H_0$. The test needs one exact value to compute with ($\mu = 6$), and only $H_0$ provides it. Some books write a one-tailed null as $H_0: \mu \le 6$; the calculation is the same. For a right-tailed z-test that rejects when $(\bar{x} - 6)/SE > z_\alpha$, the chance of rejecting when the true mean is $\mu$ is
-> $$P(\text{reject}) = P\negthinspace \left(Z > z_\alpha - \frac{\mu - 6}{SE}\right)$$
+> $$P(\text{reject}) = P\negthinspace\left(Z > z_\alpha - \frac{\mu - 6}{SE}\right)$$
 > For every $\mu < 6$ the subtracted term is negative, so this chance is below $\alpha$; it reaches $\alpha$ exactly at $\mu = 6$. So the error rate of $H_0: \mu \le 6$ is set by its edge case $\mu = 6$.
 
 ### 5.2 The goal: evidence against $H_0$

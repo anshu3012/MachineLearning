@@ -149,7 +149,7 @@ With the default degree 3, the accuracy is even worse than linear: 0.45, with th
 > # 2 1.0
 > ```
 
-> **Extra:** Why does degree 2 work and degree 3 fail? scikit-learn's polynomial kernel is $(\gamma\thinspace  a \cdot b + r)^d$ with $r$ (`coef0`) equal to 0 by default (sklearn UG §1.4.6). With $r = 0$, the degree-3 kernel contains only terms of degree exactly 3, such as $x_1^3$ and $x_1^2 x_2$. A circle needs $x_1^2 + x_2^2$, a degree-2 term, which the degree-3 kernel cannot produce. The degree-2 kernel contains exactly $x_1^2$, $x_1 x_2$ and $x_2^2$. Setting `coef0=1` with degree 3 adds the lower-degree terms back, and in the Notebook this model also scores 1.00 on the circles.
+> **Extra:** Why does degree 2 work and degree 3 fail? scikit-learn's polynomial kernel is $(\gamma\thinspace a \cdot b + r)^d$ with $r$ (`coef0`) equal to 0 by default (sklearn UG §1.4.6). With $r = 0$, the degree-3 kernel contains only terms of degree exactly 3, such as $x_1^3$ and $x_1^2 x_2$. A circle needs $x_1^2 + x_2^2$, a degree-2 term, which the degree-3 kernel cannot produce. The degree-2 kernel contains exactly $x_1^2$, $x_1 x_2$ and $x_2^2$. Setting `coef0=1` with degree 3 adds the lower-degree terms back, and in the Notebook this model also scores 1.00 on the circles.
 
 The table also shows the support vectors. The linear model needs almost every training point; the good kernels need only a few. The reason: every point that sits on the margin, inside it or on the wrong side of the boundary becomes a support vector (ESL §12.2.1). A straight line fits the circles badly, so most points end up inside its margin; a curved boundary that fits well leaves only a few points near it.
 

@@ -190,8 +190,8 @@ SMOTE creates observations by **interpolation**: placing a new point on the stra
 
 1. **In words:** start at the minority point $x$; move a random fraction $\lambda$ (between 0 and 1) of the way towards its neighbour $n$.
 2. **Formula:**
-   $$x_{\text{new}} = x + \lambda \thinspace  (n - x), \qquad 0 \le \lambda \le 1$$
-   With $\lambda = 0$ the new point is $x$ itself; with $\lambda = 1$ it is the neighbour. The same formula is often written $x - \lambda\thinspace (x - n)$.
+   $$x_{\text{new}} = x + \lambda \thinspace(n - x), \qquad 0 \le \lambda \le 1$$
+   With $\lambda = 0$ the new point is $x$ itself; with $\lambda = 1$ it is the neighbour. The same formula is often written $x - \lambda\thinspace(x - n)$.
 3. **Example:** $x = (1, 1)$, $n = (2, 2)$ and $\lambda = 0.5$:
    $$x_{\text{new}} = (1, 1) + 0.5 \times \big((2, 2) - (1, 1)\big) = (1, 1) + (0.5, 0.5) = (1.5, 1.5)$$
    The new point lies exactly halfway between the two.
@@ -207,7 +207,7 @@ Figure 4 shows the steps:
 1. Take only the minority observations, and find the $k$ nearest minority neighbours of each one, usually $k = 5$ (a KNN search, as in the [KNN Note](../91-knn/note.md)).
 2. Pick a minority point at random.
 3. Pick one of its $k$ neighbours at random.
-4. Draw a random $\lambda$ between 0 and 1 and create the new point $x + \lambda\thinspace (n - x)$.
+4. Draw a random $\lambda$ between 0 and 1 and create the new point $x + \lambda\thinspace(n - x)$.
 5. Repeat steps 2 to 4 until the minority class is as large as the majority.
 
 > **Python:** SMOTE written by hand in a few lines of NumPy, to see every step.
@@ -385,14 +385,14 @@ The losses we have used so far are standard ones: mean squared error, log loss (
 
 1. **In words:** the usual log loss, but each observation's loss is multiplied by the cost of its class: $a$ for observations of class 1, $b$ for observations of class 0.
 2. **Formula:** with $p_i$ the predicted probability of class 1,
-   $$L = -\frac{1}{n} \sum_{i=1}^{n} \Big[ a \thinspace  y_i \log p_i + b \thinspace  (1 - y_i) \log (1 - p_i) \Big]$$
+   $$L = -\frac{1}{n} \sum_{i=1}^{n} \Big[ a \thinspace y_i \log p_i + b \thinspace(1 - y_i) \log (1 - p_i) \Big]$$
 3. **Example:** a class 0 observation ($y = 0$) that the model gives $p = 0.9$, so only 0.1 for its true class. With $a = 1$, $b = 3.5$:
    $$\text{loss} = -3.5 \times \log(1 - 0.9) = -3.5 \times (-2.303) = 8.06$$
    instead of 2.303 with $b = 1$: the same mistake now costs 3.5 times as much.
 
 To train with a custom loss, a gradient boosting library needs its derivatives with respect to the model's raw output $z$ (where $p = \sigma(z)$, the sigmoid):
 
-$$\frac{\partial L_i}{\partial z_i} = b\thinspace (1 - y_i)\thinspace p_i - a\thinspace y_i\thinspace (1 - p_i), \qquad \frac{\partial^2 L_i}{\partial z_i^2} = p_i (1 - p_i) \big(a\thinspace y_i + b\thinspace (1 - y_i)\big)$$
+$$\frac{\partial L_i}{\partial z_i} = b\thinspace(1 - y_i)\thinspace p_i - a\thinspace y_i\thinspace(1 - p_i), \qquad \frac{\partial^2 L_i}{\partial z_i^2} = p_i (1 - p_i) \big(a\thinspace y_i + b\thinspace(1 - y_i)\big)$$
 
 > **Python:** The custom loss in XGBoost.
 >
@@ -488,7 +488,7 @@ The techniques here are the most common. imbalanced-learn has many more, grouped
 - Imbalanced data biases a model towards the majority class, and accuracy hides it: judge by the minority's precision, recall, F1 and ROC AUC.
 - Many real problems (fraud, credit risk, rare disease, churn) are imbalanced, and the rare class is the one that matters.
 - Resampling changes the data, balanced ensembles change each model's sample, and cost-sensitive learning changes the loss.
-- SMOTE creates $x + \lambda\thinspace (n - x)$, a point between a minority observation and one of its $k$ nearest minority neighbours.
+- SMOTE creates $x + \lambda\thinspace(n - x)$, a point between a minority observation and one of its $k$ nearest minority neighbours.
 - Resample only the training data, and inside each cross-validation fold.
 
 ## 12. Sources

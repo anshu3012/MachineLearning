@@ -64,7 +64,7 @@ The Pareto distribution is sometimes described as having one parameter, $\alpha$
 
 1. **In words:** for every $x$ at or above the minimum, the density is $\alpha$ times $x_m^{\alpha}$, divided by $x$ raised to the power $\alpha + 1$; below the minimum it is 0.
 2. **Formula:**
-   $$f(x) = \frac{\alpha\thinspace  x_m^{\alpha}}{x^{\alpha + 1}} \qquad \text{for } x \ge x_m$$
+   $$f(x) = \frac{\alpha\thinspace x_m^{\alpha}}{x^{\alpha + 1}} \qquad \text{for } x \ge x_m$$
    This is a power law $k\thinspace x^{a}$ with $k = \alpha x_m^{\alpha}$ and $a = -(\alpha + 1)$.
 3. **Example:** with $x_m = 1$ and $\alpha = 3$:
    $$f(1) = \frac{3 \times 1^3}{1^{4}} = 3, \qquad f(2) = \frac{3 \times 1^3}{2^{4}} = \frac{3}{16} = 0.1875$$
@@ -97,14 +97,14 @@ In wealth terms, a fat tail (small $\alpha$) means a few individuals hold huge a
 
 In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. The slow climb is the fat tail again: a sizeable share of the values lies far out, so it takes a long way along the x axis to collect all of them. A large $\alpha$ reaches 1 quickly, because almost everything sits just above $x_m$.
 
-> **Extra:** The share of the total held by the richest fraction $p$ of a Pareto population is $p^{\thinspace 1 - 1/\alpha}$ (for $\alpha > 1$).
+> **Extra:** The share of the total held by the richest fraction $p$ of a Pareto population is $p^{\thinspace1 - 1/\alpha}$ (for $\alpha > 1$).
 >
-> The formula follows from the CDF. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$. Their total is $\int_{x_p}^{\infty} x f(x)\thinspace dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\thinspace 1-\alpha}$, and the total of everyone is the same integral from $x_m$, $\frac{\alpha x_m}{\alpha - 1}$. Dividing gives $(x_m/x_p)^{\alpha - 1} = p^{(\alpha-1)/\alpha}$.
+> The formula follows from the CDF. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$. Their total is $\int_{x_p}^{\infty} x f(x)\thinspace dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\thinspace1-\alpha}$, and the total of everyone is the same integral from $x_m$, $\frac{\alpha x_m}{\alpha - 1}$. Dividing gives $(x_m/x_p)^{\alpha - 1} = p^{(\alpha-1)/\alpha}$.
 >
 > 1. **In words:** raise the fraction of people to the power $1 - 1/\alpha$.
 > 2. **Formula:**
->    $$\text{share held by the top } p = p^{\thinspace 1 - 1/\alpha}$$
-> 3. **Example:** for the top 20%, with $\alpha = 1.16$: $0.2^{\thinspace 1 - 1/1.16} = 0.2^{0.139} = 0.80$, the 80-20 rule. With $\alpha = 3$: $0.2^{\thinspace 2/3} = 0.34$, so the top 20% hold only 34% (Figure 1).
+>    $$\text{share held by the top } p = p^{\thinspace1 - 1/\alpha}$$
+> 3. **Example:** for the top 20%, with $\alpha = 1.16$: $0.2^{\thinspace1 - 1/1.16} = 0.2^{0.139} = 0.80$, the 80-20 rule. With $\alpha = 3$: $0.2^{\thinspace2/3} = 0.34$, so the top 20% hold only 34% (Figure 1).
 >
 > The exact value for the 80-20 rule is $\alpha = \log_4 5 = 1.161$. Also, the mean of a Pareto distribution, $\alpha x_m / (\alpha - 1)$, exists only for $\alpha > 1$: with $\alpha \le 1$ the tail is so fat that the average is infinite.
 
@@ -144,7 +144,7 @@ Take the log of both $x$ and $y$ and plot $\ln y$ against $\ln x$. A power law b
 
 1. **In words:** the log of the Pareto PDF is a constant minus $(\alpha + 1)$ times $\ln x$.
 2. **Formula:**
-   $$\ln f(x) = \ln\negthinspace \left(\alpha x_m^{\alpha}\right) - (\alpha + 1)\ln x$$
+   $$\ln f(x) = \ln\negthinspace\left(\alpha x_m^{\alpha}\right) - (\alpha + 1)\ln x$$
 3. **Example:** with $x_m = 1$ and $\alpha = 3$: $\ln f(x) = \ln 3 - 4\ln x = 1.099 - 4\ln x$. At $x = e$ (so $\ln x = 1$), $\ln f = 1.099 - 4 = -2.90$. The line has slope $-4$ (Figure 3, left).
 
 ![Left: the Pareto PDF on log-log axes. Middle: data on log-log axes, Pareto against log-normal. Right: Q-Q plot against a fitted Pareto](images/pareto_check.png)
@@ -196,7 +196,7 @@ Each of those Notes checks the result with a Q-Q plot and shows the effect on a 
 | Power law | $y = k\thinspace x^{a}$ | $k = 1$, $a = -2$: $y(2) = 0.25$ |
 | Pareto PDF | $\alpha x_m^{\alpha} / x^{\alpha + 1}$, $x \ge x_m$ | $f(2) = 0.1875$ |
 | Pareto CDF | $1 - (x_m/x)^{\alpha}$ | $F(2) = 0.875$ |
-| Share held by top $p$ | $p^{\thinspace 1 - 1/\alpha}$ | top 20%: 34% ($\alpha = 1.16$: 80%) |
+| Share held by top $p$ | $p^{\thinspace1 - 1/\alpha}$ | top 20%: 34% ($\alpha = 1.16$: 80%) |
 | Log-log PDF | slope $-(\alpha + 1)$ | slope $-4$ |
 
 - Larger $\alpha$: higher peak at $x_m$, thinner tail, less inequality. Smaller $\alpha$: fatter tail, more inequality.

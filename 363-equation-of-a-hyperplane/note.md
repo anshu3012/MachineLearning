@@ -64,7 +64,7 @@ Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ becom
 
 Look at the part $w_1x_1 + w_2x_2 + \dots + w_nx_n$. This sum multiplies matching components and adds them, which is exactly a dot product. Collect the coefficients into one vector and the coordinates into another:
 
-$$w = \begin{bmatrix} w_1 \cr  w_2 \cr  \vdots \cr  w_n \end{bmatrix}, \qquad x = \begin{bmatrix} x_1 \cr  x_2 \cr  \vdots \cr  x_n \end{bmatrix}$$
+$$w = \begin{bmatrix} w_1 \cr w_2 \cr\vdots \cr w_n \end{bmatrix}, \qquad x = \begin{bmatrix} x_1 \cr x_2 \cr\vdots \cr x_n \end{bmatrix}$$
 
 Both are column vectors, the default. Writing the dot product as a row times a column, $w \cdot x = w^{\mathsf T}x$, gives the equation of a hyperplane:
 
@@ -108,7 +108,7 @@ In 2D that is $w_1x_1 + w_2x_2 = 0$; in 4D, $w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4 =
 
 For a hyperplane through the origin, every point $x$ on it satisfies $w^{\mathsf T}x = 0$. Write the dot product in its geometric form:
 
-$$w^{\mathsf T}x = w \cdot x = \lVert w \rVert\thinspace  \lVert x \rVert \cos\theta = 0$$
+$$w^{\mathsf T}x = w \cdot x = \lVert w \rVert\thinspace\lVert x \rVert \cos\theta = 0$$
 
 For non-zero $w$ and $x$, the lengths are positive, so $\cos\theta = 0$ and $\theta = 90^\circ$. Each point $x$ on the hyperplane is a vector lying in the hyperplane, and $w$ is at a right angle to every one of them. So $w$ is perpendicular to the hyperplane itself. A vector perpendicular to a line, plane or hyperplane is called its **normal vector**.
 

@@ -37,7 +37,7 @@ Figure 1 groups the loss functions by problem. This Note covers the dashed part:
 
 > **Key point:** Start with a random line, measure its loss, move the line, measure again; stop when the loss is smallest.
 
-In simple linear regression, the loss is the mean squared error, and $\hat{y}_i = m x_i + b$. So the loss is a function of $m$ and $b$ only. Gradient descent starts from a random line, computes its loss, and changes $m$ and $b$ to lower it, again and again (see the [gradient descent Note](../57-gradient-descent/note.md)).
+In simple linear regression, the loss is the mean squared error, and $\hat y_i = m x_i + b$. So the loss is a function of $m$ and $b$ only. Gradient descent starts from a random line, computes its loss, and changes $m$ and $b$ to lower it, again and again (see the [gradient descent Note](../57-gradient-descent/note.md)).
 
 The loss is the algorithm's eyes. Without it, the algorithm has no way to know which direction is better.
 
@@ -61,8 +61,8 @@ The weights and biases that give the smallest loss are the trained network. How 
 
 Strictly, the two words mean different things:
 
-- **Loss function** (also called **error function**): the error on a single training observation, e.g. $(y_i - \hat{y}_i)^2$.
-- **Cost function**: the average of the losses over a batch of observations, or over the whole training set, e.g. $\frac{1}{n}\sum (y_i - \hat{y}_i)^2$.
+- **Loss function** (also called **error function**): the error on a single training observation, e.g. $(y_i - \hat y_i)^2$.
+- **Cost function**: the average of the losses over a batch of observations, or over the whole training set, e.g. $\frac{1}{n}\sum (y_i - \hat y_i)^2$.
 
 Four students show the difference:
 
@@ -87,7 +87,7 @@ Four students show the difference:
 
 ### 5.1 The formula
 
-> **Key point:** Loss $(y - \hat{y})^2$; cost $\frac{1}{n}\sum (y_i - \hat{y}_i)^2$. Also called squared loss or L2 loss.
+> **Key point:** Loss $(y - \hat{y})^2$; cost $\frac{1}{n}\sum (y_i - \hat y_i)^2$. Also called squared loss or L2 loss.
 
 The **mean squared error** (MSE) is defined in the [regression metrics Note](../52-regression-metrics/note.md), section 3. As a training loss it is also called the **squared loss** or **L2 loss**.
 
@@ -152,7 +152,7 @@ With MSE, the output layer needs a linear activation (no activation at all), bec
 
 > **Key point:** MAE takes the absolute error instead of the square. Its units are those of $y$ and outliers pull less, but its slope jumps at 0.
 
-The **mean absolute error** (MAE) is defined in the [regression metrics Note](../52-regression-metrics/note.md), section 2. As a training loss it is also called **L1 loss**: loss $|y_i - \hat{y}_i|$ for one observation, cost $\frac{1}{n}\sum |y_i - \hat{y}_i|$ over $n$ observations.
+The **mean absolute error** (MAE) is defined in the [regression metrics Note](../52-regression-metrics/note.md), section 2. As a training loss it is also called **L1 loss**: loss $|y_i - \hat y_i|$ for one observation, cost $\frac{1}{n}\sum |y_i - \hat y_i|$ over $n$ observations.
 
 The only change from MSE is the absolute value in place of the square. The MAE's slope (Figure 2, orange) is $-1$ or $+1$, whatever the size of the error. The 50-lakh student now pushes exactly as hard as a student whose prediction is off by 1.
 
@@ -185,7 +185,7 @@ Suppose 25% of the points are outliers. So many outliers are no longer rare mist
 
 1. **In words:** with error $e = y - \hat{y}$, use half the squared error while the error is within $\delta$; beyond it, use a straight line that rises by $\delta$ per unit of error.
 2. **Formula:**
-   $$L_\delta(e) = \begin{cases} \frac{1}{2} e^2 & |e| \le \delta \cr  \delta \left(|e| - \frac{1}{2}\delta\right) & |e| > \delta \end{cases}$$
+   $$L_\delta(e) = \begin{cases} \frac{1}{2} e^2 & |e| \le \delta \cr\delta \left(|e| - \frac{1}{2}\delta\right) & |e| > \delta \end{cases}$$
 3. **Example:** with $\delta = 1$, an error of 0.5 costs $\frac{1}{2} \times 0.5^2 = 0.125$; an error of 3 costs $1 \times (3 - 0.5) = 2.5$; the 50-lakh student's error of 42 costs $1 \times (42 - 0.5) = 41.5$, not 1764.
 
 The two pieces meet at $|e| = \delta$ with the same value and the same slope, so the loss is smooth everywhere (Figure 2, green). The Huber slope is the error itself for small errors and $\pm\delta$ beyond, so no observation can push harder than $\delta$.
@@ -218,7 +218,7 @@ MSE has moved the line up by about $0.25 \times 8 = 2$, between the two groups. 
 
 **Binary cross-entropy**, also called **log loss**, is the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../73-log-loss/note.md):
 
-$$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y}), \qquad J = -\frac{1}{n}\sum_{i=1}^{n}\big[y_i \log \hat{y}_i + (1 - y_i)\log(1 - \hat{y}_i)\big]$$
+$$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y}), \qquad J = -\frac{1}{n}\sum_{i=1}^{n}\big[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\big]$$
 
 We use it only when the output has two classes, such as placed (1) or not placed (0). In a network:
 
@@ -258,14 +258,14 @@ After each loss, gradient descent updates the weights, then the next student com
 
 Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** is the loss of softmax regression (see section 4.2 of the [softmax regression Note](../79-softmax-regression/note.md)). For one observation with $k$ classes:
 
-$$L = -\sum_{j=1}^{k} y_j \log \hat{y}_j = -y_1 \log \hat{y}_1 - y_2 \log \hat{y}_2 - y_3 \log \hat{y}_3$$
+$$L = -\sum_{j=1}^{k} y_j \log \hat y_j = -y_1 \log \hat y_1 - y_2 \log \hat y_2 - y_3 \log \hat y_3$$
 
-and the cost over $n$ observations is $J = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{k} y_{ij}\log \hat{y}_{ij}$.
+and the cost over $n$ observations is $J = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{k} y_{ij}\log \hat y_{ij}$.
 
 The network changes in two ways:
 
 - the **output layer has one node per class** (here 3: yes, no, maybe);
-- they all use the **softmax** activation, $\hat{y}_j = e^{z_j} / (e^{z_1} + e^{z_2} + e^{z_3})$, so the three outputs lie between 0 and 1 and add up to 1 (see the [softmax regression Note](../79-softmax-regression/note.md), section 2).
+- they all use the **softmax** activation, $\hat y_j = e^{z_j} / (e^{z_1} + e^{z_2} + e^{z_3})$, so the three outputs lie between 0 and 1 and add up to 1 (see the [softmax regression Note](../79-softmax-regression/note.md), section 2).
 
 The labels are [one-hot encoded](../27-one-hot-encoding/note.md): yes = (1, 0, 0), no = (0, 1, 0), maybe = (0, 0, 1). A handwritten-digit network is the same idea with 10 classes (0 to 9) and 10 softmax output nodes.
 
@@ -288,7 +288,7 @@ Student 1 gets a large loss because the network gave its true class only 0.2. Af
 
 1. **In words:** read the true class from the integer label, pick that class's predicted probability, and take minus its log.
 2. **Formula:** for an observation with label $c$,
-   $$L = -\log \hat{y}_c$$
+   $$L = -\log \hat y_c$$
 3. **Example:** student 1 has label 0 and $\hat{y} = (0.2, 0.3, 0.5)$, so $L = -\log 0.2 = 1.609$; student 2 has label 1, so $L = -\log 0.6 = 0.511$. These are exactly the numbers of Section 9.2.
 
 The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of them by 0. The sparse version goes straight to one log. With 10 classes the difference is small; with thousands of classes (words in a vocabulary, for instance) it saves both the one-hot matrix and the wasted work.
@@ -357,6 +357,6 @@ Loss functions are not limited to these. Variational autoencoders use the KL div
 | L1 loss | Another name for the mean absolute error used as a training loss |
 | Huber loss | Half the squared error for errors up to $\delta$, a straight line beyond; MSE for small errors, MAE for large ones |
 | $\delta$ (Huber) | The error size where Huber loss switches from squared to absolute; a hyperparameter |
-| Categorical cross-entropy | $-\sum_j y_j \log \hat{y}_j$ with one-hot labels; the loss for more than two classes, with a softmax output |
-| Sparse categorical cross-entropy | Categorical cross-entropy with integer labels: $-\log \hat{y}_c$ for the true class $c$ |
+| Categorical cross-entropy | $-\sum_j y_j \log \hat y_j$ with one-hot labels; the loss for more than two classes, with a softmax output |
+| Sparse categorical cross-entropy | Categorical cross-entropy with integer labels: $-\log \hat y_c$ for the true class $c$ |
 | KL divergence, focal loss, triplet loss | Losses for variational autoencoders, object detection and embeddings, taught with those networks |

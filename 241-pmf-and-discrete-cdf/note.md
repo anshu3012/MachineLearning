@@ -28,6 +28,7 @@ Random variables, distributions and the PMF/PDF/CDF family are introduced in the
 > **Key point:** A PMF assigns a probability to each possible value of a discrete random variable; every probability is at least 0, and together they add up to 1.
 
 The **probability mass function (PMF)** is the probability distribution function of a **discrete** random variable. The PMF assigns a probability to each possible value:
+
 $$p(x) = P(X = x)$$
 
 The formula reads: "the probability that the random variable $X$ takes the value $x$". On a graph, the possible values go on the x axis and their probabilities on the y axis.
@@ -51,7 +52,8 @@ Not every function can be a PMF. Its probabilities must satisfy two conditions:
 > **Key point:** For a fair die the PMF is 1/6 at each face from 1 to 6 and 0 everywhere else.
 
 A PMF written as a formula $y = f(x)$ must give a value for **every** $x$, including values the die cannot show. So it has two parts:
-$$f(x) = \begin{cases} \dfrac{1}{6} & \text{if } x \in \lbrace 1, 2, 3, 4, 5, 6\rbrace  \cr  0 & \text{otherwise} \end{cases}$$
+
+$$f(x) = \begin{cases} \dfrac{1}{6} & \text{if } x \in \lbrace1, 2, 3, 4, 5, 6\rbrace\cr0 & \text{otherwise} \end{cases}$$
 
 The formula says at once that every face is equally likely, and that 1.5 or 7 have probability 0. Its graph is six equal bars; a distribution in which every value is equally likely is called a **discrete uniform distribution**.
 
@@ -120,7 +122,7 @@ The **Bernoulli distribution** describes a single trial with two outcomes, succe
 
 1. **In words:** success has probability $p$; failure has the rest, $q = 1 - p$.
 2. **Formula:**
-   $$P(X = k) = \begin{cases} p & \text{if } k = 1 \cr  q = 1 - p & \text{if } k = 0 \end{cases}$$
+   $$P(X = k) = \begin{cases} p & \text{if } k = 1 \cr q = 1 - p & \text{if } k = 0 \end{cases}$$
 3. **Example:** with $p = 0.3$, $P(X = 1) = 0.3$ and $P(X = 0) = 0.7$; they add up to 1.
 
 The Bernoulli distribution has **one** parameter, $p$ (with $0 \le p \le 1$). The $q$ often listed beside it is not a second parameter: it is fixed by $p$ as $1 - p$. (MML Example 6.8)
@@ -133,7 +135,7 @@ The binomial distribution (introduced in the [voting ensemble Note](../102-votin
 
 1. **In words:** choose which $k$ of the $n$ trials succeed, then multiply the probabilities of $k$ successes and $n - k$ failures.
 2. **Formula:**
-   $$P(X = k) = \binom{n}{k}\thinspace  p^k\thinspace  (1 - p)^{n - k}$$
+   $$P(X = k) = \binom{n}{k}\thinspace p^k\thinspace(1 - p)^{n - k}$$
    where $\binom{n}{k}$, "$n$ choose $k$", is the number of ways to choose $k$ trials out of $n$.
 3. **Example:** the probability of exactly 2 heads in 4 fair coin tosses ($n = 4$, $p = 0.5$). There are $\binom{4}{2} = 6$ ways to place the 2 heads:
    $$P(X = 2) = 6 \times 0.5^2 \times 0.5^2 = 6 \times 0.0625 = 0.375$$
@@ -143,6 +145,7 @@ The binomial distribution (introduced in the [voting ensemble Note](../102-votin
 > **Key point:** The CDF $F(x)$ is the probability that the variable is at most $x$: the running total of the PMF up to $x$.
 
 The **cumulative distribution function (CDF)** of a random variable $X$ gives the probability that $X$ takes a value **less than or equal to** $x$:
+
 $$F(x) = P(X \le x)$$
 
 The difference from the PMF is one symbol:
