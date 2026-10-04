@@ -1,5 +1,6 @@
 ---
 title: "Xavier (Glorot) and He Initialisation"
+tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, concept/vanishing-gradient, concept/weight-init, concept/xavier-he]
 ---
 
 ## 1. Overview
@@ -66,8 +67,8 @@ The rule is to draw the weights with variance $1/n$, where $n$ is the fan-in. Th
 
 The intuition is a balance. If there are many inputs, each weight is made small so that the sum $\sum w_i x_i$ does not grow too big. If there are few inputs, each weight is made larger so that the sum is not too small. Think of a chain of loudspeakers, each feeding the next: if every speaker turns the sound down, the last one is silent; if every one turns it up, the last one distorts. Each speaker's volume knob must be set so that the sound leaves it as loud as it came in.
 
-> **Extra:** Why exactly $1/n$? For independent $w_i$ and $x_i$ with mean 0, the variance of a product is the product of the variances, $\text{Var}(wx) = E[w^2x^2] - (E[wx])^2 = E[w^2]\,E[x^2] - 0 = \text{Var}(w)\,\text{Var}(x)$, and variances of independent terms add (see the [expected value and variance Note](../332-expected-value-and-variance/note.md) for variance). So
-> $$\text{Var}(z) = \text{Var}\Big(\sum_{i=1}^{n} w_i x_i\Big) = n\,\text{Var}(w)\,\text{Var}(x)$$
+> **Extra:** Why exactly $1/n$? For independent $w_i$ and $x_i$ with mean 0, the variance of a product is the product of the variances, $\text{Var}(wx) = E[w^2x^2] - (E[wx])^2 = E[w^2]\thinspace E[x^2] - 0 = \text{Var}(w)\thinspace \text{Var}(x)$, and variances of independent terms add (see the [expected value and variance Note](../332-expected-value-and-variance/note.md) for variance). So
+> $$\text{Var}(z) = \text{Var}\Big(\sum_{i=1}^{n} w_i x_i\Big) = n\thinspace \text{Var}(w)\thinspace \text{Var}(x)$$
 > Choosing $\text{Var}(w) = 1/n$ gives $\text{Var}(z) = \text{Var}(x)$: the signal leaves the layer the same size it came in. The Notebook checks it with 500 inputs of variance 1: $\text{Var}(w) = 0.0001$ gives $\text{Var}(z) = 0.053$ (predicted 0.05), $\text{Var}(w) = 1$ gives 457 (predicted 500), and $\text{Var}(w) = 1/500$ gives 0.93 (predicted 1).
 
 ## 4. Xavier (Glorot) initialisation
@@ -102,7 +103,7 @@ The variant with fan-in plus fan-out is the one used more often, and the one Ker
    $$L = \sqrt{\frac{6}{500}} = \sqrt{0.012} = 0.110$$
    so the weights lie between $-0.110$ and 0.110.
 
-> **Extra:** The 6 comes from the variance of a uniform distribution: values spread evenly between $-L$ and $L$ have density $1/(2L)$ and mean 0, so their variance is $\int_{-L}^{L} \frac{x^2}{2L}\,dx = \frac{L^2}{3}$. Setting $L^2/3 = 2/(\text{fan-in} + \text{fan-out})$ gives $L^2 = 6/(\text{fan-in} + \text{fan-out})$. So Xavier uniform has exactly the same variance as Xavier normal; only the shape differs. Above, $0.110^2/3 = 0.004$, the variance $0.063^2$ of the normal version.
+> **Extra:** The 6 comes from the variance of a uniform distribution: values spread evenly between $-L$ and $L$ have density $1/(2L)$ and mean 0, so their variance is $\int_{-L}^{L} \frac{x^2}{2L}\thinspace dx = \frac{L^2}{3}$. Setting $L^2/3 = 2/(\text{fan-in} + \text{fan-out})$ gives $L^2 = 6/(\text{fan-in} + \text{fan-out})$. So Xavier uniform has exactly the same variance as Xavier normal; only the shape differs. Above, $0.110^2/3 = 0.004$, the variance $0.063^2$ of the normal version.
 
 ## 5. He initialisation
 

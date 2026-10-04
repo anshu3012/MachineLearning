@@ -255,6 +255,14 @@ notes:
   1029: 1029-weight-initialization
   1030: 1030-xavier-he-initialization
   1031: 1031-batch-normalization
+  1032: 1032-optimizers-in-deep-learning
+  1033: 1033-exponentially-weighted-moving-average
+  1034: 1034-sgd-with-momentum
+  1035: 1035-nesterov-accelerated-gradient
+  1036: 1036-adagrad
+  1037: 1037-rmsprop
+  1038: 1038-adam
+  1039: 1039-keras-tuner
   1055: 1055-why-rnn
   1056: 1056-rnn-forward-propagation
   1057: 1057-rnn-sentiment-analysis
@@ -414,6 +422,15 @@ concepts:
   - {id: seq2seq, name: Sequence-to-sequence (encoder-decoder), step: 8, videos: [1058], status: confirmed}
   - {id: bptt, name: Backpropagation through time (BPTT), step: 8, videos: [1059], status: confirmed}
   - {id: long_term_dependency, name: Long-term dependency problem, step: 8, videos: [1060], status: confirmed}
+  - {id: optimizers, name: Optimizers in deep learning, step: 8, videos: [1032], status: confirmed}
+  - {id: saddle_point, name: Local minima and saddle points, step: 8, videos: [1032, 1034], status: confirmed}
+  - {id: ewma, name: Exponentially weighted moving average (EWMA), step: 0, videos: [1033], status: confirmed}
+  - {id: momentum, name: SGD with momentum, step: 8, videos: [1034], status: confirmed}
+  - {id: nag, name: Nesterov accelerated gradient (NAG), step: 8, videos: [1035], status: confirmed}
+  - {id: adagrad, name: AdaGrad, step: 8, videos: [1036], status: confirmed}
+  - {id: rmsprop, name: RMSProp, step: 8, videos: [1037], status: confirmed}
+  - {id: adam, name: Adam, step: 8, videos: [1038], status: confirmed}
+  - {id: keras_tuner, name: Keras Tuner, step: 10, videos: [1039], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -550,7 +567,7 @@ concepts:
   - {id: oob_score, name: OOB score, step: 9, videos: [105, 106, 107, 113], status: confirmed}
 
   # 10 Tune
-  - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118, 1021], status: confirmed}
+  - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118, 1021, 1039], status: confirmed}
   - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112, 118], status: confirmed}
   - {id: resampling, name: Random under- and oversampling, step: 5, videos: [133], status: confirmed}
   - {id: smote, name: SMOTE, step: 5, videos: [133], status: confirmed}
@@ -804,7 +821,7 @@ links:
   - [decision_tree, is a kind of, model_based, confirmed]
   - [regression_tree, is a kind of, decision_tree, confirmed]
   # Ensembles
-  - [decision_tree, used in, ensemble, draft]
+  - [decision_tree, used in, ensemble, confirmed]
   - [svm, compared with, logistic_regression, confirmed]
   - [svm, needs, perceptron_trick, confirmed]
   - [hinge_loss, compared with, log_loss, confirmed]
@@ -928,6 +945,37 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [hessian, needs, gradient, confirmed]
+  - [independent_events, needs, conditional_probability, confirmed]
+  - [box_plot, is a kind of, descriptive_stats, confirmed]
+  - [nag, fixes, momentum, confirmed]
+  - [rmsprop, used in, adam, confirmed]
+  - [optimizers, needs, gradient_descent, confirmed]
+  - [optimizers, needs, backpropagation, confirmed]
+  - [optimizers, needs, minibatch_gd, confirmed]
+  - [optimizers, used in, nn_improvement, confirmed]
+  - [saddle_point, needs, convex_optimisation, confirmed]
+  - [optimizers, fixes, saddle_point, confirmed]
+  - [ewma, used in, momentum, confirmed]
+  - [ewma, used in, rmsprop, confirmed]
+  - [ewma, used in, adam, confirmed]
+  - [ewma, used in, batch_norm, confirmed]
+  - [momentum, is a kind of, optimizers, confirmed]
+  - [momentum, compared with, sgd, confirmed]
+  - [momentum, used in, adam, confirmed]
+  - [nag, is a kind of, optimizers, confirmed]
+  - [nag, compared with, momentum, confirmed]
+  - [adagrad, is a kind of, optimizers, confirmed]
+  - [adagrad, needs, learning_rate, confirmed]
+  - [adagrad, used in, rmsprop, confirmed]
+  - [rmsprop, is a kind of, optimizers, confirmed]
+  - [rmsprop, fixes, adagrad, confirmed]
+  - [rmsprop, compared with, adam, confirmed]
+  - [adam, is a kind of, optimizers, confirmed]
+  - [keras_tuner, needs, keras, confirmed]
+  - [keras_tuner, is a kind of, hyperparameters, confirmed]
+  - [keras_tuner, compared with, grid_search, confirmed]
+  - [keras_tuner, used in, nn_improvement, confirmed]
   - [rnn, needs, sequential_data, confirmed]
   - [rnn, needs, forward_propagation, confirmed]
   - [rnn, needs, tanh, confirmed]
@@ -1037,7 +1085,6 @@ links:
   - [memoization, needs, jacobian, confirmed]
   - [vanishing_gradient, needs, backpropagation, confirmed]
   - [vanishing_gradient, needs, sigmoid, confirmed]
-  - [relu, fixes, vanishing_gradient, confirmed]
   - [exploding_gradient, compared with, vanishing_gradient, confirmed]
   - [batch_size_keras, used in, backpropagation, confirmed]
   - [batch_size_keras, needs, batch_gd, confirmed]
@@ -1065,6 +1112,7 @@ links:
   - [representation_learning, compared with, feature_engineering, confirmed]
   - [nn_types, needs, dl_intro, confirmed]
   - [mlp, is a kind of, neural_network, confirmed]
+  - [mlp, is a kind of, nn_types, confirmed]
   - [perceptron, needs, hyperplane_equation, confirmed]
   - [perceptron, needs, dot_product, confirmed]
   - [perceptron_trick, used in, perceptron, confirmed]

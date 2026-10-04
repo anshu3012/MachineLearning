@@ -116,15 +116,37 @@ The exact form of the alignment model, Bahdanau's additive score, and the altern
 
 ## 7. Attention against no attention, by sentence length
 
-> **Key point:** XX
+> **Key point:** On the same data, attention raised the test BLEU from 9.8 to 25.7. Without attention, the score on 14–16-word sentences was 41% of the score on 1–4-word sentences; with attention it was 53%, and the advantage of attention grew with sentence length.
 
-XX
+The Notebook trains two encoder–decoders on the same 60,000 English–French pairs (the corpus of the [encoder–decoder Note](../1068-encoder-decoder/note.md)), now with English sentences of up to 16 words. Long sentences are rare in the corpus, so every pair with 9 or more English words is kept (39,070 of the 60,000). Both models have the same encoder, a bidirectional LSTM like Bahdanau et al.'s (section 9), and the same decoder LSTM of 256 units; the only difference is attention. Each is trained 3 times for 12 epochs with teacher forcing. The test set has 200 unseen English sentences in each length group, and the score is the BLEU of greedy translations (the [encoder–decoder Note](../1068-encoder-decoder/note.md), section 6).
+
+![Test BLEU by English sentence length, mean of 3 runs, with the lowest and highest run as bars](images/bleu_by_length.png){width=95%}
+
+| English words | 1–4 | 5–7 | 8–10 | 11–13 | 14–16 | all |
+|---|---|---|---|---|---|---|
+| Without attention | 14.3 | 13.9 | 13.7 | 8.3 | 5.9 | 9.8 |
+| With attention | 33.3 | 30.4 | 35.9 | 24.3 | 17.5 | 25.7 |
+| Ratio (with / without) | 2.3 | 2.2 | 2.6 | 2.9 | 3.0 | 2.6 |
+
+Three things stand out:
+
+1. **Attention helps at every length.** Even on 1–4-word sentences, the decoder does better when it can look at each source word directly than when it works from one summary.
+2. **Without attention, quality falls with length.** From 14.3 on the shortest sentences, BLEU falls to 5.9 on the longest: the fixed-size context vector must hold more and more.
+3. **The advantage of attention grows with length.** The ratio rises from 2.3 to 3.0: the longer the sentence, the more it matters that no word has to pass through one fixed vector.
+
+The attention model still loses quality on the longest sentences, unlike the model of Bahdanau et al. (2015, Figure 2), which showed "no performance deterioration even with sentences of length 50 or more". Their model had 1,000 hidden units and was trained on 348 million words; ours has 256 units and 60,000 sentence pairs, in a corpus where long sentences are rare.
+
+Attention has a cost in parameters and time. The attention model has 8.4 million parameters against 5.5 million; most of the difference is the output layer, which reads $c_i$ as well as $s_i$, while the alignment network itself has only 65,792. Training took about twice as long, because the decoder must compute $n$ scores at each of its steps.
 
 ## 8. Seeing the alignment
 
-> **Key point:** The weights can be drawn as a grid, output words against input words. A trained model puts its weight on the input words that a human would pair with each output word.
+> **Key point:** The weights can be drawn as a grid, output words against input words. In a trained model they form a band from top left to bottom right: the decoder moves through the input as it writes the output.
 
-XX
+Each row of the weight grid is one decoder step and sums to 1; each column is one input word. Bahdanau et al. (2015, section 5.2.1 and Figure 3) drew such grids and found that the weights line up English and French words in a sensible way. Figure 1 shows the grid of the Notebook's attention model for a test sentence it translated exactly:
+
+- "she advised him to talk about his life in america ." → "elle lui conseilla de parler de sa vie en amérique ."
+
+The weights form a clear diagonal band: as the decoder writes the French sentence from left to right, its attention moves through the English sentence from left to right, with each step concentrated on one or two words (0.88 or more in most rows). The band runs one word to the right of the matching word: writing "parler" (talk), the model looks mostly at the state of "about"; writing "vie" (life), at the state of "in". The translation is still exact, because the forward half of each encoder state has already read the word before it: the state of "about" contains "talk". All 12 × 11 = 132 weights of this pair are recomputed for every sentence; nothing in the grid is fixed in advance.
 
 ## 9. Notes on the original model
 
@@ -139,6 +161,36 @@ The model was trained on English–French translation, with a vocabulary of the 
 
 ## 10. Summary
 
+| | Plain encoder–decoder | With attention |
+|---|---|---|
+| What the decoder sees | one context vector, the same at every step | a new context vector $c_i$ at every step |
+| Context vector | encoder's final state | $c_i = \sum_j \alpha_{ij} h_j$ over all encoder states |
+| Inputs of decoder step $i$ | $y_{i-1}$, $s_{i-1}$ | $y_{i-1}$, $s_{i-1}$, $c_i$ |
+| Extra cost | none | $m \times n$ weights per sentence pair |
+| Test BLEU in the Notebook | 9.8 | 25.7 |
+
+- One fixed context vector is a bottleneck for long sentences, and it is the same at every decoder step.
+- Attention keeps all encoder hidden states and gives each decoder step its own weighted sum of them.
+- The weights come from scores $e_{ij} = a(s_{i-1}, h_j)$, made positive and summing to 1 by a softmax.
+- The scoring function $a$ is a small feed-forward network, the alignment model, trained with the rest.
+- The weights can be plotted as an alignment grid between output and input words.
+
 ## 11. Sources
 
+- Bahdanau, D., Cho, K. and Bengio, Y. (2015). Neural Machine Translation by Jointly Learning to Align and Translate. *ICLR 2015*. arXiv:1409.0473. Section 3.1 (decoder, eq. 4–6, the alignment model, the probabilistic reading of $\alpha_{ij}$); 3.2 (bidirectional encoder); 4.2 (models: 30,000-word vocabularies, 1,000 hidden units); 5.1 and Figure 2 (BLEU against sentence length); 5.2.1 and Figure 3 (alignments); appendix A.1.1 (gated hidden unit).
+- Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft (19 August 2026), web.stanford.edu/~jurafsky/slp3. Chapter 14, §14.8 (attention; the final hidden state as a bottleneck). Cited as SLP3.
+- Papineni, K., Roukos, S., Ward, T. and Zhu, W.-J. (2002). BLEU: a Method for Automatic Evaluation of Machine Translation. *ACL 2002*.
+- Tatoeba project and manythings.org/anki: the English–French sentence pairs, distributed as `fra-eng.zip` with the Keras examples.
+
 ## 12. Key terms
+
+| Term | Meaning |
+|---|---|
+| Attention | A mechanism that gives each decoder step a weighted mix of all encoder states, with weights computed for that step |
+| Context vector $c_i$ | The weighted sum of the encoder's hidden states used at decoder step $i$ |
+| Attention weight $\alpha_{ij}$ | How much encoder state $j$ counts at decoder step $i$; the weights of one step are non-negative and sum to 1 |
+| Alignment score $e_{ij}$ | The raw score of encoder state $j$ for decoder step $i$, before the softmax |
+| Alignment model | The small feed-forward network that computes $e_{ij}$ from $s_{i-1}$ and $h_j$ |
+| Bottleneck | A single fixed-size vector through which all information about the input must pass |
+| Bidirectional encoder | An encoder with one RNN reading forwards and one backwards, whose states are joined at each position |
+| Alignment grid | A plot of all $\alpha_{ij}$ of a sentence pair, output words against input words |

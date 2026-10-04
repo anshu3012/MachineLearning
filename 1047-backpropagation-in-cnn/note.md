@@ -14,7 +14,7 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 
 ## 2. Prerequisites
 
-- The [backpropagation Notes](../1015-backpropagation-what/note.md), [how it runs](../1016-backpropagation-how/note.md) and [why it works](../1017-backpropagation-why/note.md): the chain rule along a network, and the update $w \leftarrow w - \eta\,\partial L/\partial w$.
+- The [backpropagation Notes](../1015-backpropagation-what/note.md), [how it runs](../1016-backpropagation-how/note.md) and [why it works](../1017-backpropagation-why/note.md): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace \partial L/\partial w$.
 - The [CNN vs ANN Note](../1046-cnn-vs-ann/note.md): a filter works like a node, its values are weights.
 - The [convolution operation Note](../1042-convolution-operation/note.md) and the [pooling Note](../1044-pooling/note.md).
 - The [log loss Note](../73-log-loss/note.md) and the [sigmoid derivative Note](../74-sigmoid-derivative/note.md).
@@ -137,7 +137,7 @@ From $Z_2 = W_2 F + b_2 = w_{1}f_1 + w_{2}f_2 + w_{3}f_3 + w_{4}f_4 + b_2$, the 
 
 1. **In words:** the error at the output, $a_2 - y$, times the input each weight multiplied.
 2. **Formula:**
-   $$\frac{\partial L}{\partial W_2} = (a_2 - y)\,F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = a_2 - y$$
+   $$\frac{\partial L}{\partial W_2} = (a_2 - y)\thinspace F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = a_2 - y$$
 3. **Example:** in the Notebook, the first image is a 0 ($y = 0$) and the untrained network predicts $a_2 = 0.2104$, so $a_2 - y = 0.2104$. Its flattened pooled values $F$ are $(0.4947, 0.4006, 0.5311, 0.7707)$, which gives
    $$\frac{\partial L}{\partial W_2} = 0.2104 \times (0.4947,\ 0.4006,\ 0.5311,\ 0.7707) = (0.1041,\ 0.0843,\ 0.1117,\ 0.1621), \qquad \frac{\partial L}{\partial b_2} = 0.2104$$
 
@@ -149,7 +149,7 @@ TensorFlow's `GradientTape`, which differentiates the same network automatically
 
 A derivative is used to update its parameter, so it must have the same shape. $W_2$ is 1 × 4. The error $a_2 - y$ is 1 × 1 and $F$ is 4 × 1, so we use its transpose $F^{\mathsf T}$, 1 × 4:
 
-$$\underbrace{(a_2 - y)}_{1 \times 1}\;\underbrace{F^{\mathsf T}}_{1 \times 4} = \underbrace{\frac{\partial L}{\partial W_2}}_{1 \times 4}$$
+$$\underbrace{(a_2 - y)}_{1 \times 1}\thickspace \underbrace{F^{\mathsf T}}_{1 \times 4} = \underbrace{\frac{\partial L}{\partial W_2}}_{1 \times 4}$$
 
 ## 7. A batch of images
 
@@ -164,7 +164,7 @@ With $m$ images, each column holds one image:
 
 1. **In words:** the same formula, with the matrices of the whole batch. The loss of the batch is the average of the single losses, so a factor $1/m$ appears.
 2. **Formula:**
-   $$\frac{\partial L}{\partial W_2} = \frac{1}{m}\,(A_2 - Y)\,F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = \frac{1}{m}\sum_{i=1}^{m}(a_{2,i} - y_i)$$
+   $$\frac{\partial L}{\partial W_2} = \frac{1}{m}\thinspace (A_2 - Y)\thinspace F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = \frac{1}{m}\sum_{i=1}^{m}(a_{2,i} - y_i)$$
 3. **Example (shapes):** $(1 \times m)(m \times 4) = 1 \times 4$. The $m$ cancels in the matrix product, so the derivative is 1 × 4 whatever the batch size, the shape of $W_2$. In the Notebook, with $m = 32$, the formula and `GradientTape` agree to within $3 \times 10^{-17}$.
 
 The matrix product adds up the 32 single-image gradients, and the $1/m$ turns the sum into an average.

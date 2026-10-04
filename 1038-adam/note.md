@@ -1,10 +1,11 @@
 ---
 title: "Adam: Momentum and RMSProp Together"
+tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adam]
 ---
 
 ## 1. Overview
 
-> **Key point:** Adam keeps two EWMAs per parameter: of the gradient, $m_t$ (momentum's idea), and of the squared gradient, $v_t$ (RMSProp's idea). It corrects both for starting at 0, then steps by $\eta\,\hat{m}_t/(\sqrt{\hat{v}_t} + \epsilon)$. It is the most widely used optimizer and the usual starting point.
+> **Key point:** Adam keeps two EWMAs per parameter: of the gradient, $m_t$ (momentum's idea), and of the squared gradient, $v_t$ (RMSProp's idea). It corrects both for starting at 0, then steps by $\eta\thinspace \hat{m}_t/(\sqrt{\hat{v}_t} + \epsilon)$. It is the most widely used optimizer and the usual starting point.
 
 **Adam**, short for *adaptive moment estimation* (Kingma and Ba 2015), is the last optimizer of this series and the most used. Whether we train a plain network, a convolutional network or a recurrent network, Adam is usually the first choice.
 
@@ -36,7 +37,7 @@ The two lines of improvement are independent, so it makes sense to combine them.
 
 ## 4. The update rule
 
-> **Key point:** Update $m_t$ (EWMA of gradients) and $v_t$ (EWMA of squared gradients), correct both by dividing by $1 - \beta^t$, then move by $\eta\,\hat{m}_t/(\sqrt{\hat{v}_t}+\epsilon)$.
+> **Key point:** Update $m_t$ (EWMA of gradients) and $v_t$ (EWMA of squared gradients), correct both by dividing by $1 - \beta^t$, then move by $\eta\thinspace \hat{m}_t/(\sqrt{\hat{v}_t}+\epsilon)$.
 
 1. **In words:**
    - keep an EWMA of the gradient, $m_t$, as momentum does;
@@ -44,9 +45,9 @@ The two lines of improvement are independent, so it makes sense to combine them.
    - correct both for having started at 0;
    - step in the direction of the corrected average gradient, divided by the root of the corrected average squared gradient.
 2. **Formula:**
-   $$m_t = \beta_1 m_{t-1} + (1 - \beta_1)\,\nabla L(w_t), \qquad v_t = \beta_2 v_{t-1} + (1 - \beta_2)\,\left(\nabla L(w_t)\right)^2$$
+   $$m_t = \beta_1 m_{t-1} + (1 - \beta_1)\thinspace \nabla L(w_t), \qquad v_t = \beta_2 v_{t-1} + (1 - \beta_2)\thinspace \left(\nabla L(w_t)\right)^2$$
    $$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \qquad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
-   $$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon}\,\hat{m}_t$$
+   $$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon}\thinspace \hat{m}_t$$
    with $m_0 = v_0 = 0$, where $t$ counts the updates: 1 for the first mini-batch, 2 for the second, and so on. The suggested defaults are $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\epsilon = 10^{-8}$ (Kingma and Ba 2015, algorithm 1).
 3. **Example:** one weight with gradients 2 and then 1, using the defaults.
    - $t = 1$: $m_1 = 0.1 \times 2 = 0.2$ and $v_1 = 0.001 \times 4 = 0.004$. Corrected: $\hat{m}_1 = 0.2/0.1 = 2$ and $\hat{v}_1 = 0.004/0.001 = 4$. Step: $0.001 \times 2/\sqrt{4} = 0.001$.
@@ -79,7 +80,7 @@ With $\beta_1 = 0.9$ the factor reaches 1 within a few dozen steps; with $\beta_
 
 ![EWMAs of a noisy gradient with mean 1 (true second moment 1.25), started at 0. The raw averages (orange) start near 0 and climb slowly, very slowly for $\beta_2 = 0.999$; the corrected ones (blue) are on target from the first step](images/bias_correction.png){width=100%}
 
-Figure 2 shows both averages on a noisy gradient. At step 10, the raw $v$ is {{V10}} against a true value of 1.25; corrected, it is {{V10C}} (Notebook).
+Figure 2 shows both averages on a noisy gradient. At step 10, the raw $v$ is 0.012 against a true value of 1.25; corrected, it is 1.22 (Notebook).
 
 Without the correction, early steps would be badly scaled: at $t = 1$ in the example above, $m_1/\sqrt{v_1} = 0.2/\sqrt{0.004} = 3.16$ instead of 1, a first step more than three times too large. Kingma and Ba (2015, §3) point out that leaving the correction out leads to much larger initial steps. RMSProp keeps an uncorrected second-moment estimate, which may be strongly biased early in training (Goodfellow et al. 2016, §8.5.3).
 
@@ -97,11 +98,11 @@ On the elongated bowl of the IIT feature (Figure 1), each optimizer gets a learn
 | RMSProp, $\beta = 0.9$ | 0.3 | 48 | yes: up to 0.15 from the best |
 | Adam | 0.5 | 42 | no |
 
-Adam's path shows both behaviours. It moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around once, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks.
+Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around once, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks.
 
 ## 7. Adam on real data: MNIST
 
-> **Key point:** On MNIST, Adam and RMSProp train fastest, far ahead of plain SGD and AdaGrad, and ahead of momentum and NAG.
+> **Key point:** On MNIST, Adam and RMSProp train fastest and are close to each other; both are far ahead of plain SGD and AdaGrad, and ahead of momentum and NAG.
 
 The data is the MNIST handwritten digits (see the [MNIST Note](../1012-mnist-ann/note.md)): 10,000 training images, each with 784 pixel **features** (input variables) and the digit as **target** (the output we predict), the 10,000 test images for validation, hidden layers of 128 and 64 ReLU nodes, batch size 64, 20 epochs, 3 seeds. Learning rates: 0.01 for SGD, momentum, NAG ($\beta = 0.9$) and AdaGrad; 0.001, Keras' default, for RMSProp and Adam.
 
@@ -109,9 +110,15 @@ The data is the MNIST handwritten digits (see the [MNIST Note](../1012-mnist-ann
 
 Figure 3 and the Notebook give, as means over 3 seeds:
 
-{{MNIST_TABLE}}
+| | SGD | Momentum | NAG | AdaGrad | RMSProp | Adam |
+|---|---|---|---|---|---|---|
+| Learning rate | 0.01 | 0.01 | 0.01 | 0.01 | 0.001 | 0.001 |
+| Training loss, epoch 1 | 1.94 | 0.85 | 0.83 | 1.29 | 0.56 | 0.62 |
+| Training loss, epoch 5 | 0.48 | 0.18 | 0.18 | 0.30 | 0.11 | 0.10 |
+| Training loss, epoch 20 | 0.24 | 0.021 | 0.020 | 0.15 | 0.0008 | 0.0020 |
+| Validation accuracy, epoch 20 | 0.917 | 0.949 | 0.949 | 0.934 | 0.956 | 0.954 |
 
-{{MNIST_TEXT}}
+Adam behaves like both of its parents. Adam gets the speed of momentum and the per-parameter learning rates of RMSProp, so it is far ahead of plain SGD and AdaGrad, and ahead of momentum and NAG from the first epochs on. Against RMSProp alone the race is close on this small network: Adam is slightly lower by epoch 5, RMSProp slightly lower by epoch 20, and their validation accuracies differ by 0.001 (Notebook). The learning rates are each optimizer's usual value, not tuned, so small differences between the leaders should not be over-read; Adam's advantage is that it does well across many problems with these defaults (section 8).
 
 ## 8. Which optimizer to use
 
@@ -143,7 +150,7 @@ Adam is generally regarded as fairly robust to the choice of its hyperparameters
 
 The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `Adam` documentation).
 
-> **Extra:** Keras computes the same update in a slightly different order, which the paper suggests for efficiency (Kingma and Ba 2015, §2): $\eta_t = \eta\sqrt{1-\beta_2^t}/(1-\beta_1^t)$, then $w \leftarrow w - \eta_t\,m_t/(\sqrt{v_t} + \epsilon)$. The only difference is where $\epsilon$ sits, which matters only when $v_t$ is tiny.
+> **Extra:** Keras computes the same update in a slightly different order, which the paper suggests for efficiency (Kingma and Ba 2015, §2): $\eta_t = \eta\sqrt{1-\beta_2^t}/(1-\beta_1^t)$, then $w \leftarrow w - \eta_t\thinspace m_t/(\sqrt{v_t} + \epsilon)$. The only difference is where $\epsilon$ sits, which matters only when $v_t$ is tiny.
 
 ## 10. Summary
 
@@ -156,7 +163,7 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 | Default learning rate in Keras | 0.01 (SGD) | 0.001 | 0.001 |
 
 - Adam = momentum's average of gradients + RMSProp's average of squared gradients + a correction for starting at 0.
-- The update: $w_{t+1} = w_t - \eta\,\hat{m}_t/(\sqrt{\hat{v}_t}+\epsilon)$, with $\hat{m}_t = m_t/(1-\beta_1^t)$ and $\hat{v}_t = v_t/(1-\beta_2^t)$.
+- The update: $w_{t+1} = w_t - \eta\thinspace \hat{m}_t/(\sqrt{\hat{v}_t}+\epsilon)$, with $\hat{m}_t = m_t/(1-\beta_1^t)$ and $\hat{v}_t = v_t/(1-\beta_2^t)$.
 - Defaults: $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$; $t$ counts the updates.
 - Adam is the usual first choice; RMSProp and momentum are the usual alternatives. No optimizer wins everywhere.
 

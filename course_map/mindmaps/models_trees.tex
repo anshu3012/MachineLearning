@@ -1,0 +1,76 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+    every node/.append style={font=\sffamily\large},
+    con/.style={box=cblue, text width=4.0cm},
+    prob/.style={box=cred, text width=4.0cm},
+    prev/.style={draw=cgrey, dashed, rounded corners=4pt, align=center, inner sep=7pt, text=cgrey, text width=3.8cm, minimum height=1.1cm},
+    group/.style={draw=cgrey!40, fill=cgrey!5, rounded corners=8pt, inner sep=9pt},
+    kind/.style={arrow, draw=cgrey, line width=1pt},
+    needs/.style={arrow, draw=cpurple},
+    fixes/.style={arrow, draw=cgreen},
+    usedin/.style={arrow, draw=corange},
+  ]
+  \newcommand{\nt}[1]{\\[-1pt]{\small\color{cgrey}Note #1}}
+  \newcommand{\sub}[1]{\\[-1pt]{\normalsize #1}}
+  \node[title] at (0,11.4) {Building block};
+  \node[title] at (6,11.4) {Idea};
+  \node[title] at (12,11.4) {Method};
+  \node[title] at (18,11.4) {Algorithm};
+
+  % building blocks
+  \node[box=cgreen, text width=4.0cm] (dt) at (0,4.6) {\textbf{Decision tree}\sub{nested if-else questions}\nt{97--98}};
+  \node[box=cgreen, text width=4.0cm] (rt) at (0,-1.5) {Regression tree\nt{99}};
+  \node[prev] (bv) at (0,8.4) {Bias-variance trade-off\nt{62}};
+  \draw[kind] (dt) -- (rt);
+
+  % ensembles
+  \node[con] (ens) at (6,4.6) {\textbf{Ensemble learning}\sub{combine many models}\nt{101}};
+  \node[con] (vote) at (12,9.6) {Voting\nt{102--104}};
+  \node[con] (stack) at (12,7.6) {Stacking and blending\nt{127}};
+  \node[con] (bag) at (12,4.6) {Bagging\nt{105--107}};
+  \node[con] (boost) at (12,1.5) {Boosting\nt{119}};
+  \node[con] (rf) at (18,4.6) {Random forest\nt{108--114}};
+  \node[con] (ada) at (18,2.5) {AdaBoost\nt{115--118}};
+  \node[con] (gb) at (18,0.5) {Gradient boosting\nt{120--122}};
+  \node[con, text width=3.4cm] (xgb) at (23.6,0.5) {XGBoost\nt{123--126}};
+  \node[prev, text width=3.4cm] (gd) at (23.6,-2.2) {Gradient descent\nt{57--60}};
+
+  \begin{scope}[on background layer]
+    \node[group, fit=(vote) (stack)] {};
+    \node[group, fit=(bag) (rf)] {};
+    \node[group, fit=(boost) (ada) (gb) (xgb)] {};
+  \end{scope}
+
+  \draw[usedin] (dt) -- (ens);
+  \draw[needs, dashed] (bv) -- (ens.north west);
+  \foreach \m in {vote, stack, bag, boost} \draw[kind] (ens.east) -- (\m.west);
+  \draw[kind] (bag) -- (rf);
+  \draw[kind] (boost.east) -- (ada.west);
+  \draw[kind] (boost.east) -- (gb.west);
+  \draw[kind] (gb) -- (xgb);
+  \draw[needs] (rt.east) -| ([xshift=-0.9cm]gb.south);
+  \draw[needs, dashed] (gd.west) -| ([xshift=0.9cm]gb.south);
+
+  % clustering
+  \node[prev] (unsup) at (0,-6.6) {Unsupervised learning\nt{3}};
+  \node[box=cpurple, text width=4.0cm] (clu) at (6,-6.6) {\textbf{Clustering}\sub{groups with no labels}\nt{128--132}};
+  \node[box=cpurple, text width=4.0cm] (km) at (12,-4.6) {k-means\nt{128--130}};
+  \node[box=cpurple, text width=4.0cm] (hc) at (12,-6.6) {Hierarchical clustering\nt{131}};
+  \node[box=cpurple, text width=4.0cm] (db) at (12,-8.6) {DBSCAN\nt{132}};
+  \begin{scope}[on background layer]
+    \node[group, fit=(km) (hc) (db)] {};
+  \end{scope}
+  \draw[kind, dashed] (unsup) -- (clu);
+  \foreach \m in {km, hc, db} \draw[kind] (clu.east) -- (\m.west);
+
+  % legend
+  \begin{scope}[shift={(2.5,-11.0)}, every node/.style={font=\sffamily, anchor=west}]
+    \draw[needs] (0,0) -- (1.2,0);      \node at (1.3,0) {needs};
+    \draw[kind] (3.2,0) -- (4.4,0);     \node at (4.5,0) {is a kind of (general to specific)};
+    \draw[usedin] (10.6,0) -- (11.8,0); \node at (11.9,0) {used in};
+    \node[draw=cgrey, dashed, rounded corners=4pt, inner sep=5pt, text=cgrey, anchor=west] at (14.4,0) {from another map};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

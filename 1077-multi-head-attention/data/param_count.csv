@@ -1,0 +1,4 @@
+heads,size_per_head,parameters,score_mult_adds_per_pair
+1,512,1050624,512
+8,64,1050624,512
+2,512,2100736,1024

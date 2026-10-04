@@ -1,5 +1,6 @@
 ---
 title: "Gaussian Mixture Models"
+tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm, concept/multivariate-normal]
 ---
 
 ## 1. Overview
@@ -47,7 +48,7 @@ MML (Chapter 11 introduction) makes the same point: a single Gaussian has limite
 
 ## 3. The mixture density
 
-> **Key point:** $p(x) = \sum_k \pi_k\, N(x \mid \mu_k, \sigma_k^2)$: a weighted sum of $K$ normal densities, with weights that are non-negative and add up to 1.
+> **Key point:** $p(x) = \sum_k \pi_k\thinspace  N(x \mid \mu_k, \sigma_k^2)$: a weighted sum of $K$ normal densities, with weights that are non-negative and add up to 1.
 
 ### 3.1 The formula
 
@@ -55,10 +56,10 @@ MML (Chapter 11 introduction) makes the same point: a single Gaussian has limite
 
 1. **In words:** a **Gaussian mixture model** (**GMM**) adds up $K$ normal densities, called **components**, each multiplied by a **mixture weight** $\pi_k$. The weights lie between 0 and 1 and add up to 1, so the total area stays 1.
 2. **Formula** (MML equations 11.3 and 11.4):
-   $$p(x \mid \theta) = \sum_{k=1}^{K} \pi_k\, N(x \mid \mu_k, \sigma_k^2), \qquad 0 \le \pi_k \le 1, \qquad \sum_{k=1}^{K}\pi_k = 1$$
-   The parameters are all the weights, means and variances: $\theta = \{\pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\}$. Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [normal distribution Note](../250-normal-distribution/note.md), and the second number is the **variance**.
+   $$p(x \mid \theta) = \sum_{k=1}^{K} \pi_k\thinspace  N(x \mid \mu_k, \sigma_k^2), \qquad 0 \le \pi_k \le 1, \qquad \sum_{k=1}^{K}\pi_k = 1$$
+   The parameters are all the weights, means and variances: $\theta = \lbrace \pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\rbrace $. Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [normal distribution Note](../250-normal-distribution/note.md), and the second number is the **variance**.
 3. **Example:** the mixture of the book's Figure 11.2,
-   $$p(x) = 0.5\, N(x \mid -2, 0.5) + 0.2\, N(x \mid 1, 2) + 0.3\, N(x \mid 4, 1)$$
+   $$p(x) = 0.5\thinspace  N(x \mid -2, 0.5) + 0.2\thinspace  N(x \mid 1, 2) + 0.3\thinspace  N(x \mid 4, 1)$$
    At $x = 0$ the three weighted components are $0.0052$, $0.0439$ and $0.00004$, so $p(0) = 0.049$.
 
 Figure 3 draws the three weighted components (dashed) and their sum (black). Where components overlap, their heights add. With $K = 1$ the formula is a single normal curve.
@@ -96,7 +97,7 @@ We only ever see $x$, never $z$. A variable that is part of the model but never 
 
 1. **In words:** the density of $x$ is the probability of each component times the density of $x$ under it, added over all components.
 2. **Formula:**
-   $$p(x) = \sum_{k=1}^{K} P(z = k)\, p(x \mid z = k) = \sum_{k=1}^{K} \pi_k\, N(x \mid \mu_k, \sigma_k^2)$$
+   $$p(x) = \sum_{k=1}^{K} P(z = k)\thinspace  p(x \mid z = k) = \sum_{k=1}^{K} \pi_k\thinspace  N(x \mid \mu_k, \sigma_k^2)$$
 3. **Example:** at $x = 0$: $0.5 \times 0.0103 + 0.2 \times 0.2197 + 0.3 \times 0.0001 = 0.049$, the same $p(0)$ as Section 3.1.
 
 The sum is the law of total probability of the [Bayes problem Note](../86-bayes-problem/note.md), with machines replaced by components.
@@ -113,10 +114,10 @@ For data with $D$ **features** (input variables, one column each of the data tab
 
 1. **In words:** the density is highest at the mean and falls off with the squared distance from it, measured in a way that accounts for the spread and tilt that $\boldsymbol\Sigma$ describes.
 2. **Formula** (MML §6.5, equation 6.63):
-   $$N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma) = (2\pi)^{-D/2}\, \lvert\boldsymbol\Sigma\rvert^{-1/2} \exp\!\Big(-\tfrac12 (\mathbf{x} - \boldsymbol\mu)^{\mathsf T}\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu)\Big)$$
+   $$N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma) = (2\pi)^{-D/2}\thinspace  \lvert\boldsymbol\Sigma\rvert^{-1/2} \exp\negthinspace \Big(-\tfrac12 (\mathbf{x} - \boldsymbol\mu)^{\mathsf T}\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu)\Big)$$
    Here $\lvert\boldsymbol\Sigma\rvert$ is the determinant and $\boldsymbol\Sigma^{-1}$ the inverse of the covariance matrix. With $D = 1$ and $\boldsymbol\Sigma = \sigma^2$ the formula is the ordinary normal PDF.
 3. **Example:** $D = 2$, mean $(0, 0)$, $\boldsymbol\Sigma$ with diagonal $1, 4$ and zeros elsewhere (variances 1 and 4, no covariance). Then $\lvert\boldsymbol\Sigma\rvert = 4$ and $\boldsymbol\Sigma^{-1}$ has diagonal $1, 1/4$. At $\mathbf{x} = (1, 2)$ the quadratic form is $1^2/1 + 2^2/4 = 2$:
-   $$N = \frac{1}{2\pi}\cdot\frac{1}{\sqrt 4}\, e^{-1} = 0.0293$$
+   $$N = \frac{1}{2\pi}\cdot\frac{1}{\sqrt 4}\thinspace  e^{-1} = 0.0293$$
 
 Points with the same density lie on an ellipse around the mean (the book's Figure 6.8b). Variances stretch the ellipse along the axes; a non-zero covariance tilts it. Figure 5 (right, Section 9) shows tilted ellipses fitted to real flowers.
 
@@ -124,7 +125,7 @@ Points with the same density lie on an ellipse around the mean (the book's Figur
 
 > **Key point:** Same formula as in 1D, with vectors and matrices.
 
-The mixture is $p(\mathbf{x}) = \sum_k \pi_k\, N(\mathbf{x} \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$, with one mean vector and one covariance matrix per component. Everything in the rest of this Note works the same way in any number of dimensions.
+The mixture is $p(\mathbf{x}) = \sum_k \pi_k\thinspace  N(\mathbf{x} \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$, with one mean vector and one covariance matrix per component. Everything in the rest of this Note works the same way in any number of dimensions.
 
 ## 6. Responsibilities
 
@@ -132,13 +133,13 @@ The mixture is $p(\mathbf{x}) = \sum_k \pi_k\, N(\mathbf{x} \mid \boldsymbol\mu_
 
 ### 6.1 The formula
 
-> **Key point:** $r_{nk} = \pi_k N(x_n \mid \mu_k, \sigma_k^2) \,/\, \sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)$.
+> **Key point:** $r_{nk} = \pi_k N(x_n \mid \mu_k, \sigma_k^2) \thinspace /\thinspace  \sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)$.
 
 Having seen a value $x_n$, which component produced it? Bayes' theorem (see the [Bayes' theorem Note](../85-bayes-theorem/note.md)) answers this with the prior $P(z = k) = \pi_k$, the likelihood $N(x_n \mid \mu_k, \sigma_k^2)$ and the evidence $p(x_n)$.
 
 1. **In words:** the responsibility of component $k$ for point $n$ is that component's share of the mixture density at $x_n$.
 2. **Formula** (MML equations 11.17 and 11.72):
-   $$r_{nk} = P(z_n = k \mid x_n) = \frac{\pi_k\, N(x_n \mid \mu_k, \sigma_k^2)}{\sum_{j=1}^{K} \pi_j\, N(x_n \mid \mu_j, \sigma_j^2)}$$
+   $$r_{nk} = P(z_n = k \mid x_n) = \frac{\pi_k\thinspace  N(x_n \mid \mu_k, \sigma_k^2)}{\sum_{j=1}^{K} \pi_j\thinspace  N(x_n \mid \mu_j, \sigma_j^2)}$$
 3. **Example:** the book's running example (Section 11.2, Example 11.1) has seven points $-3, -2.5, -1, 0, 2, 4, 5$ and a starting mixture $N(-4, 1)$, $N(0, 0.2)$, $N(8, 3)$ with weights $1/3$ each. For $x_3 = -1$ the weighted densities are
    $$\tfrac13 N(-1 \mid -4, 1) = 0.00148, \qquad \tfrac13 N(-1 \mid 0, 0.2) = 0.02441, \qquad \tfrac13 N(-1 \mid 8, 3) \approx 0$$
    Their sum is 0.02589, so $r_{31} = 0.00148/0.02589 = 0.057$, $r_{32} = 0.943$ and $r_{33} = 0$.
@@ -175,7 +176,7 @@ For i.i.d. data the likelihood is a product over the points (the [maximum likeli
 
 1. **In words:** for each point, add up its weighted component densities, take the log, then add the logs over all points.
 2. **Formula** (MML equation 11.10):
-   $$\ell(\theta) = \sum_{n=1}^{N} \log p(x_n \mid \theta) = \sum_{n=1}^{N} \log \sum_{k=1}^{K} \pi_k\, N(x_n \mid \mu_k, \sigma_k^2)$$
+   $$\ell(\theta) = \sum_{n=1}^{N} \log p(x_n \mid \theta) = \sum_{n=1}^{N} \log \sum_{k=1}^{K} \pi_k\thinspace  N(x_n \mid \mu_k, \sigma_k^2)$$
 3. **Example:** for the seven points and the starting mixture, $\ell = -28.3$ (the book's Example 11.5; the Notebook gets $-28.33$).
 
 For one normal curve, the log went straight onto the exponential and left a simple sum of squares (the [MLE for common distributions Note](../632-mle-for-common-distributions/note.md), Section 4.2). Here the log sits on a sum over $k$, and $\log(a + b)$ cannot be split into $\log a + \log b$. The book (Section 11.2, remark after equation 11.10) names this as the reason no closed-form solution exists.
@@ -190,7 +191,7 @@ We follow the book's proof of Theorem 11.1 in one dimension.
 2. **Formula:** by the chain rule, the derivative of $\log p(x_n)$ is $1/p(x_n)$ times the derivative of $p(x_n)$. Only the $k$-th term of the sum contains $\mu_k$, and the derivative of a normal density with respect to its mean is the density times $(x_n - \mu_k)/\sigma_k^2$. So
    $$\frac{\partial\ell}{\partial\mu_k} = \sum_{n=1}^{N} \underbrace{\frac{\pi_k N(x_n \mid \mu_k, \sigma_k^2)}{\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)}}_{r_{nk}} \cdot \frac{x_n - \mu_k}{\sigma_k^2} = \frac{1}{\sigma_k^2}\sum_{n=1}^{N} r_{nk}(x_n - \mu_k)$$
    The fraction is exactly the responsibility. Setting the sum to 0 and solving:
-   $$\mu_k = \frac{\sum_n r_{nk}\, x_n}{\sum_n r_{nk}} = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\, x_n$$
+   $$\mu_k = \frac{\sum_n r_{nk}\thinspace  x_n}{\sum_n r_{nk}} = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace  x_n$$
 3. **Example:** with the responsibilities of Section 6.2, component 1 gets
    $$\mu_1 = \frac{1.000 \times (-3) + 1.000 \times (-2.5) + 0.057 \times (-1) + 0.0002 \times 0}{2.057} = -2.70$$
    The book's Example 11.3 also moves $\mu_1$ from $-4$ to $-2.7$.

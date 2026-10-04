@@ -1,5 +1,6 @@
 ---
 title: "Hyperparameter Tuning a Neural Network with Keras Tuner"
+tags: [subject/deep-learning, area/dl-optimizers, area/production, step/tune, concept/hyperparameters, concept/keras-tuner]
 ---
 
 ## 1. Overview
@@ -10,7 +11,7 @@ Every network we have built so far rested on guesses: how many hidden layers, ho
 
 ![The Keras Tuner workflow. The search repeats step 3 for every trial; the test set is used once, at the end](images/workflow.png){width=100%}
 
-Figure 1 shows the whole workflow. We follow it four times on the same data, each time tuning more: first the optimizer, then the number of nodes, then the number of layers, and finally everything at once.
+Figure 1 shows the whole workflow. We follow it four times on the Pima diabetes data, each time tuning more: first the optimizer, then the number of nodes, then the number of layers, and finally everything at once. Then we test the result on a larger dataset, MNIST.
 
 ## 2. Prerequisites
 
@@ -284,27 +285,82 @@ The tuner saves its state as it goes: an `oracle.json` file for the search, and 
 
 > **Extra:** By default, `directory` is the current folder, `project_name` is `"untitled_project"` and `overwrite` is `False` (Keras Tuner source, `base_tuner.py`). A second tuner created with the defaults therefore reloads the first one's finished project instead of starting a new search. Its trials are already used up, so the search ends at once with the message "Oracle triggered exit". Giving each search its own `project_name`, or passing `overwrite=True`, avoids this.
 
-## 9. Is the tuned network really better?
+## 9. On 768 patients, the gain is within seed noise
 
-> **Key point:** Retrained 5 times, the tuned network averages 0.723 on validation against the baseline's 0.751, and 0.735 on the test set against 0.740. On this small dataset, tuning did not beat a sensible hand-made network.
+> **Key point:** Retrained 5 times, the tuned network averages 0.723 on validation against the baseline's 0.751, and 0.734 on the test set against 0.740. On a 768-row dataset, the gain from tuning is within seed noise.
 
 A trial's score is the best of its 100 epochs, from one random start, on 154 patients. For a fair comparison we rebuild the baseline and the winning configuration from scratch, train each 5 times with different seeds for 100 epochs, and compare the mean validation accuracy. Only then do we look at the test set, once.
 
 | | Baseline (5 runs) | Tuned (5 runs) |
 |---|---|---|
 | Validation accuracy, mean (std) | 0.751 (0.010) | 0.723 (0.011) |
-| Test accuracy, mean (std) | 0.740 (0.011) | 0.735 (0.008) |
+| Test accuracy, mean (std) | 0.740 (0.011) | 0.734 (0.010) |
 
 The tuned network's 0.779 shrinks to 0.723 once it is retrained. Two things inflated it:
 
 1. **The best epoch.** A trial is scored at the best of its epochs, and its saved model is that epoch's (Keras Tuner guide; Keras Tuner source, `tuner.py`). The retrained runs are scored after the last epoch.
 2. **The best of 20.** The winner is the highest of 20 scores that each carry seed-to-seed noise of about 0.01 (the baseline's standard deviation). Picking the highest favours the trial whose noise happened to be largest.
 
-On the test set the two networks are level: 0.740 and 0.735, a gap smaller than either standard deviation. The honest result is that Keras Tuner works as designed, but on 460 training patients a one-layer network with sensible defaults is already about as good as any network in the search space. The search did rule out bad choices: Adadelta after 10 epochs (0.338) and 8 nodes (0.636) scored far below the rest in sections 5 and 6.
+On the test set the two networks are level: 0.740 and 0.734, a gap smaller than either standard deviation. Keras Tuner works as designed, but on 460 training patients a one-layer network with sensible defaults is already about as good as any network in the search space. Section 10 repeats the experiment on a dataset where the network's size and learning rate matter more. The search did rule out bad choices: Adadelta after 10 epochs (0.338) and 8 nodes (0.636) scored far below the rest in sections 5 and 6.
 
 > **Extra:** Keras Tuner can reduce this noise inside the search itself: `executions_per_trial=2` trains every configuration twice and averages the scores, at twice the cost (Keras Tuner guide).
 
-## 10. Summary
+## 10. A dataset where tuning pays: MNIST
+
+> **Key point:** On handwritten digits, a search of 20 trials over layers, nodes, dropout, optimizer and learning rate raised the mean validation accuracy from 0.928 (hand-made, 5 runs) to 0.953, and the test accuracy from 0.926 to 0.948.
+
+### 10.1 The data, the guess and the search space
+
+> **Key point:** 10,000 training images, 10,000 validation images, and the 10,000 test images kept for the end. The guess is one layer of 32 nodes with Adam's default learning rate.
+
+The data is MNIST (see the [MNIST Note](../1012-mnist-ann/note.md)): images of handwritten digits, each with 784 pixel features scaled to 0 to 1, and the digit as target. We train on the first 10,000 training images, validate on 10,000 other training images, and keep the official 10,000 test images for one final score.
+
+The hand-made guess has one hidden layer of 32 ReLU nodes and a softmax output, trained with Adam at its default learning rate 0.001, batch size 128, for 10 epochs. The search builds networks with:
+
+- 1 to 3 hidden layers of 32 to 512 ReLU nodes (step 32), each followed by dropout from 0 to 0.5;
+- the optimizer: Adam, RMSProp or SGD;
+- the learning rate, from 0.0001 to 0.01.
+
+> **Python:** A learning rate drawn on a log scale, passed to the chosen optimizer.
+>
+> ```python
+> lr = hp.Float("learning_rate", min_value=1e-4,
+>               max_value=1e-2, sampling="log")
+> name = hp.Choice("optimizer",
+>                  values=["adam", "rmsprop", "sgd"])
+> optimizer = {"adam": keras.optimizers.Adam,
+>              "rmsprop": keras.optimizers.RMSprop,
+>              "sgd": keras.optimizers.SGD}[name](learning_rate=lr)
+> ```
+
+`hp.Float` declares a hyperparameter that takes any decimal value in a range (Keras Tuner guide). With `sampling="log"`, a uniform random number $u$ between 0 and 1 becomes $\text{min} \times (\text{max}/\text{min})^u$ (Keras Tuner source, `float_hp.py`). Values are then spread evenly over the powers of ten: 0.0001 to 0.001 is as likely as 0.001 to 0.01. In our search the good learning rates themselves spanned a factor of 10: the 9 trials above 0.95 used rates from 0.0008 to 0.008 (Notebook). Each of the 20 trials trains for the same 10 epochs as the guess, with `executions_per_trial=1`.
+
+### 10.2 The results
+
+> **Key point:** The top 10 trials all beat every run of the hand-made guess; the bottom 8, all SGD with small learning rates, fell far below it.
+
+![MNIST: validation accuracy of the 20 trials, ranked, labelled with layers and optimizer; trials below 0.88 are drawn as triangles with their value. Red band and dashed line: the hand-made guess, 5 seeds](images/mnist_trials.png){width=100%}
+
+Figure 3 ranks the 20 trials. The winner has two hidden layers, 256 nodes without dropout and 96 nodes with dropout 0.4, trained with Adam at a learning rate of 0.0068. Its score is 0.960, while the hand-made guess, run 5 times, ranges from 0.924 to 0.933.
+
+The search also shows which choices fail. All 8 SGD trials drew learning rates of 0.0054 or less and scored between 0.12 and 0.87: with such small steps, plain SGD had not finished learning after 10 epochs (Notebook). A search does not only find good settings; it shows which ranges to avoid.
+
+### 10.3 Retrained with 5 seeds, then tested once
+
+> **Key point:** The gain survives retraining: 0.953 against 0.928 on validation, 0.948 against 0.926 on the test set, gaps 4 to 8 times the seed-to-seed standard deviation.
+
+As in section 9, we rebuild both networks from scratch and train each 5 times with different seeds for 10 epochs.
+
+| | Hand-made guess (5 runs) | Tuned (5 runs) |
+|---|---|---|
+| Validation accuracy, mean (std) | 0.928 (0.003) | 0.953 (0.004) |
+| Test accuracy, mean (std) | 0.926 (0.004) | 0.948 (0.005) |
+
+Every tuned run beat every run of the guess, on both sets. The retrained winner averages 0.953, below its search score of 0.960, for the two reasons of section 9. Here the gap between the networks (0.025 on validation, 0.022 on test) is far larger than the seed noise, so the gain is real.
+
+The two datasets give the honest picture. Keras Tuner always returns a winner, but the winner is only worth having when the gap to the hand-made network is larger than the noise. Retraining with several seeds and testing once at the end is how we tell the two cases apart.
+
+## 11. Summary
 
 | Step | Code | What it does |
 |------|------------------|----------|
@@ -313,6 +369,7 @@ On the test set the two networks are level: 0.740 and 0.735, a gap smaller than 
 | Build | `build_model(hp)` | builds and compiles one network per trial |
 | Tuner | `kt.RandomSearch(...)` | random combinations, best by `objective` |
 | Search | `tuner.search(...)` | its arguments go to `fit` |
+| | `hp.Float(..., sampling="log")` | a decimal number, even across powers of ten |
 | Results | `get_best_hyperparameters()` | winning values, best first |
 | | `get_best_models()` | winning models, best first |
 | Continue | `fit(initial_epoch=k)` | resumes the epoch count after epochs 0 to $k-1$ have run |
@@ -322,15 +379,17 @@ On the test set the two networks are level: 0.740 and 0.735, a gap smaller than 
 - `RandomSearch` draws random combinations; it stops early if no new combination is left.
 - Tune on a validation set, and report the test set once at the end.
 - A trial's score is noisy on a small dataset: retrain the winner with several seeds before trusting it.
+- On Pima (768 rows) the tuned network tied the hand-made one; on MNIST it won clearly, 0.948 against 0.926 on the test set.
 
-## 11. Sources
+## 12. Sources
 
 - Keras Tuner guide: Invernizzi, L., Long, J., Chollet, F., O'Malley, T. and Jin, H. "Getting started with KerasTuner." keras.io/keras_tuner/getting_started (last modified 2021-10-27).
-- Keras Tuner source code, version 1.4.8: `engine/base_tuner.py` (default directory and project name), `engine/oracle.py` (repeated draws, stopping), `engine/tuner.py` (best-epoch checkpoint).
+- Keras Tuner source code, version 1.4.8: `engine/base_tuner.py` (default directory and project name), `engine/hyperparameters/hp_types/float_hp.py` (log sampling), `engine/oracle.py` (repeated draws, stopping), `engine/tuner.py` (best-epoch checkpoint).
 - Keras source code, version 3.15.1: `optimizers/adadelta.py` (default learning rate).
+- LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11). (MNIST.)
 - Ruder, S. (2016). An overview of gradient descent optimization algorithms. arXiv:1609.04747.
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -341,6 +400,7 @@ On the test set the two networks are level: 0.740 and 0.735, a gap smaller than 
 | `build_model(hp)` | The function that builds and compiles one network, asking `hp` for each tuned value |
 | `hp.Choice` | Declares a hyperparameter that takes one value from a list |
 | `hp.Int` | Declares a whole-number hyperparameter between a minimum and a maximum, with an optional step |
+| `hp.Float` | Declares a decimal hyperparameter in a range; `sampling="log"` spreads its values evenly over powers of ten |
 | Conditional hyperparameter | A hyperparameter that exists only for some values of another, such as `units_3` |
 | `RandomSearch` | A tuner that tries random combinations of the hyperparameter values |
 | Objective | The metric the tuner maximises or minimises, such as `val_accuracy` |

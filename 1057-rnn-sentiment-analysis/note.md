@@ -1,5 +1,6 @@
 ---
 title: "Sentiment Analysis with an RNN in Keras"
+tags: [subject/deep-learning, area/dl-rnn, step/features, step/model, concept/rnn, concept/sequence-padding, concept/text-vectorization, concept/word-embedding]
 ---
 
 ## 1. Overview
@@ -181,7 +182,7 @@ Word2Vec and GloVe are well-known embedding methods trained on large text collec
 
 1. **In words:** the layer is like a dense layer whose input is the word's one-hot vector, with no bias and no activation. Multiplying a one-hot vector by a matrix picks one row, so the layer simply looks up row $k$ for word $k$.
 2. **Formula:** for a vocabulary of $V$ words and vectors of size $d$, $E$ is $V \times d$, and
-   $$\text{embedding}(k) = \text{onehot}(k)\,E = E_{k,:}$$
+   $$\text{embedding}(k) = \text{onehot}(k)\thinspace E = E_{k,:}$$
 3. **Example:** the slogan document has $V = 19$ entries. With $d = 2$, $E$ is $19 \times 2$: 38 weights, which `model.summary()` confirms. The first word of the first slogan, "go", has index 16, and row 16 of $E$ is its 2-number vector: $[-0.039, -0.006]$ before training.
 
 ![The embedding layer as a lookup: the one-hot vector of "go" (index 16) times $E$ keeps row 16 of $E$, which becomes the word's dense vector](images/embedding_lookup.png){width=80%}

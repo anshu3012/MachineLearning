@@ -1,5 +1,6 @@
 ---
 title: "Types of RNN"
+tags: [subject/deep-learning, area/dl-rnn, step/model, concept/rnn-types, concept/seq2seq]
 ---
 
 ## 1. Overview

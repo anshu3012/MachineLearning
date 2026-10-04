@@ -1,5 +1,6 @@
 ---
 title: "Why Recurrent Neural Networks Are Needed"
+tags: [subject/deep-learning, area/dl-rnn, step/foundations, step/features, step/model, concept/rnn, concept/sequence-padding, concept/sequential-data]
 ---
 
 ## 1. Overview

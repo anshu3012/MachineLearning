@@ -1,5 +1,6 @@
 ---
 title: "Probability vs Likelihood"
+tags: [subject/maths, area/descriptive, area/likelihood, step/foundations, concept/likelihood, concept/normal-distribution]
 ---
 
 ## 1. Overview
@@ -31,7 +32,7 @@ Tossing a coin once has two outcomes, heads or tails, so it follows a **Bernoull
 
 1. **In words:** the Bernoulli PMF gives the probability of each outcome $k$ (1 for heads, 0 for tails) once $p$ is known.
 2. **Formula:**
-   $$P(X = k) = p^{k}(1 - p)^{1 - k}, \qquad k \in \{0, 1\}$$
+   $$P(X = k) = p^{k}(1 - p)^{1 - k}, \qquad k \in \lbrace 0, 1\rbrace $$
 3. **Example:** for tails, $k = 0$: $P(X = 0) = 0.5^{0} \times 0.5^{1} = 0.5$.
 
 Common sense gives the same answer: if heads has probability 0.5, tails has $1 - 0.5 = 0.5$. The pattern is what matters. We knew the distribution (Bernoulli) and its parameter ($p = 0.5$), and we computed the chance of an event (tails). Computing such a chance is probability.
@@ -107,9 +108,9 @@ Now we pick one person at random and measure 100 cm. How plausible are $\mu = 15
 
 1. **In words:** put the observed value into the normal PDF, with the parameter values being questioned.
 2. **Formula:**
-   $$L(\mu, \sigma \mid x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
+   $$L(\mu, \sigma \mid x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace  e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
 3. **Example:** for $x = 100$, $\mu = 150$, $\sigma = 10$, the exponent is $-(100 - 150)^2/200 = -12.5$:
-   $$L = \frac{1}{10\sqrt{2\pi}}\, e^{-12.5} = 0.0399 \times 3.73 \times 10^{-6} = 1.49 \times 10^{-7}$$
+   $$L = \frac{1}{10\sqrt{2\pi}}\thinspace  e^{-12.5} = 0.0399 \times 3.73 \times 10^{-6} = 1.49 \times 10^{-7}$$
 
 Changing the observation changes the verdict on the same parameters:
 
@@ -182,7 +183,7 @@ The coin shows both sides. With $p$ fixed at 0.5, the probabilities of all possi
 
 1. **In words:** the area under the likelihood curve, over every possible value of the parameter, is not 1.
 2. **Formula:**
-   $$\int_0^1 p^{5}\, dp = \left[\frac{p^{6}}{6}\right]_0^1 = \frac{1}{6}$$
+   $$\int_0^1 p^{5}\thinspace  dp = \left[\frac{p^{6}}{6}\right]_0^1 = \frac{1}{6}$$
 3. **Example:** the area is $0.167$, not 1. The Notebook confirms both sums: 1.000 for the probabilities, 0.167 for the likelihood area.
 
 So a likelihood value only means something next to another likelihood value for the same data: 0.168 against 0.031 says $p = 0.7$ explains five heads better than $p = 0.5$.

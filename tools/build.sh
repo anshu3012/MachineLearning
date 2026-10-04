@@ -22,6 +22,7 @@ for p in *.py; do
   touch ".built_${p%.py}"
 done
 cd "$root/$note"
+"$PY" "$root/tools/github_math.py" note.md          # maths GitHub can render (prints any \% to fix by hand)
 "$ENV/bin/pandoc" note.md -o "$root/pdf/$note.pdf" --pdf-engine=pdflatex --toc --toc-depth=3 -V toc-title=Contents \
   --lua-filter="$root/tools/media-swap.lua" \
   -V geometry:margin=1in -V fontsize=12pt -H "$root/tools/pdf-style.tex" -V colorlinks=true -V linkcolor=blue

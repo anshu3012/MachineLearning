@@ -1,5 +1,6 @@
 ---
 title: "Optimizers in Deep Learning: Why Gradient Descent Needs Help"
+tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/optimizers, concept/saddle-point]
 ---
 
 ## 1. Overview
@@ -30,11 +31,11 @@ The loss is a function of all 9 parameters, so its graph lives in 10 dimensions,
 
 ## 4. Gradient descent, the optimizer so far
 
-> **Key point:** $w_{\text{new}} = w_{\text{old}} - \eta\,\nabla_w L$, repeated over many epochs. Batch, stochastic and mini-batch gradient descent differ only in how many rows they see before each update.
+> **Key point:** $w_{\text{new}} = w_{\text{old}} - \eta\thinspace \nabla_w L$, repeated over many epochs. Batch, stochastic and mini-batch gradient descent differ only in how many rows they see before each update.
 
 The optimizer used so far is gradient descent:
 
-$$w_{t+1} = w_t - \eta\,\nabla_w L(w_t)$$
+$$w_{t+1} = w_t - \eta\thinspace \nabla_w L(w_t)$$
 
 where $\eta$ (eta) is the learning rate and $\nabla_w L$ the gradient of the loss with respect to the weights (see the [gradient descent Note](../57-gradient-descent/note.md)). We repeat the update for a chosen number of epochs.
 
@@ -79,7 +80,7 @@ With 9 parameters, the loss surface has 9 directions to move in. Gradient descen
 
 The loss is often very sensitive to some directions and insensitive to others (Goodfellow et al. 2016, §8.5). Take a narrow valley,
 
-$$L(w_1, w_2) = \tfrac{1}{2}\left(w_1^2 + 100\,w_2^2\right)$$
+$$L(w_1, w_2) = \tfrac{1}{2}\left(w_1^2 + 100\thinspace w_2^2\right)$$
 
 which is 100 times steeper across ($w_2$) than along ($w_1$). Each gradient descent step multiplies $w_1$ by $1 - \eta$ and $w_2$ by $1 - 100\eta$. So $w_2$ only shrinks if $|1 - 100\eta| < 1$, that is $\eta < 0.02$; with such a small $\eta$, $w_1$ shrinks by just 2% per step.
 

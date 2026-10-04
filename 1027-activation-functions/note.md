@@ -1,5 +1,6 @@
 ---
 title: "Activation Functions: Sigmoid, Tanh and ReLU"
+tags: [subject/deep-learning, area/dl-basics, area/dl-training, area/models-1, step/model, concept/activation-functions, concept/relu, concept/sigmoid, concept/tanh]
 ---
 
 ## 1. Overview
@@ -69,7 +70,7 @@ Stacked matrices without an activation multiply into a single matrix (see the [m
 
 1. **In words:** the first layer computes $a_1 = W_1 a_0 + b_1$; the second feeds that into $a_2 = W_2 a_1 + b_2$; multiplying out gives one weight matrix and one bias.
 2. **Formula:**
-   $$a_2 = W_2(W_1 a_0 + b_1) + b_2 = \underbrace{W_2 W_1}_{W'}\,a_0 + \underbrace{W_2 b_1 + b_2}_{b'}$$
+   $$a_2 = W_2(W_1 a_0 + b_1) + b_2 = \underbrace{W_2 W_1}_{W'}\thinspace a_0 + \underbrace{W_2 b_1 + b_2}_{b'}$$
 3. **Example:** with single numbers $W_1 = 2$, $b_1 = 1$, $W_2 = 3$, $b_2 = -1$:
    $$a_2 = 3(2x + 1) - 1 = 6x + 2$$
    Two layers, and the result is still a straight line in $x$.
@@ -140,7 +141,7 @@ Its [derivative](../74-sigmoid-derivative/note.md) $\sigma(z)(1 - \sigma(z))$ is
 
 > **Key point:** Saturation causes the vanishing gradient; all-positive outputs force every weight into a node to move in the same direction; the exponential is slow.
 
-**1. Saturating, so the gradient vanishes.** The update is $w_{\text{new}} = w_{\text{old}} - \eta\,\partial L/\partial w$. If $z$ is outside about $-3$ to 3, the sigmoid's slope is near 0, the gradient is near 0 and $w_{\text{new}} \approx w_{\text{old}}$: no training. In a deep network these small slopes multiply from layer to layer (see the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)).
+**1. Saturating, so the gradient vanishes.** The update is $w_{\text{new}} = w_{\text{old}} - \eta\thinspace \partial L/\partial w$. If $z$ is outside about $-3$ to 3, the sigmoid's slope is near 0, the gradient is near 0 and $w_{\text{new}} \approx w_{\text{old}}$: no training. In a deep network these small slopes multiply from layer to layer (see the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)).
 
 $z$ becomes large in two ways:
 
@@ -151,7 +152,7 @@ Saturation is the main reason the sigmoid has disappeared from hidden layers (Go
 
 **2. Not zero-centred, so training is slow.** Every sigmoid output is positive. Take two sigmoid nodes, with outputs $a_{21}$ and $a_{22}$, feeding one output node through weights $w_{21}$ and $w_{22}$:
 
-$$z_{31} = w_{21}\,a_{21} + w_{22}\,a_{22} + b_{31}$$
+$$z_{31} = w_{21}\thinspace a_{21} + w_{22}\thinspace a_{22} + b_{31}$$
 
 1. **In words:** by the chain rule, the gradient of each weight is a factor shared by both, times that weight's input.
 2. **Formula:** with the shared factor $\delta = \dfrac{\partial L}{\partial \hat{y}} \cdot \dfrac{\partial \hat{y}}{\partial z_{31}}$,

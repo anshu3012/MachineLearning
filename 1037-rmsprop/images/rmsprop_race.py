@@ -12,7 +12,7 @@ from shared import X, y, BEST, run, steps_to
 
 HERE = Path(__file__).parent
 SHOW = 80
-paths = {"AdaGrad": (run("adagrad")[0], GREEN), "RMSProp, β = 0.9": (run("rmsprop")[0], PURPLE)}
+paths = {"RMSProp, β = 0.9": (run("rmsprop")[0], PURPLE), "AdaGrad": (run("adagrad")[0], GREEN)}  # AdaGrad drawn on top
 done = {k: steps_to(P) for k, (P, _) in paths.items()}
 m, b = np.linspace(-5, 9, 200), np.linspace(-5, 9, 200)
 M, B = np.meshgrid(m, b)
@@ -29,7 +29,7 @@ def frame(k):
         else:
             label = f"{name}: step {k}"
         fig.add_trace(go.Scatter(x=Q[:, 0], y=Q[:, 1], mode="lines+markers", name=label,
-                                 line=dict(color=c, width=3), marker=dict(size=6, color=c)))
+                                 line=dict(color=c, width=5 if name == "AdaGrad" else 3), marker=dict(size=7, color=c)))
     fig.add_trace(go.Scatter(x=[BEST[0]], y=[BEST[1]], mode="markers", showlegend=False,
                              marker=dict(symbol="star", size=18, color=RED)))
     fig.update_layout(template="simple_white", width=820, height=800, font=dict(FONT, size=20),

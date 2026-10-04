@@ -1,5 +1,6 @@
 ---
 title: "Backpropagation Through Time"
+tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bptt, concept/parameter-sharing]
 ---
 
 ## 1. Overview
@@ -15,7 +16,7 @@ Figure 1 shows the one new idea. The same $W_i$ enters at every time step, so th
 ## 2. Prerequisites
 
 - The [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md): $h_t = \tanh(x_t W_i + h_{t-1} W_h)$, the unfolded network and the notation.
-- The backpropagation Notes, [part 1](../1015-backpropagation-what/note.md) and [part 2](../1016-backpropagation-how/note.md): gradients as chain-rule products, and the update $w \leftarrow w - \eta\,\partial L/\partial w$.
+- The backpropagation Notes, [part 1](../1015-backpropagation-what/note.md) and [part 2](../1016-backpropagation-how/note.md): gradients as chain-rule products, and the update $w \leftarrow w - \eta\thinspace \partial L/\partial w$.
 - The [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md): the chain rule with several paths, where the contributions of the paths add up.
 - The [loss functions Note](../1014-dl-loss-functions/note.md): binary cross-entropy.
 
@@ -67,7 +68,7 @@ The loss is binary cross-entropy (see the [loss functions Note](../1014-dl-loss-
 
 Training looks for the values of $W_i$, $W_h$ and $W_o$ that make $L$ smallest. Gradient descent updates each one with the learning rate $\eta$:
 
-$$W_i \leftarrow W_i - \eta\,\frac{\partial L}{\partial W_i}, \qquad W_h \leftarrow W_h - \eta\,\frac{\partial L}{\partial W_h}, \qquad W_o \leftarrow W_o - \eta\,\frac{\partial L}{\partial W_o}$$
+$$W_i \leftarrow W_i - \eta\thinspace \frac{\partial L}{\partial W_i}, \qquad W_h \leftarrow W_h - \eta\thinspace \frac{\partial L}{\partial W_h}, \qquad W_o \leftarrow W_o - \eta\thinspace \frac{\partial L}{\partial W_o}$$
 
 We have the starting weights and $\eta$. So the whole job of BPTT is to compute these three derivatives. Backpropagation goes from the back to the front, so we start with $W_o$, nearest to the output.
 
@@ -79,13 +80,13 @@ $\partial L/\partial W_o$ asks: how much does the loss change if $W_o$ changes a
 
 1. **In words:** follow the single path from $L$ through $\hat{y}$ to $W_o$, multiplying the derivatives along it.
 2. **Formula:**
-   $$\frac{\partial L}{\partial W_o} = \frac{\partial L}{\partial \hat{y}}\,\frac{\partial \hat{y}}{\partial W_o} = h_3^{\mathsf T}\,(\hat{y} - y)$$
+   $$\frac{\partial L}{\partial W_o} = \frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial W_o} = h_3^{\mathsf T}\thinspace (\hat{y} - y)$$
    For a sigmoid output with binary cross-entropy, the two factors combine into $\hat{y} - y$ times the input of the output node, $h_3$ (derived in the [logistic regression gradient descent Note](../75-logistic-gradient-descent/note.md)).
 3. **Example:** a network with **one** hidden node, so every weight is a single number: $w_i = 0.5$, $w_h = 0.8$, $w_o = 1.0$, input sequence $x = (1, 0, 1)$, target $y = 1$. Forward propagation gives
    $$h_1 = \tanh(0.5) = 0.462, \quad h_2 = \tanh(0.8 \times 0.462) = 0.354, \quad h_3 = \tanh(0.5 + 0.8 \times 0.354) = 0.654$$
    $$\hat{y} = \sigma(1.0 \times 0.654) = 0.658, \qquad L = -\log 0.658 = 0.419$$
    Then
-   $$\frac{\partial L}{\partial w_o} = h_3\,(\hat{y} - y) = 0.654 \times (0.658 - 1) = 0.654 \times (-0.342) = -0.224$$
+   $$\frac{\partial L}{\partial w_o} = h_3\thinspace (\hat{y} - y) = 0.654 \times (0.658 - 1) = 0.654 \times (-0.342) = -0.224$$
 
 ## 6. The gradient for $W_i$
 
@@ -114,7 +115,7 @@ In each path, the last factor $\partial h_t/\partial W_i$ is the **immediate** d
 
 Three time steps give three terms; a 10-word review would give 10. Writing them all out is not practical, so we summarise with a sum over the time steps $j$:
 
-$$\frac{\partial L}{\partial W_i} = \sum_{j=1}^{T} \frac{\partial L}{\partial \hat{y}}\,\frac{\partial \hat{y}}{\partial h_j}\,\frac{\partial h_j}{\partial W_i}$$
+$$\frac{\partial L}{\partial W_i} = \sum_{j=1}^{T} \frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial h_j}\thinspace \frac{\partial h_j}{\partial W_i}$$
 
 The middle factor $\partial \hat{y}/\partial h_j$ hides a chain. $\hat{y}$ does not use $h_1$ directly: it uses $h_3$, which uses $h_2$, which uses $h_1$. Expanding it gives back the paths of section 6.1:
 
@@ -130,8 +131,8 @@ The middle factor $\partial \hat{y}/\partial h_j$ hides a chain. $\hat{y}$ does 
 
 1. **In words:** for each time step, multiply the error at the output by the derivatives that carry it back to that step, then by the immediate derivative of that step.
 2. **Formula:** with one node every factor is a number. Writing $d_t = 1 - h_t^2$ for the slope of tanh at step $t$ (see the [activation functions Note](../1027-activation-functions/note.md)):
-   $$\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3} = (\hat{y} - y)\,w_o, \qquad \frac{\partial h_t}{\partial h_{t-1}} = d_t\,w_h, \qquad \frac{\partial h_t}{\partial w_i} = d_t\,x_t$$
-3. **Example:** with the numbers of section 5, $(\hat{y} - y)\,w_o = -0.342$, $d_3 = 0.572$, $d_2 = 0.875$, $d_1 = 0.786$, so $\partial h_3/\partial h_2 = 0.572 \times 0.8 = 0.457$ and $\partial h_2/\partial h_1 = 0.875 \times 0.8 = 0.700$.
+   $$\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3} = (\hat{y} - y)\thinspace w_o, \qquad \frac{\partial h_t}{\partial h_{t-1}} = d_t\thinspace w_h, \qquad \frac{\partial h_t}{\partial w_i} = d_t\thinspace x_t$$
+3. **Example:** with the numbers of section 5, $(\hat{y} - y)\thinspace w_o = -0.342$, $d_3 = 0.572$, $d_2 = 0.875$, $d_1 = 0.786$, so $\partial h_3/\partial h_2 = 0.572 \times 0.8 = 0.457$ and $\partial h_2/\partial h_1 = 0.875 \times 0.8 = 0.700$.
    $$\text{path 1} = -0.342 \times 0.572 \times 1 = -0.196$$
    $$\text{path 2} = -0.342 \times 0.457 \times 0.875 \times 0 = 0$$
    $$\text{path 3} = -0.342 \times 0.457 \times 0.700 \times 0.786 \times 1 = -0.086$$
@@ -152,7 +153,7 @@ There are again three paths, one through each use of $W_h$, and the same compact
 
 1. **In words:** same paths, same factors; the last factor uses the previous hidden state instead of the input.
 2. **Formula** (one node):
-   $$\frac{\partial h_t}{\partial w_h} = d_t\,h_{t-1}$$
+   $$\frac{\partial h_t}{\partial w_h} = d_t\thinspace h_{t-1}$$
 3. **Example:**
    $$\text{path 1} = -0.342 \times 0.572 \times 0.354 = -0.069$$
    $$\text{path 2} = -0.342 \times 0.457 \times 0.875 \times 0.462 = -0.063$$
@@ -161,11 +162,11 @@ There are again three paths, one through each use of $W_h$, and the same compact
 
    Path 3 is 0 because $h_0 = 0$: at the first step there is no previous state for $w_h$ to act on.
 
-> **Extra:** With matrices, the same computation runs as a loop backwards in time (Goodfellow §10.2.2, eq. 10.21 and 10.26, here in the row-vector form of Keras). Start with the error at the last hidden state, $\delta = (\hat{y} - y)\,W_o^{\mathsf T}$. Then for $t = T$ down to 1:
+> **Extra:** With matrices, the same computation runs as a loop backwards in time (Goodfellow §10.2.2, eq. 10.21 and 10.26, here in the row-vector form of Keras). Start with the error at the last hidden state, $\delta = (\hat{y} - y)\thinspace W_o^{\mathsf T}$. Then for $t = T$ down to 1:
 >
 > 1. pass it through tanh: $a = \delta \odot (1 - h_t^2)$, element by element;
 > 2. add step $t$'s terms: $\partial L/\partial W_i \mathrel{+}= x_t^{\mathsf T} a$ and $\partial L/\partial W_h \mathrel{+}= h_{t-1}^{\mathsf T} a$;
-> 3. move the error one step back: $\delta = a\,W_h^{\mathsf T}$.
+> 3. move the error one step back: $\delta = a\thinspace W_h^{\mathsf T}$.
 >
 > In the Notebook this loop, written in NumPy for the 3-node network on "cat mat rat", matches TensorFlow's gradients to within $4 \times 10^{-8}$.
 

@@ -40,7 +40,7 @@ From $Z_2 = W_2F + b_2 = w_1f_1 + w_2f_2 + w_3f_3 + w_4f_4 + b_2$, the derivativ
 
 The gradient with respect to $F$ must have the shape of $F$, 4 × 1, because there is one gradient for every value of $F$. $W_2$ is 1 × 4, so we use its transpose:
 
-$$\frac{\partial L}{\partial F} = \underbrace{W_2^{\mathsf T}}_{4 \times 1}\,\underbrace{(a_2 - y)}_{1 \times 1}$$
+$$\frac{\partial L}{\partial F} = \underbrace{W_2^{\mathsf T}}_{4 \times 1}\thinspace \underbrace{(a_2 - y)}_{1 \times 1}$$
 
 ## 5. Back through flatten: reshape
 
@@ -52,7 +52,7 @@ Flatten has no trainable parameters, and it does no arithmetic: it takes the 2 �
 2. **Formula:**
    $$\frac{\partial L}{\partial P_1} = \text{reshape}\Big(\frac{\partial L}{\partial F},\ \text{shape of } P_1\Big)$$
 3. **Example:** if $\partial L/\partial F = (0.1,\ -0.2,\ 0.3,\ 0.4)^{\mathsf T}$, then
-   $$\frac{\partial L}{\partial P_1} = \begin{bmatrix} 0.1 & -0.2 \\ 0.3 & 0.4 \end{bmatrix}$$
+   $$\frac{\partial L}{\partial P_1} = \begin{bmatrix} 0.1 & -0.2 \cr  0.3 & 0.4 \end{bmatrix}$$
 
 So far: $\partial L/\partial P_1 = \text{reshape}\big(W_2^{\mathsf T}(a_2 - y)\big)$, four numbers.
 
@@ -68,9 +68,9 @@ In every window, max pooling passed one value forward, the maximum, and dropped 
 
 1. **In words:** ask $A_1$ where the maximum of each window was, put the window's gradient there, and 0 everywhere else.
 2. **Formula:** for position $(m, n)$ of $A_1$, inside the window that produced $P_{1,xy}$:
-   $$\frac{\partial L}{\partial A_{1,mn}} = \begin{cases} \dfrac{\partial L}{\partial P_{1,xy}} & \text{if } A_{1,mn} \text{ is the maximum of its window} \\[6pt] 0 & \text{otherwise} \end{cases}$$
-3. **Example (Figure 2):** the maxima of $A_1$ are 5, 3, 7 and 4. With $\partial L/\partial P_1 = \begin{bmatrix} 0.1 & -0.2 \\ 0.3 & 0.4 \end{bmatrix}$:
-   $$\frac{\partial L}{\partial A_1} = \begin{bmatrix} 0 & 0.1 & 0 & -0.2 \\ 0 & 0 & 0 & 0 \\ 0.3 & 0 & 0.4 & 0 \\ 0 & 0 & 0 & 0 \end{bmatrix}$$
+   $$\frac{\partial L}{\partial A_{1,mn}} = \begin{cases} \dfrac{\partial L}{\partial P_{1,xy}} & \text{if } A_{1,mn} \text{ is the maximum of its window} \cr  0 & \text{otherwise} \end{cases}$$
+3. **Example (Figure 2):** the maxima of $A_1$ are 5, 3, 7 and 4. With $\partial L/\partial P_1 = \begin{bmatrix} 0.1 & -0.2 \cr  0.3 & 0.4 \end{bmatrix}$:
+   $$\frac{\partial L}{\partial A_1} = \begin{bmatrix} 0 & 0.1 & 0 & -0.2 \cr  0 & 0 & 0 & 0 \cr  0.3 & 0 & 0.4 & 0 \cr  0 & 0 & 0 & 0 \end{bmatrix}$$
 
 The indices $x, y$ number the positions of $P_1$ and $m, n$ those of $A_1$; they help when writing the code. To do this backward step, the forward pass must remember where each maximum was (CS231n notes call these positions the "switches"). When a window holds two equal maxima, as in an all-zero window after ReLU, the Notebook sends the gradient to the first of them.
 
@@ -80,7 +80,7 @@ The indices $x, y$ number the positions of $P_1$ and $m, n$ those of $A_1$; they
 
 $A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Its derivative is 1 for a positive input and 0 for a negative one (see the [activation functions Note](../1027-activation-functions/note.md), section 8):
 
-$$\frac{\partial A_{1,xy}}{\partial Z_{1,xy}} = \begin{cases} 1 & \text{if } Z_{1,xy} > 0 \\ 0 & \text{otherwise} \end{cases}$$
+$$\frac{\partial A_{1,xy}}{\partial Z_{1,xy}} = \begin{cases} 1 & \text{if } Z_{1,xy} > 0 \cr  0 & \text{otherwise} \end{cases}$$
 
 Multiplying cell by cell:
 
@@ -94,7 +94,7 @@ where $\odot$ means cell-by-cell multiplication. We now have $\partial L/\partia
 
 The convolution layer, unlike flatten and max pooling, has trainable parameters, the filter $W_1$ and its bias $b_1$. To see the pattern clearly we shrink the example: a 3 × 3 input and a 2 × 2 filter, so $Z_1$ and $\partial L/\partial Z_1$ are 2 × 2. Everything else stays the same.
 
-$$X = \begin{bmatrix} x_{11} & x_{12} & x_{13}\\ x_{21} & x_{22} & x_{23}\\ x_{31} & x_{32} & x_{33} \end{bmatrix}, \qquad W_1 = \begin{bmatrix} w_{11} & w_{12}\\ w_{21} & w_{22} \end{bmatrix}$$
+$$X = \begin{bmatrix} x_{11} & x_{12} & x_{13}\cr  x_{21} & x_{22} & x_{23}\cr  x_{31} & x_{32} & x_{33} \end{bmatrix}, \qquad W_1 = \begin{bmatrix} w_{11} & w_{12}\cr  w_{21} & w_{22} \end{bmatrix}$$
 
 The forward convolution gives four equations:
 
@@ -119,7 +119,7 @@ Each $\partial z/\partial b_1$ is 1, because $b_1$ enters every equation with co
 1. **In words:** add up all the values of $\partial L/\partial Z_1$.
 2. **Formula:**
    $$\frac{\partial L}{\partial b_1} = \sum_{x,y}\frac{\partial L}{\partial Z_{1,xy}}$$
-3. **Example:** with $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \\ 0.25 & 2 \end{bmatrix}$, $\partial L/\partial b_1 = 0.5 - 1 + 0.25 + 2 = 1.75$. TensorFlow gives 1.75 (Notebook).
+3. **Example:** with $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \cr  0.25 & 2 \end{bmatrix}$, $\partial L/\partial b_1 = 0.5 - 1 + 0.25 + 2 = 1.75$. TensorFlow gives 1.75 (Notebook).
 
 ### 8.2 The filter: a convolution
 
@@ -142,9 +142,9 @@ These look complex, but there is a pattern. In $\partial L/\partial w_{11}$, the
 1. **In words:** convolve the input with the gradient of the feature map.
 2. **Formula:**
    $$\frac{\partial L}{\partial W_1} = X * \frac{\partial L}{\partial Z_1}$$
-3. **Example:** $X = \begin{bmatrix} 1&2&3\\4&5&6\\7&8&9 \end{bmatrix}$ and $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \\ 0.25 & 2 \end{bmatrix}$. The top-left entry is
+3. **Example:** $X = \begin{bmatrix} 1&2&3\cr 4&5&6\cr 7&8&9 \end{bmatrix}$ and $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \cr  0.25 & 2 \end{bmatrix}$. The top-left entry is
    $$0.5(1) - 1(2) + 0.25(4) + 2(5) = 9.5$$
-   and the full result is $\begin{bmatrix} 9.5 & 11.25 \\ 14.75 & 16.5 \end{bmatrix}$, exactly what `GradientTape` returns (Notebook).
+   and the full result is $\begin{bmatrix} 9.5 & 11.25 \cr  14.75 & 16.5 \end{bmatrix}$, exactly what `GradientTape` returns (Notebook).
 
 The shapes agree: a $3 \times 3$ input convolved with a $2 \times 2$ matrix gives $3 - 2 + 1 = 2$, the shape of $W_1$. In the 6 × 6 network of part 1, $X$ is 6 × 6 and $\partial L/\partial Z_1$ is 4 × 4, which gives $6 - 4 + 1 = 3$: the 3 × 3 shape of the filter.
 

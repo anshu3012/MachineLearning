@@ -1,5 +1,6 @@
 ---
 title: "Maximum Likelihood in Machine Learning: Losses and Priors"
+tags: [subject/maths, area/likelihood, area/models-1, step/foundations, step/model, concept/categorical-ce, concept/log-loss, concept/map-estimation, concept/mle]
 ---
 
 ## 1. Overview
@@ -28,7 +29,7 @@ Training observations $(x_1, y_1), \dots, (x_n, y_n)$ are assumed i.i.d., so the
 
 1. **In words:** the NLL adds, over the training observations, minus the log of the probability (or density) the model gives to each observation's true target.
 2. **Formula:**
-   $$\text{NLL}(\theta) = -\sum_{i=1}^{n} \log p(y_i \mid x_i, \theta), \qquad \hat\theta_{\text{ML}} = \arg\min_\theta\, \text{NLL}(\theta)$$
+   $$\text{NLL}(\theta) = -\sum_{i=1}^{n} \log p(y_i \mid x_i, \theta), \qquad \hat\theta_{\text{ML}} = \arg\min_\theta\thinspace  \text{NLL}(\theta)$$
 3. **Example:** if a model gives the true targets of three observations probabilities 0.9, 0.5 and 0.8, then $\text{NLL} = -(\log 0.9 + \log 0.5 + \log 0.8) = 0.105 + 0.693 + 0.223 = 1.02$.
 
 Two choices define a model: how the prediction depends on $x$ (a line, a sigmoid, a neural network) and which distribution describes the target around that prediction. The second choice decides the loss.
@@ -45,7 +46,7 @@ Two choices define a model: how the prediction depends on $x$ (a line, a sigmoid
 
 Linear regression predicts $\hat y = wx + b$ (see the [simple linear regression Note](../50-simple-linear-regression/note.md)). The points never lie exactly on the line. We model the gap as **noise**: a random error $\varepsilon$ drawn from a normal distribution with mean 0 and standard deviation $\sigma$ (see the [normal distribution Note](../250-normal-distribution/note.md)). Then
 
-$$p(y \mid x, \theta) = N(y \mid \hat y, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-\frac{(y - \hat y)^2}{2\sigma^2}}$$
+$$p(y \mid x, \theta) = N(y \mid \hat y, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace  e^{-\frac{(y - \hat y)^2}{2\sigma^2}}$$
 
 In Figure 1 each grey bell is this distribution at one $x$. Its peak sits on the line, and its height at the observed $y$ is that observation's likelihood (green bar). The bell model is the "normality of residuals" assumption of the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md), now used to derive the loss.
 
@@ -92,13 +93,13 @@ So the training MSE of a least squares fit is the maximum likelihood estimate of
 
 ## 4. A Bernoulli target gives the log loss
 
-> **Key point:** With a 0/1 target and predicted probability $\hat y$, the Bernoulli PMF $\hat y^{\,y}(1 - \hat y)^{1 - y}$ has minus log $-[y\log\hat y + (1 - y)\log(1 - \hat y)]$: the log loss term for one observation.
+> **Key point:** With a 0/1 target and predicted probability $\hat y$, the Bernoulli PMF $\hat y^{\thinspace y}(1 - \hat y)^{1 - y}$ has minus log $-[y\log\hat y + (1 - y)\log(1 - \hat y)]$: the log loss term for one observation.
 
 The [log loss Note](../73-log-loss/note.md) built the binary cross entropy by multiplying the probabilities of the true classes and taking minus the log. That Note found the formula $-[y\log\hat y + (1 - y)\log(1 - \hat y)]$ by noticing that the $y$ factors switch the right term on. The NLL view shows where that formula comes from.
 
 1. **In words:** model the target as a Bernoulli trial (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md), Section 2.1) whose success probability is the sigmoid output $\hat y = \sigma(w \cdot x)$. Minus the log of its PMF is the log loss term.
 2. **Formula:**
-   $$p(y \mid x, \theta) = \hat y^{\,y}(1 - \hat y)^{1 - y} \quad\Longrightarrow\quad -\log p(y \mid x, \theta) = -\big[y\log\hat y + (1 - y)\log(1 - \hat y)\big]$$
+   $$p(y \mid x, \theta) = \hat y^{\thinspace y}(1 - \hat y)^{1 - y} \quad\Longrightarrow\quad -\log p(y \mid x, \theta) = -\big[y\log\hat y + (1 - y)\log(1 - \hat y)\big]$$
    The log brings the exponents $y$ and $1 - y$ down as multipliers. Summed over the observations, this is the binary cross entropy; divided by $n$, the log loss.
 3. **Example:** the four observations of the log loss Note, model 1: targets 1, 0, 1, 0 with $\hat y = 0.7, 0.6, 0.4, 0.2$. The Bernoulli PMF gives $0.7^1 0.3^0 = 0.7$, then $0.6^0 0.4^1 = 0.4$, then 0.4 and 0.8. The NLL is $-\log(0.7 \times 0.4 \times 0.4 \times 0.8) = 2.41$, the cross entropy found there.
 
@@ -106,13 +107,13 @@ So logistic regression is maximum likelihood estimation for a Bernoulli model wh
 
 ## 5. A categorical target gives the cross entropy
 
-> **Key point:** With $K$ classes and one-hot target $\mathbf{y}$, the categorical PMF $\prod_k \hat y_k^{\,y_k}$ has minus log $-\sum_k y_k\log\hat y_k$: the categorical cross entropy.
+> **Key point:** With $K$ classes and one-hot target $\mathbf{y}$, the categorical PMF $\prod_k \hat y_k^{\thinspace y_k}$ has minus log $-\sum_k y_k\log\hat y_k$: the categorical cross entropy.
 
 The **categorical distribution** is the Bernoulli distribution extended to $K$ outcomes: outcome $k$ has probability $\hat y_k$, and the $\hat y_k$ add up to 1. A softmax output provides exactly such probabilities (see the [softmax regression Note](../79-softmax-regression/note.md)).
 
-1. **In words:** write the target one-hot (1 for the true class, 0 elsewhere). The probability of the true class is the product of $\hat y_k^{\,y_k}$, because every factor with $y_k = 0$ equals 1. Minus its log is the categorical cross entropy.
+1. **In words:** write the target one-hot (1 for the true class, 0 elsewhere). The probability of the true class is the product of $\hat y_k^{\thinspace y_k}$, because every factor with $y_k = 0$ equals 1. Minus its log is the categorical cross entropy.
 2. **Formula:**
-   $$p(\mathbf{y} \mid x, \theta) = \prod_{k=1}^{K} \hat y_k^{\,y_k} \quad\Longrightarrow\quad -\log p(\mathbf{y} \mid x, \theta) = -\sum_{k=1}^{K} y_k\log\hat y_k$$
+   $$p(\mathbf{y} \mid x, \theta) = \prod_{k=1}^{K} \hat y_k^{\thinspace y_k} \quad\Longrightarrow\quad -\log p(\mathbf{y} \mid x, \theta) = -\sum_{k=1}^{K} y_k\log\hat y_k$$
 3. **Example:** three classes, softmax output $(0.7, 0.2, 0.1)$, true class the first, $\mathbf{y} = (1, 0, 0)$. The product is $0.7^1 \times 0.2^0 \times 0.1^0 = 0.7$, and the loss is $-\log 0.7 = 0.357$.
 
 The categorical cross entropy is the loss of softmax regression and of every classification network in the [loss functions Note](../1014-dl-loss-functions/note.md). Training a classifier by minimising cross entropy is maximum likelihood estimation.
@@ -121,7 +122,7 @@ The categorical cross entropy is the loss of softmax regression and of every cla
 |---|---|---|
 | $N(\hat y, \sigma^2)$, any real $y$ | $(y - \hat y)^2/(2\sigma^2) + \text{const}$ | squared error (MSE) |
 | $\text{Laplace}(\hat y, b)$ | $\lvert y - \hat y\rvert/b + \text{const}$ | absolute error (MAE) |
-| $\text{Bern}(\hat y)$, $y \in \{0, 1\}$ | $-[y\log\hat y + (1 - y)\log(1 - \hat y)]$ | log loss |
+| $\text{Bern}(\hat y)$, $y \in \lbrace 0, 1\rbrace $ | $-[y\log\hat y + (1 - y)\log(1 - \hat y)]$ | log loss |
 | $\text{Cat}(\hat y_1, \dots, \hat y_K)$, one-hot $\mathbf{y}$ | $-\sum_k y_k\log\hat y_k$ | categorical cross entropy |
 
 ## 6. Maximum likelihood overfits
@@ -155,13 +156,13 @@ With more parameters than observations the MLE is not even unique (MML §9.2.2):
 
 MML (§9.2.3) observes that parameter values often become large when a model overfits, and proposes to state beforehand which values are plausible. A **prior** $p(\theta)$ encodes that belief as a distribution over the parameters. Bayes' theorem (see the [Bayes' theorem Note](../85-bayes-theorem/note.md)) combines it with the likelihood into a **posterior**:
 
-$$p(\theta \mid \text{data}) = \frac{p(\text{data} \mid \theta)\, p(\theta)}{p(\text{data})}$$
+$$p(\theta \mid \text{data}) = \frac{p(\text{data} \mid \theta)\thinspace  p(\theta)}{p(\text{data})}$$
 
 The evidence $p(\text{data})$ does not depend on $\theta$, so for finding the best $\theta$ we can drop it, as Naive Bayes dropped it when comparing classes (the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md)).
 
 1. **In words:** the **maximum a posteriori** (**MAP**) estimate is the $\theta$ with the largest posterior. In logs, it minimises the NLL plus minus the log of the prior.
 2. **Formula:**
-   $$\hat\theta_{\text{MAP}} = \arg\max_\theta\, p(\text{data} \mid \theta)\,p(\theta) = \arg\min_\theta\, \big[\text{NLL}(\theta) - \log p(\theta)\big]$$
+   $$\hat\theta_{\text{MAP}} = \arg\max_\theta\thinspace  p(\text{data} \mid \theta)\thinspace p(\theta) = \arg\min_\theta\thinspace  \big[\text{NLL}(\theta) - \log p(\theta)\big]$$
 3. **Example:** with a flat prior, the same for every $\theta$, $-\log p(\theta)$ is a constant and MAP gives the MLE. The prior only matters when it prefers some values over others.
 
 The [Naive Bayes maths Note](../88-naive-bayes-maths/note.md) used the MAP rule to pick a class. Here the same principle picks parameter values.
@@ -172,7 +173,7 @@ The [Naive Bayes maths Note](../88-naive-bayes-maths/note.md) used the MAP rule 
 
 1. **In words:** a normal prior centred on 0 says each weight is probably small. Minus its log is the squared weight over $2b^2$, plus a constant. Added to the Gaussian NLL and multiplied by $2\sigma^2$, this is the ridge loss of the [ridge regression maths Note](../64-ridge-regression-maths/note.md).
 2. **Formula** (MML equations 9.28 and 9.33):
-   $$\text{NLL}(\theta) - \log p(\theta) = \frac{1}{2\sigma^2}\sum_{i}(y_i - \hat y_i)^2 + \frac{1}{2b^2}\sum_j\theta_j^2 + \text{const} \;\propto\; \sum_{i}(y_i - \hat y_i)^2 + \frac{\sigma^2}{b^2}\sum_j\theta_j^2$$
+   $$\text{NLL}(\theta) - \log p(\theta) = \frac{1}{2\sigma^2}\sum_{i}(y_i - \hat y_i)^2 + \frac{1}{2b^2}\sum_j\theta_j^2 + \text{const} \thickspace \propto\thickspace  \sum_{i}(y_i - \hat y_i)^2 + \frac{\sigma^2}{b^2}\sum_j\theta_j^2$$
    So $\lambda = \sigma^2/b^2$: a narrow prior (small $b$) or noisy data (large $\sigma$) means strong regularisation.
 3. **Example:** the four points of Section 3 with $\sigma = 1$ and prior $w \sim N(0, 0.5^2)$, so $\lambda = 1/0.25 = 4$. As in the ridge maths Note, $\lambda$ is added to the bottom of the fraction:
    $$\hat w_{\text{MAP}} = \frac{\sum_i x_i y_i}{\sum_i x_i^2 + \lambda} = \frac{60.3}{30 + 4} = 1.77$$
@@ -188,7 +189,7 @@ Figure 4 applies this to the degree-9 polynomial of Figure 3, with prior $N(0, 0
 
 1. **In words:** the Laplace prior has a sharp peak at 0, so it believes many weights are exactly 0. Minus its log is the absolute value of each weight divided by $b$.
 2. **Formula:** with $p(\theta_j) = e^{-\lvert\theta_j\rvert/b}/(2b)$,
-   $$\text{NLL}(\theta) - \log p(\theta) \;\propto\; \sum_{i}(y_i - \hat y_i)^2 + \frac{2\sigma^2}{b}\sum_j\lvert\theta_j\rvert$$
+   $$\text{NLL}(\theta) - \log p(\theta) \thickspace \propto\thickspace  \sum_{i}(y_i - \hat y_i)^2 + \frac{2\sigma^2}{b}\sum_j\lvert\theta_j\rvert$$
    The result is the loss of the [lasso regression Note](../67-lasso-regression/note.md), with $\lambda = 2\sigma^2/b$.
 3. **Example:** with $\sigma = 1$ and $b = 0.5$, $\lambda = 2/0.5 = 4$; a weight of 0.3 costs a penalty of $4 \times 0.3 = 1.2$.
 

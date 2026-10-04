@@ -1,12 +1,13 @@
 ---
 title: "AdaGrad: A Learning Rate for Every Parameter"
+tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 ---
 
 ## 1. Overview
 
 > **Key point:** AdaGrad gives every parameter its own learning rate: the global rate divided by the square root of the sum of that parameter's past squared gradients. Parameters with large gradients get small steps, parameters with small gradients (such as the weights of sparse features) get large ones. The price: the sum only grows, so the steps keep shrinking.
 
-**AdaGrad**, short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. It adapts it to the situation, separately for every parameter. Every optimizer so far, from batch gradient descent to [momentum](../1034-sgd-with-momentum/note.md) and [NAG](../1035-nesterov-accelerated-gradient/note.md), uses one learning rate for all parameters; AdaGrad is the first that does not.
+**AdaGrad**, short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the learning rate to the situation, separately for every parameter. Every optimizer so far, from batch gradient descent to [momentum](../1034-sgd-with-momentum/note.md) and [NAG](../1035-nesterov-accelerated-gradient/note.md), uses one learning rate for all parameters; AdaGrad is the first that does not.
 
 ![Gradient descent, momentum and AdaGrad on a loss stretched by a sparse feature. Gradient descent and momentum first move along $b$, then crawl along $m$; AdaGrad heads for the minimum](images/adagrad_race.gif){width=80%}
 
@@ -49,7 +50,7 @@ Starting from $(m, b) = (-4, -4)$, gradient descent ($\eta = 0.3$) first moves a
 
 Think of the bias as the weight of a second input that is always 1. For the squared error $L = \frac{1}{n}\sum (y_i - \hat{y}_i)^2$, the chain rule gives
 
-$$\frac{\partial L}{\partial m} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat{y}_i)\,x_i, \qquad \frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat{y}_i) \times 1$$
+$$\frac{\partial L}{\partial m} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat{y}_i)\thinspace x_i, \qquad \frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat{y}_i) \times 1$$
 
 For every student with $x_i = 0$, the term in $\partial L/\partial m$ is 0. With 90 of 100 students at 0, only 10 terms remain, so the sum is small and every update of $m$ is small. In $\partial L/\partial b$ every term counts, so the sum, and every update of $b$, is large. At the start $(-4, -4)$ the gradients are $\partial L/\partial m = -3.39$ and $\partial L/\partial b = -15.92$ (Notebook).
 
@@ -68,11 +69,11 @@ The two updates then become comparable, and the path heads for the minimum. AdaG
 
 ## 6. The update rule
 
-> **Key point:** $v_t = v_{t-1} + (\nabla L)^2$ and $w_{t+1} = w_t - \dfrac{\eta}{\sqrt{v_t} + \epsilon}\,\nabla L$, separately for every parameter.
+> **Key point:** $v_t = v_{t-1} + (\nabla L)^2$ and $w_{t+1} = w_t - \dfrac{\eta}{\sqrt{v_t} + \epsilon}\thinspace \nabla L$, separately for every parameter.
 
 1. **In words:** for each parameter, keep a running sum $v$ of its squared gradients. Divide the learning rate by the square root of that sum before making the usual gradient step.
 2. **Formula:**
-   $$v_t = v_{t-1} + \left(\nabla L(w_t)\right)^2, \qquad w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\,\nabla L(w_t)$$
+   $$v_t = v_{t-1} + \left(\nabla L(w_t)\right)^2, \qquad w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace \nabla L(w_t)$$
    with $v_0 = 0$, computed separately for every parameter.
 3. **Example:** the students data from $(m, b) = (-4, -4)$ with $\eta = 2$. The first gradients are $-3.39$ for $m$ and $-15.92$ for $b$:
    $$v_1 = (3.39^2,\ 15.92^2) = (11.5,\ 253.5), \qquad \frac{\eta}{\sqrt{v_1}} = \left(\frac{2}{3.39},\ \frac{2}{15.92}\right) = (0.59,\ 0.126)$$

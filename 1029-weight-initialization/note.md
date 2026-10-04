@@ -1,5 +1,6 @@
 ---
 title: "Weight Initialisation: What Not to Do"
+tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, concept/exploding-gradient, concept/vanishing-gradient, concept/weight-init]
 ---
 
 ## 1. Overview
@@ -60,7 +61,7 @@ With ReLU, $a_{11} = \max(0, 0) = 0$; with tanh, $a_{11} = \tanh(0) = (1 - 1)/(1
 
 1. **In words:** a weight's gradient contains the signal flowing in (an activation or input) and the signal flowing back (through the weights after it). Here one of the two is always 0.
 2. **Formula:** for an output weight and a hidden weight,
-   $$\frac{\partial L}{\partial W^2_{11}} = \frac{\partial L}{\partial \hat{y}}\, a_{11}, \qquad \frac{\partial L}{\partial W^1_{11}} = \frac{\partial L}{\partial \hat{y}}\, W^2_{11}\, g'(z_{11})\, x_1$$
+   $$\frac{\partial L}{\partial W^2_{11}} = \frac{\partial L}{\partial \hat{y}}\thinspace  a_{11}, \qquad \frac{\partial L}{\partial W^1_{11}} = \frac{\partial L}{\partial \hat{y}}\thinspace  W^2_{11}\thinspace  g'(z_{11})\thinspace  x_1$$
 3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W^2_{11} = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So $W_{\text{new}} = W_{\text{old}} - \eta \cdot 0 = 0$.
 
 The weights are 0 after the first update, so the same happens again, forever. Only the output bias, whose gradient is just $\partial L/\partial \hat{y}$, can move. The network predicts one constant for every input.
@@ -104,7 +105,7 @@ So the two gradients are equal at every step. Think of two identical twins who s
 
 ![(a) After a start where all weights are equal, every weight leaving $x_1$ has one value $u$ and every weight leaving $x_2$ one value $v$, so the hidden nodes all compute the same $a$. (b) The network behaves like a single hidden node](images/symmetry.png){width=90%}
 
-Figure 2 shows the consequence. However many nodes the layer has, they compute the same thing, so the network behaves like one with a single hidden node. A single sigmoid node draws a straight boundary: the output $\sigma(w\,a + b)$ with $a = \sigma(u x_1 + v x_2 + c)$ only grows or only shrinks as $u x_1 + v x_2$ grows, so the line $u x_1 + v x_2 = \text{constant}$ where the output crosses 0.5 is the boundary. The network is in effect a perceptron: a linear model that cannot capture non-linear patterns.
+Figure 2 shows the consequence. However many nodes the layer has, they compute the same thing, so the network behaves like one with a single hidden node. A single sigmoid node draws a straight boundary: the output $\sigma(w\thinspace a + b)$ with $a = \sigma(u x_1 + v x_2 + c)$ only grows or only shrinks as $u x_1 + v x_2$ grows, so the line $u x_1 + v x_2 = \text{constant}$ where the output crosses 0.5 is the boundary. The network is in effect a perceptron: a linear model that cannot capture non-linear patterns.
 
 The Notebook trains a layer of 10 sigmoid nodes from all zeros for 200 epochs. Afterwards:
 
@@ -122,7 +123,7 @@ The same network with Keras' random start bends around the moons and reaches 96%
 
 Starting every weight and bias at a non-zero constant, say 0.5, removes the zeros of section 4.2. With ReLU,
 
-$$z_{11} = 0.5\,x_1 + 0.5\,x_2 + 0.5 = z_{12}$$
+$$z_{11} = 0.5\thinspace x_1 + 0.5\thinspace x_2 + 0.5 = z_{12}$$
 
 is now some non-zero value, so $a_{11} = a_{12} \ne 0$. But the two are equal, which is exactly the situation of section 4.3. Every weight leaving one input gets the same gradient, the nodes stay identical, and the layer acts like one node.
 
@@ -186,7 +187,7 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
 
 1. **In words:** $z$ adds up 500 products of inputs around $\pm 1$ and weights around $\pm 1$.
 2. **Formula:** $z = \sum_{i=1}^{500} w_i x_i$
-3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about $500 \times 0.5 = 250$. With cancellation, the variance rule $\text{Var}(z) = n\,\text{Var}(w)\,\text{Var}(x)$ (derived in section 3.3 of the [Xavier and He Note](../1030-xavier-he-initialization/note.md)) gives $\text{Var}(z) = 500$, a standard deviation of $\sqrt{500} \approx 22$: $z$ typically lands in the tens.
+3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about $500 \times 0.5 = 250$. With cancellation, the variance rule $\text{Var}(z) = n\thinspace \text{Var}(w)\thinspace \text{Var}(x)$ (derived in section 3.3 of the [Xavier and He Note](../1030-xavier-he-initialization/note.md)) gives $\text{Var}(z) = 500$, a standard deviation of $\sqrt{500} \approx 22$: $z$ typically lands in the tens.
 
 **Tanh and sigmoid saturate.** Feeding $z$ of 20 or 50 into tanh gives $-1$ or 1; into the sigmoid, 0 or 1. Figure 1 (bottom row) shows it: in every hidden layer the tanh activations pile up at $-1$ and 1. In layer 3, 90% of them are beyond $\pm 0.99$. At these values the slope is almost 0, so training is slow at best, and in the worst case the gradient vanishes.
 

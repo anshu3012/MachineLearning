@@ -29,7 +29,7 @@ def probes(md):
         line = re.sub(r"\*\*?|`", "", line)
         line = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)   # a link shows only its text in the PDF
         line = re.sub(r"\{[^}]*\}", "", line)              # {height=50%} and other attributes are not printed
-        if not line or line.startswith(("![", "|", "---", "title:")):
+        if not line or line.startswith(("![", "|", "---", "title:", "tags:")):
             continue
         w = words(line)
         if len(w) >= 5:

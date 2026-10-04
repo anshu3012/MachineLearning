@@ -1,5 +1,6 @@
 ---
 title: "RMSProp: AdaGrad That Forgets"
+tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/rmsprop]
 ---
 
 ## 1. Overview
@@ -39,7 +40,7 @@ RMSProp changes only the line that computes $v_t$:
 
 1. **In words:** keep an exponentially weighted moving average of each parameter's squared gradient, then divide the learning rate by its square root, as AdaGrad does.
 2. **Formula:**
-   $$v_t = \beta\,v_{t-1} + (1-\beta)\,\left(\nabla L(w_t)\right)^2, \qquad w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\,\nabla L(w_t)$$
+   $$v_t = \beta\thinspace v_{t-1} + (1-\beta)\thinspace \left(\nabla L(w_t)\right)^2, \qquad w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace \nabla L(w_t)$$
    with $v_0 = 0$ and $\beta$ usually 0.9 (Hinton 2012).
 3. **Example:** three squared gradients $g_1^2 = 9$, $g_2^2 = 4$, $g_3^2 = 1$ with $\beta = 0.9$:
    $$v_1 = 0.1 \times 9 = 0.9, \qquad v_2 = 0.9 \times 0.9 + 0.1 \times 4 = 1.21, \qquad v_3 = 0.9 \times 1.21 + 0.1 \times 1 = 1.189$$
@@ -47,7 +48,7 @@ RMSProp changes only the line that computes $v_t$:
 
 Unrolling the average, as in the [EWMA Note](../1033-exponentially-weighted-moving-average/note.md), shows the weights:
 
-$$v_3 = (1-\beta)\left(\beta^2 g_1^2 + \beta\,g_2^2 + g_3^2\right)$$
+$$v_3 = (1-\beta)\left(\beta^2 g_1^2 + \beta\thinspace g_2^2 + g_3^2\right)$$
 
 The oldest squared gradient is multiplied by $\beta^2$, the newest by 1. Since $\beta < 1$, old gradients are forgotten little by little and recent ones count most. So $v_t$ never shoots up: it stays about the size of the recent squared gradients, the learning rate does not become tiny, and the updates continue.
 
@@ -91,7 +92,7 @@ AdaGrad's median learning rate falls by a factor of 5 over the 30 epochs, and it
 
 ## 6. Strengths and limits
 
-> **Key point:** RMSProp is an effective, widely used optimizer for deep networks. It was the usual choice before Adam, and it is a natural next try when Adam does not give good results.
+> **Key point:** RMSProp is an effective, widely used optimizer for deep networks. RMSProp was the usual choice before Adam, and it is a natural next try when Adam does not give good results.
 
 RMSProp has been shown empirically to be an effective and practical optimization algorithm for deep neural networks, and it is one of the go-to methods of deep learning practitioners (Goodfellow et al. 2016, §8.5.2). Before Adam appeared, it was the optimizer most networks were trained with. It still competes with Adam: if Adam does not give good results on a problem, RMSProp is a natural next try.
 

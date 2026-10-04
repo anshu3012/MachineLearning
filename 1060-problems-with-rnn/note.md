@@ -1,5 +1,6 @@
 ---
 title: "Problems with RNNs: Long-Term Dependency and Unstable Gradients"
+tags: [subject/deep-learning, area/dl-basics, area/dl-rnn, step/model, concept/exploding-gradient, concept/long-term-dependency, concept/vanishing-gradient]
 ---
 
 ## 1. Overview
@@ -84,7 +85,7 @@ Pascanu, Mikolov and Bengio (2013) call these the temporal contributions of the 
 
 Real sequences have 100 time steps or more. The longest term then reads
 
-$$\frac{\partial L}{\partial \hat{y}}\,\frac{\partial \hat{y}}{\partial h_{100}}\,\frac{\partial h_{100}}{\partial h_{99}}\,\frac{\partial h_{99}}{\partial h_{98}} \cdots \frac{\partial h_2}{\partial h_1}\,\frac{\partial h_1}{\partial w_i}$$
+$$\frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial h_{100}}\thinspace \frac{\partial h_{100}}{\partial h_{99}}\thinspace \frac{\partial h_{99}}{\partial h_{98}} \cdots \frac{\partial h_2}{\partial h_1}\thinspace \frac{\partial h_1}{\partial w_i}$$
 
 the second-longest stops at $h_2$, the third at $h_3$, and so on. We can write the long chain compactly as a product:
 
@@ -92,13 +93,13 @@ $$\frac{\partial h_{100}}{\partial h_{99}} \cdots \frac{\partial h_2}{\partial h
 
 ### 4.3 One factor of the chain
 
-> **Key point:** $\partial h_t/\partial h_{t-1} = \tanh'(\cdot)\,w_h$: the slope of tanh times the feedback weight.
+> **Key point:** $\partial h_t/\partial h_{t-1} = \tanh'(\cdot)\thinspace w_h$: the slope of tanh times the feedback weight.
 
 1. **In words:** $h_t$ is tanh of something that contains $h_{t-1} w_h$. Differentiating with respect to $h_{t-1}$ gives the slope of tanh at that point times $w_h$.
 2. **Formula:**
-   $$h_t = \tanh(x_t w_i + h_{t-1} w_h) \quad\Rightarrow\quad \frac{\partial h_t}{\partial h_{t-1}} = \tanh'(x_t w_i + h_{t-1} w_h)\; w_h$$
+   $$h_t = \tanh(x_t w_i + h_{t-1} w_h) \quad\Rightarrow\quad \frac{\partial h_t}{\partial h_{t-1}} = \tanh'(x_t w_i + h_{t-1} w_h)\thickspace  w_h$$
    so the long-term term becomes
-   $$\frac{\partial L}{\partial \hat{y}}\,\frac{\partial \hat{y}}{\partial h_{100}} \left(\prod_{t=2}^{100} \tanh'(\cdot)\, w_h\right) \frac{\partial h_1}{\partial w_i}$$
+   $$\frac{\partial L}{\partial \hat{y}}\thinspace \frac{\partial \hat{y}}{\partial h_{100}} \left(\prod_{t=2}^{100} \tanh'(\cdot)\thinspace  w_h\right) \frac{\partial h_1}{\partial w_i}$$
 3. **Example:** the slope of tanh is between 0 and 1 (see the [activation functions Note](../1027-activation-functions/note.md)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is $0.8 \times 0.9 = 0.72$, and 99 of them give
    $$0.72^{99} \approx 7.5 \times 10^{-15}$$
 
@@ -114,7 +115,7 @@ The [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) me
 
 ![Gradient size by distance in an untrained SimpleRNN without activation on IMDB reviews, with $W_h$ set to $s$ times an orthogonal matrix (all eigenvalues of magnitude 1). Each step multiplies the gradient by about $s$](images/scaled_wh.png){width=95%}
 
-The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\,Q$, where $Q$ is an orthogonal matrix (every eigenvalue has magnitude exactly 1), so every eigenvalue of $W_h$ has magnitude $s$. Figure 3 shows the result:
+The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\thinspace Q$, where $Q$ is an orthogonal matrix (every eigenvalue has magnitude exactly 1), so every eigenvalue of $W_h$ has magnitude $s$. Figure 3 shows the result:
 
 | $s$ | Gradient 50 steps back, relative to the last word | $s^{50}$ |
 |---|---|---|
@@ -163,7 +164,7 @@ The decay is slower than the $0.72^{99}$ of section 4.3. Keras starts $W_h$ as a
 
 ### 6.1 How the gradient explodes
 
-> **Key point:** If each factor $\tanh'(\cdot)\,w_h$ is above 1, the product over many steps blows up.
+> **Key point:** If each factor $\tanh'(\cdot)\thinspace w_h$ is above 1, the product over many steps blows up.
 
 Now the long-term terms become so large that they dominate the short-term ones, and can grow to infinity. The gradient update then becomes huge, the weights become huge or infinite, and the model does not train. The training stagnates: the loss stops improving.
 
@@ -174,7 +175,7 @@ Now the long-term terms become so large that they dominate the short-term ones, 
 Two situations make it likely:
 
 - **ReLU with large recurrent weights.** ReLU does not squash: its slope is 1 for every positive input. If the recurrent weights are initialised large, nothing keeps the product small, and it explodes. The $s = 1.1$ line of Figure 3 shows the same growth with no activation at all.
-- **A high learning rate.** The gradient itself does not depend on the learning rate, but the step does: $\Delta W = \eta\,\partial L/\partial W$. A large gradient times a large $\eta$ gives a huge step, which throws the weights far away, the case shown in section 7.1 of the [exploding gradients Note](../1018-vanishing-exploding-gradients/note.md).
+- **A high learning rate.** The gradient itself does not depend on the learning rate, but the step does: $\Delta W = \eta\thinspace \partial L/\partial W$. A large gradient times a large $\eta$ gives a huge step, which throws the weights far away, the case shown in section 7.1 of the [exploding gradients Note](../1018-vanishing-exploding-gradients/note.md).
 
 Goodfellow §10.7 notes that gradients over many steps vanish most of the time and explode rarely, but with much damage to the optimisation.
 
@@ -197,7 +198,7 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 | | Long-term dependency | Unstable training |
 |---|---|---|
 | Cause | vanishing gradient through time | exploding gradient through time |
-| Factor per step | $\tanh'(\cdot)\,w_h$ below 1 | $\tanh'(\cdot)\,w_h$ above 1 (e.g. ReLU, large $w_h$) |
+| Factor per step | $\tanh'(\cdot)\thinspace w_h$ below 1 | $\tanh'(\cdot)\thinspace w_h$ above 1 (e.g. ReLU, large $w_h$) |
 | Symptom | only recent inputs influence learning | huge updates, loss stops improving or becomes NaN |
 | Fixes | ReLU, identity initialisation of $W_h$, skip connections, LSTM | gradient clipping, smaller learning rate, LSTM |
 

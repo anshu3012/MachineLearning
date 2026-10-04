@@ -1,5 +1,6 @@
 ---
 title: "RNN Architecture and Forward Propagation"
+tags: [subject/deep-learning, area/dl-rnn, step/model, concept/parameter-sharing, concept/rnn]
 ---
 
 ## 1. Overview
@@ -170,7 +171,7 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
    For binary classification $g$ is the sigmoid; for several classes it is the softmax; for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh.
 3. **Example:** small hand-picked weights, all biases 0, on "movie was good".
 
-   $$W_i = \begin{bmatrix} 0.2 & -0.1 & 0.0 \\ 0.0 & 0.1 & 0.1 \\ 0.8 & 0.3 & -0.5 \\ -0.8 & -0.3 & 0.5 \\ -0.6 & 0.2 & 0.4 \end{bmatrix}, \qquad W_h = \begin{bmatrix} 0.5 & 0.0 & 0.1 \\ 0.2 & 0.4 & 0.0 \\ 0.0 & -0.3 & 0.5 \end{bmatrix}, \qquad W_o = \begin{bmatrix} 1.5 \\ 0.5 \\ -1.0 \end{bmatrix}$$
+   $$W_i = \begin{bmatrix} 0.2 & -0.1 & 0.0 \cr  0.0 & 0.1 & 0.1 \cr  0.8 & 0.3 & -0.5 \cr  -0.8 & -0.3 & 0.5 \cr  -0.6 & 0.2 & 0.4 \end{bmatrix}, \qquad W_h = \begin{bmatrix} 0.5 & 0.0 & 0.1 \cr  0.2 & 0.4 & 0.0 \cr  0.0 & -0.3 & 0.5 \end{bmatrix}, \qquad W_o = \begin{bmatrix} 1.5 \cr  0.5 \cr  -1.0 \end{bmatrix}$$
 
    A one-hot vector times $W_i$ simply picks one row of $W_i$: the row of that word.
 
@@ -210,7 +211,7 @@ At every time step the input is new, but the weights are the same. This reuse is
 
 Write out $h_3$:
 
-$$h_3 = \tanh\big(x_3 W_i + \tanh\big(x_2 W_i + \tanh(x_1 W_i + h_0 W_h)\,W_h\big)\,W_h\big)$$
+$$h_3 = \tanh\big(x_3 W_i + \tanh\big(x_2 W_i + \tanh(x_1 W_i + h_0 W_h)\thinspace W_h\big)\thinspace W_h\big)$$
 
 (biases left out). Every word appears, in its place in the sequence. Information from earlier words reaches the output only through the chain of $W_h$ multiplications.
 

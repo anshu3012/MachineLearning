@@ -14,7 +14,7 @@ for k, kind in enumerate(kinds, start=1):
     z = s.pivot(index="i", columns="j", values="alpha")
     y = s.drop_duplicates("i").sort_values("i").french.str.replace("<", "&lt;")
     x = s.drop_duplicates("j").sort_values("j").english
-    fig.add_trace(go.Heatmap(z=z.values, x=list(x), y=[f"{w} " + "​" * i for i, w in enumerate(y)],
+    fig.add_trace(go.Heatmap(z=z.values, x=[w + "\u200b" * j for j, w in enumerate(x)], y=[w + "​" * i for i, w in enumerate(y)],
                              colorscale="Oranges", zmin=0, zmax=1, showscale=(k == 3)), row=1, col=k)
     fig.update_yaxes(autorange="reversed", row=1, col=k)
     fig.update_xaxes(side="top", tickangle=-50, row=1, col=k)

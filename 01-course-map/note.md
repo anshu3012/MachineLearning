@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked when their Note is written. So far, 254 of 254 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their source when their Note is written. So far, 289 of 289 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -59,7 +59,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Setup: conda, Jupyter and Colab | [Note 12](../12-setup-anaconda-jupyter-colab/note.md) | confirmed |
 | Chi-square tests | [Note 29](../29-pipelines/note.md), [Note 571](../571-chi-square-tests/note.md) | confirmed |
 | Vector magnitude, distance and scalar operations | [Note 39](../39-knn-imputer/note.md), [Note 361](../361-magnitude-distance-and-scalar-operations/note.md) | confirmed |
-| Normal distribution | [Note 42](../42-outliers-zscore/note.md), [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md), [Note 250](../250-normal-distribution/note.md) | confirmed |
+| Normal distribution | [Note 42](../42-outliers-zscore/note.md), [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md), [Note 250](../250-normal-distribution/note.md), [Note 630](../630-probability-vs-likelihood/note.md) | confirmed |
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | confirmed |
 | Dot product | [Note 48](../48-pca-step-by-step/note.md), [Note 362](../362-dot-product-and-cosine-similarity/note.md), [Note 520](../520-dot-product-and-duality/note.md) | confirmed |
 | Linear transformations and matrices | [Note 48](../48-pca-step-by-step/note.md), [Note 500](../500-linear-transformations-and-matrices/note.md) | confirmed |
@@ -111,11 +111,17 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Lagrange multipliers, KKT and duality | [Note 620](../620-lagrange-multipliers/note.md) | confirmed |
 | Convex sets and convex optimisation | [Note 621](../621-convex-sets-and-functions/note.md) | confirmed |
 | Linear and quadratic programming | [Note 622](../622-linear-and-quadratic-programming/note.md) | confirmed |
+| Likelihood | [Note 630](../630-probability-vs-likelihood/note.md) | confirmed |
+| Maximum likelihood estimation (MLE) | [Note 631](../631-maximum-likelihood-estimation/note.md), [Note 632](../632-mle-for-common-distributions/note.md), [Note 633](../633-mle-in-machine-learning/note.md) | confirmed |
+| Exponential distribution | [Note 632](../632-mle-for-common-distributions/note.md) | confirmed |
+| Multivariate normal distribution | [Note 640](../640-gaussian-mixture-models/note.md) | confirmed |
 | What deep learning is | [Note 1001](../1001-dl-scope-and-prerequisites/note.md), [Note 1002](../1002-what-is-deep-learning/note.md) | confirmed |
 | Representation learning | [Note 1002](../1002-what-is-deep-learning/note.md) | confirmed |
 | History of deep learning | [Note 1003](../1003-nn-types-history-applications/note.md) | confirmed |
 | Universal approximation theorem | [Note 1003](../1003-nn-types-history-applications/note.md), [Note 1009](../1009-mlp-intuition/note.md) | confirmed |
 | Memoization | [Note 1019](../1019-mlp-memoization/note.md) | confirmed |
+| Exponentially weighted moving average (EWMA) | [Note 1033](../1033-exponentially-weighted-moving-average/note.md) | confirmed |
+| Sequential data | [Note 1055](../1055-why-rnn/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -190,7 +196,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 1023](../1023-data-scaling-in-ann/note.md) | confirmed |
 | Feature engineering | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
 | Feature selection | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
-| Standardization | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md), [Note 1023](../1023-data-scaling-in-ann/note.md) | confirmed |
+| Standardization | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md), [Note 1023](../1023-data-scaling-in-ann/note.md), [Note 1031](../1031-batch-normalization/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 27](../27-one-hot-encoding/note.md) | confirmed |
 | ML pipelines | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
@@ -209,6 +215,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | SMOTE | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Bag of words | [Note 360](../360-vectors-and-feature-vectors/note.md) | confirmed |
 | Scaling inputs for neural networks | [Note 1023](../1023-data-scaling-in-ann/note.md) | confirmed |
+| Sequence padding | [Note 1055](../1055-why-rnn/note.md), [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
+| Tokenization and integer encoding of text | [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
+| Word embeddings | [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
 
 ### 2.7 Step 6: Reduce dimensions
 
@@ -240,7 +249,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Ensemble learning | [Note 9](../09-mldlc/note.md), [Note 101](../101-ensemble-learning/note.md) | confirmed |
 | Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | confirmed |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
-| K-means | [Note 32](../32-binning-binarization/note.md), [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md), [Note 130](../130-kmeans-from-scratch/note.md) | confirmed |
+| K-means | [Note 32](../32-binning-binarization/note.md), [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md), [Note 130](../130-kmeans-from-scratch/note.md), [Note 641](../641-expectation-maximization/note.md) | confirmed |
 | Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Ordinary least squares (closed form) | [Note 51](../51-linear-regression-maths/note.md) | confirmed |
@@ -258,8 +267,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Lasso regression | [Note 67](../67-lasso-regression/note.md), [Note 68](../68-lasso-sparsity/note.md) | confirmed |
 | Elastic Net | [Note 69](../69-elastic-net/note.md) | confirmed |
 | Perceptron trick | [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 1005](../1005-perceptron-trick/note.md) | confirmed |
-| Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md), [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
-| Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
+| Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md), [Note 1018](../1018-vanishing-exploding-gradients/note.md), [Note 1027](../1027-activation-functions/note.md) | confirmed |
+| Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md), [Note 1014](../1014-dl-loss-functions/note.md), [Note 633](../633-mle-in-machine-learning/note.md) | confirmed |
 | Softmax regression | [Note 79](../79-softmax-regression/note.md) | confirmed |
 | Naive Bayes | [Note 87](../87-naive-bayes-intuition/note.md), [Note 88](../88-naive-bayes-maths/note.md), [Note 89](../89-naive-bayes-code/note.md), [Note 90](../90-gaussian-naive-bayes/note.md) | confirmed |
 | Support vector machines | [Note 92](../92-svm-intuition/note.md), [Note 93](../93-svm-maths/note.md), [Note 94](../94-svm-soft-margin/note.md) | confirmed |
@@ -282,6 +291,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Cost-sensitive learning | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Cosine similarity | [Note 362](../362-dot-product-and-cosine-similarity/note.md) | confirmed |
 | Moore-Penrose pseudo-inverse | [Note 613](../613-svd-in-machine-learning/note.md) | confirmed |
+| Categorical and sparse categorical cross-entropy | [Note 1012](../1012-mnist-ann/note.md), [Note 1014](../1014-dl-loss-functions/note.md), [Note 633](../633-mle-in-machine-learning/note.md) | confirmed |
+| MAP estimation | [Note 633](../633-mle-in-machine-learning/note.md) | confirmed |
+| Gaussian mixture model (GMM) | [Note 640](../640-gaussian-mixture-models/note.md), [Note 641](../641-expectation-maximization/note.md) | confirmed |
+| Expectation maximization (EM) | [Note 641](../641-expectation-maximization/note.md) | confirmed |
 | Types of neural networks | [Note 1003](../1003-nn-types-history-applications/note.md) | confirmed |
 | Multi-layer perceptron (MLP) | [Note 1003](../1003-nn-types-history-applications/note.md), [Note 1009](../1009-mlp-intuition/note.md) | confirmed |
 | Perceptron | [Note 1004](../1004-perceptron/note.md) | confirmed |
@@ -291,17 +304,38 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Forward propagation | [Note 1010](../1010-forward-propagation/note.md) | confirmed |
 | Keras workflow | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md), [Note 1022](../1022-early-stopping/note.md), [Note 1025](../1025-dropout-code/note.md), [Note 1026](../1026-regularization-in-dl/note.md) | confirmed |
 | ANN for classification | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md) | confirmed |
-| Categorical and sparse categorical cross-entropy | [Note 1012](../1012-mnist-ann/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
 | ANN for regression | [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
 | Loss functions in deep learning | [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
 | Huber loss | [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
 | Backpropagation | [Note 1015](../1015-backpropagation-what/note.md), [Note 1016](../1016-backpropagation-how/note.md), [Note 1017](../1017-backpropagation-why/note.md), [Note 1019](../1019-mlp-memoization/note.md) | confirmed |
-| Vanishing gradient | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
-| Exploding gradient and gradient clipping | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
-| ReLU | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
+| Vanishing gradient | [Note 1018](../1018-vanishing-exploding-gradients/note.md), [Note 1029](../1029-weight-initialization/note.md), [Note 1030](../1030-xavier-he-initialization/note.md), [Note 1060](../1060-problems-with-rnn/note.md) | confirmed |
+| Exploding gradient and gradient clipping | [Note 1018](../1018-vanishing-exploding-gradients/note.md), [Note 1029](../1029-weight-initialization/note.md), [Note 1060](../1060-problems-with-rnn/note.md) | confirmed |
+| ReLU | [Note 1018](../1018-vanishing-exploding-gradients/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1028](../1028-relu-variants/note.md) | confirmed |
 | Batch size in Keras | [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
 | Dropout | [Note 1024](../1024-dropout/note.md), [Note 1025](../1025-dropout-code/note.md) | confirmed |
 | L1 and L2 regularisation in neural networks | [Note 1026](../1026-regularization-in-dl/note.md) | confirmed |
+| Activation functions | [Note 1027](../1027-activation-functions/note.md) | confirmed |
+| Tanh | [Note 1027](../1027-activation-functions/note.md) | confirmed |
+| Dying ReLU problem | [Note 1028](../1028-relu-variants/note.md) | confirmed |
+| Leaky ReLU, PReLU, ELU and SELU | [Note 1028](../1028-relu-variants/note.md) | confirmed |
+| Weight initialisation | [Note 1029](../1029-weight-initialization/note.md), [Note 1030](../1030-xavier-he-initialization/note.md) | confirmed |
+| Xavier and He initialisation | [Note 1030](../1030-xavier-he-initialization/note.md) | confirmed |
+| Batch normalisation | [Note 1031](../1031-batch-normalization/note.md) | confirmed |
+| Covariate shift | [Note 1031](../1031-batch-normalization/note.md) | confirmed |
+| Optimizers in deep learning | [Note 1032](../1032-optimizers-in-deep-learning/note.md) | confirmed |
+| Local minima and saddle points | [Note 1032](../1032-optimizers-in-deep-learning/note.md), [Note 1034](../1034-sgd-with-momentum/note.md) | confirmed |
+| SGD with momentum | [Note 1034](../1034-sgd-with-momentum/note.md) | confirmed |
+| Nesterov accelerated gradient (NAG) | [Note 1035](../1035-nesterov-accelerated-gradient/note.md) | confirmed |
+| AdaGrad | [Note 1036](../1036-adagrad/note.md) | confirmed |
+| RMSProp | [Note 1037](../1037-rmsprop/note.md) | confirmed |
+| Adam | [Note 1038](../1038-adam/note.md) | confirmed |
+| Recurrent neural network (RNN) | [Note 1055](../1055-why-rnn/note.md), [Note 1056](../1056-rnn-forward-propagation/note.md), [Note 1057](../1057-rnn-sentiment-analysis/note.md) | confirmed |
+| Parameter sharing across time steps | [Note 1056](../1056-rnn-forward-propagation/note.md), [Note 1059](../1059-backpropagation-through-time/note.md) | confirmed |
+| Types of RNN (many-to-one, one-to-many, many-to-many) | [Note 1058](../1058-types-of-rnn/note.md) | confirmed |
+| Sequence-to-sequence (encoder-decoder) | [Note 1058](../1058-types-of-rnn/note.md) | confirmed |
+| Backpropagation through time (BPTT) | [Note 1059](../1059-backpropagation-through-time/note.md) | confirmed |
+| Long-term dependency problem | [Note 1060](../1060-problems-with-rnn/note.md) | confirmed |
+| Large language models (LLMs) | [Note 1067](../1067-history-of-llms/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -324,7 +358,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 1021](../1021-improving-a-neural-network/note.md) | confirmed |
+| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 1021](../1021-improving-a-neural-network/note.md), [Note 1039](../1039-keras-tuner/note.md) | confirmed |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Learning rate | [Note 57](../57-gradient-descent/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 120](../120-gradient-boosting-intuition/note.md), [Note 1017](../1017-backpropagation-why/note.md) | confirmed |
 | Elbow method and WCSS | [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md) | confirmed |
@@ -332,6 +366,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Optuna | [Note 134](../134-optuna/note.md) | confirmed |
 | Improving a neural network | [Note 1021](../1021-improving-a-neural-network/note.md) | confirmed |
 | Early stopping | [Note 1021](../1021-improving-a-neural-network/note.md), [Note 1022](../1022-early-stopping/note.md) | confirmed |
+| Keras Tuner | [Note 1039](../1039-keras-tuner/note.md) | confirmed |
 
 ### 2.12 Step 11: Deploy
 
@@ -369,27 +404,47 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 254 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 289 Concepts, too many for one page, so each topic has its own mind map (Figures 2 to 17). Each map tells the topic's story from left to right and shows only its key Concepts and links; the grey number in each box is the Note that teaches it, and dashed boxes lead to other maps. To see every Concept and every link, use the interactive app (`python course_map/app.py`): click a Concept to light up everything it connects to.
 
-![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
+![Concept map: Foundations and framing](images/concept_map_foundations.png){width=100%}
 
-![Concept map: Getting, understanding and cleaning data](images/concept_map_data.png){height=88%}
+![Concept map: Getting, understanding and cleaning data](images/concept_map_data.png){width=100%}
 
-![Concept map: Features, dimensions and splitting](images/concept_map_features.png){height=88%}
+![Concept map: Features, dimensions and splitting](images/concept_map_features.png){width=100%}
 
-![Concept map: Models: regression, classification and gradient descent](images/concept_map_models_1.png){height=88%}
+![Concept map: Models: regression, classification and gradient descent](images/concept_map_models_regression.png){width=100%}
 
-![Concept map: Models: trees, ensembles and clustering](images/concept_map_models_2.png){height=88%}
+![Concept map: Models: trees, ensembles and clustering](images/concept_map_models_trees.png){width=100%}
 
-![Concept map: Evaluating, tuning and production](images/concept_map_production.png){height=88%}
+![Concept map: Evaluating, tuning and production](images/concept_map_production.png){width=100%}
+
+![Concept map: Descriptive statistics and distributions](images/concept_map_descriptive.png){width=100%}
+
+![Concept map: Probability](images/concept_map_probability.png){width=100%}
+
+![Concept map: Sampling, inference and hypothesis tests](images/concept_map_inference.png){width=100%}
+
+![Concept map: Linear algebra](images/concept_map_linear_algebra.png){width=100%}
+
+![Concept map: Calculus and optimisation](images/concept_map_calculus.png){width=100%}
+
+![Concept map: Likelihood, MLE and mixture models](images/concept_map_likelihood.png){width=100%}
+
+![Concept map: Deep learning: perceptron to backpropagation](images/concept_map_dl_basics.png){width=100%}
+
+![Concept map: Deep learning: training better networks](images/concept_map_dl_training.png){width=100%}
+
+![Concept map: Deep learning: optimizers](images/concept_map_dl_optimizers.png){width=100%}
+
+![Concept map: Deep learning: recurrent networks](images/concept_map_dl_rnn.png){width=100%}
 
 ## 4. The Learning path
 
 > **Key point:** Before each Note, read the Notes it builds on.
 
-Each row lists one Note's Concepts and the Notes to read first. Rows marked *coming* or *deferred* do not have a Note yet.
+Each row lists a Note's Concepts and the Notes to read first. Notes marked *coming* or *deferred* are not written yet.
 
-| Note | Concepts | Read first | Status |
+| No. | Concepts | Read first | Note |
 |---|---|---|---|
 | 1 | Data mining, Machine learning | nothing | written |
 | 2 | Artificial intelligence, Deep learning, Features, Machine learning, Neural networks, Symbolic AI and expert systems | nothing | written |
@@ -472,8 +527,8 @@ Each row lists one Note's Concepts and the Notes to read first. Rows marked *com
 | 80 | Polynomial features | nothing | written |
 | 81 | Hyperparameter tuning | [Note 61](../61-polynomial-regression/note.md) | written |
 | 82 | Conditional probability | nothing | written |
-| 83 | Independent and mutually exclusive events | nothing | written |
-| 84 | Independent and mutually exclusive events | nothing | written |
+| 83 | Independent and mutually exclusive events | [Note 82](../82-conditional-probability/note.md) | written |
+| 84 | Independent and mutually exclusive events | [Note 82](../82-conditional-probability/note.md) | written |
 | 85 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | written |
 | 86 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | written |
 | 87 | Naive Bayes | [Note 20](../20-univariate-analysis/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
@@ -515,7 +570,7 @@ Each row lists one Note's Concepts and the Notes to read first. Rows marked *com
 | 123 | Missing values, XGBoost | [Note 9](../09-mldlc/note.md), [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md) | written |
 | 124 | XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
 | 125 | XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
-| 126 | Hessian and multivariate Taylor, Taylor series, XGBoost | [Note 51](../51-linear-regression-maths/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
+| 126 | Hessian and multivariate Taylor, Taylor series, XGBoost | [Note 57](../57-gradient-descent/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
 | 127 | Cross-validation, Stacking and blending | [Note 101](../101-ensemble-learning/note.md) | written |
 | 128 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
 | 129 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
@@ -579,7 +634,7 @@ Each row lists one Note's Concepts and the Notes to read first. Rows marked *com
 | 600 | Derivatives of one variable, Taylor series | nothing | written |
 | 601 | Partial derivatives and gradients | [Note 600](../600-derivatives-of-one-variable/note.md) | written |
 | 602 | Jacobian and matrix gradients | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
-| 603 | Hessian and multivariate Taylor, Taylor series | [Note 530](../530-eigenvectors-and-eigenvalues/note.md), [Note 600](../600-derivatives-of-one-variable/note.md) | written |
+| 603 | Hessian and multivariate Taylor, Taylor series | [Note 530](../530-eigenvectors-and-eigenvalues/note.md), [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
 | 610 | Singular value decomposition | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | written |
 | 611 | Singular value decomposition | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | written |
 | 612 | Low-rank approximation (truncated SVD) | [Note 611](../611-computing-the-svd/note.md) | written |
@@ -587,6 +642,12 @@ Each row lists one Note's Concepts and the Notes to read first. Rows marked *com
 | 620 | Lagrange multipliers, KKT and duality | [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
 | 621 | Convex sets and convex optimisation | [Note 590](../590-convex-and-non-convex-cost-functions/note.md), [Note 620](../620-lagrange-multipliers/note.md) | written |
 | 622 | Linear and quadratic programming | [Note 621](../621-convex-sets-and-functions/note.md) | written |
+| 630 | Likelihood, Normal distribution | [Note 240](../240-random-variables-and-distributions/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | written |
+| 631 | Maximum likelihood estimation (MLE) | [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 630](../630-probability-vs-likelihood/note.md) | written |
+| 632 | Exponential distribution, Maximum likelihood estimation (MLE) | [Note 242](../242-pdf-and-continuous-cdf/note.md), [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 630](../630-probability-vs-likelihood/note.md) | written |
+| 633 | Categorical and sparse categorical cross-entropy, Log loss (binary cross entropy), MAP estimation, Maximum likelihood estimation (MLE) | [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 630](../630-probability-vs-likelihood/note.md), [Note 632](../632-mle-for-common-distributions/note.md) | written |
+| 640 | Gaussian mixture model (GMM), Multivariate normal distribution | [Note 231](../231-covariance-and-correlation/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md), [Note 630](../630-probability-vs-likelihood/note.md), [Note 633](../633-mle-in-machine-learning/note.md) | written |
+| 641 | Expectation maximization (EM), Gaussian mixture model (GMM), K-means | [Note 132](../132-dbscan/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md), [Note 633](../633-mle-in-machine-learning/note.md), [Note 640](../640-gaussian-mixture-models/note.md) | written |
 | 1001 | What deep learning is | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | written |
 | 1002 | Neural networks, Representation learning, What deep learning is | [Note 2](../02-ai-vs-ml-vs-dl/note.md), [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 510](../510-matrix-multiplication-as-composition/note.md) | written |
 | 1003 | History of deep learning, Multi-layer perceptron (MLP), Types of neural networks, Universal approximation theorem | [Note 74](../74-sigmoid-derivative/note.md), [Note 1002](../1002-what-is-deep-learning/note.md) | written |
@@ -595,12 +656,12 @@ Each row lists one Note's Concepts and the Notes to read first. Rows marked *com
 | 1006 | Perceptron loss | [Note 59](../59-stochastic-gradient-descent/note.md), [Note 1005](../1005-perceptron-trick/note.md) | written |
 | 1007 | Problem with the perceptron (XOR) | [Note 1004](../1004-perceptron/note.md) | written |
 | 1008 | MLP notation and parameter count | nothing | written |
-| 1009 | Multi-layer perceptron (MLP), Universal approximation theorem | [Note 1002](../1002-what-is-deep-learning/note.md), [Note 1004](../1004-perceptron/note.md), [Note 1007](../1007-problem-with-perceptron/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
+| 1009 | Multi-layer perceptron (MLP), Universal approximation theorem | [Note 1003](../1003-nn-types-history-applications/note.md), [Note 1004](../1004-perceptron/note.md), [Note 1007](../1007-problem-with-perceptron/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
 | 1010 | Forward propagation | [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
-| 1011 | ANN for classification, Keras workflow, Training curves (History) | [Note 79](../79-softmax-regression/note.md), [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
-| 1012 | ANN for classification, Categorical and sparse categorical cross-entropy, Keras workflow, Training curves (History) | [Note 79](../79-softmax-regression/note.md), [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1011 | ANN for classification, Keras workflow, Training curves (History) | [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 633](../633-mle-in-machine-learning/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1012 | ANN for classification, Categorical and sparse categorical cross-entropy, Keras workflow, Training curves (History) | [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 633](../633-mle-in-machine-learning/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
 | 1013 | ANN for regression, Keras workflow, Training curves (History) | [Note 25](../25-normalization/note.md), [Note 52](../52-regression-metrics/note.md), [Note 91](../91-knn/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
-| 1014 | Categorical and sparse categorical cross-entropy, Huber loss, Log loss (binary cross entropy), Loss functions in deep learning | [Note 27](../27-one-hot-encoding/note.md), [Note 79](../79-softmax-regression/note.md), [Note 1010](../1010-forward-propagation/note.md) | written |
+| 1014 | Categorical and sparse categorical cross-entropy, Huber loss, Log loss (binary cross entropy), Loss functions in deep learning | [Note 27](../27-one-hot-encoding/note.md), [Note 79](../79-softmax-regression/note.md), [Note 633](../633-mle-in-machine-learning/note.md), [Note 1010](../1010-forward-propagation/note.md) | written |
 | 1015 | Backpropagation | [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | written |
 | 1016 | Backpropagation | [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | written |
 | 1017 | Backpropagation, Convex and non-convex loss, Gradient descent, Learning rate | [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 603](../603-hessian-and-multivariate-taylor/note.md), [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | written |
@@ -613,6 +674,26 @@ Each row lists one Note's Concepts and the Notes to read first. Rows marked *com
 | 1024 | Dropout | [Note 63](../63-ridge-regression-intuition/note.md), [Note 91](../91-knn/note.md) | written |
 | 1025 | Dropout, Keras workflow | [Note 63](../63-ridge-regression-intuition/note.md), [Note 91](../91-knn/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
 | 1026 | Keras workflow, L1 and L2 regularisation in neural networks, Overfitting, Regularisation | [Note 13](../13-toy-project/note.md), [Note 361](../361-magnitude-distance-and-scalar-operations/note.md), [Note 1009](../1009-mlp-intuition/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | written |
+| 1027 | Activation functions, ReLU, Sigmoid function, Tanh | [Note 1004](../1004-perceptron/note.md), [Note 1018](../1018-vanishing-exploding-gradients/note.md) | written |
+| 1028 | Dying ReLU problem, Leaky ReLU, PReLU, ELU and SELU, ReLU | [Note 1018](../1018-vanishing-exploding-gradients/note.md), [Note 1027](../1027-activation-functions/note.md) | written |
+| 1029 | Exploding gradient and gradient clipping, Vanishing gradient, Weight initialisation | [Note 1019](../1019-mlp-memoization/note.md), [Note 1022](../1022-early-stopping/note.md), [Note 1027](../1027-activation-functions/note.md) | written |
+| 1030 | Vanishing gradient, Weight initialisation, Xavier and He initialisation | [Note 1019](../1019-mlp-memoization/note.md), [Note 1022](../1022-early-stopping/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1029](../1029-weight-initialization/note.md) | written |
+| 1031 | Batch normalisation, Covariate shift, Standardization | [Note 13](../13-toy-project/note.md), [Note 230](../230-percentiles-and-box-plots/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md), [Note 1023](../1023-data-scaling-in-ann/note.md) | written |
+| 1032 | Local minima and saddle points, Optimizers in deep learning | [Note 621](../621-convex-sets-and-functions/note.md), [Note 1019](../1019-mlp-memoization/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | written |
+| 1033 | Exponentially weighted moving average (EWMA) | nothing | written |
+| 1034 | Local minima and saddle points, SGD with momentum | [Note 621](../621-convex-sets-and-functions/note.md), [Note 1032](../1032-optimizers-in-deep-learning/note.md), [Note 1033](../1033-exponentially-weighted-moving-average/note.md) | written |
+| 1035 | Nesterov accelerated gradient (NAG) | [Note 1032](../1032-optimizers-in-deep-learning/note.md), [Note 1034](../1034-sgd-with-momentum/note.md) | written |
+| 1036 | AdaGrad | [Note 1017](../1017-backpropagation-why/note.md), [Note 1032](../1032-optimizers-in-deep-learning/note.md) | written |
+| 1037 | RMSProp | [Note 1032](../1032-optimizers-in-deep-learning/note.md), [Note 1033](../1033-exponentially-weighted-moving-average/note.md), [Note 1036](../1036-adagrad/note.md) | written |
+| 1038 | Adam | [Note 1032](../1032-optimizers-in-deep-learning/note.md), [Note 1033](../1033-exponentially-weighted-moving-average/note.md), [Note 1034](../1034-sgd-with-momentum/note.md), [Note 1037](../1037-rmsprop/note.md) | written |
+| 1039 | Hyperparameter tuning, Keras Tuner | [Note 1026](../1026-regularization-in-dl/note.md) | written |
+| 1055 | Recurrent neural network (RNN), Sequence padding, Sequential data | [Note 1010](../1010-forward-propagation/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1029](../1029-weight-initialization/note.md) | written |
+| 1056 | Parameter sharing across time steps, Recurrent neural network (RNN) | [Note 1010](../1010-forward-propagation/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1029](../1029-weight-initialization/note.md), [Note 1055](../1055-why-rnn/note.md) | written |
+| 1057 | Recurrent neural network (RNN), Sequence padding, Tokenization and integer encoding of text, Word embeddings | [Note 1027](../1027-activation-functions/note.md), [Note 1029](../1029-weight-initialization/note.md), [Note 1055](../1055-why-rnn/note.md), [Note 1056](../1056-rnn-forward-propagation/note.md) | written |
+| 1058 | Sequence-to-sequence (encoder-decoder), Types of RNN (many-to-one, one-to-many, many-to-many) | [Note 1057](../1057-rnn-sentiment-analysis/note.md) | written |
+| 1059 | Backpropagation through time (BPTT), Parameter sharing across time steps | [Note 1019](../1019-mlp-memoization/note.md) | written |
+| 1060 | Exploding gradient and gradient clipping, Long-term dependency problem, Vanishing gradient | [Note 1019](../1019-mlp-memoization/note.md), [Note 1022](../1022-early-stopping/note.md), [Note 1027](../1027-activation-functions/note.md), [Note 1059](../1059-backpropagation-through-time/note.md) | written |
+| 1067 | Large language models (LLMs) | nothing | written |
 
 ## 5. The Algorithm chooser
 

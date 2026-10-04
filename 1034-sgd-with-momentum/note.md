@@ -1,10 +1,11 @@
 ---
 title: "SGD with Momentum"
+tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/momentum, concept/saddle-point]
 ---
 
 ## 1. Overview
 
-> **Key point:** Momentum keeps an exponentially weighted average of past gradients, the velocity $v$, and moves by it: $v_t = \beta v_{t-1} + \eta\,\nabla L(w_t)$, then $w_{t+1} = w_t - v_t$. When many gradients agree, the steps grow and training speeds up; the price is overshooting the minimum.
+> **Key point:** Momentum keeps an exponentially weighted average of past gradients, the velocity $v$, and moves by it: $v_t = \beta v_{t-1} + \eta\thinspace \nabla L(w_t)$, then $w_{t+1} = w_t - v_t$. When many gradients agree, the steps grow and training speeds up; the price is overshooting the minimum.
 
 **Momentum** (Polyak 1964) is the first improved optimizer. Plain gradient descent forgets every gradient as soon as it has used it. Momentum remembers them: if the last few gradients all point the same way, it becomes confident and moves faster in that direction, like a ball gathering speed as it rolls downhill.
 
@@ -54,13 +55,13 @@ The single most important benefit of momentum is speed: it usually reaches a goo
 
 ## 6. The update rule
 
-> **Key point:** The velocity is an EWMA of past gradients: $v_t = \beta v_{t-1} + \eta\,\nabla L(w_t)$. The weight moves by the velocity: $w_{t+1} = w_t - v_t$.
+> **Key point:** The velocity is an EWMA of past gradients: $v_t = \beta v_{t-1} + \eta\thinspace \nabla L(w_t)$. The weight moves by the velocity: $w_{t+1} = w_t - v_t$.
 
-Plain gradient descent moves by the current gradient only: $w_{t+1} = w_t - \eta\,\nabla L(w_t)$. Momentum replaces that step by the velocity.
+Plain gradient descent moves by the current gradient only: $w_{t+1} = w_t - \eta\thinspace \nabla L(w_t)$. Momentum replaces that step by the velocity.
 
 1. **In words:** the new velocity is a fraction $\beta$ of the old velocity plus the current gradient step. The weight then moves by the whole velocity.
 2. **Formula:**
-   $$v_t = \beta\,v_{t-1} + \eta\,\nabla L(w_t), \qquad w_{t+1} = w_t - v_t$$
+   $$v_t = \beta\thinspace v_{t-1} + \eta\thinspace \nabla L(w_t), \qquad w_{t+1} = w_t - v_t$$
    with $v_0 = 0$ and $\beta$ between 0 and 1, usually 0.9.
 3. **Example:** the loss $L(w) = w^2/2$, whose gradient is $w$, starting at $w_0 = -10$, with $\eta = 0.1$ and $\beta = 0.9$:
    $$v_1 = 0.9 \times 0 + 0.1 \times (-10) = -1, \qquad w_1 = -10 - (-1) = -9$$
@@ -69,7 +70,7 @@ Plain gradient descent moves by the current gradient only: $w_{t+1} = w_t - \eta
 
 The term $\beta v_{t-1}$ is the momentum. To compute $v_{t-1}$ we needed $v_{t-2}$, which needed $v_{t-3}$, and so on: the velocity carries the whole history of past gradients. Momentum accumulates an exponentially decaying moving average of past gradients and continues to move in their direction (Goodfellow et al. 2016, §8.3.2).
 
-> **Extra:** If every gradient is the same, $g$, the velocity grows until it settles at a **terminal velocity** of $\eta g/(1-\beta)$ (Goodfellow et al. 2016, eq. 8.17). With $\beta = 0.9$, momentum's steps become $1/(1 - 0.9) = 10$ times longer than plain gradient descent's; the Notebook's steps grow from 0.1 to 1.0. This is the $1/(1-\beta)$ of the [EWMA Note](../1033-exponentially-weighted-moving-average/note.md) again. Our velocity adds $\eta\,\nabla L$ rather than the EWMA's $(1-\beta)\,\nabla L$; that only rescales the learning rate.
+> **Extra:** If every gradient is the same, $g$, the velocity grows until it settles at a **terminal velocity** of $\eta g/(1-\beta)$ (Goodfellow et al. 2016, eq. 8.17). With $\beta = 0.9$, momentum's steps become $1/(1 - 0.9) = 10$ times longer than plain gradient descent's; the Notebook's steps grow from 0.1 to 1.0. This is the $1/(1-\beta)$ of the [EWMA Note](../1033-exponentially-weighted-moving-average/note.md) again. Our velocity adds $\eta\thinspace \nabla L$ rather than the EWMA's $(1-\beta)\thinspace \nabla L$; that only rescales the learning rate.
 
 Each step now has two parts: the push of the past velocity, and the current gradient. When both point the same way, the step is long.
 
@@ -96,7 +97,7 @@ Momentum increases the step for directions whose gradients point the same way an
 
 $\beta$ is the **decay factor**: it decides how fast the influence of past velocities dies away. An old gradient's contribution is multiplied by $\beta$ at every step, so recent gradients count most, exactly as in an EWMA. With $\beta = 0.9$ the velocity behaves roughly like an average of the last $1/(1-0.9) = 10$ gradients.
 
-- **$\beta = 0$:** the momentum term disappears, $v_t = \eta\,\nabla L(w_t)$, and the update is plain gradient descent.
+- **$\beta = 0$:** the momentum term disappears, $v_t = \eta\thinspace \nabla L(w_t)$, and the update is plain gradient descent.
 - **$\beta = 1$:** nothing decays. Like a ball on a frictionless surface, the parameters keep swinging back and forth forever without settling.
 - **In practice:** 0.5, 0.9 or 0.99 (Goodfellow et al. 2016, §8.3.2).
 
@@ -108,7 +109,7 @@ Figure 2 shows all four. With $\beta = 1$, the weight is still swinging between 
 
 ## 8. Escaping a local minimum, and the cost: overshooting
 
-> **Key point:** The speed that carries momentum through a small dip also carries it past the true minimum. It swings back and forth before settling, and those swings waste time.
+> **Key point:** The speed that carries momentum through a small dip also carries it past the true minimum. Momentum swings back and forth before settling, and those swings waste time.
 
 ![Two balls roll down a curve with a small dip (local minimum) and a deeper one (global minimum), $\eta = 0.05$. Plain gradient descent (blue) stops in the small dip. Momentum (orange, $\beta = 0.9$) rolls over the bump, overshoots the global minimum and swings before settling](images/momentum_ball.gif){width=95%}
 
@@ -163,7 +164,7 @@ Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps a
 
 | | Plain gradient descent | SGD with momentum |
 |---|---|---|
-| Step | $\eta\,\nabla L(w_t)$ | $v_t = \beta v_{t-1} + \eta\,\nabla L(w_t)$ |
+| Step | $\eta\thinspace \nabla L(w_t)$ | $v_t = \beta v_{t-1} + \eta\thinspace \nabla L(w_t)$ |
 | Memory of past gradients | none | EWMA, about $1/(1-\beta)$ steps |
 | Narrow valley (our example) | 424 steps | 59 steps |
 | Small local dip | stops in it | can roll through |
@@ -187,7 +188,7 @@ Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps a
 | Term | Meaning |
 |---|---|
 | Momentum (optimizer) | Gradient descent that moves by a velocity, an exponentially decaying average of past gradients |
-| Velocity $v$ | The direction and size of the current move, built from past gradients: $v_t = \beta v_{t-1} + \eta\,\nabla L(w_t)$ |
+| Velocity $v$ | The direction and size of the current move, built from past gradients: $v_t = \beta v_{t-1} + \eta\thinspace \nabla L(w_t)$ |
 | Decay factor $\beta$ | How much of the old velocity is kept each step; 0 gives plain gradient descent, usually 0.9 |
 | Terminal velocity | The step size momentum reaches when every gradient is the same: $\eta g/(1-\beta)$ |
 | Overshooting | Moving past the minimum because of the built-up velocity, then swinging back |

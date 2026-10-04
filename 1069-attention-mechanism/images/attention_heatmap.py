@@ -7,8 +7,9 @@ from common import FONT
 
 here = Path(__file__).parent
 w = pd.read_csv(here.parent / "data" / "attention_weights.csv", index_col=0, keep_default_na=False)
-rows = [r.replace("<", "&lt;") for r in w.index]
-fig = go.Figure(go.Heatmap(z=w.values, x=list(w.columns), y=rows, colorscale="Oranges", zmin=0, zmax=1,
+cols = [c + "\u200b" * j for j, c in enumerate(w.columns)]
+rows = [r.replace("<", "&lt;") + "\u200b" * i for i, r in enumerate(w.index)]   # repeated words stay separate rows
+fig = go.Figure(go.Heatmap(z=w.values, x=cols, y=rows, colorscale="Oranges", zmin=0, zmax=1,
                            text=w.values.round(2), texttemplate="%{text}", textfont=dict(size=12),
                            colorbar=dict(title="α")))
 fig.update_layout(template="simple_white", width=950, height=110 + 42 * len(rows), font=FONT,

@@ -46,7 +46,7 @@ At the highest level the architecture has three parts:
 
 The encoder is a single LSTM unrolled over time, as in the [LSTM Note](../1061-lstm/note.md). At step 1 it reads "think" together with the initial states $h_0, c_0$ and produces $h_1, c_1$; at step 2 it reads "about" with $h_1, c_1$; and so on. Each step updates the states with the new word, so after the last word the pair $(h_n, c_n)$ summarises the whole sentence. This pair is the **context vector** (Sutskever et al. 2014, section 2; SLP3 §14.7).
 
-The initial states are usually all zeros; zeros are Keras' default for an LSTM. The encoder's outputs at each step are not used; only its final states are.
+The initial states are usually all zeros, which is what Keras uses when no initial state is given (Keras documentation, `LSTM`). The encoder's outputs at each step are not used; only its final states are.
 
 A GRU or a plain RNN cell can replace the LSTM. Plain RNNs are rarely chosen because of the vanishing gradient problem (the [problems with RNN Note](../1060-problems-with-rnn/note.md)); the original paper used LSTMs.
 
@@ -142,17 +142,52 @@ After training we translate a new sentence:
 
 Choosing the most likely word at each step is called **greedy decoding** (SLP3 §14.7). No gradients are computed and no weights change. A mistake at one step is fed into the next one; the toy model of section 5, for instance, could translate "think about it" as "soch jao lo".
 
-The Notebook trains a real model of this kind. The data is the English–French corpus of the Keras examples (pairs from the Tatoeba project): XX training pairs with up to 8 English words, with English and French vocabularies of XX and XX words. Each block has an embedding of size 128 and an LSTM of 256 units, trained for 15 epochs with teacher forcing. On XX unseen English sentences, greedy decoding gives:
+The Notebook trains a real model of this kind. The data is the English–French corpus of the Keras examples (sentence pairs from the Tatoeba project): 40,000 training pairs with up to 8 English words, with vocabularies of 6,004 English and 8,004 French tokens (the most frequent words plus the 4 special tokens `<pad>`, `<unk>`, `<start>`, `<end>`; rarer words become `<unk>`). Each block has an embedding of size 128 and an LSTM of 256 units: 4.6 million parameters in all, most of them in the two embeddings and the softmax layer. Training for 15 epochs with teacher forcing takes about 5 minutes on a shared GPU. On 1,500 English sentences it never saw, greedy decoding gives, for example:
 
-XX TABLE
+| English (unseen) | Model's French | A reference translation |
+|---|---|---|
+| i like your house . | j'aime votre maison . | j'aime votre maison . |
+| everyone was horrified . | tout le monde a été `<unk>` . | tout le monde a été horrifié . |
+| that doesn't help me . | ça ne me dérange pas . | ça ne m'aide pas . |
+| the pain has mostly gone away . | la douleur a été fabriquée en prison . | la douleur a en majeure partie disparu . |
 
-Figure 1 shows the decoding of one sentence step by step. The **BLEU score** (the [history of LLMs Note](../1067-history-of-llms/note.md), section 4) over all XX test sentences is XX, on a 0–100 scale, counting every French translation in the corpus as a reference.
+> **Python:** The model in Keras. The decoder's initial states are the encoder's final states; the decoder input is the gold sentence shifted right (teacher forcing).
+>
+> ```python
+> ei = keras.Input((None,), dtype="int32")                  # English word ids
+> di = keras.Input((None,), dtype="int32")                  # <start> + French word ids
+> x = keras.layers.Embedding(6004, 128, mask_zero=True)(ei)
+> _, h, c = keras.layers.LSTM(256, return_state=True)(x)    # context vector (h, c)
+> y = keras.layers.Embedding(8004, 128, mask_zero=True)(di)
+> y = keras.layers.LSTM(256, return_sequences=True)(y, initial_state=[h, c])
+> out = keras.layers.Dense(8004, activation="softmax")(y)   # one softmax per step
+> model = keras.Model([ei, di], out)
+> model.compile(optimizer="adam", loss="sparse_categorical_crossentropy")
+> ```
+
+Short, common sentences come out right. Rare words become `<unk>`, because they are outside the vocabulary. Some outputs are fluent French with the wrong meaning: "ça ne me dérange pas" means "that doesn't bother me", and the last example starts correctly ("la douleur a été", "the pain was") and then drifts into nonsense ("made in prison"). Figure 1 shows the decoding of "i think you're right ." step by step. The model is sure of "je pense que vous êtes", but at step 6 its top two words are "sérieux" (0.059) and "raison" (0.056, the right word). Greedy decoding takes the top word and never revisits the choice, so the output is "je pense que vous êtes sérieux ." ("I think you are serious").
+
+The **BLEU score** (the [history of LLMs Note](../1067-history-of-llms/note.md), section 4; SLP3 §13.6.2) over the 1,500 test sentences is 13.1 on a 0–100 scale, counting every French translation in the corpus as a reference. The score is far below the 34.81 of Sutskever et al. (2014), who trained a 384-million-parameter model on 12 million sentence pairs (section 9).
 
 ## 7. Teacher forcing, measured
 
-> **Key point:** XX
+> **Key point:** Trained on its own predictions, the decoder produced no useful translation for the first 3 epochs; with teacher forcing it scored from the first epoch. After 10 epochs the teacher-forced model was still slightly ahead (BLEU 10.2 against 9.9).
 
-XX
+To see what teacher forcing does, the Notebook writes the same encoder–decoder as an explicit loop over the decoder steps and trains it two ways on the same 40,000 pairs:
+
+- **teacher forcing:** the input at step $t$ is the gold word $t-1$;
+- **own predictions:** the input at step $t$ is the model's own most likely word at step $t-1$, as at prediction time.
+
+Everything else is identical. Each way is trained 3 times with different seeds, and after every epoch the model translates the 1,500 test sentences by greedy decoding.
+
+![Test BLEU after each epoch. Thin lines: 3 runs each; thick lines: their mean. With teacher forcing (green) the model starts scoring at once; trained on its own predictions (red) it scores 0 for 3 epochs](images/teacher_forcing.png){width=95%}
+
+| Mean test BLEU after epoch | 1 | 2 | 3 | 4 | 5 | 10 |
+|---|---|---|---|---|---|---|
+| Teacher forcing | 1.0 | 1.2 | 2.5 | 3.3 | 4.8 | 10.2 |
+| Own predictions | 0.0 | 0.0 | 0.0 | 2.5 | 4.8 | 9.9 |
+
+Early in training almost every prediction is wrong. A decoder fed its own wrong words learns from inputs that have nothing to do with the target sentence, and in the first 3 epochs its translations score a BLEU of 0: for at least one length from 1 to 4 words, not a single word sequence of that length matches a reference. With teacher forcing every step sees the correct history from the first update, so learning starts at once. Once the predictions become mostly right, the two inputs are often the same word and the curves meet; on these short sentences the advantage of teacher forcing is concentrated in the first epochs. This matches SLP3 §14.7.1: teacher forcing "speeds up training".
 
 ## 8. Three improvements
 
@@ -170,7 +205,7 @@ With a vocabulary of 100,000 words, every one-hot input vector has 100,000 numbe
 
 > **Key point:** Several LSTM layers on top of each other in each block. The context vector then has one pair of states per layer, which gives the summary more room.
 
-In a **stacked** LSTM the outputs of one layer at each step are the inputs of the layer above, and each layer passes its own states forward in time (Figure 3). The encoder's context vector is then the final $(h, c)$ of every layer, and each decoder layer starts from the matching encoder layer. Three reasons are given for stacking:
+In a **stacked** LSTM the outputs of one layer at each step are the inputs of the layer above, and each layer passes its own states forward in time (Figure 4). The encoder's context vector is then the final $(h, c)$ of every layer, and each decoder layer starts from the matching encoder layer. Three reasons are given for stacking:
 
 1. **More room for the summary.** One layer must squeeze a long sentence into one $(h, c)$ pair; several layers give several. Sutskever et al. (2014, section 3.4) found that deep LSTMs "significantly outperform shallow LSTMs, where each additional layer reduced perplexity by nearly 10%, possibly due to their much larger hidden state".
 2. **Levels of abstraction.** Lower layers tend to work closer to the words and higher layers closer to the meaning, as early layers of the visual system detect edges that later layers combine into shapes (SLP3 §14.4.1).
@@ -182,9 +217,7 @@ The original paper used 4 layers in each block.
 
 > **Key point:** Feeding "it about think" instead of "think about it" puts the first source words right next to the first target words, which made the original model train much better.
 
-The third trick reverses the order of the source words, but not of the target words. In "think about it" → "soch lo", the word "think" is read first and "soch" is written first, with "about" and "it" in between. Reversed, "think" is the last word the encoder reads, right before the decoder writes "soch". Sutskever et al. (2014, section 3.3) explain the gain this way: the average distance between corresponding words is unchanged, but the first few source words are now very close to the first few target words, so backpropagation "has an easier time establishing communication" between the two sentences. On their English–French task, reversing lowered the test perplexity from 5.8 to 4.7 and raised BLEU from 25.9 to 30.6.
-
-XX reverse result
+The third trick reverses the order of the source words, but not of the target words. In "think about it" → "soch lo", the word "think" is read first and "soch" is written first, with "about" and "it" in between. Reversed, "think" is the last word the encoder reads, right before the decoder writes "soch". Sutskever et al. (2014, section 3.3) explain the gain this way: the average distance between corresponding words is unchanged, but the first few source words are now very close to the first few target words, so backpropagation "has an easier time establishing communication" between the two sentences. On their English–French task, reversing lowered the test perplexity from 5.8 to 4.7 and raised BLEU from 25.9 to 30.6. They also found that LSTMs trained on reversed sentences did much better on long sentences.
 
 ## 9. The original model
 
@@ -221,6 +254,7 @@ The details, from Sutskever et al. (2014, sections 3.1–3.6):
 - Sutskever, I., Vinyals, O. and Le, Q. V. (2014). Sequence to Sequence Learning with Neural Networks. *NeurIPS 2014*. arXiv:1409.3215. Section 2 (the model, `<EOS>`); 3.1 (dataset); 3.3 (reversing the source); 3.4 (training details); Table 1.
 - Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft (19 August 2026), web.stanford.edu/~jurafsky/slp3. Chapter 14 (RNNs and LSTMs): §14.4.1 stacked RNNs; §14.7 the encoder–decoder model, greedy choice; §14.7.1 training, teacher forcing. Chapter 13, §13.6.2 (BLEU). Cited as SLP3.
 - Papineni, K., Roukos, S., Ward, T. and Zhu, W.-J. (2002). BLEU: a Method for Automatic Evaluation of Machine Translation. *ACL 2002*.
+- Keras API documentation: `LSTM` layer (`return_state`, `initial_state`; states start at zero when no initial state is given), keras.io/api/layers/recurrent_layers/lstm.
 - Tatoeba project and manythings.org/anki: the English–French sentence pairs, distributed as `fra-eng.zip` with the Keras examples.
 
 ## 12. Key terms

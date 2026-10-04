@@ -1,0 +1,67 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+    every node/.append style={font=\sffamily\large},
+    con/.style={box=cblue, text width=4.0cm},
+    prob/.style={box=cred, text width=4.0cm},
+    prev/.style={draw=cgrey, dashed, rounded corners=4pt, align=center, inner sep=7pt, text=cgrey, text width=3.8cm, minimum height=1.1cm},
+    group/.style={draw=cgrey!40, fill=cgrey!5, rounded corners=8pt, inner sep=9pt},
+    kind/.style={arrow, draw=cgrey, line width=1pt},
+    needs/.style={arrow, draw=cpurple},
+    fixes/.style={arrow, draw=cgreen},
+    usedin/.style={arrow, draw=corange},
+  ]
+  \newcommand{\nt}[1]{\\[-1pt]{\small\color{cgrey}Note #1}}
+  \newcommand{\sub}[1]{\\[-1pt]{\normalsize #1}}
+  \node[title] at (0,6.8) {Input};
+  \node[title] at (6.2,6.8) {Model};
+  \node[title] at (12.4,6.8) {Shapes and training};
+  \node[title] at (18.6,6.8) {Problem};
+  \node[title] at (24.6,6.8) {Fix};
+
+  % input
+  \node[box=cgreen, text width=4.0cm] (seq) at (0,1.2) {\textbf{Sequential data}\sub{order carries meaning}\nt{1055}};
+  \node[con] (enc) at (0,4.4) {Text to numbers\sub{integer encoding, padding}\nt{1057}};
+  \node[con] (emb) at (6.2,4.4) {Word embeddings\nt{1057}};
+
+  % model
+  \node[box=cgreen, text width=4.0cm, minimum height=2.0cm] (rnn) at (6.2,1.2) {\textbf{Recurrent neural network}\sub{reads one item at a time}\nt{1055--1056}};
+  \node[con] (share) at (6.2,-2.2) {Same weights at every time step\nt{1056}};
+  \draw[needs] (seq) -- (rnn);
+  \draw[usedin] (enc.south east) -- (rnn.north west);
+  \draw[usedin] (emb) -- (rnn);
+  \draw[usedin] (share) -- (rnn);
+
+  % shapes and training
+  \node[con] (types) at (12.4,4.4) {Types of RNN\sub{many-to-one, one-to-many, many-to-many}\nt{1058}};
+  \node[con] (bptt) at (12.4,1.2) {\textbf{Backpropagation through time}\nt{1059}};
+  \node[prev] (bp) at (12.4,-2.2) {Backpropagation\nt{1015--1017}};
+  \draw[kind] (rnn.north east) -- (types.west);
+  \draw[usedin] (rnn) -- (bptt);
+  \draw[needs] (share.east) -- (bptt.south west);
+  \draw[kind, dashed] (bp) -- (bptt);
+
+  % problems
+  \node[prob] (ltd) at (18.6,2.4) {\textbf{Long-term dependency}\sub{far inputs are forgotten}\nt{1060}};
+  \node[prob] (unst) at (18.6,-0.4) {Unstable training\sub{exploding gradient}\nt{1060}};
+  \node[prev] (van) at (18.6,5.2) {Vanishing gradient\nt{1018}};
+  \draw[needs] (bptt.east) -- (ltd.west);
+  \draw[needs] (bptt.east) -- (unst.west);
+  \draw[needs, dashed] (van) -- (ltd);
+
+  % fix
+  \node[prev] (lstm) at (24.6,2.4) {LSTM and GRU\nt{1061--1066}};
+  \draw[fixes, dashed] (ltd) -- (lstm);
+
+  % legend
+  \begin{scope}[shift={(1.0,-4.6)}, every node/.style={font=\sffamily, anchor=west}]
+    \draw[needs] (0,0) -- (1.2,0);      \node at (1.3,0) {needs};
+    \draw[kind] (3.2,0) -- (4.4,0);     \node at (4.5,0) {is a kind of (general to specific)};
+    \draw[fixes] (10.6,0) -- (11.8,0);  \node at (11.9,0) {fixes};
+    \draw[usedin] (13.6,0) -- (14.8,0); \node at (14.9,0) {used in};
+    \node[box=cred, minimum height=0.6cm, inner sep=4pt, anchor=west] at (17.2,0) {problem};
+    \node[draw=cgrey, dashed, rounded corners=4pt, inner sep=5pt, text=cgrey, anchor=west] at (19.8,0) {from another map};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

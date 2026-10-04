@@ -56,3 +56,7 @@ Every fact and every explanation of a result must rest on one of these:
 - **Size:** keep `data/` under about 1 MB.
 - **Leave alone:** do not touch git, `glossary.md`, `course_map/`, `tools/` or other Notes' folders unless told to. Do not write a "Where this fits" box; the map tool adds it.
 - **Report:** writing under `docs/` may be blocked for subagents, so return your report as text.
+
+## 7. Maths that renders on GitHub
+
+GitHub drops the backslash from `\,` `\;` `\!` `\{` `\}` `\|` `\\` `\%` `\_` `\&` `\#` inside maths. Write `\thinspace`, `\thickspace`, `\negthinspace`, `\lbrace`, `\rbrace`, `\Vert` and `\cr` (row break) instead; `tools/build.sh` converts the first seven automatically. Keep `%`, `_`, `&` and `#` out of maths: write "percent" in words, and put code names such as `max_depth` in code text outside the formula.

@@ -4,16 +4,28 @@ Ground-zero study notes for the CampusX "100 Days of Machine Learning" playlist,
 
 ## Language
 
-**Video**:
-One video in the playlist, identified by its playlist number (e.g. Video 2).
-_Avoid_: Lecture, episode, lesson
+**Source**:
+Material a Note is built from: a playlist video (with its subtitles), a book chapter or section, or a paper. A Note may draw on several Sources and lists them in its Sources section.
+_Avoid_: Video (as the unit of the project), lecture, episode
 
 **Note**:
-The study material for exactly one Video. Complete enough to learn from without watching the Video.
+One lesson on one main idea, built from one or more Sources and complete enough to learn from without them. Identified by its Note number (e.g. Note 38).
 _Avoid_: Chapter, page, summary
 
+**Subject**:
+One of the top-level parts of the project, each with a two-letter prefix: MA (Mathematical foundations: linear algebra, calculus, optimisation, probability, statistics), ML (Machine learning), DL (Deep learning) and, later, RO (Robotics).
+_Avoid_: Playlist, course, section
+
+**Chapter**:
+A group of Notes inside a Subject that is read in order and matches one mind map (e.g. DL chapter "optimizers").
+_Avoid_: Module, unit, part
+
+**Note number**:
+A Note's Subject prefix and its position in that Subject, three digits, in reading order with no gaps (e.g. DL-038). Numbers run on across Chapters and are reassigned by script when Notes are added.
+_Avoid_: Video number, ID
+
 **Teacher's flow**:
-The order, examples and analogies the teacher uses in a Video, taken from its subtitles. Shapes a Note's sections but is never named or narrated in it.
+The order, examples and analogies the teacher uses in a video Source, taken from its subtitles. Shapes a Note's sections but is never named or narrated in it.
 _Avoid_: Script, outline
 
 **Extra box**:
@@ -29,11 +41,11 @@ The closing list of a Note: each new term with a one-line definition. A subset o
 _Avoid_: Vocabulary, definitions
 
 **Notebook**:
-A Jupyter notebook that goes with a Note, holding interactive demos and the Video's code rebuilt by us for current library versions. Never a copy of the teacher's notebook.
+A Jupyter notebook that goes with a Note, holding interactive demos and the Source's code rebuilt by us for current library versions. Never a copy of the teacher's notebook.
 _Avoid_: Code file, script, lab
 
 **Course map**:
-The one overview that ties all Notes together. It has four views: the Pipeline map, the Concept map, the Learning path and the Algorithm chooser. It also serves as the Note for Video 1.
+The one overview that ties all Notes together. It has four views: the Pipeline map, the Concept map, the Learning path and the Algorithm chooser. It is also Note 1.
 _Avoid_: Index, syllabus, roadmap, architecture
 
 **Pipeline map**:
