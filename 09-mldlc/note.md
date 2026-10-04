@@ -37,9 +37,15 @@ The **software development life cycle (SDLC)** is the standard process for build
 
 > **Key point:** ML products are new, so a shared process for them was needed too.
 
-Many companies now build software products that contain ML: a recommender system for a website, a loan-approval model for a bank, a model that predicts students' marks for a school. Each team used to work in its own way. Researchers wanted one common process that everyone could follow.
+Many companies now build software products that contain ML, for example:
 
-The result is the **machine learning development life cycle (MLDLC)**: a set of guidelines to follow whenever we build an ML-based software product. The MLDLC guides us from the first idea to a working product.
+- a recommender system for a website;
+- a loan-approval model for a bank;
+- a model that predicts students' marks for a school.
+
+Each team used to work in its own way. Researchers wanted one common process that everyone could follow.
+
+The result is the **machine learning development life cycle (MLDLC)** (G-1240): a set of guidelines to follow whenever we build an ML-based software product. The MLDLC guides us from the first idea to a working product.
 
 ### 2.3 Why the whole cycle matters
 
@@ -73,6 +79,10 @@ The questions we answer at this stage:
 
 Once these are answered, we have a clear mental plan of what comes next. Only then do we move to stage 2.
 
+Figure 2 sorts the nine questions into two groups. Watch the left side: five of the nine are business questions, asked before any ML choice.
+
+![The questions of problem framing: five about the business, four about the ML plan](images/framing_questions.png)
+
 > **Extra:** Supervised and unsupervised learning are explained in the Note on types of ML, and batch and online learning in their own two Notes. Framing a problem in depth, with a worked example, comes in the Note on framing an ML problem.
 
 ## 4. Gathering data
@@ -92,10 +102,14 @@ In school or college projects, data comes ready-made: from Kaggle, from course m
 - **CSV files:** the easy case. We get the file and start working.
 - **APIs:** we call an API from Python code, receive the data in JSON format, and convert it to our preferred format, usually a CSV file.
 - **Web scraping:** the data is on a website but not offered for download. We write Python code that extracts it from the web pages. Hotel-comparison sites such as trivago collect hotel details from many hotel websites this way. Sites that compare a product's price across online shops also scrape those shops.
-- **Databases and data warehouses:** the data is in the company's own database. We do not run ML directly on this live database, because a mistake could take the website down. Instead the data is copied into a separate **data warehouse** through a process called **ETL** (extract, transform, load), and we fetch our data from there.
+- **Databases and data warehouses:** the data is in the company's own database. We do not run ML directly on this live database, because a mistake could take the website down. Instead the data is copied into a separate **data warehouse** (G-541) through a process called **ETL** (G-714) (extract, transform, load), and we fetch our data from there.
 - **Big-data clusters:** very large data is spread across many machines (a cluster), handled by tools such as Spark. We fetch the data from those clusters.
 
 The goal of this stage is to fetch the data and store it in the right form, so that the work can start.
+
+Figure 3 puts the five sources side by side. Watch the middle column: every source except a CSV file needs a fetching step before the data is ready.
+
+![Five places data lives, how we fetch it from each, and the one usable dataset they all end in](images/data_sources.png)
 
 > **Extra:** In ETL, *extract* copies data out of the source systems, *transform* cleans and reshapes it, and *load* writes it into the warehouse. Apache Spark is a widely used tool for processing data that is too big for one computer, by spreading the work over a cluster of machines (Zaharia et al. 2016). CSV files, JSON, SQL, APIs and web scraping each have their own Note in the data-gathering part of this series.
 
@@ -115,9 +129,13 @@ Data fetched from external sources is almost always **dirty** (unclean). If we p
 - noisy data,
 - data from different sources that does not fit together, for example a different number of columns.
 
-**Data preprocessing** means the changes we make to the data before the main processing (training).
+**Data preprocessing** (G-539) means the changes we make to the data before the main processing (training).
 
-Three words help from here on. An **observation** is one record (one row of the data table). A **feature** is an input variable (one column of the data table). The **target** is the output we want to predict.
+Figure 4 shows three of these problems in a real dataset: the Titanic passenger list (891 passengers), which the [pipelines Note](../29-pipelines/note.md) cleans step by step. Watch the right panel: Fare reaches 512 while Age stops at 80, so Fare would dominate any distance.
+
+![Dirty data on the Titanic file: empty cells in three columns, fare outliers far above the median of 14, and two columns on very different scales](images/dirty_data.png)
+
+Three words help from here on. An **observation** (G-1374) is one record (one row of the data table). A **feature** (G-772) is an input variable (one column of the data table). The **target** (G-1949) is the output we want to predict.
 
 ### 5.2 Common preprocessing tasks
 
@@ -142,7 +160,7 @@ The core idea of the whole stage: bring the data into a format the ML algorithm 
 
 > **Key point:** We cannot build a good model on data we do not understand.
 
-**Exploratory data analysis (EDA)** is the stage where we analyse the data to find the relationships hidden in it, especially between the features and the target. We experiment with the data: plot graphs, look at numbers, test ideas. The aim is a concrete picture of the data in our mind, which makes every later decision easier.
+**Exploratory data analysis (EDA)** (G-732) is the stage where we analyse the data to find the relationships hidden in it, especially between the features and the target. We experiment with the data: plot graphs, look at numbers, test ideas. The aim is a concrete picture of the data in our mind, which makes every later decision easier.
 
 ### 6.2 What we do during EDA
 
@@ -155,7 +173,11 @@ The core idea of the whole stage: bring the data into a format the ML algorithm 
 - **Outlier detection:** find the values far from the rest.
 - **Handling imbalanced data:** turn an imbalanced dataset into a balanced one.
 
-A dataset is **imbalanced** when one class has far more observations than another. For example, in a dog-versus-cat image classifier, we might have many cat images and very few dog images. A model trained on such data tends to favour the large class (He and Garcia 2009, §2), so we handle the imbalance at this stage.
+Figure 5 runs three of these checks on the Titanic file. Watch the middle panel: 74% of women survived against 19% of men, so Sex is clearly linked to the target.
+
+![EDA in miniature on the Titanic file: the age distribution, survival by sex, and the balance of the target](images/eda_views.png)
+
+A dataset is **imbalanced** (G-921) when one class has far more observations than another. For example, in a dog-versus-cat image classifier, we might have many cat images and very few dog images. A model trained on such data tends to favour the large class (He and Garcia 2009, §2), so we handle the imbalance at this stage.
 
 > **Extra:** "Handling" imbalance usually means collecting more observations of the small class, creating extra copies or synthetic observations of it (oversampling), or dropping some observations of the large class (undersampling) (He and Garcia 2009, §3.1). Univariate, bivariate and multivariate analysis each have their own Note in the understanding-data part of this series.
 
@@ -175,7 +197,7 @@ The **features** are the input variables, one column each in the data table. The
 
 > **Key point:** We create new features, or change existing ones intelligently, to make the data easier to learn from.
 
-**Feature engineering** means creating new features from the existing ones, or making intelligent changes to existing features.
+**Feature engineering** (G-761) means creating new features from the existing ones, or making intelligent changes to existing features.
 
 *Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in Section 3.3 of the [types of ML Note](../03-types-of-ml/note.md), is feature construction (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
@@ -196,7 +218,7 @@ Choosing which features to keep is called feature selection; the [feature engine
 
 > **Key point:** We train several algorithms, measure each with a performance metric, pick the best, tune it, and often combine several models into one.
 
-Once the data is clean and the features are good, we are ready to train. Figure 2 shows the four steps of this stage.
+Once the data is clean and the features are good, we are ready to train. Figure 6 shows the four steps of this stage.
 
 ![Train several algorithms, evaluate them, select and tune the best, then combine](images/model_selection.png)
 
@@ -213,13 +235,13 @@ So we train algorithms from different families on the same data:
 - ensemble methods,
 - neural networks.
 
-Then we gather all the results to decide which model to use. **Model training** means giving the data to an algorithm so that it learns the pattern.
+Then we gather all the results to decide which model to use. **Model training** (G-1255) means giving the data to an algorithm so that it learns the pattern.
 
 ### 8.2 Evaluation with performance metrics
 
 > **Key point:** A performance metric is a number that tells us how well a model works. Each kind of problem has its own metrics.
 
-In the **evaluation** step, we measure every trained model with **performance metrics**: numbers that tell us how well a model is working. They let us decide which model performs best. Common examples:
+In the **evaluation** step, we measure every trained model with **performance metrics** (G-1488): numbers that tell us how well a model is working. They let us decide which model performs best. Common examples:
 
 | Problem | Example metric |
 |---|---|
@@ -233,17 +255,17 @@ In the **evaluation** step, we measure every trained model with **performance me
 
 > **Key point:** We pick the best one or few algorithms and adjust their settings to get even better performance.
 
-In **model selection**, we pick one or several of the best algorithms. Every algorithm has settings that we choose before training. Adjusting them to get the best performance is called **hyperparameter tuning**.
+In **model selection** (G-1254), we pick one or several of the best algorithms. Every algorithm has settings that we choose before training. Adjusting them to get the best performance is called **hyperparameter tuning** (G-909).
 
-Hyperparameter tuning is like adjusting a TV for a late-night movie: we change the picture mode and the sound mode and turn the volume up a little. Each setting is a knob; we turn the knobs until the picture is best for our situation.
+Hyperparameter tuning is like adjusting a TV for a late-night movie: we change the picture mode and the sound mode and turn the volume up a little. Each setting is like one hyperparameter: we change the settings one by one and keep the combination that gives the best picture. For a model, "best" means the best score on the performance metric.
 
-> **Extra:** In everyday speech these settings are often called "parameters". Strictly, the settings we choose before training are **hyperparameters**, while **parameters** are the values the model learns from the data during training (for example, the slope of a line) (Goodfellow et al. 2016, §5.3). Tuning methods such as grid search and random search have their own Notes.
+> **Extra:** In everyday speech these settings are often called "parameters". Strictly, the settings we choose before training are **hyperparameters** (G-910), while **parameters** (G-1450) are the values the model learns from the data during training (for example, the slope of a line) (Goodfellow et al. 2016, §5.3). Tuning methods such as grid search and random search have their own Notes.
 
 ### 8.4 Ensemble learning
 
 > **Key point:** Combining several models into one usually gives a stronger model than any of them alone.
 
-**Ensemble learning** connects several ML models to make one new, more powerful model. The main techniques are:
+**Ensemble learning** (G-689) connects several ML models to make one new, more powerful model. The main techniques are:
 
 - bagging,
 - boosting,
@@ -252,7 +274,14 @@ Hyperparameter tuning is like adjusting a TV for a late-night movie: we change t
 
 They differ in how the models are combined, but the core idea is the same: many models together make one strong model. Using an ensemble usually improves performance (Dietterich 2000), so it is a step we almost always take.
 
-The full routine of this stage: train many models, evaluate them all, tune their hyperparameters, then apply ensemble learning. The result is one strong final model.
+The full routine of this stage:
+
+1. train many models;
+2. evaluate them all;
+3. tune their hyperparameters;
+4. apply ensemble learning.
+
+The result is one strong final model.
 
 ## 9. Model deployment
 
@@ -262,18 +291,18 @@ The full routine of this stage: train many models, evaluate them all, tune their
 
 > **Key point:** Users never see the model; they see a website or an app that uses it.
 
-Once we have a model that can make predictions, the main work is only beginning. We must turn it into software that people can use: a website, a mobile app or a desktop app. **Model deployment** means putting the model on a server so that it can answer users' requests.
+Once we have a model that can make predictions, the main work is only beginning. We must turn it into software that people can use: a website, a mobile app or a desktop app. **Model deployment** (G-1252) means putting the model on a server so that it can answer users' requests.
 
 ### 9.2 How a deployed model answers a request
 
 > **Key point:** User input travels from the website to an API, the saved model makes a prediction, and the answer comes back as JSON.
 
-Figure 3 shows the usual setup.
+Figure 7 shows the usual setup.
 
 ![How a deployed model answers a user's request](images/deployment_flow.png)
 
-1. **Save the model.** We save the trained model as a **binary file** (a file that is not plain text). A common tool for this in Python is **pickle**.
-2. **Wrap it in an API.** An **API** here is a web address (URL) that, when given the right inputs, sends back an answer in JSON format. The API loads the saved model file.
+1. **Save the model.** We save the trained model as a **binary file** (G-305) (a file that is not plain text). A common tool for this in Python is **pickle** (G-1494).
+2. **Wrap it in an API.** An **API** (G-204) here is a web address (URL) that, when given the right inputs, sends back an answer in JSON format. The API loads the saved model file.
 3. **Answer a request.** The user enters values in a form on the website. The website passes them to a Python app on the server, which sends them to the API. The model makes a prediction, and the API returns it as JSON, which the app shows to the user.
 
 The server itself is rented from a cloud provider such as Heroku, AWS (Amazon Web Services) or GCP (Google Cloud Platform). Once deployed, the model is online and serving users' requests. Later Notes build complete websites around ML models in this way.
@@ -288,13 +317,13 @@ The server itself is rented from a cloud provider such as Heroku, AWS (Amazon We
 
 > **Key point:** A new version goes to a small group of loyal users first, and their feedback decides what happens next.
 
-Software updates rarely reach all users at once; they roll out gradually. **Beta testing** works the same way: we release the new model to a set of trusted, loyal customers who are likely to give good feedback, and collect that feedback.
+Software updates rarely reach all users at once; they roll out gradually. **Beta testing** (G-282) works the same way: we release the new model to a set of trusted, loyal customers who are likely to give good feedback, and collect that feedback.
 
 ### 10.2 A/B testing
 
 > **Key point:** A/B testing is a well-known way to check whether the new model really performs well.
 
-A popular technique at this stage is **A/B testing**. After it, we decide whether the model we just built is working properly. A/B testing gets its own Note later.
+A popular technique at this stage is **A/B testing** (G-157). After it, we decide whether the model we just built is working properly. A/B testing gets its own Note later.
 
 > **Extra:** In A/B testing, users are split at random into two groups. Group A keeps the current version and group B gets the new one. We then compare a measure that matters to the business, such as clicks or sales, between the two groups. Because the groups are random, a clear difference can be put down to the new version (Kohavi et al. 2020, Ch. 1).
 
@@ -309,7 +338,7 @@ A problem can come from any earlier stage:
 - the feature selection was poor,
 - the chosen algorithm has issues.
 
-So we go back to that stage and redo the work from there. If the feedback is good, we move forward to the last stage. Figure 4 shows one pass through the cycle, a loop back after a failed test, and the retraining loop from section 11.
+So we go back to that stage and redo the work from there. If the feedback is good, we move forward to the last stage. Figure 8 shows one pass through the cycle, a loop back after a failed test, and the retraining loop from section 11.
 
 ![A failed test sends us back; a passed test leads to optimizing; a drifting model sends us back to new data](images/cycle_loop.gif)
 
@@ -327,11 +356,15 @@ In the last stage, we launch the model on the server for all customers. Before t
 - **Set up rollback:** if the live model breaks or something goes wrong, we automatically return to the last working version and put it live again.
 - **Set up load balancing:** spread incoming requests across servers, so that many users at once are still served quickly.
 
+Figure 9 places these safeguards around the live model, together with the retraining of Section 11.2. Watch the red path: when the live model breaks, the backup goes live.
+
+![The launch safeguards: a load balancer in front of the servers, a backup with rollback, and automatic retraining](images/launch_safety.png)
+
 ### 11.2 Model drift and retraining
 
 > **Key point:** As the world changes, a model's performance slowly gets worse, so we retrain it on new data at a fixed, automated schedule.
 
-If a model is never retrained, its performance gets worse as the real-world data evolves away from its old training data. This slow decline is called model drift, sometimes called model rot (see Section 4 of the [batch learning Note](../04-batch-learning/note.md)).
+If a model is never retrained, its performance gets worse as the real-world data evolves away from its old training data. This slow decline is called **model drift** (G-1253), sometimes called model rot (see Section 4 of the [batch learning Note](../04-batch-learning/note.md)).
 
 *Example: a mask detection system.* The system checks whether a person in front of a camera is wearing a mask. Then new kinds of masks appear, for example one whose lower half is printed to look exactly like a face. Our classifier will fail on these, so we need new data and must train the model again.
 
@@ -349,7 +382,7 @@ Optimizing also means going through the whole process and removing extra expense
 
 > **Key point:** The Course map's Pipeline map follows this life cycle but splits it into finer steps. Most stages match one step; a few differ.
 
-The Pipeline map in the Course map uses 14 steps, based on these nine stages. Figure 5 and the table show how they line up.
+The Pipeline map in the Course map uses 14 steps, based on these nine stages. Figure 10 and the table show how they line up.
 
 ![The nine life-cycle stages and the 14 Pipeline map steps](images/stage_map.png){height=60%}
 

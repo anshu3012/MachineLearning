@@ -21,6 +21,11 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 
 The [one-sample t-test Note](../301-one-sample-t-test/note.md) compared one sample mean with a claimed value. Often we want to compare two samples instead. Figure 1 shows the two designs, and each has its own t-test.
 
+**Which t-test? Two questions decide it.**
+
+1. **Is each subject measured twice?** Blood pressure of the same people before and after a drug gives a pair of values per person: **paired data**, so the **paired t-test** (G-1439). Heights of one group of people against heights of a different group give **unpaired data**, so an unpaired, independent two-sample t-test (G-936).
+2. **For unpaired data, may we assume equal variances?** Student's version assumes the two groups vary by the same amount; **Welch's t-test** (G-2122) does not. Welch's version is the safer default: it holds up when the variances differ and loses little when they are equal (section 2.2).
+
 This Note covers:
 
 - the independent two-sample t-test: assumptions, the equal-variance check with Levene's test, the formula and a worked example;
@@ -33,7 +38,7 @@ This Note covers:
 
 > **Key point:** The independent two-sample t-test compares the means of two independent groups; $H_0: \mu_1 = \mu_2$, or equivalently $\mu_1 - \mu_2 = 0$.
 
-The **independent two-sample t-test**, also called the **unpaired t-test**, compares the means of two independent groups to decide whether they differ significantly. Examples:
+The **independent two-sample t-test** (G-936), also called the **unpaired t-test**, compares the means of two independent groups to decide whether they differ significantly. Examples:
 
 - the average marks of section A and section B of a class;
 - the mean age of first-class and third-class Titanic passengers;
@@ -56,7 +61,7 @@ The sample sizes may differ: 30 desktop users and 25 mobile users is fine.
 
 ### 2.2 Checking equal variances: Levene's test
 
-**Levene's test** checks whether two or more groups have equal variances. Like the Shapiro-Wilk test, it is itself a hypothesis test:
+**Levene's test** checks (G-1082) whether two or more groups have equal variances. Like the Shapiro-Wilk test, it is itself a hypothesis test:
 
 - $H_0$: the population variances are equal; $H_1$: they are not;
 - $p \le 0.05$: reject $H_0$, the variances differ;
@@ -64,11 +69,27 @@ The sample sizes may differ: 30 desktop users and 25 mobile users is fine.
 
 The **F-test** is another test for comparing variances.
 
-If Levene's test says the variances differ, we use **Welch's t-test**, which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Section 4 uses it.
+If Levene's test says the variances differ, we use **Welch's t-test** (G-2122), which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Section 4 uses it.
 
 > **Extra:** Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Delacre, Lakens and Leys (2017) recommend Welch's test as the default: it controls Type I errors when the variances differ and loses little when they are equal. The website data of section 3 agrees: there the variances look equal: Welch's test gives $p = 3.0 \times 10^{-6}$, against $2.7 \times 10^{-6}$ for Student's.
 
 ### 2.3 The test statistic
+
+**The idea, step by step.** A farmer grows tomatoes in two fields and asks whether the plants differ in height. A random sample of **22** plants from field A has mean **1.3 m** and standard deviation **0.5 m**; **24** plants from field B have mean **1.6 m** and standard deviation **0.3 m**. $H_0: \mu_A = \mu_B$, $H_1: \mu_A \neq \mu_B$, $\alpha = 0.05$.
+
+1. The gap between the sample means: $1.3 - 1.6 = -0.3$ m.
+2. How much would that gap wobble from sample to sample? Each sample mean wobbles with variance $s^2/n$, and the gap wobbles with **both**, so the two variance parts add: $0.5^2/22 + 0.3^2/24 = 0.01136 + 0.00375 = 0.0151$.
+3. The standard error of the gap is the square root: $\sqrt{0.0151} = 0.123$ m.
+4. The gap in standard errors: $t = -0.3/0.123 = -2.44$.
+5. Both tails count ($H_1$ is $\neq$): the area beyond $\pm 2.44$ is $p = 0.020$ with Welch's degrees of freedom (33.8). Since $0.020 < 0.05$, we reject $H_0$: the plant heights differ between the fields.
+
+![The tomato fields: the gap's variance is built from one part per field, its square root is the standard error 0.123 m, and t = −0.3/0.123 = −2.44 leaves p = 0.020 in the two red tails. Idea after Khan Academy, "Two-sample t test for difference of means"](images/tomato_t.gif){height=42%}
+
+In Figure 2, watch the left bar: field A's part is three times field B's, because its plants vary more and there are fewer of them. On the right, the red tails shrink as $t$ moves out to $-2.44$.
+
+Hand calculations often use a simpler, **conservative** degrees of freedom, the smaller sample size minus one: $22 - 1 = 21$, which gives $p = 0.024$. Software uses Welch's formula (33.8 here), which is closer to exact (Welch 1947); both give the same decision here (notebook, section 0).
+
+**The formula.**
 
 1. **In words:** the difference between the two sample means, in standard errors of that difference.
 2. **Formula:**
@@ -79,7 +100,7 @@ If Levene's test says the variances differ, we use **Welch's t-test**, which dro
 
 The standard error adds the two variances, each divided by its own sample size: the uncertainty of a difference comes from both means.
 
-> **Extra:** Strictly, the formula above is the standard error of **Welch's** test, whose degrees of freedom come from a longer formula (54.5 here). The classic **Student's** test, which assumes equal variances and uses $df = n_1 + n_2 - 2$, uses a pooled standard deviation instead:
+> **Extra:** Strictly, the formula above is the standard error of **Welch's** test, whose degrees of freedom come from a longer formula (54.5 here). The classic **Student's** test, which assumes equal variances and uses $df = n_1 + n_2 - 2$, uses a pooled standard deviation instead (G-1519):
 > $$s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}, \qquad SE = s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}$$
 > When $n_1 = n_2$ the two standard errors are identical, so here $t = 5.20$ either way: $s_p^2 = (12.25 + 7.29)/2 = 9.77$ and $SE = 3.126 \times \sqrt{2/30} = 0.807$. With unequal sample sizes, use one version consistently; `ttest_ind` does this for us.
 
@@ -108,6 +129,10 @@ The file `data/website_time.csv` holds 60 simulated values with exactly these su
 6. **P-value.** Both tails: $p = 2\thinspace P(T \ge 5.20) = 0.0000027$.
 7. **Decide.** $p \le 0.05$: reject $H_0$.
 8. **Interpret.** The owner's claim is wrong: average time on the site differs between desktop and mobile users.
+
+![The 60 users (left) and t = 5.20 on the t-distribution with 58 degrees of freedom (right), far past the cutoffs ±2.00](images/website_t.png){height=30%}
+
+In Figure 3, watch the gap between the two black mean lines on the left become, on the right, a $t$ more than twice as far out as the red cutoffs.
 
 The two-tailed test says only that the means differ. Here the sign of $t$ shows that desktop users spend longer; a one-tailed test with $H_1: \mu_{\text{desktop}} > \mu_{\text{mobile}}$, decided in advance, would be the test to run if that direction were the question.
 
@@ -148,7 +173,7 @@ Our claim: first-class passengers were older on average than third-class passeng
 
 ![Our samples of 40 first-class and 40 third-class ages, with each sample mean and its 95% confidence interval](images/titanic_class_age.png){height=32%}
 
-Figure 2 shows why: the two clouds of ages are shifted, and the confidence intervals of the means do not overlap.
+Figure 4 shows why: the two clouds of ages are shifted, and the confidence intervals of the means do not overlap.
 
 > **Python:** Levene first, then Welch's test.
 >
@@ -170,12 +195,23 @@ All 284 known first-class ages have a mean of **39.16** years and all 501 third-
 
 ### 5.1 When to use it
 
-The **paired t-test**, also called the **dependent two-sample t-test**, compares the means of two samples that are related or paired. Common cases:
+The **paired t-test** (G-1439), also called the **dependent two-sample t-test**, compares the means of two samples that are related or paired. Common cases:
 
 - **before and after studies:** the performance of the same group before and after an intervention or treatment, such as students' test marks before and after extra classes;
 - **matched or correlated groups:** two groups matched in pairs, such as siblings, or pairs of people chosen to be similar in age and health.
 
 Before-and-after studies are the more common of the two.
+
+**One population of differences.** The two designs ask different questions:
+
+- **two-sample:** two populations, one independent sample from each; we estimate the difference of their means, $\mu_1 - \mu_2$;
+- **paired:** one population; each subject is measured twice, we take each subject's difference, and we estimate the **mean difference** $\mu_d$.
+
+For example, a running coach suspects that shoe brand H gives faster lap times than brand Z. Six runners each run one lap in each brand, in an order set by a coin flip. Each runner gives one difference, $d$ = time in Z $-$ time in H, so the six differences form one sample from one population. Faster in H means $d > 0$:
+
+$$H_0: \mu_d = 0, \qquad H_1: \mu_d > 0$$
+
+From here on, a paired test is a one-sample t-test on the differences (section 5.3); Figure 6 in section 7 shows the pairs collapsing into their differences.
 
 
 ### 5.2 Assumptions
@@ -211,7 +247,7 @@ For each subject we compute the difference $d_i = x_{\text{before},i} - x_{\text
 
 > **Key point:** The 15 participants gained 0.47 kg on average; $t = -0.74$ and the right-tailed $p = 0.76$, so the data gives no evidence that the program reduces weight.
 
-A fitness centre evaluates a new 8-week weight-loss program. It enrols **15 participants** and weighs each one before and after. The goal is to test whether the program leads to a significant **reduction** in weight. The data is in `data/weight_loss.csv`; Figure 3 shows each participant.
+A fitness centre evaluates a new 8-week weight-loss program. It enrols **15 participants** and weighs each one before and after. The goal is to test whether the program leads to a significant **reduction** in weight. The data is in `data/weight_loss.csv`; Figure 5 shows each participant.
 
 ![Each participant's weight before and after the program (green: lost weight, red: gained)](images/weight_slopes.png){height=33%}
 
@@ -273,6 +309,10 @@ To see this, suppose every "after" weight in our table were 2 kg lower, a real a
 
 The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as independent gives $\sqrt{s_1^2/n + s_2^2/n} = 2.75$ kg, more than four times larger. The result is typical, not a lucky table: averaged over 2000 simulated groups of 15 people like ours (weights spread by about 8 kg, a true loss of 1.5 kg), the median p-value is 0.017 for the paired test and 0.31 for the independent test. Analysing paired data as independent throws most of the power away (Rice 2007, §11.3).
 
+![The 2 kg-lower table as two groups (left, independent SE 2.75 kg) and as 15 personal changes d (right, paired SE 0.63 kg), both panels on the same 49 kg scale](images/pairing.gif){height=45%}
+
+Figure 6 joins each person's two weights and drops their change $d$ into the right panel. Watch the spread: the left dots range over 27 kg, the green $d$ values over 9 kg, because each person's weight is compared only with their own.
+
 > **Extra:** The variance of the mean difference shows when pairing pays off:
 > $$\operatorname{Var}(\bar{d}) = \frac{\sigma_1^2 + \sigma_2^2 - 2\rho\thinspace\sigma_1\sigma_2}{n}$$
 > Here $\rho$ is the correlation between the two measurements of a pair. The independent test ignores the last term, as if $\rho = 0$. A heavy person stays heavy, so $\rho$ is close to 1 and the paired variance is far smaller. If the pairs were barely linked ($\rho$ near 0), pairing would gain little.
@@ -281,7 +321,11 @@ The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as i
 
 > **Key point:** Scores of two models on the same cross-validation folds are paired, so we compare them with a paired t-test, keeping in mind that the folds are not fully independent.
 
-When two models are evaluated with k-fold cross-validation on the **same folds** (see the [pipelines Note](../29-pipelines/note.md)), each fold gives a pair of scores, one per model, measured on the same test data, just as each person gives a pair of weights. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, the "k-fold cross-validated paired t test" (Dietterich 1998), one of the machine learning uses listed in the [errors, power and tails Note](../292-errors-power-and-tails/note.md).
+When two models are evaluated with k-fold cross-validation on the **same folds** (see the [pipelines Note](../29-pipelines/note.md)), each fold gives a pair of scores, one per model, measured on the same test data, just as each person gives a pair of weights. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, the "k-fold cross-validated paired t test" (G-510) (Dietterich 1998), one of the machine learning uses listed in the [errors, power and tails Note](../292-errors-power-and-tails/note.md).
+
+![Logistic regression against a decision tree on the same 10 folds of scikit-learn's breast cancer data: one line per fold, paired t = 4.96, p = 0.001](images/cv_paired.png){height=32%}
+
+Figure 7 runs the test on scikit-learn's breast cancer data (569 tumours): scaled logistic regression against a decision tree, on the same 10 folds. Watch the lines: on 9 folds logistic regression scores higher and on the tenth the two tie, so the paired test sees a consistent gap (mean accuracy 0.979 against 0.919).
 
 > **Extra:** The folds share most of their training data, so the $k$ differences are not independent, and the third assumption of section 5.2 is broken. As a result the test finds a "significant" difference too often when there is none (Dietterich 1998). Nadeau and Bengio (2003) give a corrected version that enlarges the variance to account for the overlap.
 
@@ -307,10 +351,14 @@ When two models are evaluated with k-fold cross-validation on the **same folds**
 
 **Built from**
 
-- CampusX, "Session 46 - Hypothesis Testing Part 2 | p-values | t-tests | DSMP 2023", YouTube, https://www.youtube.com/watch?v=xHTMjxx14sU
+- CampusX, "Session 46 - Hypothesis Testing Part 2 | p-values | t-tests | DSMP 2023", YouTube, https://www.youtube.com/watch?v=xHTMjxx14sU. The assumptions, Levene's test, the desktop and mobile example, the Titanic case and the weight-loss example (sections 2 to 6).
+- Starmer, J. (StatQuest), "StatQuickie: Which t test to use", YouTube, https://www.youtube.com/watch?v=nnBJeb_I-q8. The two questions that choose a t-test (section 1).
+- Khan Academy, "Two-sample t test for difference of means", YouTube, https://www.youtube.com/watch?v=NkGvw18zlGQ. The tomato example (section 2.3).
+- Khan Academy, "Example of hypotheses for paired and two-sample t tests", YouTube, https://www.youtube.com/watch?v=X0gIJUXz6jc. One population of differences and the running-shoes example (section 5.1).
 
 **Other references**
 
+- Welch, B. L. (1947). "The generalization of 'Student's' problem when several different population variances are involved." *Biometrika* 34(1–2), 28–35.
 - Rice, J. A. (2007). *Mathematical Statistics and Data Analysis*, 3rd ed. Duxbury. §11.3, Comparing paired samples.
 - Delacre, M., Lakens, D. and Leys, C. (2017). "Why psychologists should by default use Welch's t-test instead of Student's t-test." *International Review of Social Psychology* 30(1), 92–101.
 - Dietterich, T. G. (1998). "Approximate statistical tests for comparing supervised classification learning algorithms." *Neural Computation* 10(7), 1895–1923.
@@ -327,3 +375,5 @@ When two models are evaluated with k-fold cross-validation on the **same folds**
 | Welch's t-test | The two-sample t-test that does not assume equal variances |
 | Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test |
 | Paired observations | Two measurements that belong to the same subject or matched pair |
+| Mean difference ($\mu_d$) | The mean of the per-subject differences in a paired design; the paired t-test tests $\mu_d = 0$ |
+| Conservative degrees of freedom | The hand-calculation shortcut $\min(n_1, n_2) - 1$ for a two-sample t-test; Welch's formula is closer to exact |

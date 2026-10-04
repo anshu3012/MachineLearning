@@ -16,8 +16,6 @@ tags: [subject/maths, area/calculus, step/reduce, step/model, concept/lsa, conce
 
 > **Key point:** PCA, latent semantic analysis, recommender systems and least-squares regression all run on the SVD: PCA reads the principal components off $V$, text and ratings models keep the top singular directions as hidden "topics", and the pseudo-inverse solves regression even when the normal equation breaks.
 
-This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.5 (Example 4.14, movie ratings, and the closing remarks on applications) and §4.6 (Example 4.15).
-
 ![PCA read off the thin SVD of the centred data](images/pca_via_svd.png)
 
 The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md), defined $A = U\Sigma V^{\mathsf T}$, and the [low-rank approximation Note](../612-low-rank-approximation/note.md) showed that the first $k$ layers give the best rank $k$ approximation. This Note uses both in four ML tools:
@@ -31,11 +29,29 @@ The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md), define
 
 > **Key point:** For centred data $X_c = U\Sigma V^{\mathsf T}$, the rows of $V^{\mathsf T}$ are the principal components, $\sigma_i^2/n$ are the variances along them, and $U\Sigma$ is the projected data. No covariance matrix is needed.
 
-### 2.1 Why the SVD of the data gives PCA
+### 2.1 PC1 is the line with the largest sum of squared projections
+
+> **Key point:** Turn a line through the centre of the data and add up the squared distances of the projected points from the centre. The line with the largest sum is PC1, and the square root of that sum is the first singular value.
+
+The [PCA geometric intuition Note](../47-pca-geometric-intuition/note.md) (Section 4) found the **first principal component** (G-1563) by turning a line through the centre of the data until the shadows of the points on it spread the most. The same search, with one change of bookkeeping, produces the SVD.
+
+1. **In words:** centre the data, so that its centre sits on the origin (**centred data**, G-365). Draw a line through the origin. Drop each point onto the line; the foot is its **projection** (G-1583). Measure each foot's distance from the origin, square it and add over all points: call the sum SS. Turn the line and repeat. Instead of the variance of the shadows, we keep their sum of squares, which is the variance times $n$.
+2. **Example:** for the 30 flats, SS is about 40 along the rooms axis (0°). As the line turns, SS rises to its peak, 78.2, at 45°, then falls to its lowest value, 1.55, at 135° (Figure 2).
+3. **What the SVD calls each number:**
+   - The unit vector along the best line, $[0.707, 0.707]$, is the first **right singular vector** (G-1692) $\mathbf v_1$. Its entries say the recipe of PC1: 0.707 parts rooms and 0.707 parts washrooms. These entries are the **loading scores**.
+   - The square root of the peak, $\sqrt{78.2} = 8.843$, is the first **singular value** (G-1812) $\sigma_1$ of the centred data.
+   - SS divided by $n$, $78.2/30 = 2.61$, is the variance along PC1: the eigenvalue of the covariance matrix found in the [PCA step by step Note](../48-pca-step-by-step/note.md).
+   - PC2 is the line at right angles to PC1. Its SS, 1.55, is the lowest of all, and $\sqrt{1.55} = 1.243 = \sigma_2$.
+
+![A line through the centre of the 30 centred flats turns from 0° to 180°. Each flat drops onto it (red feet); the right panel traces SS, the sum of the squared distances of the feet from the centre. The peak, $\sigma_1^2 = 78.2$ at 45°, is PC1. Idea after StatQuest, "Principal Component Analysis (PCA), Step-by-Step"](images/pca_ss_sweep.gif)
+
+In Figure 2, watch the red curve while the line turns: it climbs to the dashed line $\sigma_1^2$ exactly when the line runs along the cloud, and bottoms out at right angles to it. The curve is $\lVert X_c\mathbf v\rVert^2$ for every unit vector $\mathbf v$, the squared version of the stretch-by-angle curve in the [SVD geometry Note](../610-svd-geometry/note.md) (Section 5.2). So its top and bottom are the squared singular values.
+
+### 2.2 Why the SVD of the data gives PCA
 
 > **Key point:** The covariance matrix is $X_c^{\mathsf T}X_c/n$, and $X_c^{\mathsf T}X_c = V\Sigma^2V^{\mathsf T}$: its eigenvectors are the right singular vectors of the data.
 
-The [PCA step by step Note](../48-pca-step-by-step/note.md) found the principal components as the eigenvectors of the covariance matrix, after centring each **feature** (an input variable, one column of the data table). In matrix form, the covariance matrix of centred data with $n$ rows (one per **observation**, a record) is $X_c^{\mathsf T}X_c / n$: entry $(j, k)$ is the sum of products of columns $j$ and $k$, divided by $n$.
+The [PCA step by step Note](../48-pca-step-by-step/note.md) found the principal components as the eigenvectors of the covariance matrix, after centring each **feature** (G-772) (an input variable, one column of the data table). In matrix form, the covariance matrix of centred data with $n$ rows (one per **observation** (G-1374), a record) is $X_c^{\mathsf T}X_c / n$: entry $(j, k)$ is the sum of products of columns $j$ and $k$, divided by $n$.
 
 The [computing the SVD Note](../611-computing-the-svd/note.md) (section 2.1) showed that $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$ for any matrix. With $A = X_c$:
 
@@ -46,13 +62,17 @@ The [computing the SVD Note](../611-computing-the-svd/note.md) (section 2.1) sho
    $$\frac{8.843^2}{30} = 2.61, \qquad \frac{1.243^2}{30} = 0.05$$
    exactly the eigenvalues 2.61 and 0.05 found in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.3). The right singular vectors are $[0.707, 0.707]$ and $[-0.707, 0.707]$ (up to sign): PC1 at 45°, as there.
 
-Figure 1 maps each part of the SVD to its PCA meaning:
+Section 2.1 found these numbers by turning a line; the formula finds them all at once. Figure 1 maps each part of the SVD to its PCA meaning:
 
 - **$V^{\mathsf T}$:** its rows are the principal components, largest variance first. They are already sorted, because singular values come sorted.
-- **$\Sigma$:** $\sigma_i^2/n$ is the variance along PC $i$. The explained variance ratio is $\sigma_i^2 / \sum_j \sigma_j^2$; for the flats, $8.843^2/(8.843^2 + 1.243^2) = 0.98$.
+- **$\Sigma$:** $\sigma_i^2/n$ is the variance along PC $i$. The **explained variance ratio** (G-727) is $\sigma_i^2 / \sum_j \sigma_j^2$; for the flats, $8.843^2/(8.843^2 + 1.243^2) = 0.98$.
 - **$U\Sigma$:** the projected data. Multiplying $X_c = U\Sigma V^{\mathsf T}$ by $V$ on the right gives $X_cV = U\Sigma$, which is the projection $Z = XW^{\mathsf T}$ of the PCA Note with $W = V^{\mathsf T}$. The first flat, centred, lands at $[-0.639, 0.052]$.
 
-### 2.2 Why compute it this way
+![Left: the 30 centred flats with the two rows of $V^{\mathsf T}$ drawn as arrows (length two standard deviations along each). Right: the same flats as rows of $U\Sigma$](images/pca_flats.png){height=30%}
+
+In Figure 3, watch the right panel: $U\Sigma$ is the left cloud turned so that PC1 lies along the horizontal axis. Almost all the spread is now horizontal, which is the variance ratio 0.98 seen as a picture.
+
+### 2.3 Why compute it this way
 
 > **Key point:** The SVD works on the data directly, which is more accurate, and gives the projected data for free.
 
@@ -62,7 +82,7 @@ Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose ac
 >
 > - fewer than 1,000 columns and more than 10 times as many rows: scikit-learn eigen-decomposes the covariance matrix (`"covariance_eigh"`, added in version 1.5), because a small $d \times d$ matrix is fastest there;
 > - otherwise, small data (no side above 500): a full SVD of the centred data (`"full"`, LAPACK through SciPy);
-> - otherwise, when few components are wanted: a **randomized SVD**, which finds only the top $k$ singular vectors.
+> - otherwise, when few components are wanted: a **randomized SVD** (G-1624), which finds only the top $k$ singular vectors.
 >
 > So "scikit-learn's PCA uses the SVD" was true for every input before version 1.5, and is still true for wide or large data. The 30 flats, and the 33,600 MNIST training images of 784 pixels in the [PCA on MNIST Note](../49-pca-mnist/note.md), now go through the covariance matrix. Each route gives the same components up to sign. `PCA` also divides by $n - 1$, so it reports 2.70 and 0.05 for the flats.
 
@@ -104,14 +124,14 @@ d1 and d2 are both about cricket, but they share no word, so their cosine simila
 
 > **Key point:** Words that appear together load on the same singular vector; the first $k$ singular directions act as $k$ topics.
 
-Stack the count vectors as the rows of a $7 \times 14$ matrix $X$ (7 documents, 14 words). Its first two singular values are 2.73 and 2.64, and the rest are smaller. **Latent semantic analysis** (**LSA**) keeps the first $k$ and describes each document by its coordinates along them.
+Stack the count vectors as the rows of a $7 \times 14$ matrix $X$ (7 documents, 14 words). Its first two singular values are 2.73 and 2.64, and the rest are smaller. **Latent semantic analysis** (G-1049) (**LSA**) keeps the first $k$ and describes each document by its coordinates along them.
 
 1. **In words:** each document's new coordinates are its row of $U_k\Sigma_k$: how strongly it uses each of the $k$ word patterns $\mathbf v_1, \dots, \mathbf v_k$.
 2. **Formula:**
    $$Z = U_k\Sigma_k = XV_k$$
 3. **Example:** with $k = 2$, d1 lands at $[0.635, 0.836]$ and d2 at exactly the same point. Their cosine similarity in this 2D topic space is 1.00, up from 0. d4 at $[0.932, -0.737]$ and d5 at $[0.596, -0.564]$ get 1.00 as well.
 
-Figure 2 shows why. d3 contains all the cricket words together, so the SVD learns that "batsman", "bowler", "century" and "wicket" belong to one pattern. Through it, d1 and d2 are linked even though they share nothing directly. The food documents form the other pattern. d7 mixes "chef" with "match", and lands in between, closer to food (cosine 0.86 with d4) than to cricket (0.49 with d1).
+Figure 4 shows why. d3 contains all the cricket words together, so the SVD learns that "batsman", "bowler", "century" and "wicket" belong to one pattern. Through it, d1 and d2 are linked even though they share nothing directly. The food documents form the other pattern. d7 mixes "chef" with "match", and lands in between, closer to food (cosine 0.86 with d4) than to cricket (0.49 with d1).
 
 ![The seven documents in the 2D topic space of LSA: cricket (green), food (orange), and the mixed d7 (purple)](images/lsa_docs.png){width=75%}
 
@@ -139,7 +159,7 @@ LSA is a rank $k$ approximation (the [low-rank approximation Note](../612-low-ra
 
 > **Key point:** Five viewers rate four films; two like action, two like romance, one likes everything.
 
-Recommender systems work on a table of ratings: one row per viewer, one column per item. Figure 3 (left) shows five viewers rating four films from 1 to 5. Asha and Ben like the action films, Chitra and Dev the romance films, and Esha likes everything.
+Recommender systems work on a table of ratings: one row per viewer, one column per item. Figure 5 (left) shows five viewers rating four films from 1 to 5. Asha and Ben like the action films, Chitra and Dev the romance films, and Esha likes everything.
 
 ![The ratings matrix and its rank-1 and rank-2 approximations](images/ratings.png)
 
@@ -149,10 +169,14 @@ Recommender systems work on a table of ratings: one row per viewer, one column p
 
 The singular values are 14.6, 6.6, 1.5 and 0.6. The first two dominate.
 
-- **$\mathbf v_1 = [-0.54, -0.51, -0.49, -0.46]$:** all four films with the same sign and similar size. The first pattern is "how much a viewer likes films at all". The rank-1 approximation (Figure 3, middle) gives each viewer roughly the same rating for every film: Esha high, the others near 3.
+- **$\mathbf v_1 = [-0.54, -0.51, -0.49, -0.46]$:** all four films with the same sign and similar size. The first pattern is "how much a viewer likes films at all". The rank-1 approximation (Figure 5, middle) gives each viewer roughly the same rating for every film: Esha high, the others near 3.
 - **$\mathbf v_2 = [0.44, 0.51, -0.50, -0.55]$:** positive for the action films, negative for the romance films. The second pattern is a taste axis. The matching $\mathbf u_2 = [0.48, 0.42, -0.57, -0.51, 0.08]$ puts Asha and Ben on the action side, Chitra and Dev on the romance side, and Esha near 0: she has no preference.
 
-Adding the second layer (Figure 3, right) recovers the table: no entry is off by more than 0.55. The third and fourth layers carry only small details, so the data is essentially two-dimensional: one "general liking" axis and one "action or romance" axis. In the language of the book's movie example, the $\mathbf v_i$ are stereotypical films and the $\mathbf u_i$ stereotypical viewers; each real viewer is a mix of them.
+Adding the second layer (Figure 5, right) recovers the table: no entry is off by more than 0.55. The third and fourth layers carry only small details, so the data is essentially two-dimensional: one "general liking" axis and one "action or romance" axis.
+
+![The two kept singular directions as a map: viewers at their coordinates $\sigma_i u_{ai}$ (left) and films at $v_{bi}$ (right); the first pair's sign is flipped so that liking points right](images/ratings_map.png){height=30%}
+
+In Figure 6, viewers and films fall into the same two groups: Asha, Ben and the action films above the line, Chitra, Dev and the romance films below it, and Esha far right near the line, liking everything. In the language of the book's movie example, the $\mathbf v_i$ are stereotypical films and the $\mathbf u_i$ stereotypical viewers; each real viewer is a mix of them.
 
 1. **In words:** the predicted rating of viewer $a$ for film $b$ is the sum, over the kept layers, of (singular value) times (how much $a$ follows the pattern) times (how much $b$ fits it).
 2. **Formula:**
@@ -169,7 +193,7 @@ Adding the second layer (Figure 3, right) recovers the table: no entry is off by
 
 > **Key point:** Undo each factor in reverse order: $U^{\mathsf T}$ for $U$, $1/\sigma_i$ for each $\sigma_i$, $V$ for $V^{\mathsf T}$; where $\sigma_i = 0$ there is nothing to undo, so keep 0.
 
-The inverse of a product is the product of the inverses in reverse order. For $A = U\Sigma V^{\mathsf T}$, the orthogonal factors are undone by their transposes, and $\Sigma$ by replacing each $\sigma_i$ with $1/\sigma_i$. When some $\sigma_i$ is 0, $A$ has no inverse, but we can still invert everything that is not 0. The result is the **Moore–Penrose pseudo-inverse**, listed in the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md).
+The inverse of a product is the product of the inverses in reverse order. For $A = U\Sigma V^{\mathsf T}$, the orthogonal factors are undone by their transposes, and $\Sigma$ by replacing each $\sigma_i$ with $1/\sigma_i$. When some $\sigma_i$ is 0, $A$ has no inverse, but we can still invert everything that is not 0. The result is the **Moore–Penrose pseudo-inverse** (G-1262), listed in the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md).
 
 1. **In words:** transpose $\Sigma$, replace each non-zero $\sigma_i$ by $1/\sigma_i$ and leave the zeros; then sandwich it between $V$ and $U^{\mathsf T}$.
 2. **Formula:**
@@ -183,11 +207,13 @@ $C$ has no inverse (its determinant is 0), but $C^{+}$ undoes it as far as possi
 
 > **Key point:** When $X^{\mathsf T}X$ has an inverse, $X^{+} = (X^{\mathsf T}X)^{-1}X^{\mathsf T}$, so $X^{+}\mathbf{y}$ is the normal-equation solution.
 
-The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) (section 6) found the least-squares coefficients with the normal equation $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$. With the thin SVD $X = U\Sigma V^{\mathsf T}$ (all $\sigma_i > 0$), $X^{\mathsf T}X = V\Sigma^2V^{\mathsf T}$, and
+First the picture. Every prediction $X\beta$ is a mix of the columns of $X$, so all possible predictions fill the column space of $X$, and the target vector $\mathbf y$ usually pokes out of it. Least squares picks the point of the column space closest to $\mathbf y$: the foot of the perpendicular from $\mathbf y$. There the error $\mathbf y - X\beta$ is perpendicular to every column, $X^{\mathsf T}(\mathbf y - X\beta) = \mathbf 0$, which is the normal equation. The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) (Section 6.2) draws and animates this projection.
+
+The same Note (section 6) found the least-squares coefficients with the normal equation $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$. With the thin SVD $X = U\Sigma V^{\mathsf T}$ (all $\sigma_i > 0$), $X^{\mathsf T}X = V\Sigma^2V^{\mathsf T}$, and
 
 $$(X^{\mathsf T}X)^{-1}X^{\mathsf T} = V\Sigma^{-2}V^{\mathsf T}\thinspace V\Sigma U^{\mathsf T} = V\Sigma^{-1}U^{\mathsf T} = X^{+}$$
 
-1. **In words:** the least-squares coefficients are the pseudo-inverse of the design matrix times the vector of **target** values (the outputs we predict).
+1. **In words:** the least-squares coefficients are the pseudo-inverse of the design matrix times the vector of **target** (G-1949) values (the outputs we predict).
 2. **Formula:**
    $$\beta = X^{+}\mathbf{y}$$
 3. **Example:** the four students of that Note (CGPA 6.89, 5.12, 7.82, 7.42; packages 3.26, 1.98, 3.25, 3.67), with a column of 1s for the intercept. $X$ has singular values 13.92 and 0.30, and $X^{+}\mathbf{y} = [-0.81, 0.57]$: intercept $-0.81$ and slope $0.57$, the same as the normal equation.
@@ -202,7 +228,9 @@ The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) (se
 - **The normal equation fails quietly.** Here NumPy's `inv` raised no error and returned $[3.14, 0.06, 0.02]$. Its predictions for the four students are about 4.5 to 5.2, against real packages of 2 to 3.7: garbage. (On another computer it may instead raise an error.)
 - **The pseudo-inverse treats the tiny singular value as 0** and returns $[-0.81, 0.0062, 0.0589]$. Its predictions are exactly those of the two-column model, because $0.0062 + 9.5 \times 0.0589 = 0.565$, the old slope. Of all coefficient vectors that fit equally well, it picks the one with the smallest length (Penrose 1956).
 
-So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`, and scikit-learn's `LinearRegression` (through SciPy's `lstsq`), use an SVD-based LAPACK routine (`gelsd`; NumPy docs, `numpy.linalg.lstsq`; SciPy docs, `scipy.linalg.lstsq`) and give the same $[-0.81, 0.0062, 0.0589]$ here.
+![The four students' real packages (grey) against the predictions of the three-column model, solved by the normal equation (red) and by the pseudo-inverse (blue)](images/pinv_predictions.png){height=28%}
+
+Figure 7 puts the two answers side by side: the red bars miss every student by 1.4 to 2.5, while the blue bars stay close to the real packages. So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`, and scikit-learn's `LinearRegression` (through SciPy's `lstsq`), use an SVD-based LAPACK routine (`gelsd`; NumPy docs, `numpy.linalg.lstsq`; SciPy docs, `scipy.linalg.lstsq`) and give the same $[-0.81, 0.0062, 0.0589]$ here.
 
 > **Python:** The pseudo-inverse.
 >
@@ -238,10 +266,12 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 
 **Built from**
 
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 4.5–4.6, Examples 4.14 and 4.15 (MML).
+- StatQuest (Starmer, J.), "Principal Component Analysis (PCA), Step-by-Step", YouTube, https://www.youtube.com/watch?v=FgakZw6K1QQ
+- Khan Academy (Khan, S.), "Least squares approximation", YouTube, https://www.youtube.com/watch?v=MC7l96tW8V8
 
 **Other references**
 
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 4.5–4.6, Examples 4.14 and 4.15 (MML): latent semantic analysis, the ratings example and the pseudo-inverse, which neither video covers.
 - Deerwester, S., Dumais, S. T., Furnas, G. W., Landauer, T. K. and Harshman, R. (1990). "Indexing by Latent Semantic Analysis". *Journal of the American Society for Information Science* 41(6).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.1, ridge regression and the SVD (ESL).
 - Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix Factorization Techniques for Recommender Systems". *IEEE Computer* 42(8).
@@ -253,6 +283,7 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 
 | Term | Meaning |
 |---|---|
+| Loading scores | The entries of a principal component's unit vector: how many parts of each feature make up the component |
 | PCA through the SVD | Taking the principal components from $V$ of the centred data, with variances $\sigma_i^2/n$ and scores $U\Sigma$ |
 | Randomized SVD | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data |
 | Latent semantic analysis (LSA) | Describing documents by their top $k$ singular directions of the document-word matrix, so that texts on one topic align |

@@ -31,7 +31,7 @@ Each one comes back in later Notes, with tools to handle it.
 ML learns from data, so without data there is nothing to learn.
 
 - **While learning:** data comes ready-made, as CSV files from sites like Kaggle or from course material.
-- **In a company:** we usually have to gather it ourselves. The two main ways are calling an **API** (a service that returns data on request) and **web scraping** (writing code that extracts data from web pages).
+- **In a company:** we usually have to gather it ourselves. The two main ways are calling an **API** (G-204; a service that returns data on request) and **web scraping** (G-2105; writing code that extracts data from web pages).
 
 Both ways bring their own problems, because we are pulling large amounts of data from systems we do not control. Both are covered in later Notes.
 
@@ -49,7 +49,7 @@ Researchers tested this on a language task: choosing the right word in sentences
 
 ![With enough data, the choice of algorithm matters less](images/data_effectiveness.png)
 
-This effect is known as the **unreasonable effectiveness of data**. The catch: few projects have that much data. Most of us work with small or medium datasets, where the choice of algorithm still matters a lot.
+This effect is known as the **unreasonable effectiveness of data** (G-2055). The catch: few projects have that much data. Most of us work with small or medium datasets, where the choice of algorithm still matters a lot.
 
 > **Extra:** The word-choice experiment is by Michele Banko and Eric Brill at Microsoft (Banko and Brill 2001). The phrase "the unreasonable effectiveness of data" comes from a 2009 article of that name by three Google researchers (Halevy et al. 2009). Figure 2 illustrates the idea; it does not show their measurements.
 
@@ -57,7 +57,7 @@ This effect is known as the **unreasonable effectiveness of data**. The catch: f
 
 > **Key point:** Inputs are easy to collect; the correct answers usually need a human.
 
-For supervised learning, every **observation** (one record, one row of the data table) needs its correct output, the **target**, also called its **label**. Collecting inputs is often easy: we can download thousands of images in minutes. But someone still has to look at each image and write down whether it shows a cat or a dog.
+For **supervised learning** (G-1919), every **observation** (G-1374; one record, one row of the data table) needs its correct output, the **target** (G-1949), also called its **label** (G-1032). Collecting inputs is often easy: we can download thousands of images in minutes. But someone still has to look at each image and write down whether it shows a cat or a dog.
 
 So even with plenty of data, we may not have enough **labelled** data.
 
@@ -69,7 +69,7 @@ So even with plenty of data, we may not have enough **labelled** data.
 
 > **Key point:** A model can only learn the pattern that is in its data.
 
-Our data is a **sample**: a small part of everything that exists in the real world. A sample is **representative** when it reflects the whole situation fairly.
+Our data is a **sample** (G-1731): a small part of everything that exists in the real world. A sample is **representative** (a **representative sample**, G-1672) when it reflects the whole situation fairly.
 
 ![A non-representative sample suggests the wrong pattern](images/non_representative.png)
 
@@ -83,8 +83,8 @@ The two names come from Géron (2019, Ch. 1). Suppose we run a survey: *which te
 
 ![Three ways to run the same survey](images/survey_designs.png)
 
-- **Sampling noise:** the sample is so small that the result depends on luck. Asking 5 random fans can give almost any answer.
-- **Sampling bias:** the way we collect the data favours some answers. Asking 1000 fans, all of them Indian, gives a large sample, but almost all will say "India". Asking fans abroad does not fix this if most of the fans we reach are still Indian.
+- **Sampling noise** (G-1737): the sample is so small that the result depends on luck. Asking 5 random fans can give almost any answer.
+- **Sampling bias** (G-1734): the way we collect the data favours some answers. Asking 1000 fans, all of them Indian, gives a large sample, but almost all will say "India". Asking fans abroad does not fix this if most of the fans we reach are still Indian.
 - **Representative:** ask, say, 100 local fans in every country that is playing. Every team gets a fair chance.
 
 A large sample does not protect against bias: a huge but skewed dataset is still skewed.
@@ -96,26 +96,26 @@ A large sample does not protect against bias: a huge but skewed dataset is still
 Real data is messy:
 
 - errors and typos,
-- **missing values** (empty cells),
-- **outliers** (values far from the rest, often mistakes),
+- **missing values** (G-1235; empty cells),
+- **outliers** (G-1421; values far from the rest, often mistakes),
 - the same thing written in different formats.
 
-No algorithm can make good predictions from bad data. The rule is often summed up as **garbage in, garbage out** (Figure 5).
+No algorithm can make good predictions from bad data. The rule is often summed up as **garbage in, garbage out** (G-824; Figure 5).
 
 ![Garbage in, garbage out, and where the time goes](images/gigo.png)
 
-Fixing data quality is called **data cleaning**. Data cleaning takes most of a project's time: in a one-year project, we can spend around eight months just getting the data right. Many later Notes are about exactly this.
+Fixing data quality is called **data cleaning** (G-532). Data cleaning takes most of a project's time: in a one-year project, we can spend around eight months just getting the data right. Many later Notes are about exactly this.
 
 ## 6. Irrelevant features
 
 > **Key point:** Features that say nothing about the output only add noise. Remove them, or combine features into more useful ones.
 
-Data often contains **features** (input variables, one column each in the data table) that have nothing to do with the **target** (the output we want to predict). They do not help the model, and can make it worse: garbage in, garbage out again.
+Data often contains **features** (G-772; input variables, one column each in the data table) that have nothing to do with the target (the output we want to predict). They do not help the model, and can make it worse: garbage in, garbage out again.
 
 *Example: predicting who will run a marathon.* We have each person's weight, height, age and location.
 
 - **Location** says nothing about fitness: people in Chennai are not fitter than people in Noida. We drop it.
-- **Weight and height** are useful, but together they say more than separately. We combine them into one feature, **BMI** (body mass index).
+- **Weight and height** are useful, but together they say more than separately. We combine them into one feature, **BMI** (G-316; body mass index).
 
 **BMI**, step by step:
 
@@ -127,7 +127,7 @@ Data often contains **features** (input variables, one column each in the data t
 
 ![Dropping an irrelevant feature and combining two others](images/feature_selection.png)
 
-Figure 6 shows the result. Choosing, removing and creating features like this is called **feature engineering**. Deciding which features to keep is hard, and gets easier with experience.
+Figure 6 shows the result. Choosing, removing and creating features like this is called **feature engineering** (G-761). Deciding which features to keep is hard, and gets easier with experience.
 
 ## 7. Overfitting and underfitting
 
@@ -137,7 +137,7 @@ Figure 6 shows the result. Choosing, removing and creating features like this is
 
 > **Key point:** An overfit model memorises its training data and fails on new data.
 
-**Overfitting** happens when a model learns its training data too closely, noise and accidents included, instead of the general pattern. An overfit model looks perfect on the training data and does badly on new data.
+**Overfitting** (G-1429) happens when a model learns its training data too closely, noise and accidents included, instead of the general pattern. An overfit model looks perfect on the training data and does badly on new data.
 
 People overfit too. Someone moves to Gurgaon, pays 500 rupees for one movie ticket, and concludes that *everything* in Gurgaon is expensive. One example was turned into a general rule.
 
@@ -151,9 +151,9 @@ Overfitting is one of the biggest challenges in ML. For every algorithm in these
 
 > **Key point:** An underfit model is too simple to capture the pattern, so it is bad on all data.
 
-**Underfitting** is the opposite: the model is too simple for the data. In the first stage of Figure 7, a straight line cannot follow the wave in the data. The line does badly on the training data and on new data alike.
+**Underfitting** (G-2035) is the opposite: the model is too simple for the data. In the first stage of Figure 7, a straight line cannot follow the wave in the data. The line does badly on the training data and on new data alike.
 
-The middle stage is a **good fit**: it follows the overall wave and ignores the small noise in individual points. Its error on new data is the lowest of the three.
+The middle stage is a **good fit** (G-852): it follows the overall wave and ignores the small noise in individual points. Its error on new data is the lowest of the three.
 
 A model that scores 100% on its training data is a warning sign, not a success. Such a model has probably memorised the data.
 
@@ -165,7 +165,7 @@ The Notebook for this Note (`notebook.ipynb`) has a slider for model complexity,
 
 A model is never the end product. The model is a part of some software that helps users: a recommender inside a website, a fraud detector inside a banking app.
 
-So after building the model, we have to **integrate** it into that software, and the software may run on many platforms (Figure 8).
+So after building the model, we have to **integrate** it (**integration**, G-957) into that software, and the software may run on many platforms (Figure 8).
 
 ![One model, many platforms](images/integration.png)
 
@@ -185,17 +185,24 @@ As covered in Notes 4 and 5:
 - **Batch learning:** to update the model, we take it offline, retrain it on all the data, and upload it again, over and over.
 - **Online learning:** the model updates itself on the server, which is harder to build and riskier to run.
 
-**Deployment**, putting a model on a server for users, is itself difficult. Cloud providers such as AWS (Amazon), Google Cloud and Microsoft Azure offer services for it, but they are not yet as smooth as the tools for ordinary software. Monitoring a live model and fixing it in real time still takes a lot of effort.
+**Deployment** (G-593), putting a model on a server for users, is itself difficult. Cloud providers such as AWS (Amazon), Google Cloud and Microsoft Azure offer services for it, but they are not yet as smooth as the tools for ordinary software. Monitoring a live model and fixing it in real time still takes a lot of effort.
 
 ## 10. Cost
 
 > **Key point:** In a real product, the model is a small part of a large and expensive system.
 
-At scale, the costs are surprising. A model used by 10,000 or 100,000 people needs servers, data pipelines, monitoring, testing and much more, and each of these has costs that are easy to miss while building the model (Figure 9).
+At scale, the costs are surprising. A model used by 10,000 or 100,000 people needs much more than the model itself, for example:
+
+- servers (G-1779);
+- data pipelines (G-538);
+- monitoring;
+- testing.
+
+Each of these has costs that are easy to miss while building the model (Figure 9).
 
 ![The model is a small part of the whole system](images/hidden_costs.png)
 
-Managing all of this is a growing field of its own, **MLOps** (machine learning operations): running ML models in production, the way DevOps runs ordinary software.
+Managing all of this is a growing field of its own, **MLOps** (G-1244; machine learning operations): running ML models in production, the way DevOps runs ordinary software.
 
 The best way to learn these challenges is to go one step further than building a model: turn it into a real product, deploy it on a server and let real users use it.
 

@@ -17,11 +17,17 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, co
 
 > **Key point:** When the input features live on very different scales, a network trains slowly or not at all. Bringing every feature to the same scale before training fixes it.
 
-Suppose a network predicts whether a user buys a product from two **features** (input variables, one column each of the data table): age, in tens, and salary, in tens of thousands. Whether the user buys is the **target** (the output we predict), and each user is one **observation** (one record, one row of the table). Fed the raw features, the network in this Note never gets past guessing. Fed the same features standardized, it reaches 94% accuracy within 20 epochs.
+Suppose a network predicts whether a user buys a product from two **features** (G-772) (input variables, one column each of the data table): age, in tens, and salary, in tens of thousands. Whether the user buys is the **target** (G-1949) (the output we predict), and each user is one **observation** (G-1374) (one record, one row of the table). Fed the raw features, the network in this Note never gets past guessing. Fed the same features standardized, it reaches 94% accuracy within 20 epochs.
 
 ![The same network on raw and on standardized inputs. Left: validation accuracy per epoch. Right: the average size of the gradients of the age weights and the salary weights at the start of training (log scale).](images/scaling_effect.png)
 
-Figure 1 shows both runs and the reason. This Note shows the problem in Keras (section 3), explains why it happens (section 4), and fixes it (section 5). The Notebook (`notebook.ipynb`) runs every step.
+Figure 1 shows both runs and the reason. This Note:
+
+- shows the problem in Keras (section 3);
+- explains why it happens (section 4);
+- fixes it (section 5).
+
+The Notebook (`notebook.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
@@ -73,6 +79,10 @@ The two values give the game away. Of the 80 validation users, 65% did not buy a
 
 The training loss tells the same story. Binary cross-entropy of a coin toss is 0.69, yet the loss starts at 3,618 and still swings between about 20 and 170 in the last 10 epochs.
 
+![The raw-input run decoded. Left: validation accuracy per epoch, with the two values that mean "one class for everyone" marked. Right: training loss of both runs on a log scale; the dotted line is 0.69, the loss of a coin toss.](images/raw_flip.png)
+
+In Figure 2, watch how almost every point lands on one of the two dashed lines: the network is not learning slowly, it is flipping between two useless answers, while its loss never comes down to the coin-toss line that the standardized run passes in the first epoch.
+
 ## 4. Why unscaled inputs break training
 
 > **Key point:** The gradient of a weight is proportional to its input (LeCun et al. 1998, §4.3). The salary weights get gradients about 2,000 times larger than the age weights, so training attends to salary and ignores age.
@@ -81,20 +91,24 @@ The training loss tells the same story. Binary cross-entropy of a coin toss is 0
 
 > **Key point:** For a first-layer weight, gradient = (error signal of its node) × (its input).
 
-Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. Backpropagation updates both with $w_{\text{new}} = w_{\text{old}} - \eta\thinspace\partial L/\partial w$.
+Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. **Backpropagation** (G-247) updates both with $w_{\text{new}} = w_{\text{old}} - \eta\thinspace\partial L/\partial w$.
 
-1. **In words:** the node computes $z = w_1 x_1 + w_2 x_2 + b$. By the chain rule, the gradient of each weight is the node's error signal $\delta = \partial L/\partial z$ times that weight's input.
+1. **In words:** the node computes $z = w_1 x_1 + w_2 x_2 + b$. By the **chain rule** (G-371), the gradient of each weight is the node's error signal $\delta = \partial L/\partial z$ times that weight's input.
 2. **Formula:**
    $$\frac{\partial L}{\partial w_1} = \delta \cdot x_1, \qquad \frac{\partial L}{\partial w_2} = \delta \cdot x_2$$
 3. **Example:** a user aged 40 earning 80,000, and $\delta = 0.01$:
    $$\frac{\partial L}{\partial w_1} = 0.01 \times 40 = 0.4, \qquad \frac{\partial L}{\partial w_2} = 0.01 \times 80{,}000 = 800$$
    The salary weight gets a gradient 2,000 times larger.
 
+![The worked example as bars (log scale). Left: the gradients $\delta \cdot x$ of the age and salary weights for one user. Right: how far one Adam-sized step of 0.004 moves $z$ through a typical age (38) and a typical salary (70,000).](images/knob_example.png)
+
+In Figure 3, the two panels look alike: the 2,000 times gap in the gradients (left) reappears as a similar gap (about 1,900 times) in how far $z$ moves (right), which is why Adam's equal-sized steps do not save the raw run.
+
 So salary takes over. With plain gradient descent, nearly all the change would go into $w_2$. Our network uses Adam, which moves every weight by about the same small amount (Kingma and Ba 2015, §2.1), but salary still takes over, because the same small step moves $z$ 2,000 times further through salary than through age. Think of two volume knobs, one normal and one extremely sensitive: the same small twist barely changes the first, but makes the second jump from silent to full blast.
 
 In numbers: in the first epoch both kinds of weight moved by about 0.004, which shifts $z$ by about $0.004 \times 70{,}000 = 280$ through salary and only $0.004 \times 38 = 0.15$ through age. So $z$ swings wildly from step to step, the predictions flip between all 0 and all 1, and training is unstable, as in Figure 1.
 
-> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller learning rate on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
+> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller **learning rate** (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
 
 The Notebook measures this on the real network before any training (Figure 1, right). With raw inputs, the salary weights' gradients average 1,393 and the age weights' 0.73: about 1,900 times smaller, close to the ratio of the average salary to the average age (69,742 / 38). After standardizing, both are around 0.01, within a factor of 2.
 
@@ -106,7 +120,7 @@ The same effect has a geometric picture, taught in the [gradient descent Note](.
 
 ![Gradient descent on the loss of one sigmoid node (logistic regression) for our 320 training users, drawn over the age weight and the salary weight, with the bias held at its best value. Both runs start at (0, 0) with a learning rate matched to their surface (1 divided by its steepest curvature at the minimum); the star is the minimum. Left: age in years, salary in thousands. Right: both standardized.](images/scaling_contours.gif){height=50%}
 
-Figure 2 shows both pictures for our data on the simplest model, a single sigmoid node. Watch the left run: it drops quickly to the floor of the long valley, then crawls along it and needs 82 steps to come within 0.001 of the lowest loss. The standardized run on the right, on nearly round contours, gets there in 2. The narrowness can be measured as the ratio of the steepest to the flattest curvature at the minimum: about 23 on the left and 2.8 on the right. With salary in plain rupees the ratio is about 16 million, and 2,000 steps do not reach the minimum.
+Figure 4 shows both pictures for our data on the simplest model, a single sigmoid node. Watch the left run: it drops quickly to the floor of the long valley, then crawls along it and needs 82 steps to come within 0.001 of the lowest loss. The standardized run on the right, on nearly round contours, gets there in 2. The narrowness can be measured as the ratio of the steepest to the flattest curvature at the minimum: about 23 on the left and 2.8 on the right. With salary in plain rupees the ratio is about 16 million, and 2,000 steps do not reach the minimum.
 
 ## 5. The fix: scale the inputs
 
@@ -118,8 +132,8 @@ Figure 2 shows both pictures for our data on the simplest model, a single sigmoi
 
 Both techniques put the features on one scale (see the [feature scaling Notes](../24-standardization/note.md)):
 
-- Standardization subtracts the mean and divides by the standard deviation: every column gets mean 0 and standard deviation 1.
-- Normalization (min-max scaling) subtracts the minimum and divides by the range: every column lands between 0 and 1 (see the [normalization Note](../25-normalization/note.md)).
+- **Standardization** (G-1874) subtracts the mean and divides by the standard deviation: every column gets mean 0 and standard deviation 1.
+- **Normalization** (G-1349) (min-max scaling) subtracts the minimum and divides by the range: every column lands between 0 and 1 (see the [normalization Note](../25-normalization/note.md)).
 
 Which to use follows the rules of the [normalization Note](../25-normalization/note.md), section 10. In short: normalize when the minimum and maximum are known in advance, such as a CGPA from 0 to 10; otherwise standardize, especially when the feature is close to normally distributed. Salary has no known maximum, so we standardize.
 
@@ -145,6 +159,10 @@ Which to use follows the rules of the [normalization Note](../25-normalization/n
 > The scaler learns the mean and standard deviation from the training rows only, then applies them to both sets (see the [standardization Note](../24-standardization/note.md), section 6.3).
 
 Plotted as a scatter, the scaled data looks exactly like the raw data; only the numbers on the axes change (see the [standardization Note](../24-standardization/note.md), section 7.1). Nothing else changes either: same network, same starting weights, same 100 epochs.
+
+![The 320 training users before (left) and after (right) standardizing. Red crosses bought, blue dots did not.](images/raw_vs_scaled.png)
+
+Compare the two panels of Figure 5 point by point: the cloud has exactly the same shape, and only the axis numbers change, from 18 to 60 and 15,000 to 150,000 down to about $-2$ to $+2$ on both axes.
 
 The result is Figure 1 (left, blue). The validation accuracy climbs steadily: 80% after 2 epochs, 94% after 20, and it stays there. The training loss falls smoothly from 0.67 to 0.24.
 

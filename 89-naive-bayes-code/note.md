@@ -15,13 +15,20 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 
 > **Key point:** Training Naive Bayes means building a lookup table of probabilities by counting. Predicting means looking up one probability per feature and multiplying.
 
-The previous two Notes gave the intuition and the formula. This Note applies them to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn. It also meets a practical problem, the **zero-frequency problem**, and its standard fix.
+The previous two Notes gave the intuition and the formula. This Note applies them to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn. It also meets a practical problem, the **zero-frequency problem** (G-2149), and its standard fix.
 
 ## 2. The data
 
 > **Key point:** 14 days, four weather features, and whether tennis was played (9 yes, 5 no).
 
-Each day is one **observation** (one record, a row of the data table). Each has four **features** (input variables, one column each): **outlook** (sunny, overcast, rain), **temperature** (hot, mild, cool), **humidity** (high, normal) and **wind** (weak, strong). The **target** (the output we predict) is **play** (yes or no). Tennis was played on 9 of the 14 days.
+Each day is one **observation** (one record, a row of the data table). Each has four **features** (input variables, one column each):
+
+- **outlook:** sunny, overcast, rain;
+- **temperature:** hot, mild, cool;
+- **humidity:** high, normal;
+- **wind:** weak, strong.
+
+The **target** (the output we predict) is **play** (yes or no). Tennis was played on 9 of the 14 days.
 
 The question: on a day that is sunny, hot, high-humidity with weak wind, will tennis be played?
 
@@ -31,10 +38,14 @@ The question: on a day that is sunny, hot, high-humidity with weak wind, will te
 
 Like every machine learning algorithm, Naive Bayes works in two phases:
 
-1. **Training:** go through the data once and compute every probability the formula could ever need: the class priors, and $P(\text{value} \mid \text{class})$ for every value of every feature. Store them in a **lookup table** (in Python, a dictionary).
+1. **Training:** go through the data once and compute every probability the formula could ever need: the class priors, and $P(\text{value} \mid \text{class})$ for every value of every feature. Store them in a **lookup table** (G-1128) (in Python, a dictionary).
 2. **Testing:** for a new day, look up the relevant probabilities and multiply. Nothing is recomputed.
 
 How many probabilities does the table hold? Outlook has 3 values and there are 2 classes, so 6; temperature 6; humidity 4; wind 4; plus 2 priors. 22 numbers in all.
+
+Figure 1 shows the two phases side by side. Watch the dashed arrow: testing only reads the table that training built.
+
+![Training counts the 14 days once into a 22-number lookup table; testing reads 1 prior and 4 values per class for each new day and multiplies](images/phases.png){height=28%}
 
 ## 4. Training: the lookup table
 
@@ -84,6 +95,10 @@ $$\text{no: } \frac{5}{14} \times \frac{3}{5} \times \frac{2}{5} \times \frac{4}
 
 The "no" score is larger: **no tennis**. As probabilities, $0.0274 / (0.0071 + 0.0274) = 0.795$, so 79.5% no. Sunny weather and high humidity, both much more common on "no" days, decide it.
 
+Figure 3 multiplies the factors in one at a time and shows the yes/no share after each. Watch "yes" start ahead at 64.3%, fall behind at "sunny", and end at 20.5%.
+
+![The sunny, hot, high, weak day, one factor at a time. Each bar is the yes/no share of the running product; brackets give P(value | yes) vs P(value | no)](images/belief_sunny.gif)
+
 ## 6. The zero-frequency problem
 
 > **Key point:** Overcast never occurred on a "no" day, so P(overcast | no) = 0, and any overcast day gets a "no" score of exactly 0.
@@ -92,13 +107,17 @@ Now try an overcast, cool, normal-humidity day with weak wind. In the data, it w
 
 $$\text{no: } \frac{5}{14} \times 0 \times \dots = 0$$
 
+Figure 4 runs the same build-up for this day. Watch the red "no" share vanish at "overcast" and never come back, whatever the later factors say.
+
+![The overcast, cool, normal, weak day without smoothing. The factor P(overcast | no) = 0 sets the no share to 0 for good](images/belief_overcast.gif)
+
 The model is 100% sure tennis will be played, purely because one value never happened to appear with "no" in 14 observations. A single zero wipes out all the other evidence, like one veto in a committee that overrules every other vote. With real data and many features, unseen combinations of one value and one class are common, so this is a real problem: training data is never large enough to show every rare event (Manning et al. §13.2).
 
 ## 7. The fix: Laplace smoothing
 
 > **Key point:** Add 1 to every count before dividing. No probability is ever exactly 0, and common values are barely affected.
 
-**Laplace smoothing** (or **add-one smoothing**) adds a small count, usually 1, to every cell of each crosstab before turning it into probabilities (Manning et al. §13.2):
+**Laplace smoothing** (G-1045) (or **add-one smoothing**) adds a small count, usually 1, to every cell of each crosstab before turning it into probabilities (Manning et al. §13.2):
 
 $$P(\text{value} \mid \text{class}) = \frac{\text{count} + 1}{\text{class count} + \text{number of values}}$$
 
@@ -110,6 +129,10 @@ For outlook given "no": $(0 + 1) / (5 + 3) = 0.125$ for overcast instead of 0, w
 | overcast, cool, normal, weak | 100% yes | 96.4% yes |
 
 The predictions stay the same, but the model is no longer absolutely certain about anything it has seen only a few times.
+
+Figure 5 puts the overcast day before and after smoothing side by side. Watch the "no" share: without smoothing it drops to 0 at "overcast"; with smoothing it shrinks to 14.3% but survives, ending at 3.6%.
+
+![The overcast day without (left) and with (right) Laplace smoothing. Smoothed factors such as 1/8 for P(overcast | no) keep every class alive: 96.4% yes instead of 100%](images/smoothing.png){height=38%}
 
 > **Python:** scikit-learn's CategoricalNB.
 >

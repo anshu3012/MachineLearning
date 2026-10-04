@@ -19,7 +19,12 @@ tags: [subject/statistics, area/probability, step/foundations, concept/expected-
 
 ![From the sample space of a die to its expected value and variance](images/overview.png)
 
-Figure 1 shows the path this Note follows for one die. The faces form the sample space; a random variable $X$ writes each face as a number; the distribution gives each number's probability. From the distribution we compute the **expected value** $E[X] = 3.5$, the centre, and the **variance** $\mathrm{Var}(X) = 35/12$, the spread.
+Figure 1 shows the path this Note follows for one die:
+
+1. the faces form the sample space;
+2. a random variable $X$ writes each face as a number;
+3. the distribution gives each number's probability;
+4. from the distribution we compute the **expected value** $E[X] = 3.5$, the centre, and the **variance** $\mathrm{Var}(X) = 35/12$, the spread.
 
 Random variables, discrete and continuous ones, and probability distributions are introduced in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md). Here we look closer at what a random variable is, then compute its mean and variance.
 
@@ -27,7 +32,7 @@ Random variables, discrete and continuous ones, and probability distributions ar
 
 > **Key point:** Despite its name, a random variable is not a variable but a function: its input is an outcome from the sample space, its output is a real number, and the rule in between is set by the event we want to study.
 
-The name "random variable" is misleading. A random variable is a **function**: a rule that takes an input and turns it into an output, like a vending machine that turns a button press into a snack.
+The name "random variable" is misleading. A random variable (G-1620) is a **function**: a rule that takes an input and turns it into an output, like a vending machine that turns a button press into a snack.
 
 Stated as a definition: a random variable is a function that maps each outcome of a random experiment (each member of the sample space) to a real number.
 
@@ -103,9 +108,38 @@ A random variable whose outputs are separate values, as here, is discrete; one w
 
 > **Key point:** The expected value $E[X]$ is the long-run average of a random variable: each possible value times its probability, summed. For a die it is 3.5.
 
-The **mean of a random variable**, usually called its **expected value**, is the average outcome of a random process repeated many times. More technically, it is a weighted average of the possible values, each weighted by its probability.
+The **mean of a random variable** (G-1199), usually called its **expected value** (G-725), is the average outcome of a random process repeated many times. More technically, it is a weighted average of the possible values, each weighted by its probability.
 
-### 3.1 The mean as a weighted average
+### 3.1 A bet repeated many times
+
+> **Key point:** If a bet is repeated many times, the average gain per bet is each outcome times its probability, added up: here 0.66 rupees.
+
+**The story.** In a small town of 213 people, 37 have heard of a certain old film and 176 have not. A friend offers a bet: "I bet you 1 rupee that the next person we meet has heard of the film." So we lose 1 rupee if they have, and win 1 rupee if they have not.
+
+**Counts to probabilities.** A randomly met person has heard of the film with probability $37/213 = 0.17$, and has not with probability $176/213 = 0.83$. Write the outcome of one bet as a number: $-1$ (lose) with probability 0.17, $+1$ (win) with probability 0.83.
+
+**Make the bet 100 times.** We will win some and lose some:
+
+1. losses: about $0.17 \times 100 = 17$ bets, each $-1$: $-17$ rupees;
+2. wins: about $0.83 \times 100 = 83$ bets, each $+1$: $+83$ rupees;
+3. total: $-17 + 83 = +66$ rupees after 100 bets;
+4. per bet: $66/100 = 0.66$ rupees.
+
+![A 1-rupee bet made 100 times: 17 losses (red, −1) and 83 wins (green, +1) total +66 rupees, 0.66 per bet; the 100s cancel and leave (−1)(0.17) + (1)(0.83). Idea after StatQuest, "Expected Values, Main Ideas!!!"](images/bet_100.gif){height=42%}
+
+In Figure 3, watch the last step: we multiplied by 100 and then divided by 100, so the 100s cancel. What is left is each outcome times its probability:
+
+$$(-1)(0.17) + (+1)(0.83) = 0.66$$
+
+This number, the average gain per bet over many bets, is the **expected value** of the bet, written $E[X] = 0.66$. Each single bet still wins or loses a whole rupee; 0.66 is what we gain per bet *on average*. With the unrounded probabilities $37/213$ and $176/213$ the value is $139/213 = 0.65$ (notebook, section 3a).
+
+**A second bet.** Now the friend pays us 10 rupees if the next person has heard of the film, and we pay 1 rupee if not. The outcomes change, the probabilities do not:
+
+$$E[X] = 10 \times 0.17 + (-1) \times 0.83 = 0.87$$
+
+On average we gain 0.87 rupees per bet, so in the long run the bet is worth taking.
+
+### 3.2 Another way to see it: the mean as a weighted average
 
 > **Key point:** The ordinary mean can be rewritten as each distinct value times its share of the data; the expected value uses probabilities in place of shares.
 
@@ -119,7 +153,7 @@ $$\bar{x} = \frac{2 \times 5 + 1 \times 4 + 3 \times 3}{6} = \frac{2}{6} \times 
 
 The second form says: take each **distinct** value and multiply it by the share of the data it makes up. A share of the data is an empirical probability (see the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md)). Replacing the shares by true probabilities gives the expected value.
 
-### 3.2 The formula
+### 3.3 The formula
 
 > **Key point:** $E[X] = \sum x_i \thinspace P(X = x_i)$, summed over the possible values.
 
@@ -144,7 +178,7 @@ The difference has expected value 0 because the table is symmetric: each positiv
 
 > **Extra:** For a coin with head = 1, $E[X] = P(\text{head})$. The same holds for any Bernoulli variable (see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)): $E[X] = 1 \cdot p + 0 \cdot (1 - p) = p$. The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md).
 
-### 3.3 Checking by simulation
+### 3.4 Checking by simulation
 
 > **Key point:** The average of 100,000 simulated die rolls is 3.4998, within 0.0002 of the expected value 3.5.
 
@@ -162,15 +196,52 @@ The difference has expected value 0 because the table is symmetric: each positiv
 
 The result is not a coincidence: the expected value is exactly the number such averages settle on.
 
+![The running average of the same 100,000 die rolls (seed 42), on a log axis: wide swings early, then it settles on E[X] = 3.5](images/running_mean.gif){height=40%}
+
+Figure 4 replays those rolls one average at a time. Watch the early frames: after 3 rolls the average is 3.33 and after 30 it is 3.80; only after thousands of rolls does it stay on the dashed line.
+
 > **Extra:** For a continuous random variable, the sum becomes an integral over the PDF $f(x)$ (see the [PDF Note](../242-pdf-and-continuous-cdf/note.md)): $E[X] = \int x \thinspace f(x)\thinspace dx$. The idea is the same: each value weighted by how likely it is.
 
 ## 4. Variance of a random variable
 
-> **Key point:** The variance $\mathrm{Var}(X)$ is the expected squared distance of the random variable from its expected value; for a die it is $35/12 \approx 2.92$.
+> **Key point:** The **variance of a random variable** (G-2076), $\mathrm{Var}(X)$, is the expected squared distance of the random variable from its expected value; for a die it is $35/12 \approx 2.92$.
 
 The variance of a set of data values is the average squared distance of the values from their mean (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The variance of a random variable is built the same way, with the expected value taking the place of every average.
 
-### 4.1 From the data formula to the random-variable formula
+### 4.1 Variance term by term
+
+> **Key point:** For each possible value, take its distance from the mean, square it, weight it by the value's probability, and add: for the workouts example this gives 1.19.
+
+**The example.** Let $X$ be the number of workouts a person does in a week. Its distribution is:
+
+| $x$ | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| $P(X = x)$ | 0.1 | 0.15 | 0.4 | 0.25 | 0.1 |
+
+Its expected value is $0(0.1) + 1(0.15) + 2(0.4) + 3(0.25) + 4(0.1) = 2.1$ workouts.
+
+**The mechanism.** For each value:
+
+1. the distance from the mean, $x - 2.1$;
+2. squared, so that distances below and above the mean both count as positive;
+3. weighted by the probability of that value.
+
+| $x$ | $(x - 2.1)^2$ | $	imes P$ | term |
+|---|---|---|---|
+| 0 | 4.41 | 0.1 | 0.4410 |
+| 1 | 1.21 | 0.15 | 0.1815 |
+| 2 | 0.01 | 0.4 | 0.0040 |
+| 3 | 0.81 | 0.25 | 0.2025 |
+| 4 | 3.61 | 0.1 | 0.3610 |
+| | | **sum** | **1.19** |
+
+The variance is $\mathrm{Var}(X) = 1.19$, and the **standard deviation** (G-1870) is its square root, $\sqrt{1.19} = 1.09$ workouts.
+
+![Variance term by term on the workouts distribution: each bar's distance from the mean 2.1 is squared and weighted by its probability, the terms add to 1.19, and one standard deviation, 1.09, either side of the mean spans 1.01 to 3.19. Idea after Khan Academy, "Variance and standard deviation of a discrete random variable"](images/workouts_var.gif){height=42%}
+
+In Figure 5, watch which terms are large: the bars at 0 and 4 are far from 2.1, so even with probability 0.1 they contribute most. The tall bar at 2 sits almost on the mean and adds only 0.004. In the last frame, one standard deviation either side of the mean runs from about 1 to about 3.2, which covers the bulk of the probability: a quick check that 1.09 is a sensible measure of spread (notebook, section 4a).
+
+### 4.2 From the data formula to the random-variable formula
 
 > **Key point:** In the data formula, replace the mean by $E[X]$ and the averaging by another expected value: $\mathrm{Var}(X) = E[(X - E[X])^2]$.
 
@@ -178,7 +249,13 @@ For data, the (population) variance is
 
 $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
-The data formula does three things: subtract the mean from each value, square each distance, and average the squares. For a random variable:
+The data formula does three things:
+
+1. subtract the mean from each value;
+2. square each distance;
+3. average the squares.
+
+For a random variable:
 
 - the mean $\bar{x}$ becomes the expected value $E[X]$;
 - each value $x_i$ becomes the random variable $X$ itself, so the squared distance is the random quantity $(X - E[X])^2$;
@@ -192,11 +269,15 @@ The data formula does three things: subtract the mean from each value, square ea
    Each has probability $1/6$:
    $$\mathrm{Var}(X) = \frac{6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25}{6} = \frac{17.5}{6} = \frac{35}{12} \approx 2.917$$
 
-The **standard deviation** of $X$ is the square root, $\sqrt{35/12} \approx 1.708$, back in the units of $X$.
+The standard deviation of $X$ is the square root, $\sqrt{35/12} \approx 1.708$, back in the units of $X$.
+
+![Each face's squared distance from 3.5 drawn as a real square; the variance is their average area, 35/12, and the standard deviation is the side of that average square, 1.708](images/variance_squares.png)
+
+Figure 6 draws the example. Watch the two outer faces: their squares (6.25 each) hold 12.5 of the total area 17.5, so the faces far from the centre decide most of the variance.
 
 Weighting by probabilities matches the data formula that divides by $n$, not by $n - 1$. The $n - 1$ version estimates a population's variance from a sample; a random variable's distribution already describes the whole population.
 
-### 4.2 The shortcut formula
+### 4.3 The shortcut formula
 
 > **Key point:** $\mathrm{Var}(X) = E[X^2] - (E[X])^2$: the expected value of the square minus the square of the expected value.
 
@@ -214,7 +295,7 @@ The derivation uses three rules for expected values. They hold for any random va
 
 - **Constants:** a constant $c$ has $E[c] = c$. A constant takes one value with probability 1, so its average is itself. $E[X]$ is a constant too, a single number such as 3.5.
 - **Scaling:** $E[cX] = c\thinspace E[X]$. Multiplying every value by $c$ multiplies the weighted average by $c$.
-- **Sums:** $E[X + Y] = E[X] + E[Y]$, the **linearity of expectation**.
+- **Sums:** $E[X + Y] = E[X] + E[Y]$, the **linearity of expectation** (G-1100).
 
 Write $\mu = E[X]$ and expand the square $(X - \mu)^2 = X^2 - 2\mu X + \mu^2$:
 
@@ -245,11 +326,11 @@ Both formulas are used constantly, for discrete and continuous random variables 
 >
 > `rolls.var()` divides by $n$ (NumPy's default); on 100,000 rolls it lands within 0.001 of $35/12$.
 
-### 4.3 Same mean, different spread
+### 4.4 Same mean, different spread
 
 > **Key point:** Two random variables can share an expected value and differ in variance; the variance tells how far single outcomes stray from the centre.
 
-Figure 3 compares one die with the **average** of two dice, $(d_1 + d_2)/2$. Both have expected value 3.5. The single die is equally likely to land anywhere from 1 to 6, while the average piles up near 3.5: extreme values need both dice to be extreme.
+Figure 7 compares one die with the **average** of two dice, $(d_1 + d_2)/2$. Both have expected value 3.5. The single die is equally likely to land anywhere from 1 to 6, while the average piles up near 3.5: extreme values need both dice to be extreme.
 
 ![One die and the average of two dice: same expected value, different variance](images/spread.png)
 
@@ -282,7 +363,9 @@ The expected value says where the outcomes centre; the variance says how much a 
 
 **Built from**
 
-- CampusX, "Master Probability in Data Science: The Ultimate Crash Course! | Part 1 | CampusX", YouTube, https://www.youtube.com/watch?v=DUT4WEUngt0
+- CampusX, "Master Probability in Data Science: The Ultimate Crash Course! | Part 1 | CampusX", YouTube, https://www.youtube.com/watch?v=DUT4WEUngt0. The random variable as a function, the mean as a weighted average, the die examples and the variance derivation (sections 2, 3.2 to 3.4, 4.2 and 4.3).
+- Starmer, J. (StatQuest), "Expected Values, Main Ideas!!!", YouTube, https://www.youtube.com/watch?v=KLs_7b7SKi4. The bet repeated 100 times (section 3.1).
+- Khan Academy, "Variance and standard deviation of a discrete random variable", YouTube, https://www.youtube.com/watch?v=2egl_5c8i-g. The workouts example, term by term (section 4.1).
 
 **Other references**
 

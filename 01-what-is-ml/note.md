@@ -20,7 +20,7 @@ This Note is the second part of Note 1; the first part is the [Course map](../01
 
 ![Traditional programming vs Machine Learning](images/programming_vs_ml.png)
 
-Figure 1 shows the core idea. In traditional programming, we write the logic and the computer applies it. In Machine Learning, we give the computer inputs together with their outputs, and an algorithm finds the logic for us.
+Figure 1 shows the core idea. In traditional programming, we write the logic and the computer applies it. In Machine Learning (G-1140), we give the computer inputs together with their outputs, and an algorithm finds the logic for us.
 
 The rest of this Note covers:
 
@@ -49,7 +49,7 @@ In simpler terms: Machine Learning is all about learning from data.
 
 > **Key point:** Explicit programming means writing code for each specific scenario.
 
-**Explicit programming** means writing code for each specific scenario. For every situation the program must handle, we write the logic for it.
+**Explicit programming** (G-730) means writing code for each specific scenario. For every situation the program must handle, we write the logic for it.
 
 Explicit programming is how traditional software is built. The top half of Figure 1 shows the flow: we write a **program** containing our logic, give it an input, and get an output.
 
@@ -59,10 +59,10 @@ Explicit programming is how traditional software is built. The top half of Figur
 
 In ML we do not write the logic. The bottom half of Figure 1 shows what we do instead:
 
-1. We collect **data** that contains both inputs and their outputs. Each input variable is a **feature** (one column of the data table), the output we want to predict is the **target**, and each record is an **observation** (one row of the table).
+1. We collect **data** that contains both inputs and their outputs. Each input variable is a **feature** (G-772; one column of the data table), the output we want to predict is the **target** (G-1949), and each record is an **observation** (G-1374; one row of the table).
 2. We give the data to an **ML algorithm**, a general method for finding patterns.
-3. The algorithm explores the data and finds the **pattern** between input and output. This step is called **training**.
-4. The result is a **model**: the logic, found by the algorithm instead of written by us.
+3. The algorithm explores the data and finds the **pattern** between input and output. This step is called **training** (G-2003).
+4. The result is a **model** (G-1256): the logic, found by the algorithm instead of written by us.
 5. We give the model new inputs, and it produces the outputs.
 
 The advantage: we do not have to write code for each condition or case. The ML algorithm handles them automatically.
@@ -126,7 +126,7 @@ Advertising companies find out about the rule and write "big" or "massive" inste
 
 > **Key point:** Some problems have so many cases that no one can write them all. We learn them from examples instead, as humans do.
 
-Suppose we want a program that tells whether a picture contains a dog. Deciding what a picture contains is an **image classification** problem.
+Suppose we want a program that tells whether a picture contains a dog. Deciding what a picture contains is an **image classification** (G-919) problem.
 
 There are hundreds of dog breeds:
 
@@ -142,11 +142,11 @@ Instead, we use the same technique humans use. From childhood we were shown anim
 
 > **Key point:** Data analysis finds patterns we can see in graphs. Data mining uses ML to find patterns too hidden for graphs.
 
-First, what data analysis is. **Data analysis** is the process of searching data for patterns and hidden information, mostly by plotting graphs.
+First, what data analysis is. **Data analysis** (G-530) is the process of searching data for patterns and hidden information, mostly by plotting graphs.
 
 Sometimes the information is too well hidden to show up in any graph. For example, just by reading emails, we may be unable to spot which words make an email spam.
 
-**Data mining** means applying an ML algorithm to data to extract such hidden patterns. Figure 3 contrasts the two:
+**Data mining** (G-537) means applying an ML algorithm to data to extract such hidden patterns. Figure 3 contrasts the two:
 
 ![Data analysis vs data mining](images/analysis_vs_mining.png){width=80%}
 

@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, text width=3.4cm] (tr) at (0,0) {\textbf{X\_train}\\280 rows};
+  \node[box=cgrey, text width=3.4cm] (te) at (0,-4.2) {\textbf{X\_test}\\120 rows};
+  \node[box=cgreen, text width=4.6cm] (fit) at (5.4,0) {\textbf{fit}: learn and store\\[2pt]
+     \small mean\_ = [37.86, 69,807]\\ \small scale\_ = [10.20, 34,579]};
+  \node[box=corange, text width=4.6cm] (tf) at (5.4,-4.2) {\textbf{transform}\\[2pt] $(x - \text{mean}) / \text{std}$\\ \small with the stored numbers};
+  \draw[arrow] (tr) -- (fit);
+  \draw[arrow] (fit) -- node[right, note] {stored numbers} (tf);
+  \draw[arrow] (te) -- (tf);
+  \draw[arrow] (tr.south) .. controls (1.6,-2.2) .. (tf.north west);
+  \node[box=cgrey, fill=white, text width=6.8cm, anchor=west] (row) at (9.6,-1.5) {\textbf{first training row}\\[3pt]
+     age: $(26 - 37.86) / 10.20 = -1.16$\\[4pt]
+     salary: $(15000 - 69807) / 34579 = -1.58$};
+  \draw[arrow] (tf.east) -- (row.south west);
+  \node[note, text=cred, below=3pt of te] {never fit on the test set};
+\end{tikzpicture}
+\end{document}

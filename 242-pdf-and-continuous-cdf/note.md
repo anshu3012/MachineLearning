@@ -21,37 +21,28 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 
 Figure 1 shows where the PDF comes from. We take 100,000 CGPAs and draw a density histogram, in which each bar's **area** is the share of students in its bin. As the bins get narrower, the bars hug a smooth curve: the probability density function.
 
-We met this curve in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7) as the KDE drawn over a histogram, where we noted that its height is a density, not a probability. This Note explains why, shows how areas give probabilities, and builds the CDF of a continuous variable. How the curve is estimated from data is the topic of the [density estimation Note](../243-density-estimation-kde/note.md).
+We met this curve in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7) as the KDE drawn over a histogram, where we noted that its height is a density, not a probability. This Note goes step by step:
 
-## 2. The probability density function
+- why the probability of one exact value is 0 (section 2);
+- why probabilities are areas under the curve (section 3);
+- why the height is a density, and what a PDF is (sections 4 and 5);
+- the CDF of a continuous variable, and its link to the PDF (sections 7 and 8).
 
-> **Key point:** A PDF is the probability distribution function of a continuous random variable; unlike a PMF, its y axis is probability density, not probability.
+How the curve is estimated from data is the topic of the [density estimation Note](../243-density-estimation-kde/note.md).
 
-The probability density function (PDF) is a mathematical function that describes the probability distribution of a **continuous** random variable (see the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)). Its graph is an unbroken curve (Figure 2, left).
-
-The x axis works as before: it holds the values of the variable, for example CGPAs from 0 to 10, now with every decimal in between. The difference is the y axis. A PDF differs from a PMF in two ways:
-
-| | PMF | PDF |
-|---|---|---|
-| Random variable | discrete | continuous |
-| y axis | probability | probability density |
-| Probability of a range | sum of the bar heights | area under the curve |
-
-The density plot of the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7) already met this: its curve's height is a density, and probability is the area under it.
-
-The second row is the one to remember. On a PMF we read probabilities straight off the graph. On a PDF the height is a **probability density**, and the rest of this Note is about what that means.
-
-## 3. Why the y axis cannot be probability
+## 2. The probability of one exact value is 0
 
 > **Key point:** A continuous variable has infinitely many possible values, so the probability of any one exact value is 0; probabilities only exist for ranges.
 
-Pick one student and ask the probability that their CGPA is exactly 7.912. Between 0 and 10 there are infinitely many possible values: 7.912, 7.9121, 7.91201 and so on. Spreading a total probability of 1 over infinitely many values leaves 0 for each one:
+The curve in Figure 1 describes the CGPAs of students, a **continuous random variable** (G-466): it can take any value from 0 to 10, with every decimal in between (see the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)). The curve peaks at a CGPA of 7.5, where its height is 0.280. Is 0.280 the probability that a student's CGPA is exactly 7.5? It is tempting to read it that way, as we read a bar chart of a PMF. The answer is no.
+
+Pick one student and ask the probability that their CGPA is exactly 7.912. Not 7.9121, not 7.91199: exactly 7.912, to the last of infinitely many decimals. Between 0 and 10 there are infinitely many possible values. Spreading a total probability of 1 over infinitely many values leaves 0 for each one:
 
 $$P(X = 7.912) = 0$$
 
 The same shows up in real data. Among 100 students, perhaps one has a CGPA of 7.912 to three decimals. Ask for 7.912959 and almost certainly nobody has it; the finer we ask, the closer the share gets to 0.
 
-Shrinking a range shows it with numbers. For the CGPA curve of Figure 2, the probability of a CGPA between 8 and $8 + h$ falls to 0 as the width $h$ shrinks:
+Shrinking a range shows it with numbers. For the CGPA curve, the probability of a CGPA between 8 and $8 + h$ falls to 0 as the width $h$ shrinks:
 
 | Width $h$ | $P(8 \le X \le 8 + h)$ | $P(8 \le X \le 8 + h)\thinspace/\thinspace h$ |
 |---|---|---|
@@ -60,23 +51,25 @@ Shrinking a range shows it with numbers. For the CGPA curve of Figure 2, the pro
 | 0.01 | 0.00264 | 0.2639 |
 | 0.001 | 0.000264 | 0.2642 |
 
-So a graph of "probability at each $x$" would be flat at 0 everywhere and tell us nothing. The last column, however, settles on a number: 0.264. The settled value, 0.264, is the density at 8 (Section 5).
+So a graph of "probability at each $x$" would be flat at 0 everywhere and tell us nothing. The last column, however, settles on a number: 0.264. The settled value, 0.264, is the density at 8 (section 5). Figure 2 animates the table: as the strip at 8 narrows, watch the orange probability sink to 0 while the blue ratio flattens onto the dashed line at 0.264.
 
-## 4. Area under the curve is probability
+![A strip from 8 to 8 + h narrows from h = 1 to h = 0.001: its probability goes to 0, probability divided by width settles at f(8) = 0.264](images/shrink_strip.gif)
+
+## 3. Area under the curve is probability
 
 > **Key point:** The total area under a PDF is 1; the area between two values $a$ and $b$ is the probability that the variable falls between them.
 
-The whole area under the CGPA curve stands for the probability that a student's CGPA is somewhere between 0 and 10. A CGPA somewhere in that range is certain, so the **total area under every PDF is 1**.
+A single value has probability 0, so we ask about a range instead. "A CGPA of about 8" becomes "a CGPA between 7.9 and 8.1". A range has a width, so the curve above it encloses an area, and that area is the probability: 0.0528 for 7.9 to 8.1. A single value is a line with no width, so its area, and its probability, is 0.
 
-A slice of the area gives a smaller probability. The area between 8 and 9 is the probability of a CGPA between 8 and 9 (Figure 2, left). Since the curve is not a rectangle, the area is found by **integration**, which adds up the area of infinitely many infinitely thin strips under the curve.
+The whole area under the CGPA curve stands for the probability that a student's CGPA is somewhere between 0 and 10. A CGPA somewhere in that range is certain, so the **total area under every PDF is 1**, just as the bars of a PMF add up to 1.
+
+A wider slice gives a larger probability. The area between 8 and 9 is the probability of a CGPA between 8 and 9 (Figure 3, left). Since the curve is not a rectangle, the area is found by **integration** (G-957), which adds up the area of infinitely many infinitely thin strips under the curve.
 
 1. **In words:** the probability that $X$ falls between $a$ and $b$ is the area under the PDF from $a$ to $b$.
-2. **Formula:**
+2. **Example:** for the CGPA curve, the area from 8 to 9 is 0.209. About 21% of students have a CGPA between 8 and 9.
+3. **Formula:**
    $$P(a \le X \le b) = \int_a^b f(x)\thinspace dx$$
-   The symbol $\int_a^b$ reads "the area from $a$ to $b$ under", and $dx$ marks $x$ as the variable along the horizontal axis.
-3. **Example:** for the CGPA curve,
-   $$P(8 \le X \le 9) = \int_8^9 f(x)\thinspace dx = 0.209$$
-   About 21% of students have a CGPA between 8 and 9.
+   The symbol $\int_a^b$ reads "the area from $a$ to $b$ under", and $dx$ marks $x$ as the variable along the horizontal axis. So $P(8 \le X \le 9) = \int_8^9 f(x)\thinspace dx = 0.209$.
 
 ![Probability is area under the PDF: between 8 and 9 (left), and a thin slice from 8 to 8.1 (right)](images/area_probability.png)
 
@@ -91,17 +84,44 @@ Because a single point has zero width, it has zero area. So for a continuous var
 > cgpa = stats.beta(7, 3, scale=10)
 > # area by numerical integration
 > integrate.quad(cgpa.pdf, 8, 9)[0]   # 0.2088
-> # the same area from the CDF (Section 7)
+> # the same area from the CDF (section 7)
 > cgpa.cdf(9) - cgpa.cdf(8)           # 0.2088
+> cgpa.cdf(8.1) - cgpa.cdf(7.9)       # 0.0528
+> cgpa.pdf(7.5)                       # 0.280, the peak height
 > ```
 >
 > The curve is a scaled beta distribution, chosen because it lives exactly on 0 to 10; any smooth curve with area 1 would do.
+
+## 4. Bars whose area is probability: the PDF
+
+> **Key point:** If each bar's area, not its height, is the probability of its bin, the heights stay put as the bins narrow and trace a curve; that height is a probability density, and the curve is the PDF.
+
+Where does the curve come from, and what is its height? Start from data: the 100,000 CGPAs, cut into bins. There are two ways to draw a bar for each bin, and Figure 4 draws both side by side as the bins get narrower.
+
+![The same CGPAs in narrower and narrower bins. Left: bar area = share of students, the heights stay put and settle onto a curve. Right: bar height = share, every bar sinks towards 0 (idea after 3Blue1Brown, "Why 'probability of 0' does not mean 'impossible'")](images/heights_vs_areas.gif)
+
+1. **Height = probability (right panel).** Each bar's height is the share of students in its bin. Halve the bin width and each bin holds about half as many students, so every bar roughly halves: the tallest bar falls from 0.507 at width 2 to 0.015 at width 0.05. In the limit, all bars sink to a flat line at 0, the "probability at each $x$" of section 2, which tells us nothing about the shape.
+2. **Area = probability (left panel).** Each bar's height is the share divided by the bin width, so its **area**, height times width, is the share. Halve the width and the share roughly halves too, so the height stays about the same: the tallest bar stays between 0.25 and 0.29 at every width. The bars keep the shape and settle onto a smooth curve. At every width, the total area of the bars is 1.
+
+The height on the left is "probability divided by width": a probability **per unit** of CGPA. It is called a **probability density** (G-1569). The curve the bars settle onto is the **probability density function (PDF)** (G-1568): the probability distribution function of a continuous random variable. Its graph is an unbroken curve, and the probability of any range is the area under it, as in section 3.
+
+The x axis works as for a PMF: it holds the values of the variable. The difference is the y axis:
+
+| | PMF | PDF |
+|---|---|---|
+| Random variable | discrete | continuous |
+| y axis | probability | probability density |
+| Probability of a range | sum of the bar heights | area under the curve |
+
+The second row is the one to remember. On a PMF we read probabilities straight off the graph. On a PDF the height is a density. Figure 5 puts the two side by side: bars we can read as probabilities, and a curve whose height we cannot. The density plot of the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7) already met this: its curve's height is a density, and probability is the area under it.
+
+![A PMF (sum of two dice, left) and a PDF (CGPA, right): the bar heights are probabilities, the curve's height is a density](images/pmf_vs_pdf.png)
 
 ## 5. What the density at a point means
 
 > **Key point:** The density at $x$ is the probability per unit of $x$ near $x$: over a narrow width $h$, the probability is about $f(x) \times h$.
 
-The density $f(x)$ is what probability turns into when we divide by the width of a narrow range (the last column of the table in Section 3). Turned around, a thin strip under the curve is almost a rectangle of height $f(x)$ and width $h$ (Figure 2, right).
+The density $f(x)$ is what probability turns into when we divide by the width of a narrow range (the last column of the table in section 2). Turned around, a thin strip under the curve is almost a rectangle of height $f(x)$ and width $h$ (Figure 3, right).
 
 1. **In words:** the probability of landing in a narrow range is about the density times the width of the range.
 2. **Formula:**
@@ -122,17 +142,19 @@ The density histogram of Figure 1 rests on the same idea. A density bar has heig
 
 The famous continuous distributions of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) (Figure 4) each have a PDF formula:
 
-- **Normal distribution:** parameters $\mu$ (mean, location) and $\sigma$ (standard deviation, scale). Much natural data follows it. Its PDF, worked through in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), is
+- **Normal distribution** (G-1343): parameters $\mu$ (mean, location) and $\sigma$ (standard deviation, scale). Much natural data follows it. Its PDF, worked through in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), is
   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
-- **Log-normal distribution:** looks like a normal curve pushed to the left, with a long right tail. Its parameters are also $\mu$ and $\sigma$, those of the logarithm of the variable (SciPy `lognorm` docs).
+- **Log-normal distribution** (G-1115): looks like a normal curve pushed to the left, with a long right tail. Its parameters are also $\mu$ and $\sigma$, those of the logarithm of the variable (SciPy `lognorm` docs).
 
-The **Poisson distribution** (parameter $\lambda$) is often listed beside them, but it counts events (0, 1, 2, ...), so it is discrete and has a PMF, not a PDF. SciPy, for example, gives `poisson` a `pmf` and no `pdf`. Each of these distributions gets its own Note later.
+The **Poisson distribution** (G-1509), with parameter $\lambda$, is often listed beside them, but it counts events (0, 1, 2, ...), so it is discrete and has a PMF, not a PDF. SciPy, for example, gives `poisson` a `pmf` and no `pdf`. Each of these distributions gets its own Note later. Figure 6 shows one member of each family, with parameters picked only for illustration: two smooth curves, and one set of bars.
+
+![Normal (mean 0, standard deviation 1) and log-normal (μ = 0, σ = 0.5) PDFs, and the Poisson PMF with λ = 3](images/famous_pdfs.png)
 
 ## 7. The CDF of a continuous variable
 
 > **Key point:** The CDF $F(x) = P(X \le x)$ is the area under the PDF to the left of $x$; it rises smoothly from 0 to 1.
 
-The CDF has the same definition as for a discrete variable (see the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md)): the probability of a value at most $x$. For a continuous variable, "at most $x$" is the area under the PDF from the far left up to $x$.
+The **cumulative distribution function** (CDF, G-515) has the same definition as for a discrete variable (see the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md)): the probability of a value at most $x$. For a continuous variable, "at most $x$" is the area under the PDF from the far left up to $x$.
 
 1. **In words:** the CDF at $x$ is the whole area under the PDF to the left of $x$.
 2. **Formula:**
@@ -140,7 +162,7 @@ The CDF has the same definition as for a discrete variable (see the [PMF and dis
    The letter $t$ runs along the axis up to $x$; $-\infty$ means "from the far left".
 3. **Example:** adult heights in a group follow a normal distribution with mean 165 cm and standard deviation 10 cm. Half the area lies left of the mean, so $F(165) = 0.5$: half the people are 165 cm or shorter. The area left of 150 is $F(150) = 0.067$: about 7% are 150 cm or shorter.
 
-Figure 3 puts the two functions one above the other. The same point means different things on each:
+Figure 7 puts the two functions one above the other. The same point means different things on each:
 
 - **On the PDF at 165:** the height $f(165) = 0.0399$ is a density. Roughly, heights near 165 cm are the most common ones.
 - **On the CDF at 165:** the height $F(165) = 0.5$ is a probability: the chance of 165 cm **or less**.
@@ -164,20 +186,24 @@ The CDF of a continuous variable has no steps: it rises smoothly, steepest where
 
 ## 8. How the PDF and CDF are linked
 
-> **Key point:** The area under the PDF gives the CDF, and the slope of the CDF gives the PDF; in calculus terms, integration goes one way and differentiation the other.
+> **Key point:** The area under the PDF gives the CDF, and the slope (G-1823) of the CDF gives the PDF; in calculus terms, integration goes one way and differentiation (G-608) the other.
 
-The two curves of Figure 3 carry the same information:
+The two curves of Figure 7 carry the same information:
 
-- **PDF to CDF:** the CDF at $x$ is the area under the PDF up to $x$ (Section 7). Collecting area is integration.
+- **PDF to CDF:** the CDF at $x$ is the area under the PDF up to $x$ (section 7). Collecting area is integration.
 - **CDF to PDF:** where the CDF climbs steeply, much probability is packed into a short range, so the density is high. The slope of the CDF at $x$ is the PDF at $x$. Taking a slope is differentiation.
 
 1. **In words:** the steepness of the CDF at a point equals the height of the PDF there.
 2. **Formula:**
    $$f(x) = \frac{dF(x)}{dx} \approx \frac{F(x + 0.5) - F(x - 0.5)}{1}$$
-   The left side is the derivative, the exact slope. The right side measures the rise of the CDF over a step of 1 around $x$.
+   The left side is the derivative (G-595), the exact slope. The right side measures the rise of the CDF over a step of 1 around $x$.
 3. **Example:** for the heights at 165,
    $$\frac{F(165.5) - F(164.5)}{1} = 0.0399 = f(165)$$
    At 150 the same rise is 0.0130, and $f(150) = 0.0130$: the CDF is flatter there, and the PDF lower.
+
+Figure 8 slides a tangent line along the heights CDF. Watch its slope, printed in the top title: it equals the PDF's height in the bottom panel at every point, largest at 165 and small in both tails.
+
+![A tangent slides along the CDF of heights; its slope traces out the PDF below](images/slope_is_pdf.gif){height=45%}
 
 Calculus is not needed to use these ideas: libraries compute both functions. The link returns later: the z-table of the [standard normal Note](../251-standard-normal-and-z-table/note.md) is a table of areas under the normal PDF, that is, of its CDF.
 
@@ -202,6 +228,8 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 **Built from**
 
 - CampusX, "Session 40 - Probability Distribution Functions - PDF, PMF & CDF | DSMP 2023", YouTube, https://www.youtube.com/watch?v=C_QAURbgBqY
+- Khan Academy, "Probability density functions", YouTube, https://www.youtube.com/watch?v=Fvi9A_tEmXQ
+- 3Blue1Brown, "Why 'probability of 0' does not mean 'impossible' | Probabilities of probabilities, part 2", YouTube, https://www.youtube.com/watch?v=ZA4JkHKZM50
 
 **Other references**
 
@@ -211,6 +239,7 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 
 | Term | Meaning |
 |---|---|
+| Probability density | Probability per unit of $x$: the height of a PDF, whose area over a range is a probability |
 | Integration | Finding the area under a curve by adding up infinitely many thin strips |
 | $\int_a^b f(x)\thinspace dx$ | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$ |
 | Log-normal distribution | A right-skewed continuous distribution whose logarithm is normal |

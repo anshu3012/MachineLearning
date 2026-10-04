@@ -41,6 +41,10 @@ In simple linear regression, the loss is the mean squared error, and $\hat y_i =
 
 The loss is the algorithm's eyes. Without it, the algorithm has no way to know which direction is better.
 
+![Gradient descent on the 30 points of Figure 6 that follow y = 2x + 1: the line moves (left) while its MSE loss falls (right)](images/train_loop.gif){height=45%}
+
+Figure 2 runs this loop from $m = 0$, $b = 0$ with learning rate 0.01. Watch the loss fall from 156 to 1.45 in two steps, then creep down to 0.12 by step 500 as the line settles on the points.
+
 ### 3.2 The loss inside a neural network
 
 > **Key point:** Each observation goes forward through the network, its loss is computed, and the weights and biases are adjusted to lower that loss. Repeat for every observation, for many epochs.
@@ -61,8 +65,8 @@ The weights and biases that give the smallest loss are the trained network. How 
 
 Strictly, the two words mean different things:
 
-- **Loss function** (also called **error function**): the error on a single training observation, e.g. $(y_i - \hat y_i)^2$.
-- **Cost function**: the average of the losses over a batch of observations, or over the whole training set, e.g. $\frac{1}{n}\sum (y_i - \hat y_i)^2$.
+- **Loss function** (G-1130, also called **error function**): the error on a single training observation, e.g. $(y_i - \hat y_i)^2$.
+- **Cost function** (G-492): the average of the losses over a batch of observations, or over the whole training set, e.g. $\frac{1}{n}\sum (y_i - \hat y_i)^2$.
 
 Four students show the difference:
 
@@ -79,6 +83,10 @@ Four students show the difference:
 3. **Example:**
    $$J = \frac{0.04 + 0.01 + 0.04 + 0.04}{4} = 0.0325$$
 
+![Each bar is one student's loss; the dashed line is the cost, their average](images/loss_vs_cost.png){height=28%}
+
+Figure 3 shows the difference at a glance: four losses, one per student, and one cost line through their middle.
+
 > **Extra:** Other Notes, such as the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), use "cost function" loosely as another name for the loss. Libraries also blur the line: by default Keras averages the losses over the batch and reports that average as the loss (Keras docs, Losses).
 
 ## 5. Mean squared error
@@ -89,7 +97,7 @@ Four students show the difference:
 
 > **Key point:** Loss $(y - \hat{y})^2$; cost $\frac{1}{n}\sum (y_i - \hat y_i)^2$. Also called squared loss or L2 loss.
 
-The **mean squared error** (MSE) is defined in the [regression metrics Note](../52-regression-metrics/note.md), section 3. As a training loss it is also called the **squared loss** or **L2 loss**.
+The **mean squared error** (MSE, G-1201) is defined in the [regression metrics Note](../52-regression-metrics/note.md), section 3. As a training loss it is also called the **squared loss** or **L2 loss**.
 
 The square is there so that errors cannot cancel. In the table of Section 4, the raw errors add up to $0.2 + 0.1 - 0.2 + 0.2 = 0.3$: student 3's negative error hides part of the others. Squaring makes every error count as positive.
 
@@ -108,7 +116,7 @@ What moves the weights is the slope of the loss, $\partial L/\partial \hat{y}$ (
 
 ![Left: the loss of one observation against its error. Right: its slope, which sets how hard the observation pushes the weights](images/loss_shapes.png){height=33%}
 
-Figure 2 (blue) shows both: the loss is a parabola, and its slope a straight line through 0. Observations far from the prediction drive the weight updates.
+Figure 4 (blue) shows both: the loss is a parabola, and its slope a straight line through 0. Observations far from the prediction drive the weight updates.
 
 ### 5.3 Advantages and disadvantages
 
@@ -123,7 +131,7 @@ Advantages:
 Disadvantages:
 
 - **Squared units:** a loss of 5 means 5 LPA², not 5 LPA. Its square root, the RMSE, is back in LPA.
-- **Not robust to outliers:** the 50-lakh student of Section 5.2 dominates the updates, and the network bends towards it, away from the other students (Figure 3 in Section 7).
+- **Not robust to outliers:** the 50-lakh student of Section 5.2 dominates the updates, and the network bends towards it, away from the other students (Figure 6 in Section 7).
 
 > **Extra:** "One minimum" holds for a linear model only. As a function of a network's weights, even the MSE has several minima, because the network sits between the loss and the weights (see section 5.2 of the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md)). This is true for every loss in this Note.
 
@@ -152,9 +160,13 @@ With MSE, the output layer needs a linear activation (no activation at all), bec
 
 > **Key point:** MAE takes the absolute error instead of the square. Its units are those of $y$ and outliers pull less, but its slope jumps at 0.
 
-The **mean absolute error** (MAE) is defined in the [regression metrics Note](../52-regression-metrics/note.md), section 2. As a training loss it is also called **L1 loss**: loss $|y_i - \hat y_i|$ for one observation, cost $\frac{1}{n}\sum |y_i - \hat y_i|$ over $n$ observations.
+The **mean absolute error** (MAE, G-1194) is defined in the [regression metrics Note](../52-regression-metrics/note.md), section 2. As a training loss it is also called **L1 loss**: loss $|y_i - \hat y_i|$ for one observation, cost $\frac{1}{n}\sum |y_i - \hat y_i|$ over $n$ observations.
 
-The only change from MSE is the absolute value in place of the square. The MAE's slope (Figure 2, orange) is $-1$ or $+1$, whatever the size of the error. The 50-lakh student now pushes exactly as hard as a student whose prediction is off by 1.
+The only change from MSE is the absolute value in place of the square. The MAE's slope (Figure 4, orange) is $-1$ or $+1$, whatever the size of the error. The 50-lakh student now pushes exactly as hard as a student whose prediction is off by 1.
+
+![One point is lifted from the pattern to 42 above it; the line is refitted with MSE (blue) and MAE (orange) each time](images/outlier_drag.gif){height=40%}
+
+Figure 5 drags one point away from the 30 points of Figure 6 that follow $y = 2x + 1$. Watch the MSE line tilt towards the point, rising by 3.7 at $x = 9$, while the MAE line does not move at all.
 
 Advantages:
 
@@ -174,7 +186,7 @@ So: no outliers, use MSE; outliers in the data, use MAE. In Keras, `loss="mae"`,
 
 > **Key point:** With many outliers, MSE follows them and MAE ignores them; Huber loss sits in between.
 
-Suppose 25% of the points are outliers. So many outliers are no longer rare mistakes: they are part of the data. MSE gives them a huge pull; MAE treats them like any other point. **Huber loss** (Huber 1964) combines the two:
+Suppose 25% of the points are **outliers** (G-1420): points far from the pattern the rest follow. So many outliers are no longer rare mistakes: they are part of the data. MSE gives them a huge pull; MAE treats them like any other point. **Huber loss** (G-905; Huber 1964) combines the two:
 
 - if an observation's error is small ($|y - \hat{y}| \le \delta$), it behaves like MSE;
 - if the error is large, it behaves like MAE.
@@ -188,7 +200,7 @@ Suppose 25% of the points are outliers. So many outliers are no longer rare mist
    $$L_\delta(e) = \begin{cases} \frac{1}{2} e^2 & |e| \le \delta \cr\delta \left(|e| - \frac{1}{2}\delta\right) & |e| > \delta \end{cases}$$
 3. **Example:** with $\delta = 1$, an error of 0.5 costs $\frac{1}{2} \times 0.5^2 = 0.125$; an error of 3 costs $1 \times (3 - 0.5) = 2.5$; the 50-lakh student's error of 42 costs $1 \times (42 - 0.5) = 41.5$, not 1764.
 
-The two pieces meet at $|e| = \delta$ with the same value and the same slope, so the loss is smooth everywhere (Figure 2, green). The Huber slope is the error itself for small errors and $\pm\delta$ beyond, so no observation can push harder than $\delta$.
+The two pieces meet at $|e| = \delta$ with the same value and the same slope, so the loss is smooth everywhere (Figure 4, green). The Huber slope is the error itself for small errors and $\pm\delta$ beyond, so no observation can push harder than $\delta$.
 
 $\delta$ is a hyperparameter: we try several values and keep the one that works best. In Keras: `loss=keras.losses.Huber(delta=1.0)`, which uses this same formula (Keras docs, Huber).
 
@@ -200,7 +212,7 @@ $\delta$ is a hyperparameter: we try several values and keep the one that works 
 
 ![A line fitted with each loss to 40 points, 10 of them outliers](images/outlier_fit.png){height=40%}
 
-Figure 3 fits a straight line to 40 points: 30 follow $y = 2x + 1$, and 10 (25%) sit 8 units above it. Each loss gives a different line:
+Figure 6 fits a straight line to 40 points: 30 follow $y = 2x + 1$, and 10 (25%) sit 8 units above it. Each loss gives a different line:
 
 | Loss | Fitted line |
 |---|---|
@@ -216,7 +228,7 @@ MSE has moved the line up by about $0.25 \times 8 = 2$, between the two groups. 
 
 > **Key point:** For two classes. One sigmoid output node; loss $-y\log\hat{y} - (1 - y)\log(1 - \hat{y})$.
 
-**Binary cross-entropy**, also called **log loss**, is the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../73-log-loss/note.md):
+**Binary cross-entropy** (G-304), also called **log loss**, is the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../73-log-loss/note.md):
 
 $$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y}), \qquad J = -\frac{1}{n}\sum_{i=1}^{n}\big[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\big]$$
 
@@ -229,6 +241,10 @@ Two students, with natural logs:
 
 1. Student 1 is placed ($y = 1$) and the network gives $\hat{y} = 0.73$. Only the first term is on: $L = -\log 0.73 = 0.315$.
 2. Student 2 is not placed ($y = 0$) and $\hat{y} = 0.25$. Only the second term is on: $L = -\log(1 - 0.25) = -\log 0.75 = 0.288$.
+
+![The loss for each label as the predicted probability changes, with the two students marked](images/bce_curves.png){height=32%}
+
+Figure 7 draws the two halves of the formula. Watch each curve shoot up as the prediction moves towards the wrong label: a confident wrong answer costs far more than a hesitant one.
 
 After each loss, gradient descent updates the weights, then the next student comes.
 
@@ -256,7 +272,7 @@ After each loss, gradient descent updates the weights, then the next student com
 
 > **Key point:** $k$ classes means $k$ output nodes with softmax, and one-hot encoded labels.
 
-Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** is the loss of softmax regression (see section 4.2 of the [softmax regression Note](../79-softmax-regression/note.md)). For one observation with $k$ classes:
+Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** (G-350) is the loss of softmax regression (see section 4.2 of the [softmax regression Note](../79-softmax-regression/note.md)). For one observation with $k$ classes:
 
 $$L = -\sum_{j=1}^{k} y_j \log \hat y_j = -y_1 \log \hat y_1 - y_2 \log \hat y_2 - y_3 \log \hat y_3$$
 
@@ -280,18 +296,26 @@ The labels are [one-hot encoded](../27-one-hot-encoding/note.md): yes = (1, 0, 0
 
 Student 1 gets a large loss because the network gave its true class only 0.2. After each loss, gradient descent updates the weights.
 
+![Softmax outputs of the two students; only the true class (green) enters the loss](images/cce_bars.png){height=28%}
+
+In Figure 8, the grey bars play no part in the loss: only the green bar's height matters.
+
 ## 10. Sparse categorical cross-entropy
 
 > **Key point:** The same loss as categorical cross-entropy, but the labels stay integers. No one-hot encoding is needed, and with many classes it saves memory and time.
 
-**Sparse categorical cross-entropy** uses exactly the same network (one softmax node per class) and the same loss. Only the labels differ: *yes*, *no*, *maybe* become the integers 0, 1, 2 instead of one-hot vectors.
+**Sparse categorical cross-entropy** (G-1839) uses exactly the same network (one softmax node per class) and the same loss. Only the labels differ: *yes*, *no*, *maybe* become the integers 0, 1, 2 instead of one-hot vectors.
 
 1. **In words:** read the true class from the integer label, pick that class's predicted probability, and take minus its log.
 2. **Formula:** for an observation with label $c$,
    $$L = -\log \hat y_c$$
 3. **Example:** student 1 has label 0 and $\hat{y} = (0.2, 0.3, 0.5)$, so $L = -\log 0.2 = 1.609$; student 2 has label 1, so $L = -\log 0.6 = 0.511$. These are exactly the numbers of Section 9.2.
 
-The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of them by 0. The sparse version goes straight to one log. With 10 classes the difference is small; with thousands of classes (words in a vocabulary, for instance) it saves both the one-hot matrix and the wasted work.
+The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of them by 0. The sparse version goes straight to one log (Figure 9).
+
+![Student 1 under both label formats: three products, two of them zero, against one lookup](images/sparse_vs_onehot.png){height=22%}
+
+ With 10 classes the difference is small; with thousands of classes (words in a vocabulary, for instance) it saves both the one-hot matrix and the wasted work.
 
 > **Python:** The two multi-class set-ups.
 >
@@ -314,7 +338,14 @@ The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of the
 
 > **Key point:** Regression: MSE, or MAE with outliers, or Huber with many. Two classes: binary cross-entropy. More classes: categorical cross-entropy, or its sparse version with many classes.
 
-Loss functions are not limited to these. Variational autoencoders use the KL divergence (Kingma and Welling 2014), GANs a discriminator (min-max) loss (Goodfellow et al. 2014), object detection the focal loss (Lin et al. 2017), and embeddings the triplet loss (Schroff et al. 2015) (Figure 1); the SVM's [hinge loss](../94-svm-soft-margin/note.md) also works for classification. Researchers design new losses for new problems, and Keras accepts our own loss functions too. Each loss has its strengths, and a poorly chosen one keeps the network from its best solution.
+Loss functions are not limited to these. Other problems have their own losses (Figure 1):
+
+- variational autoencoders: the KL divergence (Kingma and Welling 2014);
+- GANs: a discriminator (min-max) loss (Goodfellow et al. 2014);
+- object detection: the focal loss (Lin et al. 2017);
+- embeddings: the triplet loss (Schroff et al. 2015);
+- classification, as an alternative: the SVM's [hinge loss](../94-svm-soft-margin/note.md).
+ Researchers design new losses for new problems, and Keras accepts our own loss functions too. Each loss has its strengths, and a poorly chosen one keeps the network from its best solution.
 
 ## 12. Summary
 

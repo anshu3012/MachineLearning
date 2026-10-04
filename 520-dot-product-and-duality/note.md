@@ -29,17 +29,19 @@ The Note uses linear transformations and their matrices from the [linear transfo
 
 > **Key point:** Project $\mathbf{w}$ onto the line through $\mathbf{v}$, then multiply the length of that projection by the length of $\mathbf{v}$; the result is negative when the projection points away from $\mathbf{v}$.
 
-The PCA Notes use the **projection** (shadow) of a point onto a line, and the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 2.1) showed that its length is $u^{\mathsf T}x$ when $u$ is a unit vector. Here the line's vector need not have length 1, and that gives a full picture of the dot product.
+Recall the numeric rule: pair up the coordinates, multiply each pair, add. So $[1, 2] \cdot [3, 4] = 1 \times 3 + 2 \times 4 = 11$. The rule has a picture.
+
+The PCA Notes use the **projection** (G-1583) (shadow) of a point onto a line, and the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 2.1) showed that its length is $u^{\mathsf T}x$ when $u$ is a unit vector. Here the line's vector need not have length 1, and that gives a full picture of the dot product.
 
 1. **In words:** drop $\mathbf{w}$ straight onto the line through the origin and $\mathbf{v}$. Measure the length of this shadow, with a minus sign if it points opposite to $\mathbf{v}$. Multiply by the length of $\mathbf{v}$.
 2. **Formula:**
    $$\mathbf{v} \cdot \mathbf{w} = (\text{signed length of the projection of } \mathbf{w} \text{ onto } \mathbf{v}) \times \lVert \mathbf{v} \rVert$$
-3. **Example:** for $\mathbf{v} = [3, 1]$ and $\mathbf{w} = [1, 2]$ (Figure 2, left), the shadow of $\mathbf{w}$ ends at $[1.5, 0.5]$, so its length is $\sqrt{1.5^2 + 0.5^2} \approx 1.58$; and $\lVert \mathbf{v} \rVert = \sqrt{10} \approx 3.16$.
+3. **Example:** for $\mathbf{v} = [3, 1]$ and $\mathbf{w} = [1, 2]$ (Figure 2, first stop), the shadow of $\mathbf{w}$ ends at $[1.5, 0.5]$, so its length is $\sqrt{1.5^2 + 0.5^2} \approx 1.58$; and $\lVert \mathbf{v} \rVert = \sqrt{10} \approx 3.16$.
    $$\mathbf{v} \cdot \mathbf{w} = 1.58 \times 3.16 = 5, \qquad \text{and by components: } 3 \times 1 + 1 \times 2 = 5$$
 
-![The dot product as (signed projection length) times (length of v), in the three possible cases](images/projection_view.png)
+![w turns once around the origin while v = [3, 1] stays fixed; the purple bar is the shadow of w on the line of v, and the readout multiplies its signed length by the length of v. Picture after 3Blue1Brown, "Dot products and duality"](images/projection_sweep.gif){height=45%}
 
-Figure 2 shows the three cases. These are the signs of the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) (section 5.2), now read as shadows:
+In Figure 2, $\mathbf{w}$ turns once around the origin. Watch the purple shadow: it shrinks to nothing when $\mathbf{w}$ is perpendicular to $\mathbf{v}$, then grows on the other side, and the dot product changes sign with it. The animation stops at the three cases. These are the signs of the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) (section 5.2), now read as shadows:
 
 - **Same general direction:** the shadow points along $\mathbf{v}$, so the dot product is positive.
 - **Perpendicular:** the shadow is just the origin, the zero vector, so the dot product is 0.
@@ -58,6 +60,10 @@ The projection view treats the two vectors very differently: one casts the shado
 
 Any two vectors can be reached this way from two vectors of equal length, so the two views always agree.
 
+![Both views on Section 2's vectors: the shadows differ, the products agree (5), and after stretching v to 2v both give 10](images/order_symmetry.gif)
+
+In Figure 3, watch the two products as $\mathbf{v}$ stretches: on the left only the length grows, on the right only the shadow grows, and the two numbers stay equal.
+
 ## 4. Linear transformations from vectors to numbers
 
 > **Key point:** A linear transformation from 2D to the number line is fixed by the two numbers where $\hat{\imath}$ and $\hat{\jmath}$ land, so its matrix is $1 \times 2$; applying it looks exactly like a dot product.
@@ -68,7 +74,14 @@ Why should "multiply matching components and add" have anything to do with proje
 
 > **Key point:** A transformation to the number line is linear when evenly spaced dots on any line land evenly spaced.
 
-For a transformation to the number line, "grid lines stay parallel and evenly spaced" becomes: take any line of evenly spaced dots in the plane; after the transformation, the dots must still be evenly spaced on the number line (Figure 1, top). If some line of evenly spaced dots lands unevenly, the transformation is not linear.
+For a transformation to the number line, "grid lines stay parallel and evenly spaced" becomes: take any line of evenly spaced dots in the plane; after the transformation, the dots must still be evenly spaced on the number line. If some line of evenly spaced dots lands unevenly, the transformation is not linear.
+
+![The visual test: six evenly spaced dots sent to the number line by x - 2y (linear) and by 2^x - 2y (not linear). Test after 3Blue1Brown, "Dot products and duality"](images/dots_test.gif){height=45%}
+
+Figure 4 runs the test on six dots, spaced 0.4 apart on the line $y = 0.5$:
+
+- **$x - 2y$** sends them to $-1, -0.6, -0.2, 0.2, 0.6, 1$: still 0.4 apart, so it passes.
+- **$2^x - 2y$** sends them to $0, 0.32, 0.74, 1.30, 2.03, 3$: the gaps grow, so it is not linear.
 
 ### 4.2 The $1 \times 2$ matrix
 
@@ -105,6 +118,10 @@ To find the matrix, we ask where $\hat{\imath}$ and $\hat{\jmath}$ land (Figure 
 - **$\hat{\imath}$:** $\hat{\imath}$ and $\hat{u}$ are both unit vectors, so projecting $\hat{\imath}$ onto the line of $\hat{u}$ is the mirror image of projecting $\hat{u}$ onto the x-axis. The second is simply the x-coordinate of $\hat{u}$. So $\hat{\imath}$ lands on $u_x = 0.6$.
 - **$\hat{\jmath}$:** by the same symmetry, with the y-axis, $\hat{\jmath}$ lands on $u_y = 0.8$.
 
+![Projecting the unit vector i onto the line of u (0.6) mirrors projecting u onto the x-axis (u_x = 0.6)](images/mirror_landing.png){height=40%}
+
+In Figure 5, fold the picture along the mirror line: $\hat{\imath}$ swaps with $\hat{u}$, and the two purple shadows swap too, so both have length 0.6.
+
 So the matrix of the projection is $[u_x \ \ u_y] = [0.6 \ \ 0.8]$: the coordinates of $\hat{u}$, tipped on their side. Applying it to any vector is the dot product with $\hat{u}$.
 
 1. **In words:** the position of a vector's shadow on the line of a unit vector $\hat{u}$ is the dot product with $\hat{u}$.
@@ -140,13 +157,13 @@ So the dot product with a vector of any length is: project onto its line, then m
 
 Look back at what happened. We defined a linear transformation from the plane to the number line by pure geometry, projection, with no dot product in sight. Because it is linear, it has a $1 \times 2$ matrix. And because a $1 \times 2$ matrix times a vector is the same arithmetic as a dot product, the transformation is a dot product with some vector, here $\hat{u}$.
 
-Figure 3 shows the same thing for a transformation defined with no vector at all, only by where $\hat{\imath}$ and $\hat{\jmath}$ land (1 and $-2$). Watch the grid points squish onto the number line, $[4, 3]$ landing on $-2$; then the $1 \times 2$ matrix is tipped upright into the vector $\mathbf{v} = [1, -2]$, and projecting $[4, 3]$ onto its line and multiplying by its length gives the same $-2$. The picture follows Sanderson's *Essence of Linear Algebra*, chapter 9 (3Blue1Brown).
+Figure 6 shows the same thing for a transformation defined with no vector at all, only by where $\hat{\imath}$ and $\hat{\jmath}$ land (1 and $-2$). Watch the grid points squish onto the number line, $[4, 3]$ landing on $-2$; then the $1 \times 2$ matrix is tipped upright into the vector $\mathbf{v} = [1, -2]$, and projecting $[4, 3]$ onto its line and multiplying by its length gives the same $-2$. The picture follows Sanderson's *Essence of Linear Algebra*, chapter 9 (3Blue1Brown).
 
 ![Duality: a linear map to numbers, fixed by where the basis vectors land, sends every grid point to $x_1 - 2x_2$; the same numbers read as the vector $[1, -2]$ give the same answer as a projection](images/duality.gif)
 
 The same holds for every linear transformation whose output is a number, however it was defined: there is exactly one vector $\mathbf{v}$ such that applying the transformation is the same as taking the dot product with $\mathbf{v}$. The vector is the transformation's matrix tipped upright.
 
-This natural but surprising correspondence between two kinds of objects is an example of **duality**. For linear algebra:
+This natural but surprising correspondence between two kinds of objects is an example of **duality** (G-644). For linear algebra:
 
 - the dual of a vector is the linear transformation to numbers that it encodes, $\mathbf{x} \mapsto \mathbf{v} \cdot \mathbf{x}$;
 - the dual of a linear transformation from a space to numbers is a vector in that space.
@@ -161,7 +178,11 @@ On the surface, the dot product is a tool for projections and for testing whethe
 
 > **Key point:** $w^{\mathsf T}x + w_0$ projects $x$ onto the direction of $w$, scales by $\lVert w \rVert$ and shifts.
 
-Linear models score a feature vector $x$ (one value per **feature**, an input variable) with $w^{\mathsf T}x + w_0$, the left side of the hyperplane equation in the [equation of a hyperplane Note](../363-equation-of-a-hyperplane/note.md). The part $w^{\mathsf T}x$ is a linear transformation from feature vectors to numbers, and $w$ is its dual vector. Read as a projection: the score measures how far $x$ reaches along the direction of $w$, times $\lVert w \rVert$, plus the shift $w_0$. Points with equal shadows on the line of $w$ get equal scores; the hyperplane is the set of points whose score is 0.
+Linear models score a feature vector $x$ (one value per **feature** (G-772), an input variable) with $w^{\mathsf T}x + w_0$, the left side of the hyperplane equation in the [equation of a hyperplane Note](../363-equation-of-a-hyperplane/note.md). The part $w^{\mathsf T}x$ is a linear transformation from feature vectors to numbers, and $w$ is its dual vector. Read as a projection: the score measures how far $x$ reaches along the direction of $w$, times $\lVert w \rVert$, plus the shift $w_0$. Points with equal shadows on the line of $w$ get equal scores; the hyperplane is the set of points whose score is 0.
+
+![The score of a linear model with w = [3, 4] and shift -5: every line perpendicular to w is a line of equal score](images/score_projection.png){height=45%}
+
+In Figure 7, slide $x = [3, 1]$ along the blue line: its shadow on $w$ stays at 2.6, so its score stays at 8. The Extra below computes its distance from the red hyperplane.
 
 > **Extra:** Dividing the score by $\lVert w \rVert$ removes the "times the length" and leaves the signed distance of $x$ from the hyperplane: $(w^{\mathsf T}x + w_0) / \lVert w \rVert$. For $w = [3, 4]$, $w_0 = -5$ and $x = [3, 1]$: the score is $9 + 4 - 5 = 8$, and the distance is $8 / 5 = 1.6$. SVM's margin is built on this signed distance (see the [SVM maths Note](../93-svm-maths/note.md)).
 
@@ -174,7 +195,7 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 - **A layer of neurons:** row $j$ of the weight matrix is the dual vector of neuron $j$; the neuron's output before the activation is the projection of the input onto that row, scaled.
 - **PCA:** each principal component is a unit vector $u$, and a point's score on it is $u^{\mathsf T}x$, the position of its shadow on the line of $u$ (see the [PCA step by step Note](../48-pca-step-by-step/note.md)).
 
-> **Extra:** Recommender systems often give every user and every item a learned vector, an **embedding**, and predict a rating as their dot product (Koren et al. 2009). By duality, a user's vector is a linear scoring function over items: it projects each item's vector onto the user's taste direction.
+> **Extra:** Recommender systems often give every user and every item a learned vector, an **embedding** (G-677), and predict a rating as their dot product (Koren et al. 2009). By duality, a user's vector is a linear scoring function over items: it projects each item's vector onto the user's taste direction.
 
 ## 8. Summary
 

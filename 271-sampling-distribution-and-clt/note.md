@@ -18,9 +18,9 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt, concep
 
 ![From a population of any shape, through many samples, to the sampling distribution of the mean](images/sampling_distribution.png)
 
-Figure 1 shows the process this Note is built on. We draw many samples of size $n$ from a population, compute one number per sample (here the mean), and look at the distribution of those numbers. That distribution is a **sampling distribution**.
+Figure 1 shows the process this Note is built on. We draw many samples of size $n$ from a population, compute one number per sample (here the mean), and look at the distribution of those numbers. That distribution is a **sampling distribution** (G-1736).
 
-The **central limit theorem (CLT)** says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. The CLT holds for skewed, flat and even discrete populations, and it is the base of the next topics, confidence intervals and hypothesis testing.
+The **central limit theorem (CLT)** (G-364) says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. The CLT holds for skewed, flat and even discrete populations, and it is the base of the next topics, confidence intervals and hypothesis testing.
 
 This Note covers:
 
@@ -34,7 +34,7 @@ This Note covers:
 
 > **Key point:** We want a number about the whole population, but we can only measure samples.
 
-Recap (see the [what is statistics Note](../220-what-is-statistics/note.md)): the **population** is the entire group we want to study; a **sample** is the part we actually measure. A number computed from the population, such as $\mu$, is a **parameter**; the same number computed from a sample, such as $\bar{x}$, is a **statistic**.
+Recap (see the [what is statistics Note](../220-what-is-statistics/note.md)): the **population** (G-1525) is the entire group we want to study; a **sample** (G-1731) is the part we actually measure. A number computed from the population, such as $\mu$, is a **parameter** (G-1448); the same number computed from a sample, such as $\bar{x}$, is a **statistic** (G-1880).
 
 Our running example is the average monthly salary in India. The population is the salary of all 140 crore people. Asking all of them is impossible, so we ask, say, 50,000 people chosen at random from every state and district, and infer the national average from them.
 
@@ -46,7 +46,7 @@ The salaries of the whole population are a set of numbers, so they follow some d
 
 Now we build a sampling distribution in four steps:
 
-1. Choose a **sample size**, say $n = 50$ people.
+1. Choose a **sample size** (G-1727), say $n = 50$ people.
 2. Draw 50 people at random and record their salaries: sample 1.
 3. Repeat, drawing a new random sample of 50 each time, until we have, say, 100 samples: 100 sets of 50 numbers.
 4. Compute the mean of every sample: $\bar x_1, \bar x_2, \dots, \bar x_{100}$.
@@ -62,6 +62,10 @@ The statistic need not be the mean. If we compute the variance of each of the 10
 3. **Example:** three samples of size $n = 3$ give means
    $$\bar x_1 = \frac{2 + 4 + 9}{3} = 5, \quad \bar x_2 = \frac{1 + 3 + 5}{3} = 3, \quad \bar x_3 = \frac{6 + 7 + 8}{3} = 7$$
    The numbers 5, 3 and 7 are three points of the sampling distribution of the mean.
+
+Figure 2 draws this example. Watch each orange mark: it sits at the balance point of its sample's three blue values, and only the marks drop to the bottom line, where the sampling distribution is built.
+
+![Three samples of size 3 (blue values) and their means 5, 3 and 7 (orange), which become three points of the sampling distribution](images/three_samples.png)
 
 ### 3.1 Why sampling distributions matter
 
@@ -87,11 +91,21 @@ The first two are the topics of later Notes. The third is the subject of this No
 
 ![Samples of 30 from a skewed exponential population: each sample's mean drops into the histogram, which grows into the normal curve N(1, 1/30)](images/clt_pileup.gif)
 
-Figure 2 runs this experiment. The population on the left is strongly skewed: most values are near 0 and a few are large. Each sample of 30 values gives one mean, which drops into the histogram on the right. After 2000 samples, the histogram is close to the bell of $N(1, 1/30)$.
+Figure 3 runs this experiment. The population on the left is strongly skewed: most values are near 0 and a few are large. Each sample of 30 values gives one mean, which drops into the histogram on the right. After 2000 samples, the histogram is close to the bell of $N(1, 1/30)$.
 
-In the salary example: draw 100 people, record the mean salary, repeat 1000 times, and plot the 1000 means. The CLT says the plot is a normal curve. The shape of the salaries themselves does not matter: log-normal, uniform (every salary in a range equally likely), Pareto, binomial, or no named distribution at all.
+In the salary example: draw 100 people, record the mean salary, repeat 1000 times, and plot the 1000 means. The CLT says the plot is a normal curve. The shape of the salaries themselves does not matter. They may be:
+
+- log-normal;
+- uniform (every salary in a range equally likely);
+- Pareto;
+- binomial;
+- or no named distribution at all.
 
 An everyday picture: one die is flat, every face from 1 to 6 equally likely. The average of 30 dice, though, almost never lands near 1 or 6, because that needs nearly every die to be low, or nearly every die to be high. Most averages land near 3.5, and the further from 3.5, the rarer they get: a bell.
+
+Figure 4 tests this with four very different dice: a fair one, one that mostly rolls low, a U-shaped one that mostly rolls 1 or 6, and one that mostly rolls 6. For each die we compute the exact distribution of the sum of $n$ rolls. The sums drift to the right and spread out as $n$ grows, so to compare their shapes we re-centre and re-scale each one: subtract its mean $n\mu$ and divide by its standard deviation $\sqrt{n}\thinspace\sigma$ (section 4.2). Watch the bottom row: at $n = 1$ the four shapes are as different as the dice; by $n = 10$ they are close to one bell; at $n = 50$ all four sit on the same curve, the **standard normal distribution** $N(0, 1)$ (G-1873). Re-scaling the mean instead of the sum gives exactly the same picture, since the mean is the sum divided by $n$.
+
+![Four different dice (top) and the re-centred, re-scaled sum of n rolls of each (bottom) for n = 1 to 50: all four approach the same normal curve (idea after 3Blue1Brown, "But what is the Central Limit Theorem?")](images/dice_standardised.gif)
 
 The CLT makes no claim about the shape of the population or of a single sample. A sample of 100 salaries still looks skewed; only the **means** of many samples form a bell.
 
@@ -120,7 +134,7 @@ The CLT gives more than the shape. If the population has mean $\mu$ and variance
 - the mean of the sampling distribution is exactly $\mu$;
 - its variance is $\sigma^2/n$, where $n$ is the **sample size** (not the number of samples).
 
-The standard deviation of the sampling distribution has its own name, the **standard error** of the mean.
+The standard deviation of the sampling distribution has its own name, the **standard error** (G-1872) of the mean.
 
 1. **In words:** the standard error is the population standard deviation divided by the square root of the sample size. Because the variance is divided by $n$, the standard deviation is divided by $\sqrt{n}$.
 2. **Formula:**
@@ -128,6 +142,14 @@ The standard deviation of the sampling distribution has its own name, the **stan
 3. **Example:** a gamma population with mean 2 and variance 2 (so $\sigma = 1.414$), samples of $n = 50$:
    $$\sigma^2_{\bar{x}} = \frac{2}{50} = 0.04, \qquad SE = \frac{1.414}{\sqrt{50}} = \frac{1.414}{7.071} = 0.2$$
    The sample means vary around 2 with a standard deviation of only 0.2, while single values vary with a standard deviation of 1.414.
+
+**Why the square root.** When we add $n$ independent values, the **variances add**, not the standard deviations. So the sum has variance $n\sigma^2$ and standard deviation $\sqrt{n}\thinspace\sigma$: the spread of a sum grows, but only as $\sqrt{n}$. Dividing the sum by $n$ to get the mean divides that spread by $n$, which leaves $\sqrt{n}\thinspace\sigma / n = \sigma/\sqrt{n}$ (the Extra below writes it out).
+
+**A second example: 100 dice.** One fair die has $\mu = 3.5$ and $\sigma = 1.71$.
+
+1. **The sum of 100 dice** has mean $100 \times 3.5 = 350$ and standard deviation $\sqrt{100} \times 1.71 = 17.1$.
+2. **By the CLT the sum is about normal,** so 95% of sums land within 2 standard deviations: $350 \pm 2 \times 17.1$, from 316 to 384.
+3. **Dividing the sum by 100 gives the average of the 100 dice:** mean 3.5, standard error $1.71/\sqrt{100} = 0.171$, and 95% of averages land between 3.16 and 3.84.
 
 A larger sample gives a smaller standard error: four times the sample size halves it. So sample means from big samples cluster tightly around $\mu$.
 
@@ -155,7 +177,7 @@ We test the theorem by simulation. We pretend a known distribution is the popula
 
 For a **uniform** population on $[0, 1]$ (see the [uniform and log-normal Note](../261-uniform-and-log-normal/note.md)), every value is equally likely: the population is flat, not bell-shaped. Yet the 1000 sample means of size 30 form a bell centred at 0.50, with standard deviation 0.052, matching the CLT's $\sqrt{(1/12)/30} = 0.053$. With $n = 300$ the bell is narrower: 0.0166, against the predicted 0.0167.
 
-The other populations behave the same way (Figure 3):
+The other populations behave the same way (Figure 5):
 
 - **Exponential**: waiting times between random events; strongly right-skewed, $\mu = \sigma = 1$.
 - **Poisson**: counts of events in a fixed interval (see the [PDF Note](../242-pdf-and-continuous-cdf/note.md)); here with mean 3.
@@ -181,7 +203,7 @@ The skewness drops from up to 2.00 in the populations to at most 0.26 in the sam
 
 ![Sample means of an exponential population for n = 1, 2, 5 and 30 (10,000 samples each), with the curve N(1, 1/n)](images/sample_size_effect.png)
 
-Figure 4 uses the exponential population, the most skewed one:
+Figure 6 uses the exponential population, the most skewed one:
 
 | $n$ | Std of sample means | $\sigma/\sqrt{n}$ | Skewness of means |
 |---|---|---|---|
@@ -205,6 +227,10 @@ To check the second part of the CLT, we use a population whose mean and variance
 | Standard error | $\sigma/\sqrt{n} = 0.2$ | 0.2012 |
 
 Both properties hold: the sample means are centred on the population mean, and their variance is the population variance divided by $n$.
+
+Figure 7 replays the check as the samples come in. Watch both curves: after a few samples they swing widely, and after a few hundred they settle on the dashed lines the CLT predicts, 2 and 0.04.
+
+![The mean (top) and variance (bottom) of the sample means as 1 to 10,000 samples of 50 accumulate from gamma(2, 1); dashed: the CLT values 2 and 0.04](images/running_check.gif){height=50%}
 
 > **Python:** The check in code.
 >
@@ -254,6 +280,9 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 **Built from**
 
 - CampusX, "Session 43 - Central Limit Theorem | DSMP 2023", YouTube, https://www.youtube.com/watch?v=-WmJDYBor7c
+- StatQuest with Josh Starmer, "The Central Limit Theorem, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=YAlJCEDH2uY
+- Khan Academy, "Sampling distribution of the sample mean", YouTube, https://www.youtube.com/watch?v=FXZ2O1Lv-KE
+- 3Blue1Brown, "But what is the Central Limit Theorem?", YouTube, https://www.youtube.com/watch?v=zeJD6dqJ5lo
 
 **Other references**
 

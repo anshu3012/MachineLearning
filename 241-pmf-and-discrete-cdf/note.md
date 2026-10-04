@@ -15,25 +15,44 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 ## 1. Overview
 
-> **Key point:** The PMF gives the probability of each exact value of a discrete random variable; the CDF adds those probabilities up, giving the probability of a value at most $x$.
+> **Key point:** The PMF gives the probability of each exact value of a discrete random variable (G-617); the CDF adds those probabilities up, giving the probability of a value at most $x$.
 
 ![Building the CDF of the sum of two dice by stacking the PMF bars](images/cdf_build.gif){height=45%}
 
 Figure 1 shows the whole Note in one animation. The blue bars are the PMF of the sum of two dice: the probability of each exact sum. Stacking every bar up to $x$ gives the CDF: the probability of a sum of $x$ or less.
 
-Random variables, distributions and the PMF/PDF/CDF family are introduced in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md). Here we build the two functions for discrete variables: the PMF by formula and by simulation, then the CDF.
+**Random variables** (G-1620), distributions and the PMF/PDF/CDF family are introduced in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md). Here we build the two functions for discrete variables, in this order:
 
-## 2. The probability mass function
+- PMF from a list of outcomes, on three coin flips (section 2);
+- PMF from a formula (sections 3, 4 and 6);
+- PMF from a simulation (section 5);
+- CDF: a running total of the PMF (section 8).
+
+## 2. From outcomes to a PMF: three coin flips
+
+> **Key point:** List every outcome, group the outcomes by the value of the random variable, and give each value the share of outcomes in its group; the bar chart of those shares is the PMF.
+
+Flip a fair coin three times and let $X$ be the number of heads. $X$ can only be 0, 1, 2 or 3: it cannot be 1.5. How likely is each value? We find out in three steps, shown in Figure 2.
+
+![The 8 outcomes of three coin flips are grouped by the number of heads, and each group becomes a bar of height count / 8 (idea after Khan Academy, "Constructing a probability distribution for random variable")](images/coin_pmf.gif)
+
+1. **List every outcome.** Each flip gives H or T, so three flips give $2 \times 2 \times 2 = 8$ outcomes: HHH, HHT, HTH, HTT, THH, THT, TTH, TTT. For a fair coin all 8 are equally likely, each with probability $1/8$.
+2. **Write $X$ under each outcome and group them.** One outcome has no heads (TTT), three have one head (HTT, THT, TTH), three have two heads, and one has three heads (HHH).
+3. **Give each value its share.** $P(X = 0) = 1/8$, $P(X = 1) = 3/8$, $P(X = 2) = 3/8$, $P(X = 3) = 1/8$.
+
+In the last frame of Figure 2, each group has collapsed into a bar whose height is its share. The bar chart lists every possible value of $X$ and its probability, and there is no bar at 1.5, because $P(X = 1.5) = 0$. A list of probabilities like this, one for each value of a **discrete random variable** (G-617), is called a **probability mass function** (G-1572). The four bars add up to $1/8 + 3/8 + 3/8 + 1/8 = 1$, because one of the four values is certain to happen. Section 3 states the definition in general, and the rest of the Note builds PMFs for dice.
+
+## 3. The probability mass function
 
 > **Key point:** A PMF assigns a probability to each possible value of a discrete random variable; every probability is at least 0, and together they add up to 1.
 
-The **probability mass function (PMF)** is the probability distribution function of a **discrete** random variable. The PMF assigns a probability to each possible value:
+The **probability mass function (PMF)** (G-1572) is the probability distribution function of a **discrete** random variable. The PMF assigns a probability to each possible value:
 
 $$p(x) = P(X = x)$$
 
-The formula reads: "the probability that the random variable $X$ takes the value $x$". On a graph, the possible values go on the x axis and their probabilities on the y axis.
+The formula reads: "the probability that the random variable $X$ takes the value $x$". For the three coin flips of section 2, $p(2) = P(X = 2) = 3/8$. On a graph, the possible values go on the x axis and their probabilities on the y axis.
 
-### 2.1 The two conditions
+### 3.1 The two conditions
 
 > **Key point:** No probability is negative, and the probabilities of all possible values sum to exactly 1.
 
@@ -47,7 +66,11 @@ Not every function can be a PMF. Its probabilities must satisfy two conditions:
    For the sum of two dice (the table in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md), section 3.1):
    $$\frac{1 + 2 + 3 + 4 + 5 + 6 + 5 + 4 + 3 + 2 + 1}{36} = \frac{36}{36} = 1$$
 
-## 3. The PMF of one die
+Figure 3 stacks these probabilities into one column for each experiment. Watch the top: six slices of 1/6, or eleven slices from 1/36 to 6/36, both fill exactly the height 1.
+
+![The probabilities of one die and of the sum of two dice, stacked: each PMF fills exactly 1](images/pmf_sums_to_one.png){height=45%}
+
+## 4. The PMF of one die
 
 > **Key point:** For a fair die the PMF is 1/6 at each face from 1 to 6 and 0 everywhere else.
 
@@ -55,13 +78,15 @@ A PMF written as a formula $y = f(x)$ must give a value for **every** $x$, inclu
 
 $$f(x) = \begin{cases} \dfrac{1}{6} & \text{if } x \in \lbrace1, 2, 3, 4, 5, 6\rbrace\cr0 & \text{otherwise} \end{cases}$$
 
-The formula says at once that every face is equally likely, and that 1.5 or 7 have probability 0. Its graph is six equal bars; a distribution in which every value is equally likely is called a **discrete uniform distribution**.
+The formula says at once that every face is equally likely, and that 1.5 or 7 have probability 0. Its graph is six equal bars; a distribution in which every value is equally likely is called a **discrete uniform distribution** (G-618). Figure 4 draws the formula along the whole x axis: six spikes of height 1/6, and 0 everywhere else, including at 1.5 and 7.
 
-## 4. Estimating a PMF by simulation
+![The PMF of one die as a function of every x: 1/6 at the six faces, 0 elsewhere](images/die_pmf_function.png)
+
+## 5. Estimating a PMF by simulation
 
 > **Key point:** Repeat the experiment many times, count each outcome and divide by the number of trials; the shares approach the true PMF.
 
-We can also find a PMF without any formula: run the experiment many times and count. The share of trials that gave each value is an estimate of its probability, the same idea as the relative frequency in the [frequency tables Note](../223-frequency-tables-and-graphs/note.md).
+We can also find a PMF without any formula: run the experiment many times and count. The share of trials that gave each value is an estimate of its probability, the **estimated PMF** (G-708), the same idea as the relative frequency in the [frequency tables Note](../223-frequency-tables-and-graphs/note.md).
 
 1. **In words:** the estimated probability of a value is the number of times it appeared divided by the number of trials.
 2. **Formula:**
@@ -70,7 +95,7 @@ We can also find a PMF without any formula: run the experiment many times and co
    $$\hat{p}(1) = \frac{1681}{10000} = 0.1681$$
    The exact value is $1/6 \approx 0.1667$.
 
-The hat on $\hat{p}$ marks an estimate. Figure 2 compares the simulated PMFs (bars) with the exact ones (diamonds), for one die and for the sum of two dice.
+The hat on $\hat{p}$ marks an estimate. Figure 5 compares the simulated PMFs (bars) with the exact ones (diamonds), for one die and for the sum of two dice.
 
 ![PMFs estimated from 10,000 simulated rolls (bars) and the exact PMFs (diamonds)](images/pmf_simulated.png)
 
@@ -92,13 +117,17 @@ The estimates are close but not exact: the six faces came out between 0.1625 and
 >
 > `integers(1, 7)` excludes the upper end, so it returns 1 to 6. `normalize=True` divides the counts by their total; without it we would divide by 10,000 ourselves. `sort_index()` puts face 1 first. For two dice, add two such arrays. The Notebook (`notebook.ipynb`) runs both experiments.
 
-> **Extra:** The more trials, the closer the estimate gets to the true probability. The pull of the estimate towards the true probability is the **law of large numbers** (Pishro-Nik §7.1.1). With 100 rolls a face typically comes out anywhere from about 0.12 to 0.22; with our 10,000 rolls all six land within about 0.005 of $1/6$ (the Notebook repeats the 100-roll experiment 1,000 times).
+> **Extra:** The more trials, the closer the estimate gets to the true probability. The pull of the estimate towards the true probability is the **law of large numbers** (G-1052; Pishro-Nik §7.1.1). With 100 rolls a face typically comes out anywhere from about 0.12 to 0.22; with our 10,000 rolls all six land within about 0.005 of $1/6$ (the Notebook repeats the 100-roll experiment 1,000 times).
 
-## 5. The PMF of the sum of two dice
+Figure 6 watches the same 10,000 rolls arrive. Watch the title: after 10 rolls face 1 is 0.133 away from 1/6; after all 10,000, no face is more than about 0.005 away.
+
+![The estimated PMF of one die after 10, 20, 50, ..., 10,000 of the same simulated rolls, against the exact 1/6](images/pmf_settles.gif)
+
+## 6. The PMF of the sum of two dice
 
 > **Key point:** When the probabilities differ, the PMF formula must give each value its own probability; for two dice one line does it.
 
-The probabilities of the sum of two dice, from 1/36 for sums 2 and 12 up to 6/36 for 7, are counted in the [random variables Note](../240-random-variables-and-distributions/note.md) (section 3.1) and plotted in Figure 2 (right). Written as a PMF, the list becomes a formula.
+The probabilities of the sum of two dice, from 1/36 for sums 2 and 12 up to 6/36 for 7, are counted in the [random variables Note](../240-random-variables-and-distributions/note.md) (section 3.1) and plotted in Figure 5 (right). Written as a PMF, the list becomes a formula.
 
 > **Extra:** The number of pairs falls by one for each step away from 7, so:
 >
@@ -108,17 +137,21 @@ The probabilities of the sum of two dice, from 1/36 for sums 2 and 12 up to 6/36
 > 3. **Example:** for $x = 9$, the distance from 7 is 2:
 >    $$f(9) = \frac{6 - 2}{36} = \frac{4}{36} \approx 0.111$$
 
-## 6. Two famous discrete distributions
+Figure 7 shows the rule as a shape: the pair counts form a tent, peaking at 6 for the sum 7 and losing one pair per step away from it.
+
+![Pairs of dice giving each sum: 6 minus the distance from 7, such as 4 pairs for the sum 9](images/tent_rule.png)
+
+## 7. Two famous discrete distributions
 
 > **Key point:** The Bernoulli PMF describes one yes/no trial; the binomial PMF counts the successes in $n$ such trials.
 
 Many discrete experiments follow a famous PMF (see Figure 4 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)). Two of them come up constantly, Bernoulli and binomial, taught in full in the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md).
 
-### 6.1 Bernoulli distribution
+### 7.1 Bernoulli distribution
 
 > **Key point:** One trial with two outcomes: 1 with probability $p$, 0 with probability $1 - p$.
 
-The **Bernoulli distribution** describes a single trial with two outcomes, success ($k = 1$) and failure ($k = 0$), such as one coin toss.
+The **Bernoulli distribution** (G-275) describes a single trial with two outcomes, success ($k = 1$) and failure ($k = 0$), such as one coin toss.
 
 1. **In words:** success has probability $p$; failure has the rest, $q = 1 - p$.
 2. **Formula:**
@@ -127,24 +160,28 @@ The **Bernoulli distribution** describes a single trial with two outcomes, succe
 
 The Bernoulli distribution has **one** parameter, $p$ (with $0 \le p \le 1$). The $q$ often listed beside it is not a second parameter: it is fixed by $p$ as $1 - p$. (MML Example 6.8)
 
-### 6.2 Binomial distribution
+### 7.2 Binomial distribution
 
 > **Key point:** The number of successes in $n$ independent Bernoulli trials with the same $p$.
 
-The binomial distribution (introduced in the [voting ensemble Note](../102-voting-ensemble/note.md)) counts the successes in $n$ independent trials, each with success probability $p$. Its parameters are $n$ and $p$.
+The **binomial distribution** (G-308), introduced in the [voting ensemble Note](../102-voting-ensemble/note.md), counts the successes in $n$ independent trials, each with success probability $p$. Its parameters are $n$ and $p$.
 
 1. **In words:** choose which $k$ of the $n$ trials succeed, then multiply the probabilities of $k$ successes and $n - k$ failures.
 2. **Formula:**
    $$P(X = k) = \binom{n}{k}\thinspace p^k\thinspace(1 - p)^{n - k}$$
-   where $\binom{n}{k}$, "$n$ choose $k$", is the number of ways to choose $k$ trials out of $n$.
+   where $\binom{n}{k}$, read as $n$ choose $k$, is the number of ways to choose $k$ trials out of $n$.
 3. **Example:** the probability of exactly 2 heads in 4 fair coin tosses ($n = 4$, $p = 0.5$). There are $\binom{4}{2} = 6$ ways to place the 2 heads:
    $$P(X = 2) = 6 \times 0.5^2 \times 0.5^2 = 6 \times 0.0625 = 0.375$$
 
-## 7. The cumulative distribution function of a discrete variable
+Figure 8 draws both PMFs: Bernoulli has just two bars, and the binomial for 4 tosses has five, with 2 heads the most likely at 0.375.
+
+![The Bernoulli PMF with p = 0.3 (left) and the binomial PMF of heads in 4 fair tosses (right)](images/bernoulli_binomial.png)
+
+## 8. The cumulative distribution function of a discrete variable
 
 > **Key point:** The CDF $F(x)$ is the probability that the variable is at most $x$: the running total of the PMF up to $x$.
 
-The **cumulative distribution function (CDF)** of a random variable $X$ gives the probability that $X$ takes a value **less than or equal to** $x$:
+The **cumulative distribution function (CDF)** (G-515) of a random variable $X$ gives the probability that $X$ takes a value **less than or equal to** $x$:
 
 $$F(x) = P(X \le x)$$
 
@@ -164,7 +201,7 @@ For a discrete variable, "4 or less" means adding the PMF of every value up to 4
 
 The discrete CDF is the cumulative relative frequency of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), with probabilities in place of relative frequencies.
 
-### 7.1 Reading the CDF of two dice
+### 8.1 Reading the CDF of two dice
 
 > **Key point:** The CDF answers "what is the chance of $x$ or less?" in one reading: a sum of 9 or less has probability 30/36, about 0.83.
 
@@ -184,7 +221,7 @@ Adding up the two-dice PMF gives its CDF:
 | 11 | 2/36 | 35/36 = 0.972 |
 | 12 | 1/36 | 36/36 = 1 |
 
-Figure 3 draws both functions on the same x axis. On the PMF we read the chance of exactly $x$; on the CDF, the chance of $x$ or less:
+Figure 9 draws both functions on the same x axis. On the PMF we read the chance of exactly $x$; on the CDF, the chance of $x$ or less:
 
 - $F(9) = 30/36 \approx 0.83$: a sum of 9 or less happens in about 83% of rolls.
 - $F(5) = 10/36 \approx 0.28$: a sum of 5 or less, in about 28%.
@@ -205,13 +242,13 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 > **Extra:** Three facts about every CDF, and two uses of them:
 >
 > - **A CDF runs from 0 to 1 and never goes down.** Each step adds a probability, which is never negative.
-> - **A CDF is defined for every $x$, not only the possible values.** $F(7.5) = P(X \le 7.5) = P(X \le 7) = 21/36$, because no sum lies between 7 and 7.5. So the CDF of a discrete variable is a **step function**: flat between possible values, jumping up at each one by that value's probability (Figure 3, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
+> - **A CDF is defined for every $x$, not only the possible values.** $F(7.5) = P(X \le 7.5) = P(X \le 7) = 21/36$, because no sum lies between 7 and 7.5. So the CDF of a discrete variable is a **step function** (G-1889): flat between possible values, jumping up at each one by that value's probability (Figure 9, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
 > - **The PMF can be read back from the jumps:** the jump at 9 is $F(9) - F(8) = 30/36 - 26/36 = 4/36 = p(9)$.
 > - **Probability of a range:** $P(a < X \le b) = F(b) - F(a)$. For a sum above 5 and at most 9:
 >   $$P(5 < X \le 9) = \frac{30}{36} - \frac{10}{36} = \frac{20}{36} \approx 0.556$$
 > - **Probability of more than $x$:** $P(X > x) = 1 - F(x)$. A sum above 9 has probability $1 - 30/36 = 6/36$.
 
-## 8. Summary
+## 9. Summary
 
 | Function | Question it answers | One die | Two dice |
 |---|---|---|---|
@@ -225,18 +262,19 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 - Bernoulli: one trial, one parameter $p$. Binomial: successes in $n$ trials, parameters $n$ and $p$.
 - The CDF is the running total of the PMF: a step function from 0 to 1.
 
-## 9. Sources
+## 10. Sources
 
 **Built from**
 
 - CampusX, "Session 40 - Probability Distribution Functions - PDF, PMF & CDF | DSMP 2023", YouTube, https://www.youtube.com/watch?v=C_QAURbgBqY
+- Khan Academy, "Constructing a probability distribution for random variable", YouTube, https://www.youtube.com/watch?v=cqK3uRoPtk0
 
 **Other references**
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Example 6.8 (Bernoulli distribution).
 - Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. Section 7.1.1 (law of large numbers).
 
-## 10. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

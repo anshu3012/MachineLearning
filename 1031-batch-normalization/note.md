@@ -16,13 +16,19 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, st
 
 > **Key point:** Batch normalisation standardises the values inside a hidden layer, node by node, using the mean and variance of the current mini-batch, then lets the network rescale them with two learned numbers, $\gamma$ and $\beta$. Training becomes faster and more stable.
 
-**Batch normalisation** (BN; Ioffe and Szegedy 2015) is an algorithmic method that makes the training of deep neural networks faster and more stable. We already standardise the inputs of a network to mean 0 and standard deviation 1 (see the [data scaling Note](../1023-data-scaling-in-ann/note.md)). But the outputs of each hidden layer are the inputs of the next one, and nobody scales those.
+**Batch normalisation** (G-266; BN; Ioffe and Szegedy 2015) is an algorithmic method that makes the training of deep neural networks faster and more stable. We already standardise the inputs of a network to mean 0 and **standard deviation** (G-1871) 1 (see the [data scaling Note](../1023-data-scaling-in-ann/note.md)). But the outputs of each hidden layer are the inputs of the next one, and nobody scales those.
 
-Batch normalisation scales those hidden-layer outputs, inside the network. For a chosen hidden layer, it takes the values of each node over the current mini-batch and brings them to mean 0 and standard deviation 1. The normalisation step is applied right before or right after the activation function.
+Batch normalisation scales those hidden-layer outputs, inside the network. For a chosen hidden layer, it takes the values of each node over the current **mini-batch** (G-1223) and brings them to mean 0 and standard deviation 1. The normalisation step is applied right before or right after the **activation function** (G-165).
 
 ![Batch normalisation of one node over a batch of 4 observations: normalise with the batch's mean and variance, then scale by $\gamma$ and shift by $\beta$, then apply the activation](images/bn_steps.png){width=80%}
 
-Figure 1 shows the whole computation for one node. This Note covers why it helps, how it works during training and during prediction, its benefits, and how to add it in Keras.
+Figure 1 shows the whole computation for one node. This Note covers:
+
+- why it helps (section 3);
+- how it works during training (section 4);
+- how it works during prediction (section 5);
+- its benefits (section 6);
+- how to add it in Keras (section 7).
 
 ## 2. Prerequisites
 
@@ -38,9 +44,9 @@ Figure 1 shows the whole computation for one node. This Note covers why it helps
 
 > **Key point:** Inputs on different scales stretch the loss into a narrow valley, which forces a small learning rate. Normalised inputs make it round, so larger steps are safe.
 
-Take two **features** (input variables, the columns of the data table) on very different scales, such as CGPA (single digits) and IQ (around 100). Standardising them centres both at 0 with standard deviation 1. As section 9 of the [gradient descent Note](../57-gradient-descent/note.md) shows, this changes the shape of the loss:
+Take two **features** (G-772; input variables, the columns of the data table) on very different scales, such as CGPA (single digits) and IQ (around 100). Standardising them centres both at 0 with standard deviation 1. As section 9 of the [gradient descent Note](../57-gradient-descent/note.md) shows, this changes the shape of the loss:
 
-- **Not normalised:** the contours of the loss are long, narrow ellipses, stretched in one direction. A large learning rate would overshoot in the steep direction, so we must keep it small, and progress along the flat direction is slow. Training is slow, or unstable.
+- **Not normalised:** the contours of the loss are long, narrow ellipses, stretched in one direction. A large **learning rate** (G-1068) would overshoot in the steep direction, so we must keep it small, and progress along the flat direction is slow. Training is slow, or unstable.
 - **Normalised:** the contours are nearly round, the same in every direction. We can reach the minimum quickly and stably.
 
 The outputs of a hidden layer are the inputs of the next layer. If normalising the network's inputs makes training fast and stable, normalising each hidden layer's outputs should help in the same way. Normalising hidden-layer outputs is the first idea behind batch normalisation.
@@ -49,11 +55,11 @@ The outputs of a hidden layer are the inputs of the next layer. If normalising t
 
 > **Key point:** When the distribution of the inputs changes, but the relationship between inputs and output does not, a model trained on the old inputs can still fail. Such a change is covariate shift.
 
-**Covariate shift** is a change in the distribution of the features between the data a model was trained on and the data it sees later, while the relationship between input and output stays the same.
+**Covariate shift** (G-497) is a change in the distribution of the features between the data a model was trained on and the data it sees later, while the relationship between input and output stays the same.
 
 ![Covariate shift: the inputs have moved, but the same boundary still separates the classes](images/covariate_shift.png){width=80%}
 
-In Figure 2, the boundary between the two classes is the same before and after. Only the region where the inputs lie has moved. A model trained only on the left-hand data has never seen the right-hand region, so it may perform badly there, and we would have to retrain it.
+In Figure 2, the **decision boundary** (G-555) between the two classes, the line that separates them, is the same before and after. Only the region where the inputs lie has moved. A model trained only on the left-hand data has never seen the right-hand region, so it may perform badly there, and we would have to retrain it.
 
 A standard example: a network trained to tell roses from other flowers, where every rose in the training images happens to be red. At test time it sees yellow, white and pink roses. What makes a rose a rose has not changed, but the inputs have, and the model performs poorly.
 
@@ -61,13 +67,13 @@ A standard example: a network trained to tell roses from other flowers, where ev
 
 > **Key point:** Inside a network, every layer's inputs are the previous layer's outputs, and those change at every update. Each layer chases a moving target, which makes training slow and unstable.
 
-The paper that introduced batch normalisation defines **internal covariate shift** as the change in the distribution of a network's activations due to the change in its parameters during training (Ioffe and Szegedy 2015).
+The paper that introduced batch normalisation defines **internal covariate shift** (G-963) as the change in the distribution of a network's activations due to the change in its parameters during training (Ioffe and Szegedy 2015).
 
 Take a deep network and look at only its later layers, as if they were a network of their own. Their inputs are the outputs of an earlier hidden layer. The earlier layer's outputs depend on the earlier weights, and the earlier weights change at every update. So the distribution of the later layers' inputs keeps changing during training, and the later layers must keep re-adapting to it.
 
 Internal covariate shift is like a game of whispers along a line of children: the first is told "P", passes on "B", the next turns it into "knees", then "cheese", then "fleece". Each layer passes information on, but because every layer's weights keep changing, what reaches the end has drifted a long way.
 
-Batch normalisation fixes the mean and standard deviation of every node's values at each normalised layer. The later layers then get a stable distribution to work on. Without it, a network suffering from internal covariate shift needs a low learning rate and very careful weight initialisation to train at all (Ioffe and Szegedy 2015).
+Batch normalisation fixes the mean and standard deviation of every node's values at each normalised layer. The later layers then get a stable distribution to work on. Without it, a network suffering from internal covariate shift needs a low learning rate and very careful weight initialisation (**initialisation**, G-947) to train at all (Ioffe and Szegedy 2015).
 
 Figure 3 shows what the second hidden layer receives in the circles network of section 7, for all 500 observations, while it trains. Watch the bars against their grey starting position. Without batch normalisation the values drift and spread: the three nodes' means grow from 0.37, 0.20 and 0.43 to 0.83, 0.94 and 0.75, and their spreads from about 0.3 to 0.6 up to about 0.9. With batch normalisation every node stays centred near 0 with spread near 1, moving only as far as its $\gamma$ and $\beta$ have learned to move it (Notebook).
 
@@ -83,7 +89,7 @@ Figure 3 shows what the second hidden layer receives in the circles network of s
 
 > **Key point:** Mini-batch gradient descent; layer by layer and optional per layer; every node on its own.
 
-1. **Batch normalisation needs mini-batches.** Batch normalisation is used with [mini-batch gradient descent](../1020-gradient-descent-in-neural-networks/note.md): its statistics come from the observations of the current batch.
+1. **Batch normalisation needs mini-batches.** Batch normalisation is used with [mini-batch gradient descent](../1020-gradient-descent-in-neural-networks/note.md) (G-1222): its statistics come from the observations of the current batch.
 2. **Batch normalisation is applied layer by layer.** We can apply it to one, some or all hidden layers; it is optional for each.
 3. **Batch normalisation works on each node separately.** In a normalised layer, every node's values are normalised on their own, with their own statistics and their own $\gamma$ and $\beta$.
 
@@ -101,7 +107,7 @@ and then its activation $a_{11} = g(z_{11})$. With batch normalisation on this l
 
 > **Key point:** With a batch of $m$ observations, each node has $m$ values of $z$. Their mean $\mu_B$ and variance $\sigma_B^2$ standardise them.
 
-With batch size 4, four students enter the network together. Their $4 \times 2$ input matrix times the $2 \times 2$ weight matrix, plus the biases, gives a $4 \times 2$ matrix: four values of $z$ for each of the two nodes, one per student. Each node's four values are normalised separately.
+With **batch size** (G-267) 4, four students enter the network together. Their $4 \times 2$ input matrix times the $2 \times 2$ **weight matrix** (G-2109), plus the biases, gives a $4 \times 2$ matrix: four values of $z$ for each of the two nodes, one per student. Each node's four values are normalised separately.
 
 1. **In words:** subtract the batch mean of the node's $z$ values and divide by their standard deviation. A tiny $\epsilon$ prevents division by 0 when all values are equal.
 2. **Formula:**
@@ -126,11 +132,15 @@ After normalising, each value is multiplied by a parameter $\gamma$ (gamma) and 
 
 $z_{BN}$ then goes into the activation function, giving $a_{11}$. Keras' `BatchNormalization` layer, given the same $\gamma$ and $\beta$, returns exactly these four numbers (Notebook).
 
-Figure 4 plays the two steps on these four values. Watch the bar under the dots: subtracting the mean slides it to 0, dividing by the standard deviation squeezes it to width 1 on each side, and $\gamma$ and $\beta$ then stretch and move it.
+Figure 4 plays the two steps on these four values. Watch the bar under the dots:
+
+1. subtracting the mean slides it to 0;
+2. dividing by the standard deviation squeezes it to width 1 on each side;
+3. $\gamma$ and $\beta$ then stretch and move it.
 
 ![The batch $z = 2, 4, 6, 8$ of one node through batch normalisation: subtract the batch mean, divide by the batch standard deviation, scale by $\gamma = 1.5$, shift by $\beta = 0.5$. The bar is the mean plus and minus one standard deviation](images/bn_mechanics.gif){width=95%}
 
-**$\gamma$ and $\beta$ are learnable parameters.** They are trained by backpropagation like weights and biases, for example $\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace\partial L/\partial\gamma$. Every step above is differentiable, so their gradients exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
+**$\gamma$ and $\beta$ are learnable parameters** (G-1065). They are trained by **backpropagation** (G-247) like weights and biases, for example $\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace\partial L/\partial\gamma$. Every step above is differentiable, so their gradients exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
 
 **Why undo the normalisation?** Scaling and shifting is the opposite of normalising, which looks strange. If training found $\gamma = \sqrt{\sigma_B^2 + \epsilon}$ and $\beta = \mu_B$, the two steps would cancel and give back the original $z$ (the Notebook gets $2, 4, 6, 8$ back). The possible cancelling is the point: mean 0 and standard deviation 1 may not suit every layer and every dataset. $\gamma$ and $\beta$ give the network the flexibility to keep the normalisation, or to choose another distribution, or to switch it off.
 
@@ -138,18 +148,18 @@ Figure 4 plays the two steps on these four values. Watch the bar under the dots:
 
 > **Key point:** Think of batch normalisation as a layer between two layers. The layer holds 2 learnable parameters per node, updated by backpropagation like any weight.
 
-Keras treats batch normalisation as a layer of its own, placed after the layer whose values it normalises. For a hidden layer of two nodes, the batch normalisation layer holds 4 learnable parameters: $\gamma$ and $\beta$ for each node. Forward propagation passes through it, and backpropagation updates its $\gamma$ and $\beta$ along with every weight and bias.
+Keras treats batch normalisation as a layer of its own, placed after the layer whose values it normalises. For a hidden layer of two nodes, the batch normalisation layer holds 4 learnable parameters: $\gamma$ and $\beta$ for each node. **Forward propagation** (G-797) passes through it, and backpropagation updates its $\gamma$ and $\beta$ along with every weight and bias.
 
 ## 5. Batch normalisation during prediction
 
 > **Key point:** A single query point has no batch to average over. During training the layer keeps moving averages of each node's mean and variance; for prediction it uses those instead.
 
-During training the mean and variance come from the batch. For a prediction we usually have one **observation** (one record), the query point, and its own "batch mean" is just itself. Where do $\mu$ and $\sigma$ come from?
+During training the mean and variance come from the batch. For a prediction we usually have one **observation** (G-1374; one record), the query point, and its own "batch mean" is just itself. Where do $\mu$ and $\sigma$ come from?
 
-The answer is the **exponentially weighted moving average** (EWMA), taught with the optimizers. With 100 observations and batch size 4 there are 25 batches per epoch, and each produces its own $\mu_B$ and $\sigma_B^2$. After every batch, the layer updates a running average of them, which leans towards recent batches. When training ends, the last values of these moving averages are used to normalise every prediction.
+The answer is the **exponentially weighted moving average** (G-735; EWMA), taught with the optimizers. With 100 observations and batch size 4 there are 25 batches per epoch, and each produces its own $\mu_B$ and $\sigma_B^2$. After every batch, the layer updates a running average of them, which leans towards recent batches. When training ends, the last values of these moving averages are used to normalise every prediction.
 
 1. **In words:** keep most of the old average and mix in a little of the new batch value.
-2. **Formula** (Keras' version, momentum 0.99; Keras documentation):
+2. **Formula** (Keras' version, momentum 0.99; Keras documentation; these running values are the **moving mean and moving variance**, G-1265):
    $$\mu_{\text{moving}} \leftarrow 0.99\thinspace\mu_{\text{moving}} + 0.01\thinspace\mu_B$$
    and the same for the variance.
 3. **Example:** with a moving mean of 5.0 and a new batch mean of 6.0:
@@ -164,7 +174,7 @@ So every node in a batch normalisation layer stores 4 numbers:
 | moving mean | moving average (non-trainable) | prediction |
 | moving variance | moving average (non-trainable) | prediction |
 
-A batch normalisation layer on 3 nodes therefore has $3 \times 4 = 12$ parameters, 6 trainable and 6 non-trainable.
+A batch normalisation layer on 3 nodes therefore has $3 \times 4 = 12$ parameters, 6 trainable and 6 non-trainable (**non-trainable parameters**, G-1341: stored values that gradient descent does not update).
 
 In the Notebook, after training, the first batch normalisation layer's moving means are 0.238, 0.222, 1.495, against the actual means over all 500 observations of 0.226, 0.227, 1.485: a close match.
 
@@ -178,9 +188,9 @@ Figure 5 shows how the first of these moving means got there. It starts at 0, fo
 
 > **Key point:** More stable training, faster training (higher learning rates), a mild regularising effect, and less dependence on the starting weights.
 
-1. **More stable training.** We can choose hyperparameters from a wider range of values and the network still trains. A wide safe range matters when tuning hyperparameters.
-2. **Faster training.** Because the loss is better shaped, a larger learning rate is safe, and the network gets near a good solution in fewer epochs. On ImageNet, the original paper's network with batch normalisation and a raised learning rate needed 14 times fewer training steps to reach the same accuracy (Ioffe and Szegedy 2015).
-3. **A mild regularising effect.** Each node's mean and variance come from the current batch, so they change a little from batch to batch, and so do the activations. The small random noise reduces overfitting slightly. Usually the effect is a side benefit that does not replace [dropout](../1024-dropout/note.md), although Ioffe and Szegedy (2015) could remove dropout from their network.
+1. **More stable training.** We can choose **hyperparameters** (G-910) from a wider range of values and the network still trains. A wide safe range matters when tuning hyperparameters.
+2. **Faster training.** Because the loss is better shaped, a larger learning rate is safe, and the network gets near a good solution in fewer epochs. On **ImageNet** (G-920), the original paper's network with batch normalisation and a raised learning rate needed 14 times fewer training steps to reach the same accuracy (Ioffe and Szegedy 2015).
+3. **A mild regularising effect.** Each node's mean and variance come from the current batch, so they change a little from batch to batch, and so do the activations. The small random noise reduces **overfitting** (G-1429) slightly. Usually the effect is a side benefit that does not replace [dropout](../1024-dropout/note.md), although Ioffe and Szegedy (2015) could remove dropout from their network.
 4. **Less impact of weight initialisation.** Without normalisation the loss is stretched, and a poor start (see the [weight initialisation Note](../1029-weight-initialization/note.md)) takes a long way to recover. With a better-shaped loss, the minimum can be reached from many different starts, so the choice of starting weights matters less (Ioffe and Szegedy 2015).
 
 Batch normalisation also addresses ReLU's outputs not being zero-centred (see section 8.2 of the [activation functions Note](../1027-activation-functions/note.md)): the next layer receives values centred on $\beta$, which starts at 0.
@@ -230,7 +240,13 @@ The 10 non-trainable parameters are the moving means and variances: 6 in the fir
 
 > **Key point:** Same data, same network, 5 runs each: batch normalisation reaches 80% mean validation accuracy at epoch 17 instead of 23, and ends at 0.97 instead of 0.85.
 
-The data is `make_circles`: 500 observations on two concentric circles, with two features and the circle as target (the output we predict), standardised, a classic dataset that is hard to separate. Both models (the one above and the same without its two batch normalisation layers) train with Adam for 200 epochs, batch size 32, holding back 20% of the observations for validation. A network this small depends a lot on its random start (without batch normalisation the 5 runs end anywhere between 0.50 and 0.98), so each model is trained 5 times with different seeds.
+The setup:
+
+- **data:** `make_circles` (G-1148), 500 observations on two concentric circles, with two features and the circle as **target** (G-1949; the output we predict), standardised, a classic dataset that is hard to separate;
+- **models:** the one above, and the same without its two batch normalisation layers;
+- **training:** **Adam** (G-169) for 200 **epochs** (G-696), batch size 32, holding back 20% of the observations as a **validation set** (G-2067).
+
+A network this small depends a lot on its random start (without batch normalisation the 5 runs end anywhere between 0.50 and 0.98), so each model is trained 5 times with different seeds.
 
 ![Validation accuracy on concentric circles. Thin lines: 5 runs each; thick lines: their mean. With batch normalisation (green) the mean rises faster and ends higher](images/val_accuracy.png){width=95%}
 
@@ -243,7 +259,7 @@ Figure 6 and the Notebook give:
 | Mean validation accuracy, epoch 200 | 0.85 | 0.97 |
 | Runs ending below 0.90 | 2 of 5 (0.50, 0.79) | 0 of 5 |
 
-Batch normalisation learns faster, and it trains more reliably: without it one run never left 0.50 and another stopped at 0.79. On a dataset this small the effect is modest. Batch normalisation is used most in convolutional networks, where the gains are larger, as in the 14-fold reduction of training steps on ImageNet (Ioffe and Szegedy 2015).
+Batch normalisation learns faster, and it trains more reliably: without it one run never left 0.50 and another stopped at 0.79. On a dataset this small the effect is modest. Batch normalisation is used most in **convolutional networks** (G-484), where the gains are larger, as in the 14-fold reduction of training steps on ImageNet (Ioffe and Szegedy 2015).
 
 ## 8. Summary
 

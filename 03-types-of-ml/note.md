@@ -23,7 +23,7 @@ ML algorithms can be grouped in three different ways:
 - by whether they learn all at once or keep learning over time (batch vs online),
 - by how they generalise to new data (instance-based vs model-based).
 
-**Supervision** means correct answers that guide the algorithm while it learns. Figure 1 shows the four types this produces and their sub-types.
+**Supervision** (G-1920) means correct answers that guide the algorithm while it learns. Figure 1 shows the four types this produces and their sub-types.
 
 ![ML types by amount of supervision](images/types_tree.png)
 
@@ -35,9 +35,13 @@ ML algorithms can be grouped in three different ways:
 
 > **Key point:** Features + target $\rightarrow$ learn the relationship $\rightarrow$ predict the target for new observations.
 
-Three words describe any data table. A **feature** is an input variable (one column of the table). The **target** is the output we want to predict (also a column). An **observation** is one record (one row of the table).
+Three words describe any data table:
 
-In **supervised learning**, every observation has both its feature values and the correct target value. The algorithm learns the mathematical relationship between them.
+- a **feature** (G-772) is an input variable (one column of the table);
+- the **target** (G-1949) is the output we want to predict (also a column);
+- an **observation** (G-1374) is one record (one row of the table).
+
+In **supervised learning** (G-1919), every observation has both its feature values and the correct target value. The algorithm learns the mathematical relationship between them.
 
 *Example: campus placements.* We have data on 5,000 past students (Figure 2):
 
@@ -49,7 +53,7 @@ In **supervised learning**, every observation has both its feature values and th
 
 After learning, the algorithm can take a new student, say IQ 73 and CGPA 7.3, and predict *yes* or *no*. Most of the ML used in industry is supervised learning.
 
-> **Extra:** The target is also called the **label** or the **output**. Data that includes the target is called **labelled data**.
+> **Extra:** The target is also called the **label** (G-1032) or the **output**. Data that includes the target is called **labelled data** (G-1034).
 
 ### 2.2 Numerical and categorical data
 
@@ -68,12 +72,12 @@ Before splitting supervised learning further, we need the two basic types of dat
 
 Supervised learning has two sub-types. Which one we have depends only on the **target**:
 
-- **Regression:** the target is numerical. *Example:* predicting a student's salary package (4.5 LPA, 3.0 LPA, ...) from IQ and CGPA.
-- **Classification:** the target is categorical. *Example:* predicting placed / not placed from IQ and CGPA.
+- **Regression** (G-1655): the target is numerical (**numerical data**, G-1367). *Example:* predicting a student's salary package (4.5 LPA, 3.0 LPA, ...) from IQ and CGPA.
+- **Classification** (G-395): the target is categorical (**categorical data**, G-351). *Example:* predicting placed / not placed from IQ and CGPA.
 
 ![Regression vs classification](images/reg_vs_cls.png)
 
-In Figure 3, regression draws a line that gives a number for any input. Classification draws a boundary that splits the inputs into categories.
+In Figure 3, regression fits a line that gives a number for any input. Classification learns a **decision boundary** (G-555): the line or curve that separates the inputs assigned to one category from those assigned to another.
 
 | Problem | Output | Type |
 |---|---|---|
@@ -90,15 +94,20 @@ In Figure 3, regression draws a line that gives a number for any input. Classifi
 
 > **Key point:** No target means no prediction. The algorithm describes the data instead.
 
-In **unsupervised learning**, the data has only features. For example, we have the IQ and CGPA of students, but no placement target.
+In **unsupervised learning** (G-2058), the data has only features. For example, we have the IQ and CGPA of students, but no placement target.
 
-Without a target, we cannot predict anything. Unsupervised learning performs four other jobs, covered in Sections 3.2 to 3.5.
+Without a target, we cannot predict anything. Unsupervised learning performs four other jobs:
+
+- clustering (Section 3.2);
+- dimensionality reduction (Section 3.3);
+- anomaly detection (Section 3.4);
+- association rule learning (Section 3.5).
 
 ### 3.2 Clustering
 
 > **Key point:** Clustering finds groups of similar observations, without being told what the groups are.
 
-**Clustering** splits the data into groups (**clusters**) of similar observations. Figure 4 shows students plotted by IQ and CGPA; the algorithm found three groups on its own.
+**Clustering** (G-401) splits the data into groups (**clusters**, G-399) of similar observations. Figure 4 shows students plotted by IQ and CGPA; the algorithm found three groups on its own.
 
 ![Clustering: groups found without labels](images/clustering.png)
 
@@ -114,20 +123,20 @@ With two features we could spot the groups by eye. Clustering also works with hu
 
 > **Key point:** Dimensionality reduction cuts down the number of features while keeping the information. Fewer features speed up learning and let us plot high-dimensional data.
 
-Each feature is a **dimension**. (A tensor's dimensions mean something else, its number of axes: see Section 5 of the [tensors Note](../11-tensors/note.md).) Images and text can have thousands of features, which causes two problems:
+Each feature is a **dimension** (G-610). (A tensor's dimensions mean something else, its number of axes: see Section 5 of the [tensors Note](../11-tensors/note.md).) Images and text can have thousands of features, which causes two problems:
 
 1. Algorithms become **slow**.
 2. After a point, extra features **stop improving** the results.
 
-**Dimensionality reduction** removes the extra features.
+**Dimensionality reduction** (G-611) removes the extra features.
 
 *Example: house prices.* Number of rooms and number of washrooms carry related information. We can combine them into one feature, area (Figure 5).
 
 ![Combining two related features into one](images/feature_extraction.png)
 
-The data has one feature fewer and loses almost no information. Making such a feature by hand, from domain knowledge, is called feature construction (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
+The data has one feature fewer and loses almost no information. Making such a feature by hand, from domain knowledge, is called **feature construction** (G-760; see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
-When an algorithm such as PCA computes the new features from the data instead, with no domain knowledge, the process is called **feature extraction** (see Section 9 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
+When an algorithm such as PCA computes the new features from the data instead, with no domain knowledge, the process is called **feature extraction** (G-762; see Section 9 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
 **Visualisation.** A graph can show at most 3 dimensions. To see data with hundreds of features, we reduce them to 2 or 3 features and plot those.
 
@@ -135,7 +144,7 @@ When an algorithm such as PCA computes the new features from the data instead, w
 
 ![Handwritten digits: 64 features reduced to 3](images/digits_3d.png)
 
-The technique used for Figure 6 is **PCA** (principal component analysis), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 6 as a 3D plot that we can rotate.
+The technique used for Figure 6 is **PCA** (principal component analysis, G-1562), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 6 as a 3D plot that we can rotate.
 
 > **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 features (LeCun et al. 1998). The idea is the same.
 
@@ -143,7 +152,7 @@ The technique used for Figure 6 is **PCA** (principal component analysis), cover
 
 > **Key point:** Anomaly detection learns what normal data looks like and flags anything far from it.
 
-**Anomaly detection** finds observations that do not fit the pattern of the rest. Typical uses:
+**Anomaly detection** (G-201) finds observations that do not fit the pattern of the rest. Typical uses:
 
 - spotting defects in manufacturing,
 - catching credit card fraud,
@@ -157,7 +166,7 @@ In Figure 7, almost all transactions are small and close to home. The red one, l
 
 > **Key point:** Association rule learning finds items that tend to occur together.
 
-**Association rule learning** looks for "if this, then that" patterns in data. Its classic use is deciding which products a shop places next to each other.
+**Association rule learning** (G-218) looks for "if this, then that" patterns in data. Its classic use is deciding which products a shop places next to each other.
 
 *Example: a supermarket.* We scan all the bills from the last one or two years (Figure 8). Suppose milk appears in 8 of 100 bills, and eggs appear in 6 of those 8. Then people who buy milk usually buy eggs as well, so the shop places the two together.
 
@@ -173,7 +182,7 @@ A famous case: an analysis of shopping baskets at a US store chain found that cu
 
 Labels are **expensive**. Collecting inputs is easy; for example, we can download thousands of images in minutes. But someone has to look at each image and write down what is in it, which costs time and money.
 
-**Semi-supervised learning** works with data where only a small part is labelled. We label a few observations, and the algorithm labels the rest automatically.
+**Semi-supervised learning** (G-1768) works with data where only a small part is labelled. We label a few observations, and the algorithm labels the rest automatically.
 
 *Example: Google Photos* (Figure 9).
 
@@ -193,16 +202,23 @@ One human label replaced hundreds.
 
 > **Key point:** The agent acts, the environment rewards or punishes, and the agent updates its policy. Repeat.
 
-**Reinforcement learning (RL)** starts with no data at all. The algorithm learns from its own experience, getting better over time.
+**Reinforcement learning (RL)** (G-1660) starts with no data at all. The algorithm learns from its own experience, getting better over time.
 
 The parts of an RL system:
 
-- **Agent:** the learner, for example a self-driving car or a game-playing program.
-- **Environment:** the world the agent acts in, for example the road or the game board.
-- **Policy:** the agent's rule book, saying which action to take in each situation.
-- **Reward / punishment:** feedback from the environment after each action, good or bad.
+- **Agent** (G-179): the learner, for example a self-driving car or a game-playing program.
+- **Environment** (G-694): the world the agent acts in, for example the road or the game board.
+- **Policy** (G-1512): the agent's rule book, saying which action to take in each situation.
+- **Reward / punishment** (G-1690): feedback from the environment after each action, good or bad.
 
-Figure 10 shows the loop. The agent observes the environment, takes an action according to its policy, receives a reward or punishment, and updates its policy. The goal is to collect as much reward and as little punishment as possible.
+Figure 10 shows the loop:
+
+1. The agent observes the environment.
+2. The agent takes an action according to its policy.
+3. The agent receives a reward or punishment.
+4. The agent updates its policy.
+
+The goal is to collect as much reward and as little punishment as possible.
 
 ![The reinforcement learning loop](images/rl_loop.png)
 

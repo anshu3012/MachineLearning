@@ -21,7 +21,14 @@ Regularisation was taught for linear models: Ridge adds the squared coefficients
 
 ![The same 128-128 network on 100 points of make_moons, trained for 2,000 epochs: without regularisation, with L2 and with L1.](images/regularised.png)
 
-Figure 1 shows the effect. This Note explains why networks overfit (section 3), the ways to fight it (section 4), the penalty and why it shrinks the weights (sections 5 and 6), and the Keras code with its results (section 7). The Notebook (`notebook.ipynb`) runs every step.
+Figure 1 shows the effect. This Note covers:
+
+- why networks overfit (section 3);
+- the ways to fight it (section 4);
+- the penalty and why it shrinks the weights (sections 5 and 6);
+- the Keras code with its results (section 7).
+
+The Notebook (`notebook.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
@@ -44,11 +51,22 @@ Figure 2 makes this concrete. A network with one hidden layer is trained on the 
 | Hidden neurons | Training accuracy | Decision boundary |
 |---|---|---|
 | 1 | 86% | a straight line |
-| 10 | 94% | a few straight pieces |
-| 50 | 96% | more pieces, following the moons |
+| 10 | 94% | a few straight segments |
+| 50 | 96% | more segments, following the moons |
 | 1,000 | 100% | bends and pockets around single points |
 
-One neuron can only draw one line, like a perceptron. Two neurons can draw two lines, three neurons three, and a thousand neurons have the capacity to combine a thousand lines. That capacity lets the network add pieces to the boundary just to capture single training points, as in the 1,000-neuron panel.
+Why does the decision boundary bend more as we add neurons? Figure 3 shows it step by step on the same 100 points.
+
+![The same four networks. Dashed grey: each hidden neuron's hyperplane. Black: the decision boundary, which is straight between dashed lines and bends only where it meets one. With 1,000 neurons (lines not drawn) the boundary wraps small pockets around single training points (circled).](images/neuron_lines.gif)
+
+- **The line that separates the two classes.** The black line in every panel splits the plane into an orange side and a blue side. The model predicts class 0 on one side and class 1 on the other. This separating line is the **decision boundary** (G-555).
+- **What one hidden neuron does.** A neuron with the **ReLU** activation (G-1668) outputs 0 on one side of a straight line and a growing positive value on the other side. That straight line, $\mathbf{w} \cdot \mathbf{x} + b = 0$, is the neuron's **hyperplane** (G-911): the dashed grey lines in Figure 3.
+- **1 neuron.** The output can only turn one neuron's value up or down, so the decision boundary is a single straight line, parallel to that neuron's hyperplane (top left). A perceptron gives the same kind of boundary.
+- **Many neurons.** Between the dashed lines no neuron switches on or off, so the decision boundary runs straight there. It can change direction only where it meets a dashed line. A boundary made of straight segments joined at bends is **piecewise linear** (G-1496; Goodfellow et al. 2016, §6.3.1 and §6.4.1).
+- **Counting the segments.** In our runs the decision boundary has 1, 8, 30 and 383 straight segments for 1, 10, 50 and 1,000 neurons (Notebook). With 10 or 50 neurons, a few dozen segments are enough to follow the two moons.
+- **Too many segments.** With 1,000 neurons there are so many places to bend that the decision boundary wraps small pockets around single training points. The four circled points are fitted only by the 1,000-neuron network. The model has learned the noise in these 100 points, not the moon shape: this is **overfitting** (G-1429).
+
+How many different shapes a model can fit is its **capacity** (G-344). More hidden neurons mean more capacity, and a model with more capacity than the data needs "can overfit by memorizing properties of the training set" (Goodfellow et al. 2016, §5.2).
 
 So one way to fix overfitting is to remove nodes. Removing does not have to be literal: if a node's weights are pushed close to 0, the node barely contributes, and the network behaves like a smaller, simpler one. Pushing weights towards 0 is what regularisation does.
 
@@ -146,7 +164,7 @@ Seventeen thousand parameters for 100 points: plenty of room to overfit. The net
 
 > **Key point:** 100% training accuracy, a boundary full of pockets, and a validation loss that climbs to 1.28.
 
-The network reaches 100% training accuracy. Its boundary (Figure 1, left) twists into pockets and narrow fingers to capture single points: clear overfitting. The training curves show it too (Figure 3, left): the training loss drops to almost 0 while the validation loss is lowest at epoch 14 and then rises steadily, to 1.28 after 2,000 epochs.
+The network reaches 100% training accuracy. Its decision boundary (Figure 1, left) twists into pockets and narrow fingers to capture single points: clear overfitting. The training curves show it too (Figure 4, left): the training loss drops to almost 0 while the validation loss is lowest at epoch 14 and then rises steadily, to 1.28 after 2,000 epochs.
 
 ![Training and validation loss over 2,000 epochs: without regularisation, with L2 and with L1.](images/curves.png)
 
@@ -171,7 +189,7 @@ The network reaches 100% training accuracy. Its boundary (Figure 1, left) twists
 >
 > The **kernel** is Keras' name for a layer's weight matrix; `kernel_regularizer` penalises the weights only, which matches the rule that biases are not penalised. A separate `bias_regularizer` exists but is rarely used.
 
-The boundary (Figure 1, middle) is now a clean shape of a few straight pieces that follows the two moons, which should do much better on new data. In Figure 3 (middle) the training and validation curves move side by side for all 2,000 epochs:
+The decision boundary (Figure 1, middle) is now a clean shape of a few straight segments that follows the two moons, which should do much better on new data. In Figure 4 (middle) the training and validation curves move side by side for all 2,000 epochs:
 
 | | Training accuracy | Validation accuracy | Final validation loss |
 |---|---|---|---|
@@ -197,7 +215,7 @@ The validation set has only 20 points, so the accuracies are equal (19 of 20 rig
 > w.min(), w.max()
 > ```
 
-Figure 4 compares the two networks.
+Figure 5 compares the two networks.
 
 ![The 256 first-layer weights without regularisation and with L2. Left: box plots. Right: density curves.](images/weights.png)
 
@@ -208,7 +226,7 @@ Figure 4 compares the two networks.
 
 Without regularisation, 90% of the weights lie between about $-0.8$ and $0.4$, with outliers out to $-2.45$ and $2.85$. With L2 the whole range has shrunk: the box collapses to a line at 0, and the density curve (orange) is one tall peak at 0, while the unregularised one (blue) is spread out. The weights have decayed.
 
-Figure 5 shows the decay as it happens. Both networks start from the same weights, all between $-0.21$ and $0.21$. Watch the blue weights spread out as the network fits the training points, while the orange ones are pulled back into a tall spike at 0. With L2 the largest weight grows to 0.68 by epoch 300, then shrinks to 0.52 by epoch 2,000: the penalty keeps pulling it back.
+Figure 6 shows the decay as it happens. Both networks start from the same weights, all between $-0.21$ and $0.21$. Watch the blue weights spread out as the network fits the training points, while the orange ones are pulled back into a tall spike at 0. With L2 the largest weight grows to 0.68 by epoch 300, then shrinks to 0.52 by epoch 2,000: the penalty keeps pulling it back.
 
 ![The 256 first-layer weights during training, same start: without regularisation (blue) they spread out, up to 2.85 in size; with L2, $\lambda = 0.03$ (orange), they stay in a spike around 0](images/weight_decay_anim.gif){width=90%}
 
@@ -218,7 +236,7 @@ Section 7.6 asks whether any of these weights become exactly 0.
 
 > **Key point:** Swap `L2` for `L1`; $\lambda$ needs retuning. Here $\lambda = 0.001$ works, with a little more overfitting than L2.
 
-Switching to L1 only needs `regularizers.L1(...)` in place of `regularizers.L2(...)`. The L1 penalty needs its own value of $\lambda$, found by trying a few (hyperparameter tuning). With $\lambda = 0.001$ (Figure 1, right) the boundary is clean, but the validation loss creeps up from about epoch 100 (Figure 3, right): a little more overfitting than with L2. Its first-layer weights range from $-1.88$ to $1.19$.
+Switching to L1 only needs `regularizers.L1(...)` in place of `regularizers.L2(...)`. The L1 penalty needs its own value of $\lambda$, found by trying a few (hyperparameter tuning). With $\lambda = 0.001$ (Figure 1, right) the boundary is clean, but the validation loss creeps up from about epoch 100 (Figure 4, right): a little more overfitting than with L2. Its first-layer weights range from $-1.88$ to $1.19$.
 
 ### 7.6 Sparse or only small: L1 against L2
 
@@ -240,7 +258,7 @@ To see this cleanly, we train the same network on the same data with plain gradi
 | L2, $\lambda = 0.03$ | 3% | 0.24 | 90% |
 | L1, $\lambda = 0.003$ | 56% | 0.63 | 90% |
 
-Figure 6 shows the difference at a glance. Almost no L2 weight is 0: most are small, between 0.01 and 0.1. The L1 weights split into two groups: more than half are 0, while more of the others stay above 0.1 than with L2 (49 against 29). Both networks score the same 90% on the validation points, but the L1 network does it with fewer than half of its first-layer weights: a sparse model.
+Figure 7 shows the difference at a glance. Almost no L2 weight is 0: most are small, between 0.01 and 0.1. The L1 weights split into two groups: more than half are 0, while more of the others stay above 0.1 than with L2 (49 against 29). Both networks score the same 90% on the validation points, but the L1 network does it with fewer than half of its first-layer weights: a sparse model.
 
 > **Extra:** Two details.
 >
@@ -281,12 +299,16 @@ Figure 6 shows the difference at a glance. Almost no L2 weight is 0: most are sm
 - Friedman, Hastie and Tibshirani, "Regularization Paths for Generalized Linear Models via Coordinate Descent", *Journal of Statistical Software*, 2010 (soft thresholding).
 - Han, Pool, Tran and Dally, "Learning both Weights and Connections for Efficient Neural Networks", NeurIPS 2015 (pruning small weights).
 - Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., 2009, §3.4.3 (why the Lasso gives zeros and Ridge does not).
-- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §7.1.1 (L2, weight decay) and §7.1.2 (L1 and sparsity).
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §5.2 (capacity, overfitting and underfitting), §6.3.1 and §6.4.1 (rectified linear units give piecewise linear functions), §7.1.1 (L2, weight decay) and §7.1.2 (L1 and sparsity).
 
 ## 10. Key terms
 
 | Term | Meaning |
 |---|---|
+| Decision boundary | The line or curve separating the inputs a classifier assigns to different classes |
+| Hyperplane | A flat boundary $\mathbf{w} \cdot \mathbf{x} + b = 0$; a straight line when there are two features |
+| Piecewise linear | Made of straight segments joined at bends; the shape of a ReLU network's decision boundary |
+| Capacity | A model's ability to fit a wide variety of functions; too much capacity for the data leads to overfitting |
 | Penalty term | The extra term added to the cost to discourage large weights |
 | Weight decay factor | $1 - \eta\lambda$, the factor by which L2 regularisation shrinks every weight at each update |
 | `kernel_regularizer` | Keras `Dense` setting that adds an L1 or L2 penalty on the layer's weights |

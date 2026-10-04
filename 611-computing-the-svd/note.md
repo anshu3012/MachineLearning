@@ -17,8 +17,6 @@ tags: [subject/maths, area/calculus, step/foundations, concept/svd]
 
 > **Key point:** Multiplying $A$ by its own transpose makes one of the two orthogonal matrices disappear. The eigenvectors of $A^{\mathsf T}A$ are the right singular vectors, its eigenvalues are the squared singular values, and $\mathbf u_i = A\mathbf v_i / \sigma_i$ gives the left singular vectors.
 
-This Note follows Strang's *Introduction to Linear Algebra* (Strang §7.2) and *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020), §4.5.2.
-
 ![The four steps of computing an SVD by hand](images/svd_recipe.png)
 
 The first SVD Note, the [SVD geometry Note](../610-svd-geometry/note.md) showed what $A = U\Sigma V^{\mathsf T}$ means: rotate, stretch, rotate. It gave the factors of
@@ -47,7 +45,7 @@ Finding eigenvalues and eigenvectors by hand, with $\det(A - \lambda I) = 0$, is
 
 $A = U\Sigma V^{\mathsf T}$ has two unknown orthogonal matrices. Finding both at once is hard, so we look for an expression in which one of them disappears.
 
-1. **In words:** transpose $A$ (the transpose of a product is the product of the transposes in reverse order), multiply by $A$, and use $U^{\mathsf T}U = I$ (see the [SVD geometry Note](../610-svd-geometry/note.md), section 3.3).
+1. **In words:** transpose $A$ (the transpose of a product is the product of the transposes in reverse order), multiply by $A$, and use $U^{\mathsf T}U = I$ (see the [SVD geometry Note](../610-svd-geometry/note.md), section 2.5).
 2. **Formula:**
    $$A^{\mathsf T}A = (V\Sigma^{\mathsf T}U^{\mathsf T})(U\Sigma V^{\mathsf T}) = V\thinspace\Sigma^{\mathsf T}\Sigma\thinspace V^{\mathsf T} = V\begin{bmatrix} \sigma_1^2 & & \cr& \ddots & \cr& & \sigma_n^2 \end{bmatrix}V^{\mathsf T}$$
 3. **Example:** for $A$ with rows $[3, 0]$ and $[4, 5]$,
@@ -71,7 +69,7 @@ Figure 2 shows where these numbers live for $A$ with rows $[3, 0]$ and $[4, 5]$.
 
 ![A unit vector $\mathbf{v}$ sweeps the circle and $A\mathbf{v}$ sweeps an ellipse; the length of $A\mathbf{v}$ peaks at $\sigma_1 = \sqrt{45}$ along $\mathbf v_1$ and bottoms out at $\sigma_2 = \sqrt5$ along $\mathbf v_2$, at 90° to $\mathbf v_1$](images/stretch_sweep.gif)
 
-So $A^{\mathsf T}A$ is symmetric and positive semi-definite, for every matrix $A$ of any shape.
+So $A^{\mathsf T}A$ is a **symmetric matrix** (G-1932) and **positive semi-definite** (G-1532), for every matrix $A$ of any shape.
 
 ### 2.3 $AA^{\mathsf T}$ gives $U$, with the same numbers
 
@@ -113,7 +111,9 @@ The two vectors are perpendicular, as Section 2.2 promised.
 3. **Example:**
    $$\mathbf u_1 = \frac{1}{3\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 3 \cr9 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix}, \qquad \mathbf u_2 = \frac{1}{\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} -3 \cr1 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
 
-The $\mathbf{u}$'s come out perpendicular without any extra work. In symbols: $(A\mathbf v_1)^{\mathsf T}(A\mathbf v_2) = \mathbf v_1^{\mathsf T}(A^{\mathsf T}A\mathbf v_2) = \lambda_2\thinspace\mathbf v_1^{\mathsf T}\mathbf v_2 = 0$.
+![Steps 2 and 3 for $A$: the eigenvectors $\mathbf v_1, \mathbf v_2$ of $A^{\mathsf T}A$ (left), their images under $A$ with lengths $\sigma_1, \sigma_2$ (middle), and the same images shrunk back to length 1, which are $\mathbf u_1, \mathbf u_2$ (right)](images/recipe_step3.png){height=26%}
+
+In Figure 3, watch the middle panel: $A\mathbf v_1$ and $A\mathbf v_2$ already point along the ellipse's axes, so dividing by their lengths only shrinks them back onto the circle. The $\mathbf{u}$'s come out perpendicular without any extra work. In symbols: $(A\mathbf v_1)^{\mathsf T}(A\mathbf v_2) = \mathbf v_1^{\mathsf T}(A^{\mathsf T}A\mathbf v_2) = \lambda_2\thinspace\mathbf v_1^{\mathsf T}\mathbf v_2 = 0$.
 
 **Step 4: complete $U$.** Here there are already two $\mathbf{u}$'s for a $2 \times 2$ matrix, so nothing is missing. Sections 5 and 7 need this step.
 
@@ -148,7 +148,9 @@ Every non-zero multiple of an eigenvector is an eigenvector too, so $\frac{1}{\s
 
 $$\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & 3 \cr3 & -1 \end{bmatrix}\begin{bmatrix} 3\sqrt5 & 0 \cr0 & \sqrt5 \end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix} = \begin{bmatrix} 0 & 3 \cr5 & 4 \end{bmatrix} \ne A$$
 
-Each piece is a valid eigenvector, yet the product is a different matrix. The pairs $(\mathbf u_i, \mathbf v_i)$ must match: flipping both signs is allowed, flipping one is not (see the [SVD geometry Note](../610-svd-geometry/note.md), section 5.1). The eigenvalue problem for $AA^{\mathsf T}$ knows nothing about $V$, so it cannot keep the pairs matched.
+![Left: the matched factors rebuild $A$. Right: the same factors with only $\mathbf u_2$ flipped. The ellipse is identical, but $\hat{\imath}$ and $\hat{\jmath}$ land in swapped places](images/sign_trap.png){height=30%}
+
+Each piece is a valid eigenvector, yet the product is a different matrix. Figure 4 shows why the mistake is easy to miss: both products have the singular values 6.71 and 2.24, so they draw the same ellipse; only where each input lands has changed. The pairs $(\mathbf u_i, \mathbf v_i)$ must match: flipping both signs is allowed, flipping one is not (see the [SVD geometry Note](../610-svd-geometry/note.md), section 5.1). The eigenvalue problem for $AA^{\mathsf T}$ knows nothing about $V$, so it cannot keep the pairs matched.
 
 The fix is Step 3: compute $\mathbf u_i = A\mathbf v_i / \sigma_i$ from the $\mathbf v_i$ already chosen. Then $A\mathbf v_i = \sigma_i\mathbf u_i$ holds by construction, whatever sign each $\mathbf v_i$ was given.
 
@@ -156,11 +158,19 @@ The fix is Step 3: compute $\mathbf u_i = A\mathbf v_i / \sigma_i$ from the $\ma
 
 > **Key point:** A rank-1 matrix has one non-zero singular value; the zero one has no $\mathbf{u}$ from $A\mathbf{v}/\sigma$, so we complete $U$ with a perpendicular unit vector.
 
-Take
+Some matrices squash the plane flat. Take
 
 $$C = \begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
 
-The second row is twice the first, so the rank is 1: $C$ squishes the whole plane onto one line, the line through $[1, 2]$ (its columns $[2, 4]$ and $[1, 2]$ both lie on it).
+Its columns $[2, 4]$ and $[1, 2]$ both lie on the line through $[1, 2]$. Every output $C\mathbf{x}$ is a mix of the two columns, so every output lands on that one line: $C$ squishes the whole plane onto it.
+
+- The set of all outputs is the **column space** (G-414) of $C$: here, the line through $[1, 2]$.
+- The number of dimensions of the column space is the **rank** (G-1627) of the matrix: here 1. (The second row is twice the first, the algebraic sign of the same fact.)
+- While the plane squashes onto a line, a whole other line of inputs, the one through $[-1, 2]$, lands on the origin. The set of inputs that land on $\mathbf{0}$ is the **null space** (G-1362).
+
+![The rank-1 matrix $C$ moves the grid: the whole plane, and the unit circle (blue) with it, squashes onto the line through $[1, 2]$, while every point of the red line through $[-1, 2]$ lands on the origin. $\mathbf v_1$ (orange) ends at length 5 and $\mathbf v_2$ (purple) at length 0. Idea after 3Blue1Brown, "Inverse matrices, column space and null space | Chapter 7, Essence of linear algebra"](images/rank_one_squash.gif)
+
+In Figure 5, watch the red line while the grid moves: it shrinks towards the origin and vanishes, while the circle flattens into a segment. The two readouts end at 5 and 0, the two singular values the recipe now computes.
 
 **Step 1.**
 
@@ -171,6 +181,10 @@ $$C^{\mathsf T}C = \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}\begin{bmatrix} 2
 $$\mathbf v_1 = \frac{1}{\sqrt5}\begin{bmatrix} 2 \cr1 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt5}\begin{bmatrix} -1 \cr2 \end{bmatrix}$$
 
 $\mathbf v_2$ is the direction $C$ squishes to nothing: $C[-1, 2] = [-2 + 2, -4 + 4] = [0, 0]$.
+
+![$C$ flattens the unit circle onto a segment of the line through $[1, 2]$: $\mathbf v_1$ lands at length 5, $\mathbf v_2$ lands on the origin](images/rank_one.png){height=30%}
+
+In Figure 6, the ellipse of the $2 \times 2$ case has collapsed: its short axis $\sigma_2$ is 0, so the whole circle lands on one line, reaching 5 on each side of the origin.
 
 **Step 3.** Only $\sigma_1$ is non-zero:
 
@@ -202,20 +216,20 @@ A column times a row is a whole matrix of rank 1. The [low-rank approximation No
 
 > **Key point:** The $\mathbf{v}$'s split the input space into the row space and the null space; the $\mathbf{u}$'s split the output space into the column space and the left null space. The SVD gives perpendicular bases for all four.
 
-The rank-1 example shows a pattern that holds for every matrix. Figure 3 draws it for $C$.
+The rank-1 example shows a pattern that holds for every matrix. Figure 7 draws it for $C$.
 
 ![The SVD of $C$ gives a basis for each of its four subspaces](images/four_subspaces.png)
 
-For an $m \times n$ matrix of rank $r$ (there are $r$ non-zero singular values):
+Together they are the **four fundamental subspaces** (G-799). For an $m \times n$ matrix of rank $r$ (there are $r$ non-zero singular values):
 
 | Subspace | Where | Basis from the SVD | Dimension | For $C$ |
 |---|---|---|---|---|
-| **Row space** (span of the rows) | input $\mathbb{R}^n$ | $\mathbf v_1, \dots, \mathbf v_r$ | $r$ | line through $[2, 1]$ |
-| **Null space** (vectors sent to $\mathbf{0}$) | input $\mathbb{R}^n$ | $\mathbf v_{r+1}, \dots, \mathbf v_n$ | $n - r$ | line through $[-1, 2]$ |
-| **Column space** (span of the columns) | output $\mathbb{R}^m$ | $\mathbf u_1, \dots, \mathbf u_r$ | $r$ | line through $[1, 2]$ |
-| **Left null space** (outputs never reached, perpendicular to them) | output $\mathbb{R}^m$ | $\mathbf u_{r+1}, \dots, \mathbf u_m$ | $m - r$ | line through $[-2, 1]$ |
+| **Column space** (G-414) (span of the columns: every output) | output $\mathbb{R}^m$ | $\mathbf u_1, \dots, \mathbf u_r$ | $r$ | line through $[1, 2]$ |
+| **Null space** (G-1362) (vectors sent to $\mathbf{0}$) | input $\mathbb{R}^n$ | $\mathbf v_{r+1}, \dots, \mathbf v_n$ | $n - r$ | line through $[-1, 2]$ |
+| **Row space** (G-1713) (span of the rows) | input $\mathbb{R}^n$ | $\mathbf v_1, \dots, \mathbf v_r$ | $r$ | line through $[2, 1]$ |
+| **Left null space** (G-1078) (outputs never reached, perpendicular to them) | output $\mathbb{R}^m$ | $\mathbf u_{r+1}, \dots, \mathbf u_m$ | $m - r$ | line through $[-2, 1]$ |
 
-The column space is the span of the columns from the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md) (section 6): every output lands in it. The null space is everything the matrix squishes to the origin.
+The first two are the ones Figure 5 showed moving: the column space is where every output lands (the span of the columns from the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md), section 6), and the null space is everything the matrix squishes to the origin. The other two are their partners: the row space is the input directions perpendicular to the null space, and the left null space is the output directions perpendicular to the column space.
 
 What makes the SVD's bases special is that they line up in pairs: $A$ sends $\mathbf v_1$ to a multiple of $\mathbf u_1$, $\mathbf v_2$ to a multiple of $\mathbf u_2$, and so on, with no mixing. The null-space $\mathbf{v}$'s go to zero, which is where the zeros on the diagonal of $\Sigma$ come from. Any method of making perpendicular bases could give bases of the four subspaces; only the SVD's bases also make the matrix diagonal.
 
@@ -256,9 +270,11 @@ The recipe is for understanding and for small examples. On a computer it has a f
 > # [0.0, 2.0]: the small one is lost
 > ```
 
-So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine `gesdd` (NumPy docs, `numpy.linalg.svd`). That routine reduces $A$ itself step by step with orthogonal matrices, which do not magnify rounding errors, until the singular values can be read off (Trefethen and Bau, Lecture 31).
+![The small singular value of $M$ as $\varepsilon$ shrinks: `np.linalg.svd` (blue) follows the true value (dotted, under the blue line); the square root of the eigenvalue of $M^{\mathsf T}M$ (red) drops to 0 from $\varepsilon = 10^{-8}$ on](images/rounding_loss.png){height=30%}
 
-> **Extra:** The ratio $\sigma_1 / \sigma_n$ of the largest to the smallest singular value is the **condition number** of a matrix. It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). The squaring is why the least-squares solvers of the [multiple linear regression code Note](../55-multiple-lr-code/note.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
+Figure 8 repeats the box for twelve values of $\varepsilon$. Watch the red line: it agrees with the blue one while $\sigma_2^2$ still fits in the 16 digits next to $\sigma_1^2 = 4$, then falls off a cliff. So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine `gesdd` (NumPy docs, `numpy.linalg.svd`). That routine reduces $A$ itself step by step with orthogonal matrices, which do not magnify rounding errors, until the singular values can be read off (Trefethen and Bau, Lecture 31).
+
+> **Extra:** The ratio $\sigma_1 / \sigma_n$ of the largest to the smallest singular value is the **condition number** (G-441) of a matrix. It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). The squaring is why the least-squares solvers of the [multiple linear regression code Note](../55-multiple-lr-code/note.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
 
 ## 9. Summary
 
@@ -281,12 +297,15 @@ So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine 
 
 **Built from**
 
-- Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Section 7.2, bases and matrices in the SVD.
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.5.2 (MML).
+- 3Blue1Brown (Sanderson, G.), "Inverse matrices, column space and null space | Chapter 7, Essence of linear algebra", YouTube, https://www.youtube.com/watch?v=uQhTuRlWMxw
+- Khan Academy (Khan, S.), "Column space of a matrix", YouTube, https://www.youtube.com/watch?v=st6D5OdFV9M
+- Khan Academy (Khan, S.), "Rowspace and left nullspace", YouTube, https://www.youtube.com/watch?v=qBfc57x_RSg
 - Strang, G., MIT OpenCourseWare 18.06 *Linear Algebra*, "Lecture 29: Singular value decomposition" (video, recorded 1999), ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition. The recipe, the sign trap, the rank-1 example and the four subspaces (Sections 3 to 6).
 
 **Other references**
 
+- Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Section 7.2, bases and matrices in the SVD: the recipe and the non-square example, which no video in the list works through.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.5.2 (MML).
 - NumPy documentation. `numpy.linalg.svd` (uses LAPACK `gesdd`).
 - Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 12 (conditioning), Lecture 19 (least squares and the normal equations), Lecture 31 (computing the SVD).
 
@@ -299,5 +318,6 @@ So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine 
 | Null space | All vectors a matrix sends to $\mathbf{0}$; spanned by the $\mathbf v_i$ with $\sigma_i = 0$ |
 | Column space | The span of the columns: every possible output; spanned by the $\mathbf u_i$ with $\sigma_i > 0$ |
 | Left null space | The output directions perpendicular to every column; spanned by the remaining $\mathbf u_i$ |
+| Rank (of a matrix) | The number of dimensions of the column space: how many dimensions the outputs fill |
 | Four fundamental subspaces | Row space, null space, column space and left null space of a matrix |
 | Condition number | $\sigma_1 / \sigma_n$: how much a matrix can magnify errors when we solve with it |

@@ -1,0 +1,14 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[st/.style={box=#1, text width=4.3cm, minimum height=2.6cm, font=\sffamily}]
+  \node[box=cgrey, text width=2.6cm] (g) at (0,0) {pre-trained\\GPT model};
+  \node[st=cblue] (s1) at (4.4,0) {\textbf{1. Supervised fine-tuning}\\[3pt]\small trainers write example conversations; the model learns from them};
+  \node[st=corange] (s2) at (9.6,0) {\textbf{2. Reward model}\\[3pt]\small humans rank several replies; a second model learns to score replies};
+  \node[st=cgreen] (s3) at (14.8,0) {\textbf{3. Reinforcement learning}\\[3pt]\small the chat model is trained to write replies that score high};
+  \draw[arrow] (g) -- (s1); \draw[arrow] (s1) -- (s2); \draw[arrow] (s2) -- (s3);
+  \draw[decorate, decoration={brace, amplitude=8pt}, cgreen] ([yshift=4pt]s3.north east) -- node[above=10pt, font=\sffamily\bfseries, text=cgreen] {RLHF: reinforcement learning from human feedback} ([yshift=4pt]s2.north west);
+  \node[box=cpurple] (c) at (14.8,-2.6) {ChatGPT (2022)};
+  \draw[arrow, draw=cpurple] (s3.south) -- (c.north);
+\end{tikzpicture}
+\end{document}

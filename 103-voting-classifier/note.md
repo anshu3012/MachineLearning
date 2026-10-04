@@ -19,7 +19,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 The idea and the probability behind voting are in the [voting ensemble Note](../102-voting-ensemble/note.md). This Note applies them to classification:
 
-- a demo of decision surfaces, showing what voting does to a boundary;
+- a demo of decision surfaces, showing what voting does to the decision boundary;
 - the two kinds of voting, **hard** and **soft**, and how they differ;
 - scikit-learn's `VotingClassifier` on a real dataset, with its `weights` hyperparameter;
 - voting over one algorithm with different settings.
@@ -28,11 +28,16 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 ## 2. The core idea, on decision surfaces
 
-> **Key point:** Each base model draws its own boundary; the voting classifier's boundary mixes them, and can generalise better than each one.
+> **Key point:** Each base model has its own decision boundary; the voting classifier's decision boundary mixes them, and can generalise better than each one.
 
 Recall the setup: base models M1, M2, M3 are trained on the same data D. For a query point $x_q$, each predicts a class (0 or 1 for a two-class problem), and the voting classifier returns the most common one, the **mode** of the predictions.
 
-A decision surface (the [KNN Note](../91-knn/note.md), section 5) shows this best. The app `app.py` offers six toy datasets with two **features** (input variables, the columns of the data table), such as concentric circles, a U shape, two spirals and XOR, and five base models: KNN, logistic regression, Gaussian naive Bayes, SVM and random forest (a forest of trees, covered in later Notes). The app trains the chosen models and the voting classifier on 80% of the **observations** (the points, one row of the table each) and reports accuracy on the other 20%.
+A **decision surface** (G-560; the feature plane coloured by the class a model predicts at each point, the [KNN Note](../91-knn/note.md), section 5) shows this best. The line where the colour changes is the **decision boundary** (G-555). The app `app.py` offers:
+
+- six toy datasets with two **features** (input variables, the columns of the data table), such as concentric circles, a U shape, two spirals and XOR;
+- five base models: KNN, logistic regression, Gaussian naive Bayes, SVM and random forest (a forest of trees, covered in later Notes).
+
+The app trains the chosen models and the voting classifier on 80% of the **observations** (the points, one row of the table each) and reports accuracy on the other 20%.
 
 On the concentric-circles data, one class forms rings around the other, so no straight line separates them. With logistic regression and Gaussian naive Bayes (hard voting):
 
@@ -40,9 +45,13 @@ On the concentric-circles data, one class forms rings around the other, so no st
 |---|---|---|
 | logistic regression, Gaussian naive Bayes | 0.53, 0.60 | **0.63** |
 
-Logistic regression draws a straight line, which cannot follow rings, so it scores barely better than guessing. Naive Bayes draws a curved boundary and does a little better. Voting with both gives 0.63, above each of them: the vote's boundary mixes the line and the curve.
+Logistic regression has a straight decision boundary, which cannot follow rings, so it scores barely better than guessing. Naive Bayes has a curved (oval) decision boundary and does a little better. Voting with both gives 0.63, above each of them. With two models, a point is labelled class 1 only where both models say class 1 (on a tie, `VotingClassifier.predict` takes the `argmax` of the vote counts, which returns the lower label, class 0; scikit-learn 1.9 source), so the vote's decision boundary keeps the part of the oval that lies on logistic regression's class-1 side.
 
-With few test points (here 100), accuracies jump around, so the shape of the boundary is often a better guide than the last digit of the score: a smooth boundary that follows the data tends to generalise better.
+![Decision surfaces on the concentric circles: logistic regression, Gaussian naive Bayes and their hard vote. Titles give test accuracy](images/voting_surfaces.png)
+
+In Figure 1, watch the right panel: the vote keeps the naive Bayes oval but cuts it along logistic regression's straight decision boundary.
+
+With few test points (here 100), accuracies jump around, so the shape of the decision boundary is often a better guide than the last digit of the score: a smooth decision boundary that follows the data tends to generalise better.
 
 **When the vote loses.** The [voting ensemble Note](../102-voting-ensemble/note.md), section 4, needs every member to beat a coin toss clearly. Logistic regression (0.53) barely does, so mixing it with a strong model can drag the vote down:
 
@@ -61,7 +70,7 @@ Almost every classification algorithm can give its answer as probabilities: for 
 
 > **Key point:** Each model casts one vote for its predicted label; the label with most votes wins.
 
-**Hard voting** is what we have done so far: each model's predicted label counts as one vote, and the majority wins. Hard voting is scikit-learn's default, `voting="hard"`.
+**Hard voting** (G-878) is what we have done so far: each model's predicted label counts as one vote, and the majority wins. Hard voting is scikit-learn's default, `voting="hard"`.
 
 Take two models on a two-class problem. M1 gives (class 0: 0.6, class 1: 0.4) and predicts 0; M2 gives (0.8, 0.2) and also predicts 0. Hard voting: 0 and 0, so the answer is **0**.
 
@@ -69,7 +78,7 @@ Take two models on a two-class problem. M1 gives (class 0: 0.6, class 1: 0.4) an
 
 > **Key point:** Average each class's probability across the models; the class with the highest average wins.
 
-**Soft voting** (`voting="soft"`) uses the probabilities themselves.
+**Soft voting** (G-1828; `voting="soft"`) uses the probabilities themselves.
 
 1. **In words:** for each class, average the probability that the models give it; predict the class with the largest average.
 2. **Formula:** with $n$ models, where model $i$ gives class $c$ the probability $p_i(c)$,
@@ -97,13 +106,13 @@ Class 2 has the highest average, so soft voting predicts **class 2**. Hard votin
 
 ![Hard and soft voting reach different answers when one model is very sure and the others are not](images/hard_vs_soft.png){height=30%}
 
-> **Extra:** In the examples above both kinds of voting agree. Figure 1 shows a case where they do not. M1 is very sure of class 0 (0.9); M2 and M3 lean only slightly to class 1 (0.6 and 0.55). Hard voting counts two votes for class 1 and answers **1**. Soft voting averages 0.583 for class 0 against 0.417 for class 1 and answers **0**.
+> **Extra:** In the examples above both kinds of voting agree. Figure 2 shows a case where they do not. M1 is very sure of class 0 (0.9); M2 and M3 lean only slightly to class 1 (0.6 and 0.55). Hard voting counts two votes for class 1 and answers **1**. Soft voting averages 0.583 for class 0 against 0.417 for class 1 and answers **0**.
 
 ### 3.4 Which one to use
 
 > **Key point:** Soft voting is sometimes better, but not always. The voting type is a hyperparameter: try both.
 
-Soft voting can do better. On the concentric circles with logistic regression, naive Bayes and random forest (Figure 3):
+Soft voting can do better. On the concentric circles with logistic regression, naive Bayes and random forest (Figure 4):
 
 - the base models score 0.53, 0.60 and 0.89;
 - **hard** voting scores **0.66**: the two weak models outvote the forest;
@@ -113,7 +122,7 @@ Why? The forest is sure of its answers, while the two weak models hover near 50/
 
 > **Extra:** We checked this in the Notebook. On the 100 test points, hard and soft voting disagree on 30; soft voting is right on 28 of them and sides with the random forest on all 30. On those points the forest's probability is on average 0.35 away from 0.5, against 0.01 for logistic regression and 0.06 for naive Bayes.
 
-Figure 2 replays the count for three of those 30 test points. Watch the two weak models fall just on one side of 0.5 and win the hard vote, while in the average the forest's confident probability decides.
+Figure 3 replays the count for three of those 30 test points. Watch the two weak models fall just on one side of 0.5 and win the hard vote, while in the average the forest's confident probability decides.
 
 ![Hard and soft voting on single test points of the concentric circles. Left: the test set, with the current point as a star. Right: each model's probability of class 1 (bar colour = its vote), then the soft average. Last frame: all 30 points where the two votes disagree](images/vote_tally.gif)
 
@@ -183,6 +192,10 @@ Each score is 10-fold cross-validation (the [pipelines Note](../29-pipelines/not
 |---|---|---|---|---|---|
 | Accuracy | 0.825 | 0.817 | 0.821 | 0.834 | **0.841** |
 
+![Cross-validated accuracy on the heart disease data: the three base models, the hard and soft vote, and the soft vote with the best weights. The dashed line is the best single model](images/heart_votes.png)
+
+In Figure 5, watch the bars cross the dashed line: every vote beats every member, but only by one to two points (the axis starts at 0.80).
+
 Both votes beat the best single model. The gain is about one to two points: the three models disagree on only some patients, and on those the majority is right more often than any one of them, as section 5 of the voting ensemble Note predicts.
 
 ### 4.3 Weights
@@ -194,7 +207,7 @@ By default every model's vote counts the same, as in a democracy. The `weights` 
 1. **In words:** each model's probability is multiplied by its weight, and the sum is divided by the total weight.
 2. **Formula:** with weights $w_1, \dots, w_n$,
    $$\bar{p}(c) = \frac{\sum_{i=1}^{n} w_i\thinspace p_i(c)}{\sum_{i=1}^{n} w_i}$$
-3. **Example:** in Figure 1, give M1 weight 2 and the others weight 1. For class 1:
+3. **Example:** in Figure 2, give M1 weight 2 and the others weight 1. For class 1:
    $$\bar{p}(1) = \frac{2(0.1) + 0.6 + 0.55}{2 + 1 + 1} = \frac{1.35}{4} = 0.3375$$
    so class 0 wins even more clearly ($0.6625$).
 
@@ -229,6 +242,10 @@ Tuning is hard because we do not know which value is right. Take an SVM with a p
 | Accuracy | 0.851 | 0.855 | 0.894 | 0.854 | 0.871 | **0.928** |
 
 Normally we would keep degree 3. Putting all five SVMs into a soft-voting classifier does better than any of them.
+
+![Polynomial-kernel SVMs of degree 1 to 5, each alone, and all five in one soft vote (10-fold cross-validation)](images/svm_degrees.png)
+
+In Figure 6, compare the green bar with the orange one: the vote of all five settings beats the best single setting by 3.4 points.
 
 > **Python:** Voting over five SVMs.
 >

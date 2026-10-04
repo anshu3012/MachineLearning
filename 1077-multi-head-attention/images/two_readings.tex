@@ -1,0 +1,13 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[w/.style={box=cgrey, inner sep=4pt, minimum height=0.8cm, font=\sffamily}]
+  \foreach \y/\lab/\src/\col/\txt in {0/1/2/cblue/{the man used the telescope}, -2.9/2/5/corange/{the astronomer holds the telescope}} {
+    \node[font=\sffamily\bfseries, anchor=east, text=\col] at (-0.8,\y) {reading \lab};
+    \foreach \t/\x [count=\k] in {The/0, man/1.3, saw/2.6, the/3.8, astronomer/5.5, with/7.3, a/8.4, telescope/9.9}
+      \node[w] (w\lab-\k) at (\x,\y) {\t};
+    \draw[line width=3pt, \col, -{Stealth[length=4mm]}] (w\lab-\src.north) to[bend left=38] (w\lab-8.north);
+    \node[note, text=\col, anchor=west] at (11.3,\y) {\txt};
+  }
+\end{tikzpicture}
+\end{document}

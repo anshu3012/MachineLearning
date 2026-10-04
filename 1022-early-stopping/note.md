@@ -16,11 +16,17 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, step
 
 > **Key point:** Instead of guessing the number of epochs, we set a large number and let Keras stop training once the validation loss stops improving.
 
-Every call to `fit` needs a number of epochs: 100, 1,000, 10,000? Training too long is not harmless. On some data the network starts to overfit: its results keep improving on the training data and get worse on new data. Think of baking a cake: we do not trust a fixed timer, we check the cake and take it out when it is done. Early stopping (see the [batch gradient descent Note](../58-batch-gradient-descent/note.md), section 5) means stopping training when the score on held-out data is best; this Note shows how Keras does it for us (Goodfellow et al. 2016, §7.8).
+Every call to `fit` needs a number of **epochs** (G-696; full passes over the training data): 100, 1,000, 10,000? Training too long is not harmless. On some data the network starts to overfit (**overfitting**, G-1429): its results keep improving on the training data and get worse on new data. Think of baking a cake: we do not trust a fixed timer, we check the cake and take it out when it is done. **Early stopping** (G-656; see the [batch gradient descent Note](../58-batch-gradient-descent/note.md), section 5) means stopping training when the score on held-out data is best; this Note shows how Keras does it for us (Goodfellow et al. 2016, §7.8).
 
 ![Training and validation loss of the same network. Left: trained for 3,500 epochs, the validation loss is lowest at epoch 469 and rises after. Right: with early stopping, training ends at epoch 503; the grey band runs from the best epoch to the stop.](images/loss_curves.png)
 
-Figure 1 shows the whole story. Section 3 trains a network for 3,500 epochs and watches it overfit; section 4 adds the `EarlyStopping` callback; section 5 explains its settings. The Notebook (`notebook.ipynb`) runs every step.
+Figure 1 shows the whole story. The Note has three parts:
+
+1. section 3 trains a network for 3,500 epochs and watches it overfit;
+2. section 4 adds the `EarlyStopping` callback;
+3. section 5 explains its settings.
+
+The Notebook (`notebook.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
@@ -36,9 +42,21 @@ Figure 1 shows the whole story. Section 3 trains a network for 3,500 epochs and 
 
 > **Key point:** 100 points in two noisy circles; one hidden layer of 256 ReLU nodes.
 
-The data comes from scikit-learn's `make_circles`: 100 points, an inner circle (class 1) inside an outer one (class 0), with noise. Each point is an **observation** (one record, one row of the data table). Its two coordinates are the **features** (the input variables), and its class, 0 or 1, is the **target** (the output we predict). We use 50 points for training and 50 for validation.
+The data comes from scikit-learn's `make_circles` (G-1148): 100 points, an inner circle (class 1) inside an outer one (class 0), with noise. The data uses three terms:
 
-The network has an input layer of 2 nodes, one hidden layer of 256 ReLU nodes and a sigmoid output node: 1,025 trainable parameters. The network is compiled with Adam and binary cross-entropy.
+- each point is an **observation** (G-1374; one record, one row of the data table);
+- its two coordinates are the **features** (G-772; the input variables);
+- its class, 0 or 1, is the **target** (G-1949; the output we predict).
+
+We use 50 points for training and 50 for validation.
+
+The network has three layers:
+
+- an **input layer** (G-952) of 2 nodes;
+- one **hidden layer** (G-890) of 256 **ReLU** (G-1668) nodes;
+- a **sigmoid** (G-1798) output node.
+
+That makes 1,025 **trainable parameters** (G-1999). The network is compiled with **Adam** (G-169) and **binary cross-entropy** (G-304).
 
 > **Python:** The data and the network.
 >
@@ -62,7 +80,7 @@ The network has an input layer of 2 nodes, one hidden layer of 256 ReLU nodes an
 
 > **Key point:** The gap between the two curves keeps widening after epoch 469.
 
-We train for 3,500 epochs, passing the validation set as `validation_data` (`validation_split` would work too, see the [customer churn Note](../1011-customer-churn-ann/note.md), section 7.3). With `verbose=0` Keras prints nothing during training.
+We train for 3,500 epochs, passing the **validation set** (G-2067) as `validation_data` (`validation_split` would work too, see the [customer churn Note](../1011-customer-churn-ann/note.md), section 7.3). With `verbose=0` Keras prints nothing during training.
 
 > **Python:** Training for 3,500 epochs.
 >
@@ -85,7 +103,7 @@ Up to epoch 469 the validation loss (orange) falls. After that it rises, while t
 
 So the right number of epochs here was about 470. The other 3,000 epochs cost time and made the model worse.
 
-> **Extra:** The decision boundary hardly changes after epoch 469 (Figure 2): what grows is the network's confidence. Its predicted probabilities move towards 0 and 1, and every validation point on the wrong side then costs more loss. Growing confidence is why the validation loss rises by 70% while the validation accuracy only moves between 70% and 76%. The Notebook checks both halves of this story: the two models give the same class on 98% of the plotted area, and the average distance of a validation prediction from 0.5 grows from 0.30 to 0.42. A misclassified validation point now costs 2.74 on average instead of 1.25.
+> **Extra:** The **decision boundary** (G-555) hardly changes after epoch 469 (Figure 2): what grows is the network's confidence. Its predicted probabilities move towards 0 and 1, and every validation point on the wrong side then costs more loss. Growing confidence is why the validation loss rises by 70% while the validation accuracy only moves between 70% and 76%. The Notebook checks both halves of this story: the two models give the same class on 98% of the plotted area, and the average distance of a validation prediction from 0.5 grows from 0.30 to 0.42. A misclassified validation point now costs 2.74 on average instead of 1.25.
 
 ![Decision boundaries after 3,500 epochs and after early stopping. Dots are training points, crosses validation points.](images/boundaries.png)
 
@@ -97,7 +115,7 @@ So the right number of epochs here was about 470. The other 3,000 epochs cost ti
 
 > **Key point:** A callback is a function Keras runs at set points in training, for example after every epoch.
 
-Keras implements early stopping as a **callback**: an object whose code Keras runs at set points during training, here after every epoch. After each epoch, the `EarlyStopping` callback checks whether the monitored score has improved. If it has not improved for long enough, it stops training (Keras docs, EarlyStopping). Keras has other callbacks too, such as one that changes the learning rate during training.
+Keras implements early stopping as a **callback** (G-341): an object whose code Keras runs at set points during training, here after every epoch. After each epoch, the `EarlyStopping` callback checks whether the monitored score has improved. If it has not improved for long enough, it stops training (Keras docs, EarlyStopping). Keras has other callbacks too, such as one that changes the learning rate during training.
 
 ### 4.2 The same network with early stopping
 
@@ -127,7 +145,11 @@ We build and compile exactly the same network, with the same starting weights. T
 >
 > `epochs=3500` is now only an upper limit. `callbacks` takes a list, so several callbacks can run together.
 
-Training stops by itself at epoch 503 (Figure 1, right). The best validation loss, 0.449, was at epoch 469, the same epoch as in the long run. But the drops after epoch 453 were each smaller than `min_delta` (0.00001), so they did not count as improvements: Keras counted from epoch 453, waited 50 epochs for a real improvement, saw none, and stopped.
+Training stops by itself at epoch 503 (Figure 1, right). The best validation loss, 0.449, was at epoch 469, the same epoch as in the long run. But the drops after epoch 453 were each smaller than `min_delta` (0.00001), so they did not count as improvements. Keras then:
+
+1. counted from epoch 453;
+2. waited 50 epochs for a real improvement;
+3. saw none, and stopped.
 
 Figure 3 replays this run. Watch the patience counter: it stays at 0 while the validation loss keeps falling, climbs once the curve flattens, and stops training at 50. The second part lets the same run go on to epoch 3,500: the validation loss rises, while the decision boundary barely changes.
 
@@ -140,7 +162,7 @@ The result:
 | 3,500 epochs | 3,500 | 0.769 | 74% |
 | Early stopping | 503 | 0.450 | 76% |
 
-The model trained in 14% of the epochs is better on the validation data. In Figure 2 its boundary is a smoother version of the long-trained one. With real data, this is how we train: set a generous upper limit and leave the decision to early stopping.
+The model trained in 14% of the epochs is better on the validation data. In Figure 2 its decision boundary is a smoother version of the long-trained one. With real data, this is how we train: set a generous upper limit and leave the decision to early stopping.
 
 ## 5. The settings of `EarlyStopping`
 
@@ -172,7 +194,7 @@ For a loss, lower is better, so training stops when it stops decreasing (`mode="
 
 `min_delta` sets how much the monitored quantity must improve to count. A drop of the validation loss smaller than `min_delta` counts as no improvement.
 
-**Patience** is the number of epochs without improvement that Keras waits before stopping. With `patience=3`, it waits 3 epochs; with `patience=5`, 5. Waiting matters because the validation loss does not move smoothly: it can rise for a few epochs and then fall again.
+**Patience** (G-1466) is the number of epochs without improvement that Keras waits before stopping. With `patience=3`, it waits 3 epochs; with `patience=5`, 5. Waiting matters because the validation loss does not move smoothly: it can rise for a few epochs and then fall again.
 
 Our data shows this. In the first epochs the validation loss rises a little, from 0.6892 at epoch 1 to 0.6947 at epoch 10, before it starts its long fall. With `patience=20` the Notebook stops at epoch 21 with 50% validation accuracy, before the network has learned anything. With `patience=50` it waits out this bump.
 

@@ -17,14 +17,20 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 
 > **Key point:** Draw the starting weights at random with a spread set by the number of inputs to each node: variance $1/\text{fan-in}$ (Xavier, for tanh and sigmoid) or $2/\text{fan-in}$ (He, for ReLU). The signal then keeps roughly the same size through every layer.
 
-The [weight initialisation Note](../1029-weight-initialization/note.md) showed what fails. Zeros and constants make every node identical, so the weights must be random. Random weights that are too small make the signal die out; too large, and it saturates or explodes. So the spread must be in between.
+The [weight initialisation Note](../1029-weight-initialization/note.md) showed what fails:
+
+- zeros and constants make every node identical, so the weights must be random;
+- random weights that are too small make the signal die out;
+- random weights that are too large make the signal saturate or explode.
+
+So the spread must be in between.
 
 This Note gives the two standard answers:
 
-- **Xavier initialisation**, also called **Glorot initialisation** (Xavier Glorot is one person), for tanh and sigmoid;
-- **He initialisation**, after Kaiming He, for ReLU and its variants.
+- **Xavier initialisation**, also called **Glorot initialisation** (G-850; Xavier Glorot is one person), for **tanh** (G-1947) and **sigmoid** (G-1798);
+- **He initialisation** (G-850), after Kaiming He, for ReLU and its variants.
 
-Each comes in a **normal** version (weights from a normal distribution) and a **uniform** version (weights from a uniform distribution), and Keras has all four built in.
+Each comes in a **normal** version (weights from a **normal distribution**, G-1343) and a **uniform** version (weights from a **uniform distribution**, G-2043), and Keras has all four built in.
 
 ![Standard deviation of the activations through 10 layers of 500 nodes. Weights scaled by 0.01 shrink the signal to nothing; scaled by 1, tanh saturates and ReLU explodes. Xavier keeps tanh in range; He keeps ReLU at a steady size](images/layer_std.png){width=100%}
 
@@ -49,7 +55,7 @@ Take a hidden layer whose nodes each receive 250 inputs. The layer's 250 × 250 
 - `np.random.randn(250, 250) * 0.01`: weights around $\pm 0.01$. Multiplied by inputs around $\pm 1$ and summed, they give a small $z$, which the activation turns into almost 0.
 - `np.random.randn(250, 250) * 1`: weights mostly between $-3$ and 3. The sum of 250 such products can be anywhere from about $-250$ to 250, and the activation saturates.
 
-The trouble comes from the sum $z = \sum w_i x_i$: its size grows with the number of terms. So no fixed constant works; the scale has to depend on the network's architecture, through the number of inputs to each node.
+The trouble comes from the sum $z = \sum w_i x_i$: its size grows with the number of terms. So no fixed constant works; the scale has to depend on the network's **architecture** (G-209), through the number of inputs to each node.
 
 ### 3.2 Fan-in and fan-out
 
@@ -59,8 +65,8 @@ The trouble comes from the sum $z = \sum w_i x_i$: its size grows with the numbe
 
 Two numbers describe where a layer sits (Figure 2):
 
-- **Fan-in:** the number of inputs coming into each node of the layer, which is the number of nodes in the previous layer.
-- **Fan-out:** the number of outputs going out of each node, which is the number of nodes in the next layer.
+- **Fan-in** (G-754): the number of inputs coming into each node of the layer, which is the number of nodes in the previous layer.
+- **Fan-out** (G-755): the number of outputs going out of each node, which is the number of nodes in the next layer.
 
 For a Keras `Dense` layer with weight matrix of shape (inputs, nodes), fan-in is the number of rows and fan-out the number of columns.
 
@@ -68,7 +74,7 @@ For a Keras `Dense` layer with weight matrix of shape (inputs, nodes), fan-in is
 
 > **Key point:** Many inputs: smaller weights, so the sum stays moderate. Few inputs: larger weights, so the sum is not too small.
 
-The rule is to draw the weights with variance $1/n$, where $n$ is the fan-in. The standard deviation is then $\sqrt{1/n}$, and that is the number we multiply the standard normal numbers by.
+The rule is to draw the weights with **variance** (G-2078) $1/n$, where $n$ is the fan-in. The **standard deviation** (G-1871) is then $\sqrt{1/n}$, and that is the number we multiply the **standard normal** (G-1873) numbers by.
 
 1. **In words:** multiply standard normal numbers by $\sqrt{1/\text{fan-in}}$.
 2. **Formula:**
@@ -100,7 +106,7 @@ The intuition is a balance. If there are many inputs, each weight is made small 
 
 The variant with fan-in plus fan-out is the one used more often, and the one Keras calls `glorot_normal`.
 
-> **Extra:** The $\sqrt{1/\text{fan-in}}$ version is often called **LeCun initialisation** (LeCun et al. 1998; Keras: `lecun_normal`), the start SELU needs (see the [ReLU variants Note](../1028-relu-variants/note.md)). Glorot and Bengio (2010) proposed the averaged version, their "normalized initialization": $1/\text{fan-in}$ keeps the forward signal steady, $1/\text{fan-out}$ keeps the backward gradient steady, and $2/(\text{fan-in} + \text{fan-out})$ is a compromise between the two.
+> **Extra:** The $\sqrt{1/\text{fan-in}}$ version is often called **LeCun initialisation** (G-1077; LeCun et al. 1998; Keras: `lecun_normal`), the start SELU needs (see the [ReLU variants Note](../1028-relu-variants/note.md)). Glorot and Bengio (2010) proposed the averaged version, their "normalized initialization": $1/\text{fan-in}$ keeps the forward signal steady, $1/\text{fan-out}$ keeps the backward gradient steady, and $2/(\text{fan-in} + \text{fan-out})$ is a compromise between the two.
 
 ### 4.2 Xavier uniform
 
@@ -153,7 +159,13 @@ Both rules come from the variance argument of section 3.3 and were tested in the
 
 > **Key point:** The four-layer tanh network that stayed at loss 0.693 with weights of 0.01 now reaches 0.002 and 100% accuracy.
 
-We reuse the network of section 6.3 of the [weight initialisation Note](../1029-weight-initialization/note.md): 300 standardised `make_moons` observations (records), each with two features (input variables) and a class as target (the output we predict), four hidden layers of 10 tanh nodes, plain SGD with learning rate 0.1, 100 epochs. The 0.01-scale network, started from weights of $0.01 \times$ standard normal, never moved from a loss of 0.6934.
+We reuse the network of section 6.3 of the [weight initialisation Note](../1029-weight-initialization/note.md):
+
+- **data:** 300 standardised `make_moons` (G-1151) **observations** (G-1374; records), each with two **features** (G-772; input variables) and a class as **target** (G-1949; the output we predict);
+- **network:** four hidden layers of 10 tanh nodes;
+- **training:** plain **SGD** (G-1892) with **learning rate** (G-1068) 0.1, 100 **epochs** (G-696).
+
+The 0.01-scale network, started from weights of $0.01 \times$ standard normal, never moved from a loss of 0.6934.
 
 Now every weight matrix is drawn as standard normal numbers times $\sqrt{1/\text{fan-in}}$: $\sqrt{1/2} = 0.71$ for the first layer, which has 2 inputs, and $\sqrt{1/10} = 0.32$ for the layers after it, which have 10. The biases start at 0.
 
@@ -171,20 +183,20 @@ Now every weight matrix is drawn as standard normal numbers times $\sqrt{1/\text
 > model.set_weights(new)
 > ```
 
-The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weights move: one first-layer weight goes from 0.58 to 2.04. Figure 3 (left) shows the boundary following the moons.
+The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weights move: one first-layer weight goes from 0.58 to 2.04. Figure 3 (left) shows the **decision boundary** (G-555), the line between the two predicted classes, following the moons.
 
 ### 6.2 With Keras' initialisers
 
 > **Key point:** One argument per layer. All four initialisers train the network to 100% here.
 
-> **Python:** He normal for a ReLU layer.
+> **Python:** **He normal** (G-881) for a ReLU layer.
 >
 > ```python
 > keras.layers.Dense(10, activation="relu",
 >                    kernel_initializer="he_normal")
 > ```
 >
-> `kernel_initializer` sets how the layer's weight matrix (Keras calls it the kernel) starts. The other options are `"he_uniform"`, `"glorot_normal"` and `"glorot_uniform"`; `bias_initializer` does the same for the biases.
+> `kernel_initializer` sets how the layer's weight matrix (Keras calls it the kernel) starts. The other options are `"he_uniform"` (G-882), `"glorot_normal"` and `"glorot_uniform"`; `bias_initializer` does the same for the biases.
 
 The same four-layer network with each initialiser, 100 epochs of plain SGD:
 
@@ -201,7 +213,7 @@ On such a small problem every good start works. The differences show in deep net
 
 **The default.** If we do not pass `kernel_initializer`, a `Dense` layer uses `glorot_uniform`, and its biases start at 0 (`zeros`). Keras' default explains why the networks of the earlier Notes trained without our choosing anything.
 
-> **Extra:** Keras' normal versions draw from a **truncated normal** distribution: values more than two standard deviations from 0 are redrawn (Keras documentation). Redrawing alone would shrink the spread, yet the measured standard deviation still matches the formula, so Keras compensates for the cut. The Notebook checks all four on a 1000 × 100 layer: `glorot_normal` has standard deviation 0.0426 (formula $\sqrt{2/1100} = 0.0426$), and `he_uniform` reaches at most 0.0775 (formula $\sqrt{6/1000} = 0.0775$).
+> **Extra:** Keras' normal versions draw from a **truncated normal** (G-2023) distribution: values more than two standard deviations from 0 are redrawn (Keras documentation). Redrawing alone would shrink the spread, yet the measured standard deviation still matches the formula, so Keras compensates for the cut. The Notebook checks all four on a 1000 × 100 layer: `glorot_normal` has standard deviation 0.0426 (formula $\sqrt{2/1100} = 0.0426$), and `he_uniform` reaches at most 0.0775 (formula $\sqrt{6/1000} = 0.0775$).
 
 ## 7. Summary
 

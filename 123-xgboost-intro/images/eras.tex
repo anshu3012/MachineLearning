@@ -1,0 +1,17 @@
+% Why so many algorithms: specialised algorithms, then general ones with two problems left, which XGBoost targets.
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[e/.style={box=#1, minimum width=4.4cm, text width=4.1cm, align=center, minimum height=2.6cm}]
+  \node[e=cgrey] (a) at (0,0) {\textbf{1970s--1980s}\\specialised\\[3pt]\small linear regression: linear data\\Naive Bayes: text};
+  \node[e=cblue] (b) at (5.6,0) {\textbf{1990s}\\general and powerful\\[3pt]\small random forest, SVM,\\gradient boosting};
+  \node[e=cred] (x) at (11.2,0) {\textbf{2014: XGBoost}\\[3pt]\small better results\\and much more speed};
+  \draw[arrow] (a) -- (b);
+  \draw[arrow] (b) -- (x);
+  \node[box=corange, minimum width=4.4cm, text width=4.1cm] (p1) at (5.6,-2.6) {\small problem 1: overfitting};
+  \node[box=corange, minimum width=4.4cm, text width=4.1cm] (p2) at (5.6,-3.9) {\small problem 2: slow on the big\\data of the 2000s};
+  \draw[arrow] (b) -- (p1);
+  \draw[arrow, draw=cred] (p1.east) -| node[note, pos=0.25, below]{fixes} ([xshift=-0.6cm]x.south);
+  \draw[arrow, draw=cred] (p2.east) -| ([xshift=0.6cm]x.south);
+\end{tikzpicture}
+\end{document}

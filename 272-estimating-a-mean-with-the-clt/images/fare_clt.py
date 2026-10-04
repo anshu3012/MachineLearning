@@ -1,10 +1,12 @@
 """Titanic fares: the population of 1308 known fares (right-skewed) against the means of 100 samples of 50
-passengers (close to a bell). Same sampling as the Notebook."""
+passengers (close to a bell). Same sampling as the Notebook. Density histograms (bins 5 pounds wide) with a
+KDE curve (scipy gaussian_kde, Scott's bandwidth) drawn over the range of the data."""
 from pathlib import Path
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import seaborn.objects as so
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from scipy import stats
 
 here = Path(__file__).parent
 data = here.parent / "data"
@@ -13,19 +15,23 @@ df = pd.concat([pd.read_csv(data / "titanic_train.csv").drop(columns="Survived")
 fare = df["Fare"].dropna()
 rng = np.random.default_rng(42)
 means = np.array([fare.sample(50, random_state=rng).mean() for _ in range(100)])
-long = pd.concat([pd.DataFrame({"fare": fare, "panel": "population: 1308 fares"}),
-                  pd.DataFrame({"fare": means, "panel": "100 sample means, n = 50"})], ignore_index=True)
-plot = (
-    so.Plot(long, x="fare", color="panel")
-    .facet(col="panel")
-    .add(so.Bars(alpha=0.45), so.Hist(stat="density", binwidth=5, common_norm=False), legend=False)
-    .add(so.Line(linewidth=3), so.KDE(common_norm=False, cut=0), legend=False)
-    .limit(x=(0, 150))
-    .scale(color={"population: 1308 fares": "#F58518", "100 sample means, n = 50": "#54A24B"})
-    .label(x="fare (pounds); fares above 150 not shown", y="density", col="")
-    .layout(size=(11, 4))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
-            "axes.titlesize": 16, "axes.labelsize": 15})
-)
-plot.save(here / "fare_clt.png", dpi=200, bbox_inches="tight")
-plot.save(here / "fare_clt.pdf", bbox_inches="tight")
+panels = [("population: 1308 fares", fare.to_numpy(float), "#F58518"),
+          ("100 sample means, n = 50", means, "#54A24B")]
+
+fig = make_subplots(1, 2, subplot_titles=[p[0] for p in panels], horizontal_spacing=0.08)
+for c, (_, x, colour) in enumerate(panels, start=1):
+    edges = np.arange(x.min(), x.max() + 5, 5)
+    dens, edges = np.histogram(x, edges, density=True)
+    fig.add_trace(go.Bar(x=(edges[:-1] + edges[1:]) / 2, y=dens, width=5, opacity=0.45,
+                         marker=dict(color=colour, line=dict(color="white", width=1))), 1, c)
+    grid = np.linspace(x.min(), x.max(), 600)
+    fig.add_trace(go.Scatter(x=grid, y=stats.gaussian_kde(x)(grid), mode="lines",
+                             line=dict(color=colour, width=3.5, shape="spline")), 1, c)
+    fig.update_xaxes(title="fare (pounds); fares above 150 not shown", range=[0, 150], showgrid=True, row=1, col=c)
+    fig.update_yaxes(showgrid=True, row=1, col=c)
+fig.update_yaxes(title="density", row=1, col=1)
+fig.update_layout(template="simple_white", width=1100, height=400, showlegend=False, bargap=0,
+                  font=dict(family="Latin Modern Roman", size=19), margin=dict(l=90, r=20, t=50, b=70))
+fig.update_annotations(font_size=21)
+fig.write_image(here / "fare_clt.png", scale=2)
+fig.write_image(here / "fare_clt.pdf")

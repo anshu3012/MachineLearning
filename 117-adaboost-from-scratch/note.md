@@ -26,7 +26,7 @@ Along the way we see two things the paper version did not show: why the weight u
 
 > **Key point:** 10 observations, features X1 and X2, classes 1 and 0; no single straight cut separates them.
 
-Each **observation** is one record (one row of the table). X1 and X2 are the **features**, the input variables (columns). The **target** `label` is the class we predict.
+Each **observation** (G-1374) is one record (one row of the table). X1 and X2 are the **features** (G-772), the input variables (columns). The **target** (G-1949) `label` is the class we predict.
 
 | Row | X1 | X2 | label |
 |---|---|---|---|
@@ -64,7 +64,7 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 
 **Weights.** With 10 observations, each observation starts at $1/10 = 0.1$.
 
-**The stump.** A `DecisionTreeClassifier` with `max_depth=1` is a decision stump. Trained on all 10 observations, it chooses **X2 $\le$ 2.5**: below, class 0; above, class 1 (Figure 1, top left).
+**The stump.** A `DecisionTreeClassifier` with `max_depth=1` is a **decision stump** (G-559): a tree with a single split. Trained on all 10 observations, it chooses **X2 $\le$ 2.5**: below, class 0; above, class 1 (Figure 1, top left).
 
 > **Python:** Weights and the first stump.
 >
@@ -85,9 +85,13 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 
 **Mistakes.** Comparing `label` with `y_pred` observation by observation, the stump is wrong on observations **2, 6 and 8**: three class-0 observations in the class-1 region.
 
-**Error and alpha.** The error is the total weight of those observations, $0.1 + 0.1 + 0.1 = 0.3$. Using the formula of the step-by-step Note, section 6:
+**Error and alpha.** The error is the total weight of those observations, $0.1 + 0.1 + 0.1 = 0.3$. The stump's say in the final vote is its **alpha** (G-192), from the formula of the step-by-step Note, section 6:
 
 $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.3}{0.3}\right) = \frac{1}{2}\ln(2.333) = \frac{1}{2} \times 0.847 = 0.4236$$
+
+Figure 2 lays each stage's ten weights end to end, so they fill 0 to 1. Watch the red blocks: the error is simply how much of the bar they cover, and less red means a larger alpha.
+
+![The error of each stage is the total weight of its mistakes (red); each block is one row of that stage's dataset, labelled by its original row. Stage 1 covers 0.3 of the bar, stage 2 covers 0.1, stage 3 covers 0.2](images/stage_errors.png){height=30%}
 
 > **Python:** Error and alpha as functions.
 >
@@ -115,6 +119,10 @@ With $\alpha_1 = 0.4236$ (the step-by-step Note, section 7):
 $$\text{misclassified: } 0.1 \times e^{0.4236} = 0.1 \times 1.5275 = 0.1528$$
 $$\text{correct: } 0.1 \times e^{-0.4236} = 0.1 \times 0.6547 = 0.0655$$
 
+Figure 3 shows the update for every row, together with the normalising step of section 6. Watch the three mistakes: they grow at both steps, while the seven correct rows shrink and then recover a little when the total is scaled back to 1.
+
+![Stage 1 weights per row: the start (0.1), after the exponential update (0.1528 or 0.0655, total 0.9165), and after dividing by 0.9165 (0.1667 or 0.0714, total 1)](images/weight_update.png){height=36%}
+
 > **Python:** The update for every observation at once.
 >
 > ```python
@@ -135,7 +143,7 @@ $$\text{correct: } 0.1 \times e^{-0.4236} = 0.1 \times 0.6547 = 0.0655$$
 
 ![The factors $e^{\alpha}$ (mistakes) and $e^{-\alpha}$ (correct observations) against alpha, marked at our stage 1 and stage 2 alphas](images/exp_curves.png){height=36%}
 
-Figure 2 plots the two factors.
+Figure 4 plots the two factors.
 
 - **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets a observation wrong, that observation is likely a hard one, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
 - **$e^{-\alpha}$ (green)** is the mirror image: below 1 for any positive alpha, and smaller the larger alpha is. Observations a trustworthy stump gets right lose most of their weight: $\times 0.33$ at $\alpha = 1.10$.
@@ -147,13 +155,13 @@ So the size of the update follows how much we trust the stump that made it.
 
 > **Key point:** The updated weights add to 0.9165; after dividing, mistakes weigh 0.1667 and correct observations 0.0714. Ten random draws then give the dataset for stage 2.
 
-**Normalise.** The updated weights add up to $3 \times 0.1528 + 7 \times 0.0655 = 0.9165$. Dividing each by 0.9165:
+**Normalise.** Dividing every weight by the sum of all weights is **normalisation** (G-1347); afterwards the weights add up to 1. The updated weights add up to $3 \times 0.1528 + 7 \times 0.0655 = 0.9165$. Dividing each by 0.9165:
 
 $$\text{misclassified: } \frac{0.1528}{0.9165} = 0.1667 \qquad \text{correct: } \frac{0.0655}{0.9165} = 0.0714$$
 
 **Ranges.** The running total of the normalised weights, `np.cumsum`, gives each observation's upper end; its lower end is the upper end minus its own weight. Observation 0 owns 0 to 0.0714, observation 1 owns 0.0714 to 0.1429, observation 2 owns 0.1429 to 0.3095, and so on.
 
-**Upsampling.** We draw 10 random numbers between 0 and 1 and, for each, pick the observation whose range it falls in (the step-by-step Note, section 9).
+**Upsampling.** Drawing a new dataset in which each row appears in proportion to its weight is **upsampling** (G-2063). We draw 10 random numbers between 0 and 1 and, for each, pick the observation whose range it falls in (the step-by-step Note, section 9).
 
 > **Python:** Ranges and the new dataset.
 >
@@ -184,11 +192,11 @@ Our draw picks observations **6, 2, 0, 0, 8, 8, 6, 7, 6, 9**. The three mistakes
 
 **Weights start again.** In the new dataset every observation gets weight 0.1 again. The upsampling has already done the reweighting: a observation drawn three times counts three times.
 
-Figure 3 plays the whole loop of sections 3 to 8, one step per frame, for the three stages. Watch the weight bars of the mistakes (red outlines) grow, the stretches of 0 to 1 they own widen, and the random darts land on them more often. A row drawn twice then starts the next stage with weight 0.2: the upsampling has turned weight into copies.
+Figure 5 plays the whole loop of sections 3 to 8, one step per frame, for the three stages. Watch the weight bars of the mistakes (red outlines) grow, the stretches of 0 to 1 they own widen, and the random darts land on them more often. A row drawn twice then starts the next stage with weight 0.2: the upsampling has turned weight into copies.
 
 ![The AdaBoost loop on the toy data: the stump and its mistakes (red rings), the weight of each original row (a row drawn twice counts 0.2), and the stretch of 0 to 1 each row owns, with the ten random draws as darts](images/weights_stages.gif){height=55%}
 
-> **Extra:** `np.random.default_rng(0)` is NumPy's current way to make random numbers. Older code calls `np.random.random()` with no seed, so every run draws different observations and gives different stumps. Fixing the seed makes the results repeatable. NumPy can also draw by weight in one line: `rng.choice(10, size=10, p=weights)`.
+> **Extra:** `np.random.default_rng(0)` is NumPy's current way to make random numbers. Older code calls `np.random.random()` with no seed, so every run draws different observations and gives different stumps. Fixing the **random seed** (G-1617) makes the results repeatable. NumPy can also draw by weight in one line: `rng.choice(10, size=10, p=weights)`.
 
 ## 7. Stage 2, and a stump with no mistakes
 
@@ -203,13 +211,17 @@ On `second_df` we repeat every step:
 
 The second stump has a larger say than the first (1.10 against 0.42) because it made fewer mistakes.
 
-The update follows (Figure 2): the mistake becomes $0.1 \times e^{1.0986} = 0.3$, the nine correct observations $0.1 \times e^{-1.0986} = 0.0333$. Their sum is $0.3 + 9 \times 0.0333 = 0.6$; after normalising, the mistake weighs **0.5** and every other observation 0.0556. The draw for stage 3 gives observation 7 six times out of ten.
+The update follows (Figure 4): the mistake becomes $0.1 \times e^{1.0986} = 0.3$, the nine correct observations $0.1 \times e^{-1.0986} = 0.0333$. Their sum is $0.3 + 9 \times 0.0333 = 0.6$; after normalising, the mistake weighs **0.5** and every other observation 0.0556. The draw for stage 3 gives observation 7 six times out of ten.
 
 **When a stump makes no mistakes.** On a small dataset a stump can classify every observation correctly. Its error is then 0, and the formula breaks:
 
 $$\alpha = \frac{1}{2}\ln\left(\frac{1-0}{0}\right) \quad \text{divides by zero}$$
 
-The fix is to add a tiny number, such as $10^{-10}$, to the error before dividing; that is the `eps` in `calculate_model_weight`. Such a stump then gets a huge but finite alpha. scikit-learn handles this case itself: it stops boosting early, because a perfect stump leaves nothing to fix (scikit-learn source).
+The fix is to add a tiny number, such as $10^{-10}$, to the error before dividing; that is the `eps` in `calculate_model_weight`. Such a stump then gets a huge but finite alpha (Figure 6). Watch the two curves part near an error of $10^{-10}$: without `eps` alpha keeps climbing, with it alpha stops at 11.5.
+
+![Alpha against the error on a log scale. Without eps (dashed) alpha grows without limit as the error falls to 0; with eps = $10^{-10}$ it levels off at 11.5. Our three stages sit at the far right](images/zero_error.png){height=36%}
+
+scikit-learn handles this case itself: it stops boosting early, because a perfect stump leaves nothing to fix (scikit-learn source).
 
 ## 8. Stage 3
 
@@ -239,6 +251,11 @@ $$0.4236 \times (+1) + 1.0986 \times (-1) + 0.6931 \times (+1) = 0.0181$$
 
 Positive, so +1: class 1, **wrong**, though only just. On all 10 training observations the three stumps get 9 right; observation 8 is the one they miss (Figure 1, bottom right). With more stages, later stumps would keep working on it.
 
+Figure 7 builds both totals one stump at a time. Watch stump 2: on (1, 5) it pushes the total up, on (9, 9) it pulls it below zero, and stump 3 lifts it back just above.
+
+![The weighted vote built up stump by stump, alpha times the stump's +1 or -1. Query (1, 5) ends at +0.83, class 1, correct; query (9, 9) ends at +0.02, class 1, wrong](images/vote.png){height=36%}
+
+
 > **Python:** The weighted vote.
 >
 > ```python
@@ -262,9 +279,9 @@ Positive, so +1: class 1, **wrong**, though only just. On all 10 training observ
 
 > **Key point:** scikit-learn hands the weights to the stump with `sample_weight` instead of drawing observations, and its alpha has no factor 1/2; the decisions are the same. With the same tie-breaking, our loop reproduces `AdaBoostClassifier` exactly.
 
-Upsampling is random: another seed draws other observations and can give other stumps. scikit-learn's `AdaBoostClassifier` avoids the randomness. scikit-learn never draws observations; it trains each stump with `fit(X, y, sample_weight=w)`, so the tree counts every observation in proportion to its weight when it compares cuts.
+Upsampling is random: another seed draws other observations and can give other stumps. scikit-learn's `AdaBoostClassifier` avoids the randomness. scikit-learn never draws observations; it trains each stump with `fit(X, y, sample_weight=w)`, the **sample_weight** (G-1732) argument, so the tree counts every observation in proportion to its weight when it compares cuts.
 
-scikit-learn also uses a slightly different but equivalent bookkeeping, the **SAMME** algorithm (Zhu et al. 2009):
+scikit-learn also uses a slightly different but equivalent bookkeeping, the **SAMME** (G-1722) algorithm (Zhu et al. 2009):
 
 - $\alpha = \ln((1-\text{error})/\text{error})$, twice our $\alpha$ (no factor 0.5);
 - only the mistakes are multiplied, by $e^{\alpha}$; correct observations keep their weight; then all are normalised.
@@ -302,6 +319,10 @@ Both changes leave the result unchanged. Doubling every alpha doubles the vote t
 > `alpha * wrong` is `alpha` for a mistake (`True` counts as 1) and 0 for a correct observation ($e^0 = 1$). scikit-learn gives each stump its own `random_state`; reusing them makes ties break the same way.
 
 Both give alphas 0.8473, 1.2993 and 1.8458 (`abc.estimator_weights_`) and the same predictions. Without random draws, the three weighted stumps classify **all 10 observations** correctly. The first alpha, 0.8473, is exactly twice our hand-computed 0.4236.
+
+Figure 8 puts the two ensembles side by side on the training data. Watch the top-right corner: our vote leaves observation 8 at (9, 9) in the class-1 region, while scikit-learn's weighted stumps put it on the class-0 side of their **decision boundary** (G-555), the line where the vote changes sign.
+
+![Decision regions of our three upsampled stumps (left, 9 of 10 correct, observation 8 missed) and scikit-learn's three weighted SAMME stumps (right, 10 of 10 correct)](images/upsample_vs_weights.png){height=40%}
 
 ## 11. Summary
 

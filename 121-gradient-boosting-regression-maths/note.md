@@ -27,7 +27,7 @@ The same algorithm also solves classification; only the loss function changes ([
 
 > **Key point:** Every ML model is a function $y = f(x)$ that maps the features to the target.
 
-Whatever the algorithm, an ML model learns a mathematical relationship between the **features** (the input variables, one column of the data table each) and the **target** (the output we predict). With one feature $x$ (say CGPA) and a target $y$ (say package), the model is a function $y = f(x)$. With several features, it is $y = f(x_1, x_2, x_3)$. Each **observation** (one record, one row of the table) gives one pair of $x$ and $y$.
+Whatever the algorithm, an ML model learns a mathematical relationship between the **features** (G-772) (the input variables, one column of the data table each) and the **target** (G-1949) (the output we predict). With one feature $x$ (say CGPA) and a target $y$ (say package), the model is a function $y = f(x)$. With several features, it is $y = f(x_1, x_2, x_3)$. Each **observation** (G-1374) (one record, one row of the table) gives one pair of $x$ and $y$.
 
 Linear regression learns a straight line ([simple linear regression Note](../50-simple-linear-regression/note.md)): a very simple function. A decision tree is also a function, made of if-else rules ([regression trees Note](../99-regression-trees/note.md)). Learning means finding the function that matches the data.
 
@@ -51,7 +51,7 @@ Some data follows a pattern that wiggles as it rises. A straight line cannot fol
 
 Figure 2 shows such a function: it rises like a line and wiggles like a wave. The function is in fact the sum of two simple functions, $y = x$ and $y = \sin x$. If we did not know this, we could still approach it step by step: first catch the rising trend, then catch the wiggle that is left over, and add the two.
 
-Catching the parts one by one and adding them is **additive modelling**: we approximate a complex function by adding simple functions, each one capturing part of what the others missed. A painter works the same way: first the rough outline, then the shading, then the fine details, each pass adding what the earlier ones left out.
+Catching the parts one by one and adding them is **additive modelling** (G-174): we approximate a complex function by adding simple functions, each one capturing part of what the others missed. A painter works the same way: first the rough outline, then the shading, then the fine details, each pass adding what the earlier ones left out.
 
 $$F(x) = f_0(x) + f_1(x) + f_2(x) + \dots + f_M(x)$$
 
@@ -59,7 +59,7 @@ $$F(x) = f_0(x) + f_1(x) + f_2(x) + \dots + f_M(x)$$
 
 > **Key point:** In boosting, each added function is a model (a tree), and they are added in stages, one after another.
 
-All boosting algorithms build this kind of sum. The [AdaBoost intuition Note](../115-adaboost-intuition/note.md), section 3, called it a stage-wise additive model: "additive" because the final model is a sum, "stage-wise" because the parts are added one per stage.
+All boosting algorithms build this kind of sum. The [AdaBoost intuition Note](../115-adaboost-intuition/note.md), section 3, called it a **stage-wise additive model** (G-1867): "additive" because the final model is a sum, "stage-wise" because the parts are added one per stage.
 
 In gradient boosting, $f_0$ is a constant and every later $f_m$ is a regression tree, which is also a function. Each new tree moves the sum closer to the training data, so the training error never rises from one stage to the next: section 8 picks each leaf value to make the loss as small as possible, and a leaf value of 0 (no change) is always one of the options.
 
@@ -85,7 +85,7 @@ The notation $\lbrace(x_i, y_i)\rbrace_{i=1}^{n}$ in Figure 1 simply means this 
 
 > **Key point:** We use half the squared error, $L = \frac{1}{2}(y - F(x))^2$. Any loss works, as long as it can be differentiated.
 
-A **loss function** measures how wrong a prediction is ([regression metrics Note](../52-regression-metrics/note.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any loss we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
+A **loss function** (G-1130) measures how wrong a prediction is ([regression metrics Note](../52-regression-metrics/note.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
 
 For regression we take the squared error with a factor of one half.
 
@@ -103,7 +103,7 @@ The $\frac{1}{2}$ is for convenience: when we differentiate, the 2 from the squa
 
 Step 1 finds the first function, $F_0$. $F_0$ does not depend on $x$: it is one number for every observation, a leaf on its own.
 
-1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all observations as small as possible. "$\arg\min_\gamma$" means "the value of $\gamma$ that minimises".
+1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all observations as small as possible. "$\arg\min_\gamma$" means "the value of $\gamma$ that minimises"; it is read **arg min** (G-211).
 2. **Formula:**
    $$F_0 = \arg\min_{\gamma} \sum_{i=1}^{n} \frac{1}{2}\thinspace(y_i - \gamma)^2$$
 3. **Example:** for our three startups we need the $\gamma$ that minimises $\frac{1}{2}\big[(192.26 - \gamma)^2 + (144.26 - \gamma)^2 + (90.71 - \gamma)^2\big]$. The derivation below gives $\gamma = 142.41$.
@@ -117,6 +117,10 @@ Multiplying by $-1$ and writing out the sum for $n = 3$:
 $$(\gamma - 192.26) + (\gamma - 144.26) + (\gamma - 90.71) = 0 \quad\Rightarrow\quad 3\gamma = 427.23 \quad\Rightarrow\quad \gamma = 142.41$$
 
 The answer, 142.41, is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the target, as the intuition Note claimed. With another loss, step 1 gives another constant.
+
+Figure 4 slides $\gamma$ across the three profits. Watch the red gaps on the left and the dot on the right: moving $\gamma$ up shrinks one gap and stretches the others, and the total loss is smallest (2,581) at $\gamma = 142.41$, where the gaps above and below balance.
+
+![Step 1 on the three startups: the constant $\gamma$ (black line) and the gaps to each profit (left), and the total loss against $\gamma$ (right); the lowest loss is at the mean, 142.41](images/best_constant.gif){height=40%}
 
 ## 6. Step 2(a): pseudo-residuals are negative gradients
 
@@ -132,7 +136,11 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
 3. **Example:** for the first tree ($m = 1$) the current model is $F_0 = 142.41$:
    $$r_{11} = 192.26 - 142.41 = 49.85, \quad r_{21} = 144.26 - 142.41 = 1.85, \quad r_{31} = 90.71 - 142.41 = -51.70$$
 
-The derivative of the loss is its **gradient**, the same quantity gradient descent follows ([gradient descent Note](../57-gradient-descent/note.md)). Minus the gradient points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a *pseudo*-residual.
+The derivative of the loss is its **gradient** (G-865), the same quantity gradient descent follows ([gradient descent Note](../57-gradient-descent/note.md)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a **pseudo-residual** (G-1589).
+
+Figure 5 draws this for each startup. Watch the sign: where the loss slopes down (startup 1) the residual is positive and the green arrow says "predict more"; where it slopes up (startup 3) the residual is negative; startup 2 sits almost at the bottom, so its residual is almost 0.
+
+![Each startup's loss $\frac{1}{2}(y - F)^2$ against the prediction $F$. The red line is the slope at $F_0 = 142.41$; the pseudo-residual is minus that slope, and the green arrow is the downhill direction](images/gradients.png){height=36%}
 
 > **Extra:** The negative gradient is where "gradient" in gradient boosting comes from. Gradient descent changes a parameter by a small step against the gradient. Gradient boosting changes the *predictions* by a small step against the gradient: each tree learns the negative gradient, and adding it (times the learning rate) is one step of gradient descent on the predictions. Friedman calls this gradient descent in function space (Friedman 2001).
 
@@ -146,7 +154,7 @@ The tree splits on R&D spend at 64.67 (halfway between 28.66 and 100.67). Startu
 
 ![The first tree on the pseudo-residuals: one split on R&D spend makes two terminal regions, each with its leaf value](images/regions.png){height=40%}
 
-Each leaf covers a part of the feature space, called a **terminal region** $R_{jm}$: region $j$ of tree $m$. In Figure 3, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
+Each leaf covers a part of the feature space, called a **terminal region** (G-1960) $R_{jm}$: region $j$ of tree $m$. In Figure 3, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
 
 The tree's own prediction in each region is the mean of the targets there: $-51.70$ on the left, $(49.85 + 1.85)/2 = 25.85$ on the right.
 
@@ -154,7 +162,7 @@ The tree's own prediction in each region is the mean of the targets there: $-51.
 
 > **Key point:** Each leaf gets the constant $\gamma_{jm}$ that best corrects the current model for the observations in that leaf. For the squared error, this is the mean of the residuals in the leaf, the same value the tree already gives.
 
-Step 2(c) does not simply trust the tree's leaf values. For each region it solves a small version of step 1, using only the observations that fall in that region.
+Step 2(c) does not simply trust the tree's own leaf values; it computes a new **leaf value** (G-1061) $\gamma_{jm}$ for each leaf. For each region it solves a small version of step 1, using only the observations that fall in that region.
 
 1. **In words:** for each leaf, find the amount $\gamma$ which, added to the current predictions of the observations in that leaf, makes their loss smallest.
 2. **Formula:**
@@ -168,7 +176,11 @@ $$-\big[(192.26 - 142.41 - \gamma) + (144.26 - 142.41 - \gamma)\big] = 0 \quad\R
 
 Both values equal the tree's own leaf values, and not by coincidence: with the squared error, the minimising $\gamma$ is always the mean of the residuals in the leaf, which is exactly what a regression tree predicts. With another loss, step 2(c) gives different values, and then the step matters.
 
-> **Extra:** With the absolute error $L = |y - F(x)|$ (scikit-learn's `loss="absolute_error"`), step 1 gives the **median**, 144.26. The pseudo-residuals become the signs of $y - F$: $+1$, 0 and $-1$, so the tree learns only the direction of each mistake. Step 2(c) then sets each leaf to the median of the actual residuals in it: $-53.55$ for startup 3, and for startups 1 and 2 (residuals 48 and 0) any value between 0 and 48 is a median; scikit-learn takes 0. The tree's own leaf values (the means of the signs, $-1$ and 0.5) are replaced. The Notebook reproduces these numbers.
+Figure 6 shows both cases for region $R_{11}$, which holds startup 3 alone. Watch the red cross: with the squared error it sits at the bottom of the curve, so the tree's own value is already the best; with the absolute error (the Extra below) it sits far up the slope, and step 2(c) moves the leaf to $-53.55$.
+
+![Loss in region $R_{11}$ against the leaf value. Squared error (left): the tree's own value, $-51.70$, is the minimum. Absolute error (right): the tree's own value, $-1$, is far from the minimum at $-53.55$](images/leaf_values.png){height=36%}
+
+> **Extra:** With the absolute error $L = |y - F(x)|$ (scikit-learn's `loss="absolute_error"`), step 1 gives the **median** (G-1209), 144.26. The pseudo-residuals become the signs of $y - F$: $+1$, 0 and $-1$, so the tree learns only the direction of each mistake. Step 2(c) then sets each leaf to the median of the actual residuals in it: $-53.55$ for startup 3, and for startups 1 and 2 (residuals 48 and 0) any value between 0 and 48 is a median; scikit-learn takes 0. The tree's own leaf values (the means of the signs, $-1$ and 0.5) are replaced. The Notebook reproduces these numbers.
 
 ## 9. Step 2(d): update the model
 
@@ -181,7 +193,11 @@ Both values equal the tree's own leaf values, and not by coincidence: with the s
 3. **Example:** startups 1 and 2 are in $R_{21}$, startup 3 in $R_{11}$:
    $$F_1 = 142.41 + 25.85 = 168.26 \thickspace\thickspace(\text{startups 1, 2}), \qquad F_1 = 142.41 - 51.70 = 90.71 \thickspace\thickspace(\text{startup 3})$$
 
-In practice each tree is multiplied by the learning rate $\eta$ before it is added, as in the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md), section 8: $F_m(x) = F_{m-1}(x) + \eta \sum_j \gamma_{jm} \mathbf{1}(x \in R_{jm})$. With $\eta = 0.1$ the predictions become 144.995, 144.995 and 137.24. scikit-learn's `GradientBoostingRegressor` with one tree of depth 1 gives exactly these numbers for both learning rates (Notebook).
+In practice each tree is multiplied by the **learning rate** (G-1067) $\eta$ before it is added, as in the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md), section 8: $F_m(x) = F_{m-1}(x) + \eta \sum_j \gamma_{jm} \mathbf{1}(x \in R_{jm})$. With $\eta = 0.1$ the predictions become 144.995, 144.995 and 137.24. scikit-learn's `GradientBoostingRegressor` with one tree of depth 1 gives exactly these numbers for both learning rates (Notebook).
+
+Figure 7 compares the two updates. Watch startup 3: with learning rate 1 it jumps straight onto its actual profit, 90.71; with 0.1 it moves only a tenth of the way, from 142.41 to 137.24.
+
+![Predictions of the three startups: $F_0$ (grey), $F_1$ with learning rate 1 (red) and with learning rate 0.1 (blue); black bars mark the actual profits](images/update.png){height=36%}
 
 Then the loop goes back to step 2(a) with $m = 2$: new pseudo-residuals from $F_1$, a new tree, new leaf values, a new update.
 
@@ -208,7 +224,7 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 > gbr.fit(X, y)
 > ```
 >
-> `"huber"` is squared error for small residuals and absolute error for large ones, so outliers pull less; `"quantile"` predicts a chosen quantile instead of the mean. Old names such as `"ls"` and `"lad"` were removed from scikit-learn and now raise an error.
+> `"huber"`, the **Huber loss** (G-905), is squared error for small residuals and absolute error for large ones, so outliers pull less; `"quantile"` predicts a chosen quantile instead of the mean. Old names such as `"ls"` and `"lad"` were removed from scikit-learn and now raise an error.
 
 ## 11. Summary
 

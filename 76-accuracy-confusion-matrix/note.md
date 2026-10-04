@@ -17,7 +17,12 @@ tags: [subject/ml, area/production, step/evaluate, concept/accuracy, concept/con
 
 > **Key point:** Accuracy is the fraction of correct predictions. The confusion matrix splits the predictions into four counts, which also show what kind of mistakes a model makes.
 
-Regression models were judged with regression metrics such as R² (the regression metrics Note). Classification models need their own **classification metrics**. There are several: accuracy, the confusion matrix, precision, recall, F1 score, ROC-AUC and more.
+Regression models were judged with regression metrics such as R² (the regression metrics Note). Classification models need their own **classification metrics** (G-394): numbers that measure how well a model predicts classes. The main ones are:
+
+- accuracy (Section 2);
+- the confusion matrix (Section 4);
+- precision, recall and the F1 score ([next Note](../77-precision-recall-f1/note.md));
+- ROC-AUC ([ROC Note](../78-roc-auc/note.md)).
 
 This Note covers the first two. The following Notes build on the confusion matrix.
 
@@ -29,7 +34,7 @@ This Note covers the first two. The following Notes build on the confusion matri
 
 > **Key point:** Compare each prediction with the true class and count how many match.
 
-Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a later Note), and predict the test students. For each test student we know the true result, so we can tick each prediction as right or wrong.
+Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a later Note), and predict the students of the **test set** (G-1962), the observations held back from training. For each test student we know the true result, so we can tick each prediction as right or wrong. The share ticked right is the **accuracy** (G-162):
 
 $$\text{accuracy} = \frac{\text{number of correct predictions}}{\text{total number of predictions}}$$
 
@@ -39,7 +44,7 @@ With numbers: if a model gets 8 of 10 test students right, its accuracy is $8/10
 
 > **Key point:** On the heart-disease data, logistic regression reaches 0.869 and a decision tree 0.836.
 
-The heart-disease dataset has 303 patients. Each patient is one **observation** (one record, a row of the data table). Each has 13 **features** (input variables, one column each): medical measurements such as age, blood pressure and cholesterol. The **target** (the output we predict) is 1 if the patient has heart disease, 0 if not. We split off 20% as the test set (random state 2) and train both models.
+The heart-disease dataset has 303 patients. Each patient is one **observation** (G-1374) (one record, a row of the data table). Each has 13 **features** (G-772) (input variables, one column each): medical measurements such as age, blood pressure and cholesterol. The **target** (G-1949) (the output we predict) is 1 if the patient has heart disease, 0 if not. We split off 20% as the test set (random state 2) and train both models.
 
 > **Python:** Accuracy in scikit-learn.
 >
@@ -57,6 +62,10 @@ The heart-disease dataset has 303 patients. Each patient is one **observation** 
 | Decision tree | 0.836 |
 
 So, on this test set, logistic regression is the better model.
+
+![The 61 test patients ticked one by one for each model: green when the prediction matches the true result, a red cross when it does not. The final count over 61 is the accuracy. Key frames: after 24 and 61 patients.](images/accuracy_count.gif){height=60%}
+
+In Figure 1, watch the two running counts: they stay close for most of the test set and end 53 against 51 right, so 0.869 against 0.836.
 
 ### 2.3 More than two classes
 
@@ -87,13 +96,13 @@ A model with 90% accuracy makes mistakes 10% of the time. But in a two-class pro
 - a patient **has** heart disease, but the model says no;
 - a patient does **not** have heart disease, but the model says yes.
 
-These have very different consequences, and accuracy cannot tell them apart. The **confusion matrix** can.
+These have very different consequences, and accuracy cannot tell them apart. The **confusion matrix** (G-449) can.
 
 ### 4.2 Reading it
 
 > **Key point:** Rows are the actual classes, columns the predicted ones. The diagonal holds the correct predictions.
 
-Figure 1 shows the confusion matrices of both models on the heart-disease test set (61 patients).
+Figure 2 shows the confusion matrices of both models on the heart-disease test set (61 patients).
 
 ![Confusion matrices for logistic regression and the decision tree](images/heart.png){height=50%}
 
@@ -104,10 +113,10 @@ In scikit-learn's layout, each **row** is an actual class and each **column** a 
 | **Actual 0 (no disease)** | 25: true negatives (TN) | 7: false positives (FP) |
 | **Actual 1 (disease)** | 1: false negatives (FN) | 28: true positives (TP) |
 
-- **True positives (28):** patients with heart disease that the model correctly flagged.
-- **True negatives (25):** healthy patients correctly cleared.
-- **False positives (7):** healthy patients wrongly flagged as ill.
-- **False negatives (1):** an ill patient the model missed.
+- **True positives** (G-2021) **(28):** patients with heart disease that the model correctly flagged.
+- **True negatives** (G-2020) **(25):** healthy patients correctly cleared.
+- **False positives** (G-748) **(7):** healthy patients wrongly flagged as ill.
+- **False negatives** (G-747) **(1):** an ill patient the model missed.
 
 The decision tree makes the same 7 false positives but 3 false negatives. So most of its extra errors are of the more dangerous kind: missed patients.
 
@@ -118,6 +127,8 @@ The decision tree makes the same 7 false positives but 3 false negatives. So mos
 > **Key point:** The second word is what the model predicted; the first word says whether that was right.
 
 ![How the four names are built](images/naming.png){width=85%}
+
+Figure 3 builds each name from two parts:
 
 - **Positive / Negative** is the model's prediction: 1 or 0.
 - **True / False** says whether that prediction was correct.
@@ -132,8 +143,8 @@ These two error types also have names from statistics:
 
 | Error | Meaning | Heart example |
 |---|---|---|
-| **Type I error** = false positive | predicted 1, truly 0 | a healthy patient told they have heart disease |
-| **Type II error** = false negative | predicted 0, truly 1 | an ill patient told they are healthy |
+| **Type I error** (G-2032) = false positive | predicted 1, truly 0 | a healthy patient told they have heart disease |
+| **Type II error** (G-2033) = false negative | predicted 0, truly 1 | an ill patient told they are healthy |
 
 ### 4.5 Accuracy from the confusion matrix
 
@@ -162,6 +173,8 @@ The confusion matrix gives the accuracy, but the accuracy cannot give back the c
 
 ![Confusion matrices for iris (3 classes) and digits (10 classes)](images/multiclass.png){height=45%}
 
+In Figure 4, each row is an actual class and each column a predicted class, as before:
+
 - **Iris** (left): 3 × 3. The one mistake is a versicolor flower predicted as virginica (row versicolor, column virginica).
 - **Digits** (right): 10 × 10, from scikit-learn's 8 × 8 pixel images of handwritten digits. Logistic regression gets 97.2% right. The off-diagonal cells show exactly which digits get confused: for example, two 8s were read as 5s.
 
@@ -171,7 +184,7 @@ Accuracy is again the diagonal total divided by the grand total.
 
 > **Key point:** If one class is very rare, a model that always predicts the common class gets very high accuracy while being useless.
 
-Data is **imbalanced** when one class is much rarer than the other.
+Data is **imbalanced** (G-921) when one class is much rarer than the other.
 
 Imagine a model that screens airline passengers for security threats. Out of 100,000 passengers, perhaps 10 are real threats. A "model" that simply says "not a threat" for everyone gets
 
@@ -182,9 +195,11 @@ Imagine a model that screens airline passengers for security threats. Out of 100
 
 $$\text{accuracy} = \frac{99{,}990}{100{,}000} = 0.9999$$
 
-An accuracy of 99.99%, for a model that catches none of the 10 threats. The confusion matrix shows the problem at once: all 10 positives are false negatives.
+![The "always not a threat" model on 100,000 passengers. Left: its confusion matrix. Right: its accuracy against the share of threats it catches.](images/imbalance.png){height=40%}
 
-So on imbalanced data, accuracy alone is the wrong metric. The next Note introduces **precision** and **recall**, which focus on the rare class.
+An accuracy of 99.99%, for a model that catches none of the 10 threats (Figure 5: a full bar beside an empty one). The confusion matrix shows the problem at once: all 10 positives are false negatives.
+
+So on imbalanced data, accuracy alone is the wrong metric. The next Note introduces **precision** (G-1547) and **recall** (G-1641), which focus on the rare class.
 
 ## 7. Summary
 

@@ -1,5 +1,6 @@
 """Charts for Note 43 (placement data): the IQR fences on the exam marks, and trimming vs capping."""
 from pathlib import Path
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -87,3 +88,47 @@ fig.update_yaxes(showticklabels=False, showline=False, ticks="", col=2)
 fig.update_yaxes(title="students", row=2, col=1)
 fig.update_yaxes(range=[0, 125], col=1)
 save(fig, "before_after", 1100, 820)
+
+# 3. detect again after trimming: each round recomputes the fences from the rows that are left (Section 7.1)
+rounds, d = [], x.copy()
+while True:
+    a, b = d.quantile([0.25, 0.75])
+    f = b + 1.5 * (b - a)
+    rounds.append((d, b, f))
+    if not (d > f).any():
+        break
+    d = d[d <= f]
+assert [(len(d), q, fe, (d > fe).sum()) for d, q, fe in rounds] == [(1000, 44, 84.5, 15), (985, 43, 82, 1), (984, 43, 82, 0)]
+fig = make_subplots(3, 1, shared_xaxes=True, vertical_spacing=0.17,
+                    subplot_titles=[f"round {i + 1}: {len(d)} rows, Q3 = {q:g}, upper fence {fe:g}, {(d > fe).sum()} outside"
+                                    for i, (d, q, fe) in enumerate(rounds)])
+for i, (d, q, fe) in enumerate(rounds, start=1):
+    fig.add_trace(box(d), i, 1)
+    fig.add_vline(x=fe, line=dict(color=GREY, width=2.5, dash="dash"), row=i, col=1)
+fig.add_annotation(x=83, y=0, xref="x2", yref="y2", ax=-40, ay=-38, arrowcolor=RED, font_color=RED, xanchor="right",
+                   text="83: inside 84.5, outside 82")
+fig.update_xaxes(range=[0, 104], dtick=10)
+fig.update_xaxes(title="placement_exam_marks", row=3, col=1)
+fig.update_yaxes(showticklabels=False, showline=False, ticks="")
+save(fig, "trim_rounds", 1000, 560)
+
+# 4. robustness: replace the top mark (100) by a typo up to 1000; the z-score limit chases it, the IQR fence stays
+top = x.idxmax()
+typo = np.arange(100, 1001, 10)
+zlim, fence = [], []
+for v in typo:
+    y = x.copy()
+    y[top] = v
+    zlim.append(y.mean() + 3 * y.std())
+    fence.append(y.quantile(0.75) + 1.5 * (y.quantile(0.75) - y.quantile(0.25)))
+assert round(zlim[0], 2) == 89.62 and round(zlim[-1], 1) == 141.2 and set(fence) == {84.5}
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=typo, y=zlim, mode="lines", line=dict(color=ORANGE, width=4)))
+fig.add_trace(go.Scatter(x=typo, y=fence, mode="lines", line=dict(color=BLUE, width=4)))
+fig.add_annotation(x=1000, y=zlim[-1], xanchor="right", yanchor="bottom", showarrow=False, font_color=ORANGE,
+                   text=f"z-score upper limit: 89.6 to {zlim[-1]:.1f}")
+fig.add_annotation(x=1000, y=84.5, xanchor="right", yanchor="top", yshift=-6, showarrow=False, font_color=BLUE,
+                   text="IQR upper fence: 84.5 throughout")
+fig.update_xaxes(title="the top student's mark (really 100, typed as up to 1000)", range=[80, 1020])
+fig.update_yaxes(title="upper limit", range=[70, 150])
+save(fig, "robust_fence", 1000, 460)

@@ -76,3 +76,16 @@ for j, c in enumerate(COLS, start=1):
 fig.update_yaxes(title="number of training rows", range=[0, 1180], col=1)
 fig.update_yaxes(range=[0, 620], col=2)
 save(fig, "missing_category", 1300, 520, top=60)
+
+# 4. Section 4: share of missing values in each column (all 1,460 houses), against the 5% rule of thumb
+miss = df[COLS].isnull().mean() * 100
+assert miss.round(1).tolist() == [5.5, 47.3] and df[COLS].isnull().sum().tolist() == [81, 690]
+fig = go.Figure(go.Bar(x=miss.values, y=COLS, orientation="h", marker_color=[BLUE, ORANGE], width=0.55,
+                       text=[f"{v:.1f}% ({n} of 1,460)" for v, n in zip(miss, df[COLS].isnull().sum())],
+                       textposition="outside", textfont=dict(size=22)))
+fig.add_vline(x=5, line=dict(color=RED, width=3, dash="dash"), opacity=1)
+fig.add_annotation(x=5, y=1.45, text="5% rule of thumb", showarrow=False, xanchor="left", xshift=6,
+                   font=dict(size=22, color=RED))
+fig.update_xaxes(title="share of values missing (%)", range=[0, 70])
+fig.update_yaxes(range=[-0.6, 1.7])
+save(fig, "missing_share", 1000, 360, top=20)

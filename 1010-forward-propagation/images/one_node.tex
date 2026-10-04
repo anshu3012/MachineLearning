@@ -1,0 +1,22 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+% Section 3: node 1 of layer 1. Inputs 0.72, 0.72, 0.69, 0.81; weights 0.2, 0.4, -0.5, 0.3; bias 0.1.
+% Products 0.144, 0.288, -0.345, 0.243; sum + bias = 0.430; sigmoid(0.430) = 0.606.
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\Large}]
+  \foreach \i/\name/\x/\w/\p in {1/CGPA/0.72/0.2/0.144, 2/IQ/0.72/0.4/0.288, 3/10th/0.69/-0.5/$-0.345$, 4/12th/0.81/0.3/0.243} {
+    \node[box=cgrey, minimum width=1.6cm] (x\i) at (0, 3.6-1.6*\i) {\x};
+    \node[note, font=\large, left=0.15cm of x\i] {\name};
+    \node[box=corange, minimum width=1.9cm] (p\i) at (4.6, 3.6-1.6*\i) {\p};
+    \draw[arrow] (x\i) -- node[above, font=\large, text=cblue] {$\times\ \w$} (p\i);
+  }
+  \node[circle, draw=cblue, fill=cblue!12, minimum size=1.6cm, line width=1.4pt] (s) at (8.4, -0.4) {$\Sigma$};
+  \foreach \i in {1,...,4} \draw[arrow] (p\i) -- (s);
+  \node[box=cgrey] (b) at (8.4, 2.2) {bias $+0.1$};
+  \draw[arrow] (b) -- (s);
+  \node[box=cblue] (z) at (11.6, -0.4) {$z = 0.430$};
+  \draw[arrow] (s) -- (z);
+  \node[box=cgreen] (o) at (15.4, -0.4) {$O_{11} = 0.606$};
+  \draw[arrow] (z) -- node[above, font=\large] {$\sigma$} (o);
+\end{tikzpicture}
+\end{document}

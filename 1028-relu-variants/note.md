@@ -15,12 +15,12 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 
 > **Key point:** A ReLU node whose weighted sum stays negative outputs 0 with slope 0, so it never learns again: it is dead. Four variants give negative inputs a non-zero output and slope, which keeps every node alive.
 
-ReLU is the default activation for hidden layers (see the [activation functions Note](../1027-activation-functions/note.md)). ReLU's biggest weakness is the **dying ReLU problem**. This Note covers:
+**ReLU** (G-1668) is the default **activation function** (G-165) for **hidden layers** (G-890; see the [activation functions Note](../1027-activation-functions/note.md)). ReLU's biggest weakness is the **dying ReLU problem** (G-650). This Note covers:
 
 - what a dead node is, why it happens and why it is permanent;
 - three fixes, the third being a change of activation;
-- two **linear variants** (Leaky ReLU, Parametric ReLU), which change ReLU's negative side by a straight line;
-- two **non-linear variants** (ELU, SELU), which use an exponential curve there.
+- two **linear variants** (G-1098; Leaky ReLU, Parametric ReLU), which change ReLU's negative side by a straight line;
+- two **non-linear variants** (G-1336; ELU, SELU), which use an exponential curve there.
 
 ![ReLU and its four variants (left) and their derivatives (right). On the negative side ReLU's slope is 0; every variant keeps a slope above 0. The Leaky ReLU slope is drawn as 0.1 instead of 0.01 to make it visible](images/variants.png){width=100%}
 
@@ -35,11 +35,11 @@ Figure 1 shows all five functions. The five agree for positive $z$ (SELU is scal
 
 > **Key point:** A dead node outputs 0 for every input. With more than half the nodes dead, the network cannot capture the patterns in the data; with all of them dead, there is no network left.
 
-A **dead neuron** is a node whose output is 0 for every input. The dead node's output no longer depends on the input, so it carries no information and learns nothing. Worse, it stays dead for the rest of training: in effect it has been removed from the network.
+A **dead neuron** (G-551) is a node whose output is 0 for every input. The dead node's output no longer depends on the input, so it carries no information and learns nothing. Worse, it stays dead for the rest of training: in effect it has been removed from the network.
 
 How much this matters depends on how many nodes die:
 
-- **A few dead nodes:** the network has less capacity, but it still works.
+- **A few dead nodes:** the network has less **capacity** (G-344; the range of functions it can fit), but it still works.
 - **More than half:** the network runs at less than half its size and cannot represent the patterns in the data well.
 - **All of them:** the network outputs a constant. There is no point in training it.
 
@@ -53,7 +53,7 @@ $$z_1 = w_1 x_1 + w_2 x_2 + b_1, \qquad a_1 = \max(0, z_1)$$
 
 ![A ReLU node with $z_1 < 0$. The factor $\partial a_1/\partial z_1$ is 0, so the gradients of $w_1$ and $w_2$ are 0](images/dying.png){width=70%}
 
-Backpropagation reaches $w_1$ through the chain $L \to \hat{y} \to a_1 \to z_1 \to w_1$:
+**Backpropagation** (G-247) reaches $w_1$ through the chain $L \to \hat{y} \to a_1 \to z_1 \to w_1$:
 
 1. **In words:** the gradient of $w_1$ is a product of four factors, one of which is ReLU's slope.
 2. **Formula:**
@@ -63,13 +63,13 @@ Backpropagation reaches $w_1$ through the chain $L \to \hat{y} \to a_1 \to z_1 \
    $$z_1 = -0.48 - 0.20 + 0.1 = -0.58 < 0, \qquad \frac{\partial a_1}{\partial z_1} = 0$$
    So $\partial L/\partial w_1 = \partial L/\partial w_2 = 0$, and $w_{\text{new}} = w_{\text{old}} - \eta \cdot 0 = w_{\text{old}}$.
 
-Neither weight changes. If $z_1$ is negative for every observation (every record of the data), the node never gets an update again: it is dead.
+Neither weight changes. If $z_1$ is negative for every **observation** (G-1374; every record of the data), the node never gets an update again: it is dead.
 
 ### 3.2 What makes $z$ negative
 
 > **Key point:** Two causes: a learning rate so high that one update throws the weights negative, and a large negative bias.
 
-**1. A high learning rate.** Suppose that for the first observation $z_1$ is positive, so the gradient is not 0. With a very large learning rate, $\eta\thinspace\partial L/\partial w$ is a big number. Subtracting it from a small weight makes $w_1$ and $w_2$ strongly negative, and in the next round $z_1$ is negative for every observation.
+**1. A high learning rate** (G-1068). Suppose that for the first observation $z_1$ is positive, so the gradient is not 0. With a very large learning rate, $\eta\thinspace\partial L/\partial w$ is a big number. Subtracting it from a small weight makes $w_1$ and $w_2$ strongly negative, and in the next round $z_1$ is negative for every observation.
 
 **2. A large negative bias.** If $b_1$ is very negative, $z_1 = w_1 x_1 + w_2 x_2 + b_1$ is negative however the inputs vary. The bias can start out negative, or it can be pushed there by updates, again usually because the learning rate is high.
 
@@ -80,7 +80,7 @@ Neither weight changes. If $z_1$ is negative for every observation (every record
 Once $z_1$ is negative for every observation, nothing can make $z_1$ positive again:
 
 - the weights and the bias get no updates, so they stay as they are;
-- only the features $x_1$, $x_2$ (the input variables) change from observation to observation, and they are scaled into a small range, so they cannot outweigh a large negative bias or negative weights.
+- only the **features** (G-772) $x_1$, $x_2$ (the input variables) change from observation to observation, and they are scaled into a small range, so they cannot outweigh a large negative bias or negative weights.
 
 For these two reasons a dead node is called permanently dead.
 
@@ -88,7 +88,7 @@ For these two reasons a dead node is called permanently dead.
 
 > **Key point:** On the moons data, a learning rate of 10 kills 41% and 69% of the nodes in two hidden layers, and a bias of $-1$ kills 72% and 100%; accuracy drops to guessing. Leaky ReLU and ELU with the same bias reach 89% and 96%.
 
-The Notebook trains a network with two hidden layers of 32 nodes on 500 standardised observations of `make_moons` (two features, two classes), with plain SGD for 200 epochs. The Notebook then counts the nodes whose $z$ is negative for every training observation.
+The Notebook trains a network with two hidden layers of 32 nodes on 500 standardised observations of `make_moons` (G-1151; two features, two classes), with plain **stochastic gradient descent (SGD)** (G-1892) for 200 **epochs** (G-696). The Notebook then counts the nodes whose $z$ is negative for every training observation.
 
 ![Share of nodes whose $z$ is negative on every training observation, after 200 epochs, with the training accuracy. For ReLU these nodes are dead; for Leaky ReLU and ELU they still pass a gradient](images/dead_nodes.png){width=95%}
 
@@ -128,7 +128,7 @@ The **linear variants** of ReLU change only the negative side, and change it to 
 
 > **Key point:** $f(z) = z$ for $z \ge 0$ and $0.01z$ for $z < 0$. Its slope on the negative side is 0.01 instead of 0, so a small gradient always flows.
 
-1. **In words:** the **Leaky ReLU** keeps positive values and multiplies negative ones by 0.01 (Maas et al. 2013).
+1. **In words:** the **Leaky ReLU** (G-1064) keeps positive values and multiplies negative ones by 0.01 (Maas et al. 2013).
 2. **Formula:**
    $$f(z) = \begin{cases} z & z \ge 0 \cr0.01\thinspace z & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr0.01 & z < 0 \end{cases}$$
 3. **Example:** $f(5) = 5$ and $f(-5) = -0.05$. At $z = -5$ ReLU's slope would be 0; Leaky ReLU's is 0.01.
@@ -137,10 +137,10 @@ Because $\partial a/\partial z$ is never 0, the gradient in section 3.1 is never
 
 Advantages:
 
-1. **Non-saturating** on both sides: the output is unbounded in both directions.
+1. **Non-saturating** (G-1339) on both sides: the output is unbounded in both directions.
 2. **Easy to compute:** no exponentials.
 3. **No dying ReLU problem.**
-4. **Close to zero-centred:** outputs can be negative as well as positive, though not symmetric.
+4. **Close to zero-centred** (G-2148): outputs can be negative as well as positive, though not symmetric.
 
 The only questionable point of Leaky ReLU is the constant: why 0.01 and not some other value? The value 0.01 was chosen by experiment. Parametric ReLU lets the data choose it instead.
 
@@ -150,12 +150,12 @@ The only questionable point of Leaky ReLU is the constant: why 0.01 and not some
 
 > **Key point:** Like Leaky ReLU, but the negative slope $a$ is a trainable parameter, learned per node along with the weights.
 
-1. **In words:** the **Parametric ReLU (PReLU)** multiplies negative inputs by a slope $a$ that is learned during training.
+1. **In words:** the **Parametric ReLU (PReLU)** (G-1452) multiplies negative inputs by a slope $a$ that is learned during training.
 2. **Formula:**
    $$f(z) = \begin{cases} z & z \ge 0 \cr a\thinspace z & z < 0 \end{cases}$$
 3. **Example:** if training sets $a = 0.25$, then $f(-2) = -0.5$; with $a = 0.01$ it would be Leaky ReLU, with $a = 0$ plain ReLU.
 
-The slope $a$ is a parameter like a weight, found by gradient descent from the data. The slope $a$ is not a hyperparameter that we set. Everything else, advantages included, is as for Leaky ReLU. The extra flexibility can help: the paper that introduced PReLU reports better ImageNet accuracy than with ReLU (He et al. 2015).
+The slope $a$ is a parameter like a weight, found by gradient descent from the data. The slope $a$ is not a **hyperparameter** (G-910) that we set. Everything else, advantages included, is as for Leaky ReLU. The extra flexibility can help: the paper that introduced PReLU reports better **ImageNet** (G-920) accuracy than with ReLU (He et al. 2015).
 
 > **Python:** PReLU is a separate layer after a `Dense` layer without activation.
 >
@@ -178,7 +178,7 @@ The **non-linear variants** of ReLU use a curve, not a straight line, on the neg
 
 > **Key point:** $f(z) = z$ for $z \ge 0$ and $\alpha(e^{z} - 1)$ for $z < 0$. Smooth, close to zero-centred, no dead nodes, often better test results than ReLU; slower because of the exponential.
 
-1. **In words:** the **ELU** (exponential linear unit; Clevert et al. 2016) is ReLU for positive $z$ and an exponential curve for negative $z$ that levels off at $-\alpha$.
+1. **In words:** the **ELU** (G-674; exponential linear unit; Clevert et al. 2016) is ReLU for positive $z$ and an exponential curve for negative $z$ that levels off at $-\alpha$.
 2. **Formula:**
    $$f(z) = \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr f(z) + \alpha & z < 0 \end{cases}$$
 3. **Example:** with $\alpha = 1$ and $z = -1$:
@@ -189,7 +189,7 @@ The negative-side slope comes from differentiating: $\frac{d}{dz}\thinspace\alph
 Advantages:
 
 1. **Close to zero-centred**, so it converges faster.
-2. **Better generalisation:** in experiments it often gives better results on test data than ReLU (Clevert et al. 2016).
+2. **Better generalisation** (G-838): in experiments it often gives better results on test data than ReLU (Clevert et al. 2016).
 3. **No dying ReLU problem:** the slope is above 0 for every $z$ ($\alpha e^{z} > 0$ on the negative side). In Figure 3, ELU with a starting bias of $-1$ reaches 96%.
 4. **Continuous and differentiable everywhere** (with $\alpha = 1$, which Figure 1 uses): there is no corner at 0.
 
@@ -201,7 +201,7 @@ Disadvantage: it needs an exponential, so it is slower to compute than ReLU. Fas
 
 > **Key point:** SELU is ELU multiplied by a fixed $\lambda \approx 1.0507$, with fixed $\alpha \approx 1.6733$. Its outputs keep mean 0 and standard deviation 1 from layer to layer: it is self-normalising.
 
-1. **In words:** the **SELU** (scaled exponential linear unit; Klambauer et al. 2017) is ELU with a specific $\alpha$, multiplied by a scale $\lambda$.
+1. **In words:** the **SELU** (G-1766; scaled exponential linear unit; Klambauer et al. 2017) is ELU with a specific $\alpha$, multiplied by a scale $\lambda$.
 2. **Formula:**
    $$f(z) = \lambda \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases} \qquad \lambda \approx 1.0507,\ \alpha \approx 1.6733$$
 3. **Example:**
@@ -209,13 +209,17 @@ Disadvantage: it needs an exponential, so it is slower to compute than ReLU. Fas
 
 $\lambda$ and $\alpha$ are fixed constants, not trainable parameters. The two constants were derived so that the function has one special property.
 
-The special property is being **self-normalising**: the outputs of a SELU layer have mean about 0 and standard deviation about 1, and the next layer keeps them there. Normalised values between layers make the network converge fast, and SELU also generalises well in experiments.
+The special property is being **self-normalising** (G-1765): the outputs of a SELU layer have mean about 0 and standard deviation about 1, and the next layer keeps them there. Normalised values between layers make the network converge fast, and SELU also generalises well in experiments.
 
 ![Standard deviation of the activations through 30 layers of 256 nodes, with no training. SELU stays at 1; ELU and ReLU shrink layer after layer](images/selu_layers.png){width=85%}
 
 Figure 4 shows this in the Notebook. Standard-normal inputs pass through 30 layers with the same random weights for each activation. With SELU the standard deviation is 1.00 at layer 1 and still 1.00 at layer 30. With ReLU it is 0.59 at layer 1 and $4 \times 10^{-5}$ at layer 30.
 
-The disadvantage of SELU is adoption. SELU is recent (2017), its paper has 9 pages plus a 93-page appendix of proofs, and less research builds on it, so SELU is used in few places so far.
+The disadvantage of SELU is adoption. SELU is used in few places so far, for three reasons:
+
+- SELU is recent (2017);
+- its paper has 9 pages plus a 93-page appendix of proofs;
+- less research builds on it.
 
 > **Extra:** Self-normalisation rests on assumptions in the paper: inputs with mean 0 and variance 1, and weights drawn with variance $1/\text{inputs}$ (Klambauer et al. 2017). Keras' documentation for `selu` therefore asks for `kernel_initializer="lecun_normal"` (as in Figure 4) and for `AlphaDropout` instead of ordinary dropout, which the paper shows disturbs the mean and variance. Starting weights are the subject of the [weight initialisation Note](../1029-weight-initialization/note.md).
 

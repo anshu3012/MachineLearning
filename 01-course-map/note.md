@@ -27,7 +27,15 @@ Every Note starts with a *Where this fits* box: a small Pipeline map with that N
 
 ![The Pipeline map: 14 steps of an ML project](images/pipeline_overview.png)
 
-Figure 1 shows the 14 steps. They follow the ML development life cycle: frame the problem, get and understand the data, clean it, engineer features, train and evaluate models, tune them, deploy, test and keep the model healthy.
+Figure 1 shows the 14 steps. They follow the ML development life cycle, or **MLDLC** (G-1240):
+
+1. frame the problem;
+2. get the data and understand it;
+3. clean the data;
+4. engineer features;
+5. train and evaluate models;
+6. tune them;
+7. deploy, test and keep the model healthy.
 
 Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs cleaning, and cleaning changes the data, so we explore again.
 

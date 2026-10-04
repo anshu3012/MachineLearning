@@ -80,3 +80,41 @@ Format:
     - <the remaining books, papers and docs>
 
 The **Other references** label is needed: without it, pandoc merges the two lists into one.
+
+## 9. Lists, not list-paragraphs (user, 2026-10-03)
+
+When a paragraph names three or more parallel items, write it as a bulleted or numbered list. That covers a Note's contents, the steps of a method, reasons, options and cases. The commonest case is the Overview sentence "This Note explains X (section 3), Y (section 4), Z (section 5)…": it becomes a short lead-in plus one bullet per item, each with its section link. Use a numbered list when order matters. Keep explanation and argument as normal short paragraphs; don't break real reasoning into fragments. Why: the reader has ADHD, and lists can be scanned.
+
+## 10. Simple words, standard terms, pictures that illustrate (user, 2026-10-03)
+
+The user said: "boundary? What boundary. So unprofessional… the student will never learn official terms or be able to convey it in interviews", "be more professional and still keep it simple", and "using pictures to explain words is helpful". When I wrote that a picture "carries the explanation", the user corrected it: "No it does not. The words explain the picture."
+1. **The words explain.** The flow is in simple language, as a person would explain it. Every explanation gives the mechanism step by step. A sentence that only sounds like an explanation is not allowed, for example "a thousand neurons have the capacity to combine a thousand lines".
+2. **Attach the standard term where the idea appears,** with its glossary shorthand. For example: "The gradient takes small steps towards the minimum. These steps are the **learning rate** (G-118)." Use that term every time after that. Never let an informal stand-in, such as "the boundary", "draw a line", "pieces" or "knobs", be the only wording.
+3. **Pictures illustrate the words:** each key idea or term gets a figure or animation that makes the words concrete. The text points to it ("in Figure 2, the dashed lines are the neurons' hyperplanes").
+4. **The glossary holds the precise definition.** Every new term goes into Key terms and `glossary.md`.
+
+## 11. Simple first, then technical (user, 2026-10-03)
+
+The user wants "simple-language explanations leading up to advanced technical". Every section climbs the same ladder:
+1. **The idea in plain words,** with a picture or animation that illustrates it.
+2. **The standard term,** attached where the idea appears (§10).
+3. **The mechanism, step by step,** on a small worked example with the Note's own numbers.
+4. **The formal version:** the formula, the derivation or the exact definition, with every symbol named.
+5. **Extra** (optional): the deeper or advanced point.
+
+Never open a section with the formula or the jargon. Never stop at the plain words when the topic has a formal version that a practitioner must know.
+
+## 12. A named example is a rule for every Note (user, 2026-10-04)
+
+When the user points at one Note or one topic (the Hessian, EM, Note 1026), that is an example of a kind of problem, not the only case. The user said: "I don't have the time to go over 100 of files and tell you each and every single instance." Every fix applies to every Note (ML, maths and DL): check each Note for the whole kind of problem. Standing kinds, from the user's examples so far:
+- hard to read: no plain-words start, jargon without a term and glossary ID, no step-by-step mechanism (§10, §11);
+- missing visuals: a process with no animation, a key term with no figure;
+- not following the best beginner teaching path: the order, analogies, worked examples and visuals of the source videos (CampusX, 3Blue1Brown, StatQuest, Khan Academy) are not used.
+
+## 13. CampusX is the baseline; other sources must agree with it (user, 2026-10-04)
+
+The user said: "make sure none of it clashes with campus x explanations. And also check if campus x intuition or explanation clearer or if campus x adds a new angle". For every concept that both the CampusX video and an outside source (3Blue1Brown, StatQuest, Khan Academy, a book) explain:
+1. **No clash.** The Note never teaches two explanations that contradict each other. If CampusX and the other source disagree, check a cited source, keep the correct one, and correct the other in the text only with that citation. List every such case in the report.
+2. **Pick the clearer explanation for the main path.** Compare them for a beginner: which one gives the mechanism step by step with a concrete example and a picture? Use that one as the main explanation. Never drop the CampusX explanation just because an outside source exists.
+3. **Keep a new angle.** If CampusX adds an angle the other source lacks (a different analogy, an Indian everyday example, a code-first view, a practical caveat), keep it as a second short view, such as "Another way to see it", with its own picture where it helps. The same applies the other way round.
+CampusX transcripts: ML `transcripts/NNN.*.txt`, DL `dl_map/transcripts/`, maths `transcripts/Mxx.whisper-en.txt`.

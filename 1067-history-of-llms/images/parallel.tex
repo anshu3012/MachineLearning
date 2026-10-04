@@ -1,0 +1,17 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[w/.style={box=#1, inner sep=4pt, minimum height=0.8cm, minimum width=1.4cm, font=\sffamily}]
+  \draw[arrow] (0,-0.7) -- (9.6,-0.7) node[right, note] {processing steps};
+  \foreach \k in {1,...,4} \node[note] at (2.2*\k-1.1,-1.05) {step \k};
+  % LSTM
+  \node[anchor=east, font=\sffamily\bfseries, text=cblue] at (-0.3,3.6) {LSTM};
+  \foreach \w [count=\k] in {the, cat, sat, down} \node[w=cblue] (l\k) at (2.2*\k-1.1,3.6) {\w};
+  \foreach \a/\b in {1/2, 2/3, 3/4} \draw[arrow, draw=cblue] (l\a) -- (l\b);
+  \node[note, text=cblue, anchor=west] at (-0.3,4.4) {word 2 must wait for word 1's state};
+  % transformer
+  \node[anchor=east, font=\sffamily\bfseries, text=corange] at (-0.3,1.0) {transformer};
+  \foreach \w [count=\k] in {the, cat, sat, down} \node[w=corange, minimum width=0.9cm, minimum height=0.55cm, font=\sffamily\small] at (1.1,2.1-0.55*\k) {\w};
+  \node[note, text=corange, anchor=west] at (2.2,1.0) {all four words in one step, on parallel processors};
+\end{tikzpicture}
+\end{document}

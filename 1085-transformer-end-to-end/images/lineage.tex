@@ -1,0 +1,12 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[m/.style={box=#1, text width=3.3cm, font=\sffamily\small}]
+  \node[m=cpurple] (t) at (0,0) {\textbf{Transformer} (2017)\\encoder + decoder\\translation, 65 M};
+  \node[m=cblue] (b) at (5,1.4) {\textbf{BERT} (Oct 2018)\\encoder only\\predict hidden words};
+  \node[m=corange] (g) at (5,-1.4) {\textbf{GPT} (Jun 2018)\\decoder only\\predict the next word, 117 M};
+  \node[m=corange] (g3) at (10.4,-1.4) {\textbf{GPT-3} (2020)\\175 billion parameters};
+  \node[m=cgreen] (c) at (15,-1.4) {\textbf{ChatGPT} (2022)\\built on a GPT model};
+  \draw[arrow] (t) -- (b); \draw[arrow] (t) -- (g); \draw[arrow] (g) -- node[above=3pt, note] {scale up} (g3); \draw[arrow] (g3) -- (c);
+\end{tikzpicture}
+\end{document}

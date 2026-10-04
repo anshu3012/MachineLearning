@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[ln/.style={font=\ttfamily\small, text=cgrey, anchor=east},
+                    tl/.style={font=\ttfamily\small, anchor=west, text height=1.6ex, text depth=0.4ex}]
+  \node[font=\bfseries, anchor=west] at (-0.6,4.9) {\texttt{skiprows=lambda i: i > 0 and i \% 2 == 0}};
+  \node[font=\bfseries, text=cgrey] at (-0.6,4.2) {line};
+  \foreach \i/\t in {0/{enrollee\_id,city,...}, 1/{8949,city\_103,...}, 2/{29725,city\_40,...}, 3/{11561,city\_21,...},
+                     4/{33241,city\_115,...}, 5/{666,city\_162,...}, 6/{21651,city\_176,...}} {
+    \pgfmathsetmacro{\y}{3.5-0.7*\i}
+    \node[ln] at (-0.3,\y) {\i};
+    \node[tl] (t\i) at (0,\y) {\t};
+  }
+  \foreach \i in {2,4,6} { \draw[cred, line width=2pt] (t\i.west) -- (t\i.east); \node[cred, anchor=west, font=\small] at (t\i.east) {skipped}; }
+  \node[cblue, anchor=west, font=\small] at (t0.east) {header (kept: $i = 0$)};
+  \node[box=cgreen, anchor=west, text width=4.6cm, font=\small] at (6.4,1.4) {kept rows: 8949, 11561, 666, \dots\\[3pt] \textbf{500 of the 1,000 rows}};
+  \node[box=corange, anchor=west, text width=4.6cm, font=\small] at (6.4,-0.6) {\texttt{skiprows=[1, 2]} instead:\\ first rows become 11561, 33241, 666};
+\end{tikzpicture}
+\end{document}

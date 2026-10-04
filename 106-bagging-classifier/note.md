@@ -28,11 +28,11 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 ## 2. Seeing bagging on decision surfaces
 
-> **Key point:** On the moons data, one fully grown tree overfits (test accuracy 0.856); bagging 100 trees smooths the boundary and reaches 0.912.
+> **Key point:** On the moons data, one fully grown tree overfits (test accuracy 0.856); bagging 100 trees smooths the decision boundary and reaches 0.912.
 
 The demo data is the two-moons toy dataset: 500 **observations** (points; each is one row of the data table), 375 for training, with two **features** (input variables, the columns $x_1$ and $x_2$) and a class label as the **target** (the output we predict). It is the same data as in the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4. The app asks for six settings, the main hyperparameters of `BaggingClassifier`:
 
-- **base model** (`estimator`): decision tree (the default), KNN or SVM;
+- **base model** (G-260; `estimator`): decision tree (the default), KNN or SVM;
 - **`n_estimators`:** how many base models;
 - **`max_samples`:** how many observations each model gets (here out of 375);
 - **`bootstrap`:** draw those observations with replacement (`True`) or without (`False`);
@@ -43,12 +43,12 @@ The demo data is the two-moons toy dataset: 500 **observations** (points; each i
 
 ### 2.1 Bagging against a single tree
 
-> **Key point:** The tree draws small boxes around single points; the bagged trees draw one smooth boundary.
+> **Key point:** The single tree's decision boundary wraps small boxes around single points; the bagged trees' decision boundary is one smooth curve.
 
 With a decision tree, 100 estimators, 50 observations each, drawn with replacement, and both features:
 
-- **One tree** (Figure 1, top left): 0.856. Its surface has small boxes of one colour inside the other: overfitting. The tree is right on the training data, wrong on new data.
-- **Bagging** (top middle): 0.912. The boundary is much smoother: the bias stays low and the variance falls, as the [bagging Note](../105-bagging-intuition/note.md) predicted.
+- **One tree** (Figure 1, top left): 0.856. Its **decision surface** (G-560; the feature plane coloured by the predicted class) has small boxes of one colour inside the other. A tree splits on one feature at a time, so each region it carves out is a rectangle, and a fully grown tree keeps splitting until it gives single training points their own rectangle. That is **overfitting** (G-1429). The tree is right on the training data, wrong on new data.
+- **Bagging** (G-251; top middle): 0.912. The **decision boundary** (G-555), the line where the predicted class changes, is much smoother: each tree's stray boxes sit in different places, so the majority vote outvotes them. The **bias** (G-287) stays low and the **variance** (G-2078) falls, as the [bagging Note](../105-bagging-intuition/note.md) predicted.
 
 Figure 2 builds the same bagging classifier one tree at a time. Watch the left panel: every tree draws its own 50 points (large markers; bigger means drawn more than once) and cuts its own boxes. On the right, the vote of all trees so far turns from one tree's hard boxes into a smooth band of shared votes, and test accuracy climbs from 0.816 with one tree to 0.912 after 10 trees; from there on it only wobbles between 0.896 and 0.928 and ends at 0.912 with 100 trees.
 
@@ -58,9 +58,9 @@ Figure 2 builds the same bagging classifier one tree at a time. Watch the left p
 
 > **Key point:** Bagging helps unstable models such as trees; here KNN and the SVM gain nothing, or lose a little.
 
-Any classifier can be bagged, but the gain depends on how **unstable** the model is: how much its fit changes when the training data changes a little. Breiman (1996, sections 1 and 6.3) found that bagging helps unstable models such as trees, and can slightly degrade stable ones such as nearest-neighbour methods. Think of asking one calm friend the same question ten times: averaging the answers adds nothing new. The moons data shows the same:
+Any classifier can be bagged, but the gain depends on how **unstable** the model is (an **unstable model**, G-2156): how much its fit changes when the training data changes a little. Breiman (1996, sections 1 and 6.3) found that bagging helps unstable models such as trees, and can slightly degrade stable ones such as nearest-neighbour methods. Think of asking one calm friend the same question ten times: averaging the answers adds nothing new. The moons data shows the same:
 
-- **KNN:** a single KNN (k = 5) already gives a smooth boundary and scores 0.912. Bagged, its boundary is a little smoother still (Figure 1, bottom right), with the same 0.912.
+- **KNN:** a single KNN (k = 5) already gives a smooth decision boundary and scores 0.912. Bagged, its decision boundary is a little smoother still (Figure 1, bottom right), with the same 0.912.
 - **SVM:** a single SVM scores 0.896, but 100 bagged SVMs score only 0.872. The SVM behaves like a stable model here: bagging does not help it.
 
 Instability is the reason decision trees are by far the usual base model for bagging.
@@ -75,9 +75,9 @@ With 500 trees instead of 100 (50 observations each), accuracy moves only from 0
 
 > **Key point:** Pasting behaves like bagging here; sampling one of only two features hurts badly.
 
-- **Pasting** (50 observations, `bootstrap=False`): 0.904, close to bagging's 0.912.
-- **Random subspaces** (all 375 observations, `bootstrap=False`, `max_features=1`, `bootstrap_features=True`): **0.648**, much worse than one tree. Each tree sees only one feature, so it can only cut along one axis. The surface becomes vertical stripes (Figure 1, bottom left).
-- **Random patches** (50 observations with replacement, 1 feature): 0.880. Observation sampling brings back some variety, but one feature is still too little.
+- **Pasting** (G-1463; 50 observations, `bootstrap=False`): 0.904, close to bagging's 0.912.
+- **Random subspaces** (G-1618; all 375 observations, `bootstrap=False`, `max_features=1`, `bootstrap_features=True`): **0.648**, much worse than one tree. Each tree sees only one feature, so it can only cut along one axis. The surface becomes vertical stripes (Figure 1, bottom left).
+- **Random patches** (G-1614; 50 observations with replacement, 1 feature): 0.880. Observation sampling brings back some variety, but one feature is still too little.
 
 Feature sampling makes sense only when there are many features: 10, 20, 50, 100 or more. With two features, sample observations (bagging or pasting) instead.
 
@@ -143,15 +143,19 @@ Every variant is the same class with different settings:
 | Random subspaces | `max_samples=1.0, bootstrap=False, max_features=0.5, bootstrap_features=True` | 0.9415 |
 | Random patches | `max_samples=0.25, bootstrap=True, max_features=0.5, bootstrap_features=True` | 0.938 |
 
+![Test accuracy of one tree (grey, dashed line) and of each BaggingClassifier variant on the 10,000-observation data](images/variants_bars.png){height=32%}
+
+In Figure 3, every tree-based variant clears the dashed line of one tree; only the bagged SVMs fall below it.
+
 - The **SVMs** do worse than trees and take much longer: as on the moons data (section 2.2), bagging does not help the SVM.
 - For **pasting**, we also set `verbose=1`, which prints training progress, and `n_jobs=-1`.
 - For **random subspaces**, `estimators_samples_[0]` now has all 8,000 observations, and `estimators_features_[0]` has 5 feature numbers, for example `[9 2 9 7 7]`. Features 9 and 7 appear twice because `bootstrap_features=True` draws features with replacement.
 
 ## 4. The out-of-bag score
 
-> **Key point:** About 37% of the observations are never drawn for a given tree; scoring each tree on its unseen observations gives a free estimate of test accuracy.
+> **Key point:** Every tree misses some observations: about 37% when it draws as many as the training set, about 78% with `max_samples=0.25`. Scoring each tree on its unseen observations gives a free estimate of test accuracy.
 
-The observations a tree never drew, about 37% of them (the [bagging Note](../105-bagging-intuition/note.md), section 2.3), are its out-of-bag (OOB) observations. With `oob_score=True` (it needs `bootstrap=True`), scikit-learn scores the ensemble on them, so no separate test set is needed:
+The observations a tree never drew are its **out-of-bag (OOB) rows** (G-1412). When a tree draws as many observations as the training set, about 37% are never drawn (the [bagging Note](../105-bagging-intuition/note.md), section 2.3); our trees draw only 25%, so each misses about 78% (Figure 4a). With `oob_score=True` (it needs `bootstrap=True`), scikit-learn scores the ensemble on them, so no separate test set is needed:
 
 > **Python:** The out-of-bag score.
 >
@@ -164,6 +168,10 @@ The observations a tree never drew, about 37% of them (the [bagging Note](../105
 > bag.oob_score_      # 0.9429
 > ```
 
+![(a) Share of the 8,000 training observations a tree never draws, against max_samples: the theory curve (1 − 1/n) raised to the number of draws, and the mean over 500 fitted trees. (b) The out-of-bag score against the test accuracy](images/oob_share.png){height=34%}
+
+In Figure 4, watch the curve fall as each tree draws more: the fewer rows a tree draws, the more rows are left over to score it on.
+
 The OOB score, **0.943**, is close to the real test accuracy, **0.945**. The [OOB score Note](../113-oob-score/note.md) explains how it is computed and when it can be trusted.
 
 ## 5. What works in practice
@@ -175,6 +183,10 @@ Four rules of thumb, each with what our data says:
 1. **Bagging and pasting trade bias for variance.** Drawing with replacement makes the samples more varied, so the trees are less alike and the ensemble's variance is lower, at the cost of a little more bias. Which effect wins depends on the data: here the two score almost the same (0.945 against 0.946, and 0.912 against 0.904 on the moons). Since it is only `bootstrap=True` or `False`, try both.
 
    The variance part follows from theory: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of the [bagging Note](../105-bagging-intuition/note.md), section 3.2: changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared bias a little higher (0.0019 against 0.0013).
+
+   ![Bagging against pasting on 100 noisy sine datasets, changing only `bootstrap`: tree correlation, ensemble variance and squared bias](images/bag_vs_paste.png){height=28%}
+
+   In Figure 5, read the trade from left to right: slightly less correlated trees, clearly lower variance, slightly higher bias.
 
 2. **`max_samples` between 0.25 and 0.5** is a good place to start. Here 0.5 beat 0.25 (0.950 against 0.945), and the grid search below prefers 0.7: the best share depends on the data.
 3. **Feature sampling** (random subspaces, random patches) is for **high-dimensional** data, with many features. With few features it hurts, as Figure 1 showed.

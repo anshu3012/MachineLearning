@@ -17,9 +17,9 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 
 > **Key point:** In the Lasso formula for one feature, λ is subtracted from the top of the fraction, so a large enough λ makes the slope exactly 0. In Ridge, λ is added to the bottom, which can only make the slope small.
 
-The Lasso Note showed that Lasso sets coefficients to exactly 0, while Ridge only shrinks them. A model in which many coefficients are exactly 0 is called **sparse**, so the effect is called **sparsity**.
+The Lasso Note showed that **Lasso regression** (G-1047) sets coefficients to exactly 0, while **Ridge regression** (G-1691) only shrinks them. A model in which many coefficients are exactly 0 is called **sparse** (G-1846), so the effect is called **sparsity** (G-1849).
 
-"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on regularisation. This Note answers it with the formula for the slope when there is one **feature** (an input variable, one column of the data table). The same idea carries over to many features.
+"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on **regularisation** (G-1659). This Note answers it with the formula for the slope when there is one **feature** (G-772) (an input variable, one column of the data table). The same idea carries over to many features.
 
 ## 2. Reminder: the Ridge slope
 
@@ -91,11 +91,15 @@ The result of case 3.3 is only valid if it really is positive, which needs $S > 
 | $-\lambda \leq S \leq \lambda$ | $m = 0$ |
 | $S < -\lambda$ | $m = (S + \lambda) / D$ |
 
+Figure 1 draws the derivative of the loss, both cases, for $S = 100$, $D = 50$ and three values of $\lambda$. Watch the jump at the corner $m = 0$: once $\lambda$ reaches $S$, the jump spans zero and the lowest loss sits on the corner.
+
+![The derivative of the Lasso loss against the slope m (S = 100, D = 50). Blue: the m < 0 case; red: the m > 0 case; dotted: the jump at the corner. At λ = 50 the red line crosses zero at m = 1. At λ = 100 and 150 neither line crosses zero on its own side: the derivative jumps from negative to positive at m = 0, so the slope is 0.](images/cases_derivative.png)
+
 ## 4. Watching the slope reach 0
 
 > **Key point:** Subtracting λ from S brings the top of the fraction down to exactly 0. After that, the slope stays at 0.
 
-Take simple numbers: $S = 100$ and $D = 50$, so the linear regression slope is $100 / 50 = 2$. Figure 1 follows both slopes as $\lambda$ grows.
+Take simple numbers: $S = 100$ and $D = 50$, so the linear regression slope is $100 / 50 = 2$. Figure 2 follows both slopes as $\lambda$ grows.
 
 ![Slope against λ for Lasso and Ridge, with S = 100 and D = 50](images/slope_vs_lambda.png){height=52%}
 
@@ -118,7 +122,7 @@ At $\lambda = 100$, the numerator $S - \lambda$ is 0, so the slope is exactly 0.
 
 > **Key point:** Going past 0 would need the other case's formula, which pushes the slope back to the positive side.
 
-At $\lambda = 150$, the positive-case formula gives $(100 - 150)/50 = -1$. The value $-1$ is negative, so the positive-case formula no longer applies (Figure 1, dashed). The negative-case formula would give $(100 + 150)/50 = 5$, which is positive, so it does not apply either (dotted).
+At $\lambda = 150$, the positive-case formula gives $(100 - 150)/50 = -1$. The value $-1$ is negative, so the positive-case formula no longer applies (Figure 2, dashed). The negative-case formula would give $(100 + 150)/50 = 5$, which is positive, so it does not apply either (dotted).
 
 Neither side has a valid answer, so the slope stays at $m = 0$. The same happens for every larger $\lambda$.
 
@@ -141,25 +145,25 @@ In short:
 
 > **Key point:** For a fixed λ, every feature whose S lies between −λ and λ gets a slope of exactly 0.
 
-Figure 2 turns the view around: $\lambda$ is fixed at 100, and the slope is drawn for every value of $S$.
+Figure 3 turns the view around: $\lambda$ is fixed at 100, and the slope is drawn for every value of $S$.
 
 ![The slope against S for linear regression, Ridge and Lasso](images/dead_zone.png){height=45%}
 
 - **Linear regression** (grey dashed): the slope is proportional to $S$.
 - **Ridge** (blue): also proportional to $S$, just flatter. The Ridge slope is 0 only when $S$ is exactly 0.
-- **Lasso** (red): flat at 0 for every $S$ between $-100$ and 100, the shaded **dead zone**. Outside it, Lasso follows the linear regression line moved $\lambda / D = 2$ towards 0.
+- **Lasso** (red): flat at 0 for every $S$ between $-100$ and 100, the shaded **dead zone** (G-552). Outside it, Lasso follows the linear regression line moved $\lambda / D = 2$ towards 0.
 
-$S$ measures how strongly the feature and the **target** (the output we predict) move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is the feature selection of the Lasso Note.
+$S$ measures how strongly the feature and the **target** (G-1949) (the output we predict) move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is the **feature selection** (G-768) of the Lasso Note.
 
 Think of λ as an entry fee. A feature's link with the target, $|S|$, must be larger than the fee to get any slope at all, and above the fee the feature keeps only what is left over.
 
-> **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding**. With several features, Lasso has no single formula, but scikit-learn's method (coordinate descent) applies this same soft-threshold step to one coefficient at a time, over and over (ESL §3.8.6; scikit-learn docs, `Lasso`). The repeated soft-threshold step is why many coefficients land exactly on 0.
+> **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding** (G-1827). With several features, Lasso has no single formula, but scikit-learn's method, **coordinate descent** (G-485), applies this same soft-threshold step to one coefficient at a time, over and over (ESL §3.8.6; scikit-learn docs, `Lasso`). The repeated soft-threshold step is why many coefficients land exactly on 0.
 
 ### 5.1 Ten features at once
 
 > **Key point:** On the 10-feature diabetes data, Lasso coefficients drop to exactly 0 one after another; Ridge coefficients only shrink.
 
-Figure 3 grows λ for Ridge (left) and Lasso (right) on the diabetes data of the [Lasso Note](../67-lasso-regression/note.md) (same split). Watch the dots: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
+Figure 4 grows λ for Ridge (left) and Lasso (right) on the diabetes data of the [Lasso Note](../67-lasso-regression/note.md) (same split). Watch the dots: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
 
 ![Ridge (left) and Lasso (right) coefficients of the 10 diabetes features as λ grows. Each panel has its own λ range, because Ridge shrinks faster on these features. An open circle marks a coefficient that is exactly 0](images/paths_race.gif)
 
@@ -168,16 +172,16 @@ Figure 3 grows λ for Ridge (left) and Lasso (right) on the diabetes data of the
 
 ### 5.2 The picture: a diamond and a circle
 
-> **Key point:** Lasso's allowed region is a diamond with corners on the axes; the loss rings around the least-squares answer usually touch it first at a corner, where one coefficient is exactly 0.
+> **Key point:** Lasso's feasible region is a diamond with corners on the axes; the loss rings around the least-squares answer usually touch it first at a corner, where one coefficient is exactly 0.
 
-The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and Lasso can each be written as "make the loss as small as possible while the coefficients stay inside a budget". With two coefficients and a budget $t$:
+The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and Lasso can each be written as "make the loss as small as possible while the coefficients stay inside a budget". The budget is a **constraint** (G-456), and the set of coefficients that meet it is the **feasible region** (G-759). With two coefficients and a budget $t$:
 
 - **Lasso:** $\lvert b_1\rvert + \lvert b_2\rvert \le t$, a diamond with its corners on the axes.
 - **Ridge:** $b_1^2 + b_2^2 \le t^2$, a circle.
 
-The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the linear regression (least-squares) answer, and points of equal loss form ellipses around it. Growing the ellipse until it first touches the allowed region gives the answer: the point of the region with the smallest loss.
+The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the **ordinary least squares** (G-1406) answer, and points of equal loss form ellipses around it, the loss **contours** (G-468). Growing the ellipse until it first touches the feasible region gives the answer: the point of the region with the smallest loss.
 
-Figure 4 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
+Figure 5 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
 
 ![Lasso (left) and Ridge (right) with the same budget on two diabetes features. The loss ellipse grows from the least-squares point until it first touches each region: the diamond at its corner (bp coefficient exactly 0), the circle at a point where both coefficients are non-zero](images/constraint_touch.gif)
 
@@ -190,7 +194,7 @@ The corners stick out towards the rings, so the rings often meet a corner first.
 
 > **Key point:** On the 100-observation example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
 
-For the example of the earlier Notes, with 100 **observations** (records, one row of the data table each), $S = 2416.73$ and $D = 86.85$. So the slope reaches 0 at $\lambda = 2416.73$.
+For the example of the earlier Notes, with 100 **observations** (G-1374) (records, one row of the data table each), $S = 2416.73$ and $D = 86.85$. So the slope reaches 0 at $\lambda = 2416.73$.
 
 | λ | Formula | scikit-learn `Lasso` |
 |---|---|---|
@@ -199,6 +203,10 @@ For the example of the earlier Notes, with 100 **observations** (records, one ro
 | 2000 | 4.799 | 4.799 |
 | 2416.73 | 0 | 0 |
 | 3000 | 0 | 0 |
+
+Figure 6 checks many more values of $\lambda$. Watch the circles from scikit-learn sit on the formula's line, including the flat part after $\lambda = 2416.73$.
+
+![The one-feature Lasso slope on the 100-observation example: the formula (red line) and scikit-learn's Lasso (circles), for λ from 0 to 3000. The two agree to within 0.0001, and both are exactly 0 from λ = S = 2416.73 on.](images/sklearn_check.png)
 
 scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals $\lambda / n$. With $n = 100$, the slope reaches 0 at alpha $= 24.17$: the value found in the Lasso Note.
 

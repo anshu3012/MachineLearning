@@ -33,17 +33,22 @@ Other sources exist, such as cloud data warehouses (for example Google BigQuery)
 
 ![The same table as text and as a DataFrame](images/csv_anatomy.png)
 
-A **CSV file** (comma-separated values) stores a table as plain text. Each row is one line, and a comma separates each value from the next (Figure 2). The first line is usually the **header**: the column names.
+A **CSV file** (G-513) (comma-separated values) stores a table as plain text. Each row is one line, and a comma separates each value from the next (Figure 2). The first line is usually the **header** (G-884): the column names.
 
-A **TSV file** (tab-separated values) is the same thing with a tab between values instead of a comma. TSV files are less common, but we meet them, so we need to know how to read them too.
+A **TSV file** (G-2025) (tab-separated values) is the same thing with a tab between values instead of a comma. TSV files are less common, but we meet them, so we need to know how to read them too.
 
 ## 3. The read_csv function
 
 > **Key point:** `pd.read_csv` reads a CSV file into a DataFrame; its many parameters handle the ways real files differ from the ideal.
 
-Every CSV file in this Note is read with one function, `pd.read_csv`. Called with only a file name, it assumes a well-behaved file: commas between values, column names on the first line, UTF-8 text, and the same number of values on every line.
+Every CSV file in this Note is read with one function, `pd.read_csv`. Called with only a file name, it assumes a well-behaved file:
 
-Real files break these assumptions. The function's **parameters** (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation lists 44 of them in pandas 3.0 (pandas API reference, `read_csv`); this Note covers the fifteen or so that solve the common problems.
+- commas between values;
+- column names on the first line;
+- UTF-8 text;
+- the same number of values on every line.
+
+Real files break these assumptions. The function's **parameters** (G-1448) (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation lists 44 of them in pandas 3.0 (pandas API reference, `read_csv`); this Note covers the fifteen or so that solve the common problems.
 
 ![What each read_csv parameter controls](images/parameter_map.png)
 
@@ -64,11 +69,11 @@ Figure 3 groups them by the question each one answers. The rest of the Note take
 > df = pd.read_csv("data/aug_train.csv")  # file in a sub-folder "data"
 > ```
 >
-> `"data/aug_train.csv"` is a **relative path**: the location of the file starting from the folder our code runs in.
+> `"data/aug_train.csv"` is a **relative path** (G-1665): the location of the file starting from the folder our code runs in.
 
 Our main example file holds job seekers who took a data-science training course: city, gender, education, experience, training hours, and a `target` column (1 if the person was looking for a job change, 0 if not). We use its first 1,000 rows, so `df.shape` is `(1000, 14)`.
 
-In ML terms, each row is one **observation** (one record, here one job seeker). The `target` column is the **target** (the output a model would predict), and the other columns are **features** (input variables a model would learn from).
+In ML terms, each row is one **observation** (G-1374) (one record, here one job seeker). The `target` column is the **target** (G-1949) (the output a model would predict), and the other columns are **features** (G-772) (input variables a model would learn from).
 
 ## 5. Opening a file from a URL
 
@@ -82,7 +87,7 @@ In ML terms, each row is one **observation** (one record, here one job seeker). 
 > countries = pd.read_csv(url)    # 194 rows, 2 columns
 > ```
 
-Some servers refuse requests that do not look like they come from a web browser. Browsers identify themselves with a short text called the **User-Agent**, so we send one too:
+Some servers refuse requests that do not look like they come from a web browser. Browsers identify themselves with a short text called the **User-Agent** (G-2064), so we send one too:
 
 > **Python:** Sending a browser-like User-Agent.
 >
@@ -136,11 +141,15 @@ m1   1492: conquest of paradise   1992   6.20   10421   ['adventure' ...]
 
 With `names`, the first line is kept as data: 617 movies. With `sep="\t"` alone, the first movie would be used as the header, leaving 616.
 
+Figure 4 shows the same line read both ways. Watch the tabs: once `sep` names them, each tab becomes a column border.
+
+![One line of the movie file, read with the default comma separator and with sep and names](images/sep_names.png)
+
 ## 7. Choosing the index (index_col)
 
 > **Key point:** `index_col` turns one of the file's columns into the row labels.
 
-Every DataFrame has an **index**: the labels down its left side. By default pandas numbers the rows 0, 1, 2, and so on. Our job-seekers file already has a unique number for each person, `enrollee_id`, so keeping both is redundant.
+Every DataFrame has an **index** (G-938): the labels down its left side. By default pandas numbers the rows 0, 1, 2, and so on. Our job-seekers file already has a unique number for each person, `enrollee_id`, so keeping both is redundant.
 
 > **Python:** `index_col`.
 >
@@ -168,7 +177,7 @@ Setting the index is a convenience, not a necessity: it saves a column and lets 
 
 > **Key point:** `header` says which line of the file holds the column names, counting the first line as 0.
 
-Sometimes whoever saved a file left junk above the column names. In `test.csv` (Figure 4), line 0 is only commas, and the real names are on line 1.
+Sometimes whoever saved a file left junk above the column names. In `test.csv` (Figure 5), line 0 is only commas, and the real names are on line 1.
 
 ![Line numbers in a CSV file, and what header and skiprows refer to](images/line_numbers.png)
 
@@ -211,13 +220,13 @@ Often we know from the start that we need only a few columns. Loading only those
 | 29725 | Male | Graduate |
 | 11561 | NaN | Graduate |
 
-The result has these 3 columns instead of 14. `NaN` ("not a number") is how pandas shows a **missing value**.
+The result has these 3 columns instead of 14. `NaN` ("not a number") is how pandas shows a **missing value** (G-1234).
 
 ## 10. One column as a Series (squeeze)
 
 > **Key point:** A single column can be held as a Series instead of a one-column DataFrame.
 
-A **Series** is pandas' one-column structure: a list of values with an index. A DataFrame is several Series side by side. When we load just one column, a Series is often what we want.
+A **Series** (G-1778) is pandas' one-column structure: a list of values with an index. A DataFrame is several Series side by side. When we load just one column, a Series is often what we want.
 
 Older pandas had a `squeeze=True` parameter for this. The parameter was removed in pandas 2, and passing it now raises a `TypeError`. Instead, we read normally and then squeeze the result:
 
@@ -241,7 +250,7 @@ Squeezing is rarely needed; most code simply works with DataFrames.
 
 > **Key point:** `skiprows` takes line numbers of the file, or a rule that picks them.
 
-`skiprows` takes a list of line numbers to leave out. The numbers count lines in the file, as in Figure 4, and line 0 is the header line.
+`skiprows` takes a list of line numbers to leave out. The numbers count lines in the file, as in Figure 5, and line 0 is the header line.
 
 > **Python:** `skiprows`.
 >
@@ -270,7 +279,11 @@ The numbers do not have to be next to each other: `skiprows=[1, 5, 9]` works too
 >             skiprows=lambda i: i > 0 and i % 2 == 0)
 > ```
 >
-> `lambda i: ...` is a **lambda**: a one-line function without a name. `i % 2` is the remainder after dividing by 2, so `i % 2 == 0` means "i is even". The result has 500 of the 1,000 rows.
+> `lambda i: ...` is a **lambda** (G-1040): a one-line function without a name. `i % 2` is the remainder after dividing by 2, so `i % 2 == 0` means "i is even". The result has 500 of the 1,000 rows.
+
+Figure 6 applies the rule to the first lines of the file. Watch line 0: the rule's `i > 0` part keeps the header, so only data rows are skipped.
+
+![The skiprows rule on the first seven lines of aug_train.csv, and the result of skiprows=[1, 2]](images/skiprows_rule.png)
 
 ### 11.2 nrows
 
@@ -288,7 +301,7 @@ The numbers do not have to be next to each other: `skiprows=[1, 5, 9]` works too
 
 > **Key point:** If pandas raises a `UnicodeDecodeError`, the file is not stored as UTF-8, and we must tell `read_csv` its encoding.
 
-A computer stores text as numbers (bytes). An **encoding** is the rulebook that maps characters to bytes and back. Most files use **UTF-8**, which covers almost every character in every language, and it is `read_csv`'s default.
+A computer stores text as numbers (bytes). An **encoding** (G-685) is the rulebook that maps characters to bytes and back. Most files use **UTF-8** (G-2065), which covers almost every character in every language, and it is `read_csv`'s default.
 
 Some files use a different encoding, for example older files, or files in a particular language. Reading them as UTF-8 fails. Our restaurants file (a sample of the Zomato dataset) does this:
 
@@ -299,6 +312,10 @@ pd.read_csv("zomato.csv")
 UnicodeDecodeError: 'utf-8' codec can't decode byte 0xed
 in position 7044: invalid continuation byte
 ```
+
+Figure 7 shows the bytes where reading stops, in a city name stored as "Brasí_lia". Watch byte `ED`: UTF-8 expects two more bytes of one letter to follow it, while latin-1 reads it alone as "í".
+
+![The bytes around position 7044 of zomato.csv, read as UTF-8 and as latin-1](images/encoding_bytes.png)
 
 **After:** we name the file's encoding.
 
@@ -329,7 +346,7 @@ isbn;title;author;year
 
 The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line splits into 5 values.
 
-**Before:** `pd.read_csv("books.csv", sep=";")` stops with `ParserError: Expected 4 fields in line 5, saw 5`. A **parser** is the part of a program that reads text and splits it into pieces; a parser error is a strong hint that some lines do not fit.
+**Before:** `pd.read_csv("books.csv", sep=";")` stops with `ParserError: Expected 4 fields in line 5, saw 5`. A **parser** (G-1455) is the part of a program that reads text and splits it into pieces; a parser error is a strong hint that some lines do not fit.
 
 **After:** we tell pandas what to do with bad lines.
 
@@ -339,9 +356,17 @@ The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line spl
 > pd.read_csv("books.csv", sep=";", on_bad_lines="skip")
 > ```
 >
-> `"skip"` drops bad lines silently, `"warn"` drops them and prints which ones, and `"error"` (the default) stops.
+> The three choices:
+>
+> - `"skip"` drops bad lines silently;
+> - `"warn"` drops them and prints which ones;
+> - `"error"` (the default) stops.
 
 The result has 4 books: the broken line is gone.
+
+Figure 8 shows why the line breaks. Watch the title: its `;` splits it in two, so every later value moves one column right and the year has no column left.
+
+![The books file split on ";": a good line fills 4 columns, the Flu line needs 5](images/bad_lines.png)
 
 > **Extra:** Older code writes `error_bad_lines=False`. The `error_bad_lines` parameter was replaced by `on_bad_lines` in pandas 1.3 and removed in pandas 2 (pandas release notes), so it now raises a `TypeError`. Skipping is the quick fix; if many lines are bad, it is worth looking at them, because the real problem may be a wrong `sep`.
 
@@ -349,7 +374,7 @@ The result has 4 books: the broken line is gone.
 
 > **Key point:** pandas guesses each column's type; `dtype` lets us set it ourselves, for example to save memory.
 
-Each column has one data type, its **dtype**: whole numbers (`int64`), decimals (`float64`), text (`str`), and so on. `read_csv` guesses each column's dtype from its values, and we can see the guesses with `df.info()`.
+Each column has one data type, its **dtype** (G-641): whole numbers (`int64`), decimals (`float64`), text (`str`), and so on. `read_csv` guesses each column's dtype from its values, and we can see the guesses with `df.info()`.
 
 In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0` and `1.0`, so pandas reads it as `float64`. A whole-number type is the natural choice for a 0/1 column.
 
@@ -367,6 +392,10 @@ In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0`
 | Before | float64 | 8 | 8,000 bytes |
 | After | int8 | 1 | 1,000 bytes |
 
+Figure 9 shows the measured memory of the column, from `memory_usage`: the same 1,000 values in one eighth of the space.
+
+![Memory used by the target column of 1,000 rows, as float64 and as int8](images/dtype_memory.png)
+
 > **Extra:** The plain Python type also works, as in `dtype={"target": int}`, but on most computers `int` means `int64`, which takes the same 8 bytes as `float64`, so it saves nothing. `int8` holds whole numbers from -128 to 127, plenty for 0 and 1. The saving matters for files with millions of rows.
 
 > **Extra:** In pandas 3, text columns get the dtype `str`. Older pandas (and older tutorials) show them as `object`.
@@ -375,7 +404,11 @@ In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0`
 
 > **Key point:** Dates are read as plain text unless we list them in `parse_dates`; only then can we use date tools on them.
 
-Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the date of each match. By default `read_csv` reads `2008-04-18` as text. As text we cannot ask "which month?", "which weekday?" or "how many days between two matches?".
+Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the date of each match. By default `read_csv` reads `2008-04-18` as text. As text we cannot ask:
+
+- "which month?";
+- "which weekday?";
+- "how many days between two matches?".
 
 > **Python:** `parse_dates`.
 >
@@ -394,6 +427,10 @@ Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the
 | After | `datetime64` | yes: years, weekdays, differences |
 
 The table looks the same either way; only `ipl.info()` shows the change in type.
+
+Figure 10 is one question the parsed dates can answer: on which weekday was each of the 816 matches played? Watch the weekend: Saturday and Sunday hold 331 of the 816 matches.
+
+![IPL matches 2008 to 2020 by weekday, counted with .dt.day_name() after parse_dates](images/ipl_weekdays.png)
 
 Sometimes the day, month and year sit in three separate columns. Older pandas could merge them while reading, by passing a nested list such as `parse_dates=[["year", "month", "day"]]`. Today we read the file normally and build the date afterwards.
 
@@ -463,7 +500,11 @@ The example below is only a demonstration: we pretend "Male" is a placeholder in
 | Female | 67 | 67 |
 | Other | 13 | 13 |
 
-Every "Male" became missing: 231 + 689 = 920. In real work we would pass the actual placeholders, for example `na_values=["-", "?"]`.
+Every "Male" became missing: 231 + 689 = 920. Figure 11 shows the move: the Male bar empties into the missing bar, and the other two bars do not change.
+
+![Counts of the gender column before and after na_values=["Male"]](images/na_values.png)
+
+In real work we would pass the actual placeholders, for example `na_values=["-", "?"]`.
 
 > **Extra:** The default list can also bite. In the IPL file, the `method` column holds the text `NA`, meaning "not applicable" (no rain rule was used). pandas reads it as missing: 797 values become NaN. To keep them as text, pass `keep_default_na=False`.
 
@@ -471,11 +512,11 @@ Every "Male" became missing: 231 + 689 = 920. In real work we would pass the act
 
 > **Key point:** When a file is too big for memory, `chunksize` reads it a few rows at a time, so only one piece is in memory at once.
 
-A file can be larger than our computer's memory (RAM). Loading it whole then fails, or makes the computer crawl. With `chunksize`, `read_csv` returns a **reader** instead of a DataFrame; each time we ask it for more, it reads the next **chunk** (a DataFrame of at most that many rows).
+A file can be larger than our computer's memory (RAM). Loading it whole then fails, or makes the computer crawl. With `chunksize`, `read_csv` returns a **reader** (G-1640) instead of a DataFrame; each time we ask it for more, it reads the next **chunk** (G-385) (a DataFrame of at most that many rows).
 
 ![Reading 1,000 rows in chunks of 300](images/chunks.gif)
 
-Figure 5 shows our 1,000-row file read with `chunksize=300`: four chunks of 300, 300, 300 and 100 rows. Each chunk is loaded, used, then released before the next one comes in. We never hold more than 300 rows at once.
+Figure 12 shows our 1,000-row file read with `chunksize=300`: four chunks of 300, 300, 300 and 100 rows. Each chunk is loaded, used, then released before the next one comes in. We never hold more than 300 rows at once.
 
 > **Python:** Looping over chunks.
 >
@@ -489,7 +530,7 @@ Figure 5 shows our 1,000-row file read with `chunksize=300`: four chunks of 300,
 > print(total)              # 1000
 > ```
 >
-> A **for loop** repeats the indented lines once for each item, here once per chunk. `total += len(chunk)` adds the chunk's row count to `total`.
+> A **for loop** (G-791) repeats the indented lines once for each item, here once per chunk. `total += len(chunk)` adds the chunk's row count to `total`.
 
 Any work goes inside the loop: counting, filtering, or computing totals that we combine at the end.
 

@@ -33,7 +33,7 @@ The one real change is the denominator of the formulas, shown in Figure 1. Where
 | 4 | 8.15 | 1 |
 | 5 | 9.60 | 1 |
 
-Each student is one **observation** (one record, a row of the table). CGPA is the only **feature** (an input variable, one column of the table), and "Placed" is the **target** (the output we predict).
+Each student is one **observation** (G-1374; one record, a row of the table). CGPA is the only **feature** (G-772; an input variable, one column of the table), and "Placed" is the **target** (G-1949; the output we predict).
 
 Given a new student's CGPA, the model must say whether they will be placed. The table is already sorted by CGPA, which we will need for the splits.
 
@@ -41,7 +41,7 @@ Given a new student's CGPA, the model must say whether they will be placed. The 
 
 > **Key point:** The base model predicts the log-odds of placement, $\ln(3/2) = 0.405$, for everyone. As a probability that is 0.6.
 
-As in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), sections 4 and 5, stage 1 predicts the log-odds of class 1, $\ln(p/(1-p))$, and the sigmoid turns it back into a probability. Here 3 of the 5 students were placed, so $p = 3/5$:
+As in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), sections 4 and 5, stage 1 predicts the **log-odds** (G-1116) of class 1, $\ln(p/(1-p))$, and the sigmoid turns it back into a probability. Here 3 of the 5 students were placed, so $p = 3/5$:
 
 $$f_0 = \ln\frac{3/5}{2/5} = \ln 1.5 = 0.405, \qquad p = \frac{e^{0.405}}{1 + e^{0.405}} = \frac{1.5}{2.5} = 0.6$$
 
@@ -59,13 +59,17 @@ So stage 1 says "probability 0.6" for every student, whatever the CGPA. With a t
 | 4 | 8.15 | 1 | 0.6 | 0.4 |
 | 5 | 9.60 | 1 | 0.6 | 0.4 |
 
-Residuals are always computed from probabilities, never from log-odds. The next model, an XGBoost tree, takes CGPA as its feature and these residuals as its target.
+A **residual** (G-1685) is the actual class minus the predicted probability. Residuals are always computed from probabilities, never from log-odds. Figure 2 draws them: each residual is the gap from the dashed line at 0.6 to the student's class, 0 or 1.
+
+![Stage 1 predicts probability 0.6 for every student. The residuals are the gaps from 0.6 to the actual class: -0.6 for the two students not placed, +0.4 for the three placed](images/residuals.png){height=32%}
+
+The next model, an XGBoost tree, takes CGPA as its feature and these residuals as its target.
 
 ## 5. The similarity score for classification
 
 > **Key point:** Similarity = (sum of residuals)$^2$ divided by ($\sum p(1-p) + \lambda$), where $p$ is each observation's previous probability. The root scores 0.
 
-The numerator is the same as in regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the observations in the leaf, the same quantity as in the gradient boosting leaf formula.
+The **similarity score** (G-1804) keeps the numerator of regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the observations in the leaf, the same quantity as in the gradient boosting leaf formula.
 
 1. **In words:** add the residuals in the leaf and square the sum; divide by the sum of $p(1-p)$ over those observations plus $\lambda$.
 2. **Formula:**
@@ -76,11 +80,15 @@ The numerator is the same as in regression. The denominator replaces "number of 
 
 As with the mean in regression, the residuals from the base log-odds add up to exactly 0, so the root scores 0.
 
+Figure 3 shows what each observation adds to the denominator. Watch the red curve stay far below the green line: in regression every observation counts 1, in classification it counts $p(1-p)$, never more than 0.25.
+
+![The weight p(1 - p) that one observation adds to the denominator, against its previous probability p. At stage 1 every student has p = 0.6 and adds 0.24; after the first tree, the right-leaf students have p = 0.712 and add 0.205. In regression every observation adds 1 (green)](images/hessian.png){height=34%}
+
 ## 6. Choosing the split
 
 > **Key point:** Four midpoints, 5.975, 6.675, 7.625 and 8.875; the largest gain, 2.22, belongs to CGPA < 7.625.
 
-The candidate thresholds are the midpoints of neighbouring CGPA values: $(5.70 + 6.25)/2 = 5.975$, then 6.675, 7.625 and 8.875. For each, the gain is the children's similarity minus the parent's, as in the [XGBoost regression Note](../124-xgboost-regression/note.md), section 6.
+The candidate thresholds are the midpoints of neighbouring CGPA values: $(5.70 + 6.25)/2 = 5.975$, then 6.675, 7.625 and 8.875. For each, the **gain** (G-820) is the children's similarity minus the parent's, as in the [XGBoost regression Note](../124-xgboost-regression/note.md), section 6.
 
 Worked for CGPA < 5.975: student 1 alone on the left, the other four on the right.
 
@@ -97,6 +105,10 @@ $$\text{gain} = 1.5 + 0.375 - 0 = 1.875$$
 
 CGPA < 7.625 wins. Its right leaf holds only placed students; its left leaf holds both students who were not placed. We stop at depth 1: one split is enough to show the steps on five observations.
 
+Figure 4 runs the same search as an animation, in the style of the split search in the [XGBoost regression Note](../124-xgboost-regression/note.md). Watch the threshold visit the four midpoints, the left (blue) and right (orange) leaves change, and a gain bar appear for each; the tallest bar, 2.22, wins, and the two leaves get their outputs of section 7.
+
+![The split search on the five students (lambda = 0). Left: the residuals, coloured by the leaf they fall into. Right: the gain of each candidate split. Last frame: the winning split CGPA < 7.625 and the log-odds outputs of its two leaves](images/split_search.gif){height=75%}
+
 ## 7. Output values in log-odds
 
 > **Key point:** A leaf's output is (sum of residuals) divided by ($\sum p(1-p) + \lambda$): $-1.11$ for the left leaf and $1.67$ for the right. These outputs are log-odds, so they can be added to the base log-odds.
@@ -104,7 +116,7 @@ CGPA < 7.625 wins. Its right leaf holds only placed students; its left leaf hold
 1. **In words:** add the residuals in the leaf and divide by the sum of $p(1-p)$ over its observations plus $\lambda$.
 2. **Formula:**
    $$\text{output} = \frac{\sum r_i}{\sum p_i(1-p_i) + \lambda}$$
-3. **Example:** the left leaf (students 1, 2, 3):
+3. **Example:** the left leaf (students 1, 2, 3) has the **output value** (G-1425)
    $$\text{output}_{\text{left}} = \frac{-0.6 + 0.4 - 0.6}{3 \times 0.24} = \frac{-0.8}{0.72} = -1.11$$
    The right leaf (students 4, 5): $0.8 / 0.48 = 1.67$.
 
@@ -131,7 +143,7 @@ The output formula is the leaf formula of the [gradient boosting classification 
 
 ![Stage 1 gives every student probability 0.6; after one tree the probability drops to 0.518 below CGPA 7.625 and rises to 0.712 above it](images/probs.png){height=38%}
 
-Four of the five residuals move towards 0 (Figure 2). Student 2 is placed but sits on the left with the two who were not, so its residual grows a little, from 0.4 to 0.482; later trees must fix that.
+Four of the five residuals move towards 0 (Figure 5). Student 2 is placed but sits on the left with the two who were not, so its residual grows a little, from 0.4 to 0.482; later trees must fix that.
 
 ## 9. The next trees
 
@@ -144,6 +156,10 @@ The model after $M$ trees is
 $$z = f_0 + \eta \cdot \text{tree}_1(x) + \dots + \eta \cdot \text{tree}_M(x), \qquad p = \frac{1}{1 + e^{-z}}$$
 
 and a new student is predicted "placed" when $p$ is above the threshold, usually 0.5.
+
+Figure 6 repeats the loop for 15 trees. Watch the red probability curve: after one tree students 1 and 3 still sit on the wrong side of 0.5; later trees split again at 5.975 and elsewhere, and after 15 trees all five are on the right side. Students 2 and 3, each placed between two students of the other class, keep the largest residuals.
+
+![Fifteen XGBoost trees on the five students (eta = 0.3, lambda = 0, depth 1). Left: the predicted probability of placement after each tree. Right: each student's residual y - p, tree after tree; students 4 and 5 share one line](images/next_trees.gif){height=75%}
 
 ## 10. What changed from regression
 
@@ -159,7 +175,11 @@ and a new student is predicted "placed" when $p$ is above the threshold, usually
 
 > **Extra:** With $\lambda = 1$ (XGBoost's default) the outputs shrink much more than in regression, because the denominators $0.72$ and $0.48$ are small next to 1: the leaves give $-0.8/1.72 = -0.47$ and $0.8/1.48 = 0.54$ instead of $-1.11$ and 1.67.
 
-> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight`, which is 1 by default. Here each observation contributes 0.24 and all five together only 1.2, so every possible split leaves one child below 1 (the best case is 0.48). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. Since $p(1-p)$ is at most $0.25$ (at $p = 0.5$), every leaf needs at least 4 observations to reach 1, and more once the predictions move towards 0 or 1. To reproduce this Note, set `min_child_weight=0` (XGBoost docs, Parameters).
+![The share of each leaf output that survives lambda = 1. Regression leaves keep n/(n + 1): 50 or 67 percent. Classification leaves keep sum p(1-p) / (sum p(1-p) + 1): only 42 and 32 percent](images/lambda_compare.png){height=34%}
+
+Figure 7 compares the two. Watch the blue bars: because $\sum p(1-p)$ is small, the same $\lambda$ removes most of each classification output.
+
+> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight` (G-117), which is 1 by default. Here each observation contributes 0.24 and all five together only 1.2, so every possible split leaves one child below 1 (the best case is 0.48). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. Since $p(1-p)$ is at most $0.25$ (at $p = 0.5$), every leaf needs at least 4 observations to reach 1, and more once the predictions move towards 0 or 1. To reproduce this Note, set `min_child_weight=0` (XGBoost docs, Parameters).
 
 ## 11. The same in code
 
@@ -189,7 +209,7 @@ and a new student is predicted "placed" when $p$ is above the threshold, usually
 > model.get_booster().get_dump(with_stats=True)
 > ```
 >
-> For classification `base_score` is given as a probability; XGBoost converts it to the log-odds 0.405 itself. The log-odds come out as 0.072 and 0.905. The dump shows the split `f0<7.625` with `gain=2.22` and `cover=1.2`, the sum of $p(1-p)$ over the five observations. The leaves read $-0.333$ and 0.5: the outputs $-1.11$ and 1.67 already multiplied by eta.
+> For classification `base_score` (G-61) is given as a probability; XGBoost converts it to the log-odds 0.405 itself. The log-odds come out as 0.072 and 0.905. The dump shows the split `f0<7.625` with `gain=2.22` and `cover=1.2`, the **cover** (G-498): the sum of $p(1-p)$ over the five observations. The leaves read $-0.333$ and 0.5: the outputs $-1.11$ and 1.67 already multiplied by eta.
 
 With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain 1.39, as in section 9.
 

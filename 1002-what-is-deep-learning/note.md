@@ -17,9 +17,9 @@ tags: [subject/deep-learning, area/dl-basics, area/foundations, step/foundations
 
 > **Key point:** Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
 
-The [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) already placed deep learning (DL) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
+The [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) already placed **deep learning (DL)** (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
 
-1. What a neural network looks like, and the technical definition of DL built on **representation learning**.
+1. What a neural network looks like, and the technical definition of DL built on **representation learning** (G-1670).
 2. Five practical differences between DL and ML.
 3. Why DL took off only after about 2012, although its ideas are much older.
 
@@ -35,7 +35,7 @@ Figure 1 shows the idea that runs through this Note: in DL the features come fro
 
 > **Key point:** ML finds the input-output relationship with statistical techniques; DL finds it with a neural network.
 
-Both ML and DL do the same job: in supervised learning, they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a **neural network**, a structure loosely inspired by the brain (see section 5.1 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md)).
+Both ML and DL do the same job: in **supervised learning** (G-1919), they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a **neural network** (G-1316), a structure loosely inspired by the brain (see section 5.1 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md)).
 
 The reasoning behind the brain as a model is simple: to build intelligent machines, copy the most intelligent thing we know. The copy is very loose, as the [perceptron Note](../1004-perceptron/note.md) shows.
 
@@ -45,16 +45,22 @@ The reasoning behind the brain as a model is simple: to build intelligent machin
 
 ![The parts of an artificial neural network: input layer, two hidden layers, output layer](images/ann_anatomy.png){height=40%}
 
-Figure 2 shows the simplest kind of network, the **artificial neural network (ANN)**:
+Figure 2 shows the simplest kind of network, the **artificial neural network (ANN)** (G-216):
 
-- Each circle is a **neuron**, also called a **perceptron**: the network's basic unit.
-- Each line connecting two neurons carries a **weight**, a number the network learns.
-- Neurons in one column form a layer. The **input layer** takes the data, one node per **feature** (an input variable, one column of the data table). The **output layer** gives the prediction.
-- Every layer in between is a **hidden layer**. We can add as many as we like.
+- Each circle is a **neuron** (G-1318), also called a **perceptron** (G-1486): the network's basic unit.
+- Each line connecting two neurons carries a **weight** (G-2106), a number the network learns.
+- Neurons in one column form a **layer** (G-1056). The **input layer** (G-952) takes the data, one node per **feature** (G-772; an input variable, one column of the data table). The **output layer** (G-1424) gives the prediction.
+- Every layer in between is a **hidden layer** (G-890). We can add as many as we like.
 
 A network with many hidden layers is called **deep**, and this is where the name "deep learning" comes from.
 
-The ANN is only one type of network. Convolutional neural networks (CNNs) work best on images, recurrent neural networks (RNNs) on speech and text, and generative adversarial networks (GANs) create new images and text. The [types of neural networks Note](../1003-nn-types-history-applications/note.md) describes each one.
+The ANN is only one type of network. Three others:
+
+- **convolutional neural networks (CNNs)** (G-484) work best on images;
+- **recurrent neural networks (RNNs)** (G-1647) work on speech and text;
+- **generative adversarial networks (GANs)** (G-840) create new images and text.
+
+The [types of neural networks Note](../1003-nn-types-history-applications/note.md) describes each one.
 
 ### 2.3 The technical definition: representation learning
 
@@ -62,7 +68,7 @@ The ANN is only one type of network. Convolutional neural networks (CNNs) work b
 
 A more technical definition reads: deep learning is part of the broader family of ML methods based on artificial neural networks **with representation learning**. Its algorithms use multiple layers to progressively extract higher-level features from the raw input.
 
-**Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. Representation learning replaces manual [feature engineering](../23-what-is-feature-engineering/note.md): the machine both learns the features and uses them.
+**Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. Representation learning replaces manual [feature engineering](../23-what-is-feature-engineering/note.md) (G-761): the machine both learns the features and uses them.
 
 Take a dog-vs-cat classifier:
 
@@ -89,7 +95,20 @@ The output layer then gives the answer. Section 5.3 of the [AI vs ML vs DL Note]
 
 > **Key point:** The same family of methods works on images, speech, text, medicine, science and games.
 
-DL is used in computer vision, speech recognition, natural language processing, machine translation, bioinformatics, drug design, medical image analysis, climate science, material inspection and board-game programs. Few methods reach that many fields.
+DL is used in many fields:
+
+- computer vision;
+- speech recognition;
+- **natural language processing (NLP)** (G-1305);
+- **machine translation** (G-1141);
+- bioinformatics;
+- drug design;
+- medical image analysis;
+- climate science;
+- material inspection;
+- board-game programs.
+
+Few methods reach that many fields.
 
 ![The fields where deep learning is used, as listed in section 3.1](images/fields_fan.png){width=80%}
 
@@ -113,20 +132,20 @@ Figure 4 is the balance this section weighs: four costs on the left, two gains o
 
 > **Key point:** With little data ML wins; with lots of data DL keeps improving while ML levels off.
 
-DL is **data hungry**: its results become reliable only with a lot of data. Figure 8 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) shows the classic curves. With little data, ML performs better; beyond some amount, ML stagnates while DL keeps rising.
+DL is **data hungry** (G-534): its results become reliable only with a lot of data. Figure 8 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) shows the classic curves. With little data, ML performs better; beyond some amount, ML stagnates while DL keeps rising.
 
 ### 4.2 Hardware
 
 > **Key point:** ML trains on an ordinary CPU; DL needs a GPU, because it multiplies very large matrices.
 
-A neural network does huge numbers of matrix multiplications. A [GPU](../12-setup-anaconda-jupyter-colab/note.md) with plenty of memory does them in parallel, while a CPU does them slowly. So ML runs on cheap hardware, and DL needs costly hardware.
+A neural network does huge numbers of matrix multiplications. A [GPU](../12-setup-anaconda-jupyter-colab/note.md) (G-856) with plenty of memory does them in parallel, while a CPU does them slowly. So ML runs on cheap hardware, and DL needs costly hardware.
 
 ### 4.3 Training time and prediction time
 
 > **Key point:** DL trains slowly (days to months on big data) but predicts fast; ML trains in minutes to hours, and its prediction speed depends on the algorithm.
 
 - **Training time:** a DL model on a large dataset can train for weeks, and some research models for months. Most ML models train in minutes, at most hours.
-- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [forward propagation Note](../1010-forward-propagation/note.md) shows it). In ML it varies: [KNN](../91-knn/note.md), for example, predicts slowly because it compares the new point with every stored **observation** (one record, one row of the data table).
+- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [forward propagation Note](../1010-forward-propagation/note.md) shows it). In ML it varies: [KNN](../91-knn/note.md), for example, predicts slowly because it compares the new point with every stored **observation** (G-1374; one record, one row of the data table).
 
 ### 4.4 Feature selection
 
@@ -143,14 +162,14 @@ Letting the network extract the features is representation learning (section 2.3
 
 > **Key point:** A trained network is a black box: it cannot say why it gave an answer. Linear models and decision trees can.
 
-**Interpretability** is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a [black box](../91-knn/note.md): it gives an answer without the reasons.
+**Interpretability** (G-965) is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a [black box](../91-knn/note.md) (G-312): it gives an answer without the reasons.
 
 Interpretability matters wherever we must justify a decision. Suppose a social network bans users based on their comments, using a DL model. A banned user asks why, and we have no answer.
 
 ML models are often much easier to explain:
 
-- **Logistic regression** on CGPA and IQ learns two weights, $w_1$ and $w_2$. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
-- **A decision tree** is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees Note](../97-decision-trees-intuition/note.md)).
+- **Logistic regression** (G-1120) on CGPA and IQ learns two weights, $w_1$ and $w_2$. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
+- **A decision tree** (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees Note](../97-decision-trees-intuition/note.md)).
 
 > **Extra:** Researchers have built tools that explain single predictions of any model, including networks, such as LIME and SHAP, and heat maps of the image regions a CNN used. LIME, for example, fits a simple model that imitates the network near one input (Ribeiro et al. 2016, §3). So these tools explain the network from outside; its own weights stay unreadable.
 
@@ -183,7 +202,7 @@ The core ideas of neural networks are decades old (the [history section](../1003
 
 Around 2010 two revolutions met: smartphones, and much cheaper mobile internet (in India, Jio's free and then very cheap data from 2016). With billions of people on social media apps, the amount of data generated every year began to grow exponentially.
 
-Raw data alone is not enough. To train a dog-vs-cat classifier we need photos **labelled** "dog" or "cat", and a photo uploaded to a social network carries no such label. Companies such as Microsoft, Google and Facebook paid to label large datasets, and then released them as **public datasets** that anyone may use, because open data speeds up research for everyone:
+Raw data alone is not enough. To train a dog-vs-cat classifier we need photos **labelled** "dog" or "cat", and a photo uploaded to a social network carries no such label. Companies such as Microsoft, Google and Facebook paid to label large datasets, and then released them as **public datasets** (G-1590) that anyone may use, because open data speeds up research for everyone:
 
 | Data type | Public dataset | Contents |
 |---|---|---|
@@ -198,16 +217,16 @@ Thousands more are available today, for example on Kaggle. Without data there wo
 
 > **Key point:** Moore's law made chips steadily faster and cheaper, and GPUs turned out to do a network's matrix maths in parallel, 10 to 20 times faster than a CPU.
 
-**Moore's law**, stated by Intel co-founder Gordon Moore, says that the number of transistors on a microchip doubles about every two years. Electronics therefore get faster and cheaper every year: phones went from about 128 MB of memory in the mid-2000s to 12 GB today.
+**Moore's law** (G-1261), stated by Intel co-founder Gordon Moore, says that the number of transistors on a microchip doubles about every two years. Electronics therefore get faster and cheaper every year: phones went from about 128 MB of memory in the mid-2000s to 12 GB today.
 
-Around 2010, researchers realised that a network's matrix multiplications can run in parallel, just like the graphics work a GPU was built for. NVIDIA's **CUDA**, a platform for programming GPUs, made this practical, and training on GPUs became the norm. A GPU typically cuts training time by a factor of 10 to 20 compared with a CPU.
+Around 2010, researchers realised that a network's matrix multiplications can run in parallel, just like the graphics work a GPU was built for. NVIDIA's **CUDA** (G-514), a platform for programming GPUs, made this practical, and training on GPUs became the norm. A GPU typically cuts training time by a factor of 10 to 20 compared with a CPU.
 
 > **Extra:** CUDA 1.0 came out in 2007 (NVIDIA 2007). Deep networks were trained on GPUs by 2009 (Raina et al. 2009), and the 2012 ImageNet winner described in the [history section](../1003-nn-types-history-applications/note.md) was trained on two GPUs (Krizhevsky et al. 2012, §3.2).
 
 Once the speed-up was clear, chips designed for DL followed:
 
-- **FPGA** (field-programmable gate array): a reprogrammable chip that is fast and low-power, but expensive. Microsoft runs much of its search engine's AI on FPGAs.
-- **ASIC** (application-specific integrated circuit): a chip custom-made for one job, costly to design but cheap in large numbers. Examples: Google's **TPU** (tensor processing unit), the small **Edge TPU** for drones, smartwatches and smart glasses, and the **NPU** (neural processing unit) in phones.
+- **FPGA** (G-800; field-programmable gate array): a reprogrammable chip that is fast and low-power, but expensive. Microsoft runs much of its search engine's AI on FPGAs.
+- **ASIC** (G-217; application-specific integrated circuit): a chip custom-made for one job, costly to design but cheap in large numbers. Examples: Google's **TPU** (G-1996; tensor processing unit), the small **Edge TPU** for drones, smartwatches and smart glasses, and the **NPU** (G-1359; neural processing unit) in phones.
 
 Which hardware to use depends on the job:
 
@@ -224,8 +243,8 @@ Which hardware to use depends on the job:
 
 Writing a network's training code from scratch takes longer than the problem it solves. Deep learning needed libraries that handle this code, just as scikit-learn does for ML. Two families dominate:
 
-- **TensorFlow (Google):** Google built an internal framework, DistBelief, in 2011, and released TensorFlow publicly in 2015. TensorFlow was powerful but hard to use, so **Keras**, a simpler library running on top of it, became popular. Since TensorFlow 2.0 (2019), Keras is built in.
-- **PyTorch (Facebook, now Meta):** released in 2016, it became the favourite of researchers. Facebook's Caffe2, a library for running models on servers, was merged into it in 2018.
+- **TensorFlow (Google)** (G-1959): Google built an internal framework, DistBelief, in 2011, and released TensorFlow publicly in 2015. TensorFlow was powerful but hard to use, so **Keras** (G-1003), a simpler library running on top of it, became popular. Since TensorFlow 2.0 (2019), Keras is built in.
+- **PyTorch (Facebook, now Meta)** (G-1595): released in 2016, it became the favourite of researchers. Facebook's Caffe2, a library for running models on servers, was merged into it in 2018.
 
 Today TensorFlow with Keras is used more in industry, and PyTorch more in research. Converting a model from one to the other is awkward, so drag-and-drop tools appeared that build a network in a browser and export code for either: Google's AutoML, Microsoft's Custom Vision and Apple's Create ML.
 
@@ -235,9 +254,9 @@ Today TensorFlow with Keras is used more in industry, and PyTorch more in resear
 
 > **Key point:** Researchers publish trained state-of-the-art networks; we download one and apply it to our problem instead of designing our own.
 
-A network's **architecture** is how its nodes are connected by weights: how many nodes, what kind, and which connections. Different problems need different architectures, and finding a good one takes many experiments, which cost time, effort and money.
+A network's **architecture** (G-209) is how its nodes are connected by weights: how many nodes, what kind, and which connections. Different problems need different architectures, and finding a good one takes many experiments, which cost time, effort and money.
 
-Instead, we can reuse an architecture that researchers already designed and trained on a big dataset. Downloading such a trained network and applying it to our own problem is called **transfer learning**, taught in detail later. Well-known ready-made architectures:
+Instead, we can reuse an architecture that researchers already designed and trained on a big dataset. Downloading such a trained network and applying it to our own problem is called **transfer learning** (G-2005), taught in detail later. Well-known ready-made architectures:
 
 | Task | Architecture |
 |---|---|

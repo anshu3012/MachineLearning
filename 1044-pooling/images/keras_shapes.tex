@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.11cm, y=0.11cm, lab/.style={font=\sffamily\large, align=center}]
+  % squares drawn to scale: side = height of the map
+  \foreach \n/\s/\c/\x/\t/\p in {in/28/cgrey/0/{input\\28$\times$28$\times$1}/{},
+      c1/26/cblue/40/{Conv2D\\26$\times$26$\times$32}/{320},
+      p1/13/corange/78/{MaxPool\\13$\times$13$\times$32}/{0},
+      c2/11/cblue/104/{Conv2D\\11$\times$11$\times$32}/{9,248},
+      p2/5/corange/128/{MaxPool\\5$\times$5$\times$32}/{0}} {
+    \draw[\c, fill=\c!15, line width=1.2pt] (\x,-\s/2) rectangle ++(\s,\s);
+    \node[lab, anchor=north] at (\x+\s/2,-17) {\t};
+    \node[lab, anchor=north, text=cgrey] at (\x+\s/2,-29) {\p};
+  }
+  \node[lab, anchor=east, text=cgrey] at (-2,-31.5) {parameters:};
+  \foreach \a/\b in {29/39, 67/77, 92/103, 116/127} \draw[arrow] (\a,0) -- (\b,0);
+  \node[lab, text=corange] at (91,19) {pooling halves height and width, adds 0 parameters};
+\end{tikzpicture}
+\end{document}

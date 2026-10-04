@@ -14,11 +14,17 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/cross-at
 
 ## 1. Overview
 
-> **Key point:** **Cross-attention** is attention between two sequences. In the transformer decoder, the **queries** come from the output sentence being written (French), and the **keys** and **values** come from the encoder's output for the input sentence (English). Each French position gets a weighted mix of the English words, with weights that say how strongly it relates to each one. The computation is the same as self-attention; only the inputs differ.
+> **Key point:** **Cross-attention** (G-507) is attention between two sequences. In the transformer decoder, the **queries** (G-1606) come from the output sentence being written (French), and the **keys** (G-1011) and **values** (G-2068) come from the encoder's output for the input sentence (English). Each French position gets a weighted mix of the English words, with weights that say how strongly it relates to each one. The computation is the same as self-attention; only the inputs differ.
 
-The [masked self-attention Note](../1081-masked-self-attention/note.md) covered the decoder's first attention layer. Its second attention layer is different: in the paper's architecture diagram, two of its three inputs come from the encoder and one from the decoder (Vaswani et al. 2017, Figure 1). The paper calls it **encoder–decoder attention**; it is now usually called **cross-attention** (SLP3 §13.3).
+The [masked self-attention Note](../1081-masked-self-attention/note.md) covered the decoder's first attention layer. Its second attention layer is different: in the paper's architecture diagram, two of its three inputs come from the encoder and one from the decoder (Vaswani et al. 2017, Figure 1). The paper calls it **encoder–decoder attention** (G-684); it is now usually called **cross-attention** (SLP3 §13.3).
 
-Cross-attention is a mechanism used in sequence-to-sequence tasks such as translation and summarization. Cross-attention lets a model focus on different parts of the input sequence while it generates the output sequence. This Note compares it with self-attention in three respects: what goes in, what happens inside, and what comes out (Figure 1). The Note then shows the weights of a small trained translation model, and its link to the attention of the RNN encoder–decoder.
+Cross-attention is a mechanism used in sequence-to-sequence tasks such as translation and summarization. Cross-attention lets a model focus on different parts of the input sequence while it generates the output sequence. This Note compares it with self-attention in three respects (Figure 1):
+
+- what goes in (section 4);
+- what happens inside (section 5);
+- what comes out (section 6).
+
+The Note then shows the weights of a small trained translation model (section 7), and its link to the attention of the RNN encoder–decoder (section 8).
 
 ![Self-attention takes its queries, keys and values from one sequence. Cross-attention takes its queries from the sequence being written and its keys and values from the encoder's output](images/self_vs_cross.png){width=100%}
 
@@ -42,9 +48,13 @@ Suppose the decoder has written "je veux de la" and must now write the next word
 1. **What it has written so far.** After "je veux de la", only certain words fit. Relating a word to the other words of its own sentence is the job of self-attention; in the decoder it is the [masked self-attention](../1081-masked-self-attention/note.md) layer.
 2. **What the input sentence says.** "crème" is right because the English sentence says "ice cream". The decoder needs to know which English words matter for the word it is writing.
 
-The second need is a relationship between two different sequences: for every French word, how strongly it relates to every English word. We can picture it as a table with one row per French word and one column per English word, with "crème" strongly tied to "ice" and "cream", and "veux" to "want". The mechanism that computes this table is cross-attention:
+The second need is a relationship between two different sequences: for every French word, how strongly it relates to every English word. We can picture it as a table with one row per French word and one column per English word, with "crème" strongly tied to "ice" and "cream", and "veux" to "want".
 
-- **self-attention** relates the items of **one** sequence to each other;
+![The two things the decoder looks at before writing the next French word. Purple: masked self-attention over the French words written so far. Red: cross-attention over the English sentence, here strongest on "ice" and "cream"](images/two_needs.png){width=100%}
+
+Figure 2 shows both needs for the next word after "je veux de la". The mechanism that computes the French-to-English table is cross-attention:
+
+- **self-attention** (G-1764) relates the items of **one** sequence to each other;
 - **cross-attention** relates the items of one sequence to the items of **another**.
 
 ## 4. Input: two sequences instead of one
@@ -104,6 +114,10 @@ $$W = \begin{pmatrix} 0.472 & 0.237 & 0.291 \cr0.287 & 0.468 & 0.244 \cr0.213 & 
 
 and every row sums to 1.
 
+![Left: the hand-computed weight matrix, one row per French position and one column per English word; the orange frame is the row of "nous". Right: that row built from its three scaled scores by the softmax](images/by_hand.png){width=100%}
+
+In Figure 3, the matrix has 4 rows and 3 columns because the queries come from the 4 French positions and the keys from the 3 English words. On the right, the softmax keeps the order of the scores: "friends" has the largest score (0.505) and gets the largest weight (0.468).
+
 ### 5.3 The same in Keras
 
 > **Key point:** Keras' `MultiHeadAttention` does cross-attention when the query and the value are different sequences.
@@ -142,7 +156,7 @@ Cross-attention returns one vector per row of the query, that is, per output pos
 
 ![Cross-attention of the trained model of section 7 on "Tom likes to eat ice cream.", one French position per frame. Left: the $9 \times 7$ weight grid filling row by row. Right: the current query's weights over the English words, whose keys and values come from the encoder](images/cross_fill.gif){height=55%}
 
-Figure 2 shows this with a trained model: each French position sends one query to the encoder's output and gets back its own mix of the 7 English words. The grid has 9 rows and 7 columns, output length by input length, and section 7 reads what the weights mean.
+Figure 4 shows this with a trained model: each French position sends one query to the encoder's output and gets back its own mix of the 7 English words. The grid has 9 rows and 7 columns, output length by input length, and section 7 reads what the weights mean.
 
 ## 7. What a trained model's cross-attention looks like
 
@@ -150,7 +164,7 @@ Figure 2 shows this with a trained model: each French position sends one query t
 
 The weights in section 5 were random. To see what training produces, the Notebook trains a small English-to-French transformer on the English–French sentence pairs of the Keras examples (from the Tatoeba project): about 131,000 pairs of up to 10 words each. The model has one encoder block and one decoder block, $d_{model} = 128$ and 4 heads; the decoder block is explained in the [transformer decoder Note](../1083-transformer-decoder/note.md). After 6 epochs (about 4 minutes on a GPU) it predicts the correct next French word 78.4% of the time on 5,000 pairs it never saw, when given the correct previous words.
 
-The two English sentences of Figure 3 were removed from the training data. The decoder is given the reference French translation, as in training, and the figure shows the cross-attention weights, averaged over the 4 heads.
+The two English sentences of Figure 5 were removed from the training data. The decoder is given the reference French translation, as in training, and the figure shows the cross-attention weights, averaged over the 4 heads.
 
 ![Cross-attention weights of the trained model on two sentence pairs it never saw. Rows: the French word being predicted; columns: the English words. Weights below 0.1 are not written](images/cross_heatmaps.png){width=100%}
 
@@ -178,6 +192,10 @@ $$c_i = \sum_{j} \alpha_{ij}\thinspace h_j$$
 
 where $h_j$ are the encoder's hidden states and $\alpha_{ij}$ measures how relevant input word $j$ is to output step $i$. Bahdanau attention computes the score with a small neural network, Luong attention with a dot product (the [Bahdanau vs Luong attention Note](../1070-bahdanau-vs-luong-attention/note.md)). In both, the decoder side asks and the encoder side answers, which is exactly the query–key–value split of cross-attention: the decoder state plays the query, the encoder states play the keys and the values (the [why self-attention Note](../1076-why-self-attention/note.md), section 3).
 
+![Left: in the RNN encoder–decoder, the decoder state $s_i$ weighs the encoder states $h_j$ to build its context vector. Right: in cross-attention, the query $q_i$ from the decoder weighs the keys from the encoder and mixes the values](images/rnn_vs_qkv.png){width=100%}
+
+Figure 6 puts the two side by side: the decoder side asks, the encoder side answers, in both designs.
+
 The paper says so directly: encoder–decoder attention "allows every position in the decoder to attend over all positions in the input sequence. This mimics the typical encoder-decoder attention mechanisms in sequence-to-sequence models", citing Bahdanau et al. among others (Vaswani et al. 2017, §3.2.3). What changed is the machinery around it: learned $W_Q$, $W_K$, $W_V$, scaling, several heads, and no RNN, so every output position is computed at once during training.
 
 ## 9. Where cross-attention is used
@@ -192,7 +210,7 @@ Cross-attention is used wherever a model produces one sequence while looking at 
 - **Text-to-image generation:** latent diffusion models, the basis of Stable Diffusion, condition the image on the text through cross-attention layers (Rombach et al. 2022, §3.3).
 - **Image captioning:** "Show, Attend and Tell" lets an RNN decoder attend to regions of the image while it writes the caption, the same idea before transformers (Xu et al. 2015).
 
-Tasks whose input and output are of different kinds, such as audio and text, or text and images, are called **multimodal**; cross-attention is the standard way to connect the two sides.
+Tasks whose input and output are of different kinds, such as audio and text, or text and images, are called **multimodal** (G-1275); cross-attention is the standard way to connect the two sides.
 
 ## 10. Summary
 

@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 
 > **Key point:** A bagging regressor works exactly like a bagging classifier, except that aggregation takes the mean of the base models' numbers instead of a majority vote.
 
-The bagging regressor applies bagging (the [bagging Note](../105-bagging-intuition/note.md)) to regression. Everything carries over from the [bagging classifier Note](../106-bagging-classifier/note.md): the four sampling types and every hyperparameter. This Note covers:
+The bagging regressor applies **bagging** (G-251) (the [bagging Note](../105-bagging-intuition/note.md)) to regression. Everything carries over from the [bagging classifier Note](../106-bagging-classifier/note.md): the four sampling types and every hyperparameter. This Note covers:
 
 - the one difference, in the aggregation step;
 - a demo with curves: one tree against a bagged ensemble;
@@ -29,9 +29,13 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 > **Key point:** Bootstrapping is unchanged; aggregation averages the predictions.
 
-In the **bootstrapping** step, each base model is trained on its own random sample of the data, as before. So pasting, random subspaces and random patches are all available too.
+In the **bootstrapping** step, each **base model** (G-260), one of the models being combined, is trained on its own **bootstrap sample** (G-319): observations drawn at random with replacement, as in the classifier. The other sampling types carry over too, so pasting, random subspaces and random patches are all available too.
 
-In the **aggregation** step, each base model returns a number, since this is regression. The bagging regressor returns their **mean**. Taking the mean is the only change.
+In the **aggregation** (G-183) step, each base model returns a number, since this is regression. The bagging regressor returns their **mean**. Taking the mean is the only change.
+
+![Aggregation in a bagging regressor: at three inputs x, each of the 50 bagged trees of section 3 returns a number (grey dots); the bagging prediction is their mean (blue diamond)](images/aggregation_mean.png){height=30%}
+
+Figure 1 shows the aggregation step on the 50 trees of section 3. Watch how far apart the single trees land at x = -1 (from about 0.0 to 0.9), while the mean sits in the middle of the cloud: no tree is trusted on its own.
 
 scikit-learn's `BaggingRegressor` has exactly the same hyperparameters as `BaggingClassifier` (the [bagging classifier Note](../106-bagging-classifier/note.md), section 6): `estimator`, `n_estimators`, `max_samples`, `max_features`, `bootstrap`, `bootstrap_features` and `oob_score`.
 
@@ -43,14 +47,20 @@ The demo data has one **feature** (input variable, one column of the data table)
 
 ![(a) One fully grown regression tree; (b) a bagging regressor of 50 trees, each trained on 25 observations drawn with replacement](images/tree_vs_bagging.png){height=40%}
 
-Figure 1 compares a single decision tree with bagging (50 trees, 25 observations each, with replacement):
+Figure 2 compares a single decision tree with bagging (50 trees, 25 observations each, with replacement):
 
-- **(a) The single tree** tries to pass through every training point, outliers included: low bias, high variance, so it overfits. Test $R^2$: **0.92**.
+- **(a) The single regression tree** (G-1654) tries to pass through every training point, outliers included. Such a model is **low bias, high variance** (G-1132): it can follow any pattern, but its prediction swings with the particular training points. Fitting the noise in this way is **overfitting** (G-1429). Test $R^2$: **0.92** (the **R² score** (G-1717): the share of the target's variation the model explains; 1 is perfect).
 - **(b) The bagging regressor** gives a smooth curve. The curve does not touch every point; it follows the underlying pattern. Test $R^2$: **0.95**.
 
-The smoothing is the same effect as in classification: bagging keeps the low bias and removes much of the variance.
+Why the mean is smoother, step by step:
 
-Figure 2 builds the bagging regressor of Figure 1b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77) into a smooth curve (0.95 with 50 trees).
+1. A regression tree predicts one constant value per leaf, so its prediction is a **step function** (G-1889): flat inside each leaf, with a jump at every split.
+2. Each bagged tree saw a different bootstrap sample, so it puts its jumps at different values of x (Figure 3, grey trees).
+3. The mean of 50 step functions with jumps in different places has many small steps instead of a few large ones, which looks like a smooth curve.
+
+In the terms of the bias-variance trade-off (G-288), each tree keeps its low bias, and averaging removes much of its **variance** (G-2078), the swing of its prediction from one training sample to another (Breiman, 1996, section 1).
+
+Figure 3 builds the bagging regressor of Figure 2b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77) into a smooth curve (0.95 with 50 trees).
 
 ![The bagging regressor built one tree at a time: every tree so far (grey), the newest tree and its 25 drawn points (green), and the mean of the trees, the bagging prediction (blue)](images/bagging_curve_grows.gif){height=55%}
 
@@ -74,6 +84,10 @@ A test set of 102 observations is small, so one split gives a noisy score: on ou
 |---|---|---|---|
 | Mean test $R^2$ | 0.708 | 0.716 | 0.504 |
 
+![Test R² of five regressors on the same 100 random splits of the Boston data: each dot is one split, the box holds the middle half, and the number on top is the mean](images/boston_splits.png){height=36%}
+
+Figure 4 shows all 100 scores per model, including the two bagging regressors of sections 4.2 and 4.3. Watch the single tree's spread: from about 0.0 to 0.86 depending on the split, while both bagging boxes sit higher and tighter.
+
 ### 4.2 A bagging regressor with default settings
 
 > **Key point:** Ten bagged trees, nothing tuned: mean test R² 0.84, above every single model.
@@ -91,13 +105,13 @@ A test set of 102 observations is small, so one split gives a noisy score: on ou
 >
 > The defaults: `estimator=None` (a decision tree), `n_estimators=10`, as many observations per model as the training set (`max_samples=None`), drawn with replacement, and every feature. `score` returns $R^2$ for a regressor.
 
-Without tuning anything, the bagging regressor scores a mean test $R^2$ of **0.841** over the 100 splits, well above all three single models (0.708, 0.716 and 0.504). The ten trees are each as unstable as the single tree, but their average is far steadier. On the first split, the gap between training (0.98) and test (0.83) shows some overfitting remains.
+Without tuning anything, the bagging regressor scores a mean test $R^2$ of **0.841** over the 100 splits (Figure 4, blue), well above all three single models (0.708, 0.716 and 0.504). The ten trees are each as unstable as the single tree, but their average is far steadier. On the first split, the gap between training (0.98) and test (0.83) shows some overfitting remains.
 
 ### 4.3 Tuning with GridSearchCV
 
 > **Key point:** A grid search over 144 combinations picks 50 bagged trees on full bootstrap samples; over the 100 splits these settings score 0.857, above the default's 0.841.
 
-Instead of trying pasting, random subspaces and random patches by hand, we let `GridSearchCV` try them all (the [KNN Note](../91-knn/note.md), section 4.2):
+Instead of trying **pasting** (G-1463), **random subspaces** (G-1618) and **random patches** (G-1614) by hand, we let `GridSearchCV`, a **grid search** (G-872), try them all (the [KNN Note](../91-knn/note.md), section 4.2):
 
 > **Python:** Searching over the base model and the sampling settings.
 >
@@ -119,7 +133,7 @@ Instead of trying pasting, random subspaces and random patches by hand, we let `
 >
 > The base model itself is a hyperparameter here: `None` stands for the default decision tree. With `bootstrap` and `bootstrap_features` both tried as `True` and `False`, the search covers bagging, pasting, random subspaces and random patches.
 
-The grid holds $3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$ combinations, each with 3-fold cross-validation: 432 fits, under a minute with `n_jobs=-1`. The best settings:
+The grid holds $3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$ combinations, each with 3-fold **cross-validation** (G-510; the training data is cut into 3 parts, and each part is scored once by a model trained on the other two): 432 fits, under a minute with `n_jobs=-1`. The best settings:
 
 - base model: **decision tree**;
 - `bootstrap=True`: **bagging**, not pasting;
@@ -127,7 +141,7 @@ The grid holds $3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$ combinatio
 - `max_samples=1.0`: every model gets as many observations as the training set;
 - `n_estimators=50`.
 
-Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, these settings score a mean test $R^2$ of **0.857**, close to the cross-validation estimate and above the default bagging regressor (0.841); they beat the default on 79 of the 100 splits.
+Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, these settings score a mean test $R^2$ of **0.857** (Figure 4, green), close to the cross-validation estimate and above the default bagging regressor (0.841); they beat the default on 79 of the 100 splits.
 
 | Model | Linear regression | Decision tree | KNN | Bagging, default | Bagging, tuned |
 |---|---|---|---|---|---|
@@ -139,7 +153,7 @@ Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, thes
 
 > **Key point:** With `oob_score=True`, the regressor reports R² on the out-of-bag observations: 0.870 here.
 
-`oob_score` works for regression too (the [bagging classifier Note](../106-bagging-classifier/note.md), section 4). For a regressor, `oob_score_` is the $R^2$ on the observations each model never saw. With 50 trees on the first split, the OOB $R^2$ is **0.870**, close to the cross-validation score.
+The **out-of-bag score** (G-1411) works for regression too (the [bagging classifier Note](../106-bagging-classifier/note.md), section 4). For a regressor, `oob_score_` is the $R^2$ on the observations each model never saw. With 50 trees on the first split, the OOB $R^2$ is **0.870**, close to the cross-validation score.
 
 ## 5. Summary
 

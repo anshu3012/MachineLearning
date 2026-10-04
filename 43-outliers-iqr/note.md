@@ -16,9 +16,13 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/
 
 > **Key point:** For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
 
-Note 41 listed three rules for detecting outliers, and Note 42 put the first one, the z-score method, to work on a normal feature. This Note covers the second rule: the **IQR method**, also called the **IQR proximity rule**. The IQR method is the rule to use when a **feature** (an input variable, one column of the data table) is skewed. Each **observation** is one record (one row), here one student.
+Note 41 listed three rules for detecting outliers, and Note 42 put the first one, the z-score method, to work on a normal feature. This Note covers the second rule: the **IQR method** (G-972), also called the **IQR proximity rule**. The IQR method is the rule to use when a **feature** (G-772) (an input variable, one column of the data table) is skewed. Each **observation** (G-1374) is one record (one row), here one student.
 
-Figure 1 shows the whole method. We check that the feature is skewed, compute the two fences from the quartiles, and then treat the values outside them by trimming or capping (both defined in Note 41, Section 7).
+Figure 1 shows the whole method, in three steps:
+
+1. check that the feature is skewed;
+2. compute the two fences from the quartiles;
+3. treat the values outside them by trimming or capping (both defined in Note 41, Section 7).
 
 ![The IQR method: check the feature is skewed, compute the fences, then trim or cap](images/overview.png){width=100%}
 
@@ -26,7 +30,7 @@ Figure 1 shows the whole method. We check that the feature is skewed, compute th
 
 > **Key point:** The IQR method is meant for a feature that is skewed, not normal.
 
-A feature is **skewed** when its values have a long tail on one side (Note 20). The z-score method of Note 42 does not fit such a feature, because it assumes a bell shape.
+A feature is **skewed** (G-1817) when its values have a long tail on one side (Note 20). The z-score method of Note 42 does not fit such a feature, because it assumes a bell shape.
 
 The IQR method makes no such assumption. The IQR method is built only on percentiles, which do not care about the shape of the feature. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from Note 20: the box plot and the IQR.
 
@@ -34,13 +38,21 @@ The IQR method makes no such assumption. The IQR method is built only on percent
 
 > **Key point:** The lower fence is $Q_1 - 1.5 \times \text{IQR}$ and the upper fence is $Q_3 + 1.5 \times \text{IQR}$; values outside them are outliers.
 
-The quartiles $Q_1$ (25th percentile) and $Q_3$ (75th percentile) come from the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). The interquartile range $\text{IQR} = Q_3 - Q_1$ and the two box-plot fences come from the [univariate analysis Note](../20-univariate-analysis/note.md) (sections 8 and 8.1). The IQR method uses exactly those fences as its lower and upper limits.
+The **quartiles** (G-1602) $Q_1$ (25th percentile) and $Q_3$ (75th percentile) come from the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). The **interquartile range** (G-966) $\text{IQR} = Q_3 - Q_1$ and the two box-plot **fences** (G-776) come from the [univariate analysis Note](../20-univariate-analysis/note.md) (sections 8 and 8.1). The IQR method uses exactly those fences as its lower and upper limits.
 
 For the placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$, so $\text{IQR} = 44 - 17 = 27$ and $1.5 \times 27 = 40.5$:
 
 $$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
 
-A mark below $-23.5$ or above 84.5 is an outlier. The plan for any skewed feature is therefore short: compute $Q_1$, $Q_3$ and the IQR, compute the two fences, and trim or cap every value outside them.
+A mark below $-23.5$ or above 84.5 is an outlier. Figure 2 builds the fences on the real marks; watch the orange arms grow 40.5 marks out of each side of the box, and only the far right tail turn red.
+
+![The IQR fences built step by step on the 1,000 exam marks: Q1 and Q3, the IQR of 27, arms of 1.5 IQR, then the 15 outliers beyond 84.5](images/fences_build.gif)
+
+The plan for any skewed feature is therefore short:
+
+1. compute $Q_1$, $Q_3$ and the IQR;
+2. compute the two fences;
+3. trim or cap every value outside them.
 
 > **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
@@ -48,7 +60,7 @@ A mark below $-23.5$ or above 84.5 is an outlier. The plan for any skewed featur
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the fence it crossed.
 
-Both treatments come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers); here the fences are the limits.
+Both treatments, **trimming** (G-2019) and **capping** (G-345), come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers); here the fences are the limits.
 
 ## 5. The placement data
 
@@ -65,9 +77,9 @@ The data is the placement data of Note 42: one observation per student of a coll
 
 - `cgpa`: the student's CGPA (out of 10).
 - `placement_exam_marks`: marks out of 100 in the aptitude test held before placement.
-- `placed`: 1 if the student got a job offer, 0 if not; the **target**, the output a model would predict.
+- `placed`: 1 if the student got a job offer, 0 if not; the **target** (G-1949), the output a model would predict.
 
-Note 42 (Figure 3) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
+Note 42 (Figure 4) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
 
 The summary numbers of the marks feature tell the same story:
 
@@ -93,7 +105,7 @@ A quarter of the students scored below 17, half below 28 and three quarters belo
 
 > **Key point:** $Q_1 = 17$ and $Q_3 = 44$ give an IQR of 27 and fences of $-23.5$ and 84.5; 15 students lie above the upper fence and none below the lower one.
 
-Figure 2 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 (Section 3).
+Figure 3 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 (Section 3).
 
 ![The placement exam marks: box plot with Q1, median and Q3, the two fences, and the 15 outliers in red](images/fences.png){width=100%}
 
@@ -141,7 +153,7 @@ Trimming is a filter: keep the rows whose mark lies between the two fences. Sinc
 > new_df.shape    # (985, 3)
 > ```
 
-Figure 3 (middle row) shows the result. The histogram barely changes: only its thin right tail is gone. The box plot loses its row of red dots.
+Figure 5 (middle row) shows the result. The histogram barely changes: only its thin right tail is gone. The box plot loses its row of red dots.
 
 The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
 
@@ -149,11 +161,15 @@ The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
 
 > **Key point:** The box plot of the trimmed data computes new fences from the 985 remaining rows, so a value that was inside before can now be outside.
 
-The trimmed box plot in Figure 3 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its fences from the data it is given.
+The trimmed box plot in Figure 5 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its fences from the data it is given.
 
 For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is $43 + 1.5 \times (43 - 17) = 82$. The mark 83, safely inside the old fence of 84.5, is now just outside the new one.
 
 In this Note we detect once, with the fences of the original data, and treat once. (Trimming again here would remove the 83 and then stop: a third round finds nothing. The last cell of the Notebook shows this.)
+
+![Detecting again after each trim: the fence moves from 84.5 to 82, catches the 83, and then stays at 82 with nothing outside](images/trim_rounds.png)
+
+In Figure 4, watch the dashed fence step left between rounds 1 and 2 and then stop moving.
 
 ## 8. Capping in code
 
@@ -194,7 +210,7 @@ The result, compared with the original and the trimmed column:
 | Maximum | 100 | 83 | 84.5 |
 | Skewness | 0.84 | 0.65 | 0.76 |
 
-Figure 3 (bottom row) shows the capped column. The 15 outliers now all sit at 84.5, so the histogram rises in that one spot (the orange bar). The box plot has no dots: its whisker ends exactly at the fence.
+Figure 5 (bottom row) shows the capped column. The 15 outliers now all sit at 84.5, so the histogram rises in that one spot (the orange bar). The box plot has no dots: its whisker ends exactly at the fence.
 
 ![Before and after: the original column, the trimmed column (985 rows) and the capped column (1,000 rows, outliers moved onto 84.5); histograms on the left, box plots on the right, the upper fence dashed](images/before_after.png){width=100%}
 
@@ -226,6 +242,10 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 - **Simple:** two percentiles give both fences.
 - **Shape-free:** it needs no bell shape, so it fits skewed features.
 - **Robust:** the quartiles are not pulled by extreme values (Section 3, Extra).
+
+To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 6). Watch the two lines: the z-score limit of Note 42 chases the typo from 89.6 up to 141.2, while the IQR fence never leaves 84.5.
+
+![One typed-in extreme value: the z-score upper limit (mean + 3 std) climbs with it, the IQR upper fence stays at 84.5](images/robust_fence.png)
 
 > **Extra:** Two things to keep in mind.
 >

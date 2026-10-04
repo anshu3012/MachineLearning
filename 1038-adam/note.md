@@ -17,9 +17,9 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adam]
 
 > **Key point:** Adam keeps two EWMAs per parameter: of the gradient, $m_t$ (momentum's idea), and of the squared gradient, $v_t$ (RMSProp's idea). It corrects both for starting at 0, then steps by $\eta\thinspace\hat m_t/(\sqrt{\hat v_t} + \epsilon)$. It is the most widely used optimizer and the usual starting point.
 
-**Adam**, short for *adaptive moment estimation* (Kingma and Ba 2015), is the last optimizer of this series and the most used. Whether we train a plain network, a convolutional network or a recurrent network, Adam is usually the first choice.
+**Adam** (G-169), short for *adaptive moment estimation* (Kingma and Ba 2015), is the last **optimizer** (G-1401) of this series and the most used. Whether we train a plain network, a **convolutional network** (G-484) or a **recurrent network** (G-1647), Adam is usually the first choice.
 
-Adam borrows from the optimizers before it. Momentum and NAG are built on one idea, **speed from past gradients**; AdaGrad and RMSProp on another, **a learning rate that adapts to each parameter**. Adam merges the two.
+Adam borrows from the optimizers before it. **Momentum** (G-1258) and **NAG** (G-1315) are built on one idea, **speed from past gradients**; **AdaGrad** (G-168) and **RMSProp** (G-1697) on another, **a learning rate that adapts to each parameter**. Adam merges the two.
 
 ![Five optimizers on the elongated bowl of a sparse feature, each with a learning rate that works for it. Adam (red) heads towards the minimum like the adaptive methods and curls in like momentum](images/adam_race.gif){width=80%}
 
@@ -50,7 +50,7 @@ The two lines of improvement are independent, so it makes sense to combine them.
 > **Key point:** Update $m_t$ (EWMA of gradients) and $v_t$ (EWMA of squared gradients), correct both by dividing by $1 - \beta^t$, then move by $\eta\thinspace\hat m_t/(\sqrt{\hat v_t}+\epsilon)$.
 
 1. **In words:**
-   - keep an EWMA of the gradient, $m_t$, as momentum does;
+   - keep an EWMA (**exponentially weighted moving average**, G-735) of the gradient, $m_t$, as momentum does;
    - keep an EWMA of the squared gradient, $v_t$, as RMSProp does;
    - correct both for having started at 0;
    - step in the direction of the corrected average gradient, divided by the root of the corrected average squared gradient.
@@ -65,9 +65,9 @@ The two lines of improvement are independent, so it makes sense to combine them.
 
 The parts come from the earlier optimizers:
 
-- **$m_t$** is momentum's velocity, written as a true EWMA. In Adam it is an estimate of the first moment, the mean, of the gradient (Goodfellow et al. 2016, §8.5.3).
-- **$\sqrt{v_t}$ in the denominator** is RMSProp's. $v_t$ estimates the second moment of the gradient, which gives Adam its name: adaptive **moment** estimation.
-- **$\hat m_t$ and $\hat v_t$** are new: the bias correction.
+- **$m_t$** is momentum's velocity, written as a true EWMA. In Adam it is an estimate of the **first moment** (G-780), the mean, of the gradient (Goodfellow et al. 2016, §8.5.3).
+- **$\sqrt{v_t}$ in the denominator** is RMSProp's. $v_t$ estimates the **second moment** (G-1759) of the gradient, which gives Adam its name: adaptive **moment** estimation.
+- **$\hat m_t$ and $\hat v_t$** are new: the **bias correction** (G-285).
 
 ![Adam, $\eta = 0.5$, on the students data, step by step. Left: the path with corrected averages (red) and with the raw ones (dotted orange). Right, for the bias $b$ of the red run: the gradient (grey dots) with $m$ raw and corrected (top), and the gradient's size with $\sqrt{v}$ raw and corrected (bottom)](images/adam_moments.gif){width=95%}
 
@@ -102,7 +102,7 @@ Without the correction, early steps would be badly scaled: at $t = 1$ in the exa
 
 > **Key point:** Adam heads for the minimum like an adaptive method, curls in like momentum, and then settles, while RMSProp keeps jittering.
 
-On the elongated bowl of the IIT feature (Figure 1), each optimizer gets a learning rate that works for it. Steps until the loss is within 0.01 of its minimum (Notebook):
+On the **elongated bowl** (G-673) of the IIT feature (Figure 1), each optimizer gets a learning rate that works for it. Steps until the loss is within 0.01 of its minimum (Notebook):
 
 | Optimizer | $\eta$ | Steps | Still moving at the end? |
 |---|---|---|---|
@@ -112,13 +112,18 @@ On the elongated bowl of the IIT feature (Figure 1), each optimizer gets a learn
 | RMSProp, $\beta = 0.9$ | 0.3 | 48 | yes: up to 0.15 from the best |
 | Adam | 0.5 | 42 | no |
 
-Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around once, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks.
+Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around once, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one (a **convex function**, G-476) the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks (**non-convex functions**, G-1333).
 
 ## 7. Adam on real data: MNIST
 
 > **Key point:** On MNIST, Adam and RMSProp train fastest and are close to each other; both are far ahead of plain SGD and AdaGrad, and ahead of momentum and NAG.
 
-The data is the MNIST handwritten digits (see the [MNIST Note](../1012-mnist-ann/note.md)): 10,000 training images, each with 784 pixel **features** (input variables) and the digit as **target** (the output we predict), the 10,000 test images for validation, hidden layers of 128 and 64 ReLU nodes, batch size 64, 20 epochs, 3 seeds. Learning rates: 0.01 for SGD, momentum, NAG ($\beta = 0.9$) and AdaGrad; 0.001, Keras' default, for RMSProp and Adam.
+The setup:
+
+- **data:** the **MNIST** (G-1249) handwritten digits (see the [MNIST Note](../1012-mnist-ann/note.md)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation;
+- **network:** hidden layers of 128 and 64 **ReLU** (G-1668) nodes;
+- **training:** **batch size** (G-267) 64, 20 **epochs** (G-696), 3 seeds;
+- **learning rates** (G-1068): 0.01 for SGD, momentum, NAG ($\beta = 0.9$) and AdaGrad; 0.001, Keras' default, for RMSProp and Adam.
 
 ![Training loss on MNIST per epoch for six optimizers, mean of 3 seeds](images/mnist_all.png){width=95%}
 
@@ -142,7 +147,7 @@ There are more optimizers than the five covered here, such as AdaDelta and Nadam
 
 1. **Adam** is a good starting point; over recent years it has given good results on many kinds of problems.
 2. If Adam's results are not good, try **RMSProp**; sometimes **momentum** works best.
-3. Treat the optimizer as a **hyperparameter** (a setting chosen before training; see the [Optuna Note](../134-optuna/note.md) for tuning in general): try several and keep the one that does best on validation data, for example with Keras Tuner (see the [Keras Tuner Note](../1039-keras-tuner/note.md)).
+3. Treat the optimizer as a **hyperparameter** (G-910; a setting chosen before training; see the [Optuna Note](../134-optuna/note.md) for tuning in general): try several and keep the one that does best on validation data, for example with **Keras Tuner** (G-1001; see the [Keras Tuner Note](../1039-keras-tuner/note.md)).
 
 Adam is generally regarded as fairly robust to the choice of its hyperparameters, though the learning rate sometimes needs changing from the suggested default of 0.001 (Goodfellow et al. 2016, §8.5.3). Its authors describe the hyperparameters as having intuitive meanings and typically requiring little tuning (Kingma and Ba 2015).
 

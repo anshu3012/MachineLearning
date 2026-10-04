@@ -38,10 +38,10 @@ The conditional probability Note showed that $P(A \mid B)$ and $P(B \mid A)$ are
 
 | Part | Name | Meaning |
 |---|---|---|
-| $P(A \mid B)$ | **posterior** | how likely $A$ is after seeing $B$ |
-| $P(B \mid A)$ | **likelihood** | how likely the evidence $B$ is if $A$ is true |
-| $P(A)$ | **prior** | how likely $A$ was before seeing anything |
-| $P(B)$ | **evidence** | how likely the evidence $B$ is overall |
+| $P(A \mid B)$ | **posterior** (G-1536) | how likely $A$ is after seeing $B$ |
+| $P(B \mid A)$ | **likelihood** (G-1086) | how likely the evidence $B$ is if $A$ is true |
+| $P(A)$ | **prior** (G-1565) | how likely $A$ was before seeing anything |
+| $P(B)$ | **evidence** (G-718) | how likely the evidence $B$ is overall |
 
 The likelihood here is the same idea as in the [log loss Note](../73-log-loss/note.md) (section three): the probability of what we observed, given a hypothesis (there, a model's coefficients; here, an event $A$).
 
@@ -67,11 +67,15 @@ $$P(B \mid A) = \frac{P(B \cap A)}{P(A)}$$
 
 $$P(A \cap B) = P(B \mid A) \times P(A) \qquad (2)$$
 
-Figure 2 (section 5.2) shows equation (2) as a rectangle: the dark spam piece has width $P(\text{spam}) = 0.2$ and height $P(\text{free} \mid \text{spam}) = 0.6$, so its area is $P(\text{spam} \cap \text{free}) = 0.12$.
+Figure 3 (section 5.2) shows equation (2) as a rectangle: the dark spam piece has width $P(\text{spam}) = 0.2$ and height $P(\text{free} \mid \text{spam}) = 0.6$, so its area is $P(\text{spam} \cap \text{free}) = 0.12$.
 
 Substituting (2) into (1) gives Bayes' theorem:
 
 $$P(A \mid B) = \frac{P(B \mid A) \times P(A)}{P(B)}$$
+
+Figure 2 runs the proof on the two dice of section 5.1, with $A$ = "die 1 shows 5" and $B$ = "the sum is at most 10". Watch the same five red cells: read inside $A$ they are $5/6$ of it, read inside $B$ they are $5/33$ of it, and both readings give the same $5/36$.
+
+![The proof on the 36 outcomes of two dice. Left: inside A, 5 of 6 cells are in B, so P(A and B) = 5/6 × 6/36. Right: inside B, 5 of 33 cells are in A, so P(A and B) = 5/33 × 33/36. Both equal 5/36](images/dice_two_ways.png){height=42%}
 
 ## 5. Two examples
 
@@ -99,7 +103,7 @@ Suppose 20% of emails are spam. The word "free" appears in 60% of spam emails an
 
   $$P(\text{spam} \mid \text{free}) = \frac{0.60 \times 0.20}{0.16} = 0.75$$
 
-Figure 2 draws the same sum as areas. The square is all emails. Watch the two dark pieces in step 4: they are all that is left once we know the email says "free", and the spam piece is three times the normal one.
+Figure 3 draws the same sum as areas. The square is all emails. Watch the two dark pieces in step 4: they are all that is left once we know the email says "free", and the spam piece is three times the normal one.
 
 ![Bayes' theorem as areas. Prior: a 20% spam strip. Likelihood: the "free" share inside each strip. Evidence: only the two dark pieces remain (0.12 and 0.04). Posterior: rescaled to fill the whole, spam is 0.12 / 0.16 = 75%. Picture after Sanderson (3Blue1Brown), "Bayes' theorem".](images/bayes_square.gif)
 
@@ -117,7 +121,7 @@ Seeing one word has moved the belief from 20% to 75%. The way the evidence was s
 **Built from**
 
 - CampusX, "Naive Bayes Classifier | Part 4 | Bayes Theorem in Probability", YouTube, https://www.youtube.com/watch?v=Oqw-v-Z7PuU
-- Sanderson, G. (3Blue1Brown). "Bayes' theorem." 3blue1brown.com/lessons/bayes-theorem. The area picture of Figure 2 follows this lesson, redrawn with our spam numbers.
+- Sanderson, G. (3Blue1Brown). "Bayes' theorem." 3blue1brown.com/lessons/bayes-theorem. The area picture of Figure 3 follows this lesson, redrawn with our spam numbers.
 
 **Other references**
 

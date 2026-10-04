@@ -1,0 +1,16 @@
+# Cleanup list (run when every round-2 and round-3 agent is finished)
+- Delete leftover render folders, e.g. `602-jacobian-and-matrix-gradients/images/.area_frames/`. Find them with `find . -path '*/images/.*' -type d`.
+- Re-encode GIFs over 3 MB: 500 `basis_landing.gif`, 510 `composition.gif`. Run `find . -name '*.gif' -size +3M`.
+- Check the glossary for duplicate terms that agents added, such as "Maximum likelihood": `python3 tools/merge_glossary.py --id` on suspicious pairs.
+- Stray `.logs/` folders inside Note folders: move their contents to the root `.logs/`.
+- `lift_bowl_frames.png` (80) has small text: show one frame in the PDF instead.
+- matplotlib or seaborn scripts in Notes that other agents were editing: see the report from the Note 31 / matplotlib agent.
+- Note 280 §6: the round-2 test suggests z-interval coverage stays at about 95% for non-normal data, even at n = 5. Review the claim.
+- Notes 96, 101, 113, 114, 116: the §10/§11 pass covered terms only; their older prose still needs the step-by-step rewrite.
+- Note 1083 §8: the exponential sum is given as 12.13 (the sum of rounded values); the exact sum is 12.12. Write it as 12.12, saying the terms are rounded.
+- **matplotlib/seaborn, 27 scripts left** (all `seaborn.objects`), in 02, 03, 07, 13, 16, 17, 19, 20, 21, 223, 23, 243, 253, 25, 46, 570 and 571; the exact list is in the Note 31 / matplotlib agent's report. Convert them to Plotly, keeping the same file names. Scott-bandwidth `gaussian_kde` matches seaborn's KDE.
+- **Notebooks that still plot with seaborn inline:** 24 (cells 16, 18, 20, 32), 42 (cell 5), 280 (cell 9), 243, 25. Convert them to Plotly, then fix Note 42 line 141 ("The Notebook draws Figure 4 with Seaborn's objects interface").
+- **Note 31 §6** still quotes unshuffled `cv=5` scores. Optionally move it to shuffled cross-validation, to match §7.
+- 510 images/composition.gif is 3.7 MB (over 3 MB); re-encode
+- glossary IDs pending for new Key terms from the maths rewrite (360, 500, 510, 580): run merge_glossary after all rewrite agents finish
+- 114 unused Manim .mp4 renders in images/ (98 tracked in git, ~98 MB; no Note or tool uses them): git rm, add '*/images/*.mp4' to .gitignore — at the next commit

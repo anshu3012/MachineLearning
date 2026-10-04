@@ -27,9 +27,20 @@ This Note turns it into a class with `fit` and `predict`, like scikit-learn's `L
 
 > **Key point:** 442 diabetes patients, 10 features, and a number to predict: how far the disease progressed one year later.
 
-The example is scikit-learn's built-in **diabetes dataset**. Each **observation** (one record, one row of the data table) is a patient. The 10 **features** (input variables, one column each) are age, sex, body mass index (bmi), average blood pressure (bp) and six blood measurements (s1 to s6). The **target**, the output we predict, is a number measuring disease progression one year later.
+The example is scikit-learn's built-in **diabetes dataset** (G-600). Each **observation** (G-1374) (one record, one row of the data table) is a patient. The 10 **features** (G-772) (input variables, one column each) are:
+
+- age and sex;
+- body mass index (bmi);
+- average blood pressure (bp);
+- six blood measurements (s1 to s6).
+
+The **target** (G-1949), the output we predict, is a number measuring disease progression one year later.
 
 > **Extra:** The features come already scaled: each column is centred on 0 and shrunk so that its squares add up to 1 (scikit-learn docs, Diabetes dataset). The scaling explains why the values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
+
+Figure 1 shows how strongly each pair of features moves together on the training patients, measured by the **correlation** (G-490) $r$ ([Note 231](../231-covariance-and-correlation/note.md)): 1 means two features rise and fall together exactly, 0 means no straight-line link. Watch the outlined pair: s1 (total cholesterol) and s2 (LDL cholesterol) have $r = 0.90$, close to copies of each other. Section 5 shows what this pair does to the coefficients.
+
+![Correlation between the 10 diabetes features on the 353 training patients; s1 and s2 (outlined) are at 0.90](images/feature_corr.png)
 
 We split the data 80/20: 353 patients to train, 89 to test.
 
@@ -59,11 +70,24 @@ We split the data 80/20: 353 patients to train, 89 to test.
 > reg.intercept_                          # 151.88
 > ```
 
-An R² of 0.44 means the 10 measurements explain less than half the variation in disease progression: a useful but far from perfect model.
+An **R² score** (G-1717) of 0.44 means the 10 measurements explain less than half the variation in disease progression: a useful but far from perfect model.
+
+Figure 2 shows where the number comes from. R² compares two sums of squares on the 89 test patients:
+
+- **total:** each actual value minus the mean of the actual values (blue), squared and added up: 491,740;
+- **residual** (G-1685): each actual value minus its prediction (orange), squared and added up: 275,407.
+
+Then $R^2 = 1 - 275{,}407 / 491{,}740 = 0.44$. Watch the two rows: the model's errors (orange) spread less widely than the plain distances from the mean (blue), but not by much.
+
+![R² on the test set: the errors around the predictions (orange) against the distances from the mean (blue); R² = 1 − 275,407 / 491,740 = 0.44](images/r2_variance.png)
 
 ## 4. Our own class
 
 > **Key point:** fit adds a column of 1s and applies the normal equation; predict multiplies the inputs by the coefficients and adds the intercept.
+
+Figure 3 follows the shapes of the arrays through both methods. Watch the column of 1s: `fit` adds it (10 columns become 11), and `predict` leaves it out and adds the intercept at the end instead.
+
+![The shapes through MyMLR: fit turns the 353 × 10 training data into 11 numbers, the intercept and 10 coefficients; predict turns the 89 × 10 test data into 89 predictions](images/fit_shapes.png)
 
 ### 4.1 fit
 
@@ -105,7 +129,7 @@ For new data we do not need the column of 1s: we multiply the inputs by the 10 c
 
 > **Key point:** All 11 numbers agree with scikit-learn to within about 0.000000000003.
 
-Figure 1 (left) puts the 10 coefficients side by side: the two models are indistinguishable. The largest difference is about $3 \times 10^{-12}$, a rounding effect.
+Figure 4 (left) puts the 10 coefficients side by side: the two models are indistinguishable. The largest difference is about $3 \times 10^{-12}$, a rounding effect.
 
 ![Coefficients of our class and scikit-learn; predicted against actual on the test set](images/results.png)
 
@@ -113,7 +137,7 @@ The right panel plots the 89 test predictions against the true values. If the mo
 
 The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+517). Because the features are standardised, these coefficients can be compared with each other.
 
-> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of multicollinearity: s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely, like two people carrying one box who can shift the load between them without the box moving. Collinearity makes the individual coefficients very uncertain (ISLR §3.3.3), so their sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
+> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of **multicollinearity** (G-1273): s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely, like two people carrying one box who can shift the load between them without the box moving. Collinearity makes the individual coefficients very uncertain (ISLR §3.3.3), so their sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
 >
 > - **Strongly related:** correlation 0.895; variance inflation factors 56 and 37, against under 2 for age, sex, bmi and bp.
 > - **Trading weight:** over 200 bootstrap refits, the s1 and s2 coefficients swing far more than bmi's (standard deviation 464 and 369 against 77), in opposite directions (correlation $-0.97$).
@@ -130,7 +154,11 @@ Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it
 
 Both agree with scikit-learn to within $10^{-11}$ here (see the Notebook). The safer one is `lstsq`: when one column is almost a copy of another, `inv` and `solve` both lose accuracy, while `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate. scikit-learn's `LinearRegression` uses a least-squares solver of this second kind (scikit-learn docs, LinearRegression).
 
-> **Extra:** The Notebook's test uses a made-up design with known coefficients, where one column is a copy of another plus tiny noise. With noise of size $10^{-5}$, the largest coefficient error is about $3 \times 10^{-5}$ with `inv`, $9 \times 10^{-5}$ with `solve` and $10^{-11}$ with `lstsq`. With noise of size $10^{-7}$, `inv` and `solve` are off by about 0.08, `lstsq` by only $2 \times 10^{-9}$.
+> **Extra:** The Notebook's test uses a made-up design with known coefficients, where one column is a copy of another plus tiny noise. With noise of size $10^{-5}$, the largest coefficient error is about $3 \times 10^{-5}$ with `inv`, $9 \times 10^{-5}$ with `solve` and $10^{-11}$ with `lstsq`. With noise of size $10^{-7}$, `inv` and `solve` are off by about 0.07 and 0.08, `lstsq` by only $2 \times 10^{-9}$.
+
+Figure 5 plots these errors on a log scale, where each step up the axis means 100 times worse. Watch the green bars: `lstsq` stays at $2 \times 10^{-9}$ or better at every noise size, while `inv` and `solve` climb from $10^{-9}$ or less to about $10^{-1}$ as the copied column gets closer to the original.
+
+![Largest coefficient error of inv, solve and lstsq as the copied column gets closer to the original (log scale); lstsq stays accurate](images/lstsq_accuracy.png)
 
 ## 7. Summary
 

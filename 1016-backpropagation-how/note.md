@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 The [backpropagation what Note](../1015-backpropagation-what/note.md) built the algorithm and its 9 derivatives for a 2-2-1 regression network. This Note runs it:
 
 1. **Regression:** the same network and data, trained for several epochs with our own NumPy code, then with Keras.
-2. **Classification:** the same architecture with sigmoid activations and binary cross-entropy. The derivatives change, so we derive them, then train again.
+2. **Classification:** the same architecture with sigmoid activations and **binary cross-entropy** (G-304). The derivatives change, so we derive them, then train again.
 
 ![Average loss per epoch for our code and for Keras, started from the same weights](images/loss_curves.png){height=33%}
 
@@ -41,8 +41,12 @@ The data and network are those of the [backpropagation what Note](../1015-backpr
    - for each student, in order:
      a. predict $\hat{y}$ with forward propagation;
      b. compute the loss $(y - \hat{y})^2$;
-     c. update the 9 parameters with $W \leftarrow W - \eta\thinspace\partial L/\partial W$, $\eta = 0.001$.
-   - print the average of the 4 losses: the loss of the epoch.
+     c. update the 9 parameters with $W \leftarrow W - \eta\thinspace\partial L/\partial W$, where the step size $\eta = 0.001$ is the **learning rate** (G-1068).
+   - print the average of the 4 losses: the loss of the **epoch** (G-696), one full pass over the data.
+
+![The two loops as a table filling in: each cell is one student's loss, each row one epoch, the last column the epoch's average](images/loss_grid.gif){height=34%}
+
+Figure 2 runs the two loops. The inner loop fills a row from left to right, one student at a time; the outer loop moves down one row per epoch. Watch every row come out lighter than the one above: each update lowers the next student's loss.
 
 Students are taken in order here. In practice the observations are usually picked in a random order each epoch, which the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) returns to.
 
@@ -122,6 +126,10 @@ The first epoch is exactly the one worked by hand in the [backpropagation what N
 
 After 5 epochs the weights have moved from 0.1 to $W_{11}^{1} = W_{12}^{1} = 0.272$, $W_{21}^{1} = W_{22}^{1} = 0.393$, $W_{11}^{2} = W_{21}^{2} = 0.469$, with biases 0.028 (hidden) and 0.122 (output). The predictions are 5.14, 5.25, 5.36 and 5.84 LPA for packages of 4, 5, 6 and 7. They are in the right range and rising in the right order, but still too close together. After 75 epochs the average loss is 0.177 (Figure 1, left).
 
+![The three distinct weight values after each of the 20 updates of the first 5 epochs](images/weights_path.png){height=30%}
+
+Figure 3 tracks the weights update by update. Every line rises, because every gradient is negative while the predictions are too small. The pairs stay equal: $W_{11}^{1} = W_{12}^{1}$ and $W_{21}^{1} = W_{22}^{1}$, since both hidden nodes start the same and receive the same updates.
+
 ## 5. The same training in Keras
 
 > **Key point:** Same architecture, same starting weights, plain SGD with the same learning rate, one observation per update, no shuffling: Keras gives the same losses and weights.
@@ -146,6 +154,10 @@ After 5 epochs the weights have moved from 0.1 to $W_{11}^{1} = W_{12}^{1} = 0.2
 > `model.summary()` shows 9 trainable parameters. Keras normally starts from random weights; `get_weights` returns the arrays in the order kernel, bias, kernel, bias, and `set_weights` overwrites them. `batch_size=1` updates after every row, as our loop does; `shuffle=False` keeps the rows in order.
 
 Keras prints the epoch losses 26.346, 19.859, 10.882, 3.777 and 1.224, and ends with exactly our weights (0.272, 0.393, 0.469, ...). The two curves in Figure 1 (left) coincide for all 75 epochs.
+
+![The gap between our epoch loss and Keras's, every epoch, on a log scale](images/keras_gap.png){height=30%}
+
+Figure 4 measures how close "coincide" is. The largest gap is 0.0000013 (regression) and 0.00000007 (classification), hundreds of times smaller than the 0.0005 that would change a loss printed to three decimals.
 
 > **Extra:** Every setting must match to get identical numbers. By default `fit` shuffles the rows every epoch and uses batches of 32 rows, so with default settings Keras follows a different path and ends at a slightly different loss. With an optimizer such as Adam instead of plain SGD, the steps themselves change.
 
@@ -175,6 +187,10 @@ $$z_{11} = 0.1 \times 8 + 0.1 \times 8 = 1.6, \qquad O_{11} = O_{12} = \sigma(1.
 
 $$z_f = 0.1 \times 0.832 + 0.1 \times 0.832 = 0.166, \qquad \hat{y} = \sigma(0.166) = 0.5415, \qquad L = -\log 0.5415 = 0.613$$
 
+![Student 1 through the classification network: each node forms its weighted sum, then passes it through the sigmoid](images/cls_forward.png){height=26%}
+
+Figure 5 shows where the two new steps sit: the purple $\sigma$ boxes after each weighted sum.
+
 ## 7. The classification derivatives
 
 > **Key point:** The sigmoid and the log cancel: $\partial L/\partial z_f = -(y - \hat{y})$. The output layer then looks like regression with $-1$ in place of $-2$; the hidden layer gains a factor $O(1 - O)$ from its own sigmoid.
@@ -189,7 +205,7 @@ Call $z_f = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$ the weighted sum of 
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_f} \cdot \frac{\partial z_f}{\partial W_{11}^{2}}$$
 
-The first two factors (Figure 2, left):
+The first two factors (Figure 6, left):
 
 - Differentiating the loss:
   $$\frac{\partial L}{\partial \hat{y}} = -\frac{y}{\hat{y}} + \frac{1 - y}{1 - \hat{y}} = \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}$$
@@ -209,7 +225,7 @@ These are the regression formulas with $-1$ in place of $-2$.
 
 > **Key point:** Two more links: $z_f \to O_{11}$ gives $W_{11}^{2}$; $O_{11} \to z_p$ gives the sigmoid derivative $O_{11}(1 - O_{11})$.
 
-For $W_{11}^{1}$ the chain is five links long (Figure 2). With $z_p = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$ the weighted sum of hidden node 1, so $O_{11} = \sigma(z_p)$:
+For $W_{11}^{1}$ the chain is five links long (Figure 6). With $z_p = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$ the weighted sum of hidden node 1, so $O_{11} = \sigma(z_p)$:
 
 $$\frac{\partial L}{\partial W_{11}^{1}} = \underbrace{\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial z_f}}_{-(y - \hat{y})} \cdot \underbrace{\frac{\partial z_f}{\partial O_{11}}}_{W_{11}^{2}} \cdot \underbrace{\frac{\partial O_{11}}{\partial z_p}}_{O_{11}(1 - O_{11})} \cdot \underbrace{\frac{\partial z_p}{\partial W_{11}^{1}}}_{x_{i1}}$$
 
@@ -228,7 +244,7 @@ Compared with regression, each hidden derivative has one extra factor, $O(1 - O)
 
 ![Backpropagation on the classification network for student 1. Forward, values flow left to right (blue). Backward, the gradient flows right to left (red): it starts as $\hat{y} - y = -0.4585$ at the output and is multiplied by one local derivative per step, $\times 0.1$ along $W_{11}^{2}$, $\times 0.140$ through the hidden sigmoid, $\times 8$ along $W_{11}^{1}$, until every weight holds its gradient](images/backprop_chain.gif){width=100%}
 
-In Figure 3, watch the running product along the bottom: each step back multiplies the gradient by one number, and the two small factors, 0.1 and 0.140, shrink it from $-0.4585$ to $-0.0513$. Picturing the chain rule as a product of local sensitivities along the path follows 3Blue1Brown's "Backpropagation calculus".
+In Figure 7, watch the running product along the bottom: each step back multiplies the gradient by one number, and the two small factors, 0.1 and 0.140, shrink it from $-0.4585$ to $-0.0513$. Picturing the chain rule as a product of local sensitivities along the path follows 3Blue1Brown's "Backpropagation calculus".
 
 1. **In words:** compute $-(y - \hat{y})$ once, then multiply by each parameter's factors.
 2. **Formula:** the formulas of Sections 7.1 and 7.2.
@@ -266,12 +282,16 @@ Training with the same loops and $\eta = 0.001$:
 | Our code | 0.6942 | 0.6942 | 0.6937 |
 | Keras | 0.6942 | 0.6942 | 0.6937 |
 
-The loss barely moves, and every student gets a probability of about 0.54. Is the code wrong? The same network in Keras (sigmoid activations, `loss="binary_crossentropy"`, same weights and settings) gives the same numbers to four digits (Figure 1, right). So backpropagation is computed correctly; the network is simply not learning.
+The loss barely moves, and every student gets a probability of about 0.54 (Figure 8).
+
+![The classifier's predicted probability for each student over 50 epochs](images/stuck.png){height=30%}
+
+In Figure 8, all four lines lie on top of each other at about 0.54 and stay flat: the placed students never rise towards 1, and the others never fall towards 0. Is the code wrong? The same network in Keras (sigmoid activations, `loss="binary_crossentropy"`, same weights and settings) gives the same numbers to four digits (Figure 1, right). So backpropagation is computed correctly; the network is simply not learning.
 
 The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0.5 for everyone: the network has learned nothing beyond "two students are placed, two are not". Two causes add up:
 
 - **A tiny learning rate** with tiny hidden gradients (Section 7.3): the weights hardly move.
-- **Identical hidden nodes:** every weight starts at 0.1, so both hidden nodes stay the same, and the network acts as if it had one hidden node. Two hidden nodes with the same inputs need different starting weights to "break symmetry" (Goodfellow et al. 2016, §8.4); the Notebook confirms that the two columns of $W^{1}$ are still equal after training. Two twins given the same lessons in the same order give the same answers on every exam.
+- **Identical hidden nodes:** every weight starts at 0.1, so both hidden nodes stay the same, and the network acts as if it had one hidden node. Two hidden nodes with the same inputs need different starting weights to "break symmetry" (Goodfellow et al. 2016, §8.4); two hidden nodes stuck as copies of each other are the **symmetry problem** (G-1933); the Notebook confirms that the two columns of $W^{1}$ are still equal after training. Two twins given the same lessons in the same order give the same answers on every exam.
 
 > **Extra:** With $\eta = 0.1$ and 2,000 epochs the loss falls to 0.49: students 1 and 2 get 0.66 and student 3 gets 0.01, but student 4 still gets 0.66 instead of a low value. The two hidden nodes are still equal, so the network still acts as if it had a single hidden node. With $\eta = 0.5$ the steps are too big: the loss goes up in 36 of the 2,000 epochs, reaches its lowest value, 0.705, at epoch 194, and ends higher, at 0.76 (Notebook). Starting weights, learning rate and the sigmoid's small slope are exactly the problems that the Notes on improving a network address.
 

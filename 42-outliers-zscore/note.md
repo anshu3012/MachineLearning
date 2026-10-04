@@ -17,9 +17,13 @@ tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, co
 
 > **Key point:** For a roughly normal feature, every value more than 3 standard deviations from the mean is an outlier; we then trim those rows or cap the values at the limits.
 
-Note 41 listed three rules for detecting outliers. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method**. The z-score method only fits a **feature** (an input variable, one column of the data table) that is normal or close to normal. Each **observation** is one record (one row), here one student.
+Note 41 listed three rules for detecting outliers. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method** (G-2139). The z-score method only fits a **feature** (G-772) (an input variable, one column of the data table) that is normal or close to normal. Each **observation** (G-1374) is one record (one row), here one student.
 
-Figure 1 shows the whole method. We check the shape of the column, compute a lower and an upper limit, and then treat the values outside them by trimming or capping (both defined in Note 41, Section 7).
+Figure 1 shows the whole method, in three steps:
+
+1. check the shape of the column;
+2. compute a lower and an upper limit;
+3. treat the values outside them by trimming or capping (both defined in Note 41, Section 7).
 
 ![The z-score method: check the column is normal, compute the limits, then trim or cap](images/overview.png)
 
@@ -27,7 +31,7 @@ Figure 1 shows the whole method. We check the shape of the column, compute a low
 
 > **Key point:** The z-score method works only on a column that is normally distributed, or almost.
 
-A **normal distribution** has the shape of a bell, so its curve is also called the **bell curve**. Most values sit near the centre, and fewer and fewer values lie towards the two ends.
+A **normal distribution** (G-1343) has the shape of a bell, so its curve is also called the **bell curve** (G-274). Most values sit near the centre, and fewer and fewer values lie towards the two ends.
 
 People's heights and marks in an exam often follow this shape, at least roughly.
 
@@ -43,7 +47,7 @@ A normal distribution always spreads its values in the same fixed way around its
 - from $\mu - 2\sigma$ to $\mu + 2\sigma$: about 95.4%;
 - from $\mu - 3\sigma$ to $\mu + 3\sigma$: about 99.7%.
 
-This spread is called the **68-95-99.7 rule** (or the **empirical rule**). The rule holds for every normal feature, whatever its mean and standard deviation.
+This spread is called the **68-95-99.7 rule** (or the **empirical rule** (G-53)). The rule holds for every normal feature, whatever its mean and standard deviation.
 
 ![The 68-95-99.7 rule; the red tails beyond 3 standard deviations hold only 0.3% of the values](images/empirical_rule.png)
 
@@ -68,7 +72,7 @@ The rule turns into two limits, step by step:
 
 > **Key point:** A value's z-score counts how many standard deviations it lies from the mean, so "outside mean ± 3 standard deviations" is the same as "z-score above 3 or below -3".
 
-The **z-score** of a value is the standardization formula of Note 24 (Section 5), applied to one value:
+The **z-score** (G-2141) of a value is the standardization formula of Note 24 (Section 5), applied to one value:
 
 1. **In words:** subtract the mean of the column, then divide by its standard deviation.
 2. **Formula:**
@@ -78,7 +82,9 @@ The **z-score** of a value is the standardization formula of Note 24 (Section 5)
    and for a CGPA of 4.89,
    $$z = \frac{4.89 - 6.9612}{0.6159} = -3.36.$$
 
-Converting the whole column to z-scores gives the bottom row of numbers in Figure 2. The limit $\mu + 3\sigma$ becomes $z = 3$, and $\mu - 3\sigma$ becomes $z = -3$.
+Converting the whole column to z-scores gives the bottom row of numbers in Figure 2. The limit $\mu + 3\sigma$ becomes $z = 3$, and $\mu - 3\sigma$ becomes $z = -3$. Figure 3 does the conversion on the real `cgpa` column; watch the two dashed limits travel with the data and land exactly on $-3$ and $+3$, with the same five red students still outside.
+
+![Subtracting the mean slides the CGPA column to 0; dividing by the standard deviation squeezes it, so the limits 5.11 and 8.81 become z = -3 and z = +3](images/zscore_slide.gif)
 
 So there are two equal ways to detect outliers:
 
@@ -91,7 +97,7 @@ Both flag exactly the same rows. Section 9 does it the second way.
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
 
-Both treatments come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers). With the limits of Section 3.1, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
+Both treatments, **trimming** (G-2019) and **capping** (G-345), come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers). With the limits of Section 3.1, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
 ## 6. The placement data
 
@@ -108,9 +114,9 @@ The data comes from a college: one observation per student, 1,000 students, thre
 
 - `cgpa`: the student's CGPA (out of 10) before the placement season.
 - `placement_exam_marks`: marks out of 100 in the aptitude test that companies hold before placement (aptitude, coding, English).
-- `placed`: 1 if the student got a job offer, 0 if not. This column is the **target**, the output a model would predict.
+- `placed`: 1 if the student got a job offer, 0 if not. This column is the **target** (G-1949), the output a model would predict.
 
-Two features are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 3 plots the distribution of each.
+Two features are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 4 plots the distribution of each.
 
 ![CGPA is bell-shaped; the placement exam marks have a long tail to the right](images/distributions.png)
 
@@ -132,7 +138,7 @@ So the z-score method can only be used on `cgpa`. The marks feature needs the IQ
 > # cgpa -0.01, placement_exam_marks 0.84
 > ```
 >
-> The Notebook draws Figure 3 with Seaborn's objects interface: `so.Hist` for the bars and `so.KDE` for the smooth curve.
+> The Notebook draws Figure 4 with Seaborn's objects interface: `so.Hist` for the bars and `so.KDE` for the smooth curve.
 
 ## 7. Finding the limits and the outliers
 
@@ -146,7 +152,7 @@ First we look at four numbers of the `cgpa` column:
 
 The limits are mean ± 3 standard deviations, as in Section 3.1: **5.11** and **8.81**. The minimum, 4.89, is below the lower limit and the maximum, 9.12, is above the upper limit, so the column does have outliers.
 
-Five students fall outside the limits (Figure 4, red):
+Five students fall outside the limits (Figure 5, red):
 
 | Row | cgpa | placement_exam_marks | placed |
 |---|---|---|---|
@@ -179,7 +185,7 @@ Four of the five were placed, including two of the three students with a CGPA be
 
 > **Key point:** Keeping only the rows inside the limits removes the 5 outliers and leaves 995 rows.
 
-Trimming is a filter: keep only the rows whose CGPA lies between the two limits. Figure 5 (middle) shows the result: the same bell, without the five values at the ends.
+Trimming is a filter: keep only the rows whose CGPA lies between the two limits. Figure 6 (middle) shows the result: the same bell, without the five values at the ends.
 
 > **Python:** Trimming.
 >
@@ -262,7 +268,7 @@ The result, compared with the original column:
 | Minimum | 4.89 | 5.11 |
 | Maximum | 9.12 | 8.81 |
 
-The mean barely moves and the standard deviation shrinks a little. The minimum and maximum are now exactly the limits. Figure 5 (bottom) shows the three low values piled onto 5.11 and the two high values onto 8.81, in orange.
+The mean barely moves and the standard deviation shrinks a little. The minimum and maximum are now exactly the limits. Figure 6 (bottom) shows the three low values piled onto 5.11 and the two high values onto 8.81, in orange.
 
 ![Before and after: the original column, the trimmed column (995 rows) and the capped column (1,000 rows, outliers moved onto the limits)](images/before_after.png){height=62%}
 
@@ -285,6 +291,10 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 > | Training set | 800 | 4: CGPA 4.92, 4.89, 4.90, 9.12 |
 > | Test set | 200 | 1: CGPA 8.87 |
 >
+> ![Limits learned on the 800 training rows (5.12 and 8.78), applied to both sets: 4 outliers in training, 1 in test](images/train_limits.png)
+>
+> In Figure 7, watch the test student with CGPA 8.87: the training limits flag that student even though no test row helped set them.
+>
 > The limits move only a little here, because 800 rows give almost the same mean and standard deviation as 1,000. Trimming is done on the training set only, since we cannot delete test rows (or real users) at prediction time. Capping can be applied to both sets with the training limits; the Notebook shows both steps.
 
 ## 12. Strengths and limits of the z-score method
@@ -294,6 +304,10 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 - **Simple:** two numbers (mean and standard deviation) give both limits.
 - **Effective:** on a normal feature it flags exactly the rare values at the two ends.
 - **Limited:** it assumes a normal feature. On a skewed feature the limits land in the wrong places. For the skewed marks feature they come out as $-25.17$ and 89.62: the lower limit is below 0, so it can never flag anything, and 8 marks (0.8%, not 0.3%) are flagged on the high side. Note 43 handles this case with the IQR rule.
+
+![The same rule on the skewed marks: the lower limit -25.17 sits where no mark can be, and 8 high marks are flagged](images/marks_limits.png)
+
+In Figure 8, watch the grey band: half of the rule is spent on impossible negative marks, while the long right tail gets cut.
 
 > **Extra:** Two more things to keep in mind.
 >

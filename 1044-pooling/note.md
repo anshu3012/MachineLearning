@@ -20,7 +20,15 @@ A pooling layer comes right after a convolution layer (and its ReLU) in a CNN. P
 
 ![Max pooling with a 2 × 2 window and stride 2: each window of the 4 × 4 feature map is replaced by its largest value, giving a 2 × 2 map](images/maxpool_slide.gif){width=85% height=50%}
 
-Figure 1 shows the most common kind, **max pooling**. This Note covers the two problems, how max pooling works, pooling on volumes, pooling in Keras, its advantages, the other kinds of pooling, and its disadvantages.
+Figure 1 shows the most common kind, **max pooling** (G-1182). This Note covers:
+
+- the two problems (section 3);
+- how max pooling works (section 4);
+- pooling on volumes (section 5);
+- pooling in Keras (section 6);
+- its advantages (section 7);
+- the other kinds of pooling (section 8);
+- its disadvantages (section 9).
 
 ## 2. Prerequisites
 
@@ -35,12 +43,16 @@ Figure 1 shows the most common kind, **max pooling**. This Note covers the two p
 
 > **Key point:** 222 × 222 × 100 numbers of 4 bytes each: 19.7 MB per image, 1.97 GB per batch of 100.
 
-Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each filter gives a feature map of $224 - 3 + 1 = 222$ by 222 (see the [convolution operation Note](../1042-convolution-operation/note.md)), so the layer outputs a volume of 222 × 222 × 100.
+Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each **filter** (G-778) gives a **feature map** (G-766) of $224 - 3 + 1 = 222$ by 222 (see the [convolution operation Note](../1042-convolution-operation/note.md)), so the layer outputs a volume of 222 × 222 × 100.
 
 1. **In words:** count the numbers in the volume and multiply by 4 bytes, the size of one 32-bit floating-point number.
 2. **Formula:**
    $$\text{memory} = \text{height} \times \text{width} \times \text{filters} \times 4 \text{ bytes}$$
 3. **Example:** $222 \times 222 \times 100 = 4{,}928{,}400$ numbers, times 4 bytes = 19.7 MB for one image (Notebook). Training sends a whole batch at once: 100 images need 1.97 GB, for the output of one layer alone.
+
+![Memory of one input image, of the feature maps one convolution layer of 100 filters makes from it, of those maps for a batch of 100 images, and of one image's maps after 2 × 2 max pooling (section 7.1). Log scale; 4 bytes per number.](images/memory_bars.png){height=38%}
+
+In Figure 2, each step to the right is a jump of a power of ten or more: one convolution layer turns a 0.6 MB image into 19.7 MB of feature maps, and pooling (green) brings it back down by a factor of 4.
 
 Such volumes can slow a machine down or make the program crash for lack of memory. So we want to shrink the feature maps. A larger stride (see the [padding and strides Note](../1043-padding-and-strides/note.md)) would do it, but pooling also solves a second problem.
 
@@ -50,7 +62,7 @@ Such volumes can slow a machine down or make the program crash for lack of memor
 
 A convolution layer finds features such as edges, eyes or ears. Its output is tied to location: if the cat sits on the left of the image, its ear lights up the left of the feature map; if it sits on the right, the right. In the Notebook, a digit shifted 1 pixel to the right gives exactly the same feature map, shifted 1 pixel to the right.
 
-For a task such as telling cats from dogs, the location of the ear does not matter, only that it is an ear. But the next layers see different numbers for the same ear at different places. We would like the network to treat a feature the same way wherever it appears, a property called **translation invariance**. Pooling gives an approximate version of it.
+For a task such as telling cats from dogs, the location of the ear does not matter, only that it is an ear. But the next layers see different numbers for the same ear at different places. We would like the network to treat a feature the same way wherever it appears, a property called **translation invariance** (G-2011). Pooling gives an approximate version of it.
 
 > **Extra:** The precise names (Goodfellow et al. 2016, §9.2 and §9.3): convolution is **equivariant** to translation, meaning that if the input shifts, the output shifts in the same way. Pooling makes the output approximately **invariant** to small translations, meaning that the pooled values mostly do not change. The problem of section 3.2 is therefore equivariance where invariance is wanted.
 
@@ -62,7 +74,7 @@ For a task such as telling cats from dogs, the location of the ear does not matt
 
 > **Key point:** Image, convolution, ReLU, then pooling.
 
-The order inside a CNN is: convolution gives the feature map, ReLU adds non-linearity by turning the negative values into 0, and the pooling layer then shrinks the result. **Pooling** is a **downsampling** operation: it reduces the size of the feature map.
+The order inside a CNN is: convolution gives the feature map, ReLU adds non-linearity by turning the negative values into 0, and the pooling layer then shrinks the result. **Pooling** (G-1521) is a **downsampling** (G-636) operation: it reduces the size of the feature map.
 
 ### 4.2 The three settings
 
@@ -71,7 +83,7 @@ The order inside a CNN is: convolution gives the feature map, ReLU adds non-line
 A pooling layer needs three settings:
 
 1. the **size** of the window, the area it summarises, usually 2 × 2;
-2. the **stride**, usually 2, so that the windows do not overlap;
+2. the **stride** (G-1900), usually 2, so that the windows do not overlap;
 3. the **type**: max, average and others (section 8).
 
 ### 4.3 One worked example
@@ -86,7 +98,7 @@ A pooling layer needs three settings:
 
 The 4 × 4 feature map has become 2 × 2. The output size follows the formula of the [padding and strides Note](../1043-padding-and-strides/note.md) without padding: $\lfloor (4 - 2)/2 \rfloor + 1 = 2$ (Dumoulin and Visin 2016, Relationship 7).
 
-Within each small region, the **receptive field** of the output value, max pooling keeps the strongest response and drops the weaker ones. The strongest response is the most dominant feature in that region. Low-level detail is discarded, and the dominant features move on.
+Within each small region, the **receptive field** (G-1642) of the output value, max pooling keeps the strongest response and drops the weaker ones. The strongest response is the most dominant feature in that region. Low-level detail is discarded, and the dominant features move on.
 
 ## 5. Pooling a volume
 
@@ -94,7 +106,9 @@ Within each small region, the **receptive field** of the output value, max pooli
 
 After a convolution with several filters we have a volume of feature maps. For example, a 6 × 6 × 3 image and 2 filters of 3 × 3 × 3 give 4 × 4 × 2. After ReLU, pooling is applied to each feature map on its own, first the front one, then the back one, giving a 2 × 2 × 2 volume. With 100 filters, a 4 × 4 × 100 volume becomes 2 × 2 × 100.
 
-Pooling changes the height and width, never the depth. The Notebook checks that Keras' pooled volume equals pooling each channel by hand.
+![Pooling a 4 × 4 × 2 volume: each feature map is pooled on its own. The front map is the example of section 4.3.](images/volume_pool.png){width=85%}
+
+Pooling changes the height and width, never the depth (Figure 3). The Notebook checks that Keras' pooled volume equals pooling each channel by hand.
 
 ## 6. Pooling in Keras
 
@@ -125,6 +139,10 @@ The shapes and parameter counts from `model.summary()` (Notebook):
 | Dense, 10 nodes | 10 | 8,010 |
 
 Each max pooling layer halves the height and width; $11 \to 5$ because $\lfloor (11 - 2)/2 \rfloor + 1 = 5$. Every pooling layer has 0 trainable parameters: taking a maximum is a fixed aggregate operation with nothing to learn. In Keras, `strides` defaults to the pool size, so `MaxPooling2D(2)` is the same layer (Keras documentation).
+
+![The output of each layer of the model above, drawn to scale (side = height of the map), with its parameter count.](images/keras_shapes.png){width=100%}
+
+In Figure 4, watch the orange squares: each pooling layer halves the side of the map and adds 0 parameters, while each convolution layer trims only 2 pixels and carries trainable weights.
 
 ## 7. Advantages of pooling
 
@@ -162,7 +180,7 @@ Larger pooling windows give more invariance, and a single maximum over the whole
 
 ![The vertical-edge map of a photo (left), after 4 × 4 max pooling (middle) and after 4 × 4 average pooling (right), on the same colour scale. Max pooling keeps the edges strong; averaging fades them](images/photo_pool.png){width=100%}
 
-Each window of an edge map holds a few strong edge values and many weak ones. Max pooling keeps the strong one, so the pooled map shows the edges brighter and bolder (Figure 3, middle). Average pooling mixes the strong values with the weak ones, and the edges fade (right). In the Notebook the mean value of the edge map is 24.7; after max pooling it is 77.8, after average pooling 24.6. This enhancement only happens with max pooling.
+Each window of an edge map holds a few strong edge values and many weak ones. Max pooling keeps the strong one, so the pooled map shows the edges brighter and bolder (Figure 6, middle). **Average pooling** (G-238) mixes the strong values with the weak ones, and the edges fade (right). In the Notebook the mean value of the edge map is 24.7; after max pooling it is 77.8, after average pooling 24.6. This enhancement only happens with max pooling.
 
 ### 7.4 Nothing to train
 
@@ -185,6 +203,10 @@ The window can be summarised in different ways (Goodfellow et al. 2016, §9.3):
 | Max pooling | largest value | 5, 3, 7, 4 |
 | Average pooling | mean value | 3, 1.5, 2.75, 2.5 |
 | L2 pooling | $\sqrt{\text{sum of squares}}$ | 6.78, 3.74, 7.68, 5.48 |
+
+![The map of section 4.3 summarised by max, average and L2 pooling (2 × 2, stride 2), and by global max and global average pooling.](images/pool_types.png){width=100%}
+
+Figure 7 puts the summaries side by side on the same map: max keeps the peaks 5, 3, 7, 4, average dilutes them, and the global versions squeeze the whole map into a single number.
 
 Min pooling, the smallest value, is also possible but is not a Keras layer. Keras has `MaxPooling2D` and `AveragePooling2D`, and the Notebook checks that both give the numbers above. Max pooling is used most; average pooling can be worth trying in some problems.
 

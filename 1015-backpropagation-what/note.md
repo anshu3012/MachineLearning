@@ -16,13 +16,17 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 
 > **Key point:** Backpropagation is the algorithm that trains a neural network. For each **observation** (one record, one row of the data table) it predicts, measures the loss, then works backwards through the network with the chain rule to find how the loss changes with every weight and bias, and moves each one a small step downhill.
 
-**Backpropagation**, short for *backward propagation of errors*, is the algorithm used to train neural networks. Given a network and a loss function, it computes the gradient of the loss with respect to every weight and bias; gradient descent then uses that gradient to update them.
+**Backpropagation** (G-247), short for *backward propagation of errors*, is the algorithm used to train neural networks. Given a network and a loss function, it computes the gradient of the loss with respect to every weight and bias; gradient descent then uses that gradient to update them.
 
 Training a network means finding the values of its weights and biases that make its predictions on the data as good as possible. Backpropagation is how we find them.
 
 ![Backpropagation on one student: the forward pass, the loss, the gradients flowing backward onto every weight, and the update](images/backprop_anim.gif){height=42%}
 
-Figure 1 runs the whole algorithm once, for one student. The rest of this Note builds it step by step. Backpropagation takes three Notes: this one says **what** it is; the [backpropagation how Note](../1016-backpropagation-how/note.md) runs it in code on a regression and a classification problem; the [backpropagation why Note](../1017-backpropagation-why/note.md) explains why the update rule works.
+Figure 1 runs the whole algorithm once, for one student. The rest of this Note builds it step by step. Backpropagation takes three Notes:
+
+- this one says **what** it is;
+- the [backpropagation how Note](../1016-backpropagation-how/note.md) runs it in code on a regression and a classification problem;
+- the [backpropagation why Note](../1017-backpropagation-why/note.md) explains why the update rule works.
 
 ## 2. Prerequisites
 
@@ -44,7 +48,7 @@ We predict a student's package (LPA) from their CGPA and profile score, both out
 | 3 | 6 | 10 | 6 |
 | 4 | 5 | 12 | 7 |
 
-The network has 2 input nodes, one hidden layer of 2 nodes and 1 output node (Figure 1). Predicting a package is a regression problem, so every node uses a **linear activation**: a node outputs its weighted sum plus bias, with no sigmoid.
+The network has 2 input nodes, one hidden layer of 2 nodes and 1 output node (Figure 2). Predicting a package is a regression problem, so every node uses a **linear activation**: a node outputs its weighted sum plus bias, with no sigmoid.
 
 In the notation of the [MLP notation Note](../1008-mlp-notation/note.md):
 
@@ -53,11 +57,19 @@ In the notation of the [MLP notation Note](../1008-mlp-notation/note.md):
 
 The count is $(2 \times 2 + 2) + (2 \times 1 + 1) = 6 + 3 = 9$ trainable parameters.
 
+![The 2-2-1 network with every weight (blue) and bias (green) named](images/network.png){height=34%}
+
+In Figure 2, every blue label on an edge and every green bias is one of the 9 numbers that training must find.
+
 > **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the IQ weights would get gradients about 10 times larger, because a weight's gradient is multiplied by its input ($\partial O_{11}/\partial W_{11}^{1} = x_{i1}$, section 6). One learning rate would then be too large for the IQ weights or too small for the CGPA weights.
 
 ## 4. The steps of backpropagation
 
 > **Key point:** Step 0: initialise. Then, for each student: forward propagation, loss, update all 9 parameters with gradient descent.
+
+![The steps of backpropagation as a loop, with student 1's numbers](images/steps.png){height=24%}
+
+Figure 3 is the map for this section: step 0 runs once, then steps 1 to 4 go round once per student.
 
 ### 4.1 Step 0: initialise the weights and biases
 
@@ -96,7 +108,7 @@ For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\p
 
 The loss $L = (y - \hat{y})^2$ has two parts. $y$ is the true package, fixed by the data. So the only way to lower the loss is to change $\hat{y}$: here, to make it bigger than 0.32.
 
-Figure 2 shows what $\hat{y}$ depends on. Since $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$, it depends on 5 things:
+Figure 4 shows what $\hat{y}$ depends on. Since $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$, it depends on 5 things:
 
 - $W_{11}^{2}$, $W_{21}^{2}$ and $b_{21}$: parameters we can change directly;
 - $O_{11}$ and $O_{12}$: outputs of the hidden nodes, which are not parameters themselves.
@@ -115,7 +127,7 @@ Think of a relay team that lost a race: the coach starts with the last runner, s
 
 A derivative $dy/dx$ measures how much $y$ changes when $x$ changes a little (see the [derivatives Note](../600-derivatives-of-one-variable/note.md)). So $\partial L/\partial W_{11}^{2}$ asks: if we nudge $W_{11}^{2}$, how much does the loss move?
 
-$W_{11}^{2}$ does not appear in $L$ directly. A change in $W_{11}^{2}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The **chain rule** handles exactly this: multiply the two rates (see section 5.3 of the [derivatives Note](../600-derivatives-of-one-variable/note.md)):
+$W_{11}^{2}$ does not appear in $L$ directly. A change in $W_{11}^{2}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The **chain rule** (G-371) handles exactly this: multiply the two rates (see section 5.3 of the [derivatives Note](../600-derivatives-of-one-variable/note.md)):
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W_{11}^{2}}$$
 
@@ -139,6 +151,10 @@ $$\frac{\partial L}{\partial W_{11}^{2}} = -2(y - \hat{y})\thinspace O_{11}, \qq
 $W_{11}^{1}$ is further away. Changing it changes $O_{11}$, which changes $\hat{y}$, which changes $L$. The chain has three links:
 
 $$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial O_{11}} \cdot \frac{\partial O_{11}}{\partial W_{11}^{1}}$$
+
+![The chain from the loss back to $W_{11}^{1}$: one factor per link, with student 1's numbers](images/chain.png){height=22%}
+
+Figure 5 walks the chain backwards: read it right to left, multiplying one factor per arrow.
 
 - $\partial \hat{y}/\partial O_{11} = W_{11}^{2}$, because $O_{11}$ appears in $\hat{y}$ only in the term $W_{11}^{2} O_{11}$. Likewise $\partial \hat{y}/\partial O_{12} = W_{21}^{2}$.
 - From $O_{11} = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$: $\partial O_{11}/\partial W_{11}^{1} = x_{i1}$, $\partial O_{11}/\partial W_{21}^{1} = x_{i2}$ and $\partial O_{11}/\partial b_{11} = 1$. The same holds for $O_{12}$ and its own weights.
@@ -242,11 +258,15 @@ One student moved the weights a little. Training repeats the steps:
      b. compute the loss;
      c. compute the 9 derivatives and update all 9 parameters.
    - compute the average loss of the epoch.
-3. **Stop** after a fixed number of epochs, or at **convergence**: when the loss stops falling.
+3. **Stop** after a fixed number of epochs, or at **convergence** (G-472): when the loss stops falling.
 
 In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.12, an average of 26.35. Each update helps the next prediction a little; the predictions rise from 0.32 to 0.67 over the four students. Running the outer loop 100 or 1,000 times brings the predictions close to the real packages, as the [backpropagation how Note](../1016-backpropagation-how/note.md) shows.
 
-Updating after every single observation, as here, is [stochastic gradient descent](../59-stochastic-gradient-descent/note.md); the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) compares it with updating after many observations.
+![The full algorithm for 1,000 epochs: predictions against real packages (left) and the average loss of each epoch (right)](images/epochs.gif){height=45%}
+
+Figure 6 runs the loop above for 1,000 epochs with learning rate 0.001. Watch the blue bars shoot up in the first five epochs, then settle: after 1,000 epochs the predictions are 4.18, 4.95, 5.72 and 7.12 against 4, 5, 6 and 7, and the average loss is 0.04.
+
+Updating after every single observation, as here, is **stochastic gradient descent** (G-1892; see the [SGD Note](../59-stochastic-gradient-descent/note.md)); the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) compares it with updating after many observations.
 
 ## 9. Summary
 

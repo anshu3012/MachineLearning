@@ -15,24 +15,28 @@ tags: [subject/ml, area/models-1, step/model, concept/log-loss, concept/logistic
 
 ## 1. Overview
 
-> **Key point:** To find the best line, we need a loss function: one number that says how good a line is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.
+> **Key point:** To find the best decision boundary, we need a loss function: one number that says how good a boundary is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.
 
-The sigmoid perceptron of the previous Note improved the line, but we still had no way to say which line is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the line, without a number that measures how good the line is.
+The sigmoid perceptron of the previous Note improved the **decision boundary** (G-555): the line where the model's probability is exactly 0.5, with one class predicted on each side. But we still had no way to say which decision boundary is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the decision boundary, without a number that measures how good the line is.
 
 Machine learning normally works differently, as in linear regression:
 
-1. Define a **loss function**: a formula that measures how wrong a model is.
+1. Define a **loss function** (G-1130): a formula that measures how wrong a model is.
 2. Find the coefficients where the loss is smallest, with a formula or with gradient descent.
 
-This Note builds the loss function for logistic regression. The next Notes minimise it with gradient descent.
+This Note builds the loss function for **logistic regression** (G-1120). The next Notes minimise it with gradient descent.
 
 ## 2. Comparing two models
 
 > **Key point:** When one model misclassifies points and the other does not, the better one is obvious. When both are perfect, or both make mistakes, we need a number.
 
-Imagine four points, two green and two red, and two candidate lines. If model 1 misclassifies points and model 2 separates them perfectly, model 2 is clearly better.
+Imagine four points, two green and two red, and two candidate decision boundaries. If model 1 misclassifies points and model 2 separates them perfectly, model 2 is clearly better.
 
 But when two models both classify everything correctly, or both make one mistake, it is not obvious which is better. A loss function settles this: it gives each model a number, and the model with the better number wins.
+
+![The four points of the table in Section 3.1 under the two models. Each label is the probability the model gives to the point's true colour; a cross marks a point on the wrong side of the decision boundary (black line). The background shades from red to green as P(green) grows.](images/toy_models.png){height=45%}
+
+In Figure 1, watch the two crosses: model 1's decision boundary leaves points 2 and 3 on the wrong side, while model 2's separates all four.
 
 ## 3. Maximum likelihood
 
@@ -42,7 +46,7 @@ But when two models both classify everything correctly, or both make one mistake
 
 > **Key point:** For a green point use P(green) = ŷ; for a red point use P(red) = 1 − ŷ.
 
-Each point is one **observation** (one record, a row of the data table). Its position is given by its **features** (the input values, such as the two coordinates), and its colour is the **target** (the output we predict). The sigmoid turns every point's position into a probability: $\hat{y} = \sigma(w \cdot x)$ is the probability of green (the positive class), and $1 - \hat{y}$ is the probability of red.
+Each point is one **observation** (G-1374) (one record, a row of the data table). Its position is given by its **features** (G-772) (the input values, such as the two coordinates), and its colour is the **target** (G-1949) (the output we predict). The sigmoid turns every point's position into a probability: $\hat{y} = \sigma(w \cdot x)$ is the probability of green (the positive class), and $1 - \hat{y}$ is the probability of red.
 
 For each point we take the probability the model gives to the colour the point **really** has. Suppose the two models give these values:
 
@@ -59,14 +63,16 @@ A value above 0.5 means the point is on its correct side; below 0.5, on the wron
 
 > **Key point:** The product is the likelihood: how probable the model finds the data we actually see.
 
-Treating the points as independent, the probability that the model produces exactly these colours is the product of the four values. This product is the **likelihood**:
+Treating the points as independent, the probability that the model produces exactly these colours is the product of the four values. This product is the **likelihood** (G-1086):
 
 - Model 1: $0.7 \times 0.4 \times 0.4 \times 0.8 = 0.090$
 - Model 2: $0.7 \times 0.6 \times 0.7 \times 0.6 = 0.176$
 
-Model 2 has the higher likelihood, so it is the better model. **Maximum likelihood** means choosing the coefficients that make this product as large as possible.
+Model 2 has the higher likelihood, so it is the better model. **Maximum likelihood estimation** (G-1191) means choosing the coefficients that make this product as large as possible.
 
 ![The probabilities and the costs of each point under the two models](images/two_models.png){height=52%}
+
+In Figure 2, the left bars are the four factors of each product: model 1 has two factors of 0.4 where model 2 has 0.6 and 0.7, so model 1's product is the smaller one.
 
 ## 4. From products to sums: the log
 
@@ -76,7 +82,7 @@ Model 2 has the higher likelihood, so it is the better model. **Maximum likeliho
 
 > **Key point:** 10,000 probabilities of 0.7 multiply to about 10⁻¹⁵⁴⁹.
 
-With 4 points the product is already only 0.09. A real dataset may have 10,000 observations. If each point got probability 0.7, the product would be $0.7^{10{,}000}$, about $10^{-1549}$. Such a number is far below the smallest number a standard float can store (about $10^{-308}$). The product **underflows**: the computer stores the tiniest float it has ($5 \times 10^{-324}$) or 0 instead of the true value, whatever the model, and can no longer tell two models apart.
+With 4 points the product is already only 0.09. A real dataset may have 10,000 observations. If each point got probability 0.7, the product would be $0.7^{10{,}000}$, about $10^{-1549}$. Such a number is far below the smallest number a standard float can store (about $10^{-308}$). The product **underflows** (G-2036): the computer stores the tiniest float it has ($5 \times 10^{-324}$) or 0 instead of the true value, whatever the model, and can no longer tell two models apart.
 
 An everyday picture: halve a sheet of paper again and again. After a few dozen cuts the piece is too small to see, and every model's product ends up as the same invisible scrap.
 
@@ -88,7 +94,7 @@ The logarithm turns multiplication into addition:
 
 $$\log(a \times b) = \log a + \log b$$
 
-So instead of the likelihood, we compute its log, the **log-likelihood**:
+So instead of the likelihood, we compute its log, the **log-likelihood** (G-1113):
 
 $$\log(0.7 \times 0.4 \times 0.4 \times 0.8) = \log 0.7 + \log 0.4 + \log 0.4 + \log 0.8 = -2.41$$
 
@@ -105,15 +111,17 @@ Every probability is between 0 and 1, and the log of such a number is negative. 
 | 1 | 0.090 | $-2.41$ | 2.41 |
 | 2 | 0.176 | $-1.74$ | 1.74 |
 
-This negative log-likelihood is the **cross entropy**. Because of the sign change, the direction flips too: we **maximise** the likelihood but **minimise** the cross entropy. The better model, model 2, has the smaller cross entropy.
+This negative log-likelihood is the **cross entropy** (G-505). Because of the sign change, the direction flips too: we **maximise** the likelihood but **minimise** the cross entropy. The better model, model 2, has the smaller cross entropy.
 
 ![From probabilities to cross entropy](images/chain.png){width=100%}
+
+Figure 3 lays out the whole chain for model 1, with the number at each step.
 
 ## 5. The cost of one point
 
 > **Key point:** Each point costs −log p. A confident correct prediction costs almost nothing; a confident wrong one costs a lot.
 
-The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the probability given to the true class. Figure 3 shows how this cost behaves.
+The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the probability given to the true class. Figure 4 shows how this cost behaves.
 
 ![The cost −log p of one point](images/neg_log.png){height=40%}
 
@@ -122,9 +130,9 @@ The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the pr
 - $p = 0.4$ (on the wrong side): cost 0.92.
 - $p = 0.1$ (confident and wrong): cost 2.30, and it grows without limit as $p$ approaches 0.
 
-So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. That second effect keeps pushing the line towards the middle of the gap, as the push-and-pull idea of the previous Note wanted.
+So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. The second effect matters for points close to the decision boundary: a correct point with $p = 0.6$ still costs 0.51, so lowering the loss means moving the decision boundary further away from it.
 
-> **Extra:** On perfectly separable data, gradient descent on this loss slowly turns the line towards the one with the widest gap (Soudry et al. 2018).
+> **Extra:** On perfectly separable data, gradient descent on this loss slowly turns the decision boundary towards the one with the widest gap (Soudry et al. 2018).
 
 ## 6. One formula for both classes
 
@@ -141,6 +149,10 @@ $$\text{cost}_i = -\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$
 - **Green point** ($y_i = 1$): the second term is multiplied by 0 and vanishes, leaving $-\log \hat y_i$.
 - **Red point** ($y_i = 0$): the first term vanishes, leaving $-\log(1 - \hat y_i)$.
 
+![The one formula draws two cost curves: green points pay $-\log \hat y$, red points pay $-\log(1 - \hat y)$. Model 1's four points sit on their own curves; their costs add up to 2.41.](images/one_formula.png){height=42%}
+
+In Figure 5, watch where the curves rise: a green point is expensive when $\hat y$ is near 0, a red point when $\hat y$ is near 1, so each point is punished only for leaning towards the wrong colour.
+
 With numbers, for model 1: point 2 is red with $\hat{y} = 0.6$, so its cost is $-\log(1 - 0.6) = -\log 0.4 = 0.92$. Point 3 is green with $\hat{y} = 0.4$, so its cost is $-\log 0.4 = 0.92$.
 
 ### 6.2 The loss function
@@ -151,7 +163,7 @@ Summing over all points and dividing by $n$ to get an average gives the loss fun
 
 $$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right], \qquad \hat y_i = \sigma(w \cdot x_i)$$
 
-This loss is called **binary cross entropy** or **log loss**. For model 1 it is $2.41 / 4 = 0.603$.
+This loss is called **binary cross entropy** or **log loss** (G-303). For model 1 it is $2.41 / 4 = 0.603$.
 
 > **Python:** Log loss by hand and in scikit-learn.
 >
@@ -169,9 +181,13 @@ This loss is called **binary cross entropy** or **log loss**. For model 1 it is 
 
 > **Key point:** There is no formula for the best w, so logistic regression is trained with gradient descent.
 
-The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such closed-form solution, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
+The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such **closed-form solution** (G-398), a formula that gives the answer in one step, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
 
-So we use gradient descent: compute the derivative of $L$ with respect to $w$ and step downhill repeatedly. The next Note works out the derivative of the sigmoid, and the one after derives the gradient and codes logistic regression from scratch.
+So we use **gradient descent** (G-862): compute the derivative of $L$ with respect to $w$ and step downhill repeatedly.
+
+![Gradient descent on the log loss of the four points, starting from model 1 (dotted line). Left: the decision boundary (P(green) = 0.5) turns; the labels give each point's probability for its true colour. Right: the log loss per step, with model 2's 0.434 dashed. Key frames: steps 0, 3 and 40.](images/gd_four.gif){height=80%}
+
+In Figure 6, watch the loss pass model 2's value by step 3 and keep falling while the decision boundary turns to put all four points on their correct side. On these four perfectly separable points the loss keeps shrinking towards 0, as Section 5's Extra notes. The next Note works out the derivative of the sigmoid, and the one after derives the gradient and codes logistic regression from scratch.
 
 ## 8. Summary
 
@@ -203,9 +219,10 @@ So we use gradient descent: compute the derivative of $L$ with respect to $w$ an
 
 | Term | Meaning |
 |---|---|
+| Decision boundary | The line (or surface) where the model's probability is exactly 0.5; one class is predicted on each side |
 | Loss function | A formula that measures how wrong a model's predictions are |
 | Likelihood | The product, over all points, of the probabilities the model gives to their true classes |
-| Maximum likelihood | Choosing the parameters that make the likelihood as large as possible |
+| Maximum likelihood estimation (MLE) | Choosing the parameters that make the likelihood as large as possible |
 | Log-likelihood | The log of the likelihood: the sum of the log probabilities |
 | Cross entropy | The negative log-likelihood; smaller is better |
 | Binary cross entropy (log loss) | The average cross entropy for two classes, the loss function of logistic regression |

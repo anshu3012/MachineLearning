@@ -16,11 +16,11 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 
 > **Key point:** The starting weights decide whether a network trains at all. Four starts fail: all zeros, one shared constant, very small random numbers and large random numbers. The weights must be random, with a spread that is neither too small nor too large.
 
-Training a network begins with one step before the loop: giving every weight and bias a starting value, its **[initialisation](../1015-backpropagation-what/note.md)**. A bad start can cause three problems:
+Training a network begins with one step before the loop: giving every weight and bias a starting value, its **[initialisation](../1015-backpropagation-what/note.md)** (G-947). A bad start can cause three problems:
 
-- the **vanishing gradient** problem: the early layers stop learning;
-- the **exploding gradient** problem: updates become huge and erratic;
-- **slow convergence**: the network gets to a good solution only after very many epochs.
+- the **vanishing gradient** (G-2070) problem: the early layers stop learning;
+- the **exploding gradient** (G-731) problem: updates become huge and erratic;
+- **slow convergence** (G-472): the network gets to a good solution only after very many **epochs** (G-696).
 
 This Note tries the four bad starts one by one, each in Keras or numpy, and shows which problem it causes. The good starts, Xavier and He, are in the [Xavier and He initialisation Note](../1030-xavier-he-initialization/note.md).
 
@@ -40,8 +40,8 @@ Figure 1 shows the two random starts that fail: too small, and the signal dies o
 
 Training a network repeats four steps after the start (see the [backpropagation what Note](../1015-backpropagation-what/note.md)):
 
-0. **Initialise** every weight and bias, and choose an optimizer.
-1. **Forward propagation:** compute $\hat{y}$ for an input.
+0. **Initialise** every weight and bias, and choose an **optimizer** (G-1401).
+1. **Forward propagation** (G-797): compute $\hat{y}$ for an input.
 2. **Loss:** compare $\hat{y}$ with $y$.
 3. **Gradients:** compute the derivative of the loss for every parameter.
 4. **Update:** move every parameter against its gradient.
@@ -56,7 +56,13 @@ Steps 1 to 4 all start from what step 0 chose. When researchers in the 1990s and
 
 > **Key point:** Two inputs (CGPA, IQ), one hidden layer of two nodes, one output node; every weight and bias starts at 0.
 
-Take a regression problem. Each **observation** (one record) is a student; the two **features** (input variables) are CGPA $x_1$ and IQ $x_2$; the **target** (the output we predict) is the placement package in lakhs. The network has two hidden nodes and one linear output node. Write $W_{ij}^1$ for the weight from input $i$ to hidden node $j$, so the hidden nodes compute
+Take a regression problem:
+
+- each **observation** (G-1374; one record) is a student;
+- the two **features** (G-772; input variables) are CGPA $x_1$ and IQ $x_2$;
+- the **target** (G-1949; the output we predict) is the placement package in lakhs.
+
+The network has two hidden nodes and one linear output node. Write $W_{ij}^1$ for the weight from input $i$ to hidden node $j$, so the hidden nodes compute
 
 $$z_{11} = W_{11}^1 x_1 + W_{21}^1 x_2 + b_{11}, \qquad z_{12} = W_{12}^1 x_1 + W_{22}^1 x_2 + b_{12}$$
 
@@ -66,7 +72,7 @@ and output $a_{11} = g(z_{11})$, $a_{12} = g(z_{12})$. With every weight and bia
 
 > **Key point:** Both give $a = 0$ at $z = 0$. Every gradient into or out of the hidden layer then contains a 0 factor, so no weight is ever updated.
 
-With ReLU, $a_{11} = \max(0, 0) = 0$; with tanh, $a_{11} = \tanh(0) = (1 - 1)/(1 + 1) = 0$. The same holds for $a_{12}$. Now look at the gradients:
+With **ReLU** (G-1668), $a_{11} = \max(0, 0) = 0$; with **tanh** (G-1947), $a_{11} = \tanh(0) = (1 - 1)/(1 + 1) = 0$. The same holds for $a_{12}$. Now look at the gradients:
 
 1. **In words:** a weight's gradient contains the signal flowing in (an activation or input) and the signal flowing back (through the weights after it). Here one of the two is always 0.
 2. **Formula:** for an output weight and a hidden weight,
@@ -75,7 +81,7 @@ With ReLU, $a_{11} = \max(0, 0) = 0$; with tanh, $a_{11} = \tanh(0) = (1 - 1)/(1
 
 The weights are 0 after the first update, so the same happens again, forever. Only the output bias, whose gradient is just $\partial L/\partial \hat{y}$, can move. The network predicts one constant for every input.
 
-We check this in Keras on 300 observations of `make_moons` (two features, two classes), with two ReLU hidden nodes and a sigmoid output. We overwrite Keras' starting weights with zeros and train for 100 epochs:
+We check this in Keras on 300 observations of `make_moons` (G-1151; two features, two classes), with two ReLU hidden nodes and a sigmoid output. We overwrite Keras' starting weights with zeros and train for 100 epochs:
 
 - every hidden and output weight is still exactly 0;
 - only the output bias moved, to $-0.0024$;
@@ -97,11 +103,11 @@ Tanh gives the same numbers.
 
 ### 4.3 Sigmoid: every node becomes the same node
 
-> **Key point:** $\sigma(0) = 0.5$, so the weights do move, but nodes that start equal get equal gradients and stay equal. Ten hidden nodes act like one, and the boundary is a straight line.
+> **Key point:** $\sigma(0) = 0.5$, so the weights do move, but nodes that start equal get equal gradients and stay equal. Ten hidden nodes act like one, and the decision boundary is a straight line.
 
-With the sigmoid, $a_{11} = a_{12} = \sigma(0) = 0.5$. The activations are no longer 0, so the output weights get non-zero gradients and training starts. The problem is that the two activations are equal, and stay equal.
+With the **sigmoid** (G-1798), $a_{11} = a_{12} = \sigma(0) = 0.5$. The activations are no longer 0, so the output weights get non-zero gradients and training starts. The problem is that the two activations are equal, and stay equal.
 
-Compare the gradients of the two weights leaving $x_1$, by the chain rule:
+Compare the gradients of the two weights leaving $x_1$, by the **chain rule** (G-371):
 
 $$\frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{11}} \cdot \frac{\partial a_{11}}{\partial z_{11}} \cdot x_1, \qquad \frac{\partial L}{\partial W_{12}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{12}} \cdot \frac{\partial a_{12}}{\partial z_{12}} \cdot x_1$$
 
@@ -110,17 +116,23 @@ $$\frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}} \cd
 - $z_{11} = z_{12}$, so the sigmoid slopes are equal.
 - The last factor is $x_1$ in both.
 
-So the two gradients are equal at every step. Think of two identical twins who sit the same lessons, hear the same feedback and make the same corrections: nothing ever makes them differ. The two weights from $x_1$ start equal and move together; so do the two weights from $x_2$. Equal gradients for equal weights are the symmetry noted in the Extra of section 7.2 of the [backpropagation what Note](../1015-backpropagation-what/note.md): nodes that start identical stay identical.
+So the two gradients are equal at every step. Think of two identical twins who sit the same lessons, hear the same feedback and make the same corrections: nothing ever makes them differ. The two weights from $x_1$ start equal and move together; so do the two weights from $x_2$. Equal gradients for equal weights are the symmetry (the **symmetry problem**, G-1933) noted in the Extra of section 7.2 of the [backpropagation what Note](../1015-backpropagation-what/note.md): nodes that start identical stay identical.
 
 ![(a) After a start where all weights are equal, every weight leaving $x_1$ has one value $u$ and every weight leaving $x_2$ one value $v$, so the hidden nodes all compute the same $a$. (b) The network behaves like a single hidden node](images/symmetry.png){width=90%}
 
-Figure 2 shows the consequence. However many nodes the layer has, they compute the same thing, so the network behaves like one with a single hidden node. A single sigmoid node draws a straight boundary: the output $\sigma(w\thinspace a + b)$ with $a = \sigma(u x_1 + v x_2 + c)$ only grows or only shrinks as $u x_1 + v x_2$ grows, so the line $u x_1 + v x_2 = \text{constant}$ where the output crosses 0.5 is the boundary. The network is in effect a perceptron: a linear model that cannot capture non-linear patterns.
+Figure 2 shows the consequence. However many nodes the layer has, they compute the same thing, so the network behaves like one with a single hidden node. A single sigmoid node has a straight **decision boundary** (G-555), the line where the predicted class changes:
+
+1. the output $\sigma(w\thinspace a + b)$, with $a = \sigma(u x_1 + v x_2 + c)$, only grows or only shrinks as $u x_1 + v x_2$ grows;
+2. so the output crosses 0.5 where $u x_1 + v x_2$ equals one constant;
+3. that set of points, $u x_1 + v x_2 = \text{constant}$, is a straight line, and it is the decision boundary.
+
+The network is in effect a **perceptron** (G-1486): a linear model that cannot capture non-linear patterns.
 
 The Notebook trains a layer of 10 sigmoid nodes from all zeros for 200 epochs. Afterwards:
 
 - all 10 weights from $x_1$ are 0.436, and all 10 weights from $x_2$ are $-1.186$;
 - all 10 biases are $-0.822$;
-- the boundary is a straight line, with 87% accuracy (Figure 3, left).
+- the decision boundary is a straight line, with 87% accuracy (Figure 3, left).
 
 The same network with Keras' random start bends around the moons and reaches 96% (Figure 3, right).
 
@@ -154,11 +166,11 @@ The network trains, but only as a linear model. Sections 4 and 5 together lead t
 
 > **Key point:** 500 inputs times weights of about 0.01 give $z$ close to 0. Tanh keeps it close to 0, and each layer shrinks it further: the standard deviation goes 0.21, 0.048, 0.011.
 
-Take a dataset with 1000 observations and 500 features, each feature a standardised number (mean 0, standard deviation 1). The network has three hidden layers of 500 nodes. Every weight is drawn as `np.random.randn(500, 500) * 0.01`, a standard normal number times 0.01, and every bias is 0.
+Take a dataset with 1000 observations and 500 features, each feature a standardised number (mean 0, **standard deviation** (G-1871) 1). The network has three hidden layers of 500 nodes. Every weight is drawn as `np.random.randn(500, 500) * 0.01`, a **standard normal** (G-1873) number times 0.01, and every bias is 0.
 
 Each node computes $z = \sum_{i=1}^{500} w_i x_i$. With inputs around $\pm 1$ and weights around $\pm 0.01$, the products are tiny and partly cancel, so $z$ is small. Tanh of a small number is about the number itself, so the activations are close to 0.
 
-Figure 1 (top row) shows the histograms. The input has standard deviation 1; the activations of hidden layers 1, 2 and 3 have standard deviations 0.21, 0.048 and 0.011. In layer 3, 66% of the activations lie between $-0.01$ and 0.01.
+Figure 1 (top row) shows the **histograms** (G-899). The input has standard deviation 1; the activations of hidden layers 1, 2 and 3 have standard deviations 0.21, 0.048 and 0.011. In layer 3, 66% of the activations lie between $-0.01$ and 0.01.
 
 The next layer multiplies these small activations by small weights again, so every layer is smaller than the one before. During backpropagation many such small numbers multiply into the gradients, and the gradients of the early layers become close to 0. The result is the [vanishing gradient problem](../1018-vanishing-exploding-gradients/note.md), caused here by the start alone.
 
@@ -176,7 +188,7 @@ The problem gets worse with depth. A shallow network has few factors to multiply
 
 > **Key point:** Four hidden layers of 10 nodes, weights 0.01 × standard normal, plain SGD: the loss stays at 0.6934 for 100 epochs and the weights match their start to four decimals. Keras' default start reaches a loss of 0.002.
 
-The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh or ReLU, starts every weight at 0.01 times a standard normal number and every bias at 0, and trains with plain SGD (learning rate 0.1) for 100 epochs:
+The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh or ReLU, starts every weight at 0.01 times a standard normal number and every bias at 0, and trains with plain **SGD** (G-1892; **learning rate** (G-1068) 0.1) for 100 epochs:
 
 - **Tanh:** the loss is 0.6934 at the start and 0.6934 at the end, the loss of guessing. The first-layer weights read $0.0035, 0.0082, 0.0033, -0.0130$ before and after, identical to four decimals. Accuracy 47%.
 - **ReLU:** exactly the same picture.
@@ -186,7 +198,7 @@ The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh 
 
 Figure 4 shows the four loss curves. The only difference between the flat and the falling ones is the starting weights.
 
-> **Extra:** With the Adam optimizer (learning rate 0.01) instead of plain SGD, the tanh network does learn (loss 0.27, accuracy 87%) while the ReLU network stays stuck at 0.693. Adam divides each step by the recent size of that weight's gradients, so the step size does not depend on how small the gradients are (Kingma and Ba 2015). Adam therefore hides the vanishing gradient in the weights, as the Extra in section 4.3 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) explains, but does not always rescue training.
+> **Extra:** With the **Adam** (G-169) optimizer (learning rate 0.01) instead of plain SGD, the tanh network does learn (loss 0.27, accuracy 87%) while the ReLU network stays stuck at 0.693. Adam divides each step by the recent size of that weight's gradients, so the step size does not depend on how small the gradients are (Kingma and Ba 2015). Adam therefore hides the vanishing gradient in the weights, as the Extra in section 4.3 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) explains, but does not always rescue training.
 
 ## 7. Do not use large random weights
 
@@ -200,9 +212,21 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
 
 **Tanh and sigmoid saturate.** Feeding $z$ of 20 or 50 into tanh gives $-1$ or 1; into the sigmoid, 0 or 1. Figure 1 (bottom row) shows it: in every hidden layer the tanh activations pile up at $-1$ and 1. In layer 3, 90% of them are beyond $\pm 0.99$. At these values the slope is almost 0, so training is slow at best, and in the worst case the gradient vanishes.
 
-**ReLU explodes.** ReLU does not saturate on the positive side: if $z = 250$, the output is 250. The large values pass on and grow. In the Notebook the mean ReLU activation is 8.9 in layer 1, 140 in layer 2 and 2,224 in layer 3. Large activations give large gradients, large gradients give huge jumps in gradient descent, and the weights swing back and forth without settling: the [exploding gradient problem](../1018-vanishing-exploding-gradients/note.md).
+**ReLU explodes.** ReLU does not saturate on the positive side: if $z = 250$, the output is 250. The large values pass on and grow. In the Notebook the mean ReLU activation is 8.9 in layer 1, 140 in layer 2 and 2,224 in layer 3. The chain that follows:
 
-Figure 5 follows the tanh signal through 10 layers of the same wide network instead of 3. Watch the three rows split apart: with $0.01 \times$ randn the values close in on 0, about 4 times tighter at every layer, with $1 \times$ randn they sit at $-1$ and 1 from the first layer on, and only the middle spread, $\text{randn}/\sqrt{500}$, keeps them in between. That middle start is Xavier initialisation, derived in the [Xavier and He initialisation Note](../1030-xavier-he-initialization/note.md).
+1. large activations give large gradients;
+2. large gradients give huge jumps in **gradient descent** (G-862);
+3. the weights swing back and forth without settling.
+
+This is the [exploding gradient problem](../1018-vanishing-exploding-gradients/note.md).
+
+Figure 5 follows the tanh signal through 10 layers of the same wide network instead of 3. Watch the three rows split apart:
+
+- with $0.01 \times$ randn, the values close in on 0, about 4 times tighter at every layer;
+- with $1 \times$ randn, they sit at $-1$ and 1 from the first layer on;
+- only the middle spread, $\text{randn}/\sqrt{500}$, keeps them in between.
+
+That middle start is **Xavier initialisation** (G-2131), derived in the [Xavier and He initialisation Note](../1030-xavier-he-initialization/note.md).
 
 ![Tanh activations of a network with 10 hidden layers of 500 nodes, one layer per frame, for three starting spreads. Blue: $0.01 \times$ randn, the spread falls from 0.21 to $3 \times 10^{-7}$. Green: $\text{randn}/\sqrt{500}$, it stays between 0.63 and 0.23. Red: $1 \times$ randn, 90 percent of the values lie beyond $\pm 0.99$ in every layer. Each row has its own height scale](images/signal_flow.gif){width=100% height=62%}
 

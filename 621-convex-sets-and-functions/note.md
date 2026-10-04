@@ -16,13 +16,16 @@ tags: [subject/maths, area/calculus, step/foundations, concept/convex-optimisati
 
 > **Key point:** A set is convex when the segment between any two of its points stays inside it; a convex optimisation problem minimises a convex function over a convex set, and for such problems every local minimum is global and the dual gives the same answer as the primal.
 
-This Note follows Chapter 7 (Section 7.3, opening part) of *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020).
-
 ![Convex sets (top): every segment between two points stays inside. Non-convex sets (bottom): some segment leaves the set](images/convex_sets.png){height=42%}
 
 Two Notes prepare this one. The [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md) defined a convex function by the chord test and showed why gradient descent likes them. The [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) added constraints, which cut the parameter space down to a feasible region.
 
-This Note puts the two together. Figure 1 shows the new ingredient, convex sets. Then come two practical tests for convex functions (tangent lines and the Hessian), rules for building convex functions, and the convex optimisation problem.
+This Note puts the two together. Figure 1 shows the new ingredient, convex sets. Then come:
+
+- convex functions and their link to convex sets (Section 3);
+- three practical tests for convex functions: a slope that keeps increasing, tangent lines below the graph, and the Hessian (Section 4);
+- rules for building convex functions (Section 5);
+- the convex optimisation problem (Section 6).
 
 ## 2. Convex sets
 
@@ -35,11 +38,15 @@ This Note puts the two together. Figure 1 shows the new ingredient, convex sets.
 The points between $\mathbf{x}$ and $\mathbf{y}$ are written the same way as in the chord test of the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md): a mix $\theta\mathbf{x} + (1 - \theta)\mathbf{y}$, with $\theta$ from 0 to 1.
 
 1. **In words:** pick any two points of the set; the whole straight segment joining them must stay in the set.
-2. **Formula:** $C$ is a **convex set** if for all $\mathbf{x}, \mathbf{y} \in C$ and all $\theta$ with $0 \le \theta \le 1$,
+2. **Formula:** $C$ is a **convex set** (G-479) if for all $\mathbf{x}, \mathbf{y} \in C$ and all $\theta$ with $0 \le \theta \le 1$,
    $$\theta\mathbf{x} + (1 - \theta)\mathbf{y} \in C$$
 3. **Example:** the disc of radius 1, all points with length at most 1. Take $\mathbf{x} = (1, 0)$ and $\mathbf{y} = (0, 1)$, both on its edge. The midpoint ($\theta = 0.5$) is $(0.5, 0.5)$, with length $\sqrt{0.25 + 0.25} = 0.71 \le 1$: inside.
 
    Now the ring of points with length between 1 and 2. Take $\mathbf{x} = (1.5, 0)$ and $\mathbf{y} = (-1.5, 0)$, both in the ring. Their midpoint is $(0, 0)$, with length $0 < 1$: outside. One such pair is enough, so the ring is not convex.
+
+![Top: the disc passes the midpoint test, the ring fails it at (0, 0). Bottom: the overlap of two discs is convex; the union of two separate discs is not](images/disc_ring.png){height=45%}
+
+Figure 2 draws both examples and the two ways of combining sets from Section 2.2. Watch the red dashed part: one segment leaving the set is enough to make it non-convex.
 
 Informally, a convex set has no dents and no holes (Figure 1). Common convex sets in ML:
 
@@ -66,53 +73,84 @@ The [convex and non-convex cost functions Note](../590-convex-and-non-convex-cos
 
 ![The chord test. A chord joins two points of each graph and slides. Left: softplus, every chord stays on or above the graph (green). Right: $w^2(w - 1)^2$, the chord from $w = 0.17$ to $0.83$ runs below the hump (red gap), so the function is not convex](images/chord_test.gif)
 
-Figure 2 runs the definition. Watch for red: one chord below the graph is enough to break convexity, while a convex function never shows red, wherever the two ends are placed.
+Figure 3 runs the definition. Watch for red: one chord below the graph is enough to break convexity, while a convex function never shows red, wherever the two ends are placed. A **strictly convex** function, whose curve lies strictly below every chord, has at most one minimum, which is why a strictly convex loss leaves gradient descent nowhere to get stuck.
 
 Two related ideas:
 
-- **Concave function:** the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm is concave; so is the dual function $D(\lambda) = 3\lambda - 3\lambda^2/8$ of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md). Maximising a concave function is the same task as minimising a convex one.
-- **Epigraph:** the region on and above the graph of $f$, as if the bowl were filled with water. A function is convex exactly when its epigraph is a convex set (Boyd and Vandenberghe §3.1.7). This links the two halves of this Note: convex functions are convex sets seen from above.
+- **Concave function:** (G-438) the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm is concave; so is the dual function $D(\lambda) = 3\lambda - 3\lambda^2/8$ of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md). Maximising a concave function is the same task as minimising a convex one.
+- **Epigraph:** (G-695) the region on and above the graph of $f$, as if the bowl were filled with water. A function is convex exactly when its epigraph is a convex set (Boyd and Vandenberghe §3.1.7). This links the two halves of this Note: convex functions are convex sets seen from above.
 
-> **Extra:** The defining inequality is the two-point case of **Jensen's inequality**. With more points and weights $\theta_i \ge 0$ that add up to 1, a convex $f$ satisfies $f\big(\sum_i \theta_i \mathbf x_i\big) \le \sum_i \theta_i f(\mathbf x_i)$: the function of an average is at most the average of the function. For $f(x) = x^2$ and the points 0, 1, 2 with equal weights: $f(1) = 1 \le (0 + 1 + 4)/3 = 1.67$. With probabilities as weights, this reads $f(E[X]) \le E[f(X)]$ (see the [expected value and variance Note](../332-expected-value-and-variance/note.md)); for $f(x) = x^2$ it says $E[X^2] - (E[X])^2 \ge 0$, that is, a variance is never negative.
+> **Extra:** The defining inequality is the two-point case of **Jensen's inequality** (G-982). With more points and weights $\theta_i \ge 0$ that add up to 1, a convex $f$ satisfies $f\big(\sum_i \theta_i \mathbf x_i\big) \le \sum_i \theta_i f(\mathbf x_i)$: the function of an average is at most the average of the function. For $f(x) = x^2$ and the points 0, 1, 2 with equal weights: $f(1) = 1 \le (0 + 1 + 4)/3 = 1.67$. With probabilities as weights, this reads $f(E[X]) \le E[f(X)]$ (see the [expected value and variance Note](../332-expected-value-and-variance/note.md)); for $f(x) = x^2$ it says $E[X^2] - (E[X])^2 \ge 0$, that is, a variance is never negative.
 
 ## 4. Testing convexity with derivatives
 
-> **Key point:** For a differentiable function, convexity means every tangent line (or plane) lies on or below the graph; for a twice-differentiable one, it means the Hessian has no negative eigenvalues anywhere.
+> **Key point:** In one variable, a convex function is one whose slope never decreases, so $f''(x) \ge 0$; equivalently every tangent lies on or below the graph. In several variables, the Hessian must have no negative eigenvalues anywhere.
 
-Checking every chord is impossible in practice. When derivatives exist, two shortcuts replace it.
+Checking every chord is impossible in practice. When derivatives exist, three shortcuts replace it.
 
-### 4.1 First-order condition: tangents lie below
+### 4.1 Curving up: the slope keeps increasing
+
+> **Key point:** Where a curve bends upwards like a cup, its slope is increasing, so its second derivative is $\ge 0$. A convex function bends upwards everywhere.
+
+Walk along a curve from left to right and watch its slope.
+
+1. **In words:** on a cup-shaped part, the slope starts negative, rises through 0 at the bottom, and keeps rising. On a hump-shaped part, the slope does the opposite: it falls from positive through 0 to negative. A rising slope means the derivative of the slope, the second derivative, is positive.
+2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down**. Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the chord test of Section 3 and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
+3. **Example:** the function $q(w) = w^2(w - 1)^2$ of Figure 3, with slope $q'(w) = 2w(w - 1)(2w - 1)$ and second derivative $q''(w) = 12w^2 - 12w + 2$.
+   - $q''$ is 0 at $w = 0.211$ and $w = 0.789$, the **inflection points** (G-945) where the bending changes direction.
+   - Outside them $q'' > 0$: $q$ curves up, convex there. Between them $q'' < 0$: at $w = 0.5$, $q''(0.5) = 3 - 6 + 2 = -1$, so $q$ curves down there.
+   - One stretch with $q'' < 0$ is enough: $q$ is not convex, as the chord test found.
+
+![Three stacked graphs share one moving cursor: $q(w) = w^2(w - 1)^2$ with its tangent line, its slope $q'(w)$, and its second derivative $q''(w)$. Green where $q'' \ge 0$ (the slope rises, $q$ curves up), red where $q'' < 0$. At the end the three flat points are sorted by the second derivative test. Idea after Khan Academy, "Concavity introduction"](images/curving_up.gif)
+
+In Figure 4, watch the tangent line and the middle graph together. In the green parts the tangent turns anticlockwise and $q'$ climbs; in the red part the tangent turns clockwise and $q'$ falls.
+
+**The second derivative test.** At a point $c$ where the tangent is flat, $f'(c) = 0$:
+
+- $f''(c) > 0$: the curve is a cup there, so $c$ is a local minimum;
+- $f''(c) < 0$: the curve is a hump, so $c$ is a local maximum;
+- $f''(c) = 0$: the test says nothing.
+
+For $q$: $q'(0) = 0$ and $q''(0) = 2$, a minimum; $q'(0.5) = 0$ and $q''(0.5) = -1$, a maximum; $q'(1) = 0$ and $q''(1) = 2$, a minimum. This is the **second derivative test**.
+
+**The one-variable condition.** A function with a second derivative is convex exactly when $f''(x) \ge 0$ for every $x$: it curves up, or stays straight, everywhere. Then every flat point passes the second derivative test as a minimum, never a maximum.
+
+- **Example:** the **softplus** (G-1834) function $f(z) = \ln(1 + e^z)$. Its derivative is the [sigmoid](../72-sigmoid-function/note.md) $\sigma(z)$, a slope that rises steadily from 0 to 1. Its second derivative is $f''(z) = \sigma(z)\big(1 - \sigma(z)\big)$, the sigmoid's derivative (see the [sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Both factors lie between 0 and 1, so $f''(z) > 0$ everywhere: convex. At $z = 0$, $f''(0) = 0.5 \times 0.5 = 0.25$.
+
+### 4.2 First-order condition: tangents lie below
 
 > **Key point:** $f$ is convex exactly when $f(\mathbf{y}) \ge f(\mathbf{x}) + \nabla f(\mathbf{x})(\mathbf{y} - \mathbf{x})$ for all $\mathbf{x}$, $\mathbf{y}$: the tangent plane at any point underestimates $f$ everywhere.
 
 The right-hand side is the tangent plane of $f$ at $\mathbf{x}$, the first-order Taylor approximation of the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 4).
 
-1. **In words:** the tangent line or plane at any point never rises above the graph.
+1. **In words:** the tangent line or plane at any point never rises above the graph. This test is the **first-order condition** (G-781).
 2. **Formula:** a differentiable $f$ is convex if and only if, for all $\mathbf{x}$ and $\mathbf{y}$ (Boyd and Vandenberghe §3.1.3),
    $$f(\mathbf{y}) \thickspace\ge\thickspace f(\mathbf{x}) + \nabla f(\mathbf{x})\thinspace(\mathbf{y} - \mathbf{x})$$
-3. **Example:** the **softplus** function $f(z) = \ln(1 + e^z)$. Its derivative is the [sigmoid](../72-sigmoid-function/note.md) $\sigma(z)$, so at $z = 0$ the slope is $\sigma(0) = 0.5$ and the value is $\ln 2 = 0.693$. At $z = 2$:
+3. **Example:** softplus, $f(z) = \ln(1 + e^z)$, with derivative $\sigma(z)$ (Section 4.1). At $z = 0$ the slope is $\sigma(0) = 0.5$ and the value is $\ln 2 = 0.693$. At $z = 2$:
    $$f(2) = \ln(1 + e^2) = 2.13, \qquad \text{tangent: } 0.693 + 0.5 \times (2 - 0) = 1.69$$
-   $2.13 \ge 1.69$: the curve is above its tangent (Figure 3, left).
+   $2.13 \ge 1.69$: the curve is above its tangent (Figure 5, left).
 
 ![The first-order test. Left: every tangent of softplus lies below the curve, so it is convex. Right: the tangent of $w^2(w - 1)^2$ at $w = 0.5$ lies above the curve near 0 and 1, so it is not convex](images/first_order.png)
 
-Figure 3 (right) shows the test failing. For $q(w) = w^2(w - 1)^2$, the tangent at $w = 0.5$ is flat at height $0.0625$, but $q(0) = 0$ lies below it.
+Figure 5 (right) shows the test failing. For $q(w) = w^2(w - 1)^2$, the tangent at $w = 0.5$ is flat at height $0.0625$, but $q(0) = 0$ lies below it.
+
+The tangent test and the rising slope of Section 4.1 are one fact seen twice. If the slope never decreases, the curve to the right of a point rises at least as fast as the tangent there, and the curve to the left falls at least as fast, so the tangent can only stay below (Boyd and Vandenberghe §3.1.3).
 
 The first-order condition gives the most useful fact about convex functions in one line. If $\nabla f(\mathbf{x}^\ast) = \mathbf{0}$, the condition becomes $f(\mathbf{y}) \ge f(\mathbf{x}^\ast)$ for every $\mathbf{y}$. So for a convex function, any point with zero gradient is a global minimum. Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
 
 > **Extra:** Softplus is the [log loss](../73-log-loss/note.md) in disguise. For an **observation** (one record, a row of the data table) with label 0 and score $z$, the loss $-\ln(1 - \sigma(z))$ equals $\ln(1 + e^{z})$; for label 1, $-\ln \sigma(z) = \ln(1 + e^{-z})$. Both are convex in $z$, and $z = \mathbf{w}^{\mathsf T}\mathbf{x}$ is linear in the weights. A convex function of a linear function is convex (Boyd and Vandenberghe §3.2.2), so the loss of logistic regression is convex in $\mathbf{w}$: gradient descent on it reaches the global minimum.
 
-### 4.2 Second-order condition: curving up everywhere
+### 4.3 Second-order condition in several variables
 
 > **Key point:** A twice-differentiable $f$ is convex exactly when its Hessian is positive semi-definite (no negative eigenvalues) at every point; in one variable, $f''(x) \ge 0$ everywhere.
 
-The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 3.3) showed that the signs of the Hessian's eigenvalues give the local shape: all positive is a bowl, mixed signs a saddle. A symmetric matrix with no negative eigenvalues is positive semi-definite (see the [SVD geometry Note](../610-svd-geometry/note.md)). Convexity asks for this at every point, not just one.
+With several variables the function must curve up along every direction, and the second derivative becomes the **Hessian matrix** (G-888). The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 3.3) showed that the signs of the Hessian's eigenvalues give the local shape: all positive is a bowl, mixed signs a saddle. A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532) (see the [SVD geometry Note](../610-svd-geometry/note.md)). Convexity asks for this at every point, not just one.
 
-1. **In words:** the function must curve upwards (or stay flat) in every direction, everywhere.
+1. **In words:** the function must curve upwards (or stay flat) in every direction, everywhere. This test is the **second-order condition** (G-1761).
 2. **Formula:**
    $$f \text{ is convex} \iff \nabla^2 f(\mathbf{x}) \text{ is positive semi-definite for every } \mathbf{x}$$
    In one variable: $f''(x) \ge 0$ for every $x$.
-3. **Example:** for softplus, $f''(z) = \sigma(z)\big(1 - \sigma(z)\big)$, the sigmoid's derivative (see the [sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Both factors lie between 0 and 1, so $f''(z) > 0$ everywhere: convex. At $z = 0$, $f''(0) = 0.5 \times 0.5 = 0.25$.
+3. **Example:** softplus in one variable, $f''(z) > 0$ everywhere (Section 4.1).
 
 With two variables, compare two quadratic functions. Their Hessians are constant, so one check covers every point:
 
@@ -120,6 +158,10 @@ With two variables, compare two quadratic functions. Their Hessians are constant
 |---|---|---|---|
 | $x^2 + xy + y^2$ | $\begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ | $1$ and $3$ | yes: a bowl |
 | $x^2 + 3xy + y^2$ | $\begin{bmatrix} 2 & 3 \cr3 & 2 \end{bmatrix}$ | $5$ and $-1$ | no: a saddle |
+
+![Contour maps of the two quadratics. Arrows: the Hessian's eigenvector directions, labelled with their eigenvalues. Left: both positive, closed ellipses, a bowl. Right: one negative, a saddle; the chord between (1, −1) and (−1, 1) sits at −1, below the value 0 at the midpoint](images/hessian_bowl_saddle.png)
+
+In Figure 6, watch the sign of each arrow's eigenvalue: along the arrow labelled −1, the saddle curves down, and that one direction is enough to break convexity.
 
 The chord test agrees. For $x^2 + 3xy + y^2$, the points $(1, -1)$ and $(-1, 1)$ both give $1 - 3 + 1 = -1$. Their midpoint $(0, 0)$ gives 0, above the chord value $-1$.
 
@@ -146,6 +188,10 @@ Worked with numbers: $f_1(w) = w^2$ and $f_2(w) = |w|$, with $\alpha = 1$, $\bet
 
 $$\text{curve: } 1^2 + 2 \times |1| = 3, \qquad \text{chord: } 0.5 \times (1 + 2) + 0.5 \times (9 + 6) = 9$$
 
+![Left: the sum w² + 2|w| (blue) of two convex pieces (grey); its chord from −1 to 3 stays above the curve, 9 against 3 at the midpoint. Right: the difference w² − 2w² = −w²; its chord sits below the curve](images/sum_difference.png)
+
+Figure 7 puts the rule and its failure side by side. Watch where the chord sits: above the curve for the sum, below it for the difference.
+
 This rule covers the regularised losses of earlier Notes:
 
 - **Ridge:** squared error plus $\alpha\lVert \mathbf{w} \rVert^2$ (see the [Ridge regression maths Note](../64-ridge-regression-maths/note.md)): convex plus convex.
@@ -155,7 +201,7 @@ This rule covers the regularised losses of earlier Notes:
 **What does not keep convexity.** A difference or a product of convex functions can fail:
 
 - **Difference:** $w^2$ and $2w^2$ are convex, but $w^2 - 2w^2 = -w^2$ is an upside-down bowl.
-- **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product $w^2(w - 1)^2$ has two dips (Figure 3, right). Its chord from 0 to 1 is at height 0, while the curve at 0.5 is $0.0625$.
+- **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product $w^2(w - 1)^2$ has two dips (Figure 4 and Figure 5, right). Its chord from 0 to 1 is at height 0, while the curve at 0.5 is $0.0625$.
 
 > **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The hinge loss $\max(0,\ 1 - z)$ of the [SVM soft margin Note](../94-svm-soft-margin/note.md) is the maximum of two straight lines, so it is convex, and with the convex penalty $\tfrac12\lVert \mathbf{w} \rVert^2$ the soft-margin SVM is a convex problem.
 
@@ -170,7 +216,7 @@ This rule covers the regularised losses of earlier Notes:
 1. **In words:** a convex objective, minimised over a feasible region built from convex pieces.
 2. **Formula:** the problem
    $$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0, \qquad h_j(\mathbf{x}) = 0$$
-   is a **convex optimisation problem** when $f$ and every $g_i$ are convex functions and every $h_j$ is affine, $h_j(\mathbf{x}) = \mathbf a_j^{\mathsf T}\mathbf{x} - b_j$. Then the feasible region is a convex set (Section 2.2).
+   is a **convex optimisation problem** (G-478) when $f$ and every $g_i$ are convex functions and every $h_j$ is affine, $h_j(\mathbf{x}) = \mathbf a_j^{\mathsf T}\mathbf{x} - b_j$. Then the feasible region is a convex set (Section 2.2).
 3. **Example:** the problem of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md): minimise $x^2 + 2y^2$ (Hessian with eigenvalues 2 and 4, convex) subject to $3 - x - y \le 0$ (linear, so convex). The problem is therefore a convex optimisation problem.
 
 ### 6.2 What convexity guarantees
@@ -183,7 +229,11 @@ For a convex optimisation problem:
 - **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.1). With constraints, a point that satisfies the KKT conditions of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) is the answer.
 - **Strong duality.** The maximum of the dual function equals the primal minimum. In the example above, $D(4) = 6$ equals the primal minimum 6.
 
-> **Extra:** Strong duality for a convex problem needs one mild extra condition, **Slater's condition**: at least one point satisfies every inequality constraint strictly. For $3 - x - y \le 0$, the point $(3, 3)$ gives $-3 < 0$, so it holds (Boyd and Vandenberghe §5.2.3).
+![Left: contours of x² + 2y² and the feasible half-plane x + y ≥ 3 (green); the lowest feasible point is (2, 1), on the contour of value 6 (dashed). Right: the dual function D(λ) = 3λ − 3λ²/8 peaks at λ = 4 with the same value 6](images/primal_dual.png)
+
+Figure 8 shows the example from both sides. Watch the two stars: the lowest feasible point on the left and the top of the dual on the right sit at the same height, 6.
+
+> **Extra:** Strong duality for a convex problem needs one mild extra condition, **Slater's condition** (G-1821): at least one point satisfies every inequality constraint strictly. For $3 - x - y \le 0$, the point $(3, 3)$ gives $-3 < 0$, so it holds (Boyd and Vandenberghe §5.2.3).
 
 ### 6.3 Which ML problems are convex
 
@@ -206,6 +256,7 @@ For the convex ones, the answer does not depend on the starting point or the sol
 |---|---|---|
 | Convex set | every segment between two points stays inside | disc yes, ring no |
 | Convex function | chord on or above the graph | $w^2$ yes, $w^2(w - 1)^2$ no |
+| Rising slope | $f'' \ge 0$ everywhere (one variable) | $q''(0.5) = -1$: not convex |
 | First-order test | tangent on or below the graph | softplus: $2.13 \ge 1.69$ |
 | Second-order test | Hessian positive semi-definite everywhere | eigenvalues $1, 3$ yes; $5, -1$ no |
 | Building rules | non-negative sums and maximums keep convexity | Ridge, Lasso, hinge loss |
@@ -219,11 +270,14 @@ For the convex ones, the answer does not depend on the starting point or the sol
 
 **Built from**
 
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 7.3 (MML).
+- CampusX, "Difference between convex & non-convex cost function; what happens when cost function is non-convex?", YouTube, https://www.youtube.com/watch?v=TXVtbgaEyms
+- Khan Academy (Khan, S.), "Concavity introduction", YouTube, https://www.youtube.com/watch?v=LcEqOzNov4E
+- Khan Academy (Khan, S.), "Second derivative test", YouTube, https://www.youtube.com/watch?v=-cW5hCsc9Yc
 
 **Other references**
 
-- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 3.1–3.2 (convex functions and the operations that keep convexity) and 5.2.3 (Slater's condition).
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 7.3 (MML): convex sets, the building rules and convex optimisation problems, which no video in the list covers.
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 3.1–3.2 (convex functions, the first- and second-order conditions, and the operations that keep convexity) and 5.2.3 (Slater's condition).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 8.2, challenges in neural network optimisation.
 
 ## 9. Key terms
@@ -235,6 +289,9 @@ For the convex ones, the answer does not depend on the starting point or the sol
 | Epigraph | The region on and above a function's graph; convex exactly when the function is convex |
 | Jensen's inequality | For a convex function, the function of a weighted average is at most the weighted average of the function |
 | Softplus | The function $\ln(1 + e^z)$, a smooth convex curve whose derivative is the sigmoid |
+| Strictly convex function | A function whose curve lies strictly below every chord between two different points; it has at most one minimum |
+| Concave up, concave down | Calculus names for a cup-shaped (convex) and a hump-shaped (concave) part of a curve |
+| Second derivative test | At a flat point, $f'' > 0$ means a local minimum, $f'' < 0$ a local maximum, $f'' = 0$ no conclusion |
 | First-order condition | A differentiable function is convex exactly when every tangent plane lies on or below its graph |
 | Second-order condition | A twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere |
 | Convex optimisation problem | Minimising a convex function subject to convex inequality constraints and affine equality constraints |

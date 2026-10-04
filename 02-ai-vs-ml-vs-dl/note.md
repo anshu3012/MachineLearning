@@ -24,7 +24,7 @@ Figure 1 shows the three fields as nested circles. Every DL system is also an ML
 
 > **Key point:** AI is the field of building machines that show intelligence. Every AI system in use today handles one narrow task.
 
-**Artificial Intelligence (AI)** is the field of building machines that show intelligence. To see what that involves, we first need to look at what intelligence is.
+**Artificial Intelligence (AI)** (G-215) is the field of building machines that show intelligence. To see what that involves, we first need to look at what intelligence is.
 
 ### 2.1 Intelligence is many abilities
 
@@ -32,7 +32,11 @@ Figure 1 shows the three fields as nested circles. Every DL system is also an ML
 
 ![Components of intelligence](images/intelligence.png)
 
-Figure 2 shows some of the abilities that make up human intelligence. We use different ones for different jobs: logic to write code, problem solving to crack a puzzle, imagination to create something new.
+Figure 2 shows some of the abilities that make up human intelligence. We use different ones for different jobs:
+
+- logic, to write code;
+- problem solving, to crack a puzzle;
+- imagination, to create something new.
 
 Some of these abilities, such as logic, are well defined. Others, such as creativity or emotional intelligence, have no precise definition. An ability we cannot define is very hard to build into a machine.
 
@@ -40,8 +44,8 @@ Some of these abilities, such as logic, are well defined. Others, such as creati
 
 > **Key point:** All AI today is narrow AI. General AI, a machine with every human ability, does not exist yet.
 
-- **Narrow AI**: a system that performs one specific task, such as recognising faces, translating text or playing chess.
-- **Artificial general intelligence (AGI)**: a single machine with all the abilities in Figure 2, like a human.
+- **Narrow AI** (G-1303): a system that performs one specific task, such as recognising faces, translating text or playing chess.
+- **Artificial general intelligence (AGI)** (G-184): a single machine with all the abilities in Figure 2, like a human.
 
 AGI is the long-term goal of the field. Every AI system we use today is narrow AI.
 
@@ -53,7 +57,7 @@ AGI is the long-term goal of the field. Every AI system we use today is narrow A
 
 Figure 3 shows how approaches to AI changed over time. Serious work on AI began in the 1950s.
 
-The first approach was **symbolic AI**: humans write down the knowledge a machine needs, as explicit rules. The machine then follows those rules.
+The first approach was **symbolic AI** (G-1931): humans write down the knowledge a machine needs, as explicit rules. The machine then follows those rules.
 
 > **Extra:** Two dates mark the start of AI. In 1950 Alan Turing asked "Can machines think?" (Turing 1950), and in 1956 a summer workshop at Dartmouth gave the field its name, *artificial intelligence* (Russell and Norvig 2020, §1.3.1). The middle two eras in Figure 3 are approximate.
 
@@ -61,13 +65,13 @@ The first approach was **symbolic AI**: humans write down the knowledge a machin
 
 > **Key point:** An expert system stores an expert's knowledge as rules and uses a program to apply them.
 
-The best-known product of symbolic AI is the **expert system**. Figure 4 shows how one is built and used.
+The best-known product of symbolic AI is the **expert system** (G-726). Figure 4 shows how one is built and used.
 
 ![How an expert system works](images/expert_system.png)
 
 1. We collect knowledge from a **human expert**, such as a doctor or a chess master.
-2. We write that knowledge as rules in a **knowledge base**.
-3. An **inference engine**, a program, applies those rules to answer questions.
+2. We write that knowledge as rules in a **knowledge base** (G-1018).
+3. An **inference engine** (G-942), a program, applies those rules to answer questions.
 
 Chess-playing computers are a classic example.
 
@@ -83,15 +87,15 @@ Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, a
 
 > **Key point:** In Machine Learning, we do not write the rules. We give the machine examples with answers, and it works out the rules itself.
 
-**Machine Learning (ML)** is a branch of computer science that uses statistical techniques to find patterns in data. ML became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../01-what-is-ml/note.md)).
+**Machine Learning (ML)** (G-1140) is a branch of computer science that uses statistical techniques to find patterns in data. ML became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../01-what-is-ml/note.md)).
 
 ### 4.1 Learning rules from data
 
 > **Key point:** Traditional programming turns rules into answers. ML turns answers into rules.
 
-Instead of writing every rule by hand (explicit programming), we give the machine data and the correct answers, and it finds the rules itself (see Section 3 of the [what is ML Note](../01-what-is-ml/note.md)). Finding the rules from examples is called **learning**. Once a machine has learned, it can **predict**: give an answer for new data it has never seen.
+Instead of writing every rule by hand (explicit programming (G-730)), we give the machine data and the correct answers, and it finds the rules itself (see Section 3 of the [what is ML Note](../01-what-is-ml/note.md)). Finding the rules from examples is called **learning** (G-1073). Once a machine has learned, it can **predict** (G-1548): give an answer for new data it has never seen.
 
-> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 5), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression*).
+> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 5), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression (G-1094)*).
 
 ![A pattern in data: marks rise with hours studied (example data)](images/pattern_in_data.png)
 
@@ -110,23 +114,23 @@ An ML model learns what a dog looks like from labelled photos, as children do (s
 
 > **Key point:** DL is ML that uses neural networks. Its big advantage: it finds the features by itself, and it keeps improving as we give it more data.
 
-**Deep Learning (DL)** is a subset of ML that took off after about 2010.
+**Deep Learning (DL)** (G-568) is a subset of ML that took off after about 2010.
 
-The process is the same as in ML. We give data to an algorithm and **train** it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
+The process is the same as in ML. We give data to an algorithm and **train** (G-1997) it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
 
 ### 5.1 Neural networks
 
 > **Key point:** Neural networks are inspired by the brain, but they do not work like the brain.
 
-DL uses **neural networks**, which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. A neural network is a mathematical model that borrows one idea: many simple units connected together.
+DL uses **neural networks** (G-1316), which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. A neural network is a mathematical model that borrows one idea: many simple units connected together.
 
-The smallest unit of a neural network is the **perceptron**, an artificial neuron. The perceptron is covered in detail in later Notes.
+The smallest unit of a neural network is the **perceptron** (G-1486), an artificial neuron. The perceptron is covered in detail in later Notes.
 
 ### 5.2 Features: chosen by us or learned
 
 > **Key point:** In ML, we choose the features. In DL, the network learns them.
 
-A **feature** is an input variable: one piece of information that a model uses to make its decision, stored as one column of the data table. For example, to predict whether a student will get a job in campus placements, our data might look like this:
+A **feature** (G-772) is an input variable: one piece of information that a model uses to make its decision, stored as one column of the data table. For example, to predict whether a student will get a job in campus placements, our data might look like this:
 
 | Student | CGPA | IQ | Certifications | Placed? |
 |---|---|---|---|---|
@@ -134,7 +138,7 @@ A **feature** is an input variable: one piece of information that a model uses t
 | B | 6.1 | 105 | 0 | No |
 | C | 7.5 | 112 | 2 | Yes |
 
-Here CGPA, IQ and Certifications are the features. "Placed?" is the **target**: the output we want to predict. Each student is one **observation**: one record, one row of the table.
+Here CGPA, IQ and Certifications are the features. "Placed?" is the **target** (G-1949): the output we want to predict. Each student is one **observation** (G-1374): one record, one row of the table.
 
 ![Feature selection in ML vs DL (student placement example)](images/features_ml_vs_dl.png)
 
@@ -149,7 +153,7 @@ Learning its own features makes DL valuable when nobody knows what the right fea
 
 > **Key point:** Each layer of a neural network combines what the previous layer found into something bigger.
 
-A neural network is organised in **layers** of neurons. Each layer works on the output of the layer before it. Adding layers lets the network detect more complex patterns, and a network with many layers is called *deep*.
+A neural network is organised in **layers** (G-1056) of neurons. Each layer works on the output of the layer before it. Adding layers lets the network detect more complex patterns, and a network with many layers is called *deep*.
 
 Figure 7 shows a network recognising a handwritten digit:
 
@@ -172,7 +176,11 @@ Figure 8 shows how performance changes as we add data:
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
 
-The steady gain with more data is why DL now outperforms ML on tasks with very large datasets: image classification, object detection, and text and speech tasks.
+The steady gain with more data is why DL now outperforms ML on tasks with very large datasets:
+
+- image classification (G-919);
+- object detection;
+- text and speech tasks.
 
 > **Extra:** Figure 8 is a sketch, not a measurement. A measured case: Sun et al. (2017) trained image networks on up to 300 million images, and performance on vision tasks kept rising, roughly by the same amount each time the data grew tenfold (a logarithmic increase).
 

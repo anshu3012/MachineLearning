@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/nag]
 
 > **Key point:** NAG is momentum with one change: it first takes the momentum jump, then measures the gradient at the point where that jump lands (the look-ahead point), and corrects from there. Seeing the slope ahead lets it brake before the minimum, so it overshoots less than momentum.
 
-**Nesterov accelerated gradient** (NAG; Nesterov 1983, adapted to deep learning by Sutskever et al. 2013) is a small upgrade of [momentum](../1034-sgd-with-momentum/note.md). Momentum's speed is its strength, but near the minimum the same speed makes it overshoot and swing. NAG damps those swings.
+**Nesterov accelerated gradient** (G-1315; NAG; Nesterov 1983, adapted to deep learning by Sutskever et al. 2013) is a small upgrade of [momentum](../1034-sgd-with-momentum/note.md) (G-1258). Momentum's speed is its strength, but near the minimum the same speed makes it overshoot and swing (**overshooting**, G-1430). NAG damps those swings.
 
 ![Momentum and NAG along the same narrow valley, both with learning rate 0.01 and $\beta = 0.9$. Momentum swings across the valley and past the minimum; NAG's swings are much smaller](images/nag_valley.gif){width=95%}
 
@@ -33,7 +33,7 @@ Figure 1 shows the difference. On this valley momentum needs 59 steps to bring t
 
 Momentum covers the early part of the road quickly: in the valley of Figure 1 it is close to the minimum within about 20 steps. Then it crosses the minimum, comes back, crosses again, and only settles once its velocity has died away.
 
-Lowering the decay factor $\beta$ tames the swings, at the cost of some speed. On the more complex, non-convex losses of neural networks the oscillations cost even more time. NAG offers another fix: keep the speed, and reduce the oscillations.
+Lowering the **decay factor** (G-553) $\beta$ tames the swings, at the cost of some speed. On the more complex, non-convex losses of neural networks (**non-convex functions**, G-1333) the **oscillations** (G-1410) cost even more time. NAG offers another fix: keep the speed, and reduce the oscillations.
 
 ## 4. Two pushes at once, or one after the other
 
@@ -43,9 +43,9 @@ Write momentum's update in one line by putting $v_t$ into $w_{t+1} = w_t - v_t$:
 
 $$w_{t+1} = w_t - \beta\thinspace v_{t-1} - \eta\thinspace\nabla L(w_t)$$
 
-Each step has two parts: the push of the past velocity, $\beta v_{t-1}$, and the push of the current gradient, $\eta\thinspace\nabla L(w_t)$. Plain gradient descent has only the second. Momentum computes both at the current point $w_t$ and applies them together.
+Each step has two parts: the push of the past **velocity** (G-2085), $\beta v_{t-1}$, and the push of the current gradient, $\eta\thinspace\nabla L(w_t)$. Plain gradient descent has only the second. Momentum computes both at the current point $w_t$ and applies them together.
 
-NAG changes only **where the gradient is computed**. NAG first applies the momentum part alone, which takes it to a **look-ahead point**. It computes the gradient there and then moves on, or back, according to that gradient (Goodfellow et al. 2016, §8.3.3).
+NAG changes only **where the gradient is computed**. NAG first applies the momentum part alone, which takes it to a **look-ahead point** (G-1127). It computes the gradient there and then moves on, or back, according to that gradient (Goodfellow et al. 2016, §8.3.3).
 
 ![One step near the minimum. Left, momentum: the momentum jump and the gradient step are both computed at $w_t$, where the slope still points right, so the step overshoots. Right, NAG: jump first, then measure the slope at the look-ahead point, which points back, so the step is corrected](images/lookahead.png){width=100%}
 
@@ -94,21 +94,27 @@ Figure 4 (left) and Figure 1 measure the effect (Notebook):
 | Bowl: stays within 0.1 of the minimum from step | 81 | 42 |
 | Valley: steps until the loss is below 0.01 | 59 | 25 |
 
-> **Extra:** On convex problems with exact gradients, Nesterov's method provably converges faster than plain gradient descent: the excess loss falls like $1/k^2$ after $k$ steps instead of $1/k$ (Nesterov 1983; Goodfellow et al. 2016, §8.3.3). With noisy mini-batch gradients that guarantee is lost (Goodfellow et al. 2016, §8.3.3); the benefit that remains in practice is the damping seen here.
+> **Extra:** On convex problems (**convex functions**, G-476) with exact gradients, Nesterov's method provably converges faster than plain gradient descent: the excess loss falls like $1/k^2$ after $k$ steps instead of $1/k$ (Nesterov 1983; Goodfellow et al. 2016, §8.3.3). With noisy mini-batch gradients that guarantee is lost (Goodfellow et al. 2016, §8.3.3); the benefit that remains in practice is the damping seen here.
 
 ## 7. The weakness: less momentum to escape a dip
 
 > **Key point:** The damping that removes overshooting also removes some of the extra push. Where momentum rolls out of a small local minimum, NAG can stay stuck in it.
 
-Damping the oscillations has a possible downside. On a loss with a small dip on the way to a deeper one, momentum may build up enough speed to roll over the bump and out of the dip; NAG brakes earlier, so it may not gain that speed and can settle in the local minimum.
+Damping the oscillations has a possible downside. On a loss with a small dip on the way to a deeper one, momentum may build up enough speed to roll over the bump and out of the dip; NAG brakes earlier, so it may not gain that speed and can settle in the **local minimum** (G-1110).
 
-Figure 4 (right) shows exactly this on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$: with the same settings, momentum ends in the global minimum near $w = 2.14$ and NAG in the local one near $-1.83$. Over 12 settings (two starts, three learning rates, two values of $\beta$), momentum reached the global minimum in 8 and NAG in 4, and NAG never escaped where momentum did not (Notebook). On such losses another optimizer may do better.
+Figure 4 (right) shows exactly this on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$: with the same settings, momentum ends in the **global minimum** (G-848) near $w = 2.14$ and NAG in the local one near $-1.83$. Over 12 settings (two starts, three learning rates, two values of $\beta$), momentum reached the global minimum in 8 and NAG in 4, and NAG never escaped where momentum did not (Notebook). On such losses another optimizer may do better.
 
 ## 8. NAG on real data: MNIST
 
 > **Key point:** On MNIST with $\beta = 0.9$, momentum and NAG train almost identically. With $\beta = 0.99$, where momentum's swings matter more, NAG's training is steadier and ends slightly lower.
 
-We repeat the MNIST experiment of the [momentum Note](../1034-sgd-with-momentum/note.md): 10,000 training images, each with 784 pixel **features** (input variables) and the digit as **target** (the output we predict), the 10,000 test images for validation, hidden layers of 128 and 64 ReLU nodes, learning rate 0.01, batch size 64, 20 epochs, 3 seeds. Only `nesterov` changes, at $\beta = 0.9$ and at $\beta = 0.99$.
+We repeat the **MNIST** (G-1249) experiment of the [momentum Note](../1034-sgd-with-momentum/note.md):
+
+- **data:** 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation;
+- **network:** hidden layers of 128 and 64 **ReLU** (G-1668) nodes;
+- **training:** **learning rate** (G-1068) 0.01, **batch size** (G-267) 64, 20 **epochs** (G-696), 3 seeds.
+
+Only `nesterov` changes, at $\beta = 0.9$ and at $\beta = 0.99$.
 
 ![Training loss on MNIST per epoch, mean of 3 seeds. Left: $\beta = 0.9$, the two curves overlap. Right: $\beta = 0.99$, NAG (purple) mostly below momentum (orange)](images/mnist_nag.png){width=100%}
 

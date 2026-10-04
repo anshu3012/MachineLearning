@@ -18,7 +18,7 @@ tags: [subject/ml, area/data, area/models-2, step/clean, step/model, concept/mis
 
 ![XGBoost: gradient boosting plus optimisations in three areas](images/overview.png){height=38%}
 
-**XGBoost** (eXtreme Gradient Boosting) is the gradient boosting of the [gradient boosting Notes](../120-gradient-boosting-intuition/note.md) with a long list of improvements. Some come from machine learning, most from software engineering. Figure 1 sorts them into three areas.
+**XGBoost** (G-2133; eXtreme Gradient Boosting) is the gradient boosting of the [gradient boosting Notes](../120-gradient-boosting-intuition/note.md) with a long list of improvements. Some come from machine learning, most from software engineering. Figure 1 sorts them into three areas.
 
 This Note is a map of the whole library: what each improvement is and why it matters, without the maths. The Notes that follow work through the core:
 
@@ -42,6 +42,10 @@ Machine learning has dozens of algorithms: linear regression, logistic regressio
 
 XGBoost was built to fix both: better results and much more speed.
 
+Figure 2 lays out the three periods. The 1990s algorithms are general, but two problems (orange) remain, and XGBoost aims at both.
+
+![Why XGBoost was built: specialised algorithms (1970s and 1980s), general ones (1990s) with two problems left, overfitting and speed on big data, and XGBoost (2014) aimed at both](images/eras.png){height=30%}
+
 ## 3. What XGBoost is
 
 > **Key point:** XGBoost is a library: the gradient boosting algorithm plus software engineering that makes it fast and robust.
@@ -63,6 +67,10 @@ The history falls into three stages.
 2. **The Kaggle years (2015-2016).** More and more winners used it. The XGBoost paper (Chen and Guestrin 2016, §1) reports that 17 of the 29 winning solutions published on Kaggle's blog in 2015 used XGBoost.
 3. **Open source.** XGBoost is an open-source package (Chen and Guestrin 2016, §1). With the code open, engineers worldwide added features and optimisations, support for more platforms and languages, documentation and tutorials. The paper calls it "the consensus choice of learner" among the winning solutions it surveyed (Chen and Guestrin 2016, §1).
 
+Figure 3 puts the stages on one timeline. Watch the squares at the bottom: each is one winning Kaggle solution published in 2015, and the green ones used XGBoost.
+
+![The three stages of XGBoost's history. Bottom: 17 of the 29 winning solutions published on Kaggle's blog in 2015 used XGBoost (Chen and Guestrin 2016, §1)](images/history.png){height=32%}
+
 ## 5. Why gradient boosting was the starting point
 
 > **Key point:** Gradient boosting already had flexibility, strong results, robustness and Kaggle success; it lacked only speed on big data.
@@ -81,6 +89,10 @@ Gradient boosting did nearly everything right. With better results on new data a
 > **Key point:** XGBoost runs on any operating system, in many languages, alongside the usual libraries, and on almost any kind of problem, with our own loss if we want.
 
 The aim was to reach as many people as possible. Four features serve it.
+
+Figure 4 shows two of them at once. Top: one model saved from Python is loaded by every language interface. Bottom: the same library solves many kinds of problem, or any problem with our own differentiable loss.
+
+![Flexibility. Top: a model trained in Python and saved as model.json is loaded and used from Java, R, Scala, C++ or Julia. Bottom: one library for regression, classification, ranking, time series and anomaly detection, or our own loss](images/languages.png){height=40%}
 
 ### 6.1 Cross-platform
 
@@ -143,7 +155,7 @@ Because it is gradient boosting underneath, we can also write our own loss funct
 
 ![Processor time on 10,000 observations and 200 features, 100 trees of depth 3 in every library, one core each (log scale)](images/timing.png){height=36%}
 
-The Notebook builds a synthetic dataset of 10,000 **observations** (records, the rows of the data table) and 200 **features** (input variables, the columns). The Notebook trains the same ensemble, 100 trees of depth 3 with learning rate 0.1, in four implementations. Every library gets one processor core, so the comparison is about the algorithms alone; extra cores speed XGBoost up further (section 7.2). Figure 2 shows the result:
+The Notebook builds a synthetic dataset of 10,000 **observations** (G-1374; records, the rows of the data table) and 200 **features** (G-772; input variables, the columns). The Notebook trains the same ensemble, 100 trees of depth 3 with learning rate 0.1, in four implementations. Every library gets one processor core, so the comparison is about the algorithms alone; extra cores speed XGBoost up further (section 7.2). Figure 5 shows the result:
 
 - scikit-learn's classic `GradientBoostingClassifier`: **59.9 seconds**, test accuracy 0.922;
 - XGBoost: **1.88 seconds**, accuracy 0.921;
@@ -173,13 +185,13 @@ The accuracy hardly changes; only the time does. The XGBoost paper reports the s
 
 > **Key point:** Boosting is sequential, tree after tree; the parallel work is inside one tree, where the best split of every feature can be searched at the same time.
 
-**Parallel processing** means splitting one job among several workers. One builder takes 30 days to build a house; six builders working side by side take far less.
+**Parallel processing** (G-1444) means splitting one job among several workers. One builder takes 30 days to build a house; six builders working side by side take far less.
 
 But boosting is sequential: tree 2 learns from the mistakes of tree 1, so it cannot start before tree 1 is done. Where does the parallel work come from? From inside each tree.
 
 To grow a node, a decision tree tries every candidate split on every feature ([decision trees Note](../97-decision-trees-intuition/note.md)). Take two features, age and marks, and three students. For age we sort the values and score a cut between each neighbouring pair; we do the same for marks. Then we keep the best cut of all.
 
-The search over age does not depend on the search over marks. So one processor core can take age while another takes marks (Figure 3). With 200 features and 8 cores, 8 features are searched at once. The number of cores used is the hyperparameter `n_jobs`.
+The search over age does not depend on the search over marks. So one processor core can take age while another takes marks (Figure 6). With 200 features and 8 cores, 8 features are searched at once. The number of cores used is the hyperparameter `n_jobs`.
 
 ![Parallel split search inside one tree: each core finds the best split of one feature; the best of all wins](images/parallel.png){height=40%}
 
@@ -187,13 +199,13 @@ The search over age does not depend on the search over marks. So one processor c
 
 > **Key point:** XGBoost stores the data column by column, pre-sorted, so each core can take one column and work on it alone.
 
-Most algorithms store data row by row: one block holds every column of row 1, the next every column of row 2. XGBoost stores it in **column blocks**: one block per feature, its values sorted once before training and reused for every tree (Chen and Guestrin 2016, §4.1). A core can pick up one whole column block and search its splits without touching the rest. Column blocks are what make the parallel split search of Figure 3 efficient.
+Most algorithms store data row by row: one block holds every column of row 1, the next every column of row 2. XGBoost stores it in **column blocks** (G-412): one block per feature, its values sorted once before training and reused for every tree (Chen and Guestrin 2016, §4.1). A core can pick up one whole column block and search its splits without touching the rest. Column blocks are what make the parallel split search of Figure 6 efficient.
 
 ### 7.4 Cache awareness
 
 > **Key point:** Values that are needed again and again are kept in the small, fast cache memory next to the processor, instead of being fetched from RAM each time.
 
-The processor (CPU) does the computing; the data lives in RAM, a separate piece of hardware, and fetching it takes time. **Cache memory** is a small, fast memory inside the processor for things that are used repeatedly. A website's logo that loads faster the second time works the same way: it is kept locally.
+The processor (CPU) does the computing; the data lives in RAM, a separate piece of hardware, and fetching it takes time. **Cache memory** (G-338) is a small, fast memory inside the processor for things that are used repeatedly. A website's logo that loads faster the second time works the same way: it is kept locally.
 
 XGBoost keeps what it uses most often in the cache, such as the gradient statistics it reads during the split search (Chen and Guestrin 2016, §4.2). A cook who keeps the most-used spices on the counter, instead of walking to the fridge each time, saves time in the same way.
 
@@ -203,13 +215,19 @@ XGBoost keeps what it uses most often in the cache, such as the gradient statist
 
 Suppose our laptop has 8 GB of RAM and the dataset is 10 GB. The dataset cannot be loaded at once, so normally we could not even start.
 
-**Out-of-core computing** splits the data into chunks, say five of 2 GB, kept on disk. The model trains on chunk 1 and reaches some state; then chunk 2 is loaded and training continues from that state, and so on to chunk 5. XGBoost does this through its external-memory mode (Chen and Guestrin 2016, §4.3). Out-of-core training works together with cache awareness: what is needed again is kept in the cache while chunks come and go.
+**Out-of-core computing** (G-1413) works in three steps:
+
+1. split the data into chunks, say five of 2 GB, kept on disk;
+2. load chunk 1 and train on it, which brings the model to some state;
+3. load chunk 2 and continue training from that state, and so on to chunk 5.
+
+XGBoost does this through its external-memory mode (Chen and Guestrin 2016, §4.3). Out-of-core training works together with cache awareness: what is needed again is kept in the cache while chunks come and go.
 
 ### 7.6 Distributed computing
 
 > **Key point:** Several machines each take a part of the data, find their best splits locally, and a master node combines them.
 
-In **distributed computing** a job is shared between several machines, called **nodes**, working in parallel. Out-of-core computing lets one machine handle big data, but it still processes one chunk at a time. With 5 nodes and a 10 GB dataset cut into 5 chunks of 2 GB, all five chunks are processed at the same moment.
+In **distributed computing** (G-625) a job is shared between several machines, called **nodes**, working in parallel. Out-of-core computing lets one machine handle big data, but it still processes one chunk at a time. With 5 nodes and a 10 GB dataset cut into 5 chunks of 2 GB, all five chunks are processed at the same moment.
 
 1. **Partition** the data: each node gets an equal share.
 2. **Work locally**: each node computes, for every feature, the split statistics on its own share.
@@ -217,11 +235,15 @@ In **distributed computing** a job is shared between several machines, called **
 
 Distributed training needs outside tools: XGBoost connects to Dask, Spark, Ray and Kubernetes for it (XGBoost docs).
 
+Figure 7 compares the two ways of handling 10 GB of data. At the top, one machine reads the five chunks one after another; at the bottom, five nodes each read one chunk at the same moment, and the master node combines their split statistics.
+
+![10 GB of data, 8 GB of RAM. (a) Out-of-core computing: one machine trains on five 2 GB chunks one after another. (b) Distributed computing: five nodes each work on one chunk at once; a master node combines their split statistics and picks the best split](images/bigdata.png){height=55%}
+
 ### 7.7 GPU support
 
 > **Key point:** A graphics card has thousands of small cores; XGBoost's histogram building and split search can run on them.
 
-A **GPU** (graphics processing unit, the graphics card) has many cores, each weaker than a CPU core but far more numerous. A GPU is ideal for many small, similar calculations: drawing game graphics, training deep learning models. XGBoost's histogram building and split finding are exactly such work, so XGBoost can run on a GPU.
+A **GPU** (G-856; graphics processing unit, the graphics card) has many cores, each weaker than a CPU core but far more numerous. A GPU is ideal for many small, similar calculations: drawing game graphics, training deep learning models. XGBoost's histogram building and split finding are exactly such work, so XGBoost can run on a GPU.
 
 The XGBoost GPU authors measured the gain on large public datasets (Mitchell et al. 2018, Table 2). On YearPredictionMSD, 515,000 observations and 90 features, 500 trees took 217 seconds on 64 CPU cores and 30 seconds on GPUs, about 7 times faster, with the same error. The experiments in this Note run on the CPU only.
 
@@ -237,7 +259,16 @@ The XGBoost GPU authors measured the gain on large public datasets (Mitchell et 
 
 > **Key point:** All these engineering tricks taken to the extreme gave the library its name: eXtreme Gradient Boosting.
 
-Parallel processing, special data structures, cache use, out-of-core, distributed and GPU computing: XGBoost pushes software engineering on gradient boosting as far as it goes. Hence the name, eXtreme Gradient Boosting.
+XGBoost pushes software engineering on gradient boosting as far as it goes:
+
+- parallel processing (section 7.2);
+- special data structures, the column blocks (section 7.3);
+- cache use (section 7.4);
+- out-of-core computing (section 7.5);
+- distributed computing (section 7.6);
+- GPU computing (section 7.7).
+
+Hence the name, eXtreme Gradient Boosting.
 
 ## 8. Performance
 
@@ -255,11 +286,17 @@ XGBoost adds a penalty term to its objective by default. The penalty punishes tr
 
 > **Key point:** At each split, XGBoost tries sending the observations with a missing value left and then right, and keeps the direction with the larger gain.
 
-Data is **sparse** when it has many zeros or missing values. XGBoost first notices the sparsity and then handles it in its splits.
+Data is **sparse** when it has many zeros or missing values. XGBoost first notices the sparsity and then handles it in its splits, a method called **sparsity-aware split finding** (G-1850).
 
 Take one feature F1 with values 4, 5, 6, 8, 9 and one missing value. Candidate cuts are 4.5, 5.5, 7 and 8.5; no cut is placed at the missing value. For the node "F1 at most 4.5", the value 4 goes left and 5, 6, 8, 9 go right. Where does the observation with no F1 go?
 
-XGBoost tries both (Figure 4). The algorithm sends that observation left and computes the gain of the split; then right, and computes the gain again. The side with the larger gain becomes the node's **default direction**: at prediction time, any observation missing F1 follows it (Chen and Guestrin 2016, §3.4, Alg. 3). The gain itself is defined in the [XGBoost regression Note](../124-xgboost-regression/note.md).
+XGBoost tries both (Figure 8):
+
+1. send the observation with the missing value left, and compute the gain of the split;
+2. send it right, and compute the gain again;
+3. keep the side with the larger gain as the node's **default direction** (G-574).
+
+At prediction time, any observation missing F1 follows it (Chen and Guestrin 2016, §3.4, Alg. 3). The gain itself is defined in the [XGBoost regression Note](../124-xgboost-regression/note.md).
 
 ![Sparsity-aware split finding: observations with a missing value are tried on each side; the side with the larger gain becomes the default direction](images/missing.png){height=34%}
 
@@ -292,13 +329,23 @@ We can read the learned default direction from the first tree. One of its nodes 
 
 > **Key point:** Instead of trying every value as a split, XGBoost cuts each feature into bins and tries only the bin edges; the bins follow quantiles, so they are narrow where the data is dense.
 
-The usual way to find a split, used in the [regression trees Note](../99-regression-trees/note.md), is the **exact greedy algorithm**: sort the column, try the midpoint between every pair of neighbouring values, and keep the best. The exact greedy algorithm always finds the best split, but on a column with ten million values it tries ten million candidates at every node.
+The usual way to find a split, used in the [regression trees Note](../99-regression-trees/note.md), is the **exact greedy algorithm** (G-719):
 
-**Approximate tree learning** tries far fewer. The approximate method cuts the column into bins, for example 1 to 5, 6 to 10, 11 to 15, and tries only the bin edges. The continuous column becomes discrete, as in [binning](../32-binning-binarization/note.md). The split found may be a little worse than the exact best, but training is much faster. Because the bins work like the bars of a histogram, this is also called **histogram-based training**.
+1. sort the column;
+2. try the midpoint between every pair of neighbouring values as a split;
+3. keep the split with the largest gain.
 
-Where should the bin edges go? Equal-width bins ignore the data. XGBoost places them at **quantiles** instead (the method is called the **weighted quantile sketch**): where many values crowd together the bins are narrow, and where values are rare they are wide. The bins then describe the data more accurately, and the trees built on them are more accurate too.
+The exact greedy algorithm always finds the best split, but on a column with ten million values it tries ten million candidates at every node.
+
+**Approximate tree learning** (G-207) tries far fewer. The approximate method cuts the column into bins, for example 1 to 5, 6 to 10, 11 to 15, and tries only the bin edges. The continuous column becomes discrete, as in [binning](../32-binning-binarization/note.md). The split found may be a little worse than the exact best, but training is much faster. Because the bins work like the bars of a histogram, this is also called **histogram-based training**.
+
+Where should the bin edges go? Equal-width bins ignore the data. XGBoost places them at **quantiles** instead (the method is called the **weighted quantile sketch** (G-2118)): where many values crowd together the bins are narrow, and where values are rare they are wide. The bins then describe the data more accurately, and the trees built on them are more accurate too.
 
 On the Titanic fares, a very skewed column, Figure 4 of the [binning Note](../32-binning-binarization/note.md) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
+
+Figure 9 shows the effect on the split search, with survival as the target. The grey curve is the gain of every one of the 247 midpoints that the exact greedy algorithm tries; the best is 79.4. Watch the orange quantile edges crowd where the passengers crowd (the ticks at the bottom): with 8 bins they already reach 77.5, 98 percent of the best, and with 32 bins they find the best split itself. The blue equal-width edges waste most of their places on the few expensive fares and reach only 71.4 even with 64 bins.
+
+![Exact greedy versus approximate split finding on the 891 Titanic fares, target Survived. Grey: the gain of the first XGBoost tree (log loss, lambda = 1) at each of the 247 exact midpoints. Orange: quantile bin edges; blue: equal-width bin edges; 4 to 64 bins per feature](images/split_bins.gif){height=75%}
 
 > **Extra:** "Weighted" means the quantiles are not counted in observations. Each observation counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from the [XGBoost maths Note](../126-xgboost-maths/note.md)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For log loss $h_i = p_i(1-p_i)$ ([XGBoost classification Note](../125-xgboost-classification/note.md)): largest (0.25) at $p_i = 0.5$, near 0 when $p_i$ is close to 0 or 1. So observations the model is still unsure about weigh more, and the bins are finer among them. "Sketch" means the quantiles are estimated from a compact summary that can be merged, which lets it work when the data is split over many machines (Chen and Guestrin 2016, §3.3).
 
@@ -318,10 +365,10 @@ XGBoost offers both kinds of settings, plus one more: $\gamma$ (`gamma`). A new 
 
 Two other libraries improve on gradient boosting in their own ways:
 
-- **LightGBM** (Light Gradient Boosting Machine, from Microsoft Research): aimed at faster training and lower memory use, with parallel, distributed and GPU training (LightGBM docs). Its paper reports training up to more than 20 times faster than conventional gradient boosting with almost the same accuracy (Ke et al. 2017).
-- **CatBoost** (from Yandex; Prokhorenkova et al. 2018): an open-source gradient boosting library on decision trees whose best-known feature is built-in support for categorical columns, with no manual encoding.
+- **LightGBM** (G-1084; Light Gradient Boosting Machine, from Microsoft Research): aimed at faster training and lower memory use, with parallel, distributed and GPU training (LightGBM docs). Its paper reports training up to more than 20 times faster than conventional gradient boosting with almost the same accuracy (Ke et al. 2017).
+- **CatBoost** (G-348; from Yandex; Prokhorenkova et al. 2018): an open-source gradient boosting library on decision trees whose best-known feature is built-in support for categorical columns, with no manual encoding.
 
-scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` are modelled on LightGBM (scikit-learn docs). In Figure 2, LightGBM and scikit-learn's version were the fastest of all on our data.
+scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` are modelled on LightGBM (scikit-learn docs). In Figure 5, LightGBM and scikit-learn's version were the fastest of all on our data.
 
 ## 10. Summary
 

@@ -47,7 +47,11 @@ In this formula $x_{i1}$ and $x_{i2}$ are the two **features** of student $i$ (i
 
 $$L = L\big(W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1}, b_{11}, b_{12}, W_{11}^{2}, W_{21}^{2}, b_{21}\big)$$
 
-$y = f(x)$ is a function of one variable; the loss is a function of nine. Picture the network as a box with 9 knobs: turning any of them changes the loss, and training turns all of them until the loss is as small as possible. The knob picture is the general idea of section 2 of the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), for this network.
+$y = f(x)$ is a function of one variable; the loss is a function of nine. These nine numbers are the network's **trainable parameters** (G-1999): the values training is allowed to change. Picture the network as a box with 9 knobs, one per trainable parameter: turning any of them changes the loss, and training turns all of them until the loss is as small as possible.
+
+![Student 1's loss when one parameter is turned and the other eight stay at their starting values; the red dot is the start](images/knobs.png){height=48%}
+
+Figure 2 turns each knob on its own. Every curve passes through the same red dot, the starting loss 13.54, but each falls at its own rate. The hidden biases $b_{11}$ and $b_{12}$ barely move it: their slope at the start is only $-0.736$, against $-5.888$ for the first-layer weights and $-11.776$ for the output weights (the gradients of the [backpropagation what Note](../1015-backpropagation-what/note.md), section 7.1). The knob picture is the general idea of section 2 of the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), for this network.
 
 ## 4. What the gradient is
 
@@ -69,11 +73,19 @@ A derivative at a point is the slope there. For $y = x^2 + x$, $dy/dx = 2x + 1$;
 
 For the network, $\partial L/\partial W_{11}^{1}$ says how the loss responds to a small change in $W_{11}^{1}$. For student 1 at the start it is $-5.888$: raising $W_{11}^{1}$ by 0.001 lowers the loss by about 0.006.
 
+![The **tangent line** (G-1945) sliding along student 1's loss as a function of $W_{11}^{1}$; its slope is the derivative](images/tangent.gif){height=40%}
+
+Figure 3 slides the tangent along the loss curve of $W_{11}^{1}$. Watch the slope's sign: negative (blue) left of the bottom, zero at $W_{11}^{1} = 4.7$, positive (orange) to the right; and its size: steep far from the bottom, flat near it.
+
 ## 6. Minimum by setting the derivatives to zero
 
 > **Key point:** At a minimum every slope is zero. For $z = x^2 + y^2$ we can solve that by hand; for a network's loss we cannot, so we walk downhill instead.
 
-At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$.
+At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$ (Figure 4).
+
+![Contours of $z = x^2 + y^2$. At three points the arrow is minus the two slopes; only at the star are both slopes zero](images/bowl.png){height=40%}
+
+In Figure 4, every arrow, minus the pair of slopes, points towards the centre; at the centre both slopes are zero and there is nowhere lower to go.
 
 For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W_{11}^{2} W_{11}^{1}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../57-gradient-descent/note.md) does for linear regression.
 
@@ -102,7 +114,9 @@ The algorithm cannot see the curve; it only knows the slope where it stands. Two
 - **Slope positive** (at $b_{21} = 5$, the slope is $+2.64$): raising $b_{21}$ raises the loss. We must lower $b_{21}$, and $b_{21} - \eta \times 2.64$ does.
 - **Slope negative** (at $b_{21} = -5$, the slope is $-17.36$): raising $b_{21}$ lowers the loss. We must raise $b_{21}$, and $b_{21} - \eta \times (-17.36) = b_{21} + 17.36\thinspace\eta$ does.
 
-The minus sign does the right thing in both cases: we always move against the slope, in the direction of the **negative gradient**. The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
+![The same loss $L(b_{21})$ at two points: on the left the slope is negative and the update moves right; on the right it is positive and the update moves left](images/slope_sign.png){height=32%}
+
+The minus sign does the right thing in both cases (Figure 5): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-865, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
 
 ## 8. Why we need a learning rate
 
@@ -121,7 +135,7 @@ Figure 1 runs 10 updates with four learning rates:
 - $\eta = 1$: $-5,\ 12.36,\ -5,\ 12.36, \dots$ The value zigzags across the bowl forever.
 - $\eta = 1.1$: $-5,\ 14.10,\ -8.82,\ 18.68, \dots$, and $-50.06$ after 10 steps. Each jump overshoots more: the updates diverge.
 
-Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag into small steps. As we near the minimum the slope shrinks, so the steps shrink with it. Too small a learning rate wastes time; too large overshoots and can run away. The learning rate is a hyperparameter to tune (see section 5 of the [gradient descent Note](../57-gradient-descent/note.md)).
+Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag into small steps. As we near the minimum the slope shrinks, so the steps shrink with it. Too small a learning rate wastes time; too large overshoots and can run away. The learning rate (G-1068) is a **hyperparameter** (G-910), a setting we choose rather than learn, to tune (see section 5 of the [gradient descent Note](../57-gradient-descent/note.md)).
 
 > **Extra:** On this parabola the update is $b_{21} - 3.68 \leftarrow (1 - 2\eta)(b_{21} - 3.68)$: each step multiplies the distance to the minimum by $1 - 2\eta$. The factor is 0.8 for $\eta = 0.1$ (shrinks), $-1$ for $\eta = 1$ (same size, flipped side), and $-1.2$ for $\eta = 1.1$ (grows). Any $\eta$ above 1 diverges here; how large a rate is safe depends on how steep the loss is.
 
@@ -129,13 +143,17 @@ In the real network all 9 parameters move at once, each against its own slope. T
 
 ![Gradient descent on two of the nine knobs at once, $W_{21}^{1}$ and $b_{21}$, over all four students; the other seven stay at their starting values. Left: the path on the contours of the mean loss (the star is the lowest point). Right: the predicted packages (diamonds) move onto the real ones (dots). Learning rate 0.2.](images/loss_walk.gif){height=50%}
 
-Figure 2 shows two knobs moving together, each against its own slope. Watch the first step: the ball drops straight into the long valley (mean loss 28.0 to 1.8) and the predictions jump up to the real packages. After that the slope along the valley is gentle, so the steps are small and the ball slides slowly towards the star: the mean loss is 0.25 after 100 steps and settles at 0.045 near step 1,000. The picture of a ball rolling down a loss surface follows Sanderson (3Blue1Brown), here redrawn with our own network.
+Figure 6 shows two parameters moving together, each against its own slope. Watch the first step: the ball drops straight into the long valley (mean loss 28.0 to 1.8) and the predictions jump up to the real packages. After that the slope along the valley is gentle, so the steps are small and the ball slides slowly towards the star: the mean loss is 0.25 after 100 steps and settles at 0.045 near step 1,000. The picture of a ball rolling down a loss surface follows Sanderson (3Blue1Brown), here redrawn with our own network.
 
 ## 9. When to stop: convergence
 
 > **Key point:** At the minimum the slope is zero, so $W_{\text{new}} = W_{\text{old}}$: updates stop changing anything. In practice we run a fixed number of epochs.
 
-The algorithm has **converged** when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. Convergence happens when $\eta\thinspace\partial L/\partial W \approx 0$, that is, when the slope is close to zero: we are at a minimum.
+The algorithm has **converged** (**convergence**, G-472) when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. Convergence happens when $\eta\thinspace\partial L/\partial W \approx 0$, that is, when the slope is close to zero: we are at a minimum.
+
+![With learning rate 0.1: $b_{21}$ after each update (left) and the size of each change (right, log scale)](images/convergence.png){height=30%}
+
+Figure 7 shows convergence on $L(b_{21})$. Each change is 0.8 times the one before, so on the log scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
 
 So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the stopping rules of section 2.3 of the [gradient descent Note](../57-gradient-descent/note.md)).
 

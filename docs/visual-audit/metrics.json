@@ -3,13 +3,13 @@
   "gifn": [],
   "note": "01-course-map",
   "title": "Course Map",
-  "figs": 18,
+  "figs": 20,
   "gifs": 0,
   "code": 0,
-  "words": 10157,
+  "words": 11436,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 564,
+  "wpv": 572,
   "sections": [
    "1. Overview",
    "2. The Pipeline map",
@@ -63,7 +63,7 @@
   "figs": 7,
   "gifs": 1,
   "code": 0,
-  "words": 1530,
+  "words": 1529,
   "nsec": 6,
   "secfig": 5,
   "wpv": 191,
@@ -98,10 +98,10 @@
   "figs": 10,
   "gifs": 1,
   "code": 0,
-  "words": 1644,
+  "words": 1673,
   "nsec": 5,
   "secfig": 5,
-  "wpv": 149,
+  "wpv": 152,
   "sections": [
    "1. Overview",
    "2. Supervised learning",
@@ -133,10 +133,10 @@
   "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 964,
+  "words": 970,
   "nsec": 5,
   "secfig": 4,
-  "wpv": 193,
+  "wpv": 194,
   "sections": [
    "1. Overview",
    "2. Development and production",
@@ -164,10 +164,10 @@
   "figs": 4,
   "gifs": 1,
   "code": 0,
-  "words": 1376,
+  "words": 1392,
   "nsec": 8,
   "secfig": 4,
-  "wpv": 275,
+  "wpv": 278,
   "sections": [
    "1. Overview",
    "2. What online learning is",
@@ -198,10 +198,10 @@
   "figs": 3,
   "gifs": 1,
   "code": 0,
-  "words": 1031,
+  "words": 1037,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 258,
+  "wpv": 259,
   "sections": [
    "1. Overview",
    "2. Two ways to learn",
@@ -229,10 +229,10 @@
   "figs": 8,
   "gifs": 1,
   "code": 0,
-  "words": 1687,
+  "words": 1694,
   "nsec": 10,
   "secfig": 8,
-  "wpv": 187,
+  "wpv": 188,
   "sections": [
    "1. Overview",
    "2. Collecting data",
@@ -267,10 +267,10 @@
   "figs": 7,
   "gifs": 0,
   "code": 0,
-  "words": 2499,
+  "words": 2504,
   "nsec": 7,
   "secfig": 6,
-  "wpv": 357,
+  "wpv": 358,
   "sections": [
    "1. Overview",
    "2. Consumer and business applications",
@@ -299,13 +299,13 @@
   ],
   "note": "09-mldlc",
   "title": "Machine Learning Development Life Cycle (MLDLC)",
-  "figs": 4,
+  "figs": 9,
   "gifs": 1,
   "code": 0,
-  "words": 3637,
+  "words": 3800,
   "nsec": 12,
-  "secfig": 5,
-  "wpv": 727,
+  "secfig": 10,
+  "wpv": 380,
   "sections": [
    "1. Overview",
    "2. From SDLC to MLDLC",
@@ -323,10 +323,14 @@
   "kp": "Building an ML product takes nine stages, from framing the problem to keeping the live model healthy. Training a model is only one of them.",
   "scripts": [
    "cycle_loop.py",
+   "data_sources.tex",
    "deployment_flow.tex",
+   "framing_questions.tex",
+   "launch_safety.tex",
    "mldlc_cycle.tex",
    "model_selection.tex",
    "stage_map.tex",
+   "titanic_views.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -371,13 +375,13 @@
   "gifn": [],
   "note": "12-setup-anaconda-jupyter-colab",
   "title": "Setting Up: conda, Jupyter and Google Colab",
-  "figs": 3,
+  "figs": 9,
   "gifs": 0,
   "code": 0,
-  "words": 3850,
+  "words": 3921,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 1283,
+  "secfig": 9,
+  "wpv": 436,
   "sections": [
    "1. Overview",
    "2. Anaconda, Miniforge and conda",
@@ -391,10 +395,16 @@
   ],
   "kp": "We can write ML code on our own computer (conda plus Jupyter) or in the browser (Kaggle or Google Colab); both give us the same kind of notebook.",
   "scripts": [
+   "colab_session.tex",
+   "env_file.tex",
    "environments.tex",
+   "installers.tex",
+   "jupyter_parts.tex",
+   "kaggle_notebook.tex",
    "kaggle_to_colab.tex",
    "setup_map.tex",
-   "where_this_fits.tex"
+   "where_this_fits.tex",
+   "where_to_work.tex"
   ],
   "unref_gif": []
  },
@@ -438,13 +448,13 @@
   "gifn": [],
   "note": "14-framing-ml-problem",
   "title": "How to Frame a Machine Learning Problem",
-  "figs": 3,
+  "figs": 12,
   "gifs": 0,
   "code": 0,
-  "words": 2172,
+  "words": 2277,
   "nsec": 11,
-  "secfig": 3,
-  "wpv": 724,
+  "secfig": 11,
+  "wpv": 190,
   "sections": [
    "1. Overview",
    "2. Why framing matters",
@@ -460,8 +470,17 @@
   ],
   "kp": "Before any code, we turn a vague business goal into a clear ML task, by answering seven questions in order.",
   "scripts": [
+   "assumptions.tex",
+   "churn_rate.tex",
+   "customer_row.tex",
    "framing_steps.tex",
+   "goal_to_target.tex",
    "online_vs_batch.tex",
+   "plan_first.tex",
+   "reuse_model.tex",
+   "roles.tex",
+   "three_ways.tex",
+   "two_checks.tex",
    "where_this_fits.tex",
    "yes_no_vs_score.tex"
   ],
@@ -473,13 +492,13 @@
   ],
   "note": "15-working-with-csv",
   "title": "Working with CSV Files",
-  "figs": 4,
+  "figs": 11,
   "gifs": 1,
   "code": 3,
-  "words": 2732,
+  "words": 2908,
   "nsec": 18,
-  "secfig": 5,
-  "wpv": 546,
+  "secfig": 12,
+  "wpv": 242,
   "sections": [
    "1. Overview",
    "2. CSV and TSV files",
@@ -502,11 +521,16 @@
   ],
   "kp": "Most ML data arrives as CSV files, and one pandas function, `read_csv`, turns them into tables, with a parameter for almost every problem a file can have.",
   "scripts": [
+   "bad_lines.tex",
    "chunks.py",
    "csv_anatomy.tex",
+   "encoding_bytes.tex",
    "get_data.tex",
    "line_numbers.tex",
    "parameter_map.tex",
+   "read_outputs.py",
+   "sep_names.tex",
+   "skiprows_rule.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -586,13 +610,13 @@
   ],
   "note": "18-web-scraping",
   "title": "Fetching Data with Web Scraping",
-  "figs": 3,
+  "figs": 7,
   "gifs": 1,
   "code": 0,
-  "words": 2662,
+  "words": 2798,
   "nsec": 12,
-  "secfig": 4,
-  "wpv": 666,
+  "secfig": 8,
+  "wpv": 350,
   "sections": [
    "1. Overview",
    "2. When we need web scraping",
@@ -613,6 +637,9 @@
    "container_loop.py",
    "flat_vs_box.tex",
    "overview.tex",
+   "repeated_boxes.tex",
+   "request_reply.tex",
+   "scrape_outputs.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -764,13 +791,13 @@
   "gifn": [],
   "note": "23-what-is-feature-engineering",
   "title": "What is Feature Engineering",
-  "figs": 3,
+  "figs": 10,
   "gifs": 0,
   "code": 0,
-  "words": 2205,
+  "words": 2277,
   "nsec": 10,
-  "secfig": 3,
-  "wpv": 735,
+  "secfig": 10,
+  "wpv": 228,
   "sections": [
    "1. Overview",
    "2. What feature engineering is",
@@ -785,9 +812,16 @@
   ],
   "kp": "Feature engineering turns raw data into features that a model can learn from well. It has four parts: transformation, construction, selection and extraction.",
   "scripts": [
+   "family_size.tex",
    "fe_map.tex",
+   "fe_notes_order.tex",
+   "features_vs_algorithm.tex",
+   "four_parts_rows.tex",
    "image_to_row.tex",
    "outlier_line.py",
+   "pca_columns.tex",
+   "project_steps.tex",
+   "raw_to_features.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -798,13 +832,13 @@
   ],
   "note": "24-standardization",
   "title": "Feature Scaling: Standardization",
-  "figs": 5,
+  "figs": 8,
   "gifs": 1,
   "code": 0,
-  "words": 2233,
+  "words": 2411,
   "nsec": 10,
-  "secfig": 4,
-  "wpv": 372,
+  "secfig": 7,
+  "wpv": 268,
   "sections": [
    "1. Overview",
    "2. Feature scaling, in brief",
@@ -820,9 +854,12 @@
   "kp": "Standardization rescales every feature so that its mean is 0 and its standard deviation is 1: subtract the mean, then divide by the standard deviation.",
   "scripts": [
    "charts.py",
+   "fit_transform.tex",
+   "knn_regions.py",
    "overview.tex",
    "standardize_steps.py",
-   "where_this_fits.tex"
+   "where_this_fits.tex",
+   "z_number_line.tex"
   ],
   "unref_gif": []
  },
@@ -865,13 +902,13 @@
   "gifn": [],
   "note": "26-ordinal-label-encoding",
   "title": "Encoding Categorical Data: Ordinal and Label Encoding",
-  "figs": 3,
+  "figs": 7,
   "gifs": 0,
   "code": 0,
-  "words": 1810,
+  "words": 1847,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 603,
+  "secfig": 7,
+  "wpv": 264,
   "sections": [
    "1. Overview",
    "2. Numerical and categorical data",
@@ -884,9 +921,13 @@
   "kp": "Ordinal encoding turns the ordered categories of a feature into the numbers 0, 1, 2, ...; label encoding does the same for the categories of the target.",
   "scripts": [
    "customer_columns.tex",
+   "label_encoding.tex",
+   "nominal_vs_ordinal.tex",
    "ordinal_mapping.tex",
    "overview.tex",
-   "where_this_fits.tex"
+   "text_to_numbers.tex",
+   "where_this_fits.tex",
+   "x_vs_y.tex"
   ],
   "unref_gif": []
  },
@@ -959,13 +1000,13 @@
   ],
   "note": "29-pipelines",
   "title": "Machine Learning Pipelines",
-  "figs": 3,
+  "figs": 9,
   "gifs": 1,
   "code": 0,
-  "words": 3418,
+  "words": 3534,
   "nsec": 10,
-  "secfig": 4,
-  "wpv": 854,
+  "secfig": 9,
+  "wpv": 353,
   "sections": [
    "1. Overview",
    "2. What a pipeline is",
@@ -980,9 +1021,13 @@
   ],
   "kp": "A pipeline chains every preprocessing step and the model into one object, so the same steps run in the same order on the training data, the test data and every new input.",
   "scripts": [
+   "by_hand.tex",
+   "column_needs.tex",
    "column_order.tex",
+   "named_steps.tex",
    "overview.tex",
    "pipe_flow.py",
+   "pipe_numbers.py",
    "production.tex",
    "where_this_fits.tex"
   ],
@@ -1024,13 +1069,13 @@
   ],
   "note": "31-power-transformer",
   "title": "Power Transformer: Box-Cox and Yeo-Johnson Transforms",
-  "figs": 6,
+  "figs": 8,
   "gifs": 1,
   "code": 0,
-  "words": 2534,
+  "words": 2810,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 362,
+  "secfig": 5,
+  "wpv": 312,
   "sections": [
    "1. Overview",
    "2. Power transformer in scikit-learn",
@@ -1051,17 +1096,18 @@
  },
  {
   "gifn": [
+   "images/binning_fill.gif",
    "images/kmeans_steps.gif"
   ],
   "note": "32-binning-binarization",
   "title": "Binning and Binarization: Equal Width, Equal Frequency and k-means Binning",
-  "figs": 4,
-  "gifs": 1,
+  "figs": 8,
+  "gifs": 2,
   "code": 0,
-  "words": 3261,
+  "words": 3439,
   "nsec": 13,
-  "secfig": 5,
-  "wpv": 652,
+  "secfig": 10,
+  "wpv": 344,
   "sections": [
    "1. Overview",
    "2. Why turn numbers into categories",
@@ -1079,6 +1125,7 @@
   ],
   "kp": "Discretization (binning) turns a numerical feature into a few ranges; binarization turns it into just 0 or 1.",
   "scripts": [
+   "binning_fill.py",
    "charts.py",
    "kmeans_steps.py",
    "overview.tex",
@@ -1090,13 +1137,13 @@
   "gifn": [],
   "note": "33-mixed-variables",
   "title": "Handling Mixed Variables",
-  "figs": 3,
+  "figs": 7,
   "gifs": 0,
   "code": 0,
-  "words": 1657,
+  "words": 1711,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 552,
+  "secfig": 7,
+  "wpv": 244,
   "sections": [
    "1. Overview",
    "2. What a mixed variable is",
@@ -1108,7 +1155,11 @@
   ],
   "kp": "A mixed variable holds numbers and categories in the same column; we split it into one numerical feature and one categorical feature.",
   "scripts": [
+   "cabin_split.tex",
+   "cell_anatomy.tex",
    "counts.py",
+   "data_columns.tex",
+   "fill_gaps.tex",
    "overview.tex",
    "ticket_split.tex",
    "where_this_fits.tex"
@@ -1119,13 +1170,13 @@
   "gifn": [],
   "note": "34-date-and-time",
   "title": "Handling Date and Time Variables",
-  "figs": 3,
+  "figs": 8,
   "gifs": 0,
   "code": 0,
-  "words": 2035,
+  "words": 2102,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 678,
+  "secfig": 8,
+  "wpv": 263,
   "sections": [
    "1. Overview",
    "2. Why date and time columns are useful",
@@ -1139,8 +1190,13 @@
   "kp": "A date or time column hides many useful features (year, month, weekday, hour, time passed); we convert the column to a datetime type and pull each one out with `.dt`.",
   "scripts": [
    "counts.py",
+   "date_ranges.tex",
    "elapsed.tex",
+   "night_clock.tex",
    "overview.tex",
+   "questions_features.tex",
+   "text_vs_datetime.tex",
+   "timedelta_units.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -1203,16 +1259,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/mode_fill.gif"
+  ],
   "note": "37-missing-categorical-data",
   "title": "Handling Missing Categorical Data: Most Frequent Value and Missing Category",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 2011,
+  "words": 2130,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 503,
+  "secfig": 6,
+  "wpv": 304,
   "sections": [
    "1. Overview",
    "2. Most frequent value imputation",
@@ -1225,22 +1283,26 @@
   "kp": "A gap in a categorical feature is filled either with the most frequent category (mode imputation) or with a new category called \"Missing\".",
   "scripts": [
    "charts.py",
+   "choose_imputer.tex",
+   "mode_fill.py",
    "overview.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/bag_draws.gif"
+  ],
   "note": "38-missing-indicator-random-sample",
   "title": "Handling Missing Data: Random Sample Imputation, Missing Indicator and Automatic Imputer Selection",
-  "figs": 5,
-  "gifs": 0,
+  "figs": 9,
+  "gifs": 1,
   "code": 0,
-  "words": 3420,
+  "words": 3583,
   "nsec": 7,
-  "secfig": 4,
-  "wpv": 684,
+  "secfig": 7,
+  "wpv": 358,
   "sections": [
    "1. Overview",
    "2. Random sample imputation",
@@ -1252,6 +1314,7 @@
   ],
   "kp": "Random sample imputation fills each gap with a real value drawn at random from the same column; a missing indicator adds a True/False column that marks where the gaps were.",
   "scripts": [
+   "bag_draws.py",
    "charts.py",
    "overview.tex",
    "pipeline_names.tex",
@@ -1297,13 +1360,13 @@
   ],
   "note": "40-iterative-imputer-mice",
   "title": "Handling Missing Data: Iterative Imputer (MICE)",
-  "figs": 2,
+  "figs": 5,
   "gifs": 1,
   "code": 0,
-  "words": 2112,
+  "words": 2217,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 704,
+  "secfig": 6,
+  "wpv": 370,
   "sections": [
    "1. Overview",
    "2. When to use MICE",
@@ -1317,8 +1380,10 @@
   "kp": "MICE fills every gap with its feature's mean first, then improves the fills one feature at a time with a model trained on the other features, and repeats until the fills stop changing.",
   "scripts": [
    "convergence.py",
+   "kept_models.tex",
    "mice_steps.py",
    "overview.tex",
+   "related_features.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -1327,13 +1392,13 @@
   "gifn": [],
   "note": "41-what-are-outliers",
   "title": "What are Outliers",
-  "figs": 3,
+  "figs": 6,
   "gifs": 0,
   "code": 0,
-  "words": 1835,
+  "words": 1881,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 612,
+  "secfig": 6,
+  "wpv": 314,
   "sections": [
    "1. Overview",
    "2. What an outlier is",
@@ -1348,22 +1413,27 @@
   "kp": "An outlier is a value far away from the rest of the data; handling outliers means three steps: decide whether to keep them, detect them, then treat them.",
   "scripts": [
    "charts.py",
+   "keep_or_remove.tex",
+   "mean_jump.tex",
    "overview.tex",
+   "weights_vs_trees.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/zscore_slide.gif"
+  ],
   "note": "42-outliers-zscore",
   "title": "Outlier Detection with the Z-score Method",
-  "figs": 5,
-  "gifs": 0,
+  "figs": 7,
+  "gifs": 1,
   "code": 0,
-  "words": 1704,
+  "words": 1783,
   "nsec": 12,
-  "secfig": 5,
-  "wpv": 341,
+  "secfig": 8,
+  "wpv": 223,
   "sections": [
    "1. Overview",
    "2. The condition: a normal feature",
@@ -1383,21 +1453,24 @@
    "charts.py",
    "empirical_rule.tex",
    "overview.tex",
-   "where_this_fits.tex"
+   "where_this_fits.tex",
+   "zscore_slide.py"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/fences_build.gif"
+  ],
   "note": "43-outliers-iqr",
   "title": "Outlier Detection with the IQR Method",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1415,
+  "words": 1503,
   "nsec": 10,
-  "secfig": 3,
-  "wpv": 472,
+  "secfig": 6,
+  "wpv": 250,
   "sections": [
    "1. Overview",
    "2. The condition: a skewed feature",
@@ -1413,22 +1486,25 @@
   "kp": "For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\\thinspace\\text{IQR}$ and $Q_3 + 1.5\\thinspace\\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.",
   "scripts": [
    "charts.py",
+   "fences_build.py",
    "overview.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/cutoff_slide.gif"
+  ],
   "note": "44-outliers-percentile",
   "title": "Outlier Detection with the Percentile Method and Winsorization",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1801,
+  "words": 1889,
   "nsec": 11,
-  "secfig": 4,
-  "wpv": 450,
+  "secfig": 7,
+  "wpv": 270,
   "sections": [
    "1. Overview",
    "2. The percentile rule",
@@ -1445,6 +1521,7 @@
   "kp": "We pick a low and a high percentile, such as the 1st and the 99th; every value below the first or above the second is an outlier, and we trim those rows or cap the values at the limits.",
   "scripts": [
    "charts.py",
+   "cutoff_slide.py",
    "overview.tex",
    "where_this_fits.tex"
   ],
@@ -1644,16 +1721,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/least_squares.gif"
+  ],
   "note": "51-linear-regression-maths",
   "title": "Simple Linear Regression: The Mathematics from Scratch",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1467,
+  "words": 1567,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 734,
+  "secfig": 3,
+  "wpv": 392,
   "sections": [
    "1. Overview",
    "2. Two ways to find m and b",
@@ -1665,23 +1744,27 @@
   "kp": "We write down the total error of a line, find the m and b that make it smallest, and get two short formulas. Coded as our own class, they give exactly scikit-learn's answer.",
   "scripts": [
    "common.py",
+   "least_squares.py",
    "loss_surface.py",
    "residuals.tex",
+   "through_means.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/r2_sweep.gif"
+  ],
   "note": "52-regression-metrics",
   "title": "Regression Metrics: MAE, MSE, RMSE, R\u00b2 and Adjusted R\u00b2",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1455,
+  "words": 1513,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 485,
+  "secfig": 4,
+  "wpv": 378,
   "sections": [
    "1. Overview",
    "2. Mean absolute error (MAE)",
@@ -1693,25 +1776,28 @@
   ],
   "kp": "A regression metric turns all the errors on the test set into one number. Five are common: MAE, MSE, RMSE, R\u00b2 and adjusted R\u00b2.",
   "scripts": [
+   "abs_vs_squared.py",
    "adjusted_r2.py",
    "common.py",
    "outlier_effect.py",
-   "r2_visual.py",
+   "r2_sweep.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/plane_orbit.gif"
+  ],
   "note": "53-multiple-linear-regression",
   "title": "Multiple Linear Regression: Geometric Intuition and Code",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 767,
+  "words": 850,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 384,
+  "secfig": 3,
+  "wpv": 212,
   "sections": [
    "1. Overview",
    "2. From a line to a hyperplane",
@@ -1720,23 +1806,28 @@
   ],
   "kp": "Multiple linear regression is simple linear regression with more than one feature. With two inputs it fits a plane; with more, a hyperplane.",
   "scripts": [
+   "coef_slices.py",
    "dimensions.tex",
-   "plane.py",
+   "noise_fit.py",
+   "plane_orbit.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/gradient_zero.gif",
+   "images/projection.gif"
+  ],
   "note": "54-multiple-lr-maths",
   "title": "Multiple Linear Regression: The Normal Equation",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 2,
   "code": 0,
-  "words": 1041,
+  "words": 1448,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 520,
+  "secfig": 5,
+  "wpv": 290,
   "sections": [
    "1. Overview",
    "2. The model in matrix form",
@@ -1748,8 +1839,11 @@
   ],
   "kp": "Written with matrices, the error of multiple linear regression has one formula for all the coefficients at once: $\\beta = (X^{\\mathsf T}X)^{-1}X^{\\mathsf T}y$, the normal equation.",
   "scripts": [
+   "error_squares.py",
+   "gradient_zero.py",
    "inverse_cost.py",
    "matrix_form.tex",
+   "projection.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -1758,13 +1852,13 @@
   "gifn": [],
   "note": "55-multiple-lr-code",
   "title": "Multiple Linear Regression: Code from Scratch",
-  "figs": 1,
+  "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 794,
+  "words": 1007,
   "nsec": 6,
-  "secfig": 1,
-  "wpv": 794,
+  "secfig": 5,
+  "wpv": 201,
   "sections": [
    "1. Overview",
    "2. The data",
@@ -1775,6 +1869,8 @@
   ],
   "kp": "The normal equation fits in three lines of NumPy. Our own class gives the same coefficients and the same R\u00b2 (0.44) as scikit-learn on the diabetes data.",
   "scripts": [
+   "extra.py",
+   "fit_shapes.tex",
    "results.py",
    "where_this_fits.tex"
   ],
@@ -1847,16 +1943,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/gd_race.gif"
+  ],
   "note": "58-batch-gradient-descent",
   "title": "Batch Gradient Descent",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1290,
+  "words": 1341,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 430,
+  "secfig": 4,
+  "wpv": 335,
   "sections": [
    "1. Overview",
    "2. Gradient descent with many features",
@@ -1875,16 +1973,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/gd_race.gif"
+  ],
   "note": "59-stochastic-gradient-descent",
   "title": "Stochastic Gradient Descent",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1306,
+  "words": 1399,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 653,
+  "secfig": 4,
+  "wpv": 350,
   "sections": [
    "1. Overview",
    "2. The problem with batch gradient descent",
@@ -1899,21 +1999,25 @@
   "scripts": [
    "batch_vs_sgd.py",
    "paths.py",
+   "schedule.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/epoch_batches.gif",
+   "images/gd_race.gif"
+  ],
   "note": "60-mini-batch-gradient-descent",
   "title": "Mini-Batch Gradient Descent",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 2,
   "code": 0,
-  "words": 976,
+  "words": 1170,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 488,
+  "secfig": 4,
+  "wpv": 292,
   "sections": [
    "1. Overview",
    "2. A family that contains the other two",
@@ -1924,8 +2028,10 @@
   ],
   "kp": "Mini-batch gradient descent updates the coefficients after each small group of observations. Mini-batch sits between batch (stable, slow) and stochastic (fast, noisy) gradient descent, and is the version most used in pra",
   "scripts": [
+   "batch_family.tex",
    "batch_sizes.py",
-   "three_paths.py",
+   "epoch_batches.py",
+   "gd_race.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -1958,16 +2064,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/resample_fits.gif"
+  ],
   "note": "62-bias-variance",
   "title": "The Bias-Variance Trade-off",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1211,
+  "words": 1344,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 404,
+  "secfig": 4,
+  "wpv": 224,
   "sections": [
    "1. Overview",
    "2. Bias",
@@ -1981,22 +2089,26 @@
    "common.py",
    "dartboard.tex",
    "many_fits.py",
+   "resample_fits.py",
    "tradeoff.py",
+   "train_test_error.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/lambda_sweep.gif"
+  ],
   "note": "63-ridge-regression-intuition",
   "title": "Ridge Regression: Regularisation and Intuition",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1008,
+  "words": 1117,
   "nsec": 4,
-  "secfig": 2,
-  "wpv": 336,
+  "secfig": 3,
+  "wpv": 223,
   "sections": [
    "1. Overview",
    "2. The problem: overfitting in linear models",
@@ -2007,6 +2119,8 @@
   "scripts": [
    "alpha_effects.py",
    "diabetes_alpha.py",
+   "lambda_sweep.py",
+   "two_point_samples.py",
    "two_points.py",
    "where_this_fits.tex"
   ],
@@ -2037,16 +2151,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/ridge_race.gif"
+  ],
   "note": "65-ridge-gradient-descent",
   "title": "Ridge Regression with Gradient Descent",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1307,
+  "words": 1422,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 654,
+  "secfig": 3,
+  "wpv": 356,
   "sections": [
    "1. Overview",
    "2. The gradient",
@@ -2058,7 +2174,9 @@
   "kp": "Ridge can also be trained with gradient descent. The gradient is the linear regression gradient plus \u03bbw, so each step also pulls the coefficients a little towards 0.",
   "scripts": [
    "convergence.py",
+   "decay_step.py",
    "paths.py",
+   "ridge_race.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -2128,16 +2246,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/paths_race.gif",
+   "images/constraint_touch.gif"
+  ],
   "note": "68-lasso-sparsity",
   "title": "Why Lasso Creates Sparsity",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 1004,
+  "words": 1425,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 502,
+  "secfig": 4,
+  "wpv": 238,
   "sections": [
    "1. Overview",
    "2. Reminder: the Ridge slope",
@@ -2148,22 +2269,27 @@
   ],
   "kp": "In the Lasso formula for one feature, \u03bb is subtracted from the top of the fraction, so a large enough \u03bb makes the slope exactly 0. In Ridge, \u03bb is added to the bottom, which can only make the slope small.",
   "scripts": [
+   "constraint_touch.py",
    "formulas.py",
+   "lasso_cases.py",
+   "paths_race.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/shape_morph.gif"
+  ],
   "note": "69-elastic-net",
   "title": "Elastic Net Regression",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1206,
+  "words": 1513,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 603,
+  "secfig": 5,
+  "wpv": 252,
   "sections": [
    "1. Overview",
    "2. The loss function",
@@ -2175,23 +2301,29 @@
   ],
   "kp": "Elastic Net adds both the Ridge penalty and the Lasso penalty to the loss. One setting controls the overall strength, another the mix between the two.",
   "scripts": [
+   "alpha_ratio.tex",
    "grouping.py",
+   "penalty_plane.tex",
+   "shape_morph.py",
    "shapes.py",
+   "small_data.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/small_steps.gif"
+  ],
   "note": "70-perceptron-trick",
   "title": "Logistic Regression: The Perceptron Trick",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1138,
+  "words": 1191,
   "nsec": 7,
   "secfig": 4,
-  "wpv": 284,
+  "wpv": 238,
   "sections": [
    "1. Overview",
    "2. When logistic regression works",
@@ -2205,6 +2337,7 @@
   "scripts": [
    "lines.py",
    "separable.py",
+   "small_steps.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -2215,25 +2348,26 @@
   ],
   "note": "71-perceptron-code",
   "title": "The Perceptron Trick in Code",
-  "figs": 1,
+  "figs": 3,
   "gifs": 1,
   "code": 0,
-  "words": 906,
+  "words": 1047,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 453,
+  "secfig": 4,
+  "wpv": 262,
   "sections": [
    "1. Overview",
    "2. The data",
    "3. The code",
-   "4. Drawing the line",
-   "5. Watching the line move",
-   "6. The weakness: the line stops too early"
+   "4. Drawing the decision boundary",
+   "5. Watching the decision boundary move",
+   "6. The weakness: the decision boundary stops too early"
   ],
-  "kp": "The perceptron trick takes about ten lines of Python. The trick finds a line that separates the classes, but it stops as soon as no point is misclassified, so the line can end up very close to one class. Logistic regress",
+  "kp": "The perceptron trick takes about ten lines of Python. The trick finds a decision boundary (the line that separates the classes), but it stops as soon as no point is misclassified, so the boundary can end up very close to",
   "scripts": [
    "compare.py",
    "perceptron_anim.py",
+   "weights_trace.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -2266,16 +2400,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/gd_four.gif"
+  ],
   "note": "73-log-loss",
   "title": "Logistic Regression: Maximum Likelihood and the Log Loss",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1167,
+  "words": 1343,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 389,
+  "secfig": 6,
+  "wpv": 224,
   "sections": [
    "1. Overview",
    "2. Comparing two models",
@@ -2285,25 +2421,28 @@
    "6. One formula for both classes",
    "7. Minimising the loss"
   ],
-  "kp": "To find the best line, we need a loss function: one number that says how good a line is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.",
+  "kp": "To find the best decision boundary, we need a loss function: one number that says how good a boundary is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.",
   "scripts": [
    "chain.tex",
    "costs.py",
+   "four_points.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/tangent_ride.gif"
+  ],
   "note": "74-sigmoid-derivative",
   "title": "The Derivative of the Sigmoid Function",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 2,
+  "gifs": 1,
   "code": 0,
-  "words": 375,
+  "words": 525,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 375,
+  "secfig": 3,
+  "wpv": 175,
   "sections": [
    "1. Overview",
    "2. Two rules we need",
@@ -2312,22 +2451,27 @@
   ],
   "kp": "The derivative of the sigmoid can be written using the sigmoid itself: \u03c3\u2032(z) = \u03c3(z)(1 \u2212 \u03c3(z)).",
   "scripts": [
-   "derivative.py",
+   "derivation.tex",
+   "exp_slope.py",
+   "tangent_ride.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/boundary_gd.gif",
+   "images/separable_growth.gif"
+  ],
   "note": "75-logistic-gradient-descent",
   "title": "Logistic Regression: Gradient Descent and Code from Scratch",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 2,
   "code": 0,
-  "words": 873,
+  "words": 1098,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 436,
+  "secfig": 5,
+  "wpv": 220,
   "sections": [
    "1. Overview",
    "2. Predictions in matrix form",
@@ -2340,23 +2484,26 @@
   ],
   "kp": "The gradient of the log loss is \u2212(1/m) X\u1d40(y \u2212 \u0177). Gradient descent repeats w \u2190 w + \u03b7 (1/m) X\u1d40(y \u2212 \u0177), and reaches the same answer as scikit-learn.",
   "scripts": [
+   "boundary_gd.py",
    "shapes.tex",
-   "training.py",
+   "update_compare.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/accuracy_count.gif"
+  ],
   "note": "76-accuracy-confusion-matrix",
   "title": "Classification Metrics: Accuracy and the Confusion Matrix",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1017,
+  "words": 1109,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 339,
+  "secfig": 4,
+  "wpv": 222,
   "sections": [
    "1. Overview",
    "2. Accuracy",
@@ -2367,6 +2514,7 @@
   ],
   "kp": "Accuracy is the fraction of correct predictions. The confusion matrix splits the predictions into four counts, which also show what kind of mistakes a model makes.",
   "scripts": [
+   "accuracy_count.py",
    "matrices.py",
    "naming.tex",
    "where_this_fits.tex"
@@ -2374,16 +2522,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/threshold_sweep.gif"
+  ],
   "note": "77-precision-recall-f1",
   "title": "Classification Metrics: Precision, Recall and F1 Score",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1032,
+  "words": 1101,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 344,
+  "secfig": 4,
+  "wpv": 275,
   "sections": [
    "1. Overview",
    "2. Precision",
@@ -2396,6 +2546,7 @@
   "scripts": [
    "figs.py",
    "pr_grid.tex",
+   "threshold_sweep.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -2406,13 +2557,13 @@
   ],
   "note": "78-roc-auc",
   "title": "Classification Metrics: The ROC Curve and AUC",
-  "figs": 2,
+  "figs": 4,
   "gifs": 1,
   "code": 0,
-  "words": 1155,
+  "words": 1245,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 385,
+  "secfig": 4,
+  "wpv": 249,
   "sections": [
    "1. Overview",
    "2. Probabilities and thresholds",
@@ -2422,6 +2573,7 @@
   ],
   "kp": "A classifier outputs a probability, and a threshold turns it into 0 or 1. The ROC curve shows the true positive rate against the false positive rate for every threshold. The curve helps pick the threshold, and the area u",
   "scripts": [
+   "rates_pairs.py",
    "roc.py",
    "threshold_anim.py",
    "where_this_fits.tex"
@@ -2455,16 +2607,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/lift_bowl.gif",
+   "images/degree_sweep.gif"
+  ],
   "note": "80-polynomial-logistic-regression",
   "title": "Polynomial Features in Logistic Regression",
   "figs": 1,
-  "gifs": 0,
+  "gifs": 2,
   "code": 0,
-  "words": 658,
+  "words": 783,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 658,
+  "secfig": 3,
+  "wpv": 261,
   "sections": [
    "1. Overview",
    "2. The idea",
@@ -2473,22 +2628,28 @@
   ],
   "kp": "Logistic regression draws a straight boundary. Adding powers and products of the features as new features lets the same algorithm draw curved boundaries, just as polynomial regression did for linear regression.",
   "scripts": [
+   "degree_sweep.py",
    "degrees.py",
+   "feature_count.py",
+   "lift_bowl.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/c_sweep.gif",
+   "images/max_iter.gif"
+  ],
   "note": "81-logistic-hyperparameters",
   "title": "Logistic Regression Hyperparameters",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 1117,
+  "words": 1311,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 558,
+  "secfig": 5,
+  "wpv": 218,
   "sections": [
    "1. Overview",
    "2. Regularisation",
@@ -2501,21 +2662,26 @@
   "kp": "The settings that matter most are the regularisation (C and the L1/L2 mix), the solver, max_iter and class_weight. The rest can usually stay at their defaults.",
   "scripts": [
    "c_path.py",
+   "c_sweep.py",
+   "class_weight.py",
+   "solver_runs.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/shrink_space.gif"
+  ],
   "note": "82-conditional-probability",
   "title": "Naive Bayes Foundations: Conditional Probability",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 514,
+  "words": 576,
   "nsec": 4,
   "secfig": 2,
-  "wpv": 257,
+  "wpv": 192,
   "sections": [
    "1. Overview",
    "2. The definition",
@@ -2525,6 +2691,7 @@
   "kp": "The probability of A given B, P(A | B), is the probability of A once we know B has happened. P(A | B) equals P(A \u2229 B) / P(B).",
   "scripts": [
    "dice.py",
+   "shrink_space.py",
    "venn.tex",
    "where_this_fits.tex"
   ],
@@ -2534,13 +2701,13 @@
   "gifn": [],
   "note": "83-independent-events",
   "title": "Naive Bayes Foundations: Independent Events",
-  "figs": 1,
+  "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 555,
+  "words": 629,
   "nsec": 6,
-  "secfig": 1,
-  "wpv": 555,
+  "secfig": 3,
+  "wpv": 210,
   "sections": [
    "1. Overview",
    "2. The definition",
@@ -2551,7 +2718,9 @@
   ],
   "kp": "Two events are independent when knowing one happened does not change the probability of the other: P(A | B) = P(A). Equivalently, P(A \u2229 B) = P(A) \u00d7 P(B).",
   "scripts": [
+   "dice_grid.tex",
    "independence.py",
+   "nb_product.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -2560,13 +2729,13 @@
   "gifn": [],
   "note": "84-mutually-exclusive-events",
   "title": "Naive Bayes Foundations: Mutually Exclusive Events",
-  "figs": 1,
+  "figs": 2,
   "gifs": 0,
   "code": 0,
-  "words": 326,
+  "words": 356,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 326,
+  "secfig": 2,
+  "wpv": 178,
   "sections": [
    "1. Overview",
    "2. The definition",
@@ -2576,21 +2745,24 @@
   "kp": "Two events are mutually exclusive when they cannot happen together: P(A \u2229 B) = 0. Mutual exclusivity is a different idea from independence, and the two are easily confused.",
   "scripts": [
    "compare.tex",
+   "die_faces.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/bayes_square.gif"
+  ],
   "note": "85-bayes-theorem",
   "title": "Naive Bayes Foundations: Bayes' Theorem",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 2,
+  "gifs": 1,
   "code": 0,
-  "words": 475,
+  "words": 591,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 475,
+  "secfig": 3,
+  "wpv": 197,
   "sections": [
    "1. Overview",
    "2. The theorem",
@@ -2600,6 +2772,8 @@
   ],
   "kp": "Bayes' theorem turns P(B | A) into P(A | B): P(A | B) = P(B | A) \u00d7 P(A) / P(B). Naive Bayes is this theorem plus one simplifying assumption.",
   "scripts": [
+   "bayes_square.py",
+   "dice_two_ways.py",
    "terms.tex",
    "where_this_fits.tex"
   ],
@@ -2609,13 +2783,13 @@
   "gifn": [],
   "note": "86-bayes-problem",
   "title": "Naive Bayes Foundations: A Bayes' Theorem Problem",
-  "figs": 2,
+  "figs": 4,
   "gifs": 0,
   "code": 0,
-  "words": 473,
+  "words": 519,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 236,
+  "secfig": 4,
+  "wpv": 130,
   "sections": [
    "1. Overview",
    "2. The problem",
@@ -2626,6 +2800,8 @@
   ],
   "kp": "Three machines make markers; a random marker turns out defective. Bayes' theorem, with the total probability rule for the evidence, gives the chance it came from each machine.",
   "scripts": [
+   "counts_1000.tex",
+   "nb_pattern.tex",
    "posterior.py",
    "tree.tex",
    "where_this_fits.tex"
@@ -2633,16 +2809,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/joint_filter.gif"
+  ],
   "note": "87-naive-bayes-intuition",
   "title": "Naive Bayes: The Intuition",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 715,
+  "words": 818,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 358,
+  "secfig": 5,
+  "wpv": 164,
   "sections": [
    "1. Overview",
    "2. The data",
@@ -2654,6 +2832,8 @@
   ],
   "kp": "Naive Bayes computes, for each class, the probability of that class given the features, using Bayes' theorem, and predicts the class with the largest one. To make this possible, it assumes the features are independent wi",
   "scripts": [
+   "evidence.tex",
+   "joint_vs_naive.py",
    "scores.py",
    "table.tex",
    "where_this_fits.tex"
@@ -2664,13 +2844,13 @@
   "gifn": [],
   "note": "88-naive-bayes-maths",
   "title": "Naive Bayes: The Mathematics",
-  "figs": 2,
+  "figs": 4,
   "gifs": 0,
   "code": 0,
-  "words": 677,
+  "words": 727,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 338,
+  "secfig": 4,
+  "wpv": 182,
   "sections": [
    "1. Overview",
    "2. Notation",
@@ -2684,21 +2864,26 @@
   "scripts": [
    "chain.tex",
    "duplicate.py",
+   "naive_graph.tex",
+   "notation.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/belief_sunny.gif",
+   "images/belief_overcast.gif"
+  ],
   "note": "89-naive-bayes-code",
   "title": "Naive Bayes: A Worked Example in Code",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 2,
   "code": 0,
-  "words": 643,
+  "words": 750,
   "nsec": 7,
-  "secfig": 1,
-  "wpv": 643,
+  "secfig": 5,
+  "wpv": 150,
   "sections": [
    "1. Overview",
    "2. The data",
@@ -2710,22 +2895,26 @@
   ],
   "kp": "Training Naive Bayes means building a lookup table of probabilities by counting. Predicting means looking up one probability per feature and multiplying.",
   "scripts": [
+   "belief.py",
    "lookup.py",
+   "phases.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/score_build.gif"
+  ],
   "note": "90-gaussian-naive-bayes",
   "title": "Naive Bayes with Numerical Data: Gaussian Naive Bayes",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 619,
+  "words": 719,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 619,
+  "secfig": 4,
+  "wpv": 180,
   "sections": [
    "1. Overview",
    "2. The problem",
@@ -2735,22 +2924,28 @@
   ],
   "kp": "Numerical features rarely repeat exactly, so counting fails. Gaussian Naive Bayes assumes each feature follows a normal distribution within each class, and uses the normal curve's height (density) in place of a counted p",
   "scripts": [
+   "count_fails.py",
    "gaussians.py",
+   "nb_variants.tex",
+   "score_build.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/knn_vote.gif",
+   "images/knn_k_sweep.gif"
+  ],
   "note": "91-knn",
   "title": "K-Nearest Neighbours (KNN)",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 2,
   "code": 0,
-  "words": 2834,
+  "words": 2904,
   "nsec": 7,
-  "secfig": 4,
-  "wpv": 708,
+  "secfig": 5,
+  "wpv": 484,
   "sections": [
    "1. Overview",
    "2. How KNN predicts",
@@ -2765,6 +2960,8 @@
    "decision_surface.py",
    "k_accuracy.py",
    "k_surfaces.py",
+   "knn_k_sweep.py",
+   "knn_vote.py",
    "predict_time.py",
    "where_this_fits.tex"
   ],
@@ -2831,16 +3028,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/c_sweep.gif"
+  ],
   "note": "94-svm-soft-margin",
   "title": "Soft-Margin SVM: Slack, Hinge Loss and C",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1470,
+  "words": 1491,
   "nsec": 8,
   "secfig": 4,
-  "wpv": 368,
+  "wpv": 373,
   "sections": [
    "1. Overview",
    "2. Why the hard margin is not enough",
@@ -2853,6 +3052,7 @@
   ],
   "kp": "Soft-margin SVM lets some points break the rules, but charges for it. Its loss adds a margin error and C times a classification error; C sets the balance.",
   "scripts": [
+   "c_sweep.py",
    "figs.py",
    "loss_parts.tex",
    "where_this_fits.tex"
@@ -2889,16 +3089,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/lift_3d.gif",
+   "images/gamma_sweep.gif"
+  ],
   "note": "96-kernel-trick-code",
   "title": "The Kernel Trick in Code",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 1398,
+  "words": 1554,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 699,
+  "secfig": 5,
+  "wpv": 259,
   "sections": [
    "1. Overview",
    "2. The data: two circles",
@@ -2909,9 +3112,13 @@
    "7. Why it is a trick",
    "8. An interactive playground"
   ],
-  "kp": "On data shaped as two circles, a linear SVM scores 55%. Switching the kernel to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.",
+  "kp": "On data shaped as two circles, a linear SVM scores 55%. Switching the **kernel** (G-1009) to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.",
   "scripts": [
+   "degree2_space.py",
    "figs.py",
+   "gamma_sweep.py",
+   "kernel_routes.tex",
+   "lift_3d.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -2953,16 +3160,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/depth_sweep.gif"
+  ],
   "note": "98-decision-tree-hyperparameters",
   "title": "Decision Tree Hyperparameters: Overfitting and Underfitting",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 2161,
+  "words": 2197,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 720,
+  "wpv": 549,
   "sections": [
    "1. Overview",
    "2. Overfitting and underfitting in a tree",
@@ -2972,6 +3181,7 @@
   ],
   "kp": "A decision tree left alone grows until every leaf is pure, which overfits. Its hyperparameters are brakes: each one stops the tree earlier, and too much braking underfits.",
   "scripts": [
+   "depth_sweep.py",
    "figs.py",
    "fit_trees.tex",
    "where_this_fits.tex"
@@ -3016,10 +3226,10 @@
   "figs": 7,
   "gifs": 0,
   "code": 0,
-  "words": 1824,
+  "words": 1845,
   "nsec": 7,
   "secfig": 5,
-  "wpv": 261,
+  "wpv": 264,
   "sections": [
    "1. Overview",
    "2. The problem with the default tree drawing",
@@ -3038,16 +3248,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/crowd_of_lines.gif"
+  ],
   "note": "101-ensemble-learning",
   "title": "Introduction to Ensemble Learning",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1936,
+  "words": 2141,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 645,
+  "secfig": 5,
+  "wpv": 306,
   "sections": [
    "1. Overview",
    "2. The wisdom of the crowd",
@@ -3059,24 +3271,30 @@
   ],
   "kp": "An ensemble trains several different models and combines their answers: a majority vote for classification, a mean for regression. The combined model is usually better than any one of them.",
   "scripts": [
+   "cost_benefit.py",
+   "crowd_of_lines.py",
    "ensemble_idea.tex",
    "ensemble_types.tex",
+   "same_vs_different.py",
+   "vote_and_mean.tex",
    "where_this_fits.tex",
    "why_it_works.py"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/vote_vs_p.gif"
+  ],
   "note": "102-voting-ensemble",
   "title": "Voting Ensemble: Why Majority Voting Works",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 945,
+  "words": 1085,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 472,
+  "secfig": 4,
+  "wpv": 217,
   "sections": [
    "1. Overview",
    "2. The core idea",
@@ -3088,21 +3306,26 @@
   "scripts": [
    "majority_vote.py",
    "prob_tree.tex",
+   "puzzle_bars.py",
+   "train_predict.tex",
+   "vote_vs_p.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/vote_tally.gif"
+  ],
   "note": "103-voting-classifier",
   "title": "Voting Classifier: Hard and Soft Voting",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1803,
+  "words": 1980,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 902,
+  "secfig": 4,
+  "wpv": 330,
   "sections": [
    "1. Overview",
    "2. The core idea, on decision surfaces",
@@ -3114,21 +3337,27 @@
   "scripts": [
    "hard_soft_surfaces.py",
    "hard_vs_soft.tex",
+   "heart_votes.py",
+   "svm_degrees.py",
+   "vote_tally.py",
+   "voting_surfaces.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/voting_scan.gif"
+  ],
   "note": "104-voting-regressor",
   "title": "Voting Regressor",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1300,
+  "words": 1410,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 1300,
+  "secfig": 3,
+  "wpv": 282,
   "sections": [
    "1. Overview",
    "2. The core idea",
@@ -3137,7 +3366,9 @@
   ],
   "kp": "A voting regressor trains several regressors on the same data and predicts the mean of their outputs, or a weighted mean if we give weights.",
   "scripts": [
+   "boston_votes.py",
    "voting_fit.py",
+   "voting_scan.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -3174,16 +3405,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/bagging_grows.gif"
+  ],
   "note": "106-bagging-classifier",
   "title": "Bagging Classifier",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1491,
+  "words": 1742,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 1491,
+  "secfig": 4,
+  "wpv": 348,
   "sections": [
    "1. Overview",
    "2. Seeing bagging on decision surfaces",
@@ -3193,22 +3426,28 @@
   ],
   "kp": "scikit-learn's `BaggingClassifier` trains many copies of one classifier on random samples of the observations and/or features and takes their majority vote. Its settings choose the type: bagging, pasting, random subspace",
   "scripts": [
+   "bag_vs_paste.py",
+   "bagging_grows.py",
    "bagging_types_surfaces.py",
+   "oob_share.py",
+   "variants_bars.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/bagging_curve_grows.gif"
+  ],
   "note": "107-bagging-regressor",
   "title": "Bagging Regressor",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1013,
+  "words": 1321,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 1013,
+  "secfig": 3,
+  "wpv": 330,
   "sections": [
    "1. Overview",
    "2. The core idea",
@@ -3217,22 +3456,27 @@
   ],
   "kp": "A bagging regressor works exactly like a bagging classifier, except that aggregation takes the mean of the base models' numbers instead of a majority vote.",
   "scripts": [
+   "aggregation_mean.py",
+   "bagging_curve_grows.py",
+   "boston_splits.py",
    "tree_vs_bagging.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/forest_grows.gif"
+  ],
   "note": "108-random-forest-intro",
   "title": "Introduction to Random Forest",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1178,
+  "words": 1389,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 1178,
+  "secfig": 3,
+  "wpv": 347,
   "sections": [
    "1. Overview",
    "2. Why random forests are so popular",
@@ -3242,22 +3486,27 @@
   ],
   "kp": "A random forest trains many decision trees, each on a random part of the data, and combines their answers by majority vote (classification) or mean (regression).",
   "scripts": [
+   "forest_grows.py",
    "forest_overview.tex",
+   "forest_votes.py",
+   "hand_votes.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/resample_variance.gif"
+  ],
   "note": "109-random-forest-bias-variance",
   "title": "Why Random Forests Work: Bias and Variance",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 884,
+  "words": 991,
   "nsec": 4,
-  "secfig": 2,
-  "wpv": 442,
+  "secfig": 3,
+  "wpv": 330,
   "sections": [
    "1. Overview",
    "2. Why a forest lowers the variance",
@@ -3267,6 +3516,7 @@
   "kp": "A random forest takes fully grown trees, which have low bias and high variance, and averages away most of the variance. The result has low bias and low variance, the combination single models rarely reach.",
   "scripts": [
    "figs.py",
+   "resample_variance.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -3277,38 +3527,42 @@
   ],
   "note": "110-bagging-vs-random-forest",
   "title": "Bagging vs Random Forest",
-  "figs": 1,
+  "figs": 3,
   "gifs": 1,
   "code": 0,
-  "words": 1223,
+  "words": 1372,
   "nsec": 4,
-  "secfig": 2,
-  "wpv": 612,
+  "secfig": 4,
+  "wpv": 343,
   "sections": [
    "1. Overview",
    "2. Difference 1: the base model",
    "3. Difference 2: tree-level against node-level feature sampling",
    "4. Checking it in code"
   ],
-  "kp": "Two differences: bagging can use any base model while a random forest always uses decision trees; and bagging samples features once per tree while a random forest samples them again at every node.",
+  "kp": "Two differences: bagging can use any **base model** (G-260) while a random forest always uses decision trees; and bagging samples features once per tree while a random forest samples them again at every node.",
   "scripts": [
+   "base_model.tex",
    "column_sampling.py",
    "columns_used.py",
+   "corr_variance.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/trees_sweep.gif"
+  ],
   "note": "111-random-forest-hyperparameters",
   "title": "Random Forest Hyperparameters",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1628,
+  "words": 1809,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 814,
+  "secfig": 4,
+  "wpv": 362,
   "sections": [
    "1. Overview",
    "2. The three groups",
@@ -3320,7 +3574,10 @@
   "kp": "A random forest's hyperparameters fall into three groups: four that shape the forest, the usual decision tree settings for each tree, and a few general ones. Only the first group is new.",
   "scripts": [
    "forest_settings.py",
+   "pruning.py",
    "three_groups.tex",
+   "trees_sweep.py",
+   "warm_start.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -3329,13 +3586,13 @@
   "gifn": [],
   "note": "112-random-forest-tuning",
   "title": "Tuning a Random Forest: GridSearchCV and RandomizedSearchCV",
-  "figs": 2,
+  "figs": 6,
   "gifs": 0,
   "code": 0,
-  "words": 1820,
+  "words": 2089,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 910,
+  "secfig": 6,
+  "wpv": 348,
   "sections": [
    "1. Overview",
    "2. The heart disease data",
@@ -3347,7 +3604,11 @@
   ],
   "kp": "A random forest is strong out of the box. A grid search or a randomized search, scored by cross-validation, tunes its hyperparameters systematically; on a small dataset like ours, the tuned forest does no better than the",
   "scripts": [
+   "cv_folds.py",
+   "max_samples_curve.py",
    "model_comparison.py",
+   "nested_cv.py",
+   "search_trap.py",
    "search_types.tex",
    "where_this_fits.tex"
   ],
@@ -3355,17 +3616,18 @@
  },
  {
   "gifn": [
-   "images/oob_vote.gif"
+   "images/oob_vote.gif",
+   "images/bootstrap_draw.gif"
   ],
   "note": "113-oob-score",
   "title": "OOB Score: Out-of-Bag Evaluation",
-  "figs": 1,
-  "gifs": 1,
+  "figs": 3,
+  "gifs": 2,
   "code": 0,
-  "words": 1432,
+  "words": 1548,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 716,
+  "secfig": 5,
+  "wpv": 310,
   "sections": [
    "1. Overview",
    "2. Out-of-bag observations",
@@ -3377,23 +3639,28 @@
   ],
   "kp": "Each tree in a forest never sees about 37% of the training observations. Predicting every observation with only the trees that never saw it, and scoring those predictions, gives a free estimate of how the forest will do ",
   "scripts": [
+   "bootstrap_draw.py",
+   "oob_table.py",
    "oob_vote.py",
+   "oob_vs_cv.py",
    "oob_vs_trees.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/permutation_shuffle.gif"
+  ],
   "note": "114-feature-importance",
   "title": "Feature Importance with Decision Trees and Random Forests",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1715,
+  "words": 1834,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 572,
+  "secfig": 5,
+  "wpv": 367,
   "sections": [
    "1. Overview",
    "2. What feature importance is for",
@@ -3405,9 +3672,11 @@
   ],
   "kp": "A trained random forest gives every **feature** (input variable, one column of the data table) a score, its feature importance: the share of all the impurity reduction its splits achieved, averaged over the trees. The sc",
   "scripts": [
+   "forest_stability.py",
    "importance_tree.tex",
    "mdi_vs_permutation.py",
    "mnist_importance.py",
+   "permutation_shuffle.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -3443,16 +3712,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/weight_update.gif",
+   "images/adaboost_stages.gif"
+  ],
   "note": "116-adaboost-step-by-step",
   "title": "AdaBoost Step by Step",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 1592,
+  "words": 1750,
   "nsec": 10,
-  "secfig": 3,
-  "wpv": 531,
+  "secfig": 6,
+  "wpv": 292,
   "sections": [
    "1. Overview",
    "2. The toy data",
@@ -3467,24 +3739,29 @@
   ],
   "kp": "One AdaBoost stage, in seven steps: give the observations weights, fit a stump, add up the weights it got wrong, turn that error into a say alpha, raise the weights of the mistakes and lower the rest, normalise, and draw",
   "scripts": [
+   "adaboost_stages.py",
    "alpha_curve.py",
    "ranges.tex",
    "stage_loop.tex",
+   "toy_data.py",
+   "weight_update.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/weights_stages.gif"
+  ],
   "note": "117-adaboost-from-scratch",
   "title": "AdaBoost from Scratch in Python",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 7,
+  "gifs": 1,
   "code": 0,
-  "words": 1564,
+  "words": 1851,
   "nsec": 10,
-  "secfig": 2,
-  "wpv": 782,
+  "secfig": 8,
+  "wpv": 231,
   "sections": [
    "1. Overview",
    "2. The data",
@@ -3500,21 +3777,25 @@
   "kp": "We code three stages of AdaBoost by hand on 10 observations: weights, stump, error, alpha, weight update, normalisation and upsampling, then the weighted vote. The result matches the steps of the step-by-step Note.",
   "scripts": [
    "figs.py",
+   "steps.py",
+   "weights_stages.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/grow.gif"
+  ],
   "note": "118-adaboost-hyperparameters",
   "title": "AdaBoost Hyperparameters and Tuning",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1625,
+  "words": 1848,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 812,
+  "secfig": 5,
+  "wpv": 308,
   "sections": [
    "1. Overview",
    "2. The hyperparameters of AdaBoostClassifier",
@@ -3522,24 +3803,29 @@
    "4. learning_rate: shrinkage",
    "5. Tuning with GridSearchCV"
   ],
-  "kp": "AdaBoost has few hyperparameters. The two that matter are `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, and a grid search tunes them together.",
+  "kp": "AdaBoost has few **hyperparameters** (G-910), settings we choose before training. The two that matter are `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each o",
   "scripts": [
    "figs.py",
+   "grow.py",
+   "knobs.tex",
+   "tuning.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/parallel_vs_sequential.gif"
+  ],
   "note": "119-bagging-vs-boosting",
   "title": "Bagging vs Boosting",
   "figs": 1,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 837,
+  "words": 947,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 837,
+  "secfig": 2,
+  "wpv": 474,
   "sections": [
    "1. Overview",
    "2. Difference 1: the type of base model",
@@ -3549,23 +3835,26 @@
   "kp": "Bagging and boosting differ on three points: the kind of base model (low bias and high variance, against high bias and low variance), the way they learn (in parallel, against in sequence), and the weight of each base mod",
   "scripts": [
    "parallel_sequential.tex",
+   "parallel_vs_sequential.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/residual_fitting.gif"
+   "images/five_students.gif",
+   "images/residual_fitting.gif",
+   "images/lr_race.gif"
   ],
   "note": "120-gradient-boosting-intuition",
   "title": "Gradient Boosting: the Intuition",
-  "figs": 3,
-  "gifs": 1,
+  "figs": 7,
+  "gifs": 3,
   "code": 0,
-  "words": 1932,
+  "words": 2189,
   "nsec": 13,
-  "secfig": 3,
-  "wpv": 483,
+  "secfig": 9,
+  "wpv": 219,
   "sections": [
    "1. Overview",
    "2. Boosting passes mistakes forward",
@@ -3583,25 +3872,31 @@
   ],
   "kp": "Gradient boosting starts with the mean as its first guess. Then, again and again, it trains a small regression tree on the current mistakes (the residuals) and adds a small part of that tree to the model.",
   "scripts": [
+   "five_students.py",
+   "lr_race.py",
    "residual_fitting.py",
    "stage_loop.tex",
    "stages.py",
+   "steps.py",
    "toy_tree.tex",
+   "two_ways.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/best_constant.gif"
+  ],
   "note": "121-gradient-boosting-regression-maths",
   "title": "Gradient Boosting for Regression: the Maths",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1904,
+  "words": 2104,
   "nsec": 10,
-  "secfig": 3,
-  "wpv": 635,
+  "secfig": 7,
+  "wpv": 301,
   "sections": [
    "1. Overview",
    "2. A model is a function",
@@ -3617,22 +3912,26 @@
   "kp": "Gradient boosting is one algorithm with three steps: start from the best constant, then repeatedly compute pseudo-residuals, fit a tree to them and give each leaf its best value, and finally output the sum.",
   "scripts": [
    "algorithm.tex",
+   "best_constant.py",
    "figs.py",
+   "steps.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/prob_climb.gif"
+  ],
   "note": "122-gradient-boosting-classification",
   "title": "Gradient Boosting for Classification",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 8,
+  "gifs": 1,
   "code": 0,
-  "words": 1845,
+  "words": 2057,
   "nsec": 12,
-  "secfig": 3,
-  "wpv": 461,
+  "secfig": 8,
+  "wpv": 229,
   "sections": [
    "1. Overview",
    "2. One algorithm, a different loss",
@@ -3650,23 +3949,27 @@
   "kp": "Classification uses the same gradient boosting algorithm with the log loss. The model works in log-odds: it starts from the log-odds of class 1, turns log-odds into probabilities with the sigmoid, fits trees to the resid",
   "scripts": [
    "figs.py",
+   "prob_climb.py",
    "stage_loop.tex",
+   "steps.py",
    "tree1.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/split_bins.gif"
+  ],
   "note": "123-xgboost-intro",
   "title": "Introduction to XGBoost",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 8,
+  "gifs": 1,
   "code": 0,
-  "words": 3345,
+  "words": 3595,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 836,
+  "secfig": 6,
+  "wpv": 399,
   "sections": [
    "1. Overview",
    "2. Why so many algorithms?",
@@ -3680,25 +3983,35 @@
   ],
   "kp": "XGBoost is not a new algorithm: it is a library that takes gradient boosting and adds many optimisations, for flexibility, speed and performance.",
   "scripts": [
+   "bigdata.tex",
+   "eras.tex",
+   "history.tex",
+   "languages.tex",
    "missing.tex",
    "overview.tex",
    "parallel.tex",
+   "split_bins.py",
    "timing.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/split_search.gif",
+   "images/next_trees.gif",
+   "images/lambda_shrink.gif",
+   "images/gamma_prune.gif"
+  ],
   "note": "124-xgboost-regression",
   "title": "XGBoost for Regression",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 4,
   "code": 0,
-  "words": 1889,
+  "words": 2111,
   "nsec": 14,
-  "secfig": 4,
-  "wpv": 472,
+  "secfig": 9,
+  "wpv": 235,
   "sections": [
    "1. Overview",
    "2. The data: CGPA and package",
@@ -3719,23 +4032,30 @@
   "scripts": [
    "final_tree.tex",
    "flow.tex",
+   "next_trees.py",
+   "regularise.py",
    "root_splits.tex",
+   "similarity.py",
+   "split_search.py",
    "stages.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/split_search.gif",
+   "images/next_trees.gif"
+  ],
   "note": "125-xgboost-classification",
   "title": "XGBoost for Classification",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 2,
   "code": 0,
-  "words": 1215,
+  "words": 1418,
   "nsec": 11,
-  "secfig": 2,
-  "wpv": 608,
+  "secfig": 7,
+  "wpv": 203,
   "sections": [
    "1. Overview",
    "2. The data: CGPA and placement",
@@ -3751,23 +4071,27 @@
   ],
   "kp": "XGBoost classifies like gradient boosting for classification: start from the log-odds, turn it into a probability, fit trees to the residuals $y - p$, and add their outputs in log-odds. Its trees use the similarity score",
   "scripts": [
+   "animations.py",
    "probs.py",
+   "stills.py",
    "tree.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/newton_leaf.gif"
+  ],
   "note": "126-xgboost-maths",
   "title": "The Maths Behind XGBoost",
-  "figs": 5,
-  "gifs": 0,
+  "figs": 9,
+  "gifs": 1,
   "code": 0,
-  "words": 2542,
+  "words": 2783,
   "nsec": 14,
-  "secfig": 5,
-  "wpv": 508,
+  "secfig": 9,
+  "wpv": 278,
   "sections": [
    "1. Overview",
    "2. A boosting model is a sum of functions",
@@ -3787,6 +4111,8 @@
   "kp": "XGBoost's formulas all come from one calculation: write the objective (loss + a penalty on the new tree), approximate it with a second-order Taylor series, group the observations (the records of the data) by leaf, and mi",
   "scripts": [
    "figs.py",
+   "newton_leaf.py",
+   "objective_figs.py",
    "regroup.tex",
    "roadmap.tex",
    "where_this_fits.tex"
@@ -3856,16 +4182,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/kmeans_start.gif"
+  ],
   "note": "129-kmeans-code",
   "title": "K-Means in Python with scikit-learn",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1028,
+  "words": 1117,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 343,
+  "secfig": 5,
+  "wpv": 223,
   "sections": [
    "1. Overview",
    "3. The student data",
@@ -3877,22 +4205,26 @@
   ],
   "kp": "With scikit-learn, k-means takes a few lines: plot the elbow curve with `inertia_`, pick k, call `fit_predict`, and colour the points by cluster.",
   "scripts": [
+   "boolean_index.tex",
    "charts.py",
+   "kmeans_start.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/kmeans_rounds.gif"
+  ],
   "note": "130-kmeans-from-scratch",
   "title": "K-Means from Scratch in Python",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1311,
+  "words": 1443,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 437,
+  "secfig": 7,
+  "wpv": 206,
   "sections": [
    "1. Overview",
    "3. The shape of the class",
@@ -3903,10 +4235,12 @@
    "8. Testing the class",
    "9. Bad random starts"
   ],
-  "kp": "We write k-means ourselves as a class with one public method, `fit_predict`, and two helpers: `assign_clusters` (step 3) and `move_centroids` (step 4).",
+  "kp": "We write k-means (G-996) ourselves as a class with one public method, `fit_predict`, and two helpers: `assign_clusters` (step 3) and `move_centroids` (step 4).",
   "scripts": [
    "charts.py",
    "class_flow.tex",
+   "distance.tex",
+   "steps.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -4023,17 +4357,18 @@
  },
  {
   "gifn": [
-   "images/bayes_search.gif"
+   "images/bayes_search.gif",
+   "images/algorithm_race.gif"
   ],
   "note": "134-optuna",
   "title": "Hyperparameter Tuning with Optuna: Bayesian Optimisation",
-  "figs": 6,
-  "gifs": 1,
+  "figs": 8,
+  "gifs": 2,
   "code": 0,
-  "words": 3316,
+  "words": 3413,
   "nsec": 9,
-  "secfig": 4,
-  "wpv": 474,
+  "secfig": 7,
+  "wpv": 341,
   "sections": [
    "1. Overview",
    "2. Why grid search and random search are not enough",
@@ -4050,6 +4385,7 @@
    "bayes_search.py",
    "optuna_plots.py",
    "overview.tex",
+   "search_pics.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -4058,13 +4394,13 @@
   "gifn": [],
   "note": "210-statistics-roadmap",
   "title": "Statistics Roadmap for Machine Learning",
-  "figs": 1,
+  "figs": 2,
   "gifs": 0,
   "code": 0,
-  "words": 823,
+  "words": 849,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 823,
+  "secfig": 2,
+  "wpv": 424,
   "sections": [
    "1. Overview",
    "2. Why ML needs statistics",
@@ -4073,22 +4409,25 @@
   ],
   "kp": "Statistics for ML splits into four modules: descriptive statistics, probability distributions, inferential statistics, and a few miscellaneous tools.",
   "scripts": [
+   "module_gallery.tex",
    "roadmap.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/sample_mean_walk.gif"
+  ],
   "note": "220-what-is-statistics",
   "title": "What Is Statistics: Population, Sample and Types of Data",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1421,
+  "words": 1478,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 710,
+  "secfig": 3,
+  "wpv": 493,
   "sections": [
    "1. Overview",
    "2. What statistics is",
@@ -4101,21 +4440,24 @@
   "scripts": [
    "data_types.tex",
    "population_sample.tex",
+   "sample_mean_walk.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/salary_drag.gif"
+  ],
   "note": "221-measures-of-central-tendency",
   "title": "Measures of Central Tendency",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1528,
+  "words": 1565,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 764,
+  "secfig": 5,
+  "wpv": 313,
   "sections": [
    "1. Overview",
    "2. What central tendency means",
@@ -4129,22 +4471,26 @@
   "kp": "A measure of central tendency gives one number for the centre of a feature; the mean, median, mode, weighted mean and trimmed mean each suit different data.",
   "scripts": [
    "measure_chooser.tex",
+   "mode_weighted.py",
    "outlier_effect.py",
+   "salary_drag.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/outlier_growth.gif"
+  ],
   "note": "222-measures-of-dispersion",
   "title": "Measures of Dispersion",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1503,
+  "words": 1603,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 501,
+  "secfig": 7,
+  "wpv": 229,
   "sections": [
    "1. Overview",
    "2. Why the centre is not enough",
@@ -4154,11 +4500,12 @@
    "6. Standard deviation",
    "7. Coefficient of variation"
   ],
-  "kp": "A measure of dispersion says how spread out a feature is around its centre: range, variance, mean absolute deviation, standard deviation and coefficient of variation each do this differently.",
+  "kp": "A measure of dispersion (G-1206) says how spread out a feature is around its centre: range, variance (G-2078), mean absolute deviation (G-1193), standard deviation (G-1871) and coefficient of variation (G-408) each do th",
   "scripts": [
    "bessel.py",
    "cv_compare.py",
    "deviations.tex",
+   "spread_pics.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -4282,17 +4629,18 @@
  },
  {
   "gifn": [
-   "images/cdf_build.gif"
+   "images/cdf_build.gif",
+   "images/pmf_settles.gif"
   ],
   "note": "241-pmf-and-discrete-cdf",
   "title": "Probability Mass Function and the CDF of a Discrete Variable",
-  "figs": 2,
-  "gifs": 1,
+  "figs": 6,
+  "gifs": 2,
   "code": 0,
-  "words": 1332,
+  "words": 1461,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 444,
+  "secfig": 7,
+  "wpv": 183,
   "sections": [
    "1. Overview",
    "2. The probability mass function",
@@ -4302,10 +4650,11 @@
    "6. Two famous discrete distributions",
    "7. The cumulative distribution function of a discrete variable"
   ],
-  "kp": "The PMF gives the probability of each exact value of a discrete random variable; the CDF adds those probabilities up, giving the probability of a value at most $x$.",
+  "kp": "The PMF gives the probability of each exact value of a discrete random variable (G-617); the CDF adds those probabilities up, giving the probability of a value at most $x$.",
   "scripts": [
    "cdf_build.py",
    "pmf_cdf.py",
+   "pmf_pics.py",
    "pmf_simulated.py",
    "where_this_fits.tex"
   ],
@@ -4313,17 +4662,19 @@
  },
  {
   "gifn": [
-   "images/hist_to_density.gif"
+   "images/hist_to_density.gif",
+   "images/shrink_strip.gif",
+   "images/slope_is_pdf.gif"
   ],
   "note": "242-pdf-and-continuous-cdf",
   "title": "Probability Density Function and the CDF of a Continuous Variable",
-  "figs": 2,
-  "gifs": 1,
+  "figs": 4,
+  "gifs": 3,
   "code": 0,
-  "words": 1483,
+  "words": 1596,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 494,
+  "secfig": 7,
+  "wpv": 228,
   "sections": [
    "1. Overview",
    "2. The probability density function",
@@ -4337,6 +4688,7 @@
   "kp": "For a continuous random variable the probability of any single exact value is 0, so the PDF's height is a density, and probabilities are areas under it; the CDF is the area to the left of $x$.",
   "scripts": [
    "area_probability.py",
+   "density_pics.py",
    "hist_to_density.py",
    "pdf_cdf_heights.py",
    "where_this_fits.tex"
@@ -4344,16 +4696,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/kde_anim.gif"
+  ],
   "note": "243-density-estimation-kde",
   "title": "Density Estimation: Parametric and Kernel Density Estimation",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 2274,
+  "words": 2315,
   "nsec": 6,
   "secfig": 3,
-  "wpv": 568,
+  "wpv": 463,
   "sections": [
    "1. Overview",
    "2. What density estimation is",
@@ -4365,6 +4719,7 @@
   "kp": "Density estimation builds a PDF from data: either assume a famous distribution and estimate its parameters, or build the curve from every data point with a kernel density estimate.",
   "scripts": [
    "estimation_paths.tex",
+   "kde_anim.py",
    "kde_bandwidth.py",
    "kde_build.py",
    "parametric_fit.py",
@@ -4374,17 +4729,18 @@
  },
  {
   "gifn": [
+   "images/param_sweep.gif",
    "images/pdf_build.gif"
   ],
   "note": "250-normal-distribution",
   "title": "The Normal Distribution",
-  "figs": 2,
-  "gifs": 1,
+  "figs": 3,
+  "gifs": 2,
   "code": 0,
-  "words": 1459,
+  "words": 1520,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 486,
+  "secfig": 5,
+  "wpv": 304,
   "sections": [
    "1. Overview",
    "2. What the normal distribution is",
@@ -4398,22 +4754,26 @@
   "scripts": [
    "bell_anatomy.py",
    "normal_cdf.py",
+   "param_sweep.py",
    "pdf_build.py",
+   "properties.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/squash_to_z.gif"
+  ],
   "note": "251-standard-normal-and-z-table",
   "title": "The Standard Normal Distribution and the Z-table",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1245,
+  "words": 1312,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 415,
+  "secfig": 4,
+  "wpv": 328,
   "sections": [
    "1. Overview",
    "2. The standard normal distribution",
@@ -4426,6 +4786,7 @@
   "kp": "Standardizing turns any normal distribution into the standard normal distribution $N(0, 1)$; one table of its areas, the z-table, then answers probability questions about every normal variable.",
   "scripts": [
    "one_sd_area.py",
+   "squash_to_z.py",
    "standardize.py",
    "where_this_fits.tex",
    "z_table.py"
@@ -4433,16 +4794,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/skew_sweep.gif"
+  ],
   "note": "252-skewness",
   "title": "Skewness in Depth",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1122,
+  "words": 1234,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 561,
+  "secfig": 3,
+  "wpv": 411,
   "sections": [
    "1. Overview",
    "2. Skewness as distance from the normal shape",
@@ -4455,6 +4818,7 @@
   "scripts": [
    "skew_order.py",
    "skew_scale.tex",
+   "skew_sweep.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -4573,16 +4937,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/galton_binomial.gif"
+  ],
   "note": "270-bernoulli-and-binomial",
   "title": "Bernoulli and Binomial Distributions",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1684,
+  "words": 1750,
   "nsec": 8,
   "secfig": 4,
-  "wpv": 421,
+  "wpv": 350,
   "sections": [
    "1. Overview",
    "2. The Bernoulli distribution",
@@ -4598,6 +4964,7 @@
    "bernoulli_pmf.py",
    "bernoulli_to_binomial.tex",
    "binomial_shapes.py",
+   "galton_binomial.py",
    "likes_tree.tex",
    "where_this_fits.tex"
   ],
@@ -4605,17 +4972,18 @@
  },
  {
   "gifn": [
-   "images/clt_pileup.gif"
+   "images/clt_pileup.gif",
+   "images/running_check.gif"
   ],
   "note": "271-sampling-distribution-and-clt",
   "title": "Sampling Distributions and the Central Limit Theorem",
-  "figs": 3,
-  "gifs": 1,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 2247,
+  "words": 2318,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 562,
+  "secfig": 5,
+  "wpv": 386,
   "sections": [
    "1. Overview",
    "2. Population and sample, in brief",
@@ -4629,23 +4997,27 @@
   "scripts": [
    "clt_pileup.py",
    "clt_populations.py",
+   "running_check.py",
    "sample_size_effect.py",
    "sampling_distribution.tex",
+   "three_samples.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/fare_sampling.gif"
+  ],
   "note": "272-estimating-a-mean-with-the-clt",
   "title": "Estimating a Population Mean with the Central Limit Theorem",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1581,
+  "words": 1701,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 790,
+  "secfig": 6,
+  "wpv": 284,
   "sections": [
    "1. Overview",
    "2. The population: every Titanic passenger",
@@ -4660,21 +5032,27 @@
   "scripts": [
    "fare_clt.py",
    "fare_intervals.py",
+   "fare_sampling.py",
+   "income_template.tex",
+   "one_sample_wedge.py",
+   "ranges.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/derivation.gif"
+  ],
   "note": "280-confidence-intervals-z-procedure",
   "title": "Confidence Intervals and the Z-procedure",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1923,
+  "words": 2049,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 641,
+  "secfig": 6,
+  "wpv": 342,
   "sections": [
    "1. Overview",
    "2. Terms we build on",
@@ -4690,22 +5068,27 @@
   "scripts": [
    "ci_anatomy.tex",
    "critical_values.py",
+   "derivation.py",
    "error_bars.py",
-   "where_this_fits.tex"
+   "terms.tex",
+   "where_this_fits.tex",
+   "z_vs_t_widths.py"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/coverage_drop.gif"
+  ],
   "note": "281-interpreting-confidence-intervals",
   "title": "Interpreting Confidence Intervals",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1320,
+  "words": 1355,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 660,
+  "secfig": 3,
+  "wpv": 452,
   "sections": [
    "1. Overview",
    "2. What \"95% confident\" means",
@@ -4716,22 +5099,25 @@
   "kp": "\"95% confidence\" describes the method: if we repeated the sampling many times, about 95% of the intervals built would contain the population mean.",
   "scripts": [
    "coverage.py",
+   "coverage_drop.py",
    "margin_factors.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/t_df_sweep.gif"
+  ],
   "note": "282-t-procedure",
   "title": "Confidence Intervals with the T-procedure",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1762,
+  "words": 1919,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 587,
+  "secfig": 6,
+  "wpv": 274,
   "sections": [
    "1. Overview",
    "2. Why $\\sigma$ is rarely known",
@@ -4744,6 +5130,10 @@
   ],
   "kp": "When the population standard deviation $\\sigma$ is unknown, we use the sample standard deviation $s$ and take the critical value from Student's t-distribution instead of the standard normal curve.",
   "scripts": [
+   "fare_intervals.py",
+   "independence.py",
+   "t_critical.py",
+   "t_df_sweep.py",
    "t_vs_normal.py",
    "where_this_fits.tex",
    "z_or_t.tex",
@@ -4755,13 +5145,13 @@
   "gifn": [],
   "note": "290-null-and-alternative-hypotheses",
   "title": "Null and Alternative Hypotheses",
-  "figs": 2,
+  "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 1780,
+  "words": 1856,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 890,
+  "secfig": 5,
+  "wpv": 371,
   "sections": [
    "1. Overview",
    "2. The problem hypothesis testing solves",
@@ -4772,23 +5162,31 @@
   ],
   "kp": "A hypothesis test turns an idea into two opposite statements, the null and the alternative hypothesis, and asks whether a sample gives strong enough evidence against the null.",
   "scripts": [
+   "courtroom.tex",
+   "hypothesis_lines.tex",
    "hypothesis_overview.tex",
+   "lessons.py",
    "test_steps.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/alpha_after.gif",
+   "images/count_se.gif",
+   "images/find_critical.gif",
+   "images/z_drops.gif"
+  ],
   "note": "291-rejection-region-and-z-test",
   "title": "The Rejection Region Approach and the Z-test",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 4,
   "code": 0,
-  "words": 1535,
+  "words": 1758,
   "nsec": 9,
-  "secfig": 2,
-  "wpv": 768,
+  "secfig": 7,
+  "wpv": 220,
   "sections": [
    "1. Overview",
    "2. Terms we build on",
@@ -4802,23 +5200,31 @@
   ],
   "kp": "In the rejection region approach we compute a test statistic and reject $H_0$ when it falls in the tail region whose area is the significance level $\\alpha$.",
   "scripts": [
+   "alpha_after.py",
    "alpha_effect.py",
+   "chips_grams.py",
+   "count_se.py",
+   "evidence_strength.py",
+   "find_critical.py",
    "rejection_regions.py",
-   "where_this_fits.tex"
+   "where_this_fits.tex",
+   "z_drops.py"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/power_sweep.gif"
+  ],
   "note": "292-errors-power-and-tails",
   "title": "Type I and Type II Errors, Power, and One- vs Two-tailed Tests",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1893,
+  "words": 1945,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 631,
+  "secfig": 4,
+  "wpv": 486,
   "sections": [
    "1. Overview",
    "2. Type I and Type II errors",
@@ -4831,6 +5237,7 @@
   "scripts": [
    "error_table.tex",
    "power.py",
+   "power_sweep.py",
    "tails.py",
    "where_this_fits.tex"
   ],
@@ -4867,16 +5274,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/s_for_sigma.gif"
+  ],
   "note": "301-one-sample-t-test",
   "title": "The One-sample T-test",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1505,
+  "words": 1612,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 502,
+  "secfig": 6,
+  "wpv": 269,
   "sections": [
    "1. Overview",
    "2. From the z-test to the t-test",
@@ -4890,22 +5299,27 @@
   "scripts": [
    "chocolate_t.py",
    "choose_t_test.tex",
+   "lessons_t.py",
+   "qq_two_sizes.py",
+   "s_for_sigma.py",
    "titanic_age_sample.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/pairing.gif"
+  ],
   "note": "302-two-sample-and-paired-t-tests",
   "title": "Two-sample and Paired T-tests",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 2272,
+  "words": 2388,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 757,
+  "secfig": 6,
+  "wpv": 398,
   "sections": [
    "1. Overview",
    "2. The independent two-sample t-test",
@@ -4918,8 +5332,11 @@
   ],
   "kp": "Two separate groups are compared with the independent two-sample t-test; the same subjects measured twice are compared with the paired t-test, which tests the mean of the differences.",
   "scripts": [
+   "cv_paired.py",
+   "pairing.py",
    "titanic_class_age.py",
    "two_designs.tex",
+   "website_t.py",
    "weight_slopes.py",
    "where_this_fits.tex"
   ],
@@ -4953,16 +5370,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/coin_flips.gif"
+  ],
   "note": "331-empirical-and-theoretical-probability",
   "title": "Empirical and Theoretical Probability",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1726,
+  "words": 1757,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 575,
+  "secfig": 4,
+  "wpv": 439,
   "sections": [
    "1. Overview",
    "2. What a probability measures",
@@ -4974,23 +5393,26 @@
   "kp": "A probability can be counted from data (empirical) or from the sample space (theoretical); as the number of trials grows, the empirical value settles on the theoretical one.",
   "scripts": [
    "addition.tex",
-   "convergence.py",
+   "coin_flips.py",
+   "marbles.py",
    "scale.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/running_mean.gif"
+  ],
   "note": "332-expected-value-and-variance",
   "title": "Random Variables as Functions, Expected Value and Variance",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1877,
+  "words": 1942,
   "nsec": 4,
-  "secfig": 3,
-  "wpv": 626,
+  "secfig": 4,
+  "wpv": 388,
   "sections": [
    "1. Overview",
    "2. A random variable is a function",
@@ -5000,8 +5422,10 @@
   "kp": "A random variable turns each outcome into a number; its distribution then gives two summary numbers: the expected value (where the values centre) and the variance (how far they spread).",
   "scripts": [
    "overview.tex",
+   "running_mean.py",
    "rv_function.tex",
    "spread.py",
+   "variance_squares.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5033,16 +5457,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/marginalise.gif"
+  ],
   "note": "341-joint-marginal-conditional-probability",
   "title": "Joint, Marginal and Conditional Probability",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 2241,
+  "words": 2343,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 747,
+  "secfig": 5,
+  "wpv": 390,
   "sections": [
    "1. Overview",
    "2. Joint probability",
@@ -5055,7 +5481,10 @@
   "scripts": [
    "conditional.py",
    "dice_conditional.py",
+   "independence_check.py",
    "joint_margins.tex",
+   "joint_mosaic.py",
+   "marginalise.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5064,13 +5493,13 @@
   "gifn": [],
   "note": "350-linear-algebra-roadmap",
   "title": "Linear Algebra Roadmap for Machine Learning",
-  "figs": 1,
+  "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1076,
+  "words": 1113,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 1076,
+  "secfig": 3,
+  "wpv": 371,
   "sections": [
    "1. Overview",
    "2. Why ML needs linear algebra",
@@ -5079,22 +5508,26 @@
   ],
   "kp": "Linear algebra for ML splits into eight modules: scalars, vectors, matrices, tensors, eigenvalues and eigenvectors, matrix factorisation, advanced topics, and tools.",
   "scripts": [
+   "module_thumbs.tex",
+   "reading_key.tex",
    "roadmap.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/vector_walk.gif"
+  ],
   "note": "360-vectors-and-feature-vectors",
   "title": "Vectors and Feature Vectors",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 2028,
+  "words": 2084,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 676,
+  "secfig": 6,
+  "wpv": 298,
   "sections": [
    "1. Overview",
    "2. What linear algebra is",
@@ -5107,8 +5540,12 @@
   "kp": "A vector is a point in a coordinate space, written as a list of numbers; in ML, every data point is turned into such a vector, called a feature vector.",
   "scripts": [
    "bag_of_words.tex",
+   "bow_distance.py",
+   "data_to_numbers.tex",
    "iris_vectors.py",
+   "row_column.tex",
    "vector_point.tex",
+   "vector_walk.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5172,16 +5609,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/hyperplane_knobs.gif"
+  ],
   "note": "363-equation-of-a-hyperplane",
   "title": "The Equation of a Hyperplane",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1063,
+  "words": 1145,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 532,
+  "secfig": 3,
+  "wpv": 382,
   "sections": [
    "1. Overview",
    "2. Why ML needs hyperplanes",
@@ -5192,6 +5631,7 @@
   ],
   "kp": "One equation, $w^{\\mathsf T}x + w_0 = 0$, describes a line in 2D, a plane in 3D and a hyperplane in any number of dimensions; $w$ is perpendicular to it and $w_0$ moves it away from the origin.",
   "scripts": [
+   "hyperplane_knobs.py",
    "normal_vector.tex",
    "plane_normal.py",
    "where_this_fits.tex"
@@ -5202,13 +5642,13 @@
   "gifn": [],
   "note": "440-role-of-maths-in-ml",
   "title": "The Role of Mathematics in Machine Learning",
-  "figs": 1,
+  "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 817,
+  "words": 904,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 817,
+  "secfig": 5,
+  "wpv": 181,
   "sections": [
    "1. Overview",
    "2. Linear algebra: representing data",
@@ -5219,23 +5659,29 @@
   "kp": "Four branches of mathematics carry most of ML: linear algebra stores the data, calculus improves the model, probability decides when the data is unclear, and statistics draws conclusions from the data.",
   "scripts": [
    "branches.tex",
+   "error_slope.tex",
+   "grey_zone.tex",
+   "stats_stages.tex",
+   "table_matrix.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/span_sweep.gif"
+   "images/span_sweep.gif",
+   "images/change_basis.gif",
+   "images/third_vector.gif"
   ],
   "note": "490-linear-combinations-span-and-basis",
   "title": "Linear Combinations, Span and Basis",
   "figs": 2,
-  "gifs": 1,
+  "gifs": 3,
   "code": 0,
-  "words": 2030,
+  "words": 2130,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 677,
+  "secfig": 5,
+  "wpv": 426,
   "sections": [
    "1. Overview",
    "2. Three ways to see a vector",
@@ -5249,25 +5695,29 @@
   "kp": "Scaling vectors and adding them gives a linear combination; all the vectors we can reach this way form the span; a set of vectors that reaches everything with no spare vector is a basis.",
   "scripts": [
    "add_and_basis.tex",
+   "change_basis.py",
    "span_3d.py",
    "span_sweep.py",
+   "third_vector.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/basis_landing.gif"
+   "images/basis_landing.gif",
+   "images/linear_test.gif",
+   "images/landed_combination.gif"
   ],
   "note": "500-linear-transformations-and-matrices",
   "title": "Linear Transformations and Matrices",
-  "figs": 1,
-  "gifs": 1,
+  "figs": 2,
+  "gifs": 3,
   "code": 0,
-  "words": 1584,
+  "words": 1685,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 792,
+  "secfig": 5,
+  "wpv": 337,
   "sections": [
    "1. Overview",
    "2. Transformations: functions that move vectors",
@@ -5280,6 +5730,9 @@
   "kp": "A matrix is a record of where the basis vectors land under a linear transformation; multiplying a matrix by a vector computes where that vector lands.",
   "scripts": [
    "basis_landing.py",
+   "landed_combination.py",
+   "linear_test.py",
+   "scaling_stretch.py",
    "transform_gallery.tex",
    "where_this_fits.tex"
   ],
@@ -5287,17 +5740,19 @@
  },
  {
   "gifn": [
-   "images/composition.gif"
+   "images/composition.gif",
+   "images/column_by_column.gif",
+   "images/layers_collapse.gif"
   ],
   "note": "510-matrix-multiplication-as-composition",
   "title": "Matrix Multiplication as Composition",
-  "figs": 1,
-  "gifs": 1,
+  "figs": 2,
+  "gifs": 3,
   "code": 0,
-  "words": 1160,
+  "words": 1244,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 580,
+  "secfig": 5,
+  "wpv": 249,
   "sections": [
    "1. Overview",
    "2. Composition: one transformation after another",
@@ -5309,25 +5764,30 @@
   ],
   "kp": "Multiplying two matrices gives the matrix of \"apply one transformation, then the other\"; we read the product from right to left.",
   "scripts": [
+   "column_by_column.py",
    "composition.py",
+   "layers_collapse.py",
    "order_matters.tex",
+   "right_to_left.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/projection_line.gif"
+   "images/projection_line.gif",
+   "images/order_symmetry.gif",
+   "images/duality.gif"
   ],
   "note": "520-dot-product-and-duality",
   "title": "The Dot Product as Projection, and Duality",
-  "figs": 1,
-  "gifs": 1,
+  "figs": 3,
+  "gifs": 3,
   "code": 0,
-  "words": 1947,
+  "words": 2099,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 974,
+  "secfig": 6,
+  "wpv": 350,
   "sections": [
    "1. Overview",
    "2. The dot product as a projection",
@@ -5339,25 +5799,31 @@
   ],
   "kp": "The dot product $\\mathbf{v} \\cdot \\mathbf{w}$ is the length of $\\mathbf{w}$'s shadow on the line of $\\mathbf{v}$ times the length of $\\mathbf{v}$; and every linear function that turns a vector into a number is a dot prod",
   "scripts": [
+   "duality.py",
+   "mirror_landing.tex",
+   "order_symmetry.py",
    "projection_line.py",
    "projection_view.tex",
+   "score_projection.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/det_knob.gif"
+   "images/span_test.gif",
+   "images/det_knob.gif",
+   "images/eigenbasis_grid.gif"
   ],
   "note": "530-eigenvectors-and-eigenvalues",
   "title": "Eigenvectors and Eigenvalues in Depth",
   "figs": 1,
-  "gifs": 1,
+  "gifs": 3,
   "code": 0,
-  "words": 1972,
+  "words": 2081,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 986,
+  "secfig": 4,
+  "wpv": 520,
   "sections": [
    "1. Overview",
    "2. Eigenvectors stay on their own span",
@@ -5370,22 +5836,26 @@
   "kp": "The eigenvalues of a matrix $A$ are the numbers $\\lambda$ that make $A - \\lambda I$ squish space flat, $\\det(A - \\lambda I) = 0$; the eigenvectors are the vectors it squishes to zero; and when there are enough of them, t",
   "scripts": [
    "det_knob.py",
+   "eigenbasis_grid.py",
+   "span_test.py",
    "special_cases.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/binomial_limit.gif"
+  ],
   "note": "560-poisson-distribution",
   "title": "The Poisson Distribution",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1785,
+  "words": 1824,
   "nsec": 8,
   "secfig": 4,
-  "wpv": 446,
+  "wpv": 456,
   "sections": [
    "1. Overview",
    "2. What the Poisson distribution describes",
@@ -5398,7 +5868,7 @@
   ],
   "kp": "The Poisson distribution gives the probability of each count of events (0, 1, 2, ...) in a fixed interval of time or space, when we know only the average count $\\lambda$.",
   "scripts": [
-   "binomial_to_poisson.py",
+   "binomial_limit.py",
    "counts_in_intervals.tex",
    "poisson_shapes.py",
    "questions_pmf.py",
@@ -5410,13 +5880,13 @@
   "gifn": [],
   "note": "570-choosing-a-hypothesis-test",
   "title": "Choosing a Hypothesis Test",
-  "figs": 2,
+  "figs": 7,
   "gifs": 0,
   "code": 0,
-  "words": 1770,
+  "words": 1889,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 885,
+  "secfig": 7,
+  "wpv": 270,
   "sections": [
    "1. Overview",
    "2. One logic for every test",
@@ -5430,7 +5900,9 @@
   "kp": "The kinds of features a question involves (categorical or numerical, one or two) decide which hypothesis test to run; every test then ends with the same rule, reject $H_0$ when $p \\le \\alpha$.",
   "scripts": [
    "height_weight.py",
+   "p_sort.tex",
    "test_chooser.tex",
+   "tests.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5466,16 +5938,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/f_spread.gif"
+  ],
   "note": "572-one-way-anova",
   "title": "One-way ANOVA",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1662,
+  "words": 1712,
   "nsec": 9,
-  "secfig": 4,
-  "wpv": 416,
+  "secfig": 6,
+  "wpv": 285,
   "sections": [
    "1. Overview",
    "2. Why not several t-tests?",
@@ -5491,6 +5965,8 @@
   "scripts": [
    "between_within.py",
    "f_curve.py",
+   "f_spread.py",
+   "false_alarm.py",
    "titanic_age_class.py",
    "variance_split.tex",
    "where_this_fits.tex"
@@ -5498,16 +5974,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/t_vs_normal.gif"
+  ],
   "note": "580-learning-maths-for-ml",
   "title": "How to Learn the Mathematics of Machine Learning",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1488,
+  "words": 1612,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 744,
+  "secfig": 5,
+  "wpv": 322,
   "sections": [
    "1. Overview",
    "2. Habit 1: change the attitude",
@@ -5520,6 +5998,9 @@
   "scripts": [
    "decode_notation.tex",
    "five_habits.tex",
+   "learn_in_context.tex",
+   "maths_has_a_purpose.tex",
+   "t_vs_normal.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5555,17 +6036,19 @@
  },
  {
   "gifn": [
-   "images/secant_tangent.gif"
+   "images/secant_tangent.gif",
+   "images/square_area.gif",
+   "images/product_area.gif"
   ],
   "note": "600-derivatives-of-one-variable",
   "title": "Derivatives of One Variable",
   "figs": 1,
-  "gifs": 1,
+  "gifs": 3,
   "code": 0,
-  "words": 1913,
+  "words": 1994,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 956,
+  "secfig": 4,
+  "wpv": 498,
   "sections": [
    "1. Overview",
    "2. Functions: one number in, one number out",
@@ -5576,6 +6059,7 @@
   ],
   "kp": "The derivative of $f$ at $x$ is the slope of the tangent line there: the limit of the slope of a secant line as its two points move together.",
   "scripts": [
+   "area_rules.py",
    "secant_tangent.py",
    "taylor_sin.py",
    "where_this_fits.tex"
@@ -5583,16 +6067,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/direction_sweep.gif"
+  ],
   "note": "601-partial-derivatives-and-gradients",
   "title": "Partial Derivatives and Gradients",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1714,
+  "words": 1796,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 571,
+  "secfig": 4,
+  "wpv": 449,
   "sections": [
    "1. Overview",
    "2. Functions of several variables",
@@ -5605,6 +6091,7 @@
   "kp": "For a function of many inputs, we take one derivative per input with the others held fixed; collected in a row, these partial derivatives form the gradient, an arrow that points straight uphill.",
   "scripts": [
    "chain_paths.tex",
+   "direction_sweep.py",
    "gradient_arrows.py",
    "partial_slices.py",
    "where_this_fits.tex"
@@ -5612,16 +6099,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/local_linear.gif",
+   "images/area_scaling.gif"
+  ],
   "note": "602-jacobian-and-matrix-gradients",
   "title": "The Jacobian and Gradients of Matrices",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 2,
   "code": 0,
-  "words": 2184,
+  "words": 2319,
   "nsec": 10,
-  "secfig": 3,
-  "wpv": 728,
+  "secfig": 7,
+  "wpv": 331,
   "sections": [
    "1. Overview",
    "2. Functions with several outputs",
@@ -5636,9 +6126,13 @@
   ],
   "kp": "For a function with several outputs, the derivative is a matrix, the Jacobian: one row per output, one column per input. Near a point, the function acts like the linear map of that matrix.",
   "scripts": [
+   "area_scaling.py",
    "computation_graph.tex",
    "derivative_shapes.tex",
    "jacobian_local.py",
+   "local_linear.py",
+   "lsq_chain.tex",
+   "matrix_gradient_flatten.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5676,17 +6170,18 @@
  },
  {
   "gifn": [
-   "images/rotate_stretch_rotate.gif"
+   "images/rotate_stretch_rotate.gif",
+   "images/perpendicular_pair.gif"
   ],
   "note": "610-svd-geometry",
   "title": "Singular Value Decomposition: Rotate, Stretch, Rotate",
-  "figs": 2,
-  "gifs": 1,
+  "figs": 5,
+  "gifs": 2,
   "code": 0,
-  "words": 2501,
+  "words": 2619,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 834,
+  "secfig": 6,
+  "wpv": 374,
   "sections": [
    "1. Overview",
    "2. Every matrix turns a circle into an ellipse",
@@ -5699,23 +6194,28 @@
   "kp": "Every matrix, square or not, can be written as $A = U\\Sigma V^{\\mathsf T}$: a rotation, then a stretch along the axes, then another rotation. The stretch factors are the singular values.",
   "scripts": [
    "eigen_vs_singular.tex",
+   "orthogonal_moves.py",
+   "perpendicular_pair.py",
    "rotate_stretch_rotate.py",
+   "stretch_by_angle.py",
    "svd_shapes.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/stretch_sweep.gif"
+  ],
   "note": "611-computing-the-svd",
   "title": "Computing the SVD by Hand",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1776,
+  "words": 1964,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 888,
+  "secfig": 7,
+  "wpv": 281,
   "sections": [
    "1. Overview",
    "2. Making one orthogonal matrix disappear",
@@ -5729,22 +6229,26 @@
   "kp": "Multiplying $A$ by its own transpose makes one of the two orthogonal matrices disappear. The eigenvectors of $A^{\\mathsf T}A$ are the right singular vectors, its eigenvalues are the squared singular values, and $\\mathbf ",
   "scripts": [
    "four_subspaces.tex",
+   "recipe_figures.py",
+   "stretch_sweep.py",
    "svd_recipe.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/rank_rebuild.gif"
+  ],
   "note": "612-low-rank-approximation",
   "title": "Low-Rank Approximation with the SVD",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1827,
+  "words": 1874,
   "nsec": 7,
-  "secfig": 4,
-  "wpv": 457,
+  "secfig": 5,
+  "wpv": 375,
   "sections": [
    "1. Overview",
    "2. A matrix as a sum of rank-1 layers",
@@ -5757,6 +6261,7 @@
   "kp": "The SVD writes any matrix as a sum of rank-1 layers, ordered from most to least important. Keeping only the first $k$ layers gives the best possible rank $k$ approximation, and its error is the first singular value left ",
   "scripts": [
    "figures.py",
+   "rank_rebuild.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5765,13 +6270,13 @@
   "gifn": [],
   "note": "613-svd-in-machine-learning",
   "title": "The SVD in Machine Learning",
-  "figs": 3,
+  "figs": 6,
   "gifs": 0,
   "code": 0,
-  "words": 2199,
+  "words": 2300,
   "nsec": 5,
-  "secfig": 3,
-  "wpv": 733,
+  "secfig": 5,
+  "wpv": 383,
   "sections": [
    "1. Overview",
    "2. PCA through the SVD",
@@ -5783,23 +6288,25 @@
   "scripts": [
    "figures.py",
    "pca_via_svd.tex",
+   "svd_ml_more.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/tangency.gif"
+   "images/tangency.gif",
+   "images/slide_along.gif"
   ],
   "note": "620-lagrange-multipliers",
   "title": "Constrained Optimisation and Lagrange Multipliers",
   "figs": 2,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 2251,
+  "words": 2317,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 750,
+  "secfig": 4,
+  "wpv": 579,
   "sections": [
    "1. Overview",
    "2. Constrained optimisation problems",
@@ -5812,22 +6319,25 @@
   "kp": "To minimise a function while a constraint must hold, we look for the point where a level curve of the function just touches the constraint; there the two gradients are parallel, and the Lagrange multiplier is the factor ",
   "scripts": [
    "figures.py",
+   "slide_along.py",
    "tangency.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/chord_test.gif"
+  ],
   "note": "621-convex-sets-and-functions",
   "title": "Convex Sets, Convex Functions and Convex Optimisation",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 2136,
+  "words": 2305,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 1068,
+  "secfig": 6,
+  "wpv": 329,
   "sections": [
    "1. Overview",
    "2. Convex sets",
@@ -5838,23 +6348,30 @@
   ],
   "kp": "A set is convex when the segment between any two of its points stays inside it; a convex optimisation problem minimises a convex function over a convex set, and for such problems every local minimum is global and the dua",
   "scripts": [
+   "chord_test.py",
    "convex_sets.tex",
+   "disc_ring.tex",
    "first_order.py",
+   "hessian_bowl_saddle.py",
+   "primal_dual.py",
+   "sum_difference.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/lp_sweep.gif"
+  ],
   "note": "622-linear-and-quadratic-programming",
   "title": "Linear and Quadratic Programming",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1559,
+  "words": 1619,
   "nsec": 3,
-  "secfig": 2,
-  "wpv": 780,
+  "secfig": 3,
+  "wpv": 540,
   "sections": [
    "1. Overview",
    "2. Linear programming",
@@ -5863,6 +6380,7 @@
   "kp": "A linear program minimises a linear function over a region cut out by linear inequalities, and its answer sits at a corner; a quadratic program minimises a convex bowl over the same kind of region. Both are convex proble",
   "scripts": [
    "figures.py",
+   "lp_sweep.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -5893,23 +6411,25 @@
    "area_vs_height.py",
    "coin_balls.py",
    "likelihood_slide.py",
-   "tunnel.tex"
+   "tunnel.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/likelihood_sweep.gif"
+   "images/likelihood_sweep.gif",
+   "images/consistency.gif"
   ],
   "note": "631-maximum-likelihood-estimation",
   "title": "Maximum Likelihood Estimation",
-  "figs": 3,
-  "gifs": 1,
+  "figs": 5,
+  "gifs": 2,
   "code": 0,
-  "words": 2611,
+  "words": 2677,
   "nsec": 9,
-  "secfig": 4,
-  "wpv": 653,
+  "secfig": 7,
+  "wpv": 382,
   "sections": [
    "1. Overview",
    "2. Fitting a distribution to data",
@@ -5923,10 +6443,14 @@
   ],
   "kp": "Maximum likelihood estimation picks the parameter values under which the data we actually observed is most likely. We slide the parameters, compute the likelihood of the fixed data, and keep the peak.",
   "scripts": [
+   "consistency.py",
+   "heights_product.py",
    "likelihood_sweep.py",
    "log_same_peak.py",
+   "nll_flip.py",
    "sigma_search.py",
-   "slope_zero.py"
+   "slope_zero.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -5936,13 +6460,13 @@
   ],
   "note": "632-mle-for-common-distributions",
   "title": "MLE for the Binomial, Exponential and Normal Distributions",
-  "figs": 2,
+  "figs": 5,
   "gifs": 1,
   "code": 0,
-  "words": 1934,
+  "words": 2042,
   "nsec": 5,
-  "secfig": 3,
-  "wpv": 645,
+  "secfig": 5,
+  "wpv": 340,
   "sections": [
    "1. Overview",
    "2. The binomial distribution",
@@ -5952,9 +6476,13 @@
   ],
   "kp": "Following the maximum likelihood recipe by hand gives three famous answers: the binomial's $\\hat p$ is the share of successes, the exponential's $\\hat\\lambda$ is one over the average waiting time, and the normal's $\\hat\\",
   "scripts": [
+   "bias_n.py",
+   "binomial_more_data.py",
    "binomial_sweep.py",
    "exponential.py",
-   "normal_surface.py"
+   "normal_surface.py",
+   "one_two_mice.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -5965,13 +6493,13 @@
   ],
   "note": "633-mle-in-machine-learning",
   "title": "Maximum Likelihood in Machine Learning: Losses and Priors",
-  "figs": 2,
+  "figs": 5,
   "gifs": 2,
   "code": 0,
-  "words": 2375,
+  "words": 2476,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 594,
+  "secfig": 6,
+  "wpv": 354,
   "sections": [
    "1. Overview",
    "2. A model as a distribution of the target",
@@ -5983,10 +6511,14 @@
   ],
   "kp": "The usual ML losses are negative log-likelihoods. Gaussian noise gives the mean squared error, a Bernoulli target gives the log loss, a categorical target gives the cross entropy. Adding a prior on the parameters (MAP) g",
   "scripts": [
+   "bernoulli_nll.py",
+   "categorical_ce.py",
+   "gauss_vs_laplace.py",
    "gaussian_noise.py",
    "map_vs_mle.py",
    "noise_to_loss.tex",
-   "overfit.py"
+   "overfit.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -6021,7 +6553,8 @@
    "mixture_density.py",
    "one_vs_mixture.py",
    "responsibilities.py",
-   "sampling.py"
+   "sampling.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -6032,13 +6565,13 @@
   ],
   "note": "641-expectation-maximization",
   "title": "The Expectation Maximization (EM) Algorithm",
-  "figs": 2,
+  "figs": 5,
   "gifs": 2,
   "code": 0,
-  "words": 2402,
+  "words": 2508,
   "nsec": 9,
-  "secfig": 4,
-  "wpv": 600,
+  "secfig": 6,
+  "wpv": 358,
   "sections": [
    "1. Overview",
    "2. The two steps",
@@ -6055,8 +6588,12 @@
    "em_1d_steps.py",
    "em_2d.py",
    "em_core.py",
+   "em_loop.tex",
    "hard_soft.py",
-   "mm_bound.py"
+   "iris_starts.py",
+   "m_step_means.py",
+   "mm_bound.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -6064,13 +6601,13 @@
   "gifn": [],
   "note": "1001-dl-scope-and-prerequisites",
   "title": "Deep Learning: What It Covers and What to Know First",
-  "figs": 1,
+  "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 952,
+  "words": 991,
   "nsec": 3,
-  "secfig": 1,
-  "wpv": 952,
+  "secfig": 3,
+  "wpv": 330,
   "sections": [
    "1. Overview",
    "2. The four families of networks",
@@ -6078,6 +6615,8 @@
   ],
   "kp": "The Deep Learning Notes move through four families of neural networks: ANNs, CNNs, RNNs and transformers. Before starting, we need Python, the basics of ML, some linear algebra and derivatives.",
   "scripts": [
+   "family_thumbs.tex",
+   "prereq_neuron.tex",
    "roadmap.tex",
    "where_this_fits.tex"
   ],
@@ -6087,13 +6626,13 @@
   "gifn": [],
   "note": "1002-what-is-deep-learning",
   "title": "What Is Deep Learning? Deep Learning vs Machine Learning",
-  "figs": 2,
+  "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 2532,
+  "words": 2589,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 1266,
+  "secfig": 5,
+  "wpv": 518,
   "sections": [
    "1. Overview",
    "2. Two definitions of deep learning",
@@ -6104,22 +6643,27 @@
   "kp": "Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on",
   "scripts": [
    "ann_anatomy.tex",
+   "dl_tradeoffs.tex",
+   "feature_learning.tex",
+   "fields_fan.tex",
    "where_this_fits.tex",
    "why_now.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/universal_approx.gif"
+  ],
   "note": "1003-nn-types-history-applications",
   "title": "Types of Neural Networks, History and Applications of Deep Learning",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 2197,
+  "words": 2307,
   "nsec": 4,
-  "secfig": 2,
-  "wpv": 1098,
+  "secfig": 3,
+  "wpv": 384,
   "sections": [
    "1. Overview",
    "2. Types of neural networks",
@@ -6128,6 +6672,8 @@
   ],
   "kp": "Five main types of network (MLP, CNN, RNN, autoencoder, GAN) each suit a kind of data or task. Neural networks rose and fell twice before deep learning took off in 2012, and today they power cars, games, assistants and c",
   "scripts": [
+   "app_map.tex",
+   "history_figures.py",
    "nn_types.tex",
    "timeline.tex",
    "where_this_fits.tex"
@@ -6135,16 +6681,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/perceptron_fire.gif"
+  ],
   "note": "1004-perceptron",
   "title": "The Perceptron: Model, Neuron and Geometry",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1662,
+  "words": 1760,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 554,
+  "secfig": 4,
+  "wpv": 440,
   "sections": [
    "1. Overview",
    "3. The parts of a perceptron",
@@ -6154,26 +6702,29 @@
    "7. What a perceptron does geometrically",
    "8. A perceptron in scikit-learn"
   ],
-  "kp": "A perceptron multiplies each input by a weight, adds a bias, and passes the sum through an activation function. With a step activation it draws one straight line and puts each class on one side.",
+  "kp": "A perceptron multiplies each input by a weight, adds a bias, and passes the sum through an activation function. With a step activation it defines one hyperplane (a straight line for two inputs) and puts each class on one",
   "scripts": [
    "decision_regions.py",
    "neuron_vs_perceptron.tex",
    "perceptron.tex",
+   "perceptron_fire.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/random_picks.gif"
+  ],
   "note": "1005-perceptron-trick",
   "title": "Training a Perceptron with the Perceptron Trick",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 2,
+  "gifs": 1,
   "code": 0,
-  "words": 830,
+  "words": 955,
   "nsec": 5,
-  "secfig": 1,
-  "wpv": 830,
+  "secfig": 3,
+  "wpv": 318,
   "sections": [
    "1. Overview",
    "3. The trick in perceptron terms",
@@ -6183,6 +6734,8 @@
   ],
   "kp": "Training a perceptron means finding its weights and bias. The perceptron trick does it by starting from any line and pulling it towards every misclassified point it picks, until a stopping rule ends the loop.",
   "scripts": [
+   "random_picks.py",
+   "stopping_rules.py",
    "training_loop.tex",
    "where_this_fits.tex"
   ],
@@ -6190,17 +6743,18 @@
  },
  {
   "gifn": [
-   "images/loss_training.gif"
+   "images/loss_training.gif",
+   "images/one_point_steps.gif"
   ],
   "note": "1006-perceptron-loss",
   "title": "The Perceptron Loss Function and the Flexible Perceptron",
-  "figs": 2,
-  "gifs": 1,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 2049,
+  "words": 2194,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 683,
+  "secfig": 6,
+  "wpv": 366,
   "sections": [
    "1. Overview",
    "3. What is wrong with the perceptron trick",
@@ -6213,6 +6767,7 @@
   "kp": "A loss function gives every possible line one number: its error. Training a perceptron then means finding the w\u2081, w\u2082, b with the smallest loss, using gradient descent. Swapping the activation and the loss turns the same ",
   "scripts": [
    "flexibility.tex",
+   "loss_pictures.py",
    "loss_training.py",
    "point_loss.py",
    "where_this_fits.tex"
@@ -6220,16 +6775,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/xor_sweep.gif"
+  ],
   "note": "1007-problem-with-perceptron",
   "title": "The Problem with the Perceptron: Non-Linear Data",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 769,
+  "words": 878,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 384,
+  "secfig": 3,
+  "wpv": 293,
   "sections": [
    "1. Overview",
    "3. Three tiny datasets: AND, OR and XOR",
@@ -6237,10 +6794,11 @@
    "5. The same failure on larger data",
    "6. The way forward"
   ],
-  "kp": "A perceptron draws one straight line. It learns AND and OR easily, but no line can separate XOR, so on XOR (and on any data that needs a curved boundary) it fails, however long it trains.",
+  "kp": "A perceptron has one straight decision boundary. It learns AND and OR easily, but no line can separate XOR, so on XOR (and on any data that needs a curved decision boundary) it fails, however long it trains.",
   "scripts": [
    "gates.py",
-   "where_this_fits.tex"
+   "where_this_fits.tex",
+   "xor_sweep.py"
   ],
   "unref_gif": []
  },
@@ -6248,13 +6806,13 @@
   "gifn": [],
   "note": "1008-mlp-notation",
   "title": "MLP Notation: Naming Weights, Biases and Outputs",
-  "figs": 2,
+  "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 962,
+  "words": 1026,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 481,
+  "secfig": 5,
+  "wpv": 205,
   "sections": [
    "1. Overview",
    "2. The setup: layers and data",
@@ -6266,6 +6824,9 @@
   "scripts": [
    "labels.tex",
    "network.tex",
+   "param_blocks.tex",
+   "row_to_inputs.tex",
+   "weight_index.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -6277,10 +6838,10 @@
   "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 1904,
+  "words": 2106,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 381,
+  "wpv": 421,
   "sections": [
    "1. Overview",
    "2. One perceptron with a sigmoid",
@@ -6288,7 +6849,7 @@
    "4. Four ways to change the architecture",
    "5. Seeing it work"
   ],
-  "kp": "One perceptron draws one straight line. Feeding the outputs of several perceptrons into another perceptron combines their lines into a curved boundary, and that combination is a multi-layer perceptron.",
+  "kp": "One perceptron has one straight decision boundary, a hyperplane. Feeding the outputs of several perceptrons into another perceptron combines their hyperplanes into a curved decision boundary, and that combination is a mu",
   "scripts": [
    "architectures.tex",
    "mlp_221.tex",
@@ -6304,13 +6865,13 @@
   ],
   "note": "1010-forward-propagation",
   "title": "Forward Propagation: How a Neural Network Predicts",
-  "figs": 0,
+  "figs": 3,
   "gifs": 1,
   "code": 0,
-  "words": 1099,
+  "words": 1187,
   "nsec": 6,
-  "secfig": 1,
-  "wpv": 1099,
+  "secfig": 4,
+  "wpv": 297,
   "sections": [
    "1. Overview",
    "2. The network and the observation",
@@ -6322,6 +6883,9 @@
   "kp": "To predict, a network passes one observation forward, layer by layer. Each layer is one matrix product, one added bias and one sigmoid, however many nodes it has.",
   "scripts": [
    "forward_anim.py",
+   "layer_product.tex",
+   "one_node.tex",
+   "scaling_sigmoid.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -6333,10 +6897,10 @@
   "figs": 4,
   "gifs": 0,
   "code": 0,
-  "words": 2369,
+  "words": 2397,
   "nsec": 8,
   "secfig": 4,
-  "wpv": 592,
+  "wpv": 599,
   "sections": [
    "1. Overview",
    "2. The churn data",
@@ -6360,13 +6924,13 @@
   "gifn": [],
   "note": "1012-mnist-ann",
   "title": "Handwritten Digit Classification (MNIST) with an ANN in Keras",
-  "figs": 5,
+  "figs": 8,
   "gifs": 0,
   "code": 0,
-  "words": 1714,
+  "words": 1783,
   "nsec": 9,
-  "secfig": 4,
-  "wpv": 343,
+  "secfig": 7,
+  "wpv": 223,
   "sections": [
    "1. Overview",
    "2. The MNIST data",
@@ -6382,6 +6946,7 @@
   "scripts": [
    "architecture.tex",
    "figs.py",
+   "more_figs.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -6393,10 +6958,10 @@
   "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1275,
+  "words": 1293,
   "nsec": 6,
   "secfig": 3,
-  "wpv": 425,
+  "wpv": 431,
   "sections": [
    "1. Overview",
    "2. The graduate admission data",
@@ -6414,16 +6979,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/train_loop.gif",
+   "images/outlier_drag.gif"
+  ],
   "note": "1014-dl-loss-functions",
   "title": "Loss Functions in Deep Learning",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 7,
+  "gifs": 2,
   "code": 0,
-  "words": 2408,
+  "words": 2554,
   "nsec": 10,
-  "secfig": 3,
-  "wpv": 803,
+  "secfig": 9,
+  "wpv": 284,
   "sections": [
    "1. Overview",
    "3. Why the loss function matters",
@@ -6441,24 +7009,29 @@
    "common.py",
    "loss_map.tex",
    "loss_shapes.py",
+   "outlier_drag.py",
    "outlier_fit.py",
+   "section_figs.py",
+   "sparse_vs_onehot.tex",
+   "train_loop.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/backprop_anim.gif"
+   "images/backprop_anim.gif",
+   "images/epochs.gif"
   ],
   "note": "1015-backpropagation-what",
   "title": "Backpropagation, Part 1: What It Is",
-  "figs": 1,
-  "gifs": 1,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 1730,
+  "words": 1828,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 865,
+  "secfig": 6,
+  "wpv": 305,
   "sections": [
    "1. Overview",
    "3. The data and the network",
@@ -6471,22 +7044,30 @@
   "kp": "Backpropagation is the algorithm that trains a neural network. For each **observation** (one record, one row of the data table) it predicts, measures the loss, then works backwards through the network with the chain rule",
   "scripts": [
    "backprop_anim.py",
+   "chain.tex",
+   "common.py",
    "dependency.tex",
+   "epochs.py",
+   "network.tex",
+   "steps.tex",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/loss_grid.gif",
+   "images/backprop_chain.gif"
+  ],
   "note": "1016-backpropagation-how",
   "title": "Backpropagation, Part 2: How It Runs in Code",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 2,
   "code": 0,
-  "words": 1466,
+  "words": 1698,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 733,
+  "secfig": 7,
+  "wpv": 212,
   "sections": [
    "1. Overview",
    "3. The regression algorithm, in loops",
@@ -6498,24 +7079,31 @@
   ],
   "kp": "We turn the algorithm into code twice: for regression (linear nodes, squared error) and for classification (sigmoid nodes, binary cross-entropy). Our code and Keras, started from the same weights, produce the same losses",
   "scripts": [
+   "backprop_chain.py",
    "chain.tex",
+   "cls_forward.tex",
    "common.py",
    "loss_curves.py",
+   "loss_grid.py",
+   "section_figs.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/tangent.gif",
+   "images/loss_walk.gif"
+  ],
   "note": "1017-backpropagation-why",
   "title": "Backpropagation, Part 3: Why the Update Works",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 2,
   "code": 0,
-  "words": 1341,
+  "words": 1627,
   "nsec": 8,
-  "secfig": 1,
-  "wpv": 1341,
+  "secfig": 7,
+  "wpv": 232,
   "sections": [
    "1. Overview",
    "3. The loss is a function of all nine parameters",
@@ -6529,22 +7117,27 @@
   "kp": "The loss of a network is one function of all its weights and biases. Each derivative tells how the loss responds to one parameter, in size and sign. Stepping against it, by a learning rate times its size, walks every par",
   "scripts": [
    "common.py",
+   "loss_walk.py",
    "lr_paths.py",
+   "section_figs.py",
+   "tangent.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/gradient_flow.gif"
+  ],
   "note": "1018-vanishing-exploding-gradients",
   "title": "Vanishing and Exploding Gradients",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 2125,
+  "words": 2371,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 1062,
+  "secfig": 6,
+  "wpv": 339,
   "sections": [
    "1. Overview",
    "3. The vanishing gradient problem",
@@ -6555,9 +7148,13 @@
   ],
   "kp": "Backpropagation multiplies many factors together to get the gradient of an early layer. If they are mostly below 1 (as with sigmoid), the gradient vanishes and the early layers stop learning; if they are mostly above 1, ",
   "scripts": [
+   "clipping.tex",
    "common.py",
+   "gradient_flow.py",
    "layer_gradients.py",
    "loss_curves.py",
+   "residual.tex",
+   "section_figs.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -6569,7 +7166,7 @@
   "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1488,
+  "words": 1489,
   "nsec": 5,
   "secfig": 3,
   "wpv": 496,
@@ -6591,16 +7188,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/sgd_loop.gif",
+   "images/batch_race.gif"
+  ],
   "note": "1020-gradient-descent-in-neural-networks",
   "title": "Gradient Descent in Neural Networks: Batch, Stochastic and Mini-Batch",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 2,
   "code": 0,
-  "words": 1619,
+  "words": 1779,
   "nsec": 10,
-  "secfig": 2,
-  "wpv": 810,
+  "secfig": 7,
+  "wpv": 254,
   "sections": [
    "1. Overview",
    "3. Where gradient descent sits in backpropagation",
@@ -6613,11 +7213,16 @@
    "10. Mini-batch: the middle ground",
    "11. Two practical questions about `batch_size`"
   ],
-  "kp": "Batch, stochastic and mini-batch gradient descent differ only in how many **observations** (records, one row of the data table each) feed each update. In Keras one setting chooses between them: `batch_size`. Big batches ",
+  "kp": "Batch, stochastic and mini-batch gradient descent differ only in how many **observations** (G-1374) (records, one row of the data table each) feed each update. In Keras one setting chooses between them: `batch_size`. Big",
   "scripts": [
+   "batch_matrix.tex",
+   "batch_race.py",
    "batches.tex",
    "common.py",
+   "data_view.py",
    "loss_curves.py",
+   "memory_tradeoff.py",
+   "sgd_loop.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
@@ -6626,13 +7231,13 @@
   "gifn": [],
   "note": "1021-improving-a-neural-network",
   "title": "How to Improve a Neural Network",
-  "figs": 2,
+  "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1710,
+  "words": 1744,
   "nsec": 3,
-  "secfig": 2,
-  "wpv": 855,
+  "secfig": 3,
+  "wpv": 581,
   "sections": [
    "1. Overview",
    "3. Tuning the hyperparameters",
@@ -6640,6 +7245,7 @@
   ],
   "kp": "A network gets better in two ways: choose its hyperparameters well, and fix the four problems that break training (vanishing or exploding gradients, too little data, slow training, overfitting).",
   "scripts": [
+   "fix_notes.tex",
    "layer_shapes.tex",
    "roadmap.tex",
    "where_this_fits.tex"
@@ -6647,16 +7253,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/early_stop_anim.gif"
+  ],
   "note": "1022-early-stopping",
   "title": "Early Stopping in Neural Networks",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1263,
+  "words": 1352,
   "nsec": 4,
-  "secfig": 2,
-  "wpv": 632,
+  "secfig": 3,
+  "wpv": 451,
   "sections": [
    "1. Overview",
    "3. Training too long",
@@ -6667,22 +7275,25 @@
   "scripts": [
    "boundaries.py",
    "common.py",
+   "early_stop_anim.py",
    "loss_curves.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/scaling_contours.gif"
+  ],
   "note": "1023-data-scaling-in-ann",
   "title": "Scaling the Inputs of a Neural Network",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1275,
+  "words": 1521,
   "nsec": 4,
-  "secfig": 1,
-  "wpv": 1275,
+  "secfig": 4,
+  "wpv": 304,
   "sections": [
    "1. Overview",
    "3. The problem in Keras",
@@ -6692,22 +7303,28 @@
   "kp": "When the input features live on very different scales, a network trains slowly or not at all. Bringing every feature to the same scale before training fixes it.",
   "scripts": [
    "common.py",
+   "knob_example.py",
+   "raw_flip.py",
+   "raw_vs_scaled.py",
+   "scaling_contours.py",
    "scaling_effect.py",
    "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/dropout_anim.gif"
+  ],
   "note": "1024-dropout",
   "title": "Dropout",
   "figs": 2,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1458,
+  "words": 1507,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 729,
+  "secfig": 3,
+  "wpv": 502,
   "sections": [
    "1. Overview",
    "3. Overfitting in neural networks",
@@ -6717,6 +7334,7 @@
   ],
   "kp": "Dropout fights overfitting by switching off a random set of nodes at every training step, so the network trains a different, smaller sub-network each time. At prediction time every node is back.",
   "scripts": [
+   "dropout_anim.py",
    "dropout_steps.tex",
    "train_vs_predict.tex",
    "where_this_fits.tex"
@@ -6724,16 +7342,18 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/dropout_sweep.gif"
+  ],
   "note": "1025-dropout-code",
   "title": "Dropout in Code: Regression and Classification",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1373,
+  "words": 1441,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 458,
+  "secfig": 4,
+  "wpv": 360,
   "sections": [
    "1. Overview",
    "3. Dropout for regression",
@@ -6746,6 +7366,7 @@
   "scripts": [
    "boundaries.py",
    "common.py",
+   "dropout_sweep.py",
    "loss_curves.py",
    "regression_fits.py",
    "where_this_fits.tex"
@@ -6753,16 +7374,19 @@
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/neuron_lines.gif",
+   "images/weight_decay_anim.gif"
+  ],
   "note": "1026-regularization-in-dl",
   "title": "L1 and L2 Regularisation in Neural Networks",
   "figs": 5,
-  "gifs": 0,
+  "gifs": 2,
   "code": 0,
-  "words": 2322,
+  "words": 2634,
   "nsec": 6,
   "secfig": 3,
-  "wpv": 464,
+  "wpv": 376,
   "sections": [
    "1. Overview",
    "3. Why neural networks overfit",
@@ -6776,7 +7400,9 @@
    "boundaries.py",
    "common.py",
    "curves.py",
+   "neuron_lines.py",
    "sparsity.py",
+   "weight_decay_anim.py",
    "weights.py",
    "where_this_fits.tex"
   ],
@@ -6789,10 +7415,10 @@
   "figs": 4,
   "gifs": 0,
   "code": 0,
-  "words": 2316,
+  "words": 2335,
   "nsec": 7,
   "secfig": 4,
-  "wpv": 579,
+  "wpv": 584,
   "sections": [
    "1. Overview",
    "3. What an activation function is",
@@ -6808,7 +7434,8 @@
    "boundaries.py",
    "common.py",
    "relu_bend.py",
-   "sign_restriction.tex"
+   "sign_restriction.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -6819,10 +7446,10 @@
   "figs": 4,
   "gifs": 0,
   "code": 0,
-  "words": 1871,
+  "words": 1883,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 468,
+  "wpv": 471,
   "sections": [
    "1. Overview",
    "3. The dying ReLU problem",
@@ -6836,21 +7463,24 @@
    "dead_nodes.py",
    "dying.tex",
    "selu_layers.py",
-   "variants.py"
+   "variants.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/signal_flow.gif"
+  ],
   "note": "1029-weight-initialization",
   "title": "Weight Initialisation: What Not to Do",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1986,
+  "words": 2093,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 496,
+  "secfig": 4,
+  "wpv": 419,
   "sections": [
    "1. Overview",
    "3. Why the starting weights matter",
@@ -6863,9 +7493,11 @@
   "scripts": [
    "boundary.py",
    "common.py",
+   "signal_flow.py",
    "small_init_loss.py",
    "symmetry.tex",
-   "tanh_hist.py"
+   "tanh_hist.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -6876,10 +7508,10 @@
   "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1712,
+  "words": 1728,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 571,
+  "wpv": 576,
   "sections": [
    "1. Overview",
    "3. The spread must depend on the number of inputs",
@@ -6892,21 +7524,25 @@
    "boundary.py",
    "common.py",
    "fan_in_out.tex",
-   "layer_std.py"
+   "layer_std.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/drift.gif",
+   "images/bn_mechanics.gif"
+  ],
   "note": "1031-batch-normalization",
   "title": "Batch Normalisation",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 2413,
+  "words": 2601,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 804,
+  "secfig": 5,
+  "wpv": 434,
   "sections": [
    "1. Overview",
    "3. Why normalise inside the network",
@@ -6917,10 +7553,14 @@
   ],
   "kp": "Batch normalisation standardises the values inside a hidden layer, node by node, using the mean and variance of the current mini-batch, then lets the network rescale them with two learned numbers, $\\gamma$ and $\\beta$. T",
   "scripts": [
+   "bn_mechanics.py",
    "bn_steps.tex",
    "common.py",
    "covariate_shift.tex",
-   "val_accuracy.py"
+   "drift.py",
+   "moving_mean.py",
+   "val_accuracy.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -6928,13 +7568,13 @@
   "gifn": [],
   "note": "1032-optimizers-in-deep-learning",
   "title": "Optimizers in Deep Learning: Why Gradient Descent Needs Help",
-  "figs": 2,
+  "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 1465,
+  "words": 1531,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 732,
+  "secfig": 5,
+  "wpv": 306,
   "sections": [
    "1. Overview",
    "3. What an optimizer does",
@@ -6945,8 +7585,12 @@
   "kp": "An optimizer is the rule that turns gradients into weight updates. Plain gradient descent has five weak spots: choosing the learning rate, fixed learning-rate schedules, one learning rate for every direction, local minim",
   "scripts": [
    "common.py",
+   "ewma_users.tex",
+   "gd_variants.tex",
    "optimizer_family.tex",
-   "valley_lr.py"
+   "params_to_loss.tex",
+   "valley_lr.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -6959,10 +7603,10 @@
   "figs": 3,
   "gifs": 1,
   "code": 0,
-  "words": 1126,
+  "words": 1131,
   "nsec": 6,
   "secfig": 4,
-  "wpv": 282,
+  "wpv": 283,
   "sections": [
    "1. Overview",
    "3. Two rules behind the EWMA",
@@ -6977,24 +7621,26 @@
    "ewma_betas.py",
    "ewma_delhi.py",
    "ewma_start.py",
-   "ewma_weights.py"
+   "ewma_weights.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
    "images/momentum_valley.gif",
+   "images/momentum_vectors.gif",
    "images/momentum_ball.gif"
   ],
   "note": "1034-sgd-with-momentum",
   "title": "SGD with Momentum",
-  "figs": 2,
-  "gifs": 2,
+  "figs": 3,
+  "gifs": 3,
   "code": 0,
-  "words": 1700,
+  "words": 2099,
   "nsec": 8,
-  "secfig": 4,
-  "wpv": 425,
+  "secfig": 5,
+  "wpv": 350,
   "sections": [
    "1. Overview",
    "3. Three ways to draw a loss",
@@ -7011,23 +7657,27 @@
    "common.py",
    "mnist_momentum.py",
    "momentum_ball.py",
-   "momentum_valley.py"
+   "momentum_valley.py",
+   "momentum_vectors.py",
+   "momentum_zigzag.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/nag_valley.gif"
+   "images/nag_valley.gif",
+   "images/nag_lookahead_steps.gif"
   ],
   "note": "1035-nesterov-accelerated-gradient",
   "title": "Nesterov Accelerated Gradient (NAG)",
   "figs": 3,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 1318,
+  "words": 1379,
   "nsec": 8,
-  "secfig": 4,
-  "wpv": 330,
+  "secfig": 5,
+  "wpv": 276,
   "sections": [
    "1. Overview",
    "3. Momentum's problem: oscillations",
@@ -7043,24 +7693,27 @@
    "common.py",
    "lookahead.tex",
    "mnist_nag.py",
+   "nag_lookahead_steps.py",
    "nag_valley.py",
-   "overshoot.py"
+   "overshoot.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/adagrad_race.gif"
+   "images/adagrad_race.gif",
+   "images/adagrad_rates.gif"
   ],
   "note": "1036-adagrad",
   "title": "AdaGrad: A Learning Rate for Every Parameter",
   "figs": 3,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 1648,
+  "words": 1703,
   "nsec": 8,
-  "secfig": 4,
-  "wpv": 412,
+  "secfig": 5,
+  "wpv": 341,
   "sections": [
    "1. Overview",
    "3. When AdaGrad helps",
@@ -7074,27 +7727,30 @@
   "kp": "AdaGrad gives every parameter its own learning rate: the global rate divided by the square root of the sum of that parameter's past squared gradients. Parameters with large gradients get small steps, parameters with smal",
   "scripts": [
    "adagrad_race.py",
+   "adagrad_rates.py",
    "common.py",
    "effective_lr.py",
    "imdb_lr.py",
    "shared.py",
-   "sparse_bowl.py"
+   "sparse_bowl.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/rmsprop_race.gif"
+   "images/rmsprop_race.gif",
+   "images/accumulator_stack.gif"
   ],
   "note": "1037-rmsprop",
   "title": "RMSProp: AdaGrad That Forgets",
   "figs": 2,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 1226,
+  "words": 1266,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 409,
+  "secfig": 4,
+  "wpv": 316,
   "sections": [
    "1. Overview",
    "3. AdaGrad's problem, in one formula",
@@ -7106,26 +7762,29 @@
   "kp": "RMSProp replaces AdaGrad's sum of squared gradients with an exponentially weighted moving average of them: $v_t = \\beta v_{t-1} + (1-\\beta)(\\nabla L)^2$. Old gradients fade away, so $v_t$ cannot grow without limit and th",
   "scripts": [
    "accumulator.py",
+   "accumulator_stack.py",
    "common.py",
    "mnist_rmsprop.py",
    "rmsprop_race.py",
-   "shared.py"
+   "shared.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/adam_race.gif"
+   "images/adam_race.gif",
+   "images/adam_moments.gif"
   ],
   "note": "1038-adam",
   "title": "Adam: Momentum and RMSProp Together",
   "figs": 2,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 1385,
+  "words": 1462,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 462,
+  "secfig": 4,
+  "wpv": 366,
   "sections": [
    "1. Overview",
    "3. The story so far",
@@ -7138,25 +7797,29 @@
   ],
   "kp": "Adam keeps two EWMAs per parameter: of the gradient, $m_t$ (momentum's idea), and of the squared gradient, $v_t$ (RMSProp's idea). It corrects both for starting at 0, then steps by $\\eta\\thinspace\\hat m_t/(\\sqrt{\\hat v_t",
   "scripts": [
+   "adam_moments.py",
    "adam_race.py",
    "bias_correction.py",
    "common.py",
    "mnist_all.py",
-   "shared.py"
+   "shared.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/optimizer_search.gif"
+  ],
   "note": "1039-keras-tuner",
   "title": "Hyperparameter Tuning a Neural Network with Keras Tuner",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 8,
+  "gifs": 1,
   "code": 0,
-  "words": 2759,
+  "words": 2915,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 920,
+  "secfig": 8,
+  "wpv": 324,
   "sections": [
    "1. Overview",
    "3. The problem: too many choices",
@@ -7171,23 +7834,30 @@
   "kp": "Keras Tuner automates the choices we make by hand when we build a network. We write one function that builds a model and marks each choice as a hyperparameter; a tuner then builds, trains and scores many versions and ret",
   "scripts": [
    "common.py",
+   "draws.py",
+   "feature_corr.py",
    "mnist_trials.py",
+   "optimizer_search.py",
+   "retrain_dots.py",
    "trials.py",
+   "where_this_fits.tex",
    "workflow.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/cnn_layers.gif"
+  ],
   "note": "1040-cnn-intuition",
   "title": "What a Convolutional Neural Network Is",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1468,
+  "words": 1563,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 367,
+  "secfig": 3,
+  "wpv": 313,
   "sections": [
    "1. Overview",
    "3. What makes a network a CNN",
@@ -7197,11 +7867,13 @@
   ],
   "kp": "A convolutional neural network (CNN) is a neural network built for grid-like data such as images. Instead of connecting every pixel to every node, it slides small filters over the image to find simple features like edges",
   "scripts": [
+   "cnn_layers.py",
    "common.py",
    "digit_grid.py",
    "flatten.tex",
    "hierarchy.tex",
-   "scrambled.py"
+   "scrambled.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7212,10 +7884,10 @@
   "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1500,
+  "words": 1506,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 500,
+  "wpv": 502,
   "sections": [
    "1. Overview",
    "3. How visual information flows",
@@ -7228,7 +7900,8 @@
    "cell_models.py",
    "common.py",
    "pathway.tex",
-   "timeline.tex"
+   "timeline.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7264,7 +7937,8 @@
    "digit_relu.py",
    "edges_photo.py",
    "learned_filters.py",
-   "rgb_conv.tex"
+   "rgb_conv.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7295,7 +7969,8 @@
    "border_usage.py",
    "common.py",
    "padding_slide.py",
-   "stride_slide.py"
+   "stride_slide.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7305,13 +7980,13 @@
   ],
   "note": "1044-pooling",
   "title": "Pooling",
-  "figs": 2,
+  "figs": 6,
   "gifs": 1,
   "code": 0,
-  "words": 1729,
+  "words": 1834,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 576,
+  "secfig": 6,
+  "wpv": 262,
   "sections": [
    "1. Overview",
    "3. Why pooling is needed",
@@ -7326,23 +8001,30 @@
   "scripts": [
    "anim.py",
    "common.py",
+   "keras_shapes.tex",
    "maxpool_slide.py",
+   "memory_bars.py",
    "photo_pool.py",
-   "shift_pool.py"
+   "pool_types.tex",
+   "shift_pool.py",
+   "volume_pool.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/lenet_flow.gif"
+  ],
   "note": "1045-lenet-5",
   "title": "CNN Architecture and LeNet-5",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1194,
+  "words": 1282,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 597,
+  "secfig": 5,
+  "wpv": 256,
   "sections": [
    "1. Overview",
    "3. The general CNN architecture",
@@ -7354,21 +8036,27 @@
   "scripts": [
    "cnn_pattern.tex",
    "common.py",
-   "lenet5.tex"
+   "lenet5.tex",
+   "lenet_flow.py",
+   "lenet_training.py",
+   "param_share.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/param_growth.gif"
+  ],
   "note": "1046-cnn-vs-ann",
   "title": "CNN versus ANN",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 1151,
+  "words": 1213,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 576,
+  "secfig": 4,
+  "wpv": 303,
   "sections": [
    "1. Overview",
    "3. The same task, two networks",
@@ -7380,21 +8068,26 @@
   "scripts": [
    "common.py",
    "node_vs_filter.tex",
-   "results.py"
+   "param_growth.py",
+   "results.py",
+   "two_networks.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/cnn_forward_last_layer.gif"
+  ],
   "note": "1047-backpropagation-in-cnn",
   "title": "Backpropagation in a CNN, Part 1: The Setup and the Last Layer",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 1170,
+  "words": 1292,
   "nsec": 6,
-  "secfig": 1,
-  "wpv": 1170,
+  "secfig": 5,
+  "wpv": 258,
   "sections": [
    "1. Overview",
    "3. A small CNN",
@@ -7405,22 +8098,30 @@
   ],
   "kp": "A CNN is trained exactly like an ANN: forward propagation, a loss, then gradient descent on every weight, with the gradients found by the chain rule. We split a small CNN into its CNN part and its ANN part; the ANN part'",
   "scripts": [
+   "batch_grads.py",
+   "chain_paths.tex",
    "cnn_chain.tex",
-   "common.py"
+   "cnn_forward_last_layer.py",
+   "common.py",
+   "digits_small.py",
+   "mnist_small.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/cnn_backward_strip.gif"
+  ],
   "note": "1048-backpropagation-cnn-layers",
   "title": "Backpropagation in a CNN, Part 2: Flatten, Max Pooling and Convolution",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1396,
+  "words": 1536,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 465,
+  "secfig": 6,
+  "wpv": 219,
   "sections": [
    "1. Overview",
    "3. The plan",
@@ -7433,10 +8134,15 @@
   ],
   "kp": "Going backwards, flatten is undone by a reshape, max pooling sends each gradient to the position that held the maximum, ReLU lets gradients through only where its input was positive, and the convolution gives $\\partial L",
   "scripts": [
+   "backward_plan.tex",
+   "bias_sum.tex",
+   "cnn_backward_strip.py",
    "common.py",
    "conv_backward.tex",
+   "flatten_backward.tex",
    "numpy_training.py",
-   "pool_backward.tex"
+   "pool_backward.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7467,7 +8173,8 @@
    "common.py",
    "compare.py",
    "curves.py",
-   "samples.py"
+   "samples.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7497,7 +8204,8 @@
    "common.py",
    "curves.py",
    "fill_modes.py",
-   "transforms.py"
+   "transforms.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7505,13 +8213,13 @@
   "gifn": [],
   "note": "1051-pretrained-models",
   "title": "Pretrained Models: ImageNet, ILSVRC and Keras",
-  "figs": 3,
+  "figs": 6,
   "gifs": 0,
   "code": 0,
-  "words": 2062,
+  "words": 2162,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 687,
+  "secfig": 5,
+  "wpv": 360,
   "sections": [
    "1. Overview",
    "3. Why use someone else's model",
@@ -7520,12 +8228,16 @@
    "6. Pretrained models in Keras",
    "7. A universal classifier with ResNet50"
   ],
-  "kp": "A **pretrained model** is a network that someone else has already designed and trained on a huge dataset. The famous ones were trained on ImageNet, a collection of over 14 million labelled photos, and many won the yearly",
+  "kp": "A **pretrained model** (G-1558) is a network that someone else has already designed and trained on a huge dataset. The famous ones were trained on ImageNet, a collection of over 14 million labelled photos, and many won t",
   "scripts": [
    "alexnet.tex",
    "common.py",
    "ilsvrc_errors.py",
-   "predictions.py"
+   "imagenet_scale.tex",
+   "keras_models.py",
+   "predictions.py",
+   "resnet_pipeline.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7556,7 +8268,8 @@
    "first_filters.py",
    "sparsity.py",
    "top_patches.py",
-   "vgg16_layers.tex"
+   "vgg16_layers.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7564,13 +8277,13 @@
   "gifn": [],
   "note": "1053-transfer-learning",
   "title": "Transfer Learning: Feature Extraction and Fine-Tuning",
-  "figs": 2,
+  "figs": 6,
   "gifs": 0,
   "code": 0,
-  "words": 1880,
+  "words": 2006,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 940,
+  "secfig": 6,
+  "wpv": 334,
   "sections": [
    "1. Overview",
    "3. Why transfer learning",
@@ -7580,11 +8293,16 @@
    "7. Transfer learning in Keras",
    "8. Experiment: from scratch vs feature extraction vs fine-tuning"
   ],
-  "kp": "**Transfer learning** reuses what a network learned on one large dataset for a new, related problem. We keep the convolutional base of a pretrained CNN, replace its top with new layers for our own classes, and train only",
+  "kp": "**Transfer learning** (G-2005) reuses what a network learned on one large dataset for a new, related problem. We keep the convolutional base of a pretrained CNN, replace its top with new layers for our own classes, and t",
   "scripts": [
    "common.py",
+   "general_specific.tex",
+   "param_counts.py",
    "results.py",
-   "strategies.tex"
+   "strategies.tex",
+   "transfer_idea.tex",
+   "where_this_fits.tex",
+   "which_method.tex"
   ],
   "unref_gif": []
  },
@@ -7595,10 +8313,10 @@
   "figs": 5,
   "gifs": 0,
   "code": 0,
-  "words": 2073,
+  "words": 2064,
   "nsec": 4,
   "secfig": 3,
-  "wpv": 415,
+  "wpv": 413,
   "sections": [
    "1. Overview",
    "3. When a straight line is not enough",
@@ -7612,21 +8330,24 @@
    "topologies.tex",
    "toy_two_outputs.tex",
    "two_inputs_and_skip.tex",
-   "two_output_curves.py"
+   "two_output_curves.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/ann_vs_rnn.gif"
+  ],
   "note": "1055-why-rnn",
   "title": "Why Recurrent Neural Networks Are Needed",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1948,
+  "words": 1975,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 649,
+  "secfig": 4,
+  "wpv": 494,
   "sections": [
    "1. Overview",
    "3. Sequential data",
@@ -7638,25 +8359,28 @@
   "kp": "Some data comes as a **sequence**, where the order of the items carries meaning: words in a sentence, prices over time, sound over time. An ordinary neural network (ANN) handles sequences badly. Text comes in different l",
   "scripts": [
    "ann_input.tex",
+   "ann_vs_rnn.py",
    "common.py",
    "imdb_lengths.py",
-   "order_matters.tex"
+   "order_matters.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/rnn_unroll.gif"
+   "images/rnn_unroll.gif",
+   "images/memory_test.gif"
   ],
   "note": "1056-rnn-forward-propagation",
   "title": "RNN Architecture and Forward Propagation",
   "figs": 2,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 1773,
+  "words": 1798,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 591,
+  "secfig": 4,
+  "wpv": 450,
   "sections": [
    "1. Overview",
    "3. The shape of the input",
@@ -7668,23 +8392,27 @@
   "kp": "A recurrent neural network (RNN) reads a sequence one element at a time. Its hidden layer sends its own output back to itself, so at every time step it combines the new input with a summary of everything read so far.",
   "scripts": [
    "common.py",
+   "memory_test.py",
    "rnn_architecture.tex",
    "rnn_cell.tex",
-   "rnn_unroll.py"
+   "rnn_unroll.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/running_review.gif"
+  ],
   "note": "1057-rnn-sentiment-analysis",
   "title": "Sentiment Analysis with an RNN in Keras",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 2095,
+  "words": 2181,
   "nsec": 6,
   "secfig": 4,
-  "wpv": 524,
+  "wpv": 436,
   "sections": [
    "1. Overview",
    "3. Integer encoding",
@@ -7699,7 +8427,9 @@
    "embedding_lookup.tex",
    "embedding_words.py",
    "imdb_curves.py",
-   "integer_encoding.tex"
+   "integer_encoding.tex",
+   "running_review.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7728,21 +8458,25 @@
    "many_to_many_variable.tex",
    "many_to_one.tex",
    "one_to_many.tex",
-   "one_to_one.tex"
+   "one_to_one.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/bptt_pulse.gif",
+   "images/training_loop.gif"
+  ],
   "note": "1059-backpropagation-through-time",
   "title": "Backpropagation Through Time",
-  "figs": 1,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 1459,
+  "words": 1604,
   "nsec": 7,
-  "secfig": 1,
-  "wpv": 1459,
+  "secfig": 6,
+  "wpv": 267,
   "sections": [
    "1. Overview",
    "3. The setup: a many-to-one RNN",
@@ -7755,21 +8489,29 @@
   "kp": "Backpropagation through time (BPTT) is ordinary backpropagation applied to the unfolded RNN. Because $W_i$ and $W_h$ are used at every time step, their gradient is a sum with one term per time step.",
   "scripts": [
    "bptt_paths.tex",
-   "common.py"
+   "bptt_pulse.py",
+   "common.py",
+   "network_setup.tex",
+   "path_sums.py",
+   "training_loop.py",
+   "where_this_fits.tex",
+   "wo_path.py"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/gradient_travel.gif"
+  ],
   "note": "1060-problems-with-rnn",
   "title": "Problems with RNNs: Long-Term Dependency and Unstable Gradients",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 3,
+  "gifs": 1,
   "code": 0,
-  "words": 2109,
+  "words": 2311,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 527,
+  "wpv": 578,
   "sections": [
    "1. Overview",
    "3. The long-term dependency problem",
@@ -7783,21 +8525,24 @@
    "dependency.tex",
    "gap_accuracy.py",
    "grad_vs_distance.py",
-   "scaled_wh.py"
+   "gradient_travel.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/two_memories.gif"
+  ],
   "note": "1061-lstm",
   "title": "LSTM: The Core Idea",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1865,
+  "words": 1986,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 622,
+  "secfig": 7,
+  "wpv": 284,
   "sections": [
    "1. Overview",
    "3. Where a simple RNN fails",
@@ -7812,25 +8557,31 @@
   "kp": "A long short-term memory network (LSTM) is an RNN with two memory paths instead of one: a long-term memory (the cell state) and a short-term memory (the hidden state), plus a cell that decides what moves between them.",
   "scripts": [
    "common.py",
+   "long_gap.tex",
    "long_memory.py",
    "lstm_io.tex",
-   "lstm_vs_rnn.tex"
+   "lstm_vs_rnn.tex",
+   "three_gates.tex",
+   "two_lanes.tex",
+   "two_memories.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
+   "images/lstm_step.gif",
    "images/lstm_gates.gif"
   ],
   "note": "1062-lstm-architecture",
   "title": "LSTM Architecture: The Three Gates",
-  "figs": 2,
-  "gifs": 1,
+  "figs": 5,
+  "gifs": 2,
   "code": 0,
-  "words": 2310,
+  "words": 2422,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 770,
+  "secfig": 7,
+  "wpv": 346,
   "sections": [
    "1. Overview",
    "3. What the cell must do",
@@ -7844,31 +8595,38 @@
   ],
   "kp": "An LSTM cell uses three gates to manage its two memories. The forget gate removes from the cell state, the input gate adds to it, and the output gate reads from it to make the new hidden state.",
   "scripts": [
+   "carry.py",
    "common.py",
    "gate_layer.tex",
    "lstm_cell.tex",
-   "lstm_gates.py"
+   "lstm_gates.py",
+   "lstm_step.py",
+   "param_count.tex",
+   "pointwise.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/next_word_bars.gif"
+  ],
   "note": "1063-lstm-next-word-prediction",
   "title": "Next-Word Prediction with an LSTM",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 4,
+  "gifs": 1,
   "code": 0,
-  "words": 2125,
+  "words": 2502,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 708,
+  "secfig": 4,
+  "wpv": 500,
   "sections": [
    "1. Overview",
    "3. Text generation as a supervised learning problem",
    "4. Preparing the data",
    "5. Regression or classification?",
    "6. The model: Embedding, LSTM, Dense",
-   "7. Training and overfitting",
+   "7. Training, and how good the model is",
    "8. Predicting the next word",
    "9. Making the predictor better"
   ],
@@ -7878,21 +8636,25 @@
    "architecture.tex",
    "baselines.py",
    "common.py",
-   "ngram_pairs.tex"
+   "next_word_bars.py",
+   "ngram_pairs.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/gru_step.gif"
+  ],
   "note": "1064-gru",
   "title": "Gated Recurrent Unit (GRU)",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 2527,
+  "words": 2663,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 1264,
+  "secfig": 7,
+  "wpv": 380,
   "sections": [
    "1. Overview",
    "3. Why the GRU exists",
@@ -7905,23 +8667,31 @@
   ],
   "kp": "A gated recurrent unit (GRU) is a simpler cousin of the LSTM. A GRU keeps a single memory, the hidden state, and controls it with two gates instead of three: a reset gate and an update gate. A GRU has fewer parameters th",
   "scripts": [
+   "blend.py",
    "common.py",
    "gru_cell.tex",
-   "gru_vs_lstm.py"
+   "gru_step.py",
+   "gru_vs_lstm.py",
+   "one_state.tex",
+   "param_growth.py",
+   "story_memory.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/stack_fill.gif"
+  ],
   "note": "1065-deep-rnns",
   "title": "Deep (Stacked) RNNs",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 7,
+  "gifs": 1,
   "code": 0,
-  "words": 2479,
+  "words": 2694,
   "nsec": 10,
-  "secfig": 3,
-  "wpv": 826,
+  "secfig": 8,
+  "wpv": 337,
   "sections": [
    "1. Overview",
    "3. Why stack recurrent layers",
@@ -7939,21 +8709,29 @@
    "char_lm.py",
    "common.py",
    "deep_grid.tex",
-   "stacked_unrolled.tex"
+   "deep_params.py",
+   "hierarchy.tex",
+   "keras_shapes.tex",
+   "spiral_power.py",
+   "stack_fill.py",
+   "stacked_unrolled.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/birnn_sweep.gif"
+  ],
   "note": "1066-bidirectional-rnn",
   "title": "Bidirectional RNNs",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 1957,
+  "words": 2164,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 978,
+  "secfig": 6,
+  "wpv": 309,
   "sections": [
    "1. Overview",
    "3. Why read a sequence in both directions",
@@ -7965,9 +8743,15 @@
   ],
   "kp": "A bidirectional RNN runs two RNNs over the same sequence, one from left to right and one from right to left, and joins their hidden states at every time step. Each output can then use both the past and the future of the ",
   "scripts": [
+   "bi_params.py",
+   "birnn_sweep.py",
    "birnn_unrolled.tex",
    "common.py",
-   "pos_results.py"
+   "latency.tex",
+   "ner_context.tex",
+   "next_tags.py",
+   "pos_results.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -7975,13 +8759,13 @@
   "gifn": [],
   "note": "1067-history-of-llms",
   "title": "From Encoder\u2013Decoder to ChatGPT: A History of Large Language Models",
-  "figs": 3,
+  "figs": 8,
   "gifs": 0,
   "code": 0,
-  "words": 2056,
+  "words": 2516,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 685,
+  "secfig": 8,
+  "wpv": 314,
   "sections": [
    "1. Overview",
    "3. Sequence-to-sequence problems",
@@ -7992,28 +8776,35 @@
    "8. Stage 5: large language models (2018 onward)",
    "9. From GPT-3 to ChatGPT"
   ],
-  "kp": "Large language models grew out of five stages, each fixing the main problem of the one before. The **encoder\u2013decoder** (2014) turned one sequence into another but forgot long sentences. **Attention** (2014\u201315) let it loo",
+  "kp": "Large language models grew out of five stages, each fixing the main problem of the one before:",
   "scripts": [
+   "attention_cost.tex",
    "common.py",
    "encoder_decoder.tex",
    "model_sizes.py",
-   "timeline.tex"
+   "parallel.tex",
+   "rlhf.tex",
+   "self_labels.tex",
+   "seq2seq_lengths.tex",
+   "timeline.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/greedy_decoding.gif"
+   "images/greedy_decoding.gif",
+   "images/context_squeeze.gif"
   ],
   "note": "1068-encoder-decoder",
   "title": "The Encoder\u2013Decoder Architecture",
   "figs": 3,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 2855,
+  "words": 2901,
   "nsec": 8,
-  "secfig": 4,
-  "wpv": 714,
+  "secfig": 5,
+  "wpv": 580,
   "sections": [
    "1. Overview",
    "3. Why sequence-to-sequence is hard",
@@ -8027,24 +8818,28 @@
   "kp": "An encoder\u2013decoder turns one sequence into another of a different length. The **encoder**, an LSTM, reads the input word by word and hands its final state, the **context vector**, to the **decoder**, a second LSTM that w",
   "scripts": [
    "common.py",
+   "context_squeeze.py",
    "greedy_decoding.py",
    "improved_seq2seq.tex",
    "seq2seq_training.tex",
-   "teacher_forcing.py"
+   "teacher_forcing.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/attention_fill.gif"
+  ],
   "note": "1069-attention-mechanism",
   "title": "The Attention Mechanism",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 2115,
+  "words": 2167,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 705,
+  "secfig": 4,
+  "wpv": 542,
   "sections": [
    "1. Overview",
    "3. The problem with one context vector",
@@ -8057,24 +8852,28 @@
   ],
   "kp": "In the plain encoder\u2013decoder, the decoder sees one fixed summary of the whole input. With **attention**, the decoder gets a fresh **context vector** $c_i$ at every step: a weighted sum of all the encoder's hidden states,",
   "scripts": [
+   "attention_fill.py",
    "attention_heatmap.py",
    "attention_step.tex",
    "bleu_by_length.py",
-   "common.py"
+   "common.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/two_orders.gif"
+  ],
   "note": "1070-bahdanau-vs-luong-attention",
   "title": "Bahdanau Attention and Luong Attention",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1924,
+  "words": 2067,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 962,
+  "secfig": 5,
+  "wpv": 344,
   "sections": [
    "1. Overview",
    "3. Recap: what both must compute",
@@ -8085,22 +8884,29 @@
   "kp": "Both attentions build a context vector $c_i = \\sum_j \\alpha_{ij} h_j$; they differ in how they score each encoder state and where the context enters the decoder. **Bahdanau** (additive) attention scores the previous deco",
   "scripts": [
    "attention_three.py",
+   "bleu_compare.py",
    "common.py",
-   "two_paths.tex"
+   "context_sum.tex",
+   "three_scores.py",
+   "two_orders.py",
+   "two_paths.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/race.gif"
+  ],
   "note": "1071-introduction-to-transformers",
   "title": "Introduction to Transformers",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 7,
+  "gifs": 1,
   "code": 0,
-  "words": 2635,
+  "words": 2717,
   "nsec": 9,
-  "secfig": 3,
-  "wpv": 878,
+  "secfig": 7,
+  "wpv": 340,
   "sections": [
    "1. Overview",
    "3. What a transformer is",
@@ -8112,12 +8918,18 @@
    "9. Disadvantages",
    "10. The future"
   ],
-  "kp": "A **transformer** is a neural network architecture for sequence-to-sequence tasks. Like earlier models it has an encoder and a decoder, but it contains no RNN or LSTM: it is built on a form of attention called **self-att",
+  "kp": "A **transformer** (G-2007) is a neural network architecture for sequence-to-sequence tasks. Like earlier models it has an encoder and a decoder, but it contains no RNN or LSTM: it is built on a form of attention called *",
   "scripts": [
+   "chain.tex",
    "common.py",
+   "compress.tex",
+   "patches.tex",
+   "race.py",
    "timeline.tex",
    "timing.py",
-   "transformer_overview.tex"
+   "transformer_overview.tex",
+   "variants.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -8128,10 +8940,10 @@
   "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1445,
+  "words": 1495,
   "nsec": 5,
   "secfig": 3,
-  "wpv": 482,
+  "wpv": 498,
   "sections": [
    "1. Overview",
    "3. Turning words into numbers",
@@ -8144,23 +8956,25 @@
    "average_meaning.tex",
    "bank_map.py",
    "common.py",
-   "static_vs_contextual.tex"
+   "static_vs_contextual.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
+   "images/qkv_arrows.gif",
    "images/attention_rows.gif"
   ],
   "note": "1073-self-attention-step-by-step",
   "title": "Self-Attention Step by Step",
   "figs": 4,
-  "gifs": 1,
+  "gifs": 2,
   "code": 0,
-  "words": 2652,
+  "words": 2905,
   "nsec": 8,
   "secfig": 4,
-  "wpv": 530,
+  "wpv": 484,
   "sections": [
    "1. Overview",
    "3. The idea: a word as a mix of its sentence",
@@ -8177,21 +8991,26 @@
    "common.py",
    "first_principles.tex",
    "heatmaps.py",
-   "qkv.tex"
+   "qkv.tex",
+   "qkv_arrows.py",
+   "weights_dots.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/saturation_anim.gif"
+  ],
   "note": "1074-scaled-dot-product-attention",
   "title": "Scaled Dot-Product Attention: Why Divide by the Square Root of d_k",
   "figs": 4,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1533,
+  "words": 1574,
   "nsec": 6,
   "secfig": 3,
-  "wpv": 383,
+  "wpv": 315,
   "sections": [
    "1. Overview",
    "3. What $d_k$ is",
@@ -8206,23 +9025,26 @@
    "dot_spread.py",
    "heatmaps.py",
    "saturation.py",
-   "scaled_flow.tex"
+   "saturation_anim.py",
+   "scaled_flow.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/attention_2d.gif"
+   "images/attention_2d.gif",
+   "images/residual_nudge.gif"
   ],
   "note": "1075-self-attention-geometric-intuition",
   "title": "Self-Attention, Geometrically",
-  "figs": 0,
-  "gifs": 1,
+  "figs": 4,
+  "gifs": 2,
   "code": 0,
-  "words": 1034,
+  "words": 1416,
   "nsec": 6,
-  "secfig": 1,
-  "wpv": 1034,
+  "secfig": 5,
+  "wpv": 236,
   "sections": [
    "1. Overview",
    "3. Words as arrows",
@@ -8234,7 +9056,11 @@
   "kp": "Drawn as arrows, self-attention does three things to a word's vector. Self-attention projects the embedding into a query, a key and a value vector; it measures how well the word's query points along every key; and it rep",
   "scripts": [
    "attention_2d.py",
-   "common.py"
+   "attention_2d_stills.py",
+   "common.py",
+   "gpt2_delta.py",
+   "residual_nudge.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -8242,13 +9068,13 @@
   "gifn": [],
   "note": "1076-why-self-attention",
   "title": "Why Self-Attention Is Called \\\"Self\\\"",
-  "figs": 2,
+  "figs": 3,
   "gifs": 0,
   "code": 0,
-  "words": 1125,
+  "words": 1150,
   "nsec": 5,
-  "secfig": 2,
-  "wpv": 562,
+  "secfig": 3,
+  "wpv": 383,
   "sections": [
    "1. Overview",
    "3. Attention in the encoder\u2013decoder, in three equations",
@@ -8259,22 +9085,26 @@
   "kp": "Self-attention is an attention mechanism because it uses the same three equations as Luong's attention in an encoder\u2013decoder: dot-product scores between a query and keys, a softmax, and a weighted sum of values. Self-att",
   "scripts": [
    "common.py",
+   "three_equations.tex",
    "two_settings.tex",
-   "weights.py"
+   "weights.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/heads_wo.gif"
+  ],
   "note": "1077-multi-head-attention",
   "title": "Multi-Head Attention",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 6,
+  "gifs": 1,
   "code": 0,
-  "words": 2039,
+  "words": 2513,
   "nsec": 7,
-  "secfig": 2,
-  "wpv": 680,
+  "secfig": 5,
+  "wpv": 359,
   "sections": [
    "1. Overview",
    "3. Self-attention in one paragraph",
@@ -8284,12 +9114,17 @@
    "7. Multi-head attention in code",
    "8. The heads of a trained model"
   ],
-  "kp": "One self-attention computes one table of weights per sentence, so it can only look at the sentence from one point of view. **Multi-head attention** runs several self-attentions in parallel, called **heads**, each with it",
+  "kp": "One self-attention computes one table of weights per sentence, so it can only look at the sentence from one point of view. **Multi-head attention** (G-1268) runs several self-attentions in parallel, called **heads** (G-8",
   "scripts": [
    "bert_heads.py",
    "common.py",
+   "head_budget.py",
+   "heads_wo.py",
    "mha_flow.tex",
-   "two_heads.py"
+   "two_heads.py",
+   "two_readings.tex",
+   "value_rank.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -8302,10 +9137,10 @@
   "figs": 4,
   "gifs": 1,
   "code": 0,
-  "words": 2411,
+  "words": 2414,
   "nsec": 7,
   "secfig": 4,
-  "wpv": 482,
+  "wpv": 483,
   "sections": [
    "1. Overview",
    "3. Why the transformer needs positions",
@@ -8322,21 +9157,24 @@
    "pe_add.tex",
    "pe_dot.py",
    "pe_heatmap.py",
-   "pe_waves.py"
+   "pe_waves.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/norm_axes.gif"
+  ],
   "note": "1079-layer-normalization",
   "title": "Layer Normalisation",
   "figs": 3,
-  "gifs": 0,
+  "gifs": 1,
   "code": 0,
-  "words": 1883,
+  "words": 1923,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 628,
+  "secfig": 3,
+  "wpv": 481,
   "sections": [
    "1. Overview",
    "3. Normalisation in deep learning",
@@ -8350,21 +9188,25 @@
    "bn_vs_ln.tex",
    "common.py",
    "imdb_padding.py",
-   "padding_effect.py"
+   "norm_axes.py",
+   "padding_effect.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/block_values.gif"
+  ],
   "note": "1080-transformer-encoder",
   "title": "The Transformer Encoder",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 8,
+  "gifs": 1,
   "code": 0,
-  "words": 2894,
+  "words": 3219,
   "nsec": 6,
-  "secfig": 3,
-  "wpv": 965,
+  "secfig": 6,
+  "wpv": 358,
   "sections": [
    "1. Overview",
    "3. From a black box to the real block",
@@ -8373,28 +9215,37 @@
    "6. Six blocks: shapes and parameters",
    "7. Why each part is there"
   ],
-  "kp": "The transformer has two parts, an **encoder** and a **decoder**. The encoder turns a sentence into one context-aware vector per word. It first adds a positional encoding to each word's embedding, then passes the vectors ",
+  "kp": "The transformer has two parts, an **encoder** (G-682) and a **decoder** (G-564). The encoder turns a sentence into one context-aware vector per word. It first adds a positional encoding to each word's embedding, then pas",
   "scripts": [
    "architecture.tex",
+   "bleu_blocks.py",
    "block_flow.tex",
+   "block_values.py",
+   "build_up.tex",
    "collapse.py",
-   "common.py"
+   "common.py",
+   "input_steps.tex",
+   "param_share.py",
+   "where_this_fits.tex",
+   "who_changes.py"
   ],
   "unref_gif": []
  },
  {
   "gifn": [
-   "images/mask_fill.gif"
+   "images/train_infer_anim.gif",
+   "images/mask_fill.gif",
+   "images/trained_grid.gif"
   ],
   "note": "1081-masked-self-attention",
   "title": "Masked Self-Attention",
   "figs": 3,
-  "gifs": 1,
+  "gifs": 3,
   "code": 0,
-  "words": 2611,
+  "words": 2847,
   "nsec": 7,
-  "secfig": 3,
-  "wpv": 653,
+  "secfig": 4,
+  "wpv": 474,
   "sections": [
    "1. Overview",
    "3. Autoregressive models",
@@ -8410,21 +9261,26 @@
    "mask_fill.py",
    "masked_weights.py",
    "timing.py",
-   "train_vs_infer.tex"
+   "train_infer_anim.py",
+   "train_vs_infer.tex",
+   "trained_grid.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/cross_fill.gif"
+  ],
   "note": "1082-cross-attention",
   "title": "Cross-Attention",
-  "figs": 2,
-  "gifs": 0,
+  "figs": 5,
+  "gifs": 1,
   "code": 0,
-  "words": 1973,
+  "words": 2103,
   "nsec": 8,
-  "secfig": 2,
-  "wpv": 986,
+  "secfig": 6,
+  "wpv": 350,
   "sections": [
    "1. Overview",
    "3. What the decoder needs to know",
@@ -8435,25 +9291,32 @@
    "8. Cross-attention and the attention of the RNN encoder\u2013decoder",
    "9. Where cross-attention is used"
   ],
-  "kp": "**Cross-attention** is attention between two sequences. In the transformer decoder, the **queries** come from the output sentence being written (French), and the **keys** and **values** come from the encoder's output for",
+  "kp": "**Cross-attention** (G-507) is attention between two sequences. In the transformer decoder, the **queries** (G-1606) come from the output sentence being written (French), and the **keys** (G-1011) and **values** (G-2068)",
   "scripts": [
+   "by_hand.py",
    "common.py",
+   "cross_fill.py",
    "cross_heatmaps.py",
-   "self_vs_cross.tex"
+   "rnn_vs_qkv.tex",
+   "self_vs_cross.tex",
+   "two_needs.tex",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/decoder_flow_anim.gif"
+  ],
   "note": "1083-transformer-decoder",
   "title": "The Transformer Decoder",
-  "figs": 3,
-  "gifs": 0,
+  "figs": 7,
+  "gifs": 1,
   "code": 0,
-  "words": 2611,
+  "words": 2806,
   "nsec": 8,
-  "secfig": 3,
-  "wpv": 870,
+  "secfig": 7,
+  "wpv": 351,
   "sections": [
    "1. Overview",
    "3. From a black box to the decoder block",
@@ -8464,12 +9327,18 @@
    "8. The output layer: linear and softmax",
    "9. Training: every position in one pass"
   ],
-  "kp": "The **decoder** writes the output sentence. Its input is the target sentence **shifted right**: a start token in front, so that each position holds the word before the one it must predict. After embedding and positional ",
+  "kp": "The **decoder** (G-564) writes the output sentence. Its input is the target sentence **shifted right**: a start token in front, so that each position holds the word before the one it must predict. After embedding and pos",
   "scripts": [
    "common.py",
    "decoder_architecture.tex",
    "decoder_flow.tex",
-   "param_parts.py"
+   "decoder_flow_anim.py",
+   "enc_vs_dec_block.tex",
+   "param_parts.py",
+   "shift_right.tex",
+   "softmax_toy.py",
+   "untrained_loss.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
@@ -8479,13 +9348,13 @@
   ],
   "note": "1084-transformer-inference",
   "title": "Transformer Inference",
-  "figs": 1,
+  "figs": 4,
   "gifs": 1,
   "code": 0,
-  "words": 1827,
+  "words": 1880,
   "nsec": 6,
-  "secfig": 2,
-  "wpv": 914,
+  "secfig": 5,
+  "wpv": 376,
   "sections": [
    "1. Overview",
    "3. Training and inference side by side",
@@ -8498,21 +9367,25 @@
   "scripts": [
    "common.py",
    "decode_anim.py",
-   "inference_steps.tex"
+   "inference_steps.tex",
+   "inference_stills.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  },
  {
-  "gifn": [],
+  "gifn": [
+   "images/capstone.gif"
+  ],
   "note": "1085-transformer-end-to-end",
   "title": "The Transformer, End to End",
-  "figs": 4,
-  "gifs": 0,
+  "figs": 11,
+  "gifs": 1,
   "code": 0,
-  "words": 4408,
+  "words": 4686,
   "nsec": 9,
-  "secfig": 4,
-  "wpv": 1102,
+  "secfig": 8,
+  "wpv": 390,
   "sections": [
    "1. Overview",
    "3. The chain of problems that led to the transformer",
@@ -8526,11 +9399,193 @@
   ],
   "kp": "The transformer is an encoder and a decoder built from attention alone. The encoder reads the whole input sentence at once and gives every word a context-aware vector. The decoder writes the output one word at a time; at",
   "scripts": [
+   "capstone.py",
    "common.py",
+   "evidence.py",
+   "label_smoothing.py",
+   "lineage.tex",
    "model_map.tex",
+   "param_split.py",
+   "parse_tree.tex",
    "problem_chain.tex",
    "table2.py",
-   "warmup.py"
+   "table3.py",
+   "train_vs_infer.tex",
+   "warmup.py",
+   "where_this_fits.tex"
+  ],
+  "unref_gif": []
+ },
+ {
+  "gifn": [
+   "images/direction_arrows.gif"
+  ],
+  "note": "1086-meaning-as-direction",
+  "title": "Meaning as Direction in Embedding Space",
+  "figs": 2,
+  "gifs": 1,
+  "code": 0,
+  "words": 1743,
+  "nsec": 6,
+  "secfig": 3,
+  "wpv": 581,
+  "sections": [
+   "1. Overview",
+   "3. A word is a point; nearby points share meaning",
+   "4. The difference between two words is a direction",
+   "5. Arithmetic with directions",
+   "6. A dot product reads how much of a direction a word has",
+   "7. The same structure inside a transformer"
+  ],
+  "kp": "In a trained word embedding, meaning lives in **directions**, not in single coordinates. The arrow from \"man\" to \"woman\" points roughly the same way as the arrows from \"uncle\" to \"aunt\" and from \"father\" to \"mother\", so ",
+  "scripts": [
+   "common.py",
+   "direction_arrows.py",
+   "pair_alignment.py",
+   "plural_probe.py",
+   "where_this_fits.tex"
+  ],
+  "unref_gif": []
+ },
+ {
+  "gifn": [
+   "images/gpt2_pass.gif",
+   "images/param_tally.gif"
+  ],
+  "note": "1087-decoder-only-gpt",
+  "title": "GPT: the Decoder-Only Transformer",
+  "figs": 3,
+  "gifs": 2,
+  "code": 0,
+  "words": 2949,
+  "nsec": 8,
+  "secfig": 4,
+  "wpv": 590,
+  "sections": [
+   "1. Overview",
+   "3. From the transformer decoder to GPT",
+   "4. Tokens",
+   "5. From tokens to vectors: token and position embeddings",
+   "6. Inside a GPT-2 block",
+   "7. A guess at every position",
+   "8. Context size",
+   "9. Counting the parameters"
+  ],
+  "kp": "GPT is a transformer with the encoder removed. What is left is a stack of identical blocks, each with two parts: masked self-attention, then an MLP. Each part adds its result to the token's vector. One pass reads a text ",
+  "scripts": [
+   "blocks.tex",
+   "common.py",
+   "gelu.py",
+   "gpt2_pass.py",
+   "param_tally.py",
+   "residual_stream.py",
+   "where_this_fits.tex"
+  ],
+  "unref_gif": []
+ },
+ {
+  "gifn": [
+   "images/temperature.gif",
+   "images/logit_lens.gif"
+  ],
+  "note": "1088-unembedding-and-sampling",
+  "title": "From the Last Vector to a Token: Unembedding, Logits and Sampling",
+  "figs": 2,
+  "gifs": 2,
+  "code": 0,
+  "words": 2133,
+  "nsec": 6,
+  "secfig": 3,
+  "wpv": 533,
+  "sections": [
+   "1. Overview",
+   "3. The unembedding: one dot product per token",
+   "4. Why only the last vector",
+   "5. Softmax with a temperature",
+   "6. Sampling: choosing the next token",
+   "7. The logit lens: watching the guess form"
+  ],
+  "kp": "After the last block, GPT turns the final vector into one score per vocabulary token by taking its dot product with every token's embedding row. This step is the **unembedding**, and the scores are the **logits**. A soft",
+  "scripts": [
+   "common.py",
+   "lens_grid.py",
+   "logit_cosine.py",
+   "logit_lens.py",
+   "temperature.py",
+   "where_this_fits.tex"
+  ],
+  "unref_gif": []
+ },
+ {
+  "gifn": [
+   "images/and_gate.gif"
+  ],
+  "note": "1089-mlp-stores-facts",
+  "title": "How the MLP Block Can Store a Fact",
+  "figs": 6,
+  "gifs": 1,
+  "code": 0,
+  "words": 2404,
+  "nsec": 7,
+  "secfig": 6,
+  "wpv": 343,
+  "sections": [
+   "1. Overview",
+   "3. The MLP block in one formula",
+   "4. Rows ask questions; the activation makes an AND gate",
+   "5. Columns write directions",
+   "6. A real model: does GPT-2 small know sports?",
+   "7. Where the sport comes from",
+   "8. What the toy leaves out"
+  ],
+  "kp": "The MLP block of a transformer can be read as a long list of questions and answers. Each row of its first matrix asks a question about the token's vector (a dot product plus a bias). The activation function keeps only cl",
+  "scripts": [
+   "ablation_groups.py",
+   "and_gate.py",
+   "athletes.py",
+   "column_sum.tex",
+   "common.py",
+   "logit_split.py",
+   "mlp_shapes.tex",
+   "toy_gate.py",
+   "where_this_fits.tex"
+  ],
+  "unref_gif": []
+ },
+ {
+  "gifn": [
+   "images/dims_sweep.gif",
+   "images/angle_squeeze.gif",
+   "images/toy_pentagon.gif"
+  ],
+  "note": "1090-superposition",
+  "title": "Superposition: More Features than Dimensions",
+  "figs": 2,
+  "gifs": 3,
+  "code": 0,
+  "words": 2446,
+  "nsec": 7,
+  "secfig": 4,
+  "wpv": 489,
+  "sections": [
+   "1. Overview",
+   "3. Perpendicular directions do not interfere, but only $d$ of them fit",
+   "4. Random directions are nearly perpendicular",
+   "5. How perpendicular can many directions be made?",
+   "6. The room grows exponentially with the dimension",
+   "7. Real token vectors spread out the same way",
+   "8. The superposition hypothesis and a toy model"
+  ],
+  "kp": "A space of $d$ dimensions holds at most $d$ exactly perpendicular directions, but far more **nearly** perpendicular ones. Two random directions in 12,288 dimensions are within 5 degrees of perpendicular for every one of ",
+  "scripts": [
+   "angle_squeeze.py",
+   "common.py",
+   "dims_sweep.py",
+   "gif_tools.py",
+   "gpt2_angles.py",
+   "toy_pentagon.py",
+   "toy_sparsity.py",
+   "where_this_fits.tex"
   ],
   "unref_gif": []
  }

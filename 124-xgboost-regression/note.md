@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 
 ![XGBoost regression: the gradient boosting loop, with a different tree in step 3](images/flow.png){height=36%}
 
-The loop in Figure 1 is the one from the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md). Step 3 is where XGBoost differs. A normal regression tree chooses its splits by the drop in squared error ([regression trees Note](../99-regression-trees/note.md)); an XGBoost tree uses a quantity called the **similarity score**.
+The loop in Figure 1 is the one from the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md). Step 3 is where XGBoost differs. A normal regression tree chooses its splits by the drop in squared error ([regression trees Note](../99-regression-trees/note.md)); an XGBoost tree uses a quantity called the **similarity score** (G-1804).
 
 This Note grows one XGBoost tree by hand on four students, then uses it for the next prediction. The [XGBoost introduction Note](../123-xgboost-intro/note.md) lists the speed tricks; here we stay with the core idea. Why the formulas look the way they do is derived in the [XGBoost maths Note](../126-xgboost-maths/note.md).
 
@@ -32,7 +32,7 @@ This Note grows one XGBoost tree by hand on four students, then uses it for the 
 | 3 | 7.5 | 6 |
 | 4 | 5.0 | 8 |
 
-Each student is one **observation** (one record, a row of the table). CGPA is the only **feature** (an input variable, one column of the table), and the package is the **target** (the output we predict).
+Each student is one **observation** (G-1374; one record, a row of the table). CGPA is the only **feature** (G-772; an input variable, one column of the table), and the package is the **target** (G-1949; the output we predict).
 
 The relationship is not a straight line (Figure 2, left). Our goal: given a new student's CGPA, predict the package. One feature keeps every calculation small enough to do by hand.
 
@@ -44,7 +44,7 @@ As in gradient boosting, the first model ignores the feature and predicts the me
 
 $$f_0 = \frac{4.5 + 11 + 6 + 8}{4} = \frac{29.5}{4} = 7.375$$
 
-The **residuals** (pseudo-residuals, see the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md)) are actual minus predicted:
+The **residuals** (G-1685; pseudo-residuals, see the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md)) are actual minus predicted:
 
 | Student | CGPA | Package | Prediction 1 | Residual 1 |
 |---|---|---|---|---|
@@ -66,13 +66,17 @@ An XGBoost tree starts as a single leaf holding every residual. The tree then tr
 1. **In words:** add up the residuals in the leaf, square the sum, and divide by the number of residuals plus $\lambda$.
 2. **Formula:**
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{n + \lambda}$$
-   Here $r_i$ are the residuals in the leaf, $n$ is how many there are, and $\lambda$ (lambda) is a **regularisation parameter**. We set $\lambda = 0$ for now; section 12 brings it back.
+   Here $r_i$ are the residuals in the leaf, $n$ is how many there are, and $\lambda$ (lambda) is a **regularisation parameter** (G-1040). We set $\lambda = 0$ for now; section 12 brings it back.
 3. **Example:** the root leaf holds all four residuals:
    $$\text{similarity}_{\text{root}} = \frac{(-2.875 + 3.625 - 1.375 + 0.625)^2}{4 + 0} = \frac{0^2}{4} = 0$$
 
 The residuals from the mean always add up to exactly 0, so the root's similarity is 0. (If we round the mean to 7.3 first, they add up to 0.3 and the root scores $0.3^2/4 = 0.02$; the rounding changes nothing important.)
 
 Why the name? In a leaf such as $\lbrace-2.875, -1.375\rbrace$ the residuals point the same way, the sum is large and the score is high. In $\lbrace3.625, -1.375\rbrace$ they cancel, the sum is small and the score is low.
+
+Figure 3 puts the two leaves side by side. Watch the black sum bar: the same student 3 sits in both leaves, but next to student 1 the sum grows, and next to student 2 it nearly vanishes.
+
+![Two leaves of residuals (lambda = 0). Left: the residuals agree, the sum is -4.25 and the similarity is 9.03. Right: they cancel, the sum is 2.25 and the similarity is only 2.53](images/similarity.png){height=34%}
 
 ## 5. Candidate splits
 
@@ -89,7 +93,7 @@ Each threshold splits the root leaf into a left leaf (CGPA below the threshold) 
 
 > **Key point:** Gain = similarity of the left leaf + similarity of the right leaf $-$ similarity of the parent. The split with the largest gain wins: CGPA < 8.25, with gain 17.52.
 
-1. **In words:** after a split, add the two children's similarity scores and subtract the parent's score. The result is how much more alike the residuals have become.
+1. **In words:** after a split, add the two children's similarity scores and subtract the parent's score. The result, the **gain** (G-820), is how much more alike the residuals have become.
 2. **Formula:**
    $$\text{gain} = S_{\text{left}} + S_{\text{right}} - S_{\text{parent}}$$
 3. **Example:** CGPA < 5.85 puts student 4 (residual 0.625) on the left and the other three on the right:
@@ -98,7 +102,7 @@ Each threshold splits the root leaf into a left leaf (CGPA below the threshold) 
 
 ![The three candidate root splits, with each leaf's residuals and similarity score; CGPA < 8.25 has by far the largest gain](images/root_splits.png)
 
-Figure 3 shows all three candidates:
+Figure 4 shows all three candidates:
 
 | Split | Left residuals | Right residuals | $S_{\text{left}}$ | $S_{\text{right}}$ | Gain |
 |---|---|---|---|---|---|
@@ -121,7 +125,7 @@ The right leaf holds a single residual and cannot be split. The left leaf holds 
 
 CGPA < 5.85 wins: it keeps the two negative residuals together. We stop here, at depth 2, because with four observations a deeper tree would only memorise them. XGBoost's default is `max_depth=6`, meant for real datasets.
 
-Figure 4 replays sections 5 to 8 as one search. Watch the dashed threshold slide along CGPA, the residuals switch between the left (blue) and right (orange) leaf, and a gain bar appear at each candidate; the tallest bar locks in as the split, the left leaf is searched the same way, and each final leaf predicts the mean of its residuals.
+Figure 5 replays sections 5 to 8 as one search. Watch the dashed threshold slide along CGPA, the residuals switch between the left (blue) and right (orange) leaf, and a gain bar appear at each candidate; the tallest bar locks in as the split, the left leaf is searched the same way, and each final leaf predicts the mean of its residuals.
 
 ![The XGBoost split search on the four students (lambda = 0). Left: the residuals, the sliding threshold and the locked splits (green). Right: the gain of each candidate, S_left + S_right - S_parent. Last frame: the outputs of the three leaves. The sliding-threshold picture follows StatQuest's "XGBoost Part 1: Regression" (Starmer)](images/split_search.gif)
 
@@ -129,7 +133,7 @@ Figure 4 replays sections 5 to 8 as one search. Watch the dashed threshold slide
 
 > **Key point:** A leaf's output is the sum of its residuals divided by (number of residuals + $\lambda$); with $\lambda = 0$ that is simply their mean.
 
-A normal regression tree predicts the mean in each leaf. An XGBoost leaf has its own formula, which happens to give the mean when $\lambda = 0$.
+A normal regression tree predicts the mean in each leaf. An XGBoost leaf has its own formula for its prediction, the **output value** (G-1426), which happens to give the mean when $\lambda = 0$.
 
 1. **In words:** add the residuals in the leaf and divide by their count plus $\lambda$.
 2. **Formula:**
@@ -138,7 +142,7 @@ A normal regression tree predicts the mean in each leaf. An XGBoost leaf has its
 3. **Example:** the leaf holding $-2.875$ and $-1.375$:
    $$\text{output} = \frac{-2.875 - 1.375}{2 + 0} = \frac{-4.25}{2} = -2.125$$
 
-The other two leaves hold one residual each, so their outputs are 0.625 and 3.625. Figure 5 shows the finished tree.
+The other two leaves hold one residual each, so their outputs are 0.625 and 3.625. Figure 6 shows the finished tree.
 
 ![The first XGBoost tree: residuals, similarity scores, gains of the two splits and the outputs of the three leaves](images/final_tree.png){height=42%}
 
@@ -146,7 +150,7 @@ The other two leaves hold one residual each, so their outputs are 0.625 and 3.62
 
 > **Key point:** New prediction = 7.375 + 0.3 $\times$ tree output. Every residual moves towards 0.
 
-The combined model is the mean plus the tree's output scaled by the learning rate. XGBoost calls the learning rate **eta** ($\eta$); its default is 0.3. Scaling each tree down is shrinkage, as in the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md), section 4.
+The combined model is the mean plus the tree's output scaled by the learning rate. XGBoost calls the learning rate **eta** (G-1068; $\eta$); its default is 0.3. Scaling each tree down is shrinkage, as in the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md), section 4.
 
 1. **In words:** start from the mean and add eta times the output of the leaf the student falls into.
 2. **Formula:**
@@ -167,11 +171,24 @@ Every residual is closer to 0 than before (Figure 2, right). The model is moving
 
 > **Key point:** Repeat: compute new residuals, grow a new XGBoost tree on them, add eta times its output. Stop after `n_estimators` trees.
 
-Stage 3 grows a second tree on CGPA and residual 2, with the same steps: similarity scores, gains, best splits, outputs. On our data it chooses the same two splits, with leaf outputs 0.4375, $-1.4875$ and 2.5375. The prediction becomes
+Stage 3 grows a second tree on CGPA and residual 2, with the same steps:
+
+1. similarity score of each leaf;
+2. gain of each candidate split;
+3. best split;
+4. output of each leaf.
+
+On our data it chooses the same two splits, with leaf outputs 0.4375, $-1.4875$ and 2.5375. The prediction becomes
 
 $$\hat{y}^{(3)} = 7.375 + 0.3 \cdot \text{tree}_1(x) + 0.3 \cdot \text{tree}_2(x)$$
 
-and the residuals shrink again, to $-1.79$, 1.78, $-0.29$ and 0.31. The number of trees is the hyperparameter `n_estimators`; the goal is residuals close to 0 without fitting the noise.
+and the residuals shrink again, to $-1.79$, 1.78, $-0.29$ and 0.31.
+
+Figure 7 runs the loop for 12 trees. Watch the red staircase close in on the four students while every residual line on the right bends towards 0; the sum of squared residuals falls from 23.69 to 0.01.
+
+![The boosting loop on the four students (eta = 0.3, lambda = 0, depth 2). Left: the prediction after each tree. Right: each student's residual, tree after tree](images/next_trees.gif){height=75%}
+
+The number of trees is the hyperparameter `n_estimators`; the goal is residuals close to 0 without fitting the noise.
 
 ## 11. Exact greedy and approximate split finding
 
@@ -179,7 +196,7 @@ and the residuals shrink again, to $-1.79$, 1.78, $-0.29$ and 0.31. The number o
 
 What we did in sections 5 to 7, sorting the values and testing every midpoint, is the exact greedy algorithm of the [XGBoost introduction Note](../123-xgboost-intro/note.md), section 8.4. The exact greedy algorithm finds the best split but checks every value, which is slow on millions of observations.
 
-For large data XGBoost first groups each feature into bins and only tests the bin edges: the **approximate algorithm**, introduced in the [XGBoost introduction Note](../123-xgboost-intro/note.md).
+For large data XGBoost first groups each feature into bins and only tests the bin edges: the **approximate algorithm** (G-207), introduced in the [XGBoost introduction Note](../123-xgboost-intro/note.md).
 
 > **Extra:** With several features, each feature is searched in the same way and the split with the largest gain over all features wins, exactly as in the [regression trees Note](../99-regression-trees/note.md), section 5 (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical features are usually encoded as numbers first ([one-hot encoding Note](../27-one-hot-encoding/note.md)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
 
@@ -188,6 +205,10 @@ For large data XGBoost first groups each feature into bins and only tests the bi
 > **Key point:** $\lambda$ is added to the number of residuals in every denominator. Similarity scores, gains and outputs all shrink, and leaves with few residuals shrink the most.
 
 An everyday picture: we trust a restaurant with one five-star review less than one with twenty. $\lambda$ works like adding $\lambda$ imaginary residuals of 0 to every leaf: they barely move a leaf with many residuals, but pull a leaf with one residual strongly towards 0. On our tree, $\lambda = 1$ halves the one-residual leaves (0.625 becomes 0.31) and cuts the two-residual leaf by a third.
+
+Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-residual leaves (n = 1) sink towards 0 faster than the two-residual leaf, and both gain bars shrink with them.
+
+![Lambda from 0 to 5 on the first tree. Left: the residuals (grey) and the three leaf outputs (green). Right: the gains of the two splits, 17.52 and 5.04 at lambda = 0, 9.86 and 2.93 at lambda = 1](images/lambda_shrink.gif){height=75%}
 
 > **Extra:** So far $\lambda = 0$. XGBoost's default is $\lambda = 1$ (`reg_lambda=1`). The same tree with $\lambda = 1$:
 >
@@ -203,7 +224,11 @@ An everyday picture: we trust a restaurant with one five-star review less than o
 
 > **Key point:** A split is kept only if its gain minus $\gamma$ is positive. Pruning starts from the bottom of the tree; a large $\gamma$ removes weak splits, and a very large one removes them all.
 
-An everyday picture: every split must pay a fee of $\gamma$. A split whose gain cannot pay the fee is removed. On our tree, $\gamma = 6$ removes the lower split (gain 5.04) and keeps the root split (gain 17.52).
+An everyday picture: every split must pay a fee of $\gamma$, the **gamma** (G-823) parameter. A split whose gain cannot pay the fee is removed. On our tree, $\gamma = 6$ removes the lower split (gain 5.04) and keeps the root split (gain 17.52).
+
+Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5.04, where the two left leaves merge into one with output $-1.21$, and then the root bar at 17.52, where the whole tree collapses into one leaf with output 0.
+
+![Gamma from 0 to 22 (lambda = 0). Right: the gains of the two splits and the fee gamma (red); a grey bar is a pruned split. Left: the leaf outputs of what is left of the tree](images/gamma_prune.gif){height=75%}
 
 > **Extra:** $\gamma$ (gamma, `gamma` or `min_split_loss` in XGBoost, default 0) is a second regularisation parameter. After the tree is grown, XGBoost checks each split from the bottom up (the Notebook confirms each case with the library):
 >
@@ -269,7 +294,7 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 **Built from**
 
 - CampusX, "XGBoost for Regression | XGBoost Part 2 | CampusX", YouTube, https://www.youtube.com/watch?v=gmp2tS2joaA
-- Starmer, J. (StatQuest). "XGBoost Part 1 (of 4): Regression." statquest.org. The idea of sliding the threshold and comparing gains (Figure 4).
+- Starmer, J. (StatQuest). "XGBoost Part 1 (of 4): Regression." statquest.org. The idea of sliding the threshold and comparing gains (Figure 5).
 
 **Other references**
 

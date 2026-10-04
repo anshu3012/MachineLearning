@@ -42,7 +42,11 @@ The toy follows Sanderson (2024, Ch 7). The real-model part (sections 6 and 7) t
    where $f$ is ReLU in the toy and GELU in GPT-2. (In GPT-2 a LayerNorm comes first, the [GPT Note](../1087-decoder-only-gpt/note.md), §6.1; we leave it out here.)
 3. **Example:** GPT-2 small: $e$ has 768 numbers, $W_{\text{up}}$ is $3{,}072 \times 768$, so the middle has 3,072 numbers ($4 \times 768$), and $W_{\text{down}}$ is $768 \times 3{,}072$.
 
-The 3,072 middle values are the **neurons** of the block: "when you hear people refer to the neurons of a transformer, they're talking about these values" (Sanderson 2024, Ch 7). A neuron is **active** when its value is positive.
+![The MLP block of GPT-2 small with its shapes. The token's vector (grey, 768 numbers) goes up to 3,072 neurons through $W_{\text{up}}$, through the activation, back down to 768 numbers through $W_{\text{down}}$, and is added to the original vector (red)](images/mlp_shapes.png){width=100%}
+
+Figure 2 shows the widths: the block widens each vector four times, then narrows it back so that it can be added to the stream.
+
+The 3,072 middle values are the **neurons** (G-1318) of the block: "when you hear people refer to the neurons of a transformer, they're talking about these values" (Sanderson 2024, Ch 7). A neuron is **active** when its value is positive.
 
 The block works on each token's vector alone, in parallel; tokens do not talk to each other here, only in attention (the [transformer encoder Note](../1080-transformer-encoder/note.md), §5.3).
 
@@ -77,7 +81,11 @@ The Notebook runs all the inputs of Figure 1:
 | Michael, $M$ | 1 | 0 | 0 | 0 |
 | Phelps, $P$ | 0 | $-1$ | 0 | 0 (without ReLU: $-1$) |
 
-The bias sets the threshold: one name alone gives $1 - 1 = 0$, so only both names together make the neuron positive. The ReLU then clips every negative answer to 0. Without it, the input "Phelps" would write $-1 \times B$, an "anti-basketball" signal, into the vector. With it, the neuron outputs 1 for Michael **and** Jordan and 0 otherwise: it behaves like an **AND gate** (Sanderson 2024, Ch 7).
+The bias sets the threshold: one name alone gives $1 - 1 = 0$, so only both names together make the neuron positive. The ReLU then clips every negative answer to 0. Without it, the input "Phelps" would write $-1 \times B$, an "anti-basketball" signal, into the vector. With it, the neuron outputs 1 for Michael **and** Jordan and 0 otherwise: it behaves like an **AND gate** (G-198) (Sanderson 2024, Ch 7).
+
+![The toy neuron on the five inputs of the table: its value after the bias (grey), after ReLU (blue) and after GELU, GPT-2's activation (orange). Only "Michael Jordan" clears the threshold](images/toy_gate.png){width=95%}
+
+Figure 3 puts the table's columns side by side. Grey shows the raw answer; ReLU removes the $-1$ of "Phelps"; GELU keeps a small negative value and lowers the "yes" to 0.84 (Extra below).
 
 > **Extra:** GPT-2 uses GELU, $x\thinspace\Phi(x)$ (Hendrycks and Gimpel 2016), instead of ReLU (the [GPT Note](../1087-decoder-only-gpt/note.md), §6.4). GELU has the same overall shape but is smooth: the toy neuron would give 0.84 for Michael Jordan instead of 1, 0 for one name, and $-0.16$ instead of 0 for "Phelps" (Notebook). The gate is softer but still separates the full name from the rest.
 
@@ -91,7 +99,11 @@ $$W_{\text{down}}\thinspace n = n_1\thinspace c_1 + n_2\thinspace c_2 + \dots + 
 
 where $c_i$ is column $i$, a 768-number direction. An inactive neuron ($n_i = 0$) adds nothing; an active one adds its column, scaled. In the toy, column 1 is $B$, so firing writes "basketball" (Figure 1, right). A column can also carry several ideas at once, for example basketball plus other facts about the same person (Sanderson 2024, Ch 7).
 
-Put together, the block is a store of question–answer pairs: 3,072 rows asking, 3,072 columns answering. Geva et al. (2021, §2, eq. 1) give the same reading and call the pairs **keys** and **values**: they write the feed-forward layer as $\text{FF}(x) = f(x \cdot K^T) \cdot V$, where each key (a row of the first matrix) "captures a particular pattern (or set of patterns) in the input sequence", and each value (the matching row of the second matrix in their notation, our column) "represents the distribution of tokens that follows said pattern" (§2). In a 16-layer language model trained on WikiText-103 they found keys whose top triggering text shared human-readable patterns, shallow ones (e.g. ending with "substitutes") in lower layers and more semantic ones in upper layers (Geva et al. 2021, §3, Table 1).
+![Columns write directions. Left: four neuron values, two active. Middle: the four columns of $W_{\text{down}}$, each a direction. Right: the output is $1.0\thinspace c_1 + 0.5\thinspace c_3$; the inactive neurons' columns add nothing](images/column_sum.png){width=95%}
+
+In Figure 4, follow the two blue arrows on the right: each active neuron adds its column, stretched by its value, and the orange sum is what the block writes into the stream.
+
+Put together, the block is a store of question–answer pairs: 3,072 rows asking, 3,072 columns answering. Geva et al. (2021, §2, eq. 1) give the same reading and call the pairs **keys** (G-1011) and **values** (G-2068): they write the feed-forward layer as $\text{FF}(x) = f(x \cdot K^T) \cdot V$, where each key (a row of the first matrix) "captures a particular pattern (or set of patterns) in the input sequence", and each value (the matching row of the second matrix in their notation, our column) "represents the distribution of tokens that follows said pattern" (§2). In a 16-layer language model trained on WikiText-103 they found keys whose top triggering text shared human-readable patterns, shallow ones (e.g. ending with "substitutes") in lower layers and more semantic ones in upper layers (Geva et al. 2021, §3, Table 1).
 
 > **Extra:** The toy (Michael Jordan and basketball, the bias of $-1$), the AND-gate reading of ReLU, the rows of $W_{	ext{up}}$ as questions and the columns of $W_{	ext{down}}$ as directions that get added follow Sanderson's *How might LLMs store facts* (3Blue1Brown, 2024, Ch 7). The Michael Phelps and Alexis Jordan inputs are his examples too. The animation's design and the numbers are our own.
 
@@ -113,7 +125,11 @@ Before looking for a stored fact, we need a fact the model actually knows. The N
 | Michael Phelps | swimming | swimming | 0.105 |
 | Sachin Tendulkar | cricket | cricket | 0.415 |
 
-(9 of the 19 shown; the Notebook lists all.) 18 of 19 are right. Phil Mickelson is the one miss, so the experiments below use the other 18.
+(9 of the 19 shown; Figure 5 shows all.)
+
+![GPT-2 small's probability for each athlete's true sport as the next token after the prompt "[athlete] plays the sport of". Blue: the true sport is the top token; red: it is not](images/athletes.png){height=55%}
+
+18 of 19 are right. Phil Mickelson is the one miss, so the experiments below use the other 18.
 
 The probabilities can be low even when the answer is right: for Michael Jordan, " basketball" has 0.135, ahead of " football" at 0.086. Part of the probability goes to the question "is the next token a sport at all?". To measure only the fact, *which* sport, the Notebook also takes the 10 sports in the list (basketball, football, golf, hockey, tennis, baseball, soccer, cricket, boxing, swimming) and asks whether the true sport is ranked first among them.
 
@@ -125,7 +141,7 @@ The probabilities can be low even when the answer is right: for Michael Jordan, 
 
 > **Key point:** Zero MLP 1 at the name tokens and only 6 of 18 athletes keep the right sport first. Zero MLPs 2–6 there and 11 keep it; zero the same MLPs at the other tokens and 16 keep it.
 
-To test what a group of MLPs does, we set their outputs to 0 at chosen positions and run the rest of the model unchanged (**zero-ablation**). The positions are either the **name tokens** (for example "Michael" and " Jordan") or the **other tokens** (" plays the sport of").
+To test what a group of MLPs does, we set their outputs to 0 at chosen positions and run the rest of the model unchanged (**zero-ablation** (G-2147)). The positions are either the **name tokens** (G-1299) (for example "Michael" and " Jordan") or the **other tokens** (" plays the sport of").
 
 ![Athletes (of 18) whose true sport stays ranked first among 10 sports after zeroing a group of MLP outputs. Orange: zeroed at the name tokens. Blue: zeroed at the other tokens](images/ablation_groups.png){width=90%}
 
@@ -140,7 +156,7 @@ To test what a group of MLPs does, we set their outputs to 0 at chosen positions
 
 (Averages over the 18 athletes; Notebook.)
 
-Three readings of Figure 2 and the table:
+Three readings of Figure 6 and the table:
 
 1. **The name tokens matter more than the rest.** For blocks 2–6, zeroing at the name tokens costs 7 athletes; zeroing at the other tokens costs 2. The same holds for blocks 7–12 (4 against 1).
 2. **The early blocks matter more than the late ones** at the name tokens: block 1 alone costs 12 athletes, blocks 2–6 cost 7, blocks 7–12 cost 4.

@@ -22,7 +22,14 @@ Building a network in Keras and reaching some accuracy is easy, as the churn, MN
 
 Figure 1 shows the plan:
 
-1. **Tune the hyperparameters** (section 3): the number of hidden layers, the neurons per layer, the learning rate, the optimizer, the batch size, the activation function and the number of epochs.
+1. **Tune the hyperparameters** (section 3):
+   - the number of hidden layers;
+   - the neurons per layer;
+   - the learning rate;
+   - the optimizer;
+   - the batch size;
+   - the activation function;
+   - the number of epochs.
 2. **Fix the problems** (section 4): even with good hyperparameters, a network can train badly. Four problems cause most of it, and each has known fixes.
 
 ## 2. Prerequisites
@@ -35,21 +42,33 @@ Figure 1 shows the plan:
 
 > **Key point:** Seven settings that we choose before training decide much of a network's performance.
 
-A hyperparameter is a setting of an algorithm chosen before training (see the [pipelines Note](../29-pipelines/note.md)); the network does not learn it. In a Keras network, we choose seven of them every time we write the code. Setting them well already improves performance, without any further technique.
+A **hyperparameter** (G-910) is a setting of an algorithm chosen before training (see the [pipelines Note](../29-pipelines/note.md)); the network does not learn it. In a Keras network, we choose seven of them every time we write the code. Setting them well already improves performance, without any further technique.
 
 ### 3.1 Number of hidden layers
 
 > **Key point:** Several narrow hidden layers usually beat one wide one. Keep adding layers until the network starts to overfit.
 
-A network has three kinds of layer: the input layer, where the data enters; the output layer, where the prediction comes out; and the hidden layers in between. How many hidden layers to use is the first question.
+A network has three kinds of layer:
 
-In theory one hidden layer with many neurons can capture complex patterns. In practice, several hidden layers with fewer neurons each usually work better: deeper models can need far fewer units and often generalise better (Goodfellow et al. 2016, §6.4.1). For example, three hidden layers of 32 neurons give better results in more problems than one hidden layer of 512 neurons. Figure 2 (a) and (b) shows the two shapes.
+- the **input layer** (G-952), where the data enters;
+- the **output layer** (G-1424), where the prediction comes out;
+- the **hidden layers** (G-890) in between.
+
+How many hidden layers to use is the first question.
+
+In theory one hidden layer with many neurons can capture complex patterns. In practice, several hidden layers with fewer neurons each usually work better: deeper models can need far fewer units and often generalise better (**generalisation**, G-838: doing well on new data; Goodfellow et al. 2016, §6.4.1). For example, three hidden layers of 32 neurons give better results in more problems than one hidden layer of 512 neurons. Figure 2 (a) and (b) shows the two shapes.
 
 ![(a) One wide hidden layer. (b) Several narrow layers, each building on the features of the one before. (c) A layer too small to pass on what the inputs carry.](images/layer_shapes.png)
 
-The reason is representation learning (see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 2.4). The first hidden layers pick up primitive features such as lines and edges. The middle layers combine them into shapes, and the last layers combine shapes into complex patterns such as a face. A deep network captures this hierarchy naturally; one wide layer has to learn everything in a single step.
+The reason is **representation learning** (G-1670; see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 2.4):
 
-The hierarchy has a second benefit, transfer learning (also from the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 5.4):
+1. the first hidden layers pick up primitive features such as lines and edges;
+2. the middle layers combine them into shapes;
+3. the last layers combine shapes into complex patterns such as a face.
+
+A deep network captures this hierarchy naturally; one wide layer has to learn everything in a single step.
+
+The hierarchy has a second benefit, **transfer learning** (G-2005; also from the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 5.4):
 
 - Suppose a network was trained to recognise human faces, and a new project needs monkey faces.
 - At the primitive level (lines, edges, simple shapes) the two kinds of face look alike.
@@ -63,10 +82,10 @@ How many layers, then: 3, 30 or 300? We keep adding hidden layers while the resu
 
 Two layers are already decided:
 
-- **Input layer:** one neuron per **feature** (an input variable, one column of the data table). A placement problem with the features CGPA and IQ has 2 input neurons.
-- **Output layer:** one neuron for regression and for binary classification; one neuron per class for multi-class classification.
+- **Input layer:** one neuron per **feature** (G-772; an input variable, one column of the data table). A placement problem with the features CGPA and IQ has 2 input neurons.
+- **Output layer:** one neuron for **regression** (G-1655) and for binary classification; one neuron per class for **multi-class classification** (G-1266).
 
-For the hidden layers there is no hard and fast rule; people go by experience. An older rule of thumb was the **pyramid structure**: fewer neurons in each later hidden layer, for example 64, then 32, then 16. The logic was that there are many primitive features and fewer combined ones.
+For the hidden layers there is no hard and fast rule; people go by experience. An older rule of thumb was the **pyramid structure** (G-1594): fewer neurons in each later hidden layer, for example 64, then 32, then 16. The logic was that there are many primitive features and fewer combined ones.
 
 Experiments later showed that the pyramid makes little difference: three hidden layers of 32 neurons each perform about the same as 64-32-16. So the pyramid is an option, not a rule.
 
@@ -76,15 +95,15 @@ What does matter is that every layer has a **sufficient** number of neurons. Fig
 
 > **Key point:** The learning rate sets the step size of gradient descent; the optimizer is the rule that turns gradients into weight updates. Both mainly decide how fast training goes.
 
-The learning rate decides how big each gradient descent step is. Too low, and training is slow; too high, and the steps overshoot and the results are poor (see the [backpropagation why Note](../1017-backpropagation-why/note.md)).
+The **learning rate** (G-1068) decides how big each **gradient descent** (G-862) step is. Too low, and training is slow; too high, and the steps overshoot and the results are poor (see the [backpropagation why Note](../1017-backpropagation-why/note.md)).
 
-An **optimizer** is the rule that turns the gradients into weight updates. Plain gradient descent is one; in practice we use improved versions, such as Adam, that reach a good solution faster. Since both settings mainly change the training speed, they come up again under slow training (section 4.3).
+An **optimizer** (G-1401) is the rule that turns the gradients into weight updates. Plain gradient descent is one; in practice we use improved versions, such as **Adam** (G-169), that reach a good solution faster. Since both settings mainly change the training speed, they come up again under slow training (section 4.3).
 
 ### 3.4 Batch size
 
 > **Key point:** Small batches (8 to 32) train slowly but generalise well; large batches (up to about 8,192) train fast but are less stable. A learning rate warm-up can give large batches the good results too.
 
-Mini-batch gradient descent updates the weights after every `batch_size` observations (see the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md), section 6). The batch size is a hyperparameter, and there are two schools of thought:
+**Mini-batch gradient descent** (G-1222) updates the weights after every `batch_size` observations (see the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md), section 6). The **batch size** (G-267) is a hyperparameter, and there are two schools of thought:
 
 | | Small batches (8 to 32) | Large batches (up to about 8,192) |
 |---|---|---|
@@ -92,25 +111,25 @@ Mini-batch gradient descent updates the weights after every `batch_size` observa
 | Training | stable | less stable |
 | Results on new data | better, a proven approach | often worse (Keskar et al. 2017) |
 
-The upper limit of a large batch depends on the memory of the GPU.
+The upper limit of a large batch depends on the memory of the **GPU** (G-856).
 
-To keep the speed of large batches and still get good results, some researchers use a **learning rate warm-up**: the learning rate starts very small in the first epochs and is then increased quickly. Training with large batches and a warm-up is both fast and accurate.
+To keep the speed of large batches and still get good results, some researchers use a **learning rate warm-up** (G-1071): the learning rate starts very small in the first epochs and is then increased quickly. Training with large batches and a warm-up is both fast and accurate.
 
 A practical order follows. First try large batches with a warm-up; if it works, we have speed and accuracy. If it does not, fall back to small batches, which are slower but reliably give good results.
 
-> **Extra:** Changing the learning rate during training is the job of a **learning rate scheduler** (section 4.3). The warm-up idea comes from Goyal and colleagues (Goyal et al. 2017, §2.2), who trained an image network with batches of 8,192 images in one hour by warming up over the first 5 epochs and scaling the learning rate in proportion to the batch size.
+> **Extra:** Changing the learning rate during training is the job of a **learning rate scheduler** (G-1070; section 4.3). The warm-up idea comes from Goyal and colleagues (Goyal et al. 2017, §2.2), who trained an image network with batches of 8,192 images in one hour by warming up over the first 5 epochs and scaling the learning rate in proportion to the batch size.
 
 ### 3.5 Activation function
 
 > **Key point:** The choice of activation function decides, among other things, whether gradients vanish.
 
-Sigmoid was the activation of the early Notes. Switching the hidden layers to another function, ReLU above all, is one of the fixes for the vanishing gradient (section 4.1). The options are compared in the [activation functions Note](../1027-activation-functions/note.md).
+**Sigmoid** (G-1798) was the **activation function** (G-165) of the early Notes. Switching the hidden layers to another function, **ReLU** (G-1668) above all, is one of the fixes for the **vanishing gradient** (G-2070; section 4.1). The options are compared in the [activation functions Note](../1027-activation-functions/note.md).
 
 ### 3.6 Epochs
 
 > **Key point:** Set a large number of epochs and let early stopping end training when the validation results stop improving.
 
-How long should we train? Some people try 100 epochs, then 500, then 1,000. The better answer is to set a large number and use early stopping (see the [batch gradient descent Note](../58-batch-gradient-descent/note.md), section 5): during training, Keras watches the results on the validation data and stops once they no longer improve. In Keras it is a callback, taught in the [early stopping Note](../1022-early-stopping/note.md).
+How long should we train? Some people try 100 epochs, then 500, then 1,000. The better answer is to set a large number of **epochs** (G-696) and use **early stopping** (G-656; see the [batch gradient descent Note](../58-batch-gradient-descent/note.md), section 5): during training, Keras watches the results on the validation data and stops once they no longer improve. In Keras it is a **callback** (G-341), taught in the [early stopping Note](../1022-early-stopping/note.md).
 
 ## 4. Fixing the four problems
 
@@ -124,23 +143,23 @@ Figure 3 is the right half of Figure 1 as a reading list: each fix points to the
 
 > **Key point:** Fixes: better weight initialisation, other activation functions, batch normalisation, and gradient clipping for exploding gradients.
 
-With sigmoid in a deep network, the gradients shrink layer by layer on the way back, and the early layers stop learning; with factors above 1 they explode instead (see the [vanishing and exploding gradients Note](../1018-vanishing-exploding-gradients/note.md)). Four fixes:
+With sigmoid in a deep network, the gradients shrink layer by layer on the way back, and the early layers stop learning; with factors above 1 they explode instead (**exploding gradient**, G-731; see the [vanishing and exploding gradients Note](../1018-vanishing-exploding-gradients/note.md)). Four fixes:
 
-- **Weight initialisation:** start the weights from well-chosen random values instead of all 1 or 0.1 (see the [weight initialisation Note](../1029-weight-initialization/note.md)).
+- **Weight initialisation:** start the **weights** (G-2106) from well-chosen random values instead of all 1 or 0.1 (see the [weight initialisation Note](../1029-weight-initialization/note.md)).
 - **Activation function:** replace sigmoid with ReLU or one of its variants (see the [activation functions Note](../1027-activation-functions/note.md)).
-- **Batch normalisation:** a more recent technique, widely used today (see the [batch normalisation Note](../1031-batch-normalization/note.md)).
-- **Gradient clipping:** caps the size of the gradients; it is used for exploding gradients only (see the [vanishing and exploding gradients Note](../1018-vanishing-exploding-gradients/note.md), section 7.3).
+- **Batch normalisation** (G-266): a more recent technique, widely used today (see the [batch normalisation Note](../1031-batch-normalization/note.md)).
+- **Gradient clipping** (G-861): caps the size of the gradients; it is used for exploding gradients only (see the [vanishing and exploding gradients Note](../1018-vanishing-exploding-gradients/note.md), section 7.3).
 
-> **Extra:** Keras does not start from equal weights. A `Dense` layer draws its starting weights at random from the Glorot uniform scheme and sets its biases to 0 (Keras docs, `Dense`).
+> **Extra:** Keras does not start from equal weights. A `Dense` layer draws its starting weights at random from the Glorot uniform scheme (**Glorot initialisation**, G-850) and sets its biases to 0 (Keras docs, `Dense`).
 
 ### 4.2 Not enough data
 
 > **Key point:** Deep learning is data hungry. Without enough data, reuse a network trained on similar data (transfer learning), or pre-train on unlabelled data.
 
-The biggest difference between ML and DL is that deep learning needs a lot of data (see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 4.1). Two techniques help when we have too little:
+The biggest difference between ML and DL is that deep learning needs a lot of data: it is **data hungry** (G-534; see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 4.1). Two techniques help when we have too little:
 
 - **Transfer learning** (section 3.1): reuse a network that someone trained on a large, similar dataset, at least its early layers.
-- **Unsupervised pre-training:** first train the early layers on plenty of unlabelled data, then train the whole network on the few labelled **observations** (records, one row of the data table each).
+- **Unsupervised pre-training** (G-2059): first train the early layers on plenty of unlabelled data, then train the whole network on the few labelled **observations** (G-1374; records, one row of the data table each).
 
 ### 4.3 Slow training
 
@@ -155,10 +174,10 @@ Two techniques speed up training:
 
 > **Key point:** A network with millions of weights easily overfits. Fixes: L1 and L2 regularisation, dropout, and early stopping.
 
-Overfitting means learning the training data too closely, noise included, so that the model fails on new data (see the [bias-variance Note](../62-bias-variance/note.md)). A deep network has many parameters, some have millions of weights, so it tends to overfit. Three fixes have their own Notes:
+**Overfitting** (G-1429) means learning the training data too closely, noise included, so that the model fails on new data (see the [bias-variance Note](../62-bias-variance/note.md)). A deep network has many parameters, some have millions of weights, so it tends to overfit. Three fixes have their own Notes:
 
-- **L1 and L2 regularisation**, as for linear models (see the [ridge regression Note](../63-ridge-regression-intuition/note.md)), adapted to networks in the [regularisation in deep learning Note](../1026-regularization-in-dl/note.md).
-- **Dropout**: switch off random neurons during training (see the [dropout Note](../1024-dropout/note.md)).
+- **L1 and L2 regularisation** (G-1026, G-1029), as for linear models (see the [ridge regression Note](../63-ridge-regression-intuition/note.md)), adapted to networks in the [regularisation in deep learning Note](../1026-regularization-in-dl/note.md).
+- **Dropout** (G-639): switch off random neurons during training (see the [dropout Note](../1024-dropout/note.md)).
 - **Early stopping** (section 3.6, and the [early stopping Note](../1022-early-stopping/note.md)).
 
 ## 5. Summary

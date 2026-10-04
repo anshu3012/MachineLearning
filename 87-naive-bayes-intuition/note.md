@@ -15,7 +15,11 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 
 > **Key point:** Naive Bayes computes, for each class, the probability of that class given the features, using Bayes' theorem, and predicts the class with the largest one. To make this possible, it assumes the features are independent within each class.
 
-With conditional probability, independence and Bayes' theorem in place, we can build the **Naive Bayes classifier**. This Note develops the intuition on a tiny example; the next derives the mathematics in general, and the one after codes it.
+With conditional probability, independence and Bayes' theorem in place, we can build the **Naive Bayes classifier**, over three Notes:
+
+- this Note develops the intuition on a tiny example;
+- the next derives the mathematics in general;
+- the one after codes it.
 
 ## 2. The data
 
@@ -52,19 +56,27 @@ $$P(\text{win} \mid \text{lost}, \text{Mumbai}, \text{sunny}) = \frac{P(\text{lo
 
 and the same with "loss" in place of "win".
 
-The denominator, the evidence, is identical in both: it is just the probability of seeing these feature values, whichever the class. Dividing two numbers by the same positive amount does not change which is larger. So for choosing the class, only the **numerator** matters:
+The denominator, the **evidence** (G-718), is identical in both: it is just the probability of seeing these feature values, whichever the class. Dividing two numbers by the same positive amount does not change which is larger. So for choosing the class, only the **numerator** matters:
 
 $$\text{score(class)} = P(\text{features} \mid \text{class}) \times P(\text{class})$$
 
-The **priors** come straight from counting: 5 of the 8 matches were wins and 3 were losses.
+The **priors** (G-1565) come straight from counting: 5 of the 8 matches were wins and 3 were losses.
 
 $$P(\text{win}) = 5/8 \qquad P(\text{loss}) = 3/8$$
+
+Figure 2 puts both steps in one picture. Watch the shared denominator $P(\text{f})$ being struck out in both posteriors, and the priors coming from a plain count of the eight matches.
+
+![Both posteriors divide by the same evidence P(f), so it can be dropped; the priors are counts, 5 wins and 3 losses out of 8 matches](images/evidence.png){height=38%}
 
 ## 5. The problem: specific combinations are rare
 
 > **Key point:** No winning match had exactly (lost, Mumbai, sunny), so the likelihood P(lost, Mumbai, sunny | win) would be 0.
 
-The likelihood $P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win})$ asks: among the 5 winning matches, how many had all three conditions at once? None did. So it would be 0, and the score for "win" would be 0 however strongly the other evidence pointed to a win.
+The likelihood $P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win})$ is a **joint probability** (G-986), the probability of all three conditions together. It asks: among the 5 winning matches, how many had all three conditions at once? None did. So it would be 0, and the score for "win" would be 0 however strongly the other evidence pointed to a win.
+
+Figure 3 runs this search one condition at a time. Watch the winning matches grey out: one survives "toss lost", none survives "Mumbai", while one losing match (match 6) survives all three.
+
+![Keeping only past matches that agree with the new one on toss, then venue, then outlook. Win: 5, then 1, then 0 of 5 left. Loss: 3, then 2, then 1 of 3 left](images/joint_filter.gif)
 
 The rarity of exact matches is a general problem. A past observation that matches a new one on **every** feature at once is rare. With 3 features the search already failed here; with 10 or 20 features, almost every combination would never have been seen. The estimates would be 0 or based on one or two observations, and the classifier would be useless.
 
@@ -72,11 +84,15 @@ The rarity of exact matches is a general problem. A past observation that matche
 
 > **Key point:** Assume the features are independent within each class. Then the joint likelihood becomes a product of one-feature likelihoods, each estimated from many observations.
 
-Naive Bayes makes a simplifying assumption: **within each class, the features are independent** of each other. From the independent events Note, the probability of independent events happening together is the product of their probabilities. So
+Naive Bayes makes a simplifying assumption, the **naive assumption** (G-1296): **within each class, the features are independent** of each other. From the independent events Note, the probability of independent events happening together is the product of their probabilities. So
 
 $$P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win}) \approx P(\text{lost} \mid \text{win}) \times P(\text{Mumbai} \mid \text{win}) \times P(\text{sunny} \mid \text{win})$$
 
-Each factor looks at one feature only, so it is estimated from all the observations of that class. The assumption is rarely exactly true, which is why the method is called **naive**, but it makes the estimates workable (ISL §4.4.4).
+Each factor looks at one feature only, so it is estimated from all the observations of that class. Figure 4 shows the difference from Figure 3: no match is thrown away, and each column is counted on its own over all five wins (or all three losses).
+
+![The naive way: within each class, count the matches that agree on each feature separately. Win: 1/5, 2/5, 4/5. Loss: 2/3, 2/3, 1/3](images/naive_split.png){height=38%}
+
+The assumption is rarely exactly true, which is why the method is called **naive**, but it makes the estimates workable (ISL §4.4.4).
 
 An everyday picture: to guess whether a new dish will taste good, we cannot wait for the exact same recipe to have been cooked before. Instead we judge each ingredient on its own record, and combine the verdicts. The next Note derives this step properly.
 
@@ -94,9 +110,9 @@ $$\text{score(loss)} = \frac{3}{8} \times \frac{2}{3} \times \frac{2}{3} \times 
 
 ![The four factors for each class, and the resulting probabilities](images/scores.png){height=52%}
 
-The loss score is larger, so Naive Bayes predicts a **loss**. Dividing each score by their sum turns them into probabilities: $0.040 / 0.096 = 0.42$, so 42% win and 58% loss (Figure 2, right).
+The loss score is larger, so Naive Bayes predicts a **loss**. Dividing each score by their sum turns them into probabilities: $0.040 / 0.096 = 0.42$, so 42% win and 58% loss (Figure 5, right).
 
-Figure 2 (left) shows why: winning teams mostly won the toss and played in sunny weather, so "lost the toss" (0.20 against 0.67) and "Mumbai" (0.40 against 0.67) both point to a loss. Sunny weather points to a win (0.80 against 0.33), but not strongly enough to outweigh them.
+Figure 5 (left) shows why: winning teams mostly won the toss and played in sunny weather, so "lost the toss" (0.20 against 0.67) and "Mumbai" (0.40 against 0.67) both point to a loss. Sunny weather points to a win (0.80 against 0.33), but not strongly enough to outweigh them.
 
 ## 8. Summary
 
@@ -128,5 +144,6 @@ Figure 2 (left) shows why: winning teams mostly won the toss and played in sunny
 |---|---|
 | Naive Bayes classifier | A classifier that applies Bayes' theorem with the assumption that features are independent within each class |
 | Naive assumption | The assumption that the features are conditionally independent given the class |
+| Joint probability | The probability that several conditions hold together, such as toss lost, Mumbai and sunny in one match |
 | Score | Likelihood × prior for a class; proportional to the posterior |
 | Class prior | The share of training observations in a class |

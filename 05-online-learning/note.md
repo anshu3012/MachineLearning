@@ -28,7 +28,7 @@ When a company says "the more you use our product, the better it gets", it is us
 
 > **Key point:** Many small updates instead of one big training run.
 
-**Online learning** trains a model **incrementally**. Instead of using the whole dataset at once (as in batch learning), we feed the model data **sequentially**, in small groups called **mini-batches**, one after another. After each mini-batch, the model improves a little.
+**Online learning** (G-1391) trains a model **incrementally** (**incremental learning**, G-931). Instead of using the whole dataset at once (as in **batch learning**, G-265), we feed the model data **sequentially**, in small groups called **mini-batches** (G-1223), one after another. After each mini-batch, the model improves a little.
 
 Each mini-batch is small, so each training step is fast and cheap. Small, cheap steps make it possible to train the model on the production server itself, while it is online. Hence the name.
 
@@ -81,9 +81,9 @@ For problems that do not change, batch learning is still simpler and works well.
 
 > **Key point:** `fit` starts from scratch on all the data; `partial_fit` continues from where the model left off.
 
-Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`**, which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training.
+Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training.
 
-One such model is **`SGDRegressor`**. `SGDRegressor` does the same job as linear regression (covered in later Notes), but learns step by step, which is what makes `partial_fit` possible.
+One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; covered in later Notes), but learns step by step, which is what makes `partial_fit` possible.
 
 > **Python:** Training one observation at a time.
 >
@@ -100,7 +100,7 @@ One such model is **`SGDRegressor`**. `SGDRegressor` does the same job as linear
 > model.partial_fit(np.array([[2.0, 1.0, 0.5]]), np.array([6.0]))
 > ```
 >
-> `np.array([[...]])` is a table with one row: one **observation** (one record), with three **features** (input variables). `np.array([...])` holds its **target**, the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
+> `np.array([[...]])` is a table with one row: one **observation** (G-1374; one record), with three **features** (G-772; input variables). `np.array([...])` holds its **target** (G-1949), the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
 
 ### 4.2 Dedicated libraries
 
@@ -113,18 +113,22 @@ One such model is **`SGDRegressor`**. `SGDRegressor` does the same job as linear
 
 > **Key point:** The learning rate controls how fast the model adapts. Too high and it forgets the past; too low and it is slow to learn anything new.
 
-The **learning rate** sets how strongly each new mini-batch changes the model: how fast the model adapts to changing data (Géron 2019, Ch. 1).
+The **learning rate** (G-1068) sets how strongly each new mini-batch changes the model: how fast the model adapts to changing data (Géron 2019, Ch. 1).
 
 Think of two news readers. A reader who believes every new headline changes their mind daily and forgets what they knew. A reader who ignores all headlines never learns anything new.
 
-- **Too high:** the model changes very quickly and forgets what it learned before. It chases every bit of noise.
+- **Too high:** the model changes very quickly and forgets what it learned before. It chases every bit of **noise** (G-1326): the random variation in the data that carries no pattern.
 - **Too low:** the model barely changes. It remembers the past well but is slow to learn anything new.
 
 We want a balance: the model should learn new patterns while still remembering the old ones.
 
 ![How the learning rate changes what an online model learns](images/learning_rate.png)
 
-In Figure 3, the true value jumps at step 120. With a rate of 0.01, the model takes a very long time to catch up. With 0.7, it reacts to every noisy point. With 0.1, it follows the change quickly and stays steady.
+In Figure 3, the true value jumps at step 120:
+
+- with a rate of 0.01, the model takes a very long time to catch up;
+- with 0.7, the model reacts to every noisy point;
+- with 0.1, the model follows the change quickly and stays steady.
 
 The learning rate is one of the most important settings in online learning. If the rate is wrong, the model either forgets too fast or adapts too slowly.
 
@@ -134,7 +138,7 @@ The learning rate is one of the most important settings in online learning. If t
 
 Sometimes a dataset is too large to load at once. For example, a 50 GB dataset cannot be loaded on a machine with 8 GB of RAM, so it cannot be trained with batch learning.
 
-**Out-of-core learning** solves this with the online-learning technique (scikit-learn User Guide, Strategies to scale computationally):
+**Out-of-core learning** (G-1414) solves this with the online-learning technique (scikit-learn User Guide, Strategies to scale computationally):
 
 ![Out-of-core learning](images/out_of_core.png)
 
@@ -152,7 +156,13 @@ All of this happens offline, on our own machine. So out-of-core learning is not 
 
 > **Key point:** Training a model is easy; keeping it learning correctly on a live server is not.
 
-Running online learning in production means handling a constant stream of data, choosing the right learning rate and keeping everything working, all at once. The job is hardest when data arrives in real time.
+Running online learning in production means doing three things at once:
+
+- handling a constant stream of data;
+- choosing the right learning rate;
+- keeping everything working.
+
+The job is hardest when data arrives in real time.
 
 The tools are also young. Most are open-source libraries built by small groups, without the enterprise-grade reliability of established batch tools.
 
@@ -166,9 +176,9 @@ The defences (Figure 5):
 
 ![Protecting an online model](images/safety_net.png)
 
-- **Monitoring:** watch the system constantly. An **anomaly detection** algorithm can flag unusual incoming data.
+- **Monitoring:** watch the system constantly. An **anomaly detection** (G-201) algorithm can flag unusual incoming data.
 - **Reject or go offline:** when data looks suspicious, refuse it or take the model offline.
-- **Roll back:** if damage is already done, restore the model to its last good version.
+- **Roll back** (**rollback**, G-1703): if damage is already done, restore the model to its last good version.
 
 ## 8. Batch vs online learning
 

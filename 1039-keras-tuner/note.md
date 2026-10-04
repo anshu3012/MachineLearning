@@ -16,32 +16,39 @@ tags: [subject/deep-learning, area/dl-optimizers, area/production, step/tune, co
 
 > **Key point:** Keras Tuner automates the choices we make by hand when we build a network. We write one function that builds a model and marks each choice as a hyperparameter; a tuner then builds, trains and scores many versions and returns the best.
 
-Every network we have built so far rested on guesses: how many hidden layers, how many nodes in each, which activation, which optimizer, which batch size. We cannot know the best answers without trying them. **Keras Tuner** (the Python package `keras_tuner`) is a library that tries them for us.
+Every network we have built so far rested on guesses: how many hidden layers, how many nodes in each, which activation, which optimizer, which batch size. We cannot know the best answers without trying them. **Keras Tuner** (G-1001) (the Python package `keras_tuner`) is a library that tries them for us.
 
 ![The Keras Tuner workflow. The search repeats step 3 for every trial; the test set is used once, at the end](images/workflow.png){width=100%}
 
-Figure 1 shows the whole workflow. We follow it four times on the Pima diabetes data, each time tuning more: first the optimizer, then the number of nodes, then the number of layers, and finally everything at once. Then we test the result on a larger dataset, MNIST.
+Figure 1 shows the whole workflow. We follow it four times on the Pima diabetes data, each time tuning more:
+
+1. the optimizer (section 5);
+2. the number of nodes (section 6);
+3. the number of layers (section 7);
+4. everything at once (section 8).
+
+Then we test the result on a larger dataset, MNIST (section 10).
 
 ## 2. Prerequisites
 
 - The [how to improve a neural network Note](../1021-improving-a-neural-network/note.md): the hyperparameters of a network.
 - The [Optuna Note](../134-optuna/note.md): grid, random and Bayesian search, and the diabetes data.
-- The [customer churn ANN Note](../1011-customer-churn-ann/note.md): building, compiling and fitting a Keras model, and the validation set.
+- The [customer churn ANN Note](../1011-customer-churn-ann/note.md): building, compiling and fitting a Keras model, and the **validation set** (G-2067).
 - The [dropout Note](../1024-dropout/note.md) and the [activation functions Note](../1027-activation-functions/note.md).
 
 ## 3. The problem: too many choices
 
 > **Key point:** A network has many hyperparameters, and the right values depend on the data. Trying them by hand is slow trial and error; Keras Tuner turns it into a search.
 
-A **hyperparameter** is a setting chosen before training that the network does not learn (see the [pipelines Note](../29-pipelines/note.md)). For a network, the main ones are:
+A **hyperparameter** (G-910) is a setting chosen before training that the network does not learn (see the [pipelines Note](../29-pipelines/note.md)). For a network, the main ones are:
 
 - number of hidden layers;
 - number of nodes in each hidden layer;
 - activation function of each layer;
 - optimizer (see the [optimizers Note](../1032-optimizers-in-deep-learning/note.md));
-- batch size, the number of epochs and the dropout rate.
+- batch size, the number of epochs and the **dropout** (G-639) rate.
 
-Until now we picked these from intuition. **Hyperparameter tuning** tries several values and keeps the ones that score best (the [Optuna Note](../134-optuna/note.md), section 2). For scikit-learn models we used `GridSearchCV` and `RandomizedSearchCV` (the [random forest tuning Note](../112-random-forest-tuning/note.md)). Keras Tuner does the same job for Keras networks.
+Until now we picked these from intuition. **Hyperparameter tuning** (G-909) tries several values and keeps the ones that score best (the [Optuna Note](../134-optuna/note.md), section 2). For scikit-learn models we used `GridSearchCV` and `RandomizedSearchCV` (the [random forest tuning Note](../112-random-forest-tuning/note.md)). Keras Tuner does the same job for Keras networks.
 
 ## 4. The data and a hand-made baseline
 
@@ -51,9 +58,13 @@ Until now we picked these from intuition. **Hyperparameter tuning** tries severa
 
 > **Key point:** A small, well-known binary classification dataset; every feature is numeric.
 
-We use the Pima diabetes data of the [ROC Note](../78-roc-auc/note.md) and the [Optuna Note](../134-optuna/note.md). Each **observation** (one record, a row of the table) is a woman. Each has 8 **features** (input variables, one column each), such as the number of pregnancies, glucose, blood pressure, insulin, BMI and age. The **target** (the output we predict) is `Outcome`: 1 for diabetes, 0 for none.
+We use the Pima diabetes data of the [ROC Note](../78-roc-auc/note.md) and the [Optuna Note](../134-optuna/note.md). Each **observation** (G-1374) (one record, a row of the table) is a woman. Each has 8 **features** (G-772) (input variables, one column each), such as the number of pregnancies, glucose, blood pressure, insulin, BMI and age. The **target** (G-1949) (the output we predict) is `Outcome`: 1 for diabetes, 0 for none.
 
 The correlation of each feature with the target shows that all of them carry some signal. Glucose is the strongest (0.47), then BMI (0.29) and age (0.24); blood pressure and skin thickness are the weakest (0.07 each). We keep all 8, since the goal here is tuning, not feature selection.
+
+![Correlation of each of the 8 features with the target, computed on all 768 patients.](images/feature_corr.png){height=35%}
+
+Figure 2 shows that no single feature decides the answer: glucose leads with 0.47, and every other feature adds a weaker signal.
 
 ### 4.2 Three sets: train, validation, test
 
@@ -69,7 +80,7 @@ We split the 768 observations three ways, keeping the share of diabetes the same
 
 A standard scaler is fitted on the training set only and applied to all three (the [toy project Note](../13-toy-project/note.md) explains why).
 
-Why three sets? The tuner picks the model with the highest validation score. After many trials, the winner's validation score is partly luck: it is the best of many noisy numbers. If we also reported that same set as the final score, information from it would have leaked into the choice of the model (see data leakage in the [toy project Note](../13-toy-project/note.md)). The test set has played no part in any choice, so its score is honest.
+Why three sets? The tuner picks the model with the highest validation score. After many trials, the winner's validation score is partly luck: it is the best of many noisy numbers. If we also reported that same set as the final score, information from it would have leaked into the choice of the model (see data leakage in the [toy project Note](../13-toy-project/note.md)). The **test set** (G-1962) has played no part in any choice, so its score is honest.
 
 ### 4.3 The baseline network
 
@@ -98,7 +109,7 @@ After 100 epochs the validation accuracy is 0.760. Every number in that model (1
 
 > **Key point:** `build_model(hp)` builds and compiles one network. Wherever a value should be tuned, we ask `hp` for it instead of writing a number.
 
-Keras Tuner calls our function again and again, once per **trial** (one model built, trained and scored with one set of hyperparameter values). It passes in `hp`, a `HyperParameters` object. Calling `hp.Choice(name, values=[...])` both declares a hyperparameter and returns the value to use in this trial (Keras Tuner guide).
+Keras Tuner calls our function again and again, once per **trial** (G-2016) (one model built, trained and scored with one set of hyperparameter values). It passes in `hp`, a `HyperParameters` object. Calling `hp.Choice(name, values=[...])` both declares a hyperparameter and returns the value to use in this trial (Keras Tuner guide).
 
 > **Python:** Only the optimizer is tuned; the rest is fixed.
 >
@@ -153,6 +164,10 @@ Every hyperparameter has a name, here `"optimizer"`; the results are reported un
 
 Every argument of `search` is passed on to `model.fit` in each trial (Keras Tuner guide). The tuner builds a model, trains it, records its validation accuracy, and moves on. Ten epochs are enough to compare the candidates roughly; the winner can train longer afterwards.
 
+![The search of this section, trial by trial. Each bar is one trial's validation accuracy after 10 epochs; green marks the best so far.](images/optimizer_search.gif){height=45%}
+
+In Figure 3, watch the green bar: it moves to SGD at trial 1, stays put when Adadelta fails at trial 2, and settles on RMSProp at trial 3, after which no optimizer is left to try.
+
 | Trial | Optimizer | Validation accuracy |
 |---|---|---|
 | 3 | `rmsprop` | 0.747 |
@@ -180,7 +195,7 @@ We asked for 5 trials but got 4. The optimizer has only 4 values, so after 4 tri
 >           validation_data=(X_val, y_val))
 > ```
 
-Both methods return lists sorted from best to worst, hence the `[0]`. The returned model is not a fresh one: it holds the weights from the best epoch of its trial (Keras Tuner guide). So we can continue training it rather than start again.
+Both methods return lists sorted from best to worst, hence the `[0]`. The returned model is not a fresh one: it holds the weights from the best **epoch** (G-696) of its trial (Keras Tuner guide). So we can continue training it rather than start again.
 
 `initial_epoch` tells `fit` where to continue the epoch count. Epochs are numbered from 0, so after 10 epochs (numbers 0 to 9) the next one is number 10, and `initial_epoch=10, epochs=100` runs the remaining 90. Setting `initial_epoch` to one more than the epochs already run would skip an epoch.
 
@@ -211,6 +226,10 @@ After the 90 further epochs, the RMSProp model reaches a validation accuracy of 
 |---|---|---|---|---|---|
 | Validation accuracy | 0.773 | 0.766 | 0.753 | 0.734 | 0.636 |
 
+![The 16 values that `hp.Int("units", 8, 128, step=8)` allows (ticks along the bottom) and the 5 the random search drew, with their validation accuracy.](images/units_draws.png){height=38%}
+
+Figure 4 shows how little of the range 5 trials cover: 11 of the 16 values were never tried, so the winner, 56, is the best of those drawn, not necessarily the best possible.
+
 Without `step`, every whole number from 8 to 128 can be drawn; Keras Tuner then stores the step as 1 (Notebook).
 
 ## 7. Tuning the number of layers
@@ -239,6 +258,10 @@ The loop runs once per trial with the drawn number: one trial builds 3 hidden la
 
 The scores are close together: on 154 validation patients, one patient more or less changes the accuracy by $1/154 = 0.0065$.
 
+![The 10 values that `hp.Int("num_layers", 1, 10)` allows and the 5 drawn. Dotted lines are one patient apart.](images/layers_draws.png){height=38%}
+
+In Figure 5, count the dotted lines between the scores: 3 layers and 1 layer differ by four patients out of 154, and the two winners tie exactly.
+
 ## 8. Tuning everything at once
 
 > **Key point:** Inside the layer loop, each layer gets its own hyperparameters, named with the layer number: `units_0`, `units_1`, …. The number of hyperparameters then changes from trial to trial.
@@ -249,7 +272,7 @@ The scores are close together: on 154 validation patients, one patient more or l
 
 Each hyperparameter is identified by its name (Keras Tuner guide). If every layer asked for `hp.Int("units", ...)`, all layers would share one value. Writing `f"units_{i}"` gives layer 0 the hyperparameter `units_0`, layer 1 `units_1`, and so on.
 
-These are **conditional hyperparameters**: `units_3` exists only in trials with at least 4 layers (Keras Tuner guide). We also add a dropout layer after each hidden layer, with its own rate, and let the tuner pick the optimizer.
+These are **conditional hyperparameters** (G-442): `units_3` exists only in trials with at least 4 layers (Keras Tuner guide). We also add a dropout layer after each hidden layer, with its own rate, and let the tuner pick the optimizer.
 
 > **Python:** The all-in-one model-building function.
 >
@@ -280,9 +303,9 @@ Each added value multiplies the number of combinations (the [Optuna Note](../134
 
 ![Validation accuracy of the 20 trials (best epoch of 100), ranked, each labelled with its number of layers and optimizer. Red band and dashed line: the baseline after 100 epochs, 5 seeds](images/trials.png){width=100%}
 
-Figure 2 ranks the 20 trials. The winner, trial 2, has two hidden layers: 40 tanh nodes without dropout, then 104 ReLU nodes with dropout 0.3, trained with RMSProp. Its score is 0.779; the weakest trial scored 0.740.
+Figure 6 ranks the 20 trials. The winner, trial 2, has two hidden layers: 40 tanh nodes without dropout, then 104 ReLU nodes with dropout 0.3, trained with RMSProp. Its score is 0.779; the weakest trial scored 0.740.
 
-The red band in Figure 2 is the baseline trained 5 times, changing only the seed: its validation accuracy ranges from 0.734 to 0.760. Eleven of the 20 trials fall inside that band. On 154 validation patients, the differences between most sensible networks are no bigger than the differences between two random starts of the same network.
+The red band in Figure 6 is the baseline trained 5 times, changing only the seed: its validation accuracy ranges from 0.734 to 0.760. Eleven of the 20 trials fall inside that band. On 154 validation patients, the differences between most sensible networks are no bigger than the differences between two random starts of the same network.
 
 The dictionary of best values also lists `units_2`, `units_3` and their partners, left over from other trials, even though the winner has only 2 layers (Notebook). Only the values of layers that exist are used when the model is built.
 
@@ -304,6 +327,10 @@ A trial's score is the best of its 100 epochs, from one random start, on 154 pat
 |---|---|---|
 | Validation accuracy, mean (std) | 0.751 (0.010) | 0.723 (0.011) |
 | Test accuracy, mean (std) | 0.740 (0.011) | 0.734 (0.010) |
+
+![Pima diabetes: the baseline and the tuned winner, each retrained with 5 seeds. One dot per run; the black bar is the mean.](images/retrain_dots.png){height=38%}
+
+In Figure 7, the two clouds of test dots overlap almost completely: the gap between the means is smaller than the spread within either network.
 
 The tuned network's 0.779 shrinks to 0.723 once it is retrained. Two things inflated it:
 
@@ -350,7 +377,7 @@ The hand-made guess has one hidden layer of 32 ReLU nodes and a softmax output, 
 
 ![MNIST: validation accuracy of the 20 trials, ranked, labelled with layers and optimizer; trials below 0.88 are drawn as triangles with their value. Red band and dashed line: the hand-made guess, 5 seeds](images/mnist_trials.png){width=100%}
 
-Figure 3 ranks the 20 trials. The winner has two hidden layers, 256 nodes without dropout and 96 nodes with dropout 0.4, trained with Adam at a learning rate of 0.0068. Its score is 0.960, while the hand-made guess, run 5 times, ranges from 0.924 to 0.933.
+Figure 8 ranks the 20 trials. The winner has two hidden layers, 256 nodes without dropout and 96 nodes with dropout 0.4, trained with Adam at a learning rate of 0.0068. Its score is 0.960, while the hand-made guess, run 5 times, ranges from 0.924 to 0.933.
 
 The search also shows which choices fail. All 8 SGD trials drew learning rates of 0.0054 or less and scored between 0.12 and 0.87: with such small steps, plain SGD had not finished learning after 10 epochs (Notebook). A search does not only find good settings; it shows which ranges to avoid.
 
@@ -364,6 +391,10 @@ As in section 9, we rebuild both networks from scratch and train each 5 times wi
 |---|---|---|
 | Validation accuracy, mean (std) | 0.928 (0.003) | 0.953 (0.004) |
 | Test accuracy, mean (std) | 0.926 (0.004) | 0.948 (0.005) |
+
+![MNIST: the hand-made guess and the tuned winner, each retrained with 5 seeds. One dot per run; the black bar is the mean.](images/mnist_retrain_dots.png){height=38%}
+
+Compare Figure 9 with Figure 7: here the two clouds do not touch on either set, which is what a real gain looks like.
 
 Every tuned run beat every run of the guess, on both sets. The retrained winner averages 0.953, below its search score of 0.960, for the two reasons of section 9. Here the gap between the networks (0.025 on validation, 0.022 on test) is far larger than the seed noise, so the gain is real.
 

@@ -13,7 +13,7 @@ tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 
 ## 1. Overview
 
-> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the kernel to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
+> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the **kernel** (G-1009) to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
 
 The [kernel trick intuition Note](../95-kernel-trick-intuition/note.md) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new features are needed. Figure 1 shows the four models we train.
 
@@ -42,7 +42,7 @@ Wherever we draw a straight line through this data, it cuts the ring in two, so 
 
 ## 3. A linear SVM fails
 
-> **Key point:** SVC(kernel="linear") reaches only 55% test accuracy: a straight boundary cannot separate a disc from a ring.
+> **Key point:** SVC(kernel="linear") reaches only 55% test accuracy: a straight decision boundary cannot separate a disc from a ring.
 
 We split the data into training and test sets, train an SVM with a linear kernel, and measure accuracy on the test set.
 
@@ -61,7 +61,7 @@ We split the data into training and test sets, train an SVM with a linear kernel
 > accuracy_score(y_test, linear.predict(X_test))   # 0.55
 > ```
 
-The accuracy is 0.55, little better than guessing, which was bound to happen with a linear classifier on non-linear data. To see the boundary, a helper function predicts a fine grid of points and colours each by its prediction: these are the model's [decision regions](../79-softmax-regression/note.md). Figure 1, top left, shows the result: one straight cut that leaves many blue ring points on the red side.
+The accuracy is 0.55, little better than guessing, which was bound to happen with a linear classifier on non-linear data. To see the **decision boundary** (G-555), the line or curve where the model's prediction switches from one class to the other, a helper function predicts a fine grid of points and colours each by its prediction: these are the model's [decision regions](../79-softmax-regression/note.md). Figure 1, top left, shows the result: one straight cut that leaves many blue ring points on the red side.
 
 ## 4. Lifting the data into 3D by hand
 
@@ -80,7 +80,9 @@ The per-coordinate bump behaves the same way: points near the centre, where both
 - A centre point, $(0.1, 0.05)$: $z = e^{-0.01} + e^{-0.0025} = 0.990 + 0.998 = 1.99$.
 - A ring point, $(1, 0)$: $z = e^{-1} + e^{0} = 0.368 + 1 = 1.37$.
 
-On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the ring points between 1.01 and 1.56. So a flat plane at $z = 1.75$ separates them, and a linear classifier now works.
+On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the ring points between 1.01 and 1.56. So a flat plane at $z = 1.75$ separates them, and a linear classifier now works. Figure 2 animates the lift: watch the red centre points rise above the plane while every blue ring point stays below it.
+
+![The circles data lifted by $z = e^{-x_1^2} + e^{-x_2^2}$: the centre class rises to 1.89–2.00, the ring stays at 1.01–1.56, and the plane $z = 1.75$ separates them](images/lift_3d.gif)
 
 > **Python:** The transformation and the 3D plot.
 >
@@ -108,7 +110,7 @@ So SVM in effect tries a bump centred on each data point and keeps the combinati
 
 > **Key point:** SVC(kernel="rbf") reaches 100% test accuracy, with the same two features and no feature engineering.
 
-Now we let SVM do it. We train a new SVC with `kernel="rbf"` instead of `"linear"` and change nothing else.
+Now we let SVM do it. We train a new SVC with the **RBF kernel** (G-1639), `kernel="rbf"`, instead of `"linear"` and change nothing else.
 
 > **Python:** The RBF kernel.
 >
@@ -118,7 +120,7 @@ Now we let SVM do it. We train a new SVC with `kernel="rbf"` instead of `"linear
 > accuracy_score(y_test, rbf.predict(X_test))   # 1.0
 > ```
 
-The test accuracy is 1.0. Figure 1, top right, shows its boundary: a closed curve around the centre class.
+The test accuracy is 1.0. Figure 1, top right, shows its decision boundary: a closed curve around the centre class.
 
 We did not create any extra feature: only the original two features went into the model, and the kernel did the calculation internally. Compare this with [polynomial regression](../61-polynomial-regression/note.md), where we had to add a new feature for every power of the inputs.
 
@@ -126,7 +128,7 @@ We did not create any extra feature: only the original two features went into th
 
 > **Key point:** kernel="poly" uses degree 3 by default and scores 45% here. With degree=2 it scores 100%. The degree is a hyperparameter.
 
-The polynomial kernel is chosen with `kernel="poly"`. The polynomial kernel has an extra setting, `degree`, the degree of the polynomial. The default degree is 3, and it is ignored by all other kernels.
+The **polynomial kernel** (G-1514) is chosen with `kernel="poly"`. The polynomial kernel has an extra setting, `degree`, the degree of the polynomial. The default degree is 3, and it is ignored by all other kernels.
 
 | Kernel | Test accuracy | Support vectors (of 80) |
 |---|---|---|
@@ -135,7 +137,7 @@ The polynomial kernel is chosen with `kernel="poly"`. The polynomial kernel has 
 | polynomial, degree 3 | 0.45 | 74 |
 | polynomial, degree 2 | 1.00 | 6 |
 
-With the default degree 3, the accuracy is even worse than linear: 0.45, with the odd-shaped boundary of Figure 1, bottom left. With `degree=2` it jumps to 1.0 (bottom right). The degree must therefore be tuned like any hyperparameter, for example with a grid search and cross-validation.
+With the default degree 3, the accuracy is even worse than linear: 0.45, with the odd-shaped decision boundary of Figure 1, bottom left. With `degree=2` it jumps to 1.0 (bottom right). The degree must therefore be tuned like any hyperparameter, for example with a grid search and cross-validation.
 
 > **Python:** Changing the degree.
 >
@@ -151,7 +153,11 @@ With the default degree 3, the accuracy is even worse than linear: 0.45, with th
 
 > **Extra:** Why does degree 2 work and degree 3 fail? scikit-learn's polynomial kernel is $(\gamma\thinspace a \cdot b + r)^d$ with $r$ (`coef0`) equal to 0 by default (sklearn UG §1.4.6). With $r = 0$, the degree-3 kernel contains only terms of degree exactly 3, such as $x_1^3$ and $x_1^2 x_2$. A circle needs $x_1^2 + x_2^2$, a degree-2 term, which the degree-3 kernel cannot produce. The degree-2 kernel contains exactly $x_1^2$, $x_1 x_2$ and $x_2^2$. Setting `coef0=1` with degree 3 adds the lower-degree terms back, and in the Notebook this model also scores 1.00 on the circles.
 
-The table also shows the support vectors. The linear model needs almost every training point; the good kernels need only a few. The reason: every point that sits on the margin, inside it or on the wrong side of the boundary becomes a support vector (ESL §12.2.1). A straight line fits the circles badly, so most points end up inside its margin; a curved boundary that fits well leaves only a few points near it.
+Figure 3 shows why the degree-2 terms are enough. Watch the circle on the left turn into a straight line on the right once each coordinate is squared: in the features $x_1^2$ and $x_2^2$ the decision boundary $x_1^2 + x_2^2 = 0.34$ is linear.
+
+![Left: the circles data and the circle $x_1^2 + x_2^2 = 0.34$ between the classes. Right: the same points in the squared features, where that circle is the straight line $x_1^2 + x_2^2 = 0.34$](images/degree2_space.png)
+
+The table also shows the **support vectors** (G-1923). The linear model needs almost every training point; the good kernels need only a few. The reason: every point that sits on the margin, inside it or on the wrong side of the boundary becomes a support vector (ESL §12.2.1). A straight line fits the circles badly, so most points end up inside its margin; a curved boundary that fits well leaves only a few points near it.
 
 > **Extra:** The Notebook checks the margin rule for the linear model. The linear model misclassifies 30 of the 80 training points, and exactly 76 points have $y \cdot f(x) < 1$ (inside the margin or on the wrong side): the same 76 as its support vectors.
 
@@ -159,7 +165,7 @@ The table also shows the support vectors. The linear model needs almost every tr
 
 > **Key point:** A kernel gives the dot product of two points in the higher-dimensional space directly from the original coordinates, so the new features are never built.
 
-SVM's training and predictions only need **dot products** between pairs of points (MML §12.4). A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
+SVM's training and predictions only need **dot products** (G-634) between pairs of points (MML §12.4). A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
 
 As a formula, for the degree-2 polynomial kernel with the explicit features $\phi(x) = (x_1^2,\ \sqrt{2}\thinspace x_1 x_2,\ x_2^2)$:
 
@@ -170,13 +176,17 @@ With numbers, for $a = (1, 2)$ and $b = (3, 1)$:
 - Kernel: $a \cdot b = 3 + 2 = 5$, so $K(a, b) = 5^2 = 25$.
 - Explicit features: $\phi(a) = (1,\ 2\sqrt{2},\ 4)$ and $\phi(b) = (9,\ 3\sqrt{2},\ 1)$, so $\phi(a) \cdot \phi(b) = 9 + 12 + 4 = 25$.
 
-The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). Getting the dot product without building the features is exactly the kernel trick.
+Figure 4 draws the two routes side by side; watch both arrive at 25, while only the top route builds new features.
+
+![Two routes to $\phi(a) \cdot \phi(b)$ for $a = (1, 2)$ and $b = (3, 1)$. Top: build the three degree-2 features, then take a 3D dot product. Bottom: the kernel, a 2D dot product squared](images/kernel_routes.png)
+
+The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). Getting the dot product without building the features is exactly the **kernel trick** (G-1008).
 
 ## 8. An interactive playground
 
 > **Key point:** app.py lets you change the dataset, kernel, C, gamma and degree and watch the decision regions and support vectors update.
 
-The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Figure 2 shows it with its default settings.
+The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Figure 5 shows it with its default settings.
 
 ![The playground on the circles data with the RBF kernel, C = 1 and gamma = 1](images/app_preview.png){height=42%}
 
@@ -189,7 +199,7 @@ Things to try:
 
 > **Extra:** `gamma` sets how far the influence of one training point reaches in the RBF kernel $e^{-\gamma \lVert a - b \rVert^2}$. A small gamma makes each bump wide, giving smooth boundaries (risk of underfitting). A large gamma makes each bump narrow, so the boundary wraps around individual points (risk of overfitting). scikit-learn's default, `gamma="scale"`, sets it from the spread of the data: $1 / (p \times \text{variance of } X)$, where $p$ is `n_features`, the number of features. C and gamma are usually tuned together with a grid search (sklearn, "RBF SVM parameters").
 
-Figure 3 runs that gamma sweep on the moons data, from 0.01 to 1000, with C = 1. Watch the boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
+Figure 6 runs that gamma sweep on the moons data, from 0.01 to 1000, with C = 1. Watch the decision boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
 
 ![RBF SVM on the moons data as gamma grows. Left: decision regions, with support vectors ringed. Right: training accuracy and accuracy on a fresh test set of 5,000 points](images/gamma_sweep.gif)
 

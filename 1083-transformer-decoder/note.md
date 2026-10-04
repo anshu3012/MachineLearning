@@ -15,13 +15,13 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 
 ## 1. Overview
 
-> **Key point:** The **decoder** writes the output sentence. Its input is the target sentence **shifted right**: a start token in front, so that each position holds the word before the one it must predict. After embedding and positional encoding, the input passes through 6 identical **decoder blocks**. Each block has three sub-layers: **masked self-attention** over the output words so far, **cross-attention** to the encoder's output, and a feed-forward network, each followed by add and norm. A final **linear layer** with one node per word of the vocabulary, and a **softmax**, turn every position's vector into a probability for every word. During training all positions are computed in one pass.
+> **Key point:** The **decoder** (G-564) writes the output sentence. Its input is the target sentence **shifted right**: a start token in front, so that each position holds the word before the one it must predict. After embedding and positional encoding, the input passes through 6 identical **decoder blocks** (G-563). Each block has three sub-layers: **masked self-attention** (G-1172) over the output words so far, **cross-attention** (G-507) to the encoder's output, and a feed-forward network, each followed by add and norm. A final **linear layer** with one node per word of the vocabulary, and a **softmax**, turn every position's vector into a probability for every word. During training all positions are computed in one pass.
 
 The [transformer encoder Note](../1080-transformer-encoder/note.md) built the left half of the transformer of "Attention Is All You Need" (Vaswani et al. 2017). This Note builds the right half: the decoder. Two of its parts have their own Notes: [masked self-attention](../1081-masked-self-attention/note.md) and [cross-attention](../1082-cross-attention/note.md). Here they are put together with the rest into the full decoder (Figure 1).
 
 ![The transformer with the decoder in full. Bottom right: the input steps for the French sentence. Middle: one decoder block, repeated 6 times; red arrows are the residual connections. Left (grey): the encoder, whose output enters every cross-attention. Top: the output layer, which gives a probability for every French word at every position](images/decoder_architecture.png){height=70%}
 
-The decoder behaves differently during training and during prediction. During training the whole correct output sentence is known, so all its positions are processed at once. During prediction the output is written one word at a time. This Note follows the **training** case; prediction is the subject of the [transformer inference Note](../1084-transformer-inference/note.md).
+The decoder behaves differently during training and during prediction. During training the whole correct output sentence is known, so all its positions are processed at once. During prediction the output is written one word at a time. This Note follows the **training** (G-2003) case; prediction is the subject of the [transformer inference Note](../1084-transformer-inference/note.md).
 
 We follow one real sentence pair from the English–French corpus of the Keras examples through the decoder: "we're friends ." and its translation "nous sommes amis .". Along the way we count shapes and parameters and check the counts against Keras.
 
@@ -44,16 +44,20 @@ The decoder is built up in the same steps as the encoder.
 3. **Three sub-layers per block.** "In addition to the two sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs multi-head attention over the output of the encoder stack" (Vaswani et al. 2017, §3.1). In order, a decoder block holds:
    - **masked multi-head self-attention**: the output words attend to each other, each only to itself and the words before it;
    - **cross-attention** (also called encoder–decoder attention): the output words attend to the input words;
-   - a **feed-forward network**, the same design as in the encoder.
+   - a **feed-forward network** (G-775), the same design as in the encoder.
 4. **Add and norm.** Each sub-layer is wrapped in a residual connection followed by layer normalisation, as in the encoder.
 
 Compared with an encoder block, the decoder block changes two things: its self-attention is masked, and it has one extra sub-layer, the cross-attention, which is the only place where the decoder reads the input sentence.
+
+![An encoder block and a decoder block side by side. The decoder block's two changes are outlined in red: the self-attention is masked, and a cross-attention sub-layer reads the encoder's output](images/enc_vs_dec_block.png){width=90%}
+
+Figure 2 lines the two blocks up: everything that is not outlined in red is the same design as in the encoder.
 
 ## 4. The setup: one training pair
 
 > **Key point:** Training data are sentence pairs. The encoder has already turned the English sentence into one vector per word, $H_{\text{enc}}$; the decoder starts from the French sentence.
 
-The data is a **parallel corpus**: each **observation** (one record of the data) is an English sentence and its French translation, the **target** (the output we want the model to produce). The Notebook uses the same filtered corpus as the [encoder–decoder Note](../1068-encoder-decoder/note.md): 40,000 training pairs, and a French vocabulary of the 8,000 most frequent words plus 4 special tokens, $V = 8{,}004$ in all. The pair we follow appears in the file as "We're friends." and "Nous sommes amis.".
+The data is a **parallel corpus** (G-1442): each **observation** (G-1374) (one record of the data) is an English sentence and its French translation, the **target** (G-1949) (the output we want the model to produce). The Notebook uses the same filtered corpus as the [encoder–decoder Note](../1068-encoder-decoder/note.md): 40,000 training pairs, and a French vocabulary of the 8,000 most frequent words plus 4 special tokens, $V = 8{,}004$ in all. The pair we follow appears in the file as "We're friends." and "Nous sommes amis.".
 
 Before the decoder starts, the encoder processes "we're friends ." exactly as in the [transformer encoder Note](../1080-transformer-encoder/note.md): 3 tokens, 6 encoder blocks, and out comes $H_{\text{enc}}$, a $3 \times 512$ matrix with one contextual vector per English word. The decoder now takes the French sentence.
 
@@ -65,14 +69,18 @@ Before the decoder starts, the encoder processes "we're friends ." exactly as in
 
 > **Key point:** The decoder's input is the target sentence moved one place to the right, with `<start>` in the gap. Its target is the same sentence with `<end>` at the back.
 
-The paper's figure labels the decoder's input "Outputs (shifted right)". The **shift right** inserts the start token in front of the target sentence. Each position's correct answer is then the next word:
+The paper's figure labels the decoder's input "Outputs (shifted right)". The **shift right** (G-1790) inserts the start token in front of the target sentence. Each position's correct answer is then the next word:
 
 | Position | 1 | 2 | 3 | 4 | 5 |
 |---|---|---|---|---|---|
 | Decoder input | `<start>` | nous | sommes | amis | . |
 | Target at that position | nous | sommes | amis | . | `<end>` |
 
-This offset is the transformer's form of **teacher forcing**: during training the decoder is fed the correct previous words, not its own predictions (the [encoder–decoder Note](../1068-encoder-decoder/note.md), section 5.2, where the same shift appears). The paper states why the offset matters: the masking of the self-attention, "combined with fact that the output embeddings are offset by one position, ensures that the predictions for position $i$ can depend only on the known outputs at positions less than $i$" (Vaswani et al. 2017, §3.1). Without the shift, position 1 would see "nous" and simply copy it.
+![Shifting right. The decoder input (orange) is the target (green) moved one place to the right, with `<start>` in front. Each position predicts the word above it, and that word becomes the input of the next position (dashed)](images/shift_right.png){width=100%}
+
+In Figure 3, follow the dashed arrows: the target of one position is the input of the next, so no position is ever given the word it must predict.
+
+This offset is the transformer's form of **teacher forcing** (G-1955): during training the decoder is fed the correct previous words, not its own predictions (the [encoder–decoder Note](../1068-encoder-decoder/note.md), section 5.2, where the same shift appears). The paper states why the offset matters: the masking of the self-attention, "combined with fact that the output embeddings are offset by one position, ensures that the predictions for position $i$ can depend only on the known outputs at positions less than $i$" (Vaswani et al. 2017, §3.1). Without the shift, position 1 would see "nous" and simply copy it.
 
 ### 5.2 Tokenise, embed, add positions
 
@@ -90,11 +98,11 @@ The result is the input matrix $X$, $5 \times 512$: rows $x_1, \dots, x_5$.
 
 > **Key point:** $X \to$ masked attention $\to$ add & norm $\to Z_{\text{norm}}$; cross-attention with $H_{\text{enc}}$ $\to$ add & norm $\to Z_{c,\text{norm}}$; feed-forward $\to$ add & norm $\to Y_{\text{norm}}$. Every one of these matrices is $5 \times 512$.
 
-Figure 2 shows the path of the five French positions through one block, with every shape.
+Figure 4 shows the path of the five French positions through one block, with every shape.
 
 ![One decoder block for a 5-token French input and a 3-token English sentence. Every matrix is $5 \times 512$ except the encoder output $H_{\text{enc}}$ and the hidden layer of the feed-forward network. Red arrows are the residual connections](images/decoder_flow.png){width=100%}
 
-Figure 3 follows a single position through a decoder block of a model that has been trained. It is the last decoder block of the small English-to-French transformer of the [transformer inference Note](../1084-transformer-inference/note.md), with the decoder input `<start> nous sommes` and the English sentence "we're friends .". Watch what the position "sommes" may read at each sub-layer: earlier French words in the masked self-attention, the English words in the cross-attention (0.85 of its weight on "friends"), and nothing but itself in the feed-forward network. The output layer then predicts "amies" with probability 0.987.
+Figure 5 follows a single position through a decoder block of a model that has been trained. It is the last decoder block of the small English-to-French transformer of the [transformer inference Note](../1084-transformer-inference/note.md), with the decoder input `<start> nous sommes` and the English sentence "we're friends .". Watch what the position "sommes" may read at each sub-layer: earlier French words in the masked self-attention, the English words in the cross-attention (0.85 of its weight on "friends"), and nothing but itself in the feed-forward network. The output layer then predicts "amies" with probability 0.987.
 
 ![One position, "sommes", through the last decoder block of a trained 2 + 2 block transformer. Line widths are the real attention weights (mean of 4 heads): masked self-attention over the French words so far, cross-attention over the English words, then the feed-forward network and the output layer](images/decoder_flow_anim.gif){height=55%}
 
@@ -228,10 +236,10 @@ Here $7{,}356{,}416$ is one encoder block plus one decoder block. Our block coun
 
 After the sixth block, each French position has a 512-number vector, and we need a word. The output layer has two parts (the "Linear" and "Softmax" boxes at the top of Figure 1):
 
-1. **Linear.** A dense layer with no activation, 512 inputs and $V$ nodes, one node per word of the French vocabulary. Its weights $W_3$ are $512 \times V$ plus $V$ biases. Its outputs, one unnormalised score per word, are called **logits**.
+1. **Linear.** A dense layer with no activation, 512 inputs and $V$ nodes, one node per word of the French vocabulary. Its weights $W_3$ are $512 \times V$ plus $V$ biases. Its outputs, one unnormalised score per word, are called **logits** (G-1122).
 2. **Softmax.** The softmax turns the $V$ logits of each position into $V$ probabilities that sum to 1 (the [loss functions Note](../1014-dl-loss-functions/note.md)).
 
-The **vocabulary** is the list of all distinct words of the French side of the data. A larger vocabulary means more nodes: with the Notebook's $V = 8{,}004$, the layer has $512 \times 8{,}004 + 8{,}004 = 4{,}106{,}052$ parameters, about as many as one decoder block.
+The **vocabulary** (G-2093) is the list of all distinct words of the French side of the data. A larger vocabulary means more nodes: with the Notebook's $V = 8{,}004$, the layer has $512 \times 8{,}004 + 8{,}004 = 4{,}106{,}052$ parameters, about as many as one decoder block.
 
 1. **In words:** multiply each position's vector by $W_3$ and add the bias to get one score per word, then exponentiate each score and divide by the sum of the exponentials.
 2. **Formula:** for the vector $y_i$ of position $i$,
@@ -241,13 +249,17 @@ The **vocabulary** is the list of all distinct words of the French side of the d
    $$P = \frac{7.39}{12.13},\ \frac{2.72}{12.13},\ \frac{1.65}{12.13},\ \frac{0.37}{12.13} = 0.609,\ 0.224,\ 0.136,\ 0.030$$
    "nous" has the highest probability, which is correct for position 1.
 
+![The toy example above. Left: the four logits from the linear layer. Right: the probabilities after the softmax, which keep the order of the logits and sum to 1](images/softmax_toy.png){width=95%}
+
+Figure 7 shows the softmax at work: the logit gap of 1 between "nous" and "sommes" becomes a probability ratio of $e^1 = 2.7$.
+
 All 5 positions go through the same layer together: $5 \times 512$ times $512 \times V$ gives a $5 \times V$ table of probabilities, one row per position. In the Notebook every row sums to 1.
 
 ## 9. Training: every position in one pass
 
 > **Key point:** One forward pass produces a probability row for every position at once. The loss is the cross-entropy between each row and the target word of that position, averaged over the positions. No word is chosen during training.
 
-Because the whole target sentence is known and shifted right, and the mask stops each position from seeing later ones, all 5 predictions can be made in the same pass (the [masked self-attention Note](../1081-masked-self-attention/note.md)). The decoder is **non-autoregressive** during training: it does not wait for its own outputs.
+Because the whole target sentence is known and shifted right, and the mask stops each position from seeing later ones, all 5 predictions can be made in the same pass (the [masked self-attention Note](../1081-masked-self-attention/note.md)). The decoder is **non-autoregressive** (G-1331) during training: it does not wait for its own outputs.
 
 The five rows are then compared with the five targets of section 5.1. As in the encoder–decoder (section 5.3 of the [encoder–decoder Note](../1068-encoder-decoder/note.md)), each position is a classification over the vocabulary, and the loss is the categorical cross-entropy, minus the log of the probability given to the correct word (SLP3 eq. 13.13):
 
@@ -256,6 +268,10 @@ $$L = -\frac{1}{5}\sum_{i=1}^{5} \ln P(t_i \text{ at position } i)$$
 where $t_i$ is the target word of position $i$.
 
 Before training, the model has no preference: each correct word gets about $1/V$ of the probability. In the Notebook the 5 target words get $0.76/V$, $0.57/V$, $0.79/V$, $0.38/V$ and $1.04/V$, and the loss is 9.39, close to $\ln V = \ln 8{,}004 = 8.99$. Keras' `SparseCategoricalCrossentropy` gives the same 9.39. Backpropagation then updates every weight of the decoder, the cross-attention's $W_K$ and $W_V$, and through them the whole encoder, as one network.
+
+![The untrained decoder on the 5 positions: the loss $-\ln P$ of each correct word, with its probability as a multiple of $1/V$. Their mean, 9.39, is close to $\ln V$, the loss of a uniform guess over 8,004 words](images/untrained_loss.png){width=95%}
+
+In Figure 8, every bar sits near the dotted line $\ln V$: before training, the model spreads its probability almost evenly over the vocabulary. Training lowers these bars.
 
 The untrained decoder's most likely word is "mit" at all 5 positions. Picking the most likely word is not part of training: the loss uses the probability of the correct word, whatever word ranks first. Choosing words happens only during prediction, where the decoder works **autoregressively**, one word per step, each new word becoming part of the next input (the [transformer inference Note](../1084-transformer-inference/note.md)).
 

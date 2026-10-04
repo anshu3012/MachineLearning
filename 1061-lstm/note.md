@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm]
 
 > **Key point:** A long short-term memory network (LSTM) is an RNN with two memory paths instead of one: a long-term memory (the cell state) and a short-term memory (the hidden state), plus a cell that decides what moves between them.
 
-A simple RNN carries everything it remembers along one path, its hidden state, and over long sequences the early inputs fade. A **long short-term memory network** (LSTM; Hochreiter and Schmidhuber 1997) adds a second path that is built to keep information for a long time. Information placed on that path stays there until the network decides to remove it.
+A simple RNN carries everything it remembers along one path, its hidden state, and over long sequences the early inputs fade. A **long short-term memory network** (LSTM; G-1123; Hochreiter and Schmidhuber 1997) adds a second path that is built to keep information for a long time. Information placed on that path stays there until the network decides to remove it.
 
 ![A simple RNN passes one hidden state from step to step. An LSTM passes two: the cell state (green, long-term memory) and the hidden state (red, short-term memory)](images/lstm_vs_rnn.png){width=90%}
 
@@ -36,6 +36,10 @@ Figure 1 shows the difference. This Note builds the intuition; the [LSTM archite
 An RNN reads a sentence one word per time step, and its hidden state $h_t$ carries the past forward (see the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md)). In theory that is enough. In practice, trouble starts when sentences get long.
 
 Take the sentence "Maharashtra is a beautiful state. The language spoken there is \_\_\_\_". The answer, Marathi, depends on the first word, Maharashtra. With only a few words in between, an RNN can manage. Now make it longer: "Maharashtra is a beautiful state. It has 25 cities, beautiful forests, … its capital is Mumbai, … The language spoken there is \_\_\_\_". Many more time steps now separate the blank from Maharashtra, and by the end a simple RNN has largely forgotten what the paragraph was about.
+
+![The same question, short and long. In the long version many time steps separate the blank from "Maharashtra", and the red hidden-state line carries less and less of it](images/long_gap.png){width=100%}
+
+In Figure 2, compare the two red lines: the answer depends on the first box in both, but only the short chain still delivers it to the blank.
 
 The cause is the vanishing gradient problem in long chains of time steps, taught in the [problems with RNNs Note](../1060-problems-with-rnn/note.md). The effect is that recent inputs dominate the hidden state, and the influence of early inputs on far-away predictions is small. A simple RNN behaves like someone who has watched a long series but remembers only the latest episodes.
 
@@ -69,7 +73,7 @@ When asked "good or bad?", we answer from the long-term context, not from the la
 
 ![The story read one event at a time, with the rows of the table above. The lower lane holds what is happening now; the input gate copies what matters up to the long-term lane, and the forget gate removes what stopped mattering. The long-term lane follows Olah (2015), who draws the cell state as a line running along the top of the chain, with gates that add or remove information](images/two_memories.gif){width=100%}
 
-In Figure 2, watch the upper lane: "old story" and "Pratapgarh" enter at the start and are still there at the end, while Vikram and Vikram Junior enter and leave again. The gates named in the figure are the subject of section 8.
+In Figure 3, watch the upper lane: "old story" and "Pratapgarh" enter at the start and are still there at the end, while Vikram and Vikram Junior enter and leave again. The gates named in the figure are the subject of section 8.
 
 ## 5. Why one path is not enough
 
@@ -90,6 +94,10 @@ If something important appears at the first time step and is never removed from 
 
 An example with pronouns. A text says "Ankita is a great girl." The next sentence needs a pronoun: "\_\_\_\_ is a state topper." To choose "she", the network must remember that the subject is a girl. So when "Ankita is a great girl" arrives, the short-term memory passes "Ankita, girl" to the long-term memory. Later the text says "Rahul is a cricketer. \_\_\_\_ has scored three centuries this season." Now the long-term memory drops Ankita and girl and stores Rahul and boy, and the pronoun becomes "he". Olah (2015) uses the same picture: the cell state may hold the gender of the current subject, so that the right pronoun can be used, and forgets it when a new subject appears.
 
+![The pronoun example on two lanes. The short-term memory (red) reads one sentence per step; it adds "Ankita, girl" to the long-term memory (green), which carries it to the blank and gives "She". When Rahul arrives, the long-term memory drops Ankita and stores "Rahul, boy", which gives "He"](images/two_lanes.png){width=100%}
+
+In Figure 4, watch the green lane: it changes only at steps 1 and 3, when a new subject appears, and holds still in between.
+
 > **Extra:** The name "long short-term memory" comes from the original paper (Hochreiter and Schmidhuber 1997). There, "short-term memory" means what a recurrent network stores in its activations (as opposed to "long-term memory" stored in slowly changing weights). An LSTM is a network whose short-term memory lasts long: its stored activations can bridge time lags of more than 1000 time steps on the paper's artificial tasks. The "long-term memory" and "short-term memory" of this Note are the usual teaching picture of the cell state and hidden state.
 
 ## 7. Two differences between an RNN and an LSTM
@@ -98,20 +106,24 @@ An example with pronouns. A text says "Ankita is a great girl." The next sentenc
 
 Figure 1 puts the two side by side.
 
-1. **Two states instead of one.** An RNN passes only the hidden state. An LSTM passes the hidden state $h_t$ (short-term memory) and the **cell state** $c_t$ (long-term memory). This is the first and biggest difference.
+1. **Two states instead of one.** An RNN passes only the hidden state. An LSTM passes the hidden state $h_t$ (short-term memory) and the **cell state** (G-361) $c_t$ (long-term memory). This is the first and biggest difference.
 2. **A more complex cell.** Inside an RNN cell there is one tanh layer. Inside an LSTM cell there is more machinery, because the cell has an extra job: making the two memories talk. When the short-term memory sees that something new and important has arrived, it must tell the long-term memory to add it; when something has become irrelevant, it must tell the long-term memory to remove it.
 
 ## 8. The three gates in one line each
 
 > **Key point:** The machinery inside the cell is split into three gates. The forget gate removes from the long-term memory, the input gate adds to it, and the output gate reads from it to produce the output and the next short-term memory.
 
-The parts of the LSTM cell are called **gates**, and there are three of them. Their maths is in the [LSTM architecture Note](../1062-lstm-architecture/note.md); here is what each one does, based on the current input and the short-term memory.
+The parts of the LSTM cell are called **gates** (G-825), and there are three of them. Their maths is in the [LSTM architecture Note](../1062-lstm-architecture/note.md); here is what each one does, based on the current input and the short-term memory.
 
 | Gate | What it does | In the story |
 |---|---|---|
-| **Forget gate** | decides what to remove from the long-term memory | Vikram dies: remove Vikram |
-| **Input gate** | decides what new information to add to the long-term memory | Vikram Junior becomes king: add him |
-| **Output gate** | decides what to read out of the long-term memory as output, and produces the short-term memory for the next time step | at the end: answer "good or bad" |
+| **Forget gate** (G-794) | decides what to remove from the long-term memory | Vikram dies: remove Vikram |
+| **Input gate** (G-951) | decides what new information to add to the long-term memory | Vikram Junior becomes king: add him |
+| **Output gate** (G-1423) | decides what to read out of the long-term memory as output, and produces the short-term memory for the next time step | at the end: answer "good or bad" |
+
+![The three gates placed on the long-term memory. The forget gate multiplies the cell state (removes), the input gate adds to it, and the output gate reads from it to give $h_t$. The examples come from the story of section 4](images/three_gates.png){width=100%}
+
+Figure 5 shows the order along the green line: first remove, then add, then read out.
 
 The output gate works at every time step, not only at the end. At the last step it gives the output; at the steps in between, its result is the short-term memory passed to the next step.
 
@@ -123,7 +135,7 @@ A computer takes input, processes it and gives output. The LSTM cell at time ste
 
 ![The LSTM cell at time step $t$: three inputs, two jobs, two outputs](images/lstm_io.png){width=95%}
 
-Figure 3 shows the cell as a box.
+Figure 6 shows the cell as a box.
 
 - **Inputs (3):** the previous cell state $c_{t-1}$ (long-term memory), the previous hidden state $h_{t-1}$ (short-term memory), and the current input $x_t$, for example the current word.
 - **Processing (2 jobs):**
@@ -135,7 +147,7 @@ Figure 3 shows the cell as a box.
 
 > **Key point:** On real movie reviews whose words are followed by 25 extra time steps, a SimpleRNN stays at chance in all 10 runs, while an LSTM still learns the sentiment in 9 runs of 10.
 
-We can test the idea on real data. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector by an embedding layer, and the **target** (the output we predict) is positive or negative. Each review is one **observation** (one record of the data).
+We can test the idea on real data. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector by an embedding layer, and the **target** (G-1949) (the output we predict) is positive or negative. Each review is one **observation** (G-1374) (one record of the data).
 
 The test changes one thing: the distance between the words and the end of the sequence.
 
@@ -146,7 +158,7 @@ Both networks have the same embedding, 32 units in the recurrent layer and a sig
 
 ![Validation accuracy of SimpleRNN (grey) and LSTM (green). Thin lines: 10 runs each; thick lines: their mean. The dotted line is 0.5. With 25 padding steps after the words, every SimpleRNN run stays near chance](images/long_memory.png){width=100%}
 
-Figure 4 and the Notebook give, after 15 epochs (mean ± standard deviation over the 10 runs):
+Figure 7 and the Notebook give, after 15 epochs (mean ± standard deviation over the 10 runs):
 
 | | SimpleRNN | LSTM |
 |---|---|---|

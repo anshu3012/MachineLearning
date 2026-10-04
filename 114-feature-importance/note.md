@@ -21,7 +21,12 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 
 Tree-based algorithms (decision trees, random forests, and later bagging and boosting ensembles such as AdaBoost, gradient boosting and XGBoost) can all tell us how much each feature helped in predicting the **target** (the output we predict) from the **observations** (records, one row of the table each). Figure 1 shows this for handwritten digits: the forest relies on the pixels in the middle of the image and ignores the border.
 
-For a single tree, `feature_importances_` was introduced in the [regression trees Note](../99-regression-trees/note.md), section 7.3. This Note covers why feature importance is useful, how a tree computes it step by step, how a random forest combines its trees, and the method's main weakness, with permutation importance as the alternative.
+For a single tree, `feature_importances_` was introduced in the [regression trees Note](../99-regression-trees/note.md), section 7.3. This Note covers:
+
+- why feature importance is useful (section 2);
+- how a tree computes it, step by step (section 4);
+- how a random forest combines its trees (section 5);
+- the method's main weakness (section 6), with permutation importance as the alternative (section 7).
 
 The Notebook (`notebook.ipynb`) runs every example.
 
@@ -29,7 +34,7 @@ The Notebook (`notebook.ipynb`) runs every example.
 
 > **Key point:** Feature importance tells us which features a model relies on: useful for dropping weak features (feature selection) and for explaining the model's decisions.
 
-**Feature importance** is a number for each input feature that says how much the model relied on it. Two uses stand out.
+**Feature importance** (G-764) is a number for each input feature that says how much the model relied on it. Two uses stand out.
 
 ### 2.1 Feature selection
 
@@ -72,7 +77,7 @@ The forest was trained on all 42,000 images, with no test set: here we only want
 
 > **Key point:** Each split's weighted impurity decrease is credited to the feature it splits on; a feature's importance is its total, divided by the total over all features.
 
-The scikit-learn documentation defines a feature's importance as "the (normalized) total reduction of the criterion brought by that feature", also called **Gini importance** or **mean decrease in impurity (MDI)**. The steps make this concrete.
+The scikit-learn documentation defines a feature's importance as "the (normalized) total reduction of the criterion brought by that feature", also called **Gini importance** or **mean decrease in impurity (MDI)** (G-1196). The steps make this concrete.
 
 ### 4.1 The decrease at one node
 
@@ -163,7 +168,9 @@ A random forest adds nothing new: each tree computes its importances as in secti
 > rf2.feature_importances_           # [0.3125 0.6875]
 > ```
 
-A single tree's importances can change a lot when the data changes slightly (high variance); the forest's mean over many trees is much more stable. In the Notebook, retraining on 20 resamples of the data of section 6, the forest's importances spread about a third as much as one tree's: the same variance reduction that makes bagging work.
+A single tree's importances can change a lot when the data changes slightly (high variance); the forest's mean over many trees is much more stable. The Notebook tests this on the data of section 6. It draws 20 bootstrap resamples of the 700 training observations and, on each one, trains one tree and one forest. Figure 3 plots every resample's importances. Watch the red dots of the single tree spread widely along each feature's row, while the blue dots of the forest sit in tight clusters. Measured by the standard deviation, averaged over the six features, the forest's importances spread about a quarter as much as one tree's (0.011 against 0.043): the same variance reduction that makes bagging work.
+
+![Feature importances from 20 bootstrap resamples of the training data. Left: one decision tree per resample. Right: one random forest of 100 trees per resample. Each dot is one resample](images/forest_stability.png)
 
 > **Extra:** Two details of scikit-learn's version. Each tree computes its decreases on its own bootstrap sample, not on the full training set. And a tree that never split (only a root) is left out of the mean; the result is divided by its total again so it still sums to 1. (scikit-learn source, `ensemble/_forest.py`)
 
@@ -180,7 +187,7 @@ We make a dataset of 1,000 observations with four real features, x1 to x4 (52 to
 - `random_id`: a different number for every observation, 1,000 unique values;
 - `random_coin`: 0 or 1 at random, 2 unique values.
 
-A random forest trained on 700 observations scores 0.87 on the other 300. Its impurity-based importances (Figure 3a) give `random_id` **0.100**, more than half as much as the real feature x4, while `random_coin` gets only 0.015.
+A random forest trained on 700 observations scores 0.87 on the other 300. Its impurity-based importances (Figure 4a) give `random_id` **0.100**, more than half as much as the real feature x4, while `random_coin` gets only 0.015.
 
 The reason: importances are computed from the **training** data, where trees are grown until every leaf is pure. A feature with 1,000 different values offers about 1,000 possible thresholds, so deep in a tree it can almost always separate the last few observations by chance. Each such split lowers the training impurity and earns the feature credit, though it means nothing on new data. A feature with 2 values offers one threshold, so it has far fewer chances to fit noise. The bias towards features with many values is well known (Strobl et al., 2007; scikit-learn User Guide §5.2).
 
@@ -190,7 +197,7 @@ The reason: importances are computed from the **training** data, where trees are
 
 > **Key point:** Shuffle one feature in the test set and measure how much the score drops; a feature the model truly uses causes a big drop, a useless feature none.
 
-For data with high-cardinality features, scikit-learn recommends **permutation importance**, `sklearn.inspection.permutation_importance`, instead. Figure 3b shows it for the same forest: the four real features keep clear importances (0.055 to 0.210), and both noise features fall to about 0 (`random_id` −0.003, `random_coin` 0.004).
+For data with high-cardinality features, scikit-learn recommends **permutation importance** (G-1490), `sklearn.inspection.permutation_importance`, instead. Figure 4b shows it for the same forest: the four real features keep clear importances (0.055 to 0.210), and both noise features fall to about 0 (`random_id` −0.003, `random_coin` 0.004).
 
 > **Python:** Permutation importance on the test set.
 >
@@ -212,6 +219,10 @@ For data with high-cardinality features, scikit-learn recommends **permutation i
 > A noise feature like `random_id` was never truly used, so shuffling it changes almost nothing; its importance is near 0 and can even come out slightly negative by chance. Because it is measured on unseen data, permutation importance cannot be fooled by splits that only fit the training set (scikit-learn User Guide §5.2).
 >
 > Permutation importance has costs: it needs a test set and many extra predictions, so it is slower. And when two features are strongly correlated, shuffling one barely hurts the model, because the other still carries the same information, so both can look unimportant (scikit-learn User Guide §5.2.3).
+
+Figure 5 animates the procedure of the Extra box. Each dot is the test accuracy after one shuffle of one feature. Watch the dots of x1 land far left of the dashed line at 0.870, a drop of 0.210 on average, while the dots of `random_id` and `random_coin` stay on the line: shuffling a feature the model never truly used changes nothing.
+
+![Permutation importance step by step: each feature is shuffled 20 times in the 300 test observations. Dots: test accuracy after each shuffle; dashed: accuracy with no shuffle (0.870); right: the mean drop, the feature's permutation importance](images/permutation_shuffle.gif)
 
 If the data has no high-cardinality features, the impurity-based importance of `feature_importances_` is a quick first look that costs nothing: it is computed during training.
 

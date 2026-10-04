@@ -25,9 +25,9 @@ The [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.m
 
 > **Key point:** Boosting combines many high-bias models into one low-bias model; for classification the loss becomes the log loss, and the first model and the leaf values change with it.
 
-Gradient boosting adds small models in stages, each learning from the mistakes of the ones before. The small models are weak learners ([AdaBoost intuition Note](../115-adaboost-intuition/note.md)), models that are only a little better than guessing: high bias, low variance. Adding many of them lowers the bias step by step, which is why boosting fixes underfitting ([bagging vs boosting Note](../119-bagging-vs-boosting/note.md)).
+Gradient boosting adds small models in stages, each learning from the mistakes of the ones before. The small models are **weak learners** (G-2104; [AdaBoost intuition Note](../115-adaboost-intuition/note.md)), models that are only a little better than guessing: high bias, low variance. Adding many of them lowers the bias step by step, which is why boosting fixes underfitting ([bagging vs boosting Note](../119-bagging-vs-boosting/note.md)).
 
-For classification, the loss is the **log loss** ([log loss Note](../73-log-loss/note.md)) instead of the squared error. Three things change:
+For classification, the loss is the **log loss** (G-303; [log loss Note](../73-log-loss/note.md)) instead of the squared error. Three things change:
 
 - the first model is the log-odds of class 1, not the mean;
 - the residuals are computed from probabilities;
@@ -39,7 +39,7 @@ The trees themselves are still regression trees: their targets, the residuals, a
 
 > **Key point:** Two features (CGPA, IQ) and a target class: placed (1) or not (0). Five students were placed, three were not.
 
-Each student is an **observation** (one record, one row of the table). CGPA and IQ are the **features**, the input variables. *Placed* is the **target**, the class we predict.
+Each student is an **observation** (G-1374) (one record, one row of the table). CGPA and IQ are the **features** (G-772), the input variables. *Placed* is the **target** (G-1949), the class we predict.
 
 | Student | CGPA | IQ | Placed |
 |---|---|---|---|
@@ -60,7 +60,7 @@ We build three models: $F_0$, a simple starting value, then two regression trees
 
 For classification the mean of the 0s and 1s is not a sensible start for the maths that follows. Instead we use the log-odds.
 
-The **odds** of an event compare how often it happens with how often it does not: 5 placed against 3 not placed gives odds of 5 to 3, or $5/3 = 1.67$. The **log-odds** is the natural logarithm of the odds (logs are introduced in the [log loss Note](../73-log-loss/note.md), section 4).
+The **odds** (G-1376) of an event compare how often it happens with how often it does not: 5 placed against 3 not placed gives odds of 5 to 3, or $5/3 = 1.67$. The **log-odds** (G-1116) is the natural logarithm of the odds (logs are introduced in the [log loss Note](../73-log-loss/note.md), section 4).
 
 1. **In words:** count the 1s, divide by the count of the 0s, and take the natural log (base $e$, not base 10).
 2. **Formula:**
@@ -77,7 +77,7 @@ So stage 1 predicts a log-odds of 0.51 for every student, whatever the CGPA and 
 
 > **Key point:** The sigmoid turns log-odds into a probability: $p = 1/(1 + e^{-F})$. For $F_0 = 0.51$ that gives 0.625.
 
-A log-odds of 0.51 does not tell us directly whether a student is placed. To compute residuals and to make predictions, we need a probability. The **sigmoid** function does the conversion ([sigmoid function Note](../72-sigmoid-function/note.md)).
+A log-odds of 0.51 does not tell us directly whether a student is placed. To compute residuals and to make predictions, we need a probability. The **sigmoid** function (G-1798) does the conversion ([sigmoid function Note](../72-sigmoid-function/note.md)).
 
 1. **In words:** $e$ to the power of minus the log-odds, plus 1, then 1 divided by that.
 2. **Formula:**
@@ -86,6 +86,10 @@ A log-odds of 0.51 does not tell us directly whether a student is placed. To com
    $$p = \frac{1}{1 + e^{-0.51}} = \frac{1}{1 + 0.600} = 0.625$$
 
 The probability 0.625 is just the share of 1s, $5/8 = 0.625$. With a threshold of 0.5, stage 1 predicts "placed" for every student. The guess is wrong for three of them, but it is a reasonable start: most students were placed.
+
+Figure 2 marks the conversion for $F_0$ and for the three log-odds the students reach after stage 2 (section 9). Watch the dashed line at 0.5: any log-odds above 0 lands above it ("placed"), any below 0 lands under it.
+
+![The sigmoid turns log-odds into probabilities: $F_0 = 0.51$ gives 0.625; the stage-2 log-odds $-2.16$, 0.69 and 2.11 give 0.10, 0.67 and 0.89](images/sigmoid_points.png){height=36%}
 
 ## 6. Pseudo-residuals: class minus probability
 
@@ -99,7 +103,7 @@ As in regression, we measure each observation's mistake as actual minus predicte
 3. **Example:** student 1 is not placed ($y = 0$), student 3 is placed ($y = 1$):
    $$r_1 = 0 - 0.625 = -0.625, \qquad r_3 = 1 - 0.625 = 0.375$$
 
-Every placed student has residual 0.375, every student not placed $-0.625$. These are the pseudo-residuals of the log loss: the Extra in section 8 shows that $y - p$ is minus the gradient of the log loss.
+Every placed student has residual 0.375, every student not placed $-0.625$. These are the **pseudo-residuals** (G-1589) of the log loss: the Extra in section 8 shows that $y - p$ is minus the gradient of the log loss.
 
 ## 7. Stage 2: a regression tree on the residuals
 
@@ -111,7 +115,12 @@ We train a regression tree with CGPA and IQ as features and the residuals as the
 - **leaf 2, 6.8 $<$ CGPA $\le$ 7.85:** students 3, 4 and 5 (two placed, one not);
 - **leaf 3, CGPA $>$ 7.85:** students 6, 7 and 8 (all placed).
 
-The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. But that number is a difference of probabilities, and $F_0$ is in log-odds. We cannot add a probability to a log-odds. So each leaf gets a new value, in log-odds.
+
+Figure 3 draws the three leaves as bands of CGPA. Watch the middle band: it is the only one that mixes the two colours, so its residuals partly cancel.
+
+![Tree 1's three leaves as bands of CGPA over the eight students (numbered); orange students have residual $-0.625$, blue ones $+0.375$](images/tree1_regions.png){height=36%}
+
+The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. But that number is a difference of probabilities, and $F_0$ is in log-odds. We cannot add a probability to a log-odds. So each leaf gets a new value, its **leaf value in log-odds** (G-1062).
 
 ## 8. Leaf values in log-odds
 
@@ -125,11 +134,11 @@ The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. 
 3. **Example:** leaf 1 holds students 1 and 2, both with residual $-0.625$ and previous probability 0.625:
    $$\gamma_1 = \frac{-0.625 + (-0.625)}{0.625 \times 0.375 + 0.625 \times 0.375} = \frac{-1.25}{0.469} = -2.67$$
 
-The same formula gives 0.18 for leaf 2 and 1.60 for leaf 3 (Figure 2). Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
+The same formula gives 0.18 for leaf 2 and 1.60 for leaf 3 (Figure 4). Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
 
 > **Extra:** Where the formula comes from. Write one observation's log loss in terms of its log-odds $z$, with $p = \sigma(z)$: since $\ln p = -\ln(1 + e^{-z})$ and $\ln(1-p) = -z - \ln(1 + e^{-z})$,
 > $$L = -\big[y \ln p + (1-y)\ln(1-p)\big] = \ln(1 + e^{-z}) + (1-y)\thinspace z$$
-> Its derivative with respect to $z$ is $-(1-p) + (1-y) = p - y$, so the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf; the log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms, $L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$ (the [XGBoost maths Note](../126-xgboost-maths/note.md) explains Taylor series). Setting the derivative to zero gives $\gamma = \sum (y_i - p_i) / \sum p_i(1 - p_i)$: our formula. The formula is one step of Newton's method (Friedman 2001), and scikit-learn uses the same formula (scikit-learn source).
+> Its derivative with respect to $z$ is $-(1-p) + (1-y) = p - y$, so the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf; the log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms, $L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$ (the [XGBoost maths Note](../126-xgboost-maths/note.md) explains Taylor series). Setting the derivative to zero gives $\gamma = \sum (y_i - p_i) / \sum p_i(1 - p_i)$: our formula. The formula is one **Newton step** (G-1320) (Friedman 2001), and scikit-learn uses the same formula (scikit-learn source).
 
 ## 9. The combined model after stage 2
 
@@ -162,6 +171,10 @@ The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we ca
 
 With $\eta = 0.1$, student 1's log-odds becomes $0.51 + 0.1 \times (-2.67) = 0.24$ and its probability 0.56: a small step in the right direction instead of a leap. In practice $\eta$ is around 0.1 and many more trees are used. The toy example keeps $\eta = 1$ so that two trees show visible progress.
 
+Figure 5 puts the two learning rates side by side for all eight students. Watch students 1 and 2: with learning rate 1 they drop from 0.625 to 0.10 in one stage; with 0.1 they only move to 0.56, still on the wrong side of 0.5.
+
+![Probability of placement after stage 2, learning rate 1 (red dots, with the move from stage 1 as a red line) and 0.1 (blue diamonds); open circles mark each student's true class](images/lr_step.png){height=36%}
+
 ## 10. Stage 3: a second tree
 
 > **Key point:** Tree 2 learns the residuals of the combined model; its leaf values use the probabilities of stage 2; the new log-odds is $F_0$ plus both leaf values.
@@ -191,7 +204,7 @@ Each student's new log-odds adds both trees: student 4 gets $0.51 + 0.18 - 1.09 
 
 All eight students are now on the correct side of 0.5. Not every probability improved: students 1, 6 and 7 moved slightly away from their class, because tree 2 put them in a leaf with student 4. Taken together, though, the model got better: the average log loss fell from 0.66 (stage 1) to 0.31 (stage 2) and 0.22 (stage 3).
 
-Figure 3 plays the stages, and continues for two more trees built the same way. Watch the residual bars, the red gaps between each probability and its true class: every tree shortens most of them, student 4's long bar shrinks with tree 2, and the log loss on the right keeps falling (0.13 and 0.08 after trees 3 and 4).
+Figure 6 plays the stages, and continues for two more trees built the same way. Watch the residual bars, the red gaps between each probability and its true class: every tree shortens most of them, student 4's long bar shrinks with tree 2, and the log loss on the right keeps falling (0.13 and 0.08 after trees 3 and 4).
 
 ![Each student's probability of placement (filled dot) moves towards its true class (ring) stage by stage; the red bar is the pseudo-residual y - p that the next tree learns. Right: average log loss. Learning rate 1, trees with 3 leaves, as in the tables. Drawing residuals as bars to the true class follows StatQuest's "Gradient Boost Part 3: Classification" (Starmer)](images/prob_climb.gif)
 
@@ -206,6 +219,10 @@ Figure 3 plays the stages, and continues for two more trees built the same way. 
    $$F = 0.51 + 0.18 + 0.82 = 1.51, \qquad p = \frac{1}{1 + e^{-1.51}} = 0.82$$
 
 The probability of placement is 0.82, above 0.5, so the prediction is "placed". scikit-learn's `GradientBoostingClassifier(loss="log_loss", n_estimators=2, learning_rate=1.0, max_leaf_nodes=3, max_depth=None)` reproduces every probability in this Note (Notebook).
+
+Figure 7 shows the two halves of the prediction. Watch the order: all adding happens in log-odds on the left, and only the total goes through the sigmoid on the right.
+
+![The new student (CGPA 7.2, IQ 100): $F_0 = 0.51$ plus 0.18 from tree 1 and 0.82 from tree 2 gives log-odds 1.51 (left); the sigmoid turns it into probability 0.82 (right)](images/new_student.png){height=34%}
 
 > **Python:** The same model in scikit-learn.
 >
@@ -225,17 +242,17 @@ The probability of placement is 0.82, above 0.5, so the prediction is "placed". 
 
 ## 12. The geometric picture
 
-> **Key point:** Lift each point to height 0 or 1 by its class. The model is a surface between 0 and 1; each tree raises it over the 1s and lowers it over the 0s, and after many trees its 0.5 level traces a curved boundary.
+> **Key point:** Lift each point to height 0 or 1 by its class. The model is a surface between 0 and 1; each tree raises it over the 1s and lowers it over the 0s, and after many trees its 0.5 level traces a curved **decision boundary** (G-555), the line where the predicted class changes.
 
 To see what the stages do, we use a harder dataset of 1,500 points with two features, $x_1$ and $x_2$. Class 1 forms a ring around a disc of class 0, and next to it lies a small disc of class 1 inside a ring of class 0. No straight line separates them.
 
 ![The data lifted to height 0 (class 0) or 1 (class 1), with the model's probability surface after one tree](images/view3d.png){height=42%}
 
-In Figure 4, each point sits at the height of its class: class 0 on the floor, class 1 at height 1. Stage 1 is a flat surface at the share of class 1, 0.5. One tree with 4 leaves cuts the plane into 4 rectangles and lifts or lowers the surface over each one, towards the points above or below it.
+In Figure 8, each point sits at the height of its class: class 0 on the floor, class 1 at height 1. Stage 1 is a flat surface at the share of class 1, 0.5. One tree with 4 leaves cuts the plane into 4 rectangles and lifts or lowers the surface over each one, towards the points above or below it.
 
 ![Probability of class 1 after 0, 1, 2, 10, 30 and 100 trees (learning rate 0.5, 4 leaves per tree); blue above 0.5, orange below](images/surfaces.png){height=50%}
 
-Figure 5 looks at the same surface from above, after more trees:
+Figure 9 looks at the same surface from above, after more trees:
 
 | Trees | Training accuracy | Test accuracy |
 |---|---|---|
@@ -246,7 +263,7 @@ Figure 5 looks at the same surface from above, after more trees:
 | 30 | 0.95 | 0.90 |
 | 100 | 0.99 | 0.93 |
 
-Each tree adds a few axis-parallel rectangles, so the boundary is built from straight pieces. After 100 trees it follows both circles: the centre disc becomes orange (class 0), the small disc on the right blue (class 1). Training accuracy nearly reaches 1, and the gap to the test accuracy shows the model starting to memorise. The Notebook trains on to 1,000 trees, averaged over 20 fresh datasets of the same kind, each tested on 15,000 new points: test accuracy peaks at 0.942 after about 120 trees and then slips to 0.937 by 1,000, while training accuracy sits at 1.000. Past the peak, extra trees only fit the training points more tightly, so the number of trees is tuned like the learning rate (ESL §10.12).
+Each tree splits on one feature at a time, an **axis-parallel split** (G-243), so it adds a few rectangles, and the decision boundary is made of straight segments parallel to the axes. After 100 trees it follows both circles: the centre disc becomes orange (class 0), the small disc on the right blue (class 1). Training accuracy nearly reaches 1, and the gap to the test accuracy shows the model starting to memorise. The Notebook trains on to 1,000 trees, averaged over 20 fresh datasets of the same kind, each tested on 15,000 new points: test accuracy peaks at 0.942 after about 120 trees and then slips to 0.937 by 1,000, while training accuracy sits at 1.000. Past the peak, extra trees only fit the training points more tightly, so the number of trees is tuned like the learning rate (ESL §10.12).
 
 ## 13. Summary
 
@@ -264,14 +281,14 @@ Each tree adds a few axis-parallel rectangles, so the boundary is built from str
 - Everything is added in log-odds; the sigmoid converts log-odds to probabilities whenever we need residuals or predictions.
 - The trees are regression trees; their leaf values are converted to log-odds with $\sum r / \sum p(1-p)$, a Newton step on the log loss.
 - The learning rate scales every leaf value, turning big jumps into gradual steps.
-- Geometrically, each tree raises or lowers a probability surface over rectangles of the feature space; many trees give a curved, flexible boundary.
+- Geometrically, each tree raises or lowers a probability surface over rectangles of the feature space; many trees give a curved, flexible decision boundary.
 
 ## 14. Sources
 
 **Built from**
 
 - CampusX, "Gradient Boosting for Classification | Geometric Intuition | CampusX", YouTube, https://www.youtube.com/watch?v=4p5EQtyxSyI
-- Starmer, J. (StatQuest). "Gradient Boost Part 3 (of 4): Classification." statquest.org. The idea of drawing each residual as the gap between a probability and its class (Figure 3).
+- Starmer, J. (StatQuest). "Gradient Boost Part 3 (of 4): Classification." statquest.org. The idea of drawing each residual as the gap between a probability and its class (Figure 6).
 
 **Other references**
 

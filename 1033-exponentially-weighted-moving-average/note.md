@@ -15,13 +15,18 @@ tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma
 
 > **Key point:** An exponentially weighted moving average keeps one running number and updates it with every new value: $V_t = \beta V_{t-1} + (1-\beta)\thinspace\theta_t$. Recent values count most, old values fade away, and $\beta$ sets how fast they fade.
 
-The **exponentially weighted moving average** (EWMA) is a technique for finding the trend hidden in a time series: data recorded one value after another in time, such as the daily temperature of a city or the daily price of a share. It smooths away the day-to-day noise and keeps the slow pattern.
+The **exponentially weighted moving average** (G-735; EWMA) is a technique for finding the trend hidden in a **time series** (G-1975): data recorded one value after another in time, such as the daily temperature of a city or the daily price of a share. It smooths away the day-to-day **noise** (G-1326) and keeps the slow pattern.
 
 ![Daily mean temperature in Delhi, 2013–2016. The simple mean (red) is one flat number; the EWMA with $\beta = 0.9$ (blue) follows the seasons](images/ewma_delhi.png){width=100%}
 
-Figure 1 shows the difference. The simple mean of all 1,462 days, 25.5 °C, says nothing about summer or winter. The EWMA follows the rise and fall of every year.
+Figure 1 shows the difference. The simple **mean** (G-1203) of all 1,462 days, 25.5 °C, says nothing about summer or winter. The EWMA follows the rise and fall of every year.
 
-EWMA is used in time series forecasting, in finance and in signal processing. In deep learning it is the building block of the improved optimizers: momentum, RMSProp and Adam all keep an EWMA of the gradients, and batch normalisation keeps one of each node's mean and variance (see the [batch normalisation Note](../1031-batch-normalization/note.md)).
+EWMA is used in time series forecasting, in finance and in signal processing. In deep learning it is the building block of several methods:
+
+- **momentum** (G-1258) keeps an EWMA of the gradients;
+- **RMSProp** (G-1697) keeps an EWMA of the squared gradients;
+- **Adam** (G-169) keeps both;
+- **batch normalisation** (G-266) keeps one of each node's mean and variance (see the [batch normalisation Note](../1031-batch-normalization/note.md)).
 
 ## 2. Prerequisites
 
@@ -131,7 +136,7 @@ The weights fall by a constant factor at every step, like an exponential curve, 
 
 > **Key point:** `Series.ewm(alpha=1 - beta, adjust=False).mean()` computes our formula, starting from the first value.
 
-pandas has the EWMA built in. pandas uses $\alpha$ (alpha) for the weight of the new value, so $\alpha = 1 - \beta$: $\beta = 0.9$ means `alpha=0.1`.
+pandas (G-1441) has the EWMA built in. pandas uses $\alpha$ (alpha) for the weight of the new value, so $\alpha = 1 - \beta$: $\beta = 0.9$ means `alpha=0.1`.
 
 > **Python:** EWMA of the temperature column, added as a new column.
 >

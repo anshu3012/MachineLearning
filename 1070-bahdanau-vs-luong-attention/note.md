@@ -33,6 +33,10 @@ The [attention Note](../1069-attention-mechanism/note.md) introduced attention i
 
 For "turn off the lights" → "light band karo", decoder step 1 needs $c_1 = \alpha_{11}h_1 + \alpha_{12}h_2 + \alpha_{13}h_3 + \alpha_{14}h_4$, step 2 needs $c_2$ with new weights, and so on: (number of input words) × (number of output words) weights in all. Each weight is a word-to-word similarity: $\alpha_{11}$ says how much "turn" counts when writing "light". The question of this Note is how to get the raw scores $e_{ij}$.
 
+![The three stages that both attentions share, for the first output word of "turn off the lights": score every encoder state, turn the scores into weights with a softmax, and add up the weighted states into the context vector $c_1$. Only the score function, the grey box, differs between Bahdanau and Luong](images/context_sum.png){width=90%}
+
+In Figure 2, the softmax and the weighted sum are fixed; everything this Note compares happens inside the grey box.
+
 ## 4. Bahdanau attention
 
 > **Key point:** A feed-forward network with one hidden layer scores the pair $(s_{i-1}, h_j)$: $e_{ij} = v^\top \tanh(W[s_{i-1}; h_j])$. The context vector is then an input of decoder step $i$.
@@ -41,7 +45,7 @@ For "turn off the lights" → "light band karo", decoder step 1 needs $c_1 = \al
 
 > **Key point:** On the encoder state $h_j$ and on the decoder's *previous* state $s_{i-1}$, which holds what has been translated so far.
 
-As the [attention Note](../1069-attention-mechanism/note.md) (section 6) explains, $\alpha_{ij}$ must depend on $h_j$, the input word being judged, and on what the decoder has already written, which is stored in $s_{i-1}$. To compute $\alpha_{11}$, the weight of "turn" for the first output word, we need $h_1$ and $s_0$; for $\alpha_{21}$ we need $h_1$ and $s_1$. Bahdanau et al. (2015) do not choose a formula for the score; they let a small feed-forward network learn it, the **alignment model**.
+As the [attention Note](../1069-attention-mechanism/note.md) (section 6) explains, $\alpha_{ij}$ must depend on $h_j$, the input word being judged, and on what the decoder has already written, which is stored in $s_{i-1}$. To compute $\alpha_{11}$, the weight of "turn" for the first output word, we need $h_1$ and $s_0$; for $\alpha_{21}$ we need $h_1$ and $s_1$. Bahdanau et al. (2015) do not choose a formula for the score; they let a small feed-forward network learn it, the **alignment model** (G-189).
 
 ### 4.2 The alignment network, step by step
 
@@ -65,7 +69,11 @@ At step 2 the same network runs again with $s_1$ in place of $s_0$. In the $4 \t
    $$e_1 = 0.1(-0.060) - 0.4(0.438) + 0.2(0.414) = -0.099$$
    The four scores are $(-0.099, -0.011, 0.449, -0.116)$, and softmax turns them into the weights $(0.208, 0.227, 0.360, 0.205)$. The score function has $8 \times 3 + 3 = 27$ learned numbers.
 
-Because the score adds a term from $s_{i-1}$ to a term from $h_j$ inside the tanh, Bahdanau attention is also called **additive attention** (Vaswani et al. 2017, section 3.2.1). Since $U_a h_j$ does not depend on $i$, it can be computed once per sentence (Bahdanau et al. 2015, appendix A.1.2).
+![The same decoder state and four encoder states scored three ways: Bahdanau's additive network (this section) and Luong's dot and general scores (section 5.1). Left: the raw scores. Right: the weights after the softmax](images/three_scores.png){width=100%}
+
+Figure 3 puts this example next to the two Luong scores of section 5.1. Each function ranks the four states differently: the additive network favours $h_3$, the dot score $h_4$, the general score $h_3$ again but more strongly. The softmax keeps the order of the scores and turns them into weights that add up to 1.
+
+Because the score adds a term from $s_{i-1}$ to a term from $h_j$ inside the tanh, Bahdanau attention is also called **additive attention** (G-255; Vaswani et al. 2017, section 3.2.1). Since $U_a h_j$ does not depend on $i$, it can be computed once per sentence (Bahdanau et al. 2015, appendix A.1.2).
 
 ## 5. Luong attention
 
@@ -85,7 +93,7 @@ The aim of the score is not to approximate some exact function; it is to find wh
 | general | $s_i^\top W_a h_j$ | one matrix $W_a$ |
 | concat | $v_a^\top \tanh(W_a [s_i; h_j])$ | $W_a$ and $v_a$, as in Bahdanau |
 
-The dot score requires $s_i$ and $h_j$ to have the same size; the general score lifts that requirement and lets the model learn which directions of similarity matter (SLP3 §14.8). Because the score multiplies the two states, this family is called **multiplicative attention** (Vaswani et al. 2017, section 3.2.1).
+The dot score requires $s_i$ and $h_j$ to have the same size; the general score lifts that requirement and lets the model learn which directions of similarity matter (SLP3 §14.8). Because the score multiplies the two states, this family is called **multiplicative attention** (G-1138; Vaswani et al. 2017, section 3.2.1).
 
 1. **In words:** multiply the decoder state and each encoder state element by element and add up (dot), or first transform the encoder state by a learned matrix (general).
 2. **Formula:**
@@ -102,7 +110,7 @@ Bahdanau's decoder goes $s_{i-1} \to \alpha_i \to c_i \to s_i$: the context must
 
 1. The decoder LSTM takes $y_{i-1}$ and $s_{i-1}$ and produces $s_i$, with no context vector.
 2. $s_i$ is scored against every $h_j$; softmax gives $\alpha_{ij}$; the weighted sum gives $c_i$.
-3. $c_i$ and $s_i$ are joined and passed through a dense layer with tanh: the **attentional hidden state** $\tilde h_i = \tanh(W_c[c_i; s_i])$.
+3. $c_i$ and $s_i$ are joined and passed through a dense layer with tanh: the **attentional hidden state** (G-227) $\tilde h_i = \tanh(W_c[c_i; s_i])$.
 4. A softmax layer on $\tilde h_i$ gives the next word: $p(y_i) = \text{softmax}(W_s \tilde h_i)$.
 5. $s_i$ (not $\tilde h_i$) and the word $y_i$ go on to step $i+1$.
 
@@ -110,7 +118,7 @@ Scoring with $s_i$ uses the most recent state, which already includes the latest
 
 ![One decoder step in the two designs, built up one operation at a time from the bottom. Bahdanau scores the previous state and computes the context before the LSTM step; Luong runs the LSTM step first, scores the new state by a dot product, and joins the context after the step](images/two_orders.gif){height=55%}
 
-Figure 2 builds the same step in both designs, one operation at a time, from the bottom up. Watch where the green context box lands: below the LSTM step on the left, above it on the right.
+Figure 4 builds the same step in both designs, one operation at a time, from the bottom up. Watch where the green context box lands: below the LSTM step on the left, above it on the right.
 
 > **Python:** Luong attention for all decoder steps at once (training, teacher forcing). `S`: decoder states, shape (batch, $m$, 256); `hs`: encoder states, (batch, $n$, 256).
 >
@@ -122,7 +130,7 @@ Figure 2 builds the same step in both designs, one operation at a time, from the
 > logits = out(Wc(tf.concat([ctx, S], -1)))              # Wc: Dense(256, "tanh")
 > ```
 
-> **Extra:** Luong et al. (2015, section 3.3) also propose **input feeding**: $\tilde h_{i-1}$ is joined to the next input, so that the model remembers its past alignment choices. With input feeding the LSTM again needs the previous step's attention before it can run. The Notebook leaves it out, as in Luong's basic global model of section 3.1.
+> **Extra:** Luong et al. (2015, section 3.3) also propose **input feeding** (G-949): $\tilde h_{i-1}$ is joined to the next input, so that the model remembers its past alignment choices. With input feeding the LSTM again needs the previous step's attention before it can run. The Notebook leaves it out, as in Luong's basic global model of section 3.1.
 
 ## 6. The two compared
 
@@ -156,6 +164,10 @@ The Notebook trains the attention model of the [attention Note](../1069-attentio
 | Test BLEU, all 1,000 sentences | 25.1 | **31.6** | 17.7 |
 | Test BLEU, sentences of 11–16 words | 20.0 | **26.8** | 12.0 |
 
+![Test BLEU of the three models, on all test sentences and on the long ones. Bars: mean of 3 runs; dots: the single runs](images/bleu_compare.png){width=90%}
+
+In Figure 5 the runs of each model sit close together, while the gaps between the models are several BLEU points: the ranking dot, then Bahdanau, then general holds for every run and both sentence groups.
+
 The Bahdanau numbers differ slightly from those of the [attention Note](../1069-attention-mechanism/note.md) (25.7) because GPU training is not exactly repeatable. The differences between the models are much larger than that.
 
 **Parameters.** Bahdanau's model has more because its output layer reads $[s_i; c_i]$ (512 numbers) and its LSTM reads $[y_{i-1}; c_i]$; Luong's output layer reads the 256-number $\tilde h_i$. The scores themselves are a small part: the dot score has no parameters, and general adds one $256 \times 256$ matrix (65,536 numbers).
@@ -166,7 +178,7 @@ The Bahdanau numbers differ slightly from those of the [attention Note](../1069-
 
 ![Attention weights of the three trained models on the same real test sentence. Bahdanau and Luong dot both translate it exactly; Luong general puts all its weight on the final full stop](images/attention_three.png){width=100%}
 
-Figure 2 shows why the general model did badly. On the test sentence "she advised him to talk about his life in america .", the dot model's weights form a clean diagonal: "elle" looks at "she", "lui" at "him", "conseillé" at "advised", "parler" at "talk", "vie" at "life", "amérique" at "america". Bahdanau's model also forms a band, but it often sits to the right of the matching word ("parler" looks at "about"); with the same encoder, data and plotting code the dot model does not shift, so the shift is no plotting offset. Attention weights need not match a word alignment, and the same off-by-one attention has been reported in a trained Bahdanau-type system ([attention Note](../1069-attention-mechanism/note.md), section 8). The general model puts a weight of 1 on the final "." at every step. Its context vector is then the same at every step: the state of the last word, whose forward half has read the whole sentence. The model has turned itself back into a plain encoder–decoder with one fixed summary, and its translation of this sentence goes wrong at the end ("elle lui conseilla de parler en vie de sa vie .").
+Figure 6 shows why the general model did badly. On the test sentence "she advised him to talk about his life in america .", the dot model's weights form a clean diagonal: "elle" looks at "she", "lui" at "him", "conseillé" at "advised", "parler" at "talk", "vie" at "life", "amérique" at "america". Bahdanau's model also forms a band, but it often sits to the right of the matching word ("parler" looks at "about"); with the same encoder, data and plotting code the dot model does not shift, so the shift is no plotting offset. Attention weights need not match a word alignment, and the same off-by-one attention has been reported in a trained Bahdanau-type system ([attention Note](../1069-attention-mechanism/note.md), section 8). The general model puts a weight of 1 on the final "." at every step. Its context vector is then the same at every step: the state of the last word, whose forward half has read the whole sentence. The model has turned itself back into a plain encoder–decoder with one fixed summary, and its translation of this sentence goes wrong at the end ("elle lui conseilla de parler en vie de sa vie .").
 
 > **Extra:** Luong et al. (2015, Table 1) compared their full systems with earlier attention systems on English–German: with unknown-word replacement, their single model with global attention and the dot score reached 20.5 BLEU (Table 4) and their best single model, with local attention, 20.9, against 19.0 for an RNNsearch (Bahdanau-style) system of Jean et al. (2015) with the same replacement. Their systems differ in more than the attention (stacked LSTMs, reversed input, dropout), so the gap is not due to the score function alone.
 

@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/models-1, step/model, concept/perceptron-tric
 
 ![The perceptron trick as a training loop, with its two stopping rules](images/training_loop.png){height=48%}
 
-The [perceptron Note](../1004-perceptron/note.md) showed how a trained perceptron predicts. This Note covers how it gets its numbers: the **perceptron trick**, the simplest training method. Figure 1 shows the whole loop.
+The [perceptron Note](../1004-perceptron/note.md) showed how a trained perceptron predicts. This Note covers how it gets its numbers: the **perceptron trick** (G-1485), the simplest training method. Figure 1 shows the whole loop.
 
 The trick itself is taught in full in two earlier Notes, and we do not repeat it here:
 
@@ -36,7 +36,7 @@ This Note adds what is new when we see the trick as the training of a perceptron
 
 > **Key point:** The line Ax + By + C = 0 of the trick is the perceptron's z = 0. A and B are the weights, C is the bias, and the column of 1s is the bias input.
 
-The perceptron trick works on the line $Ax_1 + Bx_2 + C = 0$. The perceptron's boundary is $z = w_1x_1 + w_2x_2 + b = 0$. They are the same line with different names:
+The perceptron trick works on the line $Ax_1 + Bx_2 + C = 0$. The perceptron's **decision boundary** (G-555), the line that separates the points it calls positive from those it calls negative, is $z = w_1x_1 + w_2x_2 + b = 0$. They are the same line with different names:
 
 | Perceptron trick | Perceptron | Role |
 |---|---|---|
@@ -63,6 +63,10 @@ The loop in Figure 1 needs a rule to end it. Two are common:
 
 Rule 2 only ever stops on linearly separable data: if no line separates the classes, some point is always misclassified. Data that no line separates is why the two rules are often combined: stop at convergence, or after the maximum number of loops, whichever comes first.
 
+![The perceptron trick on two pairs of Iris species (petal length and width, 100 flowers each, learning rate 0.1), counting the misclassified training points after every loop](images/stopping_rules.png){height=30%}
+
+Figure 2 runs the combined rule on real data. Watch the blue line: setosa and versicolor can be split by a line, so the count hits 0 at loop 146 and convergence stops training. The red line, versicolor against virginica, never reaches 0 (its best is 6), so only the cap of 1,000 loops ends it. Six other random orders give the same picture.
+
 > **Extra:** scikit-learn's `Perceptron` uses a similar combination, with a looser early stop. `max_iter` caps the number of epochs (default 1,000). With `tol` set (default $10^{-3}$), training also stops once the loss has failed to improve by at least `tol` for `n_iter_no_change` epochs in a row (default 5) (scikit-learn docs, `Perceptron`). This stop can fire before every point is classified correctly: in the [perceptron Note](../1004-perceptron/note.md), section 8, it ended training after 7 epochs at 75% training accuracy.
 
 ## 5. Loops and epochs
@@ -83,7 +87,7 @@ Because the picks are random, a stretch of 100 picks does not visit every point 
 
 ![Each cell is one of 100 training points, and its number counts how often it has been picked. Left: 100 random picks, as in the perceptron trick; 38 points are never picked while others are picked 2 or 3 times. Right: one shuffled epoch; every point is picked exactly once](images/random_picks.gif){width=100%}
 
-In Figure 2, watch the red cells: on the right they all turn green by pick 100; on the left 38 stay red. Over 2,000 runs the average is 36.6 unseen points, matching $(1 - 1/100)^{100} \approx 0.37$ (the figure's script, `images/random_picks.py`, runs the check). Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
+In Figure 3, watch the red cells: on the right they all turn green by pick 100; on the left 38 stay red. Over 2,000 runs the average is 36.6 unseen points, matching $(1 - 1/100)^{100} \approx 0.37$ (the figure's script, `images/random_picks.py`, runs the check). Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
 
 ## 6. Why it is only a trick
 

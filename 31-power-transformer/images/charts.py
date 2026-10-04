@@ -94,3 +94,44 @@ for name, data, lams in [("boxcox_after", Xbc, lam_bc), ("yeojohnson_after", Xyj
     fig.update_yaxes(showticklabels=False)
     fig.update_xaxes(tickfont_size=14)
     save(fig, name, 1300, 660, title_size=22)
+
+# 5. Yeo-Johnson next to Box-Cox, lambda = 0.5: Box-Cox stops at 0, Yeo-Johnson carries on smoothly into negatives
+lam = 0.5
+pts = np.array([-3.0, 0.0, 3.0])
+yj_pts = stats.yeojohnson(pts, lam)
+assert np.allclose(yj_pts, [-4.67, 0, 2], atol=0.005)          # the worked example of Section 4
+xs = np.linspace(-4, 4, 400)
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=xs, y=stats.yeojohnson(xs, lam), mode="lines", line=dict(color=GREEN, width=4)))
+xp = xs[xs > 0]
+fig.add_trace(go.Scatter(x=xp, y=stats.boxcox(xp, lam), mode="lines", line=dict(color=BLUE, width=4, dash="dash")))
+fig.add_trace(go.Scatter(x=pts, y=yj_pts, mode="markers+text", marker=dict(color=RED, size=14),
+                         text=[f"({p:g}, {v:.2f})" for p, v in zip(pts, yj_pts)],
+                         textposition=["middle right", "top left", "top left"], textfont=dict(size=24, color=RED)))
+fig.add_vrect(x0=-4, x1=0, fillcolor=GREY, opacity=0.08, line_width=0)
+fig.add_annotation(x=-2, y=3, text="x ≤ 0: Box-Cox<br>has no value here", showarrow=False, font=dict(size=24, color=BLUE))
+fig.add_annotation(x=3.9, y=2.9, text="Yeo-Johnson", showarrow=False, xanchor="right", font=dict(size=26, color=GREEN))
+fig.add_annotation(x=3.9, y=1.0, text="Box-Cox", showarrow=False, xanchor="right", font=dict(size=26, color=BLUE))
+fig.update_xaxes(title="original value x", range=[-4, 4], zeroline=True)
+fig.update_yaxes(title="transformed value (λ = 0.5)", range=[-6.5, 4], zeroline=True)
+save(fig, "yeojohnson_vs_boxcox", 900, 560, font_size=24)
+
+# 6. FunctionTransformer(log1p) vs PowerTransformer on the same training columns: skewness after each
+from sklearn.preprocessing import FunctionTransformer
+logged = pd.DataFrame(FunctionTransformer(np.log1p).fit_transform(X_train), columns=cols)
+sk = pd.DataFrame({"raw": X_train.skew(), "log": logged.skew(), "yj": Xyj.skew()})
+assert round(sk.loc["Age", "raw"], 2) == 3.34 and round(sk.loc["Age", "yj"], 2) == 0.00
+assert (sk["yj"].abs() <= sk["log"].abs() + 1e-9).all()       # the learned power is never further from 0 here
+short = [c.replace("Blast Furnace ", "").replace(" Aggregate", " Agg.").replace("Superplasticizer", "Superplast.")
+         for c in cols]
+fig = go.Figure()
+for key, colour, name in [("raw", GREY, "raw"), ("log", ORANGE, "log(1 + x) for every feature"),
+                          ("yj", GREEN, "Yeo-Johnson, own λ per feature")]:
+    fig.add_trace(go.Bar(x=short, y=sk[key], marker_color=colour, name=name))
+fig.add_annotation(x="Age", y=1.55, text="Age raw: 3.34 (bar cut off)", showarrow=False, xanchor="right", xshift=-45, font=dict(size=20, color=GREY))
+fig.update_yaxes(title="skewness (0 = symmetric)", range=[-0.7, 1.7], zeroline=True)
+fig.update_layout(barmode="group", showlegend=True, legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.22))
+fig.update_layout(template="simple_white", width=1300, height=600, font=FONT, margin=dict(l=80, r=20, t=30, b=150))
+fig.write_image(here / "function_vs_power.png", scale=2)
+fig.write_image(here / "function_vs_power.pdf")
+print(sk.round(2))

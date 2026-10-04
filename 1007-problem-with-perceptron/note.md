@@ -14,24 +14,28 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-lim
 
 ## 1. Overview
 
-> **Key point:** A perceptron draws one straight line. It learns AND and OR easily, but no line can separate XOR, so on XOR (and on any data that needs a curved boundary) it fails, however long it trains.
+> **Key point:** A perceptron has one straight decision boundary. It learns AND and OR easily, but no line can separate XOR, so on XOR (and on any data that needs a curved decision boundary) it fails, however long it trains.
 
 ![scikit-learn's Perceptron on AND, OR and XOR](images/gates.png)
 
 The [perceptron Note](../1004-perceptron/note.md) showed that a perceptron is a line, plane or hyperplane. This Note shows in code what that means for data that no line can split. Figure 1 is the whole story: two easy tables and one impossible one.
 
-The XOR weakness stalled perceptron research for years (see the [history of deep learning Note](../1003-nn-types-history-applications/note.md)), and the reason multi-layer perceptrons were needed.
+The XOR weakness stalled perceptron research for years (see the [history of deep learning Note](../1003-nn-types-history-applications/note.md)), and the reason **multi-layer perceptrons** (G-1270) were needed.
 
 ## 2. Prerequisites
 
-- The [perceptron Note](../1004-perceptron/note.md): a perceptron is a linear boundary.
+- The [perceptron Note](../1004-perceptron/note.md): a perceptron is a linear **decision boundary** (G-555).
 - The [perceptron loss Note](../1006-perceptron-loss/note.md): how a perceptron is trained.
 
 ## 3. Three tiny datasets: AND, OR and XOR
 
 > **Key point:** Each table has two binary inputs and four rows. AND outputs 1 only when both inputs are 1; OR when at least one is; XOR when exactly one is.
 
-The three datasets are the logic functions **AND**, **OR** and XOR (exclusive or, defined in the [history section](../1003-nn-types-history-applications/note.md)). Each has inputs $x_1, x_2 \in \lbrace0, 1\rbrace$, so there are only four possible rows. Each row is one **observation** (one record of the table); $x_1$ and $x_2$ are its two **features** (input variables), and the AND, OR or XOR column is the **target** (the output we predict):
+The three datasets are the logic functions **AND**, **OR** (G-199) and **XOR** (G-2134; exclusive or, defined in the [history section](../1003-nn-types-history-applications/note.md)). Each has inputs $x_1, x_2 \in \lbrace0, 1\rbrace$, so there are only four possible rows. The table uses three terms:
+
+- each row is one **observation** (G-1374; one record of the table);
+- $x_1$ and $x_2$ are its two **features** (G-772; input variables);
+- the AND, OR or XOR column is the **target** (G-1949; the output we predict).
 
 | $x_1$ | $x_2$ | AND | OR | XOR |
 |---|---|---|---|---|
@@ -40,7 +44,11 @@ The three datasets are the logic functions **AND**, **OR** and XOR (exclusive or
 | 1 | 0 | 0 | 1 | 1 |
 | 1 | 1 | 1 | 1 | 0 |
 
-Plotted, the four observations are the corners of a square (Figure 1). For AND, the single 1 sits in one corner; for OR, the single 0 does. For XOR, the 1s sit on opposite corners, and so do the 0s.
+Plotted, the four observations are the corners of a square (Figure 1):
+
+- for AND, the single 1 sits in one corner;
+- for OR, the single 0 sits in one corner;
+- for XOR, the 1s sit on opposite corners, and so do the 0s.
 
 > **Python:** Building the tables and training one perceptron per table.
 >
@@ -70,13 +78,13 @@ The three perceptrons give:
 | OR | 2 | 2 | $-1$ | $x_1 + x_2 = 0.5$ | 100% |
 | XOR | 0 | 0 | 0 | none | 50% |
 
-For AND and OR, one line puts the 1s on one side and the 0s on the other (Figure 1, left and middle). For XOR, the Notebook prints the weights after each epoch: they are back at $(0, 0, 0)$ every time. The update for a misclassified observation adds $y_i(x_{i1}, x_{i2}, 1)$ to $(w_1, w_2, b)$, with labels $\pm 1$ (see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 7.2). For the four XOR observations these add up to zero:
+For AND and OR, one line puts the 1s on one side and the 0s on the other (Figure 1, left and middle). For XOR, the Notebook prints the weights after each **epoch** (G-696; one full pass over the training data): they are back at $(0, 0, 0)$ every time. The update for a misclassified observation adds $y_i(x_{i1}, x_{i2}, 1)$ to $(w_1, w_2, b)$, with labels $\pm 1$ (see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 7.2). For the four XOR observations these add up to zero:
 
 $$-(0, 0, 1) + (0, 1, 1) + (1, 0, 1) - (1, 1, 1) = (0, 0, 0)$$
 
 So when all four observations are misclassified in turn, as here, each epoch's updates cancel and the epoch ends where it began. Training stops with all weights at 0: $z = 0$ everywhere, the whole plane gets one class, and only half the observations are right (Figure 1, right).
 
-More epochs would not help. Whatever the perceptron does, it can only ever draw one straight line.
+More epochs would not help. Whatever the perceptron does, its decision boundary is always one straight line.
 
 Figure 2 tries every line. A line turns through 340 degrees, and at each angle it takes the position that classifies the most observations correctly.
 
@@ -90,7 +98,7 @@ Watch the black ring: at every angle some corner is on the wrong side, and the c
 
 > **Key point:** One sigmoid neuron separates two blobs perfectly but stays near 50% on XOR-shaped and circular data.
 
-The **TensorFlow Playground** (playground.tensorflow.org) is a website that trains small neural networks in the browser, with no code. Removing every hidden layer leaves a single neuron (with a sigmoid activation, that is logistic regression; see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8). On two separate clusters it finds a line almost at once; on XOR-shaped data its error stays high no matter how many epochs it runs.
+The **TensorFlow Playground** (G-1958; playground.tensorflow.org) is a website that trains small neural networks in the browser, with no code. Removing every **hidden layer** (G-890) leaves a single neuron (with a **sigmoid** (G-1798) activation, that is **logistic regression** (G-1120); see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8). On two separate clusters it finds a line almost at once; on XOR-shaped data its error stays high no matter how many epochs it runs.
 
 The Notebook repeats this experiment in scikit-learn with `LogisticRegression`, which is exactly one sigmoid neuron:
 
@@ -100,18 +108,18 @@ The Notebook repeats this experiment in scikit-learn with `LogisticRegression`, 
 - **XOR quadrants** (middle): class 1 where $x_1$ and $x_2$ have the same sign. A line cuts across all four quadrants, accuracy 52%.
 - **Circles** (right): one class inside a ring of the other. A line cannot enclose anything, accuracy 50%.
 
-So the problem is not the four-row table: any data whose classes need a bent or closed boundary defeats a single neuron. Such data is called [non-linear data](../95-kernel-trick-intuition/note.md): no line, plane or hyperplane separates its classes.
+So the problem is not the four-row table: any data whose classes need a bent or closed decision boundary defeats a single neuron. Such data is called [non-linear data](../95-kernel-trick-intuition/note.md) (G-1335): no line, plane or hyperplane separates its classes.
 
 > **Extra:** Two ways out exist.
 >
-> 1. **Add a feature by hand.** Feed $x_1 x_2$ as a third input, like the [polynomial features](../61-polynomial-regression/note.md) of linear regression (the Playground offers this input too). With it, one neuron reaches 99% on the XOR quadrants in the Notebook. On the four table observations, $x_1 + x_2 - 2x_1x_2$ equals XOR exactly, so $z = x_1 + x_2 - 2x_1x_2 - 0.5$ is a plane in the three inputs $x_1, x_2, x_1x_2$ that puts the 1s at $z = 0.5$ and the 0s at $z = -0.5$.
+> 1. **Add a feature by hand.** Feed $x_1 x_2$ as a third input, like the [polynomial features](../61-polynomial-regression/note.md) (G-1513) of linear regression (the Playground offers this input too). With it, one neuron reaches 99% on the XOR quadrants in the Notebook. On the four table observations, $x_1 + x_2 - 2x_1x_2$ equals XOR exactly, so $z = x_1 + x_2 - 2x_1x_2 - 0.5$ is a plane in the three inputs $x_1, x_2, x_1x_2$ that puts the 1s at $z = 0.5$ and the 0s at $z = -0.5$.
 > 2. **Add hidden layers**, so the network builds such features itself (next section).
 
 ## 6. The way forward
 
-> **Key point:** Combining several perceptrons in layers gives curved boundaries: the multi-layer perceptron.
+> **Key point:** Combining several perceptrons in layers gives curved decision boundaries: the multi-layer perceptron.
 
-A single perceptron is a linear model, so it can only capture linear relationships. The fix is to use several perceptrons and feed their outputs into another one. The last frame of Figure 2 shows the idea with two lines, one per hidden perceptron: $x_1 + x_2 = 0.5$ (the OR line of section 4) and $x_1 + x_2 = 1.5$. The sum $x_1 + x_2$ is 0 for $(0, 0)$, 1 for $(0, 1)$ and $(1, 0)$, and 2 for $(1, 1)$, so exactly the two 1s fall between the lines. The [MLP intuition Note](../1009-mlp-intuition/note.md) shows how two lines combined give a curved boundary, and how such a network solves XOR on the Playground.
+A single perceptron is a linear model, so it can only capture linear relationships. The fix is to use several perceptrons and feed their outputs into another one. The last frame of Figure 2 shows the idea with two lines, one per hidden perceptron: $x_1 + x_2 = 0.5$ (the OR line of section 4) and $x_1 + x_2 = 1.5$. The sum $x_1 + x_2$ is 0 for $(0, 0)$, 1 for $(0, 1)$ and $(1, 0)$, and 2 for $(1, 1)$, so exactly the two 1s fall between the lines. The [MLP intuition Note](../1009-mlp-intuition/note.md) shows how two lines combined give a curved decision boundary, and how such a network solves XOR on the Playground.
 
 ## 7. Summary
 
@@ -124,7 +132,7 @@ A single perceptron is a linear model, so it can only capture linear relationshi
 | XOR quadrants | no | 52% |
 | Circles | no | 50% |
 
-- A perceptron can only draw one straight boundary.
+- A perceptron can only have one straight decision boundary.
 - XOR puts each class on opposite corners of a square: no line separates them, which a short proof confirms.
 - More training never fixes this; more neurons, in layers, do.
 

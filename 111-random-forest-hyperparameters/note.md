@@ -19,7 +19,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 
 ![The hyperparameters of RandomForestClassifier, in three groups](images/three_groups.png){height=36%}
 
-A random forest (the [random forest introduction Note](../108-random-forest-intro/note.md)) is a very flexible algorithm with many hyperparameters. Its trees learn from **observations** (records, one row of the data table each); each observation has **features** (input variables, one column each) and a **target** (the output we predict). Figure 1 sorts them into three groups. `RandomForestClassifier` and `RandomForestRegressor` have nearly the same settings, so learning the classifier's covers the regressor too (section 6).
+A random forest (the [random forest introduction Note](../108-random-forest-intro/note.md)) is a very flexible algorithm with many **hyperparameters** (G-910): settings we choose before training, as opposed to what the trees learn from the data. Its trees learn from **observations** (records, one row of the data table each); each observation has **features** (input variables, one column each) and a **target** (the output we predict). Figure 1 sorts them into three groups. `RandomForestClassifier` and `RandomForestRegressor` have nearly the same settings, so learning the classifier's covers the regressor too (section 6).
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for each of the four forest-level settings and redraws the decision surface with its test accuracy.
 
@@ -52,7 +52,7 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 > **Key point:** "sqrt" takes the square root of the number of features, "log2" its base-2 logarithm, a decimal a share, and `None` all of them; each rounds down.
 
-At every split, a tree draws `max_features` features at random and picks the best split among them (node-level sampling: the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md), section 3.2). With $p$ features:
+At every split, a tree draws `max_features` features at random and picks the best split among them (**node-level column sampling**, G-1325: the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md), section 3.2). With $p$ features:
 
 1. **In words:** turn the setting into a number of features, then round down (but never below 1).
 2. **Formula:**
@@ -66,25 +66,29 @@ With the 2 features of our demo data, "sqrt" gives $\lfloor 1.41 \rfloor = 1$: e
 
 ### 3.3 Trying the settings on a demo dataset
 
-> **Key point:** More trees smooth the boundary until the score levels off; very few observations per tree hurt; the other settings change little on 2-feature data.
+> **Key point:** More trees smooth the decision boundary until the score levels off; very few observations per tree hurt; the other settings change little on 2-feature data.
 
 ![Random forests on the demo data with different forest-level settings; titles give the test accuracy](images/forest_settings.png){height=52%}
 
-The demo data has 500 points with 2 features and 2 classes: two rings of points, each around a blob of the other class. We train on 375 points and test on 125. Figure 2 shows six forests on one such split; the Dash app lets us try any combination.
+The demo data has 500 points with 2 features and 2 classes: two rings of points, each around a blob of the other class. We train on 375 points and test on 125. Figure 2 shows the **decision surface** (G-560) of six forests on one such split: every point of the plane is coloured by the class the forest predicts there. The line where the colour changes is the **decision boundary** (G-555). the Dash app lets us try any combination.
 
 With only 125 test points, one point moves the accuracy by 0.008, so a single split is noisy. The numbers below are averages over 20 random splits (100 trees unless the setting says otherwise).
 
 **`n_estimators`.** One tree scores 0.846, 5 trees 0.868 and 10 trees 0.888. Then the score stops rising: 50, 100 and 200 trees all score about 0.887. Adding trees to a forest does not cause overfitting; the score just levels off (ESL §15.3.4).
 
-- With **few trees** the boundary is erratic, with odd strips and corners that show overfitting (Figure 2a, b).
+- With **few trees** the decision boundary is erratic: narrow strips and sharp corners wrap around single training points. Bending around single points is **overfitting** (G-1429) (Figure 2a, b).
 - With **more trees** these areas smooth out (Figure 2c).
 - Each extra tree costs training time, so beyond the point where the score stops rising, more trees only add cost.
+
+![The forest grows from 1 to 200 trees. Left: the decision surface on one split. Right: the mean test accuracy over 20 splits, drawn up to the current number of trees (log scale)](images/trees_sweep.gif)
+
+Figure 3 grows the forest. Watch the decision surface lose its narrow strips while the accuracy climbs from 0.846 to about 0.89 by 10 to 20 trees, then runs flat to 200.
 
 **`max_samples`.** Very few observations per tree hurt: 25 observations score 0.827 (Figure 2d) and 50 score 0.867. From 100 observations (about a quarter of 375) on, the score is flat at about 0.89 (100: 0.889, 200: 0.892, all 375: 0.887; Figure 2e). A tree grown on 25 points has too little data to find the rings, and averaging many such weak trees cannot fix that.
 
 **`max_features`.** One feature per split (the default here) scores 0.887, both features 0.884 (Figure 2f). Even with one feature the forest does well, because each split gets a randomly chosen feature, so both features are used across the tree.
 
-**`bootstrap`.** `True` scores 0.887, `False` 0.880. Without bootstrap every tree sees the same observations, so the trees are more alike and the average removes less variance (the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md), section 3.3).
+**`bootstrap`.** `True` scores 0.887, `False` 0.880. With `True`, each tree gets a **bootstrap sample** (G-319): observations drawn at random with replacement. Without bootstrap every tree sees the same observations, so the trees are more alike and the average removes less variance (the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md), section 3.3).
 
 > **Extra:** With `bootstrap=False`, every tree is trained on the whole training set: the observations are not drawn without replacement, they are not sampled at all. So `max_samples` cannot be set (scikit-learn raises a `ValueError`). If, on top of that, `max_features=None`, the only randomness left is tie-breaking between equally good splits (scikit-learn API docs, `DecisionTreeClassifier`, `random_state`), and the trees come out nearly identical (45 or 46 leaves each in the Notebook): a forest of copies of one tree.
 
@@ -105,11 +109,15 @@ These settings are applied to each tree in the forest. Each is explained, with i
 | `min_impurity_decrease` | 0.0 | the smallest impurity decrease worth a split |
 | `ccp_alpha` | 0.0 (no pruning) | cost-complexity pruning (Extra below) |
 
-Most are pruning settings: they stop a tree before it fits every training point. In a random forest they are usually left at their defaults, because the trees are meant to be fully grown (low bias); the forest removes the variance (the [random forest and bias-variance Note](../109-random-forest-bias-variance/note.md)).
+Most are **pruning** (G-1587) settings: they stop a tree before it fits every training point. In a random forest they are usually left at their defaults, because the trees are meant to be fully grown (**low bias, high variance**, G-1132: each tree can follow any pattern, but swings with its training sample); the forest removes the variance (the [random forest and bias-variance Note](../109-random-forest-bias-variance/note.md)).
 
-> **Extra:** `ccp_alpha` prunes a grown tree back. Every subtree is scored by its training error plus `ccp_alpha` times its number of leaves, and the subtree with the lowest score is kept. A larger `ccp_alpha` charges more for each leaf, so the tree gets smaller.
+> **Extra:** `ccp_alpha` (G-360) prunes a grown tree back. Every subtree is scored by its training error plus `ccp_alpha` times its number of leaves, and the subtree with the lowest score is kept. A larger `ccp_alpha` charges more for each leaf, so the tree gets smaller.
 >
 > In the Notebook, with 100 trees on the demo data (accuracy averaged over 20 splits): `ccp_alpha=0` gives 41.9 leaves per tree (0.887); 0.002 gives 39.2 (0.886); 0.01 gives 12.1 (0.878); 0.05 only 3.9, and the forest underfits (0.776). Pruning never helps here, which is why the trees of a forest are left fully grown.
+>
+> ![Forests of 100 trees pruned with four values of ccp_alpha; titles give the leaves per tree and the mean test accuracy over 20 splits](images/pruning.png){height=50%}
+>
+> Figure 4 shows the four forests. Watch the surface barely change down to 12 leaves per tree (0.01); at about 4 leaves (0.05) whole blocks of blue points in the lower left fall inside the orange region, because trees that small cannot wrap a ring around a blob.
 
 ## 5. The general hyperparameters
 
@@ -117,7 +125,7 @@ Most are pruning settings: they stop a tree before it fits every training point.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `oob_score` | `False` | score the forest on its out-of-bag observations (the [OOB score Note](../113-oob-score/note.md)) |
+| `oob_score` | `False` | score the forest on its out-of-bag observations (**out-of-bag score**, G-1411) (the [OOB score Note](../113-oob-score/note.md)) |
 | `n_jobs` | `None` (1 core) | train trees in parallel on several CPU cores; -1 means all |
 | `random_state` | `None` | fixes the random draws of observations and features, so the same settings give the same forest |
 | `verbose` | 0 | print progress during training and prediction |
@@ -128,7 +136,7 @@ Most are pruning settings: they stop a tree before it fits every training point.
 Two of them deserve a closer look:
 
 - **`random_state`.** Without it, training the same forest twice gives slightly different results, because the observations and the features at every split are drawn at random. Fixing it, for example `random_state=42`, makes the results repeatable.
-- **`warm_start`.** The forest can be trained in stages: train 50 trees, set `n_estimators=100`, call `fit` again, and only the 50 new trees are trained. Training in stages is handy for finding how many trees are enough without retraining from scratch.
+- **`warm_start`** (G-2100). The forest can be trained in stages (Figure 5): train 50 trees, set `n_estimators=100`, call `fit` again, and only the 50 new trees are trained. Training in stages is handy for finding how many trees are enough without retraining from scratch.
 
 > **Python:** Adding trees with warm_start.
 >
@@ -140,7 +148,11 @@ Two of them deserve a closer look:
 > rf.fit(X_train, y_train)       # 50 more: 100 in total
 > ```
 >
-> `set_params` changes a setting of a model after it is created. The new trees are trained on the data passed to the second `fit`.
+> `set_params` (G-1781) changes a setting of a model after it is created. The new trees are trained on the data passed to the second `fit`.
+
+![warm_start in two steps: the first fit trains 50 trees; after set_params(n_estimators=100), the second fit keeps those 50 and trains only 50 new ones](images/warm_start.png){height=30%}
+
+Figure 5 shows what the second `fit` does. Watch the blue trees: they are the same in both rows, so only the orange half costs training time.
 
 > **Extra:** `monotonic_cst` (added in scikit-learn 1.4) takes one value per feature: 1, -1 or 0 (no constraint). For example, a model of house prices can be forced to never predict a lower price for a bigger house. The constraint works for regression and for two-class classification, not for multi-class or multi-output problems (scikit-learn API docs).
 

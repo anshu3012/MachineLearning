@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm, concept/lst
 
 > **Key point:** An LSTM cell uses three gates to manage its two memories. The forget gate removes from the cell state, the input gate adds to it, and the output gate reads from it to make the new hidden state.
 
-The [LSTM Note](../1061-lstm/note.md) gave the idea: an LSTM keeps a long-term memory (the **cell state** $c_t$) next to its short-term memory (the **hidden state** $h_t$), and a more complex cell lets the two talk to each other. This Note opens that cell. Every part of it is either a small neural network layer or a simple element-by-element operation on vectors.
+The [LSTM Note](../1061-lstm/note.md) gave the idea: an LSTM keeps a long-term memory (the **cell state** (G-361) $c_t$) next to its short-term memory (the **hidden state** (G-891) $h_t$), and a more complex cell lets the two talk to each other. This Note opens that cell. Every part of it is either a small neural network layer or a simple element-by-element operation on vectors.
 
 ![The LSTM cell. The green line is the cell state, the red line the hidden state, blue the current input. The forget gate (red area) scales the old cell state, the input gate (blue area) adds new candidate values, and the output gate (orange area) turns the new cell state into the new hidden state. Boxes are neural network layers; circles are pointwise operations](images/lstm_cell.png){width=100%}
 
@@ -38,9 +38,9 @@ As the [LSTM Note](../1061-lstm/note.md) showed, the cell at time step $t$ recei
 
 | Gate | Job | Area in Figure 1 |
 |---|---|---|
-| **Forget gate** | remove unneeded information from the cell state | red |
-| **Input gate** | add new important information to the cell state | blue |
-| **Output gate** | compute the hidden state $h_t$ from the cell state | orange |
+| **Forget gate** (G-794) | remove unneeded information from the cell state | red |
+| **Input gate** (G-951) | add new important information to the cell state | blue |
+| **Output gate** (G-1423) | compute the hidden state $h_t$ from the cell state | orange |
 
 The forget gate and the input gate together update the cell state, from $c_{t-1}$ to $c_t$. Both decide on the basis of the current input $x_t$ and the previous hidden state $h_{t-1}$.
 
@@ -52,7 +52,7 @@ The forget gate and the input gate together update the cell state, from $c_{t-1}
 
 > **Key point:** $c_t$ and $h_t$ are vectors, for example $[0.1, 0.95, 0.6]$, and they always have the same number of entries.
 
-Mathematically, $c_t$ and $h_t$ are vectors: lists of numbers. If $h_t$ has 3 numbers, such as $[0.1, 0.95, 0.6]$, then $c_t$ also has exactly 3 numbers (different ones). The rule never breaks in an LSTM. The length is the number of **units** of the layer, a hyperparameter we choose.
+Mathematically, $c_t$ and $h_t$ are vectors: lists of numbers. If $h_t$ has 3 numbers, such as $[0.1, 0.95, 0.6]$, then $c_t$ also has exactly 3 numbers (different ones). The rule never breaks in an LSTM. The length is the number of **units** (G-2049) of the layer, a hyperparameter we choose.
 
 ### 4.2 The input is a vector of any length
 
@@ -67,7 +67,7 @@ Take a sentiment task whose reviews use only three words: cat, mat, rat. With on
 The cell computes four more vectors:
 
 - $f_t$ in the forget gate;
-- $i_t$ and $\tilde c_t$ in the input gate; $\tilde c_t$ is the **candidate cell state**;
+- $i_t$ and $\tilde c_t$ in the input gate; $\tilde c_t$ is the **candidate cell state** (G-342);
 - $o_t$ in the output gate.
 
 All six vectors, $c_t$, $h_t$, $f_t$, $i_t$, $\tilde c_t$ and $o_t$, have the same length. Section 4.5 shows why.
@@ -76,7 +76,7 @@ All six vectors, $c_t$, $h_t$, $f_t$, $i_t$, $\tilde c_t$ and $o_t$, have the sa
 
 > **Key point:** The circles in Figure 1 work element by element: multiply, add, or apply tanh to each entry separately. The result has the same length as the inputs.
 
-A **pointwise operation** (also called element-wise) works on each position of a vector separately. Multiplication and addition take two vectors of the same length; tanh takes one vector. We write pointwise multiplication as $\odot$.
+A **pointwise operation** (G-1508) (also called element-wise) works on each position of a vector separately. Multiplication and addition take two vectors of the same length; tanh takes one vector. We write pointwise multiplication as $\odot$.
 
 1. **In words:** combine the first entries, then the second entries, and so on.
 2. **Formula:**
@@ -86,6 +86,10 @@ A **pointwise operation** (also called element-wise) works on each position of a
 
 tanh squeezes every entry into the range $-1$ to 1, so large values all land close to 1.
 
+![The example above, drawn. Each colour is one position: in $a \odot b$ and $a + b$, an entry only ever meets the entry of the same colour, and tanh acts on each entry alone](images/pointwise.png){width=90%}
+
+In Figure 2, follow one colour: the result in each position depends only on the inputs in that position.
+
 ### 4.5 The boxes are neural network layers
 
 > **Key point:** Each of the four boxes is a fully connected layer: three with a sigmoid activation, one with tanh. All four have the same number of units, and that number is the length of every vector in section 4.3.
@@ -93,7 +97,7 @@ tanh squeezes every entry into the range $-1$ to 1, so large values all land clo
 Each box in Figure 1 is an ordinary layer of nodes, like a hidden layer of an ANN. Every node computes a weighted sum plus a bias and applies an activation function:
 
 - the forget gate's layer, the input gate's $i_t$ layer and the output gate's layer use the **sigmoid**;
-- the candidate layer that makes $\tilde c_t$ uses **tanh**.
+- the candidate layer that makes $\tilde c_t$ uses **tanh** (G-1947).
 
 The number of nodes per layer is a hyperparameter, such as 3 or 128. Whatever we choose, all four layers get the same number. Each layer outputs one number per node, so $f_t$, $i_t$, $\tilde c_t$ and $o_t$ have as many entries as there are units, and so do $c_t$ and $h_t$.
 
@@ -109,7 +113,7 @@ Take 3 units and a 4-number input $x_t$. Then $h_{t-1}$ and $c_{t-1}$ have 3 num
 
 ![The forget gate's layer. The 3 numbers of $h_{t-1}$ and the 4 numbers of $x_t$ are joined into one input of 7 numbers, fully connected to 3 sigmoid units. Their 3 outputs form $f_t$](images/gate_layer.png){width=85%}
 
-Figure 2 draws the layer. Joining two vectors end to end is **concatenation**, written $[h_{t-1}, x_t]$: here 3 + 4 = 7 numbers. The 7 inputs connect to all 3 nodes, so the layer has $7 \times 3 = 21$ weights, collected in the matrix $W_f$, and 3 biases $b_f$.
+Figure 3 draws the layer. Joining two vectors end to end is **concatenation** (G-437), written $[h_{t-1}, x_t]$: here 3 + 4 = 7 numbers. The 7 inputs connect to all 3 nodes, so the layer has $7 \times 3 = 21$ weights, collected in the matrix $W_f$, and 3 biases $b_f$.
 
 1. **In words:** concatenate the previous hidden state and the current input, multiply by the forget gate's weights, add its biases and apply the sigmoid.
 2. **Formula:**
@@ -179,7 +183,11 @@ The trouble with a simple RNN is that information from early words fades as it i
 
 $$c_t = [1, 1, 1] \odot [4, 5, 6] + [0, 0, 0] \odot \tilde c_t = [4, 5, 6]$$
 
-Nothing is lost. If the cell decides at every step that nothing should be removed and nothing added, the information from the beginning of a long sentence reaches its end intact. The gates decide, step by step, how much of the cell state moves on.
+Nothing is lost. Figure 4 holds the input gate closed for 20 steps and changes only the forget gate. With $f = 1$ the first entry stays at 4. With $f = 0.9$ it keeps 90 percent per step and falls to $4 \times 0.9^{20} = 0.49$; with $f = 0.5$ it is gone after a few steps.
+
+![The first entry of the cell state $[4, 5, 6]$ over 20 time steps with the input gate closed, for three forget-gate values. Only $f = 1$ carries the value unchanged](images/carry.png){width=90%}
+
+If the cell decides at every step that nothing should be removed and nothing added, the information from the beginning of a long sentence reaches its end intact. The gates decide, step by step, how much of the cell state moves on.
 
 > **Extra:** Goodfellow §10.10.1 describes the cell state as having a linear self-loop whose weight is the forget gate: introducing such self-loops "to produce paths where the gradient can flow for long durations" is the core contribution of the LSTM (Hochreiter and Schmidhuber 1997). The original paper reports bridging time lags of more than 1000 discrete time steps on artificial tasks. The [LSTM Note](../1061-lstm/note.md) tests the effect on real reviews.
 
@@ -226,7 +234,7 @@ Shapes: $o_t$ and $\tanh(c_t)$ are both $1 \times 3$, so $h_t$ is $1 \times 3$, 
 
 ![The time step above, one vector per frame. Each row is "value × gate = result": the forget gate scales the old cell state, the input gate scales the candidate, and the output gate scales $\tanh(c_t)$. The new cell state is drawn as what is kept (green) plus what is added (blue)](images/lstm_step.gif){height=55%}
 
-In Figure 3, watch unit 2: its forget gate (0.25) wipes most of its old value, and its input gate (0.88) lets in most of a strongly negative candidate, so its cell state turns from $-0.5$ to $-0.8$.
+In Figure 5, watch unit 2: its forget gate (0.25) wipes most of its old value, and its input gate (0.88) lets in most of a strongly negative candidate, so its cell state turns from $-0.5$ to $-0.8$.
 
 ## 9. Counting the parameters
 
@@ -237,10 +245,14 @@ With $u$ units and input vectors of $d$ numbers, each of the four layers ($W_f$,
 1. **In words:** count one layer's weights and biases, then multiply by four.
 2. **Formula:**
    $$\text{parameters} = 4\thinspace\big((u + d)\thinspace u + u\big)$$
-3. **Example:** $u = 3$ units and $d = 4$ input features, as in Figure 2:
+3. **Example:** $u = 3$ units and $d = 4$ input features, as in Figure 3:
    $$4\thinspace\big((3 + 4) \times 3 + 3\big) = 4 \times (21 + 3) = 96$$
 
 Keras counts 96 for `LSTM(3)` on 4 input features, and 24 for `SimpleRNN(3)` on the same input: a simple RNN has one such layer, an LSTM four.
+
+![Where the 96 parameters of `LSTM(3)` on 4 input features come from: four layers, each fully connected from the 7 numbers of $[h_{t-1}, x_t]$ to 3 units, so $7 \times 3$ weights plus 3 biases each](images/param_count.png){width=90%}
+
+Figure 6 shows why the count is exactly four times a SimpleRNN's: the same layer, repeated once per gate and once for the candidate.
 
 > **Python:** An LSTM layer in Keras, and where its weights live.
 >
@@ -265,7 +277,7 @@ To see the gates at work, we train a small LSTM on movie reviews from the IMDB d
 
 ![The trained LSTM reading a real IMDB review, one word per frame. Top four panels: the forget, input and output gates (0 to 1) and the cell state of the 8 units. Bottom: the prediction the model would give if the review ended at that word](images/lstm_gates.gif){height=55%}
 
-Figure 4 shows the review "i don't believe it luc is not only a genius now he has always been one this film is for everyone who likes real good deep films just perfect", labelled positive.
+Figure 7 shows the review "i don't believe it luc is not only a genius now he has always been one this film is for everyone who likes real good deep films just perfect", labelled positive.
 
 - **The forget gate stays mostly open.** Its values lie between 0.65 and 0.86 (mean 0.76) for every unit and every word, so each step keeps most of the cell state and drops a part of it.
 - **The cell state moves with the meaning.** Around "not only", several units of $c_t$ turn clearly positive or negative, and the prediction falls from 0.52 to 0.31. From "good deep films" to "perfect" other units swing strongly, and the prediction climbs to 0.81.

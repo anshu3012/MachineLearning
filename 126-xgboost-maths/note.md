@@ -33,17 +33,21 @@ This Note derives all four, following the XGBoost paper (Chen and Guestrin 2016,
 
 Take students with CGPA, IQ and a package. The base model is the mean, say 14.5 LPA. The second model is a tree trained on the residuals; for a student with CGPA 9 and IQ 102 it lands in a leaf with output 2.1. The prediction is $14.5 + 2.1 = 16.6$.
 
-Every model here is a function: input in, number out. A tree computes its number with if-else questions, but it is still a function. Each student is one **observation** (one record, a row of the data table); CGPA and IQ are **features** (input variables, the columns), and the package is the **target** (the output we predict). Calling the models $f_1, f_2, \dots, f_t$, the prediction for observation $i$ is
+Every model here is a function: input in, number out. A tree computes its number with if-else questions, but it is still a function. Each student is one **observation** (G-1374; one record, a row of the data table); CGPA and IQ are **features** (G-772; input variables, the columns), and the package is the **target** (G-1949; the output we predict). Calling the models $f_1, f_2, \dots, f_t$, the prediction for observation $i$ is
 
 $$\hat y_i = f_1(x_i) + f_2(x_i) + \dots + f_t(x_i) = \sum_{k=1}^{t} f_k(x_i)$$
 
 The sum of functions is the additive model of the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md). (The learning rate is left out of the maths; it is applied afterwards, when the tree is added.)
 
+Figure 2 shows the sum on the four students of the [XGBoost regression Note](../124-xgboost-regression/note.md). Watch the right panel: adding the flat line $f_1$ and the step function $f_2$ point by point gives a staircase, and that staircase is the model.
+
+![A boosting model as a sum of functions, on the four students of the XGBoost regression Note. Left: the base model f1, the mean 7.375. Middle: the first tree f2, fitted to the residuals (grey). Right: their sum, a staircase that passes through two of the students](images/additive.png){height=30%}
+
 ## 3. What we must find: the leaf weights
 
 > **Key point:** Once the newest tree's splits are fixed, the only unknowns are its leaf outputs $w_1, \dots, w_T$. We want the values that make the loss smallest.
 
-A tree with $T$ leaves gives one of $T$ numbers, depending on the leaf an observation lands in. These leaf outputs are also called **leaf weights**, written $w_1, w_2, \dots, w_T$. A tree with 3 leaves has three unknowns, not one.
+A tree with $T$ leaves gives one of $T$ numbers, depending on the leaf an observation lands in. These leaf outputs are also called **leaf weights** (G-1063), written $w_1, w_2, \dots, w_T$. A tree with 3 leaves has three unknowns, not one.
 
 Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$. The gap between them is measured by a loss function $L(y_i, \hat y_i)$, such as squared error ([regression metrics Note](../52-regression-metrics/note.md)). So the task is an optimisation problem: choose the $w_j$ that make the total loss smallest.
 
@@ -51,7 +55,7 @@ Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$
 
 > **Key point:** Gradient boosting minimises the loss alone. XGBoost minimises the loss plus $\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum w_j^2$, which punishes trees with many leaves and with large leaf outputs.
 
-Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \hat y_i)$. XGBoost adds a **regularisation term** $\Omega$ for the newest tree. The sum of the two is called the **objective function**: loss plus regularisation.
+Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \hat y_i)$. XGBoost adds a **regularisation term** (G-1658) $\Omega$ for the newest tree. The sum of the two is called the **objective function** (G-1372): loss plus regularisation.
 
 1. **In words:** the total loss over all observations, plus $\gamma$ times the number of leaves, plus half of $\lambda$ times the sum of the squared leaf weights.
 2. **Formula:**
@@ -60,6 +64,10 @@ Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \
    $$\Omega = 1 \times 3 + \frac{1}{2} \times 1 \times (0.625^2 + 2.125^2 + 3.625^2) = 3 + \frac{1}{2} \times 18.05 = 12.02$$
 
 Both parameters are hyperparameters that we choose. A larger $\gamma$ makes every extra leaf cost more; a larger $\lambda$ makes large outputs cost more, as the L2 penalty does in ridge regression ([ridge regression maths Note](../64-ridge-regression-maths/note.md)).
+
+Figure 3 adds up the objective for three trees on the same students, with $\gamma = \lambda = 1$ and the loss $\frac{1}{2}(y - \hat y)^2$. Watch the blue loss fall as the tree grows while the orange and green penalties rise: the 3-leaf tree fits best, but its penalty of 12.02 makes the 2-leaf tree the cheapest overall (12.38 against 12.59).
+
+![The objective of three trees on the four students (gamma = lambda = 1, each leaf output = the mean of its residuals): loss (blue), gamma times the number of leaves (orange) and lambda/2 times the sum of squared outputs (green)](images/objective.png){height=34%}
 
 > **Extra:** The $\gamma$ here is a penalty per leaf, not the $\gamma_{jm}$ used for leaf values in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md); the two papers just use the same Greek letter. In this Note leaf values are always $w_j$.
 
@@ -92,7 +100,7 @@ In linear regression the prediction is $mx + b$, a smooth function of $m$ and $b
 
 ![The same data fitted by a straight line (left) and by boosted trees (right): the trees give flat steps with sudden jumps](images/steps.png)
 
-A boosted model is different. Its output is a staircase: flat inside each region, with jumps at the split points (Figure 2, right). The loss as a function of the trees is therefore not a smooth bowl. Even for one leaf, log loss is awkward: when the observations start from different log-odds, setting the derivative to 0 gives an equation with no simple formula for the answer (Extra in section 12).
+A boosted model is different. Its output is a staircase: flat inside each region, with jumps at the split points (Figure 4, right). The loss as a function of the trees is therefore not a smooth bowl. Even for one leaf, log loss is awkward: when the observations start from different log-odds, setting the derivative to 0 gives an equation with no simple formula for the answer (Extra in section 12).
 
 The way out is to approximate the loss near the current prediction by something smooth and simple, a parabola, and minimise that instead. A hiker in fog does the same: she cannot see the whole valley, so she judges the slope and the curve of the ground under her feet, steps to the bottom of that local bowl, and looks again. The tool for this is the Taylor series.
 
@@ -100,7 +108,7 @@ The way out is to approximate the loss near the current prediction by something 
 
 > **Key point:** Near a point $a$, any smooth function can be approximated by a polynomial built from its derivatives at $a$. More terms give a better approximation over a wider range.
 
-The **Taylor series** approximates a complicated function by a polynomial. The polynomial uses the function's value and derivatives at one point $a$.
+The **Taylor series** (G-1954) approximates a complicated function by a polynomial. The polynomial uses the function's value and derivatives at one point $a$.
 
 1. **In words:** start from the value at $a$, add the slope times the distance from $a$, add half the second derivative times the distance squared, and so on.
 2. **Formula:**
@@ -112,7 +120,7 @@ The **Taylor series** approximates a complicated function by a polynomial. The p
 
 ![e^x and its Taylor approximations around 0: each extra term follows the curve over a wider range](images/taylor.png){height=40%}
 
-Figure 3 shows the pattern. The straight line $1 + x$ is right only near 0. Adding $x^2/2$ follows the curve further, and adding $x^3/6$ further still. XGBoost stops at the second-order term, a parabola.
+Figure 5 shows the pattern. The straight line $1 + x$ is right only near 0. Adding $x^2/2$ follows the curve further, and adding $x^3/6$ further still. XGBoost stops at the second-order term, a parabola.
 
 ## 8. The second-order approximation of the objective
 
@@ -126,8 +134,8 @@ We apply the Taylor series to each observation's loss $L(y_i, \hat y_i^{(t-1)} +
 
 Two names for the derivatives at the old prediction:
 
-- the **gradient** $g_i$: the first derivative of the loss with respect to the prediction;
-- the **Hessian** $h_i$: the second derivative.
+- the **gradient** (G-865) $g_i$: the first derivative of the loss with respect to the prediction;
+- the **Hessian** (G-887) $h_i$: the second derivative.
 
   $$g_i = \frac{\partial L(y_i, \hat y_i^{(t-1)})}{\partial \hat y_i^{(t-1)}}, \qquad h_i = \frac{\partial^2 L(y_i, \hat y_i^{(t-1)})}{\partial \big(\hat y_i^{(t-1)}\big)^2}$$
 
@@ -150,7 +158,7 @@ The objective now has two sums of different kinds: one over the $n$ observations
 
 ![Four observations and a tree with two leaves: adding up the observations one by one gives the same total as adding them up leaf by leaf](images/regroup.png){height=30%}
 
-Figure 4 shows the idea with a tree "CGPA < 7" and four observations with CGPA 7.1, 8.2, 6.5 and 9.1. Observation 3 lands in leaf 1; observations 1, 2 and 4 land in leaf 2. The set of observations in leaf $j$ is its **instance set** $I_j$: here $I_1 = \lbrace3\rbrace$ and $I_2 = \lbrace1, 2, 4\rbrace$.
+Figure 6 shows the idea with a tree "CGPA < 7" and four observations with CGPA 7.1, 8.2, 6.5 and 9.1. Observation 3 lands in leaf 1; observations 1, 2 and 4 land in leaf 2. The set of observations in leaf $j$ is its **instance set** (G-954) $I_j$: here $I_1 = \lbrace3\rbrace$ and $I_2 = \lbrace1, 2, 4\rbrace$.
 
 Two facts make the regrouping work:
 
@@ -187,6 +195,10 @@ $$\frac{\partial \tilde{\text{Obj}}}{\partial w_j} = G_j + (H_j + \lambda) w_j =
 
 The Notebook checks this against a brute-force search over a fine grid of $w$ values: the minimum lands at the same place. Because $H_j + \lambda > 0$, the parabola opens upwards, so this point is a minimum, not a maximum.
 
+Figure 7 draws the three parabolas of the regression tree. Watch each star sit at its own $-G_j/(H_j + \lambda)$, independent of the other leaves; with $\lambda = 1$ (dotted) each parabola gets steeper and its minimum moves towards 0.
+
+![One parabola per leaf of the first regression tree: G w + (H + lambda) w^2 / 2. Solid: lambda = 0, with minima 0.625, -2.125 and 3.625 (stars). Dotted: lambda = 1, with minima pulled towards 0 (dots)](images/parabolas.png){height=38%}
+
 ## 11. Regression: gradient and Hessian of squared error
 
 > **Key point:** For $L = \frac{1}{2}(y - \hat{y})^2$: $g_i = \hat y_i - y_i = -r_i$ and $h_i = 1$. So $w^\ast= \sum r_i / (n + \lambda)$, the regression output formula.
@@ -218,9 +230,9 @@ with $p_i$ the previous stage's probability.
 
 ![Exact log loss of this leaf's three observations (blue) and its second-order approximation (red) as the leaf output w changes: they agree near 0, and their minima are close](images/leaf.png){height=40%}
 
-For log loss the parabola is only an approximation (Figure 5). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
+For log loss the parabola is only an approximation (Figure 8). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
 
-Figure 6 moves the touching point. Watch the parabola: wherever we expand, it touches the loss at that point $a$ with the same slope and curvature, and its minimum (the star, $a - g/h$) is a good guess only when $a$ is near the true minimum; from $a = 1.2$ it overshoots to $-2.39$. Each tree expands around the current predictions, so XGBoost always uses the parabola where it fits. At the end, $\lambda$ grows from 0 to 3: the parabola gets steeper and $w^\ast= -0.8/(0.72 + \lambda)$ shrinks towards 0, as section 10 says.
+Figure 9 moves the touching point. Watch the parabola: wherever we expand, it touches the loss at that point $a$ with the same slope and curvature, and its minimum (the star, $a - g/h$) is a good guess only when $a$ is near the true minimum; from $a = 1.2$ it overshoots to $-2.39$. Each tree expands around the current predictions, so XGBoost always uses the parabola where it fits. At the end, $\lambda$ grows from 0 to 3: the parabola gets steeper and $w^\ast= -0.8/(0.72 + \lambda)$ shrinks towards 0, as section 10 says.
 
 ![The second-order approximation of this leaf's log loss, animated. The red parabola touches the exact loss (blue) at the expansion point a; the star is its minimum, the Newton step. Last part: back at a = 0, lambda grows and the leaf output w* shrinks towards 0. Watching the minimum move towards 0 as lambda grows follows StatQuest's "XGBoost Part 3 (of 4): Mathematical Details" (Starmer)](images/newton_leaf.gif)
 
@@ -251,9 +263,13 @@ $$-\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}(H_j + \lambda)\frac{G_j^2}{(H_j + \
 3. **Example:** the regression tree with one split at CGPA < 8.25, $\lambda = \gamma = 0$. Left: $G = 2.875 + 1.375 - 0.625 = 3.625$, $H = 3$. Right: $G = -3.625$, $H = 1$.
    $$\tilde{\text{Obj}}^{\ast} = -\frac{1}{2}\Big(\frac{3.625^2}{3} + \frac{3.625^2}{1}\Big) = -\frac{1}{2}(4.38 + 13.14) = -8.76$$
 
-The lower this number, the better the tree's structure. The paper uses it as a score for a tree, like the impurity of a decision tree but valid for a wider range of losses (Chen and Guestrin 2016, §2.2).
+This number is the tree's **structure score** (G-1905): the lower it is, the better the tree's structure. Figure 10 scores the three candidate root splits of the regression tree this way: CGPA < 8.25 reaches $-8.76$, far below the others, the same winner the gain picked.
 
-The term in each leaf, $G_j^2/(H_j + \lambda)$, is the **similarity score**. Since $G_j = -\sum r_i$, squaring removes the sign:
+![The best objective of each candidate root split of the regression tree (lambda = gamma = 0): no split 0, CGPA < 5.85 -0.26, CGPA < 7.1 -2.53, CGPA < 8.25 -8.76 (green, the lowest)](images/structure.png){height=32%}
+
+The paper uses it as a score for a tree, like the impurity of a decision tree but valid for a wider range of losses (Chen and Guestrin 2016, §2.2).
+
+The term in each leaf, $G_j^2/(H_j + \lambda)$, is the **similarity score** (G-1804). Since $G_j = -\sum r_i$, squaring removes the sign:
 
 - regression ($h = 1$): $(\sum r_i)^2 / (n + \lambda)$;
 - classification ($h = p(1-p)$): $(\sum r_i)^2 / (\sum p_i(1-p_i) + \lambda)$.
@@ -305,7 +321,7 @@ The XGBoost library follows the same convention as those Notes. Its tree dump pr
 **Built from**
 
 - CampusX, "The Maths Behind XGBoost | Machine Learning | CampusX", YouTube, https://www.youtube.com/watch?v=0Eo-_5bfers
-- Starmer, J. (StatQuest). "XGBoost Part 3 (of 4): Mathematical Details." statquest.org. The idea of plotting a leaf's loss against its output value and watching the minimum move towards 0 as λ grows (last part of Figure 6).
+- Starmer, J. (StatQuest). "XGBoost Part 3 (of 4): Mathematical Details." statquest.org. The idea of plotting a leaf's loss against its output value and watching the minimum move towards 0 as λ grows (last part of Figure 9).
 
 **Other references**
 

@@ -16,7 +16,11 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propag
 
 > **Key point:** To predict, a network passes one observation forward, layer by layer. Each layer is one matrix product, one added bias and one sigmoid, however many nodes it has.
 
-**Forward propagation** is the computation that turns one **observation** (one record, one row of the data table) into a prediction, moving from the input layer through every hidden layer to the output layer. Forward propagation is how a trained network predicts. The same pass is also the first half of every training step: the network predicts, measures its error, and then **backpropagation**, the training algorithm of later Notes, sends that error backwards to update the weights (previewed in section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md)).
+**Forward propagation** (G-797) is the computation that turns one **observation** (G-1374) (one record, one row of the data table) into a prediction, moving from the input layer through every hidden layer to the output layer. Forward propagation is how a trained network predicts. The same pass is also the first half of every training step:
+
+1. the network predicts (forward propagation);
+2. it measures its error;
+3. **backpropagation** (G-247), the training algorithm of later Notes, sends that error backwards to update the weights (previewed in section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md)).
 
 ![Forward propagation through the 4-3-2-1 network: the values of each layer appear in its nodes, with that layer's matrix equation](images/forward_anim.gif){height=45%}
 
@@ -28,7 +32,7 @@ Figure 1 shows the whole computation for one student. The rest of this Note work
 
 We use the 4-3-2-1 network and the notation of the [MLP notation Note](../1008-mlp-notation/note.md): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output, with $15 + 8 + 3 = 26$ weights and biases. Every node is a perceptron with a sigmoid activation, so every output lies between 0 and 1.
 
-The data has four **features** (input variables, one column each) and the **target** *placed* (the output we predict). One observation enters the input layer:
+The data has four **features** (G-772) (input variables, one column each) and the **target** (G-1949) *placed* (the output we predict). One observation enters the input layer:
 
 | CGPA | IQ | 10th marks | 12th marks |
 |---|---|---|---|
@@ -37,6 +41,10 @@ The data has four **features** (input variables, one column each) and the **targ
 Before it enters, we scale the observation into the range 0 to 1: CGPA divided by 10, the others by 100. So the input is $a^{0} = (0.72,\ 0.72,\ 0.69,\ 0.81)$.
 
 > **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme. The sigmoid's slope there, $\sigma(z)(1 - \sigma(z))$ (see the [sigmoid derivative Note](../74-sigmoid-derivative/note.md)), is only $1.9 \times 10^{-9}$, $1.1 \times 10^{-6}$ and $3.7 \times 10^{-6}$, so a small change to a weight hardly changes the node's output. Backpropagation multiplies every gradient through a node by this slope, so these weights would barely move in training. The [data scaling Note](../1023-data-scaling-in-ann/note.md) standardizes the inputs instead (see the [standardization Note](../24-standardization/note.md)); dividing by 10 and 100 keeps the numbers here easy to follow.
+
+![Layer 1's three sums placed on the sigmoid: for the raw student (red crosses) they land on the flat tails, for the scaled student (blue dots) on the steep middle](images/scaling_sigmoid.png){height=28%}
+
+Figure 2 shows the Extra box as a picture: watch where the crosses sit. On the flat tails a change in $z$ barely moves $\sigma(z)$, so those nodes cannot learn; the scaled sums sit where the curve is steepest.
 
 The weights are not trained here: we set them by hand to one decimal, so that every step can be checked with a calculator. Training would find better values; forward propagation works the same either way.
 
@@ -52,6 +60,10 @@ Every node does what a single perceptron does (see the [perceptron Note](../1004
 3. **Example:** with weights $0.2, 0.4, -0.5, 0.3$ and bias $0.1$,
    $$z = 0.2 \times 0.72 + 0.4 \times 0.72 - 0.5 \times 0.69 + 0.3 \times 0.81 + 0.1 = 0.430$$
    $$O_{11} = \sigma(0.430) = \frac{1}{1 + e^{-0.430}} = 0.606$$
+
+![Node 1 of layer 1, step by step: each input times its weight, the four products summed with the bias, then the sigmoid](images/one_node.png){height=28%}
+
+In Figure 3, follow the numbers left to right: the four products 0.144, 0.288, $-0.345$ and 0.243 plus the bias 0.1 give $z = 0.430$, and the sigmoid turns it into 0.606.
 
 Doing this node by node works, but a large network has thousands of nodes. Linear algebra does a whole layer in one step.
 
@@ -83,7 +95,11 @@ To get one sum per node, each column of $W^{1}$ must meet the input. Transposing
    $$z^{1} = \begin{bmatrix} 0.2 & 0.4 & -0.5 & 0.3 \cr-0.3 & 0.1 & 0.2 & -0.4 \cr0.5 & -0.2 & 0.1 & 0.2 \end{bmatrix} \begin{bmatrix} 0.72 \cr0.72 \cr0.69 \cr0.81 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix} = \begin{bmatrix} 0.330 \cr-0.330 \cr0.447 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix} = \begin{bmatrix} 0.430 \cr-0.430 \cr0.647 \end{bmatrix}$$
    $$a^{1} = \sigma(z^{1}) = \begin{bmatrix} 0.606 \cr0.394 \cr0.656 \end{bmatrix} = \begin{bmatrix} O_{11} \cr O_{12} \cr O_{13} \end{bmatrix}$$
 
-The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The vector $a^{1}$, the outputs of layer 1, is called the **activation** of layer 1. The activation $a^{1}$ is the input to layer 2.
+![The product $W^{1\mathsf T}a^{0} + b^{1}$ with colours: each row of $W^{1\mathsf T}$ (one node's weights) meets the whole input and gives that node's sum](images/layer_product.png){height=26%}
+
+In Figure 4, match the colours: the blue row is the four weights of Figure 3, and it produces the same 0.430. One product computes all three nodes at once.
+
+The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The vector $a^{1}$, the outputs of layer 1, is called the **activation** (G-164) of layer 1. The activation $a^{1}$ is the input to layer 2.
 
 ## 5. Layers 2 and 3
 

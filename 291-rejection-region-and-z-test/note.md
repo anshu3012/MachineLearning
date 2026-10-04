@@ -15,52 +15,88 @@ tags: [subject/statistics, area/inference, step/foundations, concept/hypothesis-
 
 ## 1. Overview
 
-> **Key point:** In the rejection region approach we compute a test statistic and reject $H_0$ when it falls in the tail region whose area is the significance level $\alpha$.
+> **Key point:** In the rejection region approach we assume $H_0$ is true, measure how far the sample lands from what $H_0$ predicts, and reject $H_0$ when the sample lands in a tail region whose area is the significance level $\alpha$.
 
-![The two examples of this Note: the observed z (green) against the rejection region (red), α = 0.05](images/rejection_regions.png)
+![The two factory and chips examples of this Note: the observed z (green) against the rejection region (red), α = 0.05](images/rejection_regions.png)
 
-The [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) listed the eight steps of a hypothesis test. Here we run them end to end with the one-sample **z-test** on two problems. Figure 1 shows how each ends: the training program's z of 3.29 lands in the red rejection region, the chips' z of $-1.58$ does not.
+The [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) set up $H_0$ and $H_1$ and listed the eight steps of a hypothesis test. Here we run those steps end to end with the one-sample **z-test** (G-2143). Figure 1 shows where the two main examples end: the training program's z of 3.29 lands in the red rejection region, the chips' z of $-1.58$ does not.
 
-This Note covers:
+We build the idea in this order:
 
-- the significance level $\alpha$;
-- the z statistic and the assumptions of the one-sample z-test;
-- the rejection region and the critical value;
-- two complete examples, one right-tailed and one two-tailed;
-- how $\alpha$ moves the rejection region;
-- the weakness of the rejection region approach, which p-values fix.
+1. the logic: assume $H_0$, then ask how surprising the sample is (section 3);
+2. the z statistic: count the distance in standard errors (section 4);
+3. the significance level $\alpha$: how rare is too rare (section 5);
+4. the rejection region and the critical value (section 6);
+5. one tail or two (section 7);
+6. two complete examples, right-tailed and two-tailed (sections 8 and 9);
+7. how $\alpha$ moves the rejection region (section 10);
+8. the weakness of the approach, which p-values fix (section 11).
 
 ## 2. Terms we build on
 
 > **Key point:** The standard normal curve and z-table, the central limit theorem with its standard error, and critical values.
 
 - **Standard normal and z-table:** a z-score has the standard normal distribution, and the z-table gives the area to the left of any z (see the [standard normal Note](../251-standard-normal-and-z-table/note.md)).
-- **Central limit theorem and standard error:** for a sample of $n \ge 30$, the sample mean $\bar{X}$ is approximately normal with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$, the standard error (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
+- **Central limit theorem and standard error:** for a sample of $n \ge 30$, the sample mean $\bar{X}$ is approximately normal with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$, the standard error (G-1872) (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
 - **Critical value:** the z value that leaves a given area in the tail; 1.96 leaves 2.5% in each tail (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)).
 
-## 3. The significance level $\alpha$
+## 3. The logic of a test
 
-> **Key point:** $\alpha$ is the probability of rejecting $H_0$ when it is actually true; we fix it before the test, usually at 0.05.
+> **Key point:** We pretend $H_0$ is true, work out where sample means would then land, and reject $H_0$ only if our sample lands somewhere very unlikely.
 
-The **significance level**, written $\alpha$, is a threshold fixed before the test. The significance level decides whether $H_0$ will be rejected. In words:
+**The question.** Rats that get no drug take **1.2 seconds** on average to respond to a stimulus. We inject **100 rats** with a new drug. Their mean response time is **1.05 seconds**, with a sample standard deviation of **0.5 seconds**. Does the drug change the response time?
 
-> $\alpha$ is the probability of rejecting the null hypothesis when it is actually true.
+**The hypotheses.** The **null hypothesis** (G-1361) is the status quo: the drug has no effect, so the mean with the drug is still 1.2 s. The **alternative hypothesis** (G-193) is that the drug has an effect:
 
-With $\alpha = 0.05$, if we ran many tests in which $H_0$ was in fact true, about 5 in 100 would still reject it. This mistake is called a Type I error (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
+$$H_0: \mu = 1.2, \qquad H_1: \mu \neq 1.2$$
 
-Think of $\alpha$ as the sensitivity setting of a smoke alarm. A very sensitive alarm (large $\alpha$) goes off for burnt toast as well as for real fires; a dull one (small $\alpha$) rarely gives false alarms but needs more smoke before it sounds.
+**The logic, in plain words.**
 
-The usual choices are 0.05 (5%) and 0.01 (1%). For most problems 0.05 works well and is treated as the standard. In a specialised field, a domain expert may choose another value from knowledge of the domain.
+1. Assume $H_0$ is true.
+2. Work out how sample means of 100 rats would spread out if that were so.
+3. Ask how likely a sample mean as far from 1.2 s as ours would be.
+4. If that is very unlikely, $H_0$ is probably false: we reject it.
 
-The significance level and the confidence level are related but not the same. A 95% confidence level corresponds to $\alpha = 0.05$: confidence level $= 1 - \alpha$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)).
+Step 2 is a picture we already know. If we took many samples of 100 rats, their means would form the **sampling distribution of the sample mean** (G-1735). By the central limit theorem it is close to normal. Under $H_0$ its centre is 1.2 s. Its spread is the standard error, $\sigma/\sqrt{n}$.
 
-We must fix $\alpha$ before the test. Without it there is no boundary between "reject" and "fail to reject". Choosing it after seeing the result would let us reach either answer: for any observed $z$ other than 0, a large enough $\alpha$ puts it in the rejection region. For the chips example of section 7 ($z = -1.58$, two-tailed), any $\alpha$ above $2 \times P(Z > 1.58) = 0.114$ would reject $H_0$.
+We do not know $\sigma$, so we use the sample's $s = 0.5$ in its place. With 100 rats that is a close approximation (the next section says how close):
 
-## 4. The one-sample z-test
+$$\text{standard error} \approx \frac{0.5}{\sqrt{100}} = \frac{0.5}{10} = 0.05 \text{ s}$$
 
-> **Key point:** The z-test measures how many standard errors the sample mean lies from the mean claimed by $H_0$; it needs $\sigma$ and a normal sampling distribution.
+![The rat drug test step by step: the sampling distribution of the mean if H₀ is true (centre 1.2 s, standard error 0.05 s); 1.05 s sits 3 standard errors below; only 0.27% of samples land that far out; then the two-tailed and the one-tailed rejection regions at α = 0.05. Idea after Khan Academy, "Hypothesis testing and p-values"](images/rat_test.gif){height=45%}
 
-### 4.1 Assumptions
+In the first frames of Figure 2, watch the green dot at 1.05 s: it sits far out in the left tail of the curve that $H_0$ predicts.
+
+## 4. The z statistic: counting standard errors
+
+> **Key point:** The z statistic measures how many standard errors the sample mean lies from the mean claimed by $H_0$; the one-sample z-test needs $\sigma$ and a normal sampling distribution.
+
+### 4.1 The idea on the rats
+
+How far is 1.05 s from 1.2 s? In seconds the gap is 0.15. In standard errors it is
+
+$$\frac{1.05 - 1.2}{0.05} = \frac{-0.15}{0.05} = -3$$
+
+In Figure 2, the blue arrows lay three standard-error steps from 1.2 s down to 1.05 s. Our sample mean is **3 standard errors below** what $H_0$ predicts. This count is the **z statistic**, a **test statistic** (G-1963): the one number a test computes from the sample to make its decision.
+
+### 4.2 The formula
+
+If $H_0$ is true, the population mean is $\mu_0$, the value in $H_0$. The sample mean then varies around $\mu_0$ with standard error $\sigma/\sqrt{n}$, so standardizing it gives a standard normal variable.
+
+1. **In words:** the distance between the sample mean and the mean claimed by $H_0$, measured in standard errors.
+2. **Formula:**
+   $$z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}$$
+   where $\bar{x}$ is the sample mean, $\mu_0$ the mean in $H_0$, $\sigma$ the population standard deviation and $n$ the sample size.
+3. **Example:** a car factory makes $\mu_0 = 50$ cars a day, $\sigma = 5$; a sample of $n = 30$ days after a training program has $\bar{x} = 53$:
+   $$z = \frac{53 - 50}{5/\sqrt{30}} = \frac{3}{0.913} = 3.29$$
+
+We divide by $\sigma/\sqrt{n}$, not by $\sigma$, because we are standardizing a sample **mean**, whose spread is the standard error.
+
+![Counting standard errors: rulers of 0.913 laid from 50 towards 53 fit 3.29 times, so z = 3.29](images/count_se.gif){height=40%}
+
+Figure 3 does the same count for the factory: standard-error rulers laid end to end from $\mu_0 = 50$ to $\bar{x} = 53$. Watch the last frame: relabelling the same axis in rulers turns 53 into $z = 3.29$.
+
+### 4.3 Assumptions
 
 The one-sample z-test can be used when:
 
@@ -68,35 +104,53 @@ The one-sample z-test can be used when:
 2. **Known $\sigma$:** the population standard deviation is known;
 3. **Random sample:** the sample is drawn at random.
 
-If $\sigma$ is unknown, we use the t-test instead (see the [one-sample t-test Note](../301-one-sample-t-test/note.md)).
+If $\sigma$ is unknown, the exact test is the t-test (see the [one-sample t-test Note](../301-one-sample-t-test/note.md)). The rats break assumption 2: we used $s$ for $\sigma$. With $n = 100$ the difference is small. The area beyond $\pm 3$ is 0.0027 on the normal curve and 0.0034 on the t curve with 99 degrees of freedom (notebook, section 5), and both lead to the same decision below.
 
-### 4.2 The z statistic
+## 5. How rare is too rare: the significance level
 
-If $H_0$ is true, the population mean is $\mu_0$, the value in $H_0$. The sample mean then varies around $\mu_0$ with standard error $\sigma/\sqrt{n}$, so standardizing it gives a standard normal variable.
+> **Key point:** $\alpha$ is the probability of rejecting $H_0$ when it is actually true; we fix it before the test, usually at 0.05.
 
-1. **In words:** the distance between the sample mean and the mean claimed by $H_0$, measured in standard errors.
-2. **Formula:**
-   $$z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}$$
-3. **Example:** $\bar{x} = 53$, $\mu_0 = 50$, $\sigma = 5$, $n = 30$:
-   $$z = \frac{53 - 50}{5/\sqrt{30}} = \frac{3}{0.913} = 3.29$$
+**How rare is our rat sample?** On a normal curve, 99.7% of the area lies within 3 standard deviations of the centre (the **68-95-99.7 rule**, G-53). So only about 0.3% of samples land 3 or more standard errors away, on either side. The exact area is 0.27%, or 0.135% in each tail (Figure 2, second step). If $H_0$ were true, a sample as extreme as ours would turn up less than 1 time in 300.
 
-We divide by $\sigma/\sqrt{n}$, not by $\sigma$, because we are standardizing a sample **mean**, whose spread is the standard error.
+**Where to draw the line.** "Less than 1 in 300" sounds rare. But we need a fixed rule that says how rare is rare enough to reject $H_0$. That threshold is the **significance level** (G-1801), written $\alpha$:
 
-## 5. The rejection region and the critical value
+> $\alpha$ is the probability of rejecting the null hypothesis when it is actually true.
+
+With $\alpha = 0.05$, if we ran 100 tests in which $H_0$ was in fact true, about 5 would still reject it. This mistake is called a **Type I error** (G-2032) (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
+
+Think of $\alpha$ as the sensitivity setting of a smoke alarm. A very sensitive alarm (large $\alpha$) goes off for burnt toast as well as for real fires; a dull one (small $\alpha$) rarely gives false alarms but needs more smoke before it sounds.
+
+The usual choices are 0.05 (5%) and 0.01 (1%). For most problems 0.05 works well and is treated as the standard. In a specialised field, a domain expert may choose another value from knowledge of the domain.
+
+The significance level and the confidence level are related but not the same. A 95% confidence level corresponds to $\alpha = 0.05$: confidence level $= 1 - \alpha$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)).
+
+**Fix $\alpha$ first.** Without $\alpha$ there is no boundary between "reject" and "fail to reject". Choosing it after seeing the result would let us reach either answer: for any observed $z$ other than 0, a large enough $\alpha$ puts it in the rejection region. For the chips example of section 9 ($z = -1.58$, two-tailed), any $\alpha$ above $2 \times P(Z > 1.58) = 0.114$ would reject $H_0$.
+
+![The chips z = −1.58 stays put while α grows; once α passes 0.114 the red tails reach it and the same data "rejects" H₀](images/alpha_after.gif){height=40%}
+
+In Figure 4, watch the red tails creep inward as $\alpha$ grows: nothing about the data changes, yet the verdict flips from "fail to reject" to "reject" just past $\alpha = 0.114$.
+
+## 6. The rejection region and the critical value
 
 > **Key point:** The rejection region is the tail of the standard normal curve with area $\alpha$, on the side that $H_1$ points to; its boundary is the critical value.
 
-The **rejection region** (also called the **critical region**) is the set of values of the test statistic for which we reject $H_0$. The rejection region lies in the tail or tails that $H_1$ points to, and its area is $\alpha$. The rest of the curve is the region where we fail to reject $H_0$.
+**The idea.** Instead of asking "how rare is our sample?" each time, we mark in advance the part of the curve where samples are rarer than $\alpha$ allows. If our z lands there, we reject $H_0$.
 
-The **critical value** is the boundary of the rejection region:
+**The terms.** The **rejection region** (also called the **critical region**) (G-1662) is the set of values of the test statistic for which we reject $H_0$. The rejection region lies in the tail or tails that $H_1$ points to, and its area is $\alpha$. The rest of the curve is the region where we fail to reject $H_0$. The **critical value** (G-504) is the boundary of the rejection region:
 
 - **$H_1$ with $>$ (right-tailed):** all of $\alpha$ in the right tail. For $\alpha = 0.05$ we need the z with area 0.95 to its left. The z-table has 0.9495 at 1.64 and 0.9505 at 1.65, so the critical value lies between them: 1.645.
 - **$H_1$ with $<$ (left-tailed):** all of $\alpha$ in the left tail: $-1.645$.
 - **$H_1$ with $\neq$ (two-tailed):** $\alpha/2 = 0.025$ in each tail: $\pm 1.96$.
 
-The decision rule is simple: if the test statistic falls in the rejection region, reject $H_0$; otherwise, fail to reject it.
+The decision rule is simple: if the test statistic falls in the rejection region, reject $H_0$; otherwise, fail to reject it. Carrying out a test this way is the **rejection region approach** (G-1663).
 
-> **Extra:** One-sided and two-sided critical values are easy to mix up. At $\alpha = 0.05$, a one-tailed test uses 1.645 and a two-tailed test uses 1.96 (see the [t-procedure Note](../282-t-procedure/note.md) for the same point with t). Using 1.96 for a one-tailed test makes it stricter than intended (a real $\alpha$ of 0.025); using 1.645 for a two-tailed test makes it looser (a real $\alpha$ of 0.10).
+![Finding the critical value: a cutoff slides until the red tail area equals α = 0.05, at 1.645 for one tail and ±1.96 for two](images/find_critical.gif){height=40%}
+
+Figure 5 finds both critical values by sliding a cutoff until the red area is 0.05. Watch the middle frames: 1.96 leaves only 0.025 in one tail, and ±1.645 leaves 0.10 across two.
+
+**Back to the rats.** $H_1$ is $\mu \neq 1.2$, so the test is two-tailed with critical values $\pm 1.96$. Our $z = -3$ is below $-1.96$: it falls in the rejection region, and we **reject $H_0$**. In seconds, the cutoffs are $1.2 \pm 1.96 \times 0.05$, that is 1.102 s and 1.298 s, and 1.05 s lies beyond the lower one (Figure 2, third step). The data gives strong evidence that the drug changes the response time.
+
+> **Extra:** One-sided and two-sided critical values (G-1383) are easy to mix up. At $\alpha = 0.05$, a one-tailed test uses 1.645 and a two-tailed test uses 1.96 (see the [t-procedure Note](../282-t-procedure/note.md) for the same point with t). Using 1.96 for a one-tailed test makes it stricter than intended (a real $\alpha$ of 0.025); using 1.645 for a two-tailed test makes it looser (a real $\alpha$ of 0.10).
 
 > **Python:** Critical values come from `ppf`, the inverse of the CDF.
 >
@@ -108,7 +162,31 @@ The decision rule is simple: if the test statistic falls in the rejection region
 > stats.norm.ppf(0.975)     # 1.960: two-tailed, alpha = 0.05
 > ```
 
-## 6. Example: did a training program raise productivity?
+## 7. One tail or two: the same data, two questions
+
+> **Key point:** $H_1$ with $\neq$ puts the rejection region in both tails; $H_1$ with $<$ or $>$ puts all of it in one tail.
+
+**The idea.** In the rat test, a very slow mean would also have counted against $H_0$: any effect, up or down, was of interest. So we looked at both tails. That is a **two-tailed test** (G-2028).
+
+Suppose instead that, before collecting data, we had reason to expect the drug to *lower* response time, and only a lowering mattered. Then
+
+$$H_0: \mu = 1.2, \qquad H_1: \mu < 1.2$$
+
+and only very low sample means count against $H_0$. All of $\alpha$ goes into the left tail. That is a **one-tailed test** (G-1385), here a left-tailed one (G-1693).
+
+**The same rats, one tail.** The critical value is now $-1.645$, and in seconds the cutoff is $1.2 - 1.645 \times 0.05 = 1.118$ s. Our $z = -3$ is below $-1.645$: reject $H_0$ (Figure 2, last step). The tail area beyond our sample is now one tail only: half of 0.27%, which is 0.135%.
+
+| | Two-tailed | One-tailed (left) |
+|---|---|---|
+| $H_1$ | $\mu \neq 1.2$ | $\mu < 1.2$ |
+| Critical value at $\alpha = 0.05$ | $\pm 1.96$ | $-1.645$ |
+| Cutoff in seconds | 1.102 and 1.298 | 1.118 |
+| Area beyond our sample | 0.27% | 0.135% |
+| Decision for $z = -3$ | reject | reject |
+
+The direction of $H_1$ must be chosen before looking at the data; the [errors, power and tails Note](../292-errors-power-and-tails/note.md) shows what goes wrong when it is not.
+
+## 8. Example: did a training program raise productivity?
 
 > **Key point:** $z = 3.29$ lies beyond the critical value 1.645, so we reject $H_0$: the training program raised mean productivity.
 
@@ -136,7 +214,7 @@ A car factory makes **50 cars per day** on average, with a known population stan
 > z > z_crit                          # True: reject H0
 > ```
 
-## 7. Example: do chips packets weigh 50 g?
+## 9. Example: do chips packets weigh 50 g?
 
 > **Key point:** $z = -1.58$ lies between $-1.96$ and $1.96$, so we fail to reject $H_0$: the sample does not show that the mean weight differs from 50 g.
 
@@ -153,15 +231,21 @@ A snack company claims that its packets of chips weigh **50 g** on average. A co
 7. **Decide.** $H_1$ uses $\neq$: we do not know the direction, so the test is two-tailed. $\alpha = 0.05$ is split into 0.025 in each tail, giving critical values $\pm 1.96$. Since $-1.96 < -1.58 < 1.96$, $z$ falls between them (Figure 1, right): we **fail to reject $H_0$**.
 8. **Interpret.** The 40 packets do not give enough evidence that the mean weight differs from 50 g. The watchdog has no case against the company.
 
+The same decision can be read in grams, as we did for the rats in seconds. Under $H_0$ the mean of 40 packets has standard error $4/\sqrt{40} = 0.632$ g, so we fail to reject for any sample mean between $50 - 1.96 \times 0.632 = 48.76$ g and $50 + 1.96 \times 0.632 = 51.24$ g.
+
+![The chips test in grams: sample means between 48.76 g and 51.24 g fail to reject H₀; the watchdog's 49 g lies inside](images/chips_grams.png){height=30%}
+
+In Figure 6, watch where 49 g sits: inside the blue band, about one gram short of the left cutoff.
+
 Failing to reject does not prove that the packets weigh exactly 50 g on average. As the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) showed, failing to reject $H_0$ only means the evidence was not strong enough.
 
-## 8. How $\alpha$ moves the rejection region
+## 10. How the significance level moves the rejection region
 
 > **Key point:** A smaller $\alpha$ pushes the critical values outward and shrinks the rejection region, so rejecting a true $H_0$ becomes rarer.
 
 ![Two-tailed rejection regions (red) for three significance levels; the middle area is 1 − α](images/alpha_effect.png)
 
-Figure 2 shows a two-tailed test at three significance levels:
+Figure 7 shows a two-tailed test at three significance levels:
 
 | $\alpha$ | Area in each tail | Critical values |
 |---|---|---|
@@ -172,13 +256,13 @@ Figure 2 shows a two-tailed test at three significance levels:
 - **Lower $\alpha$** (5% to 1%): the critical values move out and the region where we fail to reject grows. A true $H_0$ is rejected less often.
 - **Higher $\alpha$** (say 30%): the rejection region grows. Even when $H_0$ is true, the statistic now often lands in the rejection region by chance, and we wrongly reject $H_0$.
 
-Figure 3 checks that meaning by simulation. We repeat the chips test of section 7 400 times with packets whose true mean really is 50 g, so $H_0$ is true every time. Watch each sample's z land under the curve: about 5% land in the red tails and wrongly reject $H_0$ (here 24 of 400, 6.0%). Then $\alpha$ sweeps over the same 400 values, and the rejected share follows it (124 of 400 at $\alpha = 0.30$). Last, the watchdog's own $z = -1.58$ lands between the critical values.
+Figure 8 checks that meaning by simulation. We repeat the chips test of section 9 400 times with packets whose true mean really is 50 g, so $H_0$ is true every time. Watch each sample's z land under the curve: about 5% land in the red tails and wrongly reject $H_0$ (here 24 of 400, 6.0%). Then $\alpha$ sweeps over the same 400 values, and the rejected share follows it (124 of 400 at $\alpha = 0.30$). Last, the watchdog's own $z = -1.58$ lands between the critical values.
 
 ![400 z values from samples where H0 is true drop onto the standard normal curve; red dots fall in the rejection region, and their share tracks α as α changes](images/z_drops.gif){height=45%}
 
 The red area is exactly what "the probability of rejecting $H_0$ when it is actually true" means. A lower $\alpha$ has a cost too, which the [errors, power and tails Note](../292-errors-power-and-tails/note.md) explains.
 
-## 9. The weakness of the rejection region approach
+## 11. The weakness of the rejection region approach
 
 > **Key point:** The rejection region approach only says on which side of a boundary the statistic fell; it cannot say how strong the evidence is.
 
@@ -195,39 +279,48 @@ The rejection region approach gives a yes-or-no answer, and that causes two prob
 
 A z of 15 is so unlikely under $H_0$ that it leaves almost no doubt, while a z of 2 is the kind of value that turns up 2 or 3 times in 100 by chance. The rejection region approach treats them the same.
 
-The fix is to compute one more number, the **p-value**, which measures the strength of the evidence against $H_0$. The p-value approach is the one used in practice, and the subject of the [p-values Note](../300-p-values/note.md).
+![Left: z = 1.95 and 1.97 straddle 1.96 and get opposite verdicts. Right: P(Z ≥ z) on a log scale; z = 2 and z = 15 are both below 0.05, about 49 powers of ten apart](images/evidence_strength.png){height=30%}
 
-## 10. Summary
+Figure 9 shows both problems. Watch the right panel: the yes/no rule sees only that both points sit below the dashed 0.05 line.
 
-| | Training program | Chips packets |
-|---|---|---|
-| $H_0$ / $H_1$ | $\mu = 50$ / $\mu > 50$ | $\mu = 50$ / $\mu \neq 50$ |
-| Data | $n = 30$, $\bar{x} = 53$, $\sigma = 5$ | $n = 40$, $\bar{x} = 49$, $\sigma = 4$ |
-| Tails | right | two |
-| Critical value ($\alpha = 0.05$) | 1.645 | $\pm 1.96$ |
-| $z$ | 3.29 | $-1.58$ |
-| Decision | reject $H_0$ | fail to reject $H_0$ |
+The fix is the number we already met for the rats in section 5: the tail area beyond our own sample, 0.27% two-tailed. That area is the **p-value** (G-1433). It measures the strength of the evidence against $H_0$. The p-value approach is the one used in practice, and the subject of the [p-values Note](../300-p-values/note.md).
 
+## 12. Summary
+
+| | Rat drug | Training program | Chips packets |
+|---|---|---|---|
+| $H_0$ / $H_1$ | $\mu = 1.2$ / $\mu \neq 1.2$ | $\mu = 50$ / $\mu > 50$ | $\mu = 50$ / $\mu \neq 50$ |
+| Data | $n = 100$, $\bar{x} = 1.05$, $s = 0.5$ | $n = 30$, $\bar{x} = 53$, $\sigma = 5$ | $n = 40$, $\bar{x} = 49$, $\sigma = 4$ |
+| Tails | two | right | two |
+| Critical value ($\alpha = 0.05$) | $\pm 1.96$ | 1.645 | $\pm 1.96$ |
+| $z$ | $-3$ | 3.29 | $-1.58$ |
+| Decision | reject $H_0$ | reject $H_0$ | fail to reject $H_0$ |
+
+- The logic: assume $H_0$, find where sample means would land, and reject if ours lands somewhere very unlikely.
+- $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$ counts standard errors; the one-sample z-test needs normality (or $n \ge 30$), a known $\sigma$ and a random sample.
 - $\alpha$, fixed in advance, is the probability of rejecting a true $H_0$; 0.05 is the standard choice.
-- The one-sample z-test needs normality (or $n \ge 30$), a known $\sigma$ and a random sample; $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$.
 - The rejection region has area $\alpha$ in the tail(s) $H_1$ points to; its boundary is the critical value.
 - Right-tailed 1.645, two-tailed $\pm 1.96$ at $\alpha = 0.05$.
 - A smaller $\alpha$ shrinks the rejection region.
 - The approach cannot tell weak from overwhelming evidence; p-values can.
 
-## 11. Sources
+## 13. Sources
 
 **Built from**
 
-- CampusX, "Session 45 - Hypothesis Testing Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=S94mx6OL7kM
+- CampusX, "Session 45 - Hypothesis Testing Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=S94mx6OL7kM. The eight steps, the significance level, the rejection region and the two worked examples (sections 5, 6, 8 and 9).
+- Khan Academy, "Hypothesis testing and p-values", YouTube, https://www.youtube.com/watch?v=-FtlH4svqx4. The rat drug test and its logic (sections 3 to 6).
+- Khan Academy, "One-tailed and two-tailed tests", YouTube, https://www.youtube.com/watch?v=mvye6X_0upA. The same rat data as a one-tailed test (section 7).
 
-## 12. Key terms
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|
 | Significance level ($\alpha$) | The probability of rejecting $H_0$ when it is actually true; fixed before the test, usually 0.05 |
 | Z-test (one-sample) | A test of a population mean when $\sigma$ is known and $\bar{X}$ is normal, using $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$ |
-| Z statistic | The value of $z$ computed from the sample in a z-test |
+| Z statistic | The value of $z$ computed from the sample in a z-test: the distance from $\mu_0$ in standard errors |
+| Test statistic | The number a test computes from the sample to make its decision, such as $z$ |
 | Rejection region (critical region) | The values of the test statistic for which we reject $H_0$; its area under $H_0$ is $\alpha$ |
 | Critical value | The boundary of the rejection region, e.g. 1.645 (right-tailed) or $\pm 1.96$ (two-tailed) at $\alpha = 0.05$ |
+| One-tailed and two-tailed test | A test whose $H_1$ has a direction ($<$ or $>$), with all of $\alpha$ in one tail; or whose $H_1$ is $\neq$, with $\alpha/2$ in each tail |
 | Strength of evidence | How strongly the data speaks against $H_0$; the rejection region approach does not measure it |

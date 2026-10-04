@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 
 > **Key point:** With scikit-learn, k-means takes a few lines: plot the elbow curve with `inertia_`, pick k, call `fit_predict`, and colour the points by cluster.
 
-This Note runs k-means (the [k-means Note](../128-kmeans-intuition/note.md)) on 200 students described by CGPA and IQ. The elbow method picks k = 4, and k-means finds four groups of students that a placement cell can train in four different ways (Figure 1). Then the same code clusters data with three features.
+This Note runs k-means (the [k-means Note](../128-kmeans-intuition/note.md)) on 200 students described by CGPA and IQ. The **elbow method** (G-671) picks k = 4, and k-means finds four groups of students that a placement cell can train in four different ways (Figure 1). Then the same code clusters data with three features.
 
 ![The 200 students (left) and the 4 clusters k-means finds (right); crosses are the centroids](images/student_clusters.png)
 
@@ -32,7 +32,7 @@ The Notebook (`notebook.ipynb`) runs every step.
 
 > **Key point:** 200 final-year students, two features: `cgpa` and `iq`. No target: this is unsupervised learning.
 
-The file `data/student_clustering.csv` holds the CGPA and IQ of 200 final-year students. Each student is an **observation** (one record, a row of the table); CGPA and IQ are the two **features** (input variables, one column each). There is no **target** (an output we want to predict), which makes this unsupervised learning. The file is a toy dataset, generated for practice, so its groups are much cleaner than in real data.
+The file `data/student_clustering.csv` holds the CGPA and IQ of 200 final-year students. Each student is an **observation** (G-1374; one record, a row of the table); CGPA and IQ are the two **features** (G-772; input variables, one column each). There is no **target** (G-1949; an output we want to predict), which makes this unsupervised learning. The file is a toy dataset, generated for practice, so its groups are much cleaner than in real data.
 
 > **Python:** Loading the data.
 >
@@ -50,7 +50,7 @@ CGPA runs from 4.6 to 9.3 and IQ from 83 to 121. Plotted (Figure 1, left), the s
 
 > **Key point:** Fit one `KMeans` per k from 1 to 10, store each model's `inertia_` (its WCSS), and plot them: the curve flattens at k = 4.
 
-`KMeans` lives in `sklearn.cluster`. After fitting, its attribute **`inertia_`** holds the WCSS of the clusters it found (WCSS: the [k-means Note](../128-kmeans-intuition/note.md), section 5.1).
+`KMeans` lives in `sklearn.cluster`. After fitting, its attribute **`inertia_`** (G-940) holds the WCSS (G-2102) of the clusters it found (WCSS: the [k-means Note](../128-kmeans-intuition/note.md), section 5.1).
 
 > **Python:** The elbow loop.
 >
@@ -86,9 +86,9 @@ The curve bends twice: a sharp bend at k = 2 and a second one at k = 4. After k 
 > km.cluster_centers_           # the 4 centroids
 > ```
 >
-> `.values` turns the DataFrame into a NumPy array, which is easier to slice. `fit_predict` is `fit` followed by returning `labels_`, the cluster of every training row.
+> `.values` turns the DataFrame into a NumPy array, which is easier to slice. `fit_predict` (G-784) is `fit` followed by returning `labels_` (G-1035), the cluster of every training row.
 
-The first student is in cluster 3, the second in cluster 2, and so on. The numbers are only names: another run could call the same group 0 instead of 3. Each cluster holds exactly 50 students, and the centroids (`cluster_centers_`) are:
+The first student is in cluster 3, the second in cluster 2, and so on. The numbers are only names: another run could call the same group 0 instead of 3. Each cluster holds exactly 50 students, and the **centroids** (G-367; `cluster_centers_`, G-400) are:
 
 | Cluster | Mean CGPA | Mean IQ |
 |---|---|---|
@@ -97,7 +97,11 @@ The first student is in cluster 3, the second in cluster 2, and so on. The numbe
 | 2 | 5.89 | 109.5 |
 | 3 | 4.97 | 86.7 |
 
-> **Extra:** scikit-learn's `KMeans` does not pick the starting centroids purely at random. Its default `init="k-means++"` picks the first centroid at random from the data. Each next centroid is also a data point, but points far from the centroids chosen so far are more likely to be picked: the chance is proportional to the squared distance. The starting centroids are thus spread out, and bad starts become rare: the expected WCSS of this start is provably close to the best possible (Arthur and Vassilvitskii 2007). scikit-learn runs a "greedy" version that tries a few candidates at each step and keeps the best (scikit-learn `KMeans` docs).
+Figure 3 replays what happens inside `fit_predict`. Watch the start: each new centroid is drawn from the students, and the farther a student is from the centroids already chosen, the bigger its dot and its chance. Then the assign and update rounds run until no student changes cluster, ending at the four centroids of the table.
+
+![k-means on the 200 students, k = 4, unscaled. First a k-means++ start (the plain version; scikit-learn runs a greedy variant): dot size is a student's chance to become the next centroid. Then assign and update rounds until no student moves: four clusters of 50](images/kmeans_start.gif){height=40%}
+
+> **Extra:** scikit-learn's `KMeans` does not pick the starting centroids purely at random. Its default `init="k-means++"`, the **k-means++** (G-997) start, picks the first centroid at random from the data. Each next centroid is also a data point, but points far from the centroids chosen so far are more likely to be picked: the chance is proportional to the squared distance. The starting centroids are thus spread out, and bad starts become rare: the expected WCSS of this start is provably close to the best possible (Arthur and Vassilvitskii 2007). scikit-learn runs a "greedy" version that tries a few candidates at each step and keeps the best (scikit-learn `KMeans` docs).
 >
 > The second default, `n_init="auto"`, sets how many times the whole algorithm restarts from new centroids; the run with the lowest inertia is kept. With `k-means++` it runs once; with `init="random"` it runs 10 times. Other defaults: `n_clusters=8` and `max_iter=300` rounds at most (scikit-learn `KMeans` docs).
 
@@ -109,7 +113,11 @@ The first student is in cluster 3, the second in cluster 2, and so on. The numbe
 
 > **Key point:** `X[y_means == 0, 0]` picks the CGPA of every student in cluster 0; one scatter call per cluster colours the groups.
 
-`y_means == 0` is an array of 200 `True`/`False` values: `True` where the student is in cluster 0. Using it as a row index keeps only those rows; this is **boolean indexing**. The second index picks the column: 0 for CGPA, 1 for IQ.
+`y_means == 0` is an array of 200 `True`/`False` values: `True` where the student is in cluster 0. Using it as a row index keeps only those rows; this is **boolean indexing** (G-317). The second index picks the column: 0 for CGPA, 1 for IQ.
+
+![Boolean indexing on the first five students: the labels y_means, the mask y_means == 1, and the CGPA values X[y_means == 1, 0] that the mask keeps](images/boolean_index.png){height=30%}
+
+Figure 4 follows the first five students through the indexing. Watch the orange rows: the mask is True where the label is 1, and only those rows, then only column 0, survive.
 
 > **Python:** One trace per cluster with Plotly.
 >
@@ -160,7 +168,7 @@ To see k-means beyond two features, we generate 200 points around four centres i
 >
 > `make_blobs` returns the points and the true group of each; `_` is the usual name for a value we ignore. `cluster_std=1` is the spread of each group.
 
-The elbow loop, run for k = 1 to 20 without changing a line, gives WCSS 11,144, 4,122, 2,552, 593, then 544: the elbow is again at k = 4. Training with k = 4 and colouring by cluster gives Figure 3. In the Notebook, `plotly.express.scatter_3d` draws it as a 3-D plot we can rotate.
+The elbow loop, run for k = 1 to 20 without changing a line, gives WCSS 11,144, 4,122, 2,552, 593, then 544: the elbow is again at k = 4. Training with k = 4 and colouring by cluster gives Figure 5. In the Notebook, `plotly.express.scatter_3d` draws it as a 3-D plot we can rotate.
 
 ![k-means with k = 4 on 200 points with three features](images/blobs_3d.png){height=45%}
 

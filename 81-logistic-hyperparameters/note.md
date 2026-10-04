@@ -16,7 +16,13 @@ tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 
 > **Key point:** The settings that matter most are the regularisation (C and the L1/L2 mix), the solver, max_iter and class_weight. The rest can usually stay at their defaults.
 
-scikit-learn's `LogisticRegression` has about fifteen hyperparameters. This Note explains what each one does, which ones are worth tuning, and shows their effect on real data. An interactive app at the end lets you change them and watch the decision boundary move.
+scikit-learn's `LogisticRegression` has about fifteen hyperparameters. This Note covers:
+
+- what each one does;
+- which ones are worth tuning;
+- their effect on real data.
+
+An interactive app at the end lets you change them and watch the decision boundary move.
 
 > **Extra:** scikit-learn 1.8 changed how the penalty is chosen. The old `penalty="l1" / "l2" / "elasticnet" / "none"` setting is deprecated. The L1/L2 mix is now set with `l1_ratio` alone, and "no penalty" is `C=np.inf`. Older code and tutorials use `penalty`; this Note shows both.
 
@@ -66,7 +72,7 @@ In the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logist
 | 1 | 0.981 | 1.321 |
 | 100 | 0.963 | 7.696 |
 
-The animation below lowers C from 100 to 0.001 and shows all 30 coefficients at each step. Watch the L2 bars (top) shrink together while staying non-zero, and the L1 bars (bottom) vanish one by one into open circles, exact zeros.
+Figure 2 lowers C from 100 to 0.001 and shows all 30 coefficients at each step. Watch the L2 bars (top) shrink together while staying non-zero, and the L1 bars (bottom) vanish one by one into open circles, exact zeros.
 
 ![The 30 coefficients on the breast-cancer data as C falls from 100 to 0.001, for L2 (top) and L1 (bottom); titles give the 5-fold CV accuracy](images/c_sweep.gif){height=60%}
 
@@ -76,7 +82,7 @@ C is the hyperparameter most worth tuning, typically by trying values spaced by 
 
 > **Key point:** The solver is the optimisation method. Each one supports only some penalties; lbfgs, the default, does L2 or no penalty.
 
-Our own gradient descent (the gradient descent Note) was one way to minimise the log loss. scikit-learn offers several faster methods, called **solvers**:
+Our own gradient descent (the gradient descent Note) was one way to minimise the log loss. scikit-learn offers several faster methods, called **solvers** (G-1836):
 
 | Solver | L2 | L1 | Elastic Net | None | Notes |
 |---|---|---|---|---|---|
@@ -88,6 +94,10 @@ Our own gradient descent (the gradient descent Note) was one way to minimise the
 | `saga` | yes | yes | yes | yes | large data; the only one for Elastic Net |
 
 Asking for a combination that is not supported raises an error, for example `LogisticRegression(l1_ratio=1, solver="lbfgs")` fails with "Solver lbfgs supports only 'l2' or None penalties". For L1 use `liblinear` or `saga`; for Elastic Net use `saga`.
+
+Figure 3 runs five solvers on the standardised breast-cancer data with the default L2 penalty, C = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 3, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
+
+![Five solvers on the standardised breast-cancer data (L2, C = 1): log loss plus penalty after k iterations. All reach the same minimum, 0.0664](images/solvers.png){height=40%}
 
 ## 4. Training settings
 
@@ -102,7 +112,11 @@ Asking for a combination that is not supported raises an error, for example `Log
 | `n_jobs` | None | has no effect; deprecated since 1.8 |
 | `random_state` | None | seed for solvers that shuffle the data (`sag`, `saga`, `liblinear`) |
 
-If scikit-learn prints a `ConvergenceWarning`, the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the features, raise `max_iter`, or both. Lowering `tol` is rarely needed.
+If scikit-learn prints a **ConvergenceWarning** (G-473), the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the features, raise `max_iter`, or both. Lowering `tol` is rarely needed.
+
+Figure 4 shows why standardising helps, on the breast-cancer data with the default `lbfgs`. The y-axis is the distance from the minimum after k iterations. On standardised features (blue), the distance reaches the floor of the plot after 19 iterations. On the raw features (red), whose standard deviations differ by a factor of about 200,000 between columns, `lbfgs` needs 2,338 iterations. In Figure 4, the red line is still far from the minimum at the dashed line, the default `max_iter = 100`, so the fit stops there with a ConvergenceWarning.
+
+![lbfgs on raw (red) and standardised (blue) breast-cancer features: distance from the minimum against iterations allowed. Points at the bottom are within one millionth of the minimum. The dashed line is the default max_iter = 100](images/max_iter.gif)
 
 ## 5. Other settings
 
@@ -130,7 +144,9 @@ To test this on real data, we make the breast-cancer data imbalanced: all 357 be
 | None | 0.770 | 0.989 |
 | `"balanced"` | 0.850 | 0.872 |
 
-The weighted model finds more of the rare malignant tumours (recall up by 0.08), but also raises more false alarms (precision down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note). The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations over the number of classes times that class's count (scikit-learn docs).
+![Recall and precision on the malignant class, averaged over 30 draws: "balanced" finds more malignant tumours (recall 0.770 to 0.850) but raises more false alarms (precision 0.989 to 0.872)](images/class_weight.png){height=36%}
+
+In Figure 5, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note). The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations over the number of classes times that class's count (scikit-learn docs).
 
 ## 6. Multi-class settings
 
@@ -185,4 +201,6 @@ Things to try:
 | saga | A stochastic solver that supports every penalty, including Elastic Net |
 | ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum |
 | class_weight | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes |
+| Recall | The share of actual positives that the model finds |
+| Precision | The share of predicted positives that are actually positive |
 | Dash | A Python library for building interactive web apps with Plotly charts |

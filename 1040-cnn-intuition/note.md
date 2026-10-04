@@ -16,11 +16,16 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 
 > **Key point:** A convolutional neural network (CNN) is a neural network built for grid-like data such as images. Instead of connecting every pixel to every node, it slides small filters over the image to find simple features like edges, then combines them, layer by layer, into more complex features until it can recognise the whole object.
 
-A **convolutional neural network** (CNN, or ConvNet) is "a specialized kind of neural network for processing data that has a known grid-like topology" (Goodfellow et al. 2016, ch. 9). Time series are a 1D grid: one value after another at regular time steps. Images are a 2D grid of pixels. Whenever data has such a grid structure, a CNN can be applied, and it usually works very well.
+A **convolutional neural network** (G-484; CNN, or ConvNet) is "a specialized kind of neural network for processing data that has a known grid-like topology" (**grid-like topology**, G-873) (Goodfellow et al. 2016, ch. 9). **Time series** (G-1975) are a 1D grid: one value after another at regular time steps. Images are a 2D grid of pixels. Whenever data has such a grid structure, a CNN can be applied, and it usually works very well.
 
 ![How a CNN sees a 9: first short edges, then parts made of edges, then the digit made of parts](images/hierarchy.png){width=85%}
 
-This Note covers what makes a network a CNN, why a plain ANN struggles with images, how a CNN builds features step by step (Figure 1), and where CNNs are used.
+This Note covers:
+
+- what makes a network a CNN (section 3);
+- why a plain ANN struggles with images (section 4);
+- how a CNN builds features step by step (section 5, Figure 1);
+- where CNNs are used (section 6).
 
 ## 2. Prerequisites
 
@@ -32,13 +37,13 @@ This Note covers what makes a network a CNN, why a plain ANN struggles with imag
 
 > **Key point:** A CNN contains at least one convolution layer. A CNN is usually built from three kinds of layers: convolution, pooling and fully connected.
 
-A CNN is a neural network whose architecture differs slightly from an ANN's. The difference is a special layer, the **convolution layer**, which performs a special operation, the **convolution operation**. An ANN combines its inputs by matrix multiplication; a CNN uses convolution, in at least one layer (Goodfellow et al. 2016, ch. 9). So if a network's architecture contains a convolution layer, it is a CNN.
+A CNN is a neural network whose **architecture** (G-209) differs slightly from an **ANN**'s (G-216). The difference is a special layer, the **convolution layer** (G-480), which performs a special operation, the **convolution operation** (G-481). An ANN combines its inputs by matrix multiplication (a **matrix product**, G-1179); a CNN uses convolution, in at least one layer (Goodfellow et al. 2016, ch. 9). So if a network's architecture contains a convolution layer, it is a CNN.
 
 A CNN is built from three kinds of layers:
 
 1. **Convolution layers:** they slide small filters over the image to find features. Taught in the [convolution operation Note](../1042-convolution-operation/note.md).
-2. **Pooling layers:** they shrink the result. Taught in the [pooling Note](../1044-pooling/note.md).
-3. **Fully connected layers:** ordinary Dense layers, in which every node is connected to every node of the next layer, as in the [MNIST ANN Note](../1012-mnist-ann/note.md). They are often called **FC layers**.
+2. **Pooling layers** (G-1520): they shrink the result. Taught in the [pooling Note](../1044-pooling/note.md).
+3. **Fully connected layers:** ordinary Dense layers, in which every node is connected to every node of the next layer, as in the [MNIST ANN Note](../1012-mnist-ann/note.md). They are often called **FC layers** (**fully connected (Dense) layers**, G-811).
 
 The design of CNNs was inspired by the visual cortex, the part of the brain we see with (see the [CNN and visual cortex Note](../1041-cnn-vs-visual-cortex/note.md)).
 
@@ -54,9 +59,9 @@ An ANN can work on images: the [MNIST ANN Note](../1012-mnist-ann/note.md) reach
 
 ![An MNIST 9 (left) and a 10 × 10 window of it (right) as the numbers the computer stores: 0 is black, 255 is white](images/digit_grid.png){width=100%}
 
-To a computer, an image is a 2D grid of **pixels**, and each pixel holds a number for its brightness (Figure 2). An MNIST digit is 28 × 28 = 784 pixels. Different numbers in different pixels are what make us see a shape.
+To a computer, an image is a 2D grid of **pixels** (G-1501), and each pixel holds a number for its brightness (Figure 2). An MNIST digit is 28 × 28 = 784 pixels. Different numbers in different pixels are what make us see a shape.
 
-To feed such an image to an ANN, we flatten it: the first row of pixels, then the second row after it, and so on, into one long row of 784 inputs (the Flatten layer of the [MNIST ANN Note](../1012-mnist-ann/note.md)). Every input is then connected to every node of the first hidden layer.
+To feed such an image to an ANN, we flatten it (**flattening**, G-789): the first row of pixels, then the second row after it, and so on, into one long row of 784 inputs (the Flatten layer of the [MNIST ANN Note](../1012-mnist-ann/note.md)). Every input is then connected to every node of the first hidden layer.
 
 ### 4.2 Problem 1: too many weights
 
@@ -67,13 +72,13 @@ To feed such an image to an ANN, we flatten it: the first row of pixels, then th
    $$\text{weights of the first layer} = \text{height} \times \text{width} \times \text{nodes}$$
 3. **Example:** a 40 × 40 image flattened gives 1,600 inputs. With a small hidden layer of 100 nodes: $1{,}600 \times 100 = 160{,}000$ weights, for a tiny image and a tiny layer. A 1000 × 1000 image with 500 nodes: $1{,}000{,}000 \times 500 = 500{,}000{,}000$ weights.
 
-Every one of these weights must be stored, used in forward propagation and updated by backpropagation. As images grow, the weights grow, and training becomes very slow and costly on a large dataset.
+Every one of these weights must be stored, used in **forward propagation** (G-797) and updated by **backpropagation** (G-247). As images grow, the weights grow, and training becomes very slow and costly on a large dataset.
 
 ### 4.3 Problem 2: overfitting
 
 > **Key point:** With so many connections, the network can memorise tiny details of the training images instead of learning patterns that hold on new ones.
 
-Connecting every pixel to every node gives the network an enormous number of weights to fit, so it tries to capture every minute pattern of the training images. The network then does well on the training data but worse on test data: it **overfits** (see the [overfitting Note](../91-knn/note.md)). The CS231n notes make the same point: full connectivity on images "is wasteful and the huge number of parameters would quickly lead to overfitting".
+Connecting every pixel to every node gives the network an enormous number of weights to fit, so it tries to capture every minute pattern of the training images. The network then does well on the training data but worse on test data: it **overfits** (**overfitting**, G-1429; see the [overfitting Note](../91-knn/note.md)). The CS231n notes make the same point: full connectivity on images "is wasteful and the huge number of parameters would quickly lead to overfitting".
 
 ### 4.4 Problem 3: the spatial arrangement is lost
 
@@ -101,13 +106,13 @@ Suppose we must say whether an image shows a 9. The task is not simple: everyone
 
 How do we do it ourselves? We look for patterns: a circle at the top and a vertical line down the right side (Figure 1). Even if the circle is a little squashed or the line a little slanted, we still see a 9. We break the digit into features and check that the right features are present.
 
-A CNN follows the same principle. Given the image, it first extracts **primitive features**: **edges**, the short straight pieces that make up every stroke, such as the many small edges that form the circle. Then, layer by layer, it combines them into more complex features: two half circles, then a full circle with a line below it, and finally the 9.
+A CNN follows the same principle. Given the image, it first extracts **primitive features** (G-1561): **edges** (G-661), the short straight segments that make up every stroke, such as the many small edges that form the circle. Then, layer by layer, it combines them into more complex features: two half circles, then a full circle with a line below it, and finally the 9.
 
 ### 5.2 Layer by layer
 
 > **Key point:** Filters in the first convolution layer detect edges; the next convolution layers merge them into larger, more meaningful features.
 
-A convolution layer contains **filters**: small grids of numbers that extract features from the image by simple mathematical operations (see the [convolution operation Note](../1042-convolution-operation/note.md)). Each filter moves over the image and checks, at every place, whether its pattern is there. Where the pattern is present, the filter's output is activated.
+A convolution layer contains **filters** (G-777): small grids of numbers that extract features from the image by simple mathematical operations (see the [convolution operation Note](../1042-convolution-operation/note.md)). Each filter moves over the image and checks, at every place, whether its pattern is there. Where the pattern is present, the filter's output is activated.
 
 These activated features are passed to another convolution layer, whose filters merge them into more complex but more meaningful features. The deeper we go in the network, the more complex the features become, until the last layers hold the features that decide whether the digit is a 9.
 
@@ -115,9 +120,13 @@ Figure 5 shows this in a small CNN trained in the Notebook (two convolution laye
 
 ![A 9 through a small trained CNN. (1) The input. (2) Layer 1: each 3 × 3 filter (red positive, blue negative weights) and the map it gives. (3) Layer 2: 16 coarser maps that mark parts of the digit. (4) The output probabilities: 0.98 for 9](images/cnn_layers.gif){width=100%}
 
-The same holds for a photo of a cat. The first layers detect edges. The next layers detect parts such as ears, eyes or a mouth. Later layers combine eyes and ears into a face, and the face and body into a cat.
+The same holds for a photo of a cat:
 
-> **Extra:** A real CNN trained on MNIST does learn edge detectors in its first layer without being told to: the [convolution operation Note](../1042-convolution-operation/note.md), section 7, trains one and finds vertical- and horizontal-edge filters among its learned filters.
+1. the first layers detect edges;
+2. the next layers detect parts such as ears, eyes or a mouth;
+3. later layers combine eyes and ears into a face, and the face and body into a cat.
+
+> **Extra:** A real CNN trained on **MNIST** (G-1249) does learn **edge detectors** (G-659) in its first layer without being told to: the [convolution operation Note](../1042-convolution-operation/note.md), section 7, trains one and finds vertical- and horizontal-edge filters among its learned filters.
 
 ## 6. Where CNNs are used
 

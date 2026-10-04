@@ -1,23 +1,25 @@
 """Age of Titanic passengers by class (714 with a known age): every passenger as a jittered dot, with the class mean
 and one standard deviation either side in black."""
 from pathlib import Path
+import numpy as np
 import pandas as pd
-import seaborn as sns
-import seaborn.objects as so
+import plotly.graph_objects as go
 
 here = Path(__file__).parent
 titanic = pd.read_csv(here.parent / "data" / "titanic_train.csv").dropna(subset=["Age"])
-titanic["class"] = "class " + titanic["Pclass"].astype(str)
-titanic = titanic.sort_values("class")
-plot = (
-    so.Plot(titanic, x="class", y="Age")
-    .add(so.Dots(color="#4C78A8", alpha=0.35, pointsize=4), so.Jitter(0.6))
-    .add(so.Range(color="black", linewidth=3), so.Est(errorbar="sd"))
-    .add(so.Dot(color="black", pointsize=12), so.Agg())
-    .label(x="", y="age (years)")
-    .layout(size=(8, 4.5))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
-            "axes.labelsize": 15})
-)
-plot.save(here / "titanic_age_class.png", dpi=200, bbox_inches="tight")
-plot.save(here / "titanic_age_class.pdf", bbox_inches="tight")
+jit = np.random.default_rng(0)
+
+fig = go.Figure()
+for i, cls in enumerate((1, 2, 3)):
+    age = titanic.loc[titanic.Pclass == cls, "Age"]
+    fig.add_scatter(x=i + jit.uniform(-0.3, 0.3, len(age)), y=age, mode="markers",
+                    marker=dict(color="#4C78A8", size=6, opacity=0.35))
+    m, s = age.mean(), age.std()
+    fig.add_scatter(x=[i, i], y=[m - s, m + s], mode="lines", line=dict(color="black", width=4.5))
+    fig.add_scatter(x=[i], y=[m], mode="markers", marker=dict(color="black", size=16))
+fig.update_xaxes(tickvals=[0, 1, 2], ticktext=["class 1", "class 2", "class 3"], range=[-0.5, 2.5])
+fig.update_yaxes(title="age (years)", showgrid=True)
+fig.update_layout(template="simple_white", width=800, height=450, showlegend=False,
+                  font=dict(family="Latin Modern Roman", size=19), margin=dict(l=80, r=20, t=20, b=50))
+fig.write_image(here / "titanic_age_class.png", scale=2)
+fig.write_image(here / "titanic_age_class.pdf")

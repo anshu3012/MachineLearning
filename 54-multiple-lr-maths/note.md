@@ -17,11 +17,17 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 
 > **Key point:** Written with matrices, the error of multiple linear regression has one formula for all the coefficients at once: $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$, the normal equation.
 
-A **feature** is an input variable (one column of the data table), the **target** $y$ is the output we predict, and an **observation** is one record (one row).
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) $y$ is the output we predict, and an **observation** (G-1374) is one record (one row).
 
 For simple linear regression we found two formulas, one for $m$ and one for $b$. With $m$ features there are $m + 1$ coefficients, and writing a separate formula for each is hopeless.
 
-Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a matrix lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices, and the same steps as before (write the error, differentiate, set to zero) give one formula for every coefficient at once:
+Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a matrix lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices. Then the same three steps as before give one formula for every coefficient at once:
+
+1. write the error;
+2. differentiate it;
+3. set the derivative to zero.
+
+The result is
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
@@ -39,7 +45,7 @@ Writing this for every observation gives $n$ equations. Matrices write them all 
 
 ![All predictions as one matrix product](images/matrix_form.png)
 
-- **$X$** holds the data: one row per observation, one column per feature, plus a first column of 1s. The 1s multiply $\beta_0$, so the intercept is treated like any other coefficient.
+- **$X$**, the **design matrix** (G-597), holds the data: one row per observation, one column per feature, plus a first column of 1s. The 1s multiply $\beta_0$, so the intercept is treated like any other coefficient.
 - **$\beta$** holds the $m + 1$ coefficients, $\beta_0$ to $\beta_m$.
 - **$\hat{y}$** holds the $n$ predictions.
 
@@ -57,11 +63,15 @@ The errors of all points form a vector:
 
 $$e = y - \hat{y} = y - X\beta$$
 
-The sum of squared errors, $E = e_1^2 + e_2^2 + \dots + e_n^2$, is a row times a column: the transpose $e^{\mathsf T}$ (the same numbers written as a row) multiplied by $e$.
+The **sum of squared errors** (G-1913), $E = e_1^2 + e_2^2 + \dots + e_n^2$, is a row times a column: the **transpose** (G-2012) $e^{\mathsf T}$ (the same numbers written as a row) multiplied by $e$.
 
 $$E = e^{\mathsf T}e = (y - X\beta)^{\mathsf T}(y - X\beta)$$
 
 With numbers: if $e = (0.2, -0.1, 0.3)$, then $e^{\mathsf T}e = 0.04 + 0.01 + 0.09 = 0.14$.
+
+Figure 2 draws the same idea on the four students of Section 6.1 and their best line. Each red segment is one entry of $e$, and the orange square on it has area $e_i^2$. Watch the biggest square: the student with CGPA 7.82 and error $-0.36$ supplies half of $E = 0.253$, because squaring makes large errors count much more than small ones.
+
+![The four students of Section 6.1 and their best line: the residuals e (red) and their squares (orange); $E = e^{\mathsf T}e = 0.253$ is the total orange area](images/error_squares.png)
 
 ## 4. Expanding the error
 
@@ -84,9 +94,9 @@ $$E = y^{\mathsf T}y - 2y^{\mathsf T}X\beta + \beta^{\mathsf T}X^{\mathsf T}X\be
 
 > **Key point:** Differentiating E with respect to $\beta$ and setting it to zero gives $X^{\mathsf T}X\beta = X^{\mathsf T}y$.
 
-As in simple linear regression, the best coefficients sit at the bottom of the error bowl, where the derivative is zero. Now the derivative is taken with respect to the whole vector $\beta$: it is a vector of $m + 1$ partial derivatives, one per coefficient, and all must be zero.
+As in simple linear regression, the best coefficients sit at the bottom of the error bowl, where the derivative is zero. Now the derivative is taken with respect to the whole vector $\beta$: it is a vector of $m + 1$ **partial derivatives** (G-1457), one per coefficient, called the **gradient** (G-865), and all its entries must be zero.
 
-Two rules of **matrix calculus** do the work, the matrix versions of "the derivative of $ax$ is $a$" and "the derivative of $ax^2$ is $2ax$":
+Two rules of **matrix calculus** (G-1176) do the work, the matrix versions of "the derivative of $ax$ is $a$" and "the derivative of $ax^2$ is $2ax$":
 
 | Term | Derivative with respect to $\beta$ |
 |---|---|
@@ -102,21 +112,25 @@ So
 
 $$\frac{\partial E}{\partial \beta} = -2X^{\mathsf T}y + 2X^{\mathsf T}X\beta = 0$$
 
+Figure 3 shows the two entries of this gradient on the four students of Section 6.1. Each panel cuts the error bowl along one coefficient while the other is held fixed, and the orange tangent has the slope that the formula gives. Watch both slopes shrink as $\beta$ walks to $(-0.81, 0.57)$: there both tangents lie flat at the same moment, which is exactly the condition "gradient $= 0$".
+
+![The gradient $-2X^{\mathsf T}y + 2X^{\mathsf T}X\beta$ on the four students: each panel is the error $E$ along one coefficient, the orange tangent's slope is one entry of the gradient, and both reach 0 together at $\beta = (-0.81, 0.57)$](images/gradient_zero.gif)
+
 Dividing by 2 and moving one term across:
 
 $$X^{\mathsf T}X\beta = X^{\mathsf T}y$$
 
-These are the **normal equations**: $m + 1$ equations, one for each coefficient.
+These are the **normal equations** (G-1345): $m + 1$ equations, one for each coefficient.
 
 ## 6. The normal equation
 
 > **Key point:** Multiplying both sides by the inverse of $X^{\mathsf T}X$ isolates $\beta$.
 
-To get $\beta$ alone we need to "divide" by $X^{\mathsf T}X$. Matrices have no division; instead we multiply by the **inverse** $(X^{\mathsf T}X)^{-1}$, the matrix that undoes $X^{\mathsf T}X$ (their product is the identity matrix, which changes nothing).
+To get $\beta$ alone we need to "divide" by $X^{\mathsf T}X$. Matrices have no division; instead we multiply by the **inverse** (G-968) $(X^{\mathsf T}X)^{-1}$, the matrix that undoes $X^{\mathsf T}X$ (their product is the identity matrix, which changes nothing).
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
-The formula is the **normal equation**: a closed-form solution for all coefficients of multiple linear regression at once. scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
+The formula is the **normal equation** (G-1344): a closed-form solution for all coefficients of multiple linear regression at once. scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
 
 ### 6.1 A worked example
 
@@ -141,16 +155,16 @@ So $\beta_0 = -0.81$ (intercept) and $\beta_1 = 0.57$ (slope): exactly what the 
 
 > **Key point:** Every prediction $X\beta$ lies in the plane spanned by the columns of $X$. The best one is the point of that plane closest to $y$, where the error $y - X\hat\beta$ is perpendicular to every column; that right angle is the normal equation.
 
-The normal equation also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ targets as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the **column space** of $X$. Unless the data lie exactly on a line, $y$ is not in it.
+The normal equation also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ targets as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the **column space** (G-414) of $X$. Unless the data lie exactly on a line, $y$ is not in it.
 
-With three observations every vector has three entries, so we can draw it. Figure 2 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
+With three observations every vector has three entries, so we can draw it. Figure 4 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
 
 ![The column space of X for three students is a plane (the two blue columns span it). The target y (orange) sticks out of it. Moving the prediction Xβ through the plane, the error length is smallest, 0.36, at the foot of the perpendicular from y, where the residual meets the plane at a right angle](images/projection.gif)
 
 - **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of Section 3. It is smallest, 0.36, at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
 - **Right angle:** there the residual $y - X\hat\beta = [0.29, -0.10, -0.19]$ is perpendicular to both columns: its dot product with $\mathbf 1$ and with cgpa is 0. Stacked as one equation, that is $X^{\mathsf T}(y - X\hat\beta) = 0$, which rearranges to the normal equations $X^{\mathsf T}X\hat\beta = X^{\mathsf T}y$ of Section 5.
 
-So the calculus of Section 5 and the right angle of Figure 2 give the same equations. The figure draws the $\mathbf 1$ direction four times shorter so that the small residual is visible; shrinking a direction inside the plane does not change the right angle or which point is closest.
+So the calculus of Section 5 and the right angle of Figure 4 give the same equations. The figure draws the $\mathbf 1$ direction four times shorter so that the small residual is visible; shrinking a direction inside the plane does not change the right angle or which point is closest.
 
 ## 7. The cost of the inverse
 
@@ -158,13 +172,13 @@ So the calculus of Section 5 and the right angle of Figure 2 give the same equat
 
 $X^{\mathsf T}X$ is a square matrix with one row and one column per coefficient, $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the features makes the work about 8 times larger.
 
-Figure 3 measures it on this computer.
+Figure 5 measures it on this computer.
 
 ![Time to invert a matrix as its size grows](images/inverse_cost.png)
 
 From 1,000 to 2,000 features, the time grows about 7 times, from 0.08 to 0.59 seconds. With tens of thousands of features, as with text or image data, the inverse becomes very slow and memory-hungry. With numbers: 20,000 features is 20 times 1,000, so the $m^3$ rule predicts about $20^3 = 8{,}000$ times the 0.08 seconds, roughly 11 minutes. And $X^{\mathsf T}X$ alone would hold $20{,}000^2$ numbers, about 3.2 GB of memory.
 
-The cost of the inverse is why there is a second method, **gradient descent**: it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the normal equation's. In scikit-learn:
+The cost of the inverse is why there is a second method, **gradient descent** (G-862): it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the normal equation's. In scikit-learn:
 
 - `LinearRegression` uses the closed-form (OLS) solution;
 - `SGDRegressor` uses gradient descent.

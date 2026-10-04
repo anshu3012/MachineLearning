@@ -17,11 +17,11 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/momentum, 
 
 > **Key point:** Momentum keeps an exponentially weighted average of past gradients, the velocity $v$, and moves by it: $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$, then $w_{t+1} = w_t - v_t$. When many gradients agree, the steps grow and training speeds up; the price is overshooting the minimum.
 
-**Momentum** (Polyak 1964) is the first improved optimizer. Plain gradient descent forgets every gradient as soon as it has used it. Momentum remembers them: if the last few gradients all point the same way, it becomes confident and moves faster in that direction, like a ball gathering speed as it rolls downhill.
+**Momentum** (G-1258; Polyak 1964) is the first improved **optimizer** (G-1401). Plain **gradient descent** (G-862) forgets every gradient as soon as it has used it. Momentum remembers them: if the last few gradients all point the same way, it becomes confident and moves faster in that direction, like a ball gathering speed as it rolls downhill.
 
 ![Plain gradient descent and momentum along a narrow valley, same learning rate 0.01. Gradient descent drops to the valley floor and crawls along it; momentum builds speed along the valley](images/momentum_valley.gif){width=95%}
 
-Figure 1 shows the main benefit. On a narrow valley, gradient descent needs 424 steps to get close to the minimum; momentum needs 59. The idea of momentum returns in NAG and Adam, which makes it one of the most important optimizers to understand.
+Figure 1 shows the main benefit. On a narrow valley, gradient descent needs 424 steps to get close to the minimum; momentum needs 59. The idea of momentum returns in **NAG** (G-1315) and **Adam** (G-169), which makes it one of the most important optimizers to understand.
 
 ## 2. Prerequisites
 
@@ -37,7 +37,7 @@ The loss is a function of the weights and biases, so we can draw it against them
 
 - **One parameter, a 2D graph.** A single node with one weight $w$ and no bias: the loss is a curve over $w$.
 - **Two parameters, a 3D graph.** Add a bias $b$: the loss is a surface over the $(w, b)$ plane, with the loss as height.
-- **A contour plot.** The same surface seen from above (see section 6 of the [gradient descent Note](../57-gradient-descent/note.md)). Each ring joins points of equal loss, and colour or shading shows the height that the top view loses.
+- **A contour plot** (G-468). The same surface seen from above (see section 6 of the [gradient descent Note](../57-gradient-descent/note.md)). Each ring joins points of equal loss, and colour or shading shows the height that the top view loses.
 
 Reading a contour plot takes practice. Where the surface is flat, the height changes slowly, so the rings lie far apart. Where it is steep, they crowd together.
 
@@ -45,13 +45,17 @@ Reading a contour plot takes practice. Where the surface is flat, the height cha
 
 > **Key point:** Deep learning losses are non-convex. Local minima, saddle points with their flat surroundings, and high curvature all slow plain gradient descent down or trap it.
 
-The losses of neural networks are non-convex (see the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md)), which makes the minimum hard to reach for three reasons:
+The losses of neural networks are non-convex (**non-convex functions**, G-1333; see the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md)), which makes the minimum hard to reach for three reasons:
 
-1. **Local minima:** a dip where the slope is zero. Starting from an unlucky point, gradient descent stops there and returns a sub-optimal solution.
-2. **Saddle points:** the surface rises in one direction and falls in another, and the slope changes very slowly over a wide flat region. Updates are proportional to the slope, so they become tiny there and training slows down.
-3. **High curvature:** a bend with a small radius, such as the steep sides of a narrow valley. Gradient descent zigzags across the bend instead of following it.
+1. **Local minima** (G-1110): a dip where the slope is zero. Starting from an unlucky point, gradient descent stops there and returns a sub-optimal solution.
+2. **Saddle points** (G-1718): the surface rises in one direction and falls in another, and the slope changes very slowly over a wide flat region. Updates are proportional to the slope, so they become tiny there and training slows down.
+3. **High curvature** (G-521): a bend with a small radius, such as the steep sides of a narrow valley. Gradient descent zigzags across the bend instead of following it.
 
-Batch, stochastic and mini-batch gradient descent handle these poorly (see section 8 of the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) for their paths). Momentum was designed for exactly these situations: high curvature, small but consistent gradients, and noisy gradients (Goodfellow et al. 2016, §8.3.2).
+Batch, stochastic and mini-batch gradient descent handle these poorly (see section 8 of the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) for their paths). Momentum was designed for exactly these situations (Goodfellow et al. 2016, §8.3.2):
+
+- high curvature;
+- small but consistent gradients;
+- noisy gradients.
 
 ## 5. The idea: confidence builds speed
 
@@ -59,7 +63,7 @@ Batch, stochastic and mini-batch gradient descent handle these poorly (see secti
 
 **An everyday picture.** We drive from A to B and do not know the way, so we ask people. If four people in four places all point in the same direction, we become confident and drive faster that way. If two point forward and two point back, we still go forward, but slowly.
 
-**A physics picture.** A ball rolling down a hill gathers speed as it goes. Momentum in physics is mass times velocity; with a unit mass, momentum is simply the velocity (Goodfellow et al. 2016, §8.3.2). The optimizer keeps a **velocity** $v$: the direction and speed with which the parameters move, built from the history of past updates.
+**A physics picture.** A ball rolling down a hill gathers speed as it goes. Momentum in physics is mass times velocity; with a unit mass, momentum is simply the velocity (Goodfellow et al. 2016, §8.3.2). The optimizer keeps a **velocity** (G-2085) $v$: the direction and speed with which the parameters move, built from the history of past updates.
 
 The single most important benefit of momentum is speed: it usually reaches a good solution faster than plain gradient descent.
 
@@ -78,9 +82,9 @@ Plain gradient descent moves by the current gradient only: $w_{t+1} = w_t - \eta
    $$v_2 = 0.9 \times (-1) + 0.1 \times (-9) = -1.8, \qquad w_2 = -9 - (-1.8) = -7.2$$
    Plain gradient descent would be at $w_2 = -9 - 0.1 \times (-9) = -8.1$. Momentum's second step is almost twice as long, because the first step's push is still there (Notebook).
 
-The term $\beta v_{t-1}$ is the momentum. To compute $v_{t-1}$ we needed $v_{t-2}$, which needed $v_{t-3}$, and so on: the velocity carries the whole history of past gradients. Momentum accumulates an exponentially decaying moving average of past gradients and continues to move in their direction (Goodfellow et al. 2016, §8.3.2).
+The term $\beta v_{t-1}$ is the momentum. To compute $v_{t-1}$ we needed $v_{t-2}$, which needed $v_{t-3}$, and so on: the velocity carries the whole history of past gradients. Momentum accumulates an exponentially decaying moving average (an **EWMA**, G-735) of past gradients and continues to move in their direction (Goodfellow et al. 2016, §8.3.2).
 
-> **Extra:** If every gradient is the same, $g$, the velocity grows until it settles at a **terminal velocity** of $\eta g/(1-\beta)$ (Goodfellow et al. 2016, eq. 8.17). With $\beta = 0.9$, momentum's steps become $1/(1 - 0.9) = 10$ times longer than plain gradient descent's; the Notebook's steps grow from 0.1 to 1.0. This is the $1/(1-\beta)$ of the [EWMA Note](../1033-exponentially-weighted-moving-average/note.md) again. Our velocity adds $\eta\thinspace\nabla L$ rather than the EWMA's $(1-\beta)\thinspace\nabla L$; that only rescales the learning rate.
+> **Extra:** If every gradient is the same, $g$, the velocity grows until it settles at a **terminal velocity** (G-1961) of $\eta g/(1-\beta)$ (Goodfellow et al. 2016, eq. 8.17). With $\beta = 0.9$, momentum's steps become $1/(1 - 0.9) = 10$ times longer than plain gradient descent's; the Notebook's steps grow from 0.1 to 1.0. This is the $1/(1-\beta)$ of the [EWMA Note](../1033-exponentially-weighted-moving-average/note.md) again. Our velocity adds $\eta\thinspace\nabla L$ rather than the EWMA's $(1-\beta)\thinspace\nabla L$; that only rescales the learning rate.
 
 Each step now has two parts: the push of the past velocity, and the current gradient. When both point the same way, the step is long.
 
@@ -129,7 +133,7 @@ Momentum increases the step for directions whose gradients point the same way an
 
 > **Key point:** $\beta = 0$ is plain gradient descent. $\beta$ close to 1 remembers the past for long: more speed, more overshooting. $\beta = 1$ never forgets and never settles. Usual values: 0.5, 0.9, 0.99.
 
-$\beta$ is the **decay factor**: it decides how fast the influence of past velocities dies away. An old gradient's contribution is multiplied by $\beta$ at every step, so recent gradients count most, exactly as in an EWMA. With $\beta = 0.9$ the velocity behaves roughly like an average of the last $1/(1-0.9) = 10$ gradients.
+$\beta$ is the **decay factor** (G-553): it decides how fast the influence of past velocities dies away. An old gradient's contribution is multiplied by $\beta$ at every step, so recent gradients count most, exactly as in an EWMA. With $\beta = 0.9$ the velocity behaves roughly like an average of the last $1/(1-0.9) = 10$ gradients.
 
 - **$\beta = 0$:** the momentum term disappears, $v_t = \eta\thinspace\nabla L(w_t)$, and the update is plain gradient descent.
 - **$\beta = 1$:** nothing decays. Like a ball on a frictionless surface, the parameters keep swinging back and forth forever without settling.
@@ -152,7 +156,7 @@ Figure 5 shows two effects on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$, starting 
 1. **Faster.** The orange ball gains speed as it rolls; the blue ball moves at the pace of the slope.
 2. **Out of a local minimum.** The blue ball stops in the small dip near $w = -1.83$ (loss 1.15). The orange ball has enough speed to climb out, crosses the bump, and ends in the global minimum near $w = 2.14$ (loss $-1.24$) (Notebook).
 
-The same speed has a price. The orange ball does not stop at the global minimum: it shoots past to $w = 2.85$, comes back, and swings with shrinking amplitude before settling. In Figure 4, $\beta = 0.9$ crosses the minimum again and again for the same reason. As the decay factor makes the old velocities fade, the swings die out, but the time spent swinging is wasted.
+The same speed has a price: **overshooting** (G-1430). The orange ball does not stop at the **global minimum** (G-848): it shoots past to $w = 2.85$, comes back, and swings with shrinking amplitude before settling. In Figure 4, $\beta = 0.9$ crosses the minimum again and again for the same reason. As the decay factor makes the old velocities fade, the swings die out, but the time spent swinging is wasted.
 
 Momentum is still faster than plain gradient descent, but these oscillations make it slower than optimizers that damp them. The biggest problem of momentum is its momentum. The next optimizer, Nesterov accelerated gradient, reduces the swings.
 
@@ -162,7 +166,13 @@ Momentum is still faster than plain gradient descent, but these oscillations mak
 
 > **Key point:** On handwritten digits, adding momentum 0.9 to SGD with the same learning rate reached plain SGD's 20-epoch loss by epoch 4.
 
-The data is the MNIST handwritten digits (see the [MNIST Note](../1012-mnist-ann/note.md)): 10,000 training images, each with 784 pixel **features** (input variables) and the digit as **target** (the output we predict), and the 10,000 test images for validation. The network has hidden layers of 128 and 64 ReLU nodes and a softmax output. Both runs use mini-batch SGD with learning rate 0.01, batch size 64 and 20 epochs; only the momentum changes, 0 or 0.9. Each is trained with 3 seeds and the curves are averaged.
+The setup:
+
+- **data:** the **MNIST** (G-1249) handwritten digits (see the [MNIST Note](../1012-mnist-ann/note.md)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation;
+- **network:** hidden layers of 128 and 64 **ReLU** (G-1668) nodes and a **softmax** (G-1830) output;
+- **training:** mini-batch SGD (**mini-batch gradient descent**, G-1222) with **learning rate** (G-1068) 0.01, **batch size** (G-267) 64 and 20 **epochs** (G-696); only the momentum changes, 0 or 0.9.
+
+Each is trained with 3 seeds and the curves are averaged.
 
 ![Training loss on MNIST per epoch, mean of 3 seeds. Same learning rate 0.01; momentum 0.9 (orange) against plain SGD (blue)](images/mnist_momentum.png){width=90%}
 

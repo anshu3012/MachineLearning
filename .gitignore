@@ -16,3 +16,8 @@ transcripts/audio/
 **/images/.built_*
 reference/maths-sources/*.pdf
 reference/maths-sources/mml-*.txt
+.glossary.lock
+**/images/*.mp4
+**/images/.*/
+transcripts/maths-video/*.vtt
+transcripts/teaching-video/*.vtt

@@ -20,7 +20,12 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 
 Figure 1 is the Titanic data as a table of probabilities. The class of a passenger is the random variable $X$ (1, 2 or 3); survival is $Y$ (0 = died, 1 = survived). The blue inner cells are joint probabilities, the orange margins are marginal probabilities, and dividing a cell by its margin gives a conditional probability.
 
-This Note reads all three from the table, works more conditional probability problems by counting, revisits independent, dependent and mutually exclusive events in formulas, and ends with Bayes' theorem as a tiny classifier.
+This Note:
+
+- reads all three kinds of probability from the table (sections 2 to 4);
+- derives the conditional probability formula from counts, then works more problems by counting (section 4);
+- revisits independent, dependent and mutually exclusive events in formulas (section 5);
+- ends with Bayes' theorem as a tiny classifier (section 6).
 
 Contingency tables and Venn diagrams are introduced in the [Venn diagrams and contingency tables Note](../340-venn-diagrams-and-contingency-tables/note.md). Conditional probability is defined in the [conditional probability Note](../82-conditional-probability/note.md).
 
@@ -28,7 +33,11 @@ Contingency tables and Venn diagrams are introduced in the [Venn diagrams and co
 
 > **Key point:** A joint probability is the probability that two things happen together: $P(X = x, Y = y)$, the same as $P(A \cap B)$ for events.
 
-The joint probability is defined in the [Bayes problem Note](../86-bayes-problem/note.md) as the probability that two events happen together, $P(A \cap B)$. With random variables, which machine learning uses more, it is written:
+**The idea on 14 people.** We ask 14 people two questions: do you love candy, and do you love soda? Two love both, four love only candy, five love only soda and three love neither. Each person lands in one cell of a 2-by-2 table (Figure 2, first frame). Divide each cell's count by 14 and it becomes the probability that a randomly chosen person has **both** properties of that cell: for example $P(\text{no candy and loves soda}) = 5/14 = 0.36$. That is a joint probability.
+
+![The same 14 people read four ways: each cell ÷ 14 is a joint probability; the row and column totals are marginal probabilities; knowing "loves soda" dims the other column and leaves 5 of 7; knowing "no candy" dims the other row and leaves 5 of 8. Idea after StatQuest, "Bayes' Theorem, Clearly Explained!!!!"](images/candy_soda.gif){height=42%}
+
+The joint probability (G-986) is defined in the [Bayes problem Note](../86-bayes-problem/note.md) as the probability that two events happen together, $P(A \cap B)$. With random variables, which machine learning uses more, it is written:
 
 $$P(X = x, Y = y)$$
 
@@ -67,9 +76,13 @@ Doing this for all six cells gives the blue part of Figure 1:
 | class 2 | 0.109 | 0.098 |
 | class 3 | 0.418 | 0.134 |
 
-One cell is **a** joint probability. The whole table, every combination of $X$ and $Y$ with its probability, is the **joint probability distribution** of $X$ and $Y$.
+One cell is **a** joint probability. The whole table, every combination of $X$ and $Y$ with its probability, is the **joint probability distribution** of $X$ and $Y$ (G-985).
 
 The joint distribution is the two-variable version of a probability distribution (see the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)): every possible outcome, now a pair $(x, y)$, with its probability. Because the six pairs cover every passenger exactly once, the six probabilities add up to 1.
+
+![The joint distribution as a unit square: each class's column is as wide as P(class), and each tile's area is a joint probability](images/joint_mosaic.png){height=36%}
+
+Figure 3 draws the six joint probabilities as tiles of one square of area 1. Watch the class 3 column: it is the widest, because 55% of passengers were in third class, and its red "died" tile, 0.418, is the largest single area.
 
 > **Python:** Joint probabilities with pandas.
 >
@@ -88,7 +101,7 @@ The joint distribution is the two-variable version of a probability distribution
 
 > **Key point:** A marginal probability is the probability of one variable's value whatever the other variable does; it is the row or column sum of the joint table, written in its margin.
 
-**Marginal probability** is the probability of an event occurring irrespective of the outcome of some other event. Marginal probability is also called **simple probability** or **unconditional probability**, because no condition is placed on the other event.
+**Marginal probability** (G-1164) is the probability of an event occurring irrespective of the outcome of some other event. Marginal probability is also called **simple probability** or **unconditional probability**, because no condition is placed on the other event.
 
 For random variables, the marginal probability of $X = x$ is the probability that $X$ takes the value $x$, regardless of the value of $Y$.
 
@@ -108,7 +121,7 @@ Add totals to the count table:
 - 549 passengers died, whatever their class; 342 survived.
 - 216 travelled in class 1, whether they died or survived; 184 in class 2; 491 in class 3.
 
-The row totals add to 891, and so do the column totals. These totals sit in the **margins** of the table, which gives marginal probability its name. Dividing them by 891 gives the orange cells of Figure 1.
+The row totals add to 891, and so do the column totals. (On the 14 people of Figure 2, the second frame does the same: 7 of 14 love soda, 6 of 14 love candy.) These totals sit in the **margins** of the table (G-1167), which gives marginal probability its name. Dividing them by 891 gives the orange cells of Figure 1.
 
 1. **In words:** the marginal probability of a value of $Y$ is the sum of the joint probabilities in its column, over every value of $X$ (and the same with rows for $X$).
 2. **Formula:**
@@ -117,7 +130,11 @@ The row totals add to 891, and so do the column totals. These totals sit in the 
    $$P(Y = 0) = 0.0898 + 0.1089 + 0.4175 = 0.6162$$
    which is $549 / 891$. About 62% of the passengers died.
 
-Adding up over the other variable to get rid of it is called **marginalising** (or summing it out). Marginalising is the total probability rule of the [Bayes problem Note](../86-bayes-problem/note.md), applied to a table.
+![Marginalising the joint table: each column's cells slide down and add into the bottom margin, then each row's cells slide right into the right margin](images/marginalise.gif){height=55%}
+
+Figure 4 builds the margins one sum at a time. Watch the died column: 0.090, 0.109 and 0.418 drop into one cell and become 0.616; the class does not matter any more.
+
+Adding up over the other variable to get rid of it is called **marginalising** (G-1166) (or summing it out). Marginalising is the total probability rule of the [Bayes problem Note](../86-bayes-problem/note.md), applied to a table.
 
 ### 3.2 Marginal probability distributions
 
@@ -148,14 +165,34 @@ Each is the **marginal probability distribution** of its variable: the ordinary 
 
 > **Key point:** A conditional probability $P(A \mid B)$ is the probability of $A$ once $B$ is known to have happened: reduce the sample space to $B$ and count $A$ inside it, or divide the joint probability by the marginal probability of $B$.
 
-Conditional probability is taught in the [conditional probability Note](../82-conditional-probability/note.md): $P(A \mid B)$, "the probability of $A$ given $B$", is the probability of $A$ once $B$ has already happened. That Note gives two ways to compute it:
+Conditional probability (G-444) is taught in the [conditional probability Note](../82-conditional-probability/note.md): $P(A \mid B)$, "the probability of $A$ given $B$", is the probability of $A$ once $B$ has already happened. That Note gives two ways to compute it:
 
 - **By counting:** shrink the sample space to the outcomes of $B$ (the **reduced sample space**), then take the share of them that are also in $A$.
 - **By formula:** $P(A \mid B) = P(A \cap B) / P(B)$.
 
-The formula is a definition, not a result derived from something else: since $B$ happened, $B$ becomes the whole world, and we ask what share of it is also $A$. This section adds more problems for the counting method, then reads conditional probabilities from the Titanic table.
+The formula is a definition, not a result derived from something else: since $B$ happened, $B$ becomes the whole world, and we ask what share of it is also $A$. This section first shows on 14 people why counting and the formula agree, then adds more problems for the counting method, then reads conditional probabilities from the Titanic table.
 
-### 4.1 Three coins
+### 4.1 Counting first, then the formula
+
+> **Key point:** 5 of the 7 soda lovers do not love candy, so the conditional probability is $5/7 = 0.71$; dividing top and bottom by 14 turns the same fraction into joint over marginal.
+
+**Counting.** Among the 14 people of Figure 2, suppose we already know the person loves soda. Only the soda column is still possible: 7 people (third frame, the other column dims). Of those 7, five do not love candy:
+
+$$P(\text{no candy and soda} \mid \text{soda}) = \frac{5}{7} = 0.71$$
+
+**The same fraction as a formula.** Divide the top and the bottom by 14. The value does not change, but now each piece is a probability we already know:
+
+$$\frac{5}{7} = \frac{5/14}{7/14} = \frac{P(\text{no candy and soda})}{P(\text{soda})} = 0.71$$
+
+The top is the joint probability of the cell, and the bottom is the marginal probability of the condition. That is the conditional probability formula, $P(A \mid B) = P(A \cap B)/P(B)$.
+
+**Change the condition.** Now suppose we know instead that the person does **not** love candy (last frame). The same cell, 5 people, is the event of interest, but the reduced sample space is the no-candy row, 8 people:
+
+$$P(\text{no candy and soda} \mid \text{no candy}) = \frac{5}{8} = 0.625$$
+
+Same top, different bottom: what we already know decides which total we divide by.
+
+### 4.2 Three coins
 
 > **Key point:** Of the 7 outcomes with at least one head, 4 have at least two heads, so the answer is $4/7$.
 
@@ -177,22 +214,22 @@ The two events:
 
 The formula gives the same: $P(A \cap B) = 4/8$ (every outcome of $A$ is also in $B$) and $P(B) = 7/8$, so $\frac{4/8}{7/8} = \frac{4}{7}$. Without the condition, $P(A) = 4/8 = 0.5$: knowing there is at least one head raises the chance of two.
 
-### 4.2 Two dice, two questions
+### 4.3 Two dice, two questions
 
 > **Key point:** Sum 7 given an odd first die: 3 of 18 outcomes, $1/6$. First die 2 given a sum of at most 5: 3 of 10 outcomes, $3/10$.
 
-Two fair dice give 36 equally likely pairs. Figure 2 marks two conditional probabilities on the grid of sums: blue cells are the reduced sample space $B$, red cells are the outcomes of $A$ inside it.
+Two fair dice give 36 equally likely pairs. Figure 5 marks two conditional probabilities on the grid of sums: blue cells are the reduced sample space $B$, red cells are the outcomes of $A$ inside it.
 
 ![Two conditional probabilities on the 36 outcomes of two dice: blue = $B$, red = $A$ inside $B$](images/dice_conditional.png){height=45%}
 
-**The sum is 7, given that die 1 shows an odd number** (Figure 2, left).
+**The sum is 7, given that die 1 shows an odd number** (Figure 5, left).
 
 1. **Reduce to $B$:** die 1 shows 1, 3 or 5, three full rows of 6, so 18 outcomes.
 2. **Count $A$ inside it:** the sum is 7 for $(1, 6)$, $(3, 4)$ and $(5, 2)$: 3 outcomes.
 3. **Divide:**
    $$P(\text{sum } 7 \mid \text{die 1 odd}) = \frac{3}{18} = \frac{1}{6}$$
 
-**Die 1 shows 2, given that the sum is at most 5** (Figure 2, right).
+**Die 1 shows 2, given that the sum is at most 5** (Figure 5, right).
 
 1. **Reduce to $B$:** the pairs with sum 2, 3, 4 or 5 number $1 + 2 + 3 + 4 = 10$.
 2. **Count $A$ inside it:** die 1 is 2 in $(2, 1)$, $(2, 2)$ and $(2, 3)$: 3 outcomes.
@@ -201,7 +238,7 @@ Two fair dice give 36 equally likely pairs. Figure 2 marks two conditional proba
 
 In the first problem the condition changed nothing: $P(\text{sum } 7) = 6/36 = 1/6$ as well. In the second it did: $P(\text{die 1} = 2) = 1/6 \approx 0.167$, but given a small sum it rises to 0.3, because a small sum rules out the large faces.
 
-### 4.3 Conditional probabilities from the Titanic table
+### 4.4 Conditional probabilities from the Titanic table
 
 > **Key point:** $P(\text{died} \mid \text{class 3}) = 0.418 / 0.551 \approx 0.758$: the joint probability divided by the marginal probability of the condition.
 
@@ -222,11 +259,11 @@ The same for every class:
 | 2 | $97/891 = 0.109$ | $184/891 = 0.207$ | $97/184 = 0.527$ |
 | 3 | $372/891 = 0.418$ | $491/891 = 0.551$ | $372/491 = 0.758$ |
 
-About 76% of third-class passengers died, against 53% in second class and 37% in first. Figure 3 (left) draws these against the marginal $P(\text{died}) = 0.616$: class 3 lies above it and classes 1 and 2 below.
+About 76% of third-class passengers died, against 53% in second class and 37% in first. Figure 6 (left) draws these against the marginal $P(\text{died}) = 0.616$: class 3 lies above it and classes 1 and 2 below.
 
 Cutting the probabilities short before dividing gives a wrong answer for class 1: $0.08 / 0.23 \approx 0.35$ instead of 0.370. Dividing the counts, $80/216$, avoids the error.
 
-### 4.4 The other direction
+### 4.5 The other direction
 
 > **Key point:** $P(\text{class 3} \mid \text{died}) \approx 0.678$ is a different question from $P(\text{died} \mid \text{class 3}) \approx 0.758$: the condition sets which total we divide by.
 
@@ -238,7 +275,7 @@ Of all who died, 67.8% were in third class, 17.7% in second and 14.6% in first. 
 
 ![$P(\text{died} \mid \text{class})$ for each class (left) and $P(\text{class} \mid \text{died})$ (right)](images/conditional.png)
 
-Figure 3 shows the two directions side by side. The left bars do not add up to 1: each is a share of a different row. The right bars do: they split one column. As in the [conditional probability Note](../82-conditional-probability/note.md), $P(A \mid B)$ and $P(B \mid A)$ answer different questions.
+Figure 6 shows the two directions side by side. The left bars do not add up to 1: each is a share of a different row. The right bars do: they split one column. As in the [conditional probability Note](../82-conditional-probability/note.md), $P(A \mid B)$ and $P(B \mid A)$ answer different questions.
 
 > **Python:** Conditional probabilities with pandas.
 >
@@ -288,6 +325,10 @@ The Titanic table answers this with either test:
 - **Conditional test:** $P(\text{died} \mid \text{class 3}) = 0.758$, but $P(\text{died}) = 0.616$. Knowing the class changes the chance.
 - **Joint test:** if they were independent, $P(\text{died}, \text{class 1})$ would be $0.616 \times 0.242 \approx 0.149$. The table says $0.090$.
 
+![For each class, the actual P(class, died) (red) against the product P(class) × P(died) that independence would give (grey)](images/independence_check.png){height=30%}
+
+Figure 7 runs the joint test for all three classes. Watch the pairs of bars: first class has fewer deaths than independence predicts (0.090 against 0.149), third class has more (0.418 against 0.340).
+
 Both tests fail, so class and survival are dependent. Knowing the class moves the chance of dying from 0.616 to anywhere between 0.370 (class 1) and 0.758 (class 3), so class carries information about survival.
 
 ## 6. Bayes' theorem as a one-feature classifier
@@ -323,6 +364,14 @@ $$P(\text{survived} \mid \text{male}) = \frac{P(\text{male} \mid \text{survived}
 
 Since $2/3 > 1/3$, we predict that the male passenger died. The two answers add up to 1, as they must.
 
+**The same calculation as areas.** Draw every possibility as a square of area 1 (Figure 8). Split it into a "died" strip of width $P(\text{died}) = 3/5$ and a "survived" strip of width $2/5$. Inside each strip, shade the males: $2/3$ of the height on the left, $1/2$ on the right. The shaded areas are joint probabilities: $3/5 \times 2/3 = 2/5$ (male and died) and $2/5 \times 1/2 = 1/5$ (male and survived). Learning that the passenger is male rules out everything unshaded. The posterior is the red share of what is left:
+
+$$P(\text{died} \mid \text{male}) = \frac{2/5}{2/5 + 1/5} = \frac{2}{3}$$
+
+![Bayes' theorem as areas on the five passengers: the prior splits the square 3/5 and 2/5, the likelihoods shade the male part of each strip, and the posterior 2/3 is the red share of the shaded area. Idea after 3Blue1Brown, "Bayes theorem, the geometry of changing beliefs"](images/bayes_square.gif){height=45%}
+
+In Figure 8, watch the third frame: the evidence "male" keeps only the shaded parts. The prior and the likelihood together set how big each part is, so the evidence updates the prior rather than replacing it. If both strips were shaded to the same height, the red share would stay 3/5: evidence that is equally likely either way changes nothing.
+
 With one input **feature** (an input variable, one column of the data table) we could have counted directly: of the three males, two died, $2/3$. With many input features, direct counting breaks down: 10 yes/no features already give $2^{10} = 1024$ combinations, more than the 891 Titanic passengers, so many combinations never appear in the data and have no count. Bayes' theorem alone does not fix this, since $P(\text{combination} \mid \text{died})$ would need the same counts. The Naive Bayes classifier of the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md) adds the assumption that the features are independent given the class, so each feature's likelihood is counted on its own.
 
 ## 7. Summary
@@ -343,7 +392,9 @@ With one input **feature** (an input variable, one column of the data table) we 
 
 **Built from**
 
-- CampusX, "Mastering Probability for ML: Joint | Marginal | Conditional Probability and Bayes' Theorem", YouTube, https://www.youtube.com/watch?v=ndHDsvqmbuI
+- CampusX, "Mastering Probability for ML: Joint | Marginal | Conditional Probability and Bayes' Theorem", YouTube, https://www.youtube.com/watch?v=ndHDsvqmbuI. The Titanic tables, the coins and dice problems by the reduced sample space, independence and the five-passenger classifier (sections 2 to 6).
+- Starmer, J. (StatQuest), "Bayes' Theorem, Clearly Explained!!!!", YouTube, https://www.youtube.com/watch?v=9wCnvr7Xw4E. The 14 people and the conditional formula from counts (sections 2 and 4.1).
+- Sanderson, G. (3Blue1Brown), "Bayes theorem, the geometry of changing beliefs", YouTube, https://www.youtube.com/watch?v=HZGCoVF3YvM. Bayes' theorem as areas in a unit square (section 6).
 
 ## 9. Key terms
 

@@ -20,12 +20,17 @@ The previous Notes built the parts: the [convolution operation](../1042-convolut
 
 ![LeNet-5: two blocks of convolution (tanh) and average pooling turn a 32 × 32 image into 16 maps of 5 × 5; these are flattened to 400 numbers and passed through fully connected layers of 120, 84 and 10 nodes](images/lenet5.png){width=100%}
 
-Figure 1 shows LeNet-5. This Note covers the general CNN architecture, what can be varied in it, the LeNet-5 layers and their shapes, the parameter count, and LeNet-5 in Keras trained on MNIST.
+Figure 1 shows LeNet-5. This Note covers:
+
+- the general CNN architecture and what can be varied in it (section 3);
+- the LeNet-5 layers and their shapes (section 4);
+- the parameter count (section 5);
+- LeNet-5 in Keras, trained on MNIST (section 6).
 
 ## 2. Prerequisites
 
 - The [convolution operation Note](../1042-convolution-operation/note.md), the [padding and strides Note](../1043-padding-and-strides/note.md) and the [pooling Note](../1044-pooling/note.md).
-- The [MNIST ANN Note](../1012-mnist-ann/note.md): Flatten, Dense layers, softmax output and counting parameters.
+- The [MNIST ANN Note](../1012-mnist-ann/note.md): **Flatten** (G-788), Dense layers, softmax output and counting **parameters** (G-1448).
 - The [activation functions Note](../1027-activation-functions/note.md): tanh and ReLU.
 
 ## 3. The general CNN architecture
@@ -37,7 +42,7 @@ Figure 1 shows LeNet-5. This Note covers the general CNN architecture, what can 
 Almost every CNN follows the pattern of Figure 2:
 
 1. **Input:** an image, for example an RGB image of 32 × 32 × 3.
-2. **Convolution layer:** a set of filters (kernels), say 3, each with 3 channels because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
+2. **Convolution layer:** (G-480) a set of **filters** (G-778) (kernels), say 3, each with 3 channels because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
 3. **Non-linearity:** an activation function such as ReLU applied to every number of the feature maps.
 4. **Pooling layer:** shrinks the volume.
 5. **Repeat** steps 2–4 as many times as needed: a second convolution, a second pooling, and so on.
@@ -78,7 +83,7 @@ Yann LeCun, often called the father of CNNs, worked on convolutional networks fr
 LeNet-5 expects a 32 × 32 greyscale image. Layer by layer (Figure 1):
 
 1. **Convolution 1:** 6 filters of 5 × 5, stride 1, no padding, tanh.
-2. **Average pooling 1:** 2 × 2 window, stride 2. LeNet-5 uses average pooling, not max pooling.
+2. **Average pooling** (G-238) 1:** 2 × 2 window, stride 2. LeNet-5 uses average pooling, not max pooling.
 3. **Convolution 2:** 16 filters of 5 × 5, stride 1, no padding, tanh.
 4. **Average pooling 2:** 2 × 2 window, stride 2.
 5. **Flatten.**
@@ -86,7 +91,7 @@ LeNet-5 expects a 32 × 32 greyscale image. Layer by layer (Figure 1):
 7. **Fully connected:** 84 nodes, tanh.
 8. **Output:** 10 nodes with softmax, one for each digit.
 
-The activation is **tanh**, not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see the [activation functions Note](../1027-activation-functions/note.md)).
+The activation is **tanh** (G-1947), not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see the [activation functions Note](../1027-activation-functions/note.md)).
 
 ### 4.3 The shapes, layer by layer
 
@@ -109,6 +114,10 @@ The sizes follow from the formulas of the [padding and strides Note](../1043-pad
 So the first fully connected layer has $400 \times 120$ weights, the second $120 \times 84$, and the output layer $84 \times 10$.
 
 The number of filters grows as we go deeper, from 6 to 16, while the filter size stays 5 × 5 and the height and width of the maps shrink. More filters in deeper layers is a pattern we will see again in later architectures.
+
+![One MNIST test digit flowing through a trained LeNet-5 (the Keras model of section 6, seed 1, 98.4% test accuracy): the real values after every layer. Red is positive, blue negative; the dense layers are drawn as grids of cells, one per node.](images/lenet_flow.gif){height=50%}
+
+In Figure 3, watch the 7 stay visible while the maps shrink from 28 × 28 to 5 × 5 and multiply from 6 to 16, then dissolve into 400 numbers once flattened; by the output, the model puts a probability of 1.000 on the digit 7.
 
 ### 4.4 Why "5"
 
@@ -141,6 +150,10 @@ From `model.summary()` in the Notebook:
 
 Pooling layers have no parameters because pooling involves no training, and Flatten has none because it only reshapes. LeNet-5 has about 60,000 parameters, few for a CNN; modern CNNs have millions.
 
+![LeNet-5's 61,706 parameters by layer (Notebook).](images/param_share.png){height=38%}
+
+Figure 4 shows where the weights live: the two convolution layers hold 4.2% of them, and the first dense layer, which connects all 400 flattened numbers to 120 nodes, holds 78%.
+
 > **Extra:** The original LeNet-5 differs from the Keras version in a few details, all from LeCun et al. (1998). Its pooling layers multiply each average by a trainable coefficient and add a trainable bias (12 and 32 parameters). C3 connects each of its 16 maps to only some of S2's 6 maps (1,516 parameters instead of 2,416). C5 is a convolution layer with 120 filters of 5 × 5, which on a 5 × 5 input amounts to a fully connected layer. The activation is a scaled tanh, $1.7159 \tanh(Sa)$, and the output layer uses Euclidean radial basis function units instead of softmax. Adding the paper's own counts, $156 + 12 + 1{,}516 + 32 + 48{,}120 + 10{,}164 = 60{,}000$, the "60,000 trainable free parameters" the paper states.
 
 ## 6. LeNet-5 in Keras
@@ -167,6 +180,10 @@ Pooling layers have no parameters because pooling involves no training, and Flat
 MNIST digits are 28 × 28, so the Notebook adds 2 rows and columns of zeros on every side to make them 32 × 32. The paper's input was also larger than the digits, so that features at the edge of a digit can sit in the centre of a filter's view (LeCun et al. 1998). Pixels are scaled to 0–1, and the model is compiled as in the [MNIST ANN Note](../1012-mnist-ann/note.md) (sparse categorical cross-entropy, Adam).
 
 Trained for 10 epochs with batch size 128, averaged over 3 seeds, LeNet-5 reaches a test accuracy of 98.46%, a test error of 1.54%. The paper reports 0.95% test error for LeNet-5 (LeCun et al. 1998), trained differently and for longer. The ANN of the [MNIST ANN Note](../1012-mnist-ann/note.md) reached 97.63%.
+
+![LeNet-5 training on MNIST: accuracy on the training images and on the validation images (the last 10% of the training set), per epoch, mean of 3 seeds. Dashed: the test accuracy of the MNIST ANN.](images/lenet_training.png){height=38%}
+
+In Figure 5, the validation curve reaches the ANN's line at epoch 2 and levels off near 98.5%, while the training curve keeps climbing towards 99.5%.
 
 ## 7. Summary
 

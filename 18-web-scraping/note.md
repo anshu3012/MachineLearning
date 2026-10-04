@@ -15,11 +15,11 @@ tags: [subject/ml, area/data, step/get-data, concept/web-scraping]
 
 > **Key point:** When a website shows data but offers no file and no API, we download its pages, read their HTML and copy the values we need into a DataFrame.
 
-**Web scraping** means writing a program that downloads web pages and pulls data out of them. Scraping is the last resort for getting data: we use it when there is no CSV file to download and no API to ask.
+**Web scraping** (G-2105) means writing a program that downloads web pages and pulls data out of them. Scraping is the last resort for getting data: we use it when there is no CSV file to download and no API to ask.
 
 Figure 1 shows the whole process. The rest of this Note goes through it box by box:
 
-1. `requests.get` downloads one page as **HTML** text.
+1. `requests.get` downloads one page as **HTML** (G-904) text.
 2. `BeautifulSoup` turns that text into a tree of tags we can search.
 3. `find` and `find_all` pick out the tags we want, and `.text` gives the values inside them.
 4. The values go into lists, and the lists become a DataFrame.
@@ -52,7 +52,7 @@ The site has no API and no download button. So our task is to visit the pages on
 
 > **Key point:** Every reply carries a status code; 200 means success, 403 means the server refused.
 
-**requests** is a Python library for downloading things from the web. `requests.get(url)` sends a **request** to the website's **server** (the computer that hosts the site) and returns its **response**.
+**requests** (G-1674) is a Python library for downloading things from the web. `requests.get(url)` sends a **request** to the website's **server** (G-1779) (the computer that hosts the site) and returns its **response** (G-1686).
 
 > **Python:** Downloading a page.
 >
@@ -65,7 +65,7 @@ The site has no API and no download button. So our task is to visit the pages on
 > webpage = r.text  # the page's HTML, as one long string
 > ```
 
-The **status code** is a number in the reply that says how the request went (RFC 9110, §15). For AmbitionBox, a plain request came back with **403**, and `r.text` held only a short "Access Denied" message instead of the page.
+The **status code** (G-1886) is a number in the reply that says how the request went (RFC 9110, §15). For AmbitionBox, a plain request came back with **403**, and `r.text` held only a short "Access Denied" message instead of the page.
 
 > **Extra:** Common status codes.
 >
@@ -81,9 +81,9 @@ The **status code** is a number in the reply that says how the request went (RFC
 
 > **Key point:** A User-Agent header tells the server which browser is asking; sending a browser's User-Agent gets past simple bot checks.
 
-A browser announces itself with a short text called the User-Agent (see "Opening a file from a URL", section 5 of the [CSV Note](../15-working-with-csv/note.md)). Many sites refuse requests that look like they come from a program (a **bot**), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
+A browser announces itself with a short text called the User-Agent (see "Opening a file from a URL", section 5 of the [CSV Note](../15-working-with-csv/note.md)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
 
-So we send a browser's User-Agent ourselves, in the request's **headers** (extra information sent along with a request):
+So we send a browser's User-Agent ourselves, in the request's **headers** (G-885) (extra information sent along with a request):
 
 > **Python:** Sending a browser User-Agent.
 >
@@ -97,26 +97,30 @@ So we send a browser's User-Agent ourselves, in the request's **headers** (extra
 >
 > `headers` is a dictionary. Two strings written next to each other inside brackets are joined into one.
 
-With this header, the server sent the whole page. `webpage` now holds exactly the text we see in a browser with right-click, **View Page Source**.
+With this header, the server sent the whole page. `webpage` now holds exactly the text we see in a browser with right-click, **View Page Source** (G-2089).
 
-> **Extra:** A 403 comes from the server deciding to block us. The block is not caused by **robots.txt**, a different thing: a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309, "These rules are not a form of access authorization"). Section 12 comes back to it.
+Figure 2 puts the two requests side by side. Watch the User-Agent line: it is the only thing that changes, and it turns a 403 into a 200.
+
+![The same request without and with a browser User-Agent, as AmbitionBox answered it in 2022](images/request_reply.png)
+
+> **Extra:** A 403 comes from the server deciding to block us. The block is not caused by **robots.txt** (G-1698), a different thing: a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309, "These rules are not a form of access authorization"). Section 12 comes back to it.
 
 > **Extra:** What changed since this code was written (checked October 2026).
 >
 > - **The site blocks scripts.** AmbitionBox no longer answers `requests` at all, with or without a User-Agent: the connection simply waits until it times out. Even `robots.txt` gets no answer. Sites like this use bot-detection services that look at more than the User-Agent.
 > - **The site was redesigned.** The class names this Note relies on (`company-content-wrapper`, `rating`, `infoEntity`) are gone. Today each company sits in a `div` with class `companyCardWrapper`, and the page no longer shows company type, age or employees.
-> - **What we use instead.** The **Wayback Machine** (`web.archive.org`) keeps copies of web pages as they were. `data/` holds real copies of list pages 1 and 2 from August 2022, which have the layout used here, and page 1 from August 2026. `data/fetch_archive.py` downloads them; it removes only the `<script>` and `<style>` blocks to save space.
+> - **What we use instead.** The **Wayback Machine** (G-2101) (`web.archive.org`) keeps copies of web pages as they were. `data/` holds real copies of list pages 1 and 2 from August 2022, which have the layout used here, and page 1 from August 2026. `data/fetch_archive.py` downloads them; it removes only the `<script>` and `<style>` blocks to save space.
 > - **The Notebook** tries the live site first, with a 10-second time limit, and falls back to the saved copies. Its last section runs the same method on the 2026 page with the new class names.
 
 ## 4. HTML: tags, classes and nesting
 
 > **Key point:** An HTML page is a tree of tags; each tag has a name, may have a class, and holds text or other tags.
 
-To pull values out of a page, we need to read its structure. **HTML** (HyperText Markup Language) is the language web pages are written in. HTML is made of **tags**:
+To pull values out of a page, we need to read its structure. **HTML** (HyperText Markup Language) is the language web pages are written in. HTML is made of **tags** (G-1941):
 
 - A tag opens with `<name>` and closes with `</name>`. Whatever sits between them is the tag's content: `<h2>TCS</h2>`.
 - Tags sit inside other tags, so a page is a **tree**: one big tag holding smaller ones, holding smaller ones again.
-- The opening tag can carry **attributes**, extra settings written as `name="value"`. The most useful one for scraping is **class**, a label that page designers give to tags so they can style them together.
+- The opening tag can carry **attributes** (G-228), extra settings written as `name="value"`. The most useful one for scraping is **class** (G-389), a label that page designers give to tags so they can style them together.
 
 > **Extra:** The tags met in this Note.
 >
@@ -127,7 +131,7 @@ To pull values out of a page, we need to read its structure. **HTML** (HyperText
 > | `a` | A link |
 > | `div` | A box that groups other tags; it shows nothing by itself |
 
-Figure 2 shows the HTML of one company on the list page. Everything about TCS sits inside one `div` with class `company-content-wrapper`. Inside it, the name is in an `h2`, the rating in a `p` with class `rating`, and the four details in `p` tags that all share the class `infoEntity`.
+Figure 3 shows the HTML of one company on the list page. Everything about TCS sits inside one `div` with class `company-content-wrapper`. Inside it, the name is in an `h2`, the rating in a `p` with class `rating`, and the four details in `p` tags that all share the class `infoEntity`.
 
 ![The HTML of one company on the list page](images/company_card.png)
 
@@ -135,7 +139,7 @@ Figure 2 shows the HTML of one company on the list page. Everything about TCS si
 
 > **Key point:** `BeautifulSoup(webpage, "html.parser")` turns the HTML text into an object we can search tag by tag.
 
-`webpage` is just a long string. To search it by tag and class, we hand it to **BeautifulSoup**, a library for reading HTML. BeautifulSoup **parses** the text: it reads the text and builds the tree of tags.
+`webpage` is just a long string. To search it by tag and class, we hand it to **BeautifulSoup** (G-273), a library for reading HTML. BeautifulSoup **parses** (G-1454) the text: it reads the text and builds the tree of tags.
 
 > **Python:** Parsing HTML.
 >
@@ -150,7 +154,7 @@ Figure 2 shows the HTML of one company on the list page. Everything about TCS si
 
 `prettify()` prints the HTML with one tag per line, indented by depth, so the nesting is easy to follow. `prettify()` changes nothing; it only helps us read.
 
-> **Extra:** The second argument chooses the **parser**, the part that reads the HTML. `"html.parser"` is built into Python. `"lxml"` is faster (Beautiful Soup docs, "Installing a parser") and is included in Anaconda, but in a plain Python setup, including our environment, it needs `pip install lxml` first; without it, `BeautifulSoup(webpage, "lxml")` stops with `FeatureNotFound`. For one page at a time the difference in speed does not matter.
+> **Extra:** The second argument chooses the **parser** (G-1455), the part that reads the HTML. `"html.parser"` is built into Python. `"lxml"` is faster (Beautiful Soup docs, "Installing a parser") and is included in Anaconda, but in a plain Python setup, including our environment, it needs `pip install lxml` first; without it, `BeautifulSoup(webpage, "lxml")` stops with `FeatureNotFound`. For one page at a time the difference in speed does not matter.
 
 ## 6. Finding the right tags with Inspect
 
@@ -158,7 +162,7 @@ Figure 2 shows the HTML of one company on the list page. Everything about TCS si
 
 The page source is thousands of lines long, so we do not read it top to bottom. Instead we let the browser point us to the right tag:
 
-1. Open the page in a browser, right-click anywhere and choose **Inspect**. A panel opens with the page's HTML.
+1. Open the page in a browser, right-click anywhere and choose **Inspect** (G-953). A panel opens with the page's HTML.
 2. Click the **element picker** (the arrow-in-a-box button at the panel's top left).
 3. Move the mouse over any part of the page. The tag that draws it is highlighted in the panel.
 4. Click to select it, and read its tag name and class.
@@ -166,6 +170,10 @@ The page source is thousands of lines long, so we do not read it top to bottom. 
 Hovering over the whole TCS box highlights its `div` with class `company-content-wrapper`. Hovering over the next box, Accenture, highlights another `div` with the same class.
 
 The page is 30 identical boxes, one per company, filled with different values. This repetition is what makes scraping possible: once we know how one box is built, we know them all.
+
+Figure 4 shows the first three boxes of page 1 and the tag Inspect highlights for each. Watch the right column: the tag and its class are the same every time; only the values inside change.
+
+![Three company boxes on the page, and the one kind of div that draws each of them](images/repeated_boxes.png)
 
 ## 7. find_all and .text
 
@@ -201,7 +209,7 @@ The company names are in `h2` tags, and the page has exactly 30 of them. Their t
 
 The rating is in a `p` tag. But `p` is used all over the page: menus, notices, the company details. `soup.find_all("p")` returns 221 tags, most of them nothing to do with ratings.
 
-The class tells them apart. In Figure 2, the rating's `p` has class `rating`, and no other `p` has that class. So we ask for `p` tags with that class only:
+The class tells them apart. In Figure 3, the rating's `p` has class `rating`, and no other `p` has that class. So we ask for `p` tags with that class only:
 
 > **Python:** Ratings and review counts.
 >
@@ -218,15 +226,19 @@ The class tells them apart. In Figure 2, the rating's `p` has class `rating`, an
 
 Both lists have 30 items, one per company, so this works. The number of reviews is in an `a` tag (a link, because clicking it opens the reviews) with class `review-count`.
 
+Figure 5 counts what each query finds on the saved pages. Watch the drop from 221 to 30: the class keeps exactly one `p` per company. The last bar, 117 instead of 120, is the problem of the next section.
+
+![Tags found by each query on page 1, and the infoEntity query on page 2](images/tag_counts.png)
+
 ## 9. When values cannot be matched to companies
 
 > **Key point:** A page-wide list of values breaks as soon as one company is missing a value: we can no longer tell which value belongs to whom.
 
-Company type, headquarters, age and employees are four `p` tags that all share the class `infoEntity` (Figure 2). On page 1, `find_all("p", class_="infoEntity")` returns 120 tags: 30 companies times 4. We could take them in groups of four.
+Company type, headquarters, age and employees are four `p` tags that all share the class `infoEntity` (Figure 3). On page 1, `find_all("p", class_="infoEntity")` returns 120 tags: 30 companies times 4. We could take them in groups of four.
 
 On page 2 the same line returns only 117. Some companies do not list all four details, and a flat list does not say which ones.
 
-Figure 3A shows what goes wrong if we cut it into groups of four anyway. Infosys BPM has no company type, so its row starts with its headquarters and ends with the next company's type. Every company after it is shifted too.
+Figure 6A shows what goes wrong if we cut it into groups of four anyway. Infosys BPM has no company type, so its row starts with its headquarters and ends with the next company's type. Every company after it is shifted too.
 
 ![Page-wide lists against one box at a time (page 2, August 2022)](images/flat_vs_box.png)
 
@@ -241,7 +253,7 @@ The fix is to change the order of the search. Instead of searching the whole pag
 1. find the 30 company boxes, the `div` tags with class `company-content-wrapper`;
 2. loop over the boxes, and inside each box find the name, rating and details.
 
-A search inside one box can only find that company's tags. Figure 3B shows the result: Infosys BPM still has 3 details, but BYJU'S and every company after it are untouched.
+A search inside one box can only find that company's tags. Figure 6B shows the result: Infosys BPM still has 3 details, but BYJU'S and every company after it are untouched.
 
 > **Python:** The boxes, and a search inside one of them.
 >
@@ -270,7 +282,7 @@ Inside one box there is only one `h2` and one `p` with class `rating`, so `find`
 
 > **Key point:** One list per column; the loop appends one value to each list per company; a dictionary of the lists becomes the DataFrame.
 
-Figure 4 shows the loop at work. Each pass takes one box, reads its values, and adds one row to the table. Each company becomes one **observation** (one record, one row of the table), and each detail we collect becomes a **feature** (a variable describing the company, one column of the table).
+Figure 7 shows the loop at work. Each pass takes one box, reads its values, and adds one row to the table. Each company becomes one **observation** (G-1374) (one record, one row of the table), and each detail we collect becomes a **feature** (G-772) (a variable describing the company, one column of the table).
 
 ![The loop turns each company box into one row](images/container_loop.gif)
 
@@ -323,7 +335,14 @@ Every value is still text, such as `"(44.9k Reviews)"` or `"54 years old"`. Turn
 
 > **Key point:** Put the one-page code inside a loop over page numbers, turn missing values into NaN instead of errors, and join the pages with `pd.concat`.
 
-Each page's address differs only in its number, so a loop over `page=1, 2, 3, ...` reaches every page. For each one we download, parse, build a small DataFrame, and collect it. At the end, **`pd.concat`** stacks all the small DataFrames into one.
+Each page's address differs only in its number, so a loop over `page=1, 2, 3, ...` reaches every page. For each page we:
+
+1. download it;
+2. parse it;
+3. build a small DataFrame;
+4. collect that DataFrame in a list.
+
+At the end, **`pd.concat`** stacks all the small DataFrames into one.
 
 Over hundreds of pages, some company will lack a field. Then `find` returns `None`, and `.text` on `None` stops the program with an `AttributeError`; `info[3]` on a company with three details stops it with an `IndexError`. To keep going, we record a missing value, `NaN`, instead.
 
@@ -362,9 +381,13 @@ Over hundreds of pages, some company will lack a field. Then `find` returns `Non
 > final = pd.concat(pages, ignore_index=True)
 > ```
 >
-> `range(1, 334)` gives 1, 2, ..., 333. `f"...{j}"` is an **f-string**: `{j}` is replaced by the value of `j`. `ignore_index=True` numbers the rows 0, 1, 2, ... across all pages. Each row here is a dictionary, and a list of dictionaries also becomes a DataFrame.
+> `range(1, 334)` gives 1, 2, ..., 333. `f"...{j}"` is an **f-string** (G-741): `{j}` is replaced by the value of `j`. `ignore_index=True` numbers the rows 0, 1, 2, ... across all pages. Each row here is a dictionary, and a list of dictionaries also becomes a DataFrame.
 
 On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the details missing for Infosys BPM and HCL Group. Downloading all 333 pages takes a while, so it is worth trying 5 or 10 pages first.
+
+Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in the last columns, because the padding adds NaN at the end of the details list. The third Extra below explains why that position can be wrong.
+
+![The 60 x 7 table from the two saved pages; the 3 NaN cells are red](images/final_table.png)
 
 > **Extra:** Another common way to survive missing values is to wrap each line in `try:` ... `except AttributeError:` and append `np.nan` in the `except` part. The result is the same. Name the error to catch: a bare `except:` also hides typos and other bugs.
 

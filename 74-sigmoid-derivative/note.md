@@ -16,7 +16,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 
 > **Key point:** The derivative of the sigmoid can be written using the sigmoid itself: σ′(z) = σ(z)(1 − σ(z)).
 
-Gradient descent on the log loss (the next Note) needs the derivative of the sigmoid function. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
+**Gradient descent** (G-862) on the **log loss** (G-303) (the next Note) needs the **derivative** (G-595) of the **sigmoid function** (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
 
 As a reminder, the sigmoid is
 
@@ -28,13 +28,17 @@ The sigmoid squeezes any number into the range 0 to 1 ([sigmoid Note](../72-sigm
 
 > **Key point:** The chain rule, and the derivative of e^(−z), which is −e^(−z).
 
-**Chain rule:** to differentiate a function of a function, differentiate the outer one, keep the inside, and multiply by the derivative of the inside. For a reciprocal:
+**Chain rule** (G-371): to differentiate a function of a function, differentiate the outer one, keep the inside, and multiply by the derivative of the inside. For a reciprocal:
 
 $$\frac{d}{dz}\left(\frac{1}{u}\right) = -\frac{1}{u^2}\cdot\frac{du}{dz}$$
 
 **Exponential:** the derivative of $e^{z}$ is $e^{z}$ itself. By the chain rule, the derivative of $e^{-z}$ is $e^{-z}$ times the derivative of $-z$, which is $-1$:
 
 $$\frac{d}{dz}e^{-z} = -e^{-z}$$
+
+![The curve $e^{-z}$ with its tangent lines at $z = 0$ and $z = 1$. Each slope is the curve's own height with a minus sign.](images/exp_slope.png){height=38%}
+
+Each red line in Figure 1 is a **tangent line** (G-1945): the straight line that touches the curve at one point and has the curve's slope there. Compare each red label's height and slope: they match except for the sign, which is the rule $\frac{d}{dz}e^{-z} = -e^{-z}$.
 
 ## 3. The derivation
 
@@ -70,7 +74,11 @@ Putting the two pieces together:
 
 $$\boxed{\sigma'(z) = \sigma(z)\thinspace\bigl(1 - \sigma(z)\bigr)}$$
 
-With numbers: at $z = 2$, $\sigma(2) = 0.88$, so $\sigma'(2) = 0.88 \times 0.12 = 0.105$. Figure 1 (Section 4) draws the two factors as the blue and orange parts of a bar of height 1.
+With numbers: at $z = 2$, $\sigma(2) = 0.88$, so $\sigma'(2) = 0.88 \times 0.12 = 0.105$. Figure 3 (Section 4) draws the two factors as the blue and orange parts of a bar of height 1.
+
+![The derivation in four steps, each checked with numbers at $z = 2$: the raw derivative and the product $\sigma(1 - \sigma)$ both give 0.105.](images/derivation.png){height=40%}
+
+In Figure 2, follow the numbers beside the boxes: the messy fraction and the neat product land on the same slope, 0.105.
 
 The form $\sigma(1-\sigma)$ is very convenient. When a model has already computed $\sigma(z)$ for its prediction, the derivative costs just one subtraction and one multiplication.
 
@@ -80,7 +88,7 @@ The form $\sigma(1-\sigma)$ is very convenient. When a model has already compute
 
 ![A tangent line (red) rides the sigmoid; its slope is traced below. The bar at $z$ splits into $\sigma(z)$ (blue) and $1 - \sigma(z)$ (orange), and the slope is their product. Key frames: $z = -4$, $0$, $2$, $6$](images/tangent_ride.gif)
 
-In Figure 1, watch the two coloured parts of the bar: the slope is large only when both parts are large, which happens at $z = 0$, where each is 0.5. Reading the derivative as the slope of a tangent line that moves along the curve follows Sanderson's *Essence of Calculus* (3Blue1Brown, "The paradox of the derivative").
+In Figure 3, watch the two coloured parts of the bar: the slope is large only when both parts are large, which happens at $z = 0$, where each is 0.5. Reading the derivative as the slope of a tangent line that moves along the curve follows Sanderson's *Essence of Calculus* (3Blue1Brown, "The paradox of the derivative").
 
 | $z$ | $-4$ | $-2$ | 0 | 2 | 4 |
 |---|---|---|---|---|---|
@@ -107,7 +115,7 @@ In Figure 1, watch the two coloured parts of the bar: the slope is large only wh
 >
 > The numerical slope (rise over a tiny run) matches the formula to six decimals.
 
-> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the **vanishing gradient problem**. Saturating sigmoids make gradient-based learning very difficult, so the sigmoid is now discouraged inside the hidden layers of a network, and ReLU is the default choice (Goodfellow et al. §6.1, §6.3.2).
+> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the **vanishing gradient** (G-2070) problem. Saturating sigmoids make gradient-based learning very difficult, so the sigmoid is now discouraged inside the hidden layers of a network, and ReLU is the default choice (Goodfellow et al. §6.1, §6.3.2).
 
 ## 5. Summary
 
@@ -132,5 +140,6 @@ In Figure 1, watch the two coloured parts of the bar: the slope is large only wh
 | Term | Meaning |
 |---|---|
 | Derivative | The rate of change, or slope, of a function at a point |
+| Tangent line | The straight line that touches a curve at one point and has the same slope there |
 | Chain rule | To differentiate a function of a function, multiply the outer derivative by the inner derivative |
 | Vanishing gradient | Gradients shrinking towards 0 as they pass through many layers, which slows learning |

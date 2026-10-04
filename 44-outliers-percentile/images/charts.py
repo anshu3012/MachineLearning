@@ -102,3 +102,46 @@ fig.update_xaxes(title="Height (inches)", row=2, col=1)
 fig.update_yaxes(title="people", row=1, col=1)
 fig.update_yaxes(range=[-0.6, 2.6], row=2, col=1)
 save(fig, "three_rules", 1100, 640)
+
+# 4. a percentile is a value at a rank: the 10,000 heights sorted, the 100 shortest and 100 tallest in red (Section 2)
+s = h.sort_values().to_numpy()
+rank = range(1, len(s) + 1)
+assert (s[:100] < lo).all() and (s[100] >= lo) and (s[-100:] > hi).all() and (s[-101] <= hi)
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=list(rank)[100:-100], y=s[100:-100], mode="lines", line=dict(color=BLUE, width=4)))
+for sl in (slice(0, 100), slice(-100, None)):
+    fig.add_trace(go.Scatter(x=list(rank)[sl], y=s[sl], mode="lines", line=dict(color=RED, width=6)))
+for v, t in ((lo, f"1st percentile {lo:.2f}"), (hi, f"99th percentile {hi:.2f}")):
+    fig.add_hline(y=v, line=dict(color=GREY, width=2, dash="dash"))
+    fig.add_annotation(x=5000, y=v, yshift=14 if v == hi else -14, showarrow=False, text=t)
+fig.add_annotation(x=60, y=56, ax=90, ay=0, xanchor="left", font_color=RED, arrowcolor=RED,
+                   text="the 100 shortest")
+fig.add_annotation(x=9900, y=s[-1], ax=-60, ay=-10, xanchor="right", font_color=RED, arrowcolor=RED,
+                   text="the 100 tallest")
+fig.update_xaxes(title="rank (shortest = 1)", range=[-200, 10200], tickformat=",")
+fig.update_yaxes(title="Height (inches)", range=[53, 80])
+save(fig, "sorted_heights", 1000, 500)
+
+# 5. the fixed share on Weight: the box-plot fences flag 1 value, the 1st and 99th percentiles flag 200 (Section 10)
+w = pd.read_csv(here.parent / "data" / "weight-height.csv")["Weight"]
+wq1, wq3 = w.quantile([0.25, 0.75])
+flo, fhi = wq1 - 1.5 * (wq3 - wq1), wq3 + 1.5 * (wq3 - wq1)
+plo, phi = w.quantile([0.01, 0.99])
+pout = (w < plo) | (w > phi)
+assert ((w < flo) | (w > fhi)).sum() == 1 and pout.sum() == 200
+WB = dict(start=60, end=275, size=5)
+fig = go.Figure()
+fig.add_trace(go.Histogram(x=w[~pout], xbins=WB, marker_color=BLUE))
+fig.add_trace(go.Histogram(x=w[pout], xbins=WB, marker_color=RED))
+for v, s_ in ((flo, "left"), (fhi, "right")):
+    fig.add_vline(x=v, line=dict(color=GREEN, width=4, dash="dot"), opacity=1)
+for v in (plo, phi):
+    fig.add_vline(x=v, line=dict(color=RED, width=3, dash="dash"), opacity=1)
+fig.add_annotation(x=w.max(), y=2, ax=-10, ay=-200, arrowcolor=GREEN, font_color=GREEN, xanchor="right",
+                   text=f"the 1 box-plot outlier: {w.max():.0f}")
+fig.add_annotation(x=0.5, y=1.0, xref="paper", yref="paper", yanchor="bottom", showarrow=False,
+                   text="<span style='color:#54A24B'>dotted: box-plot fences, 1 outlier</span>"
+                        "     <span style='color:#E45756'>dashed: 1st and 99th percentiles, 200 flagged</span>")
+fig.update_xaxes(title="Weight (pounds)", range=[50, 280], dtick=20)
+fig.update_yaxes(title="people")
+save(fig, "weight_share", 1100, 480)

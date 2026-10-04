@@ -14,11 +14,16 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/multi-he
 
 ## 1. Overview
 
-> **Key point:** One self-attention computes one table of weights per sentence, so it can only look at the sentence from one point of view. **Multi-head attention** runs several self-attentions in parallel, called **heads**, each with its own $W_Q$, $W_K$ and $W_V$. Their outputs are joined side by side and mixed by one more learned matrix, $W_O$. In the transformer there are 8 heads of 64 numbers each, so the total cost is the same as one head of 512 numbers.
+> **Key point:** One self-attention computes one table of weights per sentence, so it can only look at the sentence from one point of view. **Multi-head attention** (G-1268) runs several self-attentions in parallel, called **heads** (G-883), each with its own $W_Q$, $W_K$ and $W_V$. Their outputs are joined side by side and mixed by one more learned matrix, $W_O$. In the transformer there are 8 heads of 64 numbers each, so the total cost is the same as one head of 512 numbers.
 
-The [self-attention step by step Note](../1073-self-attention-step-by-step/note.md) turned each word's embedding into a **contextual embedding**: a new vector that depends on the other words of the sentence. The [scaled dot-product attention Note](../1074-scaled-dot-product-attention/note.md) gave the final formula, $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+The [self-attention step by step Note](../1073-self-attention-step-by-step/note.md) turned each word's embedding into a **contextual embedding** (G-462): a new vector that depends on the other words of the sentence. The [scaled dot-product attention Note](../1074-scaled-dot-product-attention/note.md) gave the final formula, $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
 
-This Note shows the one limitation of that formula, then the fix that the transformer uses: **multi-head attention** (Vaswani et al. 2017, §3.2.2). Figure 1 shows the whole computation. The Note then checks the computation against Keras, counts its cost, and looks at the 12 heads of a real trained model.
+This Note shows the one limitation of that formula, then the fix that the transformer uses: **multi-head attention** (Vaswani et al. 2017, §3.2.2). Figure 1 shows the whole computation. The Note then:
+
+- counts its cost (section 6);
+- checks the computation against Keras (section 7);
+- looks at the 12 heads of a real trained model (section 8).
+
 
 ![Multi-head attention in the transformer: 8 heads, each with its own $W_Q^i$, $W_K^i$, $W_V^i$, work in parallel on the same embeddings. Their outputs are concatenated and multiplied by $W_O$, which gives back one 512-number vector per word](images/mha_flow.png){width=100%}
 
@@ -49,6 +54,10 @@ Read this sentence: "The man saw the astronomer with a telescope." It has two me
 2. The man saw an astronomer who was holding a telescope. Then "telescope" belongs with "astronomer".
 
 Self-attention computes one weight for every pair of words: how much "man" looks at "telescope", how much "astronomer" looks at "telescope", and so on. With one set of $W_Q$, $W_K$, $W_V$, there is exactly one such table for the sentence. If the weights tie "man" strongly to "telescope", the table expresses the first meaning; if they tie "astronomer" to "telescope", the second. One table cannot hold both.
+
+![The two readings of the sentence as two attention links. Reading 1 needs a large weight from "man" to "telescope"; reading 2 needs a large weight from "astronomer" to "telescope"](images/two_readings.png){width=100%}
+
+Figure 2 draws the two links that the two readings need. A single head gives one table of weights, so it has to favour one of the two arrows.
 
 The same limit appears in larger tasks. A tool that summarises a document from a single point of view gives one summary. Ideally we would look at the document from several points of view and combine them.
 
@@ -95,7 +104,7 @@ $Z_1$ holds the head-1 outputs of "money" and "bank" as its two rows; $Z_2$ hold
 
 > **Key point:** Join the heads' outputs side by side, then multiply by a learned matrix $W_O$. The result has the same shape as the input.
 
-Each word now has two 4-number vectors. Placing $Z_1$ and $Z_2$ side by side (**concatenation**) gives $Z'$, of shape $2 \times 8$. But the output of the layer should have the same shape as its input, $2 \times 4$, so that the next layer can treat it like the embeddings. One more learned matrix, $W_O$ of shape $8 \times 4$, does this:
+Each word now has two 4-number vectors. Placing $Z_1$ and $Z_2$ side by side (**concatenation** (G-437)) gives $Z'$, of shape $2 \times 8$. But the output of the layer should have the same shape as its input, $2 \times 4$, so that the next layer can treat it like the embeddings. One more learned matrix, $W_O$ of shape $8 \times 4$, does this:
 
 $$Z = Z'\thinspace W_O = [\thinspace Z_1 \thickspace\thickspace Z_2\thinspace]\thinspace W_O$$
 
@@ -119,7 +128,7 @@ $W_O$ is learned by backpropagation like $W_Q$, $W_K$ and $W_V$. Each output num
    $$[\thinspace Z_1 \thickspace\thickspace Z_2\thinspace]\thinspace W_O = Z_1 W_O^1 + Z_2 W_O^2$$
 3. **Example:** for "money", head 1 contributes $z^1_{\text{money}} W_O^1 = (1.66, 1.19, 1.27, -0.92)$ and head 2 contributes $z^2_{\text{money}} W_O^2 = (1.00, 0.50, 0.50, 2.50)$. Their sum is $(2.66, 1.69, 1.77, 1.58)$, exactly the output above (Notebook).
 
-So every head proposes its own change to the word's vector, and the layer adds the proposals up (Sanderson 2024, Ch 6). In the transformer, that sum is then added to the word's own vector by the residual connection (the [self-attention geometrically Note](../1075-self-attention-geometric-intuition/note.md), section 7.3). Figure 2 runs the whole computation for "money".
+So every head proposes its own change to the word's vector, and the layer adds the proposals up (Sanderson 2024, Ch 6). In the transformer, that sum is then added to the word's own vector by the residual connection (the [self-attention geometrically Note](../1075-self-attention-geometric-intuition/note.md), section 7.3). Figure 3 runs the whole computation for "money".
 
 ![Two heads on "money bank", followed for "money": each head's weights and output, the concatenation times $W_O$, and the same result as one change per head, added up](images/heads_wo.gif){height=55%}
 
@@ -133,7 +142,7 @@ Follow one head's value vectors through to the output. With $d_{\text{model}}$ n
 
 1. **In words:** $W_V^i$ maps the word's vector **down** to $d_v$ numbers, and the head's block of rows $W_O^i$ maps those numbers back **up** to $d_{\text{model}}$. Together they form one map from the word's vector to the change this head can write, $W_V^i W_O^i$, of size $d_{\text{model}} \times d_{\text{model}}$.
 2. **Formula:** the combined map passes through $d_v$ numbers, so its rank is at most $d_v$ (the [low-rank approximation Note](../612-low-rank-approximation/note.md)): $\text{rank}(W_V^i W_O^i) \le d_v$.
-3. **Example:** in BERT-base (768 numbers per word, heads of 64; section 8), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 3).
+3. **Example:** in BERT-base (768 numbers per word, heads of 64; section 8), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 4).
 
 ![BERT-base, layer 1: the singular values of each of the 12 heads' value maps $W_V^i W_O^i$, largest first (log scale). All 12 drop to rounding-error size after exactly 64](images/value_rank.png){width=85%}
 
@@ -178,6 +187,10 @@ Two full-size heads, as in section 5, would double the weights. Splitting $d_{\t
    which does not depend on $h$. Likewise every pair of words costs $h \times (d/h) = d$ multiplications in the scores $Q_iK_i^T$, whatever $h$ is.
 3. **Example:** $d = 512$: $4 \times 512^2 + 4 \times 512 = 1{,}050{,}624$ parameters.
 
+![Left: parameters of Keras' `MultiHeadAttention` for one head of 512, eight heads of 64 and two full heads of 512 (Notebook). Right: translation quality against the number of heads, with the total size fixed at 512 (Vaswani et al. 2017, Table 3, rows A)](images/head_budget.png){width=100%}
+
+In Figure 5, the first two bars are equal: splitting into 8 heads costs nothing extra, while two full-size heads double the count. The right panel is the paper's measurement of the number of heads, described in the Extra box below.
+
 Keras' `MultiHeadAttention` layer confirms it (Notebook):
 
 | Heads | Size per head | Parameters | Score multiplications per word pair |
@@ -220,11 +233,11 @@ The largest difference between `out_hand` and the Keras output, over all $8 \tim
 
 > **Key point:** In a real trained transformer, the heads of one layer look at the same sentence in visibly different ways. On "the man saw the astronomer with a telescope", one head ties "man" most to "telescope", another ties "man" most to "astronomer".
 
-Random weights only show that heads can differ. To see what trained heads do, we use **BERT**, a published transformer trained on a large amount of English text (Devlin et al. 2019). BERT-base has 12 layers, 768 numbers per word and 12 attention heads per layer (Devlin et al. 2019, §3), so each head has $768/12 = 64$ numbers. The Notebook downloads only the published weights needed for the first layer's attention (about 7 MB from Hugging Face on its first run, so that run needs an internet connection; later runs use the cached copy), computes the 12 heads' weights in NumPy, and checks them against Keras' `MultiHeadAttention` loaded with the same weights (largest difference $5 \times 10^{-7}$). BERT adds two special tokens to every sentence, `[CLS]` at the start and `[SEP]` at the end, so the sentence has 10 positions.
+Random weights only show that heads can differ. To see what trained heads do, we use **BERT** (G-278), a published transformer trained on a large amount of English text (Devlin et al. 2019). BERT-base has 12 layers, 768 numbers per word and 12 attention heads per layer (Devlin et al. 2019, §3), so each head has $768/12 = 64$ numbers. The Notebook downloads only the published weights needed for the first layer's attention (about 7 MB from Hugging Face on its first run, so that run needs an internet connection; later runs use the cached copy), computes the 12 heads' weights in NumPy, and checks them against Keras' `MultiHeadAttention` loaded with the same weights (largest difference $5 \times 10^{-7}$). BERT adds two special tokens to every sentence, `[CLS]` at the start and `[SEP]` at the end, so the sentence has 10 positions.
 
 ![Heads 1 and 2 of BERT-base's first layer. Each row is a query word, and its 10 weights sum to 1. Outlined: the rows of "man" and "astronomer"](images/two_heads.png){width=100%}
 
-Figure 4 shows two heads of the same layer on the same sentence:
+Figure 6 shows two heads of the same layer on the same sentence:
 
 | Query word | Head 1: largest weight | Head 2: largest weight |
 |---|---|---|
@@ -235,7 +248,7 @@ In head 1, "man" looks most at "telescope". In head 2, "man" looks most at "astr
 
 ![The 12 heads of BERT-base's first layer on the same sentence (rows: query word, columns: key word)](images/bert_heads.png){width=100%}
 
-All 12 heads (Figure 5) differ, and several follow simple patterns. Averaged over the 8 real words (Notebook):
+All 12 heads (Figure 7) differ, and several follow simple patterns. Averaged over the 8 real words (Notebook):
 
 | Head | Typical behaviour | Average weight |
 |---|---|---|

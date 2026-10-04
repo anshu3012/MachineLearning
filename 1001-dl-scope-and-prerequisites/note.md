@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 
 ![The four families of networks in the Deep Learning Notes, the data each one suits, and what to know first](images/roadmap.png)
 
-Figure 1 shows the plan. Each family builds on the one before it, and each suits a different kind of data. The first family, the artificial neural network (ANN), takes the most space, because every later network reuses its ideas.
+Figure 1 shows the plan. Each family builds on the one before it, and each suits a different kind of data. The first family, the **artificial neural network (ANN)** (G-216), takes the most space, because every later network reuses its ideas.
 
 ## 2. The four families of networks
 
@@ -36,19 +36,19 @@ Figure 2 previews what each family looks like once we reach it.
 The ANN part runs in this order:
 
 1. **Foundations:** what deep learning is, how it differs from ML, the main types of network, their history and applications.
-2. **The perceptron:** a single artificial neuron, how it predicts, how it is trained, and the problem that a single neuron cannot solve.
-3. **The multi-layer perceptron (MLP):** many neurons in layers, the names of its weights and biases, and how it makes a prediction.
-4. **Training:** loss functions, backpropagation and gradient descent.
-5. **First projects** in the Keras library: one classification and one regression problem.
+2. **The perceptron** (G-1486): a single artificial **neuron** (G-1318), how it predicts, how it is trained, and the problem that a single neuron cannot solve.
+3. **The multi-layer perceptron (MLP)** (G-1270): many neurons in **layers** (G-1056), the names of its **weights** (G-2106) and **biases** (G-287), and how it makes a prediction.
+4. **Training:** **loss functions** (G-1130), **backpropagation** (G-247) and **gradient descent** (G-862).
+5. **First projects** in the **Keras** (G-1003) library: one classification and one regression problem.
 6. **Improving a network:** vanishing and exploding gradients, dropout, regularisation, activation functions, weight initialisation, batch normalisation, optimisers and hyperparameter tuning.
 
 ### 2.2 CNNs, RNNs and transformers
 
 > **Key point:** CNNs for images, RNNs for sequences, transformers for language.
 
-- Convolutional neural networks (CNNs) work best on images: convolution, pooling, pretrained models and transfer learning.
-- Recurrent neural networks (RNNs) work on sequences such as text, speech and time series: RNNs, LSTMs and GRUs.
-- Transformers replace recurrence with attention (Vaswani et al. 2017) and are the basis of language models such as GPT-3 (Brown et al. 2020): attention, self-attention and the full encoder-decoder transformer.
+- **Convolutional neural networks (CNNs)** (G-484) work best on images: convolution, pooling, pretrained models and transfer learning.
+- **Recurrent neural networks (RNNs)** (G-1647) work on sequences such as text, speech and time series: RNNs, LSTMs and GRUs.
+- **Transformers** (G-2007) replace recurrence with **attention** (G-226; Vaswani et al. 2017) and are the basis of language models such as GPT-3 (Brown et al. 2020): attention, self-attention and the full encoder-decoder transformer.
 
 > **Extra:** Generative networks (GANs, autoencoders), object detection and image segmentation are not covered in these Notes. The [types of neural networks Note](../1003-nn-types-history-applications/note.md) describes GANs and autoencoders in a paragraph each.
 
@@ -56,7 +56,7 @@ The ANN part runs in this order:
 
 > **Key point:** Code uses TensorFlow with Keras, the pair most used in industry; PyTorch is the common choice in research.
 
-Most deep learning code in these Notes uses **TensorFlow** with **Keras**, its built-in high-level interface. The other major library, **PyTorch**, is used more in research than in industry. Where a Note has code, its Notebook rebuilds it for current library versions.
+Most deep learning code in these Notes uses **TensorFlow** (G-1959) with **Keras**, its built-in high-level interface. The other major library, **PyTorch** (G-1595), is used more in research than in industry. Where a Note has code, its Notebook rebuilds it for current library versions.
 
 ## 3. What to know first
 
@@ -64,7 +64,12 @@ Most deep learning code in these Notes uses **TensorFlow** with **Keras**, its b
 
 ![Where each prerequisite shows up in one layer of a network, $\sigma(W\mathbf{x} + \mathbf{b})$](images/prereq_neuron.png){width=75%}
 
-Figure 3 ties the four prerequisites to one formula: linear algebra builds $W\mathbf{x} + \mathbf{b}$, logistic regression supplies the sigmoid, derivatives train the weights, and Python runs it.
+Figure 3 ties the four prerequisites to one formula:
+
+- **linear algebra** (G-1090) builds $W\mathbf{x} + \mathbf{b}$;
+- logistic regression supplies the sigmoid;
+- derivatives train the weights;
+- Python runs the code.
 
 The Deep Learning Notes assume four things. Each row of the table links to the Notes that teach it:
 
@@ -83,23 +88,23 @@ Every Notebook is written in Python, so we need to read loops, functions and Num
 
 A few ML Notes come back again and again in the Deep Learning Notes, so they are worth reading first:
 
-- **Logistic regression:** the [perceptron trick](../70-perceptron-trick/note.md), the [sigmoid function](../72-sigmoid-function/note.md) and the [log loss](../73-log-loss/note.md). A single neuron with a sigmoid activation computes $\sigma(\mathbf{w}^{\mathsf T}\mathbf{x} + b)$, the same formula as logistic regression.
+- **Logistic regression** (G-1120): the [perceptron trick](../70-perceptron-trick/note.md), the [sigmoid function](../72-sigmoid-function/note.md) and the [log loss](../73-log-loss/note.md). A single neuron with a **sigmoid** (G-1798) activation computes $\sigma(\mathbf{w}^{\mathsf T}\mathbf{x} + b)$, the same formula as logistic regression.
 - **Gradient descent:** the [gradient descent Note](../57-gradient-descent/note.md) and its [stochastic](../59-stochastic-gradient-descent/note.md) variant. Every network is trained this way.
-- **Tensors:** the [tensors Note](../11-tensors/note.md). TensorFlow stores inputs, weights and outputs as tensors (TensorFlow guide, Tensors).
+- **Tensors** (G-1957): the [tensors Note](../11-tensors/note.md). TensorFlow stores inputs, weights and outputs as tensors (TensorFlow guide, Tensors).
 
 ### 3.2 Linear algebra
 
 > **Key point:** A layer of a network is a matrix multiplication plus a shift, so matrices and the dot product are the core of every prediction.
 
-A neural network spends almost all its time multiplying matrices; deep learning libraries are built on linear algebra. One neuron computes a dot product of its inputs and weights. A whole layer computes a matrix product $W\mathbf{x} + \mathbf{b}$, as previewed in section 7.3 of the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md).
+A neural network spends almost all its time multiplying matrices; deep learning libraries are built on linear algebra. One neuron computes a **dot product** (G-634) of its inputs and weights. A whole layer computes a **matrix product** (G-1179) $W\mathbf{x} + \mathbf{b}$, as previewed in section 7.3 of the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md).
 
 ### 3.3 Derivatives
 
 > **Key point:** Training adjusts every weight against the slope of the loss, and the chain rule carries that slope back through the layers.
 
-Training is like walking downhill in fog: we cannot see the valley, but we can feel which way the ground slopes under our feet and step that way. The slope is a derivative, one per weight. The [derivatives Note](../600-derivatives-of-one-variable/note.md) and the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) teach everything we need.
+Training is like walking downhill in fog: we cannot see the valley, but we can feel which way the ground slopes under our feet and step that way. The slope is a **derivative** (G-595), one per weight. The [derivatives Note](../600-derivatives-of-one-variable/note.md) and the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) teach everything we need.
 
-> **Extra:** Training a network is calculus. Backpropagation applies the chain rule layer by layer; section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md) previews it.
+> **Extra:** Training a network is calculus. Backpropagation applies the **chain rule** (G-371) layer by layer; section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md) previews it.
 
 ## 4. Summary
 

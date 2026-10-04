@@ -19,15 +19,16 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 
 ![Choosing between the z-procedure and the t-procedure](images/z_or_t.png){height=30%}
 
-Earlier we built the interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The z-interval needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure**, the method used in real work.
+Earlier we built the interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The z-interval needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure** (G-1938), the method used in real work.
 
 This Note covers:
 
-- the assumptions of the t-procedure;
-- why replacing $\sigma$ by $s$ changes the distribution, and what Student's t-distribution is;
-- degrees of freedom and t critical values;
-- a simulation showing that "z with $s$" fails and "t with $s$" works;
-- a t-interval for the mean Titanic fare.
+- why replacing $\sigma$ by $s$ changes the distribution (section 3);
+- a simulation showing that "z with $s$" fails and "t with $s$" works (section 4);
+- Student's t-distribution and its degrees of freedom (section 5);
+- the t-interval and t critical values (section 6);
+- the assumptions of the t-procedure (section 7);
+- a t-interval for the mean Titanic fare (section 8).
 
 ## 2. Why $\sigma$ is rarely known
 
@@ -37,22 +38,7 @@ The z-procedure has a hidden weakness. We build a confidence interval because we
 
 So in practice the z-procedure is rarely usable. The t-procedure needs no population parameter at all: everything comes from the sample.
 
-## 3. Assumptions of the t-procedure
-
-> **Key point:** A random sample, a roughly normal population or a large sample, and independent observations.
-
-1. **Random sample.** As for the z-procedure: drawn at random and representative.
-2. **Normal population, or a large sample.** The population should be approximately normal. If it is not, a sample of more than about 30 lets the central limit theorem make $\bar{x}$ approximately normal anyway (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
-3. **Independent observations.** An **observation** is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval, but one that is too narrow.
-
-> **Extra:** The notebook measures the damage. For samples of 30 from a normal population where each value is tied to the one before (correlation 0.5), the "95%" t-interval contains $\mu$ only 74.1% of the time, against 95.2% for independent values.
-
-The second assumption gives the t-procedure two strengths:
-
-- it works when $\sigma$ is unknown, the usual case;
-- for a population that is close to normal, it also works with **very small samples**, such as 5 or 10 values, where the CLT cannot help.
-
-## 4. Replacing $\sigma$ by $s$
+## 3. Replacing $\sigma$ by $s$
 
 > **Key point:** With $s$ in place of $\sigma$, the standardized sample mean no longer follows the standard normal distribution but Student's t-distribution.
 
@@ -68,11 +54,39 @@ The z-procedure rested on the standardized sample mean $Z = (\bar{X} - \mu)/(\si
 
 $T$ looks like $Z$, but it is not standard normal. In $Z$ only the numerator varies from sample to sample. In $T$ the denominator varies too: a sample with an unusually small $s$ gives a large $T$. This extra uncertainty makes extreme values of $T$ more common than extreme values of $Z$.
 
+## 4. Why "z with $s$" fails
+
+> **Key point:** Using $s$ with the z critical value gives intervals that are too narrow: for $n = 10$, a "95%" interval contains $\mu$ only 91.9% of the time; the t critical value restores 95%.
+
+The tempting fix is to keep the z-interval and simply write $s$ where $\sigma$ was. A simulation shows what that costs. As in the [interpreting confidence intervals Note](../281-interpreting-confidence-intervals/note.md), we pretend to know the population, a normal one with $\mu = 50$ and $\sigma = 15$, and draw samples of $n = 10$. From each sample we build three "95%" intervals:
+
+- **z with $\sigma$:** $\bar{x} \pm 1.96\thinspace\sigma/\sqrt{n}$, the z-procedure, possible only because we invented the population;
+- **z with $s$:** $\bar{x} \pm 1.96\thinspace s/\sqrt{n}$, the tempting shortcut;
+- **t with $s$:** $\bar{x} \pm 2.262\thinspace s/\sqrt{n}$, the t-procedure of section 6, which uses a larger critical value.
+
+In Figure 2 the intervals arrive in batches. Watch the orange intervals, the misses, and the count in each title: the middle panel collects misses fastest.
+
+![The same samples of n = 10 with three 95% intervals each: z with the true sigma, z with s, and t with s; misses in orange, running counts in the titles, coverage over 100,000 samples in the last frame (idea after Khan Academy, "Simulation showing value of t statistic")](images/three_way_coverage.gif)
+
+Over 100,000 samples, the "95%" z-with $s$ intervals contain $\mu$ only 91.9% of the time, while z with the true $\sigma$ and t with $s$ both reach 95.1% (Figure 2, last frame). Repeating more often does not help: the z intervals stay around 92%, because they are built from the wrong distribution. They are systematically too short and skip the true mean more often than promised.
+
+| Sample size $n$ | z with $s$ | t with $s$ |
+|---|---|---|
+| 5 | 87.7% | 95.0% |
+| 10 | 91.9% | 95.1% |
+| 30 | 94.2% | 95.2% |
+| 100 | 94.7% | 95.0% |
+
+The gap is large for small samples and fades as $n$ grows, exactly as the t-curve approaches the normal curve. The rule is simple:
+
+- $\sigma$ known: z-procedure, $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$;
+- $\sigma$ unknown: t-procedure, $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$.
+
 ## 5. Student's t-distribution
 
 > **Key point:** A bell-shaped, symmetric distribution like the standard normal but with fatter tails; its only parameter is the degrees of freedom, $n - 1$.
 
-The distribution of $T$ is **Student's t-distribution**. The t-distribution was published in 1908 by William Sealy Gosset, a chemist at the Guinness brewery in Dublin who had to draw conclusions from small samples, for example when choosing the best varieties of barley (Student 1908; Zabell 2008). Guinness did not let staff publish under their own names, so Gosset signed the paper "Student", and the name stuck (Zabell 2008). The letter t has no special meaning.
+The distribution of $T$ is **Student's t-distribution** (G-1906). The t-distribution was published in 1908 by William Sealy Gosset, a chemist at the Guinness brewery in Dublin who had to draw conclusions from small samples, for example when choosing the best varieties of barley (Student 1908; Zabell 2008). Guinness did not let staff publish under their own names, so Gosset signed the paper "Student", and the name stuck (Zabell 2008). The letter t has no special meaning.
 
 Unlike the normal and log-normal distributions, which describe raw data such as heights or incomes, the t-distribution was derived for this inference problem. The t-distribution describes a statistic, $T$, not measurements.
 
@@ -80,7 +94,7 @@ Unlike the normal and log-normal distributions, which describe raw data such as 
 
 > **Key point:** The t-distribution has one parameter, the degrees of freedom: $df = n - 1$ for a sample of size $n$.
 
-The normal distribution has two parameters, $\mu$ and $\sigma$. The t-distribution has one, the **degrees of freedom** ($df$):
+The normal distribution has two parameters, $\mu$ and $\sigma$. The t-distribution has one, the **degrees of freedom** (G-578) ($df$):
 
 $$df = n - 1$$
 
@@ -94,7 +108,7 @@ The $n - 1$ is the same $n - 1$ as in the sample variance. The $n$ deviations $x
 
 ![Student's t (dashed) against the standard normal (solid) for 1, 4 and 29 degrees of freedom, with the 95% t critical values (z = ±1.96)](images/t_vs_normal.png)
 
-Figure 2 compares the two curves:
+Figure 3 compares the two curves:
 
 - both are bell-shaped, symmetric and centred at 0;
 - the t-curve is lower in the middle and higher in the tails: some probability has moved from near the mean to far away;
@@ -112,7 +126,7 @@ The fat tails are the extra uncertainty of $s$, put into the shape. The probabil
 
 As $n$ grows, $s$ becomes a reliable estimate of $\sigma$, the extra uncertainty disappears, and the t-distribution approaches the standard normal. The t-distribution becomes exactly normal only with infinitely many degrees of freedom, but beyond about 30 to 50 the two are very close.
 
-Figure 3 builds the t-distribution from scratch. For each sample size, we draw 20,000 samples from the normal population of section 7 ($\mu = 50$, $\sigma = 15$) and compute $T$ for each. Watch the red tails beyond $\pm 1.96$: they hold 30% of the samples at $n = 2$ and shrink towards 5% as $n$ grows, while the histogram follows the t-curve, not the normal curve.
+Figure 4 builds the t-distribution from scratch. For each sample size, we draw 20,000 samples from the normal population of section 4 ($\mu = 50$, $\sigma = 15$) and compute $T$ for each. Watch the red tails beyond $\pm 1.96$: they hold 30% of the samples at $n = 2$ and shrink towards 5% as $n$ grows, while the histogram follows the t-curve, not the normal curve.
 
 ![Simulated T values for samples of n = 2 to 100 (histogram) against the standard normal (blue) and the t-curve with df = n - 1 (orange); the share beyond ±1.96 falls from 30% towards 5%](images/t_df_sweep.gif){height=45%}
 
@@ -128,9 +142,9 @@ Since $T$ follows the t-distribution, the derivation of the z-interval (see the 
 3. **Example:** 10 subscribers with $\bar{x} = 28$ years and $s = 15$ years, 95% confidence, $df = 9$, so $t_{0.025,\thinspace9} = 2.262$:
    $$\frac{s}{\sqrt{n}} = \frac{15}{\sqrt{10}} = 4.743, \qquad E = 2.262 \times 4.743 = 10.73$$
    $$28 \pm 10.73: \quad 17.27 \text{ to } 38.73 \text{ years}$$
-   With $z = 1.96$ the margin would be $1.96 \times 4.743 = 9.30$ (18.70 to 37.30): narrower, and, as section 7 shows, too narrow.
+   With $z = 1.96$ the margin would be $1.96 \times 4.743 = 9.30$ (18.70 to 37.30): narrower, and, as section 4 shows, too narrow.
 
-The t critical value is always larger than $z_{\alpha/2}$ for the same confidence level. The fat tails push the cut-offs that leave 2.5% in each tail further out (Figure 2). A wider interval is the honest answer: we are less sure about the spread, so we claim less precision.
+The t critical value is always larger than $z_{\alpha/2}$ for the same confidence level. The fat tails push the cut-offs that leave 2.5% in each tail further out (Figure 3). A wider interval is the honest answer: we are less sure about the spread, so we claim less precision.
 
 ### 6.1 Reading a t-table
 
@@ -151,6 +165,10 @@ A t-table has one row per degrees of freedom and one column per upper-tail area.
 | 1000 | 1.962 | 1.646 |
 | $z$ (normal) | 1.960 | 1.645 |
 
+Figure 5 draws both columns of the table against the degrees of freedom. Watch the blue curve: it starts far above 1.96 for small samples and sinks towards it, but never below.
+
+![T critical values against degrees of freedom: the 0.025 column (two-sided 95%, blue) and the 0.05 column (one tail of 5%, orange), with z = 1.96 and 1.645 dotted](images/t_critical.png){height=42%}
+
 A common slip is to read the 0.05 column for a 95% interval. For $df = 40$ it gives 1.684 instead of 2.021: that value leaves 5% in **one** tail, which suits a one-sided interval ("the mean is at least ...") but not a two-sided one. The correct value is always above 1.96.
 
 > **Python:** T critical values and t-intervals with scipy.
@@ -165,30 +183,24 @@ A common slip is to read the 0.05 column for a 95% interval. For $df = 40$ it gi
 > # (17.27, 38.73)
 > ```
 
-## 7. Why "z with $s$" fails
+## 7. Assumptions of the t-procedure
 
-> **Key point:** Using $s$ with the z critical value gives intervals that are too narrow: for $n = 10$, a "95%" interval contains $\mu$ only 91.9% of the time; the t critical value restores 95%.
+> **Key point:** A random sample, a roughly normal population or a large sample, and independent observations.
 
-We can check by simulation that the t-distribution is needed. As in the [interpreting confidence intervals Note](../281-interpreting-confidence-intervals/note.md), we draw samples of $n = 10$ from a normal population with $\mu = 50$ and $\sigma = 15$. From each sample we build two intervals:
+1. **Random sample.** As for the z-procedure: drawn at random and representative.
+2. **Normal population, or a large sample.** The population should be approximately normal. If it is not, a sample of more than about 30 lets the central limit theorem make $\bar{x}$ approximately normal anyway (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md)).
+3. **Independent observations.** An **observation** (G-1374) is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval, but one that is too narrow.
 
-- **z with $s$:** $\bar{x} \pm 1.96\thinspace s/\sqrt{n}$, the tempting shortcut;
-- **t with $s$:** $\bar{x} \pm 2.262\thinspace s/\sqrt{n}$, the t-procedure.
+> **Extra:** The notebook measures the damage. For samples of 30 from a normal population where each value is tied to the one before (correlation 0.5), the "95%" t-interval contains $\mu$ only 74.1% of the time, against 95.2% for independent values.
 
-![The same 100 samples of n = 10 with two 95% intervals each; coverage over 100,000 samples in the titles](images/z_vs_t_coverage.png)
+Figure 6 shows the damage on 60 samples of each kind. Watch the red intervals on the right: with linked values the sample means scatter further from $\mu$ than $s/\sqrt{n}$ allows for, so about one interval in four misses.
 
-Over 100,000 samples, the "95%" z-with $s$ intervals contain $\mu$ only 91.9% of the time; the t intervals 95.1% (Figure 4). Repeating more often does not help: the z intervals stay around 92%, because they are built from the wrong distribution. They are systematically too short and skip the true mean more often than promised.
+![60 t-intervals from independent samples (left) and from samples where each value is tied to the one before (right); red intervals miss the mean 50. Coverage over 20,000 samples in the titles](images/independence.png){height=45%}
 
-| Sample size $n$ | z with $s$ | t with $s$ |
-|---|---|---|
-| 5 | 87.7% | 95.0% |
-| 10 | 91.9% | 95.1% |
-| 30 | 94.2% | 95.2% |
-| 100 | 94.7% | 95.0% |
+The second assumption gives the t-procedure two strengths:
 
-The gap is large for small samples and fades as $n$ grows, exactly as the t-curve approaches the normal curve. The rule is simple:
-
-- $\sigma$ known: z-procedure, $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$;
-- $\sigma$ unknown: t-procedure, $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$.
+- it works when $\sigma$ is unknown, the usual case;
+- for a population that is close to normal, it also works with **very small samples**, such as 5 or 10 values, where the CLT cannot help.
 
 ## 8. Case study: the mean Titanic fare
 
@@ -212,6 +224,10 @@ The interval is wide because the fares vary enormously ($s = 49.74$) and the sam
 Suppose we drew 10 samples of 30 fares. One approach averages the 10 sample means (31.42) and the 10 sample standard deviations (45.88) and builds $31.42 \pm 2.045 \times 45.88/\sqrt{30}$: 14.29 to 48.55 pounds. This interval describes the precision of **one** sample of 30, not of the 300 fares we actually have.
 
 Pooling all 300 fares into one sample and using $n = 300$ gives 26.20 to 36.64 pounds: about a third of the width, and it still contains 33.30. More data should give a narrower interval, and pooling lets it.
+
+Figure 7 puts all four intervals of this case study on one line. Watch the red and green bars: the same 300 fares give a wide interval when averaged the wrong way and a narrow one when pooled.
+
+![The case study's intervals for the mean Titanic fare: one sample of 30 at 95% and 50%, ten samples of 30 averaged with n = 30 (wrong) and pooled with n = 300; dashed: the true mean 33.30](images/fare_intervals.png){height=40%}
 
 > **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30, or a method that does not assume normality, such as the bootstrap percentile interval that seaborn uses (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md); Efron and Tibshirani 1993, ch. 13). For small samples from a skewed population, the simple percentile interval is known to fall short of its promised coverage as well, and the t-interval does at least as well up to about 35 values (Hesterberg 2015). The notebook confirms this on the same 4000 samples: the bootstrap percentile interval contains the true mean 86.2% of the time for $n = 30$ and 92.8% for $n = 100$, the same as the t-interval. On data this skewed, the larger sample is what helps.
 
@@ -237,6 +253,9 @@ Pooling all 300 fares into one sample and using $n = 300$ gives 26.20 to 36.64 p
 **Built from**
 
 - CampusX, "Session 44 - Confidence Intervals | DSMP 2023", YouTube, https://www.youtube.com/watch?v=X52HK2qkiIE
+- Khan Academy, "Introduction to t statistics", YouTube, https://www.youtube.com/watch?v=a2rd4Qy8yNI
+- Khan Academy, "Simulation showing value of t statistic", YouTube, https://www.youtube.com/watch?v=gLE6y_NwmhQ
+- Khan Academy, "T-statistic confidence interval", YouTube, https://www.youtube.com/watch?v=hV4pdjHCKuA
 
 **Other references**
 

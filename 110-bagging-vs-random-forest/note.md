@@ -15,11 +15,11 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 
 ## 1. Overview
 
-> **Key point:** Two differences: bagging can use any base model while a random forest always uses decision trees; and bagging samples features once per tree while a random forest samples them again at every node.
+> **Key point:** Two differences: bagging can use any **base model** (G-260) while a random forest always uses decision trees; and bagging samples features once per tree while a random forest samples them again at every node.
 
 ![Feature sampling with 2 of 5 features: bagging draws the pair once and the whole tree uses it; a random forest draws a new pair at every node](images/column_sampling.gif)
 
-A random forest is built on bagging (the [random forest introduction Note](../108-random-forest-intro/note.md)), but the two are not the same, even when bagging uses decision trees. Figure 1 shows the subtle difference: **where** the **features** (input variables, one column of the data table each) are sampled. Each **observation** (one record, one row of the table) has a value for every feature and a **target**, the class we predict.
+A **random forest** (G-1611) is built on **bagging** (G-251; the [random forest introduction Note](../108-random-forest-intro/note.md)), but the two are not the same, even when bagging uses decision trees. Figure 1 shows the subtle difference: **where** the **features** (input variables, one column of the data table each) are sampled. Each **observation** (one record, one row of the table) has a value for every feature and a **target**, the class we predict.
 
 This Note covers both differences and checks the second one in code. The Notebook (`notebook.ipynb`) runs every check.
 
@@ -28,6 +28,10 @@ This Note covers both differences and checks the second one in code. The Noteboo
 > **Key point:** Bagging is a general technique for any algorithm; a random forest is made of decision trees only.
 
 In bagging, the base models can come from any algorithm, as long as they all use the same one: all decision trees, all KNN or all SVMs (the [bagging classifier Note](../106-bagging-classifier/note.md), section 2.2). Decision trees, KNN and SVMs are the usual choices.
+
+![Difference 1: BaggingClassifier takes any one algorithm as its base model; RandomForestClassifier is always made of decision trees](images/base_model.png){height=30%}
+
+Figure 2 sets the two classes side by side. Watch the left column: bagging offers a choice of base model, while the forest's column holds only trees.
 
 In a random forest, the base model is always a decision tree. scikit-learn's classes show this directly:
 
@@ -42,7 +46,7 @@ In a random forest, the base model is always a decision tree. scikit-learn's cla
 
 So is a bagging ensemble of decision trees a random forest? **No.** The remaining difference is in how the features are sampled (feature sampling: the [random forest introduction Note](../108-random-forest-intro/note.md), section 4).
 
-Take a dataset with 5 features, and suppose each tree may use 2 of them (`max_features=2` in both classes).
+Take a dataset with 5 features, and suppose each tree may use 2 of them (`max_features=2` (G-1185) in both classes).
 
 ### 3.1 Bagging: tree-level sampling
 
@@ -50,13 +54,13 @@ Take a dataset with 5 features, and suppose each tree may use 2 of them (`max_fe
 
 Before tree 1 is grown, 2 of the 5 features are drawn at random, say col1 and col3. Tree 1 is then trained on those two features only, and every split in it is on col1 or col3 (Figure 1, left). Tree 2 gets its own pair, say col4 and col5; tree 3 col1 and col4; and so on.
 
-Bagging therefore uses **tree-level feature sampling**: the features are decided once, before the tree is built, and no other feature is ever touched by that tree.
+Bagging therefore uses **tree-level feature sampling** (tree-level column sampling, G-2014): the features are decided once, before the tree is built, and no other feature is ever touched by that tree.
 
 ### 3.2 Random forest: node-level sampling
 
 > **Key point:** Two features are drawn at every node, so one tree can end up using all five.
 
-In a random forest, the draw happens again **every time a node is about to split** (Figure 1, right). The forest therefore uses **node-level feature sampling**:
+In a random forest, the draw happens again **every time a node is about to split** (Figure 1, right). The forest therefore uses **node-level feature sampling** (node-level column sampling, G-1325):
 
 - the root draws col2 and col3, and splits on the better of the two, col3;
 - the next node draws again, col4 and col5, and splits on col4;
@@ -68,16 +72,26 @@ Node-level sampling is exactly the `max_features` setting of a single decision t
 
 > **Key point:** More randomness makes the trees more different from each other, and an ensemble of different models performs better.
 
-From the ensemble Notes (the [voting ensemble Note](../102-voting-ensemble/note.md)): an ensemble works best when its base models are each better than chance and as different from each other as possible. Node-level sampling makes the trees more different, so a random forest usually beats a bagging ensemble of trees.
+From the ensemble Notes (the [voting ensemble Note](../102-voting-ensemble/note.md)): an ensemble works best when its base models are each better than chance and as different from each other as possible. How alike two models' predictions are is measured by the **correlation between base models** (G-488): 0 means unrelated, 1 means identical. The chain from sampling to accuracy:
+
+1. Node-level sampling forces each split to choose among a random few features, so even trees grown on similar observations end up splitting on different features.
+2. Trees that split differently make their mistakes on different observations, so their correlation is lower (ESL §15.2).
+3. When the trees vote or are averaged, mistakes made by only some trees are outvoted, so a lower correlation leaves a smaller error.
+
+The Extra below gives the formula, and Figure 3 plots it.
 
 ESL Figure 15.1 shows this gain on spam email data, and section 4.3 repeats the comparison on the same data.
 
-> **Extra:** Why does difference between the trees matter so much? Suppose each tree's prediction has variance $\sigma^2$ and any two trees are correlated by $\rho$ (0: unrelated, 1: identical).
+> **Extra:** Why does difference between the trees matter so much? Suppose each tree's prediction has **variance** (G-2078) $\sigma^2$, its spread around its average and any two trees are correlated by $\rho$ (0: unrelated, 1: identical).
 >
 > 1. **In words:** the variance of the average of $n$ trees has a part that more trees can remove and a part, set by the correlation, that they cannot.
 > 2. **Formula:**
 > $$\text{variance of the average} = \rho\thinspace\sigma^2 + \frac{1 - \rho}{n}\thinspace\sigma^2$$
 > 3. **Example:** with $\sigma^2 = 1$ and $n = 100$ trees: for $\rho = 0.6$, $0.6 + 0.4/100 = 0.604$; for $\rho = 0.3$, $0.3 + 0.7/100 = 0.307$.
+>
+> ![Variance of the average of n trees with $\sigma^2 = 1$, for trees correlated by $\rho = 0.6$ (blue) and $\rho = 0.3$ (orange); the dashed lines mark the floor $\rho\thinspace\sigma^2$](images/corr_variance.png){height=32%}
+>
+> Figure 3 plots the formula. Watch both curves flatten: by 20 trees each is within 0.04 of its dashed floor, so more trees stop helping, and only a lower $\rho$ moves the floor down.
 >
 > Adding trees only shrinks the second term. The first term stays, however many trees we add, unless the trees become less alike. Lowering $\rho$ is exactly what node-level sampling does. (ESL §15.2, eq. 15.1)
 
@@ -101,7 +115,7 @@ We use a dataset of 100 observations and 5 features, col1 to col5, made with `ma
 > bag.estimators_features_[0]      # array([4, 0])
 > ```
 >
-> `bag.estimators_[0]` is the first trained tree. `estimators_features_[0]` lists the features it was given (the [bagging classifier Note](../106-bagging-classifier/note.md), section 3.3): positions 4 and 0, that is col5 and col1.
+> `bag.estimators_[0]` is the first trained tree. `estimators_features_` (G-710) `[0]` lists the features it was given (the [bagging classifier Note](../106-bagging-classifier/note.md), section 3.3): positions 4 and 0, that is col5 and col1.
 
 When we print the first tree, every split is on `feature_0` or `feature_1`. Careful: these are **not** col1 and col2. The tree was trained on a 2-column table, so it numbers those two features 0 and 1 itself; `estimators_features_` maps them back to col5 and col1.
 
@@ -115,7 +129,7 @@ When we print the first tree, every split is on `feature_0` or `feature_1`. Care
 >       feature_names=list(df.columns[cols])))
 > ```
 >
-> `export_text` prints a tree as indented text, one line per split. `feature_names` replaces `feature_0`, `feature_1`, ... with names.
+> `export_text` (G-737) prints a tree as indented text, one line per split. `feature_names` replaces `feature_0`, `feature_1`, ... with names.
 
 All 10 bagged trees use exactly 2 features: (col1, col5), (col1, col3), (col3, col5), and so on.
 
@@ -127,7 +141,7 @@ The first tree of `RandomForestClassifier(max_features=2)` splits first on col3,
 
 ![How many different features each of 100 trees splits on, out of 5, with max_features=2](images/columns_used.png){height=30%}
 
-Figure 2 counts, for 100 trees of each kind, how many different features each tree splits on:
+Figure 4 counts, for 100 trees of each kind, how many different features each tree splits on:
 
 - **bagging:** all 100 trees use exactly 2 features;
 - **random forest:** 5 trees use 2 features, 28 use 3, 50 use 4, and 17 use all 5.
@@ -138,7 +152,7 @@ The counts prove the point: bagging samples features at the tree level, a random
 
 > **Key point:** On real spam data, the random forest scores 0.953, bagging 0.946 with all features and 0.922 with 7 features per tree.
 
-We use the Spambase data (UCI, via OpenML): 4,601 emails, 57 features such as how often words like "free" or "$" appear, and a target of spam or not. ESL §15.2 compares bagging and random forests on the same data. Each model has 200 trees, scored with 5-fold cross-validation repeated 3 times:
+We use the Spambase data (UCI, via OpenML): 4,601 emails, 57 features such as how often words like "free" or "$" appear, and a target of spam or not. ESL §15.2 compares bagging and random forests on the same data. Each model has 200 trees, scored with 5-fold **cross-validation** (G-510) repeated 3 times:
 
 | Model | Features | Accuracy |
 |---|---|---|

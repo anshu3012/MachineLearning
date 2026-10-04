@@ -19,18 +19,30 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 
 ![The normal curve of adult men's heights, N(68, 3) inches](images/bell_anatomy.png)
 
-Figure 1 shows the most famous probability distribution: the heights of adult men in a population, with mean 68 inches and standard deviation 3 inches. The normal distribution was met briefly in earlier Notes: its 68-95-99.7 rule in the [z-score outliers Note](../42-outliers-zscore/note.md), its formula in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), its parameters in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md).
+Figure 1 shows the most famous probability distribution: the heights of adult men in a population, with mean 68 inches and standard deviation 3 inches. The normal distribution was met briefly in earlier Notes:
 
-This Note studies it properly: what it is, why it matters, where its formula comes from, its properties and its CDF. The [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) then turns it into probabilities with the z-table, and the [skewness Note](../252-skewness/note.md) measures how far real data departs from its symmetry.
+- its 68-95-99.7 rule in the [z-score outliers Note](../42-outliers-zscore/note.md);
+- its formula in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md);
+- its parameters in the [random variables and distributions Note](../240-random-variables-and-distributions/note.md).
+
+This Note studies it properly:
+
+- what it is (section 2) and its parameters (section 3);
+- why it matters (section 4);
+- its formula and where the formula comes from (section 5);
+- its properties (section 6);
+- its CDF (section 7).
+
+The [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) then turns it into probabilities with the z-table, and the [skewness Note](../252-skewness/note.md) measures how far real data departs from its symmetry.
 
 ## 2. What the normal distribution is
 
 > **Key point:** A continuous distribution, symmetric around its mean, with a bell-shaped PDF whose tails never quite reach zero.
 
-The **normal distribution**, also called the **Gaussian distribution** or the bell curve, is a continuous probability distribution that is commonly used in statistical analysis. Its PDF is symmetric around the mean and shaped like a bell. Figure 1 points out its parts:
+The **normal distribution** (G-1343), also called the **Gaussian distribution** (G-827) or the bell curve, is a continuous probability distribution that is commonly used in statistical analysis. Its PDF is symmetric around the mean and shaped like a bell. Figure 1 points out its parts:
 
 - **The centre:** the peak sits at the mean, here 68 inches.
-- **The tails:** the two ends where the curve flattens out. They come closer and closer to the x axis without ever touching it: the curve is **asymptotic** to the axis. Any value, however extreme, has some tiny density.
+- **The tails:** the two ends where the curve flattens out. They come closer and closer to the x axis without ever touching it: the curve is **asymptotic** (G-221) to the axis. Any value, however extreme, has some tiny density.
 - **The shape:** many values lie near the centre, some lie far below it and some far above it, fewer and fewer the further out we go.
 
 The shape point is the whole summary of the normal distribution. The y axis is probability density (see the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md)): high near 68 because many men have heights around there, low at 59 or 77 because few do.
@@ -44,15 +56,31 @@ A normal distribution has two parameters:
 - **$\mu$, the mean:** the centre of the distribution. Changing it slides the curve left or right without changing its shape.
 - **$\sigma$, the standard deviation:** the spread. A larger $\sigma$ makes the curve wider and lower; a smaller one makes it narrower and taller (the area stays 1).
 
-Figure 5 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) shows both effects, and the Notebook (`notebook.ipynb`) has two sliders to try them.
+Figure 2 shows both effects on the heights. Watch the peak height and the area: moving $\mu$ changes neither, while changing $\sigma$ changes the peak and keeps the area at 1. Figure 5 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) shows the same effects, and the Notebook (`notebook.ipynb`) has two sliders to try them.
+
+![The heights curve N(68, 3²) with its mean moved from 62 to 74, then its standard deviation changed from 1.5 to 5; the peak height and the area are printed in every frame](images/param_sweep.gif){height=45%}
 
 In books the normal distribution is written as
 
 $$X \sim N(\mu, \sigma^2)$$
 
-read "$X$ follows a normal distribution with mean $\mu$ and variance $\sigma^2$". The heights of Figure 1 are $X \sim N(68, 3^2)$. Some books write $N(\mu, \sigma)$ instead: the same curve, written with the standard deviation.
+read as: $X$ follows a normal distribution with mean $\mu$ and variance $\sigma^2$. The heights of Figure 1 are $X \sim N(68, 3^2)$. Some books write $N(\mu, \sigma)$ instead: the same curve, written with the standard deviation.
 
 So once we know that a variable is normal, its mean and standard deviation are all we need to draw its exact curve and compute any probability about it.
+
+### 3.1 A narrow curve is a tall curve
+
+> **Key point:** The area under every normal curve is 1, so a small standard deviation makes the curve narrow **and** tall; a large one makes it wide and low.
+
+Figure 3 compares two real groups on one axis. Newborn boys are about 19.6 inches long, with a standard deviation of only 0.75 inches (WHO Child Growth Standards). Adult men, our running example, are about 68 inches tall, with a standard deviation of 3 inches.
+
+![Newborn boys' length, N(19.6, 0.75²), and adult men's height, N(68, 3²): the narrow curve is four times as tall; the shaded parts hold 95% of each group](images/newborn_adult.png)
+
+1. **Each curve is centred on its own mean,** 19.6 and 68.
+2. **The newborn curve is narrow.** Newborn lengths vary far less: 95% of them lie within 2 standard deviations of the mean, between 18.1 and 21.1 inches. For adults the same 95% range is 62 to 74 inches.
+3. **So the newborn curve is tall.** Both curves enclose an area of 1. The newborn curve spreads that area over a range 4 times narrower, so it must be about 4 times taller: its peak density is 0.535, the adult peak 0.133. The ratio is $3/0.75 = 4$, because the peak height is $1/(\sigma\sqrt{2\pi})$ (section 5).
+
+The recipe for drawing any normal curve is therefore: put the centre at the mean, and let the standard deviation set the width; the width then sets the height (idea after StatQuest, "The Normal Distribution, Clearly Explained!!!").
 
 ## 4. Why the normal distribution matters
 
@@ -65,7 +93,7 @@ The name says it: the shape is **normal**, meaning common. Many natural phenomen
 - IQ scores of a population;
 - measurement errors in repeated measurements (Taylor 1997, ch. 5).
 
-For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
+For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. There is a reason for it, the **central limit theorem** (G-364): a sum or average of many independent random effects comes out roughly normal, whatever the shape of each effect (see the [sampling distribution Note](../271-sampling-distribution-and-clt/note.md)). So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
 
 ## 5. The PDF of the normal distribution
 
@@ -96,43 +124,66 @@ The bell is a graph, so it has an equation $y = f(x)$, where $y$ is the probabil
 
 > **Key point:** Start from the bell $e^{-x^2}$; subtract $\mu$ to move it, divide the exponent by $2\sigma^2$ to widen it, and divide by $\sigma\sqrt{2\pi}$ to make its area 1.
 
-The formula looks frightening, but it can be built term by term (Figure 2):
+The formula looks frightening, but it can be built term by term (Figure 4):
 
 1. **$y = e^{x}$** is exponential growth: it climbs faster and faster.
 2. **$y = e^{-x}$** puts a minus sign in front: exponential decay.
-3. **$y = e^{-x^2}$** squares $x$. Now $x = 2$ and $x = -2$ give the same value, so the curve decays on **both** sides of 0: a bell. The bell $e^{-x^2}$ is the heart of the normal distribution. However far $x$ moves from 0, in either direction, $y$ gets smaller but never reaches 0.
-4. **$y = e^{-(x - \mu)^2}$** moves the bell so that its peak sits at $\mu$ instead of 0. The shift lets the formula describe a normal distribution centred anywhere: at 68 inches, at $-2$, anywhere.
-5. **Divide the exponent by $2\sigma^2$,** giving $y = e^{-(x - \mu)^2/(2\sigma^2)}$. The division stretches the bell sideways: a larger $\sigma$, a wider bell.
-6. **Divide by $\sigma\sqrt{2\pi}$.** The area under every PDF must be 1. The area under the curve of step 5 turns out to be exactly $\sigma\sqrt{2\pi}$ (3.76 for $\sigma = 1.5$), so dividing by it brings the area to 1.
+3. **$y = e^{-|x|}$** uses the distance from 0, so it decays on both sides. But it has a sharp point at 0, where its slope jumps from up to down.
+4. **$y = e^{-x^2}$** squares $x$ instead. Now $x = 2$ and $x = -2$ give the same value, so the curve decays on **both** sides of 0, and it is smooth at the top: a bell. The bell $e^{-x^2}$ is the heart of the normal distribution. However far $x$ moves from 0, in either direction, $y$ gets smaller but never reaches 0.
+5. **$y = e^{-(x - \mu)^2}$** moves the bell so that its peak sits at $\mu$ instead of 0. The shift lets the formula describe a normal distribution centred anywhere: at 68 inches, at $-2$, anywhere.
+6. **Divide the exponent by $2\sigma^2$,** giving $y = e^{-(x - \mu)^2/(2\sigma^2)}$. The division stretches the bell sideways: a larger $\sigma$, a wider bell.
+7. **Divide by $\sigma\sqrt{2\pi}$.** The area under every PDF must be 1. The area under the curve of step 6 turns out to be exactly $\sigma\sqrt{2\pi}$ (3.76 for $\sigma = 1.5$), so dividing by it brings the area to 1.
 
 ![Building the normal PDF term by term: the bell, the shift, the width, the area](images/pdf_build.gif){height=55%}
 
-> **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve (MML §6.5), and the bell's two **inflection points** (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The inflection points follow from two derivatives of $f$:
+> **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve (MML §6.5), and the bell's two **inflection points** (G-945) (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The inflection points follow from two derivatives of $f$:
 > $$f'(x) = -\frac{x - \mu}{\sigma^2}\thinspace f(x), \qquad f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
 > $f''$ changes sign where $(x - \mu)^2 = \sigma^2$, that is at $x = \mu \pm \sigma$. Without the 2 the same steps would give $\mu \pm \sigma/\sqrt{2}$.
->
-> The area $\sigma\sqrt{2\pi}$ in step 6 comes from a classic integral, $\int_{-\infty}^{\infty} e^{-t^2/2}\thinspace dt = \sqrt{2\pi} = 2.5066$; we do not prove it here, but the Notebook checks it numerically.
+
+
+### 5.2 Where the square root of pi comes from
+
+> **Key point:** The area under the bell $e^{-x^2}$ is $\sqrt{\pi}$: lift the bell to a round surface, and compute its volume in two ways.
+
+Step 7 divides by $\sigma\sqrt{2\pi}$. Why does $\pi$, a number about circles, appear in a formula about heights? Call the unknown area under the plain bell $C$:
+
+$$C = \int_{-\infty}^{\infty} e^{-x^2}\thinspace dx$$
+
+No formula in powers, logs and exponentials gives this area directly (section 7, Extra). The trick is to go up one dimension. Figure 5 follows the steps.
+
+![The bell lifted to a round bell-shaped surface: its volume by thin cylindrical shells is pi, by slices it is C², so C = square root of pi (idea after 3Blue1Brown, "Why π is in the normal distribution (beyond integral tricks)")](images/bell_volume.gif)
+
+1. **Lift the bell to a surface.** Take $z = e^{-(x^2 + y^2)}$. By Pythagoras, $x^2 + y^2 = r^2$, the squared distance from the centre, so $z = e^{-r^2}$: the same bell, spun around the vertical axis. Every point on a circle of radius $r$ has the same height.
+2. **Volume by shells.** Cut the volume into thin hollow cylinders, like the labels of soup cans. The shell at radius $r$ unrolls into a thin slab $2\pi r$ long, $e^{-r^2}$ tall and $dr$ thick. The extra factor $r$ makes the total easy, because $2r\thinspace e^{-r^2}$ is the derivative of $-e^{-r^2}$:
+   $$V = \int_0^\infty 2\pi r\thinspace e^{-r^2}\thinspace dr = \pi \times \left(\lim_{r \to \infty}(-e^{-r^2}) - (-e^{0})\right) = \pi(0 + 1) = \pi$$
+3. **Volume by slices.** Now cut the same volume into slices parallel to the x axis. Since $e^{-(x^2 + y^2)} = e^{-x^2}\thinspace e^{-y^2}$, the slice at a fixed $y$ is the plain bell multiplied by the number $e^{-y^2}$, so its area is $C\thinspace e^{-y^2}$. Adding all the slices:
+   $$V = \int_{-\infty}^{\infty} C\thinspace e^{-y^2}\thinspace dy = C \times C = C^2$$
+4. **Same volume, two answers.** $C^2 = \pi$, so $C = \sqrt{\pi} = 1.7725$.
+
+From there to the normal PDF is a stretch. The bell $e^{-x^2/2}$ is $e^{-x^2}$ stretched sideways by $\sqrt{2}$, so its area is $\sqrt{2}\times\sqrt{\pi} = \sqrt{2\pi} = 2.5066$. Stretching again by $\sigma$ gives the area $\sigma\sqrt{2\pi}$ of step 7. The Notebook checks these areas numerically.
 
 ## 6. Properties of the normal distribution
 
 > **Key point:** Symmetric around the mean; mean, median and mode are equal; 68%, 95% and 99.7% of values lie within 1, 2 and 3 standard deviations; total area 1.
 
-Four properties make the normal distribution so convenient:
+Four properties make the normal distribution so convenient. Figure 6 shows all four on the heights; watch the two red tails, which hold the same 2.3% on each side.
+
+![Properties of N(68, 3²): one centre for mean, median and mode, 68.3%, 95.4% and 99.7% within 1, 2 and 3 standard deviations, equal tails, total area 1](images/properties.png)
 
 1. **Symmetry.** The curve is symmetric around the mean: the left half is a mirror image of the right half (Figure 1). So a probability computed on one side gives the matching probability on the other side for free.
 2. **Mean = median = mode.** For a true normal distribution the three measures of central tendency (see the [measures of central tendency Note](../221-measures-of-central-tendency/note.md)) are exactly equal: the peak (mode) is also the middle value (median) and the average (mean).
-3. **The empirical rule.** About 68% of values lie within 1 standard deviation of the mean, 95% within 2 and 99.7% within 3 (see the [z-score outliers Note](../42-outliers-zscore/note.md)). The [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) derives these numbers from the z-table.
+3. **The empirical rule** (G-53). About 68% of values lie within 1 standard deviation of the mean, 95% within 2 and 99.7% within 3 (see the [z-score outliers Note](../42-outliers-zscore/note.md)). The [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) derives these numbers from the z-table.
 4. **Total area 1.** The area under the curve is exactly 1, as for every PDF.
 
 ## 7. The CDF of the normal distribution
 
 > **Key point:** The normal CDF is an S-shaped curve that passes 0.5 at the mean; the smaller $\sigma$, the steeper the S.
 
-Every PDF has a CDF, $F(x) = P(X \le x)$: the area under the PDF from the far left up to $x$ (see the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md)). Figure 3 shows the PDFs of four normal distributions (top) and their CDFs (bottom).
+Every PDF has a CDF, $F(x) = P(X \le x)$: the area under the PDF from the far left up to $x$ (see the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md)). Figure 7 shows the PDFs of four normal distributions (top) and their CDFs (bottom).
 
 ![Normal PDFs (top) and their CDFs (bottom)](images/normal_cdf.png){height=55%}
 
-Reading Figure 3:
+Reading Figure 7:
 
 - **Every CDF passes 0.5 at its mean.** By symmetry, half the area lies left of the mean. For the green curve, with $\mu = -2$, $P(X \le -2) = 0.5$; for the heights, $P(X \le 68) = 0.5$.
 - **The standard deviation sets the steepness.** With $\sigma = 0.5$ (blue) the S rises sharply near 0; with $\sigma = 2$ (orange) it rises slowly and reaches 1 far from the centre.
@@ -175,11 +226,15 @@ Reading Figure 3:
 **Built from**
 
 - CampusX, "Session 41 - Normal Distribution | DSMP 2023", YouTube, https://www.youtube.com/watch?v=ADqYqSdtyW8
+- StatQuest with Josh Starmer, "The Normal Distribution, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=rzFX5NWojp0
+- 3Blue1Brown, "But what is the Central Limit Theorem?", YouTube, https://www.youtube.com/watch?v=zeJD6dqJ5lo
+- 3Blue1Brown, "Why π is in the normal distribution (beyond integral tricks)", YouTube, https://www.youtube.com/watch?v=cy8r7WSuT1I
 
 **Other references**
 
 - Taylor, J. R. (1997). *An Introduction to Error Analysis*, 2nd ed. University Science Books. Chapter 5, "The Normal Distribution".
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.5 (Gaussian distribution).
+- World Health Organization (2006). *WHO Child Growth Standards*: length-for-age, boys, birth to 2 years (z-score expanded tables). At birth: median 49.88 cm, coefficient of variation 0.03795, so the standard deviation is 1.89 cm (0.75 inches).
 - Rosenlicht, M. (1972). Integration in finite terms. *American Mathematical Monthly*, 79(9), 963-972. Shows that $e^{-x^2}$ has no elementary antiderivative.
 
 ## 10. Key terms

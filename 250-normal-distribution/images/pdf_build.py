@@ -1,4 +1,4 @@
-"""Building the normal PDF term by term: e^x, e^-x, e^(-x^2), shift by mu, widen by sigma, divide by sigma*sqrt(2 pi).
+"""Building the normal PDF term by term: e^x, e^-x, e^-|x|, e^(-x^2), shift by mu, widen by sigma, divide by sigma*sqrt(2 pi).
 Run: python pdf_build.py -> pdf_build.mp4, .gif, _frames.png"""
 import shutil
 import subprocess
@@ -41,7 +41,11 @@ class PdfBuild(Scene):
         self.play(Transform(head, self.header(r"y = e^{-x}", "a minus sign: exponential decay")),
                   Transform(curve, plot(lambda x: np.exp(-x), -np.log(1.2), 5)), run_time=1.3)
         self.wait(0.5)
-        self.play(Transform(head, self.header(r"y = e^{-x^2}", "square x: it falls on both sides, a bell")),
+        self.play(Transform(head, self.header(r"y = e^{-|x|}", "absolute value: it decays both ways, but has a sharp point")),
+                  Transform(curve, plot(lambda x: np.exp(-abs(x)))), run_time=1.3)
+        self.wait(0.6)
+        self.snap()
+        self.play(Transform(head, self.header(r"y = e^{-x^2}", "square x instead: a smooth bell")),
                   Transform(curve, plot(lambda x: np.exp(-x ** 2))), run_time=1.3)
         self.wait(0.6)
         self.snap()
@@ -77,8 +81,9 @@ class PdfBuild(Scene):
 
 def key_frames_grid(frames, out, gap=16):
     w, h = frames[0].size
-    sheet = Image.new("RGB", (2 * w + gap, 2 * h + gap), "white")
-    for i, f in enumerate(frames[:4]):
+    rows = (len(frames) + 1) // 2
+    sheet = Image.new("RGB", (2 * w + gap, rows * h + (rows - 1) * gap), "white")
+    for i, f in enumerate(frames):
         sheet.paste(f.convert("RGB"), ((i % 2) * (w + gap), (i // 2) * (h + gap)))
     sheet.save(out)
 

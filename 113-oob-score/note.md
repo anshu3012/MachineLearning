@@ -19,9 +19,13 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 ![Out-of-bag evaluation with 6 observations and 4 trees: each observation is predicted only by the trees whose bootstrap sample missed it](images/oob_vote.gif)
 
-**Out-of-bag (OOB) evaluation** is a way to test a bagging model, such as a random forest, using only its training data. Each **observation** is one record (one row of the data table): its **features** (input variables, one column each) and its **target** (the output we predict). OOB evaluation is available in every bagging-based ensemble of scikit-learn (section 7). Figure 1 shows the whole process on 6 observations and 4 trees.
+**Out-of-bag (OOB) evaluation** (G-1411) is a way to test a bagging model, such as a random forest, using only its training data. Each **observation** is one record (one row of the data table): its **features** (input variables, one column each) and its **target** (the output we predict). OOB evaluation is available in every bagging-based ensemble of scikit-learn (section 7). Figure 1 shows the whole process on 6 observations and 4 trees.
 
-The OOB score was introduced with the bagging classifier (the [bagging classifier Note](../106-bagging-classifier/note.md), section 4): `oob_score=True`, then `oob_score_`. This Note explains exactly how the score is computed, rebuilds it by hand, and shows when it can be trusted.
+The OOB score was introduced with the bagging classifier (the [bagging classifier Note](../106-bagging-classifier/note.md), section 4): `oob_score=True`, then `oob_score_`. This Note:
+
+- explains exactly how the score is computed (section 3);
+- rebuilds it by hand (section 5);
+- shows when it can be trusted (sections 4, 6 and 7).
 
 The Notebook (`notebook.ipynb`) runs every step.
 
@@ -29,7 +33,11 @@ The Notebook (`notebook.ipynb`) runs every step.
 
 > **Key point:** Drawing with replacement means some observations are drawn several times for a tree and others not at all; the observations a tree missed are out-of-bag for that tree.
 
-Each tree is trained on a bootstrap sample, drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations (the [bagging Note](../105-bagging-intuition/note.md), section 2.3). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations**: the tree has never seen them, so they can serve as test data for that tree.
+Each tree is trained on a **bootstrap sample** (G-319), drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations (the [bagging Note](../105-bagging-intuition/note.md), section 2.3). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations**: the tree has never seen them, so they can serve as test data for that tree.
+
+Figure 2 draws one tree's bootstrap sample from 20 observations, one draw at a time. Each draw picks any of the 20 observations, including ones already drawn. Watch the bars: some observations are drawn two, three or four times, and 7 of the 20 (35%) are never drawn. Those 7 are the tree's out-of-bag observations (orange).
+
+![One tree's bootstrap sample from 20 observations: 20 draws with replacement. Bars count how often each observation was drawn; the 7 never drawn are out-of-bag (OOB)](images/bootstrap_draw.gif)
 
 Careful: being out-of-bag is a property of an observation **for one tree**, not for the whole forest. An observation missed by tree 1 is almost certainly seen by other trees. The chance that one observation is missed by all 100 trees is
 
@@ -64,7 +72,7 @@ Figure 1 runs these steps on 6 observations and 4 trees:
 
 For a regressor, the OOB prediction of an observation is the **mean** of its OOB trees' numbers, and `oob_score_` is the $R^2$ of those predictions (the [bagging regressor Note](../107-bagging-regressor/note.md), section 4).
 
-> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is **soft voting** (the [voting classifier Note](../103-voting-classifier/note.md)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
+> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is **soft voting** (G-1828) (the [voting classifier Note](../103-voting-classifier/note.md)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
 
 ## 4. The OOB score in scikit-learn
 
@@ -84,7 +92,7 @@ We use the heart disease data of the [tuning Note](../112-random-forest-tuning/n
 >
 > `oob_score=True` must be set **before** `fit`: the OOB predictions are collected while the forest is trained. Without it, `oob_score_` does not exist.
 
-On this split the OOB score, **0.835**, is close to the test accuracy, **0.836**, and a 5-fold cross-validation on the training set gives 0.806. One split of 61 test patients is noisy, though: one patient moves the test accuracy by 0.016. So the Notebook repeats the comparison on 50 random splits, with 500 trees:
+On this split the OOB score, **0.835**, is close to the test accuracy, **0.836**, and a 5-fold **cross-validation** (G-510) on the training set gives 0.806. One split of 61 test patients is noisy, though: one patient moves the test accuracy by 0.016. So the Notebook repeats the comparison on 50 random splits, with 500 trees:
 
 | Estimate (mean over 50 splits) | Accuracy |
 |---|---|
@@ -94,15 +102,23 @@ On this split the OOB score, **0.835**, is close to the test accuracy, **0.836**
 
 On a typical split, the OOB score and the cross-validation score differ by only 0.011, while each one misses the 61-patient test accuracy by 0.038: the small test set is the noisy one. The OOB estimate is almost identical to cross-validation (ESL §15.3.1), but cross-validation needs 5 more forests to be trained. The OOB score needs none. Think of a study group in which each member is quizzed only on questions they never practised: every quiz is fair, and no separate exam is needed.
 
-So the OOB observations act as a **validation set** that comes for free: about 37% of the data, unseen by each tree, without holding out any observations from training.
+Figure 3 plots all 50 splits. Each point is one split: its OOB score across, and another estimate up. Watch the blue cross-validation points stay close to the dashed line, where the two estimates are equal, while the grey test-set points spread far above and below it.
+
+![50 random splits of the heart disease data, 500 trees each. Across: the OOB score of the split. Up: the 5-fold cross-validation score (blue) and the accuracy on the 61 test patients (grey). Dashed: equal to the OOB score](images/oob_vs_cv.png)
+
+So the OOB observations act as a **validation set** (G-2067) that comes for free: about 37% of the data, unseen by each tree, without holding out any observations from training.
 
 ## 5. Rebuilding the OOB score by hand
 
 > **Key point:** `estimators_samples_` tells us which observations each tree saw; predicting each tree's missing observations and adding up the probabilities reproduces `oob_score_` exactly.
 
-A fitted forest keeps each tree's bootstrap sample in `estimators_samples_` (the same attribute as in the [bagging classifier Note](../106-bagging-classifier/note.md), section 3.3). From it, the Notebook builds a table with one row per tree and one column per training observation, marking which observations each tree missed:
+A fitted forest keeps each tree's bootstrap sample in `estimators_samples_` (the same attribute as in the [bagging classifier Note](../106-bagging-classifier/note.md), section 3.3). From it, the Notebook builds a table with one row per tree and one column per training observation, marking which observations each tree missed. Figure 4 draws that table.
 
-- each tree's share of OOB observations is between 35% and 38%, **36.7%** on average, matching the theory's 36.8%;
+![The out-of-bag table of the forest above: 100 trees (rows) by 242 training observations (columns), orange where a tree missed an observation. Bottom: the number of trees that missed each observation](images/oob_table.png)
+
+Reading Figure 4 row by row and column by column gives two facts:
+
+- each tree's share of OOB observations is between 32% and 41%, **36.7%** on average, matching the theory's 36.8%;
 - every training observation is OOB for at least 24 of the 100 trees (36.7 on average, at most 47), so every observation gets an OOB prediction.
 
 > **Python:** The OOB predictions, step by step.
@@ -131,7 +147,7 @@ The result, **0.835**, is exactly `rf.oob_score_`, and the probabilities match `
 
 Each observation is OOB for only about 37% of the trees. With 5 trees, the chance that an observation is seen by **every** tree is $0.632^5 \approx 0.10$, so about 10% of the observations get no OOB prediction at all: 27 of the 242 here. scikit-learn warns: "Some inputs do not have OOB scores. This probably means too few trees were used", and still counts those observations, with empty probabilities, in the score.
 
-Figure 2 shows the effect on the heart disease data:
+Figure 5 shows the effect on the heart disease data:
 
 - with **5 trees**, the OOB score is 0.711, far below the test accuracy of 0.787: 27 observations have no OOB prediction, and the rest are judged by only a few trees each;
 - from about **20 trees** on, the OOB score settles between 0.81 and 0.84, close to the test accuracy (0.84 to 0.87 on 61 noisy test observations).

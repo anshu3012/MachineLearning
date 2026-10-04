@@ -16,11 +16,22 @@ tags: [subject/ml, area/features, step/features, concept/power-transformer]
 
 > **Key point:** A power transformer raises each feature to a power $\lambda$ that it learns from the data, choosing the $\lambda$ that makes the feature closest to a normal distribution.
 
-A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). Note 30 transformed skewed features with fixed formulas: the log, reciprocal, square and square root. We picked one, tried it, and kept whichever worked best.
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Note 30 transformed skewed features with four fixed formulas:
 
-The **power transformer** automates that search, like an optician who tries lens after lens until the letters look sharpest. For each feature, the power transformer tries a whole family of power formulas, finds the power $\lambda$ (lambda) that makes the feature most normal, and applies it.
+- the log;
+- the reciprocal;
+- the square;
+- the square root.
 
-Figure 1 shows the whole topic. scikit-learn's `PowerTransformer` offers two formulas: the **Box-Cox transform** and the **Yeo-Johnson transform**. The output comes out close to normal, and also standardised.
+We picked one, tried it, and kept whichever worked best.
+
+The **power transformer** (G-1542) automates that search, like an optician who tries lens after lens until the letters look sharpest. For each feature, the power transformer:
+
+1. tries a whole family of power formulas;
+2. finds the power $\lambda$ (lambda) that makes the feature most normal;
+3. applies that power to the feature.
+
+Figure 1 shows the whole topic. scikit-learn's `PowerTransformer` offers two formulas: the **Box-Cox transform** (G-331) and the **Yeo-Johnson transform** (G-2136). The output comes out close to normal, and also standardised.
 
 ![A skewed column goes through PowerTransformer, which learns one lambda per column using Box-Cox or Yeo-Johnson](images/overview.png)
 
@@ -30,11 +41,11 @@ Figure 1 shows the whole topic. scikit-learn's `PowerTransformer` offers two for
 
 Note 30 listed scikit-learn's three classes for mathematical transformations:
 
-1. **`FunctionTransformer`**: applies one formula we choose (Note 30).
-2. **`PowerTransformer`**: applies the Box-Cox or Yeo-Johnson transform, the subject of this Note.
-3. **`QuantileTransformer`**: used much less, and not covered in these Notes.
+1. **`FunctionTransformer`** (G-819): applies one formula we choose (Note 30).
+2. **`PowerTransformer`** (G-1543): applies the Box-Cox or Yeo-Johnson transform, the subject of this Note.
+3. **`QuantileTransformer`** (G-1600): used much less, and not covered in these Notes.
 
-`PowerTransformer` has one main choice, the parameter **`method`**. The method is either `"box-cox"` or `"yeo-johnson"`, and Yeo-Johnson is the default.
+`PowerTransformer` has one main choice, the parameter **`method`** (G-1214). The method is either `"box-cox"` or `"yeo-johnson"`, and Yeo-Johnson is the default.
 
 ## 3. Box-Cox transform
 
@@ -103,7 +114,7 @@ The best value, $\lambda = 0.067$, gives a skewness of almost exactly 0.
 
 Each feature gets its own $\lambda$. A dataset with 8 features gets 8 values of $\lambda$, one per feature.
 
-> **Extra:** How "closest to normal" is measured. The two standard ways are **maximum likelihood** and Bayesian statistics (Box and Cox 1964). scikit-learn uses maximum likelihood (scikit-learn docs, `PowerTransformer`): for each $\lambda$, it asks "if the transformed values really came from a normal distribution, how likely would we be to see exactly these values?", and keeps the $\lambda$ with the highest answer. Maximum likelihood comes back in its own right with logistic regression. A beginner only needs the idea: a computer search picks the most normal-looking $\lambda$.
+> **Extra:** How "closest to normal" is measured. The two standard ways are **maximum likelihood** (G-1191) and Bayesian statistics (Box and Cox 1964). scikit-learn uses maximum likelihood (scikit-learn docs, `PowerTransformer`): for each $\lambda$, it asks "if the transformed values really came from a normal distribution, how likely would we be to see exactly these values?", and keeps the $\lambda$ with the highest answer. Maximum likelihood comes back in its own right with logistic regression. A beginner only needs the idea: a computer search picks the most normal-looking $\lambda$.
 
 ### 3.4 Only positive values
 
@@ -129,6 +140,10 @@ The Yeo-Johnson transform, step by step:
 3. **Example:** with $\lambda = 0.5$, the values $-3$, 0 and 3 become
    $$-\frac{4^{1.5} - 1}{1.5} = -4.67,\qquad \frac{1^{0.5} - 1}{0.5} = 0,\qquad \frac{4^{0.5} - 1}{0.5} = 2.$$
    Zero stays at 0, and the negative value is handled without any error.
+
+Figure 4 draws both transforms with $\lambda = 0.5$ and marks these three points. Watch the left half: Box-Cox stops at 0, while Yeo-Johnson carries on smoothly into the negative values.
+
+![Yeo-Johnson (green) and Box-Cox (blue dashed) with lambda = 0.5: only Yeo-Johnson covers zero and negative values](images/yeojohnson_vs_boxcox.png){height=40%}
 
 For data with no negative values, only the first two lines apply. Then Yeo-Johnson is Box-Cox applied to $x + 1$, just as $\log(1 + x)$ in Note 30 was the log applied to $x + 1$.
 
@@ -195,7 +210,7 @@ As always, we split first: 80% for training (824 rows) and 20% for testing (206 
 
 > **Key point:** With no transform, linear regression scores R² 0.63 on the test set and 0.46 with cross-validation.
 
-To measure a regression model, we use the **R² score**: how much of the variation in the target the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² has its own Note later; here we only compare its values.
+To measure a regression model, we use the **R² score** (G-1717): how much of the variation in the target the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² has its own Note later; here we only compare its values.
 
 | Check | R² |
 |---|---|
@@ -224,13 +239,13 @@ Cross-validation, from Note 30, averages the score over 5 different splits. Cros
 
 > **Key point:** `Age` is the worst feature (skewness 3.34); Blast Furnace Slag, Fly Ash and Superplasticizer are piled up at 0; the two aggregates are already close to normal.
 
-Figure 4 shows each training feature as a histogram (skewness in brackets) with its Q-Q plot below.
+Figure 5 shows each training feature as a histogram (skewness in brackets) with its Q-Q plot below.
 
 ![The 8 raw input columns of the training set: histogram (skewness in brackets) and Q-Q plot](images/raw_columns.png){height=62%}
 
 - **Cement:** slightly right-skewed, but fairly close to normal.
 - **Blast Furnace Slag:** right-skewed, with a huge pile of zeros: the flat run of points at the bottom of its Q-Q plot.
-- **Fly Ash:** **bimodal**, meaning it has two peaks: one at 0 and one around 120.
+- **Fly Ash:** **bimodal** (G-296), meaning it has two peaks: one at 0 and one around 120.
 - **Water:** reasonably close to normal.
 - **Superplasticizer:** right-skewed and bimodal, again with a pile of zeros.
 - **Coarse Aggregate:** the closest to normal; its points follow the line.
@@ -256,7 +271,7 @@ Box-Cox cannot run on the three features with zeros. A common workaround is to a
 >
 > `fit` learns one $\lambda$ per feature from the training set; `transform` applies those same $\lambda$ values to both sets. The learned values are stored in `lambdas_`.
 
-The attribute **`lambdas_`** holds the $\lambda$ learned for each feature, in column order (listed in Section 6.6). For `Cement` it is 0.177, so every cement value $x$ becomes $(x^{0.177} - 1)/0.177$: a value of 540 becomes 11.6, and 102 becomes 7.2.
+The attribute **`lambdas_`** (G-1041) holds the $\lambda$ learned for each feature, in column order (listed in Section 6.6). For `Cement` it is 0.177, so every cement value $x$ becomes $(x^{0.177} - 1)/0.177$: a value of 540 becomes 11.6, and 102 becomes 7.2.
 
 Training the same linear regression on the transformed features:
 
@@ -267,13 +282,13 @@ Training the same linear regression on the transformed features:
 
 The cross-validated R² rose by about 0.2, a very good improvement for one line of preprocessing.
 
-Figure 5 shows the feature that changed most, `Age`. The long right tail is gone, the skewness drops from 3.34 to almost 0, and the Q-Q plot points now follow the line.
+Figure 6 shows the feature that changed most, `Age`. The long right tail is gone, the skewness drops from 3.34 to almost 0, and the Q-Q plot points now follow the line.
 
 ![Age before (blue) and after Box-Cox and Yeo-Johnson (green): histogram and Q-Q plot](images/age_power.png){height=40%}
 
 The spikes that remain are because `Age` takes only 14 different values (1, 3, 7, 14, 28 days and so on). A transform moves each value, but it cannot split one value into several.
 
-Figure 6 shows all 8 features after Box-Cox.
+Figure 7 shows all 8 features after Box-Cox.
 
 ![All 8 training columns after Box-Cox, with each learned lambda and skewness](images/boxcox_after.png){height=40%}
 
@@ -282,7 +297,7 @@ Figure 6 shows all 8 features after Box-Cox.
 - **Water, Coarse Aggregate** and **Fine Aggregate:** almost unchanged; they were close to normal already.
 - **Age:** the biggest improvement.
 
-> **Extra:** The tiny-number trick has a side effect. With $\lambda$ near 0, Box-Cox behaves like a log, and $\ln(0.000001) = -13.8$, far below the log of any real amount (at least $\ln 11 = 2.4$ for slag). So all the zeros are thrown far to the left, as a separate block. The thrown zeros are why Blast Furnace Slag and Fly Ash in Figure 6 look like two bars at opposite ends. Yeo-Johnson does not need the trick, and handles zeros more gently.
+> **Extra:** The tiny-number trick has a side effect. With $\lambda$ near 0, Box-Cox behaves like a log, and $\ln(0.000001) = -13.8$, far below the log of any real amount (at least $\ln 11 = 2.4$ for slag). So all the zeros are thrown far to the left, as a separate block. The thrown zeros are why Blast Furnace Slag and Fly Ash in Figure 7 look like two bars at opposite ends. Yeo-Johnson does not need the trick, and handles zeros more gently.
 
 ### 6.5 Yeo-Johnson
 
@@ -305,13 +320,13 @@ Yeo-Johnson is the default method, so `PowerTransformer()` with no arguments use
 
 So the score went from 0.46 with no transform, to 0.67 with Box-Cox, to 0.68 with Yeo-Johnson.
 
-Figure 7 shows all 8 features after Yeo-Johnson.
+Figure 8 shows all 8 features after Yeo-Johnson.
 
 ![All 8 training columns after Yeo-Johnson, with each learned lambda and skewness](images/yeojohnson_after.png){height=40%}
 
-The result looks much like Box-Cox in Figure 6. The visible differences are in the features with zeros: Superplasticizer and Blast Furnace Slag are spread out more smoothly, because Yeo-Johnson maps a 0 to 0 instead of throwing it far away. There are no negative values in this data, so Yeo-Johnson's main advantage is not even used.
+The result looks much like Box-Cox in Figure 7. The visible differences are in the features with zeros: Superplasticizer and Blast Furnace Slag are spread out more smoothly, because Yeo-Johnson maps a 0 to 0 instead of throwing it far away. There are no negative values in this data, so Yeo-Johnson's main advantage is not even used.
 
-> **Extra:** `PowerTransformer` also standardises its output by default (parameter `standardize=True`): after the power transform, every feature gets mean 0 and standard deviation 1, as with the `StandardScaler` of Note 24 (scikit-learn docs, `PowerTransformer`). Standardising is why the axes in Figures 6 and 7 run from about $-2$ to $2$.
+> **Extra:** `PowerTransformer` also standardises its output by default (parameter `standardize=True`): after the power transform, every feature gets mean 0 and standard deviation 1, as with the `StandardScaler` of Note 24 (scikit-learn docs, `PowerTransformer`). Standardising is why the axes in Figures 7 and 8 run from about $-2$ to $2$.
 
 ### 6.6 Comparing the lambdas
 
@@ -351,14 +366,31 @@ The biggest gaps between the two methods are on Fly Ash and Superplasticizer, tw
 
 ## 7. Function transformer or power transformer
 
-> **Key point:** The power transformer usually beats a hand-picked function such as the log, but the only way to know is to try both.
+> **Key point:** On the concrete data, $\log(1 + x)$ and Yeo-Johnson score almost the same (R² 0.796 and 0.800), so try both and keep whichever scores better.
 
 The two transformers of Notes 30 and 31 do the same job in different ways:
 
 - **`FunctionTransformer`:** we pick the formula (log, square root and so on) and apply it.
 - **`PowerTransformer`:** searches a whole family of formulas and picks the best power for each feature.
 
-Because the power transformer chooses from many formulas, including the log and square root themselves, it usually performs better. Still, try both and keep whichever gives the better score on the project at hand.
+The power transformer's family contains the log itself: for values of 0 and above, Yeo-Johnson with $\lambda = 0$ is exactly $\log(1 + x)$ (section 4). Because $\lambda$ is chosen by maximum likelihood (section 3.3), and $\lambda = 0$ is one of the candidates, the power it picks for each training feature fits a normal distribution at least as well as $\log(1 + x)$ does. A more normal feature does not guarantee a better model score, though, so the only way to choose is to try both and compare their scores.
+
+On the concrete data, we put each transformer in a pipeline (Note 29), so it is refitted inside every training fold, and compare linear regression's R². Each score is the average of 5-fold cross-validation, repeated 10 times with shuffled rows, for 5 seeds:
+
+| Transform | Cross-validated R² |
+|---|---|
+| None | 0.602 |
+| $\log(1 + x)$ on every feature | 0.796 |
+| Box-Cox | 0.796 |
+| Yeo-Johnson | 0.800 |
+
+Yeo-Johnson is ahead by only 0.004. On the same 50 splits, it beat $\log(1 + x)$ on 48. So Yeo-Johnson wins consistently, but by a very small margin: on this data, the fixed log does almost as well as the learned powers, even though it leaves Water and Fine Aggregate more skewed (Figure 9).
+
+> **Extra:** These scores are higher than those in section 6. Section 6 used a plain `cv=5`, which does not shuffle (scikit-learn docs, `KFold`), so each fold is a block of consecutive rows in file order. On that single split, the ranking even flips: $\log(1 + x)$ scores 0.687 and Yeo-Johnson 0.674. Averaging over many shuffled splits removes the effect of any one split.
+
+Figure 9 applies one fixed formula, $\log(1 + x)$, and Yeo-Johnson to the same concrete training features. Watch Water and Fine Aggregate, which were already near normal: the log pushes them into a left skew, while their own $\lambda$ keeps them near 0.
+
+![Skewness of each concrete feature: raw, after log(1 + x) on every feature, and after Yeo-Johnson with its own lambda per feature](images/function_vs_power.png){width=100%}
 
 ## 8. Summary
 
@@ -368,7 +400,7 @@ Because the power transformer chooses from many formulas, including the log and 
 | Power $\lambda$ | none | learned per column | learned per column |
 | Values allowed | depends on the formula | above 0 only | any |
 | In scikit-learn | FunctionTransformer | PowerTransformer, method "box-cox" | PowerTransformer, the default method |
-| Concrete data, cross-validated R² | (not tried) | 0.666 | 0.683 |
+| Concrete data, cross-validated R² (section 7) | 0.796 with $\log(1 + x)$ | 0.796 | 0.800 |
 
 - A power transformer learns one power $\lambda$ for each feature and uses it to bring the feature close to a normal distribution.
 - Box-Cox: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. The log, square root, reciprocal and square are special cases.
@@ -377,6 +409,7 @@ Because the power transformer chooses from many formulas, including the log and 
 - Box-Cox needs values above 0; Yeo-Johnson works on any value and is the default.
 - `PowerTransformer` also standardises its output to mean 0 and standard deviation 1.
 - On the concrete data, linear regression's cross-validated R² rose from 0.46 to 0.67 (Box-Cox) and 0.68 (Yeo-Johnson). `Age` gained most: skewness 3.34 to 0.
+- A fixed $\log(1 + x)$ on every concrete feature scored almost as well as the learned powers (R² 0.796 against 0.796 for Box-Cox and 0.800 for Yeo-Johnson, shuffled repeated cross-validation). Try both and keep the better one.
 - A transform cannot merge two separate groups, such as a pile of zeros and the rest, into one bell.
 
 ## 9. Sources
@@ -388,6 +421,7 @@ Because the power transformer chooses from many formulas, including the log and 
 **Other references**
 
 - Box, G. E. P. and Cox, D. R. (1964). An Analysis of Transformations. *Journal of the Royal Statistical Society, Series B* 26(2), 211-252.
+- scikit-learn documentation. `sklearn.model_selection.KFold` (the `shuffle` parameter, default `False`). scikit-learn.org.
 - scikit-learn documentation. `sklearn.preprocessing.PowerTransformer`. scikit-learn.org.
 - Yeh, I-C. (1998). Modeling of Strength of High-Performance Concrete Using Artificial Neural Networks. *Cement and Concrete Research* 28(12), 1797-1808. Data: UCI Machine Learning Repository, Concrete Compressive Strength.
 - Yeo, I-K. and Johnson, R. (2000). A New Family of Power Transformations to Improve Normality or Symmetry. *Biometrika* 87(4), 954-959.

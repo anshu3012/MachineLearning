@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 
 > **Key point:** AdaGrad gives every parameter its own learning rate: the global rate divided by the square root of the sum of that parameter's past squared gradients. Parameters with large gradients get small steps, parameters with small gradients (such as the weights of sparse features) get large ones. The price: the sum only grows, so the steps keep shrinking.
 
-**AdaGrad**, short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the learning rate to the situation, separately for every parameter. Every optimizer so far, from batch gradient descent to [momentum](../1034-sgd-with-momentum/note.md) and [NAG](../1035-nesterov-accelerated-gradient/note.md), uses one learning rate for all parameters; AdaGrad is the first that does not.
+**AdaGrad** (G-168), short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the **learning rate** (G-1068) to the situation, separately for every parameter. Every optimizer so far, from **batch gradient descent** (G-264) to [momentum](../1034-sgd-with-momentum/note.md) (G-1258) and [NAG](../1035-nesterov-accelerated-gradient/note.md) (G-1315), uses one learning rate for all parameters; AdaGrad is the first that does not.
 
 ![Gradient descent, momentum and AdaGrad on a loss stretched by a sparse feature. Gradient descent and momentum first move along $b$, then crawl along $m$; AdaGrad heads for the minimum](images/adagrad_race.gif){width=80%}
 
@@ -32,20 +32,20 @@ Figure 1 shows where this matters: a loss shaped like a stretched bowl, produced
 
 > **Key point:** Two situations: features on very different scales, and sparse features, which are mostly zeros. Scaling fixes the first, so the second is the real use.
 
-1. **Features on very different scales.** For example CGPA (0 to 10) and salary (up to lakhs of rupees) as two **features** (input variables, the columns of the data table). In practice we standardise such features first (see the [data scaling Note](../1023-data-scaling-in-ann/note.md)), so this case matters less.
-2. **Sparse features.** A **sparse feature** is one whose values are mostly zero. Take students described by IQ, CGPA and whether they studied at an IIT, with the salary package as the **target** (the output we predict). Very few students go to an IIT, so the IIT feature is 0 for almost everyone. Yet it is an important feature: an IIT student tends to get a much higher package. On data with such features, AdaGrad gives better results.
+1. **Features on very different scales.** For example CGPA (0 to 10) and salary (up to lakhs of rupees) as two **features** (G-772; input variables, the columns of the data table). In practice we standardise such features first (see the [data scaling Note](../1023-data-scaling-in-ann/note.md)), so this case matters less.
+2. **Sparse features.** A **sparse feature** (G-1841) is one whose values are mostly zero. Take students described by IQ, CGPA and whether they studied at an IIT, with the salary package as the **target** (G-1949; the output we predict). Very few students go to an IIT, so the IIT feature is 0 for almost everyone. Yet it is an important feature: an IIT student tends to get a much higher package. On data with such features, AdaGrad gives better results.
 
-AdaGrad performs larger updates for infrequent features and smaller updates for frequent ones, which is why it is well suited to sparse data (Ruder 2016, §4.3).
+AdaGrad performs larger updates for infrequent features and smaller updates for frequent ones, which is why it is well suited to **sparse data** (G-1840; Ruder 2016, §4.3).
 
 ## 4. The problem: a sparse feature stretches the loss
 
 > **Key point:** With a sparse feature, the loss changes slowly along that feature's weight and quickly along the others. The bowl becomes elongated, and gradient descent wastes time moving along the steep direction first.
 
-We use a small made-up dataset, since no real dataset shows the effect this cleanly in two parameters: 100 students, each an **observation** (one record, one row of the table), with one feature, IIT (1 for 10 students, 0 for the other 90), and the package in lakh rupees as target. The model is a single node, $\hat{y} = m \cdot \text{IIT} + b$, with the squared error as loss. Its best values are $m = 6.01$ and $b = 2.96$: about 3 lakh rupees, plus 6 for an IIT student.
+We use a small made-up dataset, since no real dataset shows the effect this cleanly in two parameters: 100 students, each an **observation** (G-1374; one record, one row of the table), with one feature, IIT (1 for 10 students, 0 for the other 90), and the package in lakh rupees as target. The model is a single node, $\hat{y} = m \cdot \text{IIT} + b$, with the squared error as loss. Its best values are $m = 6.01$ and $b = 2.96$: about 3 lakh rupees, plus 6 for an IIT student.
 
 ![The loss over $(m, b)$. Left: with a dense feature (no zeros) the contours are nearly round. Right: with the sparse IIT feature the bowl is stretched along $m$](images/sparse_bowl.png){width=100%}
 
-Figure 2 compares the two shapes. With a normal, dense feature the contours are nearly circles: the loss changes at a similar rate in both directions. With the sparse feature they are long ellipses: moving $b$ changes the loss a lot, moving $m$ changes it little. This is the **elongated bowl**.
+Figure 2 compares the two shapes. With a normal, dense feature the contours are nearly circles: the loss changes at a similar rate in both directions. With the sparse feature they are long ellipses: moving $b$ changes the loss a lot, moving $m$ changes it little. This is the **elongated bowl** (G-673).
 
 ### 4.1 Gradient descent and momentum on the elongated bowl
 
@@ -57,7 +57,7 @@ Starting from $(m, b) = (-4, -4)$, gradient descent ($\eta = 0.3$) first moves a
 
 > **Key point:** The gradient for $m$ sums error $\times$ IIT over the rows, and IIT is 0 in 90% of them. The gradient for $b$ sums error $\times$ 1 over every row. So $m$'s gradient is small and $b$'s is large.
 
-Think of the bias as the weight of a second input that is always 1. For the squared error $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$, the chain rule gives
+Think of the bias as the weight of a second input that is always 1. For the squared error $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$, the **chain rule** (G-371) gives
 
 $$\frac{\partial L}{\partial m} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i)\thinspace x_i, \qquad \frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i) \times 1$$
 
@@ -106,7 +106,12 @@ With this rule, AdaGrad reaches the minimum of Figure 1 in 44 steps, against 61 
 
 > **Key point:** In text data most words are rare. On movie reviews, AdaGrad's learning rate for the rarest words ended 11 times larger than for the most common ones, and their weights 11 times larger than with SGD.
 
-The IMDB movie reviews (Maas et al. 2011) are labelled positive or negative. We turn each review into 5,000 features: feature $j$ is 1 if the review contains the $j$-th most common word, else 0. With 10,000 reviews for training and 10,000 for validation, 97.5% of all feature values are 0, and 63% of the words appear in fewer than 1% of the reviews (Notebook). The model is logistic regression, one sigmoid node, trained for 10 epochs with batch size 64 and learning rate 0.1, by SGD and by AdaGrad, 3 seeds each. AdaGrad's sums start at 0, as in the formula.
+The **IMDB dataset** (G-923) of movie reviews (Maas et al. 2011) is labelled positive or negative. The setup:
+
+- **features:** each review becomes 5,000 features; feature $j$ is 1 if the review contains the $j$-th most common word, else 0;
+- **data:** 10,000 reviews for training and 10,000 for validation; 97.5% of all feature values are 0, and 63% of the words appear in fewer than 1% of the reviews (Notebook);
+- **model:** **logistic regression** (G-1120), one **sigmoid** (G-1798) node;
+- **training:** 10 **epochs** (G-696) with **batch size** (G-267) 64 and learning rate 0.1, by **SGD** (G-1892) and by AdaGrad, 3 seeds each; AdaGrad's sums start at 0, as in the formula.
 
 ![IMDB, 5,000 words. Left: AdaGrad's learning rate for each word after 10 epochs against the share of reviews containing the word; the rarer the word, the larger its learning rate. Right: mean size of the learned weights per frequency band; with SGD the rare words barely move](images/imdb_lr.png){width=100%}
 
@@ -133,9 +138,9 @@ The sum $v_t$ can only grow. So each parameter's learning rate $\eta/\sqrt{v_t}$
 
 Figure 5 shows the effect. With $\eta = 0.5$, the first large gradients cut $m$'s learning rate from 0.147 to 0.055 within 10 steps and to 0.029 by step 500; $b$'s falls from 0.031 to 0.007. The steps become so small that after 500 steps AdaGrad is still 0.35 away from the minimum (Notebook).
 
-For training deep networks, the accumulation of squared gradients from the beginning of training can cause a premature and excessive decrease in the effective learning rate; AdaGrad performs well for some deep learning models but not all (Goodfellow et al. 2016, §8.5.1). Once the learning rate has become infinitesimally small, the algorithm can no longer learn anything new (Ruder 2016, §4.3). This is why AdaGrad is rarely used for complex neural networks. Its idea survives in RMSProp and Adam, which fix the shrinking.
+For training deep networks, the accumulation of squared gradients from the beginning of training can cause a premature and excessive decrease in the **effective learning rate** (G-662; the learning rate after AdaGrad's division); AdaGrad performs well for some deep learning models but not all (Goodfellow et al. 2016, §8.5.1). Once the learning rate has become infinitesimally small, the algorithm can no longer learn anything new (Ruder 2016, §4.3). This is why AdaGrad is rarely used for complex neural networks. Its idea survives in **RMSProp** (G-1697) and **Adam** (G-169), which fix the shrinking.
 
-> **Extra:** On a convex problem such as linear regression, AdaGrad does come with convergence guarantees (Duchi et al. 2011; Goodfellow et al. 2016, §8.5.1), and with a large enough $\eta$ it converges quickly, as the $\eta = 2$ run shows. The trouble is that the right $\eta$ depends on how large the early gradients happen to be.
+> **Extra:** On a convex problem (a **convex function**, G-476) such as linear regression, AdaGrad does come with convergence guarantees (Duchi et al. 2011; Goodfellow et al. 2016, §8.5.1), and with a large enough $\eta$ it converges quickly, as the $\eta = 2$ run shows. The trouble is that the right $\eta$ depends on how large the early gradients happen to be.
 
 ## 9. AdaGrad in Keras
 

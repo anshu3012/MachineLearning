@@ -17,16 +17,20 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 
 > **Key point:** Discretization (binning) turns a numerical feature into a few ranges; binarization turns it into just 0 or 1.
 
-A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). Earlier Notes encoded categories as numbers. This Note goes the other way: it turns numerical features into categories. Note 23 introduced the idea briefly as binning; here we cover the techniques in full.
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Earlier Notes encoded categories as numbers. This Note goes the other way: it turns numerical features into categories. Note 23 introduced the idea briefly as binning; here we cover the techniques in full.
 
 Figure 1 shows the whole topic. There are two techniques:
 
-- **Discretization**, also called **binning**: cut the range of a feature into several intervals and replace each value with the interval it falls in.
-- **Binarization**: compare each value with one threshold and replace it with 0 or 1.
+- **Discretization** (G-619), also called **binning** (G-307): cut the range of a feature into several intervals and replace each value with the interval it falls in.
+- **Binarization** (G-300): compare each value with one threshold and replace it with 0 or 1.
 
 ![A numerical column can be cut into many bins (discretization) or into two values, 0 and 1 (binarization)](images/overview.png)
 
-Discretization has several kinds. Most of this Note covers the three unsupervised ones, which scikit-learn's `KBinsDiscretizer` provides, and custom binning. Binarization comes at the end, with scikit-learn's `Binarizer`.
+Discretization has several kinds (Section 4). This Note covers:
+
+- the three unsupervised kinds: equal width (Section 5), equal frequency (Section 6) and k-means (Section 7), all provided by scikit-learn's `KBinsDiscretizer` (Section 9);
+- custom binning (Section 11);
+- binarization, with scikit-learn's `Binarizer` (Sections 12 and 13).
 
 ## 2. Why turn numbers into categories
 
@@ -54,6 +58,10 @@ Discretization works like a histogram. Take ages from 0 to 80:
 
 Counting the people in each interval gives the histogram of the feature. Discretization keeps the interval number for every observation instead of only the counts.
 
+Figure 2 runs these steps on the 571 Titanic training ages with 10-year bins. Watch each passenger leave the waiting line and become a square in its bin's column: the stacks grow into the histogram, and every square keeps its bin number, such as age 33 in bin 3.
+
+![The 571 training ages dropped one by one into 10-year bins: the stack heights are the histogram, and each passenger keeps its bin number](images/binning_fill.gif)
+
 ### 3.1 What binning is good for
 
 > **Key point:** Binning handles outliers and can make the values spread evenly.
@@ -69,12 +77,12 @@ Binning has two benefits:
 
 Discretization comes in three kinds, shown in Figure 1:
 
-1. **Unsupervised binning** uses only the values of the feature. Unsupervised binning has three techniques:
-   - **equal width binning**, also called **uniform binning**;
-   - **equal frequency binning**, also called **quantile binning**;
-   - **k-means binning**.
-2. **Supervised binning** also uses the target. Its main technique is **decision tree binning**, which needs decision trees and is left for later.
-3. **Custom binning**: we choose the bin edges ourselves, from knowledge of the domain.
+1. **Unsupervised binning** (G-2057) uses only the values of the feature. Unsupervised binning has three techniques:
+   - **equal width binning** (G-701), also called **uniform binning**;
+   - **equal frequency binning** (G-699), also called **quantile binning**;
+   - **k-means binning** (G-995).
+2. **Supervised binning** (G-1918) also uses the target. Its main technique is **decision tree binning**, which needs decision trees and is left for later.
+3. **Custom binning** (G-522): we choose the bin edges ourselves, from knowledge of the domain.
 
 In practice, one of the three unsupervised techniques is used most of the time. Sections 5 to 9 cover them, and Section 11 covers custom binning.
 
@@ -93,14 +101,14 @@ The bin width, step by step:
    $$\text{width} = \frac{80 - 0.42}{5} = 15.92.$$
    Starting at 0.42 and adding 15.92 each time gives the edges 0.42, 16.34, 32.25, 48.17, 64.08 and 80.
 
-Each age then goes into its bin: an age of 23.1 falls between 16.34 and 32.25, so it lands in bin 1 (counting from 0). The left column of Figure 2 shows these five bins on the real Age feature.
+Each age then goes into its bin: an age of 23.1 falls between 16.34 and 32.25, so it lands in bin 1 (counting from 0). The left column of Figure 3 shows these five bins on the real Age feature.
 
 ![The three binning strategies on the same column, Age (571 training passengers, 5 bins): red lines are the bin edges (top); the number of passengers in each bin (bottom)](images/age_strategies.png){width=100%}
 
 Equal width binning:
 
 - **handles outliers:** the largest values all land in the last bin and are treated like the rest of it;
-- **does not change the spread of the data:** the counts per bin follow the shape of the original histogram. In Figure 2, bin 1 holds 278 passengers and bin 4 only 11.
+- **does not change the spread of the data:** the counts per bin follow the shape of the original histogram. In Figure 3, bin 1 holds 278 passengers and bin 4 only 11.
 
 ## 6. Equal frequency (quantile) binning
 
@@ -108,7 +116,7 @@ Equal width binning:
 
 In **equal frequency binning**, we again choose the number of bins. This time each bin holds the same share of the observations: with 10 bins, each one holds 10% of them.
 
-The edges are the feature's **quantiles**, the percentiles of Note 20 written as fractions. With 10 bins, the first edge is the 10th percentile, the second edge the 20th percentile, and so on up to the 90th.
+The edges are the feature's **quantiles** (G-1599), the percentiles of Note 20 written as fractions. With 10 bins, the first edge is the 10th percentile, the second edge the 20th percentile, and so on up to the 90th.
 
 The bin edges, step by step:
 
@@ -120,14 +128,18 @@ The bin edges, step by step:
    $$Q(0.2) = 19,\quad Q(0.4) = 25,\quad Q(0.6) = 32,\quad Q(0.8) = 42.$$
    So 20% of passengers are younger than 19, 40% are younger than 25, and so on.
 
-The middle column of Figure 2 shows the result. The bins have very different widths: 0.42 to 19 is wide, 19 to 25 is narrow. Their counts, though, are almost equal: 108, 112, 118, 115 and 118.
+The middle column of Figure 3 shows the result. The bins have very different widths: 0.42 to 19 is wide, 19 to 25 is narrow. Their counts, though, are almost equal: 108, 112, 118, 115 and 118.
 
 The counts are not exactly equal because many passengers share the same age. All passengers aged exactly 25 must go into the same bin.
+
+Figure 4 shows where the edges come from. We sort the 571 ages from youngest to oldest and cut the sorted list into 5 piles of about 114 passengers each; the age at each cut is a quantile. Watch the flat steps: a run of passengers with the same age cannot be split, which is why the piles hold 108 to 118 passengers instead of exactly 114.
+
+![The 571 training ages in sorted order: cutting the list into five equal piles (vertical lines) gives the quantile edges 19, 25, 32 and 42 (horizontal lines)](images/quantile_edges.png){width=100%}
 
 Equal frequency binning is used more often than equal width binning, for two reasons:
 
 - **Equal frequency handles outliers**, like equal width binning.
-- **Equal frequency makes the value spread uniform.** The histogram of the bin numbers is flat, as in the bottom middle of Figure 2.
+- **Equal frequency makes the value spread uniform.** The histogram of the bin numbers is flat, as in the bottom middle of Figure 3.
 
 Equal frequency is also scikit-learn's default strategy (scikit-learn docs, `KBinsDiscretizer`).
 
@@ -135,7 +147,7 @@ Equal frequency is also scikit-learn's default strategy (scikit-learn docs, `KBi
 
 > **Key point:** k-means finds groups of nearby values; the bin edges are placed halfway between the groups' centres.
 
-**k-means binning** uses a clustering algorithm called **k-means**, which has its own Note later. Clustering means finding groups of points that lie close together, called clusters. k-means finds them in data of any number of dimensions; here the data is a single feature, so the points lie on a line.
+**k-means binning** uses a clustering algorithm called **k-means** (G-996), which has its own Note later. Clustering means finding groups of points that lie close together, called clusters. k-means finds them in data of any number of dimensions; here the data is a single feature, so the points lie on a line.
 
 k-means binning works best when the feature's values already form clusters: a group of values, then a gap with no values, then another group. On other data, the first two strategies do the job.
 
@@ -143,28 +155,28 @@ k-means binning works best when the feature's values already form clusters: a gr
 
 > **Key point:** Place k centres, assign each value to its nearest centre, move each centre to the mean of its values, and repeat until nothing changes.
 
-Figure 3 runs k-means on 12 values with $k = 3$. The centres are also called **centroids**.
+Figure 5 runs k-means on 12 values with $k = 3$. The centres are also called **centroids** (G-367).
 
-1. **Place $k$ centres.** k-means places them at random. In Figure 3 they start at 14, 22 and 40.
+1. **Place $k$ centres.** k-means places them at random. In Figure 5 they start at 14, 22 and 40.
 2. **Assign each value to its nearest centre.** We compute the distance from every value to every centre, and each value joins the closest one.
 3. **Move each centre to the mean of its values.** For example, the blue centre's six values are 2, 5, 8, 10, 12 and 15, with mean 8.67, so the centre moves to 8.67.
 4. **Repeat steps 2 and 3** until no value changes its group.
 
 ![k-means binning on 12 values with k = 3: place centres, assign, move, repeat, then cut halfway between centres](images/kmeans_steps.gif)
 
-In Figure 3, the second round moves 33 and 36 from the green group to the orange one. After the centres move again, to 8.67, 33 and 55.67, no value changes group, so the algorithm stops.
+In Figure 5, the second round moves 33 and 36 from the green group to the orange one. After the centres move again, to 8.67, 33 and 55.67, no value changes group, so the algorithm stops.
 
 Each final group is one bin. The edge between two neighbouring bins lies halfway between their centres:
 
 $$\frac{8.67 + 33}{2} = 20.83, \qquad \frac{33 + 55.67}{2} = 44.33.$$
 
-> **Extra:** scikit-learn's `KBinsDiscretizer` does not start from random centres. The class places the first centres at the middles of equal-width bins, so its result is the same on every run. On the 12 values of Figure 3 the class finds the same edges, 20.83 and 44.33. A badly placed random start can leave k-means stuck in a poor grouping, which this fixed start avoids on simple data.
+> **Extra:** scikit-learn's `KBinsDiscretizer` does not start from random centres. The class places the first centres at the middles of equal-width bins, so its result is the same on every run. On the 12 values of Figure 5 the class finds the same edges, 20.83 and 44.33. A badly placed random start can leave k-means stuck in a poor grouping, which this fixed start avoids on simple data.
 
 ## 8. The three strategies on one feature
 
 > **Key point:** On a skewed feature, equal width bins leave almost every observation in the first bin, equal frequency bins share the rows out evenly, and k-means falls in between.
 
-Figure 2 compared the strategies on Age, which is close to symmetric. Figure 4 does the same on Fare, which has a long right tail (Note 30): most fares are below 50, and a few reach 512.
+Figure 3 compared the strategies on Age, which is close to symmetric. Figure 6 does the same on Fare, which has a long right tail (Note 30): most fares are below 50, and a few reach 512.
 
 ![The three binning strategies on Fare (571 training passengers, 5 bins): bin edges (top) and passengers per bin (bottom)](images/fare_strategies.png){width=100%}
 
@@ -182,7 +194,7 @@ Figure 2 compared the strategies on Age, which is close to symmetric. Figure 4 d
 
 > **Key point:** `KBinsDiscretizer` needs three choices: the number of bins, the strategy and the encoding.
 
-**`KBinsDiscretizer`** (in `sklearn.preprocessing`) performs all three unsupervised strategies. Its three main parameters are:
+**`KBinsDiscretizer`** (G-1000) (in `sklearn.preprocessing`) performs all three unsupervised strategies. Its three main parameters are:
 
 1. **`n_bins`:** the number of bins. The default is 5.
 2. **`strategy`:** `"uniform"`, `"quantile"` (the default) or `"kmeans"`.
@@ -205,7 +217,7 @@ The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot enc
 > # [0.42, 19, 25, 32, 42, 80]
 > ```
 >
-> **`bin_edges_`** holds the learned edges, one array per column, so `[0]` picks the first column's edges. `n_bins_` holds the number of bins actually made.
+> **`bin_edges_`** (G-299) holds the learned edges, one array per column, so `[0]` picks the first column's edges. `n_bins_` holds the number of bins actually made.
 
 > **Extra:** Details of `KBinsDiscretizer` in scikit-learn 1.9 (scikit-learn docs, `KBinsDiscretizer`).
 >
@@ -311,7 +323,11 @@ For cross-validation, the binning goes inside a pipeline with the model (Note 29
 
 > **Key point:** Which strategy and how many bins work best can only be found by trying; here several settings reach 67% to 69%.
 
-To compare settings quickly, we wrap the steps in one function, `discretize(bins, strategy)`. The function bins both features, prints the cross-validated accuracy, and plots each feature's histogram before and after.
+To compare settings quickly, we wrap the steps in one function, `discretize(bins, strategy)`. The function:
+
+1. bins both features;
+2. prints the cross-validated accuracy;
+3. plots each feature's histogram before and after.
 
 | Bins | Equal width (uniform) | Equal frequency (quantile) | k-means |
 |---|---|---|---|
@@ -319,7 +335,9 @@ To compare settings quickly, we wrap the steps in one function, `discretize(bins
 | 10 | 68.6% | 67.5% | 66.5% |
 | 15 | 65.3% | 67.5% | 66.3% |
 
-Equal frequency gives about the same result whatever the number of bins, and its histograms after binning are flat, as expected. Equal width depends strongly on the number of bins: its histograms keep the shape of the original feature. The table is the only reliable guide.
+![Cross-validated accuracy of the binned decision tree for each strategy and number of bins; the dashed line is the tree without binning](images/strategy_grid.png){height=40%}
+
+Figure 7 draws the table. Watch the green line stay flat while the blue one jumps: equal frequency gives about the same result whatever the number of bins, and its histograms after binning are flat, as expected. Equal width depends strongly on the number of bins: its histograms keep the shape of the original feature. The table is the only reliable guide.
 
 > **Python:** Part of the comparison function (the Notebook has the plots too).
 >
@@ -364,7 +382,9 @@ None of the three strategies would find these edges: they come from knowing what
 >
 > `bins` lists the edges; `np.inf` (infinity) makes the last bin open-ended. `labels` names the bins.
 
-On the Titanic passengers these groups matter: 54% of the 113 children survived, against 39% of the 575 adults and 27% of the 26 seniors.
+On the Titanic passengers these groups matter (Figure 8): 54% of the 113 children survived, against 39% of the 575 adults and 27% of the 26 seniors. Watch the bars fall step by step from child to senior.
+
+![Survival of the three custom age groups among the 714 passengers with a recorded age](images/custom_groups.png){height=35%}
 
 > **Extra:** To use custom bins inside a scikit-learn pipeline, wrap the binning in a `FunctionTransformer` (Note 30), for example `FunctionTransformer(lambda x: np.digitize(x, [18, 60]))`. NumPy's `np.digitize` returns each value's bin number for the edges we give.
 
@@ -372,7 +392,7 @@ On the Titanic passengers these groups matter: 54% of the 113 children survived,
 
 > **Key point:** Binarization compares every value with one threshold: above it becomes 1, otherwise 0.
 
-**Binarization** turns a continuous value into a binary one, 0 or 1. Binarization is a special case of discretization with only two bins and one edge, the **threshold**.
+**Binarization** turns a continuous value into a binary one, 0 or 1. Binarization is a special case of discretization with only two bins and one edge, the **threshold** (G-1971).
 
 Take a feature of annual income. Suppose income above 600,000 rupees is taxable:
 
@@ -383,7 +403,7 @@ The income feature has become a taxable or not taxable feature.
 
 Binarization is needed in a few specific cases. A well-known one is image processing.
 
-A greyscale image stores each pixel as a number from 0 (black) to 255 (white). With a threshold of 127.5, every pixel at or below it becomes 0 (black) and every pixel above it becomes 1 (white). Figure 5 shows the result: a black-and-white image.
+A greyscale image stores each pixel as a number from 0 (black) to 255 (white). With a threshold of 127.5, every pixel at or below it becomes 0 (black) and every pixel above it becomes 1 (white). Figure 9 shows the result: a black-and-white image.
 
 ![A greyscale image binarized with threshold 127.5: every pixel becomes black or white](images/binarize_image.png){width=100%}
 
@@ -391,7 +411,7 @@ A greyscale image stores each pixel as a number from 0 (black) to 255 (white). W
 
 > **Key point:** `Binarizer` has two parameters: `threshold` and `copy`.
 
-**`Binarizer`** (in `sklearn.preprocessing`) performs binarization. Its two parameters are:
+**`Binarizer`** (G-301) (in `sklearn.preprocessing`) performs binarization. Its two parameters are:
 
 - **`threshold`** (default 0): values strictly above it become 1; values equal to it or below become 0.
 - **`copy`** (default `True`): when `True`, the result is a new array and the input is left alone. When `False`, the transformer may change the input array itself.
@@ -443,6 +463,10 @@ After the transform, the passengers with families of 2 and 1 have `family` = 1, 
 > **Key point:** Survival is low for passengers alone, high for small families and low again for big ones; the 0/1 feature captures the main jump.
 
 Think of a light switch versus a dimmer. Survival behaves more like a switch: 32% of passengers travelling alone survived, against 52% of those with family. Logistic regression (a linear model, Note 30) can only draw one steady trend through the raw family size, like a dimmer turned one way. Passengers with 4 or more relatives on board survived only about 20% of the time, which drags that trend flat. The binarized feature hands the model the switch directly.
+
+Figure 10 shows the survival rate for each family size. Watch the jump between family 0 (grey) and family 1, and the drop again from 4 relatives on; the two dashed lines are what the binarized feature keeps: 32% alone and 52% with family.
+
+![Survival by family size among the 714 passengers with an age; binarizing at 0 keeps the jump from alone (0) to with family (1)](images/family_survival.png){height=40%}
 
 We give logistic regression the `family` feature alone, first as a number, then binarized, and cross-validate each inside a pipeline:
 

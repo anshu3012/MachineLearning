@@ -15,23 +15,33 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 
 ## 1. Overview
 
-> **Key point:** AdaBoost has few hyperparameters. The two that matter are `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, and a grid search tunes them together.
+> **Key point:** AdaBoost has few **hyperparameters** (G-910), settings we choose before training. The two that matter are `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, and a grid search tunes them together.
 
 ![Decision surfaces of AdaBoost on noisy circles: 1 to 1,500 stumps with learning_rate 1.0, and 1,500 stumps with learning_rate 0.1. Titles give training and test accuracy](images/surfaces.png){height=50%}
 
 Gradient boosting and XGBoost, covered in later Notes, have many hyperparameters. AdaBoost is simpler: scikit-learn's `AdaBoostClassifier` has only three, plus `random_state`, which only makes the results repeatable.
 
-The present Note covers what each one does, shows `n_estimators` and `learning_rate` at work on decision surfaces (Figure 1), and tunes both with `GridSearchCV`. The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for each hyperparameter and redraws the decision surface.
+The present Note:
+
+- covers what each hyperparameter does (section 2);
+- shows `n_estimators` and `learning_rate` at work on decision surfaces (Figure 1, sections 3 and 4);
+- tunes both together with `GridSearchCV` (section 5).
+
+The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for each hyperparameter and redraws the decision surface.
 
 ## 2. The hyperparameters of AdaBoostClassifier
 
 > **Key point:** `estimator` is the weak learner (a stump by default), `n_estimators` the number of stages (50 by default), `learning_rate` a multiplier on every alpha (1.0 by default).
 
+Figure 2 marks where each one acts on the boosting loop. Watch the three orange boxes: one picks the model inside the loop, one scales each model's say, and one caps how many times the loop runs.
+
+![The scikit-learn AdaBoost loop (SAMME) and the three hyperparameters: estimator sets the weak learner, learning_rate scales every alpha, n_estimators caps the number of stages](images/knobs.png){height=40%}
+
 ### 2.1 estimator: the weak learner
 
 > **Key point:** Any classifier that accepts sample weights can be boosted; in practice we almost always keep the default, a decision stump.
 
-`estimator` is the base model that AdaBoost trains at every stage. If we leave it out, it is `DecisionTreeClassifier(max_depth=1)`, a decision stump (the [AdaBoost intuition Note](../115-adaboost-intuition/note.md), section 2.2).
+`estimator` is the base model that AdaBoost trains at every stage, the **weak learner** (G-2104). If we leave it out, it is `DecisionTreeClassifier(max_depth=1)`, a **decision stump** (G-559) (the [AdaBoost intuition Note](../115-adaboost-intuition/note.md), section 2.2).
 
 Other algorithms are allowed, such as logistic regression or an SVM, with one condition: the model's `fit` must accept a `sample_weight` argument, because that is how scikit-learn passes the observation weights to it (the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md), section 10). KNN has no such argument, so AdaBoost refuses it:
 
@@ -54,13 +64,13 @@ In practice, decision trees are used almost every time, and stumps are the defau
 
 > **Key point:** The maximum number of weak learners. Training stops earlier if a stump classifies the training data perfectly, or if a new stump is no better than guessing.
 
-`n_estimators` is the number of base models, one per stage. The number is a maximum. If some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix (the from-scratch Note, section 7). Boosting also stops if a new stump's weighted error reaches 0.5 or more on two classes, no better than guessing; that stump is thrown away (scikit-learn source). `n_estimators` is the most important hyperparameter of AdaBoost; section 3 shows its effect.
+`n_estimators` (G-1290) is the number of base models, one per stage. The number is a maximum. If some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix (the from-scratch Note, section 7). Boosting also stops if a new stump's weighted error reaches 0.5 or more on two classes, no better than guessing; that stump is thrown away (scikit-learn source). `n_estimators` is the most important hyperparameter of AdaBoost; section 3 shows its effect.
 
 ### 2.3 learning_rate: the say of every stump, scaled
 
 > **Key point:** Every alpha is multiplied by the learning rate. Below 1, each stump's say shrinks and the weights change less at each stage: learning slows down.
 
-`learning_rate` is a number multiplied into every stump's weight. Section 4 explains it in full.
+`learning_rate` (G-1069) is a number multiplied into every stump's weight. Section 4 explains it in full.
 
 ### 2.4 algorithm: removed
 
@@ -74,9 +84,9 @@ Older versions of `AdaBoostClassifier` had a fourth hyperparameter, `algorithm`,
 
 > **Key point:** One stump underfits; tens of stumps fit the circle; very many start drawing small islands around single points, the sign of overfitting.
 
-The data is the noisy concentric circles of the [random forest bias-variance Note](../109-random-forest-bias-variance/note.md): 500 **observations** (points, one row of the data table each), 2 **features** (input variables, the two coordinates) and a **target** class: a small blue disc inside an orange ring, with so much noise that the classes overlap. We train on 400 points and test on 100.
+The data is the noisy concentric circles of the [random forest bias-variance Note](../109-random-forest-bias-variance/note.md): 500 **observations** (G-1374; points, one row of the data table each), 2 **features** (G-772; input variables, the two coordinates) and a **target** (G-1949) class: a small blue disc inside an orange ring, with so much noise that the classes overlap. We train on 400 points and test on 100.
 
-With the default settings (50 stumps, learning rate 1.0), 10-fold cross-validation (the [pipelines Note](../29-pipelines/note.md), section 8) gives an accuracy of **0.812**. Figure 1 shows what changing `n_estimators` does. Each surface is drawn by predicting a grid of points, as in the [KNN Note](../91-knn/note.md), section 5.
+With the default settings (50 stumps, learning rate 1.0), 10-fold **cross-validation** (G-510; the [pipelines Note](../29-pipelines/note.md), section 8) gives an accuracy of **0.812**. Figure 1 shows what changing `n_estimators` does. Each **decision surface** (G-560), the predicted class at every point of the plane, is drawn by predicting a grid of points, as in the [KNN Note](../91-knn/note.md), section 5.
 
 A test set of 100 points is noisy: one point moves the accuracy by 0.01. So the table averages 20 fresh circles datasets of 400 training points, each tested on 5,000 new points from the same distribution. Figure 1's titles show the single dataset drawn.
 
@@ -88,9 +98,13 @@ A test set of 100 points is noisy: one point moves the accuracy by 0.01. So the 
 | 500 | small notches appear around single points | 0.887 | 0.844 |
 | 1,500 | isolated strips and boxes: overfitting | 0.911 | 0.837 |
 
-- **Too few stumps underfit.** One stump can only cut the plane once; it cannot draw a disc.
-- **Too many stumps overfit.** Each extra stage focuses on the observations still misclassified, and on noisy data those are mostly noise. From 50 to 1,500 stumps the training accuracy climbs from 0.879 to 0.911 while the test accuracy slips from 0.846 to 0.837: the gap between them more than doubles. Experiments with noisy labels show the same: AdaBoost puts large weights on the noisy observations and its accuracy drops (Dietterich 2000). With 1,500 stumps, the surface grows small regions around single points.
+- **Too few stumps underfit.** **Underfitting** (G-2035) means the model is too simple for the pattern. One stump can only cut the plane once; it cannot draw a disc.
+- **Too many stumps overfit.** **Overfitting** (G-1429) means the model fits the noise of the training data. Each extra stage focuses on the observations still misclassified, and on noisy data those are mostly noise. From 50 to 1,500 stumps the training accuracy climbs from 0.879 to 0.911 while the test accuracy slips from 0.846 to 0.837: the gap between them more than doubles. Experiments with noisy labels show the same: AdaBoost puts large weights on the noisy observations and its accuracy drops (Dietterich 2000). With 1,500 stumps, the surface grows small regions around single points.
 - **Training time grows** with the number of stumps: 1,500 stumps take 30 times as long to train as 50.
+
+Figure 3 grows the two 1,500-stump models of Figure 1 (bottom middle and bottom right) stump by stump, on the same split. Watch the left panel after 500 stumps: notches and thin strips appear around single points, while learning rate 0.1 on the right keeps a smooth blocky disc.
+
+![The decision surface after 1 to 1,500 stumps, learning rate 1.0 (left) and 0.1 (right), on the training split; titles give training and test accuracy](images/grow.gif){height=45%}
 
 So `n_estimators` needs a middle value, like `max_depth` for a decision tree (the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md)).
 
@@ -127,7 +141,11 @@ The weights are updated with $e^{\alpha}$ for mistakes and $e^{-\alpha}$ for cor
 
 With smaller updates, the weighted data changes little from one stage to the next, so consecutive stumps differ less. Each stage moves the model only a small step, and the final model is the sum of many small steps.
 
-Scaling every stump's say down this way is called **shrinkage** (ESL §10.12.1). Think of walking down a dark hill: short careful steps take longer but are less likely to overshoot the path. Shrinkage returns in gradient boosting.
+Figure 4 shows the effect on the circles data after 50 stages. Watch the marker sizes: with learning rate 1.0 a few points, mostly in the noisy overlap of the two classes, grow to 3.7 times their starting weight while the far points shrink; with 0.1 the largest weight is only 1.3 times the start.
+
+![Observation weights after 50 stages (marker area grows with the weight), learning rate 1.0 (left) and 0.1 (right), replayed from scikit-learn's own stumps and alphas](images/weights.png){height=40%}
+
+Scaling every stump's say down this way is called **shrinkage** (G-1796) (ESL §10.12.1). Think of walking down a dark hill: short careful steps take longer but are less likely to overshoot the path. Shrinkage returns in gradient boosting.
 
 ### 4.3 The trade-off with n_estimators
 
@@ -135,7 +153,7 @@ Scaling every stump's say down this way is called **shrinkage** (ESL §10.12.1).
 
 ![Training (dotted) and test (solid) accuracy as stumps are added, for three learning rates, averaged over 20 datasets; the horizontal axis is logarithmic](images/staged.png){height=40%}
 
-Figure 2 tracks accuracy as stumps are added (scikit-learn's `staged_score` gives the score after every stage), averaged over the same 20 datasets:
+Figure 5 tracks accuracy as stumps are added (scikit-learn's `staged_score` (G-1868) gives the score after every stage), averaged over the same 20 datasets:
 
 - **learning_rate 1.0** (red) learns fast: test accuracy reaches 0.846 by about 50 stumps, then slips to 0.837 by 1,500 while training accuracy keeps rising to 0.911.
 - **learning_rate 0.1** (blue) needs about 150 stumps to fit the disc and is still improving at 1,500: test 0.844, training 0.878. Its train-test gap, 0.034, is half that of learning rate 1.0 at the same size (0.074).
@@ -162,7 +180,7 @@ So we do not tune the two separately. A large `n_estimators` with a small `learn
 
 > **Key point:** A grid of 4 values of n_estimators and 5 learning rates, with 10-fold cross-validation, finds 500 stumps at learning rate 0.1: accuracy 0.832, up from 0.812.
 
-Grid search was introduced in the [KNN Note](../91-knn/note.md), section 4.2, and used on a random forest in the [random forest tuning Note](../112-random-forest-tuning/note.md). Here the grid covers the two hyperparameters that matter:
+**Grid search** (G-872), training every combination in a list of values, was introduced in the [KNN Note](../91-knn/note.md), section 4.2, and used on a random forest in the [random forest tuning Note](../112-random-forest-tuning/note.md). Here the grid covers the two hyperparameters that matter:
 
 > **Python:** Grid search over AdaBoost.
 >
@@ -183,6 +201,10 @@ Grid search was introduced in the [KNN Note](../91-knn/note.md), section 4.2, an
 > ```
 >
 > 4 × 5 = 20 combinations, each trained 10 times: 200 fits, about 14 seconds here. `n_jobs=-1` uses every CPU core.
+
+Figure 6 shows all 20 scores of the grid. Watch the top two rows: with learning rate 1.0, 50 stumps are already enough (0.812); with 0.1, accuracy keeps climbing up to 500 stumps and wins (0.832). Learning rates of 0.001 and below stay at about 0.57 whatever the number of stumps.
+
+![10-fold cross-validated accuracy of every pair in the grid; the red box is the best pair, 500 stumps at learning rate 0.1](images/grid.png){height=40%}
 
 The best pair is **500 stumps at learning rate 0.1**, with a cross-validated accuracy of **0.832**, against 0.812 for the defaults. As section 4.3 predicted, the winner combines many stumps with a small learning rate.
 

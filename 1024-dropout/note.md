@@ -16,11 +16,17 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/dropout]
 
 > **Key point:** Dropout fights overfitting by switching off a random set of nodes at every training step, so the network trains a different, smaller sub-network each time. At prediction time every node is back.
 
-Neural networks overfit easily, and dropout is one of the most used remedies. Dropout was proposed by Nitish Srivastava, Geoffrey Hinton and colleagues (Hinton et al. 2012; Srivastava et al. 2014), and since then it has become a standard part of training networks.
+Neural networks overfit easily (**overfitting**, G-1429), and **dropout** (G-639) is one of the most used remedies. Dropout was proposed by Nitish Srivastava, Geoffrey Hinton and colleagues (Hinton et al. 2012; Srivastava et al. 2014), and since then it has become a standard part of training networks.
 
 ![Dropout on a network with 5 inputs, two hidden layers of 5 nodes and 1 output. At every training step a new random set of nodes (dashed) is switched off.](images/dropout_steps.png)
 
-Figure 1 shows the idea. This Note explains how dropout works (section 4), why switching nodes off helps (section 5), and what happens at prediction time (section 6). Code for regression and classification is in the [dropout code Note](../1025-dropout-code/note.md).
+Figure 1 shows the idea. This Note explains:
+
+- how dropout works (section 4);
+- why switching nodes off helps (section 5);
+- what happens at prediction time (section 6).
+
+Code for regression and classification is in the [dropout code Note](../1025-dropout-code/note.md).
 
 ## 2. Prerequisites
 
@@ -32,16 +38,22 @@ Figure 1 shows the idea. This Note explains how dropout works (section 4), why s
 
 > **Key point:** Many layers of many fully connected nodes can capture every small pattern of the training data, noise included. Five fixes: more data, a simpler network, early stopping, regularisation, dropout.
 
-Overfitting is learning the training data too closely, noise included, so that the model does well on the training data and poorly on new data (see the [bias-variance Note](../62-bias-variance/note.md)). In a classification problem, an overfitted model draws a wiggly boundary that wraps around every training point; a good model draws a smoother boundary that captures the real pattern.
+Overfitting is learning the training data too closely, noise included, so that the model does well on the training data and poorly on new data (see the [bias-variance Note](../62-bias-variance/note.md)). In a classification problem, an overfitted model has a wiggly **decision boundary** (G-555; the line or curve separating the classes) that wraps around every training point; a good model has a smoother decision boundary that captures the real pattern.
 
-Neural networks are prone to overfitting. They have several layers, each with many nodes, all fully connected, and they are trained for many epochs. Such a complex architecture can capture tiny patterns that only exist in the training data.
+Neural networks are prone to overfitting, for three reasons:
+
+- they have several layers, each with many nodes;
+- the layers are all fully connected (**dense layers**, G-583);
+- they are trained for many **epochs** (G-696).
+
+Such a complex **architecture** (G-209) can capture tiny patterns that only exist in the training data.
 
 The possible fixes:
 
-1. **Add more data.** The more varied data the network sees, the better it generalises.
+1. **Add more data.** The more varied data the network sees, the better it generalises (**generalisation**, G-838).
 2. **Reduce the complexity** of the network: for example 7 hidden layers instead of 10, or 64 nodes per layer instead of 128.
-3. **Early stopping:** stop training where overfitting starts (see the [early stopping Note](../1022-early-stopping/note.md)).
-4. **Regularisation**, L1 or L2, as in Ridge and Lasso (see the [regularisation in deep learning Note](../1026-regularization-in-dl/note.md)).
+3. **Early stopping** (G-656): stop training where overfitting starts (see the [early stopping Note](../1022-early-stopping/note.md)).
+4. **Regularisation** (G-1659), L1 or L2, as in Ridge and Lasso (see the [regularisation in deep learning Note](../1026-regularization-in-dl/note.md)).
 5. **Dropout**, the subject of this Note.
 
 ## 4. How dropout works
@@ -52,23 +64,27 @@ The possible fixes:
 
 > **Key point:** A dropped node has no connections in that step: it sends nothing, receives nothing, and its weights are not updated.
 
-Take a binary classification problem with 5 **features** (input variables, one column of the data table each). The network has an input layer of 5 nodes, two hidden layers of 5 nodes each, and an output layer of 1 node (Figure 1, left).
+Take a binary classification problem with 5 **features** (G-772; input variables, one column of the data table each). The network (Figure 1, left) has:
 
-With **dropout**, before each training step we randomly switch off some nodes of the input layer and of the hidden layers. A switched-off node is cut from the network for that step: its weights and bias play no part in the prediction, and backpropagation does not update them. In Figure 1, step 1 drops 2 input nodes, 3 nodes of the first hidden layer and 2 of the second. Step 2 draws a new random set: some of the dropped nodes come back and others go.
+- an **input layer** (G-952) of 5 nodes;
+- two **hidden layers** (G-890) of 5 nodes each;
+- an **output layer** (G-1424) of 1 node.
 
-So each step trains a different network on the data. Every one of them is a smaller **sub-network** of the full network, using a subset of its nodes and the same shared weights.
+With **dropout**, before each training step we randomly switch off some nodes of the input layer and of the hidden layers. A switched-off node is cut from the network for that step: its weights and bias play no part in the prediction, and **backpropagation** (G-247) does not update them. In Figure 1, step 1 drops 2 input nodes, 3 nodes of the first hidden layer and 2 of the second. Step 2 draws a new random set: some of the dropped nodes come back and others go.
+
+So each step trains a different network on the data. Every one of them is a smaller **sub-network** (G-1909) of the full network, using a subset of its nodes and the same shared weights.
 
 ![Dropout with p = 0.25 on the network of Figure 1, over four training steps. Each step draws a new random set of switched-off nodes (red crosses), and their connections go grey. At prediction every node is back, and each weight is multiplied by $1 - p = 0.75$](images/dropout_anim.gif){width=100%}
 
 In Figure 2, watch the crosses jump between steps: 4, 3, 1 and then 7 of the 15 droppable nodes are off, because every node is dropped independently (section 4.2). The last frame previews prediction time (section 6).
 
-> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every mini-batch (and each **observation**, one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
+> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every **mini-batch** (G-1223; and each **observation** (G-1374), one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
 
 ### 4.2 The dropout rate
 
 > **Key point:** p is the probability of dropping each node; it can differ from layer to layer.
 
-The **dropout rate** $p$ is the fraction of a layer's nodes to drop. With $p = 0.5$, each node of that layer is switched off with probability 0.5, so on average half the layer is gone in each step. Each layer can have its own rate; typical values come in the [dropout code Note](../1025-dropout-code/note.md).
+The **dropout rate** (G-638) $p$ is the fraction of a layer's nodes to drop. With $p = 0.5$, each node of that layer is switched off with probability 0.5, so on average half the layer is gone in each step. Each layer can have its own rate; typical values come in the [dropout code Note](../1025-dropout-code/note.md).
 
 > **Extra:** Each node is dropped independently, so $p = 0.5$ on a layer of 4 nodes drops 2 nodes on average, but sometimes 1 or 3. "Drop exactly 2 of the 4", as in the diagrams, is the average case.
 
@@ -100,7 +116,7 @@ A company analogy helps. Suppose every morning, a random half of the employees i
 
 > **Key point:** Dropout trains a huge number of sub-networks that share their weights; prediction combines them, as a random forest combines its trees.
 
-A random forest trains many decision trees, each on a random sample of the features (see the [random forest Note](../108-random-forest-intro/note.md), section 5.3), and lets them vote. The trees differ a little from each other, and the vote of the ensemble overfits much less than any one tree.
+A **random forest** (G-1611) trains many **decision trees** (G-561), each on a random sample of the features (**column sampling**, G-413; see the [random forest Note](../108-random-forest-intro/note.md), section 5.3), and lets them vote. The trees differ a little from each other, and the vote of the **ensemble** (G-690) overfits much less than any one tree.
 
 Dropout does the same with networks. Each training step trains a different sub-network on the data; at prediction time their knowledge is combined. And the number of possible sub-networks is enormous:
 
@@ -130,7 +146,7 @@ Figure 3 (top row) shows this. We never have to do it by hand: Keras handles it 
 
 ![Two equivalent ways to handle dropout. Top: the original paper scales the weights down at prediction. Bottom: Keras scales the kept outputs up during training, so nothing changes at prediction.](images/train_vs_predict.png)
 
-> **Extra:** Keras uses **inverted dropout** (Figure 3, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing (Keras docs, `Dropout`). Both versions give the next layer the same average input.
+> **Extra:** Keras uses **inverted dropout** (G-970; Figure 3, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing (Keras docs, `Dropout`). Both versions give the next layer the same average input.
 
 > **Python:** A `Dropout(0.25)` layer on a row of eight 1s.
 >

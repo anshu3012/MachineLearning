@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bptt, concept/par
 
 > **Key point:** Backpropagation through time (BPTT) is ordinary backpropagation applied to the unfolded RNN. Because $W_i$ and $W_h$ are used at every time step, their gradient is a sum with one term per time step.
 
-An RNN learns like any neural network: forward propagation gives a prediction and a loss, backpropagation gives the derivative of the loss with respect to every weight, and gradient descent updates the weights. In an RNN this backward pass runs over the network unfolded in time, so it is called **backpropagation through time** (**BPTT**; Goodfellow §10.2). No special algorithm is needed: the chain rule on the unfolded graph is enough (Goodfellow §10.2.2).
+An RNN learns like any neural network: forward propagation gives a prediction and a loss, backpropagation gives the derivative of the loss with respect to every weight, and gradient descent updates the weights. In an RNN this backward pass runs over the network unfolded in time, so it is called **backpropagation through time** (G-246) (**BPTT**; Goodfellow §10.2). No special algorithm is needed: the chain rule on the unfolded graph is enough (Goodfellow §10.2.2).
 
 ![The RNN unfolded over three time steps. Loss $L$ depends on $W_i$ through three paths, one for each time step at which $W_i$ is used. BPTT adds up the three terms](images/bptt_paths.png){width=100%}
 
@@ -37,7 +37,7 @@ Figure 1 shows the one new idea. The same $W_i$ enters at every time step, so th
 
 > **Key point:** A vocabulary of three words, so every word is a vector of 3 numbers and every review is a $3 \times 3$ table.
 
-We use a sentiment analysis task: the input is a text, and the **target** (the output we predict) is its sentiment, 1 for positive and 0 for negative. The toy dataset has three reviews, each one **observation** (one record):
+We use a sentiment analysis task: the input is a text, and the **target** (G-1949) (the output we predict) is its sentiment, 1 for positive and 0 for negative. The toy dataset has three reviews, each one **observation** (G-1374) (one record):
 
 | Review | Sentiment |
 |---|---|
@@ -45,9 +45,9 @@ We use a sentiment analysis task: the input is a text, and the **target** (the o
 | rat rat mat | 1 |
 | mat mat cat | 0 |
 
-The vocabulary has three words, so one-hot encoding turns each into 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (one input variable). Review $i$ is $x_i$, and its word at time step $t$ is $x_{it}$.
+The vocabulary has three words, so one-hot encoding turns each into 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (G-772) (one input variable). Review $i$ is $x_i$, and its word at time step $t$ is $x_{it}$.
 
-The task is **many-to-one**: a sequence goes in, a single output comes out (see the [types of RNN Note](../1058-types-of-rnn/note.md)).
+The task is **many-to-one** (G-1156): a sequence goes in, a single output comes out (see the [types of RNN Note](../1058-types-of-rnn/note.md)).
 
 ### 3.2 The network
 
@@ -59,6 +59,10 @@ The task is **many-to-one**: a sequence goes in, a single output comes out (see 
 
 The three matrices hold 21 weights. The biases (3 in the recurrent layer, 1 in the output) are learned in exactly the same way as the weights, so we leave them out here.
 
+![Left: the review "cat mat rat" as a $3 \times 3$ table, one row per time step and one column per feature. Right: the network, with the shape of each weight matrix. $W_h$ feeds the hidden state back into the same layer](images/network_setup.png){width=100%}
+
+In Figure 2, watch the loop: $W_h$ is the only weight that connects one time step to the next.
+
 ### 3.3 Forward propagation
 
 > **Key point:** Three steps of the recurrent layer, then the output, then the loss.
@@ -69,7 +73,13 @@ $$h_1 = \tanh(x_{i1} W_i + h_0 W_h), \quad h_2 = \tanh(x_{i2} W_i + h_1 W_h), \q
 
 $$\hat{y} = \sigma(h_3 W_o), \qquad L = -y \log \hat{y} - (1 - y) \log(1 - \hat{y})$$
 
-The loss is binary cross-entropy (see the [loss functions Note](../1014-dl-loss-functions/note.md)). The whole flow is: $x_{i1}$ and $h_0$ give $h_1$; $x_{i2}$ and $h_1$ give $h_2$; $x_{i3}$ and $h_2$ give $h_3$; $h_3$ gives $\hat{y}$; $\hat{y}$ and $y$ give $L$.
+The loss is binary cross-entropy (see the [loss functions Note](../1014-dl-loss-functions/note.md)). The whole flow runs in five steps:
+
+1. $x_{i1}$ and $h_0$ give $h_1$;
+2. $x_{i2}$ and $h_1$ give $h_2$;
+3. $x_{i3}$ and $h_2$ give $h_3$;
+4. $h_3$ gives $\hat{y}$;
+5. $\hat{y}$ and $y$ give $L$.
 
 ## 4. What training needs: three derivatives
 
@@ -96,6 +106,10 @@ $\partial L/\partial W_o$ asks: how much does the loss change if $W_o$ changes a
    $$\hat{y} = \sigma(1.0 \times 0.654) = 0.658, \qquad L = -\log 0.658 = 0.419$$
    Then
    $$\frac{\partial L}{\partial w_o} = h_3\thinspace(\hat{y} - y) = 0.654 \times (0.658 - 1) = 0.654 \times (-0.342) = -0.224$$
+
+![The one-node example: the forward pass left to right with every value, and the single backward path (red) from $L$ to $w_o$](images/wo_path.png){width=100%}
+
+In Figure 3, the red arrow stops at $w_o$: the error never needs to travel back through $h_3$, $h_2$ and $h_1$ for this weight.
 
 ## 6. The gradient for $W_i$
 
@@ -149,6 +163,10 @@ The middle factor $\partial \hat{y}/\partial h_j$ hides a chain. $\hat{y}$ does 
 
 Path 2 is 0 because the second input is $x_2 = 0$: $w_i$ had no effect at that step. TensorFlow's automatic gradient gives the same $-0.282$ (Notebook).
 
+![The gradient of a shared weight as a running sum of one term per time step, for $w_i$ (left, this section) and $w_h$ (right, section 7). Orange bars are the path terms; the red bar is the total](images/path_sums.png){width=100%}
+
+In Figure 4, watch where each zero comes from: $x_2 = 0$ removes a term for $w_i$, and $h_0 = 0$ removes a different term for $w_h$.
+
 ## 7. The gradient for $W_h$
 
 > **Key point:** $W_h$ is also used at every time step, so its gradient has the same form: a sum over the time steps, with $\partial h_j/\partial W_h$ as the last factor.
@@ -173,7 +191,7 @@ There are again three paths, one through each use of $W_h$, and the same compact
 
 ![BPTT on the one-node example as one backward walk. The orange disc is the error reaching each hidden state; at each step it is multiplied by the tanh slope, drops one term into $\partial L/\partial w_i$ (times $x_t$) and one into $\partial L/\partial w_h$ (times $h_{t-1}$), then is multiplied by $w_h$ to reach the step before](images/bptt_pulse.gif){width=100%}
 
-Figure 2 runs sections 6.3 and 7 together, from right to left. Watch the disc shrink: the error reaching $h_3$, $h_2$ and $h_1$ is 0.342, 0.156 and 0.109, because each step back multiplies it by $d_t\thinspace w_h$ (0.457, then 0.700), and both factors are below 1 here. The further back a time step, the smaller the error that reaches it; the [problems with RNN Note](../1060-problems-with-rnn/note.md) follows this effect over long sequences.
+Figure 5 runs sections 6.3 and 7 together, from right to left. Watch the disc shrink: the error reaching $h_3$, $h_2$ and $h_1$ is 0.342, 0.156 and 0.109, because each step back multiplies it by $d_t\thinspace w_h$ (0.457, then 0.700), and both factors are below 1 here. The further back a time step, the smaller the error that reaches it; the [problems with RNN Note](../1060-problems-with-rnn/note.md) follows this effect over long sequences.
 
 > **Extra:** With matrices, the same computation runs as a loop backwards in time (Goodfellow §10.2.2, eq. 10.21 and 10.26, here in the row-vector form of Keras). Start with the error at the last hidden state, $\delta = (\hat{y} - y)\thinspace W_o^{\mathsf T}$. Then for $t = T$ down to 1:
 >
@@ -209,6 +227,10 @@ Figure 2 runs sections 6.3 and 7 together, from right to left. Watch the disc sh
 > ```
 
 Run on the three toy reviews with gradient descent (learning rate 0.5, all three reviews averaged per update), the NumPy BPTT of the Notebook brings the mean loss from 0.809 to 0.004 in 300 epochs. The predictions become 0.997, 0.997 and 0.006 for targets 1, 1 and 0.
+
+![The training loop on the three toy reviews. Left: the mean loss per epoch. Right: the prediction for each review; the black line marks its target](images/training_loop.gif){width=100%}
+
+In Figure 6, watch the third review: it starts as the most "positive" prediction (0.661) although its target is 0, and BPTT pushes it down to 0.006.
 
 Compared with backpropagation in an ANN, the only new point is the unfolding in time, which turns one shared weight into several uses and its derivative into a sum.
 

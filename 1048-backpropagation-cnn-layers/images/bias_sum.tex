@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[zc/.style={draw=cgrey, line width=0.8pt, minimum size=1.15cm, fill=cred!15, font=\sffamily\large, align=center}]
+  \node[box=corange, font=\sffamily\Large] (b) at (0,0) {$b_1$};
+  \node[zc] (z11) at (4,1.9)  {$z_{11}$};
+  \node[zc] (z12) at (4,0.63) {$z_{12}$};
+  \node[zc] (z21) at (4,-0.63){$z_{21}$};
+  \node[zc] (z22) at (4,-1.9) {$z_{22}$};
+  \foreach \z in {z11,z12,z21,z22} \draw[arrow, draw=corange] (b) -- node[pos=0.62, fill=white, inner sep=1pt, font=\sffamily\small, text=corange] {$\times1$} (\z.west);
+  \foreach \z/\s/\g in {z11/11/0.5, z12/12/-1, z21/21/0.25, z22/22/2}
+    \node[anchor=west, font=\sffamily\large, text=cred] at ($(\z.east)+(0.2,0)$) {$\partial L/\partial z_{\s} = \g$};
+  \node[title, anchor=west] at (-0.6,3.1) {four paths from $b_1$ to the loss};
+  \draw[decorate, decoration={brace, amplitude=8pt}, line width=1.2pt] (8.3,2.4) -- (8.3,-2.4);
+  \node[anchor=west, font=\sffamily\Large, align=left] at (8.8,0) {$\partial L/\partial b_1$\\$=0.5-1+0.25+2$\\$=\mathbf{1.75}$};
+\end{tikzpicture}
+\end{document}

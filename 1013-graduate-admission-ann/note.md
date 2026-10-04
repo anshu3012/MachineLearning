@@ -17,13 +17,13 @@ tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept
 
 > **Key point:** For regression, a network ends in one node with a linear activation and is trained with mean squared error; everything else is the same Keras workflow.
 
-The [customer churn Note](../1011-customer-churn-ann/note.md) and the [MNIST Note](../1012-mnist-ann/note.md) used networks for classification, with two and with ten classes. Here the output is a **number**: a student's chance of admission to a graduate programme, between 0 and 1. Predicting a number is **regression**.
+The [customer churn Note](../1011-customer-churn-ann/note.md) and the [MNIST Note](../1012-mnist-ann/note.md) used networks for classification, with two and with ten classes. Here the output is a **number**: a student's chance of admission to a graduate programme, between 0 and 1. Predicting a number is **regression** (G-1655).
 
 The Keras workflow is unchanged: prepare, build, compile, fit, predict (Figure 1 of the churn Note). Three things are new:
 
-1. **Output layer:** one node with the **linear** activation, so it can give any number.
-2. **Loss:** **mean squared error**.
-3. **Score:** **R²** instead of accuracy.
+1. **Output layer:** one node with the **linear** activation (G-1089), so it can give any number.
+2. **Loss:** **mean squared error** (G-1201).
+3. **Score:** **R²** (G-1717) instead of accuracy.
 
 The goal is to see a network solve a regression problem, not to build the best model. The Notebook (`notebook.ipynb`) runs every step.
 
@@ -31,7 +31,11 @@ The goal is to see a network solve a regression problem, not to build the best m
 
 > **Key point:** 500 students, 7 inputs (test scores, ratings, CGPA, research) and one output: the chance of admission, between 0 and 1.
 
-Students applying to universities abroad take the **GRE** and **TOEFL** exams and send a profile with a **statement of purpose (SOP)** and **letters of recommendation (LOR)**. The data holds 500 such students. Each student is one **observation** (one record, one row of the data table). Seven columns are **features** (input variables, the information we predict from), and one is the **target** (the output we predict), the chance of admission:
+Students applying to universities abroad take the **GRE** and **TOEFL** (G-869) exams and send a profile with a **statement of purpose (SOP)** and **letters of recommendation (LOR)**. The data holds 500 such students:
+
+- each student is one **observation** (G-1374; one record, one row of the data table);
+- seven columns are **features** (G-772; input variables, the information we predict from);
+- one column is the **target** (G-1949; the output we predict), the chance of admission.
 
 | Column | Meaning | Range |
 |---|---|---|
@@ -59,7 +63,7 @@ Students applying to universities abroad take the **GRE** and **TOEFL** exams an
 > df.duplicated().sum()   # 0
 > ```
 
-There are no missing values and no duplicated rows, and every column is already numeric. The chance of admission averages 0.72 and runs from 0.34 to 0.97.
+There are no **missing values** (G-1235) and no duplicated rows, and every column is already numeric. The chance of admission averages 0.72 and runs from 0.34 to 0.97.
 
 ## 3. Preparing the inputs
 
@@ -67,7 +71,7 @@ There are no missing values and no duplicated rows, and every column is already 
 
 The serial number is a row label with no pattern in it, so we drop it. The other 7 columns are the features, and `Chance of Admit` is the target. A test size of 0.2 gives 400 training and 100 test students.
 
-The features differ widely in size: a GRE score of 337 sits next to an SOP rating of 4.5. As in the other two projects, unequal scales slow training down, so we scale. This time we use **min-max scaling** rather than standardization: min-max scaling is the usual choice when every feature has a known minimum and maximum (see the [normalization Note](../25-normalization/note.md), section 10). GRE stops at 340, TOEFL at 120, the ratings at 5, so every feature is bounded. After scaling, each feature runs from 0 to 1.
+The features differ widely in size: a GRE score of 337 sits next to an SOP rating of 4.5. As in the other two projects, unequal scales slow training down, so we scale. This time we use **min-max scaling** (G-1217) rather than **standardization** (G-1874): min-max scaling is the usual choice when every feature has a known minimum and maximum (see the [normalization Note](../25-normalization/note.md), section 10). GRE stops at 340, TOEFL at 120, the ratings at 5, so every feature is bounded. After scaling, each feature runs from 0 to 1.
 
 > **Python:** Splitting and min-max scaling.
 >
@@ -94,9 +98,9 @@ The features differ widely in size: a GRE score of 337 sits next to an SOP ratin
 
 > **Key point:** A linear output passes its weighted sum through unchanged, so the network can predict any number.
 
-In classification the output node squeezes its weighted sum into a probability with a sigmoid or softmax. In regression we want the number itself, so the output node uses the **linear activation**: it returns its input unchanged, $f(z) = z$. With a linear output and the mean squared error loss, a single perceptron is linear regression (see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8).
+In classification the output node squeezes its **weighted sum** (G-2119) into a probability with a **sigmoid** (G-1798) or **softmax** (G-1830). In regression we want the number itself, so the output node uses the **linear activation**: it returns its input unchanged, $f(z) = z$. With a linear output and the mean squared error loss, a single perceptron is **linear regression** (G-1094; see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8).
 
-The rule: **for regression, the output layer has one node per number to predict, with the linear activation.** Hidden layers keep a non-linear activation such as ReLU; otherwise the whole network would collapse into one linear model (see the [MLP intuition Note](../1009-mlp-intuition/note.md), section 3.4).
+The rule: **for regression, the output layer has one node per number to predict, with the linear activation.** Hidden layers keep a non-linear activation such as **ReLU** (G-1668); otherwise the whole network would collapse into one linear model (see the [MLP intuition Note](../1009-mlp-intuition/note.md), section 3.4).
 
 > **Extra:** A linear output is not limited to 0 to 1, and in our results one prediction from each network comes out slightly above 1 (up to 1.01). Since the target here is a proportion, a sigmoid output node would keep every prediction inside 0 to 1. The linear output is the general rule because most regression targets, such as prices or temperatures, have no such limit.
 
@@ -106,7 +110,13 @@ The rule: **for regression, the output layer has one node per number to predict,
 
 ![The two admission networks. Both end in one linear node; the numbers are the trainable parameters of each layer.](images/architecture.png)
 
-Figure 1(a) shows the first network. The input layer has 7 nodes, one per feature; the hidden layer has 7 ReLU nodes; the output layer has 1 linear node. Counting with the rule of the [MLP notation Note](../1008-mlp-notation/note.md):
+Figure 1(a) shows the first network:
+
+- the **input layer** (G-952) has 7 nodes, one per feature;
+- the **hidden layer** (G-890) has 7 ReLU nodes;
+- the **output layer** (G-1424) has 1 linear node.
+
+Counting with the rule of the [MLP notation Note](../1008-mlp-notation/note.md):
 
 $$(7 \times 7 + 7) + (7 \times 1 + 1) = 56 + 8 = 64$$
 
@@ -135,7 +145,7 @@ $$(7 \times 7 + 7) + (7 \times 1 + 1) = 56 + 8 = 64$$
 
 > **Key point:** The loss is the average squared difference between the predicted and the true chance.
 
-For regression the usual loss is **mean squared error (MSE)**: the average of the squared differences between the true and the predicted values (see the [regression metrics Note](../52-regression-metrics/note.md), section 3). MSE is the same quantity linear regression minimises. No accuracy metric is added, since there are no classes to count.
+For regression the usual loss is **mean squared error (MSE)**: the average of the squared differences between the true and the predicted values (see the [regression metrics Note](../52-regression-metrics/note.md), section 3). MSE is the same quantity linear regression minimises. The Notebook compiles with the **Adam** (G-169) **optimizer** (G-1401) and trains for 10 **epochs** (G-696; full passes over the training data). No accuracy metric is added, since there are no classes to count.
 
 > **Python:** Compiling and training.
 >
@@ -193,7 +203,7 @@ Two changes, as in the other projects:
 >                      validation_split=0.2)
 > ```
 
-The test R² rises to **0.80**. Figure 2 (right) shows the loss falling fast in the first few epochs and then levelling off near 0.004. The training and validation losses stay together all the way (0.0037 and 0.0037 at the end): the network is **not overfitting**. A few more epochs might lower the loss a little further.
+The test R² rises to **0.80**. Figure 2 (right) shows the loss falling fast in the first few epochs and then levelling off near 0.004. The training and validation losses stay together all the way (0.0037 and 0.0037 at the end): the network is **not overfitting** (**overfitting**, G-1429). A few more epochs might lower the loss a little further.
 
 ![Predicted against actual chance of admission for the 100 test students. Points on the dashed line are perfect predictions.](images/pred_vs_actual.png)
 
@@ -217,7 +227,7 @@ The three projects side by side:
 - Regression output: one node per predicted number, linear activation; hidden layers stay non-linear (ReLU).
 - Loss for regression: mean squared error; score with R² instead of accuracy.
 - Min-max scaling suits inputs with known limits, such as exam scores.
-- A network that stops too early can score below 0 in R²: worse than predicting the average. More epochs and a little more capacity fixed it.
+- A network that stops too early can score below 0 in R²: worse than predicting the average. More epochs and a little more **capacity** (G-344; the range of functions a model can fit) fixed it.
 - Training and validation losses that stay together mean no overfitting.
 
 ## 8. Sources

@@ -16,7 +16,7 @@ tags: [subject/ml, area/descriptive, area/models-2, step/foundations, step/model
 
 > **Key point:** A voting ensemble trains several models on the same data and lets them vote. If the models are independent and each is right more than half the time, the vote is right more often than any one of them.
 
-A **voting ensemble** is the simplest ensemble ([introduction to ensemble learning Note](../101-ensemble-learning/note.md), section 4.1). This Note and the next two cover it:
+A **voting ensemble** (G-2096) is the simplest ensemble ([introduction to ensemble learning Note](../101-ensemble-learning/note.md), section 4.1). This Note and the next two cover it:
 
 - this Note: the core idea, why voting works (with probability), and the two assumptions it needs;
 - hard and soft voting, code and hyperparameters: the [voting classifier Note](../103-voting-classifier/note.md);
@@ -26,31 +26,43 @@ A **voting ensemble** is the simplest ensemble ([introduction to ensemble learni
 
 > **Key point:** Train every model on the same data, independently; to predict, ask them all and take the majority (classification) or the mean (regression).
 
-Take a few models, say M1, M2 and M3. They can be different algorithms or the same algorithm with different settings; the [voting classifier Note](../103-voting-classifier/note.md) shows both.
+Take a few models, say M1, M2 and M3. The models inside an ensemble are its **base models** (G-260). They can be different algorithms or the same algorithm with different settings; the [voting classifier Note](../103-voting-classifier/note.md) shows both.
 
 **Training:** each model is trained on the **same** dataset, independently of the others.
 
-**Prediction:** a new query point $x_q$ goes to every trained model, and the ensemble returns the majority vote (classification) or the mean (regression), as in the [ensemble learning Note](../101-ensemble-learning/note.md), section 3.
+**Prediction:** a new query point $x_q$ goes to every trained model, and the ensemble returns the **majority vote** (G-1146; the class most models predict) for classification, or the mean of their outputs for regression, as in the [ensemble learning Note](../101-ensemble-learning/note.md), section 3.
+
+![Training: every model learns from the same data. Prediction: every model answers the query, and the majority (or mean) is returned](images/train_predict.png){height=28%}
+
+In Figure 1, follow the query $x_q$: it reaches all three models, two answer A and one answers B, so the ensemble answers A.
 
 Those two steps are the whole algorithm. A voting ensemble works like an election, which is where the name comes from.
 
 ## 3. The puzzle
 
-> **Key point:** How can models with accuracies 0.7, 0.6 and 0.55 combine into one with accuracy above 0.7?
+> **Key point:** Can a vote beat its best member? With accuracies 0.7, 0.6 and 0.55, not quite (0.673); with three models of accuracy 0.7, yes (0.784).
 
-Suppose one model has accuracy 0.7, another 0.6 and a third 0.55. Combining them by vote gives a new model whose accuracy can be **higher than 0.7**, the best of the three. How can a vote reach further than its best member?
+Suppose one model has accuracy 0.7, another 0.6 and a third 0.55. Can a vote of the three beat 0.7, the best of them? How could a vote reach further than its best member?
 
-The answer needs two assumptions and a little probability.
+The answer needs two assumptions and a little probability. Figure 2 shows where it leads, for independent models.
+
+![Accuracy of each model and of two votes of independent models: M1, M2, M3 (0.7, 0.6, 0.55) and three models of accuracy 0.7](images/puzzle_bars.png){height=32%}
+
+In Figure 2, compare the red and green bars. The vote of M1, M2 and M3 is right when at least two are right: $0.7 \times 0.6 \times 0.55 + 0.7 \times 0.6 \times 0.45 + 0.7 \times 0.4 \times 0.55 + 0.3 \times 0.6 \times 0.55 = 0.231 + 0.189 + 0.154 + 0.099 = 0.673$, just below 0.7, because the two weaker models can outvote the best one. Three equally good models of 0.7 reach 0.784 (section 5).
 
 ## 4. The two assumptions
 
 > **Key point:** (1) The models must be independent: the more different, the better. (2) Each model must be right more than 50% of the time.
 
-**Assumption 1: the base models are independent.** Their mistakes should not be related: when one model is wrong, the others should not be wrong for the same reason. The more different the models are, the better the vote works, just as a mixed quiz-show audience covers more topics than one of programmers only (the [ensemble learning Note](../101-ensemble-learning/note.md), section 3.1); if they are very similar, voting gains little.
+**Assumption 1: the base models are independent.** In probability terms the models' mistakes are **independent events** (G-934): knowing one model is wrong tells us nothing about the others. In plain words: when one model is wrong, the others should not be wrong for the same reason. The more different the models are, the better the vote works, just as a mixed quiz-show audience covers more topics than one of programmers only (the [ensemble learning Note](../101-ensemble-learning/note.md), section 3.1); if they are very similar, voting gains little.
 
 **Assumption 2: every model's accuracy is above 50%.** A model that is right less than half the time does harm: a vote of such models is **worse than the worst of them**.
 
 For two classes, 50% accuracy is what random guessing gives. Beating a coin toss is not hard, so in practice voting is a safe technique that usually helps.
+
+![Three independent models, each right with probability p, as p sweeps from 0.30 to 0.80: the vote's accuracy against one model's](images/vote_vs_p.gif)
+
+In Figure 3, watch the blue curve cross the dashed line at p = 0.5: below it the vote is worse than one model, above it better, and the gap grows as p moves away from 0.5.
 
 ## 5. Why voting works: the probability
 
@@ -58,7 +70,7 @@ For two classes, 50% accuracy is what random guessing gives. Beating a coin toss
 
 Take three independent models, M1, M2 and M3, each with accuracy 0.7. On a new point, each is right with probability 0.7 and wrong with probability 0.3.
 
-Because the models are independent, the probability of a combination of outcomes is the product of the separate probabilities (the multiplication rule, [independent events Note](../83-independent-events/note.md)). Figure 1 lists all 8 combinations.
+Because the models are independent, the probability of a combination of outcomes is the product of the separate probabilities (the multiplication rule, [independent events Note](../83-independent-events/note.md)). Figure 4 lists all 8 combinations.
 
 ![Every combination of right and wrong for three independent models of accuracy 0.7](images/prob_tree.png){height=50%}
 
@@ -80,11 +92,11 @@ Now let each model be right with probability $p = 0.3$. The same formula gives:
 
 $$P(\text{vote right}) = 0.3^3 + 3 \times 0.3^2 \times 0.7 = 0.027 + 3 \times 0.063 = 0.027 + 0.189 = 0.216$$
 
-A vote accuracy of about 22% is worse than every single model (30%). The value 0.216 is also $1 - 0.784$: the four combinations left over in Figure 1, with the roles of right and wrong swapped. This calculation proves assumption 2: voting amplifies whatever the models are, good or bad.
+A vote accuracy of about 22% is worse than every single model (30%). The value 0.216 is also $1 - 0.784$: the four combinations left over in Figure 4, with the roles of right and wrong swapped. This calculation proves assumption 2: voting amplifies whatever the models are, good or bad.
 
-> **Extra:** With $n$ models (an odd number, so there are no ties), the vote is right when more than half are right. The number of right models follows a **binomial distribution**, so
+> **Extra:** With $n$ models (an odd number, so there are no ties), the vote is right when more than half are right. The number of right models follows a **binomial distribution** (G-308), so
 > $$P(\text{vote right}) = \sum_{k > n/2} \binom{n}{k} p^k (1-p)^{n-k}$$
-> where $\binom{n}{k}$ counts the ways to choose which $k$ models are right. For $n = 3$ this gives the $p^3 + 3p^2(1-p)$ above. This result is known as **Condorcet's jury theorem** (Condorcet, 1785).
+> where $\binom{n}{k}$ counts the ways to choose which $k$ models are right. For $n = 3$ this gives the $p^3 + 3p^2(1-p)$ above. This result is known as **Condorcet's jury theorem** (G-445; Condorcet, 1785).
 
 ### 5.2 More models, and correlated models
 
@@ -92,7 +104,7 @@ A vote accuracy of about 22% is worse than every single model (30%). The value 0
 
 ![(a) Accuracy of the vote against the number of independent models; (b) 11 models of accuracy 0.7 whose answers are partly copied from a common source](images/majority_vote.png){height=45%}
 
-Figure 2a uses the formula of the Extra box for 1 to 101 models:
+Figure 5a uses the formula of the Extra box for 1 to 101 models:
 
 | Each model | 3 models | 11 models | 101 models |
 |---|---|---|---|
@@ -103,15 +115,15 @@ Figure 2a uses the formula of the Extra box for 1 to 101 models:
 
 Even models only slightly better than chance (0.6) reach a vote of 0.98 with 101 of them. Models at exactly 0.5 gain nothing, and models below 0.5 drive the vote to 0.
 
-The dots in Figure 2a come from a simulation: 20,000 random trials of independent models of accuracy 0.6. They sit on the formula's line, so the formula is right.
+The dots in Figure 5a come from a simulation: 20,000 random trials of independent models of accuracy 0.6. They sit on the formula's line, so the formula is right.
 
-Figure 2b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answer is, with some probability, copied from one shared source instead of being the model's own:
+Figure 5b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answer is, with some probability, copied from one shared source instead of being the model's own:
 
 - with no copying (independent models), the vote scores about **0.92**;
 - with half the answers copied, about **0.74**;
 - with everything copied, the eleven models act as one, and the vote scores **0.7**, no better than a single model.
 
-> **Extra:** Models trained on the same data are usually correlated, so real gains are smaller than Figure 2a promises: the correlation between the models limits what combining them can gain (ESL §15.2), just as Figure 2b shows. An ensemble beats its members only when they are both accurate and *diverse*, meaning they make different errors (Dietterich, 2000). Correlation is the reason ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
+> **Extra:** Models trained on the same data are usually correlated, so real gains are smaller than Figure 5a promises: the correlation between the models limits what combining them can gain (ESL §15.2), just as Figure 5b shows. An ensemble beats its members only when they are both accurate and *diverse*, meaning they make different errors (Dietterich, 2000). Correlation is the reason ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
 
 ## 6. Summary
 

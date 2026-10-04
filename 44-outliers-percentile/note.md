@@ -16,9 +16,15 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/percentile, c
 
 > **Key point:** We pick a low and a high percentile, such as the 1st and the 99th; every value below the first or above the second is an outlier, and we trim those rows or cap the values at the limits.
 
-Note 41 listed three rules for detecting outliers. Note 42 covered the z-score rule for normal features and Note 43 the IQR rule for skewed ones. This Note covers the third and simplest rule: the **percentile method**, which works on a **feature** (an input variable, one column of the data table) of any shape. Each **observation** is one record (one row), here one person.
+Note 41 listed three rules for detecting outliers. Note 42 covered the z-score rule for normal features and Note 43 the IQR rule for skewed ones. This Note covers the third and simplest rule: the **percentile method** (G-1481), which works on a **feature** (G-772) (an input variable, one column of the data table) of any shape. Each **observation** (G-1374) is one record (one row), here one person.
 
-Figure 1 shows the whole method. We choose two cut-offs, turn them into a lower and an upper limit, and treat the values outside them by trimming or capping. Capping with percentile limits has its own name: **winsorization**.
+Figure 1 shows the whole method, in three steps:
+
+1. choose two cut-offs;
+2. turn them into a lower and an upper limit;
+3. treat the values outside them by trimming or capping.
+
+Capping with percentile limits has its own name: **winsorization** (G-2123).
 
 ![The percentile method: choose two percentiles as limits, then trim or cap (winsorize)](images/overview.png){width=100%}
 
@@ -26,11 +32,11 @@ Figure 1 shows the whole method. We choose two cut-offs, turn them into a lower 
 
 > **Key point:** Everything below the 1st percentile or above the 99th percentile is an outlier; the two cut-offs are our choice.
 
-The $p$-th percentile is the value that $p$% of the feature's values lie below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains; it uses only the order of the values, never their shape.
+The $p$-th **percentile** (G-1483) is the value that $p$% of the feature's values lie below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains; it uses only the order of the values, never their shape.
 
 The method has a single step: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an outlier.
 
-The usual cut-offs are the 1st and the 99th percentile. Other common pairs are:
+The usual **cut-offs** (G-526) are the 1st and the 99th percentile. Other common pairs are:
 
 - 5th and 95th: cuts more, 5% at each end;
 - 0.5th and 99.5th: cuts less, 0.5% at each end.
@@ -42,7 +48,11 @@ The limits, step by step:
    $$\text{lower} = P_1, \qquad \text{upper} = P_{99}$$
 3. **Example:** the 10,000 heights of Section 4, sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
 
-> **Extra:** "Between" needs a rule, because 1% of the values rarely ends exactly on one value. pandas uses **linear interpolation** by default: it computes the position $(n - 1) \times p = 9{,}999 \times 0.01 = 99.99$ in the sorted column (counting from 0) and goes 99% of the way from the value at position 99 to the value at position 100. Other tools use other rules, so their limits can differ slightly (pandas docs, `Series.quantile`; Hyndman and Fan 1996 compare nine such rules).
+Figure 2 lines up all 10,000 heights from shortest to tallest. Watch where the two dashed limits cross the curve: exactly at rank 100 and rank 9,900, so the red stretches at each end hold 100 people each.
+
+![The 10,000 heights sorted by rank; the 1st and 99th percentiles are the heights at ranks 100 and 9,900, and the 100 shortest and 100 tallest lie beyond them](images/sorted_heights.png)
+
+> **Extra:** "Between" needs a rule, because 1% of the values rarely ends exactly on one value. pandas uses **linear interpolation** (G-1092) by default: it computes the position $(n - 1) \times p = 9{,}999 \times 0.01 = 99.99$ in the sorted column (counting from 0) and goes 99% of the way from the value at position 99 to the value at position 100. Other tools use other rules, so their limits can differ slightly (pandas docs, `Series.quantile`; Hyndman and Fan 1996 compare nine such rules).
 
 ## 3. Trimming and capping (winsorization)
 
@@ -82,7 +92,7 @@ The data is a table of 10,000 people, 5,000 men and 5,000 women, published on Ka
 - `Height`: in inches.
 - `Weight`: in pounds.
 
-We work on `Height`. `Weight` has almost no outliers by the box-plot rule (1 value beyond the fences), so it shows little; the same steps work on it. `Gender` and `Weight` are not used, so there is no **target** (an output to predict) here: outlier handling is a cleaning step done before any model.
+We work on `Height`. `Weight` has almost no outliers by the box-plot rule (1 value beyond the fences), so it shows little; the same steps work on it. `Gender` and `Weight` are not used, so there is no **target** (G-1949) (an output to predict) here: outlier handling is a cleaning step done before any model.
 
 The summary numbers of `Height`:
 
@@ -90,7 +100,7 @@ The summary numbers of `Height`:
 |---|---|---|---|---|---|---|---|
 | 10,000 | 66.37 | 3.85 | 54.26 | 63.51 | 66.32 | 69.17 | 79.00 |
 
-Figure 2 shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
+Figure 3 shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
 
 > **Extra:** One inch is 2.54 cm. The heights run from 54.26 inches (138 cm) to 79.00 inches (201 cm), with a mean of 66.37 inches (169 cm).
 
@@ -115,7 +125,7 @@ The two limits of Section 2:
 - **lower limit:** 58.13 inches (1st percentile);
 - **upper limit:** 74.79 inches (99th percentile).
 
-Figure 2 marks them as dashed lines. Exactly 100 heights lie below the lower limit (54.26 to 58.13) and 100 above the upper limit (74.79 to 79.00), in red.
+Figure 3 marks them as dashed lines. Exactly 100 heights lie below the lower limit (54.26 to 58.13) and 100 above the upper limit (74.79 to 79.00), in red.
 
 ![Height of 10,000 people: box plot above, histogram below, with the 1st and 99th percentiles dashed and the 200 values outside them in red](images/limits.png){height=45%}
 
@@ -159,7 +169,7 @@ The summary numbers before and after:
 | Median | 66.32 | 66.32 |
 | Maximum | 79.00 | 74.79 |
 
-The mean and median stay almost the same. The standard deviation drops a little, the minimum rises and the maximum falls. Figure 3 (middle row) shows the same bell with its two thin tails cut off, and a box plot with no dots left.
+The mean and median stay almost the same. The standard deviation drops a little, the minimum rises and the maximum falls. Figure 4 (middle row) shows the same bell with its two thin tails cut off, and a box plot with no dots left.
 
 ## 7. Capping in code (winsorization)
 
@@ -200,7 +210,7 @@ The result, next to the original and the trimmed column:
 | Minimum | 54.26 | 58.13 | 58.13 |
 | Maximum | 79.00 | 74.79 | 74.79 |
 
-Only the minimum and maximum change much: they are now exactly the limits. Figure 3 (bottom row) shows the 100 low values piled onto 58.13 and the 100 high values onto 74.79, in orange. The histogram rises a little at both ends, and the box plot has no dots.
+Only the minimum and maximum change much: they are now exactly the limits. Figure 4 (bottom row) shows the 100 low values piled onto 58.13 and the 100 high values onto 74.79, in orange. The histogram rises a little at both ends, and the box plot has no dots.
 
 ![Before and after: the original column, the trimmed column (9,800 rows) and the capped column (10,000 rows, 200 values moved onto the limits); histograms on the left, box plots on the right, the limits dashed](images/before_after.png){height=62%}
 
@@ -221,6 +231,10 @@ The percentiles decide how much data counts as an outlier, and the share is fixe
 | 1 and 99 | 58.13 | 74.79 | 200 (2%) |
 | 2.5 and 97.5 | 59.26 | 73.70 | 500 (5%) |
 | 5 and 95 | 60.25 | 72.62 | 1,000 (10%) |
+
+Figure 5 slides the cut-offs from 0.5/99.5 to 5/95 on `Height`. Watch the red tails: the limits close in and the red share grows from 1% to 10%, whatever the shape of the bell.
+
+![Sliding the cut-offs inwards on Height: the limits move in and the share flagged grows from 100 (1%) to 1,000 (10%)](images/cutoff_slide.gif)
 
 The further out the cut-offs, the less data we trim or cap. A good habit is to start with wide cut-offs and only move them in if the model does better.
 
@@ -245,13 +259,19 @@ The limits follow the same train-only rule as the z-score limits of the [z-score
 - **Shape-free:** the percentile method needs no bell shape and works on skewed features too.
 - **Robust:** percentiles depend only on the order of the values, so extreme values cannot drag the limits out.
 
-> **Extra:** The catch is the fixed share. With the 1st and 99th percentiles, exactly 2% of the rows are flagged, whatever the data looks like. `Height` is almost normal: the z-score rule finds only 7 outliers in it and the IQR rule only 8, yet the percentile rule flags 200. `Weight`, with only 1 value beyond its box-plot fences, would also lose 200 values (last cell of the Notebook). So the percentile method decides *how many* values to treat, not *whether* a value is truly unusual. The intuition: winsorization calms the tails a little; it does not hunt for errors.
+> **Extra:** The catch is the fixed share. With the 1st and 99th percentiles, exactly 2% of the rows are flagged, whatever the data looks like. `Height` is almost normal: the z-score rule finds only 7 outliers in it and the IQR rule only 8, yet the percentile rule flags 200. `Weight`, with only 1 value beyond its box-plot fences, would also lose 200 values (last cell of the Notebook). So the percentile method decides *how many* values to treat, not *whether* a value is truly unusual.
+>
+> ![Weight: the box-plot fences (green, dotted) flag 1 value, at 270 pounds; the 1st and 99th percentiles (red, dashed) flag 200](images/weight_share.png)
+>
+> In Figure 6, watch the gap between the red and the green lines: everything between them is a normal weight that the percentile rule still treats.
+>
+> The intuition: winsorization calms the tails a little; it does not hunt for errors.
 
 ## 11. Comparing the three detection rules
 
 > **Key point:** Use the z-score rule for a normal feature, the IQR rule for a skewed one, and the percentile rule when we want to treat a fixed share of each tail in any feature.
 
-This Note closes the outlier group. Figure 4 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
+This Note closes the outlier group. Figure 7 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
 
 ![The three detection rules on Height: the z-score and IQR limits lie close to the ends and flag 7 and 8 values; the 1st and 99th percentiles lie further in and flag 200](images/three_rules.png){height=48%}
 

@@ -37,7 +37,7 @@ There are many types of neural networks, and each type is a large subject on its
 
 > **Key point:** Perceptrons organised in layers; the simplest network, good at non-linear relationships in ordinary supervised problems.
 
-A **multi-layer perceptron (MLP)** is many perceptrons organised in layers: an input layer, one or more hidden layers and an output layer. The MLP is the simplest type of network; until the other types appeared, "MLP" and "artificial neural network" meant the same thing.
+A **multi-layer perceptron (MLP)** (G-1270) is many perceptrons organised in layers: an input layer, one or more hidden layers and an output layer. The MLP is the simplest type of network; until the other types appeared, "MLP" and "artificial neural network" meant the same thing.
 
 MLPs work on any supervised problem, regression or classification. Adding hidden layers helps them capture non-linear relationships, which a single perceptron cannot (the [MLP intuition Note](../1009-mlp-intuition/note.md) shows why).
 
@@ -45,21 +45,21 @@ MLPs work on any supervised problem, regression or classification. Adding hidden
 
 > **Key point:** At least one convolutional layer; the standard network for images and video.
 
-A **convolutional neural network (CNN)** is a network with at least one **convolutional layer**, a layer that slides small filters over an image (taught in the CNN Notes). CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
+A **convolutional neural network (CNN)** (G-484) is a network with at least one **convolutional layer** (G-483), a layer that slides small filters over an image (taught in the CNN Notes). CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
 
 ### 2.3 Recurrent neural network (RNN) and LSTM
 
 > **Key point:** Information loops back from a hidden layer, so the network remembers earlier steps of a sequence; LSTM is a stronger variant.
 
-MLPs and CNNs are **feed-forward networks**: information moves in one direction only, from the first layer to the last. In a **recurrent neural network (RNN)**, the output of a hidden layer is fed back into the network as feedback, so earlier inputs influence later ones.
+MLPs and CNNs are **feed-forward networks** (G-775): information moves in one direction only, from the first layer to the last. In a **recurrent neural network (RNN)** (G-1647), the output of a hidden layer is fed back into the network as feedback, so earlier inputs influence later ones.
 
-A popular improved variant is the **LSTM** (long short-term memory). RNNs and LSTMs are used heavily in natural language processing: voice assistants such as Google Now, Siri and Cortana, and chatbots.
+A popular improved variant is the **LSTM** (G-1136) (long short-term memory). RNNs and LSTMs are used heavily in natural language processing: voice assistants such as Google Now, Siri and Cortana, and chatbots.
 
 ### 2.4 Autoencoder
 
 > **Key point:** Input and output layers have the same size, the middle is narrow; the network learns to squeeze data and rebuild it.
 
-An **autoencoder** is used to compress data, such as an image, a file or a video, while keeping its quality as far as possible. Its input and output layers have the same number of nodes, and its hidden layers have fewer. The network learns to pass the data through the narrow middle and rebuild it on the other side.
+An **autoencoder** (G-231) is used to compress data, such as an image, a file or a video, while keeping its quality as far as possible. Its input and output layers have the same number of nodes, and its hidden layers have fewer. The network learns to pass the data through the narrow middle and rebuild it on the other side.
 
 > **Extra:** The narrow middle layer cannot hold a full copy of the input, so the autoencoder learns to keep only the most important features, and the rebuilt output loses some detail (Goodfellow et al. 2016, §14.1). Trained to rebuild clean inputs from noisy copies, an autoencoder removes noise (§14.5). Inputs that rebuild badly can be flagged as unusual: anomaly detection (Sakurada and Yairi 2014).
 
@@ -67,10 +67,10 @@ An **autoencoder** is used to compress data, such as an image, a file or a video
 
 > **Key point:** A generator makes fakes, a discriminator judges real or fake; competing, the generator learns to create realistic new data.
 
-A **generative adversarial network (GAN)**, introduced by Ian Goodfellow and colleagues in 2014 (Goodfellow et al. 2014), is two networks playing a game against each other:
+A **generative adversarial network (GAN)** (G-840), introduced by Ian Goodfellow and colleagues in 2014 (Goodfellow et al. 2014), is two networks playing a game against each other:
 
-- The **generator** creates new data, for example photos of faces.
-- The **discriminator** decides whether each photo is real or fake.
+- The **generator** (G-843) creates new data, for example photos of faces.
+- The **discriminator** (G-620) decides whether each photo is real or fake.
 
 As the game goes on, the generator learns to fool the discriminator. Its output is then new data that never existed: faces of people who never lived, music, stories and handwriting.
 
@@ -86,11 +86,11 @@ Deep learning is a young field, and many of the people who shaped it are still a
 
 > **Key point:** Rosenblatt's perceptron promised learning machines; Minsky and Papert showed it cannot learn XOR, and funding dried up.
 
-After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the **perceptron**, a model that learns, loosely based on a neuron in the brain (Rosenblatt 1958). The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
+After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the **perceptron** (G-1486), a model that learns, loosely based on a neuron in the brain (Rosenblatt 1958). The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
 
-In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** function, however long it is trained. The reason is that a perceptron draws a straight line, and XOR's classes cannot be split by one line (the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md) shows this in code).
+In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** (G-2134) function, however long it is trained. The reason is that a perceptron draws a straight line, and XOR's classes cannot be split by one line (the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md) shows this in code).
 
-Funding, media attention and research on neural networks dropped sharply. A period like this, when interest and money for AI collapse, is called an **AI winter**; this was the first.
+Funding, media attention and research on neural networks dropped sharply. A period like this, when interest and money for AI collapse, is called an **AI winter** (G-185); this was the first.
 
 > **Extra:** Minsky and Papert's 1969 work was a book, *Perceptrons* (MIT Press). The first AI winter of the 1970s had other causes too, such as the critical Lighthill report on AI research in the United Kingdom (1973), after which the UK government ended support for AI research at all but a few universities (Russell and Norvig, §1.3).
 
@@ -102,7 +102,7 @@ In 1986, **Geoffrey Hinton**, now known as a father of deep learning, published 
 
 - A single perceptron can only learn linear functions.
 - Many perceptrons arranged in layers, with hidden layers, can learn non-linear ones.
-- Such a network can be trained with **backpropagation**: differentiate the error and use the derivatives to adjust every weight (taught in the backpropagation Notes).
+- Such a network can be trained with **backpropagation** (G-247): differentiate the error and use the derivatives to adjust every weight (taught in the backpropagation Notes).
 
 Training layered networks with backpropagation overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Yann LeCun, a former postdoctoral researcher with Hinton (ACM 2019), used a network trained by backpropagation to read handwritten zip codes from images (LeCun et al. 1989).
 
@@ -112,7 +112,11 @@ Training layered networks with backpropagation overcame the perceptron's biggest
 
 > **Key point:** A network with a hidden layer and enough neurons can approximate any continuous function as closely as we like.
 
-The **universal approximation theorem** states that a neural network with at least one hidden layer and enough neurons can approximate any continuous function, to any accuracy we want. The theorem is why neural networks are called **universal function approximators**.
+The **universal approximation theorem** (G-2052) states that a neural network with at least one hidden layer and enough neurons can approximate any continuous function, to any accuracy we want. The theorem is why neural networks are called **universal function approximators**.
+
+![One hidden layer of 1, 2, 4, 8, 16 and 32 sigmoid neurons approximating the same continuous function (grey). The hidden neurons are placed evenly along the input; only the output weights are fitted, by least squares](images/universal_approx.gif){height=36%}
+
+Figure 3 is a small experiment of our own design: watch the red curve as neurons are added. With one neuron it is a single smooth step; with 32 it follows every bend, and the worst error falls from 1.05 to 0.07.
 
 > **Extra:** The theorem was proved by George Cybenko (1989) and Kurt Hornik (1991), not in the 1986 backpropagation paper. One hidden layer is already enough in principle, though that layer may need an enormous number of neurons; deeper networks often need far fewer. The theorem says a good network exists; it does not promise that training will find it (Goodfellow et al. 2016, §6.4.1).
 
@@ -133,17 +137,21 @@ Interest fell again for about 15 years: the second AI winter.
 
 > **Key point:** In 2006 Hinton showed how to start the weights well, so that networks with many layers could be trained; the field was renamed deep learning.
 
-In 2006, Hinton (with Simon Osindero and Yee-Whye Teh) published a method for training **deep belief networks** (Hinton et al. 2006). The method's key idea, **unsupervised pre-training**, sets the starting weights with a network trained layer by layer, instead of at random. With it, networks with many layers could be trained.
+In 2006, Hinton (with Simon Osindero and Yee-Whye Teh) published a method for training **deep belief networks** (G-567) (Hinton et al. 2006). The method's key idea, **unsupervised pre-training** (G-2059), sets the starting weights with a network trained layer by layer, instead of at random. With it, networks with many layers could be trained.
 
-From then on, the field of artificial neural networks was rebranded as **deep learning**. Between 2006 and 2010, many papers followed.
+From then on, the field of artificial neural networks was rebranded as **deep learning** (G-568). Between 2006 and 2010, many papers followed.
 
 ### 3.6 2012: ImageNet and after
 
 > **Key point:** In 2012 a deep network trained on GPUs cut the ImageNet error from about 26% to about 15%; from then on deep learning never looked back.
 
-**ImageNet** is a very large dataset of labelled images, and from 2010 a yearly competition asked teams to classify its images. The best error rates in 2010 and 2011 were around 28% and 26%.
+**ImageNet** (G-920) is a very large dataset of labelled images, and from 2010 a yearly competition asked teams to classify its images. The best error rates in 2010 and 2011 were around 28% and 26%.
 
-In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called **AlexNet**, trained on GPUs. Its error was about 15%, almost half that of the best other entry. Google, Facebook and other companies took notice, researchers flooded in, and a whole ecosystem grew.
+In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called **AlexNet** (G-187), trained on GPUs. Its error was about 15%, almost half that of the best other entry (Figure 4).
+
+![ImageNet top-5 error: the best entries of 2010 and 2011 (about 28% and 26%), and in 2012 the second-best entry against AlexNet](images/imagenet_errors.png){height=28%}
+
+In Figure 4, the first three bars barely move; the red bar is the jump that made companies and researchers take notice. Google, Facebook and other companies took notice, researchers flooded in, and a whole ecosystem grew.
 
 Further milestones:
 
@@ -163,15 +171,19 @@ Deep learning is everywhere: recommendation engines such as Netflix's, chatbots,
 
 ![The applications of deep learning in four groups, one per subsection below](images/app_map.png){width=85%}
 
-Figure 3 is the map of this section: each coloured group is one of the subsections 4.1 to 4.4.
+Figure 5 is the map of this section: each coloured group is one of the subsections 4.1 to 4.4.
 
 ### 4.1 Mainstream applications
 
 > **Key point:** Self-driving cars, game-playing agents, and virtual assistants.
 
-- **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** on the roof to measure the distance to nearby objects, and GPS. A computer runs deep learning models on all this input and controls the car's mechanics. Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
-- **Game-playing agents:** **deep reinforcement learning**, the combination of deep learning and [reinforcement learning](../03-types-of-ml/note.md), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
+- **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** (G-1083) on the roof to measure the distance to nearby objects, and GPS. A computer runs deep learning models on all this input and controls the car's mechanics. Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
+- **Game-playing agents:** **deep reinforcement learning** (G-572), the combination of deep learning and [reinforcement learning](../03-types-of-ml/note.md), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
 - **Virtual assistants and chatbots:** Google Now, Siri and Cortana understand speech and follow the context of a conversation. Their quality jumped once deep learning, such as RNNs, became mainstream around 2015, and most companies now run chatbots built on it.
+
+![Possible sequences of moves after a number of turns, with about 35 choices per turn (chess) and about 250 (Go), on a log scale](images/go_vs_chess.png){height=28%}
+
+Figure 6 shows why Go was the harder target: after 40 turns there are about $10^{62}$ move sequences in chess but about $10^{96}$ in Go, far too many for any program to search one by one.
 
 ### 4.2 Image, sound and text applications
 

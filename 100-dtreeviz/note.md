@@ -17,7 +17,7 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 
 > **Key point:** dtreeviz draws a trained decision tree with the training data shown inside every node, so we can see why each split was chosen and where a prediction goes.
 
-**dtreeviz** is a Python library for visualising decision trees trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, dtreeviz adds the following. (A **feature** is an input variable, one column of the data table; an **observation** is one record, one row of the table.)
+**dtreeviz** (G-640) is a Python library for visualising **decision trees** (G-561) trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, dtreeviz adds the following. (A **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row of the table.)
 
 - real feature and class names at every split;
 - the training data of every node, as histograms (classification) or scatter plots (regression);
@@ -37,7 +37,7 @@ scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or ex
 The drawing has several weaknesses:
 
 - **Features appear as indexes.** The split "$x_3 \le 0.8$" does not say which feature $x_3$ is. With many features we cannot remember every index position. ($x_3$ is the petal width.)
-- **Some information is noise for most readers**, such as the Gini value of every node (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 8).
+- **Some information is noise for most readers**, such as the Gini value (**Gini impurity**, G-847) of every node (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 8).
 - **Some information is hard to read:** `value = [0, 49, 5]` means 0 setosa, 49 versicolor and 5 virginica, but we must remember the class order.
 - **The data is invisible.** We see the threshold 0.8 but not why the split falls there.
 
@@ -47,7 +47,7 @@ The drawing has several weaknesses:
 
 > **Key point:** Wrap the trained tree with `dtreeviz.model(...)`, passing the training data and the feature and class names, then call `.view()`.
 
-dtreeviz is installed with `pip install dtreeviz`. dtreeviz also needs the **Graphviz** program `dot`, which lays out the boxes of the tree. In Jupyter the result appears inline; in a script, `.show()` opens it in a window and `.save("tree.svg")` writes a file.
+dtreeviz is installed with `pip install dtreeviz`. dtreeviz also needs the **Graphviz** (G-868) program `dot`, which lays out the boxes of the tree. In Jupyter the result appears inline; in a script, `.show()` opens it in a window and `.save("tree.svg")` writes a file.
 
 > **Python:** A first dtreeviz tree (dtreeviz 2.x).
 >
@@ -68,7 +68,12 @@ dtreeviz is installed with `pip install dtreeviz`. dtreeviz also needs the **Gra
 > viz.view(scale=2)     # the same, twice as big
 > ```
 >
-> `dtreeviz.model` needs four things: the trained tree, the data it was trained on, the names of the input features, and (for classification) the names of the classes.
+> `dtreeviz.model` needs four things:
+>
+> 1. the trained tree;
+> 2. the data it was trained on;
+> 3. the names of the input features;
+> 4. (for classification) the names of the classes.
 
 > **Extra:** Older tutorials use the dtreeviz 1.x interface, a single function: `from dtreeviz.trees import dtreeviz`, then `dtreeviz(clf, X, y, target_name=..., feature_names=..., class_names=...)`, with the options of section 6 passed to the same call. dtreeviz 2.0 replaced it with `dtreeviz.model(...)` and methods such as `.view()` (dtreeviz 2.0.0 release notes).
 
@@ -80,12 +85,12 @@ Figure 2 shows the dtreeviz view of the same depth-2 iris tree, rebuilt with Plo
 
 ![The depth-2 iris tree drawn the dtreeviz way: data at every node](images/iris_viz.png){height=58%}
 
-**The root** splits on **petal width** at **0.80**, shown by the black triangle. The histogram of all 150 flowers makes the reason obvious: every setosa flower (blue) has a petal width below 0.8, and every other flower is above it.
+**The root** (the **root node**, G-1706) splits on **petal width** at **0.80**, shown by the black triangle; 0.80 is the split's **threshold** (G-1971). The **histogram** (G-899) of all 150 flowers makes the reason obvious: every setosa flower (blue) has a petal width below 0.8, and every other flower is above it.
 
-- Left of the threshold, **all 50 setosa** flowers go to a leaf. The leaf's pie is entirely blue: a pure leaf.
+- Left of the threshold, **all 50 setosa** flowers go to a leaf (a **leaf node**, G-1060: a node that is not split further). The leaf's pie is entirely blue: a **pure leaf** (G-1591).
 - Right of it, the **other 100 flowers** go to the next node.
 
-**The second node** splits the remaining 100 flowers on petal width again, at **1.75**. Here the two colours overlap between about 1.4 and 1.9, so no threshold separates them perfectly. Because `max_depth=2`, the tree stops here and makes two leaves:
+**The second node**, a **decision node** (G-556) like the root, splits the remaining 100 flowers on petal width again, at **1.75**. Here the two colours overlap between about 1.4 and 1.9, so no threshold separates them perfectly. Because `max_depth=2`, the tree stops here and makes two leaves:
 
 - left: **54 flowers**, mostly versicolor (49 versicolor, 5 virginica);
 - right: **46 flowers**, mostly virginica (1 versicolor, 45 virginica).
@@ -98,13 +103,13 @@ The counts add up: $54 + 46 = 100$, and $100 + 50 = 150$.
 
 Without `max_depth`, the same data gives a tree of depth 5 with 9 leaves (Figure 4, in section 6). Every leaf is **pure**: it holds a single class. Some leaves hold 1, 2 or 3 flowers only.
 
-Leaves that small are the overfitting of the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md): the tree has carved out a region for one flower. A big tree is also harder to view on screen, which is another reason to limit its growth.
+Leaves that small are the **overfitting** (G-1429) of the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md): the tree has carved out a region for one flower. A big tree is also harder to view on screen, which is another reason to limit its growth.
 
 ## 5. Regression trees in dtreeviz
 
 > **Key point:** For a regression tree, each node shows a scatter plot of its split feature against the output, with the threshold and the mean of each side.
 
-Everything works the same for a regression tree: we pass the `DecisionTreeRegressor` and give `target_name` (the name of the **target**, the output we predict) instead of class names. The nodes then show **scatter plots** instead of histograms.
+Everything works the same for a **regression tree** (G-1654): we pass the `DecisionTreeRegressor` and give `target_name` (the name of the **target** (G-1949), the output we predict) instead of class names. The nodes then show **scatter plots** (G-1749) instead of histograms.
 
 Figure 3 shows a regression tree of depth 1 trained on all 506 districts of the Boston housing data (the [regression trees Note](../99-regression-trees/note.md), section 7).
 
@@ -135,7 +140,7 @@ By default trees are drawn top-down (`orientation="TD"`). With `viz.view(orienta
 
 > **Key point:** `viz.view(x=row)` highlights the path that observation follows from the root to its leaf.
 
-Passing a new observation as `x` highlights its **prediction path**: the nodes it passes through on the way to its leaf. In Figure 4 the flower has sepal length 5.9, sepal width 3.2, petal length 4.8 and petal width 1.8 cm.
+Passing a new observation as `x` highlights its **prediction path** (G-1552): the nodes it passes through on the way to its leaf. In Figure 4 the flower has sepal length 5.9, sepal width 3.2, petal length 4.8 and petal width 1.8 cm.
 
 Following the red path:
 
@@ -178,11 +183,18 @@ Petal width was asked twice on the path ($> 0.80$, then $> 1.75$), and the two c
 
 > **Key point:** The tree's `feature_importances_` shows which features it relied on; for iris, petal width does almost all the work.
 
-The **feature importance** of a feature (the [regression trees Note](../99-regression-trees/note.md), section 7.5) is its share of all the impurity reduction in the tree. Figure 5 shows it for the fully grown iris tree.
+The **feature importance** (G-764) of a feature (the [regression trees Note](../99-regression-trees/note.md), section 7.5) is its share of all the impurity reduction in the tree. Figure 5 shows it for the fully grown iris tree.
 
 ![Feature importance of the fully grown iris tree](images/importance.png){height=24%}
 
-Petal width carries 0.923 of the total, petal length 0.064 and sepal width 0.013. Sepal length is never used. The exact values depend on the training data. In the Notebook, over 20 different training splits of iris, petal width and petal length always come first and second, but the two sepal features swap places half of the time.
+The shares of the total are:
+
+- petal width, 0.923;
+- petal length, 0.064;
+- sepal width, 0.013;
+- sepal length, 0 (never used).
+
+The exact values depend on the training data. In the Notebook, over 20 different training splits of iris, petal width and petal length always come first and second, but the two sepal features swap places half of the time.
 
 > **Extra:** In dtreeviz 2.x, `viz.instance_feature_importance(x)` shows the importance computed only along one observation's prediction path (dtreeviz source, `trees.py`). The importance of the whole tree is the scikit-learn attribute `clf.feature_importances_`, which Figure 5 plots.
 
@@ -194,7 +206,12 @@ Petal width carries 0.923 of the total, petal length 0.064 and sepal width 0.013
 
 > **Key point:** Every split uses the same feature, so all the cuts are vertical lines on one scatter plot.
 
-The `cars.csv` sample data from dtreeviz lists 392 cars with their fuel use (**MPG**, miles per gallon), weight (**WGT**, pounds), engine size (**ENG**, cubic inches) and cylinders (**CYL**).
+The `cars.csv` sample data from dtreeviz lists 392 cars with four columns:
+
+- fuel use (**MPG**, miles per gallon);
+- weight (**WGT**, pounds);
+- engine size (**ENG**, cubic inches);
+- cylinders (**CYL**).
 
 With **WGT** as the only input and MPG as the output, every split of the tree is on WGT. A regression tree of depth 3 makes 7 cuts and 8 leaves, and each leaf predicts its mean MPG (Figure 6). In dtreeviz 2.x this view is `viz.rtree_feature_space(features=["WGT"])`.
 

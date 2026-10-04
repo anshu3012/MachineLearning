@@ -1,5 +1,5 @@
 """Why the sample variance divides by n - 1: average of many sample variances, dividing by n or by n - 1,
-against the true variance of a population (the 714 known Titanic ages)."""
+against the true variance of a population (the 714 known Titanic ages). Dividing by n lands on (n - 1)/n of it."""
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -23,8 +23,13 @@ fig.add_scatter(x=sizes, y=by_n1, name="divide by n - 1", mode="lines+markers",
                 line=dict(color="#54A24B", width=3), marker=dict(size=8))
 fig.add_scatter(x=sizes, y=by_n, name="divide by n", mode="lines+markers",
                 line=dict(color="#E45756", width=3), marker=dict(size=8))
+fig.add_scatter(x=sizes, y=true_var * (sizes - 1) / sizes, name="(n - 1)/n × true variance", mode="lines",
+                line=dict(color="#6B6B6B", width=2, dash="dot"))   # pattern after Khan Academy's simulation
+ratio = np.array(by_n) / true_var
+assert np.allclose(ratio, (sizes - 1) / sizes, atol=0.03), ratio
+print("divide-by-n average / true variance, n = 2, 3, 4:", ratio[:3].round(3))
 fig.update_layout(template="simple_white", width=950, height=480, font=dict(family="Latin Modern Roman", size=17),
                   xaxis=dict(title="sample size n", dtick=2), yaxis=dict(title="average sample variance (years²)",
-                  range=[0, 250]), legend=dict(x=0.62, y=0.25), margin=dict(l=80, r=20, t=20, b=60))
+                  range=[0, 250]), legend=dict(x=0.5, y=0.3), margin=dict(l=80, r=20, t=20, b=60))
 fig.write_image(here / "bessel.png", scale=2)
 fig.write_image(here / "bessel.pdf")

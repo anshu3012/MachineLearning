@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, area/models-1, s
 
 > **Key point:** An activation function is the non-linear step inside every node. Without it a deep network is only a linear model. Sigmoid and tanh squash their input and slow deep networks down; ReLU does not squash positive values and is the default for hidden layers today.
 
-Every node of a neural network computes a weighted sum $z$ of its inputs plus a bias, then passes $z$ through a function. This function, the activation function, decides how strongly the node "fires". This Note answers three questions:
+Every node of a neural network computes a **weighted sum** (G-2119) $z$ of its inputs plus a **bias** (G-287), then passes $z$ through a function. This function, the **activation function** (G-165), decides how strongly the node "fires". This Note answers three questions:
 
 - **Why** a network needs a non-linear activation at all.
 - **What** makes an activation function good: five properties.
@@ -42,19 +42,24 @@ Take a network with two inputs, one hidden layer of two nodes and one output nod
 
 $$z = w_1 x_1 + w_2 x_2 + b_1$$
 
-The node then outputs $a = g(z)$. The function $g$ is the [activation function](../1004-perceptron/note.md), also called the **transfer function**. With $n$ inputs the output is $a = g\left(\sum_{i=1}^{n} w_i x_i + b\right)$.
+The node then outputs $a = g(z)$. The function $g$ is the [activation function](../1004-perceptron/note.md), also called the **transfer function** (G-2004). With $n$ inputs the output is $a = g\left(\sum_{i=1}^{n} w_i x_i + b\right)$.
 
-We can picture $g$ as a gate between what flows into a node and what flows out. The gate decides whether the node is activated and, if so, how strongly. The sigmoid and the [softmax](../79-softmax-regression/note.md) are two activation functions already met; this Note adds tanh and ReLU.
+We can picture $g$ as a gate between what flows into a node and what flows out. The gate decides whether the node is activated and, if so, how strongly. The **sigmoid** (G-1798) and the [softmax](../79-softmax-regression/note.md) (G-1830) are two activation functions already met; this Note adds **tanh** (G-1947) and **ReLU** (G-1668).
 
 ## 4. Why a network needs a non-linear activation
 
-> **Key point:** Without a non-linear activation, any number of layers collapses into one linear layer: the network can only draw a straight line, however deep it is.
+> **Key point:** Without a non-linear activation, any number of layers collapses into one linear layer: the network's decision boundary is a straight line, however deep it is.
 
 ### 4.1 An experiment: linear activations on circles
 
 > **Key point:** Two hidden layers of 32 nodes with linear activations reach 50% accuracy on two circles, the same as guessing. With ReLU the same network reaches 100%.
 
-The data is `make_circles` from scikit-learn. Each **observation** (one record, one row of the data table) has two **features** (input variables) $x_1$ and $x_2$, its position on the plane, and a **target** (the output we predict): class 1 for the inner ring, class 0 for the outer ring. There are 300 observations, 150 per class. No straight line separates the two rings. We train the same network twice for 200 epochs:
+The data is `make_circles` (G-1148) from scikit-learn. Each **observation** (G-1374; one record, one row of the data table) has:
+
+- two **features** (G-772; input variables) $x_1$ and $x_2$, its position on the plane;
+- a **target** (G-1949; the output we predict): class 1 for the inner ring, class 0 for the outer ring.
+
+There are 300 observations, 150 per class. No straight line separates the two rings. We train the same network twice for 200 **epochs** (G-696):
 
 - two hidden layers of 32 nodes with `activation="linear"`, which means $g(z) = z$, the same as no activation at all;
 - the same two layers with `activation="relu"`.
@@ -63,7 +68,7 @@ The output node is a sigmoid in both, because this is binary classification.
 
 ![Decision regions after 200 epochs. Left: with linear activations the boundary (black) is a straight line, here pushed outside the data; every point gets about 0.5. Right: with ReLU the boundary bends around the inner ring](images/boundaries.png){width=100%}
 
-Figure 2 shows the result. The linear network ends with a loss of 0.694 and 50% training accuracy, which is exactly guessing: the best straight line it can draw is useless here. The ReLU network ends at 100%, with a boundary that bends around the inner ring.
+Figure 2 shows the result. The linear network ends with a loss of 0.694 and 50% training accuracy, which is exactly guessing: its **decision boundary** (G-555), the line between the regions given to each class, can only be straight, and the best straight one is useless here. The ReLU network ends at 100%, with a decision boundary that bends around the inner ring.
 
 > **Python:** The only difference between the two models is one argument.
 >
@@ -85,7 +90,7 @@ Stacked matrices without an activation multiply into a single matrix (see the [m
    $$a_2 = 3(2x + 1) - 1 = 6x + 2$$
    Two layers, and the result is still a straight line in $x$.
 
-The Notebook checks the collapse on the trained linear network of Figure 2. The network's three weight matrices multiply into one $2 \times 1$ matrix $W'$, and one layer with $W'$ and $b'$ gives the same predictions to within $6 \times 10^{-8}$. A network with linear activations is therefore [linear regression](../53-multiple-linear-regression/note.md) (regression output) or [logistic regression](../72-sigmoid-function/note.md) (sigmoid output), however many layers it has.
+The Notebook checks the collapse on the trained linear network of Figure 2. The network's three weight matrices multiply into one $2 \times 1$ matrix $W'$, and one layer with $W'$ and $b'$ gives the same predictions to within $6 \times 10^{-8}$. A network with linear activations is therefore [linear regression](../53-multiple-linear-regression/note.md) (G-1094; regression output) or [logistic regression](../72-sigmoid-function/note.md) (G-1120; sigmoid output), however many layers it has.
 
 With a non-linear $g$, such as the sigmoid, $g(W_1 a_0 + b_1)$ is no longer a degree-1 expression. Feeding it into the next layer gives a relationship between input and output that is not a polynomial of degree 1, so the network can follow non-linear patterns. Capturing non-linear patterns is the whole reason activation functions exist.
 
@@ -97,13 +102,13 @@ With a non-linear $g$, such as the sigmoid, $g(W_1 a_0 + b_1)$ is no longer a de
 
 > **Key point:** Non-linearity is what lets a network capture non-linear patterns. Non-linearity is the one property that cannot be dropped.
 
-The relationship between $z$ and $g(z)$ must not be a straight line, as section 4 showed. With a non-linear activation, the [universal approximation theorem](../1003-nn-types-history-applications/note.md) says that enough nodes and layers can approximate any pattern in the data.
+The relationship between $z$ and $g(z)$ must not be a straight line, as section 4 showed. With a non-linear activation, the [universal approximation theorem](../1003-nn-types-history-applications/note.md) (G-2052) says that enough nodes and layers can approximate any pattern in the data.
 
 ### 5.2 Differentiable
 
 > **Key point:** Gradient descent needs the derivative of the activation at every step, so it must exist.
 
-Backpropagation multiplies the activation's derivative into every gradient (see the [backpropagation how Note](../1016-backpropagation-how/note.md)). Without a derivative there is no gradient, no update and no training.
+**Backpropagation** (G-247) multiplies the activation's **derivative** (G-595) into every **gradient** (G-865) (see the [backpropagation how Note](../1016-backpropagation-how/note.md)). Without a derivative there is no gradient, no update and no training.
 
 The property is important but not strict. ReLU has no derivative at exactly $z = 0$ and is still the most used activation (section 8.2 explains how this is handled).
 
@@ -117,15 +122,15 @@ A network with a million nodes trained on a million observations for 100 epochs 
 
 > **Key point:** Outputs with mean about 0, some positive and some negative, act like normalised inputs to the next layer and make training converge faster.
 
-A **zero-centred** activation function gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see the [standardization Note](../24-standardization/note.md)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
+A **zero-centred** activation function (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see the [standardization Note](../24-standardization/note.md)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
 
 ### 5.5 Non-saturating
 
 > **Key point:** A saturating function squeezes any input into a fixed range, so its slope goes to 0 at the ends. The flat ends cause the vanishing gradient problem.
 
-A **saturating function** squeezes an input from $-\infty$ to $\infty$ into a bounded range and flattens out there. The sigmoid squeezes into 0 to 1, tanh into $-1$ to 1. A **non-saturating function** has no such ceiling: ReLU, $\max(0, z)$, grows as large as its input.
+A **saturating function** (G-1741) squeezes an input from $-\infty$ to $\infty$ into a bounded range and flattens out there. The sigmoid squeezes into 0 to 1, tanh into $-1$ to 1. A **non-saturating function** (G-1339) has no such ceiling: ReLU, $\max(0, z)$, grows as large as its input.
 
-Where a function is flat its slope is near 0, and a product of many near-zero slopes is the [vanishing gradient](../1018-vanishing-exploding-gradients/note.md). The vanishing gradient appears with saturating activations, which is why non-saturation matters.
+Where a function is flat its slope is near 0, and a product of many near-zero slopes is the [vanishing gradient](../1018-vanishing-exploding-gradients/note.md) (G-2070). The vanishing gradient appears with saturating activations, which is why non-saturation matters.
 
 ## 6. Sigmoid
 
@@ -164,7 +169,7 @@ Saturation is the main reason the sigmoid has disappeared from hidden layers (Go
 
 $$z_{31} = w_{21}\thinspace a_{21} + w_{22}\thinspace a_{22} + b_{31}$$
 
-1. **In words:** by the chain rule, the gradient of each weight is a factor shared by both, times that weight's input.
+1. **In words:** by the **chain rule** (G-371), the gradient of each weight is a factor shared by both, times that weight's input.
 2. **Formula:** with the shared factor $\delta = \dfrac{\partial L}{\partial \hat{y}} \cdot \dfrac{\partial \hat{y}}{\partial z_{31}}$,
    $$\frac{\partial L}{\partial w_{21}} = \delta \cdot a_{21}, \qquad \frac{\partial L}{\partial w_{22}} = \delta \cdot a_{22}$$
 3. **Example:** with $\delta = -0.5$ and sigmoid outputs $a_{21} = 0.6$, $a_{22} = 0.3$, the gradients are $-0.30$ and $-0.15$: both negative. Had $a_{22}$ been a tanh output of $-0.3$, they would be $-0.30$ and $+0.15$.
@@ -228,7 +233,7 @@ Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not th
 
 > **Key point:** Non-linear (two ReLUs already make a bend), non-saturating on the positive side, no exponential, faster convergence.
 
-**1. Non-linear.** ReLU looks like two straight pieces, which makes some people think it is linear. A linear function would be $f(z) = z$ everywhere; $\max(0, z)$ has a corner, so it is not. Combining ReLUs builds more complex shapes:
+**1. Non-linear.** ReLU looks like two straight segments, which makes some people think it is linear. A linear function would be $f(z) = z$ everywhere; $\max(0, z)$ has a corner, so it is not. Combining ReLUs builds more complex shapes:
 
 1. **In words:** subtract one shifted ReLU from another.
 2. **Formula:** $f(x) = \max(0, x + 1) - \max(0, x - 1)$
@@ -236,7 +241,7 @@ Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not th
 
 ![Two ReLUs (dotted) and their difference (green): flat, rising, flat. No straight line has two corners](images/relu_bend.png){width=80%}
 
-Figure 4 shows the result: a curve with two corners. The ReLU boundary in Figure 2 is built the same way, from straight pieces joined at corners.
+Figure 4 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is **piecewise linear** (G-1496).
 
 **2. Non-saturating in the positive region.** For positive $z$ the output grows without limit and the slope stays 1, so the gradient does not vanish there.
 
@@ -248,13 +253,13 @@ Figure 4 shows the result: a curve with two corners. The ReLU boundary in Figure
 
 > **Key point:** No derivative at exactly 0 (we just pick one), outputs never negative (batch normalisation helps), and nodes that can die.
 
-**1. Not differentiable at $z = 0$.** The two pieces meet at a corner, which has no single slope. In code we simply choose one: slope 0 for $z < 0$, slope 1 for $z > 0$, and one of the two at exactly 0.
+**1. Not differentiable at $z = 0$.** The two segments meet at a corner, which has no single slope. In code we simply choose one: slope 0 for $z < 0$, slope 1 for $z > 0$, and one of the two at exactly 0.
 
 > **Extra:** TensorFlow uses slope 0 at exactly $z = 0$ (the Notebook's gradient check returns 0 there); the convention above, 1, is the other common choice. The choice hardly matters in practice: of the 19,200 weighted sums in the two hidden layers of the trained ReLU network of Figure 2, none is exactly 0.
 
-**2. Not zero-centred.** Like the sigmoid's, ReLU's outputs are never negative, with the same effect on the gradient signs as in section 6.3. [Batch normalisation](../1031-batch-normalization/note.md) addresses this: it normalises the values passed between layers.
+**2. Not zero-centred.** Like the sigmoid's, ReLU's outputs are never negative, with the same effect on the gradient signs as in section 6.3. [Batch normalisation](../1031-batch-normalization/note.md) (G-266) addresses this: it normalises the values passed between layers.
 
-**3. The dying ReLU problem.** A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see section 6.2 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)). The causes and the fixes are in the [ReLU variants Note](../1028-relu-variants/note.md).
+**3. The dying ReLU problem** (G-650). A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see section 6.2 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)). The causes and the fixes are in the [ReLU variants Note](../1028-relu-variants/note.md).
 
 > **Python:** Choosing activations in Keras.
 >

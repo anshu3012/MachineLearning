@@ -17,12 +17,12 @@ tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple
 
 > **Key point:** A gap in a categorical feature is filled either with the most frequent category (mode imputation) or with a new category called "Missing".
 
-Note 35 mapped the techniques for missing data, and Note 36 filled gaps in numerical features with the mean or median. A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). A categorical feature has no mean or median, so it needs its own techniques. This Note covers the two main ones.
+Note 35 mapped the techniques for missing data, and Note 36 filled gaps in numerical features with the mean or median. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). A categorical feature has no mean or median, so it needs its own techniques. This Note covers the two main ones.
 
 Figure 1 shows both on a small `city` column with two gaps:
 
 - **Mode imputation** fills every gap with the most frequent city, Mumbai. The column keeps its three categories.
-- **Missing category imputation** fills every gap with the word "Missing". The column now has four categories.
+- **Missing category imputation** (G-1232) fills every gap with the word "Missing". The column now has four categories.
 
 ![Two ways to fill gaps in a categorical column: the most frequent category, or a new category "Missing"](images/overview.png)
 
@@ -38,7 +38,7 @@ Both are univariate techniques: they look only at the feature with the gap. scik
 
 > **Key point:** The mode of a column is its most frequent value; every gap gets that value.
 
-The **mode** of a column is the value that occurs most often in it. **Most frequent value imputation**, or **mode imputation**, fills every missing value of a column with its mode.
+The **mode** (G-1251) of a column is the value that occurs most often in it. **Most frequent value imputation**, or **mode imputation** (G-1264), fills every missing value of a column with its mode.
 
 Take a column `city` with the values Mumbai, Delhi and Kolkata, plus some gaps. Mumbai appears most often, then Delhi, then Kolkata. Every gap becomes Mumbai.
 
@@ -65,6 +65,10 @@ Mode imputation rests on three conditions:
 
 **Disadvantage:** it changes the distribution of the column. Every gap adds to the mode's count, so the most frequent category grows and all others shrink. The more values are missing, the bigger the change, as Section 5 shows with real numbers.
 
+Figure 2 fills the 547 gaps of the `FireplaceQu` feature in the training set (Sections 4 and 5) with its mode, Gd, a batch at a time. Watch the green bar grow past its grey outline while every other bar shrinks; the curve on the right shows Gd's share climbing from 49.1% to 72.9% as more gaps are filled.
+
+![Mode imputation gap by gap on FireplaceQu: each filled gap adds to Gd, so Gd's share rises from 49.1% to 72.9% and every other category shrinks](images/mode_fill.gif)
+
 ## 3. Missing category imputation
 
 > **Key point:** Missing category imputation gives every gap the same new label, "Missing", so the model can learn that the value was absent.
@@ -77,7 +81,7 @@ Mode imputation rests on three conditions:
 
 The aim is to tell the ML algorithm which rows had no value. The algorithm then treats "Missing" like any other category and can learn whether it matters.
 
-This is the categorical version of **arbitrary value imputation** for numerical columns (Note 36), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
+This is the categorical version of **arbitrary value imputation** (G-208) for numerical columns (Note 36), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
 
 ### 3.2 When to use it
 
@@ -131,6 +135,10 @@ The two columns were chosen for their very different shares of missing values:
 | `GarageQual` | 81 of 1,460 | 5.5% |
 | `FireplaceQu` | 690 of 1,460 | 47.3% |
 
+Figure 3 sets the two shares against the 5% rule of thumb of Section 2.2. Watch where each bar ends: `GarageQual` sits right at the line, `FireplaceQu` far beyond it.
+
+![Share of missing values in each column, against the 5% rule of thumb for mode imputation](images/missing_share.png){height=30%}
+
 The file `data/house_prices.csv` keeps these three columns and two more used in Section 7. The full file, with all 81 columns, is on Kaggle.
 
 > **Python:** Loading the columns and measuring the gaps.
@@ -168,7 +176,7 @@ All numbers in the rest of this Note come from these 1,168 training houses.
 
 > **Key point:** TA makes up 95% of the garages, so giving the 64 gaps the value TA hardly changes anything.
 
-The mode of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 2 (left) shows how strongly it dominates. All three conditions of Section 2.2 hold roughly: few gaps (5.5%) and one dominant category.
+The mode of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 4 (left) shows how strongly it dominates. All three conditions of Section 2.2 hold roughly: few gaps (5.5%) and one dominant category.
 
 The share of a category, step by step:
 
@@ -192,11 +200,11 @@ The share of a category, step by step:
 
 No share moves by more than 0.3 percentage points.
 
-A second check looks at the target. If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 3 (top left) compares the two as density curves (KDE, Note 20).
+A second check looks at the target. If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 5 (top left) compares the two as density curves (KDE, Note 20).
 
 ![Sale prices as density curves. Left: houses in the most frequent category against houses with a gap. Right: the most frequent category before and after imputation](images/price_kde.png){width=100%}
 
-The houses with a gap sold for much less: a mean of 102,000 dollars against 188,000 for TA houses. Under MCAR, the gaps would not depend on any value (Note 35), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 3, top right): its mean falls from 188,000 to 183,000 dollars.
+The houses with a gap sold for much less: a mean of 102,000 dollars against 188,000 for TA houses. Under MCAR, the gaps would not depend on any value (Note 35), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
 
 For `GarageQual`, mode imputation is acceptable. Few values are missing, so even a poor guess cannot change much.
 
@@ -204,7 +212,7 @@ For `GarageQual`, mode imputation is acceptable. Few values are missing, so even
 
 > **Key point:** Gd and TA are nearly equal, and almost half the values are missing, so mode imputation turns Gd from 49% into 73% of the column.
 
-The mode of `FireplaceQu` is Gd, but TA is close behind: 49.1% against 40.6% of the known values (Figure 2, right). No category dominates, and 46.8% of the training rows are missing. Two of the three conditions fail.
+The mode of `FireplaceQu` is Gd, but TA is close behind: 49.1% against 40.6% of the known values (Figure 4, right). No category dominates, and 46.8% of the training rows are missing. Two of the three conditions fail.
 
 Imputing the 547 gaps with Gd changes the shares heavily:
 
@@ -218,7 +226,7 @@ Imputing the 547 gaps with Gd changes the shares heavily:
 
 Gd grows from $305$ to $305 + 547 = 852$ of 1,168 rows, which is 72.9%. Every other category loses close to half its share.
 
-The sale prices tell the same story. Houses with a gap sold for a mean of 143,000 dollars, against 225,000 for Gd houses (Figure 3, bottom left). After imputation, 547 cheaper houses join the 305 Gd houses, and the Gd curve moves left: its mean falls from 225,000 to 172,000 dollars (Figure 3, bottom right).
+The sale prices tell the same story. Houses with a gap sold for a mean of 143,000 dollars, against 225,000 for Gd houses (Figure 5, bottom left). After imputation, 547 cheaper houses join the 305 Gd houses, and the Gd curve moves left: its mean falls from 225,000 to 172,000 dollars (Figure 5, bottom right).
 
 For `FireplaceQu`, mode imputation is the wrong choice. The "Missing" category of Section 6 suits it better.
 
@@ -239,7 +247,7 @@ For `FireplaceQu`, mode imputation is the wrong choice. The "Missing" category o
 > X_test = imp.transform(X_test)
 > ```
 >
-> **`statistics_`** holds what `fit` learned: one fill value per column, in column order. `set_output(transform="pandas")` returns a DataFrame with the column names, instead of a bare array.
+> **`statistics_`** (G-145) holds what `fit` learned: one fill value per column, in column order. `set_output(transform="pandas")` returns a DataFrame with the column names, instead of a bare array.
 
 The same can be done in pandas with `fillna`. The mode must still come from the training set.
 
@@ -262,7 +270,7 @@ The same can be done in pandas with `fillna`. The mode must still come from the 
 
 > **Key point:** With the "Missing" category, the 547 gaps in `FireplaceQu` become the largest category, while Gd, TA and the rest keep their exact counts.
 
-Filling the gaps with "Missing" adds one bar to each column (Figure 4). In `GarageQual` it is a small bar of 64 rows (5.5%). In `FireplaceQu` it becomes the largest category, with 547 rows (46.8%).
+Filling the gaps with "Missing" adds one bar to each column (Figure 6). In `GarageQual` it is a small bar of 64 rows (5.5%). In `FireplaceQu` it becomes the largest category, with 547 rows (46.8%).
 
 ![Category counts in the training set after adding the category "Missing" (orange); every other count is unchanged](images/missing_category.png){width=100%}
 
@@ -292,6 +300,10 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 | Use when | MCAR, about 5% missing or less, one category dominates | many values missing, or not MCAR |
 | `SimpleImputer` | `strategy="most_frequent"` | `strategy="constant", fill_value="Missing"` |
 | In this data | fine for `GarageQual` | better for `FireplaceQu` |
+
+Figure 7 turns the table into three questions asked in order. Watch where each column leaves the path: `FireplaceQu` fails the first two questions, while `GarageQual` fails only the third, with too few gaps for the choice to matter much.
+
+![Choosing the imputer: three questions in order, with the two house-price columns placed where they end](images/choose_imputer.png){height=45%}
 
 > **Extra:** What the gaps mean in this data.
 >

@@ -1,0 +1,23 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[m/.style={box=cblue, minimum width=1.6cm}]
+  \node[title] at (2.2,3.1) {Training};
+  \node[box=cgrey, minimum height=3.6cm, minimum width=1.9cm] (d) at (0,0) {same\\data};
+  \foreach \i/\y in {1/1.4, 2/0, 3/-1.4} {
+    \node[m] (t\i) at (4.2,\y) {M\i};
+    \draw[arrow] (d.east |- t\i) -- (t\i);
+  }
+  \draw[cgrey, dashed] (6.0,3.4) -- (6.0,-2.6);
+  \node[title] at (10.4,3.1) {Prediction};
+  \node[box=corange, minimum width=1.4cm] (q) at (7.2,0) {$x_q$};
+  \foreach \i/\y/\v in {1/1.4/A, 2/0/B, 3/-1.4/A} {
+    \node[m] (p\i) at (9.6,\y) {M\i};
+    \draw[arrow] (q) -- (p\i);
+    \node[font=\sffamily\large] (v\i) at (11.0,\y) {\v};
+    \draw[arrow] (p\i) -- (v\i);
+  }
+  \node[box=cgreen, align=center] (out) at (13.8,0) {majority: A\\[2pt]\small (regression: mean)};
+  \foreach \i in {1,2,3} \draw[arrow] (v\i) -- (out);
+\end{tikzpicture}
+\end{document}

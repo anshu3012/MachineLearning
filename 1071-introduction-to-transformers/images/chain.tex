@@ -1,0 +1,17 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[c/.style={box=#1, text width=2.7cm, minimum height=1.5cm, font=\sffamily}]
+  \node[c=cblue] (a) at (0,0) {LSTM reads\\one word\\at a time};
+  \node[c=cred] (b) at (3.6,0) {training\\is slow};
+  \node[c=cred] (c) at (7.2,0) {no training on\\huge datasets};
+  \node[c=cred] (d) at (10.8,0) {no transfer\\learning};
+  \node[c=cred] (e) at (14.4,0) {every task\\trained from\\scratch};
+  \foreach \x/\y in {a/b, b/c, c/d, d/e} \draw[arrow, line width=2pt] (\x) -- (\y);
+  \node[c=corange] (t) at (1.8,-2.6) {transformer:\\all words at once};
+  \draw[corange, line width=3pt] (1.55,-0.35) -- (2.05,0.35);
+  \draw[corange, line width=3pt] (1.55,0.35) -- (2.05,-0.35);
+  \draw[arrow, draw=corange] (t.north) -- (1.8,-0.45);
+  \node[note, anchor=west, text=corange] at (3.6,-2.6) {breaking the first link opens the rest: parallel training $\to$ huge datasets $\to$ BERT, GPT $\to$ fine-tuning};
+\end{tikzpicture}
+\end{document}

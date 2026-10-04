@@ -24,7 +24,8 @@ The Titanic carried 1309 passengers, and we know every fare. We act as if we did
 
 The Note covers:
 
-- turning the sample means into a **point estimate** of $\mu$;
+- telling the standard deviation from the standard error (section 4);
+- turning the sample means into a **point estimate** (G-1507) of $\mu$;
 - turning the standard error into a **range** that probably contains $\mu$;
 - a mistake in the divisor of the standard error, and the right one;
 - the same steps as a template for estimating a country's average income.
@@ -64,7 +65,7 @@ We now draw samples as if surveying passengers:
 
 The first five sample means are 37.27, 25.21, 34.21, 28.85 and 27.57 pounds: every sample gives a different answer. Figure 1 (right) shows all 100. They are much closer to a bell than the fares, as the CLT predicts.
 
-Figure 2 runs the experiment one sample at a time. Watch each sample's 50 fares (orange ticks) spread over the whole skewed range, while their mean (orange line) lands in a narrow pile below; at the end the pile's centre, its 2-standard-error range (sections 4 and 5) and the true mean appear.
+Figure 2 runs the experiment one sample at a time. Watch each sample's 50 fares (orange ticks) spread over the whole skewed range, while their mean (orange line) lands in a narrow pile below; at the end the pile's centre, its 2-standard-error range (sections 5 and 6) and the true mean appear.
 
 ![100 samples of 50 Titanic fares drawn one by one; each sample mean drops into the pile below, then the estimate 31.87, the range 30.35 to 33.38 and the true mean 33.30 appear](images/fare_sampling.gif){height=50%}
 
@@ -83,7 +84,30 @@ The bell is not perfect: the 100 means still have a skewness of 1.12. For a popu
 >
 > `samples` has shape `(100, 50)`: 100 samples, 50 fares each. Within one sample, `fare.sample(50)` never picks the same passenger twice.
 
-## 4. The point estimate
+## 4. Standard deviation and standard error
+
+> **Key point:** The standard deviation measures how much single values vary within one sample; the standard error measures how much sample means vary from sample to sample, and it is much smaller.
+
+Two spreads are easy to confuse here, and Figure 3 puts them on one axis.
+
+![Top: the 50 fares of one sample, with mean ± SD. Middle: the 100 sample means, with mean ± their SD, the standard error. Bottom: 10,000 bootstrap means of the one sample (400 drawn), with mean ± their SD](images/sd_vs_se.png)
+
+1. **The spread of single fares.** The 50 fares of the first sample run from about 0 to over 160 pounds. Their standard deviation, $s = 51.34$ pounds, is the long bar in the top row.
+2. **The spread of means.** The 100 sample means sit much closer together, in the middle row. A sample with one very expensive ticket moves its mean only a little, because the other 49 fares pull it back. For a mean to land far out, most of its 50 fares must be far out together, which is rare. The standard deviation of the 100 means is 7.56 pounds, the short bar.
+3. **The name.** The standard deviation of the sample means is the **standard error** (G-1872) of the mean, introduced in the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md). The CLT predicts it as $\sigma/\sqrt{n} = 51.74/\sqrt{50} = 7.32$, close to the observed 7.56 (section 6).
+
+So the standard deviation describes the data, and belongs on a plot of the data; the standard error describes how precisely the mean is known, and belongs on a plot of an estimate (idea after StatQuest, "Standard Deviation vs Standard Error, Clearly Explained!!!").
+
+**Another way: the bootstrap.** The formula $\sigma/\sqrt{n}$ works for the mean only. Every statistic, a median or a standard deviation too, has a standard error, and the **bootstrap** (G-320) estimates it from one sample without any formula:
+
+1. draw 50 fares **from the sample itself**, with replacement, so some fares appear twice and some not at all;
+2. compute the mean of this new sample;
+3. repeat many times, here 10,000;
+4. take the standard deviation of those means.
+
+For the first sample, the bootstrap gives 7.15 pounds (Figure 3, bottom row), close to the formula's $s/\sqrt{50} = 51.34/7.07 = 7.26$ and to the true 7.32. The [confidence intervals Note](../280-confidence-intervals-z-procedure/note.md) builds a whole interval this way.
+
+## 5. The point estimate
 
 > **Key point:** The average of the sample means, 31.87 pounds, is our single best guess for the population mean: a point estimate.
 
@@ -98,7 +122,7 @@ By the CLT, the sample means are centred on the population mean. So their averag
 
 A point estimate is almost never exactly right. The CLT says it is close to $\mu$, not equal to it. So instead of claiming "the average fare is 31.87 pounds", we give a range, just as a weather forecast says "28 to 32 degrees tomorrow" rather than one exact temperature.
 
-## 5. A range for the population mean
+## 6. A range for the population mean
 
 > **Key point:** About 95% of a normal distribution lies within 2 standard deviations of its centre, so "estimate $\pm$ 2 standard errors" gives a range that contains $\mu$ about 95% of the time.
 
@@ -119,7 +143,7 @@ The 7.56 itself confirms the CLT: it should be $\sigma/\sqrt{50}$, and the popul
 
 > **Extra:** The value 2 is a rounded number. The exact multiplier that leaves 95% in the middle of a normal curve is 1.96, from the z-table: $\Phi(1.96) = 0.975$ (see the [standard normal Note](../251-standard-normal-and-z-table/note.md)). With 1.96 the range here becomes $31.87 \pm 1.48$. The [confidence intervals Note](../280-confidence-intervals-z-procedure/note.md) derives it.
 
-### 5.1 Why 2 standard errors
+### 6.1 Why 2 standard errors
 
 > **Key point:** A wider range is more likely to contain $\mu$ but says less; 2 standard errors (95%) is the usual compromise.
 
@@ -133,25 +157,29 @@ We could use 1, 2 or 3 standard errors:
 
 With 1 SE, the range is narrow but wrong about a third of the time; here it misses 33.30. With 3 SE, we are almost never wrong, but the range is wider.
 
+Figure 4 draws the table. Watch the dashed true mean: it lies just inside the blue 2-SE range, outside the red 1-SE range, and comfortably inside the wide green 3-SE range.
+
+![Top: the estimate's normal curve, centre 31.87 and standard error 0.756, with 1, 2 and 3 SE shaded. Bottom: the three ranges against the true mean 33.30](images/ranges.png)
+
 A range must be narrow enough to be useful. "The average salary in a company is between 10,000 and 15,000 rupees, and I am 95% sure" says more than "between 10,000 and 45,000 rupees, and I am 99% sure". The 95% level, about 2 standard errors, is the standard compromise.
 
-## 6. A common mistake: dividing by the wrong square root
+## 7. A common mistake: dividing by the wrong square root
 
 > **Key point:** The standard error of an average of 100 sample means divides by $\sqrt{100}$, the number of samples; dividing by $\sqrt{50}$, the sample size, mixes up the two sizes.
 
 Two sizes appear in this method, and they are easy to swap:
 
-- $n = 50$, the **sample size**: the standard deviation of the sample means is already $\sigma/\sqrt{50}$; the division by $\sqrt{n}$ has happened once, inside the CLT.
+- $n = 50$, the **sample size** (G-1727): the standard deviation of the sample means is already $\sigma/\sqrt{50}$; the division by $\sqrt{n}$ has happened once, inside the CLT.
 - $k = 100$, the **number of samples**: averaging the 100 sample means divides their spread by $\sqrt{100}$.
 
-Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ and the range 29.73 to 34.00. This wrong range also contains 33.30, but it is the wrong width. Figure 3 shows what each version does when the whole experiment is repeated 1000 times.
+Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ and the range 29.73 to 34.00. This wrong range also contains 33.30, but it is the wrong width. Figure 5 shows what each version does when the whole experiment is repeated 1000 times.
 
 ![Three ranges for the mean fare against the true mean 33.30; each label gives how often that method caught the true mean in 1000 repetitions](images/fare_intervals.png)
 
 - **$\sqrt{100}$ (right):** the range contains the true mean in 95.0% of the repetitions, exactly as promised.
 - **$\sqrt{50}$ (wrong):** 99.5%. The range is about 40% too wide, so the "95%" label is false.
 
-## 7. With only one sample
+## 8. With only one sample
 
 > **Key point:** In practice we have one sample, and the range is $\bar{x} \pm 2s/\sqrt{n}$; for very skewed data, $n = 50$ is too small for this to be reliable.
 
@@ -159,17 +187,23 @@ Drawing 100 samples is a teaching device: it lets us see the sampling distributi
 
 $$\bar{x} \pm 2\thinspace\frac{s}{\sqrt{n}}$$
 
-For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 3, blue). The one-sample range contains 33.30, and it is much wider: its standard error is $\sigma/\sqrt{50}$, while the average of 100 samples of 50 has standard error $(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$, ten times smaller.
+For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 5, blue). The one-sample range contains 33.30, and it is much wider: its standard error is $\sigma/\sqrt{50}$, while the average of 100 samples of 50 has standard error $(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$, ten times smaller.
 
 By the same formula, 100 samples of 50 give the same standard error, $\sigma/\sqrt{5000}$, as one large sample of 5000. If we have several samples, we can pool them into one.
 
-> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of the 1000 repetitions of Figure 3, not 95%. The fares are so skewed that only 38 of the 1308 passengers paid more than 200 pounds. The Notebook tests whether missing those tickets is the cause, with 2000 fresh samples of 50. Of their 221 misses, 218 fell below the true mean. A sample with no fare above 200 missed 44.6% of the time; a sample with at least one missed 1.2% of the time. The sample mean and $s$ move together (correlation 0.86), so a sample without the expensive tickets has both $\bar{x}$ and $s$ too small at once: the range is too low and too narrow. With $n = 200$ the share rises to 95.6%. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; the [t-procedure Note](../282-t-procedure/note.md) handles that part.
+> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of the 1000 repetitions of Figure 5, not 95%. The fares are so skewed that only 38 of the 1308 passengers paid more than 200 pounds. The Notebook tests whether missing those tickets is the cause, with 2000 fresh samples of 50. Of their 221 misses, 218 fell below the true mean. A sample with no fare above 200 missed 44.6% of the time; a sample with at least one missed 1.2% of the time. The sample mean and $s$ move together (correlation 0.86), so a sample without the expensive tickets has both $\bar{x}$ and $s$ too small at once: the range is too low and too narrow. With $n = 200$ the share rises to 95.6%. Figure 6 shows all 2000 samples as points. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; the [t-procedure Note](../282-t-procedure/note.md) handles that part.
 
-## 8. Template: the average income of a country
+![2000 one-sample ranges as points (sample mean, sample standard deviation); a range catches 33.30 exactly when its point lies above the dashed V. Red: the 221 misses, 218 of them left of the true mean, mostly samples with no fare above 200 (open circles)](images/one_sample_wedge.png)
+
+Watch where the red points sit in Figure 6: low and to the left, below the V, because a sample without an expensive ticket has both a small $\bar{x}$ and a small $s$.
+
+## 9. Template: the average income of a country
 
 > **Key point:** Random representative samples of at least 30, their means, the average of the means, its standard error, and a 95% range around it.
 
-The same steps estimate any population mean, such as the average yearly income in India:
+The same steps estimate any population mean, such as the average yearly income in India (Figure 7 shows them with the simulated numbers below):
+
+![The six steps of the template, with the Notebook's simulated income numbers](images/income_template.png){height=30%}
 
 1. **Collect several random samples** of incomes, each with $n \ge 30$. They must be representative: not only from cities, not only from one state, not only from one age group.
 2. **Compute the mean of each sample**, which gives the sampling distribution of the mean.
@@ -182,7 +216,7 @@ We have no real income data, so the Notebook simulates a log-normal population o
 
 The result is only as good as the samples. Biased samples (see sampling bias in the [challenges in ML Note](../07-challenges-in-ml/note.md)) give a tight, confident range around the wrong value.
 
-## 9. Summary
+## 10. Summary
 
 | Step | Formula | Titanic fares |
 |---|---|---|
@@ -198,13 +232,15 @@ The result is only as good as the samples. Biased samples (see sampling bias in 
 - Divide by the square root of the number of samples when averaging sample means; the sample size is already inside $s_{\bar{x}}$.
 - For extremely skewed data, a sample of 50 can be too small; and no sample size fixes a biased sample.
 
-## 10. Sources
+## 11. Sources
 
 **Built from**
 
 - CampusX, "Session 43 - Central Limit Theorem | DSMP 2023", YouTube, https://www.youtube.com/watch?v=-WmJDYBor7c
+- StatQuest with Josh Starmer, "The standard error, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=XNgt7F6FqDU
+- StatQuest with Josh Starmer, "Standard Deviation vs Standard Error, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=A82brFpdr9g
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

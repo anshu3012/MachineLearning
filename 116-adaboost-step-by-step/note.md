@@ -41,11 +41,15 @@ Each **observation** is one record, one row of the table below. Each **feature**
 
 The output has two classes, so this is classification. The number of observations is $n = 5$. As in the intuition Note, the classes are written +1 and -1.
 
+Figure 2 places the 5 observations in the plane of the two features. Watch where the two classes sit: the +1 observations 1 and 2 lie at the left, next to the -1 observation 3, so no single cut on x1 or x2 puts every observation on its class's side.
+
+![The toy data: each observation at its (x1, x2), numbered as in the table; blue y = +1, orange y = -1](images/toy_data.png){height=34%}
+
 ## 3. Step 1: every observation gets the same weight
 
 > **Key point:** At the start every observation has weight 1/n, so all observations are equally important and the weights add up to 1.
 
-AdaBoost gives each observation a **sample weight**: a number saying how important that observation is. At the start all observations are equally important.
+AdaBoost gives each observation a **sample weight** (G-1730): a number saying how important that observation is. At the start all observations are equally important.
 
 1. **In words:** each observation's starting weight is 1 divided by the number of observations.
 2. **Formula:**
@@ -58,7 +62,7 @@ The weights always add up to 1. We add them to the table as a new column, *weigh
 
 > **Key point:** Train a decision stump on the data and record its prediction for every observation.
 
-We train a decision stump: a decision tree with `max_depth=1` (the intuition Note, section 2.2). The stump tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity: the [decision trees Note](../97-decision-trees-intuition/note.md) compares the two). Call the result **model 1**.
+We train a **decision stump** (G-559): a decision tree with `max_depth=1` (the intuition Note, section 2.2). The stump tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity: the [decision trees Note](../97-decision-trees-intuition/note.md) compares the two). Call the result **model 1**.
 
 We then pass the training observations through model 1 and write its predictions in a new column. Suppose they are:
 
@@ -117,7 +121,7 @@ So we want a function of the error that:
 
 ![Alpha against the error: model A (error near 0) gets a large positive say, model C (error 0.5) none, model B (error near 1) a large negative say](images/alpha_curve.png){height=40%}
 
-The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 2, has exactly that shape.
+The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 3, has exactly that shape.
 
 1. **In words:** divide the weight the stump got right by the weight it got wrong, take the natural logarithm, and halve it.
 2. **Formula:**
@@ -126,7 +130,7 @@ The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 2,
 3. **Example:** model 1 has error 0.4:
    $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.4}{0.4}\right) = \frac{1}{2}\ln(1.5) = \frac{1}{2} \times 0.405 = 0.20$$
 
-So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 2, red point). The checks: an error of 0.5 gives $0.5 \times \ln 1 = 0$, and an error of 0.98 gives $0.5 \times \ln(0.02/0.98) = -1.95$, the mirror image of an error of 0.02.
+So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 3, red point). The checks: an error of 0.5 gives $0.5 \times \ln 1 = 0$, and an error of 0.98 gives $0.5 \times \ln(0.02/0.98) = -1.95$, the mirror image of an error of 0.02.
 
 > **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more on two classes (scikit-learn source; the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md)).
 
@@ -145,6 +149,11 @@ Now we tell the next stump about the mistakes, by **boosting** the weights of th
 
 Observations 2 and 3 rise from 0.2 to about 0.24; observations 1, 4 and 5 fall to about 0.16. Why the exponential is the right choice is shown in the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md).
 
+Figure 5 runs steps 1 to 6 on these weights. Watch the two red bars, the mistakes, grow above the dotted line at 0.2 while the green bars shrink below it.
+
+![The 5 sample weights through one stage of the worked example: equal at 0.2, observations 2 and 3 misclassified (error 0.4, alpha 0.2027), multiplied by $e^{\alpha}$ or $e^{-\alpha}$, then normalised](images/weight_update.gif)
+
+
 > **Extra:** With classes +1 and -1, both cases fit in one formula: $w_i^{\text{new}} = w_i\thinspace e^{-\alpha\thinspace y_i\thinspace h(x_i)}$. If the stump is right, $y_i h(x_i) = (+1)(+1)$ or $(-1)(-1) = +1$, giving $e^{-\alpha}$. If it is wrong, $y_i h(x_i) = -1$, giving $e^{\alpha}$. The single formula is another reason AdaBoost uses +1 and -1.
 
 ## 8. Step 6: normalise the weights
@@ -159,7 +168,7 @@ After the update the weights no longer add up to 1.
 3. **Example:** the sum is $2 \times 0.2449 + 3 \times 0.1633 = 0.4899 + 0.4899 = 0.9798$, so
    $$\text{misclassified: } \frac{0.2449}{0.9798} = 0.25 \qquad \text{correct: } \frac{0.1633}{0.9798} = 0.1667$$
 
-Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. The two mistakes now carry half of the total weight between them, against 40% before.
+Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. The last frame of Figure 5 shows the normalised weights. The two mistakes now carry half of the total weight between them, against 40% before.
 
 > **Extra:** Here the misclassified observations end up with exactly half the total weight. The half-and-half split holds after every normalised AdaBoost update. Before normalising, the mistakes weigh $\text{error} \cdot e^{\alpha}$ in total and the correct observations $(1-\text{error}) \cdot e^{-\alpha}$. With $e^{\alpha} = \sqrt{(1-\text{error})/\text{error}}$ from step 4, both totals equal $\sqrt{\text{error}\thinspace(1-\text{error})}$: in our example $\sqrt{0.4 \times 0.6} = 0.4899$, the two equal halves of the sum above. So the old stump, judged on the new weights, has an error of exactly 0.5 and would get $\alpha = 0$: repeating it adds nothing to the vote, and the next stump only earns a say by doing better on the reweighted observations.
 
@@ -167,11 +176,11 @@ Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. The two mistakes now carry half of
 
 > **Key point:** Lay the weights end to end on the line from 0 to 1, draw n random numbers, and pick the observation whose range each number lands in. Heavy observations get picked more often.
 
-The new weights are passed on through the data itself. We build a new dataset of the same size, $n = 5$ observations, in which heavy observations appear more often. Drawing a dataset this way is called **upsampling** (resampling by weight).
+The new weights are passed on through the data itself. We build a new dataset of the same size, $n = 5$ observations, in which heavy observations appear more often. Drawing a dataset this way is called **upsampling** (resampling by weight) (G-2063).
 
 ![Upsampling: each observation owns a stretch of the line from 0 to 1 as long as its weight; five random numbers pick observations 1, 3, 3, 3 and 4](images/ranges.png){height=26%}
 
-1. **Make ranges.** Each observation owns a stretch of the line from 0 to 1, as long as its weight. Observation 1 owns 0 to 0.167, observation 2 owns 0.167 to 0.417, observation 3 owns 0.417 to 0.667, observation 4 owns 0.667 to 0.833, and observation 5 owns 0.833 to 1 (Figure 3). Each boundary is the running total, the **cumulative sum**, of the weights.
+1. **Make ranges.** Each observation owns a stretch of the line from 0 to 1, as long as its weight. Observation 1 owns 0 to 0.167, observation 2 owns 0.167 to 0.417, observation 3 owns 0.417 to 0.667, observation 4 owns 0.667 to 0.833, and observation 5 owns 0.833 to 1 (Figure 4). Each boundary is the running total, the **cumulative sum**, of the weights.
 2. **Draw random numbers.** Draw 5 random numbers between 0 and 1, say 0.13, 0.43, 0.62, 0.50 and 0.80.
 3. **Pick observations.** Each number picks the observation whose range it falls in: 0.13 picks observation 1; 0.43, 0.62 and 0.50 all pick observation 3; 0.80 picks observation 4.
 
@@ -196,7 +205,7 @@ We repeat this for as many stumps as we want, $T$. At the end we have $\alpha_1,
 
 $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \dots + \alpha_T h_T(x)\big)$$
 
-Figure 4 runs three real stages on our 5 observations. Here the stumps are fitted by scikit-learn, so their mistakes differ from the assumed example of section 4, and the weights go straight to each stump as sample weights instead of through upsampling (the Extra in section 9). Watch observation 3 swell to half of all the weight after stump 1 misses it, the next stumps cut around it, and the weighted vote of 3 stumps get all 5 observations right, even though no single stump can.
+Figure 6 runs three real stages on our 5 observations. Here the stumps are fitted by scikit-learn, so their mistakes differ from the assumed example of section 4, and the weights go straight to each stump as sample weights instead of through upsampling (the Extra in section 9). Watch observation 3 swell to half of all the weight after stump 1 misses it, the next stumps cut around it, and the weighted vote of 3 stumps get all 5 observations right, even though no single stump can.
 
 ![Three AdaBoost stages on the toy data. Dot size and label: the observation's weight. Line and shading: the stump's cut and the class on each side; red rings: its mistakes. Right: each stump's alpha. Last frame: the sign of the weighted vote.](images/adaboost_stages.gif)
 

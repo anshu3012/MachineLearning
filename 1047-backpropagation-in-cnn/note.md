@@ -15,7 +15,11 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 
 > **Key point:** A CNN is trained exactly like an ANN: forward propagation, a loss, then gradient descent on every weight, with the gradients found by the chain rule. We split a small CNN into its CNN part and its ANN part; the ANN part's gradients are the familiar ones, $\partial L/\partial W_2 = (a_2 - y)F^{\mathsf T}$ and $\partial L/\partial b_2 = a_2 - y$.
 
-Backpropagation for an ANN was taught in the [backpropagation Notes](../1015-backpropagation-what/note.md). A CNN adds three new operations, convolution, max pooling and flatten, and the chain rule must pass through each of them. This Note sets the problem up on the smallest possible CNN and finds the gradients of its last layer. The [part 2 Note](../1048-backpropagation-cnn-layers/note.md) goes back through flatten, max pooling and convolution.
+**Backpropagation** (G-247) for an ANN was taught in the [backpropagation Notes](../1015-backpropagation-what/note.md). A CNN adds three new operations, and the **chain rule** (G-371) must pass through each of them:
+
+- convolution;
+- max pooling;
+- flatten. This Note sets the problem up on the smallest possible CNN and finds the gradients of its last layer. The [part 2 Note](../1048-backpropagation-cnn-layers/note.md) goes back through flatten, max pooling and convolution.
 
 ![The small CNN as a chain of operations, with the shape of every tensor. The trainable parameters are $W_1, b_1$ (the filter) and $W_2, b_2$ (the output node). Backpropagation walks the chain from right to left](images/cnn_chain.png){width=100%}
 
@@ -24,7 +28,7 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 ## 2. Prerequisites
 
 - The [backpropagation Notes](../1015-backpropagation-what/note.md), [how it runs](../1016-backpropagation-how/note.md) and [why it works](../1017-backpropagation-why/note.md): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
-- The [CNN vs ANN Note](../1046-cnn-vs-ann/note.md): a filter works like a node, its values are weights.
+- The [CNN vs ANN Note](../1046-cnn-vs-ann/note.md): a **filter** (G-778) works like a node, its values are weights.
 - The [convolution operation Note](../1042-convolution-operation/note.md) and the [pooling Note](../1044-pooling/note.md).
 - The [log loss Note](../73-log-loss/note.md) and the [sigmoid derivative Note](../74-sigmoid-derivative/note.md).
 
@@ -39,13 +43,17 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 The network (Figure 1) has:
 
 1. **Input:** a 6 × 6 greyscale image $X$.
-2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 feature map ($6 - 3 + 1 = 4$).
+2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 **feature map** (G-766) ($6 - 3 + 1 = 4$).
 3. **ReLU:** negatives become 0; the shape stays 4 × 4.
 4. **Max pooling:** 2 × 2 window, stride 2, giving 2 × 2.
 5. **Flatten:** 4 numbers.
 6. **Output:** a single node with sigmoid, giving the prediction $\hat{y}$, a number between 0 and 1.
 
 The network is a binary classifier: is this a picture of a cat or a dog, or, in the Notebook, is this MNIST digit a 1 ($y = 1$) or a 0 ($y = 0$)? The Notebook shrinks real MNIST digits to 6 × 6 so that every shape matches this Note.
+
+![Four of the Notebook's MNIST digits at their full 28 × 28 size (top) and shrunk to 6 × 6 (bottom), the input size of the small CNN. The first 0 is the image used in section 6.](images/digits_small.png){height=40%}
+
+In Figure 2, the 6 × 6 versions keep only the rough shape, a ring for a 0 and a vertical stroke for a 1.
 
 ### 3.2 The trainable parameters
 
@@ -66,7 +74,7 @@ The total is $9 + 1 + 4 + 1 = 15$ trainable parameters. ReLU, max pooling and fl
 
 > **Key point:** Binary cross-entropy (log loss), the same loss as in logistic regression.
 
-For one image with target $y$ and prediction $a_2 = \hat{y}$, the loss is the **binary cross-entropy** (see the [log loss Note](../73-log-loss/note.md)):
+For one image with target $y$ and prediction $a_2 = \hat{y}$, the loss is the **binary cross-entropy** (G-304) (see the [log loss Note](../73-log-loss/note.md)):
 
 $$L = -y\log a_2 - (1 - y)\log(1 - a_2)$$
 
@@ -76,7 +84,7 @@ For a batch of $m$ images the loss is the average of the $m$ single losses. For 
 
 > **Key point:** $Z_1 = X \ast W_1 + b_1$, $A_1 = \text{ReLU}(Z_1)$, $P_1 = \text{maxpool}(A_1)$, $F = \text{flatten}(P_1)$, $Z_2 = W_2F + b_2$, $A_2 = \sigma(Z_2)$.
 
-Figure 1 is the **logical diagram** of the network: each arrow is one operation, each box one tensor. Written as equations:
+Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one operation, each box one tensor. Written as equations:
 
 | Step | Equation | Shape |
 |---|---|---|
@@ -107,7 +115,7 @@ It helps to see the network as two networks joined together (Figure 1): a **CNN 
 
 ### 5.2 The chains
 
-> **Key point:** $W_2$ reaches the loss through 3 links; $W_1$ through 8. The chain rule multiplies the derivative of every link.
+> **Key point:** $W_2$ reaches the loss through 3 links; $W_1$ through 7. The chain rule multiplies the derivative of every link.
 
 A derivative such as $\partial L/\partial W_2$ asks: if $W_2$ changes by a little, how much does the loss change? $W_2$ is not connected to $L$ directly. A change in $W_2$ changes $Z_2$, which changes $A_2$, which changes $L$. The chain rule multiplies the three links (see section 5.3 of the [derivatives Note](../600-derivatives-of-one-variable/note.md)):
 
@@ -119,7 +127,11 @@ For the filter the path is much longer. A change in $W_1$ changes $Z_1$, then $A
 
 $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial F}\cdot\frac{\partial F}{\partial P_1}\cdot\frac{\partial P_1}{\partial A_1}\cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial W_1}$$
 
-and $\partial L/\partial b_1$ is the same chain with $\partial Z_1/\partial b_1$ as its last factor. Three of these factors are new: $\partial F/\partial P_1$ goes back through flatten, $\partial P_1/\partial A_1$ through max pooling, and $\partial Z_1/\partial W_1$ through the convolution. The part 2 Note finds them.
+and $\partial L/\partial b_1$ is the same chain with $\partial Z_1/\partial b_1$ as its last factor.
+
+![The two paths from a parameter to the loss. Each arrow is one link of the chain rule. Green links are those of an ordinary ANN; red links pass through the CNN part.](images/chain_paths.png){width=100%}
+
+Figure 3 shows the two chains side by side: the last three links are shared, so the work of section 6 is reused for the filter; the four red links, through the CNN part, are left for the part 2 Note. Three of these factors are new: $\partial F/\partial P_1$ goes back through flatten, $\partial P_1/\partial A_1$ through max pooling, and $\partial Z_1/\partial W_1$ through the convolution. The part 2 Note finds them.
 
 ## 6. The ANN part: $\partial L/\partial W_2$ and $\partial L/\partial b_2$
 
@@ -154,7 +166,7 @@ TensorFlow's `GradientTape`, which differentiates the same network automatically
 
 ![The Notebook's first image, a 0 shrunk to 6 × 6, through the small CNN with the Notebook's starting weights. The 3 × 3 filter slides over $X$ to fill $Z_1$; ReLU changes nothing here, since all 16 values are positive; each 2 × 2 window sends its maximum to $P_1$; flatten gives $F$ and the sigmoid gives $\hat{y} = 0.21$. Then the error $a_2 - y = 0.21$ multiplies each value of $F$ to give $\partial L/\partial W_2$](images/cnn_forward_last_layer.gif){width=100%}
 
-Figure 2 plays the forward equations of section 4 on this image, then this section's gradient. Watch the last step: every weight of $W_2$ gets the same error, 0.21, times the value of $F$ it multiplied.
+Figure 4 plays the forward equations of section 4 on this image, then this section's gradient. Watch the last step: every weight of $W_2$ gets the same error, 0.21, times the value of $F$ it multiplied.
 
 ### 6.3 Checking the shapes
 
@@ -181,6 +193,10 @@ With $m$ images, each column holds one image:
 3. **Example (shapes):** $(1 \times m)(m \times 4) = 1 \times 4$. The $m$ cancels in the matrix product, so the derivative is 1 × 4 whatever the batch size, the shape of $W_2$. In the Notebook, with $m = 32$, the formula and `GradientTape` agree to within $6 \times 10^{-17}$.
 
 The matrix product adds up the 32 single-image gradients, and the $1/m$ turns the sum into an average.
+
+![The 32 images of the Notebook's batch with the starting weights. Each dot is one image's gradient for one weight of $W_2$; the black bar is the batch gradient, $\frac{1}{m}(A_2 - Y)F^{\mathsf T}$, their average.](images/batch_grads.png){height=40%}
+
+In Figure 5, the images of 0s (blue) push every weight one way and the images of 1s (red) the other way, because $a_2 - y$ is positive for a 0 and negative for a 1; the batch gradient is the average of both groups.
 
 ## 8. Summary
 

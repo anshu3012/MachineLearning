@@ -16,12 +16,12 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 
 > **Key point:** Memoization stores the result of a computation the first time and looks it up afterwards. Backpropagation is the chain rule plus memoization: the derivative at each node is computed once, stored, and reused by every weight behind it.
 
-**Memoization** is a computer-science technique that speeds up a program by storing the results of expensive function calls and returning the stored result when the same inputs come again. Memoization trades a little memory for a lot of time.
+**Memoization** (G-1210) is a computer-science technique that speeds up a program by storing the results of expensive function calls and returning the stored result when the same inputs come again. Memoization trades a little memory for a lot of time.
 
 This Note does two things:
 
 1. Shows memoization on its classic example, the Fibonacci numbers.
-2. Takes a network with **two** hidden layers, where a first-layer weight reaches the loss along several paths, and shows how storing intermediate derivatives keeps backpropagation fast.
+2. Takes a network with **two** hidden layers, where a first-layer weight reaches the loss along several paths, and shows how storing intermediate **derivatives** (G-595) keeps **backpropagation** (G-247) fast.
 
 ![Function calls needed with and without memoization. Left: Fibonacci. Right: backpropagation through hidden layers of 10 nodes](images/calls.png){height=34%}
 
@@ -54,7 +54,7 @@ In the Fibonacci sequence each term is the sum of the two before it: 1, 1, 2, 3,
 > fib(5), fib(10), fib(12)             # 8, 89, 233
 > ```
 >
-> A function that calls itself is **recursive**. Every call for $n \ge 2$ makes two more calls, until they reach 0 or 1.
+> A function that calls itself is **recursive** (**recursion**, G-1648). Every call for $n \ge 2$ makes two more calls, until they reach 0 or 1.
 
 The recursive version works, but it slows down sharply as $n$ grows: fib(30) already needs 2,692,537 calls (0.22 seconds), and each further step of $n$ multiplies the work by about 1.6. At $n = 40$ it would take about half a minute; $n = 100$ would take millions of years.
 
@@ -66,7 +66,7 @@ The recursive version works, but it slows down sharply as $n$ grows: fib(30) alr
 
 Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib(4) needs fib(3) again, and so on. fib(3) is computed twice and fib(2) three times: 15 calls for a single answer. For fib(48) the tree would be astronomically large, almost all of it repeats.
 
-> **Extra:** The number of calls is $2\thinspace\text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\thinspace\text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio). The growth is often loosely called $2^n$; either way it is **exponential time**: each extra step multiplies the work by a constant factor.
+> **Extra:** The number of calls is $2\thinspace\text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\thinspace\text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio). The growth is often loosely called $2^n$; either way it is **exponential time** (G-734): each extra step multiplies the work by a constant factor.
 
 ### 3.3 The memoized version
 
@@ -84,9 +84,9 @@ Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib
 > fib_memo(30, {0: 1, 1: 1})     # 1346269, in 59 calls
 > ```
 >
-> `d` is a **dictionary**: it maps each `n` already computed to its answer. `n in d` checks whether the key is there.
+> `d` is a **dictionary** (G-603): it maps each `n` already computed to its answer. `n in d` checks whether the key is there.
 
-fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1, left). Each value is computed once; every later request is a lookup. The cost is the memory for the dictionary, one entry per value. Memoization is the core of **dynamic programming**, a family of algorithms built on reusing solutions to overlapping sub-problems (Cormen et al. 2009, Ch. 15).
+fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1, left). Each value is computed once; every later request is a lookup. The cost is the memory for the dictionary, one entry per value. Memoization is the core of **dynamic programming** (G-652), a family of algorithms built on reusing solutions to overlapping sub-problems (Cormen et al. 2009, Ch. 15).
 
 > **Extra:** Python's standard library does this in one line: putting `@functools.lru_cache(maxsize=None)` above `def fib(n):` stores every result automatically (Python docs, `functools`).
 
@@ -100,9 +100,9 @@ fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1
 
 ![The 3-3-2-1 network. A change in $W_{11}^{1}$ changes $O_{11}$, which reaches $\hat{y}$ along two paths](images/two_paths.png){height=34%}
 
-The [backpropagation what Note](../1015-backpropagation-what/note.md) used one hidden layer. Figure 3 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ trainable parameters (see the [MLP notation Note](../1008-mlp-notation/note.md)).
+The [backpropagation what Note](../1015-backpropagation-what/note.md) used one hidden layer. Figure 3 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ **trainable parameters** (G-1999; see the [MLP notation Note](../1008-mlp-notation/note.md)).
 
-The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. Forward propagation gives $O_{11} = 0.783$, $O_{21} = 0.374$, $O_{22} = 0.208$ and $\hat{y} = -0.194$, so $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$.
+The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797) gives $O_{11} = 0.783$, $O_{21} = 0.374$, $O_{22} = 0.208$ and $\hat{y} = -0.194$, so $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$.
 
 ### 4.2 A weight of the output layer
 
@@ -128,7 +128,7 @@ Here $\partial \hat{y}/\partial O_{21} = W_{11}^{3}$ and $\partial O_{21}/\parti
 
 Now take $W_{11}^{1}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 3): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
 
-When a variable affects a function through two intermediate variables, the chain rule multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). For $h(f(x), g(x))$:
+When a variable affects a function through two intermediate variables, the **chain rule** (G-371) multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). For $h(f(x), g(x))$:
 
 $$\frac{dh}{dx} = \frac{\partial h}{\partial f}\frac{df}{dx} + \frac{\partial h}{\partial g}\frac{dg}{dx}$$
 
@@ -214,7 +214,7 @@ Backpropagation combines two ideas:
 - **The chain rule** (mathematics) says what each derivative is: a sum, over paths, of products of local derivatives.
 - **Memoization** (computer science) computes those derivatives efficiently: each shared piece is computed once, stored and reused, working backwards from the loss.
 
-On the computation graph of section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md), this is the backward pass: keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole gradient costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
+On the **computation graph** (G-434) of section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md), this is the **backward pass** (G-249): keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole **gradient** (G-865) costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
 
 > **Extra:** Storing every activation is why training a network needs much more memory than using it to predict: prediction can throw each layer's outputs away as soon as the next layer is computed, while training must keep them for the backward pass (Chen et al. 2016).
 

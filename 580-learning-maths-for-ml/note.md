@@ -21,7 +21,13 @@ Many learners want to work in ML but stop at the first equation. The maths ML ne
 
 Figure 1 shows the five habits. The first one, the attitude, comes first because the others only work once we are willing to spend time with the maths.
 
-Two earlier Notes already cover parts of this topic. The [role of mathematics in ML Note](../440-role-of-maths-in-ml/note.md) explains the job of each branch of maths in ML. The [statistics roadmap Note](../210-statistics-roadmap/note.md) and the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) list the topics of those two branches. This Note adds how to study them, and the calculus part of the map.
+Earlier Notes already cover parts of this topic:
+
+- the [role of mathematics in ML Note](../440-role-of-maths-in-ml/note.md) explains the job of each branch of maths in ML;
+- the [statistics roadmap Note](../210-statistics-roadmap/note.md) lists the topics of statistics;
+- the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists the topics of linear algebra.
+
+This Note adds how to study them, and the calculus part of the map.
 
 ## 2. Habit 1: change the attitude
 
@@ -39,10 +45,12 @@ At school we solve hundreds of derivatives and integrals for the exam, without k
 
 In ML the purpose is always visible:
 
-- **Derivatives** are there to minimise a loss function, which is how a spam filter learns to separate spam from normal mail (see the [gradient descent Note](../57-gradient-descent/note.md)).
+- **Derivatives** (G-595) are there to minimise a loss function, which is how a spam filter learns to separate spam from normal mail (see the [gradient descent Note](../57-gradient-descent/note.md)).
 - **Matrices** are there to transform data; a photo filter, for example, is a manipulation of the matrix of pixel values (see the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md)).
 
-Because we know why each formula is there, it stays interesting, and interesting maths is easier to learn.
+![The same maths at school and in ML: in ML each piece has a job, and the job has a result we can see](images/maths_has_a_purpose.png)
+
+In Figure 2, watch the right-hand rows: each one runs from a piece of maths, through its job, to something we can see working. Because we know why each formula is there, it stays interesting, and interesting maths is easier to learn.
 
 ### 2.2 Reason 2: only a small subset is needed
 
@@ -71,7 +79,7 @@ The method:
 2. Replace every index range by a tiny one: two points, two components.
 3. Write out every case the formula stands for, with the indices filled in.
 
-Figure 2 applies it to a formula from an algorithm we have not met yet, Gaussian mixture models. We do not need to know the algorithm; the point is the unpacking.
+Figure 3 applies it to a formula from an algorithm we have not met yet, Gaussian mixture models. We do not need to know the algorithm; the point is the unpacking.
 
 ![Decoding a formula: the general form (top left) shrunk to two points and two components, then written out case by case](images/decode_notation.png){height=40%}
 
@@ -85,7 +93,7 @@ $$\gamma_1(x_1) = \frac{0.6 \times 0.5}{0.6 \times 0.5 + 0.4 \times 0.2} = \frac
 
 and $0.79 + 0.21 = 1$, as the written-out form predicted. A line of compact notation became four plain fractions.
 
-> **Python:** a loop is the same unpacking, done by the computer. Each line below is one box of Figure 2.
+> **Python:** a loop is the same unpacking, done by the computer. Each line below is one box of Figure 3.
 >
 > ```python
 > import numpy as np
@@ -107,6 +115,12 @@ Once we can program a little, every concept can be checked by building a small t
 - **The t distribution:** plot it next to the normal curve and raise the degrees of freedom until the two match (see the [t procedure Note](../282-t-procedure/note.md)).
 - **Dividing by $n - 1$ in the sample variance:** simulate many samples and compare the averages of both versions (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)).
 
+Figure 4 is the third example built this way: the t distribution (dashed) drawn over the standard normal while the degrees of freedom (df) rise from 1 to 30.
+
+![The t distribution against the standard normal as df rises; the title gives the largest vertical gap between the two curves](images/t_vs_normal.gif)
+
+Watch the tails: at df = 1 the t curve is lower in the middle and much fatter in the tails, and by df = 30 the largest gap is 0.004, so the two curves overlap. A fact that reads as abstract in a book ("t tends to the normal") becomes something we watch happen.
+
 We do not need to be strong programmers for this. Many such tools are shared on GitHub, and an AI assistant can write one from a prompt such as "write a Streamlit app that plots the normal and t distributions side by side, with a slider for the degrees of freedom". We run it, then fix and extend it step by step.
 
 ## 5. Habit 4: learn visually first
@@ -114,6 +128,32 @@ We do not need to be strong programmers for this. Many such tools are shared on 
 > **Key point:** First get the picture from a visual resource, then read the formal treatment in lectures or books.
 
 University lectures and textbooks are accurate, but most of them write equations and solve them, with few pictures. Starting with a visual explanation (diagrams, animation) and only then turning to the formal version makes both easier.
+
+### 5.1 Two halves of understanding
+
+> **Key point:** Numeric understanding lets us carry out a computation; geometric understanding lets us choose the right tool, feel why it works and read the result. Computers now do most of the numeric half.
+
+Any maths topic can be known in two ways:
+
+- **Numeric understanding:** knowing how to carry out the computation, such as a matrix product, a determinant or an eigenvalue.
+- **Geometric understanding:** knowing what the computation means as a picture. It is what lets us judge which tool fits a problem, feel why it works, and interpret the result.
+
+Both have their place. But many courses spend most of their time on the numeric half, while in practice a computer does that half and the human does the conceptual half.
+
+The sine function shows the difference (Figure 5). A calculator evaluates $\sin t$ with a polynomial:
+
+$$\sin t = t - \frac{t^3}{3!} + \frac{t^5}{5!} - \frac{t^7}{7!} + \cdots$$
+
+1. **Numeric only.** A learner who met sine only as this formula could compute values by plugging in numbers and stopping after a few terms. Asked for the sign of $\sin 4$, the learner would have to compute.
+2. **Geometric.** A learner who knows sine as the height of a point turning around a circle sees at once that the height goes up, comes back down and goes negative after half a turn ($t = \pi \approx 3.14$). So $\sin 4$ is negative, with no computation.
+
+![Two ways to know sine: the height of a point turning around a circle, and the polynomial a calculator evaluates, which hugs the same curve as terms are added. Analogy after 3Blue1Brown, "Essence of linear algebra preview"](images/sine_two_views.gif){height=45%}
+
+In Figure 5, first watch the point turn: its height draws the sine curve. Then watch the dashed polynomial: with 4 terms it is off by more than 0.1 from about $t = 3.2$ on (largest gap 30.16 on one full turn), and with 9 terms it lies on it (largest gap 0.01). The formula and the picture are the same function. The formula computes it; the picture explains it.
+
+### 5.2 Visual resources first
+
+> **Key point:** Khan Academy, 3Blue1Brown and StatQuest give the picture; university lectures and books then give the formal version.
 
 Three visual resources cover most of what ML needs:
 
@@ -129,7 +169,9 @@ After the picture, the formal sources: university lectures (for example NPTEL or
 
 Even within four topics, a common mistake is to try to learn everything in each: all of statistics, then all of linear algebra. That takes months and loses the "why" of Habit 1.
 
-A roadmap fixes this. For each topic it lists the parts ML uses and where each part is used, so we can find the best resource for exactly that part. The [statistics roadmap Note](../210-statistics-roadmap/note.md) and the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) are such roadmaps. The calculus part is short.
+![Subject first versus in context: on the right, each algorithm pulls in the one topic it needs (pairs from the table below)](images/learn_in_context.png)
+
+In Figure 6, compare the two columns: on the left the ML only starts after every subject is finished; on the right each topic arrives together with its reason. A roadmap fixes this. For each topic it lists the parts ML uses and where each part is used, so we can find the best resource for exactly that part. The [statistics roadmap Note](../210-statistics-roadmap/note.md) and the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) are such roadmaps. The calculus part is short.
 
 > **Extra:** The calculus and optimisation part of the roadmap, in the order this project teaches it:
 >
@@ -154,7 +196,7 @@ A roadmap fixes this. For each topic it lists the parts ML uses and where each p
 | 1. Attitude | treat an equation as the explanation, not an obstacle | ML maths is small, easy, and always has a purpose |
 | 2. Decode | shrink indices to 2 cases and write each case out | compact notation becomes plain arithmetic |
 | 3. Code | simulate and plot the idea | we can change inputs and watch |
-| 4. See first | visual resources, then formal ones | the picture makes the formulas readable |
+| 4. See first | visual resources, then formal ones | the picture gives the geometric half; computers do the numeric half |
 | 5. In context | study a topic when an algorithm needs it | saves months and keeps the purpose visible |
 
 - ML needs four topics: statistics, probability, linear algebra (mostly matrices) and differential calculus for optimisation.
@@ -165,10 +207,13 @@ A roadmap fixes this. For each topic it lists the parts ML uses and where each p
 **Built from**
 
 - CampusX, "How to Overcome the Fear of Maths in Data Science? | Maths Roadmap for Machine Learning", YouTube, https://www.youtube.com/watch?v=o4g4OTyCyDM
+- Sanderson, G. (3Blue1Brown), "Essence of linear algebra preview", 2016, https://www.youtube.com/watch?v=kjBOesZCoqc
 
 ## 9. Key terms
 
 | Term | Meaning |
 |---|---|
 | Decoding notation | Shrinking a formula's indices to two or three cases and writing every case out by hand |
+| Numeric understanding | Knowing how to carry out a computation, such as a matrix product |
+| Geometric understanding | Knowing what a computation means as a picture: which tool fits, why it works, how to read the result |
 | Contextual learning | Studying a maths topic together with the ML algorithm that uses it, instead of the whole subject up front |

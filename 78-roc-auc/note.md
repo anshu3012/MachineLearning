@@ -16,7 +16,7 @@ tags: [subject/ml, area/production, step/evaluate, concept/roc]
 
 > **Key point:** A classifier outputs a probability, and a threshold turns it into 0 or 1. The ROC curve shows the true positive rate against the false positive rate for every threshold. The curve helps pick the threshold, and the area under it (AUC) compares models.
 
-The ROC curve (receiver operating characteristic curve) is a standard tool for judging **binary** classifiers (Fawcett 2006, §1). The ROC curve has two uses:
+The **ROC curve** (G-1702) (receiver operating characteristic curve) is a standard tool for judging **binary** classifiers (Fawcett 2006, §1). The ROC curve has two uses:
 
 1. **Choosing a threshold**: the cut-off that turns probabilities into yes or no.
 2. **Comparing models**: through the area under the curve, AUC.
@@ -31,7 +31,7 @@ The ROC curve (receiver operating characteristic curve) is a standard tool for j
 
 Logistic regression (and most classifiers, such as decision trees or neural networks) does not directly output 0 or 1. The model outputs a probability, for example "this patient has a 45% chance of diabetes" (the sigmoid Note).
 
-A **threshold** turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
+A **threshold** (G-1971) turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
 
 ### 2.2 Why change it
 
@@ -43,7 +43,7 @@ So the threshold is a dial between the two kinds of mistake. The difficulty is k
 
 ![Predicted probabilities of the test patients, by true class](images/probabilities.png){height=40%}
 
-Figure 1 shows the example used in this Note: logistic regression on the Pima diabetes data. The data has 768 women; each woman is one **observation** (one record, a row of the data table). Each has 8 **features** (input variables, one column each), medical measurements such as glucose and blood pressure. The **target** (the output we predict) is diabetes: yes for 268 of them. The model is trained on 80% and tested on 154 patients. Patients with diabetes (red) tend to get higher probabilities, but the two groups overlap. Each threshold line cuts the overlap in a different place.
+Figure 1 shows the example used in this Note: logistic regression on the Pima diabetes data. The data has 768 women; each woman is one **observation** (G-1374) (one record, a row of the data table). Each has 8 **features** (G-772) (input variables, one column each), medical measurements such as glucose and blood pressure. The **target** (G-1949) (the output we predict) is diabetes: yes for 268 of them. The model is trained on 80% and tested on 154 patients. Patients with diabetes (red) tend to get higher probabilities, but the two groups overlap. Each threshold line cuts the overlap in a different place.
 
 ## 3. Two rates: benefit and cost
 
@@ -55,7 +55,7 @@ Figure 1 shows the example used in this Note: logistic regression on the Pima di
 
 $$\text{TPR} = \frac{TP}{TP + FN}$$
 
-Of all the patients who really have diabetes, the fraction the model flags. TPR is exactly **recall** (the precision Note). Think of it as the **benefit**: the model exists to find these patients. Higher is better; 1 means every one was found.
+Of all the patients who really have diabetes, the fraction the model flags: the **true positive rate** (G-2022). TPR is exactly **recall** (G-1641) (the precision Note). Think of it as the **benefit**: the model exists to find these patients. Higher is better; 1 means every one was found.
 
 ### 3.2 False positive rate
 
@@ -63,7 +63,7 @@ Of all the patients who really have diabetes, the fraction the model flags. TPR 
 
 $$\text{FPR} = \frac{FP}{FP + TN}$$
 
-Of all the patients who really do **not** have diabetes, the fraction the model wrongly flags. Think of it as the **cost**: each one means needless worry and extra tests. Lower is better; 0 means no healthy patient was flagged.
+Of all the patients who really do **not** have diabetes, the fraction the model wrongly flags: the **false positive rate** (G-749). Think of it as the **cost**: each one means needless worry and extra tests. Lower is better; 0 means no healthy patient was flagged.
 
 ### 3.3 How the threshold moves them
 
@@ -82,6 +82,10 @@ Of all the patients who really do **not** have diabetes, the fraction the model 
 
 The ideal would be TPR 1 and FPR 0: every patient caught and no false alarms.
 
+![The table as bars. Left: the 54 diabetic patients, caught (dark) or missed (pale); the caught share is the TPR. Right: the 100 healthy patients, wrongly flagged (dark) or cleared (pale); the flagged share is the FPR.](images/rates.png){height=45%}
+
+In Figure 2, watch both dark bars shrink together as the threshold rises: the benefit and the cost cannot be moved one at a time.
+
 ## 4. The ROC curve
 
 > **Key point:** Plot FPR on the x-axis and TPR on the y-axis for every threshold. The curve runs from (0, 0) to (1, 1); the closer it bends towards the top-left corner, the better.
@@ -90,7 +94,13 @@ The ideal would be TPR 1 and FPR 0: every patient caught and no false alarms.
 
 > **Key point:** Sweep the threshold from 1 down to 0 and mark (FPR, TPR) each time.
 
-For each threshold, compute the confusion matrix, then the two rates, and plot the point (FPR, TPR). Figure 2 animates this sweep.
+For each threshold:
+
+1. compute the confusion matrix;
+2. compute the two rates from it;
+3. plot the point (FPR, TPR).
+
+Figure 3 animates this sweep.
 
 ![Lowering the threshold traces out the ROC curve](images/threshold_anim.gif){height=55%}
 
@@ -102,7 +112,7 @@ For each threshold, compute the confusion matrix, then the two rates, and plot t
 
 > **Key point:** The curve rises steeply at first, because the first patients flagged are mostly real positives.
 
-The curve is not a straight line. Just below a high threshold, the newly flagged patients are those with very high probabilities, and these are mostly real positives: TPR jumps while FPR barely moves, so the curve climbs steeply.
+The curve is not a straight line (Figure 4, left). Just below a high threshold, the newly flagged patients are those with very high probabilities, and these are mostly real positives: TPR jumps while FPR barely moves, so the curve climbs steeply. In the Section 3.3 table, the 28 patients at or above 0.7 are 20 diabetic and 8 healthy.
 
 Near a low threshold, the newly flagged patients have low probabilities and are mostly healthy: FPR rises quickly while TPR hardly changes, so the curve flattens along the top. A good model has a curve that bulges towards the top-left corner.
 
@@ -112,7 +122,7 @@ Near a low threshold, the newly flagged patients have low probabilities and are 
 
 ![The ROC curve with five thresholds marked, and two models compared](images/roc.png){height=58%}
 
-The ideal point is (0, 1): all benefit, no cost (the cross in Figure 3, left). A simple rule is to pick the threshold whose point lies closest to it. Here that is threshold 0.30, with TPR 0.83 and FPR 0.30: most diabetic patients are found while 70% of healthy ones are correctly cleared.
+The ideal point is (0, 1): all benefit, no cost (the cross in Figure 4, left). A simple rule is to pick the threshold whose point lies closest to it. Here that is threshold 0.30, with TPR 0.83 and FPR 0.30: most diabetic patients are found while 70% of healthy ones are correctly cleared.
 
 The default 0.5 would find only 52% of the diabetic patients. For a screening test, where missing a patient is the worse mistake, the lower threshold is the better choice. If false alarms were the expensive mistake instead, a point further down-left would be chosen.
 
@@ -135,7 +145,7 @@ The default 0.5 would find only 52% of the diabetic patients. For a screening te
 
 > **Key point:** AUC measures the whole curve with one number: 1 is perfect, 0.5 is random guessing. The model with the higher AUC separates the classes better.
 
-The **area under the ROC curve (AUC)** summarises performance over all thresholds at once.
+The **area under the ROC curve (AUC)** (G-229) summarises performance over all thresholds at once.
 
 | AUC | Meaning |
 |---|---|
@@ -146,7 +156,7 @@ The **area under the ROC curve (AUC)** summarises performance over all threshold
 
 Random guessing gives the diagonal from (0, 0) to (1, 1), whose area is 0.5, and a curve below the diagonal can be flipped above it by swapping the model's answers (Fawcett 2006, §3 and §7).
 
-On the diabetes test set (Figure 3, right):
+On the diabetes test set (Figure 4, right):
 
 | Model | AUC |
 |---|---|
@@ -156,6 +166,10 @@ On the diabetes test set (Figure 3, right):
 Logistic regression's curve lies above the tree's for most thresholds, so it separates diabetic from healthy patients better overall.
 
 > **Extra:** AUC has a neat interpretation: it is the probability that a randomly chosen positive patient gets a higher predicted probability than a randomly chosen negative one. An AUC of 0.823 means that happens 82.3% of the time (Fawcett 2006, §7). A direct count over all 54 × 100 pairs of a diabetic and a healthy test patient gives the same 0.823.
+
+![All 5,400 pairs of one diabetic and one healthy test patient. A cell is green when the diabetic patient gets the higher predicted probability, pink when the healthy one does.](images/pairs.png){height=45%}
+
+In Figure 5, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the pink corner holds the pairs where low-scored diabetic patients meet high-scored healthy ones, and its staircase edge is the ROC curve, mirrored left to right.
 
 > **Python:** AUC in scikit-learn.
 >

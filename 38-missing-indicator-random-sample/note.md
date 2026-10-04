@@ -17,12 +17,16 @@ tags: [subject/ml, area/data, area/features, area/production, step/clean, step/f
 
 > **Key point:** Random sample imputation fills each gap with a real value drawn at random from the same column; a missing indicator adds a True/False column that marks where the gaps were.
 
-Note 36 filled gaps in numerical features with one fixed number, and Note 37 filled gaps in categorical features with the mode or the word "Missing". A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). This Note adds two more techniques, and then a way to let the computer pick the best technique for us.
+Note 36 filled gaps in numerical features with one fixed number, and Note 37 filled gaps in categorical features with the mode or the word "Missing". A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). This Note adds:
+
+- random sample imputation (Sections 2 to 5);
+- the missing indicator (Section 6);
+- a way to let the computer pick the best technique for us, grid search (Section 7).
 
 Figure 1 shows the two techniques on a small `Age` column with two gaps:
 
-- **Random sample imputation** puts the known values in a bag and draws one at random for each gap. The technique works for numerical and categorical features alike.
-- **Missing indicator** keeps the gaps for another imputer to fill, and adds a new column, `Age_NA`, that is True where the value was missing.
+- **Random sample imputation** (G-1616) puts the known values in a bag and draws one at random for each gap. The technique works for numerical and categorical features alike.
+- **Missing indicator** (G-1233) keeps the gaps for another imputer to fill, and adds a new column, `Age_NA`, that is True where the value was missing.
 
 ![Random sample imputation draws each fill value from the known values; the missing indicator adds a column marking the gaps](images/overview.png){width=100%}
 
@@ -55,6 +59,10 @@ The chance of drawing a value, step by step:
    $$\frac{174}{564} = 0.309.$$
    So about 31% of the 148 gaps, around 46 of them, get an age in the twenties, the same share as in the known data. Only 20 known ages are 60 or over, so very few gaps get such an age.
 
+Figure 2 runs the draws for the 148 gaps of Section 3. Watch the orange bars: after a few draws they jump around, but as the draws add up they settle into the grey outline of the known ages; 49 of the 148 land in the twenties.
+
+![Random sample imputation of the 148 missing training ages: the share of drawn ages per decade (orange) settles onto the share among the 564 known ages (grey outline)](images/bag_draws.gif)
+
 Because every range gets its fair share of the filled values, the shape of the distribution and its variance stay almost the same. Mean imputation (Note 36) instead piles every filled value at one point.
 
 ### 2.3 Advantages
@@ -76,7 +84,7 @@ Tree-based models, such as decision trees, gain less from it: the random values 
 >     gaps.sum(), random_state=42).values
 > ```
 >
-> **`sample(n)`** draws `n` values at random from a Series. **`random_state`** fixes the draw, so the same code gives the same values every time. **`.values`** drops the row labels of the drawn values; without it, pandas would try to match them to the gaps' labels.
+> **`sample(n)`** (G-140) draws `n` values at random from a Series. **`random_state`** (G-128) fixes the draw, so the same code gives the same values every time. **`.values`** drops the row labels of the drawn values; without it, pandas would try to match them to the gaps' labels.
 
 ### 2.4 Disadvantages
 
@@ -123,7 +131,7 @@ Both sets are filled from the same bag: the 564 known training ages. Drawing tes
 
 > **Key point:** The density curve and the box barely move, and the variance changes from 204.35 to 200.03.
 
-Figure 2 compares the original `Age` (blue) with the random sample imputed one (orange). For contrast, it also shows mean imputation (green dashed, Note 36).
+Figure 3 compares the original `Age` (blue) with the random sample imputed one (orange). For contrast, it also shows mean imputation (green dashed, Note 36).
 
 ![Age before and after imputation: the random sample curve lies on the original, while mean imputation creates a tall peak and many new outliers](images/random_age.png){width=100%}
 
@@ -178,7 +186,9 @@ A random draw with a fixed seed always gives the same result. So we take the see
 > [fill_one(new, pool) for _ in range(3)]   # [34.0, 34.0, 34.0]
 > ```
 >
-> Without the seed, `pool.sample(1)` three times gave 30, 4 and 27. **`int()`** turns a number into a whole number by dropping the decimals; `random_state` needs a whole number.
+> Without the seed, `pool.sample(1)` three times gave 30, 4 and 27. Figure 4 asks eight times. Watch the two lines: the draw seeded by the fare stays at 34, while fresh draws (here 8 different seeds) jump between 17 and 52. **`int()`** turns a number into a whole number by dropping the decimals; `random_state` needs a whole number.
+
+![The same input filled eight times: a fresh draw each time (red) against a draw seeded by the row's fare (green)](images/same_fill.png){height=35%}
 
 > **Extra:** The seed should come from inputs that identify the row well. `int(row["Fare"])` drops the decimals, so fares 7.25 and 7.93 share the seed 7, and every passenger with that fare and no age gets the same age. Using several inputs together, for example a hash of the whole row, spreads the seeds better.
 
@@ -198,7 +208,7 @@ We split 80/20 with the same seed as before. The training set has 1,168 houses: 
 
 > **Key point:** Each category keeps its share, even in `FireplaceQu`, where almost half the values were drawn.
 
-Figure 3 compares each category's share before (among the known values) and after (among all rows).
+Figure 5 compares each category's share before (among the known values) and after (among all rows).
 
 ![Category shares before and after random sample imputation: no share moves by more than 0.6 percentage points](images/category_shares.png){width=100%}
 
@@ -218,7 +228,7 @@ The equal shares are the categorical version of Section 2.2: a category with hal
 
 > **Key point:** In `FireplaceQu`, cheap houses were spread into every category, so Gd and Ex houses now look much cheaper; this is a red flag.
 
-The shares only tell part of the story. A second check compares the target, `SalePrice`, for each category before and after (Figure 4).
+The shares only tell part of the story. A second check compares the target, `SalePrice`, for each category before and after (Figure 6).
 
 ![Sale price density per FireplaceQu category, before and after random sample imputation: the curves of Ex, Gd and TA shift left](images/fireplace_price.png){width=100%}
 
@@ -256,7 +266,9 @@ The indicator does not fill the gaps. The original column is still imputed in th
 
 The model gets a way to tell observations with a gap apart from observations without one. A doctor's form works the same way: a blank "smoker?" box can itself be a clue, so we note that it was left blank instead of guessing an answer. If the two groups behave differently, the model can use that difference.
 
-On the Titanic training set, they do. Of the passengers with no recorded age, 28.4% survived; of those with an age, 39.2% survived. Mean imputation alone hides this: a filled age of 29.79 looks like any other age.
+On the Titanic training set, they do. Of the passengers with no recorded age, 28.4% survived; of those with an age, 39.2% survived (Figure 7). Mean imputation alone hides this: a filled age of 29.79 looks like any other age.
+
+![Survival in the Titanic training set for passengers with and without a recorded age: the gap the indicator lets the model see](images/indicator_survival.png){height=30%}
 
 The technique became popular through machine learning competitions, where adding indicators helped winning models. The indicator does not always help, but it is cheap to try when a model needs a few more points of accuracy.
 
@@ -274,6 +286,10 @@ We train logistic regression on `Age` and `Fare` twice, with the same split as S
 | `Age`, `Fare` (mean imputed) + `Age_NA` | 63.1% (113 of 179) |
 
 Three more test passengers are classified correctly. The model gave `Age_NA` a negative weight ($-0.30$): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest.
+
+Figure 8 shows that weight at work. Two passengers have the same filled age, 29.79, and the same fare; only `Age_NA` differs. Watch the orange curve sit below the blue one at every fare, so the passenger with a missing age needs a higher fare (about 80 instead of 60) before the model predicts "survived".
+
+![Predicted chance of survival against fare, for the same filled age with Age_NA = 0 and Age_NA = 1](images/indicator_effect.png){height=38%}
 
 > **Extra:** One test set of 179 passengers is a small sample, so the Notebook also averages over 100 different splits of all 891 passengers (5-fold cross-validation, repeated 20 times). The mean accuracy is 65.7% without the indicator and 66.3% with it. The gain is small because the model has only two features, but it holds on average.
 
@@ -321,7 +337,7 @@ Use the `MissingIndicator` class with an imputer that has no such parameter, suc
 
 Should `Age` get the mean or the median? Should a categorical gap get the mode or a constant? Instead of deciding by hand, we can try every combination and measure which gives the best model.
 
-**Grid search** does this: it trains the model once for every combination of the settings we list, scores each with cross-validation, and keeps the best. scikit-learn's `GridSearchCV` runs it (see the [pipelines Note](../29-pipelines/note.md)). Grid search can tune the imputer only if the imputer is part of the model, so we build one pipeline from the raw data to the prediction.
+**Grid search** (G-872) does this: it trains the model once for every combination of the settings we list, scores each with cross-validation, and keeps the best. scikit-learn's `GridSearchCV` runs it (see the [pipelines Note](../29-pipelines/note.md)). Grid search can tune the imputer only if the imputer is part of the model, so we build one pipeline from the raw data to the prediction.
 
 ### 7.2 The pipeline
 
@@ -329,11 +345,11 @@ Should `Age` get the mean or the median? Should a categorical gap get the mode o
 
 We use the Titanic file again, dropping `PassengerId`, `Name`, `Ticket` and `Cabin`. In the training set, `Age` has 148 gaps and `Embarked`, the port where the passenger boarded, has 2.
 
-Figure 5 shows the pipeline. Each step has a name, shown in typewriter font.
+Figure 9 shows the pipeline. Each step has a name, shown in typewriter font.
 
 ![The nested pipeline; a setting's full name joins the step names with double underscores](images/pipeline_names.png){width=100%}
 
-> **Python:** The pipeline of Figure 5.
+> **Python:** The pipeline of Figure 9.
 >
 > ```python
 > num = Pipeline(steps=[
@@ -358,7 +374,7 @@ Figure 5 shows the pipeline. Each step has a name, shown in typewriter font.
 
 > **Key point:** A setting deep inside a pipeline is named by its path: step names joined by two underscores, then the parameter name.
 
-A setting inside a pipeline is named `step__parameter` (see "Hyperparameter tuning with a pipeline", section 9 of the [pipelines Note](../29-pipelines/note.md)). In a nested pipeline the name is the whole path from the outer pipeline down, joined by `__`. Figure 5 shows `preprocessor__num__imputer__strategy`: the `strategy` of the `imputer` in `num`, inside `preprocessor`.
+A setting inside a pipeline is named `step__parameter` (see "Hyperparameter tuning with a pipeline", section 9 of the [pipelines Note](../29-pipelines/note.md)). In a nested pipeline the name is the whole path from the outer pipeline down, joined by `__`. Figure 9 shows `preprocessor__num__imputer__strategy`: the `strategy` of the `imputer` in `num`, inside `preprocessor`.
 
 The grid lists the values to try for each name:
 
@@ -431,6 +447,10 @@ The Titanic pipeline of Section 7.2 shows the other side of the condition.
 |---|---|---|
 | 1, 10 or 100 | any of the 4 combinations | 78.8% |
 | 0.1 | any of the 4 combinations | 78.6% |
+
+Figure 10 puts both searches side by side. Watch the left panel, where the fill changes the error by 7,000 dollars, against the right panel, where every row is identical and only the column `C` changes the score.
+
+![Grid search results: on house prices the "Missing" category clearly wins; on the Titanic pipeline all four imputer combinations tie and only C matters](images/grid_results.png){width=100%}
 
 The four imputer combinations score exactly the same, so grid search reports the first of the tied combinations. The categorical fills touch only the 2 observations with no `Embarked`, and `Age` hardly matters (next Extra).
 

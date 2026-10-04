@@ -17,11 +17,16 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/gru]
 
 > **Key point:** A gated recurrent unit (GRU) is a simpler cousin of the LSTM. A GRU keeps a single memory, the hidden state, and controls it with two gates instead of three: a reset gate and an update gate. A GRU has fewer parameters than an LSTM and performs comparably.
 
-A **gated recurrent unit** (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple RNN and the LSTM. The simple RNN cannot keep long-term context, because of vanishing and exploding gradients (see the [problems with RNNs Note](../1060-problems-with-rnn/note.md)). The [LSTM](../1061-lstm/note.md) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
+A **gated recurrent unit** (G-826) (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple RNN and the LSTM. The simple RNN cannot keep long-term context, because of vanishing and exploding gradients (see the [problems with RNNs Note](../1060-problems-with-rnn/note.md)). The [LSTM](../1061-lstm/note.md) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
 
 ![The GRU cell. The red line is the hidden state, the only memory. The reset gate (purple) decides how much of the old memory is used to build a candidate; the update gate (orange) decides, entry by entry, how much of the old memory to keep and how much of the candidate (blue) to take in. Boxes are neural network layers; circles are pointwise operations](images/gru_cell.png){width=100%}
 
-Figure 1 is the whole cell. This Note covers why the GRU exists, the meaning of its hidden state, its four computation steps, and how it compares with the LSTM, on paper and on real reviews.
+Figure 1 is the whole cell. This Note covers:
+
+- why the GRU exists (section 3);
+- the meaning of its hidden state (section 6);
+- its four computation steps (sections 7 and 8);
+- how it compares with the LSTM, on paper and on real reviews (section 9).
 
 ## 2. Prerequisites
 
@@ -47,16 +52,24 @@ The GRU offers a simpler cell:
 
 Despite the simpler cell, the GRU performs comparably to the LSTM. Neither is better everywhere: on some datasets the GRU wins, on others the LSTM. Chung et al. (2014) compared the two on music and speech data and "could not make concrete conclusion on which of the two gating units was better". Section 9 runs the same comparison on real movie reviews.
 
+![Parameters of one recurrent layer on 32-number inputs, as the number of units grows. The LSTM's cell has four layers, the GRU's three (Keras' default GRU, with the extra biases of section 9.1)](images/param_growth.png){width=90%}
+
+In Figure 2, compare the two curves at any width: the GRU line stays at about three quarters of the LSTM line, from 8 units to 128.
+
 ## 4. The big idea: one state, two gates
 
 > **Key point:** The GRU drops the separate cell state. A single hidden state carries both long-term and short-term context, and two gates manipulate it: the reset gate and the update gate.
 
-The big idea of the LSTM was to keep the short-term and long-term context apart, on the hidden state and the cell state. The GRU says that two states are not needed. Its single **hidden state** $h_t$ carries both the long-term and the short-term context from one time step to the next.
+The big idea of the LSTM was to keep the short-term and long-term context apart, on the hidden state and the cell state. The GRU says that two states are not needed. Its single **hidden state** (G-891) $h_t$ carries both the long-term and the short-term context from one time step to the next.
 
 Two gates control how the hidden state changes:
 
-- the **reset gate** $r_t$;
-- the **update gate** $z_t$.
+- the **reset gate** (G-1679) $r_t$;
+- the **update gate** (G-2060) $z_t$.
+
+![Left: the LSTM passes two states, the cell state (green) and the hidden state (red), and uses three gates. Right: the GRU passes one state and uses two gates, reset ($r$) and update ($z$)](images/one_state.png){width=100%}
+
+In Figure 3, count the lines that leave each cell: two for the LSTM, one for the GRU.
 
 Goodfellow §10.10.2 puts the main difference with the LSTM in one sentence: in a GRU, a single gating unit simultaneously controls the forgetting factor and the decision to update the state unit.
 
@@ -77,7 +90,7 @@ The parts are the same kinds of things as in the [LSTM architecture Note](../106
 | $x_t$ | current input |
 | $r_t$ | reset gate |
 | $z_t$ | update gate |
-| $\tilde h_t$ | **candidate hidden state** |
+| $\tilde h_t$ | **candidate hidden state** (G-343) |
 
 All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $\tilde h_t$. The input $x_t$ can have any length: it is the current word (or sentence) turned into a vector, for example by one-hot encoding as in the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md).
 
@@ -85,7 +98,7 @@ All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $
 
 > **Key point:** The three boxes are fully connected layers, two with sigmoid and one with tanh. All three have the same number of units, a hyperparameter, and that number is the length of every vector above.
 
-Each box in Figure 1 is a fully connected neural network layer. The number of nodes, the **units**, is a hyperparameter we choose, and all three layers have the same number. With 5 units, every vector of section 5.1 except $x_t$ has 5 numbers.
+Each box in Figure 1 is a fully connected neural network layer. The number of nodes, the **units** (G-2049), is a hyperparameter we choose, and all three layers have the same number. With 5 units, every vector of section 5.1 except $x_t$ has 5 numbers.
 
 ### 5.3 The pointwise operations
 
@@ -111,6 +124,10 @@ Picture a hidden state of 4 numbers, each holding one aspect of the story: **pow
 | 6 | His son grew up and fought Kali. | 1.0 | 0.9 | 0.7 | 0.7 |
 | 7 | He killed Kali and avenged his father and grandfather. | 0.7 | 0.8 | 0.3 | 1.0 |
 
+![The table above as a heat map: one row per sentence, one column per aspect; darker means larger](images/story_memory.png){width=90%}
+
+In Figure 4, read down a column to follow one aspect through the story: tragedy rises at each death (rows 3 and 5), and revenge grows to 1 at the end.
+
 Row 4 is computed step by step in section 8. The final row is the GRU's summary of the story: much conflict, some tragedy, a lot of revenge, and a happy ending. The gates decide how each row becomes the next.
 
 ## 7. From old memory to new memory in two stages
@@ -125,6 +142,10 @@ The GRU goes from $h_{t-1}$ to $h_t$ in two stages.
 Why not take the candidate directly as $h_t$? The candidate leans heavily on the current input, and the current input may not matter much for the story as a whole. The update gate lets important inputs change the memory a lot, and unimportant ones only a little.
 
 In the story, after sentence 3 the memory is $h_{t-1} = [0.6, 0.6, 0.7, 0.1]$. Sentence 4 introduces Vikram's son. A candidate built on that sentence might be $[0.7, 0.2, 0.1, 0.2]$: more power (a new king), less conflict (no fight now), less tragedy, a hint of revenge. The new memory lies between the old one and the candidate.
+
+![Sentence 4 of the story. For each aspect, the segment runs from the old memory (red) to the candidate (blue); the new memory (diamond) sits a share $z$ of the way along it, with the update-gate values of section 8.3](images/blend.png){width=90%}
+
+In Figure 5, compare power and tragedy: with $z = 0.1$ power barely moves from its old value, while with $z = 0.8$ tragedy moves most of the way to the candidate.
 
 The four computation steps, in order:
 
@@ -207,7 +228,7 @@ Each entry of $h_t$ is a weighted average of the old value and the candidate val
 
 ![The four steps for sentence 4 of the story, one vector per frame. Row 1: the reset gate scales the old memory. Row 2: the update gate scales the candidate. Row 3: $1 - z_t$ scales the old memory. Bottom: the new memory, old part (red) plus new part (blue)](images/gru_step.gif){height=55%}
 
-In Figure 2, watch the bottom bars: power and revenge stay close to their old values (small $z$), while conflict and tragedy give most of the weight to the candidate (large $z$) and fall toward its small values.
+In Figure 6, watch the bottom bars: power and revenge stay close to their old values (small $z$), while conflict and tragedy give most of the weight to the candidate (large $z$) and fall toward its small values.
 
 > **Extra:** The update gate is why a GRU can carry information far. If an entry of $z_t$ is close to 0, that entry of $h_t$ is copied from $h_{t-1}$ almost unchanged, across as many time steps as the gate stays closed. Chung et al. (2014, §3.3) point to this additive update, shared by the LSTM and the GRU and missing from the simple RNN: it lets a feature be kept for a long series of steps, and it creates shortcut paths along which the error can be backpropagated without vanishing too quickly.
 
@@ -267,7 +288,7 @@ Keras counts 96 for `GRU(4, reset_after=False)` and 128 for `LSTM(4)`. Its defau
 
 > **Key point:** On IMDB movie reviews, a GRU of 32 units reaches the same test accuracy as an LSTM of 32 units, 0.851 against 0.852, with 6,336 parameters instead of 8,320: about three quarters.
 
-We train both on the same sentiment task. Each **observation** (one record) is a real movie review from the IMDB dataset, and the **target** (the output we predict) is its sentiment, positive or negative. The setup:
+We train both on the same sentiment task. Each **observation** (G-1374) (one record) is a real movie review from the IMDB dataset, and the **target** (G-1949) (the output we predict) is its sentiment, positive or negative. The setup:
 
 - all 25,000 training reviews, 5,000 test reviews, the 10,000 most frequent words;
 - the last 200 words of each review (shorter reviews are padded in front), so every sequence has 200 time steps;

@@ -19,12 +19,16 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, step/model, concept
 
 In backpropagation every weight receives an update proportional to the derivative of the loss with respect to it. In a deep network, the derivative for a weight near the input is a long product, with one factor per layer between it and the loss. Two things can go wrong:
 
-- **Vanishing gradient problem:** the factors are small, the product is vanishingly small, and the weight hardly changes. In the worst case the network stops training.
-- **Exploding gradient problem:** the factors are large, the product is huge, and the updates throw the weights around at random.
+- **Vanishing gradient problem** (**vanishing gradient**, G-2070): the factors are small, the product is vanishingly small, and the weight hardly changes. In the worst case the network stops training.
+- **Exploding gradient problem** (**exploding gradient**, G-731): the factors are large, the product is huge, and the updates throw the weights around at random.
 
 ![Mean size of the gradient of each layer's weights at the start of training. Left: 10 sigmoid layers (red) shrink it about 17-million-fold towards the input. Right: large weights without squashing make every gradient huge](images/layer_gradients.png){height=38%}
 
-Figure 1 shows both on real networks. This Note explains why gradients vanish or explode, how to spot them, and five ways to fix the vanishing gradient.
+Figure 1 shows both on real networks. This Note explains:
+
+- why gradients vanish (section 3) or explode (section 7);
+- how to spot a vanishing gradient in Keras (sections 4 and 5);
+- five ways to fix it (section 6).
 
 ## 2. Prerequisites
 
@@ -39,11 +43,16 @@ Figure 1 shows both on real networks. This Note explains why gradients vanish or
 
 > **Key point:** $0.1^{10} = 10^{-10}$ and $0.25^{10} \approx 10^{-6}$: the more factors below 1, the smaller the product.
 
-The whole problem rests on one fact of arithmetic. Multiply numbers that are all below 1, and the product is smaller than any of them; the more factors, the smaller it gets. Ten factors of 0.1 give $0.1^{10} = 10^{-10}$. Think of a message passed back along a line of ten people, each repeating it at a quarter of the volume they heard: the person at the far end hears almost nothing.
+The whole problem rests on one fact of arithmetic. Multiply numbers that are all below 1, and the product is smaller than any of them; the more factors, the smaller it gets. Ten factors of 0.1 give $0.1^{10} = 10^{-10}$ (Figure 2).
+
+![The product of $k$ equal factors as $k$ grows, log scale](images/products.png){height=32%}
+
+On the log scale of Figure 2 each product is a straight line. Watch where the lines end after 10 factors. Below 1, every factor cuts the product by the same ratio, so it ends at $9.5 \times 10^{-7}$ for 0.25 and $10^{-10}$ for 0.1. Above 1, every factor raises it, to 58 for 1.5.
+ Think of a message passed back along a line of ten people, each repeating it at a quarter of the volume they heard: the person at the far end hears almost nothing.
 
 Two more conditions make this a problem in practice:
 
-- **Depth:** the problem only appears in **deep neural networks**, with many hidden layers, because only they have long chains of factors.
+- **Depth:** the problem only appears in **deep neural networks** (G-571), with many hidden layers, because only they have long chains of factors.
 - **Activation:** the problem appears with **sigmoid** or **tanh**. Both squash a huge input range into a small output range (0 to 1, or $-1$ to 1), so their slopes are small.
 
 ### 3.2 Where the small factors come from
@@ -120,7 +129,7 @@ From the output back to the input, each layer in the middle of the network divid
 
 We store the 20 weights of the first layer (2 inputs × 10 nodes), train for one epoch, and read them again. They agree to six decimals: the largest change among the 20 is $3.7 \times 10^{-8}$.
 
-Over 100 epochs (Figure 2, red) the training loss goes from 0.704 to 0.700, next to 0.693, the loss of guessing 0.5 for every point. The test accuracy is 46%, no better than guessing. The first-layer weights moved by $3 \times 10^{-7}$ on average in all that time.
+Over 100 epochs (Figure 3, red) the training loss goes from 0.704 to 0.700, next to 0.693, the loss of guessing 0.5 for every point. The test accuracy is 46%, no better than guessing. The first-layer weights moved by $3 \times 10^{-7}$ on average in all that time.
 
 ![Training loss over 100 epochs: 10 sigmoid layers stay at the guessing level; 3 sigmoid layers and 10 ReLU layers learn](images/loss_curves.png){height=36%}
 
@@ -132,10 +141,10 @@ Over 100 epochs (Figure 2, red) the training loss goes from 0.704 to 0.700, next
 
 Two signs:
 
-1. **The loss does not change.** Keras prints the loss after every epoch. If it stays at its starting value, as in Figure 2, the gradients may be vanishing.
+1. **The loss does not change.** Keras prints the loss after every epoch. If it stays at its starting value, as in Figure 3, the gradients may be vanishing.
 2. **The weights do not change.** Plot a weight such as $W_{11}^{1}$ against the epoch. A flat line means it is not being updated. Tools such as TensorBoard draw these plots automatically during training.
 
-Figure 3 shows both signs at once. Watch the red bars: in the backward pass each sigmoid layer cuts the gradient again, and during training the first layer's bar stays near $10^{-9}$ while the red loss stays flat at 0.70.
+Figure 4 shows both signs at once. Watch the red bars: in the backward pass each sigmoid layer cuts the gradient again, and during training the first layer's bar stays near $10^{-9}$ while the red loss stays flat at 0.70.
 
 ![The gradient of every layer for 10 sigmoid layers (red) and 10 ReLU layers (green), log scale. First the backward pass at the start, from layer 11 (output) to layer 1 (input); then training, every second epoch, with the loss below](images/gradient_flow.gif){width=100% height=58%}
 
@@ -149,7 +158,7 @@ The ReLU gradients are about the same size in every layer throughout. They grow 
 
 > **Key point:** With 3 hidden layers instead of 10, the first-layer gradients are only 10 times smaller than the last, and the network learns: loss 0.29, test accuracy 92%.
 
-Fewer layers mean fewer factors in each product. The same experiment with 3 sigmoid hidden layers (Figure 1 and Figure 2, orange):
+Fewer layers mean fewer factors in each product. The same experiment with 3 sigmoid hidden layers (Figure 1 and Figure 3, orange):
 
 - the first layer's gradients average $1.3 \times 10^{-3}$, only 10 times smaller than the output layer's;
 - the loss falls from 0.691 to 0.293 in 100 epochs, and the test accuracy is 92%;
@@ -161,12 +170,17 @@ Reducing depth works, but it is rarely the answer. We make networks deep to capt
 
 > **Key point:** ReLU outputs $\max(0, z)$; its slope is 0 or 1, never a fraction, so it does not shrink the gradient. With 10 ReLU layers the loss reaches 0.007 and the test accuracy 100%.
 
-**ReLU** (rectified linear unit) is the activation $\text{ReLU}(z) = \max(0, z)$: 0 for negative inputs, the input itself for positive ones. ReLU squashes only the negative side; positive values pass through unchanged.
+**ReLU** (rectified linear unit, G-1668) is the activation $\text{ReLU}(z) = \max(0, z)$: 0 for negative inputs, the input itself for positive ones. ReLU squashes only the negative side; positive values pass through unchanged.
 
-The slope of ReLU is 0 for $z < 0$ and 1 for $z > 0$. A product of 1s stays 1, so the factors on the way back no longer shrink the gradient. Keeping 10 hidden layers but switching them to ReLU (the output stays sigmoid for binary cross-entropy):
+The slope of ReLU is 0 for $z < 0$ and 1 for $z > 0$. A product of 1s stays 1, so the factors on the way back no longer shrink the gradient.
+
+![The slope of each activation against its input: sigmoid (red) never exceeds 0.25; ReLU (green) is exactly 0 or 1](images/slopes.png){height=28%}
+
+Figure 5 puts the two slopes side by side. Each slope is one factor of the gradient for every layer it sits in: the red curve can only shrink the product, the green line at 1 passes it on unchanged.
+ Keeping 10 hidden layers but switching them to ReLU (the output stays sigmoid for binary cross-entropy):
 
 - the gradients are about the same size in every layer, between $4 \times 10^{-5}$ and $3 \times 10^{-4}$ (Figure 1, green);
-- the loss falls from 0.691 to 0.007 in 100 epochs, and the test accuracy is 100% (Figure 2, green);
+- the loss falls from 0.691 to 0.007 in 100 epochs, and the test accuracy is 100% (Figure 3, green);
 - the first-layer weights moved by 0.62 on average.
 
 The spikes in the green curve come from the large learning rate of 0.5, chosen so that plain SGD moves at all in the sigmoid networks. Retrained with smaller rates, the ReLU network has fewer spikes: 3 at 0.1 and none at 0.05 (Notebook).
@@ -177,7 +191,7 @@ The spikes in the green curve come from the large learning rate of 0.5, chosen s
 > keras.layers.Dense(10, activation="relu")
 > ```
 
-ReLU has its own weakness, the **dying ReLU**: a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both come with the activation function Notes later.
+ReLU has its own weakness, the **dying ReLU** (G-651): a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both come with the activation function Notes later.
 
 ### 6.3 Initialise the weights properly
 
@@ -189,13 +203,17 @@ Random starting weights that are too small make every factor small. Initialisati
 
 > **Key point:** A layer that re-scales the values flowing between layers, keeping them in the range where the slopes are large.
 
-**Batch normalisation** is a type of layer placed between layers of a network. The layer re-centres and re-scales its inputs during training, which keeps the activations away from the flat ends of sigmoid and tanh (Ioffe and Szegedy 2015). Batch normalisation is taught in its own Note later.
+**Batch normalisation** (G-266) is a type of layer placed between layers of a network. The layer re-centres and re-scales its inputs during training, which keeps the activations away from the flat ends of sigmoid and tanh (Ioffe and Szegedy 2015). Batch normalisation is taught in its own Note later.
 
 ### 6.5 Residual networks
 
 > **Key point:** Shortcut connections let the gradient skip over layers.
 
 A **residual block** adds a layer's input directly to its output, so the gradient has a path that bypasses the layer's small factors (He et al. 2016). Networks built from such blocks, the **ResNet** family, are taught with convolutional networks.
+
+![A residual block: the output is the layers' result $F(x)$ plus the input $x$](images/residual.png){height=22%}
+
+In Figure 6, the green shortcut carries $x$ around the two layers to the sum; on the way back, the gradient follows it to $x$ without passing through the layers.
 
 ## 7. The exploding gradient problem
 
@@ -205,7 +223,7 @@ A **residual block** adds a layer's input directly to its output, so the gradien
 
 > **Key point:** $1.5^{10} = 58$. A gradient of 1000 with learning rate 0.1 moves a weight from 1 to $-99$ in one step.
 
-If the factors are above 1, the product grows with every one: $1.5^{10} = 58$. Large weights between layers act exactly this way. The update then throws the weight far away:
+If the factors are above 1, the product grows with every one: $1.5^{10} = 58$ (Figure 2, blue). Large weights between layers act exactly this way. The update then throws the weight far away:
 
 1. **In words:** a huge gradient times the learning rate gives a huge step.
 2. **Formula:** $W_{\text{new}} = W_{\text{old}} - \eta\thinspace\partial L/\partial W$.
@@ -227,7 +245,7 @@ We build 10 hidden layers of 10 nodes again, now with linear activations (no squ
 
 > **Key point:** Rescale any gradient whose size exceeds a limit before the update. The same network then trains: loss 12,155 to 2,049 in 5 epochs.
 
-**Gradient clipping** caps the gradient before the update: if its overall size (its norm) is larger than a chosen limit, it is scaled down to that limit, keeping its direction (Pascanu et al. 2013, §3.2).
+**Gradient clipping** (G-861) caps the gradient before the update: if its overall size (its norm) is larger than a chosen limit, it is scaled down to that limit, keeping its direction (Pascanu et al. 2013, §3.2).
 
 > **Python:** Clipping in Keras.
 >
@@ -236,6 +254,10 @@ We build 10 hidden layers of 10 nodes again, now with linear activations (no squ
 > ```
 >
 > `clipnorm=1.0` scales each weight array's gradient down so its norm is at most 1.
+
+![Clipping by norm, on an example gradient of two weights: the gradient of norm 1000 is scaled to norm 1 and keeps its direction](images/clipping.png){height=30%}
+
+In Figure 7, the red gradient $(600, 800)$ has norm 1000, above the limit 1. Dividing both parts by 1000 gives $(0.6, 0.8)$: it still points the same way, so the update still goes downhill, but its step is 1000 times shorter.
 
 With clipping the same network produces finite numbers: the loss falls from 12,155 to 2,049 over 5 epochs. Still enormous, because the starting weights are bad, but it decreases instead of breaking. Proper initialisation and batch normalisation also help against exploding gradients.
 

@@ -16,7 +16,11 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 
 > **Key point:** In the visual cortex, simple cells each respond to an edge of one orientation in a small patch of the image, and complex cells respond to the same kind of edge anywhere in a larger patch. A CNN copies both: filters play the simple cells and pooling plays the complex cells.
 
-The [CNN intuition Note](../1040-cnn-intuition/note.md) said that CNNs are inspired by the part of the brain that handles vision. This Note tells that story in three parts: how visual information flows through the brain, the experiments of Hubel and Wiesel on cats, and how their findings led to the Neocognitron, to LeCun's networks and to today's CNNs.
+The [CNN intuition Note](../1040-cnn-intuition/note.md) said that CNNs are inspired by the part of the brain that handles vision. This Note tells that story in three parts:
+
+1. how visual information flows through the brain (section 3);
+2. the experiments of Hubel and Wiesel on cats (sections 4 and 5);
+3. how their findings led to the Neocognitron, to LeCun's networks and to today's CNNs (section 6).
 
 ![From Hubel and Wiesel's recordings to AlexNet: the main steps in the history of CNNs](images/timeline.png){width=100%}
 
@@ -34,12 +38,12 @@ The [CNN intuition Note](../1040-cnn-intuition/note.md) said that CNNs are inspi
 
 Figure 2 shows the path:
 
-1. **Retina.** Light enters the eye and falls on the retina, a 2D sheet of cells at the back of the eye. The retina turns the light into electrochemical signals.
+1. **Retina.** Light enters the eye and falls on the **retina** (G-1688), a 2D sheet of cells at the back of the eye. The retina turns the light into electrochemical signals.
 2. **Optic nerve.** A bundle of nerve fibres carries the signals out of the eye.
-3. **Lateral geniculate nucleus (LGN).** A region inside the thalamus. For our purposes its main job, like the retina's, is to carry the signal on from the eye to V1 (Goodfellow et al. 2016, §9.10).
-4. **Primary visual cortex (V1).** The first area of the cortex to process the signal, at the back of the head. The visual cortex is the part of the brain that a CNN imitates.
+3. **Lateral geniculate nucleus (LGN)** (G-1051). A region inside the thalamus. For our purposes its main job, like the retina's, is to carry the signal on from the eye to V1 (Goodfellow et al. 2016, §9.10).
+4. **Primary visual cortex (V1)** (G-1560). The first area of the cortex to process the signal, at the back of the head. The visual cortex is the part of the brain that a CNN imitates.
 
-V1 is arranged as a 2D map that mirrors the image on the retina: light arriving on the lower half of the retina affects only the corresponding half of V1 (Goodfellow et al. 2016, §9.10). CNNs keep the same 2D structure: their feature maps are grids that mirror the image.
+V1 is arranged as a 2D map that mirrors the image on the retina: light arriving on the lower half of the retina affects only the corresponding half of V1 (Goodfellow et al. 2016, §9.10). CNNs keep the same 2D structure: their **feature maps** (G-766) are grids that mirror the image.
 
 ## 4. The experiment of Hubel and Wiesel
 
@@ -69,9 +73,9 @@ Another cell behaves the same way but prefers horizontal bars, another a slant, 
 
 > **Key point:** Small receptive field, one preferred orientation: edge detectors.
 
-From these experiments Hubel and Wiesel described two types of cells in V1, **simple cells** and **complex cells**.
+From these experiments Hubel and Wiesel described two types of cells in V1, **simple cells** (G-1807) and **complex cells** (G-428).
 
-A simple cell has a small **receptive field**: it looks at a small area of the image only. A simple cell works on the principle of a **preferred stimulus**: it responds to edges of one orientation, say vertical, and not to horizontal or slanted ones. For every orientation there are simple cells that prefer it. Their job is edge detection, so they are also called **feature detectors**.
+A simple cell has a small **receptive field** (G-1642): it looks at a small area of the image only. A simple cell works on the principle of a **preferred stimulus** (G-1554): it responds to edges of one orientation, say vertical, and not to horizontal or slanted ones. For every orientation there are simple cells that prefer it. Their job is edge detection (an **edge detector**, G-659), so they are also called **feature detectors**.
 
 Why does nature start with edges? Because every image is made of edges. A face is a set of edges, and even a circle can be broken into many short edges. Detecting edges first is the most basic step of seeing.
 
@@ -87,7 +91,7 @@ As we pass through further areas of the brain, the same strategy, detection foll
 
 > **Key point:** A small vertical-bar filter, at one position, is tuned to orientation like a simple cell. The maximum of that filter's responses over a neighbourhood keeps the tuning but ignores shifts of the bar, like a complex cell.
 
-The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle column and negative on both sides, so it answers a bright vertical line; its response is the filter applied at one fixed position, followed by ReLU. A "complex cell" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is max pooling over a neighbourhood.
+The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle column and negative on both sides, so it answers a bright vertical line; its response is the **filter** (G-777) applied at one fixed position, followed by **ReLU** (G-1668). A "complex cell" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is **max pooling** (G-1182) over a neighbourhood.
 
 ![A model simple cell (one filter position, blue) and a model complex cell (maximum over a neighbourhood, orange). Left: both are tuned to orientation, strongest for a vertical bar and silent for a horizontal one. Right: shifting the vertical bar sideways by 2 pixels silences the simple cell, while the complex cell keeps responding](images/cell_models.png){width=100%}
 
@@ -96,7 +100,7 @@ Figure 3 shows both effects:
 - **Orientation.** As the bar rotates from horizontal (0°) to vertical (90°), both responses rise from 0 to their maximum, then fall back to 0 at 180°: the tuning Hubel and Wiesel recorded.
 - **Position.** Shifting a vertical bar 2 pixels to the side drops the simple cell's response to 0, because the bar has left its small receptive field. The complex cell's response stays at its maximum for every shift from −8 to +8 pixels.
 
-These two models are exactly the two main layers of a CNN. The filter of a convolution layer plays the simple cell, and max pooling plays the complex cell. Goodfellow et al. (2016, §9.10) say the same: the detector units of a CNN "are designed to emulate these properties of simple cells", and complex cells inspire "the pooling units of convolutional networks".
+These two models are exactly the two main layers of a CNN. The filter of a **convolution layer** (G-480) plays the simple cell, and max pooling plays the complex cell. Goodfellow et al. (2016, §9.10) say the same: the detector units of a CNN "are designed to emulate these properties of simple cells", and complex cells inspire "the pooling units of convolutional networks".
 
 ## 6. From the visual cortex to CNNs
 
@@ -106,21 +110,21 @@ These two models are exactly the two main layers of a CNN. The filter of a convo
 
 > **Key point:** Alternating layers of S-cells (like simple cells) and C-cells (like complex cells); it recognised patterns regardless of their position, but learned without backpropagation.
 
-The first model built on these findings was the **Neocognitron** of the Japanese scientist Kunihiko Fukushima (Fukushima 1980). The Neocognitron is a cascade of modules, each of two layers: **S-cells**, similar to simple cells, followed by **C-cells**, similar to complex cells. Its structure follows "the hierarchy model of the visual nervous system proposed by Hubel and Wiesel", and it recognised stimulus patterns "without affected by their positions" (Fukushima 1980). In the paper it was trained on five stimulus patterns, the numerals 0 to 4.
+The first model built on these findings was the **Neocognitron** (G-1314) of the Japanese scientist Kunihiko Fukushima (Fukushima 1980). The Neocognitron is a cascade of modules, each of two layers: **S-cells**, similar to simple cells, followed by **C-cells**, similar to complex cells. Its structure follows "the hierarchy model of the visual nervous system proposed by Hubel and Wiesel", and it recognised stimulus patterns "without affected by their positions" (Fukushima 1980). In the paper it was trained on five stimulus patterns, the numerals 0 to 4.
 
-Like the brain, its first layers recognise simple features such as edges, and later layers combine them into more complex patterns. The Neocognitron was an inspiration for CNNs, but it did not work well enough in practice. The Neocognitron had most of the design elements of a modern convolutional network but relied on a layer-wise unsupervised clustering algorithm, not on backpropagation and gradient descent (Goodfellow et al. 2016, §9.10).
+Like the brain, its first layers recognise simple features such as edges, and later layers combine them into more complex patterns. The Neocognitron was an inspiration for CNNs, but it did not work well enough in practice. The Neocognitron had most of the design elements of a modern convolutional network but relied on a layer-wise unsupervised **clustering** (G-401) algorithm, not on **backpropagation** (G-247) and **gradient descent** (G-862) (Goodfellow et al. 2016, §9.10).
 
 ### 6.2 LeCun's CNNs
 
 > **Key point:** Convolution layers, pooling layers and training by backpropagation: the first working CNNs, used to read handwritten digits and bank cheques.
 
-In 1989 Yann LeCun introduced convolutional networks trained with backpropagation (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, LeNet-5 (see the [LeNet-5 Note](../1045-lenet-5/note.md)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
+In 1989 Yann LeCun introduced convolutional networks trained with backpropagation (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, **LeNet-5** (G-1080; see the [LeNet-5 Note](../1045-lenet-5/note.md)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
 
 ### 6.3 AlexNet and after
 
 > **Key point:** In 2012 a CNN, AlexNet, won the ImageNet object recognition challenge; many CNN architectures followed.
 
-The current wave of commercial interest in deep learning began when Krizhevsky et al. (2012) won the ImageNet object recognition challenge with a CNN, AlexNet (Goodfellow et al. 2016, §9.11). Many more CNN architectures have followed since.
+The current wave of commercial interest in deep learning began when Krizhevsky et al. (2012) won the **ImageNet** (G-920) object recognition challenge with a CNN, **AlexNet** (G-187; Goodfellow et al. 2016, §9.11). Many more CNN architectures have followed since.
 
 ## 7. Summary
 

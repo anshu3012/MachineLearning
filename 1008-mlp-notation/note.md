@@ -15,13 +15,13 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp-notation]
 
 > **Key point:** Before training a multi-layer perceptron, we count its trainable parameters and give every weight, bias and output a name that says exactly where it sits.
 
-A multi-layer perceptron (MLP) is many perceptrons organised in layers (see the [types of neural networks Note](../1003-nn-types-history-applications/note.md)). Even a small one has dozens of weights and biases. Training it with backpropagation, in later Notes, means talking about each of them one at a time, so each needs an unambiguous name.
+A **multi-layer perceptron (MLP)** (G-1270) is many **perceptrons** (G-1486) organised in **layers** (G-1056; see the [types of neural networks Note](../1003-nn-types-history-applications/note.md)). Even a small one has dozens of **weights** (G-2106) and **biases** (G-287). Training it with **backpropagation** (G-247), in later Notes, means talking about each of them one at a time, so each needs an unambiguous name.
 
 ![The 4-3-2-1 network used in this Note: layers 0 to 3, with the weights coming into each node drawn in that node's colour](images/network.png){height=42%}
 
 This Note does two things, both on the network in Figure 1:
 
-1. Count its **trainable parameters**: the weights and biases that training must find.
+1. Count its **trainable parameters** (G-1999): the weights and biases that training must find.
 2. Fix a standard **notation** for biases, outputs and weights.
 
 ## 2. The setup: layers and data
@@ -34,10 +34,10 @@ This Note does two things, both on the network in Figure 1:
 
 The network in Figure 1 has four layers:
 
-- **Layer 0**, the input layer: 4 nodes, one per **feature** (an input variable, one column of the data table). These nodes do no calculation; they only pass the values on.
-- **Layer 1**, the first hidden layer: 3 perceptrons.
+- **Layer 0**, the **input layer** (G-952): 4 nodes, one per **feature** (G-772; an input variable, one column of the data table). These nodes do no calculation; they only pass the values on.
+- **Layer 1**, the first **hidden layer** (G-890): 3 perceptrons.
 - **Layer 2**, the second hidden layer: 2 perceptrons.
-- **Layer 3**, the output layer: 1 perceptron, whose output is the prediction $\hat y_i$.
+- **Layer 3**, the **output layer** (G-1424): 1 perceptron, whose output is the prediction $\hat y_i$.
 
 We describe such a network by its layer sizes: a **4-3-2-1 network**. Input, hidden and output layers are defined in the [what is deep learning Note](../1002-what-is-deep-learning/note.md).
 
@@ -45,7 +45,7 @@ We describe such a network by its layer sizes: a **4-3-2-1 network**. Input, hid
 
 > **Key point:** $x_{ij}$ is the value of feature $j$ for observation $i$: row $i$, column $j$ of the data table.
 
-The data has $m$ **observations** (records, one row of the table per student) and $n = 4$ features, plus the **target** (the output we predict, here Placed):
+The data has $m$ **observations** (G-1374; records, one row of the table per student) and $n = 4$ features, plus the **target** (G-1949; the output we predict, here Placed):
 
 | Row | CGPA | IQ | 10th marks | 12th marks | Placed |
 |---|---|---|---|---|---|
@@ -53,7 +53,12 @@ The data has $m$ **observations** (records, one row of the table per student) an
 | ... | ... | ... | ... | ... | ... |
 | $i$ | $x_{i1}$ | $x_{i2}$ | $x_{i3}$ | $x_{i4}$ | $y_i$ |
 
-The network takes the data one observation at a time. For observation $i$, the four values $x_{i1}, x_{i2}, x_{i3}, x_{i4}$ enter the four input nodes, and the network produces $\hat y_i$. For observation 1 above, 7.2 enters the first input node, 72 the second, 69 the third and 81 the fourth.
+The network takes the data one observation at a time. For observation $i$, the four values $x_{i1}, x_{i2}, x_{i3}, x_{i4}$ enter the four input nodes, and the network produces $\hat y_i$. For observation 1 above:
+
+- 7.2 enters the first input node;
+- 72 enters the second;
+- 69 enters the third;
+- 81 enters the fourth.
 
 ![Observation 1 enters the network: each feature value of row 1 goes to its own input node, $x_{11}$ to $x_{14}$](images/row_to_inputs.png){width=55%}
 
@@ -63,7 +68,7 @@ Figure 2 shows the rule behind the names: the first index of $x_{ij}$ is the row
 
 > **Key point:** Between two layers there is one weight for every pair of nodes, and every node outside the input layer has one bias. The 4-3-2-1 network has 15 + 8 + 3 = 26 parameters.
 
-A **trainable parameter** is a number the training algorithm must find: every weight and every bias. Knowing how many there are tells us how big the problem is, so it is the first thing to work out for any architecture.
+A **trainable parameter** is a number the training algorithm must find: every weight and every bias. Knowing how many there are tells us how big the problem is, so it is the first thing to work out for any **architecture** (G-209).
 
 Every node in one layer connects to every node in the next. So between a layer of 4 nodes and a layer of 3 there are $4 \times 3 = 12$ weights. Each of the 3 receiving nodes is a perceptron with its own bias, which adds 3 more.
 
@@ -105,7 +110,13 @@ The bias of a node is written $b_{ij}$, where:
 - $i$ is the layer number;
 - $j$ is the position of the node in that layer, counted from the top.
 
-In Figure 4, the three nodes of layer 1 have biases $b_{11}$, $b_{12}$ and $b_{13}$. Layer 2 has $b_{21}$ and $b_{22}$, and the output node has $b_{31}$. The input layer has no biases, because its nodes do no calculation.
+In Figure 4:
+
+- the three nodes of layer 1 have biases $b_{11}$, $b_{12}$ and $b_{13}$;
+- the two nodes of layer 2 have $b_{21}$ and $b_{22}$;
+- the output node has $b_{31}$.
+
+The input layer has no biases, because its nodes do no calculation.
 
 ### 4.2 Outputs
 
@@ -140,9 +151,9 @@ So $W_{ij}^{k}$ reads "into layer $k$, from node $i$ to node $j$". The four high
 | $W_{22}^{2}$ | 2 | 2 of layer 1 | 2 of layer 2 |
 | $W_{11}^{3}$ | 3 | 1 of layer 2 | 1 of layer 3 |
 
-The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W_{11}^{1}, W_{21}^{1}, W_{31}^{1}, W_{41}^{1}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its weighted sum, together with its bias $b_{11}$.
+The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W_{11}^{1}, W_{21}^{1}, W_{31}^{1}, W_{41}^{1}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its **weighted sum** (G-2119), together with its bias $b_{11}$.
 
-> **Extra:** Books do not all agree on this order. Some write the weight from node $i$ to node $j$ as $w_{ji}$ (destination first), because then row $j$ of the weight matrix holds the weights entering node $j$, and a layer's weighted sums are simply $W\mathbf{x}$ (Bishop, §5.1, eq. 5.2). The meaning is the same; only the order of the indices changes. Whichever we use, we keep it fixed, so that a symbol never has two meanings.
+> **Extra:** Books do not all agree on this order. Some write the weight from node $i$ to node $j$ as $w_{ji}$ (destination first), because then row $j$ of the **weight matrix** (G-2109) holds the weights entering node $j$, and a layer's weighted sums are simply $W\mathbf{x}$ (Bishop, §5.1, eq. 5.2). The meaning is the same; only the order of the indices changes. Whichever we use, we keep it fixed, so that a symbol never has two meanings.
 
 > **Python:** The same parameters as NumPy arrays.
 >

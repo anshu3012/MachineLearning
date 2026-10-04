@@ -45,9 +45,9 @@ The earlier Notes teach each part in depth. Here each part gets a one-line recap
 
 1. **RNNs read word by word, and forget.** An RNN reads one word per step and carries a hidden state forward. During training the gradient is multiplied by the same recurrent weights once per step, so it vanishes over long distances. On IMDB reviews, a simple RNN fell from 0.736 accuracy to 0.488, guessing level, when 80 blank steps separated the review from the prediction (the [problems with RNNs Note](../1060-problems-with-rnn/note.md)).
 2. **LSTMs and GRUs remember better, but stay sequential.** An LSTM adds a protected long-term memory, the cell state (the [LSTM Note](../1061-lstm/note.md)); a GRU does the same with one memory and two gates (the [GRU Note](../1064-gru/note.md)). Both still compute step $t$ from step $t-1$. The paper names the cost: "This inherently sequential nature precludes parallelization within training examples" (Vaswani et al. 2017, §1, p. 2).
-3. **The encoder–decoder squeezes a sentence into one vector.** Translation needs an output of a different length from the input. An LSTM encoder reads the input into one **context vector**, and an LSTM decoder writes the output from it (the [encoder–decoder Note](../1068-encoder-decoder/note.md)). Long sentences do not fit: in the [attention Note](../1069-attention-mechanism/note.md), without attention, BLEU fell from 14.3 on the shortest sentences to 5.9 on the longest.
+3. **The encoder–decoder squeezes a sentence into one vector.** Translation needs an output of a different length from the input. An LSTM encoder reads the input into one **context vector** (G-461), and an LSTM decoder writes the output from it (the [encoder–decoder Note](../1068-encoder-decoder/note.md)). Long sentences do not fit: in the [attention Note](../1069-attention-mechanism/note.md), without attention, BLEU fell from 14.3 on the shortest sentences to 5.9 on the longest.
 4. **Attention removes the bottleneck.** The decoder gets a fresh context vector at every step, a weighted mix of all encoder states. On the same data, test BLEU rose from 9.8 to 25.7 (the [attention Note](../1069-attention-mechanism/note.md)). Luong's dot-product score was both better and faster than Bahdanau's small network: BLEU 31.6 against 25.1, and 22 against 51 seconds per epoch (the [Bahdanau and Luong Note](../1070-bahdanau-vs-luong-attention/note.md)). But the encoder and decoder were still LSTMs.
-5. **Self-attention drops the recurrence.** If attention can relate any two words directly, the LSTM is no longer needed. In **self-attention** the words of one sentence attend to each other, all at the same time (the [what is self-attention](../1072-what-is-self-attention/note.md) and [why "self"](../1076-why-self-attention/note.md) Notes). On a GPU, an LSTM step's time grew 3.9 times from 16 to 256 words, while a self-attention step stayed near 1 millisecond (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md)). The paper's conclusion states the result: "the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention" (Vaswani et al. 2017, §7, p. 10).
+5. **Self-attention drops the recurrence.** If attention can relate any two words directly, the LSTM is no longer needed. In **self-attention** (G-1764) the words of one sentence attend to each other, all at the same time (the [what is self-attention](../1072-what-is-self-attention/note.md) and [why "self"](../1076-why-self-attention/note.md) Notes). On a GPU, an LSTM step's time grew 3.9 times from 16 to 256 words, while a self-attention step stayed near 1 millisecond (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md)). The paper's conclusion states the result: "the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention" (Vaswani et al. 2017, §7, p. 10).
 
 Self-attention alone brings new problems: it ignores word order, it has one point of view, and in the decoder it would see future words. The rest of the transformer fixes these (section 6).
 
@@ -105,17 +105,23 @@ In the Notebook every row of the $5 \times 37{,}000$ output sums to 1. The paper
 | Shared embedding, $37{,}000 \times 512$ | 18,944,000 |
 | **Total** | **63,082,496** |
 
-These are the counts of the [encoder](../1080-transformer-encoder/note.md) and [decoder](../1083-transformer-decoder/note.md) Notes. The paper lists 65 million for the base model (Vaswani et al. 2017, Table 3, p. 9); the [transformer decoder Note](../1083-transformer-decoder/note.md), section 7, traces the gap to the exact vocabulary size, which the paper does not give.
+![Where the base model's 63,082,496 parameters sit: the 6 encoder blocks, the 6 decoder blocks and the shared embedding](images/param_split.png){width=95%}
+
+In Figure 4, the decoder blocks hold the largest share, because each one has a cross-attention that the encoder blocks lack. These are the counts of the [encoder](../1080-transformer-encoder/note.md) and [decoder](../1083-transformer-decoder/note.md) Notes. The paper lists 65 million for the base model (Vaswani et al. 2017, Table 3, p. 9); the [transformer decoder Note](../1083-transformer-decoder/note.md), section 7, traces the gap to the exact vocabulary size, which the paper does not give.
 
 ## 5. Training and inference
 
 > **Key point:** Training knows the whole target sentence, so all positions are computed in one parallel pass and the loss compares every position with its correct next word. Inference does not know the target, so the decoder runs once per new word, feeding each chosen word back in.
 
-**Training.** The training data are sentence pairs. Each pair is one **observation** (one record of the data): an English sentence and its French translation, the **target** (the output the model must learn to produce).
+**Training.** The training data are sentence pairs. Each pair is one **observation** (G-1374) (one record of the data): an English sentence and its French translation, the **target** (G-1949) (the output the model must learn to produce).
 
 1. **Teacher forcing.** The decoder input is the correct target, shifted right, not the model's own guesses (the [encoder–decoder Note](../1068-encoder-decoder/note.md), section 5.2).
 2. **One pass.** Because all inputs are known in advance, all 5 positions are computed at once. The causal mask keeps the pass honest: in the [masked self-attention Note](../1081-masked-self-attention/note.md), the masked pass gave the same outputs as feeding the prefixes one at a time, and was 17 times faster at 512 positions.
 3. **Loss.** Each position is a classification over the vocabulary, scored with categorical cross-entropy and averaged over positions (the [transformer decoder Note](../1083-transformer-decoder/note.md), section 9). The paper changes the target of this loss slightly with label smoothing (section 7.4).
+
+![Left: in training, the whole shifted target goes into the decoder at once and all five positions are predicted in one pass. Right: in inference, the decoder runs once per new word, and each chosen word is appended to the next input](images/train_vs_infer.png){width=100%}
+
+Figure 5 sets the two side by side: one decoder call for the whole sentence in training, one call per word in inference.
 
 **Inference.** The encoder runs once. The decoder starts from `<start>`, picks a word, appends it, and runs again, until it writes `<end>` (the [transformer inference Note](../1084-transformer-inference/note.md)). The mask stays on, so earlier positions never change. Two refinements:
 
@@ -141,6 +147,10 @@ These are the counts of the [encoder](../1080-transformer-encoder/note.md) and [
 | Causal mask | in the parallel training pass, a word could see the future | same outputs as step-by-step decoding; 17 times faster at 512 positions | [1081](../1081-masked-self-attention/note.md) |
 | Cross-attention | the decoder must read the input | in a trained model, most French words put their largest weight on the English word they translate | [1082](../1082-cross-attention/note.md) |
 | Mask at inference | inputs must look like the training inputs | removing it dropped BLEU from 41.5 to 38.9 | [1084](../1084-transformer-inference/note.md) |
+
+![Five parts of the transformer and the effect measured in the Note that teaches each one: the metric without the part (red) and with it (green). For the residual connections, the metric is the similarity between words after one block, where lower is better](images/evidence.png){width=100%}
+
+Figure 6 draws five rows of the table as before-and-after bars, each on its own scale. Every part moves its metric in the right direction.
 
 The whole model works: a small transformer trained for about 4 minutes on 40,000 sentence pairs reached a test BLEU of 41.4, against 13.1 for the LSTM encoder–decoder on the same test sentences (the [transformer inference Note](../1084-transformer-inference/note.md)). The two models also differ in size and training time, so that gap is not a measure of the architecture alone.
 
@@ -171,7 +181,7 @@ Byte-pair encoding splits words into smaller pieces (the [transformer encoder No
 
 The **big** model is wider: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, dropout 0.3, 213 million parameters, against 65 million for the base model (Table 3, bottom row, p. 9).
 
-**Training cost in FLOPs.** A **FLOP** is one floating-point operation, one addition or multiplication of decimal numbers. The paper estimates a model's training cost by "multiplying the training time, the number of GPUs used, and an estimate of the sustained single-precision floating-point capacity of each GPU", with 9.5 trillion operations per second (9.5 TFLOPS) for a P100 (§6.1 and footnote 5, p. 8). For the base model:
+**Training cost in FLOPs.** A **FLOP** (G-790) is one floating-point operation, one addition or multiplication of decimal numbers. The paper estimates a model's training cost by "multiplying the training time, the number of GPUs used, and an estimate of the sustained single-precision floating-point capacity of each GPU", with 9.5 trillion operations per second (9.5 TFLOPS) for a P100 (§6.1 and footnote 5, p. 8). For the base model:
 
 $$12 \times 3600 \text{ s} \times 8 \text{ GPUs} \times 9.5 \times 10^{12} \text{ FLOPs per second} = 3.28 \times 10^{18} \text{ FLOPs}$$
 
@@ -197,7 +207,7 @@ Doubling the step from 1,000 to 2,000 doubles the rate (the straight-line rise).
 
 ![The learning rate of the base model over its 100,000 training steps](images/warmup.png){width=95%}
 
-**Why start small.** The [improving a neural network Note](../1021-improving-a-neural-network/note.md), section 3.4, met warm-up as a way to train with large batches. For the transformer, Xiong et al. (2020) give a specific reason. In the original transformer, with layer normalisation after each residual addition, "the expected gradients of the parameters near the output layer are large. Therefore, using a large learning rate on those gradients makes the training unstable. The warm-up stage is practically helpful for avoiding this problem" (Xiong et al. 2020, abstract). They also show that moving the layer normalisation inside the residual branch, the **Pre-LN** transformer, makes the warm-up unnecessary.
+**Why start small.** The [improving a neural network Note](../1021-improving-a-neural-network/note.md), section 3.4, met warm-up as a way to train with large batches. For the transformer, Xiong et al. (2020) give a specific reason. In the original transformer, with layer normalisation after each residual addition, "the expected gradients of the parameters near the output layer are large. Therefore, using a large learning rate on those gradients makes the training unstable. The warm-up stage is practically helpful for avoiding this problem" (Xiong et al. 2020, abstract). They also show that moving the layer normalisation inside the residual branch, the **Pre-LN** transformer (G-1545), makes the warm-up unnecessary.
 
 ### 7.4 Regularisation: residual dropout and label smoothing
 
@@ -205,7 +215,7 @@ Doubling the step from 1,000 to 2,000 doubles the rate (the straight-line rise).
 
 **Residual dropout.** Dropout (the [dropout Note](../1024-dropout/note.md)) is applied "to the output of each sub-layer, before it is added to the sub-layer input and normalized", and to the sums of the embeddings and positional encodings, with rate $P_{\text{drop}} = 0.1$ for the base model (Vaswani et al. 2017, §5.4, p. 8).
 
-**Label smoothing.** With plain cross-entropy, the target for each position is **one-hot**: probability 1 on the correct word, 0 on all others. The loss $-\ln p_{\text{correct}}$ keeps falling as $p_{\text{correct}}$ approaches 1, so training always pushes the model towards complete certainty. Szegedy et al. (2016, §7), who introduced label smoothing, name the two risks of that push: overfitting, because full probability on every training label "is not guaranteed to generalize", and a model that becomes "too confident about its predictions". Label smoothing mixes the one-hot target with a uniform distribution:
+**Label smoothing.** With plain cross-entropy, the target for each position is **one-hot** (G-1380): probability 1 on the correct word, 0 on all others. The loss $-\ln p_{\text{correct}}$ keeps falling as $p_{\text{correct}}$ approaches 1, so training always pushes the model towards complete certainty. Szegedy et al. (2016, §7), who introduced label smoothing, name the two risks of that push: overfitting, because full probability on every training label "is not guaranteed to generalize", and a model that becomes "too confident about its predictions". Label smoothing (G-1031) mixes the one-hot target with a uniform distribution:
 
 1. **In words:** keep $1 - \varepsilon$ of the target on the correct word, and share $\varepsilon$ equally among all $K$ words of the vocabulary, the correct one included.
 2. **Formula** (Szegedy et al. 2016, §7):
@@ -222,9 +232,11 @@ Three predictions, scored both ways (Notebook):
 | $[0.925,\ 0.025,\ 0.025,\ 0.025]$ (equal to $q'$) | 0.078 | **0.349** |
 | $[0.999,\ 0.0003,\ 0.0003,\ 0.0003]$ (over-confident) | **0.001** | 0.601 |
 
-With the one-hot target, the over-confident prediction wins. With the smoothed target, the best prediction is $q'$ itself: scanning the probability of "nous" from 0.30 to 0.9999, with the rest shared evenly, the smoothed loss is lowest at exactly 0.925 (Notebook), and at 0.9999 it rises to 0.773. Over-confidence is now penalised.
+![The two losses as the probability of the correct word "nous" grows from 0.30 to 0.9999, with the rest shared evenly. The one-hot loss keeps falling towards certainty; the smoothed loss is lowest at 0.925 and rises again](images/label_smoothing.png){width=90%}
 
-The paper reports the trade-off: label smoothing "hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score" (Vaswani et al. 2017, §5.4, p. 8). **Perplexity** is the exponential of the mean cross-entropy per token; lower means the model gives the correct tokens higher probability (SLP3 §7.7.1). Table 3, rows (D), shows both effects on the English–German development set:
+With the one-hot target, the over-confident prediction wins (Figure 8, grey curve). With the smoothed target, the best prediction is $q'$ itself: scanning the probability of "nous" from 0.30 to 0.9999, with the rest shared evenly, the smoothed loss is lowest at exactly 0.925 (Notebook), and at 0.9999 it rises to 0.773. Over-confidence is now penalised.
+
+The paper reports the trade-off: label smoothing "hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score" (Vaswani et al. 2017, §5.4, p. 8). **Perplexity** (G-1492) is the exponential of the mean cross-entropy per token; lower means the model gives the correct tokens higher probability (SLP3 §7.7.1). Table 3, rows (D), shows both effects on the English–German development set:
 
 | $\varepsilon_{ls}$ | 0.0 | 0.1 (base) | 0.2 |
 |---|---|---|---|
@@ -239,7 +251,7 @@ Perplexity is best without smoothing, because the model is then free to be fully
 
 > **Key point:** The big transformer set new records on both language pairs: 28.4 BLEU on English–German, over 2 BLEU above the best earlier models and ensembles, and 41.8 on English–French. Even the base model beat every earlier English–German model, at the lowest training cost in the table.
 
-The test sets are newstest2014. BLEU (the [history of LLMs Note](../1067-history-of-llms/note.md), section 4) measures how many word sequences of a translation match a human reference. An **ensemble** combines the predictions of several trained models (the [ensemble learning Note](../101-ensemble-learning/note.md)).
+The test sets are newstest2014. BLEU (the [history of LLMs Note](../1067-history-of-llms/note.md), section 4) measures how many word sequences of a translation match a human reference. An **ensemble** (G-690) combines the predictions of several trained models (the [ensemble learning Note](../101-ensemble-learning/note.md)).
 
 ![Table 2 of the paper: BLEU against training cost. Orange: the transformer. Hollow circles: ensembles. ByteNet has no listed cost and is left out](images/table2.png){width=100%}
 
@@ -281,6 +293,10 @@ Table 3 is the paper's own evidence on its design choices (Vaswani et al. 2017, 
 | (E) | learned positions instead of sinusoids | 25.7 | "nearly identical results" | [1078](../1078-positional-encoding/note.md) |
 | big | $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, dropout 0.3, 300K steps | 26.4 (213 M) | the best row | here |
 
+![Table 3 as bars around the base model's 25.8 BLEU: blue rows beat the base model, red rows fall below it](images/table3.png){height=60%}
+
+Figure 10 draws the table. The longest red bar is $N = 2$ blocks; the blue bars are all wider or bigger models.
+
 On rows (B), the paper adds: "This suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial" (§6.2, p. 9). On rows (C) and (D): "as expected, bigger models are better" (§6.2).
 
 Table 3 changes sizes and settings; it never removes a part such as the residual connections, the layer normalisation or the mask. The evidence for those parts is the table of section 6.
@@ -289,11 +305,13 @@ Table 3 changes sizes and settings; it never removes a part such as the residual
 
 > **Key point:** To test whether the transformer works beyond translation, the paper trained it to turn sentences into grammar trees. A 4-block transformer with little tuning scored 91.3 F1 trained on 40,000 sentences and 92.7 with extra data, better than all earlier models except one.
 
-**Constituency parsing** finds the grammatical structure of a sentence: which words form a noun phrase, a verb phrase, and so on, as a tree. Vinyals et al. (2015, §2.2 and Figure 2) turned the tree into a sequence by writing it out in depth-first order, so a sequence-to-sequence model can produce it:
+**Constituency parsing** (G-453) finds the grammatical structure of a sentence: which words form a noun phrase, a verb phrase, and so on, as a tree. Vinyals et al. (2015, §2.2 and Figure 2) turned the tree into a sequence by writing it out in depth-first order, so a sequence-to-sequence model can produce it:
 
 > "John has a dog ." → (S (NP NNP )NP (VP VBZ (NP DT NN )NP )VP . )S
 
-The output is "subject to strong structural constraints and is significantly longer than the input" (Vaswani et al. 2017, §6.3, p. 9).
+![The parse tree of "John has a dog ." and the same tree written out depth-first as one sequence, the form a sequence-to-sequence model produces](images/parse_tree.png){width=80%}
+
+Figure 11 shows the tree and its sequence form. The output is "subject to strong structural constraints and is significantly longer than the input" (Vaswani et al. 2017, §6.3, p. 9).
 
 - **Model:** 4 blocks, $d_{\text{model}} = 1024$; the other settings as the English–German base model, with only "a small number of experiments" to choose dropout, learning rates and beam size (§6.3).
 - **Data:** the Wall Street Journal part of the Penn Treebank, "about 40K training sentences"; and a semi-supervised setting with about 17 million extra sentences (§6.3).
@@ -315,6 +333,10 @@ The paper ends with plans: "to extend the Transformer to problems involving inpu
 - **Encoder only: BERT** (Google, October 2018), pre-trained to predict hidden words from the words on both sides.
 - **Decoder only: GPT** (OpenAI, June 2018), pre-trained to predict the next word.
 - **Scale:** GPT grew from 117 million parameters to 175 billion in GPT-3, and ChatGPT was built on a GPT model (the [history of LLMs Note](../1067-history-of-llms/note.md), sections 8 and 9).
+
+![From the 2017 transformer to ChatGPT: the encoder alone became BERT, the decoder alone became GPT, and scaling GPT up led to GPT-3 and ChatGPT](images/lineage.png){width=100%}
+
+Figure 12 puts the three bullets on one line of descent.
 
 The [introduction to transformers Note](../1071-introduction-to-transformers/note.md), section 6, follows the same architecture into images, proteins and code.
 

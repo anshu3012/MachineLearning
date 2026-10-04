@@ -15,15 +15,23 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 
 ## 1. Overview
 
-> **Key point:** A **transformer** is a neural network architecture for sequence-to-sequence tasks. Like earlier models it has an encoder and a decoder, but it contains no RNN or LSTM: it is built on a form of attention called **self-attention**, so it processes all the words of a sentence at the same time. Parallel processing makes training fast, fast training makes huge datasets usable, and huge datasets made transfer learning possible for text.
+> **Key point:** A **transformer** (G-2007) is a neural network architecture for sequence-to-sequence tasks. Like earlier models it has an encoder and a decoder, but it contains no RNN or LSTM: it is built on a form of attention called **self-attention** (G-1764), so it processes all the words of a sentence at the same time. Parallel processing makes training fast, fast training makes huge datasets usable, and huge datasets made transfer learning possible for text.
 
-The deep learning Notes so far have met three families of networks, each made for one kind of data: the ANN for tabular data, the CNN for images and the RNN for sequences such as text. The **transformer** is a fourth architecture, made for **sequence-to-sequence** tasks: a sequence goes in and a sequence comes out, as in machine translation, question answering and text summarisation (the [history of LLMs Note](../1067-history-of-llms/note.md), section 3).
+The deep learning Notes so far have met three families of networks, each made for one kind of data: the ANN for tabular data, the CNN for images and the RNN for sequences such as text. The **transformer** is a fourth architecture, made for **sequence-to-sequence** (G-1772) tasks: a sequence goes in and a sequence comes out, as in machine translation, question answering and text summarisation (the [history of LLMs Note](../1067-history-of-llms/note.md), section 3).
 
-Seen from far away, a transformer looks like the earlier sequence-to-sequence models (Figure 1). An **encoder** reads the input sentence and a **decoder** writes the output sentence. Inside, everything is different. There is no LSTM; the main building block is self-attention, and the encoder can take in all the words of a sentence at once (Vaswani et al. 2017, section 1).
+Seen from far away, a transformer looks like the earlier sequence-to-sequence models (Figure 1). An **encoder** (G-682) reads the input sentence and a **decoder** (G-564) writes the output sentence. Inside, everything is different. There is no LSTM; the main building block is self-attention, and the encoder can take in all the words of a sentence at once (Vaswani et al. 2017, section 1).
 
 ![A transformer from far away: an encoder and a decoder, as in earlier sequence-to-sequence models, but built from attention and dense layers instead of LSTMs](images/transformer_overview.png){width=100%}
 
-This Note is the overview. It covers what a transformer is, why it was needed, a measurement of its main advantage, its impact, its applications, its advantages and disadvantages, and where it is going. How it works inside is the subject of the Notes that follow, starting with the [self-attention Note](../1072-what-is-self-attention/note.md).
+This Note is the overview. It covers:
+
+- what a transformer is (section 3);
+- why it was needed (section 4);
+- a measurement of its main advantage (section 5);
+- its impact (section 6) and its applications (section 7);
+- its advantages and disadvantages (sections 8 and 9);
+- where it is going (section 10).
+ How it works inside is the subject of the Notes that follow, starting with the [self-attention Note](../1072-what-is-self-attention/note.md).
 
 ## 2. Prerequisites
 
@@ -61,10 +69,12 @@ The consequences form a chain:
 
 - Sequential training is **slow**.
 - Slow training means a model cannot be trained on **huge datasets**, such as terabytes of text.
-- Without training on huge datasets, there is nothing to transfer: **transfer learning** (pre-train once on a large dataset, then fine-tune on a small one; the [history of LLMs Note](../1067-history-of-llms/note.md), section 7) cannot start.
+- Without training on huge datasets, there is nothing to transfer: **transfer learning** (G-2005) (pre-train once on a large dataset, then fine-tune on a small one; the [history of LLMs Note](../1067-history-of-llms/note.md), section 7) cannot start.
 - Without transfer learning, every new task needs a model trained **from scratch**, which costs time, effort and a large labelled dataset, and labelled data costs money.
 
-The transformer broke the first link of the chain. With no recurrent part, it can be trained in parallel, so it scales to huge datasets, and models such as BERT and GPT could be pre-trained on them and then fine-tuned (the [history of LLMs Note](../1067-history-of-llms/note.md), section 8).
+![The chain of consequences of sequential training. The transformer cuts the first link: without an LSTM, all the words of a sentence are processed at once](images/chain.png){width=100%}
+
+The transformer broke the first link of the chain (Figure 2). With no recurrent part, it can be trained in parallel, so it scales to huge datasets, and models such as BERT and GPT could be pre-trained on them and then fine-tuned (the [history of LLMs Note](../1067-history-of-llms/note.md), section 8).
 
 Besides self-attention, the transformer is built from parts that each get their own Note: multi-head attention, positional encoding, residual connections, layer normalisation, a feed-forward network, masked self-attention and cross-attention. The [transformer encoder Note](../1080-transformer-encoder/note.md) puts them together.
 
@@ -79,7 +89,7 @@ We can see the difference on a GPU. The Notebook times one training step, a forw
 
 ![Sequential against parallel. Top: the LSTM reads one word per step, each step waiting for the one before. Bottom: self-attention computes every position in one step, every word looking at every word. Then the measured time of one training step at 256 words](images/race.gif){height=55%}
 
-Figure 2 shows the idea first: the LSTM needs 6 steps for 6 words, one after another, while self-attention handles all 6 words in one step. The measurement then puts numbers on it.
+Figure 3 shows the idea first: the LSTM needs 6 steps for 6 words, one after another, while self-attention handles all 6 words in one step. The measurement then puts numbers on it.
 
 The batch has 16 sequences, and the length goes from 16 to 1024 words. Each time is the fastest of 15 calls, averaged over 3 sweeps, on an RTX 4060 laptop GPU.
 
@@ -93,7 +103,7 @@ The batch has 16 sequences, and the length goes from 16 to 1024 words. Each time
 | 512 | 512 | 18.26 | 2.91 | 6.3 |
 | 1024 | 1024 | 34.53 | 16.64 | 2.1 |
 
-Two things show in Figure 3 and the table:
+Two things show in Figure 4 and the table:
 
 1. **The LSTM's time grows with the length.** From 16 to 256 words its time grows 3.9 times. An LSTM over $n$ words is $n$ steps that must run in order, so the GPU cannot do them together. Vaswani et al. (2017, Table 1) count this as $O(n)$ sequential operations for a recurrent layer against $O(1)$ for self-attention: a fixed number, whatever the length.
 2. **Self-attention is flat, until the length gets large.** Up to 256 words its time stays near 1 millisecond, because all positions are computed together. But self-attention compares every word with every word: $n^2$ comparisons, 65,536 for 256 words and 1,048,576 for 1024. Vaswani et al. (2017, Table 1) give its work per layer as $O(n^2 \cdot d)$, against $O(n \cdot d^2)$ for a recurrent layer, so self-attention is cheaper only while $n$ is smaller than the vector size $d$ (section 4 of the paper). At 1024 words the GPU is full, and the time jumps.
@@ -119,7 +129,7 @@ The first point is the transformer's main advantage; the second is one of its di
 
 > **Key point:** Methods for language moved from rules and counts, to statistical models, to embeddings and LSTMs; transformers now give the best results on most NLP tasks.
 
-**Natural language processing** (NLP) is the field of making computers work with human language. It has gone through several generations of methods: hand-written rules and simple counts such as **bag of words** and **n-grams**; statistical models such as naive Bayes, hidden Markov models and SVMs; then early deep learning with word embeddings, RNNs and LSTMs. Transformers were born in NLP, and the transformer's first results were new best scores in translation and in parsing English sentences (Vaswani et al. 2017, sections 6 and 7). Products such as ChatGPT, and customer-service chatbots that are hard to tell from human agents, come from this progress.
+**Natural language processing** (G-1305) (NLP) is the field of making computers work with human language. It has gone through several generations of methods: hand-written rules and simple counts such as **bag of words** (G-250) and **n-grams** (G-1287); statistical models such as naive Bayes, hidden Markov models and SVMs; then early deep learning with word embeddings, RNNs and LSTMs. Transformers were born in NLP, and the transformer's first results were new best scores in translation and in parsing English sentences (Vaswani et al. 2017, sections 6 and 7). Products such as ChatGPT, and customer-service chatbots that are hard to tell from human agents, come from this progress.
 
 ### 6.2 AI for everyone: transfer learning
 
@@ -129,15 +139,19 @@ Before transformers, an NLP application was usually trained from scratch, which 
 
 ### 6.3 Multimodal models
 
-> **Key point:** If an image or a sound is turned into a sequence of vectors, a transformer can process it like text. Models that take or give several kinds of data are **multimodal**.
+> **Key point:** If an image or a sound is turned into a sequence of vectors, a transformer can process it like text. Models that take or give several kinds of data are **multimodal** (G-1275).
 
 A transformer works on a sequence of vectors. Text becomes such a sequence through embeddings, and researchers found ways to turn other kinds of data into sequences as well. The Vision Transformer (ViT) cuts an image into small square patches and feeds the sequence of patches to a standard transformer; it showed that "a pure transformer applied directly to sequences of image patches can perform very well on image classification tasks" (Dosovitskiy et al. 2021, abstract). The original paper had already planned this direction: "We plan to extend the Transformer to problems involving input and output modalities other than text" (Vaswani et al. 2017, section 7).
 
-A kind of data, such as text, images or audio, is a **modality**. Today's applications mix them: a chatbot that answers questions about an uploaded photo, a tool that turns a text description into an image, or a tool that turns text into video.
+![Text and an image as sequences of vectors. Each word becomes one vector through an embedding; the image is cut into patches, and each patch becomes one vector. The same transformer can then read either sequence](images/patches.png){width=100%}
+
+In Figure 5, the transformer on the right never sees words or pixels, only a sequence of vectors; that is why the same architecture can take both.
+
+A kind of data, such as text, images or audio, is a **modality** (G-1250). Today's applications mix them: a chatbot that answers questions about an uploaded photo, a tool that turns a text description into an image, or a tool that turns text into video.
 
 ### 6.4 Generative AI
 
-> **Key point:** **Generative AI** builds models that create new content: text, images, code, video. Transformers made text generation good enough for products, and the same ideas spread to images.
+> **Key point:** **Generative AI** (G-841) builds models that create new content: text, images, code, video. Transformers made text generation good enough for products, and the same ideas spread to images.
 
 Generative models existed before, such as generative adversarial networks (GANs) for images, but few became products. Transformers changed text generation first, with ChatGPT. Image generation followed: DALL-E is a transformer that "autoregressively models the text and image tokens as a single stream of data" (Ramesh et al. 2021, abstract), meaning it produces the image one piece at a time after the text. Generative features now also appear in photo editors and phone cameras.
 
@@ -153,7 +167,7 @@ The history of deep learning had one architecture per kind of problem: ANNs for 
 
 ![The transformer era. Each year's main transformer-based models and the change they brought](images/timeline.png){width=100%}
 
-Before 2017, NLP was dominated by RNNs, mostly LSTMs, with the encoder–decoder and attention arriving in 2014–2015 (the [history of LLMs Note](../1067-history-of-llms/note.md)). Figure 4 continues from there. Four well-known applications:
+Before 2017, NLP was dominated by RNNs, mostly LSTMs, with the encoder–decoder and attention arriving in 2014–2015 (the [history of LLMs Note](../1067-history-of-llms/note.md)). Figure 6 continues from there. Four well-known applications:
 
 1. **ChatGPT** (OpenAI, November 2022): a chatbot that takes text and returns text: answers, poems, code. ChatGPT is fine-tuned from a model in the GPT-3.5 series, a **Generative Pre-trained Transformer** (OpenAI 2022).
 2. **DALL-E 2** (OpenAI, 2022): an image generator driven by a text prompt, such as "an astronaut riding a horse in photorealistic style". It produces several images to choose from. DALL-E 2 builds on CLIP, a model trained to match images with their captions. A decoder-only transformer, the "prior", turns the caption into an image representation, and a diffusion model draws the final image from it (Ramesh et al. 2022, abstract and section 2.2).
@@ -169,7 +183,11 @@ Many more applications exist; Islam et al. (2023) survey them by field, from NLP
 1. **Scalability.** With no LSTM, training runs in parallel, so it is fast and can use very large datasets (section 5).
 2. **Transfer learning.** A transformer can be pre-trained on a huge unlabelled dataset, for example by predicting the next word, then fine-tuned for a specific task with little effort.
 3. **Multimodal input and output.** With the right representation, images and speech can go into and come out of a transformer (section 6.3).
-4. **Flexible architecture.** Parts can be dropped or rearranged: **encoder-only** transformers such as BERT and **decoder-only** transformers such as GPT (the [history of LLMs Note](../1067-history-of-llms/note.md), section 8).
+4. **Flexible architecture.** Parts can be dropped or rearranged: **encoder-only** (G-683) transformers such as BERT and **decoder-only** transformers such as GPT (the [history of LLMs Note](../1067-history-of-llms/note.md), section 8).
+   Figure 7 shows the three layouts side by side.
+
+   ![The three layouts of a transformer: the full encoder–decoder of the original paper, the encoder alone (BERT) and the decoder alone (GPT)](images/variants.png){width=100%}
+
 5. **Ecosystem.** A large, active community and well-documented libraries: Hugging Face's `transformers` alone had over 400 outside contributors, documentation and tutorials in 2020 (Wolf et al. 2020, §1).
 6. **Combines with other techniques.** A transformer can be one part of a larger system: with a diffusion model in image generators (section 7), with reinforcement learning in game-playing agents, or with CNNs in image captioning and visual search.
 
@@ -188,7 +206,11 @@ Many more applications exist; Islam et al. (2023) survey them by field, from NLP
 
 > **Key point:** Work is under way on smaller and cheaper models, more modalities, responsible development, domain-specific and multilingual models, and interpretability.
 
-1. **Efficiency.** Making models smaller and cheaper while keeping their quality; the wide use of pre-trained transformers has created the need to compress them (Wolf et al. 2020, §1). Three techniques: **pruning**, removing the connections whose weights are small and retraining the rest (Han et al. 2015, §3); **quantization**, storing weights as 8-bit integers instead of 32-bit floats (Jacob et al. 2018, §1 and Figure 1); and **knowledge distillation**, training a small model to imitate a large one (Hinton et al. 2015, §1–2).
+1. **Efficiency.** Making models smaller and cheaper while keeping their quality; the wide use of pre-trained transformers has created the need to compress them (Wolf et al. 2020, §1). Three techniques: **pruning** (G-1587), removing the connections whose weights are small and retraining the rest (Han et al. 2015, §3); **quantization** (G-1588), storing weights as 8-bit integers instead of 32-bit floats (Jacob et al. 2018, §1 and Figure 1); and **knowledge distillation**, training a small model to imitate a large one (Hinton et al. 2015, §1–2).
+   Figure 8 draws the three techniques.
+
+   ![Three ways to make a model smaller. Pruning removes the connections with small weights; quantization stores each weight as an 8-bit integer instead of a 32-bit number; knowledge distillation trains a small model to imitate a large one](images/compress.png){width=100%}
+
 2. **More modalities.** Beyond text, images and speech: sensor data, biometric data such as fingerprints, and time series, possibly all in one model.
 3. **Responsible development.** Reducing bias and answering the ethical concerns of section 9.
 4. **Domain-specific models.** Transformers trained on the data of one field, such as medicine, law or teaching, which may serve that field better than a general chatbot.

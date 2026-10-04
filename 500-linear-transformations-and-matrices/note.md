@@ -26,7 +26,7 @@ The [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.1) met th
 
 > **Key point:** A transformation takes a vector in and gives a vector out; we picture it as every point of space moving to its new place.
 
-A **transformation** is a function whose input is a vector and whose output is another vector. The word "transformation" suggests movement: we imagine each input vector moving to its output vector.
+A **transformation** (G-2006) is a function whose input is a vector and whose output is another vector. The word "transformation" suggests movement: we imagine each input vector moving to its output vector.
 
 To see a transformation as a whole, we watch every vector move at once. Drawing every vector as an arrow would be far too crowded. So we draw each vector as the point at its tip, and watch all the points of a grid move. A faint copy of the original grid stays in the background, so we can see where things went (the grey grid in Figure 1).
 
@@ -51,7 +51,17 @@ Figure 2 runs the test on four warps of the same grid; the black ring marks wher
 
 ![The linearity test on four warps of one grid: a curving warp, a slide that moves the origin, a warp that keeps the grid lines straight but bends the diagonal, and a shear, the only linear one](images/linear_test.gif)
 
-> **Extra:** The formal definition says the same thing with algebra. A transformation $L$ is linear when it respects the two operations of linear algebra: $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v})$ for every scalar $c$ (MML Def. 2.15). Section 4 is exactly these two rules in action.
+**The formal version.** The algebraic definition says the same thing. A transformation $L$ is linear when it respects the two operations of linear algebra, adding vectors and scaling them (MML Def. 2.15):
+
+$$L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w}), \qquad L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v}) \text{ for every scalar } c$$
+
+1. **In words:** adding two vectors and then transforming gives the same as transforming each and then adding; scaling before or after the transformation gives the same.
+2. **Why the origin stays fixed:** take $c = 0$. Then $L(\mathbf{0}) = 0 \cdot L(\mathbf{v}) = \mathbf{0}$.
+3. **Example:** with the matrix $A$ of Section 5, $\mathbf{v} = [-1, 2]$ and $\mathbf{w} = [1, 0]$: transforming the sum gives $A[0, 2] = [6, 0]$; transforming each gives $[5, 2] + [1, -2] = [6, 0]$. The same.
+
+Section 5 shows that multiplying by a matrix always passes both rules: $A\mathbf{x}$ is $x_1$ times column 1 plus $x_2$ times column 2, and the coordinates of $\mathbf{v} + \mathbf{w}$ are $v_1 + w_1$ and $v_2 + w_2$, so the terms regroup into $A\mathbf{v} + A\mathbf{w}$; a scalar $c$ factors out of every term in the same way.
+
+> **Another way to see it:** Take one output of a transformation, say $-x$ when the input coordinate $x$ goes 2, 3, 4. The output goes $-2, -3, -4$: each step of 1 in the input changes the output by the same amount, $-1$, like the constant slope of a straight line. For $2^x$ the output goes 4, 8, 16: the change grows, like the slope of a curve, so $2^x$ is not linear. This constant-change test checks the "lines stay lines" rule. It does not check the origin: $x + 1$ also changes by a constant amount, yet it moves 0 to 1, so it is not linear in the sense of this Note (it is affine, see Section 7.3). A linear transformation needs both properties.
 
 ## 4. Two vectors decide everything
 
@@ -67,7 +77,9 @@ Take $\mathbf{v} = [-1, 2]$, which is $-1\thinspace\hat{\imath} + 2\thinspace\ha
 3. **Example:** in Figure 1, $\hat{\imath}$ lands on $[1, -2]$ and $\hat{\jmath}$ on $[3, 0]$. So
    $$[-1, 2] \thickspace\longrightarrow\thickspace-1\thinspace[1, -2] + 2\thinspace[3, 0] = [-1 + 6,\ 2 + 0] = [5, 2]$$
 
-We did not have to watch the animation to know that $\mathbf{v}$ lands on $[5, 2]$. For a general vector $[x, y]$ the same reasoning gives
+![The landing point of [-1, 2] built from the landed basis vectors: scale green by -1, scale red by 2, add tip to tail](images/landed_combination.gif)
+
+In Figure 3, watch the two scaled arrows meet tip to tail at $[5, 2]$: the grid itself never has to move. We did not have to watch the animation to know that $\mathbf{v}$ lands on $[5, 2]$. For a general vector $[x, y]$ the same reasoning gives
 
 $$x\thinspace[1, -2] + y\thinspace[3, 0] = [x + 3y,\ -2x]$$
 
@@ -77,11 +89,11 @@ a formula for where every vector lands. So a 2D linear transformation is complet
 
 > **Key point:** Write where $\hat{\imath}$ lands as the first column and where $\hat{\jmath}$ lands as the second; that $2 \times 2$ grid of numbers is the matrix of the transformation.
 
-We package the four numbers into a $2 \times 2$ **matrix** whose columns are the landed basis vectors:
+We package the four numbers into a $2 \times 2$ **matrix** (G-1180) whose columns are the landed basis vectors:
 
 $$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix} \qquad \text{first column: where } \hat{\imath} \text{ lands; second column: where } \hat{\jmath} \text{ lands}$$
 
-**Matrix-vector multiplication** $A\mathbf{x}$ is the computation that applies the transformation to the vector $\mathbf{x}$: scale each column by the matching coordinate of $\mathbf{x}$ and add.
+**Matrix-vector multiplication** (G-1181) $A\mathbf{x}$ is the computation that applies the transformation to the vector $\mathbf{x}$: scale each column by the matching coordinate of $\mathbf{x}$ and add.
 
 1. **In words:** multiply the first column by the first coordinate, the second column by the second coordinate, and add the two.
 2. **Formula:** for a general matrix,
@@ -107,9 +119,9 @@ The formula on the right, $[ax + by,\ cx + dy]$, is the rule usually memorised i
 
 > **Key point:** Read the columns, move $\hat{\imath}$ and $\hat{\jmath}$ there, and let the rest of the grid follow.
 
-Every matrix can be read as a transformation, and every linear transformation has a matrix. Figure 3 shows four of them; in each, green is where $\hat{\imath}$ lands and red is where $\hat{\jmath}$ lands.
+Every matrix can be read as a transformation, and every linear transformation has a matrix. Figure 4 plays four of them in turn. In each, watch the green arrow move to the first column and the red arrow to the second column; the rest of the grid follows, keeping its lines parallel and evenly spaced.
 
-![Four matrices read as transformations of the grid](images/transform_gallery.png){height=75%}
+![Four matrices read as transformations of the grid: green is where $\hat{\imath}$ lands, red is where $\hat{\jmath}$ lands, grey is the grid before. Examples after 3Blue1Brown, "Linear transformations and matrices"](images/gallery_morph.gif){height=60%}
 
 - **Rotation by 90° counterclockwise.** $\hat{\imath}$ lands on $[0, 1]$ and $\hat{\jmath}$ on $[-1, 0]$, so the matrix has columns $[0, 1]$ and $[-1, 0]$. Any vector rotates by multiplying with it: $[3, 1]$ lands on $[-1, 3]$.
 - **Shear.** $\hat{\imath}$ stays at $[1, 0]$ and $\hat{\jmath}$ moves to $[1, 1]$. Horizontal lines slide sideways, more the higher they are: $[2, 3]$ lands on $[5, 3]$.
@@ -118,7 +130,7 @@ Every matrix can be read as a transformation, and every linear transformation ha
 
 The last case links back to the [linear combinations, span and basis Note](../490-linear-combinations-span-and-basis/note.md): every output is a linear combination of the columns, so all outputs lie in the span of the columns. Independent columns span the plane; dependent ones only a line.
 
-> **Extra:** The span of the columns is called the **column space** of the matrix, one of the topics the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists. Its dimension is the rank of the matrix: 2 for the first three matrices of Figure 3, 1 for the squishing one.
+> **Extra:** The span of the columns is called the **column space** (G-414) of the matrix, one of the topics the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists. Its dimension is the rank of the matrix: 2 for the first three matrices of Figure 4, 1 for the squishing one.
 
 ## 7. Where ML uses linear transformations
 
@@ -130,7 +142,7 @@ Once a matrix is a transformation, many ML steps become pictures of moving space
 
 > **Key point:** With the data points as the rows of $X$, the product $X A^{\mathsf T}$ applies $A$ to every row at once.
 
-A dataset is a stack of feature vectors, one per **observation** (one record, a row of the table). Each vector holds the values of the **features** (the input variables, one column each). The stack is the **data matrix** $X$ (the design matrix of the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
+A dataset is a stack of feature vectors, one per **observation** (G-1374) (one record, a row of the table). Each vector holds the values of the **features** (G-772) (the input variables, one column each). The stack is the **data matrix** (G-536) $X$ (the design matrix of the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
 
 1. **In words:** each row of the result is the transformed version of that row of $X$.
 2. **Formula:** for $n$ points with $d$ features ($X$ is $n \times d$),
@@ -155,16 +167,29 @@ Dividing a feature by its standard deviation, the second half of [standardizatio
 
 $$\begin{bmatrix} 0.5 & 0 \cr0 & 0.1 \end{bmatrix}$$
 
-A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its picture is simple: each axis is stretched or squished by its own factor, and nothing rotates or slants.
+A matrix with zeros everywhere off the diagonal is a **diagonal matrix** (G-601). Its picture is simple: each axis is stretched or squished by its own factor, and nothing rotates or slants.
+
+![200 toy points with spreads 2 and 10, before and after the diagonal matrix; both spreads become about 1](images/scaling_stretch.png)
+
+In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each axis, so $\hat{\imath}$ and $\hat{\jmath}$ stay on their own axes.
 
 ### 7.3 Neural network layers and PCA
 
 > **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a matrix of eigenvectors.
 
-- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an activation function such as the [sigmoid](../72-sigmoid-function/note.md). $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (Goodfellow et al. §6.1).
+- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an **activation function** (G-165) such as the [sigmoid](../72-sigmoid-function/note.md) or ReLU. A worked example follows the list. $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (Goodfellow et al. §6.1).
 - **PCA** projects each point with $Z = XW^{\mathsf T}$ (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 5.1): a matrix applied to every row, exactly as in Section 7.1.
 
-> **Extra:** A transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$, is called an **affine transformation**. It keeps lines straight and parallel but moves the origin. Mean centring followed by scaling (standardization) is affine, and so is a neural network layer before its activation.
+**A layer, step by step.** Take an iris flower with petal width 0.5 and sepal width 0.4, so $\mathbf{x} = [0.5, 0.4]$, and a first layer with two neurons. Each row of the **weight** (G-2106) matrix $W$ holds one neuron's weights, and $\mathbf{b}$ holds the **biases** (G-284):
+
+1. **Transform:** the result is 0.5 times the first column of $W$ plus 0.4 times the second.
+   $$W\mathbf{x} = \begin{bmatrix} -2.5 & 0.6 \cr-1.5 & 0.4 \end{bmatrix} \begin{bmatrix} 0.5 \cr0.4 \end{bmatrix} = 0.5 \begin{bmatrix} -2.5 \cr-1.5 \end{bmatrix} + 0.4 \begin{bmatrix} 0.6 \cr0.4 \end{bmatrix} = \begin{bmatrix} -1.01 \cr-0.59 \end{bmatrix}$$
+2. **Shift:** add $\mathbf{b} = [1.6, 0.7]$ to get $[0.59, 0.11]$.
+3. **Bend:** the **ReLU** (G-1668) keeps a positive number and turns a negative one into 0, so the output is $[0.59, 0.11]$.
+
+Only step 1 is a linear transformation. The weights here are illustrative numbers, not trained ones; a trained network learns them with backpropagation (see the [forward propagation Note](../1010-forward-propagation/note.md)).
+
+> **Extra:** A transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$, is called an **affine transformation** (G-178). It keeps lines straight and parallel but moves the origin. Mean centring followed by scaling (standardization) is affine, and so is a neural network layer before its activation.
 
 > **Extra:** Matrices need not be square. A matrix with 2 rows and 3 columns has three columns, one for where each of the three 3D basis vectors lands, and each column has 2 numbers: it takes 3D vectors to 2D vectors. PCA from 3 features to 2 components is such a $2 \times 3$ matrix $W$. Its rows are the two eigenvectors; reading it by columns, each column says where one original axis lands in the new 2D picture.
 
@@ -186,6 +211,8 @@ A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its pi
 
 **Built from**
 
+- Khan Academy, "Matrix vector products as linear transformations | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=ondmopWLiEg
+- Starmer, J. (StatQuest), "Essential Matrix Algebra for Neural Networks, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=ZTt9gsGcdDo
 - Sanderson, G. (3Blue1Brown), "Linear transformations and matrices | Chapter 3, Essence of linear algebra", 2016, 3blue1brown.com/lessons/linear-transformations, https://www.youtube.com/watch?v=kYB8IZa5AuE
 
 **Other references**
@@ -205,4 +232,5 @@ A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its pi
 | Column space | The span of the columns of a matrix: every output it can produce |
 | Data matrix | The feature vectors of a dataset stacked as rows |
 | Diagonal matrix | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor |
+| Linear (transformation) | Keeps lines straight and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$ |
 | Affine transformation | A linear transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$ |

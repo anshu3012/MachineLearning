@@ -19,7 +19,7 @@ tags: [subject/ml, area/models-2, step/model, concept/boosting, concept/ensemble
 
 ![An ensemble: different models trained on the data, their predictions combined into one](images/ensemble_idea.png){height=38%}
 
-The word **ensemble** means a group, for example a group of musicians. Ensemble learning (first met in the [MLDLC Note](../09-mldlc/note.md), section 8.4) combines several ML models into one bigger, stronger model (Figure 1).
+The word **ensemble** means a group, for example a group of musicians. **Ensemble learning** (G-689) (first met in the [MLDLC Note](../09-mldlc/note.md), section 8.4) combines several ML models into one bigger, stronger model (Figure 1).
 
 Ensembles are tried in almost every serious ML project and in almost every Kaggle competition. This Note covers:
 
@@ -50,7 +50,7 @@ Ensemble learning rests on the same fact: a crowd of models knows more than one 
 
 Every ML algorithm has two stages: **training**, where it finds the pattern in the data, and **prediction**, where it answers for a new query point (a new **observation**, one record or row of the data table, as in the [KNN Note](../91-knn/note.md)). Each observation has **features** (input variables, one column each) and a **target** (the output we predict). Training differs between the types of ensemble (section 4). Prediction works the same way for all of them.
 
-An ensemble is a collection of smaller models, called **base models**. They can be any algorithms: decision trees, SVMs, KNN, linear regression and so on.
+An ensemble is a collection of smaller models, called **base models** (G-260). They can be any algorithms: decision trees, SVMs, KNN, linear regression and so on.
 
 ### 3.1 The base models must be different
 
@@ -64,13 +64,17 @@ Models are the same: an ensemble of identical models makes the same mistakes as 
 2. **Same algorithm, different data:** for example three linear models, each trained on a different part of the data. Different data makes them learn differently.
 3. **Both:** different algorithms, each shown different data.
 
+Figure 2 tests the first way on the two-moons data of section 5. Watch the left panel: three copies of the same tree draw one **decision boundary** (G-555), the line where the prediction switches class, so their vote is that tree and scores the same 0.875. On the right, three different algorithms disagree in places, and their vote scores 0.890.
+
+![Left: three copies of one depth-3 tree, trained on the same data, and their vote. Right: logistic regression (green), a depth-3 tree (red) and KNN with k = 5 (purple), and their vote (black dashed). Test accuracy of the vote in each title](images/same_vs_different.png)
+
 ### 3.2 Classification: majority vote
 
 > **Key point:** Each model votes for a class, and the class with the most votes wins.
 
 Take the placement data: from a student's CGPA and IQ, predict *placed* or *not placed* (the [toy project Note](../13-toy-project/note.md)). We have 5 trained base models and one new student.
 
-We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* and 2 say *not placed*. The ensemble answers *placed*: the majority vote, exactly as KNN votes among neighbours (Figure 1 shows the same with 3 models).
+We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* and 2 say *not placed*. The ensemble answers *placed*: the **majority vote** (G-1146), exactly as KNN votes among neighbours. Figure 3 draws this vote with 5 models; Figure 1 shows the same with 3.
 
 ### 3.3 Regression: the mean
 
@@ -84,13 +88,17 @@ Now the task is to predict the package, in lakh rupees per year (LPA), from CGPA
 3. **Example:** three models predict 6.2, 5.8 and 7.0 LPA:
    $$\hat{y} = \frac{6.2 + 5.8 + 7.0}{3} = \frac{19.0}{3} = 6.33 \text{ LPA}$$
 
+Figure 3 draws both worked examples, the vote of section 3.2 and the mean of section 3.3. Watch the vote take the class most models chose, and the mean land between the three predictions on the number line.
+
+![Left: five models vote, 3 for placed and 2 for not placed, so the ensemble says placed. Right: three models predict 6.2, 5.8 and 7.0 LPA, and the ensemble returns their mean, 6.33 LPA](images/vote_and_mean.png)
+
 ## 4. The four types of ensemble
 
 > **Key point:** Voting and stacking use different algorithms on the same data; bagging and boosting use one algorithm on varied data. They differ in how the models are trained and combined.
 
 ![The four main types of ensemble](images/ensemble_types.png){height=50%}
 
-Figure 2 shows the four types. Each one is taught in full in later Notes; here we only meet them.
+Figure 4 shows the four types. Each one is taught in full in later Notes; here we only meet them.
 
 ### 4.1 Voting
 
@@ -112,13 +120,13 @@ From such observations the meta-model learns a weight for each base model: more 
 
 > **Key point:** One algorithm, many copies, each trained on a different random sample of the observations; the answers are then voted or averaged.
 
-**Bagging** is short for **bootstrap aggregation**. All base models use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
+**Bagging** (G-2154) is short for **bootstrap aggregation**. All base models use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
 
 Suppose the data D has 1,000 students and we decide to show each model 500 of them. We draw 500 observations at random, with replacement (each drawn observation is put back, so the same one can be drawn twice), to make D1 and train model 1 on it. Then we draw another 500 the same way for D2, and so on. Drawing random samples like this is called **bootstrapping**.
 
 The samples differ, so the models learn differently. At prediction time we vote or average as before.
 
-When the base models are decision trees, the bagging ensemble gets its own name: a **random forest**, a "forest" of trees. Strictly, a random forest also picks a random subset of the features at every split (Breiman 2001); the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) covers the difference. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests in the [random forest Note](../108-random-forest-intro/note.md).
+When the base models are decision trees, the bagging ensemble gets its own name: a **random forest** (G-1611), a "forest" of trees. Strictly, a random forest also picks a random subset of the features at every split (Breiman 2001); the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) covers the difference. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests in the [random forest Note](../108-random-forest-intro/note.md).
 
 ### 4.4 Boosting
 
@@ -132,19 +140,19 @@ The second model then passes its own mistakes to the third model, and so on. Dow
 
 > **Key point:** Each model makes its own random mistakes; combining them cancels much of that noise, leaving a smoother, more reliable answer.
 
-![(a) Three classifiers' boundaries (dotted) and their majority-vote boundary (black) on two-moons data; (b) four lines, each fitted to 10 random points, and their mean](images/why_it_works.png){height=45%}
+![(a) Three classifiers' decision boundaries (dotted) and their majority-vote decision boundary (black) on two-moons data; (b) four lines, each fitted to 10 random points, and their mean](images/why_it_works.png){height=45%}
 
-**Classification.** In Figure 3a, three different models are trained on the same two-moons data (two interlocking half-moon classes):
+**Classification.** In Figure 5a, three different models are trained on the same two-moons data (two interlocking half-moon classes):
 
 - **logistic regression** draws a straight line;
 - a **decision tree** of depth 3 draws boxes;
 - **KNN** with k = 5 draws a wiggly curve.
 
-Each boundary is wrong in its own places. The majority vote (black) follows a boundary where at least two of the three agree, so the quirks of any single model are outvoted. On 200 test points, the three models score 0.860, 0.875 and 0.870; the vote scores **0.890**, better than each.
+Each decision boundary is wrong in its own places. The majority vote (black) follows a decision boundary where at least two of the three agree, so the quirks of any single model are outvoted. On 200 test points, the three models score 0.860, 0.875 and 0.870; the vote scores **0.890**, better than each.
 
-**Regression.** In Figure 3b, four lines are fitted, each to a different set of 10 random points. One is too steep, one too flat, two are in between. Their mean (black) is not extreme in any direction: it lands in the middle, close to the real trend.
+**Regression.** In Figure 5b, four lines are fitted, each to a different set of 10 random points. One is too steep, one too flat, two are in between. Their mean (black) is not extreme in any direction: it lands in the middle, close to the real trend.
 
-Figure 4 keeps adding lines, each fitted to its own 10 random points, up to 25. Watch the black mean settle near the true trend (red dashed) while single lines keep scattering. Averaged over 500 such crowds, one line misses the true trend by 0.75 (root mean squared gap), the mean of 5 lines by 0.45 and the mean of 25 by 0.37.
+Figure 6 keeps adding lines, each fitted to its own 10 random points, up to 25. Watch the black mean settle near the true trend (red dashed) while single lines keep scattering. Averaged over 500 such crowds, one line misses the true trend by 0.75 (root mean squared gap), the mean of 5 lines by 0.45 and the mean of 25 by 0.37.
 
 ![Lines added one at a time, each fitted to 10 random points of the same data. Left: the lines (blue), their mean (black) and the true trend (red dashed). Right: the gap between the mean line and the true trend, averaged over 500 crowds](images/crowd_of_lines.gif)
 
@@ -159,6 +167,10 @@ The vote does not always beat the best model; the [voting classifier Note](../10
 > **Key point:** Training many models takes longer than training one.
 
 Where we used to train one model, we now train many: tens, hundreds, even thousands. Training and prediction take longer. So an ensemble needs a solid advantage to be worth it, and it has three.
+
+Figure 7 puts the cost next to the first benefit, for bagging ensembles of 1 to 200 full-depth trees on the two-moons data of section 5. Watch training time keep climbing with the number of trees, while test accuracy rises from 0.83 to about 0.87 by 20 trees and then levels off, above the 0.84 of one full tree.
+
+![Bagging ensembles of 1 to 200 full-depth trees on the two-moons data. Left: training time (log scale). Right: test accuracy, averaged over 5 seeds; dashed: one full tree](images/cost_benefit.png)
 
 ### 6.2 Benefit 1: better performance
 

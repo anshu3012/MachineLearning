@@ -19,24 +19,34 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 
 ![Gradient boosting for regression: a mean, then trees trained on residuals, each added with the learning rate](images/stage_loop.png){height=36%}
 
-**Gradient boosting** is a boosting algorithm, like AdaBoost. Gradient boosting is one of the strongest algorithms for tables of data (Grinsztajn et al. 2022), and its optimised version, XGBoost, has won many Kaggle competitions: 17 of the 29 winning solutions on Kaggle's blog in 2015 used it (Chen and Guestrin 2016). Figure 1 shows the whole method for regression. The present Note follows it by hand on five students, then watches it fit a curve. The maths behind each step is in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md); classification is in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md).
+**Gradient boosting** (G-859) is a boosting algorithm, like AdaBoost. Gradient boosting is one of the strongest algorithms for tables of data (Grinsztajn et al. 2022), and its optimised version, XGBoost, has won many Kaggle competitions: 17 of the 29 winning solutions on Kaggle's blog in 2015 used it (Chen and Guestrin 2016). Figure 1 shows the whole method for regression. The present Note:
+
+- follows it by hand on five students (sections 3 to 10);
+- watches it fit a curve (sections 11 and 12);
+- compares it with AdaBoost (section 13).
+
+The maths behind each step is in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md); classification is in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md).
 
 ## 2. Boosting passes mistakes forward
 
 > **Key point:** Every boosting algorithm adds small models one at a time; each new model is told about the mistakes of the models before it. AdaBoost tells it through observation weights; gradient boosting tells it through the residuals.
 
-Boosting, from the [AdaBoost intuition Note](../115-adaboost-intuition/note.md), builds a big model from small models, added one after another: a stage-wise additive model. What makes it boosting is that each new model learns from the mistakes of the ones before.
+Boosting, from the [AdaBoost intuition Note](../115-adaboost-intuition/note.md), builds a big model from small models, added one after another: a **stage-wise additive model** (G-1867). What makes it boosting is that each new model learns from the mistakes of the ones before.
 
 The two algorithms pass on those mistakes in different ways:
 
 - **AdaBoost** raises the weights of the observations it got wrong and draws a new dataset by weight, so the next stump focuses on those observations ([AdaBoost step by step Note](../116-adaboost-step-by-step/note.md)).
 - **Gradient boosting** writes the mistakes down as numbers, one per observation, and trains the next model to predict exactly those numbers.
 
+Figure 2 puts the two side by side. Watch the middle box: the only difference is the form the mistakes take before the next model sees them.
+
+![AdaBoost passes mistakes on as observation weights; gradient boosting passes them on as numbers that become the next tree's target](images/two_ways.png){height=28%}
+
 ## 3. The toy data: five students
 
 > **Key point:** Two features (IQ and CGPA), one numeric target (package in LPA): a regression problem.
 
-Each student is an **observation** (one record, one row of the table). IQ and CGPA are the **features**, the input variables. LPA is the **target**, the number we predict.
+Each student is an **observation** (G-1374) (one record, one row of the table). IQ and CGPA are the **features** (G-772), the input variables. LPA is the **target** (G-1949), the number we predict.
 
 | Student | IQ | CGPA | LPA |
 |---|---|---|---|
@@ -60,13 +70,13 @@ The first model ignores the features. Whatever the IQ and CGPA, model 1 predicts
 3. **Example:**
    $$F_0 = \frac{3 + 4 + 8 + 6 + 3}{5} = \frac{24}{5} = 4.8$$
 
-So model 1 says every student earns 4.8 LPA, even a student with CGPA 10 and IQ 120. We write $F_0$ for this first model and store its answers in a new column, *pred1*: 4.8 in every observation. Why the mean is the right start is shown in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md), section 5.
+So model 1 says every student earns 4.8 LPA, even a student with CGPA 10 and IQ 120. We write $F_0$ for this first model, the **base prediction** (G-261), and store its answers in a new column, *pred1*: 4.8 in every observation. Why the mean is the right start is shown in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md), section 5.
 
 ## 5. Pseudo-residuals: the mistakes of the current model
 
 > **Key point:** The mistake on each observation is actual minus predicted. Gradient boosting calls it the pseudo-residual.
 
-To tell the next model about the mistakes, we need one number per observation that says how wrong we were. We use actual minus predicted, called the **pseudo-residual**.
+To tell the next model about the mistakes, we need one number per observation that says how wrong we were. We use actual minus predicted, called the **pseudo-residual** (G-1589).
 
 1. **In words:** for each observation, subtract the current prediction from the true target value.
 2. **Formula:**
@@ -88,7 +98,7 @@ A negative residual means we predicted too much; a positive one, too little. A r
 
 > **Key point:** Model 2 is a regression tree with the same features, but its target is the residual column, not the package. Model 2 learns how wrong model 1 is for each kind of student.
 
-Training on the mistakes is the central idea of gradient boosting. Model 2 is a regression tree ([regression trees Note](../99-regression-trees/note.md)):
+Training on the mistakes is the central idea of gradient boosting. Model 2 is a **regression tree** (G-1654; [regression trees Note](../99-regression-trees/note.md)):
 
 - **features:** IQ and CGPA, as before;
 - **target:** *res1*, the mistakes of model 1, not the package.
@@ -97,7 +107,7 @@ We are not asking tree 1 "what is this student's package?" but "how far off is m
 
 ![Tree 1, trained on the residuals: each leaf holds the residual of the students that reach it](images/toy_tree.png){height=30%}
 
-Figure 2 shows the tree scikit-learn grows on this data. Student 1 (IQ 90) goes left at "IQ $\le$ 105" and left again at "IQ $\le$ 95", reaching the leaf $-1.8$: exactly student 1's residual. With only five observations, every student gets a leaf of their own (students 1 and 5 share one, and their residuals are equal), so the tree's predictions *pred* on the training observations equal the residuals exactly.
+Figure 3 shows the tree scikit-learn grows on this data. Student 1 (IQ 90) goes left at "IQ $\le$ 105" and left again at "IQ $\le$ 95", reaching the leaf $-1.8$: exactly student 1's residual. With only five observations, every student gets a leaf of their own (students 1 and 5 share one, and their residuals are equal), so the tree's predictions *pred* on the training observations equal the residuals exactly.
 
 > **Extra:** Any question that separates student 3 from student 4 gives the same right-hand leaves: "CGPA $\le$ 7.5" and "IQ $\le$ 115" both work, and scikit-learn happens to pick the second. Ties like this are common on tiny data and do not change the predictions on the training observations.
 
@@ -117,13 +127,13 @@ To predict, we add the outputs of the models.
    $$F_1 = 4.8 + (-1.8) = 3.0$$
    which is exactly the package of 3 LPA.
 
-Student 2 gets $4.8 - 0.8 = 4$, again exact. Every training observation is now predicted perfectly, and that is a warning sign: the model has memorised these five students. A new student, not in the data, will probably be predicted badly. Memorising the training data is **overfitting** ([bias-variance Note](../62-bias-variance/note.md)).
+Student 2 gets $4.8 - 0.8 = 4$, again exact. Every training observation is now predicted perfectly, and that is a warning sign: the model has memorised these five students. A new student, not in the data, will probably be predicted badly. Memorising the training data is **overfitting** (G-1429) ([bias-variance Note](../62-bias-variance/note.md)).
 
 ## 8. The learning rate: small steps in the right direction
 
 > **Key point:** We add only a fraction of each tree, the learning rate (typically 0.1). Each step is smaller, but it still points the right way; many small steps overfit less than one big jump.
 
-The fix is to add only part of each tree's correction. That part is the **learning rate** $\eta$ (eta), a number between 0 and 1, typically 0.1. With no learning rate, the multiplier is 1.
+The fix is to add only part of each tree's correction. That part is the **learning rate** (G-1067) $\eta$ (eta), a number between 0 and 1, typically 0.1. With no learning rate, the multiplier is 1.
 
 1. **In words:** multiply the tree's output by the learning rate before adding it.
 2. **Formula:**
@@ -131,7 +141,11 @@ The fix is to add only part of each tree's correction. That part is the **learni
 3. **Example:** student 1 with $\eta = 0.1$:
    $$F_1 = 4.8 + 0.1 \times (-1.8) = 4.8 - 0.18 = 4.62$$
 
-The answer, 4.62, is still far from 3, but it moved the right way. More trees will bring it closer, one small step at a time. The same idea, shrinking every model's contribution so that learning slows down and overfitting slows down even more, was called **shrinkage** in the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md), section 4.
+The answer, 4.62, is still far from 3, but it moved the right way. More trees will bring it closer, one small step at a time. The same idea, shrinking every model's contribution so that learning slows down and overfitting slows down even more, was called **shrinkage** (G-1796) in the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md), section 4.
+
+Figure 4 compares the two choices for all five students. Watch the red bars: they land exactly on every actual package, which is memorising. The blue bars all move a tenth of the way from the mean 4.8 towards their targets.
+
+![Five students after the mean plus tree 1: added in full (red), every prediction equals the actual package; added with learning rate 0.1 (blue), every prediction moves one tenth of the way from 4.8](images/full_vs_small.png){height=36%}
 
 The learning rate is the same for every tree after the first model: with $\eta = 0.1$, tree 1, tree 2 and every later tree are all multiplied by 0.1.
 
@@ -157,7 +171,7 @@ Before adding model 3, we measure how wrong the combined model of stage 2 is.
 
 Every residual moved towards 0: $-1.8$ became $-1.62$, $3.2$ became $2.88$. A residual of 0 means no gap between actual and predicted, so the goal is to keep adding models until the residuals are close to 0.
 
-Figure 3 keeps going past the table. Watch the residual bars on the right: each tree removes a tenth of what is left, so they shrink by the same share at every stage. After 50 trees every residual is within 0.02 of 0, and the blue bars fill the outlines of the actual packages.
+Figure 5 keeps going past the table. Watch the residual bars on the right: each tree removes a tenth of what is left, so they shrink by the same share at every stage. After 50 trees every residual is within 0.02 of 0, and the blue bars fill the outlines of the actual packages.
 
 ![Gradient boosting on the five students, learning rate 0.1. Left: actual package (outline) and the model's prediction (blue bar). Right: the residuals the next tree is trained on](images/five_students.gif){height=45%}
 
@@ -175,6 +189,11 @@ Model 3 is again a regression tree: features IQ and CGPA, target *res2*. Model 3
 
 So the model predicts about 4.46 LPA. With five observations and two trees the answer is rough; with real data and hundreds of trees, the same procedure gives very good predictions.
 
+Figure 6 builds the sum step by step; watch each tree pull the answer down a little from the mean.
+
+![The prediction for the new student (IQ 60, CGPA 4.9): the mean 4.8, then 0.1 times each tree's output, $-0.18$ and $-0.162$, giving 4.458. The axis starts at 4.3 so the small steps show](images/new_student.png){height=34%}
+
+
 ## 11. Watching it fit a curve
 
 > **Key point:** On 100 points along a curve, the mean is a flat line; each tree bends the model towards the data, and after many trees the model starts chasing the noise.
@@ -183,7 +202,7 @@ The same steps on a bigger dataset show what each stage does. We take 100 points
 
 ![Gradient boosting on the curve, learning rate 0.5: residuals of the current model (grey), the tree trained on them (green), and the model after adding half of it (red)](images/residual_fitting.gif)
 
-Figure 4 runs three stages, with learning rate 0.5:
+Figure 7 runs three stages, with learning rate 0.5:
 
 1. **Stage 1:** the model is the mean of $y$, 0.265: a flat red line.
 2. **Residuals:** the grey sticks are the residuals; the lower panel shows them as points.
@@ -192,7 +211,7 @@ Figure 4 runs three stages, with learning rate 0.5:
 
 ![The model after 0, 1, 2, 3, 10 and 50 trees (learning rate 1, 8 leaves per tree), with training and test error](images/stages.png){height=46%}
 
-Figure 5 continues further, with learning rate 1. One tree already captures the U shape, and the training error falls from 0.0557 to 0.0033. After 10 and 50 trees the red line zigzags through every training point and the training error reaches 0. The test error rises: averaged over 20 fresh datasets of the same kind, each tested on 5,000 new points, from 0.00450 after 3 trees to 0.00506 after 50 (Figure 5's titles show the single dataset drawn). Rising test error with falling training error is overfitting again, this time from too many trees.
+Figure 8 continues further, with learning rate 1. One tree already captures the U shape, and the training error falls from 0.0557 to 0.0033. After 10 and 50 trees the red line zigzags through every training point and the training error reaches 0. The test error rises: averaged over 20 fresh datasets of the same kind, each tested on 5,000 new points, from 0.00450 after 3 trees to 0.00506 after 50 (Figure 8's titles show the single dataset drawn). Rising test error with falling training error is overfitting again, this time from too many trees.
 
 > **Python:** The whole loop is a few lines.
 >
@@ -225,7 +244,7 @@ The trade-off is the one of the [AdaBoost hyperparameters Note](../118-adaboost-
 
 With learning rate 1 the training error reaches 0 after about 50 trees, while the test error climbs back up. Learning rate 0.1 needs more trees, but its best test error is the lowest of the three, and after 200 trees it has climbed the least. ESL §10.12.1 reports the same: smaller learning rates give better test error and need more trees. (The noise in $y$ alone gives a test error of $0.05^2 = 0.0025$, the floor no model can beat.)
 
-Figure 6 runs the three learning rates side by side. Watch the stars in the lower panel: learning rate 1 reaches its lowest test error first (4 trees) but the highest; learning rate 0.1 takes 35 trees to get there and lands lowest, and its curve climbs back the slowest. In the upper panels, learning rates 1 and 0.5 zigzag through the noise after 50 trees, while 0.1 still follows the U shape with far fewer jumps.
+Figure 9 runs the three learning rates side by side. Watch the stars in the lower panel: learning rate 1 reaches its lowest test error first (4 trees) but the highest; learning rate 0.1 takes 35 trees to get there and lands lowest, and its curve climbs back the slowest. In the upper panels, learning rates 1 and 0.5 zigzag through the noise after 50 trees, while 0.1 still follows the U shape with far fewer jumps.
 
 ![Gradient boosting with learning rates 1, 0.5 and 0.1 (8 leaves per tree), tree by tree. Top: the model on the curve data. Bottom: test error averaged over 20 fresh datasets; stars mark each learning rate's lowest test error; the dotted line is the noise floor](images/lr_race.gif){height=55%}
 
@@ -241,6 +260,10 @@ The Notebook's playground (`app.py`, a Dash app) lets us change the number of tr
 | How mistakes are passed on | larger weights for misclassified observations | the next tree's target is the residuals |
 | How models are combined | each model gets its own say $\alpha$ | every tree is multiplied by the same learning rate |
 | First model | a stump | the mean of the target (regression) |
+
+Figure 10 shows why stumps are too small, on the first residuals of the curve data. Watch the left panel: one split cannot follow the U shape, while the 8-leaf tree on the right removes most of the error in one stage (0.0033 left, against 0.0348).
+
+![The residuals of the mean on the curve data, fitted by a stump with 2 leaves (left) and by a tree with 8 leaves (right); titles give the squared error left over](images/stump_vs_tree.png){height=36%}
 
 The leaf count depends on the data: about 8 leaves for small datasets, up to about 32 for big ones. Stumps are rarely enough: a tree with 2 leaves cannot capture any interaction between features, so boosted stumps suit only data where each feature acts on its own (ESL §10.11).
 

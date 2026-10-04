@@ -18,15 +18,16 @@ tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 
 ![Same group means, different spread: the gaps between means are clear on the left and lost in the noise on the right](images/between_within.png)
 
-ANOVA (**analysis of variance**) was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test that compares the means of several groups. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) ANOVA is the test for one numerical **feature** against a categorical feature with three or more categories (a feature is a variable of the data, one column of the data table, such as age or class).
+ANOVA (**analysis of variance** (G-203)) was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test that compares the means of several groups. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) ANOVA is the test for one numerical **feature** (G-772) against a categorical feature with three or more categories (a feature is a variable of the data, one column of the data table, such as age or class).
 
 Figure 1 shows the whole idea. Both panels have the same group means, 5, 7 and 9. On the left the values sit close to their group mean, so the gaps between the means stand out. On the right the values are spread widely, and the same gaps could easily be chance. ANOVA turns this comparison into one number, the F statistic.
 
 This Note covers:
 
 - why we do not run a t-test for every pair of groups;
-- the split of the total variation into between-group and within-group parts;
-- the F statistic, the F distribution and a worked example;
+- the split of the total variation into within-group and between-group parts, worked by hand on nine marks;
+- the hypotheses;
+- the F statistic, the F distribution and the decision;
 - the assumptions, a Titanic case study, and the follow-up question "which groups differ?".
 
 > **Extra:** All of this Note is extra material beyond the "which test when" guide; the guide only names ANOVA.
@@ -46,7 +47,9 @@ The trouble is the Type I error (see the [errors, power and tails Note](../292-e
    $$1 - 0.95^{3} = 1 - 0.857 = 0.143$$
    Five groups need $m = 10$ tests: $1 - 0.95^{10} = 0.40$.
 
-So with five groups whose true means are all equal, pairwise t-tests "find" a difference far more often than 5% of the time. ANOVA asks one question about all groups at once, and its false-alarm rate stays at 5%.
+![The chance of at least one false alarm: pairwise t-tests (red) against one ANOVA (blue), by formula and by simulation](images/false_alarm.png){height=40%}
+
+In Figure 2, follow the red line: every extra group adds more pairs, and the risk climbs while ANOVA stays at 5%. So with five groups whose true means are all equal, pairwise t-tests "find" a difference far more often than 5% of the time. ANOVA asks one question about all groups at once, and its false-alarm rate stays at 5%.
 
 > **Extra:** The formula assumes the tests are independent. Pairwise t-tests are not, since each group appears in several of them, so the real risk is a little lower. The notebook measures the real risk on 2,000 simulated datasets (20 values per group, all true means equal):
 >
@@ -55,34 +58,26 @@ So with five groups whose true means are all equal, pairwise t-tests "find" a di
 > | 3 | 3 | 11.0% | 14.3% | 5.0% |
 > | 5 | 10 | 29.0% | 40.1% | 5.0% |
 
-## 3. The hypotheses
+## 3. Splitting the variation
 
-> **Key point:** $H_0$: all group means are equal; $H_1$: at least one group mean differs from the others.
+> **Key point:** Total variation $=$ variation within the groups $+$ variation between the group means: $SST = SSW + SSB$, and the degrees of freedom split the same way.
 
-With $k$ groups:
-
-$$H_0: \mu_1 = \mu_2 = \dots = \mu_k, \qquad H_1: \text{at least one } \mu_i \text{ differs}$$
-
-$H_1$ is not "all means differ". Rejecting $H_0$ tells us that some difference exists, not which groups differ; section 8 answers that.
-
-"One-way" means one categorical feature defines the groups. The worked example uses $k = 3$ sections of a class, with the marks (out of 10) of 3 students each:
+**The data.** We carry one small dataset through the whole calculation: the marks (out of 10) of 3 students in each of $k = 3$ sections of a class.
 
 | Section A | Section B | Section C |
 |---|---|---|
 | 4, 5, 6 | 6, 7, 8 | 8, 9, 10 |
 | mean 5 | mean 7 | mean 9 |
 
-The **grand mean**, the mean of all $N = 9$ values, is 7. These are the left-hand groups of Figure 1.
+The **grand mean** (G-866), the mean of all $N = 9$ values, is $63/9 = 7$. It is also the mean of the three section means, $(5 + 7 + 9)/3 = 7$, because the sections have equal sizes. These are the left-hand groups of Figure 1.
 
-## 4. Splitting the variation
+**The idea in plain words.** The nine marks vary. Some of that variation is noise inside each section: students in the same section still score differently. The rest comes from the sections themselves having different means. ANOVA measures the two parts and compares them.
 
-> **Key point:** Total variation $=$ variation between the group means $+$ variation within the groups: $SST = SSB + SSW$.
+![The nine marks as sticks: to the grand mean (SST = 30), to their own section mean (SSW = 6), and from each section mean to the grand mean (SSB = 24); the bars stack 30 = 24 + 6. Idea after Khan Academy, "ANOVA 2: Calculating SSW and SSB"](images/ss_split.gif){height=45%}
 
-![The variation split into its two parts, and the steps from there to F](images/variance_split.png){height=38%}
+Variance is built from squared distances from a mean (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). ANOVA works with the **sums of squares** (G-1914), the squared distances added up before dividing. Figure 3 draws each distance as a stick; watch the sticks change as the reference line moves from the grand mean to the section means.
 
-Variance is built from squared distances from a mean (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). ANOVA works with the **sums of squares** before dividing, and splits them in two, as Figure 2 shows.
-
-### 4.1 Total sum of squares
+### 3.1 Total sum of squares
 
 > **Key point:** $SST$ measures how far all values lie from the grand mean.
 
@@ -92,28 +87,53 @@ Variance is built from squared distances from a mean (see the [measures of dispe
    where $\bar{x}$ is the grand mean.
 3. **Example:** distances from 7 are $-3, -2, -1$; $-1, 0, 1$; $1, 2, 3$:
    $$SST = 9 + 4 + 1 + 1 + 0 + 1 + 1 + 4 + 9 = 30$$
+4. **Degrees of freedom:** $N - 1 = 8$. Once we know the grand mean and any 8 of the marks, the ninth is fixed, so only 8 marks carry free information.
 
-### 4.2 Between-group sum of squares
-
-> **Key point:** $SSB$ measures how far the group means lie from the grand mean, each counted once per value in its group.
-
-1. **In words:** square each group mean's distance from the grand mean, multiply by the group size, and add over groups.
-2. **Formula:**
-   $$SSB = \sum_{\text{groups}} n_i (\bar x_i - \bar{x})^2$$
-3. **Example:**
-   $$SSB = 3(5 - 7)^2 + 3(7 - 7)^2 + 3(9 - 7)^2 = 12 + 0 + 12 = 24$$
-
-### 4.3 Within-group sum of squares
+### 3.2 Within-group sum of squares
 
 > **Key point:** $SSW$ measures how far the values lie from their own group mean: the noise inside the groups.
 
 1. **In words:** square each value's distance from its own group mean and add over all values.
 2. **Formula:**
    $$SSW = \sum_{\text{groups}} \ \sum_{\text{values in group}} (x - \bar x_i)^2$$
-3. **Example:** each group gives $1 + 0 + 1 = 2$, so
+   where $\bar x_i$ is the mean of group $i$.
+3. **Example:** each section gives $1 + 0 + 1 = 2$, so
    $$SSW = 2 + 2 + 2 = 6$$
+4. **Degrees of freedom:** $N - k = 9 - 3 = 6$. Within each section, once we know its mean and 2 of its 3 marks, the third is fixed: 2 free values per section, 3 sections. This is Bessel's correction once per group (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)).
 
-The check: $SSB + SSW = 24 + 6 = 30 = SST$. Most of the variation here lies between the groups.
+### 3.3 Between-group sum of squares
+
+> **Key point:** $SSB$ measures how far the group means lie from the grand mean, each counted once per value in its group.
+
+1. **In words:** replace every value by its group mean, then square that mean's distance from the grand mean and add over all values. Equivalently: square each group mean's distance from the grand mean, multiply by the group size, and add over groups.
+2. **Formula:**
+   $$SSB = \sum_{\text{groups}} n_i (\bar x_i - \bar{x})^2$$
+   where $n_i$ is the size of group $i$.
+3. **Example:**
+   $$SSB = 3(5 - 7)^2 + 3(7 - 7)^2 + 3(9 - 7)^2 = 12 + 0 + 12 = 24$$
+4. **Degrees of freedom:** $k - 1 = 2$. Once we know the grand mean and 2 of the 3 section means, the third is fixed.
+
+### 3.4 The split
+
+$$SST = SSB + SSW: \qquad 30 = 24 + 6$$
+
+The degrees of freedom split the same way: $8 = 2 + 6$. Most of the variation here lies between the sections. Figure 4 summarises the split and the steps from there to F.
+
+![The variation split into its two parts, and the steps from there to F](images/variance_split.png){height=38%}
+
+## 4. The hypotheses
+
+> **Key point:** $H_0$: all group means are equal; $H_1$: at least one group mean differs from the others.
+
+The sections' sample means differ: 5, 7 and 9. Is that a real difference between the sections, or just the luck of which students we happened to look at? The question is about the **population** means, the means over all students who could be taught in each section.
+
+With $k$ groups:
+
+$$H_0: \mu_1 = \mu_2 = \dots = \mu_k, \qquad H_1: \text{at least one } \mu_i \text{ differs}$$
+
+$H_1$ is not "all means differ". Rejecting $H_0$ tells us that some difference exists, not which groups differ; section 8 answers that. With three or more groups many patterns fit $H_1$ (for example "A differs, B and C are equal"), so rejecting $H_0$ points to "some difference", not to one particular alternative.
+
+"One-way" means one categorical feature defines the groups: here, the section.
 
 ## 5. The F statistic
 
@@ -121,14 +141,11 @@ The check: $SSB + SSW = 24 + 6 = 30 = SST$. Most of the variation here lies betw
 
 ### 5.1 Mean squares
 
-> **Key point:** Dividing each sum of squares by its degrees of freedom turns it into a variance, a **mean square**.
+> **Key point:** Dividing each sum of squares by its degrees of freedom turns it into a variance, a **mean square** (G-1200).
 
-The degrees of freedom are:
+We use the degrees of freedom of section 3: $k - 1 = 2$ between groups and $N - k = 6$ within groups.
 
-- between groups: $k - 1$ (here $3 - 1 = 2$), since $k$ group means vary around one grand mean;
-- within groups: $N - k$ (here $9 - 3 = 6$), since each group loses one degree of freedom to its own mean, as in Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)).
-
-The two add to $N - 1 = 8$, the degrees of freedom of $SST$.
+**The idea.** If $H_0$ is true, the group means differ only through noise, so the between-group variance and the within-group variance measure the same noise and come out about equal. If the between-group variance is much larger, the variation comes mostly from differences between the means, and $H_0$ looks wrong.
 
 ### 5.2 F
 
@@ -142,7 +159,11 @@ If $H_0$ is true, both mean squares estimate the same noise variance, and $F$ is
 
 For the right-hand groups of Figure 1 (1, 5, 9; 3, 7, 11; 5, 9, 13) the means and so $SSB = 24$ are the same, but $SSW = 96$. Then $MSW = 96/6 = 16$ and $F = 12/16 = 0.75$: no evidence of a difference.
 
-> **Extra:** The results are usually set out as an **ANOVA table**:
+![The groups of Figure 1 morphing from tight to spread out: MSB stays 12, MSW grows from 1 to 16, and F falls from 12 to 0.75](images/f_spread.gif){height=45%}
+
+In Figure 5, watch the grey bar: only the within-group variance changes, and once $F$ drops below the critical value 5.14 the same group means no longer count as different.
+
+> **Extra:** The results are usually set out as an **ANOVA table** (G-202):
 >
 > | Source | SS | df | MS | F | p |
 > |---|---|---|---|---|---|
@@ -156,13 +177,15 @@ For the right-hand groups of Figure 1 (1, 5, 9; 3, 7, 11; 5, 9, 13) the means an
 
 ![The F distribution with 2 and 6 degrees of freedom: the whole curve (left) and its tail (right)](images/f_curve.png)
 
-The **F distribution** is the distribution of a ratio of two independent variances (NIST Handbook §1.3.6.6.5). Like the chi-square distribution (see the [chi-square tests Note](../571-chi-square-tests/note.md)), it is never negative and is skewed to the right. The F distribution has two parameters: the degrees of freedom of the top and of the bottom variance.
+The **F distribution** (G-739) is the distribution of a ratio of two independent variances (NIST Handbook §1.3.6.6.5). Like the chi-square distribution (see the [chi-square tests Note](../571-chi-square-tests/note.md)), it is never negative and is skewed to the right. The F distribution has two parameters: the degrees of freedom of the top and of the bottom variance.
 
-Only a large $F$ counts against $H_0$ (group means further apart than noise explains), so the test is always right-tailed. Figure 3 shows the F distribution with 2 and 6 degrees of freedom:
+Only a large $F$ counts against $H_0$ (group means further apart than noise explains), so the test is always right-tailed. Figure 6 shows the F distribution with 2 and 6 degrees of freedom:
 
 - the 5% critical value is 5.14;
 - our $F = 12$ lies far beyond it;
 - the tail area beyond 12 is $p = 0.008$.
+
+The critical value depends on $\alpha$: at $\alpha = 0.10$ it is 3.46, and $F = 12$ is far beyond that too (notebook, section 2b).
 
 Since $0.008 \le 0.05$, we reject $H_0$: the three sections do not all have the same mean mark.
 
@@ -190,8 +213,8 @@ ANOVA makes the same assumptions as the two-sample t-test (see the [two-sample a
 
 When the assumptions fail:
 
-- unequal variances: **Welch's ANOVA** (Welch 1951), or scipy's `stats.alexandergovern`, drops the equal-variance assumption;
-- strongly non-normal small groups: the **Kruskal-Wallis test** (`stats.kruskal`; Kruskal and Wallis 1952) compares the groups by ranks instead of means.
+- unequal variances: **Welch's ANOVA** (G-2121) (Welch 1951), or scipy's `stats.alexandergovern`, drops the equal-variance assumption;
+- strongly non-normal small groups: the **Kruskal-Wallis test** (G-1019) (`stats.kruskal`; Kruskal and Wallis 1952) compares the groups by ranks instead of means.
 
 ## 8. Case study: age by class on the Titanic
 
@@ -211,7 +234,7 @@ The Kaggle Titanic training file has 714 passengers with a known age.
 | 2 | 173 | 29.9 | 14.0 |
 | 3 | 355 | 25.1 | 12.5 |
 
-Figure 4 shows a clear downward step in the means, with much overlap between the classes.
+Figure 7 shows a clear downward step in the means, with much overlap between the classes.
 
 1. **Hypotheses.** $H_0: \mu_1 = \mu_2 = \mu_3$; $H_1$: at least one class mean differs.
 2. **Significance level.** $\alpha = 0.05$.
@@ -233,7 +256,7 @@ Both checks raise doubts, so we confirm with the tests of section 7. Alexander-G
 
 > **Key point:** A post-hoc test compares every pair of groups after ANOVA rejects, while keeping the overall false-alarm risk at 5%.
 
-ANOVA said that at least one mean differs. A **post-hoc test** finds which. The usual choice is **Tukey's HSD** (honestly significant difference), which compares every pair with the overall Type I error held at $\alpha$ (Tukey 1949):
+ANOVA said that at least one mean differs. A **post-hoc test** (G-1534) finds which. The usual choice is **Tukey's HSD** (G-2026) (honestly significant difference), which compares every pair with the overall Type I error held at $\alpha$ (Tukey 1949):
 
 | Pair | Difference in mean age | p-value |
 |---|---|---|
@@ -258,7 +281,7 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 
 > **Key point:** `f_classif` scores each numerical feature by its ANOVA F against the class labels, for feature selection.
 
-`SelectKBest` can score features (the input variables of a model) with `f_classif` instead of `chi2` (see the [pipelines Note](../29-pipelines/note.md) and the [errors, power and tails Note](../292-errors-power-and-tails/note.md)). For each numerical feature, `f_classif` computes the one-way ANOVA F with the classes of the **target** (the output we predict) as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
+`SelectKBest` can score features (the input variables of a model) with `f_classif` instead of `chi2` (see the [pipelines Note](../29-pipelines/note.md) and the [errors, power and tails Note](../292-errors-power-and-tails/note.md)). For each numerical feature, `f_classif` computes the one-way ANOVA F with the classes of the **target** (G-1949) (the output we predict) as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
 
 ## 10. Summary
 
@@ -280,7 +303,10 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 
 **Built from**
 
-- Krish Naik, "Tutorial 32- All About P Value,T test,Chi Square Test, Anova Test and When to Use What?", YouTube, https://www.youtube.com/watch?v=YrhlQB3mQFI
+- Krish Naik, "Tutorial 32- All About P Value,T test,Chi Square Test, Anova Test and When to Use What?", YouTube, https://www.youtube.com/watch?v=YrhlQB3mQFI. When to use ANOVA (section 1).
+- Khan Academy, "ANOVA 1: Calculating SST (total sum of squares)", YouTube, https://www.youtube.com/watch?v=EFdlFoHI_0I. SST and its degrees of freedom (section 3.1).
+- Khan Academy, "ANOVA 2: Calculating SSW and SSB (total sum of squares within and between)", YouTube, https://www.youtube.com/watch?v=j9ZPMlVHJVs. SSW, SSB, their degrees of freedom and the split (sections 3.2 to 3.4).
+- Khan Academy, "ANOVA 3: Hypothesis test with F-statistic", YouTube, https://www.youtube.com/watch?v=Xg8_iSkJpAE. The hypotheses, F and the decision (sections 4 to 6).
 
 **Other references**
 

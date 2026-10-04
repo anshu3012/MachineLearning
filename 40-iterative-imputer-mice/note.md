@@ -16,11 +16,11 @@ tags: [subject/ml, area/data, step/clean, concept/mice]
 
 > **Key point:** MICE fills every gap with its feature's mean first, then improves the fills one feature at a time with a model trained on the other features, and repeats until the fills stop changing.
 
-A **feature** is an input variable (one column of the data table), and an **observation** is one record (one row). The **target** is the output we predict.
+A **feature** (G-772) is an input variable (one column of the data table), and an **observation** (G-1374) is one record (one row). The **target** (G-1949) is the output we predict.
 
-The KNN imputer (Note 39) was the first multivariate technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer**. The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
+The KNN imputer (Note 39) was the first multivariate technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
 
-The algorithm behind it is **MICE**, short for **Multivariate Imputation by Chained Equations**. Figure 1 shows the whole loop:
+The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputation by Chained Equations**. Figure 1 shows the whole loop:
 
 - **Step 0:** fill every gap with the mean of its feature.
 - **One iteration:** for each feature in turn, put its gaps back to NaN, train a model on the observations without a gap, and predict the gaps.
@@ -37,10 +37,14 @@ Each model is one "equation" that predicts one feature. The equations are "chain
 Note 35 (Section 5) names three ways in which data goes missing:
 
 - **MCAR (missing completely at random):** the value was never collected, for no reason related to the data.
-- **MAR (missing at random):** whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
+- **MAR (missing at random)** (G-1158): whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
 - **MNAR (missing not at random):** whether a value is missing depends on the value itself, for example high earners hiding their income. The other features cannot fully account for the gaps.
 
 MICE predicts a missing value from the other features, so it needs those features to be related to it. Imputation methods such as MICE commonly assume MAR, and checking that MAR is plausible is the first step of a MICE analysis (van Buuren and Groothuis-Oudshoorn 2011, §3.1 and §6.2). We can run MICE on any data, but it gives its best results under MAR.
+
+Figure 2 shows what "related" looks like in the 50 Startups data of Section 4. Watch the two lines: the mean fill gives every missing Marketing value the same 21.1, while a regression fill follows the points up as R&D grows.
+
+![R&D against Marketing for the 50 startups: a mean fill ignores R&D, a regression fill reads the gap off the line](images/related_features.png){width=100%}
 
 ## 3. Advantages and disadvantages
 
@@ -54,6 +58,10 @@ MICE predicts a missing value from the other features, so it needs those feature
 
 1. **Slow.** Every iteration trains one model per feature with gaps, and we run several iterations. On large data this takes time.
 2. **More to keep in production.** A new observation with a gap must be filled the same way, so the fitted models are kept on the server: one model per feature and iteration, in the attribute `imputation_sequence_` (scikit-learn docs, IterativeImputer). Filling a new observation means running those models again. Mean imputation keeps only one number per feature.
+
+Figure 3 counts both on the 5-row table of Section 4. Watch the right side: one model per feature for every iteration the imputer ran.
+
+![What each imputer keeps for production on the 5-row table: 3 means, against 12 fitted models for the default iterative imputer](images/kept_models.png)
 
 ## 4. The example table
 
@@ -87,13 +95,13 @@ MICE needs a complete table to train its first models, so it starts with the sim
 - **Administration:** $(15 + 5 + 10 + 15) / 4 = 11.25$
 - **Marketing:** $(30 + 20 + 41 + 26) / 4 = 29.25$
 
-The mean-filled table is **iteration 0**. The mean ignores the other features, so these fills are rough starting points that the next steps improve.
+The mean-filled table is **iteration 0** (G-977). The mean ignores the other features, so these fills are rough starting points that the next steps improve.
 
 ## 6. Iteration 1: one feature at a time
 
 > **Key point:** For each feature, left to right: put its gap back to NaN, train a linear regression on the other four observations, predict the gap.
 
-Figure 2 runs the whole process on the table. Iteration 1 goes through the three features in order.
+Figure 4 runs the whole process on the table. Iteration 1 goes through the three features in order.
 
 ![MICE on the 5-row table: mean fill, iteration 1 column by column, the change after each iteration, and the settled values](images/mice_steps.gif)
 
@@ -197,7 +205,7 @@ Two stopping rules are common:
 1. **Changes below a threshold:** stop when every fill moves by less than a small amount between two iterations.
 2. **A fixed number of iterations:** for example 5, 10 or 20.
 
-Figure 3 continues the example for 10 iterations at full precision. With linear regression (blue), the fills settle after about 6 iterations at 26.72, 13.02 and 70.69.
+Figure 5 continues the example for 10 iterations at full precision. With linear regression (blue), the fills settle after about 6 iterations at 26.72, 13.02 and 70.69.
 
 ![The three fills after each iteration, with linear regression and with scikit-learn's default BayesianRidge; the dotted line is the true hidden value](images/convergence.png){width=100%}
 
@@ -275,7 +283,13 @@ As with every imputer, the models must learn only from training observations. If
 > X_test_filled = imp.transform(X_test)
 > ```
 
-On the full 50-row data, we split 70/30, hid 20% of the values in both parts at random, and filled the test part. The error is the root mean squared difference from the true values, in units of 10,000 dollars, over 100 random splits:
+On the full 50-row data, we:
+
+1. split the rows 70/30 into training and test parts;
+2. hid 20% of the values in both parts at random;
+3. fitted each imputer on the training part and filled the test part.
+
+The error is the root mean squared difference from the true values, in units of 10,000 dollars, over 100 random splits:
 
 | Imputer | Error |
 |---|---|
@@ -284,6 +298,10 @@ On the full 50-row data, we split 70/30, hid 20% of the values in both parts at 
 | Iterative (`IterativeImputer`) | 5.88 |
 
 The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a correlation of 0.72, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of Section 2. The Extra below tests this reason directly.
+
+Figure 6 puts the two experiments side by side. Watch the iterative imputer: lowest error on the real data, but no longer the best once the links between the features are broken.
+
+![Error of each imputer over 100 random splits, on the real data and on columns shuffled one by one](images/imputer_error.png){width=100%}
 
 > **Extra:** The test behind this (the last cell of the Notebook). We shuffle each column on its own, which keeps every feature's values but breaks the links between features (all correlations fall below 0.2), and rerun the same 100 splits.
 >

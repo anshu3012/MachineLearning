@@ -17,9 +17,9 @@ tags: [subject/ml, area/production, step/evaluate, concept/bias-variance]
 
 > **Key point:** A model's error on new data comes from two sources: bias (it is too simple to capture the pattern) and variance (it changes too much with the training data). Making one smaller usually makes the other larger (ISL §2.2.2).
 
-The polynomial regression Note showed that a degree too low underfits and a degree too high overfits. This Note gives the two problems their standard names, **bias** and **variance**, and explains why reducing one tends to increase the other. The tension between them is the **bias-variance trade-off**, one of the central ideas of ML.
+The **polynomial regression** (G-1515) Note showed that a degree too low underfits and a degree too high overfits. This Note gives the two problems their standard names, **bias** (G-287) and **variance** (G-2073), and explains why reducing one tends to increase the other. The tension between them is the **bias-variance trade-off** (G-288), one of the central ideas of ML.
 
-Throughout, a **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row).
+Throughout, a **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row).
 
 ## 2. Bias
 
@@ -29,9 +29,13 @@ Suppose the true relationship between a feature and the target is a curve, and w
 
 A high-bias model:
 
-- has a large error on the **training data** itself, because it cannot even fit the points it learns from;
+- has a large error on the **training set** (G-2002) itself, because it cannot even fit the points it learns from;
 - also has a large error on new data;
-- is **underfitting**.
+- is **underfitting** (G-2035).
+
+Figure 1 fits a straight line to one training set of 20 observations from the wave used in section 4. Watch the blue error bars: they stay long even though these are the very points the line was trained on.
+
+![A straight line fitted to one training set of 20 points (blue). The blue bars are its training errors; the dashed wave is the truth. Averaged over 10,000 training sets, the training error is 0.65 and the test error 0.70: both large.](images/bias_fit.png)
 
 ## 3. Variance
 
@@ -44,7 +48,11 @@ How much the model's predictions change from one training set to another is its 
 - has a small error on the training data;
 - has a large error on new data, because it learned noise that does not repeat;
 - shows a big gap between training and test performance;
-- is **overfitting**.
+- is **overfitting** (G-1429).
+
+Figure 2 fits a degree-11 polynomial to the same training set, then shows new points at the same inputs, with fresh noise. Watch the blue bars almost vanish while the red bars to the new points stay long.
+
+![A degree-11 polynomial fitted to the same 20 training points (blue). Blue bars: training errors. Red rings and bars: new points at the same inputs and their errors. Averaged over 10,000 training sets, the training error is 0.10 and the test error 0.40: about four times larger.](images/variance_fit.png)
 
 Model variance has a different meaning from the variance of a feature, the average squared distance of its values from their mean (see the [understanding your data Note](../19-understanding-your-data/note.md), section seven point one, and the [PCA geometric intuition Note](../47-pca-geometric-intuition/note.md), section five). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
 
@@ -54,13 +62,13 @@ Model variance has a different meaning from the variance of a feature, the avera
 
 We use one feature $x$ and the target $y$; each observation is one $(x, y)$ pair. The true relationship is a wave (dashed black).
 
-We build many training sets of 20 observations, as in Figure 1 and Figure 2. Every set uses the same 20 values of $x$ (the grey ticks); only the random noise in $y$ is new each time, the standard setting for measuring bias and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
+We build many training sets of 20 observations, as in Figure 3 and Figure 4. Every set uses the same 20 values of $x$ (the grey ticks); only the random noise in $y$ is new each time, the standard setting for measuring bias and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
 
-Figure 1 shows the experiment as it happens, for two of the models. Each frame draws a new training set and refits both; the earlier fits stay behind as faint ghosts. Watch the lines stay together but miss the wave, while the degree-11 curves scatter more with every new set.
+Figure 3 shows the experiment as it happens, for two of the models. Each frame draws a new training set and refits both; the earlier fits stay behind as faint ghosts. Watch the lines stay together but miss the wave, while the degree-11 curves scatter more with every new set.
 
 ![A straight line and a degree-11 polynomial refitted on 20 training sets (same 20 inputs, new noise each time). At the end, the blue average of the 20 fits shows the bias; the spread of the ghosts shows the variance.](images/resample_fits.gif)
 
-Figure 2 collects the result for three models, with a middle model added.
+Figure 4 collects the result for three models, with a middle model added.
 
 ![The same model trained on 20 different training sets. The grey ticks mark the 20 inputs shared by every training set.](images/many_fits.png)
 
@@ -74,7 +82,7 @@ Figure 2 collects the result for three models, with a middle model added.
 - **Degree 11** follows the wave on average (its average curve sits on the truth) but every curve swings differently, wildly so between the inputs near the edges: high variance.
 - **Degree 5** has both low: the target.
 
-The dartboard in Figure 3 is a common way to picture the four combinations: bias is how far the throws land from the centre on average, variance is how scattered they are.
+The dartboard in Figure 5 is a common way to picture the four combinations: bias is how far the throws land from the centre on average, variance is how scattered they are.
 
 ![Bias and variance as a dartboard](images/dartboard.png){height=42%}
 
@@ -88,11 +96,11 @@ $$\text{expected error} = \text{bias}^2 + \text{variance} + \text{noise}$$
 
 - **Bias²:** error from the model being too simple.
 - **Variance:** error from the model depending too much on the particular training set.
-- **Noise:** randomness in the data itself. No model can remove it.
+- **Noise:** randomness in the data itself, the **irreducible error** (G-1327). No model can remove it.
 
 With numbers, for degree 5: $0.0011 + 0.075 + 0.25 = 0.326$. For degree 1: $0.4195 + 0.025 + 0.25 = 0.695$.
 
-Figure 4 measures all three for degrees 1 to 11. The test error here is the error on a new noisy target at the same 20 inputs.
+Figure 6 measures all three for degrees 1 to 11. The test error here is the error on a new noisy target at the same 20 inputs.
 
 ![Bias², variance and expected test error against the degree](images/tradeoff.png){height=48%}
 
@@ -104,7 +112,7 @@ Figure 4 measures all three for degrees 1 to 11. The test error here is the erro
 
 Making a model more flexible buys lower bias at the price of higher variance, and the reverse: like a tailor choosing between one standard size that fits nobody well and a suit cut so tight to one fitting that it fails the next day. This exchange of one error for the other is the trade-off. The goal is not zero bias or zero variance, but the lowest total error.
 
-> **Extra:** The shapes in Figure 4 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
+> **Extra:** The shapes in Figure 6 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
 >
 > - **Bias² never rises with the degree.** Every polynomial of degree 5 is also a polynomial of degree 6 (with a zero last coefficient), so a larger family can always fit the true curve at least as well as a smaller one.
 > - **Variance grows in a straight line:** it equals $\sigma^2 p / N$, where $\sigma^2 = 0.25$ is the noise, $p$ is the number of coefficients (degree + 1) and $N = 20$ is the number of observations. For degree 11: $0.25 \times 12 / 20 = 0.150$, the value we measured.
@@ -122,9 +130,9 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 
 Three standard techniques, all covered later, target this trade-off directly:
 
-- **Regularisation** (Ridge, Lasso, Elastic Net, the next Notes): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
-- **Bagging** (for example random forests): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in Section 5 uses the same fact.
-- **Boosting**: builds a model in sequence from many small, simple models, each fitted to the errors left by the ones before, so the fit improves step by step where it was poor (ISL §8.2.3).
+- **Regularisation** (G-1659) (Ridge, Lasso, Elastic Net, the next Notes): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
+- **Bagging** (G-251) (for example random forests): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in Section 5 uses the same fact.
+- **Boosting** (G-318): builds a model in sequence from many small, simple models, each fitted to the errors left by the ones before, so the fit improves step by step where it was poor (ISL §8.2.3).
 
 > **Extra:** The terms come from statistics, where the bias of an estimate is the difference between its average value and the true value, which is exactly what Section 4 measured with the average curve. The "bias" here is different from the bias (intercept) term of a model and from social bias in data; it means systematic error of the model's predictions.
 

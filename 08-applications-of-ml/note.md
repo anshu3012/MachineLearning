@@ -20,7 +20,11 @@ Figure 1 shows the five business sectors in this Note and the main ML applicatio
 
 ![ML applications in five business sectors](images/applications_map.png)
 
-Each section below takes one sector and shows the problem the business faces, the data it has, and what ML does with that data.
+Each section below takes one sector and shows three things:
+
+- the problem the business faces;
+- the data it has;
+- what ML does with that data.
 
 ## 2. Consumer and business applications
 
@@ -43,10 +47,16 @@ The list goes on into the hundreds. We use these products so often that we rarel
 
 > **Key point:** B2C products serve ordinary users. B2B uses of ML help a company run its own business, and that is where most of the profit is.
 
-- **B2C** (business to customer): a company sells a product or service to ordinary users. WhatsApp, YouTube and the examples above are B2C.
-- **B2B** (business to business): the product helps a business run itself, for example by deciding what to stock or whom to lend money to.
+- **B2C** (G-245; business to customer): a company sells a product or service to ordinary users. WhatsApp, YouTube and the examples above are B2C.
+- **B2B** (G-244; business to business): the product helps a business run itself, for example by deciding what to stock or whom to lend money to.
 
-When we think of ML, B2C apps come to mind first, because we use them ourselves. B2B uses are less visible, but they make a lot of money. The rest of this Note is about B2B uses in five sectors: retail, banking and finance, transportation, manufacturing, and social media.
+When we think of ML, B2C apps come to mind first, because we use them ourselves. B2B uses are less visible, but they make a lot of money. The rest of this Note is about B2B uses in five sectors:
+
+- retail (Section 3);
+- banking and finance (Section 4);
+- transportation (Section 5);
+- manufacturing (Section 6);
+- social media (Section 7).
 
 ML is also used in many other fields, such as space exploration, medicine and defence.
 
@@ -67,11 +77,11 @@ The company cannot simply increase the stock of every product:
 - extra stock costs a lot of money,
 - most products will not sell much more during the sale.
 
-So before the sale, a data analyst takes the sales data of past years, including past Great Indian Festival sales. Using **data mining** (searching large amounts of data for useful patterns) and ML algorithms, the analyst works out which products to stock up on and which to leave alone.
+So before the sale, a data analyst takes the sales data of past years, including past Great Indian Festival sales. Using **data mining** (G-537; searching large amounts of data for useful patterns) and ML algorithms, the analyst works out which products to stock up on and which to leave alone.
 
 A wrong decision here can cost crores of rupees. Every e-commerce site that runs sales, such as Myntra and Flipkart, makes this decision the same way.
 
-> **Extra:** Predicting how much of a product will sell in the future is called **demand forecasting**. Because the output is a number, it is a regression problem ([Note 3](../03-types-of-ml/note.md)). The same idea comes back in transportation (Section 5.2).
+> **Extra:** Predicting how much of a product will sell in the future is called **demand forecasting** (G-580). Because the output is a number, it is a **regression** (G-1655) problem ([Note 3](../03-types-of-ml/note.md)). The same idea comes back in transportation (Section 5.2).
 
 ### 3.2 Customer profiles for targeted marketing
 
@@ -79,7 +89,7 @@ A wrong decision here can cost crores of rupees. Every e-commerce site that runs
 
 At the checkout of a large store (such as Spencer's or Big Bazaar), the first thing we are asked for is our phone number. The main reason is not to send us offers by SMS. The number is there to track our **buying behaviour**: every bill gets linked to the same number.
 
-From these bills, the store builds a **customer profile**: a summary of what kind of buyer we are.
+From these bills, the store builds a **customer profile** (G-524): a summary of what kind of buyer we are.
 
 - Someone who buys many milk products and health items: *health-conscious*.
 - Others may show up as buying spicy food, sports goods or cosmetics.
@@ -90,14 +100,14 @@ The store can then sell these profiled numbers to other companies. Such sales ar
 
 Figure 2 shows why the profile is worth money. Suppose a gym wants new members.
 
-- **Without the data:** it sends SMS to 1 lakh (100,000) random people. Very few of them are interested, so the **conversion rate** (the share of people reached who become customers) is very low.
+- **Without the data:** it sends SMS to 1 lakh (100,000) random people. Very few of them are interested, so the **conversion rate** (G-474; the share of people reached who become customers) is very low.
 - **With the data:** it buys the numbers of 100 people the store knows are health-conscious. These 100 SMS bring about the same results as 1 lakh random ones.
 
-Reaching only the people most likely to buy is called **targeted marketing**. Because the profiles make advertising this much more effective, the store can charge advertisers more for them.
+Reaching only the people most likely to buy is called **targeted marketing** (G-1951). Because the profiles make advertising this much more effective, the store can charge advertisers more for them.
 
 Google and Facebook do the same with the data of their users. Most internet products are free to use, which leads to a well-known saying: *if you are not paying for the product, you are the product.*
 
-> **Extra:** Grouping customers by their buying behaviour without being told the groups is clustering, a kind of unsupervised learning ([Note 3](../03-types-of-ml/note.md)). In marketing it is called **customer segmentation**.
+> **Extra:** Grouping customers by their buying behaviour without being told the groups is **clustering** (G-401), a kind of **unsupervised learning** (G-2058; [Note 3](../03-types-of-ml/note.md)). In marketing it is called **customer segmentation** (G-525).
 
 ### 3.3 Product placement on shelves
 
@@ -105,7 +115,7 @@ Google and Facebook do the same with the data of their users. Most internet prod
 
 In a supermarket, someone has decided which product sits next to which in the aisles. The placement is often decided with ML.
 
-**Association rule learning** finds how strongly two products are linked: how often they are bought together. If the link is strong, the shop keeps the two products next to each other. The classic example is baby diapers and beer, covered in [Note 3](../03-types-of-ml/note.md).
+**Association rule learning** (G-218) finds how strongly two products are linked: how often they are bought together. If the link is strong, the shop keeps the two products next to each other. The classic example is baby diapers and beer, covered in [Note 3](../03-types-of-ml/note.md).
 
 Without these three uses of ML (stocking, profiles, placement), retail companies would not run nearly as well as they do today.
 
@@ -129,7 +139,7 @@ The ML stage decides which applications reach the officer:
 - **High similarity** to past defaulters (say 80 out of 100): the model reports an 80% chance that this person will not repay. Such a score is a red alarm, and the application is rejected.
 - **Low similarity** (say 10, 15 or 20): the application is passed on to the loan officer.
 
-> **Extra:** Predicting "will repay / will not repay" is a classification problem ([Note 3](../03-types-of-ml/note.md)). In banking it is called **credit scoring**, and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
+> **Extra:** Predicting "will repay / will not repay" is a **classification** (G-395) problem ([Note 3](../03-types-of-ml/note.md)). In banking it is called **credit scoring** (G-502), and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
 
 ### 4.2 Other uses in banking and finance
 
@@ -151,7 +161,7 @@ The wider finance sector, including insurance and the share market (trading), al
 
 > **Key point:** When demand is much higher than the supply of cabs, the fare goes up. The extra money pulls nearby drivers into that area.
 
-Ola and Uber sometimes charge much more than the normal fare at certain times, such as mornings and evenings. A ride that normally costs 100 rupees may cost 200 or 300 rupees. Raising the fare like this is called **surge pricing**.
+Ola and Uber sometimes charge much more than the normal fare at certain times, such as mornings and evenings. A ride that normally costs 100 rupees may cost 200 or 300 rupees. Raising the fare like this is called **surge pricing** (G-1926).
 
 The reason becomes clear from the driver's side. Ola and Uber each have two apps: a user app for riders and a driver app for drivers. The driver app shows a map of the city with some regions marked in red. A driver who reaches a red region in the next 10 minutes and takes a pickup there earns more than usual, for example 2 times the normal fare.
 
@@ -197,7 +207,7 @@ Suppose the robot that puts the engine into each car breaks down. Every car need
 
 > **Key point:** Usual maintenance repairs a machine after it breaks. Predictive maintenance predicts the fault and repairs the machine before it breaks.
 
-To avoid this, companies like Tesla fit their robotic arms with **IoT sensors** (Internet of Things: devices that measure something and send the readings over the internet). The sensors constantly record metrics such as temperature, **RPM** (revolutions per minute, how fast a motor turns) and pressure, and send them to a server.
+To avoid this, companies like Tesla fit their robotic arms with **IoT sensors** (G-971; Internet of Things: devices that measure something and send the readings over the internet). The sensors constantly record metrics such as temperature, **RPM** (G-1715; revolutions per minute, how fast a motor turns) and pressure, and send them to a server.
 
 A fault does not appear all at once: it builds up gradually. Figure 5 shows a motor whose RPM slowly drops from 300 to 299, then 298, then 295. This small, steady drop is a signal that a fault is developing.
 
@@ -206,11 +216,11 @@ A fault does not appear all at once: it builds up gradually. Figure 5 shows a mo
 As soon as the drop is detected, engineers are sent to repair that robotic arm.
 
 - **Usual maintenance:** we repair a machine after it breaks.
-- **Predictive maintenance:** we predict that a machine is going to break, and repair it before it does.
+- **Predictive maintenance** (G-1553): we predict that a machine is going to break, and repair it before it does.
 
 The same idea works in any factory, not only Tesla's. Predictive maintenance is one of the ways ML is changing the manufacturing sector.
 
-> **Extra:** Spotting readings that drift away from a machine's normal behaviour is a form of **anomaly detection**, which [Note 3](../03-types-of-ml/note.md) lists as a use of unsupervised learning.
+> **Extra:** Spotting readings that drift away from a machine's normal behaviour is a form of **anomaly detection** (G-201), which [Note 3](../03-types-of-ml/note.md) lists as a use of unsupervised learning.
 
 ## 7. Social media
 
@@ -220,7 +230,7 @@ The same idea works in any factory, not only Tesla's. Predictive maintenance is 
 
 > **Key point:** Sentiment analysis reads a piece of text and decides whether its writer feels positive or negative.
 
-**Sentiment analysis** decides whether the writer of a text is expressing a positive or a negative opinion. Sentiment analysis belongs to **natural language processing (NLP)**, the part of ML that works with human language, and is used a lot today, for example in chatbots.
+**Sentiment analysis** (G-1769) decides whether the writer of a text is expressing a positive or a negative opinion. Sentiment analysis belongs to **natural language processing (NLP)** (G-1305), the part of ML that works with human language, and is used a lot today, for example in chatbots.
 
 As an example, consider a small website that rates movies from their reviews:
 

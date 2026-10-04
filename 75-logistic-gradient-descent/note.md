@@ -20,7 +20,7 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression]
 The log loss Note gave logistic regression its loss function and noted that it has no closed-form minimum. This Note finishes the journey:
 
 1. write the predictions and the loss in matrix form;
-2. differentiate the loss with respect to the weights;
+2. differentiate the loss with respect to the **weights** (G-2111), the numbers the model learns;
 3. code gradient descent and check it against scikit-learn.
 
 ## 2. Predictions in matrix form
@@ -31,7 +31,7 @@ The log loss Note gave logistic regression its loss function and noted that it h
 
 > **Key point:** For one observation, ŷ = σ(w₀ + w₁x₁ + ... + wₙxₙ).
 
-Take a dataset with $m$ **observations** (records, one row of the data table each) and $n$ **features** (input variables, one column each). The **target** $y$ is the output we predict, here the class 0 or 1. The model has $n + 1$ weights: $w_0$ (the intercept) and $w_1$ to $w_n$. The prediction for observation $i$ is
+Take a dataset with $m$ **observations** (G-1374) (records, one row of the data table each) and $n$ **features** (G-772) (input variables, one column each). The **target** (G-1949) $y$ is the output we predict, here the class 0 or 1. The model has $n + 1$ weights: $w_0$ (the **intercept** (G-960), the part of the prediction that does not depend on any feature) and $w_1$ to $w_n$. The prediction for observation $i$ is
 
 $$\hat y_i = \sigma(w_0 + w_1 x_{i1} + w_2 x_{i2} + \dots + w_n x_{in})$$
 
@@ -47,6 +47,8 @@ where $\sigma$ is applied to each entry. Stacking the predictions as $Xw$ is the
 
 ![The shapes of X, w, ŷ and the gradient](images/shapes.png){height=42%}
 
+In Figure 1, read the top row left to right: the $m$ rows of $X$ times the one column $w$ give one $z$ per observation, and the sigmoid turns each $z$ into a prediction.
+
 ## 3. The loss in matrix form
 
 > **Key point:** L = −(1/m)[yᵀ log ŷ + (1 − y)ᵀ log(1 − ŷ)].
@@ -55,7 +57,7 @@ The log loss from the previous Notes is
 
 $$L = -\frac{1}{m}\sum_{i=1}^{m}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
 
-The sum $\sum_i y_i \log \hat y_i$ multiplies matching entries of two vectors and adds them up, which is the dot product $y^{\mathsf T}\log \hat{y}$. So
+The sum $\sum_i y_i \log \hat y_i$ multiplies matching entries of two vectors and adds them up, which is the **dot product** (G-634) $y^{\mathsf T}\log \hat{y}$. So
 
 $$L = -\frac{1}{m}\left[y^{\mathsf T}\log \hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})\right], \qquad \hat{y} = \sigma(Xw)$$
 
@@ -67,7 +69,7 @@ $$L = -\frac{1}{m}\left[y^{\mathsf T}\log \hat{y} + (1 - y)^{\mathsf T}\log(1 - 
 
 > **Key point:** The derivative of y log ŷ with respect to w is y(1 − ŷ) x.
 
-For a single observation, differentiate $y \log \hat{y}$ step by step with the chain rule:
+For a single observation, differentiate $y \log \hat{y}$ step by step with the **chain rule** (G-371) (multiply the derivatives of the nested steps):
 
 - the derivative of $\log \hat{y}$ with respect to $\hat{y}$ is $1/\hat{y}$;
 - the derivative of $\hat{y} = \sigma(z)$ with respect to $z$ is $\hat{y}(1 - \hat{y})$ (the sigmoid derivative Note);
@@ -94,11 +96,15 @@ Adding the two parts:
 
 $$y(1 - \hat{y}) - (1 - y)\hat{y} = y - y\hat{y} - \hat{y} + y\hat{y} = y - \hat{y}$$
 
+![The cancellation along $z$. The log's slope (orange, dashed) blows up where $\hat y$ nears 0 or 1, and the sigmoid's slope (blue, dotted) shrinks there. Their product (green) is the plain $y - \hat y$.](images/cancel.png){height=45%}
+
+In Figure 2, watch the green product stay between −1 and 1 even where the orange slope shoots off the chart: the two chain-rule factors cancel exactly.
+
 So for one observation, the derivative of the bracket is $(y - \hat{y})\thinspace x$. Summing over all observations, with the $-\frac{1}{m}$ in front, and writing the sum as a matrix product:
 
 $$\frac{\partial L}{\partial w} = -\frac{1}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 
-$X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \times 1$, so the gradient has shape $(n + 1) \times 1$: one slope per weight, the same shape as $w$ (Figure 1).
+$X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \times 1$, so the **gradient** (G-865) has shape $(n + 1) \times 1$: one slope per weight, the same shape as $w$ (Figure 1).
 
 > **Extra:** This gradient has exactly the same form as the one for linear regression with mean squared error: $X^{\mathsf T}(\text{actual} - \text{predicted})$, scaled. The only difference is that the predictions now pass through the sigmoid (Bishop §4.3.2).
 
@@ -106,11 +112,15 @@ $X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \t
 
 > **Key point:** w_new = w_old + η (1/m) Xᵀ(y − ŷ).
 
-Gradient descent steps against the gradient:
+Gradient descent steps against the gradient. The step size $\eta$ is the **learning rate** (G-1068):
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w} = w_{\text{old}} + \frac{\eta}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 
-Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \eta(y - \hat{y})x$ for one random point. The new rule is the same idea, averaged over **all** points in each step. The perceptron was one-point stochastic gradient descent on this very loss, run for a fixed number of steps; batch gradient descent, run to the end, reaches the true minimum.
+Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \eta(y - \hat{y})x$ for one random point. The new rule is the same idea, averaged over **all** points in each step. The perceptron was one-point **stochastic gradient descent** (G-1892) on this very loss, run for a fixed number of steps. **Batch gradient descent** (G-264) uses all points in every step and, run to the end, reaches the true minimum.
+
+![Log loss on the 100 points of Section 7 against the number of updates, both starting from w = (1, 1, 1). Orange: the sigmoid perceptron's rule, one random point per update (learning rate 0.1). Blue: the batch rule, all points per update (learning rate 0.5).](images/update_compare.png){height=45%}
+
+In Figure 3, watch the orange curve jitter above the dashed minimum (0.1383 after 5,000 updates) while the blue curve settles onto it (0.1366): each one-point step pulls towards a single point, the batch step towards all of them.
 
 ## 6. The code
 
@@ -135,11 +145,13 @@ Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \e
 
 > **Key point:** After 5,000 epochs, the weights match scikit-learn's to three decimals.
 
+One **epoch** (G-696) is one pass over all the training points; batch gradient descent makes one update per epoch.
+
 The test data has 100 points with two features whose classes overlap a little (`make_classification`, `class_sep=1.5`, random state 4). scikit-learn's `LogisticRegression(penalty=None)` fits the same model without regularisation, so the two should agree.
 
-![Batch gradient descent on the 100 points. Left: the line where p = 0.5 turns into place; the dashed line is scikit-learn's. Right: the log loss per epoch (log scale) falls to scikit-learn's minimum.](images/boundary_gd.gif){height=56%}
+![Batch gradient descent on the 100 points. Left: the decision boundary (p = 0.5) turns into place; the dashed line is scikit-learn's. Right: the log loss per epoch (log scale) falls to scikit-learn's minimum.](images/boundary_gd.gif){height=56%}
 
-In Figure 2, watch the orange line swing from its start at w = (1, 1, 1) onto the dashed scikit-learn line while the loss curve flattens onto the dashed minimum.
+In Figure 4, watch the orange line, the **decision boundary** (G-555) where $p = 0.5$, swing from its start at w = (1, 1, 1) onto scikit-learn's dashed decision boundary while the loss curve flattens onto the dashed minimum.
 
 | | Intercept | $w_1$ | $w_2$ | Log loss |
 |---|---|---|---|---|
@@ -149,7 +161,7 @@ In Figure 2, watch the orange line swing from its start at w = (1, 1, 1) onto th
 | After 5,000 epochs | $-1.568$ | $-0.220$ | 3.623 | 0.1366 |
 | scikit-learn | $-1.569$ | $-0.220$ | 3.623 | 0.1366 |
 
-The loss falls quickly at first and then levels off at scikit-learn's minimum (Figure 2, right). The line turns into place and ends on top of scikit-learn's (left). The model classifies 92% of the points correctly; the rest lie in the overlap, where no straight line can be perfect.
+The loss falls quickly at first and then levels off at scikit-learn's minimum (Figure 4, right). The decision boundary turns into place and ends on top of scikit-learn's (left). The model classifies 92% of the points correctly; the rest lie in the overlap, where no straight decision boundary can be perfect.
 
 > **Python:** The scikit-learn equivalent.
 >
@@ -165,9 +177,9 @@ The loss falls quickly at first and then levels off at scikit-learn's minimum (F
 
 ## 8. Perfectly separable data
 
-> **Key point:** If a line separates the classes perfectly, the loss can always be made smaller by making the weights larger, so the weights never settle.
+> **Key point:** If a straight decision boundary separates the classes perfectly, the loss can always be made smaller by making the weights larger, so the weights never settle.
 
-On the data of the perceptron Notes, where the classes are perfectly separated (`class_sep=20`), something different happens:
+On the data of the perceptron Notes, where the classes are perfectly separated (`class_sep=20`), something different happens. This case is called **perfect separation** (G-1487):
 
 | Epochs | Weights $(w_0, w_1, w_2)$ | Log loss |
 |---|---|---|
@@ -177,13 +189,13 @@ On the data of the perceptron Notes, where the classes are perfectly separated (
 
 The weights keep growing, and the loss keeps shrinking towards 0 without ever reaching it.
 
-![Batch gradient descent on perfectly separated points. Left: the pale band is where the model is unsure (0.1 < p < 0.9); the orange line is p = 0.5. Right: the length of the weight vector per epoch (log scale).](images/separable_growth.gif){height=56%}
+![Batch gradient descent on perfectly separated points. Left: the pale band is where the model is unsure (0.1 < p < 0.9); the orange line is the decision boundary, p = 0.5. Right: the length of the weight vector per epoch (log scale).](images/separable_growth.gif){height=56%}
 
-In Figure 3, the line turns only slowly, yet the weights keep growing and the unsure band keeps narrowing: the model grows ever more confident instead of settling.
+In Figure 5, the decision boundary turns only slowly, yet the weights keep growing and the unsure band keeps narrowing: the model grows ever more confident instead of settling.
 
-The reason: once every point is on its correct side, multiplying all the weights by 2 keeps the same line but makes every $z$ twice as large, so every $\hat{y}$ moves closer to its correct 0 or 1. The loss always decreases, so there is no finite minimum (Bishop §4.3.2). The line itself still turns slowly: its slope $-w_1/w_2$ goes from $-30$ to $-23$ to $-18$ in the table. Gradient descent turns it towards the line with the widest gap, but only very slowly (Soudry et al. 2018).
+The reason: once every point is on its correct side, multiplying all the weights by 2 keeps the same decision boundary but makes every $z$ twice as large, so every $\hat{y}$ moves closer to its correct 0 or 1. The loss always decreases, so there is no finite minimum (Bishop §4.3.2). The decision boundary itself still turns slowly: its slope $-w_1/w_2$ goes from $-30$ to $-23$ to $-18$ in the table. Gradient descent turns it towards the decision boundary with the widest gap, but only very slowly (Soudry et al. 2018).
 
-In practice this is handled by stopping after a fixed number of epochs, or by adding regularisation, the standard fix (Bishop §4.3.2). scikit-learn uses a penalty by default.
+In practice this is handled by stopping after a fixed number of epochs, or by adding **regularisation** (G-1659), a penalty on large weights in the loss, the standard fix (Bishop §4.3.2). scikit-learn uses a penalty by default.
 
 ## 9. Summary
 
@@ -208,7 +220,10 @@ In practice this is handled by stopping after a fixed number of epochs, or by ad
 
 | Term | Meaning |
 |---|---|
+| Decision boundary | The line where the model's probability is exactly 0.5; one class is predicted on each side |
+| Learning rate ($\eta$) | The step size $\eta$ that scales each gradient descent update |
+| Epoch | One pass over all the training points |
 | Gradient | The vector of slopes of the loss, one for each weight |
 | Batch gradient descent | Gradient descent that uses all observations for every update |
 | penalty=None | LogisticRegression setting that switches regularisation off |
-| Perfect separation | When a line splits the training classes with no mistakes; unregularised weights then grow without limit |
+| Perfect separation | When a straight decision boundary splits the training classes with no mistakes; unregularised weights then grow without limit |

@@ -38,10 +38,14 @@ ML algorithms work the same way (Figure 1).
 
 ![Two ways to learn, in people and in ML](images/memorise_vs_understand.png)
 
-- **Instance-based learning** memorises: it keeps the training data and compares new points with it.
-- **Model-based learning** understands: it extracts the underlying pattern as a mathematical function and uses that.
+- **Instance-based learning** (G-955) memorises: it keeps the training data and compares new points with it.
+- **Model-based learning** (G-1257) understands: it extracts the underlying pattern as a mathematical function and uses that.
 
-Both are explained below with the same example: predicting whether a student will be placed, from their IQ and CGPA. IQ and CGPA are the **features** (input variables, one column each in the data table). Placed or not is the **target** (the output we predict). Each student is one **observation** (one record, one row of the table).
+Both are explained below with the same example: predicting whether a student will be placed, from their IQ and CGPA. Three words describe this data:
+
+- IQ and CGPA are the **features** (G-772; input variables, one column each in the data table);
+- placed or not is the **target** (G-1949; the output we predict);
+- each student is one **observation** (G-1374; one record, one row of the table).
 
 ## 3. Instance-based learning
 
@@ -58,15 +62,15 @@ In **instance-based learning**, training does nothing except store the training 
 Figure 2 shows the steps for a new student with IQ 94.5 and CGPA 8.3:
 
 1. **Store:** keep every training point. Green points were placed, red were not.
-2. **Measure:** compute the **distance** from the new student to every stored student. Distance measures **similarity**: the closer two points are, the more alike the students.
+2. **Measure:** compute the **distance** (G-623) from the new student to every stored student. Distance measures **similarity** (G-1805): the closer two points are, the more alike the students.
 3. **Pick the nearest:** keep the *k* closest points. Here *k* = 3.
 4. **Vote:** 2 of the 3 nearest students were placed, so the prediction is *placed*.
 
 The idea behind step 4: points that are close together tend to share the same answer. A student who looks like placed students will probably be placed too.
 
-This procedure is the **K-nearest neighbours (KNN)** algorithm, covered in detail in later Notes.
+This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered in detail in later Notes.
 
-> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ: the distance is $\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$, and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both features are put on the same scale (**feature scaling**, see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2 and 3 were found this way.
+> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ: the distance is $\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$, and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both features are put on the same scale (**feature scaling**, G-767; see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2 and 3 were found this way.
 
 ### 3.2 No real training
 
@@ -74,7 +78,7 @@ This procedure is the **K-nearest neighbours (KNN)** algorithm, covered in detai
 
 Until the new student arrived, the algorithm did nothing with the data: it simply held on to it. Only when the question came did it look at the data and work out an answer.
 
-So in instance-based learning, there is no real training step. Putting off the work is why instance-based learning is also called **lazy learning**: the method puts off the work until a question arrives (Mitchell 1997, §8.6).
+So in instance-based learning, there is no real training step. Putting off the work is why instance-based learning is also called **lazy learning** (G-1057): the method puts off the work until a question arrives (Mitchell 1997, §8.6).
 
 ## 4. Model-based learning
 
@@ -86,7 +90,7 @@ So in instance-based learning, there is no real training step. Putting off the w
 
 In **model-based learning**, the algorithm studies the training data and builds a mathematical function that connects the features to the target.
 
-For a classification problem, the learned function is a **decision boundary**: a line (or curve) that separates the classes. Every point on one side is predicted *placed*; every point on the other side, *not placed*.
+For a **classification** (G-395) problem, the learned function is a **decision boundary** (G-555): a line (or curve) that separates the classes. Every point on one side is predicted *placed*; every point on the other side, *not placed*.
 
 ![Same data, two approaches](images/two_approaches.png)
 
@@ -99,12 +103,12 @@ Figure 3 shows both approaches on the same data, classifying the same new studen
 
 > **Key point:** Once the function is learned, the training data can be thrown away.
 
-After training, a model-based algorithm keeps only the function. To classify a new student, we check which side of the boundary they fall on; the training points play no part.
+After training, a model-based algorithm keeps only the function. To classify a new student, we check which side of the decision boundary they fall on; the training points play no part.
 
-The function is described by a few numbers called **parameters**. For example:
+The function is described by a few numbers called **parameters** (G-1448). For example:
 
-- in a straight-line model, the parameters are the line's slope and intercept;
-- in a neural network, the parameters are its weights.
+- in a straight-line model, the parameters are the line's **slope** (G-1823) and **intercept** (G-960);
+- in a neural network, the parameters are its **weights** (G-2106).
 
 ![What each approach keeps after training](images/what_is_kept.png)
 
@@ -122,7 +126,7 @@ The instance-based examples in the table come from Mitchell (1997, Ch. 8).
 | Locally weighted regression | Logistic regression |
 | Radial basis function (RBF) networks | Decision trees, neural networks and most other algorithms |
 
-> **Extra:** Model-based learning is sometimes called **eager learning**, the opposite of lazy learning: all the work is done up front, before any question arrives (Mitchell 1997, §8.6).
+> **Extra:** Model-based learning is sometimes called **eager learning** (G-655), the opposite of lazy learning: all the work is done up front, before any question arrives (Mitchell 1997, §8.6).
 
 ## 5. Comparing the two
 
