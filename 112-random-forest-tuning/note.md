@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); ML pipelines ([Note 13](../13-toy-project/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Feature importance ([Note 99](../99-regression-trees/note.md)).
 > - **Leads to:** Stacking and blending ([Note 127](../127-stacking-blending/note.md)); Random under- and oversampling ([Note 133](../133-imbalanced-data/note.md)); Balanced random forest ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
@@ -94,7 +94,7 @@ Figure 4 shows why. Watch the spread of the dots: one fold of about 30 patients 
 
 `max_samples` sets how many training observations each tree gets (the [random forest hyperparameters Note](../111-random-forest-hyperparameters/note.md), section 3). The default, `None`, gives each tree a bootstrap sample as large as the training set.
 
-**The idea.** When every tree sees a large sample, the samples overlap a lot, so the trees learn much the same thing and make the same mistakes. Averaging copies of the same mistake does not cancel it. Smaller samples overlap less, so the trees differ more: their **correlation between base models** (G-488) is lower, and their mistakes cancel more often in the vote. The [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) gives the formula: the less alike the trees, the lower the forest's variance (ESL §15.2). Breiman's bound on a forest's error says the same: error falls when the trees are less correlated, as long as each tree stays reasonably accurate (Breiman 2001, Thm 2.3).
+**The idea.** When every tree sees a large sample, the samples overlap a lot, so the trees learn much the same thing and make the same mistakes. Averaging copies of the same mistake does not cancel it. Smaller samples overlap less, so the trees differ more: their **correlation between base models** (G-488) is lower, and their mistakes cancel more often in the vote. The [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) gives the formula: the less alike the trees, the lower the forest's variance (ESL §15.2).
 
 **The result.** We change only `max_samples` and score each forest with 10-fold cross-validation, averaged over 20 runs:
 
@@ -286,7 +286,6 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 
 **Other references**
 
-- Breiman, L. (2001). Random forests. *Machine Learning*, 45(1), 5–32.
 - Cawley, G. C. and Talbot, N. L. C. (2010). On over-fitting in model selection and subsequent selection bias in performance evaluation. *Journal of Machine Learning Research* 11, 2079–2107.
 - Fernández-Delgado, M., Cernadas, E., Barro, S. and Amorim, D. (2014). Do we need hundreds of classifiers to solve real world classification problems? *Journal of Machine Learning Research* 15, 3133–3181.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §10.7 (Table 10.1), §15.2.

@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/features, step/model, concept/rn
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Tanh ([Note 1027](../1027-activation-functions/note.md)); Exploding gradient and gradient clipping ([Note 1029](../1029-weight-initialization/note.md)); Sequential data ([Note 1055](../1055-why-rnn/note.md)); Parameter sharing across time steps ([Note 1056](../1056-rnn-forward-propagation/note.md)).
+> - **Builds on:** Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Exploding gradient and gradient clipping ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Tanh ([Note 1027](../1027-activation-functions/note.md)); Sequential data ([Note 1055](../1055-why-rnn/note.md)); Parameter sharing across time steps ([Note 1056](../1056-rnn-forward-propagation/note.md)); Backpropagation through time (BPTT) ([Note 1059](../1059-backpropagation-through-time/note.md)).
 > - **Leads to:** Types of RNN (many-to-one, one-to-many, many-to-many) ([Note 1058](../1058-types-of-rnn/note.md)); LSTM (long short-term memory) ([Note 1061](../1061-lstm/note.md)); Next-word prediction with an LSTM ([Note 1063](../1063-lstm-next-word-prediction/note.md)); GRU (gated recurrent unit) ([Note 1064](../1064-gru/note.md)); Deep (stacked) RNNs ([Note 1065](../1065-deep-rnns/note.md)); Bidirectional RNNs ([Note 1066](../1066-bidirectional-rnn/note.md)).
 > - **Compare with:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
 <!-- /where-this-fits -->

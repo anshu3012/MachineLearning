@@ -8,7 +8,7 @@ tags: [subject/maths, area/descriptive, area/likelihood, step/foundations, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
+> - **Builds on:** Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Probability distributions ([Note 210](../210-statistics-roadmap/note.md)).
 > - **Leads to:** Maximum likelihood estimation (MLE) ([Note 631](../631-maximum-likelihood-estimation/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 > - **Compare with:** Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->

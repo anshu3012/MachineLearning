@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Convolution operation and feature maps ([Note 1042](../1042-convolution-operation/note.md)).
+> - **Builds on:** Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Convolution operation and feature maps ([Note 1042](../1042-convolution-operation/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,7 +19,9 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 
 - convolution;
 - max pooling;
-- flatten. This Note sets the problem up on the smallest possible CNN and finds the gradients of its last layer. The [part 2 Note](../1048-backpropagation-cnn-layers/note.md) goes back through flatten, max pooling and convolution.
+- flatten.
+
+This Note sets the problem up on the smallest possible CNN and finds the gradients of its last layer. The [part 2 Note](../1048-backpropagation-cnn-layers/note.md) goes back through flatten, max pooling and convolution.
 
 ![The small CNN as a chain of operations, with the shape of every tensor. The trainable parameters are $W_1, b_1$ (the filter) and $W_2, b_2$ (the output node). Backpropagation walks the chain from right to left](images/cnn_chain.png){width=100%}
 

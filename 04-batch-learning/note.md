@@ -8,6 +8,7 @@ tags: [subject/ml, area/foundations, area/production, step/foundations, step/dep
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** APIs ([Note 7](../07-challenges-in-ml/note.md)); Software integration ([Note 7](../07-challenges-in-ml/note.md)); Saving models with pickle ([Note 9](../09-mldlc/note.md)); ML pipelines ([Note 13](../13-toy-project/note.md)).
 > - **Leads to:** Online learning ([Note 5](../05-online-learning/note.md)); MLOps and cost ([Note 7](../07-challenges-in-ml/note.md)); Framing an ML problem ([Note 9](../09-mldlc/note.md)); Beta and A/B testing ([Note 9](../09-mldlc/note.md)).
 > - **Compare with:** Online learning ([Note 5](../05-online-learning/note.md)).
 <!-- /where-this-fits -->
@@ -130,6 +131,8 @@ Each extra retrain costs another full training run on all the data, so the sched
 ## 5. Problems with batch learning
 
 > **Key point:** Batch learning struggles with very large data, with models we cannot reach, and with situations that change fast.
+
+Batch learning is the usual choice, and most deployed models are trained this way. It causes problems only in a few specific situations.
 
 ### 5.1 Too much data
 

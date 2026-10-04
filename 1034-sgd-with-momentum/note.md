@@ -214,7 +214,7 @@ Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps a
 
 `momentum` is $\beta$, and its default is 0. With `momentum=0.9` and `nesterov=False` (the default) Keras uses the update of section 6.
 
-> **Extra:** Keras writes the same update with the sign of $v$ flipped: $v \leftarrow \beta v - \eta g$, then $w \leftarrow w + v$ (Keras `SGD` documentation). Both give the same weights. Some books, such as Goodfellow et al. (2016, §8.3.2), use this form too.
+> **Extra:** Keras writes the same update with the sign of $v$ flipped: $v \leftarrow \beta v - \eta g$, then $w \leftarrow w + v$ (Keras `SGD` documentation). Both give the same weights.
 
 ## 10. Summary
 

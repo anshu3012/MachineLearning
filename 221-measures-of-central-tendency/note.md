@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
+> - **Builds on:** Exploratory data analysis ([Note 9](../09-mldlc/note.md)); Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
 > - **Leads to:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Standardization ([Note 1023](../1023-data-scaling-in-ann/note.md)).
 > - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Expected value and variance of a random variable ([Note 332](../332-expected-value-and-variance/note.md)).
 <!-- /where-this-fits -->

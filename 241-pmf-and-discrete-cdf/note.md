@@ -8,7 +8,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note 90](../90-gaussian-naive-bayes/note.md)); Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)).
+> - **Builds on:** Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Probability distributions ([Note 210](../210-statistics-roadmap/note.md)).
 > - **Leads to:** Poisson distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); P-values ([Note 300](../300-p-values/note.md)).
 > - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Poisson distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)).
 <!-- /where-this-fits -->

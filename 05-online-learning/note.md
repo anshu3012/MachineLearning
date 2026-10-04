@@ -8,7 +8,7 @@ tags: [subject/ml, area/foundations, area/models-1, area/production, step/founda
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Model drift ([Note 4](../04-batch-learning/note.md)).
+> - **Builds on:** Model drift ([Note 4](../04-batch-learning/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)).
 > - **Leads to:** Framing an ML problem ([Note 9](../09-mldlc/note.md)); Perceptron loss ([Note 1006](../1006-perceptron-loss/note.md)); Batch size in Keras ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
 > - **Compare with:** Batch (offline) learning ([Note 4](../04-batch-learning/note.md)); Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)); SGD with momentum ([Note 1034](../1034-sgd-with-momentum/note.md)).
 <!-- /where-this-fits -->
@@ -71,7 +71,7 @@ Many companies still use batch learning, but the industry is moving towards onli
 
 > **Key point:** Use online learning when the problem keeps changing, when the data is huge, or when results are needed fast.
 
-1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. Here the model must keep adapting, which is exactly what online learning does.
+1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. This drifting of the problem is **concept drift** (Section 4.1 of the [batch learning Note](../04-batch-learning/note.md)). Here the model must keep adapting, which is exactly what online learning does.
 2. **Cost.** Retraining a batch model on a very large dataset is expensive. Online learning works with small mini-batches, so each step costs little.
 3. **Speed.** Each training step is tiny, so the model reflects new data almost immediately.
 
@@ -94,7 +94,7 @@ For problems that do not change, batch learning is still simpler and works well.
 
 > **Key point:** `fit` starts from scratch on all the data; `partial_fit` continues from where the model left off.
 
-Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training.
+Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training. scikit-learn is designed around batch learning, so only some of its models offer `partial_fit`.
 
 One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; covered in later Notes), but learns step by step, which is what makes `partial_fit` possible.
 

@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, step/reduce, concept/pca]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)); Feature extraction ([Note 47](../47-pca-geometric-intuition/note.md)); Variance ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Standardization ([Note 9](../09-mldlc/note.md)); Variance ([Note 19](../19-understanding-your-data/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)).
 > - **Compare with:** Low-rank approximation (truncated SVD) ([Note 612](../612-low-rank-approximation/note.md)).
 <!-- /where-this-fits -->
 

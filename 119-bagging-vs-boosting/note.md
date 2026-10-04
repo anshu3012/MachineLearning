@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Underfitting ([Note 91](../91-knn/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)); Bias-variance trade-off ([Note 109](../109-random-forest-bias-variance/note.md)).
+> - **Builds on:** Underfitting ([Note 7](../07-challenges-in-ml/note.md)); Ensemble learning ([Note 9](../09-mldlc/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)).
 > - **Leads to:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)).
 <!-- /where-this-fits -->

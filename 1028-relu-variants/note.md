@@ -204,8 +204,6 @@ Advantages:
 
 Disadvantage: it needs an exponential, so it is slower to compute than ReLU. Faster convergence partly makes up for it, because fewer epochs are needed.
 
-> **Extra:** ReLU itself is continuous; what jumps at 0 is its slope, from 0 to 1. ELU's slope approaches $\alpha$ from the left and is 1 on the right, so it is continuous only when $\alpha = 1$, the value used in the original paper (Clevert et al. 2016) and Keras' default. Values such as 0.1 to 0.3 make the negative side shallower but bring back a jump in the slope.
-
 ### 6.2 SELU
 
 > **Key point:** SELU is ELU multiplied by a fixed $\lambda \approx 1.0507$, with fixed $\alpha \approx 1.6733$. Its outputs keep mean 0 and standard deviation 1 from layer to layer: it is self-normalising.

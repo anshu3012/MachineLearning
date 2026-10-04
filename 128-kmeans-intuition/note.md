@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)).
+> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Expectation maximization (EM) ([Note 641](../641-expectation-maximization/note.md)).
 > - **Leads to:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
 > - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
@@ -78,7 +78,7 @@ Figure 2 draws this example.
 
 In Figure 1 (bottom left), the green centroid moves to the middle of its many points, between the right and bottom groups. The orange centroid moves up into the top group.
 
-> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like KNN (the [KNN Note](../91-knn/note.md), section 3.2), k-means is distance-based, so Figure 1 uses standardized values (the [standardization Note](../24-standardization/note.md)). How the features are scaled changes which clusters come out, and standardizing is not always the right choice either (ESL §14.3.3).
+> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like KNN (the [KNN Note](../91-knn/note.md), section 3.2), k-means is distance-based, so Figure 1 uses standardized values (the [standardization Note](../24-standardization/note.md)).
 
 ### 4.4 Step 5: stop when the centroids stop moving
 
@@ -181,7 +181,6 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 
 **Other references**
 
-- ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.3 (object dissimilarity and standardization in clustering).
 - Schubert 2022: E. Schubert, *Stop using the elbow criterion for k-means and how to choose the number of clusters instead*, arXiv:2212.12189, 2022.
 - Rousseeuw 1987: P. J. Rousseeuw, *Silhouettes: a graphical aid to the interpretation and validation of cluster analysis*, Journal of Computational and Applied Mathematics 20, 1987, 53–65.
 

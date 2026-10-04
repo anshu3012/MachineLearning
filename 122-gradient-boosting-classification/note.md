@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 119](../119-bagging-vs-boosting/note.md)); Learning rate ([Note 120](../120-gradient-boosting-intuition/note.md)).
+> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Learning rate ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Leads to:** XGBoost ([Note 123](../123-xgboost-intro/note.md)).
 > - **Compare with:** AdaBoost ([Note 118](../118-adaboost-hyperparameters/note.md)).
 <!-- /where-this-fits -->

@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Training curves (History) ([Note 1022](../1022-early-stopping/note.md)); Sigmoid function ([Note 1027](../1027-activation-functions/note.md)).
+> - **Builds on:** Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Training curves (History) ([Note 1011](../1011-customer-churn-ann/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)).
 > - **Leads to:** Xavier and He initialisation ([Note 1030](../1030-xavier-he-initialization/note.md)); Skip connections ([Note 1054](../1054-keras-functional-api/note.md)); Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)); Long-term dependency problem ([Note 1060](../1060-problems-with-rnn/note.md)).
 <!-- /where-this-fits -->
 
@@ -88,8 +88,6 @@ We check this in Keras on 300 observations of `make_moons` (G-111; two features,
 - the accuracy is 47%: every observation gets the same prediction.
 
 Tanh gives the same numbers.
-
-> **Extra:** For ReLU, the slope at 0 is also 0 (TensorFlow's convention, checked in the Notebook of the [activation functions Note](../1027-activation-functions/note.md)), a second zero factor. Tanh's slope at 0 is 1, not 0, so for tanh the zeros come only from $a = 0$ and the zero weights after the node. The result is the same.
 
 > **Python:** Overwriting the starting weights.
 >

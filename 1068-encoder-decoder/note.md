@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-rnn, area/dl-transformers, step/model, con
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Types of RNN (many-to-one, one-to-many, many-to-many) ([Note 1058](../1058-types-of-rnn/note.md)); LSTM (long short-term memory) ([Note 1063](../1063-lstm-next-word-prediction/note.md)).
+> - **Builds on:** Types of RNN (many-to-one, one-to-many, many-to-many) ([Note 1058](../1058-types-of-rnn/note.md)); LSTM (long short-term memory) ([Note 1061](../1061-lstm/note.md)).
 > - **Leads to:** Attention mechanism ([Note 1069](../1069-attention-mechanism/note.md)); Transformer ([Note 1071](../1071-introduction-to-transformers/note.md)); Masked self-attention ([Note 1081](../1081-masked-self-attention/note.md)).
 <!-- /where-this-fits -->
 

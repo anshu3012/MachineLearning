@@ -1,0 +1,453 @@
+Hello guys, welcome to my YouTube channel.
+We are doing feature engineering and today we will start a new thing in feature engineering.
+It's called encoding numerical data or encoding numerical features.
+So let's start the topic.
+So guys, we had learned a few days ago how to encode a given categorical variable.
+Today we are seeing another variation of it that how to encode numerical data.
+If you have a data, let's say age, and there are different values in age like 27, 28, 39 and so on.
+So, how can you precisely convert this into categorical data? That is what we are going to study.
+Now, you might think that numerical data is good, then why do we have to convert numerical data into categorical data?
+So honestly it depends. Sometimes there is a need that the numerical data you have
+will have better representation when that data is categorical.
+I can give you one example. A few days ago I was working on a small machine learning problem
+and there was a data set of Google Play Store from where you download apps.
+Now there was a column called number of downloads.
+Now the number of downloads column had strange values.
+The less famous apps had this kind of value 23.
+The famous apps had a very big value something like this.
+Very big.
+Then there was a small value.
+So this numerical representation will not help you much because if you plot it then this curve will look like this
+Means download of many apps is less and some apps download is more
+So what I did here is that I converted this numerical data into categories by creating bins
+Means 100 plus downloads, 1000 plus downloads, 1 million plus downloads, 10k plus downloads, 1 billion downloads.
+So suddenly, as soon as I did this, my whole problem got simplified and results also started coming out better.
+So I am telling you that it is very problem specific that you may have to convert your numerical data to categorical data.
+So in today's video we are going to see that only. There are two famous techniques to convert numerical to categorical.
+The first technique is called discretization which we call binning.
+This is a common term.
+In some places you will get discretization and in some places you will get binning.
+So I prefer binning because I can say discretization.
+So binning is the first way.
+The second way is called BINARIZATION.
+And we have to learn these two techniques in this video.
+So first I will teach you discretization, binning in a little detail.
+And then I will give you a little idea of BINARIZATION.
+And that's it. If you learn these two techniques, then you will never have a problem in converting your numerical data to categorical.
+So let's first focus on discretization or we can call it binning.
+So let me bring it down a little because it is not visible.
+So yeah, if you want to define discretization or binning, then it is written here.
+It is a process of transforming continuous variables into discrete variables by creating a set of contiguous intervals that span the range of the variable's value.
+Discretization is also called binning where bin is an alternative name for interval.
+It is a very simple thing. What do you do here?
+Suppose you have a column called age where there are a lot of values.
+23, 42, 57, 81, 100.
+Now you said that I have to convert it to discrete.
+So what will you do? You will make intervals in it.
+0 to 10 is one interval which you can call bin.
+10 to 20 is the other one. Just like histogram works.
+20 to 30 and so on.
+So now you will check how many values are there between 0 and 10? 5.
+How many are there between 10 and 20? 6.
+How many are there between 20 and 30? 10.
+And this graph of age, if it was a pdf,
+means if the histogram was like this before,
+then basically you are making its histogram.
+In a given range, 0 to 10, 10 to 20 and so on.
+So this is what discretization is.
+Roughly speaking, this is it. There is nothing more than this.
+So, I hope you understood discretization.
+Now, what is the benefit of using discretization? What is the benefit of doing binning?
+There are two benefits. The first is that you can handle outliers a little better.
+How? Suppose, there is a person at the very end.
+Whose age is very high. So, obviously, he is an outlier.
+But as you make bins, suppose your last bin was this.
+So, your value here and here are equal to this bin.
+So, your outlier is now similar to this guy which was in the beginning of that bin.
+So, you can handle outliers a little bit. This is the first reason.
+Second reason is to improve the value spread.
+If there is a lot of data in the middle, then you can spread it.
+I will tell you that we will study 3 techniques and you will be able to improve the value spread.
+You will be able to make the spread of data uniform. This is what we have to do.
+Now let's quickly discuss what are the types of discretization.
+It is divided into 3 categories. Discretization or Binning.
+I will write one by one.
+So, one class of binning is unsupervised binning.
+Second class is supervised binning.
+And the third class is custom binning.
+We will study this at the end.
+Now, in unsupervised you have three techniques.
+First one is equal width binning. We call it as uniform binning.
+Second one is equal frequency binning. We call it as quantile binning.
+And the third one is called K-means binning, and we call it K-means binning only.
+And in supervise, only one binning technique is used and that is called decision tree binning.
+So in today's video, we will leave this and read the rest.
+We will read equal width binning, equal frequency, K-means binning and custom binning.
+I am not focusing on this because you need to understand decision tree to study this, I will make a video about it later.
+Mostly when you do binning, you use one of these 4 techniques, this is a little rare, so I am not covering it in this video.
+You can study it yourself, you will get a lot of resources about them.
+So now, let's focus on the first one, that is equal width or uniform binning.
+Now, what is Funda here? Funda is very simple, the definition of binning you have read till now, you do exactly the same here.
+Suppose you have data called age, there are different numbers.
+So what will you do? First of all, you have to tell yourself that how many bins do you want?
+How many bins do you want? Let's say you said I want 10 bins.
+You have to decide these bins. You said you want 10 bins.
+So now we need a formula, which is max minus min divided by number of bins.
+Suppose your max value is 100 and your min value is 0, let's say, and your number of bins is 10.
+So, what will happen is that your intervals will be 100 minus 0 divided by 10, which means 10.
+Now, your intervals will be like this, from 0 to 10, this is your first interval or the first bin.
+After that, the second will be 10 to 20, after that 20 to 30 and so on.
+These are your bins and how many bins are there in total?
+10 bins. Now what you have to do is pick up every value and question in which bin it will come.
+It will come in this bin. So here 1 has come. Which bin will it come in? It will come in the next one.
+Here 1 has come. In which one will it come? It will come here. In which 56 will it come? It will come somewhere in the middle.
+And in this way you will write how many numbers, means basically how much frequency is coming.
+like between 0 to 10 there is age of 5 people, between 10 to 20 there is age of 16 people, between 20 to 30 there is age of 17 people
+and between 90 to 10 there is age of 5 people and then you can plot it. This is the value of your first bin, second bin, third bin
+and last bin and in every bin you have in histogram you can plot the values like this. And this is called equal width
+because if you notice, this interval has same width in all intervals of 10
+so that is why this is called equal width binning or it is also called as uniform
+here I have shown, I had written a code earlier like if age is 43
+so it came in 5th bin like this is 1st bin, this is 2nd bin, this is 3rd bin
+then it came in 4th and 5th bin and this is its range from 40 to 48, 44 also came in that, 15 came in 1st and this is its range, 30 came in 3rd and this is its range, I hope you are understanding this, it is a very simple concept,
+You are doing the same as you make a histogram.
+Now in this type of binning, your first advantage is that the outliers are handled a little bit.
+The last data comes in the last bin, so it is treated like the rest.
+Second, your spread of data does not change.
+For example, if your spread was this, then when you make a histogram, the histogram also looks exactly the same.
+So there is no change in the spread.
+No change in spread of the data.
+The way the data is spread, there is no difference in that.
+So, to handle outliers, you can use this binning technique.
+So, I had to read only this much here. This is uniform binning.
+So, the second technique is called equal frequency or it is called quantile binning.
+So, it is very simple actually.
+What you do here is that you have to tell again that how many bins do you need.
+Again, let's say you said that you want 10 bins, now what will you do here?
+The number of intervals or bins you want, you work on the same quantiles.
+I hope you know quantiles. So, the basic meaning of this is that if you want 10 intervals on this data,
+then each interval will contain 10% of the total observation. Simple.
+Means you will start from 0 and go to the age where your 10th percentile value is.
+Okay.
+Suppose that value is 16.
+What does this mean?
+Between 0 to 16, 10% of the population resides.
+10% of people's age is between 0 to 16.
+Then you will go from 16 to the age where you will get 20th percentile.
+Assume that you got it at 20. So between 0 to 20, 20% of the population lies.
+Let's see one more time. Then you will go from 20 to the number where your 30th percentile will be.
+Like in this case it is 22. So this means that from 0 to 22, your 30% population lives and so on.
+And in this way, you will create 10 intervals or 10 quantiles.
+Now, what is the difference here guys?
+That the width of each interval is not equal.
+If you remember, what was happening in equal width?
+0 to 10, 10 to 20, 20 to 30.
+It was the width of 10.
+It is not necessary here.
+Here you can see, the width of the first one is 16.
+The width of the second one is 4 and the width of the third one is 2.
+But how many people are coming in it, it is almost similar.
+So this is called Quantile Binning and honestly it is used more in comparison to the previous one.
+It has two reasons.
+First, it works well on outliers like the previous one and second, it makes your value spread uniform.
+Means when you see the result of this, since almost equal items come in every interval,
+then your histogram looks like this.
+Like this.
+Completely equal.
+So this makes your value spread uniform.
+So these are the two benefits.
+First, outlier is handling it.
+And second, it is improving your value spread.
+So we use this more.
+In fact, this will be the default value when we will use scikit-learn.
+Now, let's move on to the third one. This is the most interesting one. It is called K-Means Binning.
+In K-Means Binning, you use a clustering algorithm which you will read in the future.
+The name of that algorithm is K-Means. It is a clustering algorithm. It makes clusters.
+I will tell you a rough estimation that if your data is like this, then this algorithm will form clusters automatically.
+Now you will say that I can see it. It is visible because you are in 2D but your data can also be in 10D.
+So the speciality of this algorithm is that it forms clusters in 10D, 25D and ND.
+So this same algorithm is used as a third technique for discretization.
+How does it happen? Before discussing how does it happen,
+you should know that this is especially used when your data is spread in clusters.
+Means some people's age is till some distance, then after some distance other people's age is there,
+then after some distance other people's age is there.
+Here you can see our data is in clusters.
+If you get this type of data then your K-means will work better otherwise you can use the rest of the data.
+What you do here is that you said that you want 5 intervals or bins.
+Interval is called centroid according to the nomenclature of this algorithm.
+You randomly create those intervals anywhere.
+There is no logic.
+You create 5 intervals anywhere.
+Now what will you do?
+You will make a line bisecting every two intervals.
+Like we have made here.
+See this.
+These black lines,
+Actually, the diagram I have taken from here,
+they have not used the technique of bisecting.
+Okay, I will tell you the second technique
+which they have used.
+You will get confused unnecessarily.
+So what do you do?
+you calculate the distance of every point like if you talk about this point, this first point
+then you calculate the distance of every point with every centroid
+you do this for every point and then the point which is near the centroid
+you consider it in that cluster
+as you can see here
+the distance of all these points
+was nearest to this centroid
+that's why all these are yellow labelled
+or came in yellow cluster
+all these came in orange cluster
+all these came in black cluster
+this came in white and this came in golden cluster
+a second technique could have been
+that you could have done a bisection in between two clusters
+on this side of bisection everything is in this cluster
+and on this side everything is in this cluster
+But I have told you the first technique, you take the distance from all and then you decide that which cluster is closest to a given point.
+Whichever centroid is closest, you map it in the same cluster.
+Now assume that as soon as you did mapping, after mapping what you do is that you move this centroid.
+What does it mean to move the centroid? See here how I moved.
+Centroid move means that you will send the centroid to the mean of these 6.
+Like the mean of these 6 was at this place.
+So I have lifted this and there is a small shifting.
+If you see in the last cluster, the mean value of these 3 was at this place.
+And our centroid was here in the beginning.
+So you give it a slight shift and bring it here.
+Okay.
+You do this with all of them.
+Now your centroid has shifted.
+So what you do again?
+You repeat step 1.
+What do you do according to step 1?
+You again calculate the distance of every point with every centroid.
+Okay.
+And then you decide which cluster will go to every point.
+And again the whole clusters are reassigned.
+Again you send the centroid on the mean.
+And you keep doing this until there is no difference between the previous step and the current step.
+If you don't understand this algorithm, then go to my channel and watch the video of K-means clustering.
+You will immediately understand. It's a very interesting algorithm.
+They have used the same algorithm for binning.
+And eventually when all your clusters are made properly, then you get the value of your centroids.
+And the value of the centroid is the value of your interval.
+That is your bin.
+This is used when your data is spread in the form of clusters.
+So that's it. These are the three techniques.
+Now if you want to talk about how to implement this whole thing,
+then you don't have to do anything yourself.
+You have scikit-learn.
+In scikit-learn, there is a class which we call KBIN's discretizer.
+You just have to call this class, here you have to tell three parameters, first what will be your number of bins, second what will be your strategy,
+there are three values in the strategy, uniform, quantile and k-means for all three techniques and the third thing is encoding,
+Means when you encode in discrete variable, then you get the output like this, as you can see here, 5 came instead of 43.
+Because it fell in the 5th interval, it fell in the 5th bin.
+So you just have to tell that how this encoding will happen.
+So, here you get only two options. The first option is ordinal.
+Means if you think that there will be a value in order, in categorical data there is an ordering.
+So, you use ordinal otherwise you use one-hot encoding.
+So, generally ordinal is there, one-hot encoding is very less.
+I will quickly show you its documentation.
+So you can see this is documentation, number of bins, encode and strategy, these are the three values which you handle.
+That's it, there is nothing special here.
+So now what I am going to do, I will show you a small example where we will use the Titanic data set again.
+And there obviously I will take subset of columns, I will not take all the columns.
+And I will show you by doing prediction without binning and with binning.
+and you will see the benefit in some places
+although this data set is not very appropriate to do binning
+but let's do it
+so I have already made a notebook
+and I am going to use it
+so these are all our imports
+here PLT as in matplotlib
+here train test split
+decision preclassifier
+because I am going to do prediction
+accuracy score to get
+crossval score for crossvalidation
+this is my main class
+K bins discretizer
+It is available in pre-processing and column transformer.
+I guess you will be comfortable with this till now.
+So, first of all, I imported train.csv and I will work on these three columns.
+Age, Fair, Survive.
+And I have not found error.
+So, anyways guys, there was some path issue.
+I had changed the name of the folder and I did not change it here.
+error was coming, anyways ignore, code is same and I have used these 3 columns, we already know that
+there are missing values in age, so I have dropped all the rows with missing values, okay,
+intentionally to make the problem a little difficult and this is the shape of my data, there are only
+714 rows, there were 891, out of that 177 rows were deleted because 177 are missing values in age
+And this is my current data frame.
+Now I will show you how my result is coming without applying any sort of binning.
+So I extracted x and y, did train test split.
+There is nothing to explain all this guys, so I am not explaining.
+This is my x-train in age and fair column heads.
+After that I made an object called CLF of decision free classifier.
+trained the model, fitted it on the x-test, sorry, predicted it and calculated the y-pred
+and then took out the accuracy score which is 62.9
+so without applying any sort of transformation on my numerical columns
+I am getting an accuracy of 62%, okay
+now I will quickly cross-check using cross-valve score
+so it is coming around the same, there is no significant difference
+Now what are we doing? We are applying our discretizer.
+So I have made two objects, kbin-age and kbin-fair.
+Actually, I have kept the value of both in the same.
+If you want, you can do it in one step. I didn't do it. I did it in two different steps.
+So that in the future, if you want to put k-means in the first one and uniform in the second one,
+then you can do it in this way.
+So let's do one thing, in the beginning we will put uniform or first of all I will show you quantile
+Quantile is our first strategy and what I am going to do is, I am going to take 10 bins
+So I have created my object, now I have made column transformer, in column transformer I have put two column transformers
+I have put two steps in one column transformer.
+The name of the first step is first.
+And I have sent cabin age in it.
+And here I have given the index of my column.
+And in x-train, age is my first column.
+So its index will be zero.
+And similarly, I made a step named second.
+In which I sent cabin fare.
+And put one here.
+So this is my column transformer.
+And in this step, I transformed x-train.
+And then I transformed xtest.
+And put it in these two variables.
+Now on this step you can see that if you write trf.namedTransformer
+then you will get both your transformers first and second
+Now let's say I want to see what is going on in the first one
+So I wrote first and if I type dot here
+and if you see here then we have an attribute n underscore bins
+You can run this and see n underscore bins underscore and see here 10 bins are created.
+Similarly, if I check in the second step instead of the first, then 10 values are created.
+If you want, you can also see what the bin edges are.
+Basically, what is the range in which the bin is created.
+You can also do this.
+You just have to copy this attribute and put it here.
+And here is our first interval from 0 to 7.75, we are talking about the fair column.
+And after that 7.75 to 7.89 and yes because we have used quantile so uniform width will not come.
+And 7.89 to 9.225, if you write first here then it will come above the age column.
+And see 0.42 to 14, this is our first quantile range where 10 percent values are lying.
+between 0.42 to 0.19, it is writing 20 percentile values, so you can run this and see, and now what I did, I formed a data frame, you can understand this code later by looking at it, it is not a special code, its output is worth looking at, this was its output, guys, I showed you the cutout of this in the beginning of the video, look at this, the age initially looked like this, now it looks like this after transforming, similarly, the fare looked like this, it looks like this after transforming,
+And if you talk about the label of age, then 9 is coming in this range and 8 is also coming in this range.
+This is weird. I don't know why it is coming in this range. 4 is coming in this range and 2 is coming in this range.
+Okay, we will have to see what happened here. But yeah, I have written some errors in the code. I will see that.
+But yeah, you can visualize it that what is your range. I made this data frame for this. You can see it later on github.
+Now what I am doing, since my columns have been transformed, now I am putting decision tree again.
+This time on transformed data. I am again doing prediction on Xtest transformed.
+and again i will take accuracy score and there is no improvement actually what we can do is
+what we can do is that if we increase these values and let's see what happens now
+see here it increased a little bit it went around 63 at 15 so i am telling you that you have to check those parameters
+you will not be able to understand how much will be the correct result, you can understand a little if you plot the data
+we have not done that and if you take out the cross file score then the cross file score is the same
+but you try and see what I have done, I have made a function for you by saying discretize
+in this you just have to tell two things, number of bins and strategy, what will it do by turning
+it will give you accuracy by calculating and it will also plot you graphs, so I will show you one thing
+I am running this code and here in discretize I have sent quantile first
+and here you can see the accuracy around 63%
+and this is our age column
+this is our age distribution before any transformation
+and after the quantile binning transformation you can see
+Your spread is uniform as your quantile binning does. Similarly, if you talk about fair, then fair was very right skewed but you can see that it is very uniform.
+Now I will quickly show you, keeping 10, the first uniform one, equal width. Here you will not see much change in the distribution, it will look exactly the same.
+It looks almost the same.
+The fair one also looks almost the same.
+If you see,
+let's say the K-means one.
+K-means.
+So,
+it will still be almost the same.
+More or less.
+It's just that you made the clusters or intervals a little less.
+Okay.
+So, what you can do is just take a different data set
+and apply this thing on it.
+I have made this data set to create an example, but if you apply on a proper data set, there is a great chance that you will see something good.
+That's it for binning, discretization. One last thing, what is custom or domain-based binning?
+So till now what was happening is that we were using one of the three, equal width, equal frequency or k-means.
+Sometimes what you will do is that you will have knowledge of data or you will have knowledge of business.
+So you can also do binning according to yourself.
+For example, you do a binning from 0 to 18 years.
+This is your one interval in which you call kids.
+From 18 to 55 or 60 you make another category.
+and whatever is beyond 60, you make it a last category, so what you made, you made it according to your knowledge,
+you know that 18 means adult, and above 60 is your retirement age, old people are there, so this is your domain knowledge,
+so sometimes what you do, you use this, rather than using a custom, sorry, those 3 strategies of scikit-learn,
+You use your own knowledge to create these bins.
+So sometimes this also works. Unfortunately, you can't do this through scikit-learn.
+You don't get this option. You have to write logic in pandas.
+So cannot do it using scikit-learn.
+So custom domain based binning is to create bins according to your knowledge.
+So there is nothing special to teach in this.
+So this was about discretization.
+Now let's talk about Binarization. Binarization is a special case of discretization.
+In discretization, you convert a continuous value to discrete. In Binarization, you convert a numerical value to binary.
+0 or 1. For example, you have annual income. If your annual income is less than 6 lakhs then you are not in taxable zone.
+Means 0. If it is more then you are in taxable zone then 1. Here you have converted your income to this binary variable taxable or not.
+So this is called as BINARISATION.
+Sometimes in some specific cases, this work is done.
+For example, a very good use case of this is IMAGE PROCESSING.
+So in IMAGE PROCESSING, you have pixels whose value is 0 to 255.
+Color images.
+Now if you want to convert it to black and white, then you keep a threshold value of 127.5.
+If the value of pixel is below this, then you make it 0.
+Means you make it black.
+And if it is above this, then you make it 1.
+Means you make it white.
+So the image that you had, the colored image, what did it become now?
+It became a black and white image.
+So it is a very niche kind of technique.
+It is useful in very specific places.
+For force, I have to show you a code now.
+I have made it now.
+Here in scikit-learn, there is a class called Binarizer.
+You use this class.
+In this, you just have to give two inputs.
+threshold like in that last example 127.5 was a threshold below that all 0 below that all 1 and above that all 1
+and one is copy so if you put a binary on the salary column and your copy value is true then it will make a new column
+ok and if its value is false then it will make changes in the salary only these are the two parameters in this class
+And it is a very simple thing. I will quickly show you one thing, I have prepared a code for this.
+This time we are holding the same titanic data set because now your understanding will be a little better.
+So here I have taken age, fair, sibling spouse, parent child and survived columns.
+And again dropped all the age values. This is my df.head. So now this is my data set.
+Now what I did in this, I joined sibling spouse and parent child and called it family, see this
+And now if I run this, you can see that I have one more extra column called family
+Where these two have sum and then I didn't need sibling spouse and parent child
+So I dropped these two columns and after doing this now my data set looks like this
+So this is my output column and the rest are my input columns.
+Just saying that I am not going to do anything on age and fare.
+I am going to do all the work on family.
+So now what I have to do is, first of all I have taken out x and y.
+After that I have also split the train test.
+And this is my x train.
+I hope you are able to understand everything till here.
+Now here when I did binaryization,
+I used these three columns as it is.
+I applied decision tree.
+So my accuracy was coming out to be 62.9%
+I don't know why this number is coming again and again
+And cross validation score is also around 64
+Now how did I put the concept of Binarizer
+I said that I have to find out if any passenger is traveling alone or not
+So if the value of family is 0
+So this means that the person is traveling alone. If the value of family is more than 0, it means that someone is traveling with him.
+So I am transforming my family column into a new column, traveling alone. So 0 means that it is not doing it, yes it is doing it.
+1 means that it is not doing it. So now what we have to do is that I have made a transformer, a binarizer.
+Let me show you the class. This is the class. Threshold is already 0, so I don't need to change anything.
+If copy was true, then I made copy false because I want changes in existing column, in family column.
+So, this was my setup. I passed through the rest of the columns and made a transform.
+and after transforming, see this guys, so the first one is 1, so it means that the first passenger is traveling with someone, he is not alone
+and this fourth passenger is traveling alone, so we just converted it to binary and again put decision tree and all
+So actually it is around 63. There is no significant improvement.
+There is some improvement somehow. I don't know. I did train test split separately last time or what.
+But I don't know. It increased slightly more than last time. Okay, it increased.
+This example is not very accurate. You can't rely on it. I was just showing you an example to show you the concept.
+There is nothing special here. So this was another feature engineering technique that we were going to study.
+How to Encode Numerical Data.
+And sometimes you will get this work.
+So keep this in your mind.
+And usage is very easy.
+You have seen it.
+If possible then try to download the codes once.
+So yeah that's it.
+That's it for the video. Thanks for watching. Bye.

@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
+> - **Builds on:** Exploratory data analysis ([Note 9](../09-mldlc/note.md)); Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
 > - **Leads to:** Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Standardization ([Note 1023](../1023-data-scaling-in-ann/note.md)).
 > - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)).
 <!-- /where-this-fits -->
@@ -181,7 +181,7 @@ $$\text{lower fence} = 234 - 141.375 = 92.625, \qquad \text{upper fence} = 328.2
 - **Left:** the fence is at 92.625; the smallest value inside it is 213. So the whisker ends at 213, and 6, below the fence, is drawn as an **outlier** (G-1420) dot.
 - **Right:** the fence is at 469.625; the last value inside it is 350. The whisker ends at 350, and 1500 is an outlier.
 
-These four steps are the whole construction. Plotting libraries follow the same steps, though their percentile formula can shift the quartiles slightly (Section 3.1).
+These four steps are the whole construction.
 
 > **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../43-outliers-iqr/note.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean, so the fences sit $0.674 + 1.5 \times 1.349 \approx 2.70$ standard deviations out. Only about 0.7% of normal data falls outside them, so a dot beyond a fence is genuinely unusual.
 

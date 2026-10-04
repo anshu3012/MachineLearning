@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/features, area/models-1, step/understand, ste
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); ROC curve and AUC ([Note 78](../78-roc-auc/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)); Random forest ([Note 114](../114-feature-importance/note.md)); Cross-validation ([Note 127](../127-stacking-blending/note.md)).
+> - **Builds on:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Cross-validation ([Note 29](../29-pipelines/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); ROC curve and AUC ([Note 78](../78-roc-auc/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)).
 > - **Leads to:** ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 <!-- /where-this-fits -->
 

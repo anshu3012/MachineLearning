@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-training, area/models-1, step/model, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)); Best-fit line and squared error ([Note 51](../51-linear-regression-maths/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Learning rate ([Note 1017](../1017-backpropagation-why/note.md)); Convex and non-convex loss ([Note 1017](../1017-backpropagation-why/note.md)).
+> - **Builds on:** Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Best-fit line and squared error ([Note 50](../50-simple-linear-regression/note.md)); Learning rate ([Note 57](../57-gradient-descent/note.md)); Convex and non-convex loss ([Note 57](../57-gradient-descent/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)).
 > - **Leads to:** Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)); Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)).
 > - **Compare with:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); SGD with momentum ([Note 1034](../1034-sgd-with-momentum/note.md)).
 <!-- /where-this-fits -->

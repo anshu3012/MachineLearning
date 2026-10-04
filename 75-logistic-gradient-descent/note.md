@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)).
 > - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)).
 > - **Compare with:** Support vector machines ([Note 92](../92-svm-intuition/note.md)).
 <!-- /where-this-fits -->
@@ -21,7 +21,7 @@ The log loss Note gave logistic regression its loss function and noted that it h
 
 1. watch gradient descent work on a model with a single weight;
 2. write the predictions and the loss in matrix form;
-3. differentiate the loss with respect to the **weights** (G-2111), the numbers the model learns;
+3. differentiate the loss with respect to the **weights** (G-407; the coefficients, the numbers the model learns);
 4. code gradient descent and check it against scikit-learn.
 
 ## 2. The idea on one weight

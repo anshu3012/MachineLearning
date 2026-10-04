@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Decision trees ([Note 100](../100-dtreeviz/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)); Hyperparameter tuning ([Note 111](../111-random-forest-hyperparameters/note.md)).
+> - **Builds on:** Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Compare with:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 <!-- /where-this-fits -->
 
@@ -160,8 +160,6 @@ After training we have three stumps and three alphas. We write each stump as a f
 
 The pull of a negative vote is why the classes are +1 and -1: a "not placed" vote pulls the total down by its alpha. With 0 and 1, a "not placed" vote would multiply to 0 and could never outweigh a "placed" vote.
 
-> **Extra:** If the total is exactly 0, the sign is undefined; libraries then pick one class by a fixed rule. scikit-learn's `AdaBoostClassifier` gives the first class in `classes_` (scikit-learn source, `ensemble/_weight_boosting.py`).
-
 ## 6. Why it works: the combined boundary
 
 > **Key point:** Each stump draws one straight cut; their weighted vote draws a staircase boundary that none of them could draw alone.
@@ -208,7 +206,6 @@ With more stages, the boundary can bend in more places and fit more complicated 
 
 - Freund, Y. and Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. *Journal of Computer and System Sciences* 55(1): 119–139. (Conference version: EuroCOLT 1995.)
 - Viola, P. and Jones, M. (2001). Rapid object detection using a boosted cascade of simple features. *CVPR 2001*.
-- scikit-learn source code, `sklearn/ensemble/_weight_boosting.py`, `AdaBoostClassifier.predict` (version 1.9).
 
 ## 9. Key terms
 

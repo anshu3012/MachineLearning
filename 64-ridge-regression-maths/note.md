@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
+> - **Builds on:** Standardization ([Note 9](../09-mldlc/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Leads to:** Elastic Net ([Note 69](../69-elastic-net/note.md)).
 > - **Compare with:** Lasso regression ([Note 67](../67-lasso-regression/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
 <!-- /where-this-fits -->
@@ -92,7 +92,7 @@ $$m = \frac{2416.7}{86.85 + \lambda}$$
 | 10 | $2416.7 / 96.85 = 24.95$ | $-2.127$ |
 | 100 | $2416.7 / 186.85 = 12.93$ | $-1.425$ |
 
-These slopes are exactly the ones scikit-learn gave in the previous Note. Figure 3 shows the whole curve.
+These slopes are exactly the ones scikit-learn gave in the previous Note. The intercept is not penalised, yet it moves too, because $b = \bar{y} - m\bar{x}$ depends on $m$. Figure 3 shows the whole curve.
 
 ![The Ridge slope against λ](images/slope_vs_lambda.png){height=48%}
 
@@ -192,6 +192,8 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.1:
 | `Ridge(alpha=0.1, solver="cholesky")` | 150.89 | 0.4693 |
 
 The coefficients agree to within $3 \times 10^{-12}$, rounding error.
+
+The closed form has the same limit as the normal equation: inverting the matrix costs about the cube of its size in operations, and building $X^{\mathsf T}X$ needs the whole dataset in memory. On large data the next Note trains Ridge with gradient descent instead.
 
 > **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver (the **Cholesky solver**, G-383) then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a **closed-form solution** (G-398), which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
 

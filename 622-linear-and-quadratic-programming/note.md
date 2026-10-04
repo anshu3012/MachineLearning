@@ -129,7 +129,7 @@ Figure 5 draws the last column of the table. Flour is not the bottleneck: 3 bags
 1. **In words:** minimise a quadratic bowl over a region cut out by linear inequalities.
 2. **Formula:** a **quadratic program** is
    $$\min_{\mathbf{x} \in \mathbb{R}^d} \ \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + \mathbf{c}^{\mathsf T}\mathbf{x} \quad \text{subject to} \quad A\mathbf{x} \le \mathbf{b}$$
-   with $Q$ symmetric and **positive definite** (G-1530; all eigenvalues positive), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md), Section 4.2). The term $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ is a **quadratic form** (G-1597) (see the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md)).
+   with $Q$ symmetric and **positive definite** (G-1530; all eigenvalues positive), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md), Section 4.3). The term $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ is a **quadratic form** (G-1597) (see the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md)).
 3. **Example:** $Q = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ (eigenvalues 1 and 3) and $\mathbf{c} = [-8, -7]^{\mathsf T}$, so the objective is $x_1^2 + x_1 x_2 + x_2^2 - 8x_1 - 7x_2$. The constraints are $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$: a triangle.
 
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}

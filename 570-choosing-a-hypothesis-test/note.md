@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, step/understand, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)); Hypothesis testing: null and alternative ([Note 291](../291-rejection-region-and-z-test/note.md)); Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)).
+> - **Builds on:** Correlation ([Note 19](../19-understanding-your-data/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)); Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)); Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)).
 > - **Compare with:** Chi-square tests ([Note 29](../29-pipelines/note.md)); One-way ANOVA ([Note 572](../572-one-way-anova/note.md)).
 <!-- /where-this-fits -->
 
@@ -186,7 +186,7 @@ The question calls for the **one-sample t-test** (G-1382) of the [one-sample t-t
 
 $$t = \frac{1.5327 - 1.55}{0.211 / \sqrt{60}} = \frac{-0.0173}{0.0273} = -0.64, \qquad df = 59, \quad p = 0.53$$
 
-We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 7 shows why. Under $H_0$, the t statistic follows **Student's t-distribution** (G-1906) with 59 **degrees of freedom** (G-578). Our $t = -0.64$ sits near the middle of it, far inside the 5% rejection region beyond $\pm 2.00$, and the two tails at least that far out hold 53% of the area.
+We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 7 shows why. Under $H_0$, the t statistic follows **Student's t-distribution** (G-1906) with 59 **degrees of freedom** (G-578). Our $t = -0.64$ sits near the middle of it, well short of the 5% rejection region beyond $\pm 2.00$, and the two tails at least that far out hold 53% of the area.
 
 ![The one-sample t-test of the 60 heights against 1.55 m. The curve is the t-distribution with 59 degrees of freedom; our t = −0.64. The shaded tails, at least as far from 0 as our t, hold p = 0.53; the dashed lines mark the 5% rejection region.](images/t_one_sample.png)
 

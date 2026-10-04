@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, step/understand, step/clean, concept/kde, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note 9](../09-mldlc/note.md)); Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)).
+> - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Exploratory data analysis ([Note 9](../09-mldlc/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Z-score outlier method ([Note 41](../41-what-are-outliers/note.md)); IQR outlier method ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
 > - **Leads to:** Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Feature selection ([Note 23](../23-what-is-feature-engineering/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)).
 > - **Compare with:** Missing values ([Note 9](../09-mldlc/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Kurtosis and moments ([Note 22](../22-pandas-profiling/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
@@ -171,7 +171,7 @@ Suppose we mark every passenger's age as a dot on a line. With 714 known ages th
 
 ![The 714 Titanic ages turned into a histogram: dots on a line, 5-year bins, one stack of dots per bin, one bar per stack](images/hist_build.gif)
 
-The finished graph is a **histogram** (G-899), and the equal intervals are called **bins**. The histogram counts the values in each bin and draws one bar per bin. In Figure 5 the tallest bar, ages 20 to 25, holds 114 passengers.
+The finished graph is a **histogram** (G-899), and the equal intervals are called **bins**. The histogram counts the values in each bin and draws one bar per bin. In effect, the bins turn the numerical column into a categorical one for a moment, so that we can count it as in a count plot. In Figure 5 the tallest bar, ages 20 to 25, holds 114 passengers.
 
 The result shows the **distribution** (G-626) of the data: how the values spread out, where most of them sit, and where few do. Whenever we meet a numerical column, a histogram is the first graph to try.
 
@@ -256,7 +256,7 @@ The box holds the middle half of the data. Its width, Q3 - Q1, is the **interqua
 
 The simplest box plot runs its whiskers all the way to the minimum and the maximum. A single extreme value would then stretch a whisker across the page. So the box plot that plotting libraries draw, and the one used in this Note, adds a rule. It sets two calculated limits, called **fences**, 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). Each **whisker** (G-2181) stops at the last real value inside its fence. A value outside the fences is drawn as a separate dot and is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
 
-The fences are sometimes called the "minimum" and "maximum" of the box plot. They are not: the minimum and maximum of the five-number summary are real values of the column (0.42 and 80 for the ages, section 9), while the fences are calculated (-6.69 and 64.81 below) and need not be values of the column at all. When the column has no value beyond a fence, the whisker on that side does end at the minimum or maximum, as the left whisker of Figure 9 does at 0.42.
+The fences are often loosely called the "minimum" and "maximum" of the box plot. They are calculated limits (-6.69 and 64.81 below), not values of the column; the whisker ends at the last real value inside them, and when no value lies beyond a fence it ends at the true minimum or maximum, as the left whisker of Figure 9 does at 0.42.
 
 Figure 10 builds the box plot of the ages one part at a time: the median, the box, the fences, the whiskers and the outliers.
 

@@ -111,8 +111,6 @@ The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! =
 
 So there was only about a 6% chance of exactly 7 questions. The bar at 7 in the left panel of Figure 3 has this height.
 
-> **Extra:** A common slip is to read $e^{-4}$ as $0.183$. The correct value is $0.0183$; with $0.183$ the answer would come out as 0.595, ten times too large. The final answer 0.06 needs 0.0183.
-
 > **Python:** `stats.poisson` gives the PMF in one call.
 >
 > ```python

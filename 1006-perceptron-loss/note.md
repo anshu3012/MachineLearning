@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-los
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Stochastic gradient descent ([Note 59](../59-stochastic-gradient-descent/note.md)); Perceptron trick ([Note 1005](../1005-perceptron-trick/note.md)).
+> - **Builds on:** Stochastic gradient descent ([Note 5](../05-online-learning/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)).
 > - **Compare with:** Hinge loss and soft margin ([Note 94](../94-svm-soft-margin/note.md)).
 <!-- /where-this-fits -->
 

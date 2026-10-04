@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Feature importance ([Note 99](../99-regression-trees/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)).
 > - **Leads to:** Balanced random forest ([Note 133](../133-imbalanced-data/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->

@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-rnn, step/model, concept/e
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Training curves (History) ([Note 1022](../1022-early-stopping/note.md)); Sigmoid function ([Note 1027](../1027-activation-functions/note.md)); Backpropagation through time (BPTT) ([Note 1059](../1059-backpropagation-through-time/note.md)).
+> - **Builds on:** Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Training curves (History) ([Note 1011](../1011-customer-churn-ann/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Backpropagation through time (BPTT) ([Note 1059](../1059-backpropagation-through-time/note.md)).
 > - **Leads to:** LSTM (long short-term memory) ([Note 1061](../1061-lstm/note.md)).
 <!-- /where-this-fits -->
 

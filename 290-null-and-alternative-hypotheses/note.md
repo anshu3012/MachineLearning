@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/hypothesis-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Sampling distribution and standard error ([Note 271](../271-sampling-distribution-and-clt/note.md)).
+> - **Builds on:** Inferential statistics ([Note 210](../210-statistics-roadmap/note.md)); Sampling distribution and standard error ([Note 271](../271-sampling-distribution-and-clt/note.md)); Type I and II errors, power, tails ([Note 292](../292-errors-power-and-tails/note.md)); P-values ([Note 300](../300-p-values/note.md)).
 > - **Leads to:** Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)); Beta and A/B testing ([Note 292](../292-errors-power-and-tails/note.md)); T-tests: one-sample, two-sample, paired ([Note 301](../301-one-sample-t-test/note.md)); One-sample proportion test ([Note 570](../570-choosing-a-hypothesis-test/note.md)); Chi-square tests ([Note 571](../571-chi-square-tests/note.md)); One-way ANOVA ([Note 572](../572-one-way-anova/note.md)).
 > - **Compare with:** Confidence intervals ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
@@ -137,7 +137,7 @@ Faced with a new problem, we may wonder which statement should be $H_0$. The rul
 
 The statement with the change, the difference or the effect is $H_1$.
 
-> **Extra:** The equals sign always goes in $H_0$. The test needs one exact value to compute with ($\mu = 6$), and only $H_0$ provides it. Some books write a one-tailed null as $H_0: \mu \le 6$; the calculation is the same.
+> **Extra:** The equals sign always goes in $H_0$. The test needs one exact value to compute with ($\mu = 6$), and only $H_0$ provides it.
 
 ### 5.2 The goal: evidence against $H_0$
 

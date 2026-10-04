@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentat
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Enough data ([Note 7](../07-challenges-in-ml/note.md)); Overfitting ([Note 1026](../1026-regularization-in-dl/note.md)); Regularisation ([Note 1026](../1026-regularization-in-dl/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Enough data ([Note 7](../07-challenges-in-ml/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

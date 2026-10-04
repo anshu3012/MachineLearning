@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Neural networks ([Note 1002](../1002-what-is-deep-learning/note.md)); Types of neural networks ([Note 1003](../1003-nn-types-history-applications/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); MLP notation and parameter count ([Note 1008](../1008-mlp-notation/note.md)).
+> - **Builds on:** Neural networks ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Types of neural networks ([Note 1003](../1003-nn-types-history-applications/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); MLP notation and parameter count ([Note 1008](../1008-mlp-notation/note.md)).
 > - **Leads to:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 > - **Compare with:** Convolutional neural network (CNN) ([Note 1040](../1040-cnn-intuition/note.md)); Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)).
 <!-- /where-this-fits -->
@@ -62,7 +62,7 @@ $$\hat{y} = \sigma(w_1 x_1 + w_2 x_2 + b),$$
 
 the probability that the student is placed. The probability of not being placed is $1 - \hat{y}$.
 
-The [sigmoid function Note](../72-sigmoid-function/note.md) (section 5.2) draws this as a map. On the line $w_1 x_1 + w_2 x_2 + b = 0$, the perceptron's **hyperplane** (G-911; a straight line when there are two features), the probability is 0.5. Lines parallel to it carry 0.6, 0.7, 0.8, ... on one side and 0.4, 0.3, ... on the other, so the probability changes gradually across the plane.
+The [sigmoid function Note](../72-sigmoid-function/note.md) (section 5.3) draws this as a map. On the line $w_1 x_1 + w_2 x_2 + b = 0$, the perceptron's **hyperplane** (G-911; a straight line when there are two features), the probability is 0.5. Lines parallel to it carry 0.6, 0.7, 0.8, ... on one side and 0.4, 0.3, ... on the other, so the probability changes gradually across the plane.
 
 ![One sigmoid perceptron, p = σ(3x1 + 3x2), as a probability map. Thin lines: where p is 0.1, 0.2, ..., 0.9. Thick black line: p = 0.5, the perceptron's hyperplane.](images/sigmoid_map.png){width=65%}
 
@@ -152,7 +152,7 @@ The nodes now sit in layers: an **input layer** (G-952; CGPA, IQ), a **hidden la
 
 No single perceptron can do this, because its 0.5 contour is always one straight line.
 
-> **Extra:** The sigmoid between the layers is essential. Without it, the hidden layer would output $2x_1 + 3x_2 + 6$ and $5x_1 + 4x_2 + 3$, and the output layer would add multiples of them: still a straight line. The [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md) (section 7.2) shows the general version: stacked linear layers collapse into one.
+> **Extra:** The sigmoid between the layers is essential. Without it, the hidden layer would output $2x_1 + 3x_2 + 6$ and $5x_1 + 4x_2 + 3$, and the output layer would add multiples of them: still a straight line. The [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md) (section 7.3) shows the general version: stacked linear layers collapse into one.
 
 ## 4. Four ways to change the architecture
 

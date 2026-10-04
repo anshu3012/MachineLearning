@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, step/features, concept/feature-scaling, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Builds on:** Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
 > - **Leads to:** Normalization ([Note 25](../25-normalization/note.md)); K-means ([Note 32](../32-binning-binarization/note.md)); Z-score outlier method ([Note 41](../41-what-are-outliers/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Compare with:** Normalization ([Note 25](../25-normalization/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)).
 <!-- /where-this-fits -->
@@ -251,7 +251,7 @@ The same formula, worked on a real row:
 
 Before scaling, the two columns live in completely different ranges. After scaling, both have mean 0 and standard deviation 1, and both run from about -2 to 2.
 
-> **Extra:** `scaler.scale_` gives a salary standard deviation of 34,579, while `describe()` shows 34,641. pandas divides by $n - 1$ when computing the standard deviation, while `StandardScaler` divides by $n$ (scikit-learn docs, `StandardScaler`). With 280 rows the gap is small, and the scaled column's std shows as 1.0 either way.
+> **Extra:** `scaler.scale_` (34,579) and `describe()` (34,641) give slightly different salary standard deviations because pandas divides by $n - 1$ and `StandardScaler` by $n$; the scaled column's std shows as 1.0 either way.
 
 ## 7. Effect of scaling on the data
 

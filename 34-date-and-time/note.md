@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, step/features, concept/datetime]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** CSV files ([Note 15](../15-working-with-csv/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Builds on:** Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); CSV files ([Note 9](../09-mldlc/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -111,8 +111,6 @@ Figure 4 shows what the conversion buys us.
 | After | `datetime64[us]` | yes |
 
 The table itself looks the same before and after: only `orders.info()` shows the new type. The same conversion can be done while reading the file, with `parse_dates=["date"]` in `read_csv` ([Note 15](../15-working-with-csv/note.md), Section 15).
-
-> **Extra:** Older pandas shows `datetime64[ns]` instead of `datetime64[us]`. The dates and every result in this Note are the same either way.
 
 > **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row (pandas release notes, 2.0.0, "Datetimes are now parsed with a consistent format"). The single guessed format causes two surprises with day/month dates:
 >
@@ -234,7 +232,7 @@ A year has 52 weeks, and sometimes 53. The week number tells us where in the yea
 
 Older code writes `orders["date"].dt.week`. `.dt.week` was deprecated in pandas 1.1 and removed in pandas 2, so it now fails with `AttributeError: 'DatetimeProperties' object has no attribute 'week'`. The new way gives exactly the same numbers.
 
-> **Extra:** The week numbers follow the **ISO calendar** (G-975): weeks run Monday to Sunday, and week 1 is the week that contains the year's first Thursday (ISO 8601). So the last days of December can belong to week 1 of the next year. 29 December 2019 (a Sunday) is in week 52 of 2019, but 30 December 2019 (a Monday) is in week 1 of 2020. For such dates `isocalendar().year` differs from `.dt.year`.
+> **Extra:** The week numbers follow the **ISO calendar** (G-975): weeks run Monday to Sunday, and week 1 is the week that contains the year's first Thursday (ISO 8601), so the last days of December can belong to week 1 of the next year.
 
 ### 5.7 Quarter
 

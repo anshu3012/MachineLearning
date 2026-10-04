@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)).
+> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)).
 > - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Weight initialisation ([Note 1029](../1029-weight-initialization/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)); Backpropagation in a CNN ([Note 1047](../1047-backpropagation-in-cnn/note.md)); Backpropagation through time (BPTT) ([Note 1059](../1059-backpropagation-through-time/note.md)).
 <!-- /where-this-fits -->
 
@@ -223,7 +223,7 @@ The first two factors (Figure 7, left):
   $$\frac{\partial L}{\partial \hat{y}} = -\frac{y}{\hat{y}} + \frac{1 - y}{1 - \hat{y}} = \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}$$
 - The sigmoid's derivative (see the [sigmoid derivative Note](../74-sigmoid-derivative/note.md)): $\partial \hat{y}/\partial z_f = \hat{y}(1 - \hat{y})$.
 
-Multiplied, the $\hat{y}(1 - \hat{y})$ cancels, the same simplification as in section 4.3 of the [logistic regression gradient Note](../75-logistic-gradient-descent/note.md):
+Multiplied, the $\hat{y}(1 - \hat{y})$ cancels, the same simplification as in section 5.1 of the [logistic regression gradient Note](../75-logistic-gradient-descent/note.md):
 
 $$\frac{\partial L}{\partial z_f} = \hat{y} - y = -(y - \hat{y})$$
 

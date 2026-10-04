@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1068](../1068-encoder-decoder/note.md)).
+> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1058](../1058-types-of-rnn/note.md)); Transformer encoder ([Note 1080](../1080-transformer-encoder/note.md)); Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)); Learning-rate warm-up schedule ([Note 1085](../1085-transformer-end-to-end/note.md)); Label smoothing ([Note 1085](../1085-transformer-end-to-end/note.md)).
 > - **Leads to:** Decoder-only GPT ([Note 1087](../1087-decoder-only-gpt/note.md)).
 > - **Compare with:** LSTM (long short-term memory) ([Note 1063](../1063-lstm-next-word-prediction/note.md)).
 <!-- /where-this-fits -->

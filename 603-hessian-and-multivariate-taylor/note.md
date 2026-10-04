@@ -29,7 +29,8 @@ An earlier Note on boosting ([XGBoost maths Note](../126-xgboost-maths/note.md))
 3. the curved approximation, which needs second partial derivatives (Section 4);
 4. the Hessian, the matrix that holds those second partial derivatives and tells the shape of the surface (Section 5);
 5. the full Taylor series and its uses in ML (Sections 6 and 7).
- The Note uses the gradient of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) and the eigenvalues of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
+
+The Note uses the gradient of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) and the eigenvalues of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
 
 ## 2. The second derivative: how a curve bends
 

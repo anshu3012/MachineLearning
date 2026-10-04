@@ -8,7 +8,7 @@ tags: [subject/ml, area/linear-algebra, area/models-1, step/foundations, step/mo
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Dot product ([Note 48](../48-pca-step-by-step/note.md)); Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)).
+> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)); Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)).
 > - **Leads to:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)).
 > - **Compare with:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 <!-- /where-this-fits -->

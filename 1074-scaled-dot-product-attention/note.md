@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/scaled-d
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Self-attention (query, key, value) ([Note 1073](../1073-self-attention-step-by-step/note.md)).
+> - **Builds on:** Self-attention (query, key, value) ([Note 1072](../1072-what-is-self-attention/note.md)).
 > - **Leads to:** Multi-head attention ([Note 1077](../1077-multi-head-attention/note.md)).
 <!-- /where-this-fits -->
 
@@ -41,7 +41,7 @@ The matrix $QK^T$ holds one dot product for every pair of a query and a key: for
 
 1. **In words:** compute the query's dot product with every key, divide each by $\sqrt{d_k}$, then apply the softmax.
 2. **Formula:** for query $q$ and keys $k_1, \dots, k_n$, the weights are
-   $$\alpha_j = \text{softmax}_j\negthinspace\left(\frac{q \cdot k_j}{\sqrt{d_k}}\right)$$
+   $$\alpha_j = \text{softmax} _j\negthinspace\left(\frac{q \cdot k_j}{\sqrt{d_k}}\right)$$
 3. **Example:** the query of "bank" is $q = (1, 2, 1)$; the keys of "money", "bank", "grows" are $(2, 1, 0)$, $(1, 2, 1)$ and $(0, 1, 0)$. The scores are $4$, $6$ and $2$.
    - Unscaled: $\text{softmax}(4, 6, 2) = (0.117,\ 0.867,\ 0.016)$.
    - Scaled: dividing by $\sqrt{3} = 1.732$ gives $(2.31,\ 3.46,\ 1.15)$, and the softmax gives $(0.223,\ 0.707,\ 0.070)$.
@@ -137,8 +137,6 @@ Which $c$ do we need? The scores have variance $d_k$ (section 4.1), and we want 
 $$\text{Var}\negthinspace\left(\frac{q \cdot k}{\sqrt{d_k}}\right) = \frac{1}{(\sqrt{d_k})^2}\thinspace\text{Var}(q \cdot k) = \frac{d_k}{d_k} = 1$$
 
 So the **scaling factor** (G-1747) is $c = 1/\sqrt{d_k}$. For $d_k = 2$ we divide by $\sqrt{2}$, for $d_k = 3$ by $\sqrt{3}$, for $d_k = 64$ by 8. The Notebook confirms it: after scaling, the variance is 0.99, 0.98, 1.00, ..., 1.02 for $d = 1$ to $1{,}024$ (Figure 4, left), and the three histograms of Figure 3 (right) lie on top of each other.
-
-> **Extra:** The derivation assumes independent numbers with mean 0 and variance 1. Trained queries and keys do not follow that exactly; the factor $1/\sqrt{d_k}$ is a choice that keeps the scores at a sensible size, made in the paper "to counteract this effect" (Vaswani et al. 2017, section 3.2.1). Jurafsky and Martin (SLP3 draft, ch. 7, eq. 7.11) give the same reason: exponentiating large values "can lead to numerical issues and loss of gradients during training".
 
 > **Extra:** Before the transformer, two kinds of attention score were common: additive (a small neural network, Bahdanau's) and dot-product (Luong's), compared in the [Bahdanau vs Luong Note](../1070-bahdanau-vs-luong-attention/note.md). Vaswani et al. (2017, section 3.2.1) report that the two perform similarly for small $d_k$, but additive attention does better than unscaled dot-product attention for larger $d_k$. Dot-product attention is "much faster and more space-efficient in practice", because it is one matrix multiplication. Scaling keeps that speed and removes the weakness.
 

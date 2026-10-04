@@ -8,7 +8,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note 90](../90-gaussian-naive-bayes/note.md)); Discrete and continuous data ([Note 220](../220-what-is-statistics/note.md)).
+> - **Builds on:** Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Discrete and continuous data ([Note 220](../220-what-is-statistics/note.md)).
 > - **Leads to:** Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Bernoulli and binomial distributions ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Uniform distribution ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Log-normal distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)).
 > - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
@@ -222,8 +222,6 @@ Different distributions have different sets of parameters. Whenever we study a d
 
 The word "parameter" is the same as in the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind the [density estimation Note](../243-density-estimation-kde/note.md).
 
-> **Extra:** The normal distribution's scale parameter is $\sigma$; its square, $\sigma^2$, is the variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). Some sources list the parameters as $(\mu, \sigma)$, others as $(\mu, \sigma^2)$: the same curve, written two ways. For example, SciPy's `norm` takes $\mu$ and $\sigma$ (SciPy `norm` docs), while MML §6.5 writes $\mathcal{N}(\mu, \sigma^2)$.
-
 ## 9. Summary
 
 | Idea | Meaning | Example |
@@ -251,8 +249,7 @@ The word "parameter" is the same as in the [what is statistics Note](../220-what
 
 **Other references**
 
-- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.1.2 (random variable as a function), section 6.5 (Gaussian).
-- SciPy documentation, `scipy.stats.norm`.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.1.2 (random variable as a function).
 
 ## 11. Key terms
 

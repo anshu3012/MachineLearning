@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)).
+> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Variance ([Note 19](../19-understanding-your-data/note.md)).
 > - **Leads to:** Correlation significance test ([Note 570](../570-choosing-a-hypothesis-test/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 

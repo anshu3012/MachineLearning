@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/gru]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note 1057](../1057-rnn-sentiment-analysis/note.md)); LSTM gates (forget, input, output) and cell state ([Note 1062](../1062-lstm-architecture/note.md)).
+> - **Builds on:** Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)); LSTM gates (forget, input, output) and cell state ([Note 1062](../1062-lstm-architecture/note.md)).
 > - **Leads to:** Deep (stacked) RNNs ([Note 1065](../1065-deep-rnns/note.md)); Bidirectional RNNs ([Note 1066](../1066-bidirectional-rnn/note.md)).
 > - **Compare with:** LSTM (long short-term memory) ([Note 1063](../1063-lstm-next-word-prediction/note.md)).
 <!-- /where-this-fits -->

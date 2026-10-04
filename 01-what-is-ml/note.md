@@ -8,6 +8,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/data-mining, conc
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Artificial intelligence ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Features ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Tensors ([Note 11](../11-tensors/note.md)); Setup: conda, Jupyter and Colab ([Note 12](../12-setup-anaconda-jupyter-colab/note.md)); Role of mathematics in ML ([Note 440](../440-role-of-maths-in-ml/note.md)).
 > - **Leads to:** Deep learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Semi-supervised learning ([Note 3](../03-types-of-ml/note.md)); Reinforcement learning ([Note 3](../03-types-of-ml/note.md)); Applications of ML ([Note 8](../08-applications-of-ml/note.md)).
 > - **Compare with:** Symbolic AI and expert systems ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Deep learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Exploratory data analysis ([Note 9](../09-mldlc/note.md)); What deep learning is ([Note 1001](../1001-dl-scope-and-prerequisites/note.md)).
 <!-- /where-this-fits -->

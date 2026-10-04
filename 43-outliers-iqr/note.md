@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
+> - **Builds on:** Outliers ([Note 7](../07-challenges-in-ml/note.md)); Univariate analysis ([Note 9](../09-mldlc/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
 > - **Compare with:** Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)); Z-score outlier method ([Note 42](../42-outliers-zscore/note.md)).
 <!-- /where-this-fits -->
 

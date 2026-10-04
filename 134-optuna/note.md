@@ -8,7 +8,7 @@ tags: [subject/ml, area/production, step/tune, concept/bayesian-optimisation, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hyperparameter tuning ([Note 118](../118-adaboost-hyperparameters/note.md)); Cross-validation ([Note 127](../127-stacking-blending/note.md)).
+> - **Builds on:** Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Cross-validation ([Note 29](../29-pipelines/note.md)).
 > - **Compare with:** Grid and random search ([Note 118](../118-adaboost-hyperparameters/note.md)).
 <!-- /where-this-fits -->
 
@@ -319,8 +319,6 @@ Figure 9 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 
 
 Figure 10 gives `max_depth` a **hyperparameter importance** (G-908) of 0.78 and `n_estimators` 0.22; the values add up to 1. So on this data, when time is short, `max_depth` is the hyperparameter to tune carefully.
 
-> **Extra:** Optuna 5.0 computes these importances with **PED-ANOVA**: roughly, a hyperparameter is important if its values among the best trials look very different from its values among all trials (Watanabe et al. 2023; Optuna docs). The older **fANOVA** method, which fits a random forest predicting the score from the hyperparameters (Hutter et al. 2014), gives 0.88 and 0.12 on the same study: a different split, the same order.
-
 ## 8. Define-by-run: searching over algorithms
 
 > **Key point:** Because the search space is built while the objective runs, the algorithm itself can be a hyperparameter, and each algorithm can have its own hyperparameters.
@@ -481,9 +479,7 @@ At first it explores all three. For a while it favours gradient boosting, then i
 - Jones et al. 1998: D. R. Jones, M. Schonlau and W. J. Welch, *Efficient Global Optimization of Expensive Black-Box Functions*, Journal of Global Optimization 13, 1998.
 - Bergstra et al. 2011: J. Bergstra, R. Bardenet, Y. Bengio and B. Kégl, *Algorithms for Hyper-Parameter Optimization*, NeurIPS 2011.
 - Cawley and Talbot 2010: G. C. Cawley and N. L. C. Talbot, *On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation*, Journal of Machine Learning Research 11, 2010.
-- Watanabe et al. 2023: S. Watanabe, A. Bansal and F. Hutter, *PED-ANOVA: Efficiently Quantifying Hyperparameter Importance in Arbitrary Subspaces*, IJCAI 2023.
-- Hutter et al. 2014: F. Hutter, H. Hoos and K. Leyton-Brown, *An Efficient Approach for Assessing Hyperparameter Importance*, ICML 2014.
-- Optuna docs: Optuna 5.0 API reference: `TPESampler` (`n_startup_trials`, `default_gamma`), `Trial.suggest_float` (`log`), `optuna.samplers`, `MedianPruner`, `PedAnovaImportanceEvaluator`.
+- Optuna docs: Optuna 5.0 API reference: `TPESampler` (`n_startup_trials`, `default_gamma`), `Trial.suggest_float` (`log`), `optuna.samplers`, `MedianPruner`.
 - scikit-learn user guide, SVM tips: scikit-learn user guide, "Support Vector Machines", Tips on Practical Use.
 
 ## 12. Key terms

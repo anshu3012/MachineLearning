@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/best-fit-line, concept/lin
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)).
+> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)).
 > - **Leads to:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)).
 > - **Compare with:** Regression trees ([Note 99](../99-regression-trees/note.md)).
 <!-- /where-this-fits -->

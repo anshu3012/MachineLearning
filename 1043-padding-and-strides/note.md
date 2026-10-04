@@ -105,7 +105,7 @@ With 32 filters of 3 × 3 in each of three layers, on a 28 × 28 × 1 input (Not
 | `valid` | 26 × 26 | 24 × 24 | 22 × 22 |
 | `same` | 28 × 28 | 28 × 28 | 28 × 28 |
 
-With `same` no layer loses size, however many we stack. The names `valid` and `same` come from MATLAB (Goodfellow et al. 2016, §9.5).
+With `same` no layer loses size, however many we stack.
 
 ## 5. Strides
 
@@ -165,8 +165,6 @@ The Notebook checks the formula against TensorFlow for 1,254 combinations of ima
 > ```
 
 Three such layers on a 28 × 28 input give 14 × 14, 7 × 7 and 4 × 4 (Notebook). The formula with $p = 1$ explains the first: $\left\lfloor \frac{28 + 2 - 3}{2} \right\rfloor + 1 = \lfloor 13.5 \rfloor + 1 = 14$. The next two work the same way: $\lfloor 6.5 \rfloor + 1 = 7$ and $\lfloor 3 \rfloor + 1 = 4$. The image loses size quickly.
-
-> **Extra:** With strides, Keras' `same` does not always pad the same amount on both sides; it chooses the padding so that the output size is $\lceil n/s \rceil$, the input size divided by the stride and rounded up (Keras documentation, `MaxPooling2D`: $\lfloor (n - 1)/s \rfloor + 1$). For 28, 14 and 7 with stride 2 this gives 14, 7 and 4, the same sizes as above.
 
 ## 6. Why use strides
 

@@ -8,7 +8,7 @@ tags: [subject/ml, area/production, step/evaluate, concept/regression-metrics]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Best-fit line and squared error ([Note 51](../51-linear-regression-maths/note.md)).
+> - **Builds on:** Best-fit line and squared error ([Note 50](../50-simple-linear-regression/note.md)).
 > - **Leads to:** Regression trees ([Note 99](../99-regression-trees/note.md)); ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 > - **Compare with:** Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)).
 <!-- /where-this-fits -->
@@ -124,7 +124,7 @@ Figure 4 makes both numbers into lengths. Draw each test error as a square with 
 > root_mean_squared_error(y_test, y_pred)   # 0.348
 > ```
 >
-> Older code computes RMSE as `np.sqrt(mean_squared_error(...))`; both give the same number. Older scikit-learn also had `mean_squared_error(..., squared=False)`, which has since been removed.
+> Older code computes RMSE as `np.sqrt(mean_squared_error(...))`; both give the same number.
 
 ## 5. MAE versus RMSE with an outlier
 

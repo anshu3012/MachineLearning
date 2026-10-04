@@ -8,7 +8,7 @@ tags: [subject/maths, area/likelihood, area/models-1, step/foundations, step/mod
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); One-hot encoding ([Note 11](../11-tensors/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)).
 > - **Leads to:** Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)); Expectation maximization (EM) ([Note 641](../641-expectation-maximization/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 > - **Compare with:** Hinge loss and soft margin ([Note 94](../94-svm-soft-margin/note.md)); Entropy, information gain and Gini ([Note 97](../97-decision-trees-intuition/note.md)).
 <!-- /where-this-fits -->

@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
+> - **Builds on:** Outliers ([Note 7](../07-challenges-in-ml/note.md)); Standardization ([Note 9](../09-mldlc/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
 > - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 > - **Compare with:** IQR outlier method ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
@@ -80,7 +80,7 @@ The rule turns into two limits, step by step:
    $$\text{lower} = \mu - 3\sigma, \qquad \text{upper} = \mu + 3\sigma$$
 3. **Example:** the `cgpa` column of Section 6 has mean 6.96 and standard deviation 0.62:
    $$\text{lower} = 6.96 - 3 \times 0.62 = 5.11, \qquad \text{upper} = 6.96 + 3 \times 0.62 = 8.81$$
-   A CGPA below 5.11 or above 8.81 is an outlier. (With the unrounded numbers, the limits are 5.1135 and 8.8089.)
+   A CGPA below 5.11 or above 8.81 is an outlier.
 
 ## 4. Why it is called the z-score method
 

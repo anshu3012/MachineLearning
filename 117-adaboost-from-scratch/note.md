@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Decision trees ([Note 100](../100-dtreeviz/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)); Hyperparameter tuning ([Note 111](../111-random-forest-hyperparameters/note.md)).
+> - **Builds on:** Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Compare with:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 <!-- /where-this-fits -->
 
@@ -81,7 +81,7 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 >
 > `df.shape[0]` is the number of rows. `export_text(dt1)` from `sklearn.tree` prints the split as text.
 
-> **Extra:** On this data the cut "X1 $\le$ 2.5" is exactly as good as "X2 $\le$ 2.5": both get 3 observations wrong. When two cuts tie, scikit-learn tries the features in a random order, so the winner depends on `random_state` (scikit-learn docs, `DecisionTreeClassifier`). In the Notebook, seeds 0, 1, 5, 6, 7 and 8 give the X2 cut; seeds 2, 3, 4 and 9 give the X1 cut.
+> **Extra:** On this data the cut "X1 $\le$ 2.5" is exactly as good as "X2 $\le$ 2.5": both get 3 observations wrong. When two cuts tie, scikit-learn tries the features in a random order, so the winner depends on `random_state` (scikit-learn docs, `DecisionTreeClassifier`); another seed can give the X1 cut.
 
 **Mistakes.** Comparing `label` with `y_pred` observation by observation, the stump is wrong on observations **2, 6 and 8**: three class-0 observations in the class-1 region.
 

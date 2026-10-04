@@ -123,7 +123,7 @@ In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 
 > **Key point:** Wealth and income at the top, city and settlement sizes, and file sizes on the internet.
 
-- **Wealth and income:** a small share of people holds most of the wealth. (For most of the population, income is closer to log-normal; the Pareto tail describes the richest few percent: income data from Germany, the UK and the US fit a log-normal for the bottom 97–99% and a Pareto for the top 1–3% (Clementi and Gallegati 2005).)
+- **Wealth and income:** a small share of people holds most of the wealth. The Pareto tail describes the richest few percent; the rest of the incomes are closer to log-normal (see the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md), section 3.3).
 - **Human settlements:** many people crowd into a small share of the land, and a few live spread over remote areas. Very roughly, 20% of the area holds 80% of the population.
 - **File sizes in internet traffic:** most files are small and a few are huge, so a small share of the files makes up most of the gigabytes transferred. Measured web file sizes follow a heavy, Pareto-like tail (Crovella and Bestavros 1997).
 
@@ -232,7 +232,6 @@ Figure 6 shows why step 3 matters, on the 1,000 Pareto values of section 3.5. Th
 **Other references**
 
 - Pareto, V. (1896–97). *Cours d'économie politique*, 2 vols. Lausanne: F. Rouge.
-- Clementi, F. and Gallegati, M. (2005). "Pareto's law of income distribution: evidence for Germany, the United Kingdom, and the United States." In *Econophysics of Wealth Distributions*, Springer, pp. 3–14. arXiv: physics/0504217.
 - Crovella, M. E. and Bestavros, A. (1997). "Self-similarity in World Wide Web traffic: evidence and possible causes." *IEEE/ACM Transactions on Networking* 5(6), 835–846.
 
 ## 8. Key terms

@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/masked-a
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Self-attention (query, key, value) ([Note 1076](../1076-why-self-attention/note.md)).
+> - **Builds on:** Self-attention (query, key, value) ([Note 1072](../1072-what-is-self-attention/note.md)).
 > - **Leads to:** Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)); Decoder-only GPT ([Note 1087](../1087-decoder-only-gpt/note.md)).
 <!-- /where-this-fits -->
 

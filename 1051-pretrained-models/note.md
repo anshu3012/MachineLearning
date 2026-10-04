@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pretrained-model]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Labelled data ([Note 7](../07-challenges-in-ml/note.md)); CNN architecture (LeNet-5) ([Note 1045](../1045-lenet-5/note.md)).
+> - **Builds on:** Labelled data ([Note 3](../03-types-of-ml/note.md)); CNN architecture (LeNet-5) ([Note 1045](../1045-lenet-5/note.md)).
 > - **Leads to:** Visualising what a CNN learns ([Note 1052](../1052-visualizing-cnn/note.md)); Transfer learning (feature extraction and fine-tuning) ([Note 1053](../1053-transfer-learning/note.md)).
 <!-- /where-this-fits -->
 
@@ -138,9 +138,7 @@ Figure 4 shows the layers (Krizhevsky et al. 2012, §3.5). Every size in it foll
    $$\frac{227 - 11}{4} + 1 = 55$$
    so it outputs $55 \times 55 \times 96$. The first max pooling ($3 \times 3$, stride 2) then gives $(55 - 3)/2 + 1 = 27$.
 
-> **Extra:** The AlexNet paper says the input is $224 \times 224 \times 3$, but with 224 the first layer gives $(224 - 11)/4 + 1 = 54.25$, not a whole number. The 55 in the paper's own figure only comes out with 227, as above. The last pooling layer outputs $6 \times 6 \times 256 = 9{,}216$ numbers, which are flattened and passed to the dense layers.
-
-> **Extra:** Two corrections to the usual telling of this story. First, AlexNet was not the first network to use ReLU; its authors write that they follow Nair and Hinton (2010), and that they "are not the first to consider alternatives to traditional neuron models in CNNs" (Krizhevsky et al. 2012, §3.1). Second, the often-quoted 15.3% error came from a version pre-trained on extra ImageNet data; trained on the competition data alone, the entry scored 16.4%, against 26.2% for the next team (Krizhevsky et al. 2012, §6; Russakovsky et al. 2015, Table 6).
+The last pooling layer outputs $6 \times 6 \times 256 = 9{,}216$ numbers, which are flattened and passed to the dense layers.
 
 ## 6. Pretrained models in Keras
 
@@ -261,8 +259,7 @@ A pretrained model is therefore a ready-made classifier only for its own 1,000 c
 - Deng, J., Dong, W., Socher, R., Li, L.-J., Li, K. and Fei-Fei, L. (2009). ImageNet: A Large-Scale Hierarchical Image Database. *CVPR 2009*. (ImageNet built on the WordNet hierarchy; §3.2: candidate photos verified by several Amazon Mechanical Turk workers each.)
 - Russakovsky, O. et al. (2015). ImageNet Large Scale Visual Recognition Challenge. *International Journal of Computer Vision* 115, 211–252. arXiv:1409.0575. §1.1 (14,197,122 images, 21,841 synsets), §3.1.3 (Mechanical Turk), Table 2 (1,281,167 / 50,000 / 100,000 photos), Figure 2 (120 dog breeds), §4.1 (top-1 and top-5), §5.1 (the 2010 winner's SIFT and LBP features), Tables 5–7 (winners 2010–2014), §6.4.1 (human error 5.1%).
 - "ImageNet: Summary and Statistics", image-net.org, 30 April 2010 (archived 7 September 2020): 21,841 synsets, 14,197,122 images, 1,034,908 with bounding-box annotations.
-- Krizhevsky, A., Sutskever, I. and Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS 2012*. §1 (two GTX 580 GPUs), §3.1 and Figure 1 (ReLU, Nair and Hinton 2010), §3.5 (layers), §6 (results).
-- Nair, V. and Hinton, G. E. (2010). Rectified Linear Units Improve Restricted Boltzmann Machines. *ICML 2010*.
+- Krizhevsky, A., Sutskever, I. and Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS 2012*. §1 (two GTX 580 GPUs), §3.1 and Figure 1 (ReLU), §3.5 (layers), §6 (results).
 - Simonyan, K. and Zisserman, A. (2015). Very Deep Convolutional Networks for Large-Scale Image Recognition. *ICLR 2015*. arXiv:1409.1556. (16 and 19 weight layers; 7.3% top-5, second place in ILSVRC 2014 classification.)
 - Szegedy, C. et al. (2015). Going Deeper with Convolutions. *CVPR 2015*. arXiv:1409.4842. (GoogLeNet, 22 layers, 6.67% top-5.)
 - He, K., Zhang, X., Ren, S. and Sun, J. (2016). Deep Residual Learning for Image Recognition. *CVPR 2016*. arXiv:1512.03385. Table 5 (3.57%, first place in ILSVRC 2015; up to 152 layers).

@@ -8,7 +8,7 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Covariance and covariance matrix ([Note 231](../231-covariance-and-correlation/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)); Normal distribution ([Note 630](../630-probability-vs-likelihood/note.md)); Maximum likelihood estimation (MLE) ([Note 633](../633-mle-in-machine-learning/note.md)).
+> - **Builds on:** Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)); Maximum likelihood estimation (MLE) ([Note 631](../631-maximum-likelihood-estimation/note.md)); Expectation maximization (EM) ([Note 641](../641-expectation-maximization/note.md)).
 > - **Compare with:** K-means ([Note 130](../130-kmeans-from-scratch/note.md)); Kernel density estimation (KDE) ([Note 253](../253-pdf-and-cdf-in-practice/note.md)).
 <!-- /where-this-fits -->
 
@@ -236,7 +236,7 @@ So the three conditions form a set of equations that depend on each other, and M
 
 > **Key point:** If one component sits exactly on one observation and its variance shrinks to 0, the likelihood grows without limit. Maximum likelihood then prefers a useless spike.
 
-MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in exactly this way. The derivation is the one-point case of the [MLE for common distributions Note](../632-mle-for-common-distributions/note.md) (Section 4.1, Extra):
+MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in exactly this way. The derivation is the one-point case of the [maximum likelihood estimation Note](../631-maximum-likelihood-estimation/note.md) (Section 4.2, Extra):
 
 1. **In words:** put the mean of component 1 on an observation $x_1$. The density of $x_1$ then contains the term $\pi_1/(\sigma_1\sqrt{2\pi})$, which grows without limit as $\sigma_1 \to 0$. Every other point keeps a positive density from the remaining components, so the whole likelihood grows without limit.
 2. **Formula:**

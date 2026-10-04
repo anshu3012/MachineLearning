@@ -177,8 +177,6 @@ Adam is generally regarded as fairly robust to the choice of its hyperparameters
 
 The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `Adam` documentation).
 
-> **Extra:** Keras computes the same update in a slightly different order, which the paper suggests for efficiency (Kingma and Ba 2015, §2): $\eta_t = \eta\sqrt{1-\beta_2^t}/(1-\beta_1^t)$, then $w \leftarrow w - \eta_t\thinspace m_t/(\sqrt{v_t} + \epsilon)$. The only difference is where $\epsilon$ sits, which matters only when $v_t$ is tiny.
-
 ## 10. Summary
 
 | | Momentum | RMSProp | Adam |

@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
+> - **Builds on:** Probability distributions ([Note 210](../210-statistics-roadmap/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Expected value and variance of a random variable ([Note 332](../332-expected-value-and-variance/note.md)).
 > - **Leads to:** Density estimation ([Note 243](../243-density-estimation-kde/note.md)); Normal distribution ([Note 250](../250-normal-distribution/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); P-values ([Note 300](../300-p-values/note.md)); Exponential distribution ([Note 632](../632-mle-for-common-distributions/note.md)).
 > - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Bernoulli and binomial distributions ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Pareto distribution and power laws ([Note 262](../262-pareto-and-power-law/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)).
 <!-- /where-this-fits -->

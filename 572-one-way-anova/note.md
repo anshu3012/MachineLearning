@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Hypothesis testing: null and alternative ([Note 291](../291-rejection-region-and-z-test/note.md)).
+> - **Builds on:** Variance ([Note 19](../19-understanding-your-data/note.md)); Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)).
 > - **Compare with:** T-tests: one-sample, two-sample, paired ([Note 570](../570-choosing-a-hypothesis-test/note.md)).
 <!-- /where-this-fits -->
 

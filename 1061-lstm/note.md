@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note 1057](../1057-rnn-sentiment-analysis/note.md)); Long-term dependency problem ([Note 1060](../1060-problems-with-rnn/note.md)).
+> - **Builds on:** Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)); Long-term dependency problem ([Note 1060](../1060-problems-with-rnn/note.md)); LSTM gates (forget, input, output) and cell state ([Note 1062](../1062-lstm-architecture/note.md)).
 > - **Leads to:** Next-word prediction with an LSTM ([Note 1063](../1063-lstm-next-word-prediction/note.md)); Deep (stacked) RNNs ([Note 1065](../1065-deep-rnns/note.md)); Bidirectional RNNs ([Note 1066](../1066-bidirectional-rnn/note.md)); Sequence-to-sequence (encoder-decoder) ([Note 1068](../1068-encoder-decoder/note.md)).
 > - **Compare with:** GRU (gated recurrent unit) ([Note 1064](../1064-gru/note.md)); Transformer ([Note 1071](../1071-introduction-to-transformers/note.md)).
 <!-- /where-this-fits -->

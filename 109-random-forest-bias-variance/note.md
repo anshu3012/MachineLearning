@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Underfitting ([Note 91](../91-knn/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Underfitting ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)).
 > - **Leads to:** Boosting ([Note 119](../119-bagging-vs-boosting/note.md)); Balanced random forest ([Note 133](../133-imbalanced-data/note.md)).
 > - **Compare with:** K-nearest neighbours ([Note 91](../91-knn/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
@@ -91,8 +91,6 @@ The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-r
 - **(c) A random forest of 1,000 trees** (blue) draws almost the same curve, with the same test MSE. Its training MSE rises a little, from 0 to 0.0018, while its test MSE falls about 27% below the single tree's.
 
 Panels (b) and (c) match because the data has a single feature. A random forest differs from bagging only in sampling features at each split (the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md)); with one feature there is nothing to sample, and `RandomForestRegressor` uses every feature at every split by default anyway. The forest's extra gain shows only on data with many features.
-
-> **Extra:** Older code often prints `np.sum((y_test - pred) ** 2)` and calls it MSE. The printed number is the **sum** of squared errors (19.2 and 14.0 here, over 1,000 test points); the mean divides by the number of points. The comparison between models comes out the same, but only the mean can be compared across test sets of different sizes.
 
 ## 5. Summary
 

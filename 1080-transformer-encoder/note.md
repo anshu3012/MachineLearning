@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/residual
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1068](../1068-encoder-decoder/note.md)); Multi-head attention ([Note 1077](../1077-multi-head-attention/note.md)); Positional encoding ([Note 1078](../1078-positional-encoding/note.md)); Layer normalisation ([Note 1079](../1079-layer-normalization/note.md)).
+> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1058](../1058-types-of-rnn/note.md)); Multi-head attention ([Note 1077](../1077-multi-head-attention/note.md)); Positional encoding ([Note 1078](../1078-positional-encoding/note.md)); Layer normalisation ([Note 1079](../1079-layer-normalization/note.md)); Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)); Learning-rate warm-up schedule ([Note 1085](../1085-transformer-end-to-end/note.md)).
 > - **Leads to:** Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)); The transformer end to end (capstone) ([Note 1085](../1085-transformer-end-to-end/note.md)); Decoder-only GPT ([Note 1087](../1087-decoder-only-gpt/note.md)).
 > - **Compare with:** LSTM (long short-term memory) ([Note 1063](../1063-lstm-next-word-prediction/note.md)).
 <!-- /where-this-fits -->

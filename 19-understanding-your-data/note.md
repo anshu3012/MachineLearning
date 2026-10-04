@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, step/understand, concept/correlation, concept/desc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** CSV files ([Note 15](../15-working-with-csv/note.md)).
+> - **Builds on:** CSV files ([Note 9](../09-mldlc/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Bessel's correction ([Note 222](../222-measures-of-dispersion/note.md)); Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
 > - **Leads to:** Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Feature selection ([Note 23](../23-what-is-feature-engineering/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Z-score outlier method ([Note 41](../41-what-are-outliers/note.md)).
 > - **Compare with:** Data mining ([Note 8](../08-applications-of-ml/note.md)); Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)); Inferential statistics ([Note 210](../210-statistics-roadmap/note.md)); Correlation and causation ([Note 231](../231-covariance-and-correlation/note.md)).
 <!-- /where-this-fits -->
@@ -206,7 +206,7 @@ Figure 4 shows the result. Only three columns have gaps:
 
 These numbers shape the plan for cleaning.
 
-A column that is mostly empty, like `Cabin`, may be dropped. A column with a few gaps can keep its rows, with each gap filled by a single value, for example the column's average for `Age`. Ways of filling gaps come in later Notes.
+A column that is mostly empty, like `Cabin`, may be dropped, or every gap filled with one placeholder such as "no cabin". A column with a few gaps can keep its rows, with each gap filled by a single value, for example the column's average for `Age`. Ways of filling gaps come in later Notes.
 
 > **Extra:** `df.isnull().mean()` gives the share of missing values instead of the count (0.77 for `Cabin`). `df.isna()` is another name for `df.isnull()`; both do the same thing.
 
@@ -269,7 +269,7 @@ The rows of the table mean:
 
 > **Key point:** The 25%, 50% and 75% rows are percentiles: the value below which that share of the data lies.
 
-A **percentile** (G-1483) splits sorted data by share. The 25% value of `Age` is 20.12: a quarter of the passengers with a known age were 20.12 or younger.
+A **percentile** (G-1483) splits sorted data by share, as in an exam result: a score at the 99th percentile means 99 percent of the candidates scored lower. The 25% value of `Age` is 20.12: a quarter of the passengers with a known age were 20.12 or younger.
 
 The three rows together cut the data into four groups of equal size (Figure 5). These cut points are called **quartiles** (G-1602). The middle one, the 50% value, is the **median**: half the values lie below it and half above.
 

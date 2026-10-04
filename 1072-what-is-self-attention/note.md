@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Word embeddings ([Note 1057](../1057-rnn-sentiment-analysis/note.md)); Attention mechanism ([Note 1069](../1069-attention-mechanism/note.md)).
+> - **Builds on:** Word embeddings ([Note 1057](../1057-rnn-sentiment-analysis/note.md)); Attention mechanism ([Note 1069](../1069-attention-mechanism/note.md)); Meaning as direction in embedding space ([Note 1086](../1086-meaning-as-direction/note.md)).
 > - **Leads to:** Scaled dot-product attention ([Note 1074](../1074-scaled-dot-product-attention/note.md)); Positional encoding ([Note 1078](../1078-positional-encoding/note.md)); Masked self-attention ([Note 1081](../1081-masked-self-attention/note.md)).
 > - **Compare with:** Cross-attention ([Note 1082](../1082-cross-attention/note.md)).
 <!-- /where-this-fits -->

@@ -270,7 +270,7 @@ $$H = -\tfrac{2}{8}\log_2\tfrac{2}{8} - \tfrac{3}{8}\log_2\tfrac{3}{8} - \tfrac{
 - **More than two classes:** the minimum is still 0, but the maximum is above 1, as the 1.561 above shows.
 - **Log base:** base 2 and base $e$ both work. They only rescale every entropy by the same factor, so the order "which set is more mixed" never changes. We use base 2.
 
-> **Extra:** With $c$ equally common classes, entropy reaches its maximum, $\log_2 c$: 1 for two classes, $\log_2 3 = 1.585$ for three. Switching to base $e$ multiplies every value by $\ln 2 = 0.693$; for example 0.971 becomes 0.673.
+> **Extra:** With $c$ equally common classes, entropy reaches its maximum, $\log_2 c$: 1 for two classes, $\log_2 3 = 1.585$ for three.
 
 ### 6.5 The entropy curve
 

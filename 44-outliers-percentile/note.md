@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/percentile, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Outliers ([Note 41](../41-what-are-outliers/note.md)).
+> - **Builds on:** Outliers ([Note 7](../07-challenges-in-ml/note.md)); Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)).
 > - **Compare with:** Z-score outlier method ([Note 42](../42-outliers-zscore/note.md)); IQR outlier method ([Note 43](../43-outliers-iqr/note.md)).
 <!-- /where-this-fits -->
 

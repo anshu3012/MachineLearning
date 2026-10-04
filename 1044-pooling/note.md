@@ -164,7 +164,7 @@ Downsampling keeps the dominant feature of each region and forgets exactly where
 
 ![Left: a digit and the same digit shifted 1 pixel right, their feature maps (vertical-edge filter and ReLU) and 2 × 2 max-pooled maps. Right: the relative change caused by the shift, averaged over 1,000 test digits; 0 means identical](images/shift_pool.png){width=100%}
 
-The Notebook measures it on 1,000 MNIST test digits, each shifted 1 pixel to the right. The relative change is the size of the difference between the representations of the original and the shifted digit, divided by the size of the original's representation:
+Figure 5 and the Notebook measure it on 1,000 MNIST test digits, each shifted 1 pixel to the right. The relative change is the size of the difference between the representations of the original and the shifted digit, divided by the size of the original's representation:
 
 | Representation | Relative change after a 1-pixel shift |
 |---|---|

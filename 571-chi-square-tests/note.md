@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/chi-square-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hypothesis testing: null and alternative ([Note 291](../291-rejection-region-and-z-test/note.md)); Joint and marginal probability ([Note 341](../341-joint-marginal-conditional-probability/note.md)).
+> - **Builds on:** Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)); Joint and marginal probability ([Note 341](../341-joint-marginal-conditional-probability/note.md)).
 > - **Compare with:** One-sample proportion test ([Note 570](../570-choosing-a-hypothesis-test/note.md)).
 <!-- /where-this-fits -->
 

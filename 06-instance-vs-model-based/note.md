@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, area/foundations, area/models-1, step/foundati
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Cross-validation ([Note 29](../29-pipelines/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)).
 > - **Leads to:** Standardization ([Note 9](../09-mldlc/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)); Normalization ([Note 25](../25-normalization/note.md)); K-means ([Note 32](../32-binning-binarization/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)).
 > - **Compare with:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 <!-- /where-this-fits -->
@@ -66,7 +66,7 @@ Figure 2 shows the steps for a new student with IQ 94.5 and CGPA 8.3:
 3. **Pick the nearest:** keep the *k* closest points. Here *k* = 3.
 4. **Vote:** 2 of the 3 nearest students were placed, so the prediction is *placed*.
 
-The idea behind step 4: points that are close together tend to share the same answer. A student who looks like placed students will probably be placed too.
+The idea behind step 4: points that are close together tend to share the same answer, just as where a person lives says something about them. A student who looks like placed students will probably be placed too.
 
 This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered in detail in later Notes.
 
@@ -144,7 +144,8 @@ After training, a model-based algorithm keeps only the function. To classify a n
 The function is described by a few numbers called **parameters** (G-1450). For example:
 
 - in a straight-line model, the parameters are the line's **slope** (G-1823) and **intercept** (G-960);
-- in a neural network, the parameters are its **weights** (G-2106).
+- in a neural network, the parameters are its **weights** (G-2106);
+- in Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)), the parameters are probabilities.
 
 ![What each approach keeps after training](images/what_is_kept.png)
 

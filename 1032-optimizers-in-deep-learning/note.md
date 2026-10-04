@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/optimizers
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convex sets and convex optimisation ([Note 621](../621-convex-sets-and-functions/note.md)); Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Mini-batch gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
+> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)); Convex sets and convex optimisation ([Note 621](../621-convex-sets-and-functions/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)).
 > - **Leads to:** SGD with momentum ([Note 1034](../1034-sgd-with-momentum/note.md)); Nesterov accelerated gradient (NAG) ([Note 1035](../1035-nesterov-accelerated-gradient/note.md)); AdaGrad ([Note 1036](../1036-adagrad/note.md)); RMSProp ([Note 1037](../1037-rmsprop/note.md)); Adam ([Note 1038](../1038-adam/note.md)).
 <!-- /where-this-fits -->
 

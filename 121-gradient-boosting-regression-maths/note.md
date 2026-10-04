@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 119](../119-bagging-vs-boosting/note.md)); Learning rate ([Note 120](../120-gradient-boosting-intuition/note.md)).
+> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Learning rate ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Leads to:** XGBoost ([Note 123](../123-xgboost-intro/note.md)).
 > - **Compare with:** AdaBoost ([Note 118](../118-adaboost-hyperparameters/note.md)).
 <!-- /where-this-fits -->
@@ -40,8 +40,6 @@ Linear regression learns a straight line ([simple linear regression Note](../50-
 > **Key point:** A line misses curved data; high-degree polynomials swing wildly at the edges.
 
 Some data follows a pattern that wiggles as it rises. A straight line cannot follow it. Polynomial regression ([polynomial regression Note](../61-polynomial-regression/note.md)) can bend, but a high degree makes the curve shoot up or down at the edges of the data, which lowers the test $R^2$.
-
-> **Extra:** This edge problem has a name, **Runge's phenomenon**: when a polynomial of high degree is fitted through equally spaced points, it oscillates strongly near the ends of the interval (Runge 1901).
 
 ### 3.2 Break the function into parts
 
@@ -267,14 +265,12 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed., Springer. §10.10.3, Algorithm 10.3, "Gradient Tree Boosting Algorithm".
 - Friedman, J. H. (2001). Greedy function approximation: a gradient boosting machine. *Annals of Statistics*, 29(5), 1189–1232. (Any differentiable loss; steepest descent in function space.)
-- Runge, C. (1901). "Über empirische Funktionen und die Interpolation zwischen äquidistanten Ordinaten". *Zeitschrift für Mathematik und Physik* 46, 224–243.
 
 ## 13. Key terms
 
 | Term | Meaning |
 |---|---|
 | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed |
-| Runge's phenomenon | The large swings of a high-degree polynomial near the ends of the interval it is fitted on |
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives |
 | Arg min (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$ |
 | Negative gradient | Minus the derivative of the loss with respect to the prediction; the direction that lowers the loss fastest |

@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Decision trees ([Note 100](../100-dtreeviz/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)); Hyperparameter tuning ([Note 111](../111-random-forest-hyperparameters/note.md)).
+> - **Builds on:** Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Compare with:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 <!-- /where-this-fits -->
 

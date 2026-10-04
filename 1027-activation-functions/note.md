@@ -288,8 +288,6 @@ Each ReLU node contributes one bent line. The weights and biases slide, flip and
 
 **1. Not differentiable at $z = 0$.** The two segments meet at a corner, which has no single slope. In code we simply choose one: slope 0 for $z < 0$, slope 1 for $z > 0$, and one of the two at exactly 0.
 
-> **Extra:** TensorFlow uses slope 0 at exactly $z = 0$ (the Notebook's gradient check returns 0 there); the convention above, 1, is the other common choice. The choice hardly matters in practice: of the 19,200 weighted sums in the two hidden layers of the trained ReLU network of Figure 2, none is exactly 0.
-
 **2. Not zero-centred.** Like the sigmoid's, ReLU's outputs are never negative, with the same effect on the gradient signs as in section 6.3. [Batch normalisation](../1031-batch-normalization/note.md) (G-266) addresses this: it normalises the values passed between layers.
 
 **3. The dying ReLU problem** (G-650). A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see section 6.2 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)). The causes and the fixes are in the [ReLU variants Note](../1028-relu-variants/note.md). The same Note (section 6.3) introduces GELU and SiLU, the smooth versions of ReLU used in transformers.

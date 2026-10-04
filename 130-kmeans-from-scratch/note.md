@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/clustering, concept/kmeans
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Elbow method and WCSS ([Note 129](../129-kmeans-code/note.md)).
+> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Elbow method and WCSS ([Note 128](../128-kmeans-intuition/note.md)); Expectation maximization (EM) ([Note 641](../641-expectation-maximization/note.md)).
 > - **Leads to:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
 > - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->

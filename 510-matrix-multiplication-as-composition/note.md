@@ -227,8 +227,8 @@ The collapse is why the hidden layers of a network end with a non-linear activat
 | Column by column | column $j$ of $BA$ is $B$ times column $j$ of $A$ | $M_2[1, 1] = [2, 1]$ |
 | Not commutative | $AB \neq BA$ in general | $RS \neq SR$ |
 | Associative | $(AB)C = A(BC)$ | same three steps, same order |
-| Transpose | Turning the rows of a matrix into its columns; $(AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}$ |
-| Row form | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left |
+| Transpose | turning the rows of a matrix into its columns | $(AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}$ |
+| Row form | points as rows, multiplied by $W^{\mathsf T}$ on the right | $\mathbf{x}^{\mathsf T}W^{\mathsf T}$: the matrix applied first sits on the left |
 | Shape rule | $(m \times n)(n \times p) = m \times p$ | $(40 \times 3)(3 \times 2) = 40 \times 2$ |
 
 - A matrix product is a composition of transformations, read from right to left.

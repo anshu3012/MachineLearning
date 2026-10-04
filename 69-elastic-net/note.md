@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/elasticnet]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Ridge regression ([Note 66](../66-ridge-key-points/note.md)); Lasso regression ([Note 68](../68-lasso-sparsity/note.md)).
+> - **Builds on:** Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)); Lasso regression ([Note 67](../67-lasso-regression/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

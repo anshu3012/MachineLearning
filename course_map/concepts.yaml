@@ -393,7 +393,7 @@ concepts:
   - {id: test_choice, name: Choosing a hypothesis test, step: 0, videos: [570], status: confirmed}
   - {id: proportion_test, name: One-sample proportion test, step: 0, videos: [570], status: confirmed}
   - {id: correlation_test, name: Correlation significance test, step: 3, videos: [570], status: confirmed}
-  - {id: chi_square_test, name: Chi-square tests, step: 0, videos: [29, 571], status: confirmed}
+  - {id: chi_square_test, name: Chi-square tests, step: 0, videos: [571, 29], status: confirmed}
   - {id: anova, name: One-way ANOVA, step: 0, videos: [572], status: confirmed}
   - {id: span_basis, name: "Linear combinations, span and basis", step: 0, videos: [490], status: confirmed}
   - {id: linear_transformation, name: Linear transformations and matrices, step: 0, videos: [48, 500], status: confirmed}

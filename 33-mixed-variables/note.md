@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, step/features, concept/mixed-variables]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature construction and splitting ([Note 23](../23-what-is-feature-engineering/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Builds on:** Feature construction and splitting ([Note 3](../03-types-of-ml/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

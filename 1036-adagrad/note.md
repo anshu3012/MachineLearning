@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Learning rate ([Note 1017](../1017-backpropagation-why/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)).
+> - **Builds on:** Learning rate ([Note 57](../57-gradient-descent/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)).
 > - **Leads to:** RMSProp ([Note 1037](../1037-rmsprop/note.md)).
 <!-- /where-this-fits -->
 

@@ -130,8 +130,10 @@ def neighbours(video):
                 continue
             # needs / is a kind of: a builds on b.  fixes: b (the problem) comes first.  used in: a comes first.
             other_first = (t in ("needs", "is a kind of", "fixes")) == mine_is_a
-            v = first_video(other, other_first)
-            if v:
+            # "Builds on" points at the Note that teaches the concept (its owner), not merely the nearest
+            # earlier Note that uses it; "Leads to" points at the next Note that uses it
+            v = first_note(CONCEPTS[other]) if other_first else first_video(other, False)
+            if v and v != video:
                 (before if other_first else after)[other] = v
     return own, before, after, compare
 

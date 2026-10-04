@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, area/production, step/foundations, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Deployment ([Note 29](../29-pipelines/note.md)); Hypothesis testing: null and alternative ([Note 291](../291-rejection-region-and-z-test/note.md)).
+> - **Builds on:** Deployment ([Note 4](../04-batch-learning/note.md)); Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)).
 > - **Compare with:** Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)).
 <!-- /where-this-fits -->
 

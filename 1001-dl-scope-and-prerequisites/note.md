@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
+> - **Builds on:** Machine learning ([Note 1](../01-what-is-ml/note.md)).
 > - **Leads to:** Types of neural networks ([Note 1003](../1003-nn-types-history-applications/note.md)).
 > - **Compare with:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
 <!-- /where-this-fits -->

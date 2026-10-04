@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Perceptron trick ([Note 71](../71-perceptron-code/note.md)); Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)); Dot product ([Note 520](../520-dot-product-and-duality/note.md)).
+> - **Builds on:** Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)).
 > - **Leads to:** Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)); Activation functions ([Note 1027](../1027-activation-functions/note.md)).
 <!-- /where-this-fits -->
 
@@ -71,8 +71,6 @@ The sum $w_1x_1 + w_2x_2$ is the **dot product** (G-634) of the weight vector wi
 $z$ can be any number, large or small, positive or negative. The green block in Figure 1 is the **activation function** (G-165): a function that brings $z$ into a fixed range.
 
 The classic perceptron uses the [step function](../70-perceptron-trick/note.md) (G-1889): output 1 when $z \geq 0$ and 0 otherwise. Other activation functions exist (sigmoid, tanh, ReLU and more), with ranges such as 0 to 1 or −1 to 1. Later Notes use them.
-
-> **Extra:** Whether $z = 0$ counts as 1 or 0 is a convention. The [perceptron trick Note](../70-perceptron-trick/note.md) uses $z > 0$, here we use $z \geq 0$. The two rules give different outputs only when $z$ is exactly 0, that is, for points lying exactly on the line.
 
 ### 3.4 The bias as a threshold
 
@@ -250,7 +248,7 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 >
 > The data here is small and nothing was tuned, so the raw result is not the best a perceptron can do. The aim is to see the three learned numbers and the line they describe.
 
-> **Python:** Drawing the regions. The figure colours a fine grid of points by `p.predict`, as in the [toy project Note](../13-toy-project/note.md) (Figure 5). The Notebook has the code; it uses Plotly instead of the `mlxtend` library's `plot_decision_regions`.
+> **Python:** Drawing the regions. The figure colours a fine grid of points by `p.predict`, as in the [toy project Note](../13-toy-project/note.md) (Figure 7). The Notebook has the code; it uses Plotly instead of the `mlxtend` library's `plot_decision_regions`.
 
 ## 9. Summary
 

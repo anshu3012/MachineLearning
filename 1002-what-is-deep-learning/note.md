@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/foundations, step/foundations
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Linear transformations and matrices ([Note 500](../500-linear-transformations-and-matrices/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)).
+> - **Builds on:** Machine learning ([Note 1](../01-what-is-ml/note.md)); Linear transformations and matrices ([Note 500](../500-linear-transformations-and-matrices/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)).
 > - **Leads to:** Types of neural networks ([Note 1003](../1003-nn-types-history-applications/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Convolutional neural network (CNN) ([Note 1040](../1040-cnn-intuition/note.md)).
 > - **Compare with:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
@@ -158,7 +158,7 @@ Figure 6 is the balance this section weighs: four costs on the left, two gains o
 
 > **Key point:** With little data ML wins; with lots of data DL keeps improving while ML levels off.
 
-DL is **data hungry** (G-534): its results become reliable only with a lot of data. Figure 8 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) shows the classic curves. With little data, ML performs better; beyond some amount, ML stagnates while DL keeps rising.
+DL is **data hungry** (G-534): its results become reliable only with a lot of data. Figure 10 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) shows the classic curves. With little data, ML performs better; beyond some amount, ML stagnates while DL keeps rising.
 
 ### 4.2 Hardware
 
@@ -256,8 +256,6 @@ Thousands more are available today, for example on Kaggle. Without data there wo
 
 Around 2010, researchers realised that a network's matrix multiplications can run in parallel, just like the graphics work a GPU was built for. NVIDIA's **CUDA** (G-514), a platform for programming GPUs, made this practical, and training on GPUs became the norm. A GPU typically cuts training time by a factor of 10 to 20 compared with a CPU.
 
-> **Extra:** CUDA 1.0 came out in 2007 (NVIDIA 2007). Deep networks were trained on GPUs by 2009 (Raina et al. 2009), and the 2012 ImageNet winner described in the [history section](../1003-nn-types-history-applications/note.md) was trained on two GPUs (Krizhevsky et al. 2012, §3.2).
-
 Once the speed-up was clear, chips designed for DL followed:
 
 - **FPGA** (G-800; field-programmable gate array): a reprogrammable chip that is fast and low-power, but expensive. Microsoft runs much of its search engine's AI on FPGAs.
@@ -282,8 +280,6 @@ Writing a network's training code from scratch takes longer than the problem it 
 - **PyTorch (Facebook, now Meta)** (G-1595): released in 2016, it became the favourite of researchers. Facebook's Caffe2, a library for running models on servers, was merged into it in 2018.
 
 Today TensorFlow with Keras is used more in industry, and PyTorch more in research. Converting a model from one to the other is awkward, so drag-and-drop tools appeared that build a network in a browser and export code for either: Google's AutoML, Microsoft's Custom Vision and Apple's Create ML.
-
-> **Extra:** Since Keras 3 (2023), Keras can again run on several back ends: JAX, TensorFlow or PyTorch (Keras 3 docs).
 
 ### 5.4 Architectures and transfer learning
 
@@ -337,10 +333,6 @@ None of the above would exist without people. Researchers worked on neural netwo
 
 - LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11). (The MNIST digits.)
 - Silver et al., "Mastering the game of Go without human knowledge", *Nature*, 2017 (AlphaGo against Lee Sedol, March 2016).
-- NVIDIA, "CUDA Toolkit Archive" (CUDA Toolkit 1.0, June 2007), developer.nvidia.com.
-- Raina, Madhavan and Ng, "Large-scale Deep Unsupervised Learning using Graphics Processors", ICML 2009.
-- Krizhevsky, Sutskever and Hinton, "ImageNet Classification with Deep Convolutional Neural Networks", NeurIPS 2012.
-- Keras documentation, "Introducing Keras 3.0", keras.io.
 - Ribeiro, Singh and Guestrin, "Why Should I Trust You? Explaining the Predictions of Any Classifier", KDD 2016 (LIME). Lundberg and Lee, "A Unified Approach to Interpreting Model Predictions", NeurIPS 2017 (SHAP).
 - Grinsztajn, Oyallon and Varoquaux, "Why do tree-based models still outperform deep learning on typical tabular data?", NeurIPS 2022 (Datasets and Benchmarks).
 

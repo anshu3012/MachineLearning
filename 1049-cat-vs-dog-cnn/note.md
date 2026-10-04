@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-project]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)); Keras workflow ([Note 1026](../1026-regularization-in-dl/note.md)); CNN architecture (LeNet-5) ([Note 1045](../1045-lenet-5/note.md)).
+> - **Builds on:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)); CNN architecture (LeNet-5) ([Note 1045](../1045-lenet-5/note.md)); Data augmentation ([Note 1050](../1050-data-augmentation/note.md)).
 > - **Compare with:** Transfer learning (feature extraction and fine-tuning) ([Note 1053](../1053-transfer-learning/note.md)).
 <!-- /where-this-fits -->
 
@@ -49,7 +49,7 @@ PetImages/
 
 Each photo is one **observation** (G-1374; one record of the data). Its class is not written in a table: the folder it sits in is its label.
 
-A small number of files are damaged or are not real JPEG photos. The official Keras example deletes every file whose header lacks the "JFIF" marker of a JPEG (Keras documentation, Image classification from scratch); doing the same removes 1,590 files, the same number the example reports, and leaves 23,410 photos: 11,741 cats and 11,669 dogs. (Each folder also holds a `Thumbs.db` file, which is not a photo; counting it gives 11,742 and 11,670.)
+A small number of files are damaged or are not real JPEG photos. The official Keras example deletes every file whose header lacks the "JFIF" marker of a JPEG (Keras documentation, Image classification from scratch); doing the same removes 1,590 files, the same number the example reports, and leaves 23,410 photos: 11,741 cats and 11,669 dogs.
 
 The photos come in many sizes. Among 300 photos picked at random, the widths run from 120 to 500 pixels and the heights from 100 to 500, and there are 200 different sizes (Notebook; Figure 1). A CNN expects every input to have the same shape, so every photo will be resized to one size.
 

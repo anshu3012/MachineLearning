@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Central limit theorem ([Note 272](../272-estimating-a-mean-with-the-clt/note.md)).
+> - **Builds on:** Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 > - **Compare with:** Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)).
 <!-- /where-this-fits -->
 
@@ -24,8 +24,8 @@ This Note covers:
 
 - why a point estimate alone is not reliable;
 - what a confidence interval and a confidence level are;
-- the **z-procedure**, used when the population standard deviation $\sigma$ is known: its assumptions, its formula, where the formula comes from, and how to find the critical value $z_{\alpha/2}$.
-- the bootstrap interval, built without any formula (section 10);
+- the **z-procedure**, used when the population standard deviation $\sigma$ is known: its assumptions, its formula, where the formula comes from, and how to find the critical value $z_{\alpha/2}$;
+- the bootstrap interval, built without any formula (section 10).
 
 The [interpreting confidence intervals Note](../281-interpreting-confidence-intervals/note.md) explains what "95% confident" really means and what makes an interval wide or narrow. The [t-procedure Note](../282-t-procedure/note.md) handles the usual case where $\sigma$ is unknown.
 

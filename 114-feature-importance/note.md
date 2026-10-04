@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); Hyperparameter tuning ([Note 111](../111-random-forest-hyperparameters/note.md)); Grid and random search ([Note 112](../112-random-forest-tuning/note.md)); OOB score ([Note 113](../113-oob-score/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)).
 > - **Leads to:** Balanced random forest ([Note 133](../133-imbalanced-data/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
@@ -21,7 +21,7 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 
 Tree-based algorithms (decision trees, random forests, and later bagging and boosting ensembles such as AdaBoost, gradient boosting and XGBoost) can all tell us how much each feature helped in predicting the **target** (the output we predict) from the **observations** (records, one row of the table each). Figure 1 shows this for handwritten digits: the forest relies on the pixels in the middle of the image and ignores the border.
 
-For a single tree, `feature_importances_` was introduced in the [regression trees Note](../99-regression-trees/note.md), section 7.3. This Note covers:
+For a single tree, `feature_importances_` was introduced in the [regression trees Note](../99-regression-trees/note.md), section 7.5. This Note covers:
 
 - why feature importance is useful (section 2);
 - how a tree computes it, step by step (section 4);
@@ -149,7 +149,7 @@ $$\Delta_2 = \frac{9}{15}\left(0.346 - \frac{3}{9}(0.444)\right) = 0.119$$
 
 $$\Delta_4 = \frac{3}{15}(0.444) = 0.089$$
 
-The total is $0.290 + 0.119 + 0.089 = 0.498$, so feature 0 gets $(0.119 + 0.089) / 0.498 = 0.417$ and feature 1 gets $0.290 / 0.498 = 0.583$. `feature_importances_` gives 0.4167 and 0.5833; rounding each step to two digits gives slightly different numbers, such as 0.39 and 0.61, so we keep three.
+The total is $0.290 + 0.119 + 0.089 = 0.498$, so feature 0 gets $(0.119 + 0.089) / 0.498 = 0.417$ and feature 1 gets $0.290 / 0.498 = 0.583$. `feature_importances_` gives 0.4167 and 0.5833.
 
 ## 5. Feature importance in a random forest
 
@@ -177,8 +177,6 @@ A random forest adds nothing new: each tree computes its importances as in secti
 A single tree's importances can change a lot when the data changes slightly (high variance); the forest's mean over many trees is much more stable. The Notebook tests this on the data of section 6. It draws 20 bootstrap resamples of the 700 training observations and, on each one, trains one tree and one forest. Figure 4 plots every resample's importances. Watch the red dots of the single tree spread widely along each feature's row, while the blue dots of the forest sit in tight clusters. Measured by the standard deviation, averaged over the six features, the forest's importances spread about a quarter as much as one tree's (0.011 against 0.043): the same variance reduction that makes bagging work.
 
 ![Feature importances from 20 bootstrap resamples of the training data. Left: one decision tree per resample. Right: one random forest of 100 trees per resample. Each dot is one resample](images/forest_stability.png)
-
-> **Extra:** Two details of scikit-learn's version. Each tree computes its decreases on its own bootstrap sample, not on the full training set. And a tree that never split (only a root) is left out of the mean; the result is divided by its total again so it still sums to 1. (scikit-learn source, `ensemble/_forest.py`)
 
 ## 6. The weakness: features with many unique values
 
@@ -257,7 +255,6 @@ If the data has no high-cardinality features, the impurity-based importance of `
 
 - Strobl, C., Boulesteix, A.-L., Zeileis, A. and Hothorn, T. (2007). Bias in random forest variable importance measures. *BMC Bioinformatics* 8: 25.
 - scikit-learn developers. User Guide, §5.2 "Permutation feature importance" (version 1.9). scikit-learn.org/stable/modules/permutation_importance.html
-- scikit-learn source code, `sklearn/ensemble/_forest.py`, property `feature_importances_` (version 1.9).
 
 ## 10. Key terms
 

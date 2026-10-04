@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/dropout]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Overfitting ([Note 91](../91-knn/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Compare with:** Random forest ([Note 114](../114-feature-importance/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)); Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)).
 <!-- /where-this-fits -->
 
@@ -85,8 +85,6 @@ In Figure 2, watch the crosses jump between steps: 4, 3, 1 and then 7 of the 15 
 > **Key point:** p is the probability of dropping each node; it can differ from layer to layer.
 
 The **dropout rate** (G-638) $p$ is the fraction of a layer's nodes to drop. With $p = 0.5$, each node of that layer is switched off with probability 0.5, so on average half the layer is gone in each step. Each layer can have its own rate; typical values come in the [dropout code Note](../1025-dropout-code/note.md).
-
-> **Extra:** Each node is dropped independently, so $p = 0.5$ on a layer of 4 nodes drops 2 nodes on average, but sometimes 1 or 3. "Drop exactly 2 of the 4", as in the diagrams, is the average case.
 
 ## 5. Why switching nodes off helps
 

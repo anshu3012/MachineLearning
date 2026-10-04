@@ -31,7 +31,7 @@ The **ROC curve** (G-1702) (receiver operating characteristic curve) is a standa
 
 Logistic regression (and most classifiers, such as decision trees or neural networks) does not directly output 0 or 1. The model outputs a probability, for example "this patient has a 45% chance of diabetes" (the sigmoid Note).
 
-A **threshold** (G-1971) turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
+A **threshold** (G-1970) turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
 
 ### 2.2 Why change it
 

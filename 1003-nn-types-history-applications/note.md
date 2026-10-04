@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); What deep learning is ([Note 1002](../1002-what-is-deep-learning/note.md)); Neural networks ([Note 1002](../1002-what-is-deep-learning/note.md)).
+> - **Builds on:** Neural networks ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); What deep learning is ([Note 1001](../1001-dl-scope-and-prerequisites/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); MLP notation and parameter count ([Note 1008](../1008-mlp-notation/note.md)).
 > - **Leads to:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 > - **Compare with:** Convolutional neural network (CNN) ([Note 1040](../1040-cnn-intuition/note.md)); Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)).
 <!-- /where-this-fits -->
@@ -112,8 +112,6 @@ In Figure 4, try any of the dashed lines: each one leaves a blue point and an or
 
 Funding, media attention and research on neural networks dropped sharply. A period like this, when interest and money for AI collapse, is called an **AI winter** (G-185); this was the first.
 
-> **Extra:** Minsky and Papert's 1969 work was a book, *Perceptrons* (MIT Press). The first AI winter of the 1970s had other causes too, such as the critical Lighthill report on AI research in the United Kingdom (1973), after which the UK government ended support for AI research at all but a few universities (Russell and Norvig, §1.3).
-
 ### 3.2 Backpropagation and the second boom
 
 > **Key point:** Many perceptrons in layers can learn non-linear functions, and backpropagation can train them.
@@ -140,7 +138,7 @@ The formal statement is the **universal approximation theorem** (G-2052): a neur
 
 Figure 5 is a small experiment of our own design: watch the red curve as neurons are added. With one neuron it is a single smooth step; with 32 it follows every bend, and the worst error falls from 1.05 to 0.07.
 
-> **Extra:** The theorem was proved by George Cybenko (1989) and Kurt Hornik (1991), not in the 1986 backpropagation paper. One hidden layer is already enough in principle, though that layer may need an enormous number of neurons; deeper networks often need far fewer. The theorem says a good network exists; it does not promise that training will find it (Goodfellow et al. 2016, §6.4.1).
+> **Extra:** The theorem was proved by George Cybenko (1989) and Kurt Hornik (1991). One hidden layer is already enough in principle, though that layer may need an enormous number of neurons; deeper networks often need far fewer. The theorem says a good network exists; it does not promise that training will find it (Goodfellow et al. 2016, §6.4.1).
 
 ### 3.4 The second AI winter
 
@@ -181,7 +179,7 @@ Further milestones:
 - **2016:** DeepMind's **AlphaGo** beats Lee Sedol, winner of 18 international titles, by 4 games to 1. Go is a board game far more complex than chess: about 250 possible moves per turn against about 35 (Silver et al. 2016).
 - **Today:** almost every digital product uses deep learning somewhere, and universities teach it widely.
 
-> **Extra:** The 2012 figure is the top-5 error (the right answer is among the model's five guesses): 15.3% for AlexNet against 26.2% for the second-best entry (Krizhevsky et al. 2012). Lee Sedol retired from professional Go in November 2019, calling AI "an entity that cannot be defeated" (Yonhap 2019).
+> **Extra:** The 2012 figure is the top-5 error (the right answer is among the model's five guesses): 15.3% for AlexNet against 26.2% for the second-best entry (Krizhevsky et al. 2012).
 
 The reasons for this final success are the five forces of section 5 in the [what is deep learning Note](../1002-what-is-deep-learning/note.md): more labelled data, stronger hardware, better algorithms and frameworks, and a growing community.
 
@@ -275,7 +273,6 @@ GANs generate data that never existed: photos of people who never lived, a predi
 - Sakurada and Yairi, "Anomaly Detection Using Autoencoders with Nonlinear Dimensionality Reduction", MLSDA workshop, 2014.
 - Rosenblatt, "The perceptron: a probabilistic model for information storage and organization in the brain", *Psychological Review*, 1958.
 - Minsky and Papert, *Perceptrons*, MIT Press, 1969.
-- Russell and Norvig, *Artificial Intelligence: A Modern Approach*, 4th ed., 2020, §1.3 (the Lighthill report and the first AI winter).
 - Rumelhart, Hinton and Williams, "Learning representations by back-propagating errors", *Nature*, 1986.
 - Hinton, Osindero and Teh, "A Fast Learning Algorithm for Deep Belief Nets", *Neural Computation*, 2006.
 - LeCun et al., "Backpropagation Applied to Handwritten Zip Code Recognition", *Neural Computation*, 1989.
@@ -283,7 +280,6 @@ GANs generate data that never existed: photos of people who never lived, a predi
 - Cybenko, "Approximation by Superpositions of a Sigmoidal Function", 1989; Hornik, "Approximation Capabilities of Multilayer Feedforward Networks", 1991.
 - Krizhevsky, Sutskever and Hinton, "ImageNet Classification with Deep Convolutional Neural Networks", NeurIPS 2012.
 - Silver et al., "Mastering the game of Go with deep neural networks and tree search", *Nature*, 2016 (search-tree sizes of Go and chess).
-- Yonhap News Agency interview with Lee Sedol, November 2019.
 - Olah, Mordvintsev and Schubert, "Feature Visualization", *Distill*, 2017 (describes DeepDream, introduced by Mordvintsev, Olah and Tyka in 2015).
 
 ## 7. Key terms

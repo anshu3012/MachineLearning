@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 122](../122-gradient-boosting-classification/note.md)); Missing values ([Note 123](../123-xgboost-intro/note.md)).
+> - **Builds on:** Missing values ([Note 7](../07-challenges-in-ml/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Taylor series ([Note 600](../600-derivatives-of-one-variable/note.md)); Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -70,7 +70,7 @@ An XGBoost tree starts as a single leaf holding every residual. The tree then tr
 3. **Example:** the root leaf holds all four residuals:
    $$\text{similarity} _{\text{root}} = \frac{(-2.875 + 3.625 - 1.375 + 0.625)^2}{4 + 0} = \frac{0^2}{4} = 0$$
 
-The residuals from the mean always add up to exactly 0, so the root's similarity is 0. (If we round the mean to 7.3 first, they add up to 0.3 and the root scores $0.3^2/4 = 0.02$; the rounding changes nothing important.)
+The residuals from the mean always add up to exactly 0, so the root's similarity is 0.
 
 Why the name? In a leaf such as $\lbrace-2.875, -1.375\rbrace$ the residuals point the same way, the sum is large and the score is high. In $\lbrace3.625, -1.375\rbrace$ they cancel, the sum is small and the score is low.
 

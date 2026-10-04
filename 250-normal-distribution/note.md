@@ -8,7 +8,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
+> - **Builds on:** Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Probability distributions ([Note 210](../210-statistics-roadmap/note.md)).
 > - **Leads to:** Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 > - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->

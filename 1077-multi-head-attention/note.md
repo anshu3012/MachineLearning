@@ -81,7 +81,7 @@ Head 1 has its own $4 \times 4$ matrices $W_Q^1$, $W_K^1$, $W_V^1$; head 2 has a
 
 1. **In words:** each head runs the whole self-attention computation with its own vectors.
 2. **Formula:** for head $i$,
-   $$\alpha^i_{\text{money},j} = \text{softmax}_j\negthinspace\left(\frac{q^i_{\text{money}} \cdot k_j^i}{\sqrt{d_k}}\right), \qquad z^i_{\text{money}} = \sum_j \alpha^i_{\text{money},j}\thinspace v_j^i$$
+   $$\alpha^i_{\text{money},j} = \text{softmax} _j\negthinspace\left(\frac{q^i_{\text{money}} \cdot k_j^i}{\sqrt{d_k}}\right), \qquad z^i_{\text{money}} = \sum_j \alpha^i_{\text{money},j}\thinspace v_j^i$$
 3. **Example:** the weights of "money", with $d_k = 4$, so $\sqrt{d_k} = 2$:
    - Head 1: $q^1_{\text{money}} = (0, 1, 0, 0)$, $k^1_{\text{money}} = (0, 1, 0, 0)$, $k^1_{\text{bank}} = (-1, 3, 3, -3)$. The scores are $1$ and $3$, halved to $0.5$ and $1.5$; the softmax gives weights $0.269$ on "money" and $0.731$ on "bank".
    - Head 2: $q^2_{\text{money}} = (-1, 1, 2, 0)$, $k^2_{\text{money}} = (1, -1, 1, 2)$, $k^2_{\text{bank}} = (1, 1, 0, -2)$. Both scores are $0$, so the weights are $0.5$ and $0.5$.
@@ -154,9 +154,9 @@ The two small matrices are much cheaper than one full map: $2 \times 768 \times 
 
 The transformer paper defines (Vaswani et al. 2017, §3.2.2):
 
-$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \dots, \text{head}_h)\thinspace W_O, \qquad \text{head}_i = \text{Attention}(QW_Q^i, KW_K^i, VW_V^i)$$
+$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head} _1, \dots, \text{head} _h)\thinspace W_O, \qquad \text{head} _i = \text{Attention}(QW_Q^i, KW_K^i, VW_V^i)$$
 
-In self-attention $Q$, $K$ and $V$ here are all the embedding matrix $X$, so $\text{head}_i$ is the $Z_i$ of section 5. Two numbers differ from our small example:
+In self-attention $Q$, $K$ and $V$ here are all the embedding matrix $X$, so $\text{head} _i$ is the $Z_i$ of section 5. Two numbers differ from our small example:
 
 - **Embeddings of $d_{\text{model}} = 512$ numbers** per word (Vaswani et al. 2017, §3.1).
 - **$h = 8$ heads, each of size $d_k = d_v = d_{\text{model}}/h = 64$.** Each $W_Q^i$, $W_K^i$, $W_V^i$ is $512 \times 64$: it maps a 512-number embedding to a 64-number query, key or value. Every head works in a smaller space than the embedding.

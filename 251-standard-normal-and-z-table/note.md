@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Skewness ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)); Cumulative distribution function (CDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Normal distribution ([Note 250](../250-normal-distribution/note.md)).
+> - **Builds on:** Standardization ([Note 9](../09-mldlc/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 > - **Leads to:** Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)); Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)).
 > - **Compare with:** IQR outlier method ([Note 43](../43-outliers-iqr/note.md)); Percentile outlier method ([Note 44](../44-outliers-percentile/note.md)).
 <!-- /where-this-fits -->
@@ -138,7 +138,7 @@ The heights of adult men in a population are normal with mean 68 inches and stan
    $$z = \frac{72 - 68}{3} = \frac{4}{3} = 1.33$$
    The z-table gives $\Phi(1.33) = 0.90824$, so
    $$P(X > 72) = 1 - 0.90824 = 0.09176$$
-   About 9.2% of men are taller than 72 inches. (With the unrounded $z = 1.3333$, software gives 0.0912.)
+   About 9.2% of men are taller than 72 inches.
 
 Figure 5 draws the problem. The shaded tail is the answer; the second row of tick labels shows that 72 inches sits at $z = 1.33$ on the standard normal scale.
 

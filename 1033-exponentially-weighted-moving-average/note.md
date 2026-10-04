@@ -81,7 +81,7 @@ The second choice gives more accurate values at the start, so it is the one we p
 
 On the Delhi data (Figure 3), the zero start reads 1.0 °C on a day of 10 °C. The two curves still differ by 3.5 °C on day 10 and 1.2 °C on day 20, and only agree within 0.1 °C from day 44 on (Notebook). The zero start's error shrinks by a factor $\beta$ every day, so it fades, but slowly.
 
-> **Extra:** Optimizers start their averages at 0, so they face exactly this start-up error. Adam removes it with a correction factor (see the [Adam Note](../1038-adam/note.md)). Time series books call the starting value $\ell_0$ and estimate it from the data (Hyndman and Athanasopoulos 2021, §8.1).
+> **Extra:** Optimizers start their averages at 0, so they face exactly this start-up error. Adam removes it with a correction factor (see the [Adam Note](../1038-adam/note.md)).
 
 ## 5. The effect of $\beta$
 
@@ -129,7 +129,7 @@ The oldest value, $\theta_1$, is multiplied by $\beta^3$; $\theta_2$ by $\beta^2
 
 1. **In words:** the weight of a value $k$ steps in the past is $(1 - \beta)$ times $\beta$ multiplied $k$ times.
 2. **Formula:**
-   $$\text{weight}_k = (1-\beta)\thinspace\beta^k$$
+   $$\text{weight of the value } k \text{ steps back} = (1-\beta)\thinspace\beta^k$$
 3. **Example:** with $\beta = 0.9$, the weights on $\theta_4, \theta_3, \theta_2, \theta_1$ are
    $$0.1,\quad 0.1 \times 0.9 = 0.09,\quad 0.1 \times 0.81 = 0.081,\quad 0.1 \times 0.729 = 0.0729$$
    On Delhi's first four days (10.0, 7.4, 7.17, 8.67 °C), the loop and the unrolled sum both give $V_4 = 2.84$ (Notebook).
@@ -184,7 +184,6 @@ Writing the EWMA by hand, as the `ewma` function in the Notebook does, is a good
 
 **Other references**
 
-- Hyndman, R. J. and Athanasopoulos, G. (2021). *Forecasting: Principles and Practice*, 3rd edition. OTexts. §8.1 Simple exponential smoothing. otexts.com/fpp3.
 - pandas documentation: `pandas.DataFrame.ewm` (parameters `alpha` and `adjust`).
 - Ruder, S. (2016). An overview of gradient descent optimization algorithms. arXiv:1609.04747.
 - Rao, S. V. (2019). Daily Climate time series data (Delhi, 2013–2017). Kaggle dataset.

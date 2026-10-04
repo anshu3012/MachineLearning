@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)).
+> - **Builds on:** Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)).
 > - **Leads to:** P-values ([Note 300](../300-p-values/note.md)).
 > - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->

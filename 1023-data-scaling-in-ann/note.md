@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)); Gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
+> - **Builds on:** Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)).
 > - **Leads to:** Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)).
 > - **Compare with:** Normalization ([Note 25](../25-normalization/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)).
 <!-- /where-this-fits -->

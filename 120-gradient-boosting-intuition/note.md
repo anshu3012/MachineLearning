@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 119](../119-bagging-vs-boosting/note.md)).
+> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Leads to:** XGBoost ([Note 123](../123-xgboost-intro/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)); AdaGrad ([Note 1036](../1036-adagrad/note.md)).
 > - **Compare with:** AdaBoost ([Note 118](../118-adaboost-hyperparameters/note.md)).
 <!-- /where-this-fits -->
@@ -114,8 +114,6 @@ We are not asking tree 1 "what is this student's package?" but "how far off is m
 ![Tree 1, trained on the residuals: each leaf holds the residual of the students that reach it](images/toy_tree.png){height=30%}
 
 Figure 3 shows the tree scikit-learn grows on this data. Student 1 (IQ 90) goes left at "IQ $\le$ 105" and left again at "IQ $\le$ 95", reaching the leaf $-1.8$: exactly student 1's residual. With only five observations, every student gets a leaf of their own (students 1 and 5 share one, and their residuals are equal), so the tree's predictions *pred* on the training observations equal the residuals exactly.
-
-> **Extra:** Any question that separates student 3 from student 4 gives the same right-hand leaves: "CGPA $\le$ 7.5" and "IQ $\le$ 115" both work, and scikit-learn happens to pick the second. Ties like this are common on tiny data and do not change the predictions on the training observations.
 
 Trees are the usual choice for these later models, and Friedman's original method is built around them (Friedman 2001), although any regression model could be used.
 
@@ -273,7 +271,7 @@ Figure 10 shows why stumps are too small, on the first residuals of the curve da
 
 The leaf count depends on the data: about 8 leaves for small datasets, up to about 32 for big ones. Stumps are rarely enough: a tree with 2 leaves cannot capture any interaction between features, so boosted stumps suit only data where each feature acts on its own (ESL §10.11).
 
-> **Extra:** Sources differ on the best tree size. Trees with 4 to 8 leaves work well in most cases (ESL §10.11); scikit-learn's default, `max_depth=3`, allows at most 8. Like the learning rate, the tree size is a hyperparameter, best set by cross-validation.
+> **Extra:** Trees with 4 to 8 leaves work well in most cases (ESL §10.11); scikit-learn's default, `max_depth=3`, allows at most 8. Like the learning rate, the tree size is a hyperparameter, best set by cross-validation.
 
 ## 14. Summary
 

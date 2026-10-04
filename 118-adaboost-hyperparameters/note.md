@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); ML pipelines ([Note 13](../13-toy-project/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 > - **Leads to:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)); Random under- and oversampling ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 113](../113-oob-score/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
@@ -78,7 +78,7 @@ In practice, decision trees are used almost every time, and stumps are the defau
 
 Older versions of `AdaBoostClassifier` had a fourth hyperparameter, `algorithm`, with two choices: `"SAMME"` and `"SAMME.R"`. SAMME.R, which used predicted probabilities instead of hard votes, was the default and typically converged faster (scikit-learn 1.5 docs).
 
-> **Extra:** SAMME.R was deprecated in scikit-learn 1.4 and scheduled for removal in 1.6 (scikit-learn 1.5 docs), and then the `algorithm` parameter itself was removed. scikit-learn 1.9, which this Note uses, accepts only `estimator`, `n_estimators`, `learning_rate` and `random_state`, and always runs SAMME. Code that passes `algorithm="SAMME.R"` fails with a `TypeError`; deleting the argument fixes it.
+> **Extra:** The `algorithm` parameter has since been removed. scikit-learn 1.9, which this Note uses, accepts only `estimator`, `n_estimators`, `learning_rate` and `random_state`, and always runs SAMME. Code that passes `algorithm="SAMME.R"` fails with a `TypeError`; deleting the argument fixes it.
 
 ## 3. n_estimators: from underfitting to overfitting
 

@@ -8,7 +8,7 @@ tags: [subject/maths, area/calculus, step/reduce, concept/low-rank-approx]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Singular value decomposition ([Note 611](../611-computing-the-svd/note.md)).
+> - **Builds on:** Singular value decomposition ([Note 610](../610-svd-geometry/note.md)).
 > - **Compare with:** PCA ([Note 49](../49-pca-mnist/note.md)).
 <!-- /where-this-fits -->
 

@@ -83,7 +83,7 @@ Yann LeCun, often called the father of CNNs, worked on convolutional networks fr
 LeNet-5 expects a 32 × 32 greyscale image. Layer by layer (Figure 1):
 
 1. **Convolution 1:** 6 filters of 5 × 5, stride 1, no padding, tanh.
-2. **Average pooling** (G-238) 1:** 2 × 2 window, stride 2. LeNet-5 uses average pooling, not max pooling.
+2. **Average pooling 1** (G-238): 2 × 2 window, stride 2. LeNet-5 uses average pooling, not max pooling.
 3. **Convolution 2:** 16 filters of 5 × 5, stride 1, no padding, tanh.
 4. **Average pooling 2:** 2 × 2 window, stride 2.
 5. **Flatten.**

@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/softmax]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)).
+> - **Builds on:** One-hot encoding ([Note 11](../11-tensors/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)).
 > - **Leads to:** Categorical and sparse categorical cross-entropy ([Note 633](../633-mle-in-machine-learning/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)); Unembedding, logits, temperature and sampling ([Note 1088](../1088-unembedding-and-sampling/note.md)).
 <!-- /where-this-fits -->
 
@@ -128,7 +128,7 @@ For a flower with sepal length 3.4 and petal length 2.7, the setosa score is $11
 
 A simple way to picture training is to **one-hot encode** (G-1379) the output (the one-hot encoding Note). A column with values 0, 1, 2 becomes three columns: "is it class 0?", "is it class 1?", "is it class 2?". Each column is a binary problem, so one logistic regression could be trained per column, giving three weight vectors.
 
-The one-model-per-class picture works, and scikit-learn offers it as **one-vs-rest** (G-1388). But the K models are trained separately, so nothing makes their probabilities add up to 1.
+The one-model-per-class picture works, and scikit-learn offers it as **one-vs-rest** (G-1388). But the K models are trained separately, so nothing makes their probabilities add up to 1, and training K separate models gets slow when there are many classes.
 
 ### 4.2 The real approach: one loss for all classes
 

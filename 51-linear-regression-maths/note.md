@@ -8,7 +8,7 @@ tags: [subject/ml, area/calculus, area/models-1, step/foundations, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)).
+> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)).
 > - **Leads to:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Partial derivatives and gradients ([Note 57](../57-gradient-descent/note.md)); Taylor series ([Note 126](../126-xgboost-maths/note.md)).
 > - **Compare with:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)).
 <!-- /where-this-fits -->
@@ -257,7 +257,7 @@ The predictions match scikit-learn's to every digit shown. Figure 11 draws the c
 
  The Notebook also checks the two conditions of Section 4 at the fitted line: the errors add up to 0, and so do the errors times $x$. Moving $m$ by just 0.01 raises $E$ from 16.55 to 17.35.
 
-> **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: multiple linear regression, coming soon. If we edit the class and run its definition again, we must also create a new object: an object made before the edit keeps running the old code (Python reference §8.8).
+> **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: multiple linear regression, coming soon.
 
 ## 7. Summary
 
@@ -288,7 +288,6 @@ The predictions match scikit-learn's to every digit shown. Figure 11 draws the c
 **Other references**
 
 - scikit-learn API reference, `sklearn.linear_model.LinearRegression`, Notes section. scikit-learn.org.
-- *The Python Language Reference*, §8.8 Class definitions. docs.python.org.
 
 ## 9. Key terms
 

@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/regularisation, concept/ri
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Vector magnitude, distance and scalar operations ([Note 39](../39-knn-imputer/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Overfitting ([Note 61](../61-polynomial-regression/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Standardization ([Note 9](../09-mldlc/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)).
 > - **Leads to:** Lasso regression ([Note 67](../67-lasso-regression/note.md)); Elastic Net ([Note 69](../69-elastic-net/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); XGBoost ([Note 123](../123-xgboost-intro/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
 > - **Compare with:** Lasso regression ([Note 67](../67-lasso-regression/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
 <!-- /where-this-fits -->

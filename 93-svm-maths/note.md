@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Dot product ([Note 48](../48-pca-step-by-step/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Equation of a hyperplane ([Note 70](../70-perceptron-trick/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Hinge loss and soft margin ([Note 94](../94-svm-soft-margin/note.md)); Kernel trick ([Note 95](../95-kernel-trick-intuition/note.md)); Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)).
 > - **Compare with:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)).
 <!-- /where-this-fits -->
 
@@ -57,8 +57,6 @@ So the **decision rule** (G-558) of SVM is:
 $$\hat{y} = \begin{cases} +1 & \text{if } w \cdot u + b \geq 0 \cr-1 & \text{if } w \cdot u + b < 0 \end{cases}$$
 
 Once we know $w$ and $b$, classifying any new point takes one dot product and one addition.
-
-> **Extra:** Strictly, the projection's length is $w \cdot u / \lVert w \rVert$, where $\lVert w \rVert$ is the length of $w$. Comparing it with $c$ gives $w \cdot u \geq c\thinspace\lVert w \rVert$. The result is the same rule with $b = -c\thinspace\lVert w \rVert$, so the final form does not change.
 
 ### 2.3 The same rule in 2D
 

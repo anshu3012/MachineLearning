@@ -27,3 +27,4 @@
 - 1049: mistakes.npz (12 dataset photos) also held out of git; mistakes figure shows people from the dataset (hands, torso, one person from behind) - part of the photo decision
 - 1049: the single seed-0 run for the mistakes figure gave batch-norm training accuracy 89.9% vs the table's 97.4% 3-seed mean: check before relying on it
 - Whisper: 013 and 032 audio download failed; retry
+- course map: 'Builds on' now links the owner Note (build_map.py neighbours); rebuild the map after the final check so every Where-this-fits block updates

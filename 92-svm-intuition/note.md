@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Dot product ([Note 48](../48-pca-step-by-step/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Equation of a hyperplane ([Note 70](../70-perceptron-trick/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Hinge loss and soft margin ([Note 94](../94-svm-soft-margin/note.md)); Kernel trick ([Note 95](../95-kernel-trick-intuition/note.md)); Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)).
 > - **Compare with:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)).
 <!-- /where-this-fits -->
 
@@ -23,8 +23,6 @@ Logistic regression accepts any line that separates the classes. SVM goes one st
 ![The parts of an SVM: the decision boundary $\pi$, the two parallel hyperplanes $\pi^+$ and $\pi^-$, the margin d and the support vectors](images/anatomy.png){height=40%}
 
 This Note explains that idea with pictures only. The next Notes turn it into maths.
-
-> **Extra:** The maximum-margin idea goes back to Vapnik's work in the 1960s. The modern SVM took shape in the 1990s: the kernel trick was added in 1992 (Boser, Guyon and Vapnik) and the soft margin in 1995 (Cortes and Vapnik 1995, §1).
 
 ## 2. The idea in one dimension
 
@@ -190,7 +188,6 @@ The other points have no say at all. If we delete every point except the three s
 
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Chapter 9 introduction (p. 367), Sections 9.1.3 (p. 371) and 9.2.1 (p. 374).
 - **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 7.1, p. 330.
-- **Cortes and Vapnik 1995:** Cortes, C. and Vapnik, V. "Support-Vector Networks." *Machine Learning* 20, 273–297, 1995. Section 1 (history: optimal hyperplanes 1965, kernels 1992).
 
 ## 10. Key terms
 

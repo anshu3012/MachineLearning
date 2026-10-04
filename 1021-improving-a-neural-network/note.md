@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-training, area/production, step/tune, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Training curves (History) ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Training curves (History) ([Note 1011](../1011-customer-churn-ann/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 > - **Leads to:** Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
 

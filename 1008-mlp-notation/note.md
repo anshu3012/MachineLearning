@@ -159,8 +159,6 @@ So $W_{ij}^{k}$ reads "into layer $k$, from node $i$ to node $j$". The four high
 
 The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W_{11}^{1}, W_{21}^{1}, W_{31}^{1}, W_{41}^{1}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its **weighted sum** (G-2119), together with its bias $b_{11}$.
 
-> **Extra:** Books do not all agree on this order. Some write the weight from node $i$ to node $j$ as $w_{ji}$ (destination first), because then row $j$ of the **weight matrix** (G-2109) holds the weights entering node $j$, and a layer's weighted sums are simply $W\mathbf{x}$ (Bishop, §5.1, eq. 5.2). The meaning is the same; only the order of the indices changes. Whichever we use, we keep it fixed, so that a symbol never has two meanings.
-
 > **Python:** The same parameters as NumPy arrays.
 >
 > ```python
@@ -195,10 +193,6 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 **Built from**
 
 - CampusX, "MLP Notation", YouTube, https://www.youtube.com/watch?v=H0_3SJh4Rqs
-
-**Other references**
-
-- Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006, §5.1 (eq. 5.2 writes the weight into hidden unit $j$ from input $i$ as $w_{ji}$).
 
 ## 8. Key terms
 

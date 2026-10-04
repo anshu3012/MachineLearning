@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, step/clean, concept/mice]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); Missing values ([Note 38](../38-missing-indicator-random-sample/note.md)).
+> - **Builds on:** Missing values ([Note 7](../07-challenges-in-ml/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)).
 > - **Compare with:** KNN imputer ([Note 39](../39-knn-imputer/note.md)).
 <!-- /where-this-fits -->
 

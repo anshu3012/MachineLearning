@@ -180,8 +180,6 @@ The Bahdanau numbers differ slightly from those of the [attention Note](../1069-
 
 Figure 6 shows why the general model did badly. On the test sentence "she advised him to talk about his life in america .", the dot model's weights form a clean diagonal: "elle" looks at "she", "lui" at "him", "conseillé" at "advised", "parler" at "talk", "vie" at "life", "amérique" at "america". Bahdanau's model also forms a band, but it often sits to the right of the matching word ("parler" looks at "about"). Attention weights need not match a word alignment, and the same off-by-one attention has been reported in a trained Bahdanau-type system ([attention Note](../1069-attention-mechanism/note.md), section 8). The general model puts a weight of 1 on the final "." at every step. Its context vector is then the same at every step: the state of the last word, whose forward half has read the whole sentence. The model has turned itself back into a plain encoder–decoder with one fixed summary, and its translation of this sentence goes wrong at the end ("elle lui conseilla de parler en vie de sa vie .").
 
-> **Extra:** Luong et al. (2015, Table 1) compared their full systems with earlier attention systems on English–German: with unknown-word replacement, their single model with global attention and the dot score reached 20.5 BLEU (Table 4) and their best single model, with local attention, 20.9, against 19.0 for an RNNsearch (Bahdanau-style) system of Jean et al. (2015) with the same replacement. Their systems differ in more than the attention (stacked LSTMs, reversed input, dropout), so the gap is not due to the score function alone.
-
 ## 7. Summary
 
 | | Bahdanau | Luong |
@@ -206,7 +204,7 @@ Figure 6 shows why the general model did badly. On the test sentence "she advise
 **Other references**
 
 - Bahdanau, D., Cho, K. and Bengio, Y. (2015). Neural Machine Translation by Jointly Learning to Align and Translate. *ICLR 2015*. arXiv:1409.0473. Section 3.1 (eq. 4–6); appendix A.1.2 (the alignment model $v_a^\top \tanh(W_a s_{i-1} + U_a h_j)$, pre-computing $U_a h_j$).
-- Luong, M.-T., Pham, H. and Manning, C. D. (2015). Effective Approaches to Attention-based Neural Machine Translation. *EMNLP 2015*. arXiv:1508.04025. Section 3 (eq. 5–8: attentional hidden state, the dot, general and concat scores); 3.1 (comparison with Bahdanau et al.); 3.3 (input feeding); Table 1; Table 4 and section 5.3 (choice of score function).
+- Luong, M.-T., Pham, H. and Manning, C. D. (2015). Effective Approaches to Attention-based Neural Machine Translation. *EMNLP 2015*. arXiv:1508.04025. Section 3 (eq. 5–8: attentional hidden state, the dot, general and concat scores); 3.1 (comparison with Bahdanau et al.); 3.3 (input feeding); Table 4 and section 5.3 (choice of score function).
 - Vaswani, A. et al. (2017). Attention Is All You Need. *NeurIPS 2017*. arXiv:1706.03762. Section 3.2.1 (additive and dot-product (multiplicative) attention).
 - Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft (19 August 2026), web.stanford.edu/~jurafsky/slp3. Chapter 14, §14.8 (dot-product attention; the bilinear score allows states of different sizes). Cited as SLP3.
 - Tatoeba project and manythings.org/anki: the English–French sentence pairs, distributed as `fra-eng.zip` with the Keras examples.

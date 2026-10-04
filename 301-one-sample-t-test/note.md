@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)); Hypothesis testing: null and alternative ([Note 291](../291-rejection-region-and-z-test/note.md)).
+> - **Builds on:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)); Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)).
 > - **Leads to:** Choosing a hypothesis test ([Note 570](../570-choosing-a-hypothesis-test/note.md)).
 > - **Compare with:** One-way ANOVA ([Note 572](../572-one-way-anova/note.md)).
 <!-- /where-this-fits -->

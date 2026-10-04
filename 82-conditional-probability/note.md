@@ -8,6 +8,7 @@ tags: [subject/ml, area/probability, step/foundations, concept/conditional-proba
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Events and sample spaces ([Note 330](../330-events-and-types-of-events/note.md)); Joint and marginal probability ([Note 341](../341-joint-marginal-conditional-probability/note.md)).
 > - **Leads to:** Independent and mutually exclusive events ([Note 83](../83-independent-events/note.md)); Bayes' theorem ([Note 85](../85-bayes-theorem/note.md)).
 <!-- /where-this-fits -->
 

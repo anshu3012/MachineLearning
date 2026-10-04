@@ -113,7 +113,7 @@ Figure 3 compares the two on the diabetes data, epoch by epoch.
 
 SGD updates 353 times per epoch, batch only once. So per epoch, SGD makes far more progress, even though each of its steps is based on a single observation.
 
-> **Extra:** Per epoch, the Python loop above is slower than batch gradient descent (under a second for 40 epochs against a few milliseconds), because a Python loop over observations is slow and batch uses one fast matrix product. scikit-learn's SGD runs the same loop in compiled code, so it is fast. The real advantage of SGD is elsewhere: one update costs the same however many observations the data has, so SGD is the main way to train linear models on very large datasets (Goodfellow §5.9).
+> **Extra:** A common trap: for the *same number of epochs*, batch gradient descent is faster, not SGD. In 100 epochs batch makes 100 updates, SGD makes $100 \times n$. SGD wins on time only because it needs far fewer epochs, which shows on large data. Here the Python loop above is also slower per epoch than batch (under a second for 40 epochs against a few milliseconds), because a Python loop over observations is slow and batch uses one fast matrix product. scikit-learn's SGD runs the same loop in compiled code, so it is fast. The real advantage of SGD is elsewhere: one update costs the same however many observations the data has, so SGD is the main way to train linear models on very large datasets (Goodfellow §5.9).
 
 ## 5. A noisy path
 
@@ -194,6 +194,10 @@ The main parameters:
 | `learning_rate` | the schedule: `"constant"`, `"invscaling"` (the default, $\eta_0 / t^{0.25}$), `"optimal"` or `"adaptive"` |
 | `tol` | stop early when the loss stops improving by at least this much |
 | `random_state` | fixes the random order of observations |
+| `loss` | the loss to minimise: `"squared_error"` gives linear regression; other losses (such as `"huber"`) turn the same class into other models |
+| `penalty`, `alpha` | regularisation, from [Note 63](../63-ridge-regression-intuition/note.md) onwards |
+
+`SGDRegressor` is a general class: gradient descent only minimises whatever loss it is given, so one class trains several linear models.
 
 On the diabetes data, `"constant"` with `eta0=0.01` reaches test R² 0.43 in 97 epochs. The default `"invscaling"` schedule shrinks the rate as $\eta_0 / t^{0.25}$, so it needs a larger start: with `eta0=0.2` it reaches 0.45 in 75 epochs, the best of these runs and above OLS's 0.44. A shrinking schedule is like a car braking as it nears a parking spot: it must start fast enough to arrive at all.
 

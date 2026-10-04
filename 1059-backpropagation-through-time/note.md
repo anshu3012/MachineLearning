@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bptt, concept/par
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)).
+> - **Builds on:** Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)).
 > - **Leads to:** Long-term dependency problem ([Note 1060](../1060-problems-with-rnn/note.md)).
 <!-- /where-this-fits -->
 

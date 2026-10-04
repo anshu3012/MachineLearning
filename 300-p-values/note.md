@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/p-value]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Cumulative distribution function (CDF) ([Note 253](../253-pdf-and-cdf-in-practice/note.md)).
+> - **Builds on:** Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

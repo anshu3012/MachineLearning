@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 122](../122-gradient-boosting-classification/note.md)); Missing values ([Note 123](../123-xgboost-intro/note.md)).
+> - **Builds on:** Missing values ([Note 7](../07-challenges-in-ml/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Taylor series ([Note 600](../600-derivatives-of-one-variable/note.md)); Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
+> - **Builds on:** Exploratory data analysis ([Note 9](../09-mldlc/note.md)).
 > - **Leads to:** Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Standardization ([Note 1023](../1023-data-scaling-in-ann/note.md)).
 > - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 <!-- /where-this-fits -->
@@ -267,8 +267,6 @@ Figure 9 shows four features at once: bill, tip, meal time (the panels) and smok
 > ```
 >
 > In seaborn, `sns.relplot(data=tips, x="total_bill", y="tip", hue="smoker", col="time")` draws the facet grid.
-
-> **Extra:** A joint plot (a scatter plot with a histogram of each feature along its edges) looks busy, but it shows only two features. A joint plot is a bivariate graph, not a multivariate one.
 
 ## 6. Summary
 

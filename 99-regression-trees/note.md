@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, area/models-2, area/production, step/features,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)); Cross-validation ([Note 91](../91-knn/note.md)); Decision trees ([Note 98](../98-decision-tree-hyperparameters/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)).
+> - **Builds on:** Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); ML pipelines ([Note 13](../13-toy-project/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Cross-validation ([Note 29](../29-pipelines/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)).
 > - **Leads to:** Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Permutation importance ([Note 114](../114-feature-importance/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 > - **Compare with:** Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
@@ -182,8 +182,6 @@ Figure 6 shows the finished tree, grown one level further: each box is a leaf, s
 
 Neither criterion wins on every dataset (the Boston grid in section 7.2 picks `"absolute_error"`), so the criterion is settled by tuning.
 
-> **Extra:** Older code also uses `"friedman_mse"`. In scikit-learn 1.9 it is deprecated (to be removed in 1.11) and simply maps to `"squared_error"`, because the two always gave the same trees (sklearn 1.9 deprecation warning).
-
 ### 6.1 max_depth on a non-linear curve
 
 > **Key point:** Depth 1 is a single step; depth 5 follows the curve; depth 15 chases every point.
@@ -352,7 +350,6 @@ Feature importance is useful for **feature selection** (the [curse of dimensiona
 - **sklearn California housing:** scikit-learn User Guide, Real world datasets, California Housing dataset (`fetch_california_housing`); data from R. K. Pace and R. Barry, "Sparse Spatial Autoregressions", *Statistics and Probability Letters* 33, 1997.
 - **sklearn UG:** scikit-learn User Guide, Section 1.10.7.2, Regression criteria.
 - **sklearn reference:** scikit-learn `DecisionTreeRegressor` API reference, parameter `criterion`.
-- **sklearn 1.9 deprecation warning:** the warning raised by `DecisionTreeRegressor(criterion="friedman_mse")` in scikit-learn 1.9.
 - **sklearn 1.1, `load_boston` notice:** scikit-learn 1.1 API reference for `sklearn.datasets.load_boston` (deprecated in 1.0, removed in 1.2).
 
 ## 10. Key terms

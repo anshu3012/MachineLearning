@@ -8,7 +8,7 @@ tags: [subject/maths, area/models-1, step/model, concept/convexity]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hessian and multivariate Taylor ([Note 126](../126-xgboost-maths/note.md)).
+> - **Builds on:** Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)).
 > - **Leads to:** Convex sets and convex optimisation ([Note 621](../621-convex-sets-and-functions/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
 <!-- /where-this-fits -->
 

@@ -123,7 +123,7 @@ Two limits are worth knowing:
 
 **Adam** (G-169) fixes the second and adds **momentum** (G-1258), and usually performs a little better, which is why RMSProp is used less today (see the [Adam Note](../1038-adam/note.md)).
 
-> **Extra:** RMSProp was never published as a paper; it comes from Hinton's 2012 Coursera lecture slides, which present it as a mini-batch version of an older method, rprop, and suggest $\beta = 0.9$ (Hinton 2012, lecture 6e; Ruder 2016, §4.5). A paper-free origin is why it is usually cited as "Hinton 2012".
+> **Extra:** RMSProp was never published as a paper; it comes from Hinton's 2012 Coursera lecture slides, which suggest $\beta = 0.9$ (Hinton 2012, lecture 6e; Ruder 2016, §4.5).
 
 ## 7. RMSProp in Keras
 

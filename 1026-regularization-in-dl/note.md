@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, area/models-1, a
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Vector magnitude, distance and scalar operations ([Note 361](../361-magnitude-distance-and-scalar-operations/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)); Gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
+> - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Vector magnitude, distance and scalar operations ([Note 361](../361-magnitude-distance-and-scalar-operations/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)).
 > - **Leads to:** Hyperparameter tuning ([Note 1039](../1039-keras-tuner/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Data augmentation ([Note 1050](../1050-data-augmentation/note.md)); Transfer learning (feature extraction and fine-tuning) ([Note 1053](../1053-transfer-learning/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
 > - **Compare with:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Ridge regression ([Note 66](../66-ridge-key-points/note.md)); Lasso regression ([Note 68](../68-lasso-sparsity/note.md)); Decision surface and boundary ([Note 91](../91-knn/note.md)); Underfitting ([Note 91](../91-knn/note.md)); Dropout ([Note 1025](../1025-dropout-code/note.md)).
 <!-- /where-this-fits -->
@@ -279,17 +279,14 @@ To see this cleanly, we train the same network on the same data with plain gradi
 
 Figure 8 shows the difference at a glance. Almost no L2 weight is 0: most are small, between 0.01 and 0.1. The L1 weights split into two groups: more than half are 0, while more of the others stay above 0.1 than with L2 (49 against 29). Both networks score the same 90% on the validation points, but the L1 network does it with fewer than half of its first-layer weights: a sparse model.
 
-> **Extra:** Two details.
+> **Extra:** Why not Adam? With Adam the picture changes, and it can even reverse. In section 7.4, with Adam, 92% of the L2 network's first-layer weights ended below 0.001, against 49% for L1. Adam moves every weight by about the learning rate at every step, whatever the size of the gradient (Kingma and Ba 2015, §2.1). So even L2's small pull on an unneeded weight gives a full-size step towards 0, while an L1 weight overshoots 0 by a full step and keeps swinging around it. Loshchilov and Hutter (2019, §2) describe the cause: under Adam, the penalty's gradient is divided by each weight's past gradient size, so weights with large gradients are regularised less and weights with small gradients relatively more. The Notebook confirms that only the optimizer is responsible:
 >
-> 1. **"Exactly" 0.** With gradient descent, an L1 weight at 0 still moves by one tiny step, $\eta\lambda = 0.01 \times 0.003 = 0.00003$, back and forth across 0, so it stays within that tiny distance of 0 instead of sitting exactly on it. Lasso solvers reach exact zeros because they set a weight to 0 whenever an update would cross 0, called soft thresholding (Friedman et al. 2010). In a network, the same effect comes from pruning: setting the tiny weights to 0 after training (Han et al. 2015).
-> 2. **Why not Adam?** With Adam the picture changes, and it can even reverse. In section 7.4, with Adam, 92% of the L2 network's first-layer weights ended below 0.001, against 49% for L1. Adam moves every weight by about the learning rate at every step, whatever the size of the gradient (Kingma and Ba 2015, §2.1). So even L2's small pull on an unneeded weight gives a full-size step towards 0, while an L1 weight overshoots 0 by a full step and keeps swinging around it. Loshchilov and Hutter (2019, §2) describe the cause: under Adam, the penalty's gradient is divided by each weight's past gradient size, so weights with large gradients are regularised less and weights with small gradients relatively more. The Notebook confirms that only the optimizer is responsible:
+> | Optimizer | L2: weights below 0.001 | L1: weights below 0.001 |
+> |---|---|---|
+> | SGD, $\eta = 0.01$ | 7% | 19% |
+> | Adam, $\eta = 0.01$ | 92% | 49% |
 >
->    | Optimizer | L2: weights below 0.001 | L1: weights below 0.001 |
->    |---|---|---|
->    | SGD, $\eta = 0.01$ | 7% | 19% |
->    | Adam, $\eta = 0.01$ | 92% | 49% |
->
->    (This check uses `L1(0.001)`, the value of section 7.5, so its SGD numbers differ from the table above.) Adam's uneven treatment of L2 is one reason Keras offers AdamW, with true weight decay (section 6).
+> (This check uses `L1(0.001)`, the value of section 7.5, so its SGD numbers differ from the table above.) Adam's uneven treatment of L2 is one reason Keras offers AdamW, with true weight decay (section 6).
 
 ### 7.7 How strong should the penalty be
 
@@ -347,8 +344,6 @@ In practice $\lambda$ is chosen like any hyperparameter: try several values and 
 - Loshchilov and Hutter, "Decoupled Weight Decay Regularization", ICLR 2019, §2 (L2 regularisation and weight decay differ under Adam).
 - Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, Algorithm 1 and §2.1 (the step size is about the learning rate).
 - Keras documentation, Optimizers, keras.io/api/optimizers (`weight_decay` argument of every optimizer; `AdamW`).
-- Friedman, Hastie and Tibshirani, "Regularization Paths for Generalized Linear Models via Coordinate Descent", *Journal of Statistical Software*, 2010 (soft thresholding).
-- Han, Pool, Tran and Dally, "Learning both Weights and Connections for Efficient Neural Networks", NeurIPS 2015 (pruning small weights).
 - Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., 2009, §3.4.3 (why the Lasso gives zeros and Ridge does not).
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §5.2 (capacity, overfitting and underfitting), §6.3.1 and §6.4.1 (rectified linear units give piecewise linear functions), §7.1.1 (L2, weight decay) and §7.1.2 (L1 and sparsity).
 

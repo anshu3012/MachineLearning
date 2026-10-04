@@ -324,7 +324,7 @@ Figure 8 shows the usual setup.
 
 The server itself is rented from a cloud provider such as Heroku, AWS (Amazon Web Services) or GCP (Google Cloud Platform). Once deployed, the model is online and serving users' requests. Later Notes build complete websites around ML models in this way.
 
-> **Extra:** **JSON** (JavaScript Object Notation) is a plain-text format for structured data, for example `{"prediction": "placed"}`. Heroku no longer has a free plan (Heroku 2022); Render has one for small demos (Render docs). Pickle files should only be loaded from trusted sources, because loading a pickle can run code (Python docs, `pickle`).
+> **Extra:** **JSON** (JavaScript Object Notation) is a plain-text format for structured data, for example `{"prediction": "placed"}`. Pickle files should only be loaded from trusted sources, because loading a pickle can run code (Python docs, `pickle`).
 
 ## 10. Testing
 
@@ -465,11 +465,9 @@ Where the two differ:
 - Dunn, J. (1974). Well-Separated Clusters and Optimal Fuzzy Partitions. *Journal of Cybernetics* 4(1).
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press.
 - He, H. and Garcia, E. (2009). Learning from Imbalanced Data. *IEEE Transactions on Knowledge and Data Engineering* 21(9).
-- Heroku (2022). Free Heroku Dynos, Heroku Postgres and Heroku Data for Redis are no longer available. Heroku Dev Center changelog.
 - Kohavi, R., Tang, D. and Xu, Y. (2020). *Trustworthy Online Controlled Experiments*. Cambridge University Press.
 - Kreuzberger, D., Kühl, N. and Hirschl, S. (2023). Machine Learning Operations (MLOps): Overview, Definition, and Architecture. *IEEE Access* 11.
 - Python Software Foundation. `pickle`: Python object serialization. Python 3 documentation.
-- Render. Deploy for Free. render.com/docs/free.
 - Zaharia, M. et al. (2016). Apache Spark: A Unified Engine for Big Data Processing. *Communications of the ACM* 59(11).
 
 ## 15. Key terms

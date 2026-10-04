@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/rnn-types, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note 1057](../1057-rnn-sentiment-analysis/note.md)).
+> - **Builds on:** Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)); LSTM (long short-term memory) ([Note 1061](../1061-lstm/note.md)); Teacher forcing ([Note 1068](../1068-encoder-decoder/note.md)).
 > - **Leads to:** Attention mechanism ([Note 1069](../1069-attention-mechanism/note.md)); Transformer ([Note 1071](../1071-introduction-to-transformers/note.md)).
 <!-- /where-this-fits -->
 

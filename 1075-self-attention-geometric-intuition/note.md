@@ -91,7 +91,7 @@ We follow the word "bank"; "money" goes through exactly the same steps. Its new 
 
 1. **In words:** take the dot product of bank's query with every key, divide by $\sqrt{d_k}$, then apply the softmax.
 2. **Formula:**
-   $$w_{bank,j} = \text{softmax}_j\negthinspace\left(\frac{q_{bank} \cdot k_j}{\sqrt{2}}\right), \qquad j \in \lbrace money, bank\rbrace$$
+   $$w_{bank,j} = \text{softmax} _j\negthinspace\left(\frac{q_{bank} \cdot k_j}{\sqrt{2}}\right), \qquad j \in \lbrace money, bank\rbrace$$
 3. **Example:**
    $$q_{bank} \cdot k_{money} = 1.7 \times 1.3 + 1.6 \times 1.4 = 4.45, \qquad q_{bank} \cdot k_{bank} = 1.7 \times 2.4 + 1.6 \times 0.6 = 5.04$$
    Divided by $\sqrt{2} = 1.414$: $3.15$ and $3.56$. The softmax gives

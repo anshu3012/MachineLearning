@@ -8,7 +8,7 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/mle]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)).
+> - **Builds on:** Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)); Exponential distribution ([Note 632](../632-mle-for-common-distributions/note.md)).
 > - **Leads to:** Log loss (binary cross entropy) ([Note 633](../633-mle-in-machine-learning/note.md)); Categorical and sparse categorical cross-entropy ([Note 633](../633-mle-in-machine-learning/note.md)); MAP estimation ([Note 633](../633-mle-in-machine-learning/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)); Expectation maximization (EM) ([Note 641](../641-expectation-maximization/note.md)).
 <!-- /where-this-fits -->
 

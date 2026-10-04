@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/features, area/linear-algebra, step/foundatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)); Feature extraction ([Note 47](../47-pca-geometric-intuition/note.md)); Variance ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Standardization ([Note 9](../09-mldlc/note.md)); Variance ([Note 19](../19-understanding-your-data/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)).
 > - **Leads to:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Equation of a hyperplane ([Note 53](../53-multiple-linear-regression/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); Hessian and multivariate Taylor ([Note 126](../126-xgboost-maths/note.md)); Cosine similarity ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)).
 > - **Compare with:** Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Singular value decomposition ([Note 610](../610-svd-geometry/note.md)); Low-rank approximation (truncated SVD) ([Note 612](../612-low-rank-approximation/note.md)).
 <!-- /where-this-fits -->
@@ -111,8 +111,6 @@ $$\text{Data A: } \frac{(-1)(-1) + (0)(0) + (1)(1)}{3} = \frac{2}{3} \approx +0.
 $$\text{Data B: } \frac{(-1)(1) + (0)(0) + (1)(-1)}{3} = -\frac{2}{3} \approx -0.67$$
 
 The sign tells the direction of the relationship: positive in A, where $x$ and $y$ go up together, negative in B, where one goes up as the other goes down.
-
-Like the variance formula of the [PCA intuition Note](../47-pca-geometric-intuition/note.md) (section 5.2), this divides by $n$. `np.cov` divides by $n - 1$ instead (Section 6 notes the effect).
 
 > **Extra:** Correlation (from the Note on understanding data) is covariance divided by the two standard deviations. Dividing squeezes correlation into the range $-1$ to $+1$. Covariance has no fixed range: its size depends on the units of the columns.
 

@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Population, sample, parameter and statistic ([Note 220](../220-what-is-statistics/note.md)).
+> - **Builds on:** Exploratory data analysis ([Note 9](../09-mldlc/note.md)); Population, sample, parameter and statistic ([Note 220](../220-what-is-statistics/note.md)); Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
 > - **Leads to:** Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Covariance and covariance matrix ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 > - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)).
 <!-- /where-this-fits -->

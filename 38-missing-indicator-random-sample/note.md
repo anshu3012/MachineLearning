@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/features, area/production, step/clean, step/f
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note 9](../09-mldlc/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Data leakage ([Note 13](../13-toy-project/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)); Saving models with pickle ([Note 29](../29-pipelines/note.md)); Cross-validation ([Note 30](../30-function-transformer/note.md)).
+> - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Saving models with pickle ([Note 9](../09-mldlc/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Data leakage ([Note 13](../13-toy-project/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)).
 > - **Leads to:** KNN imputer ([Note 39](../39-knn-imputer/note.md)); Iterative imputation (MICE) ([Note 40](../40-iterative-imputer-mice/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); XGBoost ([Note 123](../123-xgboost-intro/note.md)).
 > - **Compare with:** Outliers ([Note 23](../23-what-is-feature-engineering/note.md)); Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
@@ -221,8 +221,6 @@ Figure 5 compares each category's share before (among the known values) and afte
 | Ex | 0.1% | 0.1% | 2.5% | 2.5% |
 
 The equal shares are the categorical version of Section 2.2: a category with half the slips gets about half the draws. Compare mode imputation in Note 37, where Gd in `FireplaceQu` jumped to 72.9%.
-
-> **Extra:** A share must be divided by the rows of the same set. The share after imputation is a category's count over all 1,168 training rows. Dividing by the row count of a different table, for example the 891 rows of the Titanic data, gives shares that add up to more than 100% and look like large changes when there are none.
 
 ### 5.3 Check 2: the target per category
 

@@ -8,7 +8,7 @@ tags: [subject/maths, area/likelihood, area/models-2, step/model, concept/em, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)); Elbow method and WCSS ([Note 129](../129-kmeans-code/note.md)); Clustering ([Note 132](../132-dbscan/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)); Maximum likelihood estimation (MLE) ([Note 633](../633-mle-in-machine-learning/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
+> - **Builds on:** Clustering ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Elbow method and WCSS ([Note 128](../128-kmeans-intuition/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)); Maximum likelihood estimation (MLE) ([Note 631](../631-maximum-likelihood-estimation/note.md)); Multivariate normal distribution ([Note 640](../640-gaussian-mixture-models/note.md)).
 > - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Kernel density estimation (KDE) ([Note 253](../253-pdf-and-cdf-in-practice/note.md)).
 <!-- /where-this-fits -->
 

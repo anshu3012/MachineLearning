@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, step/clean, concept/complete-case, concept/missing
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note 9](../09-mldlc/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)).
+> - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Univariate analysis ([Note 9](../09-mldlc/note.md)).
 > - **Leads to:** Simple imputation (mean, median, mode, constant) ([Note 36](../36-imputing-numerical-data/note.md)); Missing indicator ([Note 38](../38-missing-indicator-random-sample/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); Iterative imputation (MICE) ([Note 40](../40-iterative-imputer-mice/note.md)); XGBoost ([Note 123](../123-xgboost-intro/note.md)).
 > - **Compare with:** Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Outliers ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->

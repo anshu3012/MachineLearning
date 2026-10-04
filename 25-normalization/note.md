@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, step/features, concept/normalization]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)).
+> - **Builds on:** Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)).
 > - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)); Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)).
 > - **Compare with:** Standardization ([Note 24](../24-standardization/note.md)).
 <!-- /where-this-fits -->
@@ -343,7 +343,7 @@ Choosing between normalization and standardization confuses many people. The ans
 
 **Second question: standardization or normalization?** If scaling is needed, these practical rules help:
 
-- **Standardization** is the usual default. Many learning algorithms, such as the RBF kernel of SVMs and the L1 and L2 penalties of linear models, assume features centred around zero with variances of the same order (scikit-learn, "Preprocessing data"), and standardization is much less affected by outliers than min-max scaling (Géron 2019, ch. 2).
+- **Standardization** is the usual default. Most problems are solved well by it: many learning algorithms assume features centred around zero with spreads of the same order (scikit-learn, "Preprocessing data"), and standardization is much less affected by outliers than min-max scaling (Géron 2019, ch. 2).
 - **Min-max scaling** suits columns whose minimum and maximum are known in advance. In image processing, for example with CNNs, every colour channel of a pixel runs from 0 to 255, so everyone uses min-max scaling there.
   Figure 11 shows this known-range case on one photo: the limits 0 and 255 are fixed by the image format, not learned from the data, so min-max scaling is just a division by 255.
 - **Robust scaling** suits columns with outliers.

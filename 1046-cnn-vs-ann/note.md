@@ -119,6 +119,8 @@ The data are MNIST and **Fashion-MNIST** (G-756), a dataset of the same format (
 
 ![Mean of 3 seeds. Left: test accuracy (the axis starts at 85%). Right: training accuracy minus test accuracy, a measure of overfitting. The CNN, with 8 times fewer parameters, is more accurate and overfits less on both datasets](images/results.png){width=100%}
 
+Figure 5 and the Notebook give:
+
 | | MNIST | Fashion-MNIST |
 |---|---|---|
 | ANN test accuracy (101,770 parameters) | 97.80% | 88.22% |

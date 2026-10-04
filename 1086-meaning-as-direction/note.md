@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/meani
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Dot product ([Note 520](../520-dot-product-and-duality/note.md)); Word embeddings ([Note 1057](../1057-rnn-sentiment-analysis/note.md)).
+> - **Builds on:** Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Word embeddings ([Note 1057](../1057-rnn-sentiment-analysis/note.md)).
 > - **Leads to:** Superposition and nearly perpendicular directions ([Note 1090](../1090-superposition/note.md)).
 <!-- /where-this-fits -->
 

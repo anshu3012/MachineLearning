@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)).
+> - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)).
 > - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Weight initialisation ([Note 1029](../1029-weight-initialization/note.md)); Optimizers in deep learning ([Note 1032](../1032-optimizers-in-deep-learning/note.md)); Backpropagation in a CNN ([Note 1047](../1047-backpropagation-in-cnn/note.md)); Backpropagation through time (BPTT) ([Note 1059](../1059-backpropagation-through-time/note.md)).
 <!-- /where-this-fits -->
 

@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/transfer-learning
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Enough data ([Note 7](../07-challenges-in-ml/note.md)); Overfitting ([Note 1026](../1026-regularization-in-dl/note.md)); Pretrained models and ImageNet ([Note 1051](../1051-pretrained-models/note.md)).
+> - **Builds on:** Enough data ([Note 7](../07-challenges-in-ml/note.md)); Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Pretrained models and ImageNet ([Note 1051](../1051-pretrained-models/note.md)).
 > - **Compare with:** Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)).
 <!-- /where-this-fits -->
 

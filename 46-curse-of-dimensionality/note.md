@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, step/features, step/reduce, concept/curse-dim,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Kernel density estimation (KDE) ([Note 20](../20-univariate-analysis/note.md)); Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Chi-square tests ([Note 29](../29-pipelines/note.md)).
+> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Correlation ([Note 19](../19-understanding-your-data/note.md)); Kernel density estimation (KDE) ([Note 20](../20-univariate-analysis/note.md)); Lasso regression ([Note 67](../67-lasso-regression/note.md)); Feature importance ([Note 99](../99-regression-trees/note.md)).
 > - **Leads to:** PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)).
 > - **Compare with:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Superposition and nearly perpendicular directions ([Note 1090](../1090-superposition/note.md)).
 <!-- /where-this-fits -->

@@ -257,9 +257,10 @@ The same works on any table. To get every country whose life expectancy is above
 
 > **Key point:** `index_col` picks the row labels and `chunksize` reads a big result a piece at a time.
 
-`read_sql_query` has fewer options than `read_csv`, but two are worth knowing:
+`read_sql_query` has fewer options than `read_csv`, but three are worth knowing:
 
 - `index_col="ID"` uses the `ID` column as the row labels, just like `index_col` in `read_csv`.
+- `parse_dates=["IndepYear"]` turns a date column into real dates, just like `parse_dates` in `read_csv`.
 - `chunksize=1000` returns the rows 1,000 at a time, so a huge table does not have to fit in memory at once.
 
 > **Python:** The two options.

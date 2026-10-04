@@ -1,0 +1,88 @@
+Hi guys, welcome to my YouTube channel.
+In this video, we will learn how to derive sigmoid function.
+If you know about sigmoid function, it is a very useful function.
+You will get it in machine learning and deep learning in many places.
+Specially if you are working on logistic regression.
+Or if you are working on perceptron and multi-layer perceptrons.
+In loss function, sigmoid function is also there.
+So when you go to find the gradient descent of that loss function, then you have to calculate the derivative of sigmoid there.
+Now the derivative of sigmoid is a little weird and a little difficult to calculate.
+So I thought let's make a separate video for this, where I will show you by calculating the derivative of sigmoid function end to end.
+So let's start, first of all, you already know that this is the graph of sigmoid function on the screen.
+A sigmoid function is a function that squashes any big number, positive number or negative number in the range of 0 to 1.
+The equation of sigmoid function is 1 divided by 1 plus e to the power minus x.
+Now if you want to find the differentiation of this, if you want to find this, then you should know the reciprocal rule of differentiation.
+I will tell you what is the reciprocal rule of differentiation.
+Let's say you want to differentiate when by x.
+So you actually want to differentiate x to the power minus 1.
+and its differentiation is negative square of minus x
+or you can say that this is its differentiation
+this is the reciprocal rule of derivative
+now we will apply the same logic on this whole thing
+so what we have to do is
+I will write here that d by dx of
+I have to calculate 1 divided by 1 plus e to the power minus x
+Now, I will take this whole thing as a common term and take it up.
+So, this would become d by dx of 1 plus e to the power minus x minus 1.
+Now, we will apply the reciprocal rule and what will happen with that?
+Here, it will come minus 1 divided by 1 plus e to the power minus x square.
+And after adding chain rule, you have to find the derivative of e to the power minus x.
+Now you know that the derivative of e to the power minus x is basically a summation of these two terms.
+The derivative of 1 will be 0 and we have to find its derivative.
+So it will actually become 1 plus e to the power minus x whole square d by dx of e to the power minus x.
+because the derivative of 1 is 0 anyways
+now you know that the derivative of e to the power minus x is e to the power minus x
+so we will write it like this
+minus e to the power minus x
+1 plus e to the power minus x
+whole square
+and by applying the chain rule we have to find the differentiation of minus x
+and you know that the differentiation of minus x would be minus 1
+so this minus 1 will cancel this negative
+and till now you have this
+So we are almost there. Now we just have to do a little mathematical simplification.
+So what I would do is, I would write it like this, right?
+Or I can write it like this, 1, 1 plus e to the power minus x,
+multiplied by e to the power minus x, 1 plus e to the power minus x.
+Now if you see, what is this? This is actually a sigmoid function.
+so we can write it like this
+we can write
+sigma of x multiplied by
+e to the power minus x
+1 plus e to the power minus x
+we need a little more simplification
+so sigma of x
+we can write it up
+1 plus e to the power minus x minus 1
+divided by 1 plus e to the power minus x
+we did a little manipulation
+sigma of x
+now we are doing it separately
+1 plus e to the power minus x
+1 plus e to the power minus x
+minus 1 divided by
+1 plus e to the power minus x
+now you can clearly see
+that
+these two terms
+will cancel out
+and here will be sigma of x
+1 minus
+and if you pay attention again
+then what is this thing
+here we will get sigma of x
+and that's it guys
+derivative of
+sigmoid function is actually
+sigmoid of x
+multiplied by 1 minus sigmoid of x
+so it is one of those functions
+whose derivative comes automatically
+so this is the derivative of sigmoid function
+and this is a very useful derivative
+it will help you in many machine learning and deep learning scenarios
+Simply, you have to remember that the derivative of sigmoid is sigmoid multiplied by 1 minus sigmoid, that's it.
+If I show you the graph, then this is the graph of sigmoid function.
+This is the graph of sigmoid function and this is the graph of its derivative.
+If you want, you can plot the values in numpy and see, but this will be the graph of sigmoid function.
+So yeah, that's it for this video. Thanks for watching.

@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/features, area/production, step/understand, s
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Skewness ([Note 20](../20-univariate-analysis/note.md)); Kurtosis and moments ([Note 22](../22-pandas-profiling/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Builds on:** Skewness ([Note 20](../20-univariate-analysis/note.md)); Kurtosis and moments ([Note 22](../22-pandas-profiling/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Log-normal distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
 > - **Leads to:** Power transformer ([Note 31](../31-power-transformer/note.md)); Grid and random search ([Note 38](../38-missing-indicator-random-sample/note.md)); Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Assumptions of linear regression ([Note 56](../56-linear-regression-assumptions/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)).
 <!-- /where-this-fits -->
@@ -54,7 +54,7 @@ There is no fixed list of transformations. Any formula can be one: $x^2 + 2x$ is
 
 > **Extra:** Why a long tail hurts a linear model. Linear and logistic regression fit one straight-line formula through all the data. In a feature like fare, a handful of huge values (500 against a typical 15) pull that line towards themselves and squash all the ordinary values together. Pulling the tail in gives the ordinary values room to matter.
 >
-> Strictly speaking, linear regression's normality assumption is about its errors, not its features (Kutner et al. 2005, §1.8), and logistic regression makes no normality assumption at all: it models the target as a 0/1 outcome (Hosmer et al. 2013, Ch. 1). The practical rule still holds: a feature without a long tail is easier for these models to use, as Section 7 measures.
+> Strictly speaking, linear regression's normality assumption is about its errors, not its features (Kutner et al. 2005, §1.8). The practical rule still holds: a feature without a long tail is easier for these models to use, as Section 7 measures.
 
 ## 3. Mathematical transformers in scikit-learn
 
@@ -549,7 +549,6 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 
 **Other references**
 
-- Hosmer, D. W., Lemeshow, S. and Sturdivant, R. X. (2013). *Applied Logistic Regression*, 3rd ed. Wiley. Chapter 1.
 - Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). *Applied Linear Statistical Models*, 5th ed. McGraw-Hill. Section 1.8, Normal error regression model.
 - Wilk, M. B. and Gnanadesikan, R. (1968). Probability Plotting Methods for the Analysis of Data. *Biometrika* 55(1), 1-17.
 

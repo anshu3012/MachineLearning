@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Grid and random search ([Note 99](../99-regression-trees/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Ensemble learning ([Note 9](../09-mldlc/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Expected value and variance of a random variable ([Note 332](../332-expected-value-and-variance/note.md)).
 > - **Leads to:** Random forest ([Note 108](../108-random-forest-intro/note.md)).
 > - **Compare with:** Boosting ([Note 101](../101-ensemble-learning/note.md)); Voting ensembles ([Note 104](../104-voting-regressor/note.md)); Cross-validation ([Note 104](../104-voting-regressor/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)).
 <!-- /where-this-fits -->
@@ -68,7 +68,7 @@ Observations can be drawn **with replacement**: after an observation is drawn, i
 - D1 holds only 6 different observations: 3, 6, 8 and 9 appear twice, and observations 1, 4, 5 and 7 are never drawn.
 - D2 holds 7 different observations: 2 appears twice and 5 three times, while 3, 4 and 8 are missing.
 
-A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (Efron and Tibshirani, 1993; the term was used in the [Ridge key points Note](../66-ridge-key-points/note.md)). Drawing observations without replacement is also possible; section 6 calls that pasting.
+A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (Efron and Tibshirani, 1993; the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md), section 3.1, refitted a model on such resamples). Drawing observations without replacement is also possible; section 6 calls that pasting.
 
 > **Extra:** How many different observations does a bootstrap sample hold?
 >

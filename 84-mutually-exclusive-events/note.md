@@ -8,7 +8,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/independent-event
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Conditional probability ([Note 82](../82-conditional-probability/note.md)).
+> - **Builds on:** Conditional probability ([Note 341](../341-joint-marginal-conditional-probability/note.md)).
 > - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)).
 <!-- /where-this-fits -->
 

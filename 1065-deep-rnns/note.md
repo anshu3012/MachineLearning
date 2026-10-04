@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/deep-rnn]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note 1057](../1057-rnn-sentiment-analysis/note.md)); LSTM (long short-term memory) ([Note 1063](../1063-lstm-next-word-prediction/note.md)); GRU (gated recurrent unit) ([Note 1064](../1064-gru/note.md)).
+> - **Builds on:** Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)); LSTM (long short-term memory) ([Note 1061](../1061-lstm/note.md)); GRU (gated recurrent unit) ([Note 1064](../1064-gru/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -8,7 +8,7 @@ tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)); Best-fit line and squared error ([Note 51](../51-linear-regression-maths/note.md)); Derivatives of one variable ([Note 51](../51-linear-regression-maths/note.md)).
+> - **Builds on:** Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Best-fit line and squared error ([Note 50](../50-simple-linear-regression/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)).
 > - **Leads to:** Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Stochastic gradient descent ([Note 59](../59-stochastic-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)); Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)); Logistic regression ([Note 70](../70-perceptron-trick/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 > - **Compare with:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)).
 <!-- /where-this-fits -->
@@ -72,6 +72,8 @@ Two common stopping rules:
 
 1. **A fixed number of iterations**, called **epochs** (G-696): for example, 100 updates.
 2. **The step size becomes negligible**: for example, when $b_{\text{new}} - b_{\text{old}}$ is below 0.0001, the algorithm has reached (almost) the bottom.
+
+A plot of the loss after each epoch shows the same thing: once the curve goes flat, more epochs change nothing, so that is where to stop (the right panels of Figures 6 and 7).
 
 ## 3. The slope of the loss with respect to b
 
@@ -206,8 +208,6 @@ On 80 training points with learning rate 0.001 and 50 epochs:
 Gradient descent gets within 0.03 of the exact answer: an approximation, but a very close one. Figure 7 shows the run. The line starts steep ($m = 100$, $b = -120$) and swings onto the OLS line within about 20 epochs; the loss falls from about 1.5 million to about 24,000 and then levels off.
 
 ![The GDRegressor class at work on the 80 training points: the line after each epoch (orange) closing in on the OLS line (dashed), and the loss per epoch on a log scale.](images/class_fit.gif)
-
-> **Extra:** Both slopes are computed from the old values before either is updated. Updating $b$ first and then using the new $b$ for the slope of $m$ is a slightly different algorithm. On this data it gives almost the same answer ($m = 28.157$, notebook).
 
 ## 8. The shape of the loss function matters
 

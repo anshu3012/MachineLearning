@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/functional-api, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Keras workflow ([Note 1026](../1026-regularization-in-dl/note.md)); Vanishing gradient ([Note 1030](../1030-xavier-he-initialization/note.md)).
+> - **Builds on:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

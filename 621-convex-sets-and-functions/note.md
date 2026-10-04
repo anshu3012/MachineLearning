@@ -8,7 +8,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/convex-optimisati
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convex and non-convex loss ([Note 590](../590-convex-and-non-convex-cost-functions/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)).
+> - **Builds on:** Convex and non-convex loss ([Note 57](../57-gradient-descent/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)).
 > - **Leads to:** Linear and quadratic programming ([Note 622](../622-linear-and-quadratic-programming/note.md)); Local minima and saddle points ([Note 1032](../1032-optimizers-in-deep-learning/note.md)).
 <!-- /where-this-fits -->
 

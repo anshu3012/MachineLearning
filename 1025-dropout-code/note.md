@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)).
 > - **Leads to:** Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
 > - **Compare with:** Random forest ([Note 114](../114-feature-importance/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)); Batch normalisation ([Note 1031](../1031-batch-normalization/note.md)).
 <!-- /where-this-fits -->

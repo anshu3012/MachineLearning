@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Representation learning ([Note 1002](../1002-what-is-deep-learning/note.md)).
+> - **Builds on:** Representation learning ([Note 1002](../1002-what-is-deep-learning/note.md)); Convolution operation and feature maps ([Note 1042](../1042-convolution-operation/note.md)); Pooling ([Note 1044](../1044-pooling/note.md)).
 > - **Compare with:** Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
 <!-- /where-this-fits -->
 

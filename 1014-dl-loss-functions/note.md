@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, area/models-1, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Maximum likelihood estimation (MLE) ([Note 633](../633-mle-in-machine-learning/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)).
+> - **Builds on:** One-hot encoding ([Note 11](../11-tensors/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Maximum likelihood estimation (MLE) ([Note 631](../631-maximum-likelihood-estimation/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)).
 > - **Leads to:** Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)).
 > - **Compare with:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Hinge loss and soft margin ([Note 94](../94-svm-soft-margin/note.md)); Entropy, information gain and Gini ([Note 97](../97-decision-trees-intuition/note.md)).
 <!-- /where-this-fits -->
@@ -276,7 +276,7 @@ The squared error's slope can never be steeper than $-2$, however wrong the pred
 - **Advantage:** it is differentiable, so gradient descent applies directly.
 - **Disadvantage:** it is less intuitive than MSE or MAE: the number has no everyday unit.
 
-> **Extra:** The log here is the natural log, as in Keras. With base-10 logs the same two students would give 0.137 and 0.125: the same ranking, but different numbers from what any library reports.
+> **Extra:** The log here is the natural log, as in Keras.
 
 > **Python:** A binary classifier.
 >

@@ -341,7 +341,7 @@ For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial i
 
 Exactness for polynomials explains a result of the [XGBoost maths Note](../126-xgboost-maths/note.md): its second-order approximation of the squared error was exact, because the squared error is already a polynomial of degree 2.
 
-> **Extra:** A function equal to its Taylor series everywhere near $x_0$ is called **analytic** (G-197); $e^x$, $\sin x$ and $\cos x$ are, at every point. A Taylor series is one example of a **power series** (G-1541), $\sum a_k (x - c)^k$, a polynomial with infinitely many terms. Functions such as `np.sin` and `np.exp` are computed with polynomial approximations too, though usually not Taylor polynomials: libraries use polynomials tuned to be accurate over a whole interval (Muller 2016).
+> **Extra:** A function equal to its Taylor series everywhere near $x_0$ is called **analytic** (G-197); $e^x$, $\sin x$ and $\cos x$ are, at every point. A Taylor series is one example of a **power series** (G-1541), $\sum a_k (x - c)^k$, a polynomial with infinitely many terms. Functions such as `np.sin` and `np.exp` are computed with polynomial approximations too (Muller 2016).
 
 > **Extra:** Degree 2 is where the curvature enters: $T_2$ is the parabola that matches the value, the slope and the second derivative at $x_0$. Jumping to the lowest point of that parabola is the **Newton step** of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md). The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) does the same with many variables.
 

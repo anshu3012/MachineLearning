@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Normalization ([Note 25](../25-normalization/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)).
 > - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Early stopping ([Note 1021](../1021-improving-a-neural-network/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)); Image classification with a CNN (cats vs dogs) ([Note 1049](../1049-cat-vs-dog-cnn/note.md)); Keras functional API ([Note 1054](../1054-keras-functional-api/note.md)).
 > - **Compare with:** Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); ANN for classification ([Note 1012](../1012-mnist-ann/note.md)).
 <!-- /where-this-fits -->

@@ -8,7 +8,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/applications, con
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Association rule learning ([Note 3](../03-types-of-ml/note.md)).
+> - **Builds on:** Machine learning ([Note 1](../01-what-is-ml/note.md)); Association rule learning ([Note 3](../03-types-of-ml/note.md)).
 > - **Compare with:** Exploratory data analysis ([Note 9](../09-mldlc/note.md)).
 <!-- /where-this-fits -->
 

@@ -8,7 +8,7 @@ tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Eigenvectors and eigenvalues ([Note 48](../48-pca-step-by-step/note.md)); Derivatives of one variable ([Note 51](../51-linear-regression-maths/note.md)); Partial derivatives and gradients ([Note 57](../57-gradient-descent/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 122](../122-gradient-boosting-classification/note.md)).
+> - **Builds on:** Missing values ([Note 7](../07-challenges-in-ml/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Eigenvectors and eigenvalues ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)).
 > - **Leads to:** Convex and non-convex loss ([Note 590](../590-convex-and-non-convex-cost-functions/note.md)).
 <!-- /where-this-fits -->
 

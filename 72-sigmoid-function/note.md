@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)).
 > - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
 > - **Compare with:** Support vector machines ([Note 92](../92-svm-intuition/note.md)); Tanh ([Note 1027](../1027-activation-functions/note.md)).
 <!-- /where-this-fits -->

@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)).
+> - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Linear combinations, span and basis ([Note 490](../490-linear-combinations-span-and-basis/note.md)); Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)).
 > - **Leads to:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Compare with:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Moore-Penrose pseudo-inverse ([Note 613](../613-svd-in-machine-learning/note.md)); ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 <!-- /where-this-fits -->

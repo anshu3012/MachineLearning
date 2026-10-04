@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/tune, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 1026](../1026-regularization-in-dl/note.md)); Adam ([Note 1038](../1038-adam/note.md)); Transformer encoder ([Note 1080](../1080-transformer-encoder/note.md)); Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)); Transformer inference (autoregressive decoding, KV cache, beam search) ([Note 1084](../1084-transformer-inference/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Adam ([Note 1038](../1038-adam/note.md)); Transformer encoder ([Note 1080](../1080-transformer-encoder/note.md)); Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)); Transformer inference (autoregressive decoding, KV cache, beam search) ([Note 1084](../1084-transformer-inference/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

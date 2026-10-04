@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, step/understand, concept/kurtosis, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Normal distribution ([Note 250](../250-normal-distribution/note.md)).
+> - **Builds on:** Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)).
 > - **Compare with:** Skewness ([Note 252](../252-skewness/note.md)).
 <!-- /where-this-fits -->
 

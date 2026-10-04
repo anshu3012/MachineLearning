@@ -8,7 +8,7 @@ tags: [subject/maths, area/calculus, step/reduce, step/model, concept/lsa, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)); Singular value decomposition ([Note 611](../611-computing-the-svd/note.md)).
+> - **Builds on:** Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)); Singular value decomposition ([Note 610](../610-svd-geometry/note.md)).
 > - **Compare with:** Normal equation ([Note 55](../55-multiple-lr-code/note.md)).
 <!-- /where-this-fits -->
 
@@ -78,13 +78,13 @@ In Figure 3, watch the right panel: $U\Sigma$ is the left cloud turned so that P
 
 Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose accuracy (the [computing the SVD Note](../611-computing-the-svd/note.md), section 8). The SVD of $X_c$ avoids that step. The squaring matters little for a few well-behaved features, but it matters for data with nearly dependent features.
 
-> **Extra:** What scikit-learn actually does (version 1.9; scikit-learn docs, `PCA`). `PCA(svd_solver="auto")` picks a method from the shape of the data:
+> **Extra:** What scikit-learn does (version 1.9; scikit-learn docs, `PCA`). `PCA(svd_solver="auto")` picks a method from the shape of the data:
 >
-> - fewer than 1,000 columns and more than 10 times as many rows: scikit-learn eigen-decomposes the covariance matrix (`"covariance_eigh"`, added in version 1.5), because a small $d \times d$ matrix is fastest there;
+> - fewer than 1,000 columns and more than 10 times as many rows: scikit-learn eigen-decomposes the covariance matrix (`"covariance_eigh"`), because a small $d \times d$ matrix is fastest there;
 > - otherwise, small data (no side above 500): a full SVD of the centred data (`"full"`, LAPACK through SciPy);
 > - otherwise, when few components are wanted: a **randomized SVD** (G-1624), which finds only the top $k$ singular vectors.
 >
-> So "scikit-learn's PCA uses the SVD" was true for every input before version 1.5, and is still true for wide or large data. The 30 flats, and the 33,600 MNIST training images of 784 pixels in the [PCA on MNIST Note](../49-pca-mnist/note.md), now go through the covariance matrix. Each route gives the same components up to sign. `PCA` also divides by $n - 1$, so it reports 2.70 and 0.05 for the flats.
+> Each route gives the same components up to sign. `PCA` also divides by $n - 1$, so it reports 2.70 and 0.05 for the flats.
 
 > **Python:** PCA through the SVD.
 >
@@ -106,7 +106,7 @@ Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose ac
 
 > **Key point:** Bag-of-words vectors only see shared words, so two texts on the same topic with no word in common have cosine similarity 0.
 
-The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6) turned texts into bag-of-words count vectors, and the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) (section 6) compared them by angle. The angle only sees shared words. Take seven short documents (common words such as "a" and "and" removed):
+The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 4) turned texts into bag-of-words count vectors, and the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md) (section 6) compared them by angle. The angle only sees shared words. Take seven short documents (common words such as "a" and "and" removed):
 
 | | Document |
 |---|---|
@@ -277,7 +277,7 @@ Figure 7 puts the two answers side by side: the red bars miss every student by 1
 - Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix Factorization Techniques for Recommender Systems". *IEEE Computer* 42(8).
 - NumPy documentation. `numpy.linalg.lstsq`, `numpy.linalg.pinv`. SciPy documentation. `scipy.linalg.lstsq` (default driver `gelsd`).
 - Penrose, R. (1956). "On best approximate solutions of linear matrix equations". *Mathematical Proceedings of the Cambridge Philosophical Society* 52(1).
-- scikit-learn documentation (version 1.9). `sklearn.decomposition.PCA` (the `svd_solver="auto"` policy; `"covariance_eigh"` added in 1.5) and `sklearn.decomposition.TruncatedSVD`.
+- scikit-learn documentation (version 1.9). `sklearn.decomposition.PCA` (the `svd_solver="auto"` policy) and `sklearn.decomposition.TruncatedSVD`.
 
 ## 8. Key terms
 

@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
+> - **Builds on:** Exploratory data analysis ([Note 9](../09-mldlc/note.md)); Population, sample, parameter and statistic ([Note 220](../220-what-is-statistics/note.md)); Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Random variables ([Note 240](../240-random-variables-and-distributions/note.md)); Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)).
 > - **Leads to:** Measures of central tendency ([Note 221](../221-measures-of-central-tendency/note.md)); Variance ([Note 222](../222-measures-of-dispersion/note.md)); Percentiles, quartiles and box plots ([Note 230](../230-percentiles-and-box-plots/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 <!-- /where-this-fits -->
 

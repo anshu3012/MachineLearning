@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
+> - **Builds on:** Ensemble learning ([Note 9](../09-mldlc/note.md)).
 > - **Leads to:** Random under- and oversampling ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Voting ensembles ([Note 104](../104-voting-regressor/note.md)); OOB score ([Note 113](../113-oob-score/note.md)); Boosting ([Note 119](../119-bagging-vs-boosting/note.md)).
 <!-- /where-this-fits -->
@@ -129,8 +129,6 @@ Note the order: the meta-model is trained first (step 3), the final base models 
 Compared with blending, nothing is thrown away: every observation of D_train trains the final base models, and every observation also gives the meta-model one example. The price is K times more training. scikit-learn's `StackingClassifier` implements this approach (scikit-learn docs), and it is the one described in the textbooks: the meta-model learns from cross-validated predictions (ESL §8.8; Wolpert 1992).
 
 The intuition: blending is like a student who keeps 20 of 100 practice questions locked away for a mock test, while K-fold stacking lets every question serve both for practice and for a mock test, just at different times. When data is scarce, K-fold cross-validation makes better use of it than one hold-out set (ESL §7.10.1). Section 9.3 shows the gain on the heart data.
-
-> **Extra:** The meta-model learns from predictions of models trained on $(K-1)/K$ of the data, but at prediction time it receives predictions of models trained on all of it. A larger K trains each copy on more observations, so the two kinds of prediction are closer. On 3,000 synthetic observations the Notebook (section 9) finds the difference small: the random forest's out-of-fold log loss is 0.238 with K = 2 and 0.215 with K = 10.
 
 ## 8. Stacking in several layers
 

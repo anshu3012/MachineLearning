@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/hinge-loss, concept/svm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Dot product ([Note 48](../48-pca-step-by-step/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Equation of a hyperplane ([Note 70](../70-perceptron-trick/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Kernel trick ([Note 95](../95-kernel-trick-intuition/note.md)); Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)).
 > - **Compare with:** Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)); Perceptron loss ([Note 1006](../1006-perceptron-loss/note.md)).
 <!-- /where-this-fits -->
 
@@ -83,7 +83,7 @@ To make the SVM soft, we add one more term to the minimisation:
 
 $$\underset{w,\thinspace b}{\arg\min}\ \frac{\lVert w \rVert}{2} + \sum_{i=1}^{n} \xi_i$$
 
-The Greek letter $\xi$ is "xi" (some texts use $\zeta$, "zeta"). Each training point $i$ gets its own value $\xi_i$, called its **slack** (G-1820). The algorithm now looks for the $w$ and $b$ that make **both** terms small.
+The Greek letter $\xi$ is "xi". Each training point $i$ gets its own value $\xi_i$, called its **slack** (G-1820). The algorithm now looks for the $w$ and $b$ that make **both** terms small.
 
 ### 4.2 What ξ measures
 

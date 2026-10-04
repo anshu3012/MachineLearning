@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); Hyperparameter tuning ([Note 111](../111-random-forest-hyperparameters/note.md)); Grid and random search ([Note 112](../112-random-forest-tuning/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Feature importance ([Note 99](../99-regression-trees/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)).
 > - **Leads to:** Balanced random forest ([Note 133](../133-imbalanced-data/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Cross-validation ([Note 112](../112-random-forest-tuning/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
@@ -164,7 +164,6 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 - **The OOB score works for regression.** On a 5,000-observation sample of the California housing data (`fetch_california_housing` in scikit-learn: districts of California, 8 features, the median house value as target), a `RandomForestRegressor` gives an OOB $R^2$ of 0.764 against a test $R^2$ of 0.741. Its per-observation OOB predictions are in `oob_prediction_`.
 - **The OOB score works for any bagging ensemble**: `BaggingClassifier` and `BaggingRegressor` take the same `oob_score` (the [bagging classifier Note](../106-bagging-classifier/note.md) and the [bagging regressor Note](../107-bagging-regressor/note.md)).
 
-> **Extra:** `oob_score` can also be a function instead of `True`, to use another metric than accuracy or $R^2$. For example, `oob_score=balanced_accuracy_score` (imported from `sklearn.metrics`) reports the balanced accuracy of the OOB predictions.
 
 ## 8. Summary
 

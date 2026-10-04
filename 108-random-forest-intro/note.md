@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Feature importance ([Note 99](../99-regression-trees/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)).
 > - **Leads to:** Balanced random forest ([Note 133](../133-imbalanced-data/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
@@ -46,8 +46,6 @@ Three things make the random forest one of the first algorithms to try in a proj
 1. **Strong results on many problems.** On many problems a random forest performs about as well as boosting (ESL §15.1), a family of methods (**boosting**, G-318) covered in later Notes. In a comparison of 179 classifiers on 121 datasets, random forests were the best family overall (Fernández-Delgado et al., 2014).
 2. **Both problem types.** `RandomForestClassifier` predicts classes and `RandomForestRegressor` predicts numbers.
 3. **Little tuning.** Random forests are simpler to train and tune than boosting (ESL §15.1), and the default settings usually give a good result. Little tuning makes the random forest especially friendly for beginners.
-
-> **Extra:** The random forest was published by the statistician Leo Breiman in 2001, in a paper titled *Random Forests* (Breiman, 2001). Breiman had also introduced bagging (Breiman, 1996). The name and the idea of training trees on random subsets of the features came earlier, from Tin Kam Ho's "random decision forests" (Ho, 1995).
 
 ## 3. Where the name comes from
 
@@ -235,11 +233,9 @@ Two things differ from our hand-built version:
 
 **Other references**
 
-- Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140.
 - Breiman, L. (2001). "Random Forests". *Machine Learning* 45(1), 5–32.
 - Fernández-Delgado, M., Cernadas, E., Barro, S. and Amorim, D. (2014). "Do we Need Hundreds of Classifiers to Solve Real World Classification Problems?" *Journal of Machine Learning Research* 15, 3133–3181.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, sections 15.1 and 15.2.
-- Ho, T. K. (1995). "Random Decision Forests". *Proceedings of the 3rd International Conference on Document Analysis and Recognition*, 278–282.
 
 ## 8. Key terms
 

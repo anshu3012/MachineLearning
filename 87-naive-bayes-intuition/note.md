@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Normal distribution ([Note 42](../42-outliers-zscore/note.md)); Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Bayes' theorem ([Note 86](../86-bayes-problem/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Independent and mutually exclusive events ([Note 83](../83-independent-events/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)).
 <!-- /where-this-fits -->
 
 

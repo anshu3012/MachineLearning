@@ -42,7 +42,7 @@ Recall the setting of the [attention mechanism Note](../1069-attention-mechanism
 The plain encoder–decoder hands the decoder one context vector for the whole sentence. Attention gives the decoder a fresh context vector $c_i$ at every step, a weighted mix of all encoder states. With the dot-product score of **Luong attention** (G-1137; Luong et al. 2015), the context vector comes from three equations:
 
 1. **Scores:** $e_{ij} = s_i \cdot h_j$, how well encoder state $j$ matches what the decoder needs at step $i$.
-2. **Weights:** $\alpha_{ij} = \text{softmax}_j(e_{ij})$, so the weights of one step sum to 1.
+2. **Weights:** $\alpha_{ij} = \text{softmax} _j(e_{ij})$, so the weights of one step sum to 1.
 3. **Context vector:** $c_i = \sum_j \alpha_{ij}\thinspace h_j$.
 
 For example, $c_2 = \alpha_{21}h_1 + \alpha_{22}h_2 + \alpha_{23}h_3 + \alpha_{24}h_4$ is the **context vector** (G-461) for writing "la" (Figure 2).
@@ -58,7 +58,7 @@ With 3 output words and 4 input words there are $3 \times 4 = 12$ weights $\alph
 Take now only the English sentence, "turn off the light". Self-attention gives every word a query $q_j$, a key $k_j$ and a value $v_j$, and builds the contextual embedding of "turn" like this:
 
 1. **Scores:** $s_{1j} = q_1 \cdot k_j$, for $j = 1, \dots, 4$.
-2. **Weights:** $w_{1j} = \text{softmax}_j(s_{1j})$.
+2. **Weights:** $w_{1j} = \text{softmax} _j(s_{1j})$.
 3. **Output:** $y_1 = w_{11}v_1 + w_{12}v_2 + w_{13}v_3 + w_{14}v_4$.
 
 Then the same for "off", "the" and "light". Written side by side (Figure 1), the two computations match role for role:
@@ -69,7 +69,7 @@ Then the same for "off", "the" and "light". Written side by side (Figure 1), the
 | Key: compared with the query | encoder state $h_j$ | key $k_j$ of a word |
 | Value: mixed into the output | encoder state $h_j$ | value $v_j$ of a word |
 | Similarity | $e_{ij} = s_i \cdot h_j$ | $s_{ij} = q_i \cdot k_j$ |
-| Weights | $\alpha_{ij} = \text{softmax}_j(e_{ij})$ | $w_{ij} = \text{softmax}_j(s_{ij})$ |
+| Weights | $\alpha_{ij} = \text{softmax} _j(e_{ij})$ | $w_{ij} = \text{softmax} _j(s_{ij})$ |
 | Output | context vector $c_i$ | contextual embedding $y_i$ |
 
 The decoder state acts as the **query**: at step $i$ the decoder asks which input words will help it write the next word. The encoder states answer as **keys** (G-1011), and they are also the **values** (G-2068) that get mixed. In Luong attention the key and the value of a word are the same vector $h_j$; self-attention gives each word two different vectors for these two jobs.

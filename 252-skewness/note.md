@@ -8,7 +8,7 @@ tags: [subject/statistics, area/data, step/understand, concept/skewness]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)).
+> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)).
 > - **Compare with:** Kurtosis and moments ([Note 22](../22-pandas-profiling/note.md)).
 <!-- /where-this-fits -->
 
@@ -87,8 +87,6 @@ The stronger the skew, the further the mean is from the median and the mode. Wit
 Figure 4 shows this as the skewness changes smoothly. Each shape keeps its peak (the mode) at 0 and its standard deviation at 1; only the tail grows, first to the right, then to the left. Watch the mean (red) run ahead into the tail, the median (orange) follow less far, and the marker on the bar below cross from "approximately symmetric" into "highly skewed" (section 6).
 
 ![Skewness swept from 0 to 1.6 and to -1.6: the mode stays at the peak while the median and, further, the mean follow the long tail](images/skew_sweep.gif){height=50%}
-
-The mode-median-mean order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005).
 
 ## 5. The sample skewness formula
 
@@ -183,7 +181,6 @@ So skewness is one check among several. We look at the shape as well (histogram,
 - Bulmer, M. G. (1979). *Principles of Statistics*. Dover. (The three skewness bands.)
 - Doane, D. P. and Seward, L. E. (2011). "Measuring Skewness: A Forgotten Statistic?" *Journal of Statistics Education* 19(2).
 - Joanes, D. N. and Gill, C. A. (1998). "Comparing measures of sample skewness and kurtosis." *The Statistician* 47(1).
-- von Hippel, P. T. (2005). "Mean, Median, and Skew: Correcting a Textbook Rule." *Journal of Statistics Education* 13(2).
 
 ## 9. Key terms
 

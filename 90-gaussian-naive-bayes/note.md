@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/descriptive, area/models-1, step/foundations,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Bayes' theorem ([Note 86](../86-bayes-problem/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Independent and mutually exclusive events ([Note 83](../83-independent-events/note.md)); Probability distributions ([Note 210](../210-statistics-roadmap/note.md)); Bayes' theorem ([Note 341](../341-joint-marginal-conditional-probability/note.md)).
 > - **Leads to:** Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)).
 > - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)); Likelihood ([Note 630](../630-probability-vs-likelihood/note.md)).
 <!-- /where-this-fits -->
@@ -114,7 +114,7 @@ In Figure 4, watch the gap open: both classes start at 0.5, the height density p
 > nb.predict_proba(new_person)   # about 99% male
 > ```
 >
-> `GaussianNB` estimates the variance by dividing by $n$ rather than $n - 1$ (and adds a tiny amount, `var_smoothing`, for numerical safety; scikit-learn docs, `GaussianNB`), so its numbers differ slightly from the table: 99.2% male instead of 98.0%. The prediction is the same.
+> `GaussianNB` estimates the variance by dividing by $n$ rather than $n - 1$ (scikit-learn docs, `GaussianNB`), so its numbers differ slightly from the table: 99.2% male instead of 98.0%. The prediction is the same.
 
 ## 5. Adding logs instead of multiplying
 
@@ -198,7 +198,7 @@ Each variant suits one kind of data (scikit-learn user guide §1.9), so we look 
 
 **Other references**
 
-- **scikit-learn docs:** `sklearn.naive_bayes.GaussianNB` (var_smoothing); user guide Section 1.9, "Naive Bayes", scikit-learn 1.9.
+- **scikit-learn docs:** `sklearn.naive_bayes.GaussianNB`; user guide Section 1.9, "Naive Bayes", scikit-learn 1.9.
 
 ## 10. Key terms
 

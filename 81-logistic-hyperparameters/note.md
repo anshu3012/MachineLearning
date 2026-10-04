@@ -8,7 +8,7 @@ tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 61](../61-polynomial-regression/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)).
 > - **Leads to:** Grid and random search ([Note 91](../91-knn/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 <!-- /where-this-fits -->
 
@@ -102,7 +102,7 @@ Our own gradient descent (the gradient descent Note) was one way to minimise the
 | `lbfgs` (default) | yes | | | yes | good general choice |
 | `newton-cg` | yes | | | yes | |
 | `newton-cholesky` | yes | | | yes | fast when observations far outnumber features |
-| `liblinear` | yes | yes | | | small data; two classes only (wrap in `OneVsRestClassifier` for more) |
+| `liblinear` | yes | yes | | | small data; two classes only (wrap in `OneVsRestClassifier` for more); also penalises the intercept, which the others do not |
 | `sag` | yes | | | yes | large data; needs features on similar scales |
 | `saga` | yes | yes | yes | yes | large data; the only one for Elastic Net |
 

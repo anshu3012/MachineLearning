@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, step/features, concept/column-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)).
+> - **Builds on:** Encoding categorical data ([Note 23](../23-what-is-feature-engineering/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)).
 > - **Leads to:** ML pipelines ([Note 29](../29-pipelines/note.md)).
 <!-- /where-this-fits -->
 
@@ -254,6 +254,8 @@ Here age has no transformer. We want to keep it, so we use `remainder="passthrou
 > # apply to the test set
 > transformer.transform(X_test).shape        # (20, 7)
 > ```
+>
+> The column names in each tuple must match the DataFrame exactly, including case: `["Fever"]` for a column called `fever` stops with an error saying the column does not exist.
 
 Figure 5 shows what happens inside, using three training rows, one of them with a missing fever. The columns are routed to their transformers, each transformer works only on its own columns, and the outputs are stitched side by side. That missing fever is filled with 100.9, the mean fever of the training set.
 

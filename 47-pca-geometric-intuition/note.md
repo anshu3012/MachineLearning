@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/features, step/understand, step/reduce, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Dimensionality reduction ([Note 46](../46-curse-of-dimensionality/note.md)).
+> - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Standardization ([Note 9](../09-mldlc/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)).
 > - **Leads to:** Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)); One-way ANOVA ([Note 572](../572-one-way-anova/note.md)).
 > - **Compare with:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)); Low-rank approximation (truncated SVD) ([Note 612](../612-low-rank-approximation/note.md)).
 <!-- /where-this-fits -->
@@ -144,8 +144,6 @@ The same holds for every flat, so it holds for the averages, which are the two b
 
 Maximum variance along the line and minimum distance to the line are therefore the same answer. PCA uses the first description because the variance of the shadows is easier to compute.
 
-> **Extra:** PCA was first defined from the other side, as the line of closest fit to the points (Pearson 1901).
-
 ### 4.2 How many principal components
 
 > **Key point:** Data with n features has at most n principal components. We keep the first few.
@@ -277,7 +275,6 @@ Section 4.1 showed the same choice from the other side: the direction of maximum
 
 **Other references**
 
-- Pearson, K. (1901). On lines and planes of closest fit to systems of points in space. *Philosophical Magazine*, 2(11), 559–572.
 - Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd edition, Theorem 5.2.6. Duxbury.
 
 ## 9. Key terms

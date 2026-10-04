@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)); Grid and random search ([Note 107](../107-bagging-regressor/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Feature importance ([Note 99](../99-regression-trees/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)).
 > - **Leads to:** Grid and random search ([Note 112](../112-random-forest-tuning/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Balanced random forest ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Keras Tuner ([Note 1039](../1039-keras-tuner/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
@@ -64,7 +64,7 @@ With the 2 features of our demo data, "sqrt" gives $\lfloor 1.41 \rfloor = 1$: e
 
 **How to choose it.** Start at the square root of the number of features and try a few values above and below. Train a forest for each value and compare their out-of-bag scores (the [OOB score Note](../113-oob-score/note.md)), or their cross-validation scores (the [tuning Note](../112-random-forest-tuning/note.md)); keep the best.
 
-> **Extra:** Older code and documentation also list `max_features="auto"`, which meant "sqrt" for the classifier and all the features for the regressor. The "auto" option was removed in scikit-learn 1.3 and now raises an error; the classifier's default became "sqrt" in 1.1 and the regressor's 1.0 (all features). (scikit-learn API docs)
+> **Extra:** Older code also uses `max_features="auto"`, which meant "sqrt" for the classifier and all the features for the regressor. The "auto" option was removed in scikit-learn 1.3 and now raises an error (scikit-learn API docs).
 
 ### 3.3 Trying the settings on a demo dataset
 
@@ -156,7 +156,7 @@ Two of them deserve a closer look:
 
 Figure 5 shows what the second `fit` does. Watch the blue trees: they are the same in both rows, so only the orange half costs training time.
 
-> **Extra:** `monotonic_cst` (added in scikit-learn 1.4) takes one value per feature: 1, -1 or 0 (no constraint). For example, a model of house prices can be forced to never predict a lower price for a bigger house. The constraint works for regression and for two-class classification, not for multi-class or multi-output problems (scikit-learn API docs).
+> **Extra:** `monotonic_cst` (added in scikit-learn 1.4) takes one value per feature: 1, -1 or 0 (no constraint). For example, a model of house prices can be forced to never predict a lower price for a bigger house (scikit-learn API docs).
 
 ## 6. The random forest regressor
 
@@ -169,7 +169,7 @@ Figure 5 shows what the second `fit` does. Watch the blue trees: they are the sa
 
 The regressor has no `class_weight`, since there are no classes.
 
-> **Extra:** Older code uses `criterion="mse"` and `"mae"`; these were renamed `"squared_error"` and `"absolute_error"` and the old names were removed in scikit-learn 1.2. A fourth option, `"friedman_mse"`, is deprecated since 1.9. The setting `min_impurity_split`, listed as deprecated in old documentation, was removed in 1.0; `min_impurity_decrease` replaces it (scikit-learn API docs).
+> **Extra:** Older code uses `criterion="mse"` and `"mae"`; these were renamed `"squared_error"` and `"absolute_error"` and the old names were removed in scikit-learn 1.2. The setting `min_impurity_split`, listed as deprecated in old documentation, was removed in 1.0; `min_impurity_decrease` replaces it (scikit-learn API docs).
 
 ## 7. Summary
 

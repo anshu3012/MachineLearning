@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, step/model, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Training curves (History) ([Note 1013](../1013-graduate-admission-ann/note.md)); Backpropagation ([Note 1017](../1017-backpropagation-why/note.md)).
+> - **Builds on:** Training curves (History) ([Note 1011](../1011-customer-churn-ann/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Activation functions ([Note 1027](../1027-activation-functions/note.md)).
 > - **Leads to:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Dying ReLU problem ([Note 1028](../1028-relu-variants/note.md)); Weight initialisation ([Note 1029](../1029-weight-initialization/note.md)); Skip connections ([Note 1054](../1054-keras-functional-api/note.md)); Recurrent neural network (RNN) ([Note 1055](../1055-why-rnn/note.md)).
 > - **Compare with:** Tanh ([Note 1027](../1027-activation-functions/note.md)); Leaky ReLU, PReLU, ELU and SELU ([Note 1028](../1028-relu-variants/note.md)).
 <!-- /where-this-fits -->
@@ -271,8 +271,6 @@ In Figure 9, the red gradient $(600, 800)$ has norm 1000, above the limit 1. Div
 
 With clipping the same network produces finite numbers: the loss falls from 12,155 to 2,049 over 5 epochs. Still enormous, because the starting weights are bad, but it decreases instead of breaking. Proper initialisation and batch normalisation also help against exploding gradients.
 
-> **Extra:** Keras clips predicted probabilities at $10^{-7}$, so the loss of one prediction normally stops at about $-\log 10^{-7} \approx 16$. The loss here exceeds that cap because Keras 3 computes binary cross-entropy from the output node's weighted sum (the logit) when the output is a sigmoid (Keras source, `binary_crossentropy` in `backend/tensorflow/nn.py`). Working from the logit avoids rounding errors, and it also means the loss of a confidently wrong prediction is no longer capped.
-
 ## 8. Summary
 
 | | Vanishing gradient | Exploding gradient |
@@ -304,7 +302,6 @@ With clipping the same network produces finite numbers: the loss falls from 12,1
 - Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, §2.1.
 - Pascanu, Mikolov and Bengio, "On the difficulty of training recurrent neural networks", ICML 2013.
 - Hochreiter, "Untersuchungen zu dynamischen neuronalen Netzen", diploma thesis, TU Munich, 1991; Bengio, Simard and Frasconi, "Learning long-term dependencies with gradient descent is difficult", *IEEE Transactions on Neural Networks*, 1994.
-- Keras 3 source code, `keras/src/backend/tensorflow/nn.py`, function `binary_crossentropy` (uses the stored logits of a sigmoid output).
 
 ## 10. Key terms
 

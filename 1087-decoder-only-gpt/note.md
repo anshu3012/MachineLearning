@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/gelu, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Activation functions ([Note 1027](../1027-activation-functions/note.md)); Masked self-attention ([Note 1081](../1081-masked-self-attention/note.md)); Transformer ([Note 1083](../1083-transformer-decoder/note.md)); Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)).
+> - **Builds on:** Activation functions ([Note 1027](../1027-activation-functions/note.md)); Transformer ([Note 1071](../1071-introduction-to-transformers/note.md)); Masked self-attention ([Note 1081](../1081-masked-self-attention/note.md)); Transformer decoder ([Note 1083](../1083-transformer-decoder/note.md)); Unembedding, logits, temperature and sampling ([Note 1088](../1088-unembedding-and-sampling/note.md)).
 > - **Leads to:** MLP blocks as fact storage ([Note 1089](../1089-mlp-stores-facts/note.md)).
 <!-- /where-this-fits -->
 
@@ -247,8 +247,6 @@ Watch the blue $W_E$: almost a third of GPT-2 small, a sliver of GPT-3. The voca
 
 The formula gives the count of the file to the last parameter (Notebook). The 12 causal-mask buffers stored in the file (`h.N.attn.bias`, 1,024 × 1,024 each) are not learned, so they are not counted.
 
-> **Extra:** The GPT-2 paper lists its smallest model as 117M (Radford et al. 2019, Table 2) and says it "is equivalent to the original GPT". GPT-1 had a BPE vocabulary with 40,000 merges and read 512 tokens (Radford et al. 2018, §4.1). With about 40,000 tokens and 512 positions, the same 12 blocks give about 116 million; with GPT-2's 50,257 tokens and 1,024 positions they give 124.4 million (Notebook). The 117M label therefore matches GPT-1's vocabulary and context, not the released GPT-2 file.
-
 ### 9.2 GPT-3
 
 > **Key point:** With $d = 12{,}288$, 96 blocks and a 2,048-token context, the formula gives 174.6 billion. Attention holds 33 percent, the MLPs 66 percent, the embeddings 0.4 percent.
@@ -292,7 +290,7 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 - Sanderson, G. (3Blue1Brown), "Transformers, the tech behind LLMs | Deep Learning Chapter 5", 2024, 3blue1brown.com/lessons/gpt, https://www.youtube.com/watch?v=wjZofJX0v4M
 - Sanderson, G. (3Blue1Brown), "Attention in transformers, step-by-step | Deep Learning Chapter 6", 2024, 3blue1brown.com/lessons/attention, https://www.youtube.com/watch?v=eMlx5fFNoYc
 - Radford, A., Narasimhan, K., Salimans, T. and Sutskever, I. (2018). Improving Language Understanding by Generative Pre-Training. OpenAI. §3.1 (eq. 1, the language-model objective; eq. 2, $h_0 = UW_e + W_p$ and $P(u) = \text{softmax}(h_nW_e^T)$); §4.1 "Model specifications" (12-layer decoder-only transformer, 768 states, 12 heads, 3,072 inner states, 512-token sequences, 40,000 BPE merges, GELU, learned position embeddings).
-- Radford, A., Wu, J., Child, R., Luan, D., Amodei, D. and Sutskever, I. (2019). Language Models are Unsupervised Multitask Learners. OpenAI. §2.1 (WebText, no links after December 2017); §2.2 (byte pair encoding); §2.3 (LayerNorm moved to the input of each sub-block, extra final LayerNorm, vocabulary 50,257, context 1,024); Table 2 (117M for the smallest model).
+- Radford, A., Wu, J., Child, R., Luan, D., Amodei, D. and Sutskever, I. (2019). Language Models are Unsupervised Multitask Learners. OpenAI. §2.1 (WebText, no links after December 2017); §2.2 (byte pair encoding); §2.3 (LayerNorm moved to the input of each sub-block, extra final LayerNorm, vocabulary 50,257, context 1,024).
 
 **Other references**
 

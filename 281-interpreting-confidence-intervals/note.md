@@ -8,7 +8,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Central limit theorem ([Note 272](../272-estimating-a-mean-with-the-clt/note.md)).
+> - **Builds on:** Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 > - **Compare with:** Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)).
 <!-- /where-this-fits -->
 

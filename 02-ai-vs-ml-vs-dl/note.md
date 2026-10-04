@@ -8,6 +8,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/ai, concept/dl, c
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Tensors ([Note 11](../11-tensors/note.md)); Setup: conda, Jupyter and Colab ([Note 12](../12-setup-anaconda-jupyter-colab/note.md)); Role of mathematics in ML ([Note 440](../440-role-of-maths-in-ml/note.md)); Linear transformations and matrices ([Note 500](../500-linear-transformations-and-matrices/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)).
 > - **Leads to:** Supervised learning ([Note 3](../03-types-of-ml/note.md)); Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Semi-supervised learning ([Note 3](../03-types-of-ml/note.md)); Reinforcement learning ([Note 3](../03-types-of-ml/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Applications of ML ([Note 8](../08-applications-of-ml/note.md)).
 > - **Compare with:** What deep learning is ([Note 1001](../1001-dl-scope-and-prerequisites/note.md)).
 <!-- /where-this-fits -->
@@ -93,7 +94,7 @@ Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, a
 
 > **Key point:** In Machine Learning, we do not write the rules. We give the machine examples with answers, and it works out the rules itself.
 
-**Machine Learning (ML)** (G-1140) is a branch of computer science that uses statistical techniques to find patterns in data. ML became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../01-what-is-ml/note.md)).
+**Machine Learning (ML)** (G-1140) is a branch of computer science that uses statistical techniques to find patterns in data. ML borrows its tools from statistics, but it is not "just statistics": the maths needed is limited, and most of the work is practical engineering. ML became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../01-what-is-ml/note.md)).
 
 ### 4.1 Learning rules from data
 
@@ -206,7 +207,7 @@ The steady gain with more data is why DL now outperforms ML on tasks with very l
 
 DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 10 shows.
 
-Most organisations do not have that much data. Banks, insurance companies and sports analytics firms work with small datasets, and for them ML remains the standard choice.
+Most organisations do not have that much data: most of the world's data is small data. Banks, insurance companies and sports analytics firms work with small datasets, and for them ML remains the standard choice.
 
 A saying sums up the choice: where a needle is needed, we do not use a sword. DL is the sword: powerful, but the wrong tool for a small job.
 

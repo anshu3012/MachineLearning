@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/attentio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1068](../1068-encoder-decoder/note.md)).
+> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1058](../1058-types-of-rnn/note.md)).
 > - **Leads to:** Luong (multiplicative) attention ([Note 1070](../1070-bahdanau-vs-luong-attention/note.md)); Self-attention (query, key, value) ([Note 1072](../1072-what-is-self-attention/note.md)).
 > - **Compare with:** Luong (multiplicative) attention ([Note 1070](../1070-bahdanau-vs-luong-attention/note.md)); Cross-attention ([Note 1082](../1082-cross-attention/note.md)).
 <!-- /where-this-fits -->
@@ -185,7 +185,7 @@ The weights form a clear diagonal band: as the decoder writes the French sentenc
 
 Two details of Bahdanau et al. (2015) differ from the simple picture above:
 
-- **A bidirectional encoder** (G-291; section 3.2; see the [bidirectional RNN Note](../1066-bidirectional-rnn/note.md)). One RNN reads the sentence forwards and a second reads it backwards; $h_j$ joins the two states at position $j$. Each $h_j$ then summarises the words before and after word $j$, with a focus on the words around it. Attention itself is computed exactly as above. Figure 8 shows the layout.
+- **A bidirectional encoder** (G-291; Bahdanau et al. 2015, section 3.2; see the [bidirectional RNN Note](../1066-bidirectional-rnn/note.md)). One RNN reads the sentence forwards and a second reads it backwards; $h_j$ joins the two states at position $j$. Each $h_j$ then summarises the words before and after word $j$, with a focus on the words around it. Attention itself is computed exactly as above. Figure 8 shows the layout.
 - **A gated unit, not an LSTM** (appendix A.1.1). Their encoder and decoder use the gated hidden unit of Cho et al. (2014), the unit now called the **GRU** (G-826), which the paper describes as similar to an LSTM unit and, like it, able to learn long-term dependencies.
 
 ![The bidirectional encoder of Bahdanau et al. (2015). A forward RNN reads the sentence left to right, a backward RNN right to left, and $h_j$ joins their two states at position $j$](images/bidirectional.png){width=95%}

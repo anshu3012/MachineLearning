@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)).
+> - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)).
 > - **Leads to:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Logistic regression ([Note 70](../70-perceptron-trick/note.md)); Hyperparameter tuning ([Note 81](../81-logistic-hyperparameters/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)).
 > - **Compare with:** Decision surface and boundary ([Note 91](../91-knn/note.md)); Kernel trick ([Note 95](../95-kernel-trick-intuition/note.md)).
 <!-- /where-this-fits -->
@@ -71,6 +71,8 @@ Linearity in the coefficients is why polynomial regression is called "linear": *
 > ```
 >
 > `include_bias=True` (G-929) adds the column of 1s; `LinearRegression` fits its own intercept anyway, so that column gets coefficient 0 and either setting works.
+>
+> Two things to get right: the powers are made from the features only, never from the target; and `fit_transform` goes on the training features while the test features get the same `transform`, as with any preprocessing step.
 
 With the $x^2$ feature, the test R² jumps from 0.38 to 0.83. The learned equation, $\hat{y} = 1.92 + 1.04x + 0.82x^2$, is close to the true $2 + 0.9x + 0.8x^2$. The remaining difference comes from the noise: refitting on the same training observations with the noise removed gives exactly $2 + 0.9x + 0.8x^2$ (notebook).
 
@@ -98,9 +100,7 @@ Figure 5 runs through all fifteen degrees one at a time. Watch the curve on the 
 
 The degree is a **hyperparameter** (G-910), chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
 
-> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The **condition number** (G-441) measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 4 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`. Even so, rounding shows once: on these 25 points the training R² of degree 15 comes out 0.0002 below that of degree 14, which exact least squares can never do (Figure 5).
->
-> Are the wild swings of the degree-15 curve overfitting or rounding error? Overfitting: an exact degree-15 fit, computed in a numerically safer way, swings even more wildly (test R² $-3{,}727$ against $-9.35$; notebook).
+> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The **condition number** (G-441) measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 4 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`.
 
 ## 5. More than one feature
 

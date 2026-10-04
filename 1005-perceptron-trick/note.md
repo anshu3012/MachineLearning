@@ -22,8 +22,8 @@ The [perceptron Note](../1004-perceptron/note.md) showed how a trained perceptro
 
 The trick itself is taught in full in two earlier Notes, and we do not repeat it here:
 
-- the [perceptron trick Note](../70-perceptron-trick/note.md): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate (its Figure 5 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
-- the [perceptron code Note](../71-perceptron-code/note.md): the code, an animation of the line moving update by update (its Figure 1), and why the final line depends on the random order.
+- the [perceptron trick Note](../70-perceptron-trick/note.md): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate (its Figure 7 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
+- the [perceptron code Note](../71-perceptron-code/note.md): the code, an animation of the line moving update by update (its Figure 3), and why the final line depends on the random order.
 
 This Note has these parts:
 

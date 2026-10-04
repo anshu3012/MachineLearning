@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Training curves (History) ([Note 1022](../1022-early-stopping/note.md)); Activation functions ([Note 1027](../1027-activation-functions/note.md)); Sigmoid function ([Note 1027](../1027-activation-functions/note.md)); Exploding gradient and gradient clipping ([Note 1029](../1029-weight-initialization/note.md)).
+> - **Builds on:** Sigmoid function ([Note 72](../72-sigmoid-function/note.md)); Training curves (History) ([Note 1011](../1011-customer-churn-ann/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Exploding gradient and gradient clipping ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Activation functions ([Note 1027](../1027-activation-functions/note.md)).
 > - **Leads to:** Skip connections ([Note 1054](../1054-keras-functional-api/note.md)); Long-term dependency problem ([Note 1060](../1060-problems-with-rnn/note.md)).
 > - **Compare with:** Exploding gradient and gradient clipping ([Note 1029](../1029-weight-initialization/note.md)).
 <!-- /where-this-fits -->

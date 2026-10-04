@@ -8,7 +8,7 @@ tags: [subject/ml, area/probability, step/foundations, concept/bayes-theorem]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Conditional probability ([Note 82](../82-conditional-probability/note.md)).
+> - **Builds on:** Conditional probability ([Note 341](../341-joint-marginal-conditional-probability/note.md)); Joint and marginal probability ([Note 341](../341-joint-marginal-conditional-probability/note.md)).
 > - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); MAP estimation ([Note 633](../633-mle-in-machine-learning/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
 

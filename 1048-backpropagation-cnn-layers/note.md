@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Convolution operation and feature maps ([Note 1042](../1042-convolution-operation/note.md)).
+> - **Builds on:** Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Convolution operation and feature maps ([Note 1042](../1042-convolution-operation/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -221,7 +221,7 @@ Using nothing but the formulas of this Note and part 1, the Notebook trains the 
 
 ![The loss of the batch while training with the hand-derived gradients; it drops from 0.71 to near 0 within the first few hundred mini-batches](images/numpy_training.png){width=85%}
 
-The test accuracy on 2,163 unseen 1s and 7s goes from 54.7% before training to 99.0% after the first epoch and 99.4% after the second. Backpropagation through convolution, max pooling and flatten works exactly as derived.
+Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goes from 54.7% before training to 99.0% after the first epoch and 99.4% after the second. Backpropagation through convolution, max pooling and flatten works exactly as derived.
 
 ## 10. Summary
 

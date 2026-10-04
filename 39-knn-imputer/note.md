@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/linear-algebra, step/foundations, step/clean,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Missing values ([Note 38](../38-missing-indicator-random-sample/note.md)); Missing indicator ([Note 38](../38-missing-indicator-random-sample/note.md)).
+> - **Builds on:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Missing values ([Note 7](../07-challenges-in-ml/note.md)); Missing indicator ([Note 38](../38-missing-indicator-random-sample/note.md)); Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)).
 > - **Leads to:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)).
 > - **Compare with:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); Iterative imputation (MICE) ([Note 40](../40-iterative-imputer-mice/note.md)); Cosine similarity ([Note 362](../362-dot-product-and-cosine-similarity/note.md)).
 <!-- /where-this-fits -->

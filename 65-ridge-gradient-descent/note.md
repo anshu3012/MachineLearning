@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
+> - **Builds on:** Standardization ([Note 9](../09-mldlc/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Leads to:** Elastic Net ([Note 69](../69-elastic-net/note.md)).
 > - **Compare with:** Lasso regression ([Note 67](../67-lasso-regression/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
 <!-- /where-this-fits -->

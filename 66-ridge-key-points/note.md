@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
+> - **Builds on:** Standardization ([Note 9](../09-mldlc/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Leads to:** Elastic Net ([Note 69](../69-elastic-net/note.md)).
 > - **Compare with:** Lasso regression ([Note 67](../67-lasso-regression/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
 <!-- /where-this-fits -->
@@ -99,7 +99,7 @@ Measuring bias needs the true curve, so here we use made-up data where we know i
 
 So, as in the bias-variance Note, λ moves a model along the **bias-variance trade-off** (G-288; ISL §6.2.1). Choose λ where variance has fallen a lot but bias has not yet risen much.
 
-> **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7), and the noise part is $2^2 = 4$ here, the floor no model can beat. The features are standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. The training $x$ values are fixed and only the noise is redrawn, so every fit covers the same range; test points sit between training points, so no fit has to extrapolate.
+> **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7), and the noise part is $2^2 = 4$ here, the floor no model can beat. The `mlxtend` library's `bias_variance_decomp` function does this repeated-fit calculation for any scikit-learn model. The features are standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. The training $x$ values are fixed and only the noise is redrawn, so every fit covers the same range; test points sit between training points, so no fit has to extrapolate.
 
 ## 5. Point 4: the loss curve rises and its lowest point moves to 0
 

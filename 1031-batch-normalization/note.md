@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)); Mini-batch gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Feature scaling ([Note 1023](../1023-data-scaling-in-ann/note.md)).
+> - **Builds on:** Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)); Exponentially weighted moving average (EWMA) ([Note 1033](../1033-exponentially-weighted-moving-average/note.md)).
 > - **Compare with:** Normalization ([Note 25](../25-normalization/note.md)); Dropout ([Note 1025](../1025-dropout-code/note.md)); Layer normalisation ([Note 1079](../1079-layer-normalization/note.md)).
 <!-- /where-this-fits -->
 
@@ -182,7 +182,7 @@ In the Notebook, after training, the first batch normalisation layer's moving me
 
 Figure 5 shows how the first of these moving means got there. It starts at 0, follows the batch means as training changes the layer, and ends at 0.238, close to the actual 0.226.
 
-> **Extra:** The two modes really differ. Keras runs a model in training mode inside `fit()` and in prediction mode in `predict()`. Feeding one observation in training mode would use that single observation's own mean and a variance of 0, so $\hat{z} = 0$ and only $\beta$ survives. In the Notebook the same observation gets 0.53 that way, and 0.79 in prediction mode. Keras also stores the variance, not the standard deviation, and adds $\epsilon = 0.001$ before taking the square root.
+> **Extra:** The two modes really differ. Keras runs a model in training mode inside `fit()` and in prediction mode in `predict()`. Feeding one observation in training mode would use that single observation's own mean and a variance of 0, so $\hat{z} = 0$ and only $\beta$ survives. In the Notebook the same observation gets 0.53 that way, and 0.79 in prediction mode.
 
 ## 6. Advantages
 

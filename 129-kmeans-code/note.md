@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)).
+> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); Expectation maximization (EM) ([Note 641](../641-expectation-maximization/note.md)).
 > - **Leads to:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
 > - **Compare with:** Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)); Gaussian mixture model (GMM) ([Note 640](../640-gaussian-mixture-models/note.md)).
 <!-- /where-this-fits -->
@@ -110,8 +110,6 @@ Figure 4 replays what happens inside `fit_predict`. Watch the start: each new ce
 > The second default, `n_init="auto"`, sets how many times the whole algorithm restarts from new centroids; the run with the lowest inertia is kept. With `k-means++` it runs once; with `init="random"` it runs 10 times. Other defaults: `n_clusters=8` and `max_iter=300` rounds at most (scikit-learn `KMeans` docs).
 
 > **Extra:** The data was not scaled here, although k-means is distance-based (the [k-means Note](../128-kmeans-intuition/note.md), section 4.3). On this toy data the four groups are so far apart that scaling changes nothing: in the Notebook, k-means on standardized features puts every student in the same group as before. The reason is that, scaled or not, every student is nearer its own group's centroid than any other centroid, so the assign step moves nobody. On real data, where groups are closer, scaling can change the clusters (ESL §14.3.3), so how to scale the features is a choice worth checking.
->
-> *Detail:* the two labelings agree exactly (adjusted Rand index 1.0, a score of agreement between two groupings). The smallest ratio of nearest-other-centroid distance to own-centroid distance is 1.08 raw and 2.56 standardized.
 
 ## 6. Plotting the clusters with boolean indexing
 

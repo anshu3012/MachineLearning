@@ -116,7 +116,7 @@ The first part is the mechanics taught in school mathematics (classes 11 and 12)
 
 The second part is conceptual: the rank of a matrix, column space, change of basis, solving a system of linear equations, linear transformations, and the dot product seen as the engine of matrix multiplication. **Linear transformations** (G-1097) are marked very important.
 
-So far, the inverse appears in the [normal equation](../54-multiple-lr-maths/note.md) of linear regression, and the idea of a matrix as a transformation in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.1). The rest of this module comes in a later maths Note.
+So far, the inverse appears in the [normal equation](../54-multiple-lr-maths/note.md) of linear regression, and the idea of a matrix as a transformation in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.1). Linear transformations are taught in the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md), matrix multiplication in the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md), and the determinant in the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
 
 ### 4.4 Tensors
 
@@ -128,13 +128,13 @@ What a **tensor** (G-1957) is, and how tables, text, images and videos become te
 
 > **Key point:** Eigenvectors are the directions a matrix only stretches; PCA is built on them.
 
-Anyone who has studied PCA has met **eigenvalues** (G-665) and **eigenvectors** (G-666). They are taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4), and in more depth in a later maths Note.
+Anyone who has studied PCA has met **eigenvalues** (G-665) and **eigenvectors** (G-666). They are taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4), and in depth in the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
 
 ### 4.6 Matrix factorisation
 
 > **Key point:** Factorising a matrix splits it into simpler matrices; LU, QR, eigen-decomposition and SVD are the ones ML meets.
 
-**Matrix factorisation** (G-1177), or **decomposition**, writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in the [PCA step by step Note](../48-pca-step-by-step/note.md); the others come in a later maths Note.
+**Matrix factorisation** (G-1177), or **decomposition**, writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in the [PCA step by step Note](../48-pca-step-by-step/note.md) and the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md); SVD starts in the [SVD geometry Note](../610-svd-geometry/note.md); LU and QR come in a later maths Note.
 
 > **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see the [Ridge gradient descent Note](../65-ridge-gradient-descent/note.md)). Least-squares problems can be solved through a QR factorisation (Trefethen and Bau 1997, Lecture 11, Algorithm 11.2), and recommender systems use SVD-like factorisations of the user-item rating matrix to predict missing ratings (Koren, Bell and Volinsky 2009).
 

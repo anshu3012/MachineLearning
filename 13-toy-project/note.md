@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/features, area/foundations, area/models-1, ar
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Software integration ([Note 7](../07-challenges-in-ml/note.md)); Framing an ML problem ([Note 9](../09-mldlc/note.md)); APIs ([Note 9](../09-mldlc/note.md)).
+> - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); APIs ([Note 7](../07-challenges-in-ml/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Software integration ([Note 7](../07-challenges-in-ml/note.md)).
 > - **Leads to:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)).
 > - **Compare with:** Data mining ([Note 8](../08-applications-of-ml/note.md)); Web scraping ([Note 9](../09-mldlc/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Cross-validation ([Note 29](../29-pipelines/note.md)).
 <!-- /where-this-fits -->
@@ -106,7 +106,7 @@ We separate the table into (Figure 3):
 > y = df.iloc[:, -1]    # the last column: placement
 > ```
 >
-> `0:2` means positions 0 and 1 (the end, 2, is not included). `-1` means the last column. X has shape (100, 2) and y has shape (100,).
+> `0:2` means positions 0 and 1 (the end, 2, is not included). `-1` means the last column. X has shape (100, 2) and y has shape (100,): in the language of the [tensors Note](../11-tensors/note.md), X is a 2D tensor (a matrix) and y a 1D tensor (a vector).
 
 ![The first 5 of the 100 rows. The leftover row-number column is dropped (section 3); `cgpa` and `iq` form X, `placement` forms y](images/xy_split.png){width=85%}
 
@@ -249,8 +249,6 @@ Figure 8 shows the path. The website loads `model.pkl`, asks the user for an IQ 
 
 The Notebook builds this website on our own machine with Dash. To let other people use it, it must run on a server, for example on Heroku, AWS or Google Cloud. Deploying to these platforms is covered in later Notes.
 
-> **Extra:** Heroku no longer has a free plan (Heroku 2022). AWS and Google Cloud offer limited free tiers for new accounts (AWS Free Tier; Google Cloud Free Program).
-
 This model is far from perfect: it learned from only 90 students and was not tuned at all. The later Notes go through each step of this workflow in depth.
 
 ## 11. Summary
@@ -279,9 +277,6 @@ This model is far from perfect: it learned from only 90 students and was not tun
 
 **Other references**
 
-- Amazon Web Services. AWS Free Tier. aws.amazon.com/free.
-- Google Cloud. Free Program (free trial and Free Tier). cloud.google.com/free.
-- Heroku (2022). Free Heroku Dynos, Heroku Postgres and Heroku Data for Redis are no longer available. Heroku Dev Center changelog, 28 November 2022. devcenter.heroku.com/changelog-items/2502.
 - Kaufman, S., Rosset, S. and Perlich, C. (2012). Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM Transactions on Knowledge Discovery from Data* 6(4).
 - scikit-learn User Guide. Common pitfalls and recommended practices: Data leakage. scikit-learn.org.
 

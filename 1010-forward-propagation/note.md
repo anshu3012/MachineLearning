@@ -149,7 +149,7 @@ Substituting each activation into the next writes the whole network as one neste
 
 $$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace\underbrace{\sigma\big(W^{2\mathsf T}\thinspace\underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})} _{a^{1}} + b^{2}\big)} _{a^{2}} + b^{3}\Big)$$
 
-The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md), section 7.2), and the network would be no more powerful than one perceptron.
+The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md), section 7.3), and the network would be no more powerful than one perceptron.
 
 ### 6.1 Another way to see it: the forward pass for every input
 

@@ -8,7 +8,7 @@ tags: [subject/ml, area/descriptive, area/models-2, step/foundations, step/model
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Cross-validation ([Note 91](../91-knn/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
+> - **Builds on:** Ensemble learning ([Note 9](../09-mldlc/note.md)); Cross-validation ([Note 29](../29-pipelines/note.md)); Independent and mutually exclusive events ([Note 83](../83-independent-events/note.md)); Probability distributions ([Note 210](../210-statistics-roadmap/note.md)).
 > - **Compare with:** Bagging ([Note 105](../105-bagging-intuition/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)); Poisson distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
 <!-- /where-this-fits -->
 

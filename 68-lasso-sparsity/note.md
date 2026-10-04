@@ -8,7 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
+> - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)); MAP estimation ([Note 633](../633-mle-in-machine-learning/note.md)).
 > - **Leads to:** Elastic Net ([Note 69](../69-elastic-net/note.md)).
 > - **Compare with:** Ridge regression ([Note 66](../66-ridge-key-points/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
 <!-- /where-this-fits -->

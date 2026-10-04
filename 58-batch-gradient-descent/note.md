@@ -48,7 +48,7 @@ and there are $m + 1$ coefficients to find. Batch gradient descent:
 
 3. **Repeat** for a fixed number of epochs.
 
-The loss used here is the **mean squared error loss** (G-1201), $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$. Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same **learning rate** (G-1068) works for small and large datasets.
+The loss used here is the **mean squared error loss** (G-1201), $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$. Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same **learning rate** (G-1068) works for small and large datasets. The division does not change the answer: the coefficients that make the total squared error smallest also make the mean squared error smallest, because the two differ only by the constant factor $n$.
 
 Figure 2 shows step 2 on real data: the run of Section 4 on the diabetes data, with 10 features. All 10 coefficients start at 1 and the intercept at 0. At every epoch each one moves by its own derivative, at the same time. The intercept jumps to 150.5 in the first epoch, because its derivative is just the average error; the 10 coefficients grow slowly towards the OLS values (diamonds), the large ones such as bmi and s5 first.
 
@@ -183,7 +183,7 @@ Figure 6 shows the cost of waiting for every observation. Three methods read the
 
 ![Batch, mini-batch and stochastic gradient descent reading the same data, 10 observations per frame, learning rate 0.05. Left: the paths on the loss contours. Right: the loss against the observations read.](images/gd_race.gif)
 
-Stochastic and mini-batch gradient descent, in the next two Notes, solve these two problems.
+Stochastic and mini-batch gradient descent, in the next two Notes, solve these two problems. In practice batch gradient descent is the rarest of the three: it suits a **convex** loss such as linear regression's, where the smooth path leads straight to the one minimum, and data small enough to fit in memory. Stochastic and mini-batch gradient descent are what libraries use by default.
 
 ## 7. Summary
 

@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1068](../1068-encoder-decoder/note.md)); Transformer encoder ([Note 1080](../1080-transformer-encoder/note.md)); Masked self-attention ([Note 1081](../1081-masked-self-attention/note.md)); Cross-attention ([Note 1082](../1082-cross-attention/note.md)).
+> - **Builds on:** Sequence-to-sequence (encoder-decoder) ([Note 1058](../1058-types-of-rnn/note.md)); Transformer encoder ([Note 1080](../1080-transformer-encoder/note.md)); Masked self-attention ([Note 1081](../1081-masked-self-attention/note.md)); Cross-attention ([Note 1082](../1082-cross-attention/note.md)); Learning-rate warm-up schedule ([Note 1085](../1085-transformer-end-to-end/note.md)); Label smoothing ([Note 1085](../1085-transformer-end-to-end/note.md)).
 > - **Leads to:** Transformer inference (autoregressive decoding, KV cache, beam search) ([Note 1084](../1084-transformer-inference/note.md)); The transformer end to end (capstone) ([Note 1085](../1085-transformer-end-to-end/note.md)); Decoder-only GPT ([Note 1087](../1087-decoder-only-gpt/note.md)).
 > - **Compare with:** LSTM (long short-term memory) ([Note 1063](../1063-lstm-next-word-prediction/note.md)).
 <!-- /where-this-fits -->
@@ -219,7 +219,7 @@ Keras' `count_params()` gives exactly these numbers (Notebook). The cross-attent
 | Shared embedding, about $37{,}000 \times 512$ | 18,944,000 |
 | **Total** | **about 63 million** |
 
-The paper lists 65 million parameters for its base model (Vaswani et al. 2017, Table 3). The 2 million gap sits in the embedding: the paper gives its vocabulary only as "about 37000 tokens" (§5.1), and its totals fit a table of about 41,000 rows. The block counts agree with the paper: from $N = 2$ to $N = 8$ blocks its total grows by 7.3 million per pair of blocks, our $7{,}356{,}416$ for one encoder block plus one decoder block.
+The paper lists 65 million parameters for its base model (Vaswani et al. 2017, Table 3). The 2 million gap sits in the embedding: the paper gives its vocabulary only as "about 37000 tokens" (§5.1), so the exact size of its embedding table is not known.
 
 ## 8. The output layer: linear and softmax
 

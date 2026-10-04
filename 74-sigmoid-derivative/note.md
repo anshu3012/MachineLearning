@@ -8,6 +8,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Activation functions ([Note 1027](../1027-activation-functions/note.md)).
 > - **Leads to:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
 > - **Compare with:** Tanh ([Note 1027](../1027-activation-functions/note.md)).
 <!-- /where-this-fits -->

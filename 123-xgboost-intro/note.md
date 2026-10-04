@@ -8,7 +8,7 @@ tags: [subject/ml, area/data, area/models-2, step/clean, step/model, concept/mis
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note 9](../09-mldlc/note.md)); Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 122](../122-gradient-boosting-classification/note.md)).
+> - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Taylor series ([Note 600](../600-derivatives-of-one-variable/note.md)); Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)).
 > - **Compare with:** Outliers ([Note 41](../41-what-are-outliers/note.md)).
 <!-- /where-this-fits -->
 
@@ -54,8 +54,8 @@ A common misunderstanding is that XGBoost is a new algorithm. XGBoost is a **lib
 
 So XGBoost is two things together:
 
-- **machine learning**, taken from gradient boosting (with a few changes of its own, section 7);
-- **software engineering**: parallel processing, memory handling, distributed and GPU computing (section 6).
+- **machine learning**, taken from gradient boosting (with a few changes of its own, section 8);
+- **software engineering**: parallel processing, memory handling, distributed and GPU computing (section 7).
 
 ## 4. A short history
 
@@ -126,7 +126,7 @@ Language support matters in practice. Suppose a company's website is written in 
 > **Key point:** XGBoost fits into every stage of a project, from data analysis to deployment.
 
 - **Model building:** NumPy, pandas and scikit-learn (XGBoost models follow the scikit-learn `fit`/`predict` interface).
-- **Distributed computing:** Spark (PySpark) and Dask (section 7.5).
+- **Distributed computing:** Spark (PySpark) and Dask (section 7.6).
 - **Explaining models:** SHAP and LIME.
 - **Deployment:** Docker and Kubernetes.
 - **Workflow management (MLOps):** MLflow and Apache Airflow.
@@ -178,8 +178,6 @@ The accuracy hardly changes; only the time does. The XGBoost paper reports the s
 > ```
 >
 > `tree_method="hist"` (the default in current versions) uses histogram bins (section 8.4); `n_jobs` is the number of processor cores.
-
-> **Extra:** The times are **processor time** (`time.process_time`): the time the program itself spends computing. Wall-clock time also counts waiting while other programs use the processor, so on a busy machine it changes from run to run. Even processor time depends on the machine, so only the ratios are meaningful.
 
 ### 7.2 Parallel processing
 
@@ -341,7 +339,7 @@ The exact greedy algorithm always finds the best split, but on a column with ten
 
 Where should the bin edges go? Equal-width bins ignore the data. XGBoost places them at **quantiles** instead (the method is called the **weighted quantile sketch** (G-2118)): where many values crowd together the bins are narrow, and where values are rare they are wide. The bins then describe the data more accurately, and the trees built on them are more accurate too.
 
-On the Titanic fares, a very skewed column, Figure 4 of the [binning Note](../32-binning-binarization/note.md) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
+On the Titanic fares, a very skewed column, Figure 7 of the [binning Note](../32-binning-binarization/note.md) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
 
 Figure 9 shows the effect on the split search, with survival as the target. The grey curve is the gain of every one of the 247 midpoints that the exact greedy algorithm tries; the best is 79.4. Watch the orange quantile edges crowd where the passengers crowd (the ticks at the bottom): with 8 bins they already reach 77.5, 98 percent of the best, and with 32 bins they find the best split itself. The blue equal-width edges waste most of their places on the few expensive fares and reach only 71.4 even with 64 bins.
 

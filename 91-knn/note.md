@@ -8,7 +8,7 @@ tags: [subject/ml, area/features, area/models-1, area/production, step/reduce, s
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Instance-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Instance-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Feature scaling ([Note 6](../06-instance-vs-model-based/note.md)); ML pipelines ([Note 13](../13-toy-project/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)).
 > - **Leads to:** Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Bias-variance trade-off ([Note 109](../109-random-forest-bias-variance/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)).
 <!-- /where-this-fits -->
@@ -342,7 +342,7 @@ A quick test on synthetic data with 98% of observations in class 0 and 2% in cla
 
 > **Key point:** KNN predicts well but does not say how much each feature contributes; it acts like a black box.
 
-Sometimes we want **inference** (G-943) rather than prediction: we want to learn how the features affect the target. For example, does CGPA or IQ matter more for placement?
+Sometimes we want **inference** (G-941) rather than prediction: we want to learn how the features affect the target. For example, does CGPA or IQ matter more for placement?
 
 KNN cannot answer such a question. KNN labels a query point by its neighbours, but never builds a function that shows how each feature moves the target. Linear or logistic regression, by contrast, gives one coefficient per feature, and can be preferred for that reason even when KNN predicts slightly better (ISL §3.5). For this purpose KNN acts as a **black box model** (G-311): it gives an answer, but not the reasons behind it.
 

@@ -105,6 +105,8 @@ Figure 3 runs all three for 3 epochs on the 100-point example, with the same lea
 - **Stochastic** (300 updates) reaches the minimum, then jumps around it.
 - **Mini-batch of 10** (30 updates) follows a much smoother path and is almost there. In its last epoch its path is about as long as the distance it covers (ratio 1.05), while the stochastic path is 27 times longer than its net move.
 
+Near the minimum, mini-batch still wanders a little, like stochastic gradient descent but less. The same fix applies: a **learning schedule** (G-1070) that shrinks the learning rate as training goes on ([Note 59](../59-stochastic-gradient-descent/note.md), section 6).
+
 Each observation's derivative points in a slightly different direction, because each observation carries its own random error. Averaging 10 of them lets these random parts partly cancel, while still updating 10 times as often as batch. The noise of an average of $B$ values is $1/\sqrt{B}$ of the noise of one value (Goodfellow §8.1.3), so with $B = 10$ each step carries about a third ($0.32$) of a single observation's noise.
 
 ## 5. Choosing the batch size

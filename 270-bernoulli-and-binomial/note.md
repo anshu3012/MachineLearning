@@ -8,7 +8,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/binomial-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)).
+> - **Builds on:** Probability distributions ([Note 210](../210-statistics-roadmap/note.md)).
 > - **Compare with:** Poisson distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
 <!-- /where-this-fits -->
 

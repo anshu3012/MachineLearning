@@ -8,7 +8,7 @@ tags: [subject/deep-learning, area/dl-optimizers, area/production, step/tune, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note 1026](../1026-regularization-in-dl/note.md)); Keras workflow ([Note 1026](../1026-regularization-in-dl/note.md)).
+> - **Builds on:** Overfitting ([Note 7](../07-challenges-in-ml/note.md)); Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)).
 > - **Compare with:** Grid and random search ([Note 118](../118-adaboost-hyperparameters/note.md)).
 <!-- /where-this-fits -->
 
@@ -230,7 +230,7 @@ After the 90 further epochs, the RMSProp model reaches a validation accuracy of 
 
 Figure 4 shows how little of the range 5 trials cover: 11 of the 16 values were never tried, so the winner, 56, is the best of those drawn, not necessarily the best possible.
 
-Without `step`, every whole number from 8 to 128 can be drawn; Keras Tuner then stores the step as 1 (Notebook).
+Without `step`, every whole number from 8 to 128 can be drawn.
 
 ## 7. Tuning the number of layers
 

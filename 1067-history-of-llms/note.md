@@ -8,6 +8,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Transformer ([Note 1071](../1071-introduction-to-transformers/note.md)); Decoder-only GPT ([Note 1087](../1087-decoder-only-gpt/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

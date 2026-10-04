@@ -8,6 +8,7 @@ tags: [subject/ml, area/features, area/foundations, step/foundations, step/featu
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Encoding categorical data ([Note 23](../23-what-is-feature-engineering/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)).
 > - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)); Categorical and sparse categorical cross-entropy ([Note 633](../633-mle-in-machine-learning/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 > - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)); Word embeddings ([Note 1057](../1057-rnn-sentiment-analysis/note.md)).
 <!-- /where-this-fits -->
@@ -124,7 +125,7 @@ The word *dimension* is used in two different ways, and mixing them up is a comm
 
 Both statements are true at the same time: [1, 2, 3, 4] is a 1D tensor and a 4-dimensional vector.
 
-*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. Each of the three numbers is a **feature** (G-772; an input variable, one column of the data table). The list [8.1, 91, 0] is also a place in space. Give each feature its own axis: CGPA, IQ and state. Then read the list as walking instructions from the origin (the point where all three axes are 0):
+*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. The state is a name, West Bengal or Karnataka, so we write it as a number first: 0 for West Bengal, 1 for Karnataka. Replacing categories with numbers like this is **label encoding** (the [ordinal and label encoding Note](../26-ordinal-label-encoding/note.md)). Each of the three numbers is a **feature** (G-772; an input variable, one column of the data table). The list [8.1, 91, 0] is also a place in space. Give each feature its own axis: CGPA, IQ and state. Then read the list as walking instructions from the origin (the point where all three axes are 0):
 
 1. The first number says how far to walk along the CGPA axis: 8.1.
 2. The second number says how far to walk along the IQ axis: 91.
