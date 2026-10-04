@@ -28,7 +28,7 @@ Figure 1 is the map of the whole group. First we decide whether the outliers are
 
 Every class has one student who scores top marks while the rest of the class struggles to pass. That student is an outlier of the class: nothing like everyone else.
 
-In data, an **outlier** is a data point (an **observation**: one record, one row of the data table) that lies very far from the other data points. Each **feature** is an input variable (one column of the table), and the **target** is the output a model predicts. An outlier can be very high or very low, but never in the middle: an average value is by definition not an outlier.
+In data, an **outlier** (G-1420) is a data point (an **observation** (G-1374): one record, one row of the data table) that lies very far from the other data points. Each **feature** (G-772) is an input variable (one column of the table), and the **target** (G-1949) is the output a model predicts. An outlier can be very high or very low, but never in the middle: an average value is by definition not an outlier.
 
 ### 2.1 One outlier changes the mean
 
@@ -57,7 +57,11 @@ One extreme value can quietly spoil a whole analysis in this way. In ML, outlier
 
 A regression line pulled by outliers is drawn in the [feature engineering Note](../23-what-is-feature-engineering/note.md) (section "Detecting and removing outliers"). Here we keep one example in mind: students' weekly study hours against their marks, where more hours bring more marks.
 
-Two students studied very little and still scored top marks. These two outliers tilt a **linear regression** line towards them, so it fits the other students worse. Outliers are dangerous because they are often hidden: nothing warns us, the model just performs worse.
+Two students studied very little and still scored top marks. These two outliers tilt a **linear regression** (G-1094) line towards them, so it fits the other students worse. Outliers are dangerous because they are often hidden: nothing warns us, the model just performs worse.
+
+Figure 3 puts numbers on it with example data for 20 students. The line through them rises 3.33 marks per study hour and misses a typical student by 4.5 marks. Adding the two outliers flattens the slope to 1.91, and the line now misses the same 20 students by 8.4 marks on average, almost twice as much. The line is chosen to keep the total squared distance to all points small, so two far points pull it towards themselves.
+
+![Example data: 20 students' study hours and marks, with the least-squares line (blue). Adding two students with few hours and top marks (red crosses) tilts the line (red) away from the other 20.](images/study_marks.gif)
 
 ## 4. When to remove and when to keep outliers
 
@@ -67,7 +71,7 @@ Outliers are not always harmful. Deciding whether an outlier is dangerous or a g
 
 ![The three cases of this section as one decision path](images/keep_or_remove.png){width=65%}
 
-Figure 3 puts Sections 4.1 to 4.3 in order as questions to ask about an outlier.
+Figure 4 puts Sections 4.1 to 4.3 in order as questions to ask about an outlier.
 
 ### 4.1 Remove: errors in the data
 
@@ -81,7 +85,7 @@ Since the true value cannot be recovered, the best choice is to remove it (or tr
 
 > **Key point:** In anomaly detection, such as spotting credit card fraud, the outliers are exactly what we are looking for.
 
-Some problems are about finding unusual cases. **Anomaly detection** algorithms search for data points that do not behave like the rest. A common example is fraud detection: finding the few credit card transactions that look wrong among millions of normal ones.
+Some problems are about finding unusual cases. **Anomaly detection** (G-201) algorithms search for data points that do not behave like the rest. A common example is fraud detection: finding the few credit card transactions that look wrong among millions of normal ones.
 
 There, the fraudulent transactions are the outliers. If we removed the outliers, we would remove the very thing the model must learn to find.
 
@@ -106,11 +110,11 @@ Spotting outliers is usually simple; the rules in Section 8 do it. The hard part
 
 > **Key point:** Algorithms that learn weights (linear and logistic regression, AdaBoost, deep learning) are strongly affected; tree-based algorithms hardly are.
 
-Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest.
+Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (coefficients, G-407; one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest.
 
 ![A weight-based fit is pulled by a far point; a tree's split depends only on the order of the values](images/weights_vs_trees.png){width=85%}
 
-Figure 4 shows the two behaviours side by side.
+Figure 5 shows the two behaviours side by side.
 
 | Affected strongly | Hardly affected |
 |---|---|
@@ -139,6 +143,10 @@ Once we decide to handle outliers, the work has two parts (Figure 1):
 
 Section 7 maps the treatments, Section 8 the detection rules. Notes 42 to 44 then put each rule to work.
 
+Figure 6 runs both parts on the 714 known Titanic ages, with the IQR fences of section 8.2 as the detection rule. The fences sit at $-6.69$ and $64.81$ years; no age is below the lower one, and 11 ages are above the upper one. Capping (section 7.2) then moves those 11 ages onto the fence and keeps every row.
+
+![The 714 known Titanic ages: detect (IQR fences, dashed), mark the 11 outliers above 64.81 (red), then treat them by capping onto the fence (green).](images/detect_treat.gif){height=30%}
+
 ## 7. Ways to treat outliers
 
 > **Key point:** Trimming removes the outliers, capping pulls them back to the limit; treating them as missing values and discretizing them are used less often.
@@ -147,7 +155,7 @@ Section 7 maps the treatments, Section 8 the detection rules. Notes 42 to 44 the
 
 > **Key point:** Trimming deletes the observations that hold outliers; it is fast, but too much trimming shrinks the data.
 
-**Trimming** removes every observation whose value lies outside the limits. In Section 3 we would simply delete the two students.
+**Trimming** (G-2019) removes every observation whose value lies outside the limits. In Section 3 we would simply delete the two students.
 
 - **Advantage:** very fast and simple.
 - **Disadvantage:** if there are many outliers, we delete many observations, and the data gets thin.
@@ -156,7 +164,7 @@ Section 7 maps the treatments, Section 8 the detection rules. Notes 42 to 44 the
 
 > **Key point:** Capping keeps the observations but replaces every value beyond a limit with the limit itself.
 
-Outliers always sit at an end of the data, either too high or too low. **Capping** sets the two limits and moves every value beyond them back onto the limit. Figure 5 compares it with trimming, with limits 20 and 90.
+Outliers always sit at an end of the data, either too high or too low. **Capping** (G-345) sets the two limits and moves every value beyond them back onto the limit. Figure 7 compares it with trimming, with limits 20 and 90.
 
 ![Trimming deletes the four outliers; capping keeps all 20 rows and moves the outliers onto the limits](images/trim_cap.png)
 
@@ -164,14 +172,14 @@ Outliers always sit at an end of the data, either too high or too low. **Capping
 - Values above 90 (here 96 and 99) become 90.
 - All 20 observations stay; with trimming only 16 remain.
 
-Capping with limits set by percentiles is called **winsorization**; Note 44 covers it.
+Capping with limits set by percentiles is called **winsorization** (G-2123); Note 44 covers it.
 
 ### 7.3 Two less common treatments
 
 > **Key point:** An outlier can also be treated as a missing value, or hidden inside a range by discretization.
 
 - **Treat as missing:** replace each outlier with `NaN` and then fill it in with any imputation technique from Notes 36 to 40.
-- **Discretization (binning):** turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (Note 32). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
+- **Discretization** (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (Note 32). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
 
 Trimming and capping are used far more, and they are what Notes 42 to 44 focus on.
 
@@ -179,7 +187,7 @@ Trimming and capping are used far more, and they are what Notes 42 to 44 focus o
 
 > **Key point:** The feature's shape decides the rule: mean ± 3 standard deviations for a normal feature, the IQR fences for a skewed one, percentiles for any feature.
 
-Many detection methods exist; these three are the most important. Figure 6 applies each to example data, with the limits as dashed lines and the flagged values in red.
+Many detection methods exist; these three are the most important. Figure 8 applies each to example data, with the limits as dashed lines and the flagged values in red.
 
 ![The three detection rules: mean plus or minus 3 standard deviations, the IQR fences, and the 1st and 99th percentiles](images/detection.png){width=100%}
 
@@ -201,7 +209,7 @@ The box-plot fences of the [univariate analysis Note](../20-univariate-analysis/
 
 The third rule works whatever the shape of the feature. We pick two percentiles, for example the 1st and the 99th, and every value below the first or above the second is an outlier.
 
-The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 6, right). Note 44 covers this rule together with winsorization.
+The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 8, right). Note 44 covers this rule together with winsorization.
 
 ## 9. The outlier Notes, in order
 

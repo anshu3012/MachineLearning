@@ -41,7 +41,7 @@ Recall the network of the part 1 Note: $X$ (6 × 6) → convolution with $W_1$ (
 
 The chains for the filter's weights and bias are
 
-$$\frac{\partial L}{\partial W_1} = \underbrace{\frac{\partial L}{\partial A_2}\frac{\partial A_2}{\partial Z_2}}_{a_2 - y}\cdot\frac{\partial Z_2}{\partial F}\cdot\frac{\partial F}{\partial P_1}\cdot\frac{\partial P_1}{\partial A_1}\cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial W_1}$$
+$$\frac{\partial L}{\partial W_1} = \underset{a_2 - y}{\underbrace{\frac{\partial L}{\partial A_2}\frac{\partial A_2}{\partial Z_2}}}\cdot\frac{\partial Z_2}{\partial F}\cdot\frac{\partial F}{\partial P_1}\cdot\frac{\partial P_1}{\partial A_1}\cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial W_1}$$
 
 and the same with $\partial Z_1/\partial b_1$ at the end. Part 1 found the first two factors. We now take the rest one at a time, from the output backwards.
 
@@ -59,7 +59,7 @@ From $Z_2 = W_2F + b_2 = w_1f_1 + w_2f_2 + w_3f_3 + w_4f_4 + b_2$, the derivativ
 
 The gradient with respect to $F$ must have the shape of $F$, 4 × 1, because there is one gradient for every value of $F$. $W_2$ is 1 × 4, so we use its transpose:
 
-$$\frac{\partial L}{\partial F} = \underbrace{W_2^{\mathsf T}}_{4 \times 1}\thinspace\underbrace{(a_2 - y)}_{1 \times 1}$$
+$$\frac{\partial L}{\partial F} = \underset{4 \times 1}{\underbrace{W_2^{\mathsf T}}}\thinspace\underset{1 \times 1}{\underbrace{(a_2 - y)}}$$
 
 ## 5. Back through flatten: reshape
 

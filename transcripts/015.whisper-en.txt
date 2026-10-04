@@ -1,0 +1,371 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 15.
+So now we are slowly moving ahead in the machine learning process.
+In the last video we saw how to frame a machine learning problem.
+And now from today's video till the next 3-4 videos we will focus on data gathering.
+So as you know already in machine learning everything is about data.
+In fact, if you give less data to a very good algorithm, then its performance will be worse than a bad algorithm to which you give a lot of data.
+So data is very important. So what are we going to do? We will learn to bring data from different sources.
+So that in the future, if you are given any problem statement and you need data, then you can bring that data.
+So, I will share my screen and I will show you what all sources we are going to learn to get data from.
+So, let's start. So, in total we will divide this work into four videos.
+So, we are doing data gathering step by step.
+Sorry for the handwriting.
+First of all, in this video we will work with CSV files.
+So, when you start your machine learning journey, you have to work with data format, at least initially, that is CSV file format.
+If you go to Kaggle and search any data set, then there is a 90% chance that you will get CSV file format.
+And honestly, getting CSV file makes things easy in comparison to other data gathering techniques.
+So this is the easiest one, we will cover it first and it will be used the most, at least in your initial journey.
+Gradually when you will tackle difficult problems, then different data sources will come.
+But yeah, this is the first one. Second, we are going to focus on JSON and SQL data.
+So, if you go to Kaggle, then you will see another file format a lot, that is JSON,
+whose full form is JavaScript on notation and generally when you bring data through APIs,
+then it stays in JSON format. It is a universally accepted format of data.
+If you want to talk about two programming languages together, then JSON is generally used.
+And you must be knowing SQL. Basically you are taking data from your database. That is SQL.
+So these two file formats are also used a lot on Kaggle. So we will be comfortable with these three first.
+After that we will learn two more things. We will learn one. Fetch data from an API.
+We will pull data from a server of an actual website and modify it according to our requirement.
+This will help you a lot because you may need to work with APIs in the future.
+And the last one would be web scraping.
+So sometimes what will happen is that you will not have a data source.
+And the data will be on some other website which you don't want to give.
+There are no APIs.
+In that case, you have only one option left.
+That is to scrape the website.
+You run a parser on that website in Python or any other language and that parser navigates the HTML code of that website and gives you the work things.
+So this will be video 1, this will be video 2 which we will see tomorrow, this will be 3 and this will be 4.
+So for now I am focusing on these 4 things.
+Apart from this, there are some other things like Google's Big Query, you can work on that.
+You can work on how to fetch data by making a data warehouse. Apart from this, there are NoSQL databases,
+how to fetch data from them, you can learn that too. But I feel that since you are just starting,
+if you learn these 4 things, then you can solve your 90% problem. In fact, you can solve 95% problem.
+then you can learn on the go or I will do something about it.
+So anyways, this is the plan. So let's start with today's video.
+Today we are going to focus on CSV. So I have a notebook over here.
+And this is my setup guys. I have made a notebook working with CSV.
+This is my Jupyter Notebook and here I have already uploaded some files.
+These are different CSV files except this one. This is a TSV file.
+I will tell you about all these. So, first I will tell you what is CSV.
+If you don't know, then you should know what is CSV.
+So, what you see on your screen, this is CSV file format.
+Means the data here, first of all the full form of CSV is comma separated values.
+So if you see here, every row is in one line and the separation between two values is actually with comma.
+So this is a very famous file format which is used a lot in machine learning data science.
+And we will learn to work on this first.
+Now you can see here it is also called as TSV.
+TSV means tab separated values.
+Everything is almost same but there are tabs between two values.
+TSV is not that famous but sometimes we get such a data set.
+So we will see how to handle that in this video.
+So this is my notebook.
+Here I have made topics from lines.
+See we will mainly focus on this function.
+If you have seen my pandas videos then I will tell you in the first video.
+Read underscore csv file about this function.
+If you are getting data in CSV format then this is the function that you will use.
+Honestly, I could have shown you only one single function but I made a very long notebook.
+The reason is that read underscore CSV function has many parameters and it can help you in many ways.
+But what beginners generally do or what you see on YouTube is that
+only one or two things are explained and left.
+But what I want is that this video should work as a reference for you.
+That in future, if you are stuck in any CSV file in any way,
+then you can refer this video by flipping it.
+So I am going to discuss a lot of parameters.
+I will discuss around 15-16 parameters.
+So the video can be a little big.
+But if you will see then in future you will not have any problem with CSV files.
+Let me first show you.
+If you see the documentation of readcsv, pandas, then you have to go to the website and notice that there are so many parameters.
+There are so many parameters. They have written a code to handle many types of cases.
+If you study these parameters properly, then you will not have any problem with csv files.
+So I am not covering all of them because to be honest there is no need to cover all of them.
+I have never faced such a problem.
+I will tell you the problems which I have faced.
+So I will come back to my notebook and from here we will start the video.
+So first of all, read underscore csv can load your csv file if you have csv file on your machine
+or if you have its URL then also you can do this work.
+So first I am showing you that if this file is there on your machine
+as you can see this file is there here, august underscore train dot csv
+So, it is very simple to load it. Since this file and this file are in the same folder,
+then I have to write the name of the file directly.
+Otherwise, I would have given a relative path that this file is in a folder.
+You might know that. You just have to write this code.
+pd.readcsv file path and then you just have to print df.
+And see guys your file is loaded. This is loaded from your machine locally.
+Now if you want, let's say I have this CSV file on this URL.
+This is actually on GitHub and someone has put this in GitHub user.
+And I got this URL, I have to open this particular CSV file in my Python code on my machine.
+Now obviously this is on the GitHub server. So for this you have to work a little hard.
+This is a code snippet. To be honest, you don't have to write any code yourself.
+I will give you the GitHub link of this notebook. You can keep it in any of your folders.
+In future, if you want to load any CSV file data from the server, you can copy and paste this code snippet.
+What you have to do here is to import a module called request.
+By doing request.get, you can fetch all the content of the file from that particular URL.
+like this and it gets stored in the request. Now what you are doing is that you are fetching only the text from all the content.
+So all this text comes and then you are reading it. If you focus on this thing, then you have basically passed the headers.
+Whenever you work with the request module, what you are actually doing is that you are working like a client as if your program is a user
+there is a user who is asking for content by hitting on that URL. So, from here you are just telling that request went with these headers.
+Okay, it's okay. It's not that important. You just need this code snippet. And you just have to copy this URL and paste it here in this variable.
+That's it. In future, whenever you want to use this code, you just have to paste it in the URL. And as soon as you run this code,
+It takes a little time because you are loading from the server and also depends on how big the data is.
+So you can see this is my data set. 194 rows and 2 columns.
+So till now I have told you that you can load CSV files from your local machine as well as from the server.
+Both the codes are in front of you. Now let's move on to the next topic.
+Now here there is a step parameter. Step parameter is there in your function.
+Let me show you one thing, here this function, this data, movietitlesmetadata.tsv, now this is tab separated value.
+Now default, if you see, let me show you, if you press shift-tab, then here you will see that sep's default value is comma.
+That's why read underscore csv by default loads csv files.
+Now this can be a problem sometimes, especially if you are dealing with tsv type files
+where the values are not separated from commas.
+So see here, if I run this code, read underscore csv, if I run this code, see what will happen.
+Everything went wrong because it didn't get a comma and that's why everything came in one single line.
+So in this type of cases what you have to do is, you just have to overwrite the value of set parameter to slash t.
+Slash t means tabs. So you are saying that rather than finding commas, find tabs and create columns on its basis.
+And now as you run this code, here is your output.
+Now if you notice here, one thing is wrong that you don't have the name of the column
+Instead, the first row became the column
+This happens sometimes
+So what you have to do in this case
+See, what you will do is, if you see here, we have another parameter in this function's parameters list by the name of names.
+Here, if you don't have the name of the column, then you can pass a list from yourself with the name of the column and it will automatically handle things.
+Here you will pass a parameter by saying names, you will pass a list where you will give the name of all these columns.
+Now you will have to think about the name yourself, obviously if you can understand by looking at the data then you will write it.
+Like the first serial number is here, second I think is the name of the movie, third I think is release year.
+I think the fourth one is Rating and I guess the number of votes is correct and the last one is Jowners.
+Right, and as soon as I will run this code, you can see that the first row header has become normal again
+and all your column names have come here.
+So, in future if you are stuck in such a way that your data doesn't have column names defined and your first row column has become a column name
+then you can use this code snippet. I hope you understood this thing.
+Now, next is index call parameter. So, let me show you what it does.
+So, here if you see this data, august-train.csv, whatever this data is, I don't know what this data is.
+If you notice here, there is a column Enrollee ID, now there is an index here and there is an e-ID here.
+There is no need to keep two indexes, so sometimes if you have a column which is not going to work in your analysis,
+then you can convert it into an index like this. You just have to write the name of the column and the index column here.
+copy paste and now you will run it, you can see your default pandas index which is automatically generated
+it is replaced by this, it is not very important but you can do it if you want, so this is a parameter
+next is header parameter, this is a bit important because I have faced this problem sometimes
+I have a test.csv file. When I am running it, what is happening is that your first row is actually the name of the column.
+But since whoever generated this csv, in front of that column name, in front of that row, put 0.
+So now Panda is not able to understand that this is not a normal row, these are your column headers.
+So if you want to convert it to the name of the column and start your data frame from here
+then you have to write header equals to 0, header equals to 0, I guess 1, you have to write 1
+your first row is starting from 1, you have to specify this
+so automatically this thing becomes the name of your column
+So these are two different problems, one when you don't have column names and second when your column names are treated like rows
+So in both these cases you can use these two code snippets. I hope you understood this too.
+Next is use calls parameter. So like I have this data and there are many columns in it.
+Now what happens in machine learning is that when you get the data set then not necessarily you will use all the columns.
+In fact, you know from the beginning that you don't need some columns or you need some columns only.
+So in this case, what you can do is that while importing the data, you can tell the name of the columns,
+the columns you want, the rest of the columns will be automatically removed.
+Just I'll give you an example. Let's say I want enrollee ID, gender and education level.
+I just need 3 columns. You can take more but take the example of 3.
+All you have to do is use use calls and in a list you have to tell the name of all the columns that you want.
+Like this. Gender and education level.
+And now as soon as you run this code you will get the name of the entire data frame.
+You will get the data frame of only these three columns.
+So, you can do this to filter out. You have such options in Pandas but this is an easy way.
+It got eliminated in the beginning. So, I wanted to tell you this small thing.
+Next is squeeze parameter. So, sometimes what happens is that you need only one column.
+This happens very rarely. I use an example to teach my students.
+So, I thought I will teach you. Like I only need one column and if you make squeeze equal to 2
+So now this pandas doesn't become a data frame, it becomes a pandas series.
+This is what happens in this thing. If I run it, then only the enroll idea has come.
+And if I had written gender here, then only gender would have come.
+And this is a pandas series object. This is not a data frame.
+So this doesn't work that much. But since we are studying, I have taught you.
+So next is skip rows and end rows. You must be understanding by the name skip rows.
+In this, whatever values you will give, you will skip those particular rows.
+You will not bring them in your Python code.
+For example, here I have data.
+Let's say I don't want the first and second rows.
+So what can I do?
+I can write here, skip rows equal to 0 comma 1.
+Now you notice that these two should not come.
+and output should be this, okay, 11561, third one, I guess, I didn't pay attention,
+yeah, see, start one from here, so it's not necessary that you give consecutive numbers here,
+let's say you want to remove 0 and you want to remove 2, so you can write this too,
+skip rows equal to zero comma two so you can see uh one one five six one abhi bhi aaya because
+uh weird hai nahi aana chahiye tha skip rows equals zero comma five
+so zero hot kya aur fir five bhi hot kya pata nahi kuch bad bad hua guys aap log ek baat check
+If you go to documentation, you can see that you can use it in different ways.
+An interesting use case is that you can call a function and you can skip the rows according to the logic written in that function.
+For example, one logic can be that I have to remove the rows in the multiple of 5.
+Or I have to keep the odd rows and remove the even rows.
+You can implement this type of logic if you want and you should try it yourself.
+So this is skip rows. Next is N rows.
+So what does N rows do? You are importing the same rows as the value you will give in N rows.
+For example, if I make N rows 100, then at this point there are 19000 rows.
+But as soon as I will make N rows 100, now only 100 rows will come.
+So it restricts the number of rows you are importing.
+I will tell you the benefit of this.
+If you are working with very big data sets in which there are 10 lakh, 1 crore type of rows
+and you are not able to load that much in memory because your RAM is less.
+So in such scenarios you can intelligently use N rows to manipulate your data.
+So, these two are also useful. Sometimes they are useful. So, you should know.
+Next is encoding parameter. This is one thing which had troubled me a lot when I started machine learning.
+You will find some datasets on Kaggle whose encoding is not UTF-8.
+Means there is a default encoding. What did I do?
+If you go here, then there is a parameter called encoding which I can't see right now.
+Anyways, that is UTF-8, the most normal one, generally.
+And many of your datasets will run normally because they are UTF-8 encoded.
+But then sometimes you will get some datasets where they will be encoded differently with different character sets.
+like emojis data set is a different encoding or you are importing a specific language data set like Hindi and all
+then it is possible that character encoding will be something else, something other than UTF-8.
+In that case, what will happen is, like this is a data set, zomato.csv, this is a very famous data set on which I have worked
+and as soon as you load it for the first time, you will see this error.
+As you can see this error, you have to understand that your encoding is not UTF-8 of that data set.
+So you have two options, either you go to any editor like Sublime Text and change its encoding.
+And the second option is that you find out what is its encoding and pass the same value in encoding parameter.
+Like the value here is Latin-1. This is an encoding format.
+And now as you are running it, it is running.
+So, if you get this then it is good. If you don't get this then you can go to any code editor and change its encoding on you.
+Now, if it has to be done then it will be done. Now, if you have used such characters which are not encoded in UTF-8
+then it will be skipped or it will look like a blank. So, anyways you had to show this thing because I was very worried
+when I started all this. Ok. Next is skip bad lines. So sometimes what happens is that you will get some data sets
+in which in between some rows there will be some problem. What does this mean? That in your entire CSV file there are 5 columns.
+Means in every row there are 5 values. But in between some rows there are 6 values, 9 values, 10 values.
+So pandas can't read that.
+So look at the data set here.
+I downloaded this data set while building a book recommender system.
+This is the data set of books.
+Now the separator here,
+CSV should be comma separated value.
+Here it is semicolon because whoever made it, made it in a different way.
+And here encoding is in Latin.
+But as soon as you run it,
+then the parser error will come.
+And if you read the error,
+it will say expected 8 fields in line 6452 saw 9, it means it was bringing all the data in memory
+then in row number 6452 it understood that instead of 8 columns there are 9 values
+so your code is row, in this case you have to do one parameter error bad lines
+If you want to make it false, then those lines will get skipped and your output will also get skipped.
+So if you ever see a parser error, then there is a great chance that you are facing this kind of problem.
+In that case, you have to do Error Badlines and it will solve your problem.
+Now, let's move forward and let's discuss Dtypes parameter.
+So, what is the scene of Dtypes?
+Dtypes is understood by the name DataTypes.
+So, what happens is that when your ReadCSV function looks at a CSV file,
+looks at its data, then it analyzes column-wise that what type of value is stored in that column.
+So, all this is default.
+But if you want, you can override this behavior.
+because sometimes it is very useful. Let me show you when, like here we had a data which we also used a while ago.
+Its name was, I will just open it, august-train.csv. Now if you notice here, the last column, its name is target.
+And the values in target are actually float. But the values are 1 and 0 only.
+means you can easily represent it in integer but whoever created the data
+there it was represented in float
+so in vain float is being used, it will take more memory, there is no point
+so first of all let me show you that this is really a float
+you can call info function
+and see in training it is showing float 64
+so if you don't want this and you want to convert it into integer
+then what you can do is you can use dtype parameter
+Here you have to give the name of the column in the dictionary, the name of the column is target and which data type you have to convert it to, integer.
+Now as you will run it, you would see that the last column is now an integer.
+If I do info, then here also you will see that it has been converted to int32.
+So sometimes it is useful, you can analyze it in the beginning itself, if you can save the memory then save it.
+So sometimes it is useful.
+Now next, this is very important.
+So what happens is that whenever you use read csv, by default all the date columns are passed as string.
+So if that date becomes a string then you will not be able to use the date functionality.
+means you can't fetch which month is going on, which date is going on, which year is going on, you have to keep it in date-time format.
+So what you do to do this, let me first show you, I have a data set, pd.readcsv and it is basically an IPL data set.
+And if you notice here, this is the date, when did every match of IPL happen, this information is in this column.
+Now if I show you by doing info, then you would see the date has become an object.
+If you have read pandas, then you would know that object means string in pandas.
+So if you want to parse it in normal date time, then you get a parameter called parse underscore date.
+Here in a list, you put the name of those columns which you want to parse as date.
+So if I run it, you will not see any change in the output. But if you do info, then you would see that this is date time 64.
+And this is very useful. Now it will be treated like a date. You can put filters on the date after this date,
+between this date and this date. You can put filters like this which will help you a lot.
+If this was a string, then you could not implement the date logic. Now you have to try one more thing.
+If you go to parse dates in pandas documentation, you will see that you can put the name of columns in a list.
+If you have multiple columns which are dates, then you will pass the name in this format or you will pass the index of the column.
+But if you have a data set where month is different, day is different and year is different,
+So if you want you can merge them and make a single column, its syntax is this, you have to pass one more list in this list
+In which the name and index of all the columns will be there and what will it do?
+It will combine columns 1 and 3 and parse as a single date column, this is very useful thing
+Sometimes this can happen in some data sets, so it will help you a lot to merge, okay
+You can do the same thing in dictionary also, you don't have to do anything, you have to pass dictionary
+Here in the list, you have to make a single date column by combining all the columns.
+And then what to call it? If you want to call it foo, then call it foo.
+So try this and see if you get any data set like this.
+I didn't get it. If I got it, I would have shown it to you.
+So this is handling dates.
+So guys, next is converters.
+And converters are actually a very powerful feature of read underscore csv.
+And I will let you know why.
+Sometimes you want to apply some transformations on your columns even before you have loaded the data set.
+I will give you an example. We have this data set of IPL. This is the data set.
+Here you can see the names of the teams. Let's say I don't want this full name.
+What I want is short names. Like in the case of Royal Challenges Bangalore, RCB. In the case of Mumbai Indians, MI.
+I want this name rather than this one. So what can I do? I can actually create a function, let's call it rename.
+If you give it a name, it will check if name is equal to equal to, let's say RCB.
+So, if we get this then it will be returned as rcb else name as it is will be returned.
+Assume this is our function. So, if you see in rename if I pass rcb then I can see rcb text.
+Now I have to apply this transformation, so what I will do is, I will write converters, here I will pass a dictionary
+and in dictionary I have to write the name of that column on which I have to apply this transformation, team1
+and then I have to tell the name of the function, that is rename and as soon as I will run this code, you can see
+In team 1, wherever there is RCB, that transformation is applied in all those places.
+And in this way, you can apply any number of transformations on any number of columns.
+So this is a very powerful technique which you can use in the future.
+So I wanted to show you one more thing.
+Now there are two things left.
+One is NA underscore values parameter.
+What is the main funda in this?
+First, I will show you by loading the data set.
+read underscore csv and we can use this data set, now what is here, if you notice these are nan values
+nan values means missing values, now if these missing values are identified then it is good
+because for this there are built in functions, fill na, drop na, to remove or to fill
+The problem is that in some data sets, you have to put a hyphen instead of NAN.
+So, that hyphen is neither NAN nor has any proper value.
+So, that kind of values are very troubling.
+So, what is done is that in the beginning itself, you can specify what kind of things you want to consider NAN values.
+For example, let's say that male means hyphen. We don't want this.
+So, what I can do is, I can just write any values and in any values, what I can do is, I can pass all those values in a list which will consider my readCSSB function as empty, as NaN.
+So, as soon as I will run it, you can see wherever there was male, it became NaN and NaN is NaN and was there any female? I don't know.
+I don't know, maybe it wasn't female.
+Yes, I could see male everywhere.
+So you started considering that empty value.
+Obviously, you won't do this if it is male.
+If there is a hyphen or percentages,
+if there are placeholders,
+if you want to detect that it is also empty,
+there you will use na underscore values.
+You can pass more values by separating commas here.
+It's up to you.
+So this is one thing, sometimes it is useful.
+Now is the last thing which I find very personally interesting.
+So sometimes what happens is that you are working with a very big data set
+and at the same time if you apply any operation on it then it does not happen.
+Because there is not much space in memory, meaning there is not much space in RAM.
+So here it is useful to divide in chunks.
+Like I am showing you an example, again I am using the same data set.
+I am using the same data set and see here 19000 rows are there, now let's say here 19 lakh rows are there for an example
+so what you can do is while loading you can divide this data set into chunks, how?
+you just have to write here chunk size and you have to specify the number of rows
+the number of chunks you want to make so let's say I have 19000 rows
+I want to make 5,000 chunks, so my first chunk will have 5,000 rows, then next 5,000, then next 5,000.
+And I am storing this in a variable whose name I am keeping as DFS, data frames.
+Now what you can do is, if you want to do anything on your data sets, on your data frames,
+you will do it in a loop, you write this code for chunks in DFS print every chunk's size
+now here every chunk is a data frame and see why did I do size, I didn't want to do size
+I wanted to write shape, I wanted to show you how many rows are there
+As you can see, it is divided equally. 4158, 4158, 4158 and all of them have equal columns.
+Now if you want to apply something in all of them, let's say you want to do group by operation
+or you want to do anything, what you have to do is just keep it in the loop and run that operation.
+I am going to make a video on this and put it in my pandas playlist.
+I got to know this 6-8 months ago that we can handle things like this.
+Because 6-8 months ago I got a data set which was very big and my machine was not able to handle it.
+So this function was very useful for me there.
+So this is also very useful.
+If you get stuck with a very big data set, then this is how you will handle the problem.
+So with that, yes, we have completed this thing.
+And I guess the video is big again.
+It must have been around 30 minutes.
+And trust me, I have told you almost everything.
+You should not have any problem in read-css.
+Tomorrow, we will learn how to work with JSON and SQL data.
+So, I hope you liked the video.
+If so, please consider subscribing and sharing.
+Let's meet tomorrow. Bye.

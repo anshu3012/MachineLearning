@@ -56,19 +56,6 @@ fig.update_xaxes(showticklabels=False)
 fig.update_yaxes(showticklabels=False)
 save(fig, "qq_shapes", 1300, 640)
 
-# 2. building a Q-Q plot by hand: five values against the normal quantiles of 5 equal slices
-vals = np.array([1, 2, 3, 4, 10])
-z = stats.norm.ppf((np.arange(1, 6) - 0.5) / 5)
-slope, intercept = np.polyfit(z, vals, 1)
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=z[[0, -1]], y=slope * z[[0, -1]] + intercept, mode="lines", line=dict(color=RED, width=2.5)))
-fig.add_trace(go.Scatter(x=z, y=vals, mode="markers+text", marker=dict(color=BLUE, size=14),
-                         text=[f"({a:.2f}, {b})" for a, b in zip(z, vals)], textposition="middle right",
-                         textfont=dict(size=19)))
-fig.update_xaxes(title="normal quantile z", range=[-1.7, 2.1])
-fig.update_yaxes(title="sorted value", range=[-1, 11.5])
-save(fig, "qq_build", 760, 460)
-
 # Titanic training set, exactly as in the Notebook
 df = pd.read_csv(here.parent / "data" / "titanic_train.csv", usecols=["Age", "Fare", "Survived"])
 df["Age"] = df["Age"].fillna(df["Age"].mean())

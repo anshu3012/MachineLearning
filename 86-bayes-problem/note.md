@@ -16,7 +16,7 @@ tags: [subject/ml, area/probability, step/foundations, concept/bayes-theorem]
 
 > **Key point:** Three machines make markers; a random marker turns out defective. Bayes' theorem, with the total probability rule for the evidence, gives the chance it came from each machine.
 
-This Note works through a classic problem with Bayes' theorem. The Note also introduces the **law of total probability**, the usual way to compute the evidence $P(B)$ in the denominator. Naive Bayes computes its evidence the same way.
+This Note works through a classic problem with Bayes' theorem. The Note also introduces the **law of total probability** (G-1053), the usual way to compute the evidence $P(B)$ in the denominator. Naive Bayes computes its evidence the same way.
 
 ## 2. The problem
 
@@ -32,16 +32,20 @@ A factory makes markers on three machines:
 
 A marker is picked at random from a batch and turns out to be **defective**. What is the probability that it was made by M3?
 
+Figure 1 shows the idea before any formula. In a typical batch of 1000 markers, M1, M2 and M3 make 200, 300 and 500. Their defect rates leave 10, 9 and 5 defective markers. Knowing the picked marker is defective means it is one of these 24, and only 5 of the 24 came from M3.
+
+![A batch of 1000 markers, one square each, coloured by machine. The 24 defective ones light up (10 from M1, 9 from M2, 5 from M3); given that the marker is defective, only those 24 remain, and M3 supplies 5 of 24 = 0.208.](images/filter.gif)
+
 ## 3. Writing down what we know
 
 > **Key point:** The production shares are priors P(M); the defect rates are likelihoods P(D | M).
 
 Let $D$ be "the marker is defective". In probability language:
 
-- **Priors:** $P(M1) = 0.2$, $P(M2) = 0.3$, $P(M3) = 0.5$.
-- **Likelihoods:** $P(D \mid M1) = 0.05$, $P(D \mid M2) = 0.03$, $P(D \mid M3) = 0.01$.
+- **Priors** (G-1565): $P(M1) = 0.2$, $P(M2) = 0.3$, $P(M3) = 0.5$.
+- **Likelihoods** (G-1086): $P(D \mid M1) = 0.05$, $P(D \mid M2) = 0.03$, $P(D \mid M3) = 0.01$.
 
-The question asks for $P(M3 \mid D)$. By Bayes' theorem,
+The question asks for $P(M3 \mid D)$. By **Bayes' theorem** (G-269),
 
 $$P(M3 \mid D) = \frac{P(D \mid M3) \times P(M3)}{P(D)}$$
 
@@ -49,7 +53,7 @@ Everything on the right is known except $P(D)$, the overall probability that a m
 
 ![The problem as counts in a batch of 1000 markers. Top: the priors, with widths to scale. Bottom: one square per defective marker, from each machine's count times its defect rate](images/counts_1000.png){width=95%}
 
-Figure 1 turns the priors and likelihoods into expected counts for 1000 markers. Watch the bottom row: M3 makes the most markers but supplies the fewest defective squares.
+Figure 2 turns the priors and likelihoods into expected counts for 1000 markers. Watch the bottom row: M3 makes the most markers but supplies the fewest defective squares.
 
 ## 4. The evidence: total probability
 
@@ -63,11 +67,11 @@ Each term is a likelihood times a prior, by $P(A \cap B) = P(B \mid A) P(A)$ fro
 
 $$P(D) = P(D \mid M1)P(M1) + P(D \mid M2)P(M2) + P(D \mid M3)P(M3)$$
 
-This sum is the **law of total probability**. With numbers:
+This sum is the law of total probability. With numbers:
 
 $$P(D) = 0.05 \times 0.2 + 0.03 \times 0.3 + 0.01 \times 0.5 = 0.010 + 0.009 + 0.005 = 0.024$$
 
-So 2.4% of all markers are defective. Figure 2 shows the same calculation as a probability tree.
+So 2.4% of all markers are defective. Figure 3 shows the same calculation as a **probability tree** (G-1573).
 
 ![Probability tree: each path multiplies its branches](images/tree.png){width=100%}
 
@@ -79,7 +83,7 @@ $$P(M3 \mid D) = \frac{0.01 \times 0.5}{0.024} = \frac{0.005}{0.024} = 0.208$$
 
 The same calculation for every machine:
 
-| Machine | Prior $P(M)$ | Joint $P(D \cap M)$ | Posterior $P(M \mid D)$ |
+| Machine | Prior $P(M)$ | **Joint probability** (G-986) $P(D \cap M)$ | **Posterior** (G-1536) $P(M \mid D)$ |
 |---|---|---|---|
 | M1 | 0.20 | 0.010 | 0.417 |
 | M2 | 0.30 | 0.009 | 0.375 |
@@ -87,7 +91,7 @@ The same calculation for every machine:
 
 ![Share of all markers against share of defective markers](images/posterior.png){height=40%}
 
-Seeing that the marker is defective changes the picture completely (Figure 3). Before, M3 was the most likely source (50%). After, M3 is the least likely (21%), because M3 rarely makes defects.
+Seeing that the marker is defective changes the picture completely (Figure 4). Before, M3 was the most likely source (50%). After, M3 is the least likely (21%), because M3 rarely makes defects.
 
 An everyday picture: three cooks share a kitchen, and one dish comes out burnt. The cook who makes the most dishes is not the likely culprit if that cook almost never burns anything. M1 makes only 20% of markers but 42% of the defective ones.
 
@@ -108,7 +112,7 @@ The three posteriors add up to 1, as they must: the marker came from some machin
 
 > **Key point:** For each class: prior × likelihood. Divide by their total. The largest posterior wins.
 
-A Naive Bayes classifier follows exactly this procedure. The machines become the classes, the values of the **target** (the output we predict). "Defective" becomes the observed **features** (the input variables, one column each of the data table):
+A Naive Bayes classifier follows exactly this procedure. The machines become the classes, the values of the **target** (G-1949; the output we predict). "Defective" becomes the observed **features** (G-772; the input variables, one column each of the data table):
 
 1. for every class, multiply its prior by the likelihood of the observed features;
 2. divide each product by their sum (the evidence) to get posteriors that add to 1;
@@ -118,7 +122,7 @@ Since the evidence is the same for every class, step 2 does not change which cla
 
 ![The three Naive Bayes steps on the marker problem](images/nb_pattern.png){width=95%}
 
-Figure 4 runs the three steps on the marker numbers: M1 has the largest score both before and after dividing by 0.024.
+Figure 5 runs the three steps on the marker numbers: M1 has the largest score both before and after dividing by 0.024.
 
 ## 7. Summary
 

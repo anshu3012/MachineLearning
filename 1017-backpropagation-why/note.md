@@ -21,7 +21,7 @@ The [backpropagation what Note](../1015-backpropagation-what/note.md) and the [b
 
 $$W_{\text{new}} = W_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial W}$$
 
-This Note explains why that line works. The Note reuses ideas from earlier Notes (derivatives, gradients, minima, the learning rate) and applies them to the 2-2-1 regression network.
+This Note explains why that line works. In plain words, training is like walking downhill in fog: we cannot see the whole valley, but we can feel the slope under our feet, and a step against the slope always goes down. The Note reuses ideas from earlier Notes (derivatives, gradients, minima, the learning rate) and applies them to the 2-2-1 regression network.
 
 ![The loss as a function of the output bias $b_{21}$ alone, and 10 updates of $b_{21}$ from $-5$ with four learning rates](images/lr_paths.png){height=58%}
 
@@ -61,6 +61,15 @@ For a function of one variable, such as $y = x^2 + x$, the derivative is $dy/dx 
 
 So "computing the gradient of the loss" means computing its 9 partial derivatives, one per knob: exactly the 9 formulas of the [backpropagation what Note](../1015-backpropagation-what/note.md). Geometrically, each one is the slope of the loss along one of 9 directions.
 
+With many parameters there is no picture of the whole loss surface, but each number in the gradient still has a plain meaning:
+
+- its **sign** says whether that parameter should go down (positive) or up (negative) to lower the loss;
+- its **size** says how strongly the loss reacts to that parameter, compared with the others.
+
+![The nine partial derivatives of the mean loss over the four students, at the start of training and after 1, 2, 3, ... 1,000 epochs of the training loop of the backpropagation Notes (learning rate 0.001). Blue: first-layer weights; orange: output weights; green: biases](images/gradient_bars.gif){height=40%}
+
+In Figure 3, read the first frame as a list of instructions. All nine bars are negative, so every parameter should rise. The output weights have the longest bars ($-16.89$) and the hidden biases the shortest ($-1.03$): at this point a small change to an output weight changes the loss about 16 times as much as the same change to a hidden bias. Then watch the bars over the epochs: by epoch 10 they are small and positive, and they are all within $\pm 0.1$ after 1,000 epochs. A gradient near zero means no parameter has a direction left that lowers the loss: training has reached the bottom (section 9).
+
 > **Extra:** A gradient is more than "a fancy word for a derivative". The gradient is the vector of all partial derivatives, and as an arrow it points in the direction in which the loss rises fastest (section 4.2 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). Gradient descent steps along the opposite arrow, which is where its name comes from.
 
 ## 5. What a derivative tells us
@@ -75,17 +84,17 @@ For the network, $\partial L/\partial W_{11}^{1}$ says how the loss responds to 
 
 ![The **tangent line** (G-1945) sliding along student 1's loss as a function of $W_{11}^{1}$; its slope is the derivative](images/tangent.gif){height=40%}
 
-Figure 3 slides the tangent along the loss curve of $W_{11}^{1}$. Watch the slope's sign: negative (blue) left of the bottom, zero at $W_{11}^{1} = 4.7$, positive (orange) to the right; and its size: steep far from the bottom, flat near it.
+Figure 4 slides the tangent along the loss curve of $W_{11}^{1}$. Watch the slope's sign: negative (blue) left of the bottom, zero at $W_{11}^{1} = 4.7$, positive (orange) to the right; and its size: steep far from the bottom, flat near it.
 
 ## 6. Minimum by setting the derivatives to zero
 
 > **Key point:** At a minimum every slope is zero. For $z = x^2 + y^2$ we can solve that by hand; for a network's loss we cannot, so we walk downhill instead.
 
-At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$ (Figure 4).
+At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$ (Figure 5).
 
 ![Contours of $z = x^2 + y^2$. At three points the arrow is minus the two slopes; only at the star are both slopes zero](images/bowl.png){height=40%}
 
-In Figure 4, every arrow, minus the pair of slopes, points towards the centre; at the centre both slopes are zero and there is nowhere lower to go.
+In Figure 5, every arrow, minus the pair of slopes, points towards the centre; at the centre both slopes are zero and there is nowhere lower to go.
 
 For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W_{11}^{2} W_{11}^{1}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../57-gradient-descent/note.md) does for linear regression.
 
@@ -116,7 +125,9 @@ The algorithm cannot see the curve; it only knows the slope where it stands. Two
 
 ![The same loss $L(b_{21})$ at two points: on the left the slope is negative and the update moves right; on the right it is positive and the update moves left](images/slope_sign.png){height=32%}
 
-The minus sign does the right thing in both cases (Figure 5): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-865, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
+The update rule needs a slope to work with. A loss that moves only in jumps, such as a count of mistakes, is flat almost everywhere and gives no direction (see section 5.4 of the [perceptron loss Note](../1006-perceptron-loss/note.md)). Smooth activations and smooth losses are used so that every small change of a parameter changes the loss a little.
+
+The minus sign does the right thing in both cases (Figure 6): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-865, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
 
 ## 8. Why we need a learning rate
 
@@ -141,9 +152,9 @@ Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag int
 
 In the real network all 9 parameters move at once, each against its own slope. The loss surface has 9 dimensions instead of one, but the reasoning is the same along every direction.
 
-![Gradient descent on two of the nine knobs at once, $W_{21}^{1}$ and $b_{21}$, over all four students; the other seven stay at their starting values. Left: the path on the contours of the mean loss (the star is the lowest point). Right: the predicted packages (diamonds) move onto the real ones (dots). Learning rate 0.2.](images/loss_walk.gif){height=50%}
+![Gradient descent on two of the nine knobs at once, $W_{21}^{1}$ and $b_{21}$, over all four students; the other seven stay at their starting values. Left: the path on the contours of the mean loss (the star is the lowest point). Right: the predicted packages (diamonds) move onto the real ones (dots). Learning rate 0.2. Idea of a ball rolling down a loss surface after 3Blue1Brown, "Gradient descent, how neural networks learn"](images/loss_walk.gif){height=50%}
 
-Figure 6 shows two parameters moving together, each against its own slope. Watch the first step: the ball drops straight into the long valley (mean loss 28.0 to 1.8) and the predictions jump up to the real packages. After that the slope along the valley is gentle, so the steps are small and the ball slides slowly towards the star: the mean loss is 0.25 after 100 steps and settles at 0.045 near step 1,000. The picture of a ball rolling down a loss surface follows Sanderson (3Blue1Brown), here redrawn with our own network.
+Figure 7 shows two parameters moving together, each against its own slope. Watch the first step: the ball drops straight into the long valley (mean loss 28.0 to 1.8) and the predictions jump up to the real packages. After that the slope along the valley is gentle, so the steps are small and the ball slides slowly towards the star: the mean loss is 0.25 after 100 steps and settles at 0.045 near step 1,000.
 
 ## 9. When to stop: convergence
 
@@ -153,11 +164,29 @@ The algorithm has **converged** (**convergence**, G-472) when the updates stop c
 
 ![With learning rate 0.1: $b_{21}$ after each update (left) and the size of each change (right, log scale)](images/convergence.png){height=30%}
 
-Figure 7 shows convergence on $L(b_{21})$. Each change is 0.8 times the one before, so on the log scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
+Figure 8 shows convergence on $L(b_{21})$. Each change is 0.8 times the one before, so on the log scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
 
 So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the stopping rules of section 2.3 of the [gradient descent Note](../57-gradient-descent/note.md)).
 
-> **Extra:** A slope of zero only proves a *local* minimum. A network's loss is not one bowl, so gradient descent can settle in a dip that is not the lowest (see the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md)).
+### 9.1 Where we end depends on where we start
+
+> **Key point:** A network's loss can have more than one valley. Gradient descent rolls into the valley on whose side it starts, and it cannot move at all from a point where the slope is exactly zero.
+
+The parabola of section 7 has one valley. A network's loss can have several. To see this on our network, tie all six weights to one shared value $a$ and keep the biases at 0. For student 1 each hidden node outputs $8a + 8a = 16a$, so the prediction is $a \times 16a + a \times 16a = 32a^2$ and the loss is
+
+$$L(a) = (4 - 32a^2)^2$$
+
+The loss $L(a)$ is 0 where $32a^2 = 4$, at $a = -0.354$ and at $a = +0.354$: two valleys, with a hilltop at $a = 0$ between them.
+
+![Three runs of gradient descent on $L(a) = (4 - 32a^2)^2$, from the starts $-0.55$, 0 and 0.5, with learning rate 0.0003](images/two_valleys.gif){height=40%}
+
+In Figure 9, the same rule gives three different results:
+
+- The ball that starts at $-0.55$ rolls into the left valley and stops at $-0.354$.
+- The ball that starts at 0.5 rolls into the right valley and stops at $+0.354$.
+- The ball that starts at exactly 0 never moves. The slope on the hilltop is zero, so the update changes nothing.
+
+So a slope of zero means "no direction is downhill from here", which is true at the bottom of any valley and also on a flat hilltop. Here the two valleys are equally deep. In general they are not, and gradient descent can settle in a **local minimum** (G-1110), a valley that is not the deepest one (see the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md)). The starting values of the weights decide which valley is reached, which is one reason why the weight initialisation Notes matter.
 
 ## 10. Summary
 
@@ -174,13 +203,15 @@ So the "right" loop is "repeat until convergence". In practice we write a loop o
 - We cannot solve "all derivatives = 0" for a network, so we walk downhill.
 - The minus sign moves each parameter the right way; the slope's size makes steps shrink near the minimum.
 - On $L(b_{21}) = (3.68 - b_{21})^2$ each update multiplies the distance to the minimum by $1 - 2\eta$.
+- Each gradient component's sign says which way to move that parameter, and its size says how much that parameter matters right now.
+- A loss can have several valleys; where gradient descent ends depends on where it starts.
 
 ## 11. Sources
 
 **Built from**
 
 - CampusX, "Backpropagation Part 3 | The Why | Complete Deep Learning Playlist", YouTube, https://www.youtube.com/watch?v=6xO-x8y0YSY
-- Sanderson, G. (3Blue1Brown), "Gradient descent, how neural networks learn", 3blue1brown.com/lessons/gradient-descent.
+- 3Blue1Brown, "Gradient descent, how neural networks learn | Deep Learning Chapter 2", YouTube, https://www.youtube.com/watch?v=IHZwWFHWa-w (the gradient read as the importance of each parameter, section 4; the ball rolling downhill and the several valleys, sections 8 and 9.1)
 
 **Other references**
 
@@ -194,3 +225,4 @@ So the "right" loop is "repeat until convergence". In practice we write a loop o
 | Negative gradient | The gradient with its sign flipped: the direction in which the loss falls fastest |
 | Divergence | Updates that overshoot more and more, so the parameter and the loss run away |
 | Convergence | The state where updates no longer change the parameters because the slope is about zero |
+| Local minimum | A valley of the loss that is lower than everything near it, but not the lowest overall |

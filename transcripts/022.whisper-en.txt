@@ -1,0 +1,155 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 22.
+So in the last 3 videos, we learned to do exploratory data analysis.
+In the first video, we started asking basic questions.
+In the second video, we did univariate analysis.
+In the third video, we did multivariate and bivariate analysis.
+Now in today's video, we will see a tool which will automate a lot of work for you.
+You just have to install the library and run one piece of code and behind the scenes it will do heavy lifting for you.
+The library we are going to read is called Pandas Profiler and trust me whenever I work on a new project I always take the help of this library.
+So now in this video what I will do is I will first install the library and then I will run the same library on top of the Titanic data set and I will show you what will happen with it.
+So, let's start our discussion.
+So, you can already see that I have made a new Jupyter Notebook.
+I have imported Pandas and I have also imported my data set.
+And here is my data set.
+We are constantly working on the Titanic data set.
+So, that you get an idea in your mind.
+Now, what you have to do is, first of all, you have to Google for Pandas Profiling.
+You will get this first link on pyb.org.
+And here you can see you have to run this command to install it.
+So you don't have to do anything. You have to go down and you have to type this command
+pip install pandas profiling
+And as soon as you run it, this command will install this library on your machine.
+In my case, you can see that the library is already installed, so the requirement is already satisfied.
+Now, if you have also installed it, then you just have to write this code, this is the code.
+If you break down this code, then you are importing the profile report from the pandas profiling library.
+You are calling the profile report, basically you are making an object of the profile report by saying prof and passing your data frame.
+and then the prof that you have created, the profile report object that you have created, you are converting it to a file
+which is going to be an HTML file. So as soon as I will run this code, in this folder, an HTML file will be created
+whose name will be output.html and all my analysis will be in that HTML file only. So if I run this code,
+It takes a little time depending on the data set.
+Because you will see in some time, here a lot of things will be done by pandas profiler.
+So it takes a little time. So let's wait for that.
+And guys, it is written here that the report has been exported.
+If I go back, here you can see output.html has been generated.
+So if I click on it and open it.
+So guys, this is what pandas profiling will do.
+So what it is doing is, it is making a report of your data frame in a web page in a very nice way
+which is divided in these 5 sections majorly, Overview, Variables, Interactions, Correlations and Missing Values.
+If you talk about Overview, then this Overview is doing the same work which we did in the first video, asking basic questions.
+What are the statistics of your data set, number of variables, number of columns or features, number of observations, number of rows,
+how many total missing cells are there. If you multiply these two 12 and 891, then you have so many total cells and so many missing cells.
+So, I told you the percentage of missing cells. How many duplicate rows are there? You got to know the percentage of duplicate rows.
+how much size it occupies in memory, average record size in memory, how much size each row is taking,
+the types of variables, numeric columns are 5, categorical columns are 7.
+Along with this, some warnings are also given here which you should remember if you are working on this data set.
+Name column has a high cardinality. It means your categorical data has many categories.
+Ticket has high cardinality. It has 681 distinct values. Cabin has high cardinality.
+Here they have shown another point of concern that age has 19.9% missing values.
+immediately you get to know that this is a mess, I have to fix it, cabin has 77.1% missing values,
+I immediately got to know that there are so many missing values that I may not be able to use the cabin, passenger ID is uniformly distributed,
+after that passenger ID has unique values, name has unique values, SIP SP has 6080s, fare has 150s,
+So you can see here a lot of warnings and concerns are given to you immediately.
+So this is the overview.
+This is the first part, overview.
+Next is variables.
+So if I click on variables.
+So what happens in variables is that you are given univariate analysis on every column.
+And this is a very good thing.
+I will show you here.
+So one by one, like I am not spending time on the passenger ID column because it is not useful.
+Let's talk about survived.
+Like we did univariate analysis.
+You might remember.
+There we got to know that this is a categorical variable.
+So we plotted count plot.
+Here see that count plot is automatically plotted.
+Okay.
+Now how many distinct values are there? 2.
+How many missing values are there? 0.
+How much is the percentage missing?
+If you want more details,
+then click on toggle details.
+And here more details will come.
+Okay.
+How much is the value of each item? 1
+And what is the character encoding?
+And the sample is shown by taking out the first 5 rows
+If you go to the categories
+Here you have been given by drawing a pie chart
+If you go to the words, then there are 0 and 1
+If you go to the characters, then there are more details in the characters
+Categories, scripts, blocks
+A lot of detail has been given on each column
+If I give you an example of a numerical column, like this is a numerical column, here you can see that the histogram is already made, we had made a histogram.
+Distinct values are 88, distinct value percentage is 12.3, missing value is 177, there is nothing infinite, mean age is here, minimum is here, maximum is here,
+0 is not even 1 and memory is taking this much, if I toggle in details then I will get a lot of things here
+how much is my minimum, how much is my 5th percentile, my Q1 Q2 which is my 5th number summary
+that is also given here, how much is maximum, how much is range, how much is interquartile range
+standard deviation, coefficient of variation, curtesis, mean, mean absolute deviation, skewness
+We also told you about the skewness, how much is the sum, how much is the variance, how much is the monotocity.
+After that, a lot of focus has been done on the histogram.
+Common values have been shown, which values are occurring the most.
+So 24 is occurring the most, 30 times.
+After 22, what are the extreme values?
+This is the minimum 5 value and this is the maximum 5 value.
+So you are also being shown by removing outliers.
+So you can see this library immediately does heavy lifting for you by itself.
+Now imagine what you will do is you will take any data set and first of all you will run it and you will sit for hours and study this report.
+Obviously when you will read this report and come out then you will have already got a lot of idea.
+So one by one you can study all the columns in this way.
+I am not doing everything right now because it is more of that you should learn by yourself rather than I should read it to you.
+Next, the third section is Interactions.
+In interactions, bivariate analysis is done.
+For example, if you want to see the analysis between age and fare,
+then you can see this is the analysis between age and fare.
+It means that in any two columns, you will be given a scatter plot.
+Obviously, when you will do it on the same column, you will get nothing.
+But if you will do it in two different columns,
+So, you will get a scatter plot like this.
+So, this section of interactions is for your bivariate analysis.
+Next section is correlation.
+Correlation is again your bivariate analysis.
+Here, every column has a correlation.
+So, the darker shade of blue, the more correlation.
+For example, SIBSP and parent-child have high correlation. Similarly, there is a strong correlation between survived and fair.
+So, you immediately get a bird's eye view on which survived column will depend on whom.
+And which two input columns have a very strong relationship with each other. You can find out all this.
+Now, different coefficients are given here. The simplest one is Pearson, which we use as default.
+but there are more here, so if you study more advanced level statistics, then you can utilize these things too
+but now you can work with Pearson and see, if you see the details of correlation here, then it will tell you
+that the Pearson correlation coefficient is a measure of linear correlation between two variables
+its value lies between minus 1 and plus 1, and it is explained here how to handle Pearson correlation
+Similarly, Spearman's is also given here and all the correlations are discussed here to give you a basic idea.
+So, correlations are done. So, till here you can understand. Overviews, basic questions, variables, univariate analysis, interactions and correlations is basically bivariate analysis.
+After that comes missing values. What does it do? It tells you the count that how many missing values are there in each column.
+So, here you can see, there are full values everywhere.
+In age, it is 714 instead of 891.
+And in cabin, it is 204 and in embark, it is 889.
+We understood it from the count immediately.
+We also understood it from the matrix.
+So, the more you see the matrix as whitish, the more missing values are there.
+Like in cabin, you can see, there are many missing values.
+Similarly, you can have heatmap.
+In heatmap, you can see that there are missing values in these 3 columns and you can see that.
+And you can also see this through Dendogram.
+We will discuss Dendogram in a future video.
+Right now, I am not going to discuss what is a Dendogram.
+It is basically a clustering technique but we will discuss it further.
+So, this is the missing value.
+And lastly, what does Panda's Profiler do?
+It shows you sample rows.
+So, in sample rows, it will show you the first 5 rows.
+10 rows actually and I will show you the last 10 rows so that you get a little idea about your data.
+Now see guys, the thing is that I will just come on screen.
+So the thing is that it is a very powerful tool and there is nothing to teach here.
+I just wanted to show you a tool and how to use it
+or how to see it for the first time, I wanted to show you that
+but trust me, it is a tool which you will learn more than self exploration
+so what you should do is, pick up any data set
+which I am continuously saying from the last 3 videos
+pick up any data set and run this tool
+and then try to read the output report that you have
+along with reading, you can write observations in copy
+And if you start doing this with 3-4 data sets, then you will become comfortable and then you will be able to use this tool even more in a slightly powerful way.
+So that's it. This is what we were supposed to do in EDA. Today's last video is about EDA. Now we will start feature engineering in the next video.
+So I hope you liked the video guys. If so, please consider subscribing. Thanks for watching. Bye.

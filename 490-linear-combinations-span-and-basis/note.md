@@ -32,14 +32,16 @@ What a vector is, and how a row of data becomes a feature vector, is taught in t
 There are three related views of what a vector is:
 
 - **The arrow view (physics).** A vector is an arrow with a length and a direction. In linear algebra we almost always draw it with its tail at the origin.
-- **The list view (computer science).** A vector is an ordered list of numbers. A house described by its area and its price is the 2D vector [area, price]; the order matters. Each number is one **feature** (an input variable, one column of the data table), and the list view is the feature vector of ML.
+- **The list view (computer science).** A vector is an ordered list of numbers. A house described by its area and its price is the 2D vector [area, price]; the order matters. Each number is one **feature** (G-772) (an input variable, one column of the data table), and the list view is the feature vector of ML.
 - **The abstract view (mathematics).** A vector is anything for which "add two of them" and "multiply one by a number" make sense. This view says that those two operations are what all of linear algebra is built on.
 
 The coordinates of a vector link the first two views. They are instructions for walking from the tail at the origin to the tip: the first number says how far to walk along the x-axis (right if positive, left if negative), the second how far parallel to the y-axis. Every list of numbers gives exactly one arrow, and every arrow gives exactly one list.
 
 The power of linear algebra lies in moving between the views. For data, a table of numbers becomes a picture of points we can reason about. For computer graphics or physics, a picture of space becomes numbers a computer can crunch.
 
-> **Extra:** One collection of vectors, two pictures. A single vector is best drawn as an arrow. A large set of vectors, such as all 150 iris flowers (150 **observations**: one observation is one record, a row of the data table), is best drawn as points: one point at the tip of each arrow. The points picture is why a scatter plot of a dataset is a picture of its feature vectors.
+> **Extra:** One collection of vectors, two pictures. A single vector is best drawn as an arrow. A large set of vectors, such as all 150 iris flowers (150 **observations** (G-1374): one observation is one record, a row of the data table), is best drawn as points: one point at the tip of each arrow. The points picture is why a scatter plot of a dataset is a picture of its feature vectors (Figure 2).
+>
+> ![Iris flowers as feature vectors [petal length, petal width]: 10 of them as arrows from the origin (left), all 150 as points at the arrow tips (right).](images/arrows_points.png){height=30%}
 
 ## 3. Adding two vectors
 
@@ -51,7 +53,7 @@ The power of linear algebra lies in moving between the views. For data, a table 
 
 Think of each vector as a movement: a step of some length in some direction. Taking the step $\mathbf{v}$ and then the step $\mathbf{w}$ lands us at the same place as one single step, their sum $\mathbf{v} + \mathbf{w}$.
 
-So to draw a sum, we slide the second arrow so that its tail sits on the tip of the first. The arrow from the origin to the new tip is the sum (Figure 2, left). Tip-to-tail drawing is the one place in linear algebra where we let a vector leave the origin. Tip-to-tail adding is the same idea as adding numbers on a number line: 2 steps right and then 5 steps right is 7 steps right.
+So to draw a sum, we slide the second arrow so that its tail sits on the tip of the first. The arrow from the origin to the new tip is the sum (Figure 3, left). Tip-to-tail drawing is the one place in linear algebra where we let a vector leave the origin. Tip-to-tail adding is the same idea as adding numbers on a number line: 2 steps right and then 5 steps right is 7 steps right.
 
 ![Left: adding $[1, 2]$ and $[3, -1]$ tip to tail. Right: the coordinates $[3, -2]$ as scaled basis vectors](images/add_and_basis.png)
 
@@ -65,7 +67,7 @@ So to draw a sum, we slide the second arrow so that its tail sits on the tip of 
 3. **Example:** walking $[1, 2]$ then $[3, -1]$ is 1 right, 2 up, 3 right, 1 down. Regrouping the horizontal and the vertical moves,
    $$[1, 2] + [3, -1] = [1 + 3,\ 2 + (-1)] = [4, 1]$$
 
-Both vectors must have the same number of components. With the scaling of the [magnitude, distance and scalar operations Note](../361-magnitude-distance-and-scalar-operations/note.md) (multiply every component by the number, which stretches, squishes or flips the arrow), we now have the two operations of linear algebra. A number used to scale a vector is called a **scalar**, which is why "scalar" and "number" are used almost as synonyms.
+Both vectors must have the same number of components. With the scaling of the [magnitude, distance and scalar operations Note](../361-magnitude-distance-and-scalar-operations/note.md) (multiply every component by the number, which stretches, squishes or flips the arrow), we now have the two operations of linear algebra. A number used to scale a vector is called a **scalar** (G-1743), which is why "scalar" and "number" are used almost as synonyms.
 
 > **Python:** NumPy adds vectors component by component.
 >
@@ -87,11 +89,11 @@ The xy-plane has two special vectors:
 - $\hat{\imath}$ ("i-hat"): length 1, pointing right along the x-axis, $\hat{\imath} = [1, 0]$.
 - $\hat{\jmath}$ ("j-hat"): length 1, pointing up along the y-axis, $\hat{\jmath} = [0, 1]$.
 
-Now read each coordinate as a scalar. In $[3, -2]$, the 3 stretches $\hat{\imath}$ to 3 times its length, and the $-2$ flips $\hat{\jmath}$ and stretches it to twice its length. Adding the two scaled vectors gives the vector (Figure 2, right):
+Now read each coordinate as a scalar. In $[3, -2]$, the 3 stretches $\hat{\imath}$ to 3 times its length, and the $-2$ flips $\hat{\jmath}$ and stretches it to twice its length. Adding the two scaled vectors gives the vector (Figure 3, right):
 
 $$[3, -2] = 3\thinspace\hat{\imath} + (-2)\thinspace\hat{\jmath} = [3, 0] + [0, -2]$$
 
-So every vector is a sum of scaled $\hat{\imath}$ and $\hat{\jmath}$. Together, $\hat{\imath}$ and $\hat{\jmath}$ are called the **standard basis** of the plane: the vectors that the coordinates scale.
+So every vector is a sum of scaled $\hat{\imath}$ and $\hat{\jmath}$. Together, $\hat{\imath}$ and $\hat{\jmath}$ are called the **standard basis** (G-1869) of the plane: the vectors that the coordinates scale.
 
 In 3D a third unit vector $\hat{k} = [0, 0, 1]$ joins them, and in $n$ dimensions there are $n$ of them. A feature vector reads the same way: the flower $[5.1, 3.5, 1.4, 0.2]$ is 5.1 units of "sepal length" plus 3.5 units of "sepal width", and so on, one unit vector per feature.
 
@@ -103,7 +105,7 @@ Scaling two vectors and adding them,
 
 $$a\thinspace\mathbf{v} + b\thinspace\mathbf{w}, \qquad a, b \text{ any numbers}$$
 
-is called a **linear combination** of $\mathbf{v}$ and $\mathbf{w}$. With more vectors, we pick one scalar per vector: $a_1\mathbf v_1 + a_2\mathbf v_2 + \dots + a_k\mathbf v_k$.
+is called a **linear combination** (G-1091) of $\mathbf{v}$ and $\mathbf{w}$. With more vectors, we pick one scalar per vector: $a_1\mathbf v_1 + a_2\mathbf v_2 + \dots + a_k\mathbf v_k$.
 
 One way to remember the word "linear": fix $b$ and let only $a$ change. The tip of $a\mathbf{v} + b\mathbf{w}$ then runs along a straight line, parallel to $\mathbf{v}$ (Figure 1, top right).
 
@@ -119,7 +121,7 @@ Nothing forces us to use $\hat{\imath}$ and $\hat{\jmath}$. Take $\mathbf{v} = [
 3. **Example:** for $\mathbf{x} = [3, -2]$, the x-components give $a + b = 3$ and the y-components $a - b = -2$. Adding the two equations, $2a = 1$, so $a = 0.5$ and $b = 2.5$:
    $$0.5\thinspace[1, 1] + 2.5\thinspace[1, -1] = [0.5 + 2.5,\ 0.5 - 2.5] = [3, -2]$$
 
-Figure 3 shows this example. Watch the orange arrow: it never moves. Only the grid we measure it with changes, from the square grid of $\hat{\imath}$ and $\hat{\jmath}$ to the tilted grid of $\mathbf{v}$ and $\mathbf{w}$, and with it the two numbers.
+Figure 4 shows this example. Watch the orange arrow: it never moves. Only the grid we measure it with changes, from the square grid of $\hat{\imath}$ and $\hat{\jmath}$ to the tilted grid of $\mathbf{v}$ and $\mathbf{w}$, and with it the two numbers.
 
 ![The arrow $[3, -2]$ measured with two bases: $3\thinspace\hat{\imath} - 2\thinspace\hat{\jmath}$ on the standard grid, and $0.5\thinspace\mathbf{v} + 2.5\thinspace\mathbf{w}$ on the grid of $\mathbf{v} = [1, 1]$ and $\mathbf{w} = [1, -1]$](images/change_basis.gif)
 
@@ -139,7 +141,7 @@ So the same arrow is $[3, -2]$ in the standard basis and $[0.5, 2.5]$ in the bas
 
 > **Key point:** The span of some vectors is every vector we can reach with their linear combinations: for two 2D vectors, the whole plane, or only a line if they line up.
 
-The **span** of a set of vectors is the set of all their linear combinations. It answers one question: using only scaling and adding, where can we get to?
+The **span** (G-1838) of a set of vectors is the set of all their linear combinations. It answers one question: using only scaling and adding, where can we get to?
 
 ### 6.1 Two vectors in 2D
 
@@ -155,7 +157,7 @@ Let both scalars in $a\mathbf{v} + b\mathbf{w}$ range freely. Three things can h
 
 > **Key point:** Two 3D vectors span a flat sheet through the origin; a third vector either lies on that sheet and adds nothing, or leaves it and unlocks all of 3D space.
 
-In 3D, two vectors that do not line up span a plane through the origin. Picture two knobs, one per scalar: as we turn them, the tip of $a\mathbf{v} + b\mathbf{w}$ sweeps out a flat sheet. In Figure 4, $\mathbf v_1 = [2, 0, 1]$ and $\mathbf v_2 = [0, 2, 1]$ span the blue plane, whose points are all $[2a, 2b, a + b]$.
+In 3D, two vectors that do not line up span a plane through the origin. Picture two knobs, one per scalar: as we turn them, the tip of $a\mathbf{v} + b\mathbf{w}$ sweeps out a flat sheet. In Figure 5, $\mathbf v_1 = [2, 0, 1]$ and $\mathbf v_2 = [0, 2, 1]$ span the blue plane, whose points are all $[2a, 2b, a + b]$.
 
 ![The plane spanned by $\mathbf v_1$ and $\mathbf v_2$, a third vector on it (green) and one off it (red)](images/span_3d.png){height=48%}
 
@@ -170,9 +172,9 @@ A third vector chosen at random almost always lands off the plane.
 
 > **Key point:** Vectors are linearly dependent when one of them is a combination of the others, so it can be removed without shrinking the span; otherwise they are independent.
 
-When a vector adds nothing to the span (the green vector in Figure 4, or two 2D vectors on one line), we need a word for it. Vectors are **linearly dependent** when at least one of them can be written as a linear combination of the others: removing it does not shrink the span. They are **linearly independent** when each one adds a new direction, a new dimension, to the span.
+When a vector adds nothing to the span (the green vector in Figure 5, or two 2D vectors on one line), we need a word for it. Vectors are **linearly dependent** (G-1101) when at least one of them can be written as a linear combination of the others: removing it does not shrink the span. They are **linearly independent** (G-1102) when each one adds a new direction, a new dimension, to the span.
 
-Figure 5 animates the two cases of Figure 4. Watch the sheet: scaling the green vector only slides its tip along the sheet, so the span stays a plane; scaling the red vector lifts copies of the sheet up and down, and the stack of sheets fills all of 3D. The picture follows Sanderson's *Essence of Linear Algebra*, chapter 2 (3Blue1Brown).
+Figure 6 animates the two cases of Figure 5. Watch the sheet: scaling the green vector only slides its tip along the sheet, so the span stays a plane; scaling the red vector lifts copies of the sheet up and down, and the stack of sheets fills all of 3D. The picture follows Sanderson's *Essence of Linear Algebra*, chapter 2 (3Blue1Brown).
 
 ![A third vector on the plane of $\mathbf v_1$ and $\mathbf v_2$ (green, dependent) only moves within the plane; a third vector off it (red, independent) sweeps the plane through all of space](images/third_vector.gif)
 
@@ -196,18 +198,26 @@ With numbers:
 
 > **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../27-one-hot-encoding/note.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), section 7).
 
-> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$, where $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
+> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$, where $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 4.2).
 
 ## 8. Basis
 
 > **Key point:** A basis of a space is a set of linearly independent vectors that spans it: enough vectors to reach everything, and none to spare.
 
-Putting the words together: a **basis** of a space is a set of linearly independent vectors whose span is the whole space. This matches Section 4: the basis vectors are what the coordinates scale.
+Putting the words together: a **basis** (G-262) of a space is a set of linearly independent vectors whose span is the whole space. This matches Section 4: the basis vectors are what the coordinates scale.
 
 - **"Spans the space":** every vector of the space is a linear combination of the basis, so every vector gets coordinates.
 - **"Linearly independent":** no basis vector is redundant, so the coordinates are unique. With a spare vector, the same arrow could be written in more than one way.
 
-$\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]$. But $[1, 2], [2, 4]$ is not: it spans only a line. Every basis of the plane has exactly 2 vectors, and every basis of $n$-dimensional space has exactly $n$. That count is what the dimension of a space means (MML §2.6.1).
+$\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]$. But $[1, 2], [2, 4]$ is not: it spans only a line. Every basis of the plane has exactly 2 vectors, and every basis of $n$-dimensional space has exactly $n$. That count is what the **dimension** of a space means (MML §2.6.1).
+
+Figure 7 shows the three cases with the target $[3, -2]$:
+
+- **a basis**, $[1, 1]$ and $[1, -1]$: exactly one combination, $0.5\thinspace\mathbf v + 2.5\thinspace\mathbf w$;
+- **not spanning**, $[1, 2]$ and $[2, 4]$: every combination stays on one line, so $[3, -2]$ is out of reach;
+- **a spare vector**, $[1, 0]$, $[0, 1]$ and $[1, 1]$: many combinations work, for example $3, -2, 0$ and $2, -3, 1$, so the coordinates are not unique.
+
+![Reaching [3, −2]. Left: the basis [1, 1], [1, −1] gives one combination. Middle: [1, 2] and [2, 4] span only the red line. Right: with a spare vector, two different combinations (blue and orange, grey and green) both arrive.](images/basis_or_not.png)
 
 ## 9. Summary
 

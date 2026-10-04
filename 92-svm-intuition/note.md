@@ -16,7 +16,7 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 
 > **Key point:** A support vector machine (SVM) separates two classes with the line that leaves the widest possible gap between them. The points that touch the edges of that gap are the support vectors.
 
-A **support vector machine (SVM)** is a classification algorithm from the same family as logistic regression. SVM is a strong, widely used algorithm that works in many situations, often called one of the best "out of the box" classifiers (ISL §9). It builds directly on logistic regression, so the logistic regression Notes are the best preparation for it.
+A **support vector machine (SVM)** (G-1921) is a classification algorithm from the same family as logistic regression. SVM is a strong, widely used algorithm that works in many situations, often called one of the best "out of the box" classifiers (ISL §9). It builds directly on logistic regression, so the logistic regression Notes are the best preparation for it.
 
 Logistic regression accepts any line that separates the classes. SVM goes one step further and asks which separating line is the **best**. Its answer: the line with the widest empty gap on both sides (Figure 1).
 
@@ -34,7 +34,7 @@ This Note explains that idea with pictures only. The next Notes turn it into mat
 
 > **Key point:** Training accuracy alone cannot tell $\pi_1$ and $\pi_2$ apart: both are 100% correct.
 
-Each point is one **observation** (one record, a row of the data table). Its coordinates are its **features** (input variables, one column each), and its colour is the **target** (the output we predict).
+Each point is one **observation** (G-1374; one record, a row of the data table). Its coordinates are its **features** (G-772; input variables, one column each), and its colour is the **target** (G-1949; the output we predict).
 
 Figure 2 shows two classes, green and red, that are linearly separable (see the [perceptron trick Note](../70-perceptron-trick/note.md)). Two lines, $\pi_1$ (black) and $\pi_2$ (blue), both put every green point on one side and every red point on the other. In more dimensions the dividers are planes or [hyperplanes](../53-multiple-linear-regression/note.md), so we write each one with the letter $\pi$.
 
@@ -60,7 +60,7 @@ SVM classifies the data with the hyperplane that separates the classes **as wide
 
 > **Key point:** The margin is the width of the empty gap around the line. SVM looks for the margin-maximising hyperplane.
 
-The gap around the separating line is called the **margin**. In SVM, the margin is the **full width** of the empty band: the distance from the nearest green point to the nearest red point, measured across the line. The [perceptron code Note](../71-perceptron-code/note.md) used "margin" for the one-sided distance from the line to the nearest point of one class; the SVM margin is the two one-sided gaps added together, so for a line in the middle of the band it is **twice** that distance. SVM searches for the hyperplane that makes this full width as large as possible. For this reason, the SVM line is also called the **margin-maximising hyperplane**.
+The gap around the separating line is called the **margin** (G-1160). In SVM, the margin is the **full width** of the empty band: the distance from the nearest green point to the nearest red point, measured across the line. The [perceptron code Note](../71-perceptron-code/note.md) used "margin" for the one-sided distance from the line to the nearest point of one class; the SVM margin is the two one-sided gaps added together, so for a line in the middle of the band it is **twice** that distance. SVM searches for the hyperplane that makes this full width as large as possible. For this reason, the SVM line is also called the **margin-maximising hyperplane** (G-1163).
 
 A wide margin makes the model more general: it leaves room for new points that vary a little from the training points. An everyday picture: a driver who keeps to the middle of the lane, as far as possible from both kerbs, has the most room for a small wobble. A wide margin is the whole goal of SVM; everything else in the following Notes is about how to compute it.
 
@@ -75,8 +75,8 @@ A wide margin makes the model more general: it leaves room for new points that v
 To measure the margin of a candidate hyperplane $\pi$ (Figure 3):
 
 1. **Pick a hyperplane** $\pi$ that separates the classes.
-2. **Find $\pi^+$:** move a copy of $\pi$ parallel to itself in the positive direction. Stop as soon as it touches the first green point. This copy is the **positive hyperplane** $\pi^+$.
-3. **Find $\pi^-$:** do the same in the negative direction, stopping at the first red point. This copy is the **negative hyperplane** $\pi^-$.
+2. **Find $\pi^+$:** move a copy of $\pi$ parallel to itself in the positive direction. Stop as soon as it touches the first green point. This copy is the **positive hyperplane** $\pi^+$ (G-1531).
+3. **Find $\pi^-$:** do the same in the negative direction, stopping at the first red point. This copy is the **negative hyperplane** $\pi^-$ (G-1309).
 4. **Measure the margin:** $\pi^+$ and $\pi^-$ are both parallel to $\pi$, so they are parallel to each other. The **margin** $d$ is the shortest distance between them.
 5. **Repeat** steps 1 to 4 for many other hyperplanes, each with its own $\pi^+$, $\pi^-$ and $d$.
 6. **Keep** the hyperplane whose $d$ is the largest.
@@ -116,11 +116,13 @@ The next Note turns $d$ into a formula in $w$ and $b$, so that the best line can
 
 > **Key point:** Support vectors are the points that lie on $\pi^+$ and $\pi^-$. They alone decide where the SVM line goes.
 
-When $\pi^+$ and $\pi^-$ are moved outwards, they stop at the first points of each class. These points, lying exactly on $\pi^+$ or $\pi^-$, are the **support vectors**. In Figure 1 there is one green support vector and two red ones; for $\pi_1$ in Figure 4 it is the same.
+When $\pi^+$ and $\pi^-$ are moved outwards, they stop at the first points of each class. These points, lying exactly on $\pi^+$ or $\pi^-$, are the **support vectors** (G-1923). In Figure 1 there is one green support vector and two red ones; for $\pi_1$ in Figure 4 it is the same.
 
 The idea is so central that it gives the algorithm its name. The support vectors "support" the two edges of the margin: move one of them and the best line moves too.
 
-> **Extra:** The other points have no say at all. If we deleted every point except the three support vectors in Figure 4 and trained again, we would get exactly the same line (ISL §9.1.3). For the same reason, a trained SVM can discard the other points and keep only its support vectors (Bishop §7.1).
+The other points have no say at all. If we delete every point except the three support vectors and train again, we get the same line (ISL §9.1.3). Figure 5 does exactly that: trained on all 16 points or on the 3 support vectors alone, the SVM finds $w = (0.049, 0.898)$ and $b = -4.49$ both times. For the same reason, a trained SVM can discard the other points and keep only its support vectors (Bishop §7.1).
+
+![The hard-margin SVM trained on all 16 points (left) and retrained on its 3 ringed support vectors only (right): the same line and margin, w = (0.049, 0.898), b = −4.49.](images/only_sv.png)
 
 ## 6. Strengths of SVM
 
@@ -128,9 +130,13 @@ The idea is so central that it gives the algorithm its name. The support vectors
 
 1. **Outliers:** SVM handles outliers well, provided we use the soft-margin version of the third SVM Note.
 2. **Non-linear data:** when no single straight line can separate the classes, SVM uses **kernels** to draw curved boundaries. The kernel trick Notes explain how.
-3. **Classification and regression:** the same ideas give a classifier (SVC) and a regression model (**support vector regression**, SVR).
+3. **Classification and regression:** the same ideas give a classifier (SVC) and a regression model (**support vector regression**, SVR, G-1922).
 
 > **Extra:** The version described in this Note, which demands a perfect separation, is called the hard-margin SVM. The hard-margin SVM is actually **sensitive** to outliers: a single point on the wrong side makes it impossible, and a single extreme point near the boundary changes the line, because that point becomes a support vector (ISL §9.2.1). The robustness comes from the soft margin, which lets a few points break the rules at a cost.
+>
+> Figure 6 tests this with one extra green point placed at $(4.5, 4.2)$, close to the red class. The hard-margin SVM must keep it on the green side, so its line drops and its margin shrinks from 2.22 to 0.56. A soft-margin SVM (`C = 1`) lets that one point sit on the wrong side and keeps the line and the margin of 2.22 it had without it.
+
+![One outlier (star) added to the 16 points. Left: the hard-margin SVM squeezes past it, and the margin falls from 2.22 to 0.56 (dotted: the line without the outlier). Right: the soft-margin SVM with C = 1 keeps its original line and margin.](images/outlier.png)
 
 ## 7. Summary
 

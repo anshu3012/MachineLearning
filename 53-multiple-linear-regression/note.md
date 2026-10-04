@@ -17,11 +17,13 @@ tags: [subject/ml, area/linear-algebra, area/models-1, step/foundations, step/mo
 
 > **Key point:** Multiple linear regression is simple linear regression with more than one feature. With two inputs it fits a plane; with more, a hyperplane.
 
-A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row).
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Figure 1 marks all three on the first rows of this Note's example data.
 
-Simple linear regression used one feature, CGPA, to predict the package. Real data almost always has several features: CGPA, gender, IQ, 12th-grade marks, and so on. Linear regression with more than one feature is called **multiple linear regression**.
+![The first five observations of the example data. Blue columns: the two features. Orange column: the target. Green row: one observation.](images/data_table.png)
 
-Nothing new has to be learned for multiple linear regression: everything from simple linear regression carries over. Simple linear regression is just the special case with one feature. A recipe works the same way: the cake's taste depends on sugar, flour and butter together, each in its own amount, instead of on sugar alone. This Note covers the geometry and the code; the next two Notes derive the mathematics and code it from scratch.
+Simple linear regression used one feature, CGPA, to predict the package. Real data almost always has several features: CGPA, gender, IQ, 12th-grade marks, and so on. Linear regression with more than one feature is called **multiple linear regression** (G-1279).
+
+Nothing new has to be learned for multiple linear regression: everything from simple linear regression carries over. **Simple linear regression** (G-1808) is just the special case with one feature. A recipe works the same way: the cake's taste depends on sugar, flour and butter together, each in its own amount, instead of on sugar alone. This Note covers the geometry and the code; the next two Notes derive the mathematics and code it from scratch.
 
 ## 2. From a line to a hyperplane
 
@@ -33,7 +35,7 @@ Nothing new has to be learned for multiple linear regression: everything from si
 
 Take two inputs, CGPA ($x_1$) and IQ ($x_2$), and the package ($y$) as output. Each student is now a point in 3D: CGPA along one axis, IQ along another, package upwards.
 
-In 2D we drew the line that passes closest to all points. In 3D we draw a flat **plane** that cuts through the cloud of points: some points lie above it, some below, and the plane keeps as close as possible to all of them (Figure 1).
+In 2D we drew the line that passes closest to all points. In 3D we draw a flat **plane** (G-1502) that cuts through the cloud of points: some points lie above it, some below, and the plane keeps as close as possible to all of them (Figure 2).
 
 ![100 observations in 3D, then the fitted plane, then each observation's error as a stick to the plane (green above, red below), while the view circles once](images/plane_orbit.gif){height=50%}
 
@@ -43,7 +45,7 @@ Watch the sticks as the view turns: about half the points sit above the plane (5
 
 > **Key point:** Beyond three dimensions we cannot draw the picture, but the equation keeps the same form.
 
-With three inputs the data is 4-dimensional, and the model is the 4D version of a plane. A flat surface in more than three dimensions is called a **hyperplane**. We cannot draw it, but the mathematics works exactly the same (Figure 2).
+With three inputs the data is 4-dimensional, and the model is the 4D version of a plane. A flat surface in more than three dimensions is called a **hyperplane** (G-911). We cannot draw it, but the mathematics works exactly the same (Figure 3).
 
 ![From a line to a hyperplane](images/dimensions.png)
 
@@ -57,13 +59,15 @@ In words: start from the intercept, then add each input multiplied by its own co
 
 $$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n$$
 
-With numbers, from the model in Figure 1:
+With numbers, from the model in Figure 2:
 
 $$\hat{y} = -1.9 + 58.6 x_1 + 29.1 x_2$$
 
-For a point with $x_1 = 1$ and $x_2 = 0.5$: $\hat{y} = -1.9 + 58.6 + 14.6 = 71.3$.
+For a point with $x_1 = 1$ and $x_2 = 0.5$: $\hat{y} = -1.9 + 58.6 + 14.6 = 71.3$. Figure 4 builds this prediction one term at a time: start at the intercept, then let each feature add its own share.
 
-With $n$ features there are $n + 1$ numbers to find: one **coefficient** per feature plus the intercept. Training the model means finding them.
+![One prediction built term by term: the intercept −1.9, plus 58.6 × 1, plus 29.1 × 0.5, gives 71.3.](images/prediction_steps.gif)
+
+With $n$ features there are $n + 1$ numbers to find: one **coefficient** (G-407) per feature plus the **intercept** (G-960). Training the model means finding them.
 
 ### 3.1 What the coefficients mean
 
@@ -75,13 +79,13 @@ The meaning carries over from the slope $m$:
 - $\beta_2$: the same for $x_2$, and so on.
 - $\beta_0$: the prediction when every input is 0.
 
-Figure 3 slices the plane of Figure 1 at three fixed values of feature2. Each slice is a line with slope 58.6, and the slices sit 29.1 apart: one coefficient per direction.
+Figure 5 slices the plane of Figure 2 at three fixed values of feature2. Each slice is a line with slope 58.6, and the slices sit 29.1 apart: one coefficient per direction.
 
 ![Slices of the fitted plane at feature2 = −1, 0 and 1. One step along feature1 adds 58.6 (orange); one step in feature2 lifts the whole line by 29.1 (red)](images/coef_slices.png){height=40%}
 
-So the coefficients act as **weights**: in Figure 1, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ.
+So the coefficients act as **weights** (G-2111): in Figure 2, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ.
 
-> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. Standardising the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 1 the comparison is fair: both inputs from `make_regression` already have a standard deviation of about 1.
+> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. **Standardising** (G-1874) the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 2 the comparison is fair: both inputs from `make_regression` already have a standard deviation of about 1.
 
 ## 4. Multiple linear regression in scikit-learn
 
@@ -106,9 +110,9 @@ The example data has 100 observations, 2 features and some noise, made with scik
 > lr.intercept_    # -1.9
 > ```
 >
-> `make_regression` invents data that follows a linear pattern plus random noise; `random_state` fixes it so the numbers repeat.
+> `make_regression` (G-1153) invents data that follows a linear pattern plus random noise; `random_state` fixes it so the numbers repeat.
 
-On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook). Figure 4 shows the test predictions for all three: as the noise falls, the points close in on the diagonal of perfect predictions.
+On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook). Figure 6 shows the test predictions for all three: as the noise falls, the points close in on the diagonal of perfect predictions.
 
 ![Predicted against actual target on the 20 test observations, for the same recipe with noise 50, 25 and 0](images/noise_fit.png)
 

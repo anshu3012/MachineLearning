@@ -1,0 +1,548 @@
+Hello guys welcome to my youtube channel
+In today's video we are going to learn a very important feature of scikit-learn
+which we call pipelines
+and most likely you must have heard about this feature
+and may be you are a little confused that how to use this feature
+when to use it
+so in today's video the entire goal the entire agenda is
+that I will teach you how to use pipelines properly
+and I will also explain you when and why to use pipelines.
+So, let's start the video.
+So, let's start with the most important question.
+What are pipelines?
+So, I have written a definition here.
+Pipelines in scikit-learn is basically a mechanism.
+It's not some algorithm, it's a mechanism
+which chains together multiple steps
+so that the output of each step is used as input to the next step.
+Means if you create a pipeline,
+then what you can do is you can chain multiple steps like this.
+Like this.
+Means here you put the input and here you will get the output.
+And the good part about this pipeline thing is
+that the output of this step works as the input for the next step.
+And all this is automatically handled internally.
+I can give you one example.
+Let's say you want to make a machine learning model and you have a data.
+Now there are many problems in that data.
+For example, there are missing values in that data.
+There are categorical variables in that data.
+So what you will do is, first of all you will remove the missing values.
+Then you will encode the categorical variables.
+after that you will train your model
+now these are three different steps
+but if you want then using pipeline
+you can change these three steps
+so you don't have to do anything
+internally you just have to give your input
+and this pipeline will automatically give you output
+now you may ask that
+should I do it individually or together
+what is the benefit
+the benefit of this is
+you have to read the second line
+Pipelines make it easy to apply the same pre-processing to train and test.
+So, when you deploy your model on the server,
+when you convert it to a website or application,
+then when you get the input there,
+then you have to apply the same set of pre-processing steps on it.
+If there are missing values there, then you have to fill it.
+If there is categorical data there, then you have to encode it.
+And when you get the data there, then you have to predict it.
+So if you have not used this pipeline, then you have to repeat the same steps which is quite hectic.
+So I hope you have understood this discussion a little bit that when to use pipelines.
+If you haven't, then what is my plan in this video is that I will tell you this video in two parts.
+You can understand this video in two parts.
+In the first part, we will do a small project without pipeline and I will tell you how many problems are there.
+And in the second part of the video, I will show you that thing by saying with pipeline and you will see that our code becomes 10 times easier by using pipeline.
+So you will have to watch the video till the end, unfortunately.
+And the code is a bit heavy, meaning coding is more and concepts are less.
+But on the whole, the video will be easy. So please stick to it.
+Okay? So let's start.
+So guys, the project that we are going to do,
+we have already discussed a lot about it.
+It's the very famous Titanic data set.
+We will work on it only because you have seen that data set.
+And it's a bit easy.
+Means there are not many columns, not many crazy columns, not many crazy data.
+So it will be easy to understand.
+Later when you do this, you can implement pipelines on any data.
+So what I have done here first of all, this is the notebook that I have created.
+Actually today I will work on 4 different notebooks.
+This is the first one of them.
+Its name is Titanic without using pipeline.
+You can understand from the name what we are going to do.
+So I have taken some of my imports.
+If you can see I want NumPy, I want Pandas.
+train test split, simple imputer because there is missing data, one hot encoder because there is categorical data, min max scaler for scaling and decision tree classifier for prediction.
+So I am running this cell once and here is my data set to import the code and here is my data set.
+So if you see, here we already have the data, we have seen it a lot.
+So I will apply logic on it very quickly. My end goal is not to make the best model.
+My end goal is that I want to teach you to use pipelines.
+So at this point I am not thinking much about the performance of the model.
+So at this point, I dropped the four columns that didn't work, passenger ID, name, ticket and cabin.
+This is the first thing that I did and after doing this, now the data frame that is left is this guys, df.head.
+This is the data frame that I am left with.
+Obviously, I am summarizing it quickly. This is the data of passengers travelling in Titanic.
+And this is the target column.
+And 0 means that this passenger died in that accident.
+And 1 means that this passenger survived.
+Your work is to make a model which after taking all these inputs will tell about a passenger whether he will be saved or not.
+Means if you tell the class of a new passenger, sex, age, sibling, spouse, parent, child, fare and embark then your model will predict whether he will be saved or not.
+That is the end goal.
+So the first step you know that we do train test split, so you can see in X I left survived and gave all the other columns
+And in Y I just gave survived and this is my train test split step
+So if I show you X train, this is my X train and if I want to show you Y train, then Y train is this
+So, yeah, this is the Y-train and you can see that all of them have died, atleast the sample that we have taken.
+Now, first of all, what is the plan? If you know about this data set, then you should know this that there are some missing values in your data frame.
+So if I show you isNull.sum then you would find that there are missing values in the age column and there are missing values in the embarked column and we can't go ahead without filling the missing values.
+So what I will do is I have made a simple imputer class here, that is, I made an object of it by saying SI underscore age.
+And for embarked, I have made 2 simple imputer objects for both columns.
+Why I have to make 2 different? Because I am filling the missing values in age using mean.
+Like default behavior is mean. And in embarked, I am replacing it with most frequent one.
+I am replacing it with most frequent one. There are 3 cities, Southampton, Shivog and Queenstown.
+Southampton has come most of the times
+So this simple imputer will automatically replace both the missing values with S
+S means Southampton
+Now what I have done here is
+si.age fit transform
+And I have passed the age column of my x-train
+So it will give me a numpy array
+I have stored it in x-train age
+And I have put the same thing on embarked
+And since I have put it on train
+same transformation i have applied on test also
+so if i run this code and show you quickly
+that how is my x train age
+so here is my x train age
+here where there is missing value there is mean value
+and here is my x train embarked
+here everywhere southampton shibog and queenstown
+So, this is the first transformation.
+Second transformation is that I have some columns which are categorical.
+Sex and Embarked.
+What I am doing on these two columns is that I am applying one hot encoding.
+So, you can see what I have done.
+here, at this place
+ohe underscore sex and ohe underscore embarked
+two different ohe, means one hot encoder objects
+you can question that why didn't I do it with one single
+the reason for that is that
+you will understand by looking at this code
+the problem is that I can't give both the columns of extreme together
+because there are missing values in embarked
+then you will say that we have solved the missing values of embarked
+So we have solved it in a new array by saying X train embarked, there are no changes in the original one,
+so there are still missing values in the original one, so we will not be able to do both together,
+I hope you understand this, this is not the main agenda, so I am not spending much time here,
+you will understand by looking at the code, just understand that we cannot encode both together,
+so we have to make two different objects and sparse is false, handle unknown is ignore,
+Handle unknown means that in future if I get a completely new category in test then I will ignore it.
+Ignoring it means that all the values will be zero in it.
+Now I did the same thing, OHE sex fit transform on train.
+OHE embarked fit transform on embarked column and again I got two new columns.
+And I did the same thing on test also.
+So if I run this code and show you quickly that your X train sex column is looking like this
+See, two columns are coming, one for male and one for female
+You can question that why I didn't drop the column to remove multicollinearity
+The reason is that I am going to implement decision tree
+There is no linear model so there will be no difference in multicollinearity
+And if I show you quickly Embarked, there are 3 columns in Embarked, one for Shebog, one for Queenstown, one for Southampton
+So now I have 4 different arrays, actually I have 3 different arrays, one is for age, one is for Embarked and one is for sex
+So here I have a separate array for sex, a separate array for age and a separate array for embarked.
+Rest of the things are as it is.
+Now what I will do is I will concatenate because I am poor and I can't do anything else.
+So what I will do is I have made a new numpy array called XtrainRemaining
+where I have dropped these three columns from Xtrain whose arrays I already have
+I did the same thing on the test, same to same, and now I made X-train transformed by concatenating those 4,
+I took X-train remaining, these 4 columns, I took age, I took sex, and embarked, and concatenated,
+and concatenated the test also, so at this point, if I show you, then this is my X-train transformed,
+This big array. If I show you its shape, 712 rows, 10 columns. If I show you on test, then also the columns will be same, 10.
+Rows will vary. So at this point, I have X input ready and Y input also ready. So what am I doing now?
+I have made an object of decision tree classifier by calling it as CLF
+and I have fit CLF.fit
+to X-train transformed
+and to my Y-train
+and my model is trained
+and after model is trained what you do?
+you do prediction
+and to do prediction you have sent X-test transformed
+and whatever answer came
+you have stored it in your Y-train
+so for every passenger in the test set
+algorithm gave one prediction, 0 or 1, died or survived. And now the last thing I did was
+calculated the accuracy score which is coming 79%. Now this is about training. Here I didn't use
+any column transformer so I had to process it separately and concatenate it in the end.
+I had told you that if you had done column transformer then it would have been easy.
+Now what we have to do is, let's say I have to deploy this model in a website where there will be a form
+where we can put the data of a new passenger, his P-class, his gender, his age, his sibling spouse, his parent child,
+his fare, his embark, someone will put this in the website, so our model will take that input and predict
+that the passenger will be saved or not. So now this thing may not be known to you that how do you take the model to another place,
+how do you take it for web development or how do you export it. So to export you have to use a library by saying pickle
+and you have to write this code pickle.dump and I am exporting my CLF, CLF means classifier object, what is classifier?
+I am exporting it at this location. Along with this, I have to send OHE sex and OHE embarked
+these two objects also because when a new data will come to me, then the person may have typed mail
+so I will have to encode that mail one-hot. Similarly, if it has typed Southampton
+then I will have to encode it one-hot because my model is relying only on numbers
+and those numbers should be one hot encoded.
+So, I will have to send OHE SEX and OHE EMBARQT also,
+where I will send CLF.
+Now, you can ask, why are you not sending simple imputer objects?
+See, I should have sent simple imputer objects.
+I did not send intentionally because
+what is the work of simple imputer?
+If the value is missing, then I will fill it.
+But here, since I am giving the value,
+then I know that I will not miss the value.
+So, I intentionally skipped it.
+Otherwise, it would have been very lengthy code.
+So we are sending OHE-SEX, OHE-Embark and we are exporting these three models.
+And as soon as we will run this code, I will show you, here is my models folder.
+In it, see these three files. Now I can show you by clicking on it.
+But these are binary files. You will not be able to see them.
+You can only use them. And the logic of using them is very simple.
+See what you have to do first of all, this is a new file.
+I will use it here. You can understand it as if this is my web page.
+and here the user is going to put the detail of a new passenger, so here you have to do import pickle first
+because here you were encoding it in .pkl and here you are decoding it back in normal decision tree object
+you will read all these things very well, now just understand that I want to tell you how much trouble is happening
+already I guess you must be thinking what is this person doing, how much trouble is happening
+Because it is happening, it is really happening.
+So, just take an overview that yes, so many steps have to be done.
+And then I will show you in the second part that you will not have to do all that if you will use pipelines.
+So, just stay with me.
+What am I doing here?
+Here I had dumped pickle.
+Here I am loading pickle from the same location.
+And again I am storing things in the same name in which I had sent it from here.
+Now the way he was behaving here, we can behave in the same way in this file.
+Now what I did here, I made a completely new input by myself.
+And I made that new input by looking from here.
+Means if you notice here, I just looked at this input and put it as it is here.
+So my passenger is in second P class, male, 31 is his age, sibling spouse is 0, parent child is 0,
+Fair is 10.5$ and it was higher than Southampton. So, this is my test input and I reshaped it to 1.7.
+Now what I have to do is, I have to apply the same pre-processing steps which I had to apply there.
+Imputer, then one-hot encoder and then add everything and then do prediction.
+So here there is no need to do imputer because the data is not missing.
+I have all the values of 7 columns.
+So now what I will do is, first of all I am putting transform on the sex column.
+And as soon as I put it, I got an input test underscore input underscore sex.
+So I am doing one thing, I will run all these cells once and show you.
+and here is first, so if I run this then test underscore input underscore sex and 0,1 came because it is male
+if it was female then 1,0 would have come and similarly I have test underscore input underscore embarked
+and if you run this then you will see three values, here are those three values for Southampton 001 is the code
+And after that I did everything the same, I took out the remaining data, I took out the data of age separately, I took out the data of sex separately, and I took out the data of embarked separately and concatenated them all, I did the exact same step here, if you would have noticed, then this exact step was here, first of all the remaining columns, then the column of age, then the column of sex and then the column of embarked, I did it in exactly the same order here.
+It is very important to maintain the order.
+And I have run it.
+And now see,
+if we take out its shape,
+then one row, means one passenger's data
+is divided into 10 columns.
+Similarly, as it was here,
+179 passengers' data is in 10 columns.
+So we have encoded it in the same form.
+And now what I have to do is,
+in my classifier object,
+by calling the predict function,
+I have to pass this input.
+And this is my output,
+Now think about how much hard work we had to do, especially on this page. This is your production code.
+When you convert it to a website, you have to write this code and in this code you have to do the same series of steps again.
+And how much you have to take care that which thing was in which order and imagine how much chance of making a mistake.
+If there is any change in the data or if you change the pre-processing step then you have to change the whole production code.
+That is so bad. That is why we use pipeline. I tried to show you a very long way to explain that this is the problem.
+I really hope you didn't get stuck. In fact, you understood that something like this happens.
+Even if at this point you don't know how to deploy the model, you don't understand many things from this,
+understand the core idea. The core idea is that if you don't use the pipeline,
+then the series of steps you are using during the training, you have to write the same series of steps again in your production code.
+And that is a very bad thing because if you have made any changes in the training,
+then you will have to mess with the production code also. That is not efficient way of writing code.
+And that is why people use pipeline. So again we talked about armzindagi and mentorzindagi.
+Now I will show you that if you would have used pipeline then how this whole thing would have been simplified.
+Let's see that. So guys we are doing the same project again using pipelines.
+So this time I have taken the same imports again and the two different things that I have taken this time is column transformer
+Because you will use column transformer and from sklearn.pipeline I have imported pipeline class
+I have actually used make underscore pipeline function too, what is its work, you will understand after some time
+And here is some code of feature selection too, I will explain you in some time, for now I will import everything first
+Now, let's import the data and here is our data, we have seen it, there is no need to explain it again.
+So, first of all, let me tell you the plan. What is the plan?
+So, the plan is this that we have data missing in two columns, age and embarked.
+So the first step of my pipeline will be to impute missing values using one column transformer.
+We will send its input in a second column transformer whose work will be to encode one hot in two columns.
+Which two columns? Sex and Embarked.
+In the next step we will do one hot encoding, after that the output that will come from this I will do scaling first
+Why do we do scaling so that all the columns come in similar numerical range and after that again this will also be a column transformer
+And after this, I am doing an important step which you generally do.
+This is called feature selection.
+So, you saw there were 10 different columns made during input.
+We will not take 10 of 10 columns and take top 5 columns.
+I am doing feature selection. I will take best 5 features only.
+I am deliberately adding this step.
+So that in future if you have to use this then this video can work as reference.
+Even if I don't do this, it doesn't matter. In fact, the result will be a little bad as I noticed.
+But I just want to show you how you can use feature selection during pipeline.
+So I will do feature selection and after that we will train the model using a decision tree.
+And it will give me the output. So I am going to create this pipeline.
+I will make this in pipeline
+so coming back
+first of all
+I am dropping these 4 columns
+because they will not be useful in my analysis
+I dropped them
+after that I have split train test
+because you have to do it
+and this is my x train
+in which there are only input columns
+for now there are 7 columns
+same as last time
+and this is my y train
+same
+Now first of all I am creating my first step, this one, the first part of my pipeline, the first column transformer, I am creating that.
+So you know how to create column transformer, in column transformer you pass a list of tuples.
+So here I have, this is an imputation transformer, so in this I have passed two different tuples.
+The name of one tuple is impute age and this is a simple imputer object and its strategy is to fill it with mean.
+I will use this on the age column.
+See here I have written, here I have not written the name of the age column, instead I have kept its index value.
+See here, if you notice the index value of age then it is 0, 1 and 2.
+I did not write the name because the problem is that when the output will come from this,
+So this is actually a NumPy array not a data frame.
+And NumPy array doesn't have the name of columns.
+So if you create every column transformer in such a way that
+while receiving it, it will receive from the name of the column,
+then your next code will start to burst.
+So it's a good strategy that when you are building pipelines,
+then rather than calling your column by names,
+call by their index value.
+Because it works on the NumPy array as it is.
+So here I have put simple imputer on array and simple imputer on embarked but kept strategy as most frequent, same code and put 6 here
+Why did I put 6? Because embarked is my 7th column, 7-1 is 6 and I have passed through the rest of my columns
+If I had not passed through then all the other columns would have dropped, you don't have to do that
+So, this is my first part. So, I have made this part of my pipeline. Now, I am making the next part of one-hot encoding.
+So, its name is ohe-sex-embarked. I will do both the columns together because I can do it. Now, everything is happening inside my data.
+New numpy array is not being made. So, I can do this. And in one-hot encoder, I have kept sparse and false.
+handle unknown is ignored, drop first is not done because I am using decision tree
+and here I have given my columns 1 and 6 because 1 is 6 and 6 is embarked
+I have given these two columns here, okay
+and let's run this too and guys pay attention here, remainder is pass through
+I have to pass through the rest of the columns as it is. My second one is also done.
+The third one is that I have to scale. Now I have used minmax scaler instead of standard scaler.
+The reason for that is that I am doing feature selection and while doing feature selection,
+I will have to use minmax scaler. Minmax scaler will be used for the specific feature selection that I am using.
+If I was not using feature selection, then I could have used standard scaler.
+And this minmax scalar I have applied on all the columns.
+And if you want, you can skip the categorical columns, but I didn't do that.
+I applied this transformation on all the columns in the range from 0 to 8.
+So I gave it from 0 to 8.
+Why did I give it from 0 to 8?
+because when we will do one hot encoder
+then let me tell you quickly
+we have 7 columns at this point
+there are 7 columns
+out of which 2 columns are sex
+which will make 2 columns again
+and one is embarked
+which will make 3 columns
+so out of 5, 2 columns will be removed
+and 5 will be applied
+so out of 7, 2 will be removed
+which means 5
+and then these new 5 will be added
+So as soon as these new 5 are added, we will have a total of 10 columns.
+Means after doing this step, I should have 10 columns because I am not doing drop first.
+So what I have to do is, rather than writing 0 to 8, I should write 0 to 10.
+I think when I wrote this code earlier, I dropped it. Maybe that's why it is happening.
+but here we will write 0 to 10, why?
+because after applying both the above transformations, the number of columns we have is 10
+so I am taking from 0 to 10, 0 included and 10 excluded, so it is from 0 to 9
+and this is my third transformation
+so now I have this scaling step also done
+now next step is feature scaling
+now feature scaling is done, there is no need to put any column transformer
+Here you just have to call this function, selectKBest and you have to give a scoring function which in our case is this scoring function.
+Now at this point, trust me, you don't have to pay much attention to how feature selection works.
+Just see how you can put the step of feature selection in the pipeline.
+And K is equal to 5 means that you are using the top 5 most important columns out of 10.
+If I want I can increase it a little, let's say I am making it 8, I am using top 8 columns, let's say, and I have run it, so now this part is also defined.
+Now in the last part I just have to make an object of decision tree and that is my fifth one.
+So till now I have created individual chains, now I will join them using a pipeline
+So for that you have to import this from sklearn.importpipeline
+I have imported this class, here you don't have to do anything
+Here also you have to pass a list of tuples and there will be two things in each tuple
+First, the name of that particular transformation, the name of that particular chain and its object.
+So, what is TRF1?
+My first transformer, my second transformer, my third transformer,
+my object with feature selection and my classifier.
+If I wanted, I could have changed the name here.
+But for consistency, I wrote it like this.
+And guys this is my pipeline object. That is how you create the pipeline object.
+Like this. It is done. Now if you see some videos and tutorials,
+then you will notice that they use make underscore pipeline function instead of
+calling pipeline class like I have done. So which one should you use?
+You should use make pipeline because it is simple. See below.
+You can create pipeline from pipeline. The difference is that the extra thing you had to pass was name.
+You don't need to pass this name. As you can see here. I simply wrote everyone's name of object and passed it like this.
+So this is a little easier syntax but I don't use this. The reason is that I will tell you later what is the reason.
+But I prefer this one. I prefer this syntax. So my pipeline object is created.
+By the way, this pipeline vs make pipeline, same logic is applied, column transformer vs make column transformer.
+When you use make column transformer, you have to send only two things in return of these three things.
+Your object and the name of the column.
+You don't have to send this name.
+This is up to you.
+Use any one.
+I just told you.
+Now we have pipeline object.
+and now on pipeline object you will simply call fit function and you will give your x train and y train
+so x train will go in this first, then some output will come out from this, it will go in this, then some output will come out from this, it will go in this
+and finally decision tree will get it and what decision tree will apply on it, it will give you its logic and output
+Now one thing you have to pay attention to, and don't get confused, that suppose if you put these 3 steps in the pipeline,
+imputation, one hot encoding, and scaling, and you haven't put the algorithm yet,
+then the pipe which is made, there you don't call this fit function, you call fit underscore transform,
+because here you are only pre-processing the data, you are not doing model training,
+so you call this function, actually you can call fit also, but then you have to transform it separately,
+so one single step would be better if you transform fit underscore,
+So I was just telling that if you are not training model through your pipeline then you will call fit transform
+If you are also training model then you will call fit so that you can call predict
+I just want to tell that two types of pipelines are made one with your algorithm in which you use fit and predict
+And second is when you are not using your algorithm then you use fit and transform
+So just take care of this. Now I am just training this model and guess what guys, the best part about this algorithm is,
+means this pipeline thing is that if you keep this code in your code, you have to write this code, I had written it,
+I had already run it, then as soon as you train, as soon as you run this code, you get a visual representation of your pipeline
+And by looking at this, anyone can understand how pipeline works.
+So my first transformer is applying two simple imputers in age and embarked column.
+And the output coming from here is going to another column transformer
+which is doing one hot encoding on two columns, sex and embarked.
+and the output that is coming from this, we are scaling it with min-max
+and by scaling min-max, we are extracting the best 8 features from the output
+and then by removing the best 8 features, we are training the model on this algorithm
+so this is a visual representation
+you will see this only when you write this code
+so it is important to write this code
+Now we will do one or two things, like our pipe object is now trained, so now it has some information that we can see,
+like if you press the dot mark and tab, then you will get some important things here, like the first thing is named underscore steps,
+If you run this, then it will tell you all the steps that this particular pipeline is following.
+So here you can see it's a dictionary where the name given in the key is specified.
+This is the reason why I use the old syntax because this name gives me readability.
+It is easy to debug.
+So here TRF2, TRF3, TRF4, TRF5.
+The good part is that you can see anyone.
+You can see what is going on in it.
+Let's say I want to know how this simple imputer worked, what is the mean value, I want to calculate this.
+So what I will do is, I will remove TRF1 from this dictionary.
+Here is TRF1.
+Now if I press dot on TRF1 and if I write transformers underscore,
+So you can see I got a list in which I can clearly see that in the first column transformer there were three transformers.
+First impute age, second impute impact and third remainder.
+Now let's say I want to know what was the mean value in the first one.
+So what will I do? Since this is a list, I will take out the first one from this list.
+And see this is a tuple in the first one.
+And from this tuple, I will remove the first item which is this guy, this is the simple imputer object.
+And in simple imputer, now we can go to attributes, here attribute is statistics.
+So if I copy it and write here dot statistics, so see this guys, this is the mean value.
+So the first transformer of mine, it calculated this mean value.
+Now I will quickly show you what my second impute did, if I go here and write transformers underscore
+Now let's say I want to see what is the most frequent value in the second one, what will I write again?
+here I would write 1, I am taking out the second one, from the second one I am taking out the first one again
+and from this again I am taking out statistics underscore, and see this guys, Southampton was the most frequent value
+and simple computer did the same, so you just have to do this guys, if you ever want to backtrack things
+So you can go to the second one to check, you can also go to the third one, you can go to the fourth one, you can go to the fifth one and you can check their parameters.
+It helps a lot in debugging. So these two things that I showed you, one is to visualize it and the other is to do a little post-mortem of it.
+You have to try a little by running this code. Now coming back, so a pipe has been trained and since there is a machine learning model here,
+So we will predict and while predicting we will pass X test.
+And whatever value will come we will put it in YPRED.
+And guys here is YPRED.
+So for every passenger in X test I have predicted whether he will survive or die.
+Now what I have done here is I have calculated the accuracy score which is 62 point something.
+Why is it coming less in comparison? Because here we have removed some columns by selecting the feature.
+Which is doing the opposite work for us. It is not helping, it is doing the mistake.
+So you go and see that if you remove the step of feature selection.
+If you remove this step from the pipeline. This one.
+If you remove this step. So what is the benefit?
+You check this. Now coming back.
+Now what we will do is, we will see one or two more things.
+I know you have not read cross-validation but since I want to make a video
+in which if you have any doubt related to pipeline then you can come in future and solve it.
+So I am also reading some topics which we will cover in future like cross-validation.
+So I just want to tell you that you can also do cross-validation by using your pipeline.
+What is cross-validation? Here the value of CV is 5 and the value of cross-validation is 5.
+So, you split train test in your data 5 different times, run the algorithm every time and calculate the mean score of accuracy.
+And you consider it as your actual score. So, you can do the same thing here.
+As soon as I run it, there is a cross-valid score of 63.
+The next thing that you will learn in future is called hyperparameter tuning.
+In any algorithm, you can change its settings and improve its performance.
+Like when you will read decision trees in future, you will know that there is a hyperparameter called max depth.
+By changing its value, its algorithm performance can be improved or not. It's a tuning knob.
+So you do that thing using a technique called Gritzer's theory.
+Its video is on my channel. If you want, you can watch it on YouTube.
+For that, I have created parameters and given different values of max depth.
+It will be tried for 1, 2, 3, 4, 5 and for none. It will be tried for these 6 different values.
+And the best value will automatically choose grid search CV.
+Now remember one thing that generally when you do grid search CV, you only give the name of that parameter.
+But here what you have to do is, you have to give this full name, TRF5. What is TRF5?
+The name of my model above, see. The name of the model which was made above, I had kept it myself, TRF5.
+So when you have to specify, then you have to write here, TRF underscore underscore, double underscore,
+the name of your parameter and specify its value.
+And after that, this code is of grid-srcv.
+If you read grid-srcv in the future, it is a very easy concept.
+You can apply it here.
+And this code takes some time.
+And since it fits, it gave me visual representation.
+And if I click on visual representation,
+then all the details are the same.
+And if I remove grid, which is my object, .bestcore,
+then the accuracy is 63%.
+and the best parameter is that max depth should be 2
+I hope you are able to understand till here
+now one last thing
+what if I want to use this pipeline in production
+then I will do the same thing
+I will dump it in a file called pipe.pkl
+and I will use it in production code
+now the good part is that
+you don't need to take one hot encoder object separately
+or simple imputer object separately
+because all that knowledge is already in the pipe.
+So as soon as I am exporting it, if I show you, actually I have closed the window,
+but it must have been downloaded in my folder.
+And now I will show you how the production code will be.
+Production code and these two codes are same by the way.
+These two are almost the same code.
+Now here also I have imported the same pickle and numpy as I did here.
+After that, I loaded pickle.load and put it in pipe variable like I did with these three.
+After that, I created a test data which is basically the same guy as it is here.
+Right, the same thing is here, the same code is here.
+And now I don't have to do so much drama here.
+See how much drama we did here, how much code we wrote.
+and here you just have to write pipe.predict test input 2
+and you have run it and it is saying that it will not be saved
+and that's it guys
+now tomorrow if you do some changes here
+so what you have to do is
+sorry if you do some changes here
+then you just have to download the new pipe
+and put it in the folder
+you don't have to change anything in this code
+think that if you remove any steps
+Even then there won't be any change in the code, the pipeline will still be there.
+You will import the pipeline again and call the predict function on the pipeline.
+What I am trying to say is that if you do any changes in this code,
+if you add any extra step or remove any step or do any changes in some steps,
+then again you will export the same pipe and here you have to load the same pipe again.
+So there is no change in the code here.
+I hope you understand my point, we have come a long way and I know you must be a little tired.
+But trust me, this is the gist of using pipeline and I can't show you more than this.
+You just have to understand that if you are using pipeline,
+when your machine learning model is running on the server, you don't have to mess with that code.
+You just have to copy and paste that file.
+Here is the file, pipe.pkl. This is the file. Obviously, you won't be able to see it.
+But you just have to change this file on the server and don't change anything in the code.
+Don't change anything in the code and your code will work like butter as it was working before.
+So easy. There shouldn't be any problem in the production. The condition gets tight.
+So this code is a very well managed code. It is a well written code and that is why you should also use pipelines.
+use pipelines. The faster you learn, the more comfortable you will be in your interview.
+And trust me, if someone asks you in the interview that you use pipelines,
+and you say what is pipeline, I am very sure you will not get the job.
+Pipelines is a concept which is massively used
+when you work in companies. So, please watch this video
+and try these codes. Just make sure you learn pipeline.
+I really hope I could explain it to you. If so,
+great mission successful make a mission accomplished so yeah that's it for the video thanks for watching bye

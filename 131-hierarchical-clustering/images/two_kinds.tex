@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+% Section 4: agglomerative clustering merges bottom-up; divisive clustering splits top-down. The clusters are those of
+% the Note's six points (section 5): {4,5}, {1,2}, {3,4,5}, {3,4,5,6}, then all.
+\begin{tikzpicture}[s/.style={draw=cgrey, fill=black!5, rounded corners=3pt, font=\sffamily\small, inner sep=3pt}]
+  \foreach \lvl/\txt in {0/{\{1\} \{2\} \{3\} \{4\} \{5\} \{6\}}, 1/{\{1\} \{2\} \{3\} \{4, 5\} \{6\}}, 2/{\{1, 2\} \{3\} \{4, 5\} \{6\}},
+                          3/{\{1, 2\} \{3, 4, 5\} \{6\}}, 4/{\{1, 2\} \{3, 4, 5, 6\}}, 5/{\{1, 2, 3, 4, 5, 6\}}} {
+    \node[s] (n\lvl) at (0, 1.0*\lvl) {\txt};
+    \pgfmathtruncatemacro{\k}{6 - \lvl}
+    \node[note, anchor=west] at (3.2, 1.0*\lvl) {\k\ cluster\ifnum\k>1 s\fi};
+  }
+  \draw[arrow, draw=cblue, line width=2pt] (-3.4, -0.2) -- (-3.4, 5.2) node[midway, left=4pt, align=right, text=cblue, font=\sffamily] {agglomerative:\\merge, bottom-up\\(used in practice)};
+  \draw[arrow, draw=corange, line width=2pt] (5.6, 5.2) -- (5.6, -0.2) node[midway, right=4pt, align=left, text=corange, font=\sffamily] {divisive:\\split, top-down};
+\end{tikzpicture}
+\end{document}

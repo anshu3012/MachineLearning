@@ -14,7 +14,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/superpos
 
 ## 1. Overview
 
-> **Key point:** A space of $d$ dimensions holds at most $d$ exactly perpendicular directions, but far more **nearly** perpendicular ones. Two random directions in 12,288 dimensions are within 5 degrees of perpendicular for every one of 20,000 pairs we drew, and the number of nearly perpendicular directions that fit grows exponentially with the dimension (the Johnson–Lindenstrauss lemma). The **superposition hypothesis** says that neural networks use this room: they store more features than they have dimensions, as nearly perpendicular directions, and accept a little interference between them. In a toy model, 5 features squeezed into 2 numbers are all stored, as a pentagon, but only when each feature is rarely active.
+> **Key point:** A space of $d$ dimensions holds at most $d$ exactly perpendicular directions, but far more **nearly** perpendicular ones. Two random directions in 12,288 dimensions are within 5 degrees of perpendicular for every one of 20,000 pairs we drew, and the number of nearly perpendicular directions that fit grows exponentially with the dimension (the Johnson–Lindenstrauss lemma). The **superposition hypothesis** (G-1916) says that neural networks use this room: they store more features than they have dimensions, as nearly perpendicular directions, and accept a little interference between them. In a toy model, 5 features squeezed into 2 numbers are all stored, as a pentagon, but only when each feature is rarely active.
 
 The [meaning as direction Note](../1086-meaning-as-direction/note.md) showed that an embedding stores ideas such as "female" or "plural" as directions. The [MLP stores facts Note](../1089-mlp-stores-facts/note.md) showed that the feed-forward block reads directions with the rows of its first matrix and writes directions with the columns of its second. Both raise a question: how many such directions can a vector of 768 or 12,288 numbers hold without the ideas getting mixed up?
 
@@ -51,9 +51,11 @@ To read feature $j$ back, take the dot product with its direction:
 
 $$h \cdot f_j = x_j + \sum_{i \neq j} x_i \thinspace(f_i \cdot f_j)$$
 
-The first term is what we want. The sum is **interference**: every other active feature leaks in, weighted by the cosine $f_i \cdot f_j$. If all the directions are perpendicular, every cosine is 0 and the reading is exact.
+The first term is what we want. The sum is **interference** (G-962): every other active feature leaks in, weighted by the cosine $f_i \cdot f_j$. If all the directions are perpendicular, every cosine is 0 and the reading is exact (Figure 2).
 
-The catch: non-zero vectors that are all perpendicular to each other are linearly independent, and a $d$-dimensional space has at most $d$ independent vectors. So with exact perpendicularity, $d$ dimensions store at most $d$ features. GPT-2 small's vectors have $d = 768$ numbers. To store more than 768 features in them, the directions must be allowed to be only *nearly* perpendicular, at the price of a little interference.
+![An example of our own: two features, both with strength 1, so $h = f_1 + f_2$. Reading feature 1 with $h \cdot f_1$ projects $h$ onto $f_1$ (dashed). Left: perpendicular directions give exactly 1. Right: directions 80 degrees apart give $1 + \cos 80^\circ = 1.17$; the extra 0.17 is the leak from feature 2](images/interference.png){width=100%}
+
+The catch: non-zero vectors that are all perpendicular to each other are **linearly independent** (G-1102), and a $d$-dimensional space has at most $d$ independent vectors. So with exact perpendicularity, $d$ dimensions store at most $d$ features. GPT-2 small's vectors have $d = 768$ numbers. To store more than 768 features in them, the directions must be allowed to be only **nearly perpendicular** (G-1307), at the price of a little interference.
 
 ## 4. Random directions are nearly perpendicular
 
@@ -75,7 +77,11 @@ The Notebook draws 20,000 random pairs for each dimension (Figure 1):
 | 1,000 | 0.0010 (0.001) | 1.82 (1.81) | 99 percent |
 | 12,288 | 0.0001 (0.0001) | 0.52 (0.52) | 100 percent |
 
-The mean square matches $1/d$ in every row. The spread matches $57.3/\sqrt{d}$ once angles stay close to 90 degrees ($d \ge 30$); in 3 dimensions the small-angle step does not hold. In 2 or 3 dimensions random directions point anywhere; in thousands of dimensions they are almost all nearly perpendicular. This is one more way in which high-dimensional space is unlike the space we can picture (the [curse of dimensionality Note](../46-curse-of-dimensionality/note.md)).
+The mean square matches $1/d$ in every row. The spread matches $57.3/\sqrt{d}$ once angles stay close to 90 degrees ($d \ge 30$); in 3 dimensions the small-angle step does not hold (Figure 3).
+
+![Left: the measured spread of the angle between random directions (dots) against the prediction $57.3/\sqrt{d}$ (dashed). Right: the share of pairs within 5 degrees of perpendicular rises from 6 percent in 2 dimensions to 100 percent in 12,288](images/spread_vs_d.png){width=100%}
+
+In 2 or 3 dimensions random directions point anywhere; in thousands of dimensions they are almost all nearly perpendicular. This is one more way in which high-dimensional space is unlike the space we can picture (the [curse of dimensionality Note](../46-curse-of-dimensionality/note.md)).
 
 ## 5. How perpendicular can many directions be made?
 
@@ -92,7 +98,7 @@ Random directions are a starting point. Can we nudge them to be *more* perpendic
 
 Random directions have a mean of $\cos^2$ equal to $1/d = 0.0100$, a hair above the floor of 0.0099. So the bulk of the histogram cannot get narrower. What optimisation *can* do is pull in the rare pairs far from 90 degrees.
 
-The Notebook takes 10,000 random directions in 100 dimensions and runs 60 steps of gradient descent on the sum of $\cos^8$ over all pairs (the high power pushes hardest on the worst pairs), rescaling each vector to length 1 after every step. Figure 2 shows the histogram at every step, on a log scale so that the rare far-off pairs stay visible.
+The Notebook takes 10,000 random directions in 100 dimensions and runs 60 steps of **gradient descent** (G-862) on the sum of $\cos^8$ over all pairs (the high power pushes hardest on the worst pairs), rescaling each vector to length 1 after every step. Figure 4 shows the histogram at every step, on a log scale so that the rare far-off pairs stay visible.
 
 ![10,000 directions in 100 dimensions, nudged to be more perpendicular. Dotted grey: the random start. Red lines: every pair lies between them. The log scale shows the rare pairs far from 90 degrees](images/angle_squeeze.gif){width=100%}
 
@@ -110,7 +116,7 @@ Watch the red lines move in while the middle of the histogram stays put. The roo
 
 > **Key point:** The Johnson–Lindenstrauss lemma implies that the dimension needed for $n$ nearly perpendicular directions grows only with $\log n$. Turned around, the number of directions that fit grows exponentially with the dimension: going from about 5,900 to 11,800 dimensions raises the guaranteed count from a thousand to a million.
 
-The **Johnson–Lindenstrauss lemma**, in the form proved by Dasgupta and Gupta (2003, Theorem 2.1): for any $0 < \varepsilon < 1$ and any $n$ points in $\mathbb{R}^D$, if
+The **Johnson–Lindenstrauss lemma** (G-984), in the form proved by Dasgupta and Gupta (2003, Theorem 2.1): for any $0 < \varepsilon < 1$ and any $n$ points in $\mathbb{R}^D$, if
 
 $$k \ge \frac{4 \ln n}{\varepsilon^2/2 - \varepsilon^3/3}$$
 
@@ -136,13 +142,17 @@ So $n$ directions with every cosine below $2\varepsilon/(1 - \varepsilon)$ fit i
 | 1,000,000,000 | 17,763 |
 | 1,000,000,000,000 | 23,684 |
 
-Each extra 5,920 or so dimensions multiplies the guaranteed number of directions by 1,000. The guarantee is cautious: in the Notebook, 10,000 *random* directions in 768 dimensions already have every pair within 12.1 degrees of perpendicular, and in 12,288 dimensions within 2.9 degrees. Elhage et al. (2022, "The Superposition Hypothesis") point to the same lemma: only $n$ orthogonal vectors fit in $n$ dimensions, but $\exp(n)$ many "almost orthogonal" ones do.
+Each extra 5,920 or so dimensions multiplies the guaranteed number of directions by 1,000 (Figure 5).
+
+![The Johnson–Lindenstrauss guarantee with $\varepsilon = 0.1$: the number of directions that fit, every cosine below 0.222, against the dimension. On a log scale the line is straight: the count grows exponentially with the dimension](images/jl_growth.png){width=90%}
+
+The guarantee is cautious: in the Notebook, 10,000 *random* directions in 768 dimensions already have every pair within 12.1 degrees of perpendicular, and in 12,288 dimensions within 2.9 degrees. Elhage et al. (2022, "The Superposition Hypothesis") point to the same lemma: only $n$ orthogonal vectors fit in $n$ dimensions, but $\exp(n)$ many "almost orthogonal" ones do.
 
 ## 7. Real token vectors spread out the same way
 
 > **Key point:** GPT-2 small stores 50,257 tokens in 768 dimensions, 65 times more tokens than dimensions. Apart from one shared mean vector, its token vectors sit at 90.0 degrees from each other on average, with a spread of 2.8 degrees, close to random directions (2.1 degrees).
 
-The Notebook takes 3,000 random rows of GPT-2 small's token-embedding table (the [meaning as direction Note](../1086-meaning-as-direction/note.md), section 7) and measures all 4.5 million angles between them (Figure 3).
+The Notebook takes 3,000 random rows of GPT-2 small's token-embedding table (the [meaning as direction Note](../1086-meaning-as-direction/note.md), section 7) and measures all 4.5 million angles between them (Figure 6).
 
 ![Angles between 3,000 token vectors of GPT-2 small. Orange: as stored. Blue: after subtracting the mean of all 50,257 token vectors. Grey: random directions in 768 dimensions](images/gpt2_angles.png){width=100%}
 
@@ -158,7 +168,7 @@ As stored, every token vector shares a common component, the table's mean vector
 
 > **Key point:** The superposition hypothesis says networks represent more features than they have dimensions, as nearly perpendicular directions. In a toy model with 5 features and 2 hidden numbers, a ReLU model stores only the 2 most important features when features are always active, but all 5, as a pentagon, when each is active only 5 percent of the time. Without the ReLU it never stores more than 2.
 
-**The hypothesis.** Elhage et al. (2022) name the idea: "the superposition hypothesis". Neural networks "want to represent more features than they have neurons", so they exploit the room of section 6 to simulate a larger network. A **feature** here is a property of the input the network represents, such as "this token refers to a specific famous person" or "this clause describes music" (the paper's examples). Superposition is offered as a *hypothesis*: it explains observations, and toy models show it can happen, but it is not proven for large models. It explains one observation in particular: many neurons are **polysemantic**, responding to several unrelated features.
+**The hypothesis.** Elhage et al. (2022) name the idea: "the superposition hypothesis". Neural networks "want to represent more features than they have neurons", so they exploit the room of section 6 to simulate a larger network. A **feature** (G-772) here is a property of the input the network represents, such as "this token refers to a specific famous person" or "this clause describes music" (the paper's examples). Superposition is offered as a *hypothesis*: it explains observations, and toy models show it can happen, but it is not proven for large models. It explains one observation in particular: many neurons are **polysemantic** (G-1517), responding to several unrelated features.
 
 ### 8.1 The toy model
 
@@ -168,14 +178,14 @@ The setup follows Elhage et al. (2022, "Demonstrating Superposition"):
 
 - **Data:** each observation has 5 features $x_1, \dots, x_5$. Each feature is 0 with probability $S$, the **sparsity**, and otherwise a random number between 0 and 1.
 - **Model:** $h = Wx$ squeezes the 5 numbers into 2 ($W$ is $2 \times 5$). The output is $x' = \text{ReLU}(W^T h + b) = \text{ReLU}(W^T W x + b)$. Column $W_i$ is feature $i$'s direction in the 2-number space.
-- **Loss:** the weighted squared error $\sum_i I_i\thinspace(x_i - x'_i)^2$, where the **importance** $I_i$ says how much each feature matters.
+- **Loss:** the weighted squared error $\sum_i I_i\thinspace(x_i - x'_i)^2$, where the **importance** (G-925) $I_i$ says how much each feature matters.
 - **Training (Notebook):** Adam, 6,000 steps of 1,024 random observations, 5 random starts per setting; we keep the run with the lowest loss (for its 10-feature, 5-neuron figures the paper keeps the best of 1,000 runs).
 
 ### 8.2 Sparse features are stored in superposition
 
 > **Key point:** As the features get sparser, the model stores 2, then 4, then all 5 of them in its 2 numbers.
 
-Figure 4 shows the trained directions $W_i$ with importance falling as $I_i = 0.7^i$ (feature 1 matters most). A feature counts as stored when its direction has length above 0.5.
+Figure 7 shows the trained directions $W_i$ with importance falling as $I_i = 0.7^i$ (feature 1 matters most). A feature counts as stored when its direction has length above 0.5.
 
 ![Toy model of superposition: the 2-number direction of each of 5 features after training, as features get sparser. Last panel: no ReLU](images/toy_sparsity.png){width=100%}
 
@@ -189,7 +199,7 @@ Figure 4 shows the trained directions $W_i$ with importance falling as $I_i = 0.
 
 With dense features the model does what a linear method such as PCA would do: it keeps the two most important features on perpendicular directions and drops the rest. Elhage et al. (2022) describe the same result: "With dense features, the model learns to represent an orthogonal basis of the most important two features". As features get sparser, more of them share the 2 numbers. Without the ReLU, the model keeps only 2 even when features are sparse: "the linear model always learns the top $m$ most important features" (Elhage et al. 2022).
 
-With 5 equally important features ($I_i = 1$) at $S = 0.95$, the directions spread out evenly. Figure 5 shows the training. Watch the 5 arrows push apart until the angles between neighbours are all close to 72 degrees, the angles of a regular pentagon. The paper reports the same regular pentagon for this setting (Elhage et al. 2022, "Perturbing a Single Feature").
+With 5 equally important features ($I_i = 1$) at $S = 0.95$, the directions spread out evenly. Figure 8 shows the training. Watch the 5 arrows push apart until the angles between neighbours are all close to 72 degrees, the angles of a regular pentagon. The paper reports the same regular pentagon for this setting (Elhage et al. 2022, "Perturbing a Single Feature").
 
 ![Training the toy model with 5 equally important features, each active 5 percent of the time, in 2 hidden numbers. The 5 directions spread into a pentagon](images/toy_pentagon.gif){width=80%}
 

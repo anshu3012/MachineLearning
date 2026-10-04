@@ -16,6 +16,8 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 
 > **Key point:** Backpropagation is the algorithm that trains a neural network. For each **observation** (one record, one row of the data table) it predicts, measures the loss, then works backwards through the network with the chain rule to find how the loss changes with every weight and bias, and moves each one a small step downhill.
 
+A new network starts with weights that are wrong, so its predictions are wrong. To learn, it must find out, for every weight and bias, whether that number should go up or down, and by how much. The procedure that works this out, starting from the error at the output and moving back towards the inputs, is backpropagation.
+
 **Backpropagation** (G-247), short for *backward propagation of errors*, is the algorithm used to train neural networks. Given a network and a loss function, it computes the gradient of the loss with respect to every weight and bias; gradient descent then uses that gradient to update them.
 
 Training a network means finding the values of its weights and biases that make its predictions on the data as good as possible. Backpropagation is how we find them.
@@ -117,6 +119,23 @@ Each hidden output depends on 5 things in turn. $O_{11}$ depends on the two inpu
 
 Think of a relay team that lost a race: the coach starts with the last runner, sees how much time was lost there, then asks how much of that came from the handover before, and so on back to the first runner. So the loss is reduced by starting at the output and going **backwards**, layer by layer, adjusting the weights and biases in each. The backward direction gives the algorithm its name: the error is propagated backwards.
 
+### 5.1 Another way to see it: who should change, and by how much
+
+> **Key point:** The output must rise. Its bias, its weights and the hidden outputs can each raise it; a parameter that is multiplied by a larger number has a larger effect. The wish for the hidden outputs is passed back one layer, where the same rule applies.
+
+Before any calculus, the backward pass can be told as a list of wishes. For student 1 the network says 0.32 and the data says 4, so the output must rise. The output is $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$, which gives three ways to raise it.
+
+![The wishes for student 1 on the 2-2-1 network. Green: the output must rise. Blue arrows: how strongly each weight and bias affects the loss; the number is the size of its gradient. Orange: the wish passed back to the hidden outputs. Idea after 3Blue1Brown, "Backpropagation, intuitively"](images/nudges.gif){height=42%}
+
+In Figure 5, watch the arrows appear from right to left:
+
+1. **Raise the output bias $b_{21}$.** The bias is added as it is, so one unit more bias gives one unit more output. Its arrow has size 7.36 (section 7.1 computes this number).
+2. **Raise the weights $W_{11}^{2}$ and $W_{21}^{2}$.** Each weight is multiplied by a hidden output of 1.6, so one unit more weight gives 1.6 units more output. A weight therefore counts 1.6 times as much as the bias: $7.36 \times 1.6 = 11.78$. A weight attached to a larger hidden output would count even more.
+3. **Raise the hidden outputs $O_{11}$ and $O_{12}$.** Each is multiplied by a weight of 0.1, so it counts only $7.36 \times 0.1 = 0.74$. A hidden output is not a parameter and cannot be set directly. So its wish, "rise, with strength 0.74", is passed back to the layer that produces it.
+4. **One layer back, the same three ways.** To raise $O_{11}$, raise its bias (counts 1: $0.74$) or its weights, each multiplied by an input of 8 ($0.74 \times 8 = 5.89$). The inputs themselves are data and cannot change, so the passing back stops here.
+
+The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradients computed in section 7.1. The gradients there are negative: a negative gradient means "raising this parameter lowers the loss", which is the wish of Figure 5. Section 6 now derives the same numbers with the chain rule.
+
 ## 6. The nine derivatives
 
 > **Key point:** Every derivative is a chain: $\partial L/\partial \hat{y}$, times how $\hat{y}$ depends on the next thing, and so on down to the parameter. The first link, $-2(y - \hat{y})$, is shared by all nine.
@@ -154,7 +173,7 @@ $$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}} \
 
 ![The chain from the loss back to $W_{11}^{1}$: one factor per link, with student 1's numbers](images/chain.png){height=22%}
 
-Figure 5 walks the chain backwards: read it right to left, multiplying one factor per arrow.
+Figure 6 walks the chain backwards: read it right to left, multiplying one factor per arrow.
 
 - $\partial \hat{y}/\partial O_{11} = W_{11}^{2}$, because $O_{11}$ appears in $\hat{y}$ only in the term $W_{11}^{2} O_{11}$. Likewise $\partial \hat{y}/\partial O_{12} = W_{21}^{2}$.
 - From $O_{11} = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$: $\partial O_{11}/\partial W_{11}^{1} = x_{i1}$, $\partial O_{11}/\partial W_{21}^{1} = x_{i2}$ and $\partial O_{11}/\partial b_{11} = 1$. The same holds for $O_{12}$ and its own weights.
@@ -181,6 +200,10 @@ Read all nine together:
 - The last factor is the input the weight multiplies ($x_{i1}$, $x_{i2}$, $O_{11}$, $O_{12}$), or 1 for a bias.
 
 After forward propagation we know $y$, $\hat{y}$, $O_{11}$, $O_{12}$, every weight and both inputs. So all nine derivatives are plain arithmetic, and step 4 can run.
+
+![The dependency tree of Figure 4 grown from the loss backwards, with student 1's numbers. The red number on an edge says how much the upper box changes per unit change of the lower box. Multiplying the numbers along the path from L down to a parameter gives that parameter's gradient](images/paths.gif){height=42%}
+
+Figure 7 shows the pattern as a picture. Watch the tree grow from $L$ downwards, then follow each red path: the path to $W_{11}^{2}$ has two edges, $-7.36 \times 1.6 = -11.78$; the path to $W_{11}^{1}$ has three, $-7.36 \times 0.1 \times 8 = -5.89$. Every path starts with the same edge, $-7.36$: the shared first factor.
 
 ## 7. One update with real numbers
 
@@ -264,7 +287,9 @@ In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.1
 
 ![The full algorithm for 1,000 epochs: predictions against real packages (left) and the average loss of each epoch (right)](images/epochs.gif){height=45%}
 
-Figure 6 runs the loop above for 1,000 epochs with learning rate 0.001. Watch the blue bars shoot up in the first five epochs, then settle: after 1,000 epochs the predictions are 4.18, 4.95, 5.72 and 7.12 against 4, 5, 6 and 7, and the average loss is 0.04.
+Figure 8 runs the loop above for 1,000 epochs with learning rate 0.001. Watch the blue bars shoot up in the first five epochs, then settle: after 1,000 epochs the predictions are 4.18, 4.95, 5.72 and 7.12 against 4, 5, 6 and 7, and the average loss is 0.04.
+
+Each student gives its own nine gradients, its own list of wishes. If we listened to student 1 alone, the network would learn to fit student 1 alone. Going through all four students lets every student pull the parameters its own way, and the parameters settle where the pulls balance.
 
 Updating after every single observation, as here, is **stochastic gradient descent** (G-1892; see the [SGD Note](../59-stochastic-gradient-descent/note.md)); the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) compares it with updating after many observations.
 
@@ -282,6 +307,7 @@ Updating after every single observation, as here, is **stochastic gradient desce
 - Backpropagation trains a network: it finds the derivative of the loss with respect to every weight and bias, and gradient descent uses them.
 - Only $\hat{y}$ can change the loss, and $\hat{y}$ depends on earlier layers, so we work backwards from the output.
 - Each derivative is a chain rule product; the factor $\partial L/\partial \hat{y}$ is shared by all of them.
+- A parameter that is multiplied by a larger number (a hidden output, an input) gets a larger gradient.
 - All the numbers needed come from the forward pass.
 - Observations go one at a time; the whole data is repeated for many epochs.
 
@@ -290,6 +316,7 @@ Updating after every single observation, as here, is **stochastic gradient desce
 **Built from**
 
 - CampusX, "Backpropagation in Deep Learning | Part 1 | The What?", YouTube, https://www.youtube.com/watch?v=6M1wWQmcUjQ
+- 3Blue1Brown, "Backpropagation, intuitively | Deep Learning Chapter 3", YouTube, https://www.youtube.com/watch?v=Ilg3gGewQ5U (section 5.1: the three ways to raise an output, and passing the wish back)
 
 **Other references**
 

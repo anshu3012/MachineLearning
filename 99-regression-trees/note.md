@@ -17,7 +17,7 @@ tags: [subject/ml, area/features, area/models-2, area/production, step/features,
 
 > **Key point:** A regression tree cuts the input space into boxes, exactly like a classification tree, but each leaf predicts the **mean** of its training outputs, and splits are chosen to minimise the squared error.
 
-Decision trees are mostly used for classification (the [decision tree intuition Note](../97-decision-trees-intuition/note.md)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree**. As before, the tree reads the **features** (input variables, one column each of the data table) of each **observation** (one record, one row of the table) and predicts the **target** (the output, here a number).
+Decision trees are mostly used for classification (the [decision tree intuition Note](../97-decision-trees-intuition/note.md)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree** (G-1654). As before, the tree reads the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output, here a number).
 
 This Note covers:
 
@@ -107,7 +107,7 @@ In Figure 1 the groups are separated by visible gaps, so we could place the cuts
 
 Take a threshold $t$ between two neighbouring points. The threshold splits the observations into a left group ($x \le t$) and a right group ($x > t$). Each group predicts its own mean. The gap between a point's actual mark and its group's mean is its **residual** (the [simple linear regression Note](../50-simple-linear-regression/note.md)), its error.
 
-1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** of that threshold.
+1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** (G-1912) of that threshold.
 2. **Formula:**
    $$\text{SSE}(t) = \sum_{x_i \le t} \left(y_i - \bar y_{\text{left}}\right)^2 + \sum_{x_i > t} \left(y_i - \bar y_{\text{right}}\right)^2$$
 3. **Example:** 5 students with hours 1, 2, 4, 5, 8 and marks 40, 46, 88, 90, 58. Try $t = 3$ (between 2 and 4):
@@ -132,7 +132,7 @@ Figure 4 shows this sweep on our 30 students (`images/sse_sweep.gif` animates it
 
 ![Sweeping the threshold across the data and tracking the SSE (key frames of the animation)](images/sse_sweep.gif){height=48%}
 
-> **Extra:** scikit-learn's default criterion, `"squared_error"`, compares splits by the weighted **mean** squared error (MSE) of the children. Since the parent's observation count is the same for every candidate, minimising the children's weighted MSE is the same as minimising the SSE. The drop from the parent's MSE to the weighted MSE of its children plays the role that information gain plays in classification; it is often called **variance reduction**, because a node's MSE around its mean is the variance of its outputs (sklearn reference, `criterion`).
+> **Extra:** scikit-learn's default criterion, `"squared_error"` (G-1864), compares splits by the weighted **mean** squared error (MSE) of the children. Since the parent's observation count is the same for every candidate, minimising the children's weighted MSE is the same as minimising the SSE. The drop from the parent's MSE to the weighted MSE of its children plays the role that information gain plays in classification; it is often called **variance reduction**, because a node's MSE around its mean is the variance of its outputs (sklearn reference, `criterion`).
 
 ### 4.4 Recursion, and when to stop
 
@@ -199,7 +199,7 @@ The other hyperparameters behave as for classification. For example, with 150 tr
 
 > **Key point:** 506 Boston districts, 13 inputs, and the median house price; a depth-5 tree scores R² = 0.88 on one test split.
 
-The **Boston housing data** describes 506 districts of Boston in the 1970s. Each district is one **observation** (one row of the table). Each has 13 **features**, the input variables (one feature each), such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The **target**, the output we predict, is `MEDV`, the median home value in thousands of dollars.
+The **Boston housing data** (G-324) describes 506 districts of Boston in the 1970s. Each district is one **observation** (one row of the table). Each has 13 **features**, the input variables (one feature each), such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The **target**, the output we predict, is `MEDV`, the median home value in thousands of dollars.
 
 > **Python:** A regression tree on the Boston data.
 >
@@ -221,7 +221,7 @@ The **Boston housing data** describes 506 districts of Boston in the 1970s. Each
 > r2_score(y_test, reg.predict(X_test))   # 0.883
 > ```
 >
-> `DecisionTreeRegressor` is used exactly like `DecisionTreeClassifier`; only the output is a number.
+> `DecisionTreeRegressor` (G-562) is used exactly like `DecisionTreeClassifier`; only the output is a number.
 
 > **Extra:** Older code loads this data with `load_boston` from `sklearn.datasets`. That function was removed in scikit-learn 1.2, because one feature, `B`, was built from the share of Black residents of each district, an ethically problematic variable (sklearn 1.1, `load_boston` notice). The Notebook reads the same table from `data/boston.csv` (OpenML dataset 531). For new projects, scikit-learn suggests the California housing data instead.
 
@@ -254,7 +254,7 @@ Grid search with `GridSearchCV` (the [KNN Note](../91-knn/note.md), section 4.2)
 
 The grid holds $5 \times 2 \times 3 \times 3 = 90$ combinations, each cross-validated 5 times: 450 trees. The best combination reaches a cross-validated $R^2$ of **0.725**.
 
-When a grid becomes too large, **`RandomizedSearchCV`** is the faster alternative: instead of every combination, it tries `n_iter` combinations drawn at random from the same lists. With `n_iter=20` it trains 100 trees instead of 450 and reaches a cross-validated $R^2$ of 0.70.
+When a grid becomes too large, **`RandomizedSearchCV`** (G-1625) is the faster alternative: instead of every combination, it tries `n_iter` combinations drawn at random from the same lists. With `n_iter=20` it trains 100 trees instead of 450 and reaches a cross-validated $R^2$ of 0.70.
 
 ### 7.3 Does tuning beat an untuned tree?
 
@@ -285,19 +285,23 @@ So tuning gains about 0.12 in test $R^2$ here. On every split the search picked 
 
 > **Key point:** The best of many cross-validated scores is slightly too high; re-score the winner on fresh folds to get an honest number.
 
-Picture 90 random people and pick the tallest. That person is tall, but part of the reason they won is luck of who showed up. A grid search works the same way. On the Boston data in section 7.2, it keeps the best of 90 scores, all measured on the same 5 folds, so a setting can win partly because it happens to suit those folds. Picking the best of many scores always makes the winner look a little better than it is; the effect is called **selection bias** (Cawley and Talbot 2010).
+Picture 90 random people and pick the tallest. That person is tall, but part of the reason they won is luck of who showed up. A grid search works the same way. On the Boston data in section 7.2, it keeps the best of 90 scores, all measured on the same 5 folds, so a setting can win partly because it happens to suit those folds. Picking the best of many scores always makes the winner look a little better than it is; the effect is called **selection bias** (G-2157; Cawley and Talbot 2010).
 
 The Notebook measures it. On 10 fresh shuffles of 5-fold cross-validation (only the folds change), the Boston grid's winning setting scores **0.663**, not 0.725. To report an honest score, either re-score the winner on fresh folds, or test it on data the search never saw, as in section 7.3.
+
+Figure 8 shows the 90 scores of the grid. The winner stands at the top of a smooth climb, a little above its neighbours; on fresh folds it drops to 0.663, back among the pack.
+
+![The 90 settings of the Boston grid, sorted by their cross-validated R² on the grid's 5 folds. The winner (orange) scores 0.725; re-scored on 10 fresh shuffles of 5-fold cross-validation, the same setting scores 0.663 (dashed).](images/selection_bias.png)
 
 ### 7.5 Feature importance
 
 > **Key point:** `feature_importances_` gives each feature's share of the tree's total error reduction; on Boston, RM, LSTAT and CRIM dominate.
 
-A trained tree also tells us which features it relied on. Its attribute **`feature_importances_`** gives one number per feature: that feature's share of all the impurity (here, error) reduction achieved by the tree's splits. The numbers add up to 1.
+A trained tree also tells us which features it relied on. Its attribute **`feature_importances_`** (G-773) gives one number per feature: that feature's share of all the impurity (here, error) reduction achieved by the tree's splits. The numbers add up to 1.
 
 ![Feature importance of the tuned tree on the Boston data](images/feature_importance.png){height=34%}
 
-Figure 8 shows them for the tuned Boston tree of section 7.2:
+Figure 9 shows them for the tuned Boston tree of section 7.2:
 
 - **RM** (rooms per home) is by far the most important feature, at 0.47;
 - then **LSTAT** (0.29) and **CRIM** (0.11);

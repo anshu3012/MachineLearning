@@ -124,7 +124,7 @@ The networks also grew deeper every year: 8 layers with weights in AlexNet, 16 a
 
 In 2012, Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton entered a deep CNN, later called **AlexNet** (G-187) (Krizhevsky et al. 2012). The [history section](../1003-nn-types-history-applications/note.md) of the neural network history Note tells why this was a turning point. Three things made it work at that scale:
 
-- **GPUs.** The network was trained on two NVIDIA GTX 580 graphics cards, which do the matrix arithmetic of a CNN far faster than a CPU (Krizhevsky et al. 2012, §1).
+- **GPUs** (G-856). The network was trained on two NVIDIA GTX 580 graphics cards, which do the matrix arithmetic of a CNN far faster than a CPU (Krizhevsky et al. 2012, §1).
 - **ReLU.** (G-1668) AlexNet used the ReLU activation, $\max(0, x)$, instead of tanh. On the CIFAR-10 dataset, a network with ReLU reached 25% training error six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1 and Figure 1). See the [activation functions Note](../1027-activation-functions/note.md).
 - **Less overfitting.** AlexNet used **dropout** (G-639) and **data augmentation** (G-531) (the [dropout Note](../1024-dropout/note.md) and the [data augmentation Note](../1050-data-augmentation/note.md)).
 

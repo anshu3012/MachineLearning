@@ -17,15 +17,19 @@ tags: [subject/ml, area/models-1, step/model, concept/regularisation, concept/ri
 
 > **Key point:** Regularisation adds a penalty to the loss so the model cannot overfit as easily. Ridge regression penalises the squares of the coefficients, which keeps them small.
 
-**Regularisation** is a technique that adds extra information to a model to reduce overfitting. Regularisation sits next to bagging and boosting as one of the main tools against high variance, and it is especially important for linear models: linear regression, logistic regression and others.
+**Regularisation** (G-1659) is a technique that adds extra information to a model to reduce overfitting. Regularisation sits next to bagging and boosting as one of the main tools against high variance, and it is especially important for linear models: linear regression, logistic regression and others.
 
 There are three standard regularised versions of linear regression:
 
 | Name | Penalty | Also called |
 |---|---|---|
-| Ridge regression | sum of squared coefficients | L2 regularisation |
-| Lasso regression | sum of absolute coefficients | L1 regularisation |
-| Elastic Net | a mix of both | |
+| **Ridge regression** (G-1691) | sum of squared coefficients | **L2 regularisation** (G-1029) |
+| **Lasso regression** (G-1047) | sum of absolute coefficients | L1 regularisation |
+| **Elastic Net** (G-668) | a mix of both | |
+
+Figure 1 draws the three penalties for a single coefficient $\beta$. All three are 0 when the coefficient is 0 and grow with its size, so all three push coefficients towards 0. They differ in how: the square is gentle on small coefficients ($0.5^2 = 0.25$) and harsh on large ones ($2^2 = 4$), while the absolute value charges the same rate everywhere and has a sharp corner at 0. That corner is why Lasso can set coefficients exactly to 0 (the [Lasso sparsity Note](../68-lasso-sparsity/note.md)).
+
+![The three penalties for one coefficient β: Ridge (β², blue), Lasso (|β|, orange) and Elastic Net (half of each, green). All are 0 at β = 0 and grow with the size of β.](images/penalties.png)
 
 This Note covers the idea of regularisation and of Ridge. The next three Notes derive Ridge mathematically, train it with gradient descent, and list its key properties; Lasso and Elastic Net follow.
 
@@ -33,11 +37,11 @@ This Note covers the idea of regularisation and of Ridge. The next three Notes d
 
 > **Key point:** An overfitting linear model has extreme coefficients: a very steep line that chases the training points.
 
-Overfitting means a model performs very well on the training data but poorly on new data, and gives very different results when trained on different samples (the high variance of the previous Note).
+**Overfitting** (G-1429) means a model performs very well on the training data but poorly on new data, and gives very different results when trained on different samples (the high variance of the previous Note).
 
-For linear regression, overfitting shows up in the coefficients. Each **feature** (an input variable, one column of the data table) gets one coefficient, and each **observation** (one record, one row of the table) is one training point. The **target** is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
+For linear regression, overfitting shows up in the coefficients. Each **feature** (G-772; an input variable, one column of the data table) gets one coefficient, and each **observation** (G-1374; one record, one row of the table) is one training point. The **target** (G-1949) is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
 
-Figure 1 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of Section 3: the Ridge slopes stay between 0 and 0.7.
+Figure 2 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of Section 3: the Ridge slopes stay between 0 and 0.7.
 
 ![20 samples of two points from the same pattern (dashed). Left: the least-squares line through each pair. Right: Ridge with λ = 1 on the same pairs; the lines stay close together but lean flatter than the pattern](images/two_point_samples.png){height=40%}
 
@@ -51,34 +55,36 @@ Ridge regression changes the loss function. In words: the loss is the usual sum 
 
 $$L = \sum_{i=1}^{n} (y_i - \hat y_i)^2 + \lambda m^2$$
 
-$\lambda$ (lambda) is a hyperparameter, at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
+$\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910), at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
 
-With numbers, Figure 2 has two training points, $(1, 2)$ and $(3, 5)$, and $\lambda = 1$.
+With numbers, Figure 3 has two training points, $(1, 2)$ and $(3, 5)$, and $\lambda = 1$.
 
 ![Two training points: the exact fit vs a flatter line](images/two_points.png){height=45%}
 
 - **The least-squares line** passes through both points: slope 1.5, errors 0. With the penalty, its loss is $0 + 1 \times 1.5^2 = 2.25$.
 - **A flatter line** with slope 0.9 misses both points slightly: errors $0.72$. Its loss is $0.72 + 1 \times 0.9^2 = 1.53$.
 
-With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 2 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. Section 4.3 tests the idea on real data.
+With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 3 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. Section 4.3 tests the idea on real data.
 
-Figure 3 lets λ grow on the same two points. Watch the line pivot about the middle point $(2, 3.5)$ and flatten, while the bars trade off: the errors grow, and the penalty first grows and then shrinks as the slope nears 0. At λ = 1 the best line has slope 1.0 and loss $0.50 + 1.00 = 1.50$, a little below the 1.53 of the slope-0.9 line.
+Figure 4 lets λ grow on the same two points. Watch the line pivot about the middle point $(2, 3.5)$ and flatten, while the bars trade off: the errors grow, and the penalty first grows and then shrinks as the slope nears 0. At λ = 1 the best line has slope 1.0 and loss $0.50 + 1.00 = 1.50$, a little below the 1.53 of the slope-0.9 line.
 
 ![λ grows from 0 to 30 on the two training points. The green line is the Ridge fit (dotted: least squares); red sticks are its errors. The bars show the squared errors, the penalty λm² and their sum. After StatQuest's "Regularization Part 1: Ridge (L2) Regression" (Starmer)](images/lambda_sweep.gif)
 
-Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
+Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance): the **bias-variance trade-off** (G-288). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
 
 Think of a tailor who fits a suit to one photo of a customer. A suit that follows every fold of that one photo fits badly on the real day. A tailor who keeps the cut a little plain, trusting the photo less, does better on average. Ridge keeps the coefficients plain in the same way.
 
+**Why a smaller slope predicts better.** The slope says how much the prediction changes when the feature changes by 1. In Figure 3, the least-squares slope 1.5 moves the prediction by 1.5 for each unit of $x$; the flatter slope 0.9 moves it by only 0.9. A steep line is very sensitive to small changes in the feature, so a little noise in the two training points turns into a large change in the predictions. A flatter line reacts less, so its predictions change less from sample to sample (StatQuest, "Regularization Part 1").
+
 ## 4. The effect of λ
 
-> **Key point:** λ = 0 is ordinary linear regression. As λ grows, the coefficients shrink towards 0. Too large a λ flattens the model into underfitting.
+> **Key point:** λ = 0 is ordinary linear regression. As λ grows, the coefficients shrink towards 0. Too large a λ flattens the model into **underfitting** (G-2035).
 
 ### 4.1 One feature
 
 > **Key point:** With one feature, a larger penalty gives a flatter line.
 
-Figure 4 (left) fits 100 observations with one feature. In scikit-learn the penalty strength is called `alpha` instead of $\lambda$.
+Figure 5 (left) fits 100 observations with one feature. In scikit-learn the penalty strength is called `alpha` instead of $\lambda$.
 
 ![The effect of alpha with one feature and with a degree-16 polynomial](images/alpha_effects.png){height=45%}
 
@@ -94,7 +100,7 @@ The slope shrinks as alpha grows, while the intercept changes little.
 
 > **Key point:** On a degree-16 polynomial, α = 0 overfits, α = 20 follows the pattern, α = 200 is too stiff.
 
-Regularisation matters most for flexible models. Figure 4 (right) fits a degree-16 polynomial to curved data:
+Regularisation matters most for flexible models. Figure 5 (right) fits a degree-16 polynomial to curved data:
 
 - **alpha = 0:** the curve bends to chase individual points and swings at the edges: overfitting.
 - **alpha = 20:** the penalty keeps the many coefficients small, and the curve follows the overall pattern.
@@ -104,9 +110,9 @@ The best alpha is somewhere in between and is found by trying values on held-out
 
 ### 4.3 Many features: the diabetes data
 
-> **Key point:** As alpha grows, every coefficient is pulled towards 0. With few training observations, a small alpha raises test R² a lot; a huge alpha destroys the model.
+> **Key point:** As alpha grows, every coefficient is pulled towards 0 (**shrinkage**, G-1796). With few training observations, a small alpha raises test R² a lot; a huge alpha destroys the model.
 
-Figure 5 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
+Figure 6 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
 
 ![Coefficients and test R² against alpha on the diabetes data](images/diabetes_alpha.png){height=45%}
 
@@ -129,7 +135,9 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 > ridge.score(X_test, y_test)
 > ```
 
-> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their features. A feature measured in grams gets a much smaller coefficient than the same feature in kilograms, so it would be penalised less. For this reason features are standardised before Ridge (ISL §6.2.1; ESL §3.4.1). The diabetes features already come scaled (scikit-learn docs, `load_diabetes`). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
+> **Extra:** Ridge also works when there are more coefficients than observations. Least squares needs at least as many observations as coefficients: with 10,001 coefficients and only 500 observations, many different sets of coefficients fit the training data exactly, and least squares cannot choose between them. The Ridge penalty picks the one answer with the smallest coefficients, so Ridge still gives a single model (StatQuest, "Regularization Part 1"; ISL §6.2.1). The [Ridge maths Note](../64-ridge-regression-maths/note.md) (Section 3.4, last Extra) shows why in one line of matrix algebra.
+
+> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their features. A feature measured in grams gets a much smaller coefficient than the same feature in kilograms, so it would be penalised less. For this reason features are **standardised** (G-1874) before Ridge (ISL §6.2.1; ESL §3.4.1). The diabetes features already come scaled (scikit-learn docs, `load_diabetes`). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
 
 ## 5. Summary
 
@@ -149,7 +157,7 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 **Built from**
 
 - CampusX, "Ridge Regression Part 1 | Geometric Intuition and Code | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=aEow1QoTLo0
-- Starmer, J. "Regularization Part 1: Ridge (L2) Regression." statquest.org. The idea of animating the line as λ grows (Figure 3).
+- StatQuest with Josh Starmer, "Regularization Part 1: Ridge (L2) Regression", YouTube, https://www.youtube.com/watch?v=Q81RR3yKn30. The idea of animating the line as λ grows (Figure 4), the slope as sensitivity (Section 3), and Ridge with more coefficients than observations (Section 4.3).
 
 **Other references**
 
@@ -168,4 +176,6 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 | Elastic Net | Linear regression with a mix of the L1 and L2 penalties |
 | λ (lambda), alpha | The strength of the regularisation penalty; alpha in scikit-learn |
 | Shrinkage | The pulling of coefficients towards 0 by a penalty |
-| Feature, target, observation | An input variable (column); the value predicted; one record (row) |
+| Feature | An input variable: one column of the data table |
+| Target | The value we predict |
+| Observation | One record: one row of the data table |

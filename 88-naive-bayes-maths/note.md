@@ -23,8 +23,8 @@ The previous Note used the Naive Bayes recipe on a small example. This Note deri
 
 > **Key point:** Features x = (x₁, ..., xₙ); K classes, C₁ to Cₖ for k up to K.
 
-- An **observation** (one record, a row of the data table) has $n$ **features** (input variables, one column each), with values $x = (x_1, x_2, \dots, x_n)$. In the cricket example, $n = 3$: toss, venue and outlook.
-- The **target** (the output we predict) is one of $K$ classes, $C_1, \dots, C_K$. In the cricket example, $K = 2$: win and loss.
+- An **observation** (G-1374; one record, a row of the data table) has $n$ **features** (G-772; input variables, one column each), with values $x = (x_1, x_2, \dots, x_n)$. In the cricket example, $n = 3$: toss, venue and outlook.
+- The **target** (G-1949; the output we predict) is one of $K$ classes, $C_1, \dots, C_K$. In the cricket example, $K = 2$: win and loss.
 
 The goal: for each class $C_k$, compute $P(C_k \mid x)$, then pick the largest.
 
@@ -40,9 +40,13 @@ By Bayes' theorem,
 
 $$P(C_k \mid x) = \frac{P(x \mid C_k)\thinspace P(C_k)}{P(x)}$$
 
-The evidence $P(x)$ is the same for every class, so it does not affect which class is largest (the intuition Note). Dropping it, we write $\propto$, "is proportional to":
+The evidence $P(x)$ is the same for every class, so it does not affect which class is largest (the intuition Note). Dropping it, we write $\propto$, "is **proportional to**" (G-1584):
 
 $$P(C_k \mid x) \propto P(x \mid C_k)\thinspace P(C_k)$$
+
+Figure 3 checks this on the cricket example of Section 6. The two scores are 0.040 for win and 0.056 for loss. Dividing both by their sum, the evidence 0.096, gives the posteriors 0.42 and 0.58: the bars change height but not order.
+
+![The cricket example. Left: the scores P(x | C) P(C), 0.040 for win and 0.056 for loss. Right: the same scores divided by the evidence P(x) = 0.096, the posteriors 0.42 and 0.58. Both pick loss.](images/evidence_drop.png)
 
 From the Bayes' theorem proof, $P(x \mid C_k) P(C_k) = P(x \cap C_k)$, the probability of the features and the class together. Writing the features out, with commas meaning "and":
 
@@ -64,7 +68,7 @@ Repeating until only $x_n$ and $C_k$ are left, and finally $P(x_n, C_k) = P(x_n 
 
 $$P(x_1, \dots, x_n, C_k) = P(x_1 \mid x_2, \dots, x_n, C_k)\thickspace P(x_2 \mid x_3, \dots, x_n, C_k) \cdots P(x_n \mid C_k)\thickspace P(C_k)$$
 
-This repeated splitting is the **chain rule** of probability. Nothing has been assumed yet: the chain rule is exact.
+This repeated splitting is the **chain rule of probability** (G-369). Nothing has been assumed yet: the chain rule is exact.
 
 ## 5. Step 3: the naive assumption
 
@@ -72,7 +76,7 @@ This repeated splitting is the **chain rule** of probability. Nothing has been a
 
 The factors of the chain rule are hard to estimate. For the cricket match, $P(x_1 \mid x_2, x_3, C_k)$ is "the probability the toss was lost, given the venue was Mumbai, the weather was sunny and the match was won". Few or no training observations match all those conditions, so the estimate is 0 or unreliable (the intuition Note).
 
-Naive Bayes assumes **conditional independence**: once the class is known, each feature is independent of the others. In symbols, for any features,
+Naive Bayes assumes **conditional independence** (G-443): once the class is known, each feature is independent of the others. In symbols, for any features,
 
 $$P(x_i \mid x_{i+1}, \dots, x_n, C_k) = P(x_i \mid C_k)$$
 
@@ -82,7 +86,7 @@ $$P(x_1, \dots, x_n, C_k) \approx P(x_1 \mid C_k)\thinspace P(x_2 \mid C_k) \cdo
 
 ![Who depends on whom, for three features. Left: the chain rule allows every feature to depend on the class and on the other features (red arrows). Right: the naive assumption keeps only the arrows from the class](images/naive_graph.png){width=90%}
 
-Figure 3 shows what the assumption removes: the red links between features. Each remaining factor needs only one feature and the class, which the training data can count reliably.
+Figure 4 shows what the assumption removes: the red links between features. Each remaining factor needs only one feature and the class, which the training data can count reliably.
 
 ## 6. The formula and the MAP rule
 
@@ -98,7 +102,11 @@ The prediction is the class with the largest posterior:
 
 $$\hat{y} = \underset{k \in \lbrace1, \dots, K\rbrace}{\arg\max}\thickspace P(C_k) \prod_{i=1}^{n} P(x_i \mid C_k)$$
 
-($\arg\max$ means "the $k$ that gives the maximum".) This is the **maximum a posteriori (MAP) rule**. On the cricket example, it gives 0.040 for win and 0.056 for loss, so $\hat{y}$ = loss.
+(**$\arg\max$** (G-210) means "the $k$ that gives the maximum".) This is the **maximum a posteriori (MAP) rule** (G-1157). On the cricket example, it gives 0.040 for win and 0.056 for loss, so $\hat{y}$ = loss.
+
+Figure 5 builds the two scores one factor at a time, for a match where the toss was lost, the venue was Mumbai and the weather sunny. Win starts ahead on its prior, 5/8 against 3/8. The second factor turns it round: only 1 of the 5 wins came after a lost toss, against 2 of the 3 losses. From there on loss stays ahead.
+
+![The MAP rule on the cricket example, one factor per frame: the prior, then the probability of each observed feature given the class. Win leads on the prior (0.625 against 0.375) but falls behind after the toss factor; the final scores are 0.040 and 0.056, so the prediction is loss. Log scale.](images/score_build.gif)
 
 ## 7. When the assumption fails
 
@@ -117,7 +125,7 @@ An everyday picture: two friends tell us the same rumour, but both read it in th
 
 ![Copying a feature makes Naive Bayes over-confident](images/duplicate.png){height=40%}
 
-Figure 4 shows the effect on the cricket prediction: each extra copy of the "toss" feature pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
+Figure 6 shows the effect on the cricket prediction: each extra copy of the "toss" feature pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
 
 In practice, Naive Bayes often still picks the right class even when its independence assumption is wrong, because only the **order** of the scores matters for the prediction. Its probabilities, however, tend to be too extreme, so they should not be trusted as exact (Domingos and Pazzani 1997; scikit-learn user guide §1.9).
 

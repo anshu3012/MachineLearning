@@ -17,13 +17,13 @@ tags: [subject/ml, area/data, area/features, step/understand, step/reduce, conce
 
 > **Key point:** PCA is an unsupervised feature extraction technique. PCA turns many features into a few new ones while keeping the essence of the data.
 
-A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the output we predict.
+A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-**Principal component analysis (PCA)** is the best-known feature extraction technique. PCA reduces the number of features in a dataset, which fights the curse of dimensionality (Note 46).
+**Principal component analysis (PCA)** (G-1469) is the best-known feature extraction technique. PCA reduces the number of features in a dataset, which fights the curse of dimensionality (Note 46).
 
 Three facts to keep in mind:
 
-- PCA is **unsupervised**: it uses only the features, never the target.
+- PCA is **unsupervised** (G-2058): it uses only the features, never the target.
 - PCA is old (Section 1, Extra) and widely used.
 - The full mathematics of PCA is involved. This Note builds the geometric intuition; the step-by-step mathematics comes in the next Note.
 
@@ -69,12 +69,12 @@ Figure 2 (left) plots the flats with rooms on the x-axis and grocery shops on th
 
 ![Shadows of the points on each axis](images/selection_by_spread.png)
 
-Imagine shining a light so each point casts a shadow on the x-axis. Dropping each point straight down onto an axis like this is called **projecting** it.
+Imagine shining a light so each point casts a shadow on the x-axis. Dropping each point straight down onto an axis like this is called **projecting** (G-1583) it.
 
 - On the rooms axis (orange), the shadows stretch from 1 to 5.
 - On the grocery shops axis (green), they cover only a short stretch.
 
-The data is spread out along rooms and bunched up along grocery shops. So we keep rooms. The size of this spread is measured by the **variance** of the shadows: 1.33 for rooms and 0.10 for grocery shops.
+The data is spread out along rooms and bunched up along grocery shops. So we keep rooms. The size of this spread is measured by the **variance** (G-2078) of the shadows: 1.33 for rooms and 0.10 for grocery shops.
 
 Feature selection by spread therefore keeps the features with the largest variance.
 
@@ -96,13 +96,17 @@ The [types of ML Note](../03-types-of-ml/note.md) (section 3.3) already did this
 
 PCA does the same with no knowledge of the subject. PCA ignores the original features as they are, builds a new set of features from the data alone, and keeps the new features that matter most.
 
+Figure 3 shows the result on the rooms and washrooms data. Every flat slides onto one line, PC1 (section 4 explains how PCA chooses it), and is then described by a single number: its position along that line, from $-2.7$ to $+3.0$. That one number keeps 98 percent of the spread of the two original features.
+
+![The 30 flats move onto the PC1 line (orange); each flat is then described by one number, its position along PC1, which keeps 98 percent of the variance.](images/two_to_one.gif)
+
 ## 4. How PCA finds the new features
 
 > **Key point:** PCA rotates the axes until one axis points along the direction of greatest spread. That axis is the first principal component.
 
 Feature selection could only look along the two existing axes, rooms and washrooms. PCA is allowed to turn the axes to any angle.
 
-Figure 3 shows the idea on the rooms and washrooms data. We draw a line through the centre of the data, project every point onto it, and measure the variance of the shadows. Then we turn the line and measure again.
+Figure 4 shows the idea on the rooms and washrooms data. We draw a line through the centre of the data, project every point onto it, and measure the variance of the shadows. Then we turn the line and measure again.
 
 ![Turning the line until the shadows spread the most](images/rotate_axes.gif)
 
@@ -111,17 +115,48 @@ Figure 3 shows the idea on the rooms and washrooms data. We draw a line through 
 3. **At 45°:** variance 2.61, the largest of any angle. This line is the first principal component.
 4. **At right angles to it:** variance only 0.05. This line is the second principal component.
 
-The new axes are called **principal components**, written **PC1** and **PC2**. PC1 is the direction with the most variance; PC2 is at right angles to it and holds what is left.
+The new axes are called **principal components** (G-1563), written **PC1** and **PC2**. PC1 is the direction with the most variance; PC2 is at right angles to it and holds what is left.
 
 Here PC1 holds almost all the spread, 2.61 against 0.05. So we keep PC1, drop PC2, and describe each flat by one number: its position along PC1. Two features have become one, just like the flat's area.
 
-### 4.1 How many principal components
+### 4.1 Largest spread and closest line are the same line
+
+> **Key point:** The line with the largest spread of shadows is also the line closest to the points. Pythagoras' theorem ties the two together.
+
+"Find the line the shadows spread most along" and "find the line that passes closest to the points" sound like two different jobs. Figure 5 shows they are one job. It has two steps.
+
+1. **Centre the data.** Subtract the mean of each feature, so the centre of the cloud sits on the origin. The data is now **centred** (G-365). The shape of the cloud does not change: the highest flat is still the highest.
+2. **Turn a line through the origin** and project every flat onto it, as in Figure 4.
+
+![The centred flats and a line turning through the origin. For one flat (black), a is its distance from the origin, c (orange) the distance of its shadow from the origin, and b (red) its distance to the line. The bars average c² and b² over all 30 flats; they always add up to 2.66. Idea after StatQuest, "Principal Component Analysis (PCA), Step-by-Step".](images/pythagoras.gif)
+
+Watch the black flat in Figure 5. Three lengths form a right-angled triangle:
+
+- $a$: from the origin to the flat. The flat does not move, so $a$ never changes;
+- $c$: from the origin to the flat's shadow on the line;
+- $b$: from the flat to the line.
+
+By Pythagoras' theorem,
+
+$$a^2 = b^2 + c^2 .$$
+
+For the black flat, $a^2 = 6.52$ at every angle. At 0° it splits into $c^2 = 4.26$ and $b^2 = 2.26$. At 45° it splits into $c^2 = 6.36$ and $b^2 = 0.16$. Because $a^2$ is fixed, whenever $c^2$ grows, $b^2$ must shrink by the same amount.
+
+The same holds for every flat, so it holds for the averages, which are the two bars in Figure 5. The orange bar is the variance of the shadows; the red bar is the average squared distance to the line. Together they always make 2.66. At 45° the orange bar is at its largest, 2.61, so the red bar is at its smallest, 0.05.
+
+Maximum variance along the line and minimum distance to the line are therefore the same answer. PCA uses the first description because the variance of the shadows is easier to compute.
+
+> **Extra:** PCA was first defined from the other side, as the line of closest fit to the points (Pearson 1901).
+
+### 4.2 How many principal components
 
 > **Key point:** Data with n features has at most n principal components. We keep the first few.
 
 Rotating the axes does not create extra axes. Data with 2 features gives 2 principal components; data with 10 features gives up to 10. The same idea works in 3, 4 or any number of dimensions.
 
 The components come in order: PC1 holds the most variance, PC2 the next most, and so on. Reducing dimensions means keeping the first few and dropping the rest.
+
+The order also tells us how to read a plot drawn on PC1 and PC2: a gap between two groups along PC1 matters more than a gap of the same size along PC2.
 
 > **Python:** PCA in scikit-learn (full code in the Notebook).
 >
@@ -148,7 +183,7 @@ PCA is built on variance, so it is worth being precise about what variance means
 
 > **Key point:** Two datasets can have the same mean and very different spreads.
 
-The mean gives the centre of the data (see the [understanding your data Note](../19-understanding-your-data/note.md), section 7.1), but not its spread. Take two small datasets (Figure 4):
+The mean gives the centre of the data (see the [understanding your data Note](../19-understanding-your-data/note.md), section 7.1), but not its spread. Take two small datasets (Figure 6):
 
 - Data A: $-5, 0, 5$
 - Data B: $-10, 0, 10$
@@ -189,15 +224,19 @@ Data B is twice as spread out as Data A, but its variance is 4 times larger, bec
 
 > **Key point:** Squared distances give a smooth formula that the optimisation inside PCA can work with; absolute distances do not.
 
-We could measure spread without squares: take the absolute distance $|x_i - \bar{x}|$ of each point from the mean and average them. That average is the **mean absolute deviation**.
+We could measure spread without squares: take the absolute distance $|x_i - \bar{x}|$ of each point from the mean and average them. That average is the **mean absolute deviation** (G-1193).
 
-PCA does not use it. Finding the best direction is an optimisation problem, and solving it needs a formula we can differentiate. The absolute value has a sharp corner at zero, where it cannot be differentiated. The square is smooth everywhere, so variance is used.
+PCA does not use it. Finding the best direction is an optimisation problem, and solving it needs a formula we can differentiate. The absolute value has a sharp corner at zero, where it cannot be differentiated. The square is smooth everywhere, so variance is used (Figure 7).
+
+Some measure with no sign is needed in the first place because the plain distances $x_i - \bar{x}$ are positive on one side of the mean and negative on the other, and they cancel: for Data A, $-5 + 0 + 5 = 0$. Squaring makes every distance positive, so nothing cancels.
+
+![Left: the absolute distance |d| has a corner at 0, where its slope jumps from −1 to +1. Right: the square d² is smooth, and its slope 2d passes smoothly through 0.](images/square_vs_abs.png){height=30%}
 
 ## 6. Why PCA maximises variance
 
 > **Key point:** Keeping the direction of greatest variance keeps the points as far apart as they really are. A low-variance direction squeezes different points together.
 
-Figure 5 picks out two flats from the rooms and grocery shops data. They are 3.15 apart: one has 1 room and the other 4, with almost the same number of grocery shops.
+Figure 8 picks out two flats from the rooms and grocery shops data. They are 3.15 apart: one has 1 room and the other 4, with almost the same number of grocery shops.
 
 ![Two flats projected on each axis](images/why_max_variance.png)
 
@@ -208,7 +247,7 @@ Many algorithms, such as KNN, work with distances between points. After a projec
 
 PCA therefore looks for the direction of maximum variance. That direction keeps the distances between points, and so the relationships in the data, as close as possible to the original: the photographer choosing the angle where the players stay apart.
 
-> **Extra:** PCA is sometimes described as finding the line with the *least* error, which is the same line seen from the other side (Pearson 1901 defined it that way). Each point's squared distance from the centre splits into two parts (Pythagoras): the part along the line, and the part from the point to the line. The total is fixed, so making the first part as large as possible makes the second as small as possible. In Figure 3 the total variance is 2.66: at 45° it splits into 2.61 along PC1 and 0.05 left over. Maximum variance along the line and minimum distance to the line are the same answer.
+Section 4.1 showed the same choice from the other side: the direction of maximum variance is also the line closest to the points.
 
 ## 7. Summary
 
@@ -225,6 +264,7 @@ PCA therefore looks for the direction of maximum variance. That direction keeps 
 - PCA makes algorithms faster and lets us plot high-dimensional data.
 - Feature selection can only keep or drop existing features; PCA builds new ones.
 - PCA rotates the axes so that PC1 points along the greatest spread.
+- The line of greatest spread is also the line closest to the points (Pythagoras: $a^2 = b^2 + c^2$ with $a$ fixed).
 - Data with n features has at most n principal components; we keep the first few.
 - Variance, not mean absolute deviation, because it is smooth enough to optimise.
 
@@ -234,6 +274,8 @@ PCA therefore looks for the direction of maximum variance. That direction keeps 
 **Built from**
 
 - CampusX, "Principle Component Analysis (PCA) | Part 1 | Geometric Intuition", YouTube, https://www.youtube.com/watch?v=iRbsBi5W0-c
+- StatQuest with Josh Starmer, "StatQuest: Principal Component Analysis (PCA), Step-by-Step", YouTube, https://www.youtube.com/watch?v=FgakZw6K1QQ (centring, the turning line and the Pythagoras triangle of section 4.1)
+- StatQuest with Josh Starmer, "StatQuest: PCA main ideas in only 5 minutes!!!", YouTube, https://www.youtube.com/watch?v=HMOI_lkzW08 (reading a PCA plot: PC1 gaps matter more than PC2 gaps)
 
 **Other references**
 
@@ -249,6 +291,7 @@ PCA therefore looks for the direction of maximum variance. That direction keeps 
 | Observation | One record: one row of the data table |
 | Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new features along the directions of greatest variance |
 | Projection | Dropping each point onto an axis or line, like casting a shadow |
+| Centred data | Data whose mean is 0: the mean of each feature has been subtracted |
 | Variance | The average squared distance of the points from their mean |
 | Mean absolute deviation | The average absolute distance of the points from their mean |
 | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most |

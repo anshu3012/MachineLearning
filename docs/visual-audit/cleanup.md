@@ -14,3 +14,6 @@
 - 510 images/composition.gif is 3.7 MB (over 3 MB); re-encode
 - glossary IDs pending for new Key terms from the maths rewrite (360, 500, 510, 580): run merge_glossary after all rewrite agents finish
 - 114 unused Manim .mp4 renders in images/ (98 tracked in git, ~98 MB; no Note or tool uses them): git rm, add '*/images/*.mp4' to .gitignore — at the next commit
+- 1039: MNIST tuner results are not reproducible; .logs/1039-notebook.ipynb no longer matches the Note. Seed it or re-record one run and update the Note from it.
+- 1003 nn_flows.gif is 3.4 MB (over 3 MB); re-encode
+- PDF pages not opened for new figures in 1005-1023 (9 Notes) and 1064-1089: check in the final PDF pass

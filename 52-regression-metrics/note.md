@@ -17,9 +17,9 @@ tags: [subject/ml, area/production, step/evaluate, concept/regression-metrics]
 
 > **Key point:** A regression metric turns all the errors on the test set into one number. Five are common: MAE, MSE, RMSE, R² and adjusted R².
 
-After training a regression model, we need to know how good it is. A **metric** compares the model's predictions with the true values on the test set and summarises the errors as one number, like a report card that sums up a term's work in one grade.
+After training a regression model, we need to know how good it is. A **regression metric** (G-1652) compares the model's predictions with the true values on the test set and summarises the errors as one number, like a report card that sums up a term's work in one grade.
 
-Three words recur. A **feature** is an input variable (one column of the data table), here CGPA. The **target** is the output we predict, here the package. An **observation** is one record (one row), here one student.
+Three words recur. A **feature** (G-772) is an input variable (one column of the data table), here CGPA. The **target** (G-1949) is the output we predict, here the package. An **observation** (G-1374) is one record (one row), here one student.
 
 This Note covers five metrics, in order:
 
@@ -35,9 +35,17 @@ No single metric is best for every problem, which is why several exist. All the 
 
 Throughout, $y_i$ is a student's actual package, $\hat y_i$ the model's prediction, and $n$ the number of test students.
 
+Figure 1 shows what every metric starts from. Each test student has an error: the vertical stick between the actual package and the line's prediction. Each metric below is a different way to turn these 40 sticks into one number.
+
+![The 40 test students, the regression line (the model's predictions) and each student's error as a stick: blue when the actual package is above the prediction, red when below. The five metrics summarise these 40 errors.](images/test_errors.png)
+
 ## 2. Mean absolute error (MAE)
 
 > **Key point:** MAE is the average size of the errors, ignoring their sign. On the placement data it is 0.29 LPA.
+
+The plain idea: measure how long each error stick of Figure 1 is, ignore whether it points up or down, and average the lengths. This average is the **mean absolute error (MAE)** (G-1194). Figure 2 does it step by step on the 40 test students.
+
+![MAE in four steps. 1: the 40 errors with their signs. 2: their plain average is −0.041, because positive and negative errors cancel. 3: drop the sign. 4: the average size is MAE = 0.288 LPA. The labelled bar is the first test student, 4.10 − 3.89 = 0.21.](images/mae_steps.gif)
 
 In words: for each point, take the gap between the actual and the predicted value, drop its sign, and average these gaps.
 
@@ -47,12 +55,12 @@ With numbers: the first test student has an actual package of 4.10 and a predict
 
 $$\text{MAE} = 0.288 \text{ LPA}$$
 
-The sign is dropped because some points lie above the line and some below; without the absolute value, positive and negative errors would cancel.
+The sign is dropped because some points lie above the line and some below; without the absolute value, positive and negative errors would cancel. Step 2 of Figure 2 shows how badly: the signed errors average to $-0.041$, as if the model were almost perfect.
 
 **Advantages:**
 
 - **Same units as the target.** The model is off by about 0.29 lakh rupees per year on average, a statement anyone can understand.
-- **Robust to outliers.** One very wrong prediction raises MAE only in proportion to its size (Section 5).
+- **Robust to outliers.** An **outlier** (G-1420) is an observation far from the rest. One very wrong prediction raises MAE only in proportion to its size (Section 5).
 
 **Disadvantage:** the absolute value has a sharp corner at 0, so it cannot be differentiated there. The corner makes MAE awkward to use as the function that training minimises (the previous Note chose squares for exactly this reason).
 
@@ -60,7 +68,7 @@ The sign is dropped because some points lie above the line and some below; witho
 
 > **Key point:** MSE averages the squared errors. MSE is smooth and punishes large errors heavily, but its units are squared. On the placement data it is 0.121.
 
-In words: square each error and average the squares.
+In words: square each error and average the squares. The result is the **mean squared error (MSE)** (G-1201).
 
 $$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n} (y_i - \hat y_i)^2$$
 
@@ -68,14 +76,14 @@ With numbers: the first student's error of 0.21 becomes $0.21^2 = 0.044$. Averag
 
 $$\text{MSE} = 0.121$$
 
-**Advantage:** the square is smooth everywhere, so MSE can be differentiated. Smoothness is why MSE is used as the **loss function** that models minimise during training, as in the previous Note.
+**Advantage:** the square is smooth everywhere, so MSE can be differentiated. Smoothness is why MSE is used as the **loss function** (G-1130) that models minimise during training, as in the previous Note.
 
 **Disadvantages:**
 
 - **Squared units.** 0.121 is in LPA², which has no everyday meaning.
 - **Sensitive to outliers.** Squaring makes a large error dominate: an error of 3 counts 9, while ten errors of 0.3 together count only 0.9.
 
-Figure 1 shows the effect on the 40 test errors. Watch the right panel: squaring flattens the small errors and stretches the large ones.
+Figure 3 shows the effect on the 40 test errors. Watch the right panel: squaring flattens the small errors and stretches the large ones.
 
 ![The 40 test errors sorted by size: absolute (left) and squared (right). The dashed line is the mean, MAE on the left and MSE on the right.](images/abs_vs_squared.png)
 
@@ -85,7 +93,7 @@ The 5 largest errors make up 28% of the absolute total but 46% of the squared to
 
 > **Key point:** RMSE is the square root of MSE: back in the target's units, but still punishing large errors. On the placement data it is 0.35 LPA.
 
-In words: compute the MSE, then take its square root.
+In words: compute the MSE, then take its square root. The result is the **root mean squared error (RMSE)** (G-1705).
 
 $$\text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n}\sum_{i=1}^{n} (y_i - \hat y_i)^2}$$
 
@@ -94,6 +102,10 @@ With numbers:
 $$\text{RMSE} = \sqrt{0.121} = 0.348 \text{ LPA}$$
 
 RMSE is in LPA again, like MAE, so it is easy to report. RMSE is always at least as large as MAE (here 0.35 against 0.29), because the squares give extra weight to the larger errors. The two are equal only when every error has the same size.
+
+Figure 4 makes both numbers into lengths. Draw each test error as a square with side equal to the error's size (grey). MSE is the average area of these squares, 0.121. The orange square has exactly that area, so its side is RMSE, 0.348. MAE is the average side, 0.288 (blue). The few big squares, such as the one with side 0.85, add a lot of area, so the square with the average area is longer than the average side.
+
+![Each of the 40 test errors drawn as a square from the same corner (grey). Orange: the square whose area is the average area (MSE = 0.121 LPA squared); its side is RMSE = 0.348 LPA. Dashed blue: the square whose side is the average side, MAE = 0.288 LPA.](images/rmse_square.png)
 
 > **Extra:** The proof. Write $a_i = |y_i - \hat y_i|$, so MAE is the average of the $a_i$. Then
 >
@@ -118,7 +130,7 @@ RMSE is in LPA again, like MAE, so it is easy to report. RMSE is always at least
 
 > **Key point:** One very wrong prediction barely moves MAE but pushes RMSE up sharply.
 
-Figure 2 takes the 40 test predictions and makes one of them worse and worse.
+Figure 5 takes the 40 test predictions and makes one of them worse and worse.
 
 ![One bad prediction among 40: MAE and RMSE](images/outlier_effect.png)
 
@@ -139,7 +151,7 @@ So the choice depends on the problem:
 
 MAE, MSE and RMSE have a weakness: their size depends on the units. An RMSE of 0.35 is small for packages in LPA but would be huge for a target measured in thousands. We need a comparison point.
 
-The simplest model of all ignores the feature and predicts the average package, 2.96 LPA, for every test student: the flat line in the first frame of Figure 3. Each error is drawn as a square, so the total orange area is the sum of squared errors: 22.13. Watch the line turn into the regression line: the squares shrink until their total is only 4.85, and the R² bar fills.
+The simplest model of all ignores the feature and predicts the average package, 2.96 LPA, for every test student: the flat line in the first frame of Figure 6. Each error is drawn as a square, so the total orange area is the sum of squared errors: 22.13. Watch the line turn into the regression line: the squares shrink until their total is only 4.85, and the R² bar fills.
 
 ![The average line turns into the regression line. Each square's side is one student's error; the bars show the total squared error and R². Comparing the error around the average line with the error around the regression line follows StatQuest's "R-squared, Clearly Explained!!!" (Starmer).](images/r2_sweep.gif)
 
@@ -151,9 +163,9 @@ In words: divide the model's sum of squared errors by the average-only model's s
 
 $$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum (y_i - \hat y_i)^2}{\sum (y_i - \bar{y})^2}$$
 
-Here $SS_{res}$ (the **residual sum of squares**) is the model's total squared error, and $SS_{tot}$ (the **total sum of squares**) is the total squared error of always predicting the mean $\bar{y}$.
+Here $SS_{res}$ (the **residual sum of squares**, G-1684) is the model's total squared error, and $SS_{tot}$ (the **total sum of squares**, G-1993) is the total squared error of always predicting the mean $\bar{y}$.
 
-With numbers from Figure 3:
+With numbers from Figure 6:
 
 $$R^2 = 1 - \frac{4.85}{22.13} = 1 - 0.219 = 0.781$$
 
@@ -174,7 +186,7 @@ $$R^2 = 1 - \frac{4.85}{22.13} = 1 - 0.219 = 0.781$$
 
 Here, $R^2 = 0.78$: CGPA explains about 78% of the variation in packages; the remaining 22% comes from things not in the data, such as interviews (the stochastic errors of the earlier Note).
 
-R² is also called the **coefficient of determination**.
+R² is also called the **coefficient of determination** (G-1717).
 
 ## 7. Adjusted R²
 
@@ -186,7 +198,7 @@ R² is also called the **coefficient of determination**.
 
 Suppose we add a feature of random numbers to the placement data, one that has nothing to do with packages. On the training data, R² still creeps up. The new feature gives the model one more number to tune, and setting that number to 0 gives back the old model, so the fit on the training data can never get worse. A random feature almost always matches the leftover errors a little by chance, so R² usually rises.
 
-Figure 4 adds 0 to 20 features of random numbers next to CGPA. The split is the same each time; only the random numbers change, and every score is the average over 200 draws of them.
+Figure 7 adds 0 to 20 features of random numbers next to CGPA. The split is the same each time; only the random numbers change, and every score is the average over 200 draws of them.
 
 ![R² and adjusted R² as useless random features are added](images/adjusted_r2.png)
 
@@ -203,7 +215,7 @@ The training R² rises from 0.773 to 0.802, which looks like progress. The test 
 
 > **Key point:** Adjusted R² scales the unexplained part by $(n-1)/(n-1-k)$, which grows with the number of features $k$.
 
-In words: take the part R² leaves unexplained, $1 - R^2$, make it larger according to how many features $k$ the model uses compared with the number of observations $n$, and subtract that from 1 (ISLR §6.1.3).
+In words: **adjusted R²** (G-177) takes the part R² leaves unexplained, $1 - R^2$, makes it larger according to how many features $k$ the model uses compared with the number of observations $n$, and subtracts that from 1 (ISLR §6.1.3).
 
 $$R_{adj}^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - 1 - k}$$
 
@@ -216,9 +228,9 @@ How it behaves:
 - **A useless feature:** $k$ goes up by 1, which makes the fraction larger, while $R^2$ barely changes. Adjusted R² falls.
 - **A useful feature:** $R^2$ rises enough to outweigh the penalty. Adjusted R² rises.
 
-In Figure 4, adjusted R² on the training data stays flat at 0.772 however many random features are added: adjusted R² is not fooled. On the small test set (40 observations), the penalty is strong, and adjusted R² falls from 0.775 to 0.468 with 20 random features.
+In Figure 7, adjusted R² on the training data stays flat at 0.772 however many random features are added: adjusted R² is not fooled. On the small test set (40 observations), the penalty is strong, and adjusted R² falls from 0.775 to 0.468 with 20 random features.
 
-> **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data: it is target leakage: information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression, the next Note.
+> **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data. It is **target leakage** (G-1948): information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression, the next Note.
 
 > **Extra:** scikit-learn has no function for adjusted R²; we compute it from `r2_score` with the formula above. Here $n$ is the number of observations in the set being scored (40 for the test set) and $k$ the number of features.
 
@@ -242,7 +254,7 @@ In Figure 4, adjusted R² on the training data stays flat at 0.772 however many 
 **Built from**
 
 - CampusX, "Regression Metrics | MSE, MAE & RMSE | R2 Score & Adjusted R2 Score", YouTube, https://www.youtube.com/watch?v=Ti7c-Hz7GSM
-- Starmer, J. (StatQuest). "R-squared, Clearly Explained!!!" statquest.org. The idea of comparing the variation around the mean line with the variation around the fitted line (Figure 3); drawing the errors as squares is our own.
+- Starmer, J. (StatQuest). "R-squared, Clearly Explained!!!" statquest.org. The idea of comparing the variation around the mean line with the variation around the fitted line (Figure 6); drawing the errors as squares is our own.
 
 **Other references**
 

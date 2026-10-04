@@ -19,7 +19,12 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/vector-norm
 
 ![Left: the length of a vector. Right: the distance between two points. Both are Pythagoras' theorem](images/magnitude_distance.png)
 
-Figure 1 shows the two measurements this Note builds on. The length of $[3, 4]$ and the distance from $[1, 1]$ to $[4, 5]$ are both 5, and both come from the same right triangle. This Note works each one out in 2D, 3D and $n$ dimensions, shows where ML uses them, and then turns to the simplest operation on a vector, adding a scalar, and its main use in ML: mean centring.
+Figure 1 shows the two measurements this Note builds on. The length of $[3, 4]$ and the distance from $[1, 1]$ to $[4, 5]$ are both 5, and both come from the same right triangle. This Note:
+
+- works out the length in 2D, 3D and $n$ dimensions (section 2);
+- does the same for the distance, and shows where ML uses it (section 3);
+- turns to the simplest operation on a vector, adding a scalar (section 4), and its main use in ML, mean centring (section 5);
+- ends with multiplying by a scalar (section 6).
 
 Vectors, components and dimensions are defined in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md).
 
@@ -35,11 +40,15 @@ The **magnitude** of a vector is its distance from the origin: the length of the
 
 In Figure 1 (left), the vector $a = [3, 4]$ forms a right triangle with the x-axis: one leg is 3 long, the other 4. The arrow is the hypotenuse, so by Pythagoras' theorem its length is $\sqrt{3^2 + 4^2} = 5$. For a general 2D vector $[a, b]$ the length is $\sqrt{a^2 + b^2}$.
 
-The same logic holds in 3D. A vector $[a, b, c]$ has length $\sqrt{a^2 + b^2 + c^2}$: the square root of the sum of the squares of all its components.
+The same logic holds in 3D, with Pythagoras used twice (Figure 2). For $[2, 3, 6]$, the floor diagonal under the arrow joins $[0, 0, 0]$ to $[2, 3, 0]$ and has length $\sqrt{2^2 + 3^2} = \sqrt{13}$. That diagonal and the height 6 are the legs of a second right triangle, whose hypotenuse is the arrow: $\sqrt{13 + 36} = 7$. In general a vector $[a, b, c]$ has length $\sqrt{a^2 + b^2 + c^2}$: the square root of the sum of the squares of all its components.
+
+![The length of [2, 3, 6] by Pythagoras twice: the floor diagonal (green) has length the square root of 13; with the height 6 (orange) it forms a right triangle whose hypotenuse, the vector (blue), has length 7.](images/length_3d.png){height=40%}
 
 ### 2.2 In n dimensions
 
 > **Key point:** Square every component, add, take the square root.
+
+A ruler measures an arrow drawn in 2D or 3D. A vector with 50 components cannot be drawn, so its length has to come from a rule, and the rule must agree with Pythagoras wherever we can draw.
 
 1. **In words:** square every component, add the squares, and take the square root.
 2. **Formula:** for $x = [x_1, x_2, \dots, x_n]$,
@@ -48,6 +57,8 @@ The same logic holds in 3D. A vector $[a, b, c]$ has length $\sqrt{a^2 + b^2 + c
    $$\lVert x \rVert = \sqrt{4 + 9 + 36} = \sqrt{49} = 7$$
    and for the 5D vector $[1, 2, 3, 4, 5]$,
    $$\lVert x \rVert = \sqrt{1 + 4 + 9 + 16 + 25} = \sqrt{55} \approx 7.42$$
+
+The sum under the square root is the vector multiplied with itself, component by component. That sum is the dot product of the vector with itself, taught in the [dot product Note](../362-dot-product-and-cosine-similarity/note.md), so $\lVert x \rVert^2 = x \cdot x$. For $[2, 3, 6]$: $2 \times 2 + 3 \times 3 + 6 \times 6 = 49 = 7^2$.
 
 > **Python:** NumPy computes the magnitude of a vector of any dimension with one function.
 >
@@ -60,13 +71,13 @@ The same logic holds in 3D. A vector $[a, b, c]$ has length $\sqrt{a^2 + b^2 + c
 >
 > `np.linalg` is NumPy's linear algebra module. The same call works unchanged for a 15-dimensional or a 500-dimensional vector.
 
-> **Extra:** The magnitude is one norm among several, the **L2 norm**; adding the absolute values instead, $\lvert x_1 \rvert + \dots + \lvert x_n \rvert$, gives the **L1 norm**. Ridge regression penalises the squared L2 norm of the coefficients and Lasso their L1 norm (see the [Ridge](../63-ridge-regression-intuition/note.md) and [Lasso](../67-lasso-regression/note.md) Notes), which is why the roadmap lists vector norms under regularisation.
+> **Extra:** The magnitude is one norm among several, the **L2 norm** (G-1028); adding the absolute values instead, $\lvert x_1 \rvert + \dots + \lvert x_n \rvert$, gives the **L1 norm** (G-1025). Ridge regression penalises the squared L2 norm of the coefficients and Lasso their L1 norm (see the [Ridge](../63-ridge-regression-intuition/note.md) and [Lasso](../67-lasso-regression/note.md) Notes), which is why the roadmap lists vector norms under regularisation.
 
 ## 3. Euclidean distance
 
 > **Key point:** The Euclidean distance between two vectors is the magnitude of their difference: subtract component by component, then take the norm.
 
-The Euclidean distance, the straight-line distance between two points, is defined in the [KNN imputer Note](../39-knn-imputer/note.md) (section 4.1). Here we see how it links to the magnitude.
+The **Euclidean distance** (G-715), the straight-line distance between two points, is defined in the [KNN imputer Note](../39-knn-imputer/note.md) (section 4.1). Here we see how it links to the magnitude.
 
 ### 3.1 Distance as the norm of the difference
 
@@ -92,11 +103,11 @@ The squared differences in the distance formula are the squared components of $p
 
 > **Key point:** Many algorithms decide by distance: a new point gets the class of the vectors nearest to it.
 
-A lot of ML algorithms compute Euclidean distances inside. The clearest example is [K-nearest neighbours](../91-knn/note.md) (KNN), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
+A lot of ML algorithms compute Euclidean distances inside. The clearest example is [K-nearest neighbours](../91-knn/note.md) (KNN, G-998), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
 
 ![Five labelled vectors in 3D and a query vector; the query takes the class of the nearest one](images/knn_3d.png){height=45%}
 
-Figure 2 runs this on five 3D vectors in two classes. The query vector $[1, 1, 1]$ is 1.00 from $[1, 2, 1]$ and at least 2.83 from all others. Its nearest neighbour is in class 0, so the query is classed 0.
+Figure 3 runs this on five 3D vectors in two classes. The query vector $[1, 1, 1]$ is 1.00 from $[1, 2, 1]$ and at least 2.83 from all others. Its nearest neighbour is in class 0, so the query is classed 0.
 
 The same distance appears in [K-means clustering](../128-kmeans-intuition/note.md), which groups points around their nearest centre, and in recommender systems, as in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6.3).
 
@@ -120,15 +131,19 @@ Subtraction works the same way, with $s$ subtracted from every component: $[2, 3
 
 ![Left: adding a scalar moves the point. Right: multiplying by a scalar stretches the arrow](images/scalar_ops.png)
 
-Changing every component moves the point to a new place in the coordinate system (Figure 3, left). So adding or subtracting a scalar is called **shifting**.
+Changing every component moves the point to a new place in the coordinate system (Figure 4, left). So adding or subtracting a scalar is called **shifting** (G-1791).
 
-> **Extra:** Strictly, adding a scalar to a vector is not an operation of linear algebra; a vector space has only two operations, adding two vectors and multiplying a vector by a scalar (MML Definition 2.9). NumPy allows it through **broadcasting**: in the words of the NumPy user guide (NumPy, "Broadcasting"), the scalar is "stretched" into an array of the same shape, here the vector $[s, s, \dots, s]$, and that is added. So $[2, 3] + 3$ is really $[2, 3] + [3, 3]$.
+> **Extra:** Strictly, adding a scalar to a vector is not an operation of linear algebra; a vector space has only two operations, adding two vectors and multiplying a vector by a scalar (MML Definition 2.9). NumPy allows it through **broadcasting** (G-333): in the words of the NumPy user guide (NumPy, "Broadcasting"), the scalar is "stretched" into an array of the same shape, here the vector $[s, s, \dots, s]$, and that is added. So $[2, 3] + 3$ is really $[2, 3] + [3, 3]$.
 
 ## 5. Mean centring: shifting in ML
 
 > **Key point:** Mean centring is a scalar subtraction on vectors: each feature minus its own mean.
 
-Mean centring, the first half of standardization (see the [standardization Note](../24-standardization/note.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (an input variable, one column of the data table) is a vector of values, its mean is a scalar, and $x_1 - \bar x_1$ subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
+**Mean centring** (G-1195), the first half of standardization (see the [standardization Note](../24-standardization/note.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (G-772; an input variable, one column of the data table) is a vector of values, its mean is a scalar, and $x_1 - \bar x_1$ subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
+
+Figure 5 does this to the 150 iris flowers, with their sepal length and sepal width as two features. Every flower moves by the same vector, minus the mean $(5.84, 3.06)$, so the cloud slides as one piece until its mean sits on the origin; its shape and spread do not change.
+
+![The 150 iris flowers (sepal length and width) shifted by a growing fraction of their mean, until the mean (red cross) sits at the origin. The cloud keeps its shape.](images/mean_centring.gif)
 
 > **Python:** Mean centring is one line: subtracting a row of means from a table subtracts each mean from its own column.
 >
@@ -141,19 +156,30 @@ Mean centring, the first half of standardization (see the [standardization Note]
 
 ## 6. Multiplying or dividing by a scalar: scaling
 
-> **Key point:** Multiplying by a scalar multiplies every component, which stretches or shrinks the arrow without turning it.
+> **Key point:** Multiplying by a scalar multiplies every component, which stretches or shrinks the arrow without turning it; a negative scalar also flips it.
 
-> **Extra:** The second scalar operation works like the first, with multiplication in place of addition.
->
-> 1. **In words:** multiply every component by the scalar.
-> 2. **Formula:**
->    $$s\thinspace v = [s\thinspace v_1,\ s\thinspace v_2,\ \dots,\ s\thinspace v_n]$$
-> 3. **Example:**
->    $$2 \times [2, 3] = [4, 6]$$
->
-> The result points in the same direction, but is twice as long (Figure 3, right). In general the magnitude is multiplied by $\lvert s \rvert$, since $\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2} = \lvert s \rvert \thinspace\lVert x \rVert$; this is why the operation is called **scaling**. Dividing by $s$ is the same as multiplying by $1/s$: $[2, 3] / 2 = [1, 1.5]$.
->
-> A negative scalar also flips the direction: $-1 \times [2, 3] = [-2, -3]$ points the opposite way. Dividing a vector by its own magnitude scales it to length 1, giving the unit vector used in the [PCA step by step Note](../48-pca-step-by-step/note.md): $[3, 4] / 5 = [0.6, 0.8]$.
+The second scalar operation works like the first, with multiplication in place of addition. Figure 4 (right) and Figure 6 show it on the vector $[2, 3]$, whose length is $\sqrt{13} \approx 3.61$. We take the scalars one at a time.
+
+1. **A scalar above 1 stretches.** $2 \times [2, 3] = [4, 6]$. The new arrow lies on the same line through the origin and points the same way, but is twice as long: 7.21.
+2. **A scalar between 0 and 1 shrinks.** $0.5 \times [2, 3] = [1, 1.5]$: same direction, half the length. Dividing by $s$ is the same as multiplying by $1/s$, so this is also $[2, 3] / 2$.
+3. **The scalar $-1$ flips.** $-1 \times [2, 3] = [-2, -3]$. The length stays 3.61, but the arrow now points the opposite way.
+4. **A negative scalar flips and scales.** $-2 \times [2, 3] = [-4, -6]$: the opposite direction, and twice as long.
+
+The number line under Figure 6 shows why a negative scalar flips. Multiplying the number 1 by 2 moves it out to 2, on the same side of zero. Multiplying it by $-1$ sends it to $-1$, the same distance from zero on the other side. A vector behaves the same way along its own line through the origin.
+
+The operation is called **scaling** (G-1746), and the name **scalar** (G-1743) comes from it: a scalar is a number that scales a vector.
+
+![The vector [2, 3] (pale blue) multiplied by 1, 2, 0.5, −1 and −2 (orange). Every result lies on the same line through the origin; the length is multiplied by the size of the scalar, and a negative scalar flips the direction. Below, the same scalar acts on the number 1 on a number line. Number-line idea after Khan Academy, "Multiplying a vector by a scalar".](images/scaling.gif){height=60%}
+
+**The formal version.**
+
+1. **In words:** multiply every component by the scalar.
+2. **Formula:**
+   $$s\thinspace v = [s\thinspace v_1,\ s\thinspace v_2,\ \dots,\ s\thinspace v_n]$$
+3. **Effect on the length:** the magnitude is multiplied by $\lvert s \rvert$, since
+   $$\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2} = \lvert s \rvert \thinspace\lVert x \rVert$$
+
+Dividing a vector by its own magnitude scales it to length 1, giving the **unit vector** (G-2048) used in the [PCA step by step Note](../48-pca-step-by-step/note.md): $[3, 4] / 5 = [0.6, 0.8]$.
 
 ## 7. Summary
 
@@ -163,7 +189,7 @@ Mean centring, the first half of standardization (see the [standardization Note]
 | Euclidean distance | $\lVert p - q \rVert$ | $[1, 1]$ to $[4, 5]$: 5 |
 | Shifting | $v + s$: add $s$ to every component | $[2, 3] + 3 = [5, 6]$ |
 | Mean centring | each feature minus its mean | $3, 5, 7 \rightarrow -2, 0, 2$ |
-| Scaling | $s\thinspace v$: multiply every component by $s$ | $2 \times [2, 3] = [4, 6]$ |
+| Scaling | $s\thinspace v$: multiply every component by $s$ | $2 \times [2, 3] = [4, 6]$; $-1 \times [2, 3] = [-2, -3]$ |
 
 - Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any dimension.
 - Distance = magnitude of the difference: `np.linalg.norm(p - q)`.
@@ -175,6 +201,8 @@ Mean centring, the first half of standardization (see the [standardization Note]
 **Built from**
 
 - CampusX, "Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1", YouTube, https://www.youtube.com/watch?v=mQewAJb8oJ8
+- Khan Academy, "Multiplying a vector by a scalar | Vectors and spaces | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=ZN7YaSbY3-w
+- Khan Academy, "Vector dot product and vector length | Vectors and spaces | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=WNuIhXo39_k
 
 **Other references**
 

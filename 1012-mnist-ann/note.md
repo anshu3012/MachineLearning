@@ -17,6 +17,8 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, step/model, step/
 
 > **Key point:** The same Keras steps as for churn, now with 10 classes: a Flatten layer turns each image into 784 inputs, and an output layer of 10 softmax nodes gives one probability per digit.
 
+A person reads a sloppy handwritten 3 at a glance, in any handwriting. Writing down rules that do the same, pixel by pixel, is very hard, so we let a network learn the rules from examples.
+
 The [customer churn Note](../1011-customer-churn-ann/note.md) built a network for **binary** classification: one output node, two classes. Here the task is **multi-class** classification: an image shows one handwritten digit, and the network must say which of the 10 digits, 0 to 9, it is.
 
 The Keras workflow is unchanged: build, compile, fit, predict (Figure 1 of the churn Note). Four things are new:
@@ -26,7 +28,7 @@ The Keras workflow is unchanged: build, compile, fit, predict (Figure 1 of the c
 3. **Loss:** sparse categorical cross-entropy.
 4. **Prediction:** the digit with the highest probability, found with **argmax** (G-212).
 
-The goal is to see how a network handles more than two classes, not to reach the best accuracy. The Notebook (`notebook.ipynb`) runs every step.
+After training, section 9 opens the network up to see what it learned. The goal is to see how a network handles more than two classes, not to reach the best accuracy. The Notebook (`notebook.ipynb`) runs every step.
 
 ## 2. The MNIST data
 
@@ -94,6 +96,10 @@ In Figure 2, compare the two grids cell by cell: every number keeps its place an
 
 A Dense layer takes a flat list of numbers, but each image is a $28 \times 28$ grid. **Flatten** reshapes any multi-dimensional input into one dimension: first the 28 pixels of row 1, then the 28 of row 2, and so on to row 28, giving $28 \times 28 = 784$ numbers. Flatten does exactly what the [PCA on MNIST Note](../49-pca-mnist/note.md) does to turn each image into one table row, but inside the network.
 
+![Flatten on the first training image: the 28 rows leave the image one after another and line up into one strip of 784 values. In the strip, each pixel is a thin bar with its grey level](images/flatten.gif){height=60%}
+
+In Figure 3, watch the orange box move down the image: each row it marks is appended to the right end of the strip, and the counter grows by 28. After the last row the strip holds all 784 values, and each value goes to its own input node. An input node does nothing more than hold that one number, the brightness of its pixel.
+
 Flatten only rearranges numbers, so it has no weights and nothing to train.
 
 ### 4.2 The architecture
@@ -102,7 +108,7 @@ Flatten only rearranges numbers, so it has no weights and nothing to train.
 
 ![The first MNIST network: the image is flattened into 784 inputs, which feed 128 ReLU nodes and then 10 softmax nodes, one per digit](images/architecture.png){height=42%}
 
-Figure 3 shows the network:
+Figure 4 shows the network:
 
 - **Input layer:** 784 nodes, one per pixel.
 - **Hidden layer:** 128 nodes with the ReLU activation, the usual default for hidden layers (Goodfellow et al. 2016, §6.3; activation functions get their own Notes later).
@@ -188,7 +194,7 @@ Keras trains on 48,000 images and validates on the other 12,000. With batches of
 
 ![Training and validation loss of the first network over its 10 epochs](images/curves1.png){height=28%}
 
-In Figure 4, watch the gap open: the training loss keeps falling to 0.014, while the validation loss flattens after epoch 4 and then creeps up.
+In Figure 5, watch the gap open: the training loss keeps falling to 0.014, while the validation loss flattens after epoch 4 and then creeps up.
 
 ## 6. Predicting with argmax
 
@@ -205,7 +211,7 @@ To turn the 10 probabilities into one digit we take the position of the largest:
 
 ![The worked example as a bar chart: one probability per digit, and argmax picks the position of the tallest bar](images/argmax.png){height=26%}
 
-Figure 5 draws the example: argmax ignores how much bigger the tallest bar is and returns only its position, 2.
+Figure 6 draws the example: argmax ignores how much bigger the tallest bar is and returns only its position, 2.
 
 > **Python:** From probabilities to digits.
 >
@@ -233,7 +239,7 @@ The first network gets **97.69%** of the 10,000 test images right. For compariso
 
 To try to improve, we add a second hidden layer of 32 ReLU nodes, train for 25 epochs and track accuracy with `metrics=["accuracy"]` (see the [customer churn Note](../1011-customer-churn-ann/note.md), section 7.3).
 
-$$\underbrace{784 \times 128 + 128}_{100{,}480} + \underbrace{128 \times 32 + 32}_{4{,}128} + \underbrace{32 \times 10 + 10}_{330} = 104{,}938$$
+$$\underbrace{784 \times 128 + 128} _{100{,}480} + \underbrace{128 \times 32 + 32} _{4{,}128} + \underbrace{32 \times 10 + 10} _{330} = 104{,}938$$
 
 > **Python:** The second network.
 >
@@ -259,7 +265,7 @@ The test accuracy is **97.72%**, almost the same as the first network's 97.69%. 
 
 ![Training curves of the second network. The circle marks the lowest validation loss, after epoch 3.](images/curves.png)
 
-Figure 6 explains the result:
+Figure 7 explains the result:
 
 - **Loss (left):** the training loss falls to about 0.01. The validation loss is lowest after epoch 3 (0.095), then rises, to 0.155 by epoch 25.
 - **Accuracy (right):** training accuracy climbs to 99.7%, validation accuracy stays around 97 to 97.6%.
@@ -274,7 +280,7 @@ After epoch 3 the network keeps getting better on the images it trains on and wo
 
 ![Confusion matrix of the second network on the 10,000 test images. Rows: actual digit; columns: predicted digit.](images/confusion.png){height=48%}
 
-Figure 7 is the 10 × 10 confusion matrix (see the [accuracy and confusion matrix Note](../76-accuracy-confusion-matrix/note.md), section 5). The diagonal holds the correct predictions. The largest off-diagonal cells are the most common mistakes:
+Figure 8 is the 10 × 10 confusion matrix (see the [accuracy and confusion matrix Note](../76-accuracy-confusion-matrix/note.md), section 5). The diagonal holds the correct predictions. The largest off-diagonal cells are the most common mistakes:
 
 | Actual | Predicted | Count |
 |---|---|---|
@@ -283,13 +289,44 @@ Figure 7 is the 10 × 10 confusion matrix (see the [accuracy and confusion matri
 | 2 | 7 | 7 |
 | 8 | 0 | 7 |
 
-These pairs look alike when handwritten: a 4 with a closed top resembles a 9, a 2 with a straight base resembles a 7. Figure 8 shows five of the misclassified test images; several are hard to read even for a person.
+These pairs look alike when handwritten: a 4 with a closed top resembles a 9, a 2 with a straight base resembles a 7. Figure 9 shows five of the misclassified test images; several are hard to read even for a person.
 
 > **Extra:** Are the confused digits close in raw pixels? A nearest-centroid classifier, which compares each test image only with the average image of each digit, makes the network's top mistake too: 4 read as 9 is its 2nd most common mistake of 79. But 7 read as 2 is only 30th and 2 read as 7 only 36th, so not every confusion comes from two digits with similar average images (Notebook).
 
 ![Five test images the second network gets wrong](images/wrong.png)
 
-## 9. Predicting a single image
+## 9. What the network really learned
+
+> **Key point:** High accuracy does not mean the network sees digits the way we do. Its hidden nodes do not look for clean strokes, and it gives a confident answer even to random noise.
+
+### 9.1 The hidden nodes as pictures
+
+> **Key point:** Each hidden node has one weight per pixel, so its 784 weights can be drawn as a 28 × 28 picture of what the node responds to.
+
+A natural hope is that each hidden node learns one piece of a digit, such as a stroke or a loop, and that the output layer combines the pieces. We can check this hope on the first network. Each of its 128 hidden nodes has 784 incoming weights, one per pixel. Drawn in the shape of the image, the weights show which pixels raise the node's sum (positive weight, blue) and which lower it (negative weight, red).
+
+![The incoming weights of the first 16 hidden nodes of the first network, each drawn as a 28 × 28 picture: blue is a positive weight, red a negative one. Idea after 3Blue1Brown, "Gradient descent, how neural networks learn"](images/hidden_weights.png){height=30%}
+
+In Figure 10, look for strokes and loops. A few nodes show a short streak, but most pictures are blotchy patches of blue and red with no clear shape. The network reaches 97.69% with detectors that a person cannot read.
+
+### 9.2 Noise in, confident answer out
+
+> **Key point:** Fed random noise, the network still names a digit, with a probability near 1. Softmax has no way to answer "none of these".
+
+The second check feeds the network an image that shows no digit at all: every pixel is a random number between 0 and 1.
+
+![Left: an image of random noise. Right: the 10 probabilities the first network gives it](images/noise.png){height=30%}
+
+In Figure 11, the network says the noise is a 3, with probability 0.997. The noise image of Figure 11 is not a lucky pick: over 1,000 noise images the median top probability is 0.984, and 72% of the images get a top probability above 0.9. For real test images the median top probability rounds to 1.000, so the network is nearly as sure about noise as about real digits. It calls 771 of the 1,000 noise images a 3 and 193 a 5 (Notebook).
+
+Two things cause this behaviour:
+
+1. **Softmax must pick.** The 10 probabilities always add up to 1 (section 4.2), so the network cannot give a low score to every digit.
+2. **The training data held only digits.** Every training image was a clear, centred digit, and the loss rewarded confident answers. Nothing taught the network what a non-digit looks like.
+
+So a high test accuracy shows that the network separates the 10 digits well. It does not show that the network knows what a digit is. Networks built for images, the CNNs of the [CNN intuition Note](../1040-cnn-intuition/note.md), look at small patches of pixels instead.
+
+## 10. Predicting a single image
 
 > **Key point:** `predict` expects a batch of images, so one image is reshaped from (28, 28) to (1, 28, 28) first.
 
@@ -304,7 +341,7 @@ Keras models always predict a batch of observations. A single image has shape (2
 
 The first two test images, a 7 and a 2, are both predicted correctly, each with a probability that rounds to 1.
 
-## 10. Summary
+## 11. Summary
 
 | | Churn (binary) | MNIST (multi-class) |
 |---|---|---|
@@ -319,19 +356,22 @@ The first two test images, a 7 and a 2, are both predicted correctly, each with 
 - Multi-class output: one softmax node per class; predict with `argmax(axis=1)`.
 - Sparse categorical cross-entropy for integer labels, categorical cross-entropy for one-hot labels.
 - A bigger network trained longer overfitted: training loss down, validation loss up after epoch 3.
+- The hidden nodes' weights show no clear strokes, and random noise gets a confident answer (a 3 with probability 0.997): accuracy alone does not show what a network learned.
 
-## 11. Sources
+## 12. Sources
 
 **Built from**
 
 - CampusX, "Handwritten Digit Classification using ANN | MNIST Dataset", YouTube, https://www.youtube.com/watch?v=3xPT2Pk0Jds
+- 3Blue1Brown, "But what is a neural network? | Deep learning chapter 1", YouTube, https://www.youtube.com/watch?v=aircAruvnKk (the task and the input nodes holding pixel values)
+- 3Blue1Brown, "Gradient descent, how neural networks learn | Deep Learning Chapter 2", YouTube, https://www.youtube.com/watch?v=IHZwWFHWa-w (section 9: the hidden weights as pictures, and the noise test)
 
 **Other references**
 
 - LeCun, Bottou, Bengio and Haffner, "Gradient-Based Learning Applied to Document Recognition", *Proceedings of the IEEE*, 1998.
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.3 (rectified linear units as the default hidden unit).
 
-## 12. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -20,9 +20,9 @@ This Note follows Chapter 5 (Sections 5.7 and 5.8) of *Mathematics for Machine L
 
 ![The function $f(x, y) = x^3 + xy + y^2$ (blue) near the point $(1, 1)$, approximated by its tangent plane (left, orange) and by its second-order Taylor polynomial (right, green)](images/taylor_plane.png)
 
-Figure 1 shows the goal. Near a point, a surface is approximated first by a flat **tangent plane** (left), which only uses the gradient. Adding a term built from second derivatives, the Hessian, bends the approximation so that it follows the surface over a much wider area (right).
+Figure 1 shows the goal. Near a point, a surface is approximated first by a flat **tangent plane** (G-1946; left), which only uses the gradient. Adding a term built from second derivatives, the Hessian, bends the approximation so that it follows the surface over a much wider area (right).
 
-An earlier Note on boosting ([XGBoost maths Note](../126-xgboost-maths/note.md)) did this with one variable: it called the second derivative of one **observation**'s loss (an observation is one record, a row of the data table) its Hessian $h_i$ and stopped the Taylor series at the second-order term. This Note does the same with many variables. The Note uses the gradient of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) and the eigenvalues of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
+An earlier Note on boosting ([XGBoost maths Note](../126-xgboost-maths/note.md)) did this with one variable: it called the second derivative of one **observation**'s (G-1374) loss (an observation is one record, a row of the data table) its Hessian $h_i$ and stopped the Taylor series at the second-order term. This Note does the same with many variables. The Note uses the gradient of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md) and the eigenvalues of the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md).
 
 ## 2. Higher-order partial derivatives
 
@@ -34,7 +34,7 @@ A partial derivative is itself a function of all the inputs, so we can different
 - $\partial^2 f/\partial y\thinspace\partial x$, the derivative with respect to $y$ of $\partial f/\partial x$: first with respect to $x$, then with respect to $y$ (read right to left);
 - $\partial^n f/\partial x^n$: differentiate $n$ times with respect to $x$.
 
-The ones that mix two different variables are **mixed partial derivatives**.
+Each of these is a **second partial derivative** (G-1760). The ones that mix two different variables are **mixed partial derivatives** (G-1236).
 
 1. **In words:** for a function whose second derivatives are continuous, differentiating by $x$ then $y$ gives the same as by $y$ then $x$.
 2. **Formula:**
@@ -43,15 +43,19 @@ The ones that mix two different variables are **mixed partial derivatives**.
    $$\frac{\partial^2 f}{\partial x^2} = 6x, \qquad \frac{\partial^2 f}{\partial y^2} = 2, \qquad \frac{\partial^2 f}{\partial y\thinspace\partial x} = \frac{\partial}{\partial y}(3x^2 + y) = 1, \qquad \frac{\partial^2 f}{\partial x\thinspace\partial y} = \frac{\partial}{\partial x}(x + 2y) = 1$$
    The two mixed derivatives agree.
 
+Figure 2 shows what "agree" means. On the left, we stand at $x = 1$ and watch the $x$-slope $\partial f/\partial x$ as $y$ moves: it rises 1 for every unit of $y$. On the right, we stand at $y = 1$ and watch the $y$-slope as $x$ moves: it also rises 1 per unit. How the $x$-slope responds to $y$ equals how the $y$-slope responds to $x$.
+
+![Mixed partial derivatives of $f(x, y) = x^3 + xy + y^2$ near $(1, 1)$. Left: the x-slope $3x^2 + y$ as $y$ moves, with $x = 1$ fixed: slope 1. Right: the y-slope $x + 2y$ as $x$ moves, with $y = 1$ fixed: also slope 1.](images/mixed_partials.png)
+
 ## 3. The Hessian
 
-> **Key point:** The Hessian is the square, symmetric matrix of all second partial derivatives; it describes the curvature of $f$ near a point.
+> **Key point:** The Hessian is the square, symmetric matrix of all second partial derivatives; it describes the **curvature** (G-521) of $f$ near a point.
 
 ### 3.1 The Hessian matrix
 
 > **Key point:** Entry $(i, j)$ is $\partial^2 f / \partial x_i \partial x_j$; for $n$ inputs the Hessian is $n \times n$.
 
-1. **In words:** arrange all second partial derivatives in a grid, row $i$ and column $j$ holding the derivative with respect to $x_i$ and $x_j$.
+1. **In words:** the **Hessian matrix** (G-888) arranges all second partial derivatives in a grid, row $i$ and column $j$ holding the derivative with respect to $x_i$ and $x_j$.
 2. **Formula:** for two variables,
    $$H = \nabla^2 f = \begin{bmatrix} \dfrac{\partial^2 f}{\partial x^2} & \dfrac{\partial^2 f}{\partial x\thinspace\partial y} \cr\dfrac{\partial^2 f}{\partial y\thinspace\partial x} & \dfrac{\partial^2 f}{\partial y^2} \end{bmatrix}$$
    For $f: \mathbb{R}^n \to \mathbb{R}$ it is an $n \times n$ matrix, symmetric because the mixed derivatives are equal.
@@ -80,12 +84,12 @@ The matrix $X^{\mathsf T}X$ of the normal equation in the [multiple linear regre
 
 > **Key point:** The signs of the Hessian's eigenvalues give the shape near a flat point: all positive is a bowl (minimum), all negative a cap (maximum), mixed signs a saddle.
 
-The second derivative of one variable says whether a curve bends up or down. The Hessian says the same for every direction at once. Its eigenvectors are the directions of strongest and weakest bending, and its eigenvalues measure how much (see the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md)). Figure 2 shows the three basic shapes.
+The second derivative of one variable says whether a curve bends up or down. The Hessian says the same for every direction at once. Its eigenvectors are the directions of strongest and weakest bending, and its eigenvalues measure how much (see the [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md)). Figure 3 shows the three basic shapes.
 
 ![Three surfaces and the eigenvalues of their Hessians: both positive (bowl), opposite signs (saddle), both negative (cap)](images/hessian_shapes.png)
 
 - **Bowl:** all eigenvalues positive. The surface curves up in every direction; a point with zero gradient is a minimum.
-- **Saddle:** positive and negative eigenvalues. The surface curves up in some directions and down in others; a point with zero gradient is neither a minimum nor a maximum.
+- **Saddle** (a **saddle point**, G-1718, when the gradient is zero): positive and negative eigenvalues. The surface curves up in some directions and down in others; a point with zero gradient is neither a minimum nor a maximum.
 - **Cap:** all eigenvalues negative. The surface curves down everywhere; a point with zero gradient is a maximum.
 
 For the bowl of the gradient Note, the eigenvalues of $H$ are $3 \pm \sqrt{2}$, that is $4.41$ and $1.59$. Both are positive, so the function is a bowl, as its contour map showed. The ratio $4.41/1.59 = 2.8$ says the bowl curves almost three times as steeply in one direction as in the other: its contour ellipses are stretched. The narrow valleys that slow down gradient descent in the [gradient descent Note](../57-gradient-descent/note.md) (Section 9) are Hessians with a large eigenvalue ratio.
@@ -106,6 +110,10 @@ The [derivatives of one variable Note](../600-derivatives-of-one-variable/note.m
 
 The approximation is good close to $\mathbf x_0$ and gets worse further away, because a plane cannot bend. In Figure 1 (left), the orange plane touches the blue surface at the black dot and separates from it in every direction.
 
+Figure 4 measures how far. It colours the size of the error at every point near $(1, 1)$. For the tangent plane (left), the error stays below 0.05 only inside a small oval around the point. The second-order polynomial of the next section (right) stays below 0.05 over a band about nine times as large. Its only missing term is $\delta_x^3$ (Section 5.3), so its error depends on $x$ alone, which is why the band has straight sides.
+
+![The size of the error near (1, 1), on the same colour scale. Left: the tangent plane, $\lvert f - T_1 \rvert$. Right: the second-order Taylor polynomial, $\lvert f - T_2 \rvert$. The black line marks an error of 0.05; the region inside it is about nine times larger for $T_2$.](images/approx_error.png)
+
 ## 5. The multivariate Taylor series
 
 > **Key point:** Add terms built from ever higher derivatives at $\mathbf x_0$, multiplied by ever more copies of the step $\boldsymbol{\delta} = \mathbf{x} - \mathbf x_0$; the second-order term is $\tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$.
@@ -123,7 +131,7 @@ The tangent plane is the start of a series, exactly as in one variable. With the
 | 2 | $\frac{1}{2}\boldsymbol{\delta}^{\mathsf T}H(\mathbf x_0)\thinspace\boldsymbol{\delta}$ | $(1 \times D)(D \times D)(D \times 1)$ | $\frac{1}{2}f''(x_0)\thinspace\delta^2$ |
 
 1. **In words:** the second-order term weighs every pair of step components $\delta_i\delta_j$ by the matching Hessian entry, adds them up and halves the sum.
-2. **Formula:** the second-order **multivariate Taylor polynomial** is
+2. **Formula:** the second-order **multivariate Taylor polynomial** (G-1284) is
    $$T_2(\mathbf{x}) = f(\mathbf x_0) + \nabla f(\mathbf x_0)\thinspace\boldsymbol{\delta} + \frac{1}{2}\thinspace\boldsymbol{\delta}^{\mathsf T}H(\mathbf x_0)\thinspace\boldsymbol{\delta}, \qquad \boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta} = \sum_{i}\sum_{j} H_{ij}\thinspace\delta_i\thinspace\delta_j$$
 3. **Example:** at $(1, 1)$ with $\boldsymbol{\delta} = (0.1, -0.1)$ and $H$ with rows $[6, 1]$ and $[1, 2]$:
    $$\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta} = 6(0.1)^2 + 2 \cdot 1 \cdot (0.1)(-0.1) + 2(-0.1)^2 = 0.06 - 0.02 + 0.02 = 0.06$$
@@ -152,10 +160,10 @@ Figure 1 (right) shows $T_2$: a curved surface that follows $f$ far beyond the r
 The pattern continues. The $k$-th derivative at $\mathbf x_0$, written $D^k f(\mathbf x_0)$, has one entry for every choice of $k$ input indices: a $D \times \cdots \times D$ tensor with $k$ indices. The tensor is combined with $k$ copies of $\boldsymbol{\delta}$.
 
 1. **In words:** multiply each $k$-th derivative entry by the matching product of step components, add them all, and divide by $k!$.
-2. **Formula:** the **multivariate Taylor series** is
+2. **Formula:** the **multivariate Taylor series** (G-1285) is
    $$f(\mathbf{x}) = \sum_{k=0}^{\infty} \frac{D^k f(\mathbf x_0)\thinspace\boldsymbol{\delta}^k}{k!}, \qquad D^k f(\mathbf x_0)\thinspace\boldsymbol{\delta}^k = \sum_{i_1=1}^{D}\cdots\sum_{i_k=1}^{D} D^k f(\mathbf x_0)[i_1, \dots, i_k]\thickspace\delta_{i_1}\cdots\delta_{i_k}$$
    Stopping after the $k = n$ term gives the Taylor polynomial $T_n$.
-3. **Example:** for $k = 2$, $\boldsymbol{\delta}^2$ means the **outer product** $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$, the matrix with entries $\delta_i\delta_j$. With $\boldsymbol{\delta} = (0.1, -0.1)$:
+3. **Example:** for $k = 2$, $\boldsymbol{\delta}^2$ means the **outer product** (G-1418) $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$, the matrix with entries $\delta_i\delta_j$. With $\boldsymbol{\delta} = (0.1, -0.1)$:
    $$\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T} = \begin{bmatrix} 0.01 & -0.01 \cr-0.01 & 0.01 \end{bmatrix}$$
    Multiplying entry by entry with $H$ and adding: $6(0.01) + 1(-0.01) + 1(-0.01) + 2(0.01) = 0.06$, the same $\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$ as before.
 
@@ -180,9 +188,13 @@ As in one variable (the [derivatives of one variable Note](../600-derivatives-of
 
 Multiplying out the brackets gives back $x^3 + xy + y^2$; we checked this symbolically.
 
+Figure 5 walks along the straight path from $(1, 1)$ to $(1.5, 0.5)$ and reads all three polynomials on the way. Near the start they agree with $f$. Further out the tangent plane $T_1$ falls behind first, then $T_2$; $T_3$ stays on $f$ the whole way.
+
+![The Taylor polynomials of $f(x, y) = x^3 + xy + y^2$ around $(1, 1)$ along the path to $(1.5, 0.5)$. Left: the moving point on the contour map. Right: $f$ (thick blue) against $T_1$, $T_2$ and $T_3$; $T_3$ equals $f$.](images/taylor_path.gif)
+
 ## 6. Where ML uses second-order approximations
 
-> **Key point:** Minimising the second-order Taylor polynomial instead of the function itself is Newton's method; XGBoost does this for every tree, and other methods use it to approximate distributions.
+> **Key point:** Minimising the second-order Taylor polynomial instead of the function itself is **Newton's method** (G-1321); XGBoost does this for every tree, and other methods use it to approximate distributions.
 
 The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and the bottom of a bowl has a formula. The formula makes $T_2$ a useful stand-in for a function that is hard to minimise directly.
 
@@ -192,21 +204,21 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 >
 > For the bowl of the gradient Note at $(1, 1)$, $\nabla f = [3, 5]$ and $H$ has rows $[2, 1]$ and $[1, 4]$. Solving $H\boldsymbol{\delta} = -[3, 5]^{\mathsf T}$ gives $\boldsymbol{\delta} = (-1, -1)$, landing exactly on the minimum $(0, 0)$ in one step: for a quadratic function $T_2$ is the function itself. Gradient descent, which only uses the tangent plane, needs many small steps for the same trip. With one variable this is the **Newton step** of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), and XGBoost's leaf formula $-G/(H + \lambda)$ in the [XGBoost maths Note](../126-xgboost-maths/note.md) is a Newton step per leaf (Chen and Guestrin §2.2). The catch: with millions of parameters the Hessian has millions squared entries, which is why deep learning mostly stays with first-order methods (Goodfellow et al. §8.6.1).
 
-> **Extra:** **Quasi-Newton methods: BFGS and L-BFGS.** These skip the Hessian and build a stand-in matrix $B$ from gradients alone. After each step $\mathbf{s} = \mathbf x_{k+1} - \mathbf x_k$, the gradient change $\mathbf{y} = \nabla f_{k+1} - \nabla f_k$ is measured, and $B$ is updated so that
+> **Extra:** **Quasi-Newton methods** (G-1603): **BFGS** (G-283) and **L-BFGS** (G-1023). These skip the Hessian and build a stand-in matrix $B$ from gradients alone. After each step $\mathbf{s} = \mathbf x_{k+1} - \mathbf x_k$, the gradient change $\mathbf{y} = \nabla f_{k+1} - \nabla f_k$ is measured, and $B$ is updated so that
 >
 > $$B_{k+1}\thinspace\mathbf{s} = \mathbf{y}$$
 >
-> The condition is the **secant equation**: the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. L-BFGS is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). (Nocedal and Wright, ch. 6 for BFGS, §7.2 for L-BFGS.)
+> The condition is the **secant equation** (G-1757): the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. L-BFGS is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). (Nocedal and Wright, ch. 6 for BFGS, §7.2 for L-BFGS.)
 
 ![The secant idea for $f = x^3$: the line through the slope readings at $x = 1$ and $x = 2$ has slope 9, a stand-in for the true curvatures 6 and 12](images/secant.png)
 
-Figure 3 shows the one-variable case: BFGS never computes the curvature (dashed), it reads the slope twice and takes the line through the two readings (orange).
+Figure 6 shows the one-variable case: BFGS never computes the curvature (dashed), it reads the slope twice and takes the line through the two readings (orange).
 
 ![Gradient descent, Newton and BFGS walking down the same curved valley from $(-1.2, 1)$ to the minimum $(1, 1)$, one step per frame](images/optimizer_race.gif)
 
-Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2)^2$, all with the same rule for the step length. Newton, with the true Hessian, needs 10 steps. BFGS, which only ever sees gradients, needs 17: its first steps wander while $B$ is still a guess, then it settles into the valley like Newton. The figure script checks this: for the first 7 steps $B$ is still 90% or more away from the true Hessian, and from step 7 on it is within about 30%. Gradient descent zig-zags across the narrow valley and needs 717 steps.
+Figure 7 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2)^2$, all with the same rule for the step length. Newton, with the true Hessian, needs 10 steps. BFGS, which only ever sees gradients, needs 17: its first steps wander while $B$ is still a guess, then it settles into the valley like Newton. The figure script checks this: for the first 7 steps $B$ is still 90% or more away from the true Hessian, and from step 7 on it is within about 30%. Gradient descent zig-zags across the narrow valley and needs 717 steps.
 
-> **Extra:** Second-order Taylor expansions also approximate probability distributions. The **Laplace approximation** replaces a distribution near its peak by a normal distribution whose spread comes from the Hessian of its log there (Bishop §4.4). The **extended Kalman filter**, used to track moving objects, linearises a nonlinear system at every time step with the first-order expansion (Thrun et al. §3.3).
+> **Extra:** Second-order Taylor expansions also approximate probability distributions. The **Laplace approximation** (G-1043) replaces a distribution near its peak by a normal distribution whose spread comes from the Hessian of its log there (Bishop §4.4). The **extended Kalman filter**, used to track moving objects, linearises a nonlinear system at every time step with the first-order expansion (Thrun et al. §3.3).
 
 ## 7. Summary
 

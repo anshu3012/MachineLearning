@@ -19,13 +19,18 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/pareto]
 
 Figure 1 shows what the Pareto distribution is known for. On the left, the richest fifth of the population holds 80% of all the wealth and the other four fifths share the remaining 20%. On the right, a different parameter value gives a much more even split.
 
-The Pareto distribution is the third of the famous non-Gaussian continuous distributions (see Figure 1 of the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)). The Pareto distribution is common in financial and economic data. This Note covers the power law behind it, its PDF and parameters, how to recognise it in data, and ends with how non-normal data is made normal.
+The Pareto distribution is the third of the famous **non-Gaussian** (G-1334) continuous distributions (see Figure 1 of the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)). The Pareto distribution is common in financial and economic data. This Note covers:
+
+- the power law behind it (section 2);
+- its PDF and parameters (section 3);
+- how to recognise it in data (section 4);
+- how non-normal data is made normal (section 5).
 
 ## 2. Power laws
 
 > **Key point:** A power law is a relationship $y = k\thinspace x^{a}$ in which one variable is proportional to a power of the other.
 
-The Pareto distribution is a special case of a **power law**: a functional relationship between two variables in which one variable is proportional to a power of the other.
+The Pareto distribution is a special case of a **power law** (G-1538): a functional relationship between two variables in which one variable is proportional to a power of the other.
 
 1. **In words:** $y$ equals a constant times $x$ raised to a fixed power.
 2. **Formula:**
@@ -35,11 +40,15 @@ The Pareto distribution is a special case of a **power law**: a functional relat
    $$x = 1 \Rightarrow y = 1, \qquad x = 2 \Rightarrow y = 0.25, \qquad x = 10 \Rightarrow y = 0.01$$
    Doubling $x$ always divides $y$ by $2^2 = 4$, wherever we start.
 
+Figure 2 doubles $x$ three times. On ordinary axes (left) the points slide down a curve with a long tail; on log-log axes (right) the same points lie on a straight line, because each doubling moves the same distance along both log axes. Section 4.1 uses that straight line to recognise a power law in data.
+
+![The power law y = x⁻² at x = 1, 2, 4 and 8: each doubling divides y by 4. Left: ordinary axes. Right: log-log axes, where the points lie on a straight line with slope −2.](images/power_doubling.gif)
+
 ### 2.1 The 80-20 rule
 
 > **Key point:** The Pareto principle says that roughly 20% of the causes produce 80% of the results, for example 20% of the people hold 80% of the wealth.
 
-The best-known consequence of a power law is the **80-20 rule**, or **Pareto principle**: about 20% of something accounts for about 80% of the result. In wealth, it says that 20% of the population controls 80% of the wealth, and the other 80% of the people share the remaining 20%.
+The best-known consequence of a power law is the **80-20 rule**, or **Pareto principle** (G-54): about 20% of something accounts for about 80% of the result. In wealth, it says that 20% of the population controls 80% of the wealth, and the other 80% of the people share the remaining 20%.
 
 The Italian economist Vilfredo Pareto found this pattern while studying income and wealth data, and published it in his *Cours d'économie politique* (Pareto 1896–97); the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter (Section 3.4).
 
@@ -47,7 +56,7 @@ The Italian economist Vilfredo Pareto found this pattern while studying income a
 
 > **Key point:** The Pareto distribution is a power-law distribution used to model wealth, income and similar quantities; it starts at a minimum value $x_m$ and its tail is controlled by $\alpha$.
 
-The **Pareto distribution** is a probability distribution commonly used to model the distribution of wealth, income and other quantities that show power-law behaviour. Its values start at a smallest possible value and fall away in a long right tail, so it is right-skewed, like the log-normal distribution.
+The **Pareto distribution** (G-1453) is a probability distribution commonly used to model the distribution of wealth, income and other quantities that show power-law behaviour. Its values start at a smallest possible value and fall away in a long right tail, so it is right-skewed, like the log-normal distribution.
 
 ### 3.1 Parameters
 
@@ -76,7 +85,7 @@ The Pareto distribution is sometimes described as having one parameter, $\alpha$
 
 > **Key point:** A larger $\alpha$ gives a higher peak at $x_m$ and a thinner tail; a smaller $\alpha$ gives a lower peak and a fatter tail.
 
-Figure 2 (left) shows three curves with $x_m = 1$:
+Figure 3 (left) shows three curves with $x_m = 1$:
 
 - **$\alpha = 3$ (red):** the highest peak, 3, and the thinnest tail. Almost all values are close to $x_m$.
 - **$\alpha = 2$ (blue):** in between.
@@ -84,7 +93,9 @@ Figure 2 (left) shows three curves with $x_m = 1$:
 
 As $\alpha$ grows without limit, the whole curve collapses into a single vertical spike at $x_m$: every value equals $x_m$ and there is no tail at all.
 
-In wealth terms, a fat tail (small $\alpha$) means a few individuals hold huge amounts, so the inequality is **larger**. A thin tail (large $\alpha$) means most people hold amounts near the minimum and the split is more even, as in Figure 1 (right).
+In wealth terms, a fat tail (small $\alpha$) means a few individuals hold huge amounts, so the inequality is **larger**. A thin tail (large $\alpha$) means most people hold amounts near the minimum and the split is more even, as in Figure 1 (right). Figure 4 turns $\alpha$ from 1.16 to 3 and shows the share of the total held by each fifth of the population (the formula is in the Extra of section 3.4). The richest fifth's share falls from 80 to 58, 45 and finally 34 percent.
+
+![The share of the total held by each fifth of a Pareto population, for α = 1.16, 1.5, 2 and 3. A larger α gives a more even split.](images/alpha_share.gif)
 
 ### 3.4 The CDF and the 80-20 rule
 
@@ -95,7 +106,7 @@ In wealth terms, a fat tail (small $\alpha$) means a few individuals hold huge a
    $$F(x) = P(X \le x) = 1 - \left(\frac{x_m}{x}\right)^{\alpha} \qquad \text{for } x \ge x_m$$
 3. **Example:** with $x_m = 1$ and $\alpha = 3$, the share of values above 2 is $(1/2)^3 = 0.125$, so $F(2) = 0.875$. With $\alpha = 1$, the share above 2 is $(1/2)^1 = 0.5$.
 
-In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. The slow climb is the fat tail again: a sizeable share of the values lies far out, so it takes a long way along the x axis to collect all of them. A large $\alpha$ reaches 1 quickly, because almost everything sits just above $x_m$.
+In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. The slow climb is the fat tail again: a sizeable share of the values lies far out, so it takes a long way along the x axis to collect all of them. A large $\alpha$ reaches 1 quickly, because almost everything sits just above $x_m$.
 
 > **Extra:** The share of the total held by the richest fraction $p$ of a Pareto population is $p^{\thinspace1 - 1/\alpha}$ (for $\alpha > 1$).
 >
@@ -140,18 +151,18 @@ In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 
 > **Key point:** Taking logs of both sides turns a power law into a straight line, with the power as its slope.
 
-Take the log of both $x$ and $y$ and plot $\ln y$ against $\ln x$. A power law becomes a straight line:
+Take the log of both $x$ and $y$ and plot $\ln y$ against $\ln x$: a **log-log plot** (G-1114). A power law becomes a straight line:
 
 1. **In words:** the log of the Pareto PDF is a constant minus $(\alpha + 1)$ times $\ln x$.
 2. **Formula:**
    $$\ln f(x) = \ln\negthinspace\left(\alpha x_m^{\alpha}\right) - (\alpha + 1)\ln x$$
-3. **Example:** with $x_m = 1$ and $\alpha = 3$: $\ln f(x) = \ln 3 - 4\ln x = 1.099 - 4\ln x$. At $x = e$ (so $\ln x = 1$), $\ln f = 1.099 - 4 = -2.90$. The line has slope $-4$ (Figure 3, left).
+3. **Example:** with $x_m = 1$ and $\alpha = 3$: $\ln f(x) = \ln 3 - 4\ln x = 1.099 - 4\ln x$. At $x = e$ (so $\ln x = 1$), $\ln f = 1.099 - 4 = -2.90$. The line has slope $-4$ (Figure 5, left).
 
 ![Left: the Pareto PDF on log-log axes. Middle: data on log-log axes, Pareto against log-normal. Right: Q-Q plot against a fitted Pareto](images/pareto_check.png)
 
-Plotting the PDF formula itself always gives a straight line, so Figure 3 (left) only shows what to look for. With real data we do not know the PDF. A practical version plots, for every data value $x$, the share of values at or above $x$. For Pareto data that share is $(x_m/x)^{\alpha}$, whose log is again a straight line, now with slope $-\alpha$.
+Plotting the PDF formula itself always gives a straight line, so Figure 5 (left) only shows what to look for. With real data we do not know the PDF. A practical version plots, for every data value $x$, the share of values at or above $x$. For Pareto data that share is $(x_m/x)^{\alpha}$, whose log is again a straight line, now with slope $-\alpha$.
 
-Figure 3 (middle) does this for 1,000 values from a Pareto distribution ($\alpha = 3$, blue) and 1,000 values from a log-normal distribution (orange). Both are right-skewed, but only the Pareto values give a straight line; the log-normal ones bend downwards. The scattered points at the far right are the few largest values; the next paragraph measures how much they vary.
+Figure 5 (middle) does this for 1,000 values from a Pareto distribution ($\alpha = 3$, blue) and 1,000 values from a log-normal distribution (orange). Both are right-skewed, but only the Pareto values give a straight line; the log-normal ones bend downwards. The scattered points at the far right are the few largest values; the next paragraph measures how much they vary.
 
 ### 4.2 The Q-Q plot against a Pareto distribution
 
@@ -159,7 +170,7 @@ Figure 3 (middle) does this for 1,000 values from a Pareto distribution ($\alpha
 
 A Q-Q plot can compare data with any distribution (see the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)). Here the theoretical distribution is a Pareto whose $\alpha$ is estimated from the data itself.
 
-Figure 3 (right) shows the 1,000 Pareto values against a fitted Pareto ($\alpha = 3.02$, close to the true 3). Most points lie on the line; the last few, the largest values, move off it a little. The Notebook measures why: over 500 fresh samples of 1,000 Pareto values ($\alpha = 3$), the middle (500th) value has a spread (standard deviation over mean) of about 1%, while the largest value has a spread of about 55%. The biggest values of a heavy tail vary a lot from sample to sample, so a few points off the line at the end are expected. So the data is roughly Pareto.
+Figure 5 (right) shows the 1,000 Pareto values against a fitted Pareto ($\alpha = 3.02$, close to the true 3). Most points lie on the line; the last few, the largest values, move off it a little. The Notebook measures why: over 500 fresh samples of 1,000 Pareto values ($\alpha = 3$), the middle (500th) value has a spread (standard deviation over mean) of about 1%, while the largest value has a spread of about 55%. The biggest values of a heavy tail vary a lot from sample to sample, so a few points off the line at the end are expected. So the data is roughly Pareto.
 
 > **Python:** Fit, then Q-Q plot.
 >
@@ -170,24 +181,32 @@ Figure 3 (right) shows the 1,000 Pareto values against a fitted Pareto ($\alpha 
 >     data, dist=stats.pareto, sparams=(b, loc, scale))
 > ```
 >
-> `sparams` passes the fitted parameters to the theoretical distribution. The Notebook (`notebook.ipynb`) draws all three panels of Figure 3 with Plotly.
+> `sparams` passes the fitted parameters to the theoretical distribution. The Notebook (`notebook.ipynb`) draws all three panels of Figure 5 with Plotly.
 
 ## 5. Making data normal: transformations
 
 > **Key point:** Real data is rarely normal; mathematical transformations such as the log, square root, reciprocal, Box-Cox and Yeo-Johnson bring it close to normal.
 
-The normal distribution is so well studied that once data is normal, many calculations and methods become easy. Statistical models such as linear and logistic regression work better when each **feature** (an input variable, one column of the data table) looks normal, while tree-based models do not care. Real data, however, is rarely normal; it is often skewed like the log-normal and Pareto data above.
+The normal distribution is so well studied that once data is normal, many calculations and methods become easy. Statistical models such as linear and logistic regression work better when each **feature** (G-772; an input variable, one column of the data table) looks normal, while tree-based models do not care. Real data, however, is rarely normal; it is often skewed like the log-normal and Pareto data above.
 
-Mathematical transformations (see the [function transformer Note](../30-function-transformer/note.md)) apply a formula to every value of a feature to bring its distribution close to normal. They are covered in the feature engineering Notes:
+**Mathematical transformations** (G-1174; see the [function transformer Note](../30-function-transformer/note.md)) apply a formula to every value of a feature to bring its distribution close to normal. They are covered in the feature engineering Notes:
 
 | Transformation | What it does | Note |
 |---|---|---|
 | Log, $\log(1 + x)$ | pulls in a long right tail; makes log-normal data normal | [function transformer Note](../30-function-transformer/note.md) |
 | Reciprocal, square, square root | other fixed formulas, for other shapes of skew | [function transformer Note](../30-function-transformer/note.md) |
 | Box-Cox | learns the best power $\lambda$; positive values only | [power transformer Note](../31-power-transformer/note.md) |
-| Yeo-Johnson | Box-Cox adapted to zeros and negative values | [power transformer Note](../31-power-transformer/note.md) |
+| Yeo-Johnson (G-2136) | Box-Cox adapted to zeros and negative values | [power transformer Note](../31-power-transformer/note.md) |
 
-Each of those Notes checks the result with a Q-Q plot and shows the effect on a model's score, so the workflow is: check the feature (density plot, skewness, Q-Q plot), transform it, and check again.
+Each of those Notes checks the result with a Q-Q plot and shows the effect on a model's score, so the workflow is:
+
+1. check the feature (density plot, skewness, Q-Q plot);
+2. transform it;
+3. check again.
+
+Figure 6 shows why step 3 matters, on the 1,000 Pareto values of section 3.5. The log cuts the skewness from 7.68 to 1.87. Box-Cox picks the power $\lambda = -2.17$ and cuts it to 0.30, yet its histogram is still flat-topped, not a bell. A skewness near 0 alone does not prove normality (see the [skewness Note](../252-skewness/note.md), section 6.1); the second check would catch this.
+
+![1,000 Pareto values (α = 3): raw, after the log, and after Box-Cox. The skewness falls from 7.68 to 1.87 to 0.30, but the Box-Cox histogram is still not a bell.](images/boxcox_pareto.png)
 
 ## 6. Summary
 

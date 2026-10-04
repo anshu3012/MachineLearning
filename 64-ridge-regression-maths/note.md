@@ -19,12 +19,16 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 
 The previous Note explained what Ridge does: it adds $\lambda$ times the squared coefficients to the loss, which keeps them small. This Note derives the formulas that find the Ridge coefficients, the same way the OLS and normal equation Notes did for plain linear regression.
 
-Here a **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** $y$ is the value we predict. There are two cases:
+Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) $y$ is the value we predict. There are two cases:
 
 - **One feature:** a formula for the slope $m$ and the intercept $b$.
 - **Many features:** a matrix formula for all coefficients at once.
 
 Both are then coded from scratch and checked against scikit-learn's `Ridge`.
+
+Figure 1 shows what the formulas will produce on the 100-observation example of the previous Note. The ordinary least-squares line has slope 27.83. With $\lambda = 10$ the **Ridge regression** (G-1691) line tilts down to 24.95, and with $\lambda = 100$ to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
+
+![Ridge lines on the 100-observation example: λ = 0 (ordinary least squares, slope 27.83), λ = 10 (24.95) and λ = 100 (12.93). Every line passes through the point of means.](images/ridge_lines.png)
 
 ## 2. One feature
 
@@ -66,6 +70,10 @@ $$m = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} (x_i -
 
 In words: the top of the fraction is the same as in OLS, and the bottom has $\lambda$ added. With $\lambda = 0$ the formula is the OLS slope.
 
+Figure 2 shows the mechanism. With the intercept at its best value for each slope, the loss is a curve in $m$: the squared error (blue) plus the penalty $\lambda m^2$ (orange). The penalty is a bowl centred on 0, so adding it pulls the bottom of the sum towards 0. As $\lambda$ grows from 0 to 100, the bottom slides from 27.83 to 12.93, exactly the value of the formula.
+
+![The Ridge loss of the 100-observation example as a function of the slope m, as λ grows from 0 to 100: squared error (blue), penalty λm² (dashed orange) and their sum (green). The dotted line marks the OLS slope 27.83; the green minimum slides towards 0.](images/loss_shift.gif)
+
 Picture a seesaw: the top of the fraction is how hard the data pulls the slope up, and $\lambda$ is a weight added to the other side. The heavier the weight, the less the slope rises.
 
 > **Extra:** Strictly, substituting $b$ turns $\sum (y_i - \bar{y})x_i$ into $\sum (y_i - \bar{y})(x_i - \bar{x})$ and $\sum (x_i - \bar{x})x_i$ into $\sum (x_i - \bar{x})^2$. The pairs of sums are equal because $\sum (y_i - \bar{y}) = 0$ and $\sum (x_i - \bar{x}) = 0$, the same trick as in the OLS derivation.
@@ -84,7 +92,7 @@ $$m = \frac{2416.7}{86.85 + \lambda}$$
 | 10 | $2416.7 / 96.85 = 24.95$ | $-2.127$ |
 | 100 | $2416.7 / 186.85 = 12.93$ | $-1.425$ |
 
-These slopes are exactly the ones scikit-learn gave in the previous Note. Figure 1 shows the whole curve.
+These slopes are exactly the ones scikit-learn gave in the previous Note. Figure 3 shows the whole curve.
 
 ![The Ridge slope against λ](images/slope_vs_lambda.png){height=48%}
 
@@ -139,7 +147,7 @@ Divide by 2 and move $X^{\mathsf T}y$ to the right:
 
 $$X^{\mathsf T}Xw + \lambda w = X^{\mathsf T}y$$
 
-To factor out $w$, write $\lambda w$ as $\lambda I w$, where $I$ is the identity matrix (a matrix cannot be added to a number):
+To factor out $w$, write $\lambda w$ as $\lambda I w$, where $I$ is the **identity matrix** (G-915) (a matrix cannot be added to a number):
 
 $$(X^{\mathsf T}X + \lambda I)\thinspace w = X^{\mathsf T}y$$
 
@@ -149,13 +157,13 @@ $$w = (X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$$
 
 ![The Ridge formula and its identity matrix](images/identity.png){height=32%}
 
-Figure 2 shows the result. Compared with the normal equation, only $+\lambda I$ is new: it adds $\lambda$ to every number on the diagonal of $X^{\mathsf T}X$.
+Figure 4 shows the result. Compared with the normal equation, only $+\lambda I$ is new: it adds $\lambda$ to every number on the diagonal of $X^{\mathsf T}X$.
 
 ### 3.4 Not penalising the intercept
 
 > **Key point:** The top-left entry of I is set to 0, so the intercept is left out of the penalty.
 
-The first entry of $w$ is the intercept. The intercept only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of $I$ to 0 removes it from the penalty, as in Figure 2.
+The first entry of $w$ is the intercept. The intercept only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of $I$ to 0 removes it from the penalty, as in Figure 4.
 
 > **Python:** Ridge with many features, from scratch.
 >
@@ -185,9 +193,13 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.1:
 
 The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 
-> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a closed-form solution, which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
+> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver (the **Cholesky solver**, G-383) then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a **closed-form solution** (G-398), which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
 
-> **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (multicollinearity), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970). The maths in one line: for any non-zero vector $v$, $v^{\mathsf T}(X^{\mathsf T}X + \lambda I)v = \lVert Xv \rVert^2 + \lambda \lVert v \rVert^2 > 0$, so no $v$ is sent to zero and the matrix has an inverse.
+> **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (**multicollinearity**, G-1273), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970). The maths in one line: for any non-zero vector $v$, $v^{\mathsf T}(X^{\mathsf T}X + \lambda I)v = \lVert Xv \rVert^2 + \lambda \lVert v \rVert^2 > 0$, so no $v$ is sent to zero and the matrix has an inverse. The same line covers data with more features than observations, where $X^{\mathsf T}X$ never has an inverse: Ridge still returns one answer (ISL §6.2.1).
+>
+> Figure 5 measures the effect on the diabetes training data. With $\lambda = 0$ the smallest eigenvalue of $X^{\mathsf T}X$ is only 0.0073, and the **condition number** (G-441), the largest eigenvalue divided by the smallest, is 48,311: the inverse exists but small rounding errors are blown up. Adding $\lambda$ lifts the smallest eigenvalue by $\lambda$, and at $\lambda = 0.1$ the condition number is already down to about 3,290.
+
+![The diabetes training data with its column of 1s. Left: the smallest eigenvalue of XᵀX + λI rises with λ from 0.0073. Right: the condition number falls from 48,311 at λ = 0. Both axes use log scales.](images/invertible.png)
 
 ## 4. Summary
 
@@ -213,6 +225,7 @@ The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 64 (which credits Hoerl and Kennard, 1970).
 - **Hoerl and Kennard (1970):** Hoerl, A. E. and Kennard, R. W. "Ridge regression: biased estimation for nonorthogonal problems." *Technometrics* 12(1), 55–67.
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.1 (Ridge when there are more features than observations).
 - **scikit-learn docs:** `sklearn.linear_model.Ridge` (fit_intercept, solver="cholesky"), scikit-learn 1.9 documentation; centring step in `sklearn/linear_model/_base.py` (`_preprocess_data`).
 
 ## 6. Key terms

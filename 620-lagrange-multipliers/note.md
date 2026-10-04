@@ -20,24 +20,35 @@ This Note follows Chapter 7 (Section 7.2) of *Mathematics for Machine Learning* 
 
 ![Minimising $f = x^2 + 2y^2$ on the line $x + y = 3$: the level curve $f = c$ grows until it first touches the line at $(2, 1)$, where the two gradients are parallel. Key frames: $c = 0.5$, $c = 3$, the first touch at $c = 6$, and the gradients](images/tangency.gif)
 
-Gradient descent (see the [gradient descent Note](../57-gradient-descent/note.md)) searches the whole parameter space. Often the parameters must also obey a rule: weights that stay inside a circle, probabilities that add up to 1, or every training point on the right side of a margin. Figure 1 shows the idea this Note builds on: grow a level curve of the function until it first touches the set of allowed points.
+**Gradient descent** (G-862; see the [gradient descent Note](../57-gradient-descent/note.md)) searches the whole parameter space. Often the parameters must also obey a rule: weights that stay inside a circle, probabilities that add up to 1, or every training point on the right side of a margin. Figure 1 shows the idea this Note builds on: grow a level curve of the function until it first touches the set of allowed points.
 
-This Note uses the gradient and its key property, that it crosses contour lines at right angles, from the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md). The Sections are: the problem, the geometry with one equality constraint, the Lagrangian, inequality constraints, duality, and two ML examples.
+This Note uses the gradient and its key property, that it crosses contour lines at right angles, from the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md). The Sections are:
+
+- the problem (section 2);
+- the geometry with one equality constraint (section 3);
+- the Lagrangian (section 4);
+- inequality constraints (section 5);
+- duality (section 6);
+- two ML examples (section 7).
 
 ## 2. Constrained optimisation problems
 
 > **Key point:** We minimise $f(\mathbf{x})$ over only the points that satisfy every constraint; this set of allowed points is the feasible region.
 
-A **constrained optimisation** problem asks to minimise a function while keeping one or more conditions true (see the [SVM maths Note](../93-svm-maths/note.md)). The function to minimise is the **objective function**. The general form uses two kinds of constraint:
+A **constrained optimisation** problem asks to minimise a function while keeping one or more conditions true (see the [SVM maths Note](../93-svm-maths/note.md)). The function to minimise is the **objective function** (G-1372). The general form uses two kinds of constraint:
 
 1. **In words:** minimise $f$ over all $\mathbf{x}$ for which every inequality function is at most 0 and every equality function is exactly 0.
 2. **Formula:**
    $$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0 \ \ (i = 1, \dots, m), \qquad h_j(\mathbf{x}) = 0 \ \ (j = 1, \dots, n)$$
 3. **Example:** minimise $f(x, y) = x^2 + 2y^2$ subject to $x + y = 3$. Here $n = 1$, with $h(x, y) = 3 - x - y$, and there are no inequalities. The point $(3, 0)$ is allowed and gives $f = 9$; the point $(0, 0)$ gives $f = 0$ but breaks the constraint.
 
-The set of points that satisfy every constraint is the **feasible region**. Any constraint of the form "$\ge$" can be turned around: $x + y \ge 3$ is the same as $3 - x - y \le 0$.
+The set of points that satisfy every constraint is the **feasible region** (G-759). Any constraint of the form "$\ge$" can be turned around: $x + y \ge 3$ is the same as $3 - x - y \le 0$.
 
 Without the constraint, the minimum of $f$ is at $(0, 0)$ with $f = 0$. The constraint forbids that point, so the answer must lie somewhere on the line $x + y = 3$. The question is where.
+
+Figure 2 draws the problem. The contour rings of $f$ grow outwards from $(0, 0)$, the green line is the feasible region, and only points on it count. Walking along the line, $f$ is 9 at $(3, 0)$ and falls to 6 at $(2, 1)$, then rises again.
+
+![The problem of this Note. Contours of f = x² + 2y² (blue) and the feasible region, the line x + y = 3 (green). The unconstrained minimum (0, 0) is not allowed; (3, 0) is allowed with f = 9; the best allowed point is (2, 1) with f = 6.](images/feasible.png)
 
 ## 3. The geometry: a level curve touching the constraint
 
@@ -64,14 +75,14 @@ The gradient of a function is perpendicular to its contour lines (see the [parti
 1. **In words:** at the constrained minimum, the gradient of $f$ is a multiple of the gradient of the constraint function.
 2. **Formula:** for a constraint $h(\mathbf{x}) = 0$,
    $$\nabla f(\mathbf{x}^\ast) = -\lambda\thinspace\nabla h(\mathbf{x}^\ast) \quad \text{for some number } \lambda$$
-   The number $\lambda$ is the **Lagrange multiplier**. The minus sign is a convention that matches Section 4.
+   The number $\lambda$ is the **Lagrange multiplier** (G-1036). The minus sign is a convention that matches Section 4.
 3. **Example:** at $(2, 1)$, $\nabla f = [2x,\ 4y] = [4,\ 4]$. With $h = 3 - x - y$, $\nabla h = [-1,\ -1]$. Then $[4, 4] = -4 \times [-1, -1]$, so $\lambda = 4$. Figure 1 (last frame) draws $\nabla f$ and $\nabla(x + y) = [1, 1]$: they point the same way.
 
 Why must they be parallel? If $\nabla f$ had a part along the line, we could slide along the line in the opposite direction and lower $f$ while staying feasible. Only when $\nabla f$ points straight across the line is there no downhill direction left.
 
 ![A point slides along the line $x + y = 3$. The gradient $\nabla f$ (blue) has a part along the line (red); stepping against it lowers $f$ without leaving the line. The red part vanishes only at $(2, 1)$, where $\nabla f = 4\thinspace(1, 1)$. Last frame: the line moves to $x + y = 3.3$ and the best value rises by about $\lambda = 4$ per unit](images/slide_along.gif)
 
-Figure 2 makes the argument visible. Watch the red arrow: while it exists, the point can still go downhill along the line, and the dashed level curve through the point crosses the line instead of touching it. The sliding-point picture follows Sanderson's Khan Academy lessons on Lagrange multipliers.
+Figure 3 makes the argument visible. Watch the red arrow: while it exists, the point can still go downhill along the line, and the dashed level curve through the point crosses the line instead of touching it. The sliding-point picture follows Sanderson's Khan Academy lessons on Lagrange multipliers.
 
 ## 4. The Lagrangian
 
@@ -81,7 +92,7 @@ Figure 2 makes the argument visible. Watch the red arrow: while it exists, the p
 
 > **Key point:** $\mathcal{L}(\mathbf{x}, \lambda) = f(\mathbf{x}) + \lambda h(\mathbf{x})$; its gradient in $\mathbf{x}$ is the tangency condition, and its derivative in $\lambda$ is the constraint.
 
-The tangency condition and the constraint can be packed into one unconstrained function, the **Lagrangian**.
+The tangency condition and the constraint can be packed into one unconstrained function, the **Lagrangian** (G-1037).
 
 1. **In words:** the objective plus each constraint times its multiplier.
 2. **Formula:**
@@ -102,33 +113,37 @@ The multiplier is more than a helper variable. The multiplier says how much the 
 1. **In words:** if we move the constraint by a small amount, the best value changes by about $\lambda$ times that amount.
 2. **Formula:** for the constraint $x + y = c$, with best value $f^\ast(c)$,
    $$\frac{d f^\ast}{d c} = \lambda$$
-3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^\ast(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$. The last frame of Figure 2 moves the line to $x + y = 3.3$: the best value becomes $7.26$, close to the estimate $6 + 4 \times 0.3 = 7.2$.
+3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^\ast(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$. The last frame of Figure 3 moves the line to $x + y = 3.3$: the best value becomes $7.26$, close to the estimate $6 + 4 \times 0.3 = 7.2$.
 
-> **Extra:** In economics, $\lambda$ is called the **shadow price** of the constraint (Boyd and Vandenberghe §5.6): how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming Note](../622-linear-and-quadratic-programming/note.md) reads multipliers this way.
+Figure 4 plots the best value $f^\ast(c)$ against the position $c$ of the line. At $c = 3$ its tangent has slope 4: the multiplier is the slope of the best value. The red gaps show that the estimate "best value plus $\lambda$ times the shift" is close for small shifts and drifts for larger ones, because $f^\ast$ curves.
+
+![The best value f*(c) = 2c²/3 against the constraint x + y = c (blue), with its tangent at c = 3 (orange), whose slope is λ = 4. At c = 3.1 and 3.3 the best values 6.41 and 7.26 sit just above the tangent estimates 6.4 and 7.2.](images/shadow_price.png)
+
+> **Extra:** In economics, $\lambda$ is called the **shadow price** (G-1784) of the constraint (Boyd and Vandenberghe §5.6): how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming Note](../622-linear-and-quadratic-programming/note.md) reads multipliers this way.
 
 ## 5. Inequality constraints
 
 > **Key point:** An inequality constraint either holds with equality at the answer (active, $\lambda > 0$) or does not matter there (inactive, $\lambda = 0$); multipliers of inequality constraints are never negative.
 
-Most constraints in ML are inequalities: a margin of at least 1, a weight length of at most $t$. For an inequality $g(\mathbf{x}) \le 0$, two cases can happen (Figure 3).
+Most constraints in ML are inequalities: a margin of at least 1, a weight length of at most $t$. For an inequality $g(\mathbf{x}) \le 0$, two cases can happen (Figure 5).
 
 ![Minimising $x^2 + 2y^2$ with one inequality constraint; the feasible region is shaded and the star is the answer. Left: $x + y \ge 3$ cuts off the unconstrained minimum, so the answer lies on the boundary (active, $\lambda = 4$). Right: $x + y \ge -1$ already contains the unconstrained minimum (inactive, $\lambda = 0$)](images/active_inactive.png)
 
-- **Active:** the unconstrained minimum is not feasible, so the answer lies on the boundary $g = 0$. The constraint then behaves like an equality constraint. For $x + y \ge 3$, written $g = 3 - x - y \le 0$, the answer is again $(2, 1)$ with $\lambda = 4$.
-- **Inactive:** the unconstrained minimum is already feasible, so the constraint plays no part and $\lambda = 0$. For $x + y \ge -1$, the point $(0, 0)$ satisfies $0 \ge -1$, and it is the answer.
+- **Active** (an **active constraint**, G-166): the unconstrained minimum is not feasible, so the answer lies on the boundary $g = 0$. The constraint then behaves like an equality constraint. For $x + y \ge 3$, written $g = 3 - x - y \le 0$, the answer is again $(2, 1)$ with $\lambda = 4$.
+- **Inactive** (an **inactive constraint**, G-928): the unconstrained minimum is already feasible, so the constraint plays no part and $\lambda = 0$. For $x + y \ge -1$, the point $(0, 0)$ satisfies $0 \ge -1$, and it is the answer.
 
 Why must $\lambda \ge 0$ for an inequality? At an active constraint, $\nabla f = -\lambda \nabla g$. The gradient $\nabla g$ points out of the feasible region, towards larger $g$. With $\lambda \ge 0$, $\nabla f$ points into the region: $f$ increases as we move inside, so the boundary point is indeed lowest. A negative $\lambda$ would mean $f$ decreases inside, and the true answer would lie inside.
 
 In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\lambda = 0$ (inactive) or $g = 0$ (active). For an equality constraint, the multiplier can have either sign.
 
-> **Extra:** These rules together are the **KKT conditions** (Karush–Kuhn–Tucker), the standard check for a constrained minimum (Boyd and Vandenberghe §5.5.3):
+> **Extra:** These rules together are the **KKT conditions** (G-1013; Karush–Kuhn–Tucker), the standard check for a constrained minimum (Boyd and Vandenberghe §5.5.3):
 >
 > 1. **Stationarity:** $\nabla f + \sum_i \lambda_i \nabla g_i + \sum_j \nu_j \nabla h_j = \mathbf{0}$.
 > 2. **Primal feasibility:** $g_i(\mathbf{x}) \le 0$ and $h_j(\mathbf{x}) = 0$.
 > 3. **Dual feasibility:** $\lambda_i \ge 0$ (the equality multipliers $\nu_j$ can have any sign).
-> 4. **Complementary slackness:** $\lambda_i\thinspace g_i(\mathbf{x}) = 0$ for every $i$.
+> 4. **Complementary slackness** (G-424): $\lambda_i\thinspace g_i(\mathbf{x}) = 0$ for every $i$.
 >
-> For the active case of Figure 3: $[4, 4] + 4 \times [-1, -1] = \mathbf{0}$; $g = 3 - 2 - 1 = 0$; $\lambda = 4 \ge 0$; $4 \times 0 = 0$. All four hold.
+> For the active case of Figure 5: $[4, 4] + 4 \times [-1, -1] = \mathbf{0}$; $g = 3 - 2 - 1 = 0$; $\lambda = 4 \ge 0$; $4 \times 0 = 0$. All four hold.
 
 ### 5.1 From a wall to a price
 
@@ -148,7 +163,7 @@ Minimising $J$ gives the same answer as the constrained problem, but a function 
 
 > **Key point:** For each $\boldsymbol{\lambda} \ge 0$, $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda})$ is an unconstrained problem; then we maximise $D$ over $\boldsymbol{\lambda} \ge 0$.
 
-The original problem, in the variables $\mathbf{x}$, is the **primal problem**. Fixing the multipliers and minimising over $\mathbf{x}$ turns it into a problem in the multipliers, the **dual problem**.
+The original problem, in the variables $\mathbf{x}$, is the **primal problem** (G-1559). Fixing the multipliers and minimising over $\mathbf{x}$ turns it into a problem in the multipliers, the **dual problem** (G-642).
 
 1. **In words:** for each choice of multipliers, find the lowest value of the Lagrangian; then choose the multipliers that make this lowest value as high as possible.
 2. **Formula:**
@@ -163,14 +178,14 @@ The original problem, in the variables $\mathbf{x}$, is the **primal problem**. 
 
 > **Key point:** The dual value is never above the primal minimum (weak duality); for convex problems the two are equal (strong duality).
 
-Figure 4 shows two facts:
+Figure 6 shows two facts:
 
-- **Weak duality:** every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$, $D(2) = 6 - 1.5 = 4.5 \le 6$.
-- **Strong duality:** here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
+- **Weak duality** (G-2103): every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$, $D(2) = 6 - 1.5 = 4.5 \le 6$.
+- **Strong duality** (G-1903): here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
 
 Weak duality always holds. For a feasible $\mathbf{x}$ and $\boldsymbol{\lambda} \ge 0$, each term $\lambda_i g_i(\mathbf{x})$ is at most 0, so $\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) \le f(\mathbf{x})$. The minimum over all $\mathbf{x}$ is lower still: $D(\boldsymbol{\lambda}) \le f(\mathbf{x})$ for every feasible $\mathbf{x}$, including the best one.
 
-The same argument in general form is the **minimax inequality**: for any function $\varphi(\mathbf{x}, \mathbf{y})$, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$. The primal problem is $\min_{\mathbf{x}} \max_{\boldsymbol{\lambda} \ge 0} \mathcal{L}$, because the inner maximum is $f$ at feasible points and infinite elsewhere ($J$ of Section 5.1). The dual swaps the order.
+The same argument in general form is the **minimax inequality** (G-1225): for any function $\varphi(\mathbf{x}, \mathbf{y})$, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$. The primal problem is $\min_{\mathbf{x}} \max_{\boldsymbol{\lambda} \ge 0} \mathcal{L}$, because the inner maximum is $f$ at feasible points and infinite elsewhere ($J$ of Section 5.1). The dual swaps the order.
 
 Two further properties make the dual useful:
 
@@ -193,6 +208,10 @@ $$\min_{\mathbf{w}} \lVert \mathbf{y} - X\mathbf{w} \rVert^2 \quad \text{subject
 
 Its Lagrangian is $\lVert \mathbf{y} - X\mathbf{w} \rVert^2 + \lambda \lVert \mathbf{w} \rVert^2 - \lambda t$. For a fixed $\lambda$, the last term is a constant, so minimising over $\mathbf{w}$ is exactly Ridge regression with penalty strength $\lambda$ (see the [Ridge regression maths Note](../64-ridge-regression-maths/note.md)). A small circle (small $t$) needs a large multiplier; once the circle contains the ordinary least-squares answer, the constraint is inactive and $\lambda = 0$.
 
+Figure 7 checks this matching on the diabetes data (10 standardised features). For each penalty strength $\lambda$ we fit Ridge and record the size $t = \lVert \mathbf{w} \rVert^2$ of its weights: that is the circle for which this $\lambda$ is the multiplier. Every $\lambda$ gives one circle, larger $\lambda$ a smaller one, and as $\lambda$ falls towards 0 the circle grows to the size of the OLS weights, 4,295.
+
+![Ridge on the diabetes data (10 standardised features, 442 patients). Each point is one penalty strength λ and the size t of the Ridge weights it produces. Small circles need large multipliers; the curve meets λ = 0 at the size of the OLS weights (dashed).](images/ridge_lambda_t.png)
+
 Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a circle. Its corners on the axes are why Lasso answers often have coefficients exactly 0 (ESL §3.4.3, Figure 3.11) (see the [Elastic Net Note](../69-elastic-net/note.md)).
 
 ### 7.2 The SVM dual
@@ -210,6 +229,10 @@ Two things are new here:
 
 - **Complementary slackness picks the support vectors.** A point strictly outside the margin has an inactive constraint, so $\alpha_i = 0$ and it does not appear in $\mathbf{w}$. Only points on the margin, the support vectors, have $\alpha_i > 0$.
 - **Only dot products appear.** The data enters the dual only as $\mathbf x_i^{\mathsf T}\mathbf x_j$. Replacing each dot product by a kernel function is the [kernel trick](../95-kernel-trick-intuition/note.md).
+
+Figure 8 shows complementary slackness on real data: 100 Iris flowers, setosa against versicolor, described by petal length and width. Of the 100 multipliers of the hard-margin SVM, only 2 are not zero: the two flowers on the margin, each with $\alpha = 1.18$. The other 98 flowers could be removed without changing $\mathbf{w}$.
+
+![The hard-margin linear SVM on 100 Iris flowers (petal length and width). Rings: the support vectors, the only flowers with a nonzero dual multiplier (α = 1.18 each). Every other flower has α = 0.](images/svm_alphas.png)
 
 > **Python:** scipy solves constrained problems with `minimize`. The method `trust-constr` also reports the multipliers. scikit-learn's `SVC` stores $y_i \alpha_i$ of the support vectors in `dual_coef_`.
 >

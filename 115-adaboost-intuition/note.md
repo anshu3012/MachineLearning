@@ -18,7 +18,7 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 
 ![AdaBoost as a stage-wise additive model: each stage trains a stump on reweighted data and gets a say; the final model is the sign of the weighted sum](images/stagewise.png){height=40%}
 
-**AdaBoost** is the first boosting algorithm we study. Boosting was previewed in the [ensemble learning Note](../101-ensemble-learning/note.md), section 4.4: models trained in series, each one focusing on the mistakes of the one before. Figure 1 shows how AdaBoost does it.
+**AdaBoost** (G-167) is the first **boosting** (G-318) algorithm we study. Boosting was previewed in the [ensemble learning Note](../101-ensemble-learning/note.md), section 4.4: models trained in series, each one focusing on the mistakes of the one before. Figure 1 shows how AdaBoost does it.
 
 This Note gives the core idea for classification, on a picture. The next Notes fill in the numbers: how the say of each model is computed, and how the mistakes are passed on.
 
@@ -38,7 +38,7 @@ AdaBoost gives good results, but in practice random forests, gradient boosting a
 
 > **Key point:** A weak learner is a model whose accuracy is only a little above 50%.
 
-On a two-class problem, guessing at random is right about 50% of the time, like calling heads or tails on a coin toss. A **weak learner** is a model whose accuracy is just above that: 55%, say. A **strong learner** is a model with high accuracy, 95% or 99%.
+On a two-class problem, guessing at random is right about 50% of the time, like calling heads or tails on a coin toss. A **weak learner** (G-2104) is a model whose accuracy is just above that: 55%, say. A **strong learner** (G-1904) is a model with high accuracy, 95% or 99%.
 
 AdaBoost builds one strong model by combining many weak learners. Each one alone is poor; together they are good.
 
@@ -46,7 +46,7 @@ AdaBoost builds one strong model by combining many weak learners. Each one alone
 
 > **Key point:** A decision stump is a decision tree with `max_depth=1`: one question, one split, two regions.
 
-A **decision stump** is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. The [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 2.2, showed that such a tree underfits. Here that weakness is exactly what we want: a stump is a weak learner.
+A **decision stump** (G-559) is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. The [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 2.2, showed that such a tree underfits. Here that weakness is exactly what we want: a stump is a weak learner.
 
 ![Three students on CGPA and IQ: every possible stump is one cut parallel to an axis; the chosen cut gives the largest information gain](images/stump_splits.png){height=34%}
 
@@ -56,7 +56,7 @@ Figure 2 shows three students: two placed (+), one not placed (-).
 - A stump makes exactly one cut. It is either parallel to the IQ axis (a CGPA threshold) or parallel to the CGPA axis (an IQ threshold).
 - With three points there are only a few candidate cuts: one between each pair of neighbouring values, on each axis.
 
-The stump tries every candidate and keeps the one with the largest information gain (the decision trees Note, section 7). In Figure 2, the cut at CGPA 6.75 separates the classes perfectly, so it wins.
+The stump tries every candidate and keeps the one with the largest **information gain** (G-946; the decision trees Note, section 7). In Figure 2, the cut at CGPA 6.75 separates the classes perfectly, so it wins.
 
 AdaBoost can use any algorithm as its weak learner, even a neural network. In practice it almost always uses decision stumps, for two reasons:
 
@@ -73,18 +73,22 @@ Most classifiers name the two classes 1 and 0. AdaBoost uses **+1 and -1**: plac
 
 > **Key point:** "Additive": the final model is a sum of weak learners. "Stage-wise": they are added one at a time, in order.
 
-AdaBoost is often described as a **stage-wise additive method**:
+AdaBoost is often described as a **stage-wise additive method** (a **stage-wise additive model**, G-1867):
 
 - **additive:** the final model adds up several weak learners;
 - **stage-wise:** the weak learners are added one after another, in sequence, each in its own stage.
 
 In Figure 1, each column is a stage. The arrow between the columns is what makes it boosting: each stage hands its mistakes to the next.
 
+Figure 3 shows the "additive" part on the 10 students of section 4: the vote of the first stump alone, of the first two, and of all three. Each added stump changes the vote only where its say tips the sum.
+
+![The vote of the first 1, 2 and 3 stumps on the 10 students of section 4 (blue region: placed; circled: wrong). One stump gets 8 right, two stumps still 8, and the sum of all three gets all 10 right](images/stagewise_growth.png){width=100%}
+
 ## 4. Stage by stage
 
 > **Key point:** In every stage: fit a stump, find its mistakes, give the stump a say, then make its mistakes heavier for the next stage.
 
-We follow 10 students. Each student is an **observation** (one record, one row of the data table). Each has two **features** (input variables, one column each), CGPA and IQ, and a **target** (the output we predict): placed (+1) or not placed (-1). Figure 3 animates the three stages.
+We follow 10 students. Each student is an **observation** (G-1374; one record, one row of the data table). Each has two **features** (G-772; input variables, one column each), CGPA and IQ, and a **target** (G-1949; the output we predict): placed (+1) or not placed (-1). Figure 4 animates the three stages.
 
 ![AdaBoost on 10 students. In each stage the dashed line is the stump's split; the dot size shows each student's weight, which grows after a mistake and shrinks after a correct answer. The last panel is the weighted vote of the three stumps](images/boosting_stages.gif){height=55%}
 
@@ -92,7 +96,7 @@ We follow 10 students. Each student is an **observation** (one record, one row o
 
 > **Key point:** The first stump is the single cut with the largest information gain; it gets some students wrong.
 
-Many stumps are possible on this data. As in section 2.2, we keep the one with the largest information gain: **IQ above 74 means placed** (Figure 3, top left). Above the line is the placed region, below it the not-placed region.
+Many stumps are possible on this data. As in section 2.2, we keep the one with the largest information gain: **IQ above 74 means placed** (Figure 4, top left). Above the line is the placed region, below it the not-placed region.
 
 The stump does its job, but not perfectly: two students who were not placed sit in the placed region. These are its **mistakes**.
 
@@ -102,13 +106,13 @@ The stump does its job, but not perfectly: two students who were not placed sit 
 
 The first stump tells the next one, in effect: "I got these students wrong; take extra care with them." AdaBoost does this by raising the **importance** of the misclassified observations in the data and lowering that of the rest.
 
-In Figure 3 this is the dot size: the two mistakes grow, the eight correct students shrink. The exact amounts, and the technique (called upsampling), are the subject of the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md).
+In Figure 4 this is the dot size: the two mistakes grow, the eight correct students shrink. The exact amounts, and the technique (called **upsampling**, G-2063), are the subject of the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md).
 
 ### 4.3 The say of each stump: alpha
 
 > **Key point:** Each stump gets a weight, alpha, from how few mistakes it made. Good stumps get a big say in the final vote, poor ones a small say.
 
-At the end of each stage we also compute a number $\alpha$ (alpha) for the stump. Alpha sets how much **say** the stump will have in the final prediction. Few mistakes give a large $\alpha$; many mistakes give a small one. The formula is in the step-by-step Note.
+At the end of each stage we also compute a number $\alpha$ (alpha) for the stump. Alpha, the **model weight** (G-192), sets how much **say** the stump will have in the final prediction. Few mistakes give a large $\alpha$; many mistakes give a small one. The formula is in the step-by-step Note.
 
 The say is where boosting differs from bagging. In bagging (the [bagging Note](../105-bagging-intuition/note.md)), every base model's vote counts the same, like a democracy. In boosting, each model's vote is weighted by how well it performed.
 
@@ -116,9 +120,9 @@ The say is where boosting differs from bagging. In bagging (the [bagging Note](.
 
 > **Key point:** Each new stump fixes the previous stump's mistakes but makes some of its own, which are passed on in turn.
 
-**Stage 2.** The data now has heavier weights on the two missed students. A new stump is fitted: **IQ above 110 means placed** (Figure 3, top right). The new stump gets those two students right, but it makes two new mistakes: two placed students fall in its not-placed region. Again we compute its say, $\alpha_2$, and make its mistakes heavier.
+**Stage 2.** The data now has heavier weights on the two missed students. A new stump is fitted: **IQ above 110 means placed** (Figure 4, top right). The new stump gets those two students right, but it makes two new mistakes: two placed students fall in its not-placed region. Again we compute its say, $\alpha_2$, and make its mistakes heavier.
 
-**Stage 3.** The next stump is **CGPA below 3.25 means placed** (Figure 3, bottom left). This third stump fixes stage 2's mistakes and makes two of its own. We compute $\alpha_3$.
+**Stage 3.** The next stump is **CGPA below 3.25 means placed** (Figure 4, bottom left). This third stump fixes stage 2's mistakes and makes two of its own. We compute $\alpha_3$.
 
 We stop at three stumps here. With more stages the process simply repeats.
 
@@ -134,15 +138,17 @@ The weighted error is the share of the total weight that sits on the misclassifi
 
 > **Key point:** Multiply each stump's answer (+1 or -1) by its alpha, add, and take the sign: positive means +1, negative means -1.
 
-After training we have three stumps and three alphas. We write each stump as a function $h_t(x)$, a **hypothesis function**: it takes a student's features $x$ and returns +1 or -1.
+After training we have three stumps and three alphas. We write each stump as a function $h_t(x)$, a **hypothesis function** (G-912): it takes a student's features $x$ and returns +1 or -1.
 
 1. **In words:** each stump votes +1 or -1; each vote is multiplied by that stump's say; we add the results; the sign of the total is the prediction.
 2. **Formula:** with $T$ stumps,
    $$H(x) = \operatorname{sign}\Big(\sum_{t=1}^{T} \alpha_t\thinspace h_t(x)\Big) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \alpha_3 h_3(x)\big)$$
-   The **sign** of a number is +1 if it is positive and -1 if it is negative.
+   The **sign** (the **sign function**, G-1800) of a number is +1 if it is positive and -1 if it is negative.
 3. **Example:** a new student has CGPA 7.5 and IQ 81. Suppose the three stumps say $h_1 = -1$ (not placed), $h_2 = +1$ (placed), $h_3 = -1$, and their alphas are 2, 10 and 1:
    $$2 \times (-1) + 10 \times (+1) + 1 \times (-1) = -2 + 10 - 1 = 7$$
-   The total is positive, so $H(x) = +1$: the student is predicted to be **placed**. Two stumps out of three said "not placed", but the stump with by far the largest say said "placed", and it wins.
+   The total is positive, so $H(x) = +1$: the student is predicted to be **placed**. Two stumps out of three said "not placed", but the stump with by far the largest say said "placed", and it wins (Figure 5).
+
+   ![The weighted vote of the example as a running sum. Stump 1 pulls it down by 2, stump 2 lifts it by 10, stump 3 pulls it down by 1; the total, +7, is positive, so the prediction is placed](images/vote_example.png){width=90%}
 
 The pull of a negative vote is why the classes are +1 and -1: a "not placed" vote pulls the total down by its alpha. With 0 and 1, a "not placed" vote would multiply to 0 and could never outweigh a "placed" vote.
 
@@ -152,13 +158,17 @@ The pull of a negative vote is why the classes are +1 and -1: a "not placed" vot
 
 > **Key point:** Each stump draws one straight cut; their weighted vote draws a staircase boundary that none of them could draw alone.
 
-Each stump on its own is a single straight line, parallel to an axis, and each one gets two students wrong. Lay the three cuts on top of each other (Figure 3, bottom right) and they divide the plane into boxes. In each box the weighted vote picks a class.
+Each stump on its own is a single straight line, parallel to an axis, and each one gets two students wrong. Lay the three cuts on top of each other (Figure 4, bottom right) and they divide the plane into boxes. In each box the weighted vote picks a class.
 
 For our 10 students, the vote of the three stumps is
 
 $$H(x) = \operatorname{sign}\big(0.69\thinspace h_1(x) + 0.97\thinspace h_2(x) + 1.28\thinspace h_3(x)\big)$$
 
-and it classifies **all 10 correctly**. The placed region it draws is an L shape: low CGPA with an IQ above 74, or any CGPA with an IQ above 110. No single stump can draw that shape, and no single stump got every student right.
+and it classifies **all 10 correctly** (Figure 6).
+
+![The weighted sum in every box that the three cuts make. Positive boxes (blue) predict placed, negative boxes (orange) not placed. The blue boxes form an L shape](images/score_boxes.png){width=80%}
+
+The placed region it draws is an L shape: low CGPA with an IQ above 74, or any CGPA with an IQ above 110. No single stump can draw that shape, and no single stump got every student right.
 
 With more stages, the boundary can bend in more places and fit more complicated data. The [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md) shows that too many stages can also overfit.
 

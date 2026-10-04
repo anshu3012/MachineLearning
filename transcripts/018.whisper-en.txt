@@ -1,0 +1,523 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today's day 18
+And today is a little different because today I had to travel and I spent the whole day on my journey
+And now I have just come home so I could not shoot the video so I thought that I will not upload the video today on YouTube, I will upload it tomorrow
+Then I thought that no, we were working with very good consistency for the last 17 days and today the consistency should not break
+By the way, today we were going to study web scraping
+if you remember
+and I remember that in my mentorship batch
+I had studied web scraping a few days ago
+so I sat in the flight and actually
+took that video out on the laptop
+and edited it
+so that it can be prepared for you
+so instead of shooting the video
+I am just going to upload that video today
+at places you will find it a bit abrupt
+there will be some cuts
+but I have tried to make you understand it
+and hopefully you will understand it
+I have put the code in the description
+you can check it out
+and let's hope that there will be no problem
+from tomorrow it will be back to normal
+and will be functioning as normal
+so you can watch this video
+ok bye
+ok guys
+what we are doing today
+this page
+you can see on your screen
+this is a company called Ambition Box
+basically they put
+detailed reviews of companies
+and interviews
+related to companies like geeks for geeks
+and
+if the company is preparing for placement
+then people go to this website
+anyways our work is
+from this website
+we extract the data of these companies
+The bad part is that unlike yesterday, this website is not providing us with any APIs.
+They actually don't want us to get their data.
+So if you are in a situation where there is no API and you are not getting the data directly, then web scraping is the only option.
+So by doing web scraping, there are in total, I guess, by changing this URL, like if you put 2 here, the second page opens.
+This is the second page. And I might have checked, so there were in total, I guess, 333 pages. Yes, it is 333. Maybe it is not 334.
+Yes, so it is not 334. They have not handled the error properly. That is why the page is displaying and the name of the company is not displaying.
+So, in total they have data in 333 pages. So, our work is to hit on these URLs sequentially.
+We will start from 1, then 2, then 3, then 4. And while doing this, we will extract the detail of the company from every page.
+And what details will we extract of the company? We will extract the name of the company, its rating,
+how many reviews that company has, public, headquarter location, how old the company is, how many employees are there
+and these tags, tags related to that company, we will put in a column, comma will be separated and this company's about
+we are extracting this much data, so 1, 2, 3, plus 4, 7, 8 and 9, so there will be in total 9 columns
+and all the companies will have the same number of rows
+so as they were telling a lot, but when I scraped it, it didn't get scraped that much
+so let's see what happens now
+so do one thing, make a new notebook first
+and call it
+web scraping demo
+web scraping demo
+and take some imports first
+First of all, we will need to import pandas as pd
+Then we will need to import request
+We used this yesterday as well
+And we will need to import from bs4 as in beautiful soup 4
+Beautiful soup
+This is our main web scraping library
+By default, all this comes in Anaconda
+So there is no need to install anything
+Beautiful Soup. Initially what we have to do is, we have to create a HTTP request using the requests library.
+So we will write, this is yesterday's code, requests.get method, we will pass this URL.
+we will pass this entire url
+and
+once you run it
+there is a problem
+run it once
+it is saying response is
+403
+403 means
+bad request, means server has
+rejected your request
+if you put .txt
+then you will get content
+and this is the
+content, see this
+this is the content, access denied, and here it is saying you don't have permission to access this URL
+so actually what is happening here, this website Ambition Box, there is a thing in web development, there is a concept of robots.txt
+there in a text file, you write the name of those files which you don't want web scrapers or search engine like google to be able to crawl
+so in robots.txt, the names of the files which you will write, you cannot directly access them
+by doing this thing, i.e. directly by creating a http request
+So the solution to this is that you show yourself in disguise as if this request is coming through the browser
+The concept is this that if you are hitting normally, then the website feels that you are a bot
+which you actually are
+but if you still want to hit that website, then what you will do is
+you will send an extra piece of information
+After seeing this, the ambition box website will feel that this request is not coming through the bot
+Some human being is sending it through a browser
+So I have written this code
+So what you will do is, just before this request
+Here you will paste this piece of code
+So you are passing this information in the header
+That this request is coming from a browser
+That's the main concept
+And what we have to do here is, we have to pass an additional parameter here by saying headers
+And the value of this will be the variable above the header
+Headers is equal to headers
+And now when you will run the code, you will get the entire HTML code of that website
+This entire code is the entire HTML code of that webpage
+Now I am telling you which code is this. If you have opened this website, then if you right click on it
+and go to view page source, then this code on your screen, you have fetched this same code in Python.
+Same code. This is also the code of HTML and CSS. This same code is here. This code. Both are same.
+Okay. So we are doing one thing. We are storing this code in a variable because we have to use it further.
+Let's call it web page, so one thing that we have done is that we are able to bring the whole HTML here by hitting on the URL
+Now we just have to pass it and extract the necessary information from it, that's the main goal
+And then we will have to do the work of this library, Beautiful Soup
+Beautiful Soup is a library used for web scraping, it is a very famous library
+In Python, mostly whenever you do web scraping, you use Beautiful Soup
+And it is a very advanced library, there are a lot of functions
+I will teach you as much as I can
+If you are interested, there are many videos on YouTube
+on Beautiful Soup, of 1-1.5 hours
+If you follow them, you will get an idea
+But, web-scripting is a thing which varies a lot
+from project to project
+I personally prefer to learn from the work of Beautiful Soup
+If I am doing this website today, then I will learn from other websites
+So, it's up to you
+Anyways, we have this webpage
+Now what we will do is, we will give this webpage to beautifulsoup
+So we will create a variable by the name of soup, we can name it anything
+And we will call the beautifulsoup function
+And we will pass the webpage
+And we have to provide one more thing, we call it html parser
+It has the name lxml and it is built-in in beautifulsoup
+Because of this, the parsing of html will be easy, you will be able to traverse it easily
+So, hit enter, and your soup variable is created.
+Now, you have an object which is of the beautiful soup class.
+Now, you can use this object to access the methods of beautiful soup and paste it on your web page.
+So, if you do soup.prettify, there is a function called prettify.
+What it will do is, it will format your entire HTML, but you have to print it out
+Like this
+See this
+Now it is looking exactly the same as it was
+Now what happens is that you
+You can understand the content of the webpage, how the webpage is organized
+Because see, at the end you have to extract the information
+In order to extract information, you have to understand the structure of HTML in the page
+So it takes a little bit of HTML knowledge
+But today's one is very basic, so you will understand it immediately
+So let's see what we have to do now
+We are here, this is the page
+Right click on your browser and go to inspect
+Inspect
+And a tab like this will open
+And in this tab, the same HTML is coming which is why this page is being displayed like this.
+Now I have to find the structure of how this page is organized.
+If you don't know HTML then it will be difficult but you have to pick the patterns.
+Now see there is a button here.
+It is called select an element button.
+check it and as soon as you hover over it
+after selecting it, as soon as you hover over it
+this inspect element will automatically highlight that section in the code
+which is responsible for this, see what I am saying
+if I want the entire container of TCS
+where is its code written on the page
+so I will just hover over it
+and it will automatically highlight
+that this is the div, this is the tag
+in which the entire code of TCS is written. If I expand it,
+then you will actually find that in this div tag, there is one more div tag.
+There is one more div tag.
+And by doing this, you can actually reach this place,
+where, see this,
+company info,
+and see here TCS is written.
+So what I have to do is, by using beautiful soup,
+I have to reach this place, where TCS is written.
+Now one important thing, the thing is that these types of containers are being repeated here
+Like there is a container of TCS, Accenture, ICICI bank
+So if you have read a little bit of web development then you would know that all these are identical divs
+They are the same. Their names are also the same.
+So, what we will do is...
+Actually, I feel that if we don't know HTML, it will be very difficult.
+So, I am getting a little confused.
+Let's do an experiment.
+So, you will understand what I am saying.
+Let's say, you want to extract all the h1 tags from your web page.
+So, you write this code.
+you will write soup.findall
+and as soon as you write h1
+all the h1 tags in your web page will get printed
+like at this point in our web page
+there is only one h1 tag
+which is this one
+now see this information has come in a list
+so any guesses, if I have only this text then how will I get it out
+If we want to find the list of companies in India, then we have to go inside this list
+And currently there is only one item in this list
+So we can write this, 0, and see what we get, H1
+I still need the text inside this, so for this you have to write this, .text
+See, you got the string, so you just extracted a piece of information from your webpage
+Now see one more example. If I want to remove all the h2s, h2 is again an HTML tag, so su.findall and here I write h2 and shift enter and see this.
+This time also I got a list but this time you will notice that this list has multiple h2s separated by commas.
+If you want to find out how many are there, then since it is a list, you can find out the length of it
+And you will actually get the number of H2s in this webpage. So there are 30 H2s. Look at this
+Now based on the previous one that I have shown, this one
+It is visible that all the companies have names in H2. Look at this, TCS, Accenture, ICICI Bank
+So we will write for i in this entire list
+and we will simply print out what? i.txt
+now the problem is this that a little formatting is added in this
+i am telling you what is this, this is a slash in this, already attached
+so if you want to remove it then there is a function called strip, attach it
+and see here you got the name of all the companies
+we have taken out the name, run this code once and see
+Tell me why did you put a strip once?
+Yes, I put a strip because if I had not put a strip, you would have noticed that there were a lot of gaps.
+These gaps were coming because we are printing, so it is not visible in Python.
+But whoever has coded in HTML has used space and slash-n there.
+So we are using the strip to remove all the special characters like spaces, slash etc.
+So that I get the whole string like this.
+This is a proper python string.
+Now see the problem is this, I don't just want the name of the companies, along with that I need some other information like I also want this.
+I also want this rating.
+Now see, how to extract the rating is something to understand.
+Again I am going to inspect element.
+and I am selecting this icon and now I am hovering over the rating and as soon as I clicked
+this text got highlighted automatically and it is saying that this rating is because of this P tag
+Right? It's because of this p tag.
+Yes, if you write this, soup.findall
+And this time we write p inside
+And then if I just write this, then see what's getting printed.
+Yes, sir.
+What's the error? Oh, sorry. My mistake.
+For i in soup.
+See this.
+Did you understand this error?
+The problem is this, that in this page,
+In this page, although H2 has been used only to print the name of the company
+But P tags are used for almost everything else
+This P tag was used for the review, for the public, for Mumbai
+So this is all P tags
+So you are not able to differentiate whether you want a rating, about, or the text from Mumbai
+Now we need those P tags which are specifically for the rating
+We will have to do this
+So, let me show you how to do it. Look carefully. What you have to do here is, again I am going to inspect and again I am selecting this tag and clicking on this.
+No, on this. Just one second. Selected on this whole thing. See, here actually you can uniquely identify the peak by using this class attribute.
+If you have read a little bit of web development, then the class is actually uniquely identifying, not uniquely, there will be more P's which will be of the same class
+But here, see this rating word, this is signifying that this paragraph is made for ratings
+I can actually prove this, see how we will do it, first of all, we will do this
+I will write this code in this manner, I will write soup.find all
+This time also I want p, but this time I want specific p whose class is rating.
+I guess rating is the word.
+Yes, rating.
+So I said that I want p, but I want only that p on that page whose class name is rating.
+And now as I am running it, notice 3.9, 4.0, 4.1.
+If I take out its length and if it is exactly 30, then we have our answer.
+Similarly, let's talk about the next one, reviews.
+I am selecting again and clicking on reviews.
+Now see this is a little different, this time it is not p tag, this time it is a tag.
+so again i guess idea is what to do, if i put here a and if i remove the next one
+so there should be a bracket, see i guess you are again understanding that this will not work
+because in this page there are many links, a tag is basically a link tag
+so in this page there are many links, so again we have to take help of class
+so here class name is review count, this one, so we will copy this
+class name and I will again go here and will simply write class underscore is equal to class's name
+and if we take out the length again and 30 is coming then our work is done again
+see, so I can understand a little bit what we are doing
+ok, now comes the next part, this is a little bit tricky, ok, so see once
+I want public, I want to fetch the type of the company, whether it is public or private
+I want this text, so I am clicking on it again and hovering over it
+So I got this, that this public is being printed because of this p tag and its class name is info entity
+Now see, here a problem will arise, that if I write p here
+and if I copy its name here, if you write it here and run it, then it will be 119
+30 multiplied by 4, minus 1, means all these 4 information of all the companies are coming
+there is one company in which this information is only 3
+whatever it is, there will be a company somewhere below in which this information is only 3, so 1 is getting less
+But did you understand the problem? What is happening to us? The problem is that it has become a little difficult to extract this time.
+Now see what we will do, I am telling you. Listen carefully. We are making a mistake from the beginning.
+What mistake are we making? What we should have done first is that the entire container of a company should have been fetched first.
+I am telling you why we will do this. How will we get the entire company's container?
+We will go to inspect again, select it again and hover over it.
+We have to hover over it so that the entire thing is selected. Like this.
+And now click on it. See, there is a div tag and there is a class in it whose name is company content wrapper.
+And there is all the information in it. Or take company content.
+Which one should we take? We can take any one of them.
+Everything is in the company content.
+Because after that, where is the description? Just one second.
+We have to study the webpage very hard.
+Let me see once.
+The description is outside, so we will take this one.
+Company content wrapper.
+Listen, I am telling you the approach.
+See, we will do this.
+Ignore the upper code. I am removing it in fact.
+Let's focus on the next one.
+I am removing all this code, I was just doing it to show you
+yes, this much is fine
+and now I am writing this code
+that I am making one thing by calling it as a company
+by calling it as a company
+I am making a structure
+and in this I am writing
+soup.findall
+soup.findall
+and
+I am passing div in this because I have to extract div
+And what is its class? We have just copied it. This one.
+If you run it, and if you take out the length of the company,
+then 30 is coming. One for each company. So I have extracted the whole div.
+Now what we will do is, we will run a loop for i in company.
+Okay? So what are we doing now? Every time we are entering inside one div.
+Is it okay till here? Every time we are entering inside one div.
+And every time we are extracting one thing. Okay?
+We are extracting the name of the company and we will put it in an empty list
+Okay, let's do one thing
+Here I have made an empty list by saying the name
+So if I write this, look carefully
+I dot find all
+And if I put h2 in it
+So it will find me the h2 inside that div
+First we were searching in the entire web page
+Now we are searching in every div
+We converted the entire web page into 30 divs
+Now we are running a loop on every div
+So when the loop runs for the first time, we are in TCS
+Now what is stored in X2 in TCS?
+We have to extract the TCS word
+So we wrote find, actually there is no need to do find all, it will be fine just by doing find
+Find means single, find all means multiple. So I wrote i.find
+Now if I print it, see what will be printed. See we have printed the same thing
+Did you understand? When the loop ran for the first time, TCS was printed
+When it ran for the second time, we entered the second div and Accenture was printed
+In the third div, ICICI bank was printed. Now if I put text in front of it
+And if I put a strip in front of it, then only the names of the companies will come.
+Right? Now if I do one thing,
+If I put this whole thing in name.append like this
+And if I run it now, then what will come in the name?
+Name will be a list in which all the names of the companies are there.
+See, there is no difference between before and now.
+This time we are working in every div. That's it.
+That's it. We are going to every div from the web page and extracting the information from the div.
+This will be useful in that case. I told you that there was a problem in removing the public one.
+You will notice that this strategy will be useful there. After this, we will extract the rating.
+I guess you must be knowing. See, you will do this. You will write
+rating is equal to this empty and then you will write rating dot
+append i.find all
+why do I have to do find all this time?
+in this div, x2 came once so I wrote find
+find all's output is also same
+but for rating, I have to write find all because there are multiple p tags
+now how will I identify which p tag I have to use?
+class and we remembered the name of class because
+rating
+now if I run this code again
+And if I write rating here, then I should have the rating of all the companies
+And to extract it, we will write .text.strip
+And here is my rating
+Let's make it 0 because it will be single
+Because there will be only one item in that list
+so, actually if you do find all, then it will work
+because, why will it work on finding, think about it, because there is only one P for P and rating
+that's why, then there is no need to do this
+if you add these two things, then this thing is unique in that div, so writing find worked
+if you do find all, then a single item is coming in the list and to extract it, we have to put the index of 0
+It is simple, you use findall when you think that after doing this operation you will get multiple answers
+Now I used findall thinking that p tag with rating will give me multiple answers
+But then I realized that if I combine p and rating, then in one div it is happening only once and that is for this rating
+so if I put find all, then also I will get the answer but that answer will be inside the list
+because find all is the default behavior, to return to the list
+so if I want to remove that item, then I will have to put 0 in front
+but as soon as I came to know that if there is only one item, then why am I doing find all, there is an extra step of false
+so I simply did find, so I didn't get the list, I directly got that thing and I put text.strip on it
+The most important question to ask is, will the search give me multiple values or single values?
+So we have extracted two things, name and rating.
+Now we are extracting the third thing, number of reviews.
+So we are clicking again and hovering over it.
+And this is an A tag with a class of review count.
+So I am copying it and using it.
+so again we will go back, we will create one more link by the name of reviews
+reviews will be an empty list and this time we will write reviews.append i.file
+we are putting a inside and in class we are putting, so this is done
+and after this we put text again
+and after this we put
+strip
+and now we are running, we got 3 things
+we got reviews too
+here it is
+we got 3 lists of 30-30
+length and we did 3
+works, after that the main
+thing for which we worked so hard
+we have to extract these 4 things
+ok, for the next one
+see a minor demonstration first
+so you will understand the concept
+If you notice here, the company that we created had 30 items and in these 30 items, there are actually all the divs
+This is a very big thing, there are all the divs in it. TCS has a div, Accenture has a div, ICICI has a div
+Can you tell me, if I want to extract the div of TCS here, what will I have to write?
+If we write this, then whose is this? The whole code that has come now, this whole code is of TCS, right?
+If I write 1 here, then I will get the div of the second company, right?
+Is this okay?
+Now look carefully, what I am trying to explain is here
+What was our problem? When we were going on this, we realized that its P and its class
+Is exactly similar to its P and its class, its P and its class, and its P and its class
+So in a way, technically I don't have any way to differentiate between these two
+This was our problem
+Now tell me one thing
+If I write this code, find all with p and class underscore equal to
+If we pick any of these, class name, then info entity was a name like this
+If we hover over it, then the name info entity, if I copy it
+And paste it here
+At this place
+Now tell me, if I run this code, what will happen?
+It will be a list and list will contain how many items?
+4. Exactly. See this.
+So, I have public as well.
+I have Mumbai as well.
+I have 52 years old as well.
+Now, if I want to find public, what will I write?
+0, its dot and dot
+is gone. If I
+want to find the second thing,
+if I want to find Mumbai plus 43 cities, what will I write?
+Instead of 0, we will write 1.
+Mumbai plus, if I write 2,
+52 years old.
+If I write 3,
+if I write 4,
+if you understood this code then you would have understood what is going to happen here
+now see what we are doing, the code is very simple
+we are making 4 variables, first one is of company type, let's call it ctype
+initially it would be empty, then for headquarter, let's call it hq
+again empty, then there would be how old, let's call it old
+and one more will be of employees, now tell me guys, here company 0 is written, so what will have to be written in this loop in return of company 0
+i right, this code is very simple, i. let's copy the rest and paste it here, ctype.append and write this code here
+I have done this. This much work is done. One last thing we need which is this thing, this about thing.
+So again the same work, we are going to inspect and we are clicking on this and by clicking on this,
+so this is P and its class is description. This is straight forward so write it quickly.
+So we will write DESC and leave the description, let's do this much first, leave the description, useless hard work
+Now tell me what will be the last work, if we have formed all the lists, now what do I have to do, I have to form a data frame
+We discussed the logic of forming a data frame yesterday, I am coming out and here D is equal to
+I'm writing I'm creating columns. So the first column is named and
+It will hold the value of this list. Then the second column will be rating or
+Rating a bot you will write rating reviews
+reviews
+Then see type
+or
+your baby
+See type actually a company type looks at them low
+or we can write only type
+readability will increase
+and hq
+headquarter
+how old
+and the last one is employees
+and its value is
+employees
+pd.dataframe
+will pass the dictionary
+let's call this to be equal to df
+and let's print out df
+index error is coming in the same thing
+ok, let's run it, how much df is coming, how much its shape is coming, one company should be less, no, we missed one, basically it will be null there, which company is it, this one, concentrix, ok, it's good, here it is guys, we have fetched the first page, and here is its details, now tell me the next step, what to do, we will run one more loop, as we did yesterday,
+total is 333 pages right, so we will not run it till 333 because it will take a lot of time
+I am doing it till 10 pages, you guys do the rest, we know the work ahead
+what we have to do, we will run a loop for j in range of 1 to 11
+and above that we have to create a data frame outside, let's call it final
+final will be pd.emptyDataFrame
+and after that
+inside
+what we will do is
+first of all we will request
+so we will copy this piece of code
+request will be created
+after entering the loop
+so this is the code
+so i am creating a variable
+called url outside
+and by cutting this whole thing
+here I am pasting
+and in the last where 1 is written
+to make it dynamic
+I am typing .format
+so here I have written j
+and here I have passed url
+ok
+request is created
+now go up and copy this code
+this one
+create soup here
+pasted this
+and pasted one more line
+this one
+and
+after that
+we have to pick up the next code from there
+this whole code will be copied
+we did this yesterday also exactly
+same to same
+so we will copy this code
+ctrl c
+and paste it below
+indentation got spoiled
+so
+this is done
+only one last work is left
+here we will write final equals final dot
+this is same as yesterday's code, final dot append
+and here we have just added df, let's run it
+it will take some time, we are hitting 10 pages
+we are getting data from there, we are scraping it and adding it to the data frame
+let's see
+ok here index is repeating
+there is one mistake, what will we have to do
+final dot shape, 300 companies data has come out in 10 pages
+is it correct, 10 multiplied by 30
+So I am doing one thing, I am taking a big thought, Ignore index, first of all I am doing true
+And then I am taking God's name 333
+Good night guys
+So I hope you liked my editing skills
+I hope you didn't face any problem in understanding
+If you face any problem, you can always contact me via comments
+Or you can also ping me on WhatsApp
+if you like the video guys please consider subscribing thanks for watching bye

@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+% The Overview's two questions as a 2 x 2 grid: is the input a sequence? is the output a sequence?
+\begin{tikzpicture}[q/.style={font=\sffamily\bfseries}, t/.style={box=#1, text width=4.6cm, minimum height=2.3cm, align=center}]
+  \node[q] at (2.5, 2.2) {output: one value};
+  \node[q] at (7.7, 2.2) {output: a sequence};
+  \node[q, anchor=east, align=right] at (-0.2, 0) {input:\\one value};
+  \node[q, anchor=east, align=right] at (-0.2, -2.8) {input:\\a sequence};
+  \node[t=cgrey] at (2.5, 0) {\textbf{one-to-one}\\image $\to$ cat or not\\[2pt]{\small an ordinary ANN or CNN,\\not an RNN}};
+  \node[t=cgreen] at (7.7, 0) {\textbf{one-to-many}\\image $\to$ caption\\[2pt]{\small input once, output\\at every step}};
+  \node[t=cblue] at (2.5, -2.8) {\textbf{many-to-one}\\review $\to$ sentiment\\[2pt]{\small output after\\the last step}};
+  \node[t=cpurple] at (7.7, -2.8) {\textbf{many-to-many}\\{\small same length: word $\to$ tag}\\{\small different lengths: English $\to$ Hindi}\\[2pt]{\small (sequence-to-sequence)}};
+\end{tikzpicture}
+\end{document}

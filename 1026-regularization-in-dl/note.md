@@ -168,7 +168,7 @@ So the penalty does not drive every weight to 0. A weight the data needs settles
 
 > **Key point:** 100 points of `make_moons` with noise 0.25; two hidden layers of 128 ReLU nodes; 2,000 epochs.
 
-The data is `make_moons` from scikit-learn: 100 points in two noisy half-moons. Each point is an **observation** (one record of the data); its two coordinates are the **features** (input variables), and its moon, 0 or 1, is the **target** (the output we predict). The network has an input layer of 2 nodes, two hidden layers of 128 ReLU nodes and one sigmoid output node:
+The data is `make_moons` from scikit-learn: 100 points in two noisy half-moons. Each point is an **observation** (G-1374; one record of the data); its two coordinates are the **features** (G-772; input variables), and its moon, 0 or 1, is the **target** (G-1949; the output we predict). The network has an input layer of 2 nodes, two hidden layers of 128 ReLU nodes and one sigmoid output node:
 
 | Layer | Parameters |
 |---|---|
@@ -301,7 +301,7 @@ To see what $\lambda$ does, we train the network of section 7.1 eight times, cha
 
 | $\lambda$ | Training accuracy | Training loss | Validation loss | Largest weight (size) | Sensitivity |
 |---|---|---|---|---|---|
-| 0 | 100% | 0.00 | 0.80 | 2.85 | 0.058 |
+| 0 | 100% | 0.00 | 1.28 | 2.85 | 0.058 |
 | 0.001 | 100% | 0.01 | 0.29 | 1.05 | 0.057 |
 | 0.003 | 95% | 0.08 | 0.16 | 1.02 | 0.042 |
 | 0.01 | 98% | 0.07 | 0.19 | 0.52 | 0.047 |
@@ -310,7 +310,7 @@ To see what $\lambda$ does, we train the network of section 7.1 eight times, cha
 | 0.3 | 86% | 0.37 | 0.28 | 0.23 | 0.025 |
 | 1 | 54% | 0.69 | 0.71 | 0.00 | 0.000 |
 
-Both losses in the table are the binary cross-entropy alone, without the penalty, so the rows can be compared. (Keras' own `val_loss` includes the penalty; for $\lambda = 0$ it is the 1.28 of section 7.2, which is measured at the last epoch of a longer-running average.) The table reads in three parts:
+Both losses in the table are the binary cross-entropy alone, so the rows can be compared: the loss Keras reports also contains the penalty, and the Notebook subtracts it. The table reads in three parts:
 
 - **$\lambda$ of 0 or 0.001: overfitting.** The training loss is almost 0, the validation loss is high, and the weights are large.
 - **$\lambda$ from 0.003 to 0.1: a good fit.** The validation loss is at its lowest, 0.13 to 0.19, and close to the training loss.

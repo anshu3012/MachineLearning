@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+% Section 4: one pass gives a final vector at every position; generation unembeds only the last one.
+% Colour rule of these Notes: learned weights blue, data grey.
+\begin{tikzpicture}[t/.style={font=\sffamily}, v/.style={draw=cgrey, fill=black!10, minimum width=1.6cm, minimum height=0.6cm, font=\sffamily\small},
+  u/.style={draw=cblue, fill=cblue!15, minimum width=1.6cm, minimum height=0.6cm, font=\sffamily\small}]
+  \foreach \w [count=\i] in {Steve, Jobs, was, the, founder, of} {
+    \node[t] (x\i) at (2.0*\i, 0) {\w};
+    \node[v] (h\i) at (2.0*\i, 1.3) {$h_\i$};
+    \draw[arrow] (x\i) -- (h\i);
+  }
+  \node[u] (U) at (12.0, 2.7) {$\times W_E^{\mathsf T}$};
+  \draw[arrow, draw=cblue] (h6) -- (U);
+  \node[draw=corange, fill=corange!20, rounded corners=3pt, font=\sffamily\small] (o) at (12.0, 3.9) {50,257 logits $\to$ `` Apple''};
+  \draw[arrow] (U) -- (o);
+  \foreach \i in {1,...,5} \node[note] at (2.0*\i, 2.1) {not used};
+  \draw[decorate, decoration={brace, amplitude=6pt}] (1.2, 2.5) -- (10.8, 2.5) node[midway, above=8pt, note] {computed in the same pass; training uses them, generation does not};
+  \node[note, anchor=west] at (-0.4, -0.7) {one pass of GPT-2 small: a final vector at every position};
+\end{tikzpicture}
+\end{document}

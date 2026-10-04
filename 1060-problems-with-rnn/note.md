@@ -14,12 +14,12 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-rnn, step/model, concept/e
 
 ## 1. Overview
 
-> **Key point:** A simple RNN has two problems: it cannot learn long-term dependencies, and its training can become unstable. Both come from one fact: during backpropagation through time the gradient is multiplied by the same recurrent weights again and again, so it shrinks (vanishes) or grows (explodes) with distance.
+> **Key point:** A simple RNN has two problems: it cannot learn long-term dependencies, and its training can become unstable. Both come from one fact: during **backpropagation through time** (G-246) the gradient is multiplied by the same recurrent weights again and again, so it shrinks (vanishes) or grows (explodes) with distance.
 
-RNNs suit **sequential data**: text, time series, any data where a point depends on the points before it. Yet plain RNNs are rarely used in practice. They suffer from two problems:
+RNNs suit **sequential data** (G-1774): text, time series, any data where a point depends on the points before it. Yet plain RNNs are rarely used in practice. They suffer from two problems:
 
-1. **The long-term dependency problem**, caused by the vanishing gradient.
-2. **Unstable training**, where the network fails to train, caused by the exploding gradient.
+1. **The long-term dependency problem**, caused by the **vanishing gradient** (G-2070).
+2. **Unstable training** (G-2056), where the network fails to train, caused by the **exploding gradient** (G-731).
 
 ![Test accuracy of a SimpleRNN on IMDB reviews of 50 words followed by $G$ blank time steps before the prediction. Grey dots: single runs; red: the mean of 2 runs. The longer the gap the RNN must remember across, the closer it gets to guessing](images/gap_accuracy.png){width=100%}
 
@@ -51,17 +51,17 @@ Take next-word prediction, as on a phone keyboard.
 ![Two next-word predictions. The short sentence needs a word 4 time steps back; the long one needs a word 22 time steps back](images/dependency.png){width=95%}
 
 - In "Marathi is spoken in Maharashtra", the word Maharashtra depends on Marathi, 4 time steps back. The dependency is **short-term**.
-- In "Maharashtra is a beautiful place. I went there last year, but I could not enjoy it properly because I do not understand ___", the missing word, Marathi, depends on Maharashtra, 22 time steps back. The dependency is **long-term**.
+- In "Maharashtra is a beautiful place. I went there last year, but I could not enjoy it properly because I do not understand ___", the missing word, Marathi, depends on Maharashtra, 22 time steps back. The dependency is **long-term** (G-1126).
 
 A keyboard built on a simple RNN performs well on sentences like the first and poorly on sentences like the second. This failure is the **long-term dependency problem**: an output at one time step depends on an input from a much earlier time step, and the RNN does not have the memory to connect them.
 
-Bengio, Simard and Frasconi (1994) showed why gradient-based learning faces an increasingly difficult problem as the duration of the dependencies grows. Goodfellow §10.7 summarises: the probability of successfully training a traditional RNN with stochastic gradient descent rapidly reaches 0 for sequences of only length 10 or 20.
+Bengio, Simard and Frasconi (1994) showed why gradient-based learning faces an increasingly difficult problem as the duration of the dependencies grows. Goodfellow §10.7 summarises: the probability of successfully training a traditional RNN with **stochastic gradient descent** (G-1892) rapidly reaches 0 for sequences of only length 10 or 20.
 
 ### 3.3 The problem on real reviews
 
 > **Key point:** The same SimpleRNN, the same reviews; only a gap of blank steps between the review and the prediction changes. Test accuracy falls from 0.743 with no gap to 0.492 with a gap of 80 steps: guessing level.
 
-We take IMDB movie reviews: each **observation** (one record) is a review, and the **target** (the output we predict) is its sentiment, positive or negative. Each review is cut to its last 50 words. Then $G$ blank time steps (the padding token 0) are added after it, before the network gives its prediction. The network now has to carry the sentiment of the review across $G$ steps of nothing.
+We take IMDB movie reviews: each **observation** (G-1374; one record) is a review, and the **target** (G-1949; the output we predict) is its sentiment, positive or negative. Each review is cut to its last 50 words. Then $G$ blank time steps (the padding token 0) are added after it, before the network gives its prediction. The network now has to carry the sentiment of the review across $G$ steps of nothing.
 
 Each setting is trained on 10,000 reviews for 5 epochs and tested on 5,000, twice with different seeds (Notebook). Figure 1 and the table give the mean test accuracy:
 
@@ -112,9 +112,11 @@ $$\frac{\partial h_{100}}{\partial h_{99}} \cdots \frac{\partial h_2}{\partial h
 3. **Example:** the slope of tanh is between 0 and 1 (see the [activation functions Note](../1027-activation-functions/note.md)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is $0.8 \times 0.9 = 0.72$, and 99 of them give
    $$0.72^{99} \approx 7.5 \times 10^{-15}$$
 
+   The red line of Figure 6 (section 6.1) draws this product step by step.
+
 The long-term term is practically 0. Its whole contribution to the gradient disappears, and the gradient is made almost entirely of short-term terms. The weights are therefore updated to fit the **recent** inputs, and the influence of distant inputs is not learned. That is the long-term dependency problem, and it is a **vanishing gradient problem** (see the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)): the farther the input, the smaller its gradient.
 
-> **Extra:** With several hidden nodes, each factor is a matrix, the Jacobian $\partial h_t/\partial h_{t-1}$. In the row-vector form of the [forward propagation Note](../1056-rnn-forward-propagation/note.md) it is $W_h$ with each column scaled by that node's tanh slope; Goodfellow (§10.2.2, eq. 10.21) writes the same thing as $W^{\mathsf T}\mathrm{diag}(1 - h^2)$. Pascanu et al. (2013, §2.1) prove that if the largest absolute eigenvalue of the recurrent weight matrix is below $1/\gamma$, where $\gamma$ bounds the slope of the activation ($\gamma = 1$ for tanh), the long-term contributions vanish as the distance grows.
+> **Extra:** With several hidden nodes, each factor is a matrix, the **Jacobian** (G-980) $\partial h_t/\partial h_{t-1}$. In the row-vector form of the [forward propagation Note](../1056-rnn-forward-propagation/note.md) it is $W_h$ with each column scaled by that node's tanh slope; Goodfellow (§10.2.2, eq. 10.21) writes the same thing as $W^{\mathsf T}\mathrm{diag}(1 - h^2)$. Pascanu et al. (2013, §2.1) prove that if the largest absolute **eigenvalue** (G-665) of the recurrent weight matrix is below $1/\gamma$, where $\gamma$ bounds the slope of the activation ($\gamma = 1$ for tanh), the long-term contributions vanish as the distance grows.
 
 ### 4.4 What is special about an RNN
 
@@ -124,7 +126,7 @@ The [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) me
 
 ![The gradient travelling back through an untrained SimpleRNN without activation on IMDB reviews, with $W_h$ set to $s$ times an orthogonal matrix (all eigenvalues of magnitude 1). Left: gradient size by distance, relative to the last word (log scale); dotted: $s^d$. Right: the size reached so far. Each step multiplies the gradient by about $s$](images/gradient_travel.gif){width=100%}
 
-The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\thinspace Q$, where $Q$ is an orthogonal matrix (every eigenvalue has magnitude exactly 1), so every eigenvalue of $W_h$ has magnitude $s$. Figure 3 shows the result:
+The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\thinspace Q$, where $Q$ is an **orthogonal matrix** (G-1407; every eigenvalue has magnitude exactly 1), so every eigenvalue of $W_h$ has magnitude $s$. Figure 3 shows the result:
 
 | $s$ | Gradient 50 steps back, relative to the last word | $s^{50}$ |
 |---|---|---|
@@ -156,10 +158,14 @@ The decay is slower than the $0.72^{99}$ of section 4.3. Keras starts $W_h$ as a
 
 > **Key point:** Four options: a different activation, a better initialisation of $W_h$, skip connections through time, or an LSTM. In practice the LSTM won.
 
-1. **A different activation function.** The slope of tanh is between 0 and 1, which shrinks every factor. ReLU and Leaky ReLU (see the [ReLU variants Note](../1028-relu-variants/note.md)) have slope 1 for positive inputs, so they do not shrink the factor; the factor is then $w_h$ alone.
-2. **Better weight initialisation.** If $W_h$ starts with factors below 1, the product vanishes. Starting $W_h$ as the **identity matrix** (1 on the diagonal, 0 elsewhere) makes a multiplication by $W_h$ leave the gradient unchanged at the start of training. Le, Jaitly and Hinton (2015) combined ReLU with an identity-initialised $W_h$ and found it comparable to an LSTM on their four benchmarks.
-3. **Skip connections through time.** Connections from a state several time steps back directly to the present give the gradient shorter paths. With a delay of $d$ steps, gradients shrink with $\tau/d$ instead of $\tau$ steps (Goodfellow §10.9.1).
-4. **Switch to an LSTM.** The LSTM was designed for exactly this problem, the "insufficient, decaying error backflow" of recurrent networks (Hochreiter and Schmidhuber 1997). Gated RNNs, the LSTM and the GRU, are the most effective sequence models used in practical applications (Goodfellow §10.10), so the usual choice is to move to one (see the [LSTM Note](../1061-lstm/note.md)).
+1. **A different activation function.** The slope of tanh is between 0 and 1, which shrinks every factor. **ReLU** (G-1668) and **Leaky ReLU** (G-1064; see the [ReLU variants Note](../1028-relu-variants/note.md)) have slope 1 for positive inputs, so they do not shrink the factor; the factor is then $w_h$ alone (Figure 5).
+2. **Better weight initialisation.** If $W_h$ starts with factors below 1, the product vanishes. Starting $W_h$ as the **identity matrix** (G-915; 1 on the diagonal, 0 elsewhere), an **identity initialisation** (G-914), makes a multiplication by $W_h$ leave the gradient unchanged at the start of training. Le, Jaitly and Hinton (2015) combined ReLU with an identity-initialised $W_h$ and found it comparable to an LSTM on their four benchmarks.
+3. **Skip connections through time** (G-1819). Connections from a state several time steps back directly to the present give the gradient shorter paths. With a delay of $d$ steps, gradients shrink with $\tau/d$ instead of $\tau$ steps (Goodfellow §10.9.1).
+4. **Switch to an LSTM.** The LSTM was designed for exactly this problem, the "insufficient, decaying error backflow" of recurrent networks (Hochreiter and Schmidhuber 1997). Gated RNNs, the **LSTM** (G-1123) and the **GRU** (G-826), are the most effective sequence models used in practical applications (Goodfellow §10.10), so the usual choice is to move to one (see the [LSTM Note](../1061-lstm/note.md)).
+
+![The slope of the activation, which multiplies $w_h$ at every backward step. tanh's slope (red) is 1 only at 0 and smaller everywhere else, so each step shrinks the gradient. ReLU's slope (blue) is exactly 1 for every positive input, so the factor is $w_h$ alone](images/slopes.png){width=95%}
+
+In Figure 5, compare the two curves at the same input: wherever tanh's slope is below ReLU's, a tanh RNN loses more of the gradient at every step.
 
 > **Python:** The first two fixes in Keras.
 >
@@ -183,6 +189,10 @@ Now the long-term terms become so large that they dominate the short-term ones, 
 2. **Formula:** with ReLU, the slope is 1 for a positive input (and 0 for a negative one), so the factor is $w_h$ and the product over $t$ steps is $w_h^{t}$.
 3. **Example:** with $w_h = 1.1$ and 100 steps, $1.1^{100} \approx 13{,}781$; with $w_h = 1.5$, $1.5^{100} \approx 4 \times 10^{17}$.
 
+![The same factor multiplied once per step back through time, for four factors (log scale). Below 1 the product falls towards 0 (vanishing); at 1 it stays; above 1 it grows without limit (exploding). The orange and blue lines are the two examples above; the red line is the $0.72^{99}$ of section 4.3](images/power_steps.gif)
+
+In Figure 6, watch the lines spread apart as the steps add up: after 10 steps the largest product is about 1,500 times the smallest; after 99 steps it is more than $10^{31}$ times the smallest.
+
 Two situations make it likely:
 
 - **ReLU with large recurrent weights.** ReLU does not squash: its slope is 1 for every positive input. If the recurrent weights are initialised large, nothing keeps the product small, and it explodes. The $s = 1.1$ line of Figure 3 shows the same growth with no activation at all.
@@ -194,9 +204,11 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 
 > **Key point:** Gradient clipping, a moderate learning rate, or an LSTM.
 
-1. **Gradient clipping.** Cap the size of the gradient: if its norm exceeds a threshold, scale it down to the threshold. Clipping is taught in the [exploding gradients Note](../1018-vanishing-exploding-gradients/note.md); Pascanu et al. (2013, §3.2) proposed this norm clipping for RNNs, and Goodfellow §10.11.1 presents it as a fix for the cliffs that recurrent networks create in the loss.
-2. **A controlled learning rate.** A smaller $\eta$ keeps each step small even when the gradient is large.
+1. **Gradient clipping** (G-861). Cap the size of the gradient: if its norm exceeds a threshold, scale it down to the threshold, keeping its direction (Figure 7). Clipping is taught in the [exploding gradients Note](../1018-vanishing-exploding-gradients/note.md); Pascanu et al. (2013, §3.2) proposed this norm clipping for RNNs, and Goodfellow §10.11.1 presents it as a fix for the cliffs that recurrent networks create in the loss.
+2. **A controlled learning rate** (G-1068). A smaller $\eta$ keeps each step small even when the gradient is large.
 3. **An LSTM.** The usual choice in practice, as for the vanishing gradient. The LSTM was built to stop the error from decaying (Hochreiter and Schmidhuber 1997); gradient clipping is still the standard guard against explosions in recurrent networks (Goodfellow §10.11.1).
+
+![Clipping by norm with a threshold of 1. The gradient $g = (3, 4)$ has norm 5, so it is multiplied by $1/5$: the clipped gradient $(0.6, 0.8)$ points the same way and has norm 1](images/clipping.png){width=70%}
 
 > **Python:** Clipping in Keras: every gradient is scaled down to norm at most 1 before the update.
 >

@@ -14,9 +14,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/position
 
 ## 1. Overview
 
-> **Key point:** Self-attention reads all words of a sentence at once, so on its own it cannot tell "Rahul killed the lion" from "the lion killed Rahul". A **positional encoding** fixes this: for every position we build a vector of sines and cosines of different frequencies, of the same size as the word embedding, and add it to the embedding before self-attention.
+> **Key point:** Self-attention reads all words of a sentence at once, so on its own it cannot tell "Rahul killed the lion" from "the lion killed Rahul". A **positional encoding** (G-1528) fixes this: for every position we build a vector of sines and cosines of different frequencies, of the same size as the word embedding, and add it to the embedding before self-attention.
 
-Self-attention, taught in the [self-attention Note](../1073-self-attention-step-by-step/note.md), turns the embeddings of a sentence into **contextual embeddings**: vectors that depend on the other words around each word. It has two strengths: it captures context, and it computes all words in parallel. The second strength has a price. Because all words go in together, self-attention has no idea which word came first.
+**Self-attention** (G-1764), taught in the [self-attention Note](../1073-self-attention-step-by-step/note.md), turns the embeddings of a sentence into **contextual embeddings** (G-462): vectors that depend on the other words around each word. It has two strengths: it captures context, and it computes all words in parallel. The second strength has a price. Because all words go in together, self-attention has no idea which word came first.
 
 This Note builds the fix step by step. We start from the simplest idea (count the words), find its problems, and improve it until we reach the formula of "Attention Is All You Need" (Vaswani et al. 2017, §3.5). Figure 1 shows where the result goes: each word's embedding plus its position's encoding becomes the input of self-attention.
 
@@ -35,7 +35,11 @@ This Note builds the fix step by step. We start from the simplest idea (count th
 
 An RNN reads "Rahul killed the lion" one word per time step: "Rahul" at step 1, "killed" at step 2, and so on. The order is built into the way it reads. Self-attention sends all four embeddings in at the same time, and each output is a weighted sum over all the words. Nothing in that computation says which word stood where. For self-attention, "Rahul killed the lion" and "the lion killed Rahul" are the same set of words, although they mean opposite things.
 
-The Notebook checks this. One self-attention layer (Keras' `MultiHeadAttention`, one head, random weights) reads both sentences, with the same embedding for each word in both. The output vector for "lion" is identical in both sentences, and so is every other word's. On a sentence of 12 words shuffled at random, the outputs are the original outputs shuffled in the same way, to within $2 \times 10^{-7}$.
+The Notebook checks this. One self-attention layer (Keras' `MultiHeadAttention`, one head, random weights) reads both sentences, with the same embedding for each word in both. The output vector for "lion" is identical in both sentences, and so is every other word's (Figure 2).
+
+![Self-attention with no positions. The two sentences contain the same four embeddings, so the layer returns the same four outputs in a different order; "lion" (red) gets the identical vector in both](images/order_blind.png){width=75%}
+
+On a sentence of 12 words shuffled at random, the outputs are the original outputs shuffled in the same way, to within $2 \times 10^{-7}$.
 
 Vaswani et al. (2017, §3.5) state the consequence: since the model "contains no recurrence and no convolution", it must be given "some information about the relative or absolute position of the tokens". A **positional encoding** is that information: a vector that says where a word stands. Once we add positional encodings to the embeddings (section 6), the same word gets different outputs in the two sentences (the Notebook measures changes of up to 1.68 in a single number).
 
@@ -53,13 +57,15 @@ The simplest idea is to count. "Rahul" is word 1, "killed" word 2, "the" word 3,
    2. **Formula:** $\text{value}(p) = p / n$.
    3. **Example:** in "thank you" ($n = 2$) the values are 0.5 and 1.0. In "Rahul killed the lion" ($n = 4$) they are 0.25, 0.5, 0.75 and 1.0. The second word gets 1.0 in one sentence and 0.5 in the other.
 
-   The network sees the same position with different values in different training sentences, so it cannot learn what "second word" means. The value for a position must not depend on the sentence.
+   The network sees the same position with different values in different training sentences, so it cannot learn what "second word" means. The value for a position must not depend on the sentence. Figure 3 shows both counting ideas side by side.
+
+![Left: the raw count grows without limit (log scales); the green band is the range a network handles well. Right: dividing by the sentence length keeps the values below 1, but position 2 gets 1.0 in "thank you" and 0.5 in "Rahul killed the lion"](images/count_problems.png){width=100%}
 
 2. **Discrete.** Positions 1, 2, 3, 4 are whole numbers with nothing in between. A smooth function of the position gives nearby positions nearby values, which helps a model capture that "position 4 in an input is more closely related to position 5 than it is to position 17" (Jurafsky and Martin, SLP3 §7.4).
 
-3. **No relative position.** Counting gives each word a unique **absolute position**: its place counted from the start. What often matters more is the **relative position** of two words: how far apart they are, such as "the" coming two words after "Rahul". Raw indices give the network no easy way to read off such distances. Section 8 shows how the final encoding makes every distance a simple, fixed operation.
+3. **No relative position.** Counting gives each word a unique **absolute position** (G-158): its place counted from the start. What often matters more is the **relative position** (G-1666) of two words: how far apart they are, such as "the" coming two words after "Rahul". Raw indices give the network no easy way to read off such distances. Section 8 shows how the final encoding makes every distance a simple, fixed operation.
 
-So we want a function of the position that is **bounded** (its values stay in a fixed range), **continuous** (smooth, defined between whole positions) and **periodic** (repeating, which section 8 uses for relative positions).
+So we want a function of the position that is **bounded** (G-327; its values stay in a fixed range), **continuous** (smooth, defined between whole positions) and **periodic** (G-1489; repeating, which section 8 uses for relative positions).
 
 ## 5. From one sine wave to many
 
@@ -76,13 +82,15 @@ The sine function stays between $-1$ and $1$ (bounded), has a value at every $x$
 | Position | 1 | 2 | 3 | 4 |
 | $\sin(\text{pos})$ | 0.84 | 0.91 | 0.14 | $-0.76$ |
 
-Each value is appended to the word's embedding. The problem is the repetition. Each position must get its own value: if two positions had the same value, the model would read them as the same position. Because the sine wave repeats, two positions far apart can land on almost the same height. Among positions 1 to 1,000, positions 11 and 344 differ by only $1.3 \times 10^{-7}$ (Notebook): practically the same value.
+Each value is appended to the word's embedding. The problem is the repetition. Each position must get its own value: if two positions had the same value, the model would read them as the same position. Because the sine wave repeats, two positions far apart can land on almost the same height. Among positions 1 to 1,000, positions 11 and 344 differ by only $1.3 \times 10^{-7}$ (Notebook): practically the same value (Figure 4, left).
+
+![Left: $\sin(\text{pos})$ for positions 1 to 1,000; positions 11 and 344 (red) sit at almost the same height. Right: with a sine and a cosine, every position is a point on a circle; positions 15 and 725 (blue) still land almost on the same point](images/sine_collisions.png){width=100%}
 
 ### 5.2 A sine and a cosine
 
 > **Key point:** Two numbers per position, $\sin(\text{pos})$ and $\cos(\text{pos})$, turn the encoding from a single number into a vector, and repeats become rarer.
 
-Now each position gets two numbers. For "Rahul" (position 1) the vector is $[\sin 1, \cos 1] = [0.84, 0.54]$; for "killed" it is $[\sin 2, \cos 2] = [0.91, -0.42]$. Both numbers have to match for two positions to collide. Collisions become rarer but do not disappear: positions 15 and 725 still differ by only $6 \times 10^{-5}$.
+Now each position gets two numbers. For "Rahul" (position 1) the vector is $[\sin 1, \cos 1] = [0.84, 0.54]$; for "killed" it is $[\sin 2, \cos 2] = [0.91, -0.42]$. Both numbers have to match for two positions to collide. Collisions become rarer but do not disappear: positions 15 and 725 still differ by only $6 \times 10^{-5}$ (Figure 4, right).
 
 ### 5.3 More pairs, lower frequencies
 
@@ -101,7 +109,7 @@ The third row shows a trap. Positions 398 and 775 are 377 apart, and $377 \appro
 
 ## 6. The formula of "Attention Is All You Need"
 
-> **Key point:** The positional encoding of a position is a vector of $d_{\text{model}}$ numbers. Each pair of dimensions $(2i, 2i+1)$ holds the sine and cosine of $\text{pos}/10000^{2i/d_{\text{model}}}$, so the frequency falls as $i$ grows. The vector is added to the embedding.
+> **Key point:** The positional encoding of a position is a vector of $d_{\text{model}}$ numbers. Each pair of dimensions $(2i, 2i+1)$ holds the sine and cosine of $\text{pos}/10000^{2i/d_{\text{model}}}$, so the **frequency** (G-806) falls as $i$ grows. The vector is added to the embedding.
 
 ### 6.1 Same size, added
 
@@ -127,11 +135,11 @@ Why add instead of concatenating, as in section 4? Concatenation would double th
 
    The Notebook computes the same two vectors.
 
-Each dimension of the encoding is a sinusoid; the wavelengths "form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$" (Vaswani et al. 2017, §3.5). With $d_{\text{model}} = 512$, the first pair repeats every 6.28 positions and the last every 60,611 positions, and each wavelength is 1.0366 times the one before (Notebook). These are the widely spread frequencies that section 5.3 asked for.
+This is the **sinusoidal positional encoding** (G-1815). Each dimension of the encoding is a sinusoid; the wavelengths "form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$" (Vaswani et al. 2017, §3.5). With $d_{\text{model}} = 512$, the first pair repeats every 6.28 positions and the last every 60,611 positions, and each wavelength is 1.0366 times the one before (Notebook). These are the widely spread frequencies that section 5.3 asked for.
 
 ![The encoding built one position per frame ($d_{\text{model}} = 128$). Top: four of the 64 sine waves, with angle rates 1, 1/10, 1/100 and 1/1000; the dots are their values at the current position. Bottom: the rows filled so far; the coloured lines mark the same four dimensions](images/pe_waves.gif){height=55%}
 
-Figure 2 builds the encoding position by position. The fast wave (dimension 0) moves a lot from one position to the next; the slow waves (dimensions 64 and 96) hardly move over 50 positions.
+Figure 5 builds the encoding position by position. The fast wave (dimension 0) moves a lot from one position to the next; the slow waves (dimensions 64 and 96) hardly move over 50 positions.
 
 > **Python:** The whole encoding in NumPy, one row per position.
 >
@@ -154,7 +162,7 @@ Figure 2 builds the encoding position by position. The fast wave (dimension 0) m
 
 > **Key point:** In the heatmap of the encodings, the first dimensions change from position to position and the last ones barely change. Fast waves tell neighbouring positions apart; slow waves tell distant positions apart.
 
-Figure 3 is the standard picture of positional encoding: 50 positions (rows) with $d_{\text{model}} = 128$ (columns), each value coloured from $-1$ (red) to $1$ (blue).
+Figure 6 is the standard picture of positional encoding: 50 positions (rows) with $d_{\text{model}} = 128$ (columns), each value coloured from $-1$ (red) to $1$ (blue).
 
 ![Positional encodings of 50 positions with $d_{\text{model}} = 128$. Row 0 alternates 0 and 1; the left dimensions change quickly from row to row, the right ones hardly at all](images/pe_heatmap.png){width=95%}
 
@@ -164,7 +172,7 @@ Figure 3 is the standard picture of positional encoding: 50 positions (rows) wit
 
 With a longer sentence, the slow waves get room to change as well, and the right-hand dimensions start to differ too.
 
-The pattern is the same as in binary counting (Figure 4). In the binary codes of 0 to 15, the lowest bit flips at every number, the next bit every 2 numbers, the next every 4, the next every 8. The positional encoding does the same with smooth values: its first pair turns fastest, and each later pair more slowly. It is a continuous version of a binary code.
+The pattern is the same as in binary counting (Figure 7). In the binary codes of 0 to 15, the lowest bit flips at every number, the next bit every 2 numbers, the next every 4, the next every 8. The positional encoding does the same with smooth values: its first pair turns fastest, and each later pair more slowly. It is a continuous version of a binary code.
 
 ![Left: the binary codes of positions 0 to 15; bit 0 flips at every step, bit 3 only once. Right: the sine-cosine encoding of the same positions with $d_{\text{model}} = 8$; dimensions 0 and 1 change fastest, dimensions 6 and 7 barely change](images/binary_vs_pe.png){width=100%}
 
@@ -176,7 +184,7 @@ Section 4 left one problem open: counting gives absolute positions but no easy h
 
 ### 8.1 One matrix per distance
 
-> **Key point:** For every distance $k$ there is one matrix $M_k$ with $M_k\thinspace PE(p) = PE(p + k)$ for every position $p$. The matrix is a rotation of each sine-cosine pair.
+> **Key point:** For every distance $k$ there is one matrix $M_k$ with $M_k\thinspace PE(p) = PE(p + k)$ for every position $p$. The matrix is a **rotation matrix** (G-1708) for each sine-cosine pair.
 
 Take one pair of dimensions, with angle rate $\omega$ (so the pair holds $\sin \omega p$ and $\cos \omega p$).
 
@@ -204,11 +212,11 @@ This is also why the encoding uses sine and cosine together. With only sines, $\
 |---|---|---|---|---|---|
 | $PE(p) \cdot PE(p + k)$, every $p$ | 64.00 | 62.09 | 47.19 | 42.82 | 34.96 |
 
-The smallest and largest values over all $p$ agree to four decimals: the dot product depends on $k$ alone. Figure 5 shows the same thing as a picture: in the heatmap of all dot products, every diagonal (fixed distance) has a single colour, and the value falls, with small ripples, as the distance grows. Since self-attention scores words by dot products, this gives it a built-in sense of how far apart two positions are.
+The smallest and largest values over all $p$ agree to four decimals: the dot product depends on $k$ alone. Figure 8 shows the same thing as a picture: in the heatmap of all dot products, every diagonal (fixed distance) has a single colour, and the value falls, with small ripples, as the distance grows. Since self-attention scores words by dot products, this gives it a built-in sense of how far apart two positions are.
 
 ![Left: dot products between the encodings of positions 0 to 99; each diagonal, a fixed distance, has one colour. Right: the dot product against the distance $k$, the same for every starting position](images/pe_dot.png){width=100%}
 
-> **Extra:** The sine-cosine encoding is fixed: nothing in it is learned. Vaswani et al. (2017, §3.5 and Table 3, row E) also tried **learned positional embeddings**, one trainable vector per position, and "found that the two versions produced nearly identical results". They kept the sinusoids "because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training": a formula gives a vector for any position, while a learned table stops at the longest training position. Jurafsky and Martin (SLP3 §7.4) describe learned absolute positions as the simplest method, and note that later methods such as rotary position embeddings (RoPE) represent relative position directly inside the attention computation.
+> **Extra:** The sine-cosine encoding is fixed: nothing in it is learned. Vaswani et al. (2017, §3.5 and Table 3, row E) also tried **learned positional embeddings** (G-1066), one trainable vector per position, and "found that the two versions produced nearly identical results". They kept the sinusoids "because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training": a formula gives a vector for any position, while a learned table stops at the longest training position. Jurafsky and Martin (SLP3 §7.4) describe learned absolute positions as the simplest method, and note that later methods such as rotary position embeddings (RoPE) represent relative position directly inside the attention computation.
 
 ## 9. Summary
 

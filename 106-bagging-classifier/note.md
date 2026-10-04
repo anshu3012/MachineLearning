@@ -19,10 +19,10 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 
 The idea was explained in the [bagging Note](../105-bagging-intuition/note.md): bootstrapping, then aggregation, in four variants. This Note applies it to classification:
 
-- a demo of decision surfaces, comparing one model with its bagged version, for each of the four types;
-- `BaggingClassifier` in code on a dataset of 10,000 observations, with its hyperparameters;
-- the out-of-bag score;
-- what works in practice, and tuning with `GridSearchCV`.
+- a demo of decision surfaces, comparing one model with its bagged version, for each of the four types (section 2);
+- `BaggingClassifier` in code on a dataset of 10,000 observations, with its hyperparameters (section 3);
+- the out-of-bag score (section 4);
+- what works in practice, and tuning with `GridSearchCV` (section 5).
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for every bagging setting and redraws the decision surfaces.
 
@@ -48,7 +48,7 @@ The demo data is the two-moons toy dataset: 500 **observations** (points; each i
 With a decision tree, 100 estimators, 50 observations each, drawn with replacement, and both features:
 
 - **One tree** (Figure 1, top left): 0.856. Its **decision surface** (G-560; the feature plane coloured by the predicted class) has small boxes of one colour inside the other. A tree splits on one feature at a time, so each region it carves out is a rectangle, and a fully grown tree keeps splitting until it gives single training points their own rectangle. That is **overfitting** (G-1429). The tree is right on the training data, wrong on new data.
-- **Bagging** (G-251; top middle): 0.912. The **decision boundary** (G-555), the line where the predicted class changes, is much smoother: each tree's stray boxes sit in different places, so the majority vote outvotes them. The **bias** (G-287) stays low and the **variance** (G-2078) falls, as the [bagging Note](../105-bagging-intuition/note.md) predicted.
+- **Bagging** (G-251; top middle): 0.912. The **decision boundary** (G-555), the line where the predicted class changes, is much smoother: each tree's stray boxes sit in different places, so the majority vote outvotes them. The **bias** (G-287) stays low and the **variance** (G-2073) falls, as the [bagging Note](../105-bagging-intuition/note.md) predicted.
 
 Figure 2 builds the same bagging classifier one tree at a time. Watch the left panel: every tree draws its own 50 points (large markers; bigger means drawn more than once) and cuts its own boxes. On the right, the vote of all trees so far turns from one tree's hard boxes into a smooth band of shared votes, and test accuracy climbs from 0.816 with one tree to 0.912 after 10 trees; from there on it only wobbles between 0.896 and 0.928 and ends at 0.912 with 100 trees.
 
@@ -153,9 +153,22 @@ In Figure 3, every tree-based variant clears the dashed line of one tree; only t
 
 ## 4. The out-of-bag score
 
-> **Key point:** Every tree misses some observations: about 37% when it draws as many as the training set, about 78% with `max_samples=0.25`. Scoring each tree on its unseen observations gives a free estimate of test accuracy.
+> **Key point:** Every tree misses some observations: about 37% when it draws as many as the training set, about 78% with `max_samples=0.25`. Each observation is predicted by only the trees that never saw it; the share of observations they get right is a free estimate of test accuracy.
 
-The observations a tree never drew are its **out-of-bag (OOB) rows** (G-1412). When a tree draws as many observations as the training set, about 37% are never drawn (the [bagging Note](../105-bagging-intuition/note.md), section 2.3); our trees draw only 25%, so each misses about 78% (Figure 4a). With `oob_score=True` (it needs `bootstrap=True`), scikit-learn scores the ensemble on them, so no separate test set is needed:
+The observations a tree never drew are its **out-of-bag (OOB) rows** (G-1412). The 37% is counted per tree: every tree misses a different set of observations. Across many trees, almost every observation is drawn by some trees and missed by others.
+
+A tree has never seen its out-of-bag observations, so for that tree they work like test data. **OOB evaluation** (G-1411) uses this, one observation at a time (Figure 4):
+
+1. **Take one training observation.** Find the trees whose sample does not contain it.
+2. **Let only those trees vote.** Their majority is the observation's **OOB prediction** (G-1392).
+3. **Compare** the OOB prediction with the observation's true class.
+4. **Repeat for every training observation.** The share predicted correctly is the **OOB score**.
+
+![The out-of-bag score on the moons training data, with 25 trees. For each starred observation, the trees that drew it are grey and may not vote; the others vote. Observation 1: 9 trees vote, 6 blue against 3 orange, right. Observation 3: 6 of 7 vote blue, but the true class is orange, wrong. Over all 375 observations: 337 right, OOB score 0.899, against 0.888 on the test set. Idea after StatQuest, "Random Forests Part 1"; the data are ours.](images/oob_votes.gif){height=55%}
+
+In Figure 4, watch the grey squares change from one observation to the next: a different third or so of the trees is free to vote each time (on average 37% of the trees miss a given observation here). The final OOB score, 0.899, is close to the accuracy on the 125 test observations, 0.888, although no test set was used to compute it.
+
+When a tree draws as many observations as the training set, about 37% are never drawn (the [bagging Note](../105-bagging-intuition/note.md), section 2.3); the trees of section 3 draw only 25%, so each misses about 78% (Figure 5a). With `oob_score=True` (it needs `bootstrap=True`), scikit-learn computes the OOB score during training, so no separate test set is needed:
 
 > **Python:** The out-of-bag score.
 >
@@ -170,9 +183,9 @@ The observations a tree never drew are its **out-of-bag (OOB) rows** (G-1412). W
 
 ![(a) Share of the 8,000 training observations a tree never draws, against max_samples: the theory curve (1 − 1/n) raised to the number of draws, and the mean over 500 fitted trees. (b) The out-of-bag score against the test accuracy](images/oob_share.png){height=34%}
 
-In Figure 4, watch the curve fall as each tree draws more: the fewer rows a tree draws, the more rows are left over to score it on.
+In Figure 5, watch the curve fall as each tree draws more: the fewer rows a tree draws, the more rows are left over to score it on.
 
-The OOB score, **0.943**, is close to the real test accuracy, **0.945**. The [OOB score Note](../113-oob-score/note.md) explains how it is computed and when it can be trusted.
+The OOB score, **0.943**, is close to the real test accuracy, **0.945**. The [OOB score Note](../113-oob-score/note.md) covers the OOB score in full, including when it can be trusted.
 
 ## 5. What works in practice
 
@@ -186,7 +199,7 @@ Four rules of thumb, each with what our data says:
 
    ![Bagging against pasting on 100 noisy sine datasets, changing only `bootstrap`: tree correlation, ensemble variance and squared bias](images/bag_vs_paste.png){height=28%}
 
-   In Figure 5, read the trade from left to right: slightly less correlated trees, clearly lower variance, slightly higher bias.
+   In Figure 6, read the trade from left to right: slightly less correlated trees, clearly lower variance, slightly higher bias.
 
 2. **`max_samples` between 0.25 and 0.5** is a good place to start. Here 0.5 beat 0.25 (0.950 against 0.945), and the grid search below prefers 0.7: the best share depends on the data.
 3. **Feature sampling** (random subspaces, random patches) is for **high-dimensional** data, with many features. With few features it hurts, as Figure 1 showed.
@@ -233,6 +246,7 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 **Built from**
 
 - CampusX, "Bagging Ensemble | Part 2 | Bagging Classifiers", YouTube, https://www.youtube.com/watch?v=-1T54G_E-ys
+- StatQuest with Josh Starmer, "StatQuest: Random Forests Part 1 - Building, Using and Evaluating", YouTube, https://www.youtube.com/watch?v=J4Wdy0Wc_xQ (the out-of-bag procedure: each left-out observation is run through the trees built without it; Figure 4 is redrawn from this idea with our own data)
 
 **Other references**
 
@@ -245,16 +259,17 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 
 | Term | Meaning |
 |---|---|
-| BaggingClassifier | scikit-learn class for bagging, pasting, random subspaces and random patches in classification |
+| BaggingClassifier (G-253) | scikit-learn class for bagging, pasting, random subspaces and random patches in classification |
 | estimator | The base model that bagging copies (formerly base_estimator) |
 | n_estimators | The number of base models in an ensemble |
 | Observation | One record of the data: one row of the data table |
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
-| Unstable model | A model whose fit changes a lot when the training data changes a little; bagging helps it most |
+| Unstable model (G-2156) | A model whose fit changes a lot when the training data changes a little; bagging helps it most |
+| Out-of-bag (OOB) evaluation, OOB score (G-1411) | Testing a bagging model by predicting each training observation with only the base models that never saw it |
 | max_samples | The number or share of observations each base model gets |
-| bootstrap | BaggingClassifier setting: draw observations with replacement (True, bagging) or without (False, pasting) |
-| bootstrap_features | BaggingClassifier setting: draw features with replacement or without |
+| bootstrap (G-320) | BaggingClassifier setting: draw observations with replacement (True, bagging) or without (False, pasting) |
+| bootstrap_features (G-321) | BaggingClassifier setting: draw features with replacement or without |
 | estimators_samples_ | The row numbers (observations) each trained base model was given |
 | estimators_features_ | The column numbers (features) each trained base model was given |
 | verbose | scikit-learn setting that prints progress messages during training |

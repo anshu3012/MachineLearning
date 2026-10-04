@@ -15,31 +15,50 @@ tags: [subject/ml, area/models-1, step/model, concept/polynomial-features]
 
 > **Key point:** Logistic regression draws a straight boundary. Adding powers and products of the features as new features lets the same algorithm draw curved boundaries, just as polynomial regression did for linear regression.
 
-The perceptron Note stated a limitation: logistic regression works well only when the classes are (almost) linearly separable. The **decision boundary** (G-555) is the line or curve where the model switches from predicting one class to the other. On data where the true decision boundary is curved, a straight line misclassifies many points.
+The perceptron Note stated a limitation: logistic regression works well only when the classes are (almost) **linearly separable** (G-1103): a straight line can split them. The **decision boundary** (G-555) is the line or curve where the model switches from predicting one class to the other. On data where the true decision boundary is curved, a straight line misclassifies many points.
 
-In this Note each point is one **observation** (one record, a row of the data table). Its two coordinates $x_1$ and $x_2$ are its **features** (input variables, one column each), and its class $y$ is the **target** (the output we predict).
+In this Note each point is one **observation** (G-1374) (one record, a row of the data table). Its two coordinates $x_1$ and $x_2$ are its **features** (G-772) (input variables, one column each), and its class $y$ is the **target** (G-1949) (the output we predict).
 
-Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: **polynomial features** (G-1513), the same idea as the polynomial regression Note.
+Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: polynomial features, the same idea as the polynomial regression Note.
 
 ## 2. The idea
 
 > **Key point:** Create new features x₁², x₁x₂, x₂², ... and fit ordinary logistic regression on them. A straight boundary in the new features is a curve in the original ones.
 
-With two features $x_1$ and $x_2$, degree 2 creates five feature columns:
+### 2.1 The picture: lift the points
+
+An everyday picture: a straight ruler cannot trace a circle on flat paper. Lift the paper into a bowl shape, and a flat cut through the bowl traces exactly that circle.
+
+Figure 1 plays this out on two rings of points. Each point is lifted to the height $x_1^2 + x_2^2$, a value made from its own two features. Watch the inner ring stay low while the outer ring rises up the bowl, until one flat plane splits them.
+
+![Two rings of points. Flat: no straight line separates them. Lifted to height x₁² + x₂² (the squared features), a flat plane separates them, and the plane meets the bowl in a circle](images/lift_bowl.gif)
+
+Step by step, with two points of Figure 1:
+
+| Point | $x_1$ | $x_2$ | $x_1^2$ | $x_2^2$ | Height $x_1^2 + x_2^2$ | Side of the plane at 0.51 |
+|---|---|---|---|---|---|---|
+| inner ring | $-0.12$ | $-0.56$ | 0.01 | 0.31 | 0.33 | below |
+| outer ring | 0.39 | 0.87 | 0.15 | 0.76 | 0.91 | above |
+
+1. **Make new features.** Square each feature: $x_1^2$ and $x_2^2$.
+2. **Look at the data in the new features.** Every inner point has a height of at most 0.40 and every outer point at least 0.62, so the flat plane at height 0.51 separates the rings.
+3. **Read the plane back in the original features.** The plane is $x_1^2 + x_2^2 = 0.51$: a circle of radius 0.71 in the $(x_1, x_2)$ plane.
+
+A flat (linear) decision boundary in the new features is a curved decision boundary in the original ones. On these 200 points a straight line reaches a training accuracy of 0.49, and degree-2 features reach 1.00.
+
+### 2.2 The formal version: polynomial features
+
+Creating powers and products of the features as new features gives **polynomial features** (G-1513). With two features $x_1$ and $x_2$, degree 2 creates five feature columns:
 
 $$x_1,\quad x_2,\quad x_1^2,\quad x_1 x_2,\quad x_2^2$$
+
+The product $x_1 x_2$ belongs to the list: scikit-learn's `PolynomialFeatures` creates every product of the features up to the chosen degree, not only the powers of each feature on its own.
 
 Logistic regression then learns a weight for each feature, so its decision boundary is
 
 $$w_0 + w_1 x_1 + w_2 x_2 + w_3 x_1^2 + w_4 x_1 x_2 + w_5 x_2^2 = 0$$
 
-The decision boundary equation describes a curve (an ellipse, parabola or hyperbola) in the $(x_1, x_2)$ plane. Higher degrees add more terms ($x_1^3$, $x_1^2 x_2$, ...) and allow more complicated curves. The target $y$ is unchanged.
-
-An everyday picture: a straight ruler cannot trace a circle on flat paper. Lift the paper into a bowl shape (the new squared features), and a flat cut through the bowl traces exactly that circle.
-
-Figure 1 plays this out on two rings of points. Watch the inner ring stay low while the outer ring rises up the bowl, until one flat plane splits them: on these 200 points a straight line reaches a training accuracy of 0.49, and degree-2 features reach 1.00.
-
-![Two rings of points. Flat: no straight line separates them. Lifted to height x₁² + x₂² (the squared features), a flat plane separates them, and the plane meets the bowl in a circle](images/lift_bowl.gif)
+The decision boundary equation describes a curve (an ellipse, parabola or hyperbola) in the $(x_1, x_2)$ plane. The circle of section 2.1 is the special case $w_3 = w_5 = 1$, $w_0 = -0.51$ and the other weights 0. Higher degrees add more terms ($x_1^3$, $x_1^2 x_2$, ...) and allow more complicated curves. The target $y$ is unchanged, and the model is still logistic regression: only its inputs have changed.
 
 The number of features grows quickly with the degree: 2 at degree 1, 5 at degree 2, 9 at degree 3, 65 at degree 10 and 350 at degree 25. Section 4 shows how much faster it grows with more original features.
 
@@ -83,7 +102,7 @@ Figure 2 raises the degree one step per frame. Watch the decision boundary (blac
 - **Degrees 3 and 4:** the boundary bends around the moons. Test accuracy jumps to 0.93.
 - **Degrees 10 and 25:** the boundary develops odd loops and islands far from the data. Training accuracy keeps rising, but test accuracy falls to about 0.92, and the gap between the two grows from 0.012 to 0.045.
 
-As with polynomial regression, the degree controls flexibility: too low underfits, too high overfits. The degree is a hyperparameter, chosen by comparing scores on data not used for training. Here degree 3 is best.
+As with polynomial regression, the degree controls flexibility. Too low a degree gives **underfitting** (G-2035): the boundary is too simple for the pattern. Too high a degree gives **overfitting** (G-1429): the boundary follows single training points. The degree is a **hyperparameter** (G-910), chosen by comparing scores on data not used for training. Here degree 3 is best.
 
 > **Extra:** A penalty keeps the many weights small (the Ridge Notes), so it fights the overfitting of high degrees. Same 20 training sets and test set:
 >

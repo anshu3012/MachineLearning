@@ -15,9 +15,9 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 
 ## 1. Overview
 
-> **Key point:** Lasso is Ridge with the squares in the penalty replaced by absolute values. That one change lets it push coefficients to exactly 0, so it also removes useless **features** (input variables, the columns of the data table): automatic feature selection.
+> **Key point:** Lasso is Ridge with the squares in the penalty replaced by absolute values. That one change lets it push coefficients to exactly 0, so it also removes useless **features** (G-772; input variables, the columns of the data table): automatic feature selection.
 
-**Lasso regression** is the second regularised version of linear regression, also called **L1 regularisation**. Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient:
+**Lasso regression** (G-1047) is the second regularised version of linear regression, also called **L1 regularisation** (G-1026). Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient:
 
 $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
@@ -29,7 +29,7 @@ $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
 LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
 
-This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations**, that is, records or rows; the **target** we predict is disease progression), and why its coefficients can reach exactly 0.
+This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations** (G-1374), that is, records or rows; the **target** (G-1949) we predict is disease progression), and why its coefficients can reach exactly 0.
 
 ## 2. One feature: the slope reaches exactly 0
 
@@ -75,7 +75,7 @@ Lasso found which of the 16 power features matter without being told.
 
 > **Key point:** Coefficients that reach 0 remove their features from the model. So Lasso selects features while it trains.
 
-A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. Zero coefficients make Lasso a tool for feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
+A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. Zero coefficients make Lasso a tool for **feature selection** (G-768; see the [feature engineering Note](../23-what-is-feature-engineering/note.md)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
 
 Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2).
 
@@ -132,7 +132,11 @@ We use the same method as the [Ridge key points Note](../66-ridge-key-points/not
 | 1 | 2.52 | 0.38 | 6.90 |
 | 3 | 5.20 | 0.19 | 9.40 |
 
-Small alpha: high variance (overfitting). Large alpha: high bias (underfitting). Here alpha 0.1, the same value that kept only $x$ and $x^2$ in Section 3, has the lowest total error.
+Figure 5 shows the experiment. At a tiny alpha the 200 fitted curves fan out, most of all at the edges: high variance. At alpha 3 every fit is a flat line at the average, the same for every draw: almost no variance, but far from the true curve. At alpha 0.1 the fits hug the true parabola.
+
+![Bias and variance of Lasso on a degree-16 polynomial. Left: 30 of the 200 fitted curves (blue), their average (orange) and the true curve (dashed) for each alpha. Right: bias², variance and expected test error, built up alpha by alpha; the error is lowest at alpha 0.1.](images/bias_variance.gif)
+
+Small alpha: high variance (**overfitting**, G-1429). Large alpha: high bias (**underfitting**, G-2035). Here alpha 0.1, the same value that kept only $x$ and $x^2$ in Section 3, has the lowest total error.
 
 > **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7); the noise part is $2^2 = 4$, the floor no model can beat.
 
@@ -144,7 +148,7 @@ Take the one-feature example again and hold the intercept at $-2.29$, so the los
 
 $$L(m) = \sum_{i=1}^{n}(y_i - m x_i + 2.29)^2 + \lambda|m|$$
 
-Figure 5 draws this curve while $\lambda$ grows from 0 to 8,000.
+Figure 6 draws this curve while $\lambda$ grows from 0 to 8,000.
 
 ![The Lasso loss against the slope for λ = 0, 2000, 5000 and 8000](images/lasso_loss_curve.gif){height=50%}
 
@@ -177,7 +181,11 @@ The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, s
 
 The "best when" row follows ISL §6.2.2. Lasso has no closed-form formula because the absolute values make the answer non-linear in $y$ (ESL §3.4.2). With strongly correlated features, Lasso tends to keep only one of the group, and Ridge has been seen to predict better (Zou and Hastie 2005, §1).
 
-Both shrink the largest coefficients, raise bias, lower variance and are tuned through $\lambda$. The difference that matters in practice is that Lasso can remove features. Elastic Net (a later Note) combines both penalties.
+Figure 7 puts the two side by side on the diabetes split, both with alpha 0.1. Ridge keeps all ten coefficients non-zero; Lasso sets age, s2 and s4 to exactly 0 and pays only 0.02 of test R² for it.
+
+![Coefficients on the diabetes split with alpha 0.1. Ridge (blue, test R² 0.45) keeps all ten features; Lasso (orange, test R² 0.43) sets age, s2 and s4 exactly to 0.](images/ridge_vs_lasso.png)
+
+Both shrink the largest coefficients, raise bias, lower variance and are tuned through $\lambda$. The difference that matters in practice is that Lasso can remove features. **Elastic Net** (G-668; a later Note) combines both penalties.
 
 > **Python:** Lasso in scikit-learn.
 >

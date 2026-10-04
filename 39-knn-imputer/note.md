@@ -17,7 +17,7 @@ tags: [subject/ml, area/data, area/linear-algebra, step/foundations, step/clean,
 
 > **Key point:** The KNN imputer fills a gap with the average value of the k observations most similar to the observation with the gap.
 
-Two words first. A **feature** is an input variable: one column of the data table. An **observation** is one record: one row of the table. The **target** is the output we predict.
+Two words first. A **feature** (G-772) is an input variable: one column of the data table. An **observation** (G-1374) is one record: one row of the table. The **target** (G-1949) is the output we predict.
 
 Notes 36 to 38 filled each gap using only its own feature. This Note covers the first multivariate technique: the other features decide which observations are similar, and those observations supply the fill value. Think of guessing a new neighbour's income: the town average is one guess, but the incomes of the people living in the most similar houses on the same street are a better one.
 
@@ -34,7 +34,7 @@ The hard part is measuring similarity when other observations have gaps too. Sec
 
 > **Key point:** Multivariate imputation fills a gap using the other features of the observation too; scikit-learn offers two such techniques.
 
-Univariate imputation fills a feature from that feature alone, while multivariate imputation also uses the other features of the same observation (see "Imputing: filling in the gaps", section 3.2 of the [complete case analysis Note](../35-complete-case-analysis/note.md)). The two multivariate techniques in scikit-learn are the **KNN imputer** (`KNNImputer`, this Note) and the iterative imputer (`IterativeImputer`, the MICE algorithm, the [next Note](../40-iterative-imputer-mice/note.md)).
+Univariate imputation fills a feature from that feature alone, while multivariate imputation also uses the other features of the same observation (see "Imputing: filling in the gaps", section 3.2 of the [complete case analysis Note](../35-complete-case-analysis/note.md)). The two multivariate techniques in scikit-learn are the **KNN imputer** (G-1017; `KNNImputer`, this Note) and the **iterative imputer** (G-978) (`IterativeImputer`, the MICE algorithm, the [next Note](../40-iterative-imputer-mice/note.md)).
 
 ## 3. The nearest-neighbour idea
 
@@ -46,7 +46,7 @@ Univariate imputation fills a feature from that feature alone, while multivariat
 
 An observation with two numbers is a point on a flat plane; one with three numbers is a point in 3D space. One with four numbers is a point in 4D space: we cannot draw it, but distances work the same way.
 
-Close points are similar observations. **Similarity** between observations is therefore measured as a distance: the smaller the distance, the more similar the observations.
+Close points are similar observations. **Similarity** (G-1805) between observations is therefore measured as a distance: the smaller the distance, the more similar the observations.
 
 ### 3.2 The k nearest neighbours
 
@@ -60,7 +60,11 @@ To fill a gap in row 2, we:
 
 With $k = 1$, the gap gets the value of the single closest observation. With $k = 2$ and neighbour values 25 and 40, it gets $(25 + 40) / 2 = 32.5$. With $k = 3$ and a third neighbour value of 30, it gets $(25 + 40 + 30) / 3 = 31.67$.
 
-> **Extra:** The same idea gives the **k-nearest neighbours (KNN)** algorithm, a model that predicts a new observation's label from its k nearest training observations. KNN is an instance-based learner (Note 6): it stores the training observations instead of learning a formula. The KNN imputer uses the same search to predict a missing value instead of a label.
+Figure 2 lays out the other rows of the Note's example by their distance from row 2 (section 4 computes these distances) and grows $k$ from 1 to 4. With $k = 4$ the far row 5 joins and pulls the fill up to 36.25, which is why a very large $k$ starts to behave like the plain column mean.
+
+![The rows of the five-row example placed by their distance from row 2. For k = 1 to 4 the k nearest rows (orange) are averaged: 25, 32.5, 31.67 and 36.25. Values checked with scikit-learn's KNNImputer.](images/k_sweep.gif){height=30%}
+
+> **Extra:** The same idea gives the **k-nearest neighbours (KNN)** (G-998) algorithm, a model that predicts a new observation's label from its k nearest training observations. KNN is an **instance-based learner** (G-955; Note 6): it stores the training observations instead of learning a formula. The KNN imputer uses the same search to predict a missing value instead of a label.
 
 ## 4. Distance between observations with missing values
 
@@ -88,7 +92,7 @@ In Figure 1, row 1 has no f3 and row 4 has no f2. Row 2 itself has no f1, the va
 
 > **Key point:** Skip every feature where either observation has `NaN`, compute the Euclidean distance on the rest, and multiply by a weight that makes up for the skipped features.
 
-The **nan-Euclidean distance** is the distance scikit-learn uses for data with missing values. Skipping features makes the sum smaller, so observations with many gaps would look too close. The **weight** corrects this: the total number of features divided by the number of features both observations have. The weighted formula is the one scikit-learn uses (scikit-learn docs, nan_euclidean_distances; Dixon 1979).
+The **nan-Euclidean distance** (G-1302) is the distance scikit-learn uses for data with missing values. Skipping features makes the sum smaller, so observations with many gaps would look too close. The **weight** corrects this: the total number of features divided by the number of features both observations have. The weighted formula is the one scikit-learn uses (scikit-learn docs, nan_euclidean_distances; Dixon 1979).
 
 1. **In words:** keep only the features where both observations have a value, add up their squared differences, multiply by (all features / used features), and take the square root.
 2. **Formula:** with $n$ features in total and $p$ features present in both observations,
@@ -102,7 +106,7 @@ When both observations are complete, $p = n$, the weight is 1, and the formula i
 
 > **Key point:** Row 4 is the nearest neighbour of row 2 (3.46), then row 3 (7.14).
 
-Figure 2 computes the distance from row 2 to each of the other four rows. f1 is never used, because row 2 has no f1; rows 1 and 4 lose one more feature each.
+Figure 3 computes the distance from row 2 to each of the other four rows. f1 is never used, because row 2 has no f1; rows 1 and 4 lose one more feature each.
 
 ![The nan-Euclidean distance from row 2 to every other row: grey cells are skipped, and the weight makes up for them](images/nan_distance.png){width=100%}
 
@@ -126,7 +130,7 @@ Figure 2 computes the distance from row 2 to each of the other four rows. f1 is 
 
 > **Key point:** Distances, then the k nearest observations, then the mean of their values: with k = 2, row 2 gets $(25 + 40) / 2 = 32.5$.
 
-Figure 3 runs the whole process on the example:
+Figure 4 runs the whole process on the example:
 
 1. Row 2 has a gap in f1.
 2. The nan-Euclidean distance to every other row: 8.66, 7.14, 3.46, 30.62.
@@ -149,8 +153,10 @@ The mean of f1 would have given 36.25 (Figure 1). The KNN value is lower because
 
 **Disadvantages:**
 
-1. **Many calculations.** For every observation with a gap, the distance to every training observation is computed and the distances are sorted. On a large dataset this takes a long time.
+1. **Many calculations.** For every observation with a gap, the distance to every training observation is computed and the distances are sorted. On a large dataset this takes a long time. In Figure 5, on synthetic data, 16 times more rows made `KNNImputer` more than 100 times slower on our machine, because both the number of gaps and the number of rows to compare each gap with grow; mean imputation stays near zero.
 2. **The training set goes to production.** A new observation with a gap arrives after deployment. Its neighbours are searched among the training observations, so the whole training set must be stored on the server. This storage uses memory and slows each prediction down.
+
+![Time to fit and transform with KNNImputer (k = 5) and with SimpleImputer as the number of rows grows, on synthetic data with 4 features and 20 percent of one feature missing. Exact times depend on the machine.](images/knn_cost.png){height=32%}
 
 ## 7. KNN imputation with scikit-learn
 
@@ -207,7 +213,9 @@ A fair test of an imputer is to hide values we know, fill them, and check the fi
 | Mean imputation | 11.24 |
 | KNN imputer, $k = 10$, features scaled | 9.76 |
 
-The KNN fills are 13% closer to the truth.
+The KNN fills are 13% closer to the truth. Figure 6 shows one of the 20 splits. Mean imputation gives all 143 hidden passengers the same age, a flat line; the KNN fills follow the true ages upwards, though loosely, and several young children get young fills, which the mean can never do.
+
+![One split of the hidden-age test: filled age against true age for 143 hidden passengers. Left: mean imputation, every fill the same (11.33 years error on this split). Right: KNN imputer with k = 10 (10.68 years). The dashed line is a perfect fill.](images/hidden_ages.png)
 
 Conditions: four features choose the neighbours (`Pclass`, `Fare`, `SibSp` = siblings and spouses aboard, `Parch` = parents and children aboard), all scaled first (Section 7.7), uniform weights; the error is averaged over 20 random splits.
 
@@ -217,14 +225,14 @@ Conditions: four features choose the neighbours (`Pclass`, `Fare`, `SibSp` = sib
 
 > **Key point:** Too few neighbours give noisy fills; the error falls as k grows and levels off around k = 10.
 
-The default k is 5. Figure 4 repeats the hidden-age test for $k = 1$ to $20$ with both weightings; the dotted line is mean imputation.
+The default k is 5. Figure 7 repeats the hidden-age test for $k = 1$ to $20$ with both weightings; the dotted line is mean imputation.
 
 ![Error of the filled ages (hidden known ages) for k = 1 to 20; lower is better](images/fill_error_vs_k.png){width=100%}
 
 - **k = 1** copies one passenger's age and is worse than the mean (12.52 years). One person's age carries that person's own quirks.
 - **Larger k** averages several neighbours, so the quirks cancel out: the error drops below the mean from $k = 2$ and levels off from $k = 10$ (9.76 years).
 
-Averaging more neighbours lowers the variance of a KNN estimate (ESL §2.9); Troyanskaya et al. (2001) also found that KNN imputation changes little for $k$ between 10 and 20. In practice we loop over k, or use grid search (a later Note), instead of trying values by hand.
+Averaging more neighbours lowers the variance of a KNN estimate (ESL §2.9); Troyanskaya et al. (2001) also found that KNN imputation changes little for $k$ between 10 and 20. In practice we loop over k, or use **grid search** (G-872; a later Note), instead of trying values by hand.
 
 ### 7.5 Distance weighting
 
@@ -240,7 +248,7 @@ With `weights="uniform"` all k neighbours count equally. With `weights="distance
 
 The uniform fill was 32.5; the weighted fill 29.90 sits closer to row 4's value of 25. Dividing by the sum of the weights, instead of by k, keeps the result between the neighbours' values.
 
-On the Titanic ages, uniform weighting gives the smaller error at every $k \ge 2$ (Figure 4). Distance weighting pulls each fill toward the single nearest passenger, and Section 7.4 showed that leaning on one passenger is the noisiest choice. Which weighting wins depends on the data, so we try both.
+On the Titanic ages, uniform weighting gives the smaller error at every $k \ge 2$ (Figure 7). Distance weighting pulls each fill toward the single nearest passenger, and Section 7.4 showed that leaning on one passenger is the noisiest choice. Which weighting wins depends on the data, so we try both.
 
 ### 7.6 Adding a missing indicator
 

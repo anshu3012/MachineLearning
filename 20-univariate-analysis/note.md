@@ -15,7 +15,7 @@ tags: [subject/ml, area/data, step/understand, step/clean, concept/kde, concept/
 
 ## 1. Overview
 
-> **Key point:** Univariate analysis studies each column on its own, mostly with graphs; the column's type (categorical or numerical) decides which graphs to draw.
+> **Key point:** **Univariate analysis** (G-2050) studies each column on its own, mostly with graphs; the column's type (categorical or numerical) decides which graphs to draw.
 
 **Exploratory data analysis (EDA)** means studying a dataset to understand it inside out. The seven first questions of the previous Note give a quick sketch. EDA goes deeper, and its main tool is the graph: patterns hidden in a table of numbers become obvious once drawn.
 
@@ -30,9 +30,9 @@ The Notebook (`notebook.ipynb`) draws every graph as an interactive Plotly chart
 
 ## 2. Univariate, bivariate and multivariate analysis
 
-> **Key point:** Studying one column is univariate analysis, two columns together is bivariate, and more than two is multivariate.
+> **Key point:** Studying one column is univariate analysis, two columns together is **bivariate analysis** (G-310), and more than two is **multivariate analysis** (G-1280).
 
-Each column of a dataset is called a **variable**. In ML, an input variable is called a **feature**, and the variable we want to predict is the **target**. Each row, one record, is an **observation**. EDA has three levels, named by how many variables we look at together (Figure 2):
+Each column of a dataset is called a **variable** (G-2071). In ML, an input variable is called a **feature** (G-772), and the variable we want to predict is the **target** (G-1949). Each row, one record, is an **observation** (G-1374). EDA has three levels, named by how many variables we look at together (Figure 2):
 
 - **Univariate analysis:** one variable on its own ("uni" means one). For example, how old were the passengers?
 - **Bivariate analysis:** two variables together ("bi" means two). For example, did older passengers survive less often?
@@ -94,7 +94,7 @@ Some columns need a word of explanation:
 
 > **Key point:** A count plot draws one bar per category, as tall as the number of rows in that category; it is the first graph for any categorical column.
 
-A **count plot** answers the most basic question about a categorical column: how often does each category occur? It counts the rows in each category, its **frequency**, and draws one bar per category.
+A **count plot** (G-494) answers the most basic question about a categorical column: how often does each category occur? It counts the rows in each category, its **frequency**, and draws one bar per category.
 
 For `Survived`, a count plot shows at once how many passengers died and how many survived. Figure 3 draws one for each of the four categorical columns.
 
@@ -130,7 +130,7 @@ The `Pclass` result raises a question: why did more people travel first class th
 
 > **Key point:** A pie chart shows the same counts as shares of a circle, so we read each category's percentage directly.
 
-A **pie chart** divides a circle into slices, one per category, each sized by its share of the rows. A pie chart holds the same information as a count plot, given as percentages instead of counts.
+A **pie chart** (G-1495) divides a circle into slices, one per category, each sized by its share of the rows. A pie chart holds the same information as a count plot, given as percentages instead of counts.
 
 Figure 4 shows pie charts of three columns:
 
@@ -162,9 +162,9 @@ So a categorical column has two graphs: the count plot for counts, the pie chart
 
 Numerical columns are more interesting. Their values are not a few groups but any number in a range: an age can be 22, 22.5 or 71. So we cannot count each value; we count ranges instead.
 
-A **histogram** splits the range of the column into equal intervals called **bins**. The histogram counts the values in each bin and draws one bar per bin. For ages from 0 to 80, eight bins of 10 years each would give 0-10, 10-20, and so on up to 70-80.
+A **histogram** (G-899) splits the range of the column into equal intervals called **bins**. The histogram counts the values in each bin and draws one bar per bin. For ages from 0 to 80, eight bins of 10 years each would give 0-10, 10-20, and so on up to 70-80.
 
-The result shows the **distribution** of the data: how the values spread out, where most of them sit, and where few do. Whenever we meet a numerical column, a histogram is the first graph to try.
+The result shows the **distribution** (G-626) of the data: how the values spread out, where most of them sit, and where few do. Whenever we meet a numerical column, a histogram is the first graph to try.
 
 ### 6.1 Choosing the number of bins
 
@@ -194,11 +194,11 @@ With 16 bins, the shape of `Age` is clear. Few passengers were very young or ver
 
 > **Key point:** A density plot draws a smooth curve over the histogram; the curve, called the KDE, estimates the probability density function of the column.
 
-A **density plot** is a histogram with a smooth curve drawn along the tops of its bars (Figure 6). The curve is a **kernel density estimate (KDE)**: a smoothed version of the histogram, so the shape is easier to see.
+A **density plot** (G-587) is a histogram with a smooth curve drawn along the tops of its bars (Figure 6). The curve is a **kernel density estimate (KDE)**: a smoothed version of the histogram, so the shape is easier to see.
 
 ![Histogram of the ages scaled to density, with the KDE curve on top](images/density.png)
 
-The curve estimates the column's **probability density function (PDF)**. The x axis shows the age; the y axis shows the **density**, how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare.
+The curve estimates the column's **probability density function (PDF)**. The x axis shows the age; the y axis shows the **density** (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare.
 
 So the two graphs answer slightly different questions:
 
@@ -217,7 +217,7 @@ The PDF matters again in bivariate and multivariate analysis, where we compare s
 
 > **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible outliers.
 
-A **box plot** draws a column's **five-number summary** (Figure 7). The summary is built from the median and percentiles of the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2, "Percentiles").
+A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 7). The summary is built from the median and percentiles of the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2, "Percentiles").
 
 ![The parts of a box plot, drawn for the Titanic ages](images/box_anatomy.png)
 
@@ -235,7 +235,7 @@ The box holds the middle half of the data. Its width, Q3 - Q1, is the **interqua
 
 > **Key point:** The whiskers stop at 1.5 IQR beyond the box; any value further out is drawn as a dot and flagged as a possible outlier.
 
-In a box plot, the minimum and maximum are not simply the smallest and largest values. They are calculated limits, called **fences**, set 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). A value outside the fences is a possible **outlier**: a value that does not follow the pattern of the rest of the data.
+In a box plot, the minimum and maximum are not simply the smallest and largest values. They are calculated limits, called **fences**, set 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). A value outside the fences is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
 
 > **Extra:** The fences, step by step.
 >
@@ -299,7 +299,7 @@ The density curve also tells us whether the data is symmetric. Figure 9 shows th
 - **Right (positive) skew:** most values are low and a few are very high, so the curve has a long tail to the right. Salaries are an example: most people earn a modest amount, and very few earn a lot.
 - **Left (negative) skew:** most values are high and a few are low, so the tail is on the left. Marks in an easy test are an example: most students score high, and only a few score low.
 
-**Skewness** turns this shape into one number. A value of 0 means perfectly symmetric, a positive value means skewed to the right, and a negative value means skewed to the left. The further from 0, the more lopsided the data.
+**Skewness** (G-1817) turns this shape into one number. A value of 0 means perfectly symmetric, a positive value means skewed to the right, and a negative value means skewed to the left. The further from 0, the more lopsided the data.
 
 For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fare` has 4.79, heavily skewed to the right, which matches its long trail of outliers in Figure 8.
 

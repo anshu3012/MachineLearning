@@ -164,6 +164,12 @@ Plotted as a scatter, the scaled data looks exactly like the raw data; only the 
 
 Compare the two panels of Figure 5 point by point: the cloud has exactly the same shape, and only the axis numbers change, from 18 to 60 and 15,000 to 150,000 down to about $-2$ to $+2$ on both axes.
 
+Figure 5 lets each panel choose its own axis numbers, which hides how different the raw scales are. A network does not see axis labels; it sees the numbers. Figure 6 draws the same users with one unit the same length on both axes, which is how the numbers reach the network.
+
+![The 320 training users while each feature has its mean removed and is divided by its standard deviation. One unit has the same length on both axes. The title gives the standard deviation (spread) of each feature](images/rescale.gif){height=45%}
+
+In Figure 6, watch the shape of the cloud. In raw numbers the spread of salary is 34,377 and the spread of age is 10.2, about 3,400 times smaller, so the cloud is a thin vertical line: to the network, only salary varies. As both features are standardized, the line widens into a round cloud with spread 1 in both directions, and both features vary by the same amount.
+
 The result is Figure 1 (left, blue). The validation accuracy climbs steadily: 80% after 2 epochs, 94% after 20, and it stays there. The training loss falls smoothly from 0.67 to 0.24.
 
 ### 5.3 When to scale

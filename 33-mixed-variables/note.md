@@ -15,7 +15,7 @@ tags: [subject/ml, area/features, step/features, concept/mixed-variables]
 
 > **Key point:** A mixed variable holds numbers and categories in the same column; we split it into one numerical feature and one categorical feature.
 
-A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). Every feature so far has been either numerical or categorical. Some real features are both at once. This Note shows the two ways a feature can be mixed and how to split each one.
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Every feature so far has been either numerical or categorical. Some real features are both at once. This Note shows the two ways a feature can be mixed and how to split each one.
 
 Think of a postal address such as "Flat 12B": a number and a letter packed into one label. To sort flats by floor or by block, we first pull the two parts apart.
 
@@ -27,7 +27,7 @@ Figure 1 shows both types and what splitting produces. The work is all done with
 
 > **Key point:** In Type 1, one cell holds a category and a number together; in Type 2, some cells hold a number and others a category.
 
-A **mixed variable** is a feature whose values contain both numerical and categorical data. A model cannot use such a feature as it is: the values are neither clean numbers nor a short list of categories.
+A **mixed variable** (G-1237) is a feature whose values contain both numerical and categorical data. A model cannot use such a feature as it is: the values are neither clean numbers nor a short list of categories.
 
 Mixed variables come in two types.
 
@@ -114,7 +114,7 @@ The `number` column has seven values: `1` to `6` and `A`. `A` (alone) is the mos
 
 > **Key point:** `pd.to_numeric(..., errors="coerce")` turns every value it can read into a number and every other value into NaN.
 
-**`pd.to_numeric`** converts values to numbers. By default it stops with an error at the first value it cannot read, such as `A`. With **`errors="coerce"`**, it writes NaN for that value instead and carries on.
+**`pd.to_numeric`** (G-1473) converts values to numbers. By default it stops with an error at the first value it cannot read, such as `A`. With **`errors="coerce"`** (G-707), it writes NaN for that value instead and carries on.
 
 So `5` becomes 5, and `A` becomes NaN. The result is exactly the numerical column we want.
 
@@ -123,6 +123,10 @@ So `5` becomes 5, and `A` becomes NaN. The result is exactly the numerical colum
 > **Key point:** Keep the original value only in the rows where the number conversion failed.
 
 The categorical column is the mirror image. Wherever the numerical part is NaN, the original value was not a number, so it goes into the categorical column. Everywhere else, the categorical column is NaN.
+
+Figure 5 splits the first six rows one at a time. Watch row 4: `A` cannot be read as a number, so the numerical column gets NaN there and the categorical column gets `A`. In every other row it is the other way round.
+
+![The column number split row by row: each value that pd.to_numeric can read goes to number_numerical (blue), the value A goes to number_categorical (orange), and the other cell of the row stays NaN.](images/type2_split.gif)
 
 > **Python:** Splitting `number` into two columns.
 >
@@ -146,7 +150,7 @@ The result on the first six rows:
 | 4 | A | \<NA\> | A |
 | 5 | 2 | 2 | NaN |
 
-> **Extra:** Why `.astype("Int64")`. A NumPy integer column cannot hold NaN, so `pd.to_numeric` returns floats: 5.0, 3.0, NaN. The option `downcast="integer"`, often seen in older code, cannot change this while a NaN is present, and the column stays float. **`Int64`** (capital I) is pandas' **nullable integer** type: whole numbers plus a missing marker, shown as `<NA>` (pandas user guide, "Nullable integer data type").
+> **Extra:** Why `.astype("Int64")`. A NumPy integer column cannot hold NaN, so `pd.to_numeric` returns floats: 5.0, 3.0, NaN. The option `downcast="integer"`, often seen in older code, cannot change this while a NaN is present, and the column stays float. **`Int64`** (capital I) is pandas' **nullable integer** (G-1363) type: whole numbers plus a missing marker, shown as `<NA>` (pandas user guide, "Nullable integer data type").
 
 > **Extra:** Older code builds the categorical part with `np.where(num.isnull(), df["number"], np.nan)`. `np.where` returns a plain NumPy array of mixed objects. `df["number"].where(num.isna())` gives the same values and keeps pandas' `str` type.
 
@@ -160,9 +164,9 @@ The result on the first six rows:
 
 > **Key point:** `.str.extract(r"(\d+)")` finds the first run of digits in each value.
 
-A **regular expression** (regex) is a short pattern that describes text. The pattern `\d+` means "one or more digits", and the brackets mark the part to keep. So `str.extract(r"(\d+)")` returns `85` from `C85` and `123` from `C123`.
+A **regular expression** (G-1656) (regex) is a short pattern that describes text. The pattern `\d+` means "one or more digits", and the brackets mark the part to keep. So `str.extract(r"(\d+)")` returns `85` from `C85` and `123` from `C123`.
 
-The **`.str`** accessor applies a text method to every value of a column at once. The accessor is how pandas reaches string tools such as `extract`, `split` and `isdigit`.
+The **`.str`** (G-47) accessor applies a text method to every value of a column at once. The accessor is how pandas reaches string tools such as `extract`, `split` and `isdigit`.
 
 ### 5.2 The category part
 
@@ -178,7 +182,7 @@ The **`.str`** accessor applies a text method to every value of a column at once
 > df["cabin_cat"] = df["Cabin"].str[0]
 > ```
 >
-> `str.extract` returns a table with one column per bracket, so `[0]` takes its first column. The `r` before the quotes makes it a **raw string**, where `\d` reaches the regex unchanged.
+> `str.extract` returns a table with one column per bracket, so `[0]` takes its first column. The `r` before the quotes makes it a **raw string** (G-1638), where `\d` reaches the regex unchanged.
 
 The result, on some first rows and on every unusual kind of value:
 
@@ -193,7 +197,7 @@ The result, on some first rows and on every unusual kind of value:
 
 ![Splitting `Cabin` on the rows of the table above: the first character becomes the deck, the first run of digits the number](images/cabin_split.png){width=75%}
 
-Figure 5 shows the same rows as the table: watch the unusual values, where only the first deck letter and the first number survive.
+Figure 6 shows the same rows as the table: watch the unusual values, where only the first deck letter and the first number survive.
 
 After the split, `cabin_cat` has only 8 categories, the decks A to G and T (right of Figure 4). C is the most common deck, then B.
 
@@ -211,7 +215,7 @@ After the split, `cabin_cat` has only 8 categories, the decks A to G and T (righ
 
 `Ticket` is messier: 681 different values in 891 rows. Most tickets are a prefix and a number, such as `A/5 21171` or `PC 17599`, but many are digits only, such as `113803`.
 
-The rule, shown in Figure 6:
+The rule, shown in Figure 7:
 
 1. Split the value at its spaces into pieces.
 2. **Number part:** the last piece, converted with `pd.to_numeric(..., errors="coerce")`.
@@ -261,7 +265,7 @@ Many scikit-learn models do not accept missing values (scikit-learn User Guide, 
 
 ![The gaps of the Type 2 split (rows 0, 1 and 4), before and after filling](images/fill_gaps.png){width=90%}
 
-Figure 7 shows both fills on three rows of the `number` split.
+Figure 8 shows both fills on three rows of the `number` split.
 
 > **Python:** Filling the gaps.
 >

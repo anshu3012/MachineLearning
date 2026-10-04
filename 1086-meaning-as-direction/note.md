@@ -14,14 +14,14 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/meani
 
 ## 1. Overview
 
-> **Key point:** In a trained word embedding, meaning lives in **directions**, not in single coordinates. The arrow from "man" to "woman" points roughly the same way as the arrows from "uncle" to "aunt" and from "father" to "mother", so adding that arrow to "uncle" lands next to "aunt". A **dot product** with a direction measures how much of that meaning a word carries: the "plural direction" scores every plural noun we tested above its singular. The same structure appears in the token-embedding table of the transformer GPT-2.
+> **Key point:** In a trained **word embedding** (G-2127), meaning lives in **directions** (G-613), not in single coordinates. The arrow from "man" to "woman" points roughly the same way as the arrows from "uncle" to "aunt" and from "father" to "mother", so adding that arrow to "uncle" lands next to "aunt". A **dot product** (G-634) with a direction measures how much of that meaning a word carries: the "plural direction" scores every plural noun we tested above its singular. The same structure appears in the token-embedding table of the transformer GPT-2.
 
 The [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md) introduced word embeddings: each word becomes a dense vector, learned so that words used in similar ways get similar vectors. That Note looked at *distances*: similar words sit close together. This Note looks at *directions*: what the arrow between two word vectors means, and what we can do with it.
 
 We use two real embedding tables:
 
-1. **GloVe**, 100 numbers per word, trained on 6 billion tokens of Wikipedia and news text (Pennington et al. 2014). We keep its 100,000 most frequent words.
-2. **GPT-2 small's token-embedding table**, 768 numbers per token, the first layer of a real transformer (Radford et al. 2019).
+1. **GloVe** (G-851), 100 numbers per word, trained on 6 billion tokens of Wikipedia and news text (Pennington et al. 2014). We keep its 100,000 most frequent words.
+2. **GPT-2 small's token-embedding table** (G-1982), 768 numbers per **token** (G-1981), the first layer of a real transformer (Radford et al. 2019).
 
 Figure 1 shows the central idea on real GloVe vectors. Watch the orange arrow "woman − man" being lifted onto "king": its tip lands near "queen", but not on it.
 
@@ -40,7 +40,9 @@ Figure 1 shows the central idea on real GloVe vectors. Watch the orange arrow "w
 
 > **Key point:** Each word is one point in a 100-dimensional space. Words whose vectors make a small angle (high cosine similarity) are used in similar ways.
 
-GloVe gives each word a vector of 100 numbers. We cannot draw 100 dimensions, but we can measure angles. The cosine similarity of two vectors (the [cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md), section 6) is 1 when they point the same way and 0 when they are perpendicular. The 8 words with the highest cosine similarity to "tower" are (Notebook): towers (0.85), building (0.73), dome (0.69), spire (0.68), gate (0.67), skyscraper (0.67), roof (0.66) and walls (0.66).
+GloVe gives each word a vector of 100 numbers. We cannot draw 100 dimensions, but we can measure angles. The **cosine similarity** (G-491) of two vectors (the [cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md), section 6) is 1 when they point the same way and 0 when they are perpendicular. The 8 words with the highest cosine similarity to "tower" are (Notebook): towers (0.85), building (0.73), dome (0.69), spire (0.68), gate (0.67), skyscraper (0.67), roof (0.66) and walls (0.66) (Figure 2).
+
+![The 8 GloVe words closest to "tower" by cosine similarity. All are tall structures or parts of buildings](images/tower_neighbours.png){width=75%}
 
 All of them are tall structures or parts of buildings. Distances say *which* words are alike. They do not yet say *how* two words differ. For that we look at the arrow between them.
 
@@ -50,7 +52,7 @@ All of them are tall structures or parts of buildings. Distances say *which* wor
 
 Subtracting two vectors gives the arrow from one point to the other. Call $g = e_{\text{woman}} - e_{\text{man}}$ the "woman − man" arrow. If the embedding stores gender as a direction, then $e_{\text{aunt}} - e_{\text{uncle}}$, $e_{\text{mother}} - e_{\text{father}}$ and so on should point roughly along $g$.
 
-We test this with the cosine between each pair's arrow and $g$ (Figure 2). As a baseline, the Notebook draws 5,000 random pairs of common words and measures the same cosine for their arrows.
+We test this with the cosine between each pair's arrow and $g$ (Figure 3). As a baseline, the Notebook draws 5,000 random pairs of common words and measures the same cosine for their arrows.
 
 ![Cosine between each pair's arrow (female word − male word) and woman − man. Grey band: 99 percent of random word pairs fall inside it. Left: GloVe. Right: GPT-2 small's embedding table](images/pair_alignment.png){width=100%}
 
@@ -59,17 +61,19 @@ We test this with the cosine between each pair's arrow and $g$ (Figure 2). As a 
 
 The arrows are far from identical: a cosine of 0.6 is an angle of about 53 degrees. But they all lean the same way, much more than chance allows. Somewhere among the 100 directions, one direction tracks "female versus male".
 
-**Why training produces directions.** GloVe was designed for exactly this. Its authors start from co-occurrence counts: how often word $k$ appears near word $i$, giving a probability $P_{ik}$. Their Table 1 shows that a *ratio* of two such probabilities picks out what distinguishes two words: "solid" appears 8.9 times more often near "ice" than near "steam", "gas" about 12 times less often, and "water", related to both, about equally often (ratio 1.36). GloVe trains the vectors so that a word vector dotted with a context vector gives the log of the probability, $w_i \cdot \tilde w_k \approx \log P_{ik}$ (Pennington et al. 2014, §3, eqs. 1–7). Subtracting two such equations gives
+**Why training produces directions.** GloVe was designed for exactly this. Its authors start from co-occurrence counts: how often word $k$ appears near word $i$, giving a **co-occurrence probability** (G-404) $P_{ik}$. Their Table 1 shows that a *ratio* of two such probabilities picks out what distinguishes two words: "solid" appears 8.9 times more often near "ice" than near "steam", "gas" about 12 times less often, and "water", related to both, about equally often (ratio 1.36). GloVe trains the vectors so that a word vector dotted with a context vector gives the log of the probability, $w_i \cdot \tilde w_k \approx \log P_{ik}$ (Pennington et al. 2014, §3, eqs. 1–7). Subtracting two such equations gives
 
 $$(w_i - w_j) \cdot \tilde w_k \approx \log \frac{P_{ik}}{P_{jk}}$$
 
-So the arrow between two words is trained to encode how their contexts differ. "Uncle" and "aunt" differ in their contexts much as "man" and "woman" do (for example, in how often "he" or "she" appears nearby), so their arrows end up pointing in similar directions. GPT-2 learns its table differently, by predicting the next token, yet Figure 2 shows the same structure.
+So the arrow between two words is trained to encode how their contexts differ. "Uncle" and "aunt" differ in their contexts much as "man" and "woman" do (for example, in how often "he" or "she" appears nearby), so their arrows end up pointing in similar directions. GPT-2 learns its table differently, by predicting the next token, yet Figure 3 shows the same structure.
 
 ## 5. Arithmetic with directions
 
 > **Key point:** Adding the woman − man arrow to "uncle", "nephew" or "father" lands closest to "aunt", "niece" and "mother". For "king" the result is a near miss: "king" itself stays the closest word, and "queen" is second.
 
-If $g$ means "more female", then $e_{\text{king}} + g = e_{\text{king}} - e_{\text{man}} + e_{\text{woman}}$ should land near "queen". Pennington et al. (2014, §4.1) answer such an analogy, "a is to b as c is to ?", with the word whose vector has the largest cosine similarity with $w_b - w_a + w_c$. Figure 1 animates this rule on the real GloVe vectors, and the table gives the results (Notebook). "Rank" is the place of the expected word when the three question words are removed from the candidates.
+If $g$ means "more female", then $e_{\text{king}} + g = e_{\text{king}} - e_{\text{man}} + e_{\text{woman}}$ should land near "queen". Pennington et al. (2014, §4.1) answer such an **analogy question** (G-196), "a is to b as c is to ?", with the word whose vector has the largest cosine similarity with $w_b - w_a + w_c$. Figure 1 animates this rule on the real GloVe vectors, and the table gives the results (Notebook). "Rank" is the place of the expected word when the three question words are removed from the candidates. Figure 4 draws the same results.
+
+![Each analogy question in GloVe: the cosine of the result point with the closest word among all candidates (grey) and with the expected word (green when it ranks first once the question words are removed, red with its rank otherwise). A single dot means the expected word is the closest of all](images/analogy_glove.png){width=95%}
 
 | Question | Closest word, all candidates | Closest without the question words | Rank of the expected word | Its cosine |
 |---|---|---|---|---|
@@ -97,15 +101,15 @@ Three things stand out.
 
 > **Key point:** Average the arrows from singular to plural over 10 nouns to get a "plural direction". Its dot product with a word's vector scores how plural the word is: on 12 nouns not used to build it, every plural scores above its singular, in GloVe and in GPT-2.
 
-Section 4 compared two arrows. A direction can also be used as a **probe** for a single word. Take a unit vector $p$ (length 1). By the [dot product and duality Note](../520-dot-product-and-duality/note.md), section 2, the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
+Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a **unit vector** (G-2048) $p$ (length 1). By the [dot product and duality Note](../520-dot-product-and-duality/note.md), section 2, the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
 
-1. **Build the direction:** average the arrows (plural − singular) of 10 pairs, such as cat → cats, dog → dogs, city → cities, then scale the result to length 1. This is $p$, the **plural direction**.
+1. **Build the direction:** average the arrows (plural − singular) of 10 pairs, such as cat → cats, dog → dogs, city → cities, then scale the result to length 1. This is $p$, the **plural direction** (G-1506).
 2. **Score a word:** compute $e_{\text{word}} \cdot p$.
 3. **Test on new words:** 12 other pairs, from apple/apples to teacher/teachers, none of them used in step 1.
 
 ![Left and middle: scores of 12 held-out nouns on the plural direction; red the singular, green the plural. Right: scores of the number words one to ten](images/plural_probe.png){width=100%}
 
-Figure 3 gives the results (Notebook):
+Figure 5 gives the results (Notebook):
 
 | | GloVe | GPT-2 small |
 |---|---|---|
@@ -136,7 +140,9 @@ GPT-2 small turns each token into a 768-number vector by looking it up in a tabl
 | prince − man + woman | prince | princess | 0.706 |
 | brother − man + woman | brother | sister | 0.747 |
 
-Once the three question words are removed, all 9 expected words come first, including "sister", which GloVe ranked sixth. With every word allowed, the starting word itself is the closest in 7 of the 9 questions: the arrow moves the point towards the answer, but in GPT-2's table it usually does not carry it past the starting word.
+Once the three question words are removed, all 9 expected words come first (Figure 6), including "sister", which GloVe ranked sixth. With every word allowed, the starting word itself is the closest in 7 of the 9 questions: the arrow moves the point towards the answer, but in GPT-2's table it usually does not carry it past the starting word.
+
+![The same analogy chart for GPT-2 small's token-embedding table. Every expected word is first once the question words are removed (all green); in 7 of 9 questions the starting word is still the closest of all](images/analogy_gpt2.png){width=95%}
 
 Two links to later Notes:
 

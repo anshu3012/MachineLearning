@@ -16,7 +16,7 @@ tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 
 > **Key point:** The settings that matter most are the regularisation (C and the L1/L2 mix), the solver, max_iter and class_weight. The rest can usually stay at their defaults.
 
-scikit-learn's `LogisticRegression` has about fifteen hyperparameters. This Note covers:
+scikit-learn's `LogisticRegression` has about fifteen **hyperparameters** (G-910): settings chosen before training, not learned from the data. This Note covers:
 
 - what each one does;
 - which ones are worth tuning;
@@ -34,7 +34,7 @@ An interactive app at the end lets you change them and watch the decision bounda
 
 > **Key point:** l1_ratio = 0 is L2 (Ridge), 1 is L1 (Lasso), in between is Elastic Net; C = inf switches the penalty off.
 
-The same three penalties as in the regularised regression Notes are available:
+The same three penalties as in the regularised regression Notes are available, and the mix is set by **l1_ratio** (G-1027), the L1 share of the penalty:
 
 | Wanted | New way (1.8+) | Old way |
 |---|---|---|
@@ -43,7 +43,7 @@ The same three penalties as in the regularised regression Notes are available:
 | Elastic Net | `0 < l1_ratio < 1` | `penalty="elasticnet"` |
 | no penalty | `C=np.inf` | `penalty=None` |
 
-On the breast-cancer data: 569 tumours, each one **observation** (one record, a row of the data table), with 30 **features** (input variables, one column each: measurements of the tumour, standardised). The **target** (the output we predict) is malignant or benign. Scores come from 5-fold cross-validation:
+On the breast-cancer data: 569 tumours, each one **observation** (G-1374) (one record, a row of the data table), with 30 **features** (G-772) (input variables, one column each: measurements of the tumour, standardised). The **target** (G-1949) (the output we predict) is malignant or benign. Scores come from 5-fold **cross-validation** (G-510):
 
 | Setting | CV accuracy | Non-zero coefficients |
 |---|---|---|
@@ -58,7 +58,20 @@ Without a penalty the model overfits slightly (and the solver stops at `max_iter
 
 > **Key point:** C is 1/λ. Smaller C: smaller coefficients and simpler boundaries; too small underfits. Larger C: closer to no penalty.
 
-In the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logistic regression uses its inverse, $C = 1/\lambda$, so the direction is reversed: **a smaller C means stronger regularisation**. The default is `C=1.0`.
+In plain words, **C** (G-337) says how much the model may trust the training data. A large C means "trust the data fully": the coefficients may grow as large as the data asks for. A small C means "do not trust the data much": the coefficients are held close to 0, whatever the data says.
+
+Figure 1 shows this on 300 points with two features, with the default L2 penalty. C falls from 100 to 0.001. Watch the two coefficient bars on the right shrink, and the pale band on the left, where the model is unsure, grow wider.
+
+![C falls from 100 to 0.001 on a two-feature dataset. Left: the decision boundary (black) and the pale band where the predicted probability is between 0.1 and 0.9. Right: the two coefficients. As C falls, the coefficients shrink towards 0, the unsure band widens until it covers nearly all the points, and the boundary turns](images/c_boundary.gif)
+
+1. **C = 100:** the coefficients are $-1.38$ and $-1.25$. The pale band is narrow: the model is sure about most points.
+2. **C = 1 (the default):** almost the same, $-1.32$ and $-0.99$.
+3. **C = 0.01:** the coefficients are down to $-0.49$ and $-0.04$. The model has almost stopped using the second feature, so the boundary has turned nearly vertical, and the pale band covers most of the points.
+4. **C = 0.001:** both coefficients are close to 0 ($-0.09$ and $-0.00$). Every point gets a probability near 0.5.
+
+Formally: in the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logistic regression uses its inverse, $C = 1/\lambda$, so the direction is reversed: **a smaller C means stronger regularisation**. The default is `C=1.0`.
+
+The breast-cancer data shows what C does to the score (Figure 2).
 
 ![Cross-validated accuracy and number of non-zero coefficients against C](images/c_path.png){height=50%}
 
@@ -72,7 +85,7 @@ In the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logist
 | 1 | 0.981 | 1.321 |
 | 100 | 0.963 | 7.696 |
 
-Figure 2 lowers C from 100 to 0.001 and shows all 30 coefficients at each step. Watch the L2 bars (top) shrink together while staying non-zero, and the L1 bars (bottom) vanish one by one into open circles, exact zeros.
+Figure 3 lowers C from 100 to 0.001 and shows all 30 coefficients at each step. Watch the L2 bars (top) shrink together while staying non-zero, and the L1 bars (bottom) vanish one by one into open circles, exact zeros.
 
 ![The 30 coefficients on the breast-cancer data as C falls from 100 to 0.001, for L2 (top) and L1 (bottom); titles give the 5-fold CV accuracy](images/c_sweep.gif){height=60%}
 
@@ -95,7 +108,7 @@ Our own gradient descent (the gradient descent Note) was one way to minimise the
 
 Asking for a combination that is not supported raises an error, for example `LogisticRegression(l1_ratio=1, solver="lbfgs")` fails with "Solver lbfgs supports only 'l2' or None penalties". For L1 use `liblinear` or `saga`; for Elastic Net use `saga`.
 
-Figure 3 runs five solvers on the standardised breast-cancer data with the default L2 penalty, C = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 3, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
+Figure 4 runs five solvers on the standardised breast-cancer data with the default L2 penalty, C = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 4, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
 
 ![Five solvers on the standardised breast-cancer data (L2, C = 1): log loss plus penalty after k iterations. All reach the same minimum, 0.0664](images/solvers.png){height=40%}
 
@@ -114,7 +127,7 @@ Figure 3 runs five solvers on the standardised breast-cancer data with the defau
 
 If scikit-learn prints a **ConvergenceWarning** (G-473), the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the features, raise `max_iter`, or both. Lowering `tol` is rarely needed.
 
-Figure 4 shows why standardising helps, on the breast-cancer data with the default `lbfgs`. The y-axis is the distance from the minimum after k iterations. On standardised features (blue), the distance reaches the floor of the plot after 19 iterations. On the raw features (red), whose standard deviations differ by a factor of about 200,000 between columns, `lbfgs` needs 2,338 iterations. In Figure 4, the red line is still far from the minimum at the dashed line, the default `max_iter = 100`, so the fit stops there with a ConvergenceWarning.
+Figure 5 shows why standardising helps, on the breast-cancer data with the default `lbfgs`. The y-axis is the distance from the minimum after k iterations. On standardised features (blue), the distance reaches the floor of the plot after 19 iterations. On the raw features (red), whose standard deviations differ by a factor of about 200,000 between columns, `lbfgs` needs 2,338 iterations. In Figure 5, the red line is still far from the minimum at the dashed line, the default `max_iter = 100`, so the fit stops there with a ConvergenceWarning.
 
 ![lbfgs on raw (red) and standardised (blue) breast-cancer features: distance from the minimum against iterations allowed. Points at the bottom are within one millionth of the minimum. The dashed line is the default max_iter = 100](images/max_iter.gif)
 
@@ -133,7 +146,7 @@ Figure 4 shows why standardising helps, on the breast-cancer data with the defau
 
 > **Key point:** On real data with 5% positives, "balanced" raised recall from 0.77 to 0.85, at some cost in precision.
 
-On imbalanced data (the accuracy Note), the loss is dominated by the common class, so the model tends to neglect the rare one. `class_weight="balanced"` multiplies each observation's loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
+On imbalanced data (the accuracy Note), the loss is dominated by the common class, so the model tends to neglect the rare one. The **class_weight** (G-391) setting `class_weight="balanced"` multiplies each observation's loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
 
 An everyday picture: if an exam has one rare question type worth the same marks as the rest, a student can skip it and still score well. Give that question type extra marks, and skipping it becomes costly.
 
@@ -146,7 +159,7 @@ To test this on real data, we make the breast-cancer data imbalanced: all 357 be
 
 ![Recall and precision on the malignant class, averaged over 30 draws: "balanced" finds more malignant tumours (recall 0.770 to 0.850) but raises more false alarms (precision 0.989 to 0.872)](images/class_weight.png){height=36%}
 
-In Figure 5, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note). The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations over the number of classes times that class's count (scikit-learn docs).
+In Figure 6, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note). The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations over the number of classes times that class's count (scikit-learn docs).
 
 ## 6. Multi-class settings
 

@@ -52,7 +52,7 @@ The boundary $\pi$ crosses the direction of $w$ at some unknown distance $c$ fro
 
 $$w \cdot u \geq c \quad\Leftrightarrow\quad w \cdot u - c \geq 0 \quad\Leftrightarrow\quad w \cdot u + b \geq 0, \quad \text{with } b = -c$$
 
-So the **decision rule** of SVM is:
+So the **decision rule** (G-558) of SVM is:
 
 $$\hat{y} = \begin{cases} +1 & \text{if } w \cdot u + b \geq 0 \cr-1 & \text{if } w \cdot u + b < 0 \end{cases}$$
 
@@ -121,7 +121,7 @@ The scaling effect is why the $\pm 1$ equations are useful. While an optimiser a
 
 > **Key point:** Green: $w^T x + b \geq 1$. Red: $w^T x + b \leq -1$. Support vectors give exactly ±1.
 
-Each training point $x_i$ is one **observation** (one record, a row of the data table). Its coordinates are its **features** (input variables, one column each), and its class is the **target** (the output we predict).
+Each training point $x_i$ is one **observation** (G-1374; one record, a row of the data table). Its coordinates are its **features** (G-772; input variables, one column each), and its class is the **target** (G-1949; the output we predict).
 
 The margin only means something if no point sits inside it. $\pi^+$ and $\pi^-$ stop at the first point of each class, so no green point can lie below $\pi^+$ and no red point above $\pi^-$. In equations:
 
@@ -139,7 +139,7 @@ Two separate rules are awkward to work with, so we merge them. Give every green 
 - **Green point:** $y_i = +1$ leaves $w^T x_i + b \geq 1$ unchanged.
 - **Red point:** multiplying $w^T x_i + b \leq -1$ by $-1$ flips the sign: $-(w^T x_i + b) \geq 1$.
 
-Both become one **constraint**, for every training point $i = 1, \dots, n$:
+Both become one **constraint** (G-456), for every training point $i = 1, \dots, n$:
 
 $$y_i\thinspace(w^T x_i + b) \geq 1$$
 
@@ -161,7 +161,7 @@ Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Fig
 
 ![The margin is the projection of $x_2 - x_1$ onto the unit vector w/$\lVert w \rVert$](images/distance.png){height=38%}
 
-The **shortest** distance between the two edges is measured perpendicular to them, that is along $w$. So we project $x_2 - x_1$ onto the [unit vector](../48-pca-step-by-step/note.md) in the direction of $w$, which is $w$ divided by its length (its **norm**) $\lVert w \rVert$:
+The **shortest** distance between the two edges is measured perpendicular to them, that is along $w$. So we project $x_2 - x_1$ onto the [unit vector](../48-pca-step-by-step/note.md) in the direction of $w$, which is $w$ divided by its length (its **norm**, here the **L2 norm**, G-1028) $\lVert w \rVert$:
 
 $$d = (x_2 - x_1) \cdot \frac{w}{\lVert w \rVert} = \frac{w^T x_2 - w^T x_1}{\lVert w \rVert}$$
 
@@ -194,7 +194,11 @@ Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin 
 
 $$w^\ast, b^\ast= \underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 
-The problem is a **constrained optimisation** problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
+The problem is a **constrained optimisation** (G-455) problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
+
+Figure 6 shows the search in two dimensions. Every direction of $w$ is one candidate. For each direction, the widest margin that still obeys every constraint is the gap between the lowest green point and the highest red point, measured along $w$. Sweeping the direction from 60 to 120 degrees traces a curve with a single peak: 2.22, at the direction of the SVM's $w$. The optimiser finds this peak without drawing the curve.
+
+![The optimisation as a search over directions of w, on the 16 points of the SVM intuition Note. Left: for one direction, the line in the middle of the widest gap it allows (dashed: $\pi^+$ and $\pi^-$). Right: that widest margin against the angle of w; the maximum, 2.22, is at the direction of the SVM's w.](images/margin_sweep.gif)
 
 > **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM.
 >
@@ -216,11 +220,11 @@ The problem is a **constrained optimisation** problem: we maximise a function wh
 
 Real data is often not perfectly separable (ISL §9.1.5). Usually such data is **almost** linearly separable, with a few points on the wrong side, or not linearly separable at all.
 
-The constraints above allow no exceptions. In Figure 6 one green point lies among the red points: for the old line it gives $y(w^T x + b) = -2.47$, far below 1. No straight line can put that point on the green side without putting red points there too, so **no** $w$ and $b$ satisfy every constraint. The optimisation has no answer at all.
+The constraints above allow no exceptions. In Figure 7 one green point lies among the red points: for the old line it gives $y(w^T x + b) = -2.47$, far below 1. No straight line can put that point on the green side without putting red points there too, so **no** $w$ and $b$ satisfy every constraint. The optimisation has no answer at all.
 
 ![A single green outlier among the red points breaks the constraints of every line](images/outlier.png){height=45%}
 
-The formulation of this Note is called the **hard-margin SVM**: it works only on data that a hyperplane separates perfectly. The next Note relaxes the constraints to allow a few mistakes, which gives the **soft-margin SVM**.
+The formulation of this Note is called the **hard-margin SVM** (G-879): it works only on data that a hyperplane separates perfectly. The next Note relaxes the constraints to allow a few mistakes, which gives the **soft-margin SVM**.
 
 ## 8. Summary
 

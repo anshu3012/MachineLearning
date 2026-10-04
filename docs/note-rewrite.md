@@ -8,3 +8,11 @@ Follow `docs/maths-rewrite.md` in full. Every rule there applies. Only these poi
 - **Fix only what passes the §14 test** from what the map flags ("What the Note lacks", "Contradictions", and the summary at the top of the map file). Each fix needs evidence under NOTE-RULES §3: a source you opened, the Note's own data, or a derivation. If nothing grounds a claim, remove it and report it.
 - **Build the map's animation ideas** for your Notes, unless an existing figure already shows the same thing. Say which in your report.
 - **A Note with no outside video** still gets the full pass: the §11 ladder in every section, the standard terms with glossary IDs (§10), and a visual for every key idea and process.
+
+## Notes that just had the visuals pass (lists in `docs/rewrite-lists/`)
+These Notes were upgraded hours ago by another pass: new figures and animations, glossary IDs, the §11 ladder. Do not redo or undo that work. Your job is only what that pass did not do:
+- compare the Note with its teaching-path block and add the beats, worked examples and visuals that are still missing;
+- do the CampusX comparison (§13), using `transcripts/NNN.whisper-en.txt` when it exists;
+- apply the §14 test to anything the map flags;
+- convert any figure script that still imports matplotlib or seaborn to Plotly, keeping the same data and message.
+If a Note already covers its teaching path, say so and move on. A short report line is the right outcome for such a Note.

@@ -20,7 +20,7 @@ The [self-attention step by step Note](../1073-self-attention-step-by-step/note.
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
-Because of that division, the paper calls its attention **scaled dot-product attention**. Figure 1 shows where the new step sits. This Note answers two questions: what $d_k$ is, and why the scores must be divided by exactly $\sqrt{d_k}$.
+Because of that division, the paper calls its attention **scaled dot-product attention** (G-1745). Figure 1 shows where the new step sits. This Note answers two questions: what $d_k$ is, and why the scores must be divided by exactly $\sqrt{d_k}$.
 
 ![Scaled dot-product attention: the scores $QK^T$ are divided by $\sqrt{d_k}$ before the softmax. Everything else is the self-attention of the previous Note](images/scaled_flow.png){width=60%}
 
@@ -46,13 +46,15 @@ The matrix $QK^T$ holds one dot product for every pair of a query and a key: for
    - Unscaled: $\text{softmax}(4, 6, 2) = (0.117,\ 0.867,\ 0.016)$.
    - Scaled: dividing by $\sqrt{3} = 1.732$ gives $(2.31,\ 3.46,\ 1.15)$, and the softmax gives $(0.223,\ 0.707,\ 0.070)$.
 
-The scaled weights are less extreme: "bank" still attends most to itself, but "money" now gets 22% of the weight instead of 12%. The rest of this Note shows why that matters more and more as $d_k$ grows.
+![The worked example. Red: the softmax of the raw scores 4, 6, 2. Blue: the softmax after dividing by $\sqrt{3}$. The scaled weights are less extreme](images/example_weights.png){width=90%}
+
+The scaled weights are less extreme (Figure 2): "bank" still attends most to itself, but "money" now gets 22% of the weight instead of 12%. The rest of this Note shows why that matters more and more as $d_k$ grows.
 
 ## 4. Longer vectors give more spread-out dot products
 
-> **Key point:** The variance of a dot product grows in proportion to the length of the vectors. Dot products of 1,000-number vectors have about 350 times the variance of those of 3-number vectors.
+> **Key point:** The **variance** (G-2078) of a dot product grows in proportion to the length of the vectors. Dot products of 1,000-number vectors have about 350 times the variance of those of 3-number vectors.
 
-Each score in $QK^T$ is a dot product of two vectors. Take 1,000 pairs of random vectors, every number drawn independently with mean 0 and variance 1, and compute the 1,000 dot products. Then repeat with longer vectors (Notebook):
+Each score in $QK^T$, an **attention score** (G-223), is a dot product of two vectors. Take 1,000 pairs of random vectors, every number drawn independently with mean 0 and variance 1, and compute the 1,000 dot products. Then repeat with longer vectors (Notebook):
 
 | Length $d$ | Range of the 1,000 dot products | Variance |
 |---|---|---|
@@ -62,7 +64,7 @@ Each score in $QK^T$ is a dot product of two vectors. Take 1,000 pairs of random
 
 ![Histograms of 1,000 dot products each, one row per vector length $d$ (each row has its own count scale). Left: the spread grows with $d$. Right: after dividing by $\sqrt{d}$, the three histograms have the same spread](images/dot_spread.png){width=100% height=50%}
 
-The variance is close to $d$ every time (Figure 2, left). The reason is simple: a dot product of length $d$ is a sum of $d$ products, $q \cdot k = q_1k_1 + q_2k_2 + \dots + q_dk_d$, and every extra term adds its own variation. A sum of 3 random terms stays small; a sum of 1,000 random terms can wander far from 0.
+The variance is close to $d$ every time (Figure 3, left). The reason is simple: a dot product of length $d$ is a sum of $d$ products, $q \cdot k = q_1k_1 + q_2k_2 + \dots + q_dk_d$, and every extra term adds its own variation. A sum of 3 random terms stays small; a sum of 1,000 random terms can wander far from 0.
 
 ### 4.1 The variance grows exactly like $d$
 
@@ -72,7 +74,7 @@ The variance is close to $d$ every time (Figure 2, left). The reason is simple: 
 2. **Formula:** with $E[q_i] = E[k_i] = 0$ and $\text{Var}(q_i) = \text{Var}(k_i) = 1$, all independent,
    $$\text{Var}(q_ik_i) = E[q_i^2k_i^2] - \left(E[q_ik_i]\right)^2 = E[q_i^2]\thinspace E[k_i^2] - 0 = 1 \cdot 1 = 1$$
    $$\text{Var}(q \cdot k) = \sum_{i=1}^{d_k}\text{Var}(q_ik_i) = d_k$$
-3. **Example:** for $d = 1$, 2 and 3, the variance is 1, 2 and 3: a vector one number longer adds one more unit of variance. The Notebook measures 0.99, 1.96, 4.00, 7.99, ... and 1,048 for $d = 1, 2, 4, 8, \dots, 1{,}024$, with 20,000 pairs each (Figure 3, left).
+3. **Example:** for $d = 1$, 2 and 3, the variance is 1, 2 and 3: a vector one number longer adds one more unit of variance. The Notebook measures 0.99, 1.96, 4.00, 7.99, ... and 1,048 for $d = 1, 2, 4, 8, \dots, 1{,}024$, with 20,000 pairs each (Figure 4, left).
 
 ### 4.2 Why high-dimensional vectors are used anyway
 
@@ -84,17 +86,17 @@ One way to avoid the problem would be short embeddings. But a vector of a few nu
 
 > **Key point:** When the scores spread widely, the softmax puts nearly all the weight on the largest score. Its gradient then becomes almost 0 for every score, and the attention weights hardly learn.
 
-The softmax exponentiates its inputs, so it reacts to differences between scores. Close scores give comparable weights; scores far apart push one weight towards 1 and the others towards 0. A softmax pushed to these extremes is said to be **saturated**. In the example of section 3, the scores $(4, 6, 2)$ already gave "bank" 87% of the weight; with scores ten times larger, $(40, 60, 20)$, it would get more than 99.9999%. Goodfellow et al. (2016, section 6.2.2.3) describe exactly this: the softmax saturates "when the differences between input values become extreme".
+The softmax exponentiates its inputs, so it reacts to differences between scores. Close scores give comparable weights; scores far apart push one weight towards 1 and the others towards 0. A softmax pushed to these extremes is said to be **saturated** (G-1740). In the example of section 3, the scores $(4, 6, 2)$ already gave "bank" 87% of the weight; with scores ten times larger, $(40, 60, 20)$, it would get more than 99.9999%. Goodfellow et al. (2016, section 6.2.2.3) describe exactly this: the softmax saturates "when the differences between input values become extreme".
 
-A saturated softmax harms training. Gradient descent changes the attention weights through the gradient of the softmax. For weights $\alpha_i = e^{s_i} / \sum_m e^{s_m}$, the quotient rule gives
+A saturated softmax harms training. Gradient descent changes the attention weights through the gradient of the softmax, the **softmax gradient** (G-1831). For weights $\alpha_i = e^{s_i} / \sum_m e^{s_m}$, the quotient rule gives
 
 $$\frac{\partial \alpha_i}{\partial s_i} = \frac{e^{s_i}\sum_m e^{s_m} - e^{s_i}e^{s_i}}{\left(\sum_m e^{s_m}\right)^2} = \alpha_i(1 - \alpha_i), \qquad \frac{\partial \alpha_i}{\partial s_j} = \frac{-e^{s_i}e^{s_j}}{\left(\sum_m e^{s_m}\right)^2} = -\alpha_i\alpha_j \quad (j \neq i)$$
 
-If one weight is close to 1 and the rest close to 0, every entry is close to 0: for the big weight $\alpha_i(1 - \alpha_i) \approx 1 \times 0$, for the small ones $\alpha_i \approx 0$. Little gradient flows back to the scores, and so to $W_Q$ and $W_K$: the same vanishing-gradient problem as in deep networks. Vaswani et al. (2017, section 3.2.1) give this as their reason for scaling: for large $d_k$ the dot products "grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients".
+If one weight is close to 1 and the rest close to 0, every entry is close to 0: for the big weight $\alpha_i(1 - \alpha_i) \approx 1 \times 0$, for the small ones $\alpha_i \approx 0$. Little gradient flows back to the scores, and so to $W_Q$ and $W_K$: the same **vanishing gradient** (G-2070) problem as in deep networks. Vaswani et al. (2017, section 3.2.1) give this as their reason for scaling: for large $d_k$ the dot products "grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients".
 
 An analogy: a teacher asks a class to raise hands with their questions. If a few children are much taller than the rest, only their hands are seen, and only their questions get answered; the others never take part in the lesson. If all the children are about the same height, the teacher sees every hand. Scaling makes all the scores "about the same height", so every word takes part in training.
 
-The Notebook measures the saturation directly: one random query against 10 random keys, 2,000 times for each length $d$. For each softmax it records the largest weight and the size of the gradient matrix above (Figure 3, middle and right).
+The Notebook measures the saturation directly: one random query against 10 random keys, 2,000 times for each length $d$. For each softmax it records the largest weight and the size of the gradient matrix above (Figure 4, middle and right).
 
 ![Left: the variance of the scores grows like $d$ without scaling and stays at 1 with it (log scales). Middle: the mean largest weight of a 10-word softmax. Right: the mean size of the softmax gradient. Without scaling, the softmax saturates as $d$ grows and its gradient shrinks; with scaling, both stay flat](images/saturation.png){width=100%}
 
@@ -109,9 +111,9 @@ Without scaling, at $d = 1{,}024$ one word takes 97% of the weight on average, a
 
 ![One random query against 10 random keys, using the first $d$ numbers of each, for $d$ from 1 to 1,024. Left: the softmax of the raw dot products collapses onto one key. Right: divided by $\sqrt{d}$, the weights stay spread out. Under each panel, the Notebook's averages over 2,000 draws](images/saturation_anim.gif){height=50%}
 
-Figure 4 shows the same thing happening to one softmax as $d$ grows. Watch the left panel: as the vectors get longer, one bar grows towards 1 and the others shrink to 0. The right panel, with the same query and keys, barely changes.
+Figure 5 shows the same thing happening to one softmax as $d$ grows. Watch the left panel: as the vectors get longer, one bar grows towards 1 and the others shrink to 0. The right panel, with the same query and keys, barely changes.
 
-The same effect shows on a real sentence. Figure 5 takes the first 10 words of the first IMDB training review, with random 512-number embeddings and random $W_Q$, $W_K$, as at the very start of training. Without scaling, 6 of the 10 rows put more than 99% of their weight on a single word. With scaling, no row does, and every word receives some attention.
+The same effect shows on a real sentence. Figure 6 takes the first 10 words of the first IMDB training review, with random 512-number embeddings and random $W_Q$, $W_K$, as at the very start of training. Without scaling, 6 of the 10 rows put more than 99% of their weight on a single word. With scaling, no row does, and every word receives some attention.
 
 ![Attention weights for "this film was just brilliant casting location scenery story direction", $d_k = 512$, untrained random weights. Left: without scaling, most rows are a single 1. Right: divided by $\sqrt{512}$, the weights are spread out](images/heatmaps.png){width=100%}
 
@@ -126,13 +128,15 @@ To lower the variance of a set of numbers, we divide all of them by the same num
    $$\text{Var}(cX) = E\big[(cX - c\mu)^2\big] = c^2\thinspace E\big[(X - \mu)^2\big] = c^2\thinspace\text{Var}(X)$$
 3. **Example:** the numbers $10, 20, 30, 40, 50, 60, 70$ have mean 40 and variance
    $$\frac{30^2 + 20^2 + 10^2 + 0 + 10^2 + 20^2 + 30^2}{7} = \frac{2800}{7} = 400$$
-   Divided by 10 they become $1, 2, \dots, 7$, with variance $400 / 10^2 = 4$.
+   Divided by 10 they become $1, 2, \dots, 7$, with variance $400 / 10^2 = 4$ (Figure 7).
+
+   ![The worked example: every value divided by 10. The spread around the mean shrinks 10 times, so the variance shrinks $10^2 = 100$ times](images/variance_scale.png){width=90%}
 
 Which $c$ do we need? The scores have variance $d_k$ (section 4.1), and we want variance 1, the same for every length:
 
 $$\text{Var}\negthinspace\left(\frac{q \cdot k}{\sqrt{d_k}}\right) = \frac{1}{(\sqrt{d_k})^2}\thinspace\text{Var}(q \cdot k) = \frac{d_k}{d_k} = 1$$
 
-So $c = 1/\sqrt{d_k}$. For $d_k = 2$ we divide by $\sqrt{2}$, for $d_k = 3$ by $\sqrt{3}$, for $d_k = 64$ by 8. The Notebook confirms it: after scaling, the variance is 0.99, 0.98, 1.00, ..., 1.02 for $d = 1$ to $1{,}024$ (Figure 3, left), and the three histograms of Figure 2 (right) lie on top of each other.
+So the **scaling factor** (G-1747) is $c = 1/\sqrt{d_k}$. For $d_k = 2$ we divide by $\sqrt{2}$, for $d_k = 3$ by $\sqrt{3}$, for $d_k = 64$ by 8. The Notebook confirms it: after scaling, the variance is 0.99, 0.98, 1.00, ..., 1.02 for $d = 1$ to $1{,}024$ (Figure 4, left), and the three histograms of Figure 3 (right) lie on top of each other.
 
 > **Extra:** The derivation assumes independent numbers with mean 0 and variance 1. Trained queries and keys do not follow that exactly; the factor $1/\sqrt{d_k}$ is a choice that keeps the scores at a sensible size, made in the paper "to counteract this effect" (Vaswani et al. 2017, section 3.2.1). Jurafsky and Martin (SLP3 draft, ch. 7, eq. 7.11) give the same reason: exponentiating large values "can lead to numerical issues and loss of gradients during training".
 
@@ -142,7 +146,7 @@ So $c = 1/\sqrt{d_k}$. For $d_k = 2$ we divide by $\sqrt{2}$, for $d_k = 3$ by $
 
 > **Key point:** $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$ computed by hand in NumPy gives exactly the weights and outputs of Keras' `MultiHeadAttention` layer with one head.
 
-Keras implements scaled dot-product attention inside `keras.layers.MultiHeadAttention`. With `num_heads=1` it is a single attention: its weights are $W_Q$, $W_K$, $W_V$ and one extra output matrix that [multi-head attention](../1077-multi-head-attention/note.md) needs. Setting the output matrix to the identity makes the layer compute exactly the formula of this Note.
+Keras implements scaled dot-product attention inside `keras.layers.MultiHeadAttention` (G-121). With `num_heads=1` it is a single attention: its weights are $W_Q$, $W_K$, $W_V$ and one extra output matrix that [multi-head attention](../1077-multi-head-attention/note.md) needs. Setting the output matrix to the identity makes the layer compute exactly the formula of this Note.
 
 > **Python:** Scaled dot-product attention by hand, checked against Keras ("money bank grows", 8 numbers per word).
 >
@@ -163,7 +167,11 @@ The attention weights by hand (rows: "money", "bank", "grows" as queries) are
 
 $$A = \begin{pmatrix} 0.015 & 0.670 & 0.316 \cr0.159 & 0.575 & 0.267 \cr0.250 & 0.116 & 0.634 \end{pmatrix}$$
 
-and Keras returns the same matrix. The outputs agree too: the largest difference over the $3 \times 8$ numbers is $2 \times 10^{-7}$, the rounding error of 32-bit numbers (Notebook). The weights here are random, untrained values, so the pattern itself has no meaning yet; training would set $W_Q$, $W_K$ and $W_V$.
+and Keras returns the same matrix (Figure 8).
+
+![The attention weights of "money bank grows" from the hand computation; Keras' `MultiHeadAttention` with one head returns the same numbers. Each row sums to 1](images/keras_check.png){width=55%}
+
+The outputs agree too: the largest difference over the $3 \times 8$ numbers is $2 \times 10^{-7}$, the rounding error of 32-bit numbers (Notebook). The weights here are random, untrained values, so the pattern itself has no meaning yet; training would set $W_Q$, $W_K$ and $W_V$.
 
 ## 8. Summary
 

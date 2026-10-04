@@ -44,8 +44,8 @@ The network (Figure 1) has:
 
 1. **Input:** a 6 × 6 greyscale image $X$.
 2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 **feature map** (G-766) ($6 - 3 + 1 = 4$).
-3. **ReLU:** negatives become 0; the shape stays 4 × 4.
-4. **Max pooling:** 2 × 2 window, stride 2, giving 2 × 2.
+3. **ReLU** (G-1668): negatives become 0; the shape stays 4 × 4.
+4. **Max pooling** (G-1182): 2 × 2 window, stride 2, giving 2 × 2.
 5. **Flatten:** 4 numbers.
 6. **Output:** a single node with sigmoid, giving the prediction $\hat{y}$, a number between 0 and 1.
 
@@ -180,7 +180,7 @@ Figure 5 plays the forward equations of section 4 on this image, then this secti
 
 A derivative is used to update its parameter, so it must have the same shape. $W_2$ is 1 × 4. The error $a_2 - y$ is 1 × 1 and $F$ is 4 × 1, so we use its transpose $F^{\mathsf T}$, 1 × 4:
 
-$$\underbrace{(a_2 - y)}_{1 \times 1}\thickspace\underbrace{F^{\mathsf T}}_{1 \times 4} = \underbrace{\frac{\partial L}{\partial W_2}}_{1 \times 4}$$
+$$\underset{1 \times 1}{\underbrace{(a_2 - y)}}\thickspace\underset{1 \times 4}{\underbrace{F^{\mathsf T}}} = \underset{1 \times 4}{\underbrace{\frac{\partial L}{\partial W_2}}}$$
 
 ## 7. A batch of images
 

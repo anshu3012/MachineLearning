@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+% Section 6: the world database's three tables (row counts from data/world.db) and how they link: city.CountryCode
+% and countrylanguage.CountryCode both point to country.Code.
+\begin{tikzpicture}[tbl/.style={draw=#1, fill=#1!8, rounded corners=3pt, align=left, inner sep=5pt, font=\ttfamily\small, text width=4.1cm},
+  hd/.style={font=\sffamily\bfseries}]
+  \node[tbl=cblue] (city) at (0, 0) {\textsf{\textbf{city}} \textsf{(4,079 rows)}\\[2pt]ID\\Name\\\textcolor{cred}{CountryCode}\\District\\Population};
+  \node[tbl=cgreen] (country) at (6.8, 0) {\textsf{\textbf{country}} \textsf{(239 rows)}\\[2pt]\textcolor{cred}{Code}\\Name\\Continent\\Region\\SurfaceArea\\IndepYear, \dots};
+  \node[tbl=corange] (lang) at (13.6, 0) {\textsf{\textbf{countrylanguage}} \textsf{(984 rows)}\\[2pt]\textcolor{cred}{CountryCode}\\Language\\IsOfficial\\Percentage};
+  \draw[arrow, draw=cgrey] ([yshift=0.1cm]city.east) -- ([yshift=0.1cm]country.west) node[midway, above, note] {CountryCode};
+  \draw[arrow, draw=cgrey] ([yshift=0.1cm]lang.west) -- ([yshift=0.1cm]country.east) node[midway, above, note] {CountryCode};
+  \node[note] at (6.8, -2.4) {each city and each language row names its country by the country's \texttt{Code}};
+\end{tikzpicture}
+\end{document}

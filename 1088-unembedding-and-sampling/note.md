@@ -13,7 +13,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/evaluate, c
 
 ## 1. Overview
 
-> **Key point:** After the last block, GPT turns the final vector into one score per vocabulary token by taking its dot product with every token's embedding row. This step is the **unembedding**, and the scores are the **logits**. A softmax with a **temperature** $T$ turns the logits into probabilities: low $T$ sharpens them towards the top token, high $T$ flattens them towards uniform. Generation then **samples** a token from these probabilities. Reading the same scores after every block, the **logit lens**, shows the model's guess forming layer by layer.
+> **Key point:** After the last block, GPT turns the final vector into one score per vocabulary token by taking its dot product with every token's embedding row. This step is the **unembedding** (G-2040), and the scores are the **logits** (G-1122). A softmax with a **temperature** (G-1956) $T$ turns the logits into probabilities: low $T$ sharpens them towards the top token, high $T$ flattens them towards uniform. Generation then **samples** (G-1739) a token from these probabilities. Reading the same scores after every block, the **logit lens** (G-1121), shows the model's guess forming layer by layer.
 
 The [GPT Note](../1087-decoder-only-gpt/note.md) followed one pass of GPT-2 small up to its last step: "multiply by $W_E^T$, then softmax". This Note opens that last step. It asks three questions:
 
@@ -47,7 +47,7 @@ Figure 1 shows the temperature on GPT-2 small's real logits after "Once upon a t
    $$z_k = h \cdot w_k, \qquad z = W_E\thinspace h \quad (50{,}257 \text{ numbers})$$
 3. **Example:** after "Steve Jobs was the founder of", the largest logits are " Apple" $-75.4$, " Microsoft" $-77.4$, " the" $-78.5$, " IBM" $-78.9$ (Notebook).
 
-GPT-2 has no separate output matrix: the same $W_E$ that turned tokens into vectors at the input turns the last vector back into token scores (the [GPT Note](../1087-decoder-only-gpt/note.md), §7.1). Sanderson (2024, Ch 5) calls the output matrix the **unembedding matrix** $W_U$; in GPT-2, $W_U$ is $W_E$ itself. The raw outputs $z_k$ are the **logits** (Sanderson 2024, Ch 5; the [transformer decoder Note](../1083-transformer-decoder/note.md), §8).
+GPT-2 has no separate output matrix: the same $W_E$ that turned tokens into vectors at the input turns the last vector back into token scores (the [GPT Note](../1087-decoder-only-gpt/note.md), §7.1). Sanderson (2024, Ch 5) calls the output matrix the **unembedding matrix** (G-2039) $W_U$; in GPT-2, $W_U$ is $W_E$ itself. The raw outputs $z_k$ are the **logits** (Sanderson 2024, Ch 5; the [transformer decoder Note](../1083-transformer-decoder/note.md), §8).
 
 ### 3.2 Logits measure alignment, once the shared direction is removed
 
@@ -75,7 +75,9 @@ Without removing the mean row, the raw cosine misleads: its correlation with the
 
 > **Key point:** In generation, only the last position's logits are used. The last vector must therefore carry everything in the text that matters for the next token.
 
-One pass gives logits at every position, and training uses all of them (the [GPT Note](../1087-decoder-only-gpt/note.md), §7.2). When generating, though, the model needs only what comes after the last token, so it unembeds only the last vector (the [transformer inference Note](../1084-transformer-inference/note.md), §6). Sanderson (2024, Ch 6) gives a vivid case: a long mystery novel that ends "… therefore the murderer was". The last vector, the one for "was", must by then hold whatever in the whole story points to the murderer. Attention is how earlier tokens get their information into it.
+One pass gives logits at every position, and training uses all of them (the [GPT Note](../1087-decoder-only-gpt/note.md), §7.2). When generating, though, the model needs only what comes after the last token, so it unembeds only the last vector (the [transformer inference Note](../1084-transformer-inference/note.md), §6). Sanderson (2024, Ch 6) gives a vivid case: a long mystery novel that ends "… therefore the murderer was". The last vector, the one for "was", must by then hold whatever in the whole story points to the murderer. Attention is how earlier tokens get their information into it (Figure 3).
+
+![One pass of GPT-2 small gives a final vector at every position. Generation multiplies only the last one, $h_6$, by $W_E^{\mathsf T}$; the other five are computed but not used for the next token](images/last_vector.png){width=95%}
 
 ## 5. Softmax with a temperature
 
@@ -87,7 +89,9 @@ One pass gives logits at every position, and training uses all of them (the [GPT
 2. **Formula** (Holtzman et al. 2020, §3.3, eq. 4):
    $$p_k = \frac{e^{z_k / T}}{\sum_{j=1}^{V} e^{z_j / T}}$$
    $T = 1$ gives the model's own probabilities.
-3. **Example:** two logits $z = (2, 1)$. At $T = 1$: $e^2 = 7.39$, $e^1 = 2.72$, so $p = (0.73, 0.27)$. At $T = 0.5$ the logits become $(4, 2)$: $p = (0.88, 0.12)$. At $T = 2$ they become $(1, 0.5)$: $p = (0.62, 0.38)$.
+3. **Example:** two logits $z = (2, 1)$. At $T = 1$: $e^2 = 7.39$, $e^1 = 2.72$, so $p = (0.73, 0.27)$. At $T = 0.5$ the logits become $(4, 2)$: $p = (0.88, 0.12)$. At $T = 2$ they become $(1, 0.5)$: $p = (0.62, 0.38)$ (Figure 4).
+
+   ![The two-logit example at three temperatures. Dividing by $T = 0.5$ doubles the gap between the logits and sharpens the probabilities; dividing by $T = 2$ halves it and flattens them](images/two_logits.png){width=90%}
 
 ### 5.2 The two limits
 
@@ -106,7 +110,7 @@ On GPT-2 small's real logits the Notebook confirms both limits: at $T = 0.01$ th
 
 > **Key point:** On "Once upon a time there was a", GPT-2 small at $T = 1$ is as spread out as a fair pick among about 2,000 tokens. At $T = 0.3$ it is like a pick among 2.5; at $T = 2$, among 17,000.
 
-A handy measure of spread is the **entropy** $H = -\sum_k p_k \log_2 p_k$, in bits. A fair pick among $n$ tokens has entropy $\log_2 n$, so $2^H$ reads as "as spread out as a fair pick among $2^H$ tokens". The uniform distribution over 50,257 tokens has 15.6 bits. The Notebook measures the distribution after "Once upon a time there was a":
+A handy measure of spread is the **entropy** (G-691) $H = -\sum_k p_k \log_2 p_k$, in bits. A fair pick among $n$ tokens has entropy $\log_2 n$, so $2^H$ reads as "as spread out as a fair pick among $2^H$ tokens". The uniform distribution over 50,257 tokens has 15.6 bits. The Notebook measures the distribution after "Once upon a time there was a":
 
 | $T$ | Top token " great" | Mass outside the top 10 | Entropy (bits) | Like a fair pick among |
 |---|---|---|---|---|
@@ -149,11 +153,15 @@ The Notebook draws 10 continuations of 12 tokens at each temperature (seeds 0 to
 | 1.0 | "tradition of the Ciphoner making copies of Bodhisatt" | $-5.19$ |
 | 1.5 | "mutation that was an Xavier Upload Adventure Package 34997446)" | $-8.42$ |
 
-The last column is the average, over the 12 tokens and the 10 samples, of the log of the probability the model (at $T = 1$) gave each chosen token. It falls steadily: at higher $T$ the sampler picks tokens the model itself finds unlikely. At $T = 1.5$ a chosen token has, on average, a probability of about $e^{-8.42} \approx 0.0002$. Holtzman et al. (2020, §3.3) summarise the trade-off: "while lowering the temperature improves generation quality, it comes at the cost of decreasing diversity".
+The last column is the average, over the 12 tokens and the 10 samples, of the log of the probability the model (at $T = 1$) gave each chosen token. It falls steadily (Figure 5): at higher $T$ the sampler picks tokens the model itself finds unlikely.
+
+![All 50 samples of the table: the mean log-probability of each sample's 12 chosen tokens (grey dots) and the mean over the 10 samples at each temperature (blue). The spread between samples grows with $T$ too](images/sample_logprob.png){width=90%}
+
+At $T = 1.5$ a chosen token has, on average, a probability of about $e^{-8.42} \approx 0.0002$. Holtzman et al. (2020, §3.3) summarise the trade-off: "while lowering the temperature improves generation quality, it comes at the cost of decreasing diversity".
 
 Sampling is why a chatbot can give a different answer each time to the same prompt, even though the model itself is deterministic (Sanderson 2024, *Large Language Models explained briefly*).
 
-> **Extra:** Two other common rules cut off the unlikely tail before sampling. **Top $k$** keeps only the $k$ most likely tokens; **nucleus (top $p$)** sampling keeps the smallest set of tokens whose probabilities add up to at least $p$ (Holtzman et al. 2020, §3.1–3.2). Nucleus sampling adapts to the context. In GPT-2 small, 90 percent of the probability after "Steve Jobs was the founder of" sits in 15 tokens; after "Once upon a time there was a" it needs 4,122 (Notebook). A fixed $k$ cannot fit both.
+> **Extra:** Two other common rules cut off the unlikely tail before sampling. **Top $k$** (G-1985) keeps only the $k$ most likely tokens; **nucleus (top $p$)** sampling (G-1360) keeps the smallest set of tokens whose probabilities add up to at least $p$ (Holtzman et al. 2020, §3.1–3.2). Nucleus sampling adapts to the context. In GPT-2 small, 90 percent of the probability after "Steve Jobs was the founder of" sits in 15 tokens; after "Once upon a time there was a" it needs 4,122 (Notebook). A fixed $k$ cannot fit both.
 
 ## 7. The logit lens: watching the guess form
 
@@ -171,7 +179,7 @@ The unembedding is a fixed linear map applied to the last stream vector. Nothing
 
 ![Logit lens on GPT-2 small, "Steve Jobs was the founder of": the 8 most likely next tokens read from the last token's stream after each block. Orange: " Apple"](images/logit_lens.gif)
 
-Watch Figure 3 for the moment the guesses change kind. Before block 1 the stream is the token-plus-position vector, and its "guesses" are word fragments with no relation to the question. From block 1 to block 8 the top guess is " the": a safe, grammatical continuation of "founder of". After block 9, company names arrive together: " Apple" 0.15, " Microsoft" 0.12, " Silicon", " IBM". After block 10 " Microsoft" leads (0.53, " Apple" second at 0.29). After block 11 " Apple" has 0.92, and the final output gives it 0.69 (Notebook).
+Watch Figure 6 for the moment the guesses change kind. Before block 1 the stream is the token-plus-position vector, and its "guesses" are word fragments with no relation to the question. From block 1 to block 8 the top guess is " the": a safe, grammatical continuation of "founder of". After block 9, company names arrive together: " Apple" 0.15, " Microsoft" 0.12, " Silicon", " IBM". After block 10 " Microsoft" leads (0.53, " Apple" second at 0.29). After block 11 " Apple" has 0.92, and the final output gives it 0.69 (Notebook).
 
 | Read after | Rank of " Apple" | Its probability | Top guess |
 |---|---|---|---|
@@ -189,7 +197,7 @@ Watch Figure 3 for the moment the guesses change kind. Before block 1 the stream
 
 ![Logit lens grid (after nostalgebraist 2020): the top guess at every position (columns) after every block (rows). Shade: its probability. Orange outline: the guess already equals the final one](images/lens_grid.png){width=88%}
 
-Figure 4 reads each column from top to bottom:
+Figure 7 reads each column from top to bottom:
 
 - In the **first row**, three positions "guess" their own input token (" Jobs" after " Jobs", " founder" after " founder"). Before any block runs, the stream is the token's embedding row plus a position vector, and a row has a large dot product with itself.
 - After **" founder"**, the guess becomes " of" at block 5, and stays.

@@ -15,7 +15,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 ## 1. Overview
 
-> **Key point:** Stacking trains several different models, turns their predictions into the input columns of a new dataset, and trains one more model, the meta-model, on it. To keep the meta-model honest, it must learn from predictions on observations (records) the base models never saw: a hold-out set (blending) or K-fold out-of-fold predictions (stacking).
+> **Key point:** **Stacking** (G-1866) trains several different models, turns their predictions into the input columns of a new dataset, and trains one more model, the meta-model, on it. To keep the meta-model honest, it must learn from predictions on observations (records) the base models never saw: a hold-out set (blending) or K-fold out-of-fold predictions (stacking).
 
 ![Stacking: three base models predict, their predictions form a new row, and the meta-model turns that row into the final prediction](images/architecture.png){height=30%}
 
@@ -30,9 +30,9 @@ Stacking was previewed in the [ensemble learning Note](../101-ensemble-learning/
 
 > **Key point:** Voting combines the base models with a fixed rule (majority or mean); stacking replaces the rule with a model that learns how to combine them.
 
-In a voting ensemble ([voting ensemble Note](../102-voting-ensemble/note.md), [voting regressor Note](../104-voting-regressor/note.md)) we train different algorithms on the same data and combine their outputs by a fixed rule. For a regression problem, three models predicting 3.5, 4.1 and 2.7 lakh rupees for one student give their mean, 3.43.
+In a **voting ensemble** (G-2096; [voting ensemble Note](../102-voting-ensemble/note.md), [voting regressor Note](../104-voting-regressor/note.md)) we train different algorithms on the same data and combine their outputs by a fixed rule. For a regression problem, three models predicting 3.5, 4.1 and 2.7 lakh rupees for one student give their mean, 3.43.
 
-Stacking keeps the first half. Instead of averaging, it treats the three outputs as **inputs** for one more machine learning model, the **meta-model** (defined in the ensemble learning Note). The meta-model learns from data how much to believe each base model, and in what combination.
+Stacking keeps the first half. Instead of averaging, it treats the three outputs as **inputs** for one more machine learning model, the **meta-model** (G-1213; defined in the ensemble learning Note). The meta-model learns from data how much to believe each base model, and in what combination.
 
 ### 2.1 One training row for the meta-model
 
@@ -40,9 +40,11 @@ Stacking keeps the first half. Instead of averaging, it treats the three outputs
 
 Take one student from the training data: CGPA 7, IQ 75, package 3.5 lakh per annum. The three trained base models predict 3.7, 4.1 and 2.5 for this student.
 
-Each student is one **observation** (one record, a row of the data table). CGPA and IQ are **features** (input variables, the columns), and the package is the **target** (the output we predict).
+Each student is one **observation** (G-1374; one record, a row of the data table). CGPA and IQ are **features** (G-772; input variables, the columns), and the package is the **target** (G-1949; the output we predict).
 
-For the meta-model this student becomes a new row: three input columns holding 3.7, 4.1 and 2.5, and the same target, 3.5. Every student gives one such row. The CGPA and IQ themselves are not passed on (section 8 shows the option that does pass them).
+For the meta-model this student becomes a new row (Figure 2): three input columns holding 3.7, 4.1 and 2.5, and the same target, 3.5. Every student gives one such row. The CGPA and IQ themselves are not passed on (section 9 shows the option that does pass them).
+
+![One student becomes one training row for the meta-model. The features go into the three base models; their predictions 3.7, 4.1 and 2.5 are the new row's inputs, and the target 3.5 stays the same](images/meta_row.png){width=100%}
 
 ## 3. The basic recipe in three steps
 
@@ -77,11 +79,13 @@ In the basic recipe, the base models are trained on the 1,000 students and then 
 
 The meta-model sees that column and decides the tree is almost always right. On new students the tree is much worse, but the meta-model still trusts it. The overfitting of one base model is passed up to the meta-model, and the whole stack fails.
 
-The Notebook (section 7) measures this on the heart data. On their own training observations, the random forest and gradient boosting are off by only 0.09 and 0.07 on average (the gap between predicted probability and true class); on observations they did not see, by 0.30 and 0.25. The meta-model trained on the in-sample predictions gives those two models weights of 3.5 and 3.8, and KNN only 1.0.
+The Notebook (section 7) measures this on the heart data. On their own training observations, the random forest and gradient boosting are off by only 0.09 and 0.07 on average (the gap between predicted probability and true class); on observations they did not see, by 0.30 and 0.25. The meta-model trained on the in-sample predictions gives those two models weights of 3.5 and 3.8, and KNN only 1.0 (Figure 3).
+
+![The leak in numbers on the heart data. Left: the random forest and gradient boosting look three times better on their own training patients than on unseen ones. Right: the meta-model trained on those in-sample predictions trusts them most](images/leak_numbers.png){width=100%}
 
 There are two ways out. Both make sure the meta-model only learns from predictions on observations the base models did not train on:
 
-- **blending**: a hold-out set;
+- **blending** (G-314): a **hold-out set** (G-901);
 - **stacking** in the strict sense: K-fold cross-validation.
 
 Many people call both of them stacking.
@@ -92,13 +96,13 @@ Many people call both of them stacking.
 
 ![Blending: 1,000 observations split into 800 for training and 200 for testing; the 800 are split again into 640 for the base models and 160 for the meta-model](images/blending.png){height=34%}
 
-**Blending** builds the meta-model's dataset from a **hold-out set**: observations set aside before the base models are trained. With 1,000 students and the same architecture as section 3 (Figure 2):
+**Blending** builds the meta-model's dataset from a **hold-out set**: observations set aside before the base models are trained. With 1,000 students and the same architecture as section 3 (Figure 4):
 
-1. **Split twice.** First 80/20 into D_train (800 observations) and D_test (200 observations). Then D_train again 80/20, into a smaller training set (640 observations) and a **validation set** (160 observations). All splits are random.
+1. **Split twice.** First 80/20 into D_train (800 observations) and D_test (200 observations). Then D_train again 80/20, into a smaller training set (640 observations) and a **validation set** (G-2067; 160 observations). All splits are random.
 2. **Train the base models** on the 640 observations.
 3. **Predict the validation set.** Each base model predicts the 160 validation observations. The three columns of predictions plus the true package form a new dataset of 160 rows and 4 columns.
 4. **Train the meta-model** on these 160 observations.
-5. **Evaluate.** Send the 200 test observations through the whole stack (base models, then meta-model) and compute the R² score ([regression metrics Note](../52-regression-metrics/note.md)).
+5. **Evaluate.** Send the 200 test observations through the whole stack (base models, then meta-model) and compute the **R² score** (G-1717; [regression metrics Note](../52-regression-metrics/note.md)).
 
 The base models never saw the validation observations, so their predictions there are honest. The cost: the base models learn from only 640 observations, and the meta-model from only 160.
 
@@ -110,7 +114,7 @@ The base models never saw the validation observations, so their predictions ther
 
 Stacking in the strict sense uses the idea of K-fold cross-validation ([pipelines Note](../29-pipelines/note.md), section 8). We keep the 800 observations of D_train and the 200 test observations of section 6, and take K = 4 (5 or 10 are more common), so each fold has 200 rows.
 
-1. **Out-of-fold predictions for the first base model** (Figure 3). Train linear regression on folds 1, 2 and 3 (600 observations) and predict fold 4. Train a new linear regression on folds 1, 2 and 4 and predict fold 3. Do the same for fold 2 and fold 1. After four fits every one of the 800 observations has a prediction from a model that did not see it: the column `LR_pred`. These are called **out-of-fold predictions**.
+1. **Out-of-fold predictions for the first base model** (Figure 5). Train linear regression on folds 1, 2 and 3 (600 observations) and predict fold 4. Train a new linear regression on folds 1, 2 and 4 and predict fold 3. Do the same for fold 2 and fold 1. After four fits every one of the 800 observations has a prediction from a model that did not see it: the column `LR_pred`. These are called **out-of-fold predictions** (G-1415).
 2. **Repeat for the other base models.** The same four fits for the decision tree give `DT_pred`, and for KNN give `KNN_pred`. The three base models need 12 fits in all, and each base algorithm was trained 4 times.
 3. **Train the meta-model** on the new dataset: 800 rows, the three prediction columns plus the true package.
 4. **Retrain the base models on all of D_train.** Which of the 4 linear regressions do we keep? None of them. We train linear regression, the decision tree and KNN once more on all 800 observations, and these are the base models used for prediction.
@@ -130,7 +134,7 @@ The intuition: blending is like a student who keeps 20 of 100 practice questions
 
 ![Two layers of base models and a meta-model, trained with blending on three hold-out sets of 300 observations](images/multilayer.png){height=40%}
 
-Nothing forces a single layer of base models. In Figure 4, three models M1, M2, M3 form layer 1, three more models M4, M5, M6 form layer 2, and M7 is the meta-model. Every model of layer 1 feeds every model of layer 2: the layers are **fully connected**. Any algorithm can sit anywhere: linear regression, KNN, a decision tree, gradient boosting, XGBoost, a random forest, even a neural network.
+Nothing forces a single layer of base models. In Figure 6, three models M1, M2, M3 form layer 1, three more models M4, M5, M6 form layer 2, and M7 is the meta-model. Every model of layer 1 feeds every model of layer 2: the layers are **fully connected**. This is **multi-layer stacking** (G-1271). Any algorithm can sit anywhere: linear regression, KNN, a decision tree, gradient boosting, XGBoost, a random forest, even a neural network.
 
 With blending, 1,000 students are split into 900 for training and 100 for testing, and the 900 into three sets of 300 (DT1, DT2, DT3):
 
@@ -154,7 +158,7 @@ scikit-learn has `StackingClassifier` and `StackingRegressor` (since version 0.2
 | `final_estimator` | the meta-model (default: logistic regression for the classifier, ridge regression with built-in cross-validation for the regressor; scikit-learn docs) |
 | `cv` | the number of folds K for the out-of-fold predictions (default 5) |
 | `stack_method` | classifier only: which output of each base model is passed on, `"auto"`, `"predict_proba"`, `"decision_function"` or `"predict"` |
-| `passthrough` | `False` (default): the meta-model sees only the predictions; `True`: it also sees the original features |
+| `passthrough` (G-1461) | `False` (default): the meta-model sees only the predictions; `True`: it also sees the original features |
 | `n_jobs` | how many processor cores fit the base models in parallel |
 
 With `stack_method="auto"`, each base model passes its probabilities if it has `predict_proba`, otherwise its `decision_function`, otherwise its class predictions. For two classes only the probability of class 1 is kept, so each base model gives one column.
@@ -208,7 +212,7 @@ The meta-model's weights show whom it trusts: 2.31 for the random forest's proba
 
 ![Test accuracy of the base models alone, soft voting and four kinds of stacking on the heart data (KNN scaled)](images/accuracies.png){height=40%}
 
-Figure 5 compares, with the scaled KNN:
+Figure 7 compares, with the scaled KNN:
 
 - **soft voting** (averaging the three probabilities, [voting classifier Note](../103-voting-classifier/note.md)): 0.885;
 - **blending by hand** (193 patients for the base models, 49 for the meta-model): 0.820;
@@ -232,7 +236,7 @@ On a test set this small, one split cannot rank the methods: soft voting beating
 > meta = LogisticRegression().fit(oof, y_train)
 > ```
 >
-> `cross_val_predict` returns, for every training observation, the prediction of the copy of the model that did not train on that observation's fold: exactly the column of Figure 3. `[:, 1]` keeps the probability of class 1.
+> `cross_val_predict` returns, for every training observation, the prediction of the copy of the model that did not train on that observation's fold: exactly the column of Figure 5. `[:, 1]` keeps the probability of class 1.
 
 ### 9.4 Stacking beats blending when data is limited
 
@@ -244,7 +248,7 @@ To see it, we change only the training size: 60, 120 or 242 patients for trainin
 
 ![Mean test accuracy of blending and K-fold stacking on the heart data, for 60, 120 and 242 training patients, averaged over 100 random splits](images/blend_vs_stack.png){height=40%}
 
-Figure 6 shows the result. With 60 training patients, stacking reaches 0.787 and blending 0.753, a gain of 3.5 points. With 120 patients the gain is 1.2 points (0.814 against 0.801). With all 242 patients both methods are close (0.815 against 0.812): with more data, the 20% that blending holds out matters less. The result matches the textbook advice: use cross-validation instead of a single hold-out set when data is scarce (ESL §7.10.1).
+Figure 8 shows the result. With 60 training patients, stacking reaches 0.787 and blending 0.753, a gain of 3.5 points. With 120 patients the gain is 1.2 points (0.814 against 0.801). With all 242 patients both methods are close (0.815 against 0.812): with more data, the 20% that blending holds out matters less. The result matches the textbook advice: use cross-validation instead of a single hold-out set when data is scarce (ESL §7.10.1).
 
 > **Extra:** The gain is an average, not a guarantee on every split. With 60 training patients, stacking scores higher on 74 of the 100 splits, ties on 5 and loses on 21; the standard error of the mean gain is 0.6 points. With 242 patients the mean gain, 0.3 points, is no larger than its standard error (0.3 points), so on this data the two methods are level once the training set is that big.
 

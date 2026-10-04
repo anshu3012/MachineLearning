@@ -20,7 +20,7 @@ This Note follows Chapter 5 (Section 5.2) of *Mathematics for Machine Learning* 
 
 ![Contour map of $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ with gradient arrows: each crosses the contour lines at right angles and points uphill](images/gradient_arrows.png){height=48%}
 
-A loss depends on many parameters at once. Figure 1 shows such a function of two inputs as a contour map: each line joins points of equal height, and the lowest point is in the middle. At every point, the gradient is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step gradient descent takes.
+A loss depends on many parameters at once. Figure 1 shows such a function of two inputs as a contour map: each line joins points of equal height, and the lowest point is in the middle. At every point, the **gradient** (G-865) is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step **gradient descent** (G-862) takes.
 
 Earlier Notes already used these ideas:
 
@@ -33,7 +33,7 @@ This Note adds the definition as a limit, the geometry of the gradient, the rule
 
 > **Key point:** $f: \mathbb{R}^n \to \mathbb{R}$ takes a vector of $n$ numbers in and gives one number out, just as a loss takes all the parameters and gives one error.
 
-A function of several variables takes a vector $\mathbf{x} = [x_1, \dots, x_n]^{\mathsf T}$ and returns one number:
+A **function of several variables** (G-815) takes a vector $\mathbf{x} = [x_1, \dots, x_n]^{\mathsf T}$ and returns one number:
 
 $$f: \mathbb{R}^n \to \mathbb{R}, \qquad \mathbf{x} \mapsto f(\mathbf{x})$$
 
@@ -44,6 +44,10 @@ Two examples we use throughout:
   $$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$$
   At $(1, 1)$ its value is $1 + 1 + 2 = 4$.
 
+Figure 2 marks four inputs of the running example on its contour map. Each input is a vector of two numbers, and each gets back a single number: $[1, 1] \mapsto 4$, $[0, 1] \mapsto 2$, $[-1, 0] \mapsto 1$. Two different inputs can give the same number: $[2, -1]$ also gives 4, so it lies on the same contour line as $[1, 1]$.
+
+![The running example on a contour map, with four input vectors and the single number the function returns for each. [1, 1] and [2, −1] both give 4 and lie on the same contour line.](images/vector_in.png)
+
 ## 3. Partial derivatives
 
 > **Key point:** A partial derivative changes one input by a tiny step, keeps all the others fixed, and measures the slope; it is an ordinary one-variable derivative.
@@ -52,7 +56,7 @@ Two examples we use throughout:
 
 > **Key point:** Nudge only $x_i$ by $h$, take the difference quotient, and let $h \to 0$.
 
-The [linear regression maths Note](../51-linear-regression-maths/note.md) defined the **partial derivative** as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md):
+The [linear regression maths Note](../51-linear-regression-maths/note.md) defined the **partial derivative** (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md):
 
 1. **In words:** move only $x_i$ by a step $h$, divide the change in $f$ by $h$, and let $h$ shrink to 0.
 2. **Formula:**
@@ -82,7 +86,7 @@ $$\frac{\partial g}{\partial x} = 2(x + y^2) \cdot 1 = 10, \qquad \frac{\partial
 
 > **Key point:** Fixing $x_2$ cuts the surface along a curve in the $x_1$ direction; $\partial f / \partial x_1$ is the slope of its tangent line.
 
-Figure 2 shows the surface of our bowl. Fixing $x_2 = 1$ cuts it along the orange curve, a function of $x_1$ alone. Its tangent line at $(1, 1)$ has slope 3: that is $\partial f / \partial x_1$. Fixing $x_1 = 1$ instead gives the green curve, whose tangent line has slope 5: that is $\partial f / \partial x_2$.
+Figure 3 shows the surface of our bowl. Fixing $x_2 = 1$ cuts it along the orange curve, a function of $x_1$ alone. Its tangent line at $(1, 1)$ has slope 3: that is $\partial f / \partial x_1$. Fixing $x_1 = 1$ instead gives the green curve, whose tangent line has slope 5: that is $\partial f / \partial x_2$.
 
 ![The surface $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ cut along $x_2 = 1$ (orange) and along $x_1 = 1$ (green); the thick lines are the tangent lines at $(1, 1)$](images/partial_slices.png){height=42%}
 
@@ -101,7 +105,7 @@ An earlier Note on descent ([gradient descent Note](../57-gradient-descent/note.
 1. **In words:** list the partial derivatives in the order of the inputs.
 2. **Formula:**
    $$\nabla_{\mathbf{x}} f = \frac{df}{d\mathbf{x}} = \begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} & \cdots & \dfrac{\partial f}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{1 \times n}$$
-   $\nabla$ is read "nabla" or "grad".
+   $\nabla$ is read "nabla" (G-1295) or "grad". Written as a row, this is the **gradient as a row vector** (G-858).
 3. **Example:** for our bowl,
    $$\nabla f = \begin{bmatrix} 2x_1 + x_2 & x_1 + 4x_2 \end{bmatrix}, \qquad \nabla f(1, 1) = \begin{bmatrix} 3 & 5 \end{bmatrix}, \qquad \nabla f(2, -1) = \begin{bmatrix} 3 & -2 \end{bmatrix}$$
 
@@ -119,17 +123,17 @@ Figure 1 draws the gradient as an arrow at many points of the contour map. Three
 
 At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [gradient descent](../57-gradient-descent/note.md) steps in, $\mathbf x_{\text{new}} = \mathbf{x} - \eta\thinspace\nabla f(\mathbf{x})$.
 
-> **Extra:** The slope in any direction follows from the gradient. For a unit vector $\mathbf{u}$ (length 1), the **directional derivative** is the dot product $\nabla f \cdot \mathbf{u}$. At $(1, 1)$:
+> **Extra:** The slope in any direction follows from the gradient. For a unit vector $\mathbf{u}$ (length 1), the **directional derivative** (G-614) is the dot product $\nabla f \cdot \mathbf{u}$. At $(1, 1)$:
 >
 > - along $\mathbf{u} = [1, 0]$ it is $3$, the partial derivative $\partial f / \partial x_1$;
 > - along the gradient itself, $\mathbf{u} = [3, 5]/\sqrt{34}$, it is $\sqrt{34} = 5.83$, the largest possible;
 > - along $\mathbf{u} = [5, -3]/\sqrt{34}$, at right angles to the gradient, it is $(15 - 15)/\sqrt{34} = 0$: we walk along the contour line.
 >
-> A dot product with a unit vector is largest when the two point the same way (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md)). This alignment is why the gradient is the direction of steepest ascent.
+> A dot product with a unit vector is largest when the two point the same way (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md)). This alignment is why the gradient is the direction of **steepest ascent** (G-1888).
 
 ![At $(1, 1)$ a unit direction $\mathbf{u}$ turns full circle (left); the slope $\nabla f \cdot \mathbf{u}$ is traced against its angle (right): 3 along the $x_1$-axis, a peak of 5.83 when $\mathbf{u}$ lines up with $\nabla f = [3, 5]$, 0 along the contour line, $-5.83$ straight downhill](images/direction_sweep.gif)
 
-Figure 3 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
+Figure 4 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
 
 ## 5. Rules for gradients
 
@@ -156,15 +160,21 @@ $$\frac{\partial}{\partial \mathbf{x}}\thinspace\mathbf{a}^{\mathsf T}\mathbf{x}
    $$\nabla f = 2\thinspace[1, 2] + 3\thinspace[3, -1] = [11,\ 1]$$
    Check by multiplying out: $f = 3x_1^2 + 5x_1x_2 - 2x_2^2$ has partial derivatives $6x_1 + 5x_2 = 11$ and $5x_1 - 4x_2 = 1$.
 
+![Gradient rules as additions of arrows at $\mathbf{x} = (1, 1)$. Left, sum rule: the gradient of $f + \mathbf{a}^{\mathsf T}\mathbf{x}$ is $\nabla f = [3, 5]$ plus $\mathbf{a}^{\mathsf T} = [1, 2]$, giving $[4, 7]$. Right, product rule: $2 \times [1, 2]$ plus $3 \times [3, -1]$ gives the gradient $[11, 1]$.](images/rule_arrows.png)
+
+Figure 5 draws both rules as arrows added tip to tail. A gradient is a vector, so the sum rule adds two arrows. The product rule adds two arrows too, each one gradient scaled by the value of the other factor: $\mathbf{a}^{\mathsf T}$ scaled by 2 and $\mathbf{b}^{\mathsf T}$ scaled by 3.
+
 ## 6. The chain rule with several variables
 
 > **Key point:** When an input affects $f$ through several intermediate variables, we multiply along each path and add up the paths; written with gradients, this is a matrix product.
+
+This rule is the **multivariate chain rule** (G-1281), the several-variable form of the **chain rule** (G-371).
 
 ### 6.1 One outer input, two paths
 
 > **Key point:** The rate of change of $f$ with $t$ is the sum over both paths of (slope of $f$ along the path) times (rate of the intermediate variable): a row vector times a column vector.
 
-Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for example a point moving around a circle: $x_1 = \cos t$, $x_2 = \sin t$. How fast does $f(x_1, x_2)$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 4).
+Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for example a point moving around a circle: $x_1 = \cos t$, $x_2 = \sin t$. How fast does $f(x_1, x_2)$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 6).
 
 ![The multivariate chain rule: multiply the derivatives along each path from $t$ to $f$, then add the paths](images/chain_paths.png){height=34%}
 
@@ -191,7 +201,7 @@ $$\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x_1}\frac{\partial 
 3. **Example:** our bowl with $x_1 = s + t$ and $x_2 = st$, at $s = 1$, $t = 2$. Then $x_1 = 3$, $x_2 = 2$, so $\nabla f = [2 \cdot 3 + 2,\ 3 + 4 \cdot 2] = [8, 11]$. The inner derivatives are $\partial x_1/\partial s = 1$, $\partial x_1/\partial t = 1$, $\partial x_2/\partial s = t = 2$, $\partial x_2/\partial t = s = 1$:
    $$\begin{bmatrix} 8 & 11 \end{bmatrix} \begin{bmatrix} 1 & 1 \cr2 & 1 \end{bmatrix} = \begin{bmatrix} 8 + 22 & 8 + 11 \end{bmatrix} = \begin{bmatrix} 30 & 19 \end{bmatrix}$$
 
-The matrix in the middle is the first example of a **Jacobian**, the subject of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md). The chain rule as a product of matrices mirrors the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md): doing one function after another multiplies their matrices.
+The matrix in the middle is the first example of a **Jacobian** (G-980), the subject of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md). The chain rule as a product of matrices mirrors the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md): doing one function after another multiplies their matrices.
 
 The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in the first factor and "above" in the second, and "cancels" to leave $\partial f/\partial(s, t)$. The fraction reading is a memory aid only; partial derivatives are not really fractions.
 
@@ -199,7 +209,7 @@ The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in
 
 > **Key point:** Nudge each input by a small $h$ and compare the finite-difference slope with the formula; a tiny relative error means the formula and code are probably right.
 
-Hand-derived gradients are easy to get wrong, and a wrong gradient makes training fail quietly. The definition of the partial derivative gives a simple test, called **gradient checking**:
+Hand-derived gradients are easy to get wrong, and a wrong gradient makes training fail quietly. The definition of the partial derivative gives a simple test, called **gradient checking** (G-860):
 
 1. **In words:** estimate each partial derivative with a small step $h$ (say $10^{-4}$), then compare the whole estimated gradient with the formula's.
 2. **Formula:** with $d_i^h$ the finite-difference estimate and $d_i$ the formula's value for input $i$,
@@ -234,6 +244,10 @@ Hand-derived gradients are easy to get wrong, and a wrong gradient makes trainin
 >
 > `np.eye(2)` gives the rows $[1, 0]$ and $[0, 1]$, so `p + h * e` nudges one parameter at a time.
 
+Figure 7 shows how the size of the step $h$ affects the check on this loss. The one-sided difference $(L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p}))/h$ is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (the Extra on central differences in the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md)).
+
+![Relative error of the numerical gradient against the step h, on the three-point loss at m = 1, b = 0. Orange: one-sided difference, error shrinking with h until rounding takes over. Blue: central difference, exact for this quadratic loss except for rounding, which grows as h shrinks. Dashed: the $10^{-6}$ threshold.](images/gradcheck_h.png)
+
 Deep learning libraries compute gradients automatically, and they ship the same test for checking them: PyTorch's `torch.autograd.gradcheck` compares the automatic gradients with finite differences (PyTorch docs, "Gradcheck mechanics").
 
 ## 8. Summary
@@ -256,7 +270,7 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 **Built from**
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 5.2, remark on verifying a gradient implementation (MML).
-- Sanderson, G. (Khan Academy). "Why the gradient is the direction of steepest ascent", *Multivariable calculus*. khanacademy.org/math/multivariable-calculus/multivariable-derivatives/gradient-and-directional-derivatives. Figure 3 recreates its idea with our own function and code.
+- Sanderson, G. (Khan Academy). "Why the gradient is the direction of steepest ascent", *Multivariable calculus*. khanacademy.org/math/multivariable-calculus/multivariable-derivatives/gradient-and-directional-derivatives. Figure 4 recreates its idea with our own function and code.
 
 **Other references**
 

@@ -19,7 +19,11 @@ tags: [subject/ml, area/data, area/features, area/linear-algebra, step/foundatio
 
 The previous Note built the idea of PCA geometrically: turn a line through the data, and keep the direction where the shadows spread the most. This Note turns that idea into mathematics and then into five concrete steps.
 
-Many ML algorithms are, underneath, a mathematical problem with a goal to optimise, called the **objective function**. We first write PCA's objective function (Section 2). Then we learn the two tools its solution uses: the covariance matrix (Section 3) and eigenvectors (Section 4). Finally we run the five steps on real numbers (Sections 5 and 6).
+Many ML algorithms are, underneath, a mathematical problem with a goal to optimise, called the **objective function** (G-1372). This Note:
+
+1. writes PCA's objective function (section 2);
+2. learns the two tools its solution uses: the covariance matrix (section 3) and eigenvectors (section 4);
+3. runs the five steps on real numbers (sections 5 and 6).
 
 ## 2. The problem PCA solves
 
@@ -29,13 +33,13 @@ Many ML algorithms are, underneath, a mathematical problem with a goal to optimi
 
 > **Key point:** The projection of a point $x$ onto a unit vector $u$ is a single number, $u^{\mathsf T}x$.
 
-Take data with two **features** (input variables, the columns of the data table); each data point is one **observation** (one row). Each point has an $x$ and a $y$ value, so we can treat it as a **vector**, an arrow from the origin to the point.
+Take data with two **features** (G-772) (input variables, the columns of the data table); each data point is one **observation** (G-1374) (one row). Each point has an $x$ and a $y$ value, so we can treat it as a **vector** (G-2081), an arrow from the origin to the point.
 
-We want to project the point onto some line through the origin. Only the line's direction matters, not its length, so we describe it by a **unit vector** $u$: a vector of length 1 pointing along the line. Figure 1 shows a point $x$, a unit vector $u$, and the shadow of $x$ on the line.
+We want to project the point onto some line through the origin. Only the line's direction matters, not its length, so we describe it by a **unit vector** (G-2048) $u$: a vector of length 1 pointing along the line. Figure 1 shows a point $x$, a unit vector $u$, and the shadow of $x$ on the line.
 
 ![Projecting a point onto a unit vector](images/projection.png)
 
-In words: the length of the shadow is the **dot product** of $u$ and $x$ (multiply matching components and add), divided by the length of $u$. Since $u$ has length 1, the division disappears.
+In words: the length of the shadow is the **dot product** (G-634) of $u$ and $x$ (multiply matching components and add), divided by the length of $u$. Since $u$ has length 1, the division disappears.
 
 $$\text{shadow length} = \frac{u \cdot x}{\lVert u \rVert} = u^{\mathsf T}x$$
 
@@ -45,7 +49,7 @@ $$u^{\mathsf T}x = 0.894 \times 2.4 + 0.447 \times 2.8 = 2.146 + 1.252 = 3.40$$
 
 The point is now described by one number, 3.40, its position along the line. Two features have become one.
 
-> **Extra:** $u^{\mathsf T}$ is $u$ written as a row instead of a column (its **transpose**). A row times a column is the dot product, so $u^{\mathsf T}x$ is just a compact way to write $u \cdot x$.
+> **Extra:** $u^{\mathsf T}$ is $u$ written as a row instead of a column (its **transpose** (G-2012)). A row times a column is the dot product, so $u^{\mathsf T}x$ is just a compact way to write $u \cdot x$.
 
 ### 2.2 The variance of all the projections
 
@@ -67,6 +71,10 @@ Any unit vector could be the answer, and each one gives a different variance. PC
 
 $$\text{find } u \text{ with } \lVert u \rVert = 1 \text{ that makes } \sigma^2(u) \text{ as large as possible}$$
 
+Figure 2 draws $\sigma^2(u)$ for every direction on the flats data. The curve is highest, 2.61, at 45 degrees, and lowest, 0.05, at right angles to it: the two principal components of the previous Note. Section 4 shows that the peak sits at the top eigenvector of the covariance matrix, and its height is the largest eigenvalue.
+
+![The variance of the projections of the 30 flats for every direction u, from 0 to 180 degrees. The maximum, 2.61 at 45 degrees, is PC1; the minimum, 0.05 at 135 degrees, is PC2.](images/variance_by_angle.png){height=34%}
+
 This maximisation is PCA's objective function. Solving the maximisation needs optimisation methods covered later; here we jump to the answer. To understand the answer, we need two ideas first: covariance and eigenvectors.
 
 > **Extra:** The standard derivation rewrites $\sigma^2(u)$ as $u^{\mathsf T} C u$, where $C$ is the covariance matrix of Section 3. Maximising $u^{\mathsf T} C u$ under the condition $u^{\mathsf T}u = 1$ (with a method called Lagrange multipliers) gives exactly $C u = \lambda u$: the eigenvector equation of Section 4 (Bishop, §12.1.1).
@@ -79,7 +87,7 @@ This maximisation is PCA's objective function. Solving the maximisation needs op
 
 > **Key point:** Two datasets can have identical variances in every feature and still point in opposite directions.
 
-Variance is computed one feature at a time. Variance says how spread out $x$ is and how spread out $y$ is, but nothing about how $x$ and $y$ relate. Figure 2 shows two tiny datasets.
+Variance is computed one feature at a time. Variance says how spread out $x$ is and how spread out $y$ is, but nothing about how $x$ and $y$ relate. Figure 3 shows two tiny datasets.
 
 ![Same variances, opposite covariance](images/covariance_sign.png)
 
@@ -112,7 +120,7 @@ Like the variance formula of the [PCA intuition Note](../47-pca-geometric-intuit
 
 > **Key point:** The covariance matrix puts each feature's variance on the diagonal and each pair's covariance off the diagonal. The matrix describes both the spread and the orientation of the data.
 
-For data with features $x$, $y$ and $z$, the **covariance matrix** is the $3 \times 3$ table in Figure 3. With $d$ features, it is $d \times d$.
+For data with features $x$, $y$ and $z$, the **covariance matrix** (G-495) is the $3 \times 3$ table in Figure 4. With $d$ features, it is $d \times d$.
 
 ![The covariance matrix of three features](images/cov_matrix.png)
 
@@ -136,23 +144,23 @@ Both features have variance 1.33, and their large positive covariance, 1.28, say
 
 > **Key point:** Multiplying by a matrix moves every point of the plane: it can rotate, stretch, squash or shear the whole grid.
 
-Think of a matrix as an action on the whole plane. Every point, seen as a vector, is multiplied by the matrix and lands somewhere new. Straight grid lines stay straight and evenly spaced, but the grid can be turned, stretched or slanted. Such a change is called a **linear transformation**.
+Think of a matrix as an action on the whole plane. Every point, seen as a vector, is multiplied by the matrix and lands somewhere new. Straight grid lines stay straight and evenly spaced, but the grid can be turned, stretched or slanted. Such a change is called a **linear transformation** (G-1097).
 
-The **identity matrix** $\begin{pmatrix} 1 & 0 \cr0 & 1 \end{pmatrix}$ leaves every vector where it was. Any other matrix moves vectors.
+The **identity matrix** (G-915) $\begin{pmatrix} 1 & 0 \cr0 & 1 \end{pmatrix}$ leaves every vector where it was. Any other matrix moves vectors.
 
 ### 4.2 The vectors that do not turn
 
 > **Key point:** An eigenvector keeps its direction under the transformation; its eigenvalue is how much it is stretched.
 
-Figure 4 applies the matrix $A = \begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}$ to the whole plane and follows three vectors.
+Figure 5 applies the matrix $A = \begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}$ to the whole plane and follows three vectors.
 
-![Applying a matrix: most vectors turn, eigenvectors only stretch](images/eigen_transform.gif)
+![Applying a matrix: most vectors turn, eigenvectors only stretch. Idea and matrix after 3Blue1Brown, "Eigenvectors and eigenvalues".](images/eigen_transform.gif)
 
 1. $(1, 1)$ (red) becomes $(4, 2)$: its direction changes.
 2. $(1, 0)$ (green) becomes $(3, 0)$: same line, 3 times longer.
 3. $(-1, 1)$ (green) becomes $(-2, 2)$: same line, 2 times longer.
 
-Think of pulling a rubber sheet sideways: arrows drawn on it mostly tilt, but an arrow drawn exactly along the pull just gets longer. Vectors that stay on their own line are the **eigenvectors** of the matrix. The factor by which each one is stretched is its **eigenvalue**: 3 for $(1, 0)$ and 2 for $(-1, 1)$. A $2 \times 2$ matrix has at most two eigenvector directions, a $3 \times 3$ matrix at most three, and so on. Some have fewer (a rotation turns every vector, so it has none), but a covariance matrix always has the full number (Section 4.3, Extra).
+Think of pulling a rubber sheet sideways: arrows drawn on it mostly tilt, but an arrow drawn exactly along the pull just gets longer. Vectors that stay on their own line are the **eigenvectors** (G-666) of the matrix. The factor by which each one is stretched is its **eigenvalue** (G-665): 3 for $(1, 0)$ and 2 for $(-1, 1)$. A $2 \times 2$ matrix has at most two eigenvector directions, a $3 \times 3$ matrix at most three, and so on. Some have fewer (a rotation turns every vector, so it has none), but a covariance matrix always has the full number (Section 4.3, Extra).
 
 In words: applying the matrix to an eigenvector is the same as multiplying it by a plain number, its eigenvalue.
 
@@ -164,6 +172,8 @@ $$\begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}\begin{pmatrix} -1 \cr1 \end{pmatr
 
 so $\lambda = 2$. An eigenvalue can also be negative (the vector flips to point the other way) or between 0 and 1 (it shrinks).
 
+NumPy finds the eigenvectors for us (Section 6). The [eigenvectors Note](../530-eigenvectors-and-eigenvalues/note.md) shows how to find them by hand.
+
 ### 4.3 The eigenvectors of the covariance matrix
 
 > **Key point:** The eigenvector of the covariance matrix with the largest eigenvalue points along the greatest spread of the data. That eigenvector is PC1, and its eigenvalue is the variance along it.
@@ -174,7 +184,7 @@ The top eigenvector of the covariance matrix solves PCA's objective from Section
 - Its **eigenvalue** equals the variance of the data projected onto it.
 - The next eigenvector (next largest eigenvalue) is PC2, at right angles to PC1, and so on.
 
-Figure 5 checks this on the flats data.
+Figure 6 checks this on the flats data.
 
 ![The eigenvectors of the covariance matrix of the flats data](images/eigen_cov.png)
 
@@ -190,13 +200,13 @@ So instead of trying every angle, PCA computes the eigenvectors of one matrix. T
 
 > **Key point:** Centre the data, build the covariance matrix, find its eigenvectors, keep the top $k$, and project the data onto them.
 
-Figure 6 summarises the whole method, with the shapes for data of 40 observations and 3 features reduced to 2.
+Figure 7 summarises the whole method, with the shapes for data of 40 observations and 3 features reduced to 2.
 
 ![PCA step by step](images/pca_steps.png)
 
-1. **Mean centring.** Subtract each feature's mean, so the data is centred on the origin.
+1. **Mean centring** (G-1195). Subtract each feature's mean, so the data is centred on the origin.
 2. **Covariance matrix.** Compute it from the centred data: $3 \times 3$ for 3 features.
-3. **Eigen-decomposition.** Find the eigenvalues and eigenvectors of the covariance matrix: 3 of each for 3 features.
+3. **Eigen-decomposition** (G-663). Find the eigenvalues and eigenvectors of the covariance matrix: 3 of each for 3 features.
 4. **Keep the top $k$.** Sort the eigenvectors by eigenvalue, largest first. Keep the first $k$ as the rows of a matrix $W$ ($k \times 3$). Choosing $k = 2$ goes from 3D to 2D; $k = 1$ goes to 1D.
 5. **Project.** Multiply the data by $W^{\mathsf T}$.
 
@@ -210,7 +220,7 @@ $$Z = X W^{\mathsf T}$$
 
 With shapes: $X$ has 40 rows and 3 columns; $W^{\mathsf T}$ has 3 rows and 2 columns. The inner sizes (3 and 3) match, and the result $Z$ has 40 rows and 2 columns: the new features PC1 and PC2.
 
-For 1D instead, $W$ has one row, $W^{\mathsf T}$ is $3 \times 1$ and $Z$ is $40 \times 1$. The **target** (the output we predict), if there is one, is copied across unchanged: PCA only transforms the inputs.
+For 1D instead, $W$ has one row, $W^{\mathsf T}$ is $3 \times 1$ and $Z$ is $40 \times 1$. The **target** (G-1949) (the output we predict), if there is one, is copied across unchanged: PCA only transforms the inputs.
 
 > **Extra:** Mean centring matters for the projection, not for the components. `np.cov` centres the data internally, so the covariance matrix and the principal components are the same either way. The projection $XW^{\mathsf T}$, though, only gives centred coordinates if $X$ itself was centred. scikit-learn's `PCA` always centres for us.
 
@@ -252,9 +262,30 @@ All three features have about the same variance, and the covariances are small a
 
 ![The 40 points in 3D with PC1 and PC2, and after projection](images/pca_3d_to_2d.png)
 
-Figure 7 shows the result. On the left, the 3D data with the two principal components drawn through it. On the right, the same 40 points described by just PC1 and PC2.
+Figure 8 shows the result. On the left, the 3D data with the two principal components drawn through it. On the right, the same 40 points described by just PC1 and PC2.
 
 PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of the spread. The two classes stay mostly apart along PC1.
+
+### 6.1 Reading the result: the recipe and the scree plot
+
+> **Key point:** An eigenvector is a recipe: how much of each original feature goes into the new one. An eigenvalue divided by the sum of all eigenvalues is the share of the variance that component keeps.
+
+**The recipe.** Each new feature is a weighted sum of the old ones, a **linear combination** (G-1091), and the weights are the entries of the eigenvector. These weights are called **loadings** (or loading scores).
+
+1. **Flats.** PC1 is $(0.707, 0.707)$, so the position of a flat along PC1 is $0.707 \times \text{rooms} + 0.707 \times \text{washrooms}$ (after centring). The recipe uses equal parts of both features: PC1 is a "size of the flat" feature.
+2. **The 3-feature example.** PC1 is $(0.54, 0.66, 0.53)$ (NumPy prints it with every sign flipped, which is the same line), so all three features go in with about the same weight. PC2 is $(-0.69, -0.01, 0.72)$: feature 3 minus feature 1, with almost nothing of feature 2.
+
+A feature with a loading near 0 hardly matters for that component; a feature with a large loading (positive or negative) matters a lot.
+
+**The scree plot.** Each eigenvalue is the variance along its component (Section 4.3), and together the eigenvalues add up to the total variance. So the share kept by one component is its eigenvalue divided by the sum:
+
+$$\text{share of PC1} = \frac{1.354}{1.354 + 0.946 + 0.778} = \frac{1.354}{3.077} = 0.44$$
+
+A bar chart of these shares, one bar per component, is called a **scree plot**. Figure 9 builds it for the example: 44, 31 and 25 percent. The orange line adds the bars up: PC1 and PC2 together keep 75 percent, which is the number quoted under Figure 8.
+
+![The scree plot of the 3-feature example, built one component at a time. Bars: eigenvalue ÷ sum of eigenvalues. Orange line: the running total.](images/scree.gif){height=38%}
+
+The [PCA on MNIST Note](../49-pca-mnist/note.md) uses the same shares, there called the explained variance ratio, to choose how many components to keep.
 
 > **Extra:** A frequent bug, also found in older code for this example: `np.linalg.eig` and `np.linalg.eigh` return the eigenvectors as the **columns** of the result, not its rows. Writing `vectors[0:2]` takes two rows, which are not principal components; along them the data's variance is 1.01 and 1.11 instead of 1.35 and 0.95. `eig` also does not sort its output by eigenvalue. Always sort, and take `vectors[:, :k]`.
 
@@ -280,7 +311,7 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 | 1. Mean centre | moves the data's centre to the origin | `StandardScaler` (or subtract the mean) |
 | 2. Covariance matrix | spread (diagonal) and orientation (off-diagonal) | `np.cov` |
 | 3. Eigen-decomposition | directions that only stretch, and by how much | `np.linalg.eigh` |
-| 4. Keep the top $k$ | sort by eigenvalue; the first $k$ are PC1 to PC$k$ | `np.argsort` |
+| 4. Keep the top $k$ | sort by eigenvalue; the first $k$ are kept | `np.argsort` |
 | 5. Project | new coordinates $Z = XW^{\mathsf T}$ | `@` (matrix product) |
 
 - PCA's objective: the unit vector $u$ that maximises the variance of the projections $u^{\mathsf T}x_i$.
@@ -289,6 +320,7 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 - Eigenvectors keep their direction under a matrix; eigenvalues are their stretch, $Av = \lambda v$.
 - The covariance matrix's top eigenvector is PC1; its eigenvalue is the variance along PC1.
 - Eigenvectors are the columns of NumPy's output: sort them and take `vectors[:, :k]`.
+- An eigenvector's entries (loadings) are the recipe of the new feature; eigenvalue ÷ sum of eigenvalues is the share of variance it keeps (scree plot).
 
 
 ## 8. Sources
@@ -296,6 +328,9 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 **Built from**
 
 - CampusX, "Principle Component Analysis (PCA) | Part 2 | Problem Formulation and Step by Step Solution", YouTube, https://www.youtube.com/watch?v=tXXnxjj2wM4
+
+- Sanderson, G. (3Blue1Brown), "Eigenvectors and eigenvalues | Chapter 14, Essence of linear algebra", YouTube, https://www.youtube.com/watch?v=PFDu9oVAE-g (the matrix and picture of section 4.2)
+- StatQuest with Josh Starmer, "StatQuest: Principal Component Analysis (PCA), Step-by-Step", YouTube, https://www.youtube.com/watch?v=FgakZw6K1QQ (the recipe reading of an eigenvector, loading scores and the scree plot of section 6.1)
 
 **Other references**
 
@@ -319,3 +354,5 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 | Eigenvalue | The factor by which a matrix stretches its eigenvector |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix |
 | Explained variance | The variance along a principal component; its eigenvalue |
+| Loading (loading score) | One entry of an eigenvector: the weight of one original feature in a principal component |
+| Scree plot | A bar chart of each component's share of the total variance (eigenvalue ÷ sum of eigenvalues) |

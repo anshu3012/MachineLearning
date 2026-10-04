@@ -20,7 +20,7 @@ tags: [subject/ml, area/data, area/features, area/foundations, area/models-1, ar
 
 This Note walks through a complete ML project on a tiny, clean dataset. Real projects use much larger and messier data, and later Notes cover each step in depth. Here the aim is to see the whole process once, from data to website.
 
-**The task:** we have the CGPA, IQ and placement result (placed or not) of 100 students. Each student is one **observation** (one record, one row of the data table). CGPA and IQ are the **features** (the input variables, one column each). Placement is the **target** (the output we want to predict). We want a model that, given a new student's CGPA and IQ, predicts whether they will be placed. The target is a category, so the task is a **classification** problem.
+**The task:** we have the CGPA, IQ and placement result (placed or not) of 100 students. Each student is one **observation** (G-1374; one record, one row of the data table). CGPA and IQ are the **features** (G-772; the input variables, one column each). Placement is the **target** (G-1949; the output we want to predict). We want a model that, given a new student's CGPA and IQ, predicts whether they will be placed. The target is a category, so the task is a **classification** (G-395) problem.
 
 ## 2. The workflow
 
@@ -48,7 +48,7 @@ The Notebook for this Note (`notebook.ipynb`) runs every step, in order, on the 
 
 > **Key point:** Load the CSV file into a table, check it, and drop the column we do not need.
 
-The data is a **CSV file** (comma-separated values): a plain text table, one row per line, with commas between the values.
+The data is a **CSV file** (G-513; comma-separated values): a plain text table, one row per line, with commas between the values.
 
 > **Python:** Loading and checking a table with pandas.
 >
@@ -61,11 +61,11 @@ The data is a **CSV file** (comma-separated values): a plain text table, one row
 > df.info()                                # column types, missing values
 > ```
 >
-> **pandas** is the main Python library for tables. A table in pandas is called a **DataFrame**, usually named `df`.
+> **pandas** is the main Python library for tables. A table in pandas is called a **DataFrame** (G-1441), usually named `df`.
 
-The table has four columns: `Unnamed: 0`, `cgpa`, `iq` and `placement`. `df.info()` shows 100 non-missing values in every column, so there are no **missing values** to fix.
+The table has four columns: `Unnamed: 0`, `cgpa`, `iq` and `placement`. `df.info()` shows 100 non-missing values in every column, so there are no **missing values** (G-1235) to fix.
 
-The first column, `Unnamed: 0`, is just a row number left over from how the file was saved. The column carries no information, so we drop it:
+The first column, `Unnamed: 0`, is just a row number (the crossed-out grey column of Figure 3, section 5) left over from how the file was saved. The column carries no information, so we drop it:
 
 > **Python:** Keeping only some columns.
 >
@@ -88,16 +88,16 @@ Figure 2 plots every observation (student) by CGPA and IQ, coloured by placement
 - Placed students (green) mostly have a CGPA above about 6.
 - IQ makes much less difference: both groups have high and low IQs.
 
-The two groups could be separated, roughly, by a straight line. A straight-line split makes **logistic regression** a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is covered in later Notes.
+The two groups could be separated, roughly, by a straight line. A straight-line split makes **logistic regression** (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is covered in later Notes.
 
 ## 5. Inputs and output
 
 > **Key point:** X holds the features (CGPA, IQ); y holds the target (placement).
 
-We separate the table into:
+We separate the table into (Figure 3):
 
-- **X:** the features, `cgpa` and `iq`. Also called **independent variables**.
-- **y:** the target, `placement`. Also called the **dependent variable**, because it depends on the features.
+- **X:** the features, `cgpa` and `iq`. Also called **independent variables** (G-937).
+- **y:** the target, `placement`. Also called the **dependent variable** (G-591), because it depends on the features.
 
 > **Python:** Separating X and y.
 >
@@ -108,16 +108,18 @@ We separate the table into:
 >
 > `0:2` means positions 0 and 1 (the end, 2, is not included). `-1` means the last column. X has shape (100, 2) and y has shape (100,).
 
+![The first 5 of the 100 rows. The leftover row-number column is dropped (section 3); `cgpa` and `iq` form X, `placement` forms y](images/xy_split.png){width=85%}
+
 ## 6. Training and test sets
 
 > **Key point:** We hide some students from the model during training, then use them to check how well it learned.
 
 After training, how do we know whether the model learned the right pattern? We cannot release it to users first and wait for complaints. We must check it before deployment.
 
-The standard method is to hold some data back (Figure 3):
+The standard method is to hold some data back (Figure 4):
 
-- The **training set** (here 90 students) is what the model learns from.
-- The **test set** (here 10 students) is hidden during training. Afterwards, we ask the model to predict these students' placement and compare its answers with the real ones.
+- The **training set** (G-2002; here 90 students) is what the model learns from.
+- The **test set** (G-1962; here 10 students) is hidden during training. Afterwards, we ask the model to predict these students' placement and compare its answers with the real ones.
 
 ![Splitting the data into training and test sets](images/split.png)
 
@@ -140,9 +142,9 @@ Holding data back this way is called a **train-test split**. Which observations 
 
 Think of comparing two runners, one timed in seconds and one in milliseconds: the bigger numbers look more important only because of the unit.
 
-CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 4, left). Some algorithms compare data points by measuring distances (like KNN in Note 6). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Features such as salary, in the lakhs, would be even worse.
+CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 5, left). Some algorithms compare data points by measuring distances (like KNN in Note 6). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Features such as salary, in the lakhs, would be even worse.
 
-So we **scale** the features: bring every feature to a similar range. A common method, **standardization**, shifts each feature to centre on 0 with a typical spread of 1. Most values then fall roughly between -2 and 2 (Figure 4, right).
+So we **scale** the features: bring every feature to a similar range. A common method, **standardization**, shifts each feature to centre on 0 with a typical spread of 1. Most values then fall roughly between -2 and 2 (Figure 5, right).
 
 ![CGPA and IQ before and after scaling](images/scaling.png)
 
@@ -177,6 +179,10 @@ So we **scale** the features: bring every feature to a similar range. A common m
 >
 > In scikit-learn, every model is trained the same way: create it, then call `fit(inputs, outputs)`. `clf` is a common name for a classifier.
 
+What does `fit` (G-84) do inside? It starts with all weights at 0 and changes them in small steps that lower the model's error on the training students, a method called **gradient descent** (G-862), covered in later Notes. Figure 6 replays those steps for our 90 students. Watch the solid line, where the model is unsure (probability 0.5): its direction is found within one step and then settles. The dashed lines, where the model is 90% sure either way, close in on it as the weights grow.
+
+![Training by gradient descent on the scaled training students: the line where the predicted probability is 0.5 (solid) and where it is 0.1 or 0.9 (dashed), after 1, 3, 10, 30, 100 and 3,000 steps. The last frame matches the line scikit-learn's `fit` finds](images/training_line.gif)
+
 On a dataset this small, training takes a fraction of a second. Training is often this quick and quiet; larger models and datasets take longer.
 
 ## 9. Evaluating the model
@@ -205,7 +211,7 @@ We ask the trained model to predict placement for the 10 hidden test students, a
 
 ![What the trained model learned](images/decision_boundary.png)
 
-Figure 5 shows what the model learned. Its boundary sits at a CGPA of about 6, barely tilted by IQ: students to the right are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the student it got wrong, a student with CGPA 6.0 sitting right on the boundary.
+Figure 7 shows what the model learned. Its boundary sits at a CGPA of about 6, barely tilted by IQ: students to the right are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the student it got wrong, a student with CGPA 6.0 sitting right on the boundary.
 
 If the accuracy were too low, we would go back and improve an earlier step: more data, better features, or a different algorithm. Here 90% is fine for a demonstration, so we move on.
 
@@ -239,7 +245,7 @@ A trained model lives in Python's memory and disappears when the program stops. 
 
 ![From trained model to website](images/deploy.png)
 
-Figure 6 shows the path. The website loads `model.pkl`, asks the user for an IQ and a CGPA, and shows *Placed* or *Not placed*. Trying it confirms what Figure 5 showed: the answer depends almost entirely on whether the CGPA is above about 6.
+Figure 8 shows the path. The website loads `model.pkl`, asks the user for an IQ and a CGPA, and shows *Placed* or *Not placed*. Trying it confirms what Figure 7 showed: the answer depends almost entirely on whether the CGPA is above about 6.
 
 The Notebook builds this website on our own machine with Dash. To let other people use it, it must run on a server, for example on Heroku, AWS or Google Cloud. Deploying to these platforms is covered in later Notes.
 

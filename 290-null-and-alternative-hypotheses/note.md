@@ -19,7 +19,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/hypothesis-
 
 ![The idea behind every hypothesis test](images/hypothesis_overview.png){height=40%}
 
-**Hypothesis testing** checks a claim about a population parameter with a sample (see the [what is statistics Note](../220-what-is-statistics/note.md)). Figure 1 shows the whole idea on one example: we write the claim as two statements, look at the data, and either reject the first statement or fail to reject it.
+**Hypothesis testing** (G-913) checks a claim about a population parameter with a sample (see the [what is statistics Note](../220-what-is-statistics/note.md)). Figure 1 shows the whole idea on one example: we write the claim as two statements, look at the data, and either reject the first statement or fail to reject it.
 
 This Note covers:
 
@@ -60,17 +60,17 @@ A small channel can afford to try and see. A company such as Amazon or Flipkart,
 
 ### 2.3 Definition
 
-A **statistical hypothesis test** is a method of statistical inference used to decide whether the data at hand sufficiently supports a particular hypothesis. Hypothesis testing lets us make probabilistic statements about population parameters.
+A **statistical hypothesis test** (G-1881) is a method of statistical inference used to decide whether the data at hand sufficiently supports a particular hypothesis. Hypothesis testing lets us make probabilistic statements about population parameters.
 
 In the channel example the population parameter is $\mu$, the mean view duration of all lessons the channel could record in the new style. The new lessons are a sample. Hypothesis testing tells us what the sample can say about $\mu$.
 
-Hypothesis testing is inferential statistics: reasoning from a sample to a population (see the [what is statistics Note](../220-what-is-statistics/note.md)). Inferential statistics is used constantly in business, finance and economics.
+Hypothesis testing is **inferential statistics** (G-944): reasoning from a sample to a population (see the [what is statistics Note](../220-what-is-statistics/note.md)). Inferential statistics is used constantly in business, finance and economics.
 
 ## 3. The null hypothesis
 
 > **Key point:** The null hypothesis $H_0$ says that nothing has changed: no effect, no difference, no relationship.
 
-Every hypothesis test starts with two statements. The first is the **null hypothesis**, written $H_0$:
+Every hypothesis test starts with two statements. The first is the **null hypothesis** (G-1361), written $H_0$:
 
 > a statement that assumes there is no significant effect or relationship between the variables being studied. It is the starting point of the test and stands for the status quo, "no effect until proven otherwise".
 
@@ -81,15 +81,21 @@ Two examples:
 
 In both cases $H_0$ is the boring statement: whatever was true before is still true. The test then tries to prove it wrong.
 
+Why test "no change" and not the change we hope for? The five lessons average 9 minutes, so we could test the statement "the new style adds 3 minutes". But another five lessons might average 8.5 or 9.4, and "adds 2.5 minutes" and "adds 3.4 minutes" would then be just as reasonable. There is no end to such statements, and we cannot even write one down before we have data. "No change" is different: it is one statement, it is fixed before any data arrives, and its value is known exactly (the old mean, 6). So every test checks that one statement.
+
+$H_0$ does not claim that every new lesson scores exactly 6. It claims that the mean is still 6 and that any difference in a sample is chance. Figure 3 draws what chance alone would do. If $H_0$ were true, the mean of 5 lessons would still wander around 6, because each lesson varies; with the spread of our five lessons, the one-sample t-test (see the [one-sample t-test Note](../301-one-sample-t-test/note.md)) says that 5.1 percent of such means would land at 9 or beyond. The test asks whether our result is too far out to blame on chance.
+
+![If H0 is true (mean 6), the means of 5 lessons vary by chance around 6; the curve is the one-sample t-test's picture of that variation, using the five lessons' spread (s = 3.16). 5.1 percent of it lies at the observed mean 9 or beyond.](images/null_world.png)
+
 ## 4. The alternative hypothesis
 
 > **Key point:** The alternative hypothesis $H_1$ contradicts $H_0$ and claims there is an effect; exactly one of the two is true.
 
-The second statement is the **alternative hypothesis**, written $H_1$ or $H_a$:
+The second statement is the **alternative hypothesis** (G-193), written $H_1$ or $H_a$:
 
 > a statement that contradicts the null hypothesis and claims there is a significant effect or relationship between the variables being studied.
 
-The two statements are mutually exclusive: they cannot both be true, and the test ends by siding with one of them. For our examples:
+The two statements are **mutually exclusive** (G-1286): they cannot both be true, and the test ends by siding with one of them. For our examples:
 
 | Example | $H_0$ (no effect) | $H_1$ (an effect) |
 |---|---|---|
@@ -98,14 +104,23 @@ The two statements are mutually exclusive: they cannot both be true, and the tes
 
 ![The two examples on a number line. $H_0$ is a single value (blue dot); $H_1$ covers the values it rules out (orange): one side for the channel, both sides for the chips](images/hypothesis_lines.png){width=80%}
 
-Figure 3 draws the table: the channel's $H_1$ points one way, the chips' $H_1$ points both ways.
+Figure 4 draws the table: the channel's $H_1$ points one way, the chips' $H_1$ points both ways.
 
-The channel's $H_1$ has a direction: the new style should **increase** the duration. The chips' $H_1$ has none: the weight is wrong, whether too high or too low. This difference decides between a one-tailed and a two-tailed test (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
+Figure 5 shows what the test will weigh. Each lesson is a dot, and each bar is its distance to a horizontal line. The line starts at 6, the mean that $H_0$ claims, and moves to 9, the mean of the lessons themselves.
+
+- **Our five lessons (left).** The distances to 6 add up to $1 + 3 + 1 + 5 + 7 = 17$ minutes. The distances to 9 add up to $2 + 0 + 4 + 2 + 4 = 12$. The line at 9 fits only a little better than the line at 6, because the lessons are spread out from 5 to 13. So $H_0$ is hard to reject: if $H_0$ were true, chance alone would give a mean this far above 6 in 5.1 percent of such samples (Figure 3).
+- **Five steadier lessons (right).** Suppose the lessons had been 8, 9, 8, 10 and 10 minutes: the same mean 9, but close together. The total distance falls from 15 to 4. The line at 6 fits these lessons far worse than their own mean, and the same one-sample t-test says chance alone would do this in only 0.1 percent of such samples: strong evidence against $H_0$.
+
+The same mean of 9 is weak evidence in one case and strong evidence in the other. A test compares how far the sample is from $H_0$ with how much the sample varies by itself.
+
+![Five lessons and their distances (orange) to a line that moves from 6, the mean under $H_0$, to 9, the lessons' own mean. Left: our lessons, total distance 17 to 12. Right: five steadier lessons with the same mean, 15 to 4. Adapted from StatQuest, "Alternative Hypotheses: Main Ideas!!!", which compares distances to one mean and to two group means.](images/mean_fit.gif){height=50%}
+
+The channel's $H_1$ has a direction: the new style should **increase** the duration. The chips' $H_1$ has none: the weight is wrong, whether too high or too low. This difference decides between a **one-tailed test** (G-1385) and a two-tailed test (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
 
 Two other names are common in books and exam questions:
 
-- $H_0$ is called the **status quo**: the current state of things;
-- $H_1$ is called the **research hypothesis**: the idea that comes out of research. The channel owner studied other channels and concluded that the whiteboard style might help.
+- $H_0$ is called the **status quo** (G-1887): the current state of things;
+- $H_1$ is called the **research hypothesis** (G-1677): the idea that comes out of research. The channel owner studied other channels and concluded that the whiteboard style might help.
 
 > **Extra:** The hypotheses are always about the **population** parameter ($\mu$), never about the sample mean ($\bar{x}$). We already know $\bar{x} = 9$ for the five new lessons; there is nothing to test about it. The open question is $\mu$, the mean of all future lessons. Writing $H_0: \bar{x} = 6$ is a common slip.
 
@@ -146,7 +161,7 @@ A courtroom makes this clear:
 
 ![The courtroom and the hypothesis test, step for step. Both end in one of two verdicts, and the weak-evidence verdict proves nothing](images/courtroom.png){width=75%}
 
-Figure 4 lines up the two procedures. Watch the green boxes: neither "not guilty" nor "fail to reject" is a proof.
+Figure 6 lines up the two procedures. Watch the green boxes: neither "not guilty" nor "fail to reject" is a proof.
 
 A "not guilty" verdict does not prove that no crime happened. The verdict says the prosecutor could not prove it. In the same way, if the five lessons do not let us reject $H_0$, the new style may still work: our evidence was simply too weak to show it.
 
@@ -160,17 +175,17 @@ For the same reason, rejecting $H_0$ for the channel would not show that the whi
 
 ![The eight steps of a hypothesis test (rejection region approach)](images/test_steps.png){height=45%}
 
-There are two ways to carry out a test. The **rejection region approach** compares the test statistic with a fixed boundary (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)). The **p-value approach** computes one extra number that also measures how strong the evidence is (see the [p-values Note](../300-p-values/note.md)); it is the approach used in practice. Both follow the steps in Figure 5.
+There are two ways to carry out a test. The **rejection region approach** (G-1663) compares the test statistic with a fixed boundary (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)). The **p-value approach** (G-1431) computes one extra number that also measures how strong the evidence is (see the [p-values Note](../300-p-values/note.md)); it is the approach used in practice. Both follow the steps in Figure 7.
 
 1. **State $H_0$ and $H_1$.** For the channel: $H_0: \mu = 6$, $H_1: \mu > 6$.
-2. **Choose a significance level $\alpha$.** Usually 0.05 (5%), sometimes 0.01 (1%). The significance level is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. The [rejection region Note](../291-rejection-region-and-z-test/note.md) explains it fully.
-3. **Check the assumptions about the data.** Is the data normally distributed? Do we know the population standard deviation $\sigma$? Is the data numerical or categorical? Do we have one **feature** (one measured variable, one column of the data table) or several, one group or several?
+2. **Choose a significance level $\alpha$** (G-1801). Usually 0.05 (5%), sometimes 0.01 (1%). The significance level is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. The [rejection region Note](../291-rejection-region-and-z-test/note.md) explains it fully.
+3. **Check the assumptions about the data.** Is the data normally distributed? Do we know the population standard deviation $\sigma$? Is the data numerical or categorical? Do we have one **feature** (G-772; one measured variable, one column of the data table) or several, one group or several?
 4. **Choose the test.** The assumptions decide it. For example:
-   - normal data (or a large sample) and $\sigma$ known: the one-sample **z-test**;
-   - $\sigma$ unknown: the **t-test** (see the [one-sample t-test Note](../301-one-sample-t-test/note.md));
-   - categorical data: the chi-square test;
-   - several group means: ANOVA.
-5. **Name the test statistic.** The **test statistic** is the number the test computes from the sample. A z-test computes a z-score, called the z statistic; a t-test computes the t statistic (as in the [t-procedure Note](../282-t-procedure/note.md)).
+   - normal data (or a large sample) and $\sigma$ known: the one-sample **z-test** (G-2143);
+   - $\sigma$ unknown: the **t-test** (G-1940; see the [one-sample t-test Note](../301-one-sample-t-test/note.md));
+   - categorical data: the **chi-square test** (G-381);
+   - several group means: **ANOVA** (G-203).
+5. **Name the test statistic.** The **test statistic** (G-1963) is the number the test computes from the sample. A z-test computes a z-score, called the z statistic; a t-test computes the t statistic (as in the [t-procedure Note](../282-t-procedure/note.md)).
 6. **Conduct the test.** Compute the test statistic from the sample.
 7. **Decide.** Based on the statistic, reject $H_0$ or fail to reject it.
 8. **Interpret the result.** Translate the decision back into the real question. If the channel rejected $H_0$, the interpretation would be: "filming in the new style increases the mean view duration".
@@ -201,6 +216,8 @@ Steps 1 and 2 come before looking at the data: the decision needs a fixed bounda
 **Built from**
 
 - CampusX, "Session 45 - Hypothesis Testing Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=S94mx6OL7kM
+- StatQuest with Josh Starmer, "Hypothesis Testing and The Null Hypothesis, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=0oc49DyA3hU
+- StatQuest with Josh Starmer, "Alternative Hypotheses: Main Ideas!!!", YouTube, https://www.youtube.com/watch?v=5koKb5B_YWo
 
 **Other references**
 

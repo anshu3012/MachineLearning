@@ -1,0 +1,11 @@
+25-normalization
+26-ordinal-label-encoding
+27-one-hot-encoding
+28-column-transformer
+30-function-transformer
+33-mixed-variables
+34-date-and-time
+35-complete-case-analysis
+36-imputing-numerical-data
+39-knn-imputer
+41-what-are-outliers

@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-2, step/model, concept/clustering, concept/hierar
 
 > **Key point:** Agglomerative clustering starts with every point as its own cluster and repeatedly merges the two closest clusters; the record of the merges, the dendrogram, lets us pick any number of clusters afterwards.
 
-k-means works well on round, well-separated groups but fails on many other shapes. **Hierarchical clustering** is a family of clustering methods that build a whole hierarchy of clusters, from single points up to one cluster holding everything. Figure 1 shows the idea on six points.
+**k-means** (G-996) works well on round, well-separated groups but fails on many other shapes. **Hierarchical clustering** (G-893) is a family of clustering methods that build a whole hierarchy of clusters, from single points up to one cluster holding everything. Figure 1 shows the idea on six points.
 
 ![Agglomerative clustering on 6 points: each merge (left) adds one link to the dendrogram (right); a cut through the tree gives the clusters](images/agglomerative.gif){height=45%}
 
@@ -50,8 +50,12 @@ k-means does best on spherical (round) groups. Other clustering methods exist be
 
 There are two types:
 
-- **Agglomerative clustering** starts with every point as a cluster and merges, one step at a time, until one cluster is left. Agglomerative clustering is the common one, and the rest of this Note is about it.
-- **Divisive clustering** works the other way round: it starts with one cluster holding everything and splits it, step by step, until every point is alone. Section 6 sketches it.
+- **Agglomerative clustering** (G-180) starts with every point as a cluster and merges, one step at a time, until one cluster is left. Agglomerative clustering is the common one, and the rest of this Note is about it.
+- **Divisive clustering** (G-630) works the other way round: it starts with one cluster holding everything and splits it, step by step, until every point is alone. Section 6 sketches it.
+
+![The two directions on the six points of section 5. Agglomerative clustering reads the list bottom-up, merging the two closest clusters at each step; divisive clustering reads it top-down, splitting one cluster at each step](images/two_kinds.png){width=85%}
+
+Figure 3 shows both directions on the same six points.
 
 ## 5. Agglomerative clustering, merge by merge
 
@@ -74,7 +78,7 @@ Figure 1 runs the algorithm on six points:
 
 > **Key point:** Each merge is drawn as a link whose height is the distance at which the two clusters merged.
 
-The tree on the right of Figure 1 is the **dendrogram** (the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md), section 8): it joins the most similar items first, with short links. Here we see how it is built. Every merge adds one link, and the height of the link is the distance between the two clusters when they merged.
+The tree on the right of Figure 1 is the **dendrogram** (G-582; the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md), section 8): it joins the most similar items first, with short links. Here we see how it is built. Every merge adds one link, and the height of the link is the distance between the two clusters when they merged.
 
 Reading the tree, we see at once that 4 and 5 were the closest pair, 1 and 2 the next, that 3 was close to {4, 5}, and that 6 came last before the final merge. The tree shows a hierarchy of clusters inside clusters, which is where the name hierarchical clustering comes from.
 
@@ -102,7 +106,7 @@ The result is the same kind of tree, read from the top down. Divisive clustering
 
 > **Key point:** Compute the n × n matrix of distances, merge the closest pair, update the matrix row and column of the new cluster, and repeat until one cluster remains.
 
-To code agglomerative clustering, we need a **proximity matrix**: a table with one row and one column per cluster, holding the distance between every pair. The algorithm is:
+To code agglomerative clustering, we need a **proximity matrix** (G-1585): a table with one row and one column per cluster, holding the distance between every pair. The algorithm is:
 
 1. Compute the proximity matrix of all n points.
 2. Make every point a cluster.
@@ -110,7 +114,7 @@ To code agglomerative clustering, we need a **proximity matrix**: a table with o
    - merge the two closest clusters;
    - update the proximity matrix: remove the two old rows and columns, and add one row and column for the new cluster.
 
-Take five points: $P_1 = (1, 1)$, $P_2 = (2, 2)$, $P_3 = (5, 4)$, $P_4 = (6, 4)$ and $P_5 = (6, 6)$. Their Euclidean distances form the proximity matrix:
+Take five points: $P_1 = (1, 1)$, $P_2 = (2, 2)$, $P_3 = (5, 4)$, $P_4 = (6, 4)$ and $P_5 = (6, 6)$. Their **Euclidean distances** (G-715) form the proximity matrix (Figure 4, left):
 
 |  | P1 | P2 | P3 | P4 | P5 |
 |---|---|---|---|---|---|
@@ -122,13 +126,15 @@ Take five points: $P_1 = (1, 1)$, $P_2 = (2, 2)$, $P_3 = (5, 4)$, $P_4 = (6, 4)$
 
 The diagonal is 0: every point is at distance 0 from itself. The matrix is symmetric: the distance from P1 to P2 equals the distance from P2 to P1.
 
-The smallest value off the diagonal is 1.00, between P3 and P4, so they merge into a cluster $C_1 = \lbrace P_3, P_4\rbrace$. The matrix shrinks to 4 rows: P1, P2, $C_1$ and P5. The distances between unchanged points (P1 to P2, P1 to P5, P2 to P5) stay as they are. But what is the distance from $C_1$ to P1, P2 or P5? The answer depends on how we measure the distance between clusters, which is the subject of the next section.
+The smallest value off the diagonal is 1.00, between P3 and P4, so they merge into a cluster $C_1 = \lbrace P_3, P_4\rbrace$. The matrix shrinks to 4 rows: P1, P2, $C_1$ and P5. The distances between unchanged points (P1 to P2, P1 to P5, P2 to P5) stay as they are. But what is the distance from $C_1$ to P1, P2 or P5 (the question marks of Figure 4, right)? The answer depends on how we measure the distance between clusters, which is the subject of the next section.
+
+![The proximity matrix of the five points. Left: all distances, with the smallest off the diagonal (P3 to P4, 1.00) outlined. Right: after merging P3 and P4 into $C_1$, the distances between unchanged points stay; the row and column of $C_1$ wait for a linkage rule](images/proximity.png){width=100%}
 
 ## 8. Linkage: the distance between two clusters
 
-> **Key point:** Single linkage uses the closest pair of points, complete the farthest pair, average the mean of all pairs, and Ward the growth in spread caused by merging.
+> **Key point:** **Single linkage** (G-1811) uses the closest pair of points, **complete linkage** (G-427) the farthest pair, **average linkage** (G-236) the mean of all pairs, and **Ward linkage** (G-2099) the growth in spread caused by merging.
 
-The rule for the distance between two clusters is called the **linkage**. The linkage is the only thing that differs between the four types of agglomerative clustering in scikit-learn. Figure 3 shows all four.
+The rule for the distance between two clusters is called the **linkage** (G-1104). The linkage is the only thing that differs between the four types of agglomerative clustering in scikit-learn. Figure 5 shows all four.
 
 ![The four linkages: how the distance between cluster A and cluster B is measured](images/linkages.png){height=55%}
 
@@ -143,7 +149,7 @@ The rule for the distance between two clusters is called the **linkage**. The li
 
 With the updated matrix, the next smallest distance is 1.41 (P1 to P2), so they merge into $C_2 = \lbrace P_1, P_2\rbrace$. Then $C_1$ and $P_5$ merge at 2.00 into $C_3 = \lbrace P_3, P_4, P_5\rbrace$. Finally $C_2$ and $C_3$ merge at their closest pair, P2 to P3: 3.61.
 
-Single linkage separates groups well when there is a clear gap between them (Figure 4, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 4 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
+Single linkage separates groups well when there is a clear gap between them (Figure 6, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 6 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
 
 ### 8.2 Complete linkage (max)
 
@@ -154,7 +160,7 @@ Single linkage separates groups well when there is a clear gap between them (Fig
    $$d_{\text{complete}}(A, B) = \max_{a \in A,\thinspace b \in B} d(a, b)$$
 3. **Example:** $C_1 = \lbrace P_3, P_4\rbrace$ to $P_5$ is $\max(2.24, 2.00) = 2.24$. At the last step, $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ is the largest of six distances: 7.07 (P1 to P5).
 
-Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 4 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
+Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 6 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
 
 ### 8.3 Average linkage
 
@@ -186,7 +192,7 @@ Each merge thus keeps the clusters as tight as possible, which is the same goal 
 
 > **Key point:** No linkage wins everywhere: single needs clean gaps, complete and Ward prefer compact groups of similar size.
 
-Figure 4 runs all four linkages, with 2 clusters, on three datasets:
+Figure 6 runs all four linkages, with 2 clusters, on three datasets:
 
 - **Moons with a clear gap (top):** only single linkage separates the two moons; the others cut across them.
 - **Noisy moons (middle):** single linkage chains everything into one cluster and leaves one point alone. Complete, average and Ward give rough splits.
@@ -209,11 +215,11 @@ The vertical lines of a dendrogram measure distance between clusters: the longer
 3. Cut horizontally through the middle of that stretch.
 4. The number of vertical lines the cut crosses is the number of clusters.
 
-Figure 5 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized (the [standardization Note](../24-standardization/note.md)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 6).
+Figure 7 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized (the [standardization Note](../24-standardization/note.md)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 8).
 
 ![Ward dendrogram of the 200 customers (standardized features); the cut at 7 gives 5 clusters](images/dendrogram_cut.png){height=48%}
 
-> **Extra:** The rule is a guide, not a proof. The blue band in Figure 5, from 10.14 to 15.19, is nearly as long (5.04), and a cut there gives 3 clusters. On data we cannot plot, both candidates are worth inspecting. Scaling matters here too: on the raw, unscaled features the two bands swap order (131.8 against 132.3) and the rule would pick 3 clusters (Notebook). Standardizing gives both features the same say in the distances.
+> **Extra:** The rule is a guide, not a proof. The blue band in Figure 7, from 10.14 to 15.19, is nearly as long (5.04), and a cut there gives 3 clusters. On data we cannot plot, both candidates are worth inspecting. Scaling matters here too: on the raw, unscaled features the two bands swap order (131.8 against 132.3) and the rule would pick 3 clusters (Notebook). Standardizing gives both features the same say in the distances.
 
 ## 10. AgglomerativeClustering in scikit-learn
 
@@ -259,7 +265,7 @@ The file `data/shopping_data.csv` describes 200 customers of a shopping mall. Ea
 >
 > `linkage` returns one row per merge: the two clusters merged, the distance and the new size. `dendrogram(..., no_plot=True)` only computes the line coordinates (`icoord`, `dcoord`), which the Notebook draws with Plotly.
 
-The five clusters have 32, 39, 85, 21 and 23 customers (Figure 6):
+The five clusters have 32, 39, 85, 21 and 23 customers (Figure 8):
 
 - high income, low spending (blue);
 - high income, high spending (orange): the mall's best customers;
@@ -282,7 +288,9 @@ Strengths:
 
 Limitation:
 
-- **Big datasets:** the proximity matrix has $n \times n$ entries. With $10^6$ (ten lakh) points the matrix holds $10^{12}$ distances. At 8 bytes per number, $10^{12}$ distances take 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets.
+- **Big datasets:** the proximity matrix has $n \times n$ entries. With $10^6$ (ten lakh) points the matrix holds $10^{12}$ distances. At 8 bytes per number, $10^{12}$ distances take 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets (Figure 9).
+
+![Memory for the full proximity matrix at 8 bytes per distance. The 200 customers of section 10 need 320 KB; a million points need 8 TB, far above 16 GB of RAM. Both axes are logarithmic](images/memory.png){width=85%}
 
 ## 12. Summary
 

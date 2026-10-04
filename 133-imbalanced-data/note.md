@@ -18,7 +18,7 @@ tags: [subject/ml, area/data, area/features, area/models-1, step/understand, ste
 
 ![Five ways to handle imbalanced data, in three groups](images/overview.png){height=40%}
 
-Imbalanced data was defined in the [accuracy Note](../76-accuracy-confusion-matrix/note.md), section 6: data in which one class is much rarer than another. This Note shows what goes wrong when we train on it and teaches the five techniques of Figure 1:
+**Imbalanced data** (G-921) was defined in the [accuracy Note](../76-accuracy-confusion-matrix/note.md), section 6: data in which one class is much rarer than another. This Note shows what goes wrong when we train on it and teaches the five techniques of Figure 1:
 
 - **Change the data** (resampling): random undersampling, random oversampling, SMOTE.
 - **Change the ensemble:** the balanced random forest.
@@ -30,7 +30,7 @@ The Notebook (`notebook.ipynb`) runs every technique on the same dataset.
 
 > **Key point:** One class (the majority) has far more observations than another (the minority); this happens with two classes or with many.
 
-Take a college where we know each student's CGPA and IQ and whether they were placed. Each student is one **observation** (one record, one row of the data table); CGPA and IQ are **features** (input variables, one column each); placed or not is the **target**, the output we predict. At a top college, most students are placed: out of 500 final-year students, perhaps 450 placed and 50 not. Placed is the **majority class**, the class with many observations; not placed is the **minority class**, the rare one.
+Take a college where we know each student's CGPA and IQ and whether they were placed. Each student is one **observation** (G-1374; one record, one row of the data table); CGPA and IQ are **features** (G-772; input variables, one column each); placed or not is the **target** (G-1949), the output we predict. At a top college, most students are placed: out of 500 final-year students, perhaps 450 placed and 50 not. Placed is the **majority class** (G-1145), the class with many observations; not placed is the **minority class** (G-1229), the rare one.
 
 The same can happen with three or more classes. Suppose 10 more students did not sit for placements at all, a third class. The data now has one large class and two small ones, and it is still imbalanced.
 
@@ -38,7 +38,9 @@ The same can happen with three or more classes. Suppose 10 more students did not
 
 > **Key point:** 400 observations, two features, about 7% in class 0; the training set has 299 observations of class 1 and only 21 of class 0.
 
-To see the effects, we use a synthetic dataset made with scikit-learn's `make_classification`: 400 observations, two features `x1` and `x2`, and two classes. Class 1 is the majority and class 0 the minority. After an 80/20 split, the training set has 320 observations (299 of class 1, 21 of class 0) and the test set 80 observations (73 and 7).
+To see the effects, we use a synthetic dataset made with scikit-learn's `make_classification`: 400 observations, two features `x1` and `x2`, and two classes. Class 1 is the majority and class 0 the minority. After an 80/20 split, the training set has 320 observations (299 of class 1, 21 of class 0) and the test set 80 observations (73 and 7) (Figure 2).
+
+![The Note's dataset: 299 against 21 observations in the training set, 73 against 7 in the test set](images/class_counts.png){width=75%}
 
 > **Python:** Making an imbalanced dataset.
 >
@@ -66,13 +68,13 @@ A model learns from the observations it sees. With 299 observations of class 1 a
 
 ![Left: the training observations per class. Right: the line logistic regression learns on this data](images/baseline.png){width=100%}
 
-Figure 2 shows the result for logistic regression. The decision boundary sits low, below almost all the red points. The model keeps every blue point on the correct side and gives up on most of the red ones: it is **biased towards the majority class**.
+Figure 3 shows the result for logistic regression. The decision boundary sits low, below almost all the red points. The model keeps every blue point on the correct side and gives up on most of the red ones: it is **biased towards the majority class**.
 
 ### 3.2 Accuracy is not reliable
 
-> **Key point:** The model in Figure 2 has 92.5% accuracy but finds only 1 of the 7 minority observations in the test set.
+> **Key point:** The model in Figure 3 has 92.5% accuracy but finds only 1 of the 7 minority observations in the test set.
 
-The classification report of the model in Figure 2, on the 80 test observations:
+The classification report of the model in Figure 3, on the 80 test observations:
 
 | Class | Precision | Recall | F1 | Observations |
 |---|---|---|---|---|
@@ -80,7 +82,9 @@ The classification report of the model in Figure 2, on the 80 test observations:
 | 1 (majority) | 0.92 | 1.00 | 0.96 | 73 |
 | Accuracy | | | **0.925** | 80 |
 
-The accuracy, 92.5%, looks excellent. The recall of class 0 is 0.14: of the 7 minority observations, the model found only 1. If class 0 is the class we care about, this model is nearly useless.
+The accuracy, 92.5%, looks excellent. The recall of class 0 is 0.14: of the 7 minority observations, the model found only 1. If class 0 is the class we care about, this model is nearly useless. Figure 4 shows where the 92.5% comes from: the 73 majority observations, all right.
+
+![Confusion matrices on the 80 test observations. Left: logistic regression finds 1 of the 7 minority observations (red row). Right: a model that always answers class 1 finds none, and still scores 91.25%](images/confusion.png){width=100%}
 
 A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here, the same trap as in the [accuracy Note](../76-accuracy-confusion-matrix/note.md), section 6. So on imbalanced data we judge models by the minority class's precision, recall and F1 ([precision Note](../77-precision-recall-f1/note.md)) and by ROC AUC ([ROC Note](../78-roc-auc/note.md)).
 
@@ -107,13 +111,13 @@ A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here,
 | Consumer internet | churn prediction | users who will leave the platform next month |
 | Environmental science | earthquake or volcano prediction | days with an eruption or quake |
 
-In every row of the table, predicting the minority class correctly is the whole point. A model that is biased towards the majority, like the one in Figure 2, fails exactly where it matters.
+In every row of the table, predicting the minority class correctly is the whole point. A model that is biased towards the majority, like the one in Figure 3, fails exactly where it matters.
 
 ## 5. Random undersampling
 
 > **Key point:** Randomly drop majority observations until both classes have the same number of observations.
 
-The simplest fix is to make the data balanced. **Random undersampling** keeps every minority observation and draws, at random and without replacement, the same number of majority observations. The other majority observations are thrown away.
+The simplest fix is to make the data balanced. **Random undersampling** (G-1619) keeps every minority observation and draws, at random and without replacement, the same number of majority observations. The other majority observations are thrown away.
 
 With 900 majority and 100 minority observations, we keep 100 random majority observations and all 100 minority observations: 200 observations instead of 1,000. On our training set, 320 observations (299 + 21) become **42** observations (21 + 21).
 
@@ -129,11 +133,11 @@ With 900 majority and 100 minority observations, we keep 100 random majority obs
 > np.bincount(y_under)    # [21, 21]
 > ```
 >
-> **imbalanced-learn** (imported as `imblearn`) collects the techniques of this Note behind one method, `fit_resample`, which returns the new inputs and labels. `np.bincount` counts how many labels are 0, 1, and so on.
+> **imbalanced-learn** (G-922; imported as `imblearn`) collects the techniques of this Note behind one method, `fit_resample`, which returns the new inputs and labels. `np.bincount` counts how many labels are 0, 1, and so on.
 
 ![The training data after random undersampling, random oversampling and SMOTE. Solid line: logistic regression trained on the resampled data; dashed line: trained on the original data](images/resampling.png){width=100%}
 
-Figure 3, left, shows the 42 observations and the new boundary. Logistic regression now treats both classes as equally important, and the line moves up through the middle of the data. The minority recall on the test set rises from 0.14 to **1.00** (all 7 found), while the minority precision falls from 1.00 to 0.33: the model now also flags many majority observations as class 0.
+Figure 5, left, shows the 42 observations and the new boundary. Logistic regression now treats both classes as equally important, and the line moves up through the middle of the data. The minority recall on the test set rises from 0.14 to **1.00** (all 7 found), while the minority precision falls from 1.00 to 0.33: the model now also flags many majority observations as class 0.
 
 > **Extra:** A straight line cannot separate this data well, because each class has two blobs. Undersampling fixes the bias, not the shape of the boundary; an algorithm that draws curved boundaries, such as a random forest, may do better.
 
@@ -151,9 +155,13 @@ Figure 3, left, shows the 42 observations and the new boundary. Logistic regress
 
 > **Key point:** Randomly copy minority observations until both classes have the same number of observations.
 
-**Random oversampling** goes the other way: keep every observation and draw minority observations at random *with replacement* until the minority is as large as the majority. With 900 and 100 observations, we draw 900 minority observations from the 100, so each one appears 9 times on average.
+**Random oversampling** (G-1613) goes the other way: keep every observation and draw minority observations at random *with replacement* until the minority is as large as the majority. With 900 and 100 observations, we draw 900 minority observations from the 100, so each one appears 9 times on average.
 
-On our training set, 320 observations become **598** (299 + 299). Each of the 21 minority observations now appears between 9 and 21 times. In a scatter plot the copies sit exactly on top of each other, which is why Figure 3, middle, draws each repeated observation as one dot whose size grows with the number of copies.
+On our training set, 320 observations become **598** (299 + 299) (Figure 6).
+
+![The training set's class counts before and after each resampler. Undersampling cuts the majority to 21; oversampling copies the minority up to 299; SMOTE adds 278 new minority points](images/resample_counts.png){width=90%}
+
+Each of the 21 minority observations now appears between 9 and 21 times. In a scatter plot the copies sit exactly on top of each other, which is why Figure 5, middle, draws each repeated observation as one dot whose size grows with the number of copies.
 
 > **Python:** Random oversampling.
 >
@@ -165,26 +173,26 @@ On our training set, 320 observations become **598** (299 + 299). Each of the 21
 > np.bincount(y_over)     # [299, 299]
 > ```
 
-The boundary moves up much as with undersampling (Figure 3, middle). The minority recall rises to **0.86** (6 of 7) and the precision falls to 0.32.
+The boundary moves up much as with undersampling (Figure 5, middle). The minority recall rises to **0.86** (6 of 7) and the precision falls to 0.32.
 
 **Advantage:** random oversampling removes the bias towards the majority class without throwing any data away.
 
 **Disadvantages:**
 
 - The data grows: here from 320 to 598 observations. A 1 GB dataset can become nearly 2 GB.
-- Copies are not new information. An observation repeated 21 times looks very important to the algorithm, which can **overfit** to it, especially decision trees: the tree carves out tiny regions around the repeated points, with more splits and more leaves (Chawla et al. 2002, §4.1).
+- Copies are not new information. An observation repeated 21 times looks very important to the algorithm, which can **overfit** (G-1429) to it, especially decision trees: the tree carves out tiny regions around the repeated points, with more splits and more leaves (Chawla et al. 2002, §4.1).
 
 ## 7. SMOTE
 
 > **Key point:** Instead of copying minority observations, create new ones on the line between a minority observation and one of its minority neighbours.
 
-**SMOTE** (Synthetic Minority Over-sampling Technique) is the most popular technique for imbalanced data. SMOTE is an oversampling technique: it grows the minority class until the classes are equal. The difference is that it makes new observations instead of copies, so the model does not see the same point again and again.
+**SMOTE** (G-1825; Synthetic Minority Over-sampling Technique) is the most popular technique for imbalanced data. SMOTE is an oversampling technique: it grows the minority class until the classes are equal. The difference is that it makes new observations instead of copies, so the model does not see the same point again and again.
 
 ### 7.1 Interpolation
 
 > **Key point:** A new point is placed a random fraction of the way from a minority point to its neighbour.
 
-SMOTE creates observations by **interpolation**: placing a new point on the straight segment between two existing points.
+SMOTE creates observations by **interpolation** (G-964): placing a new point on the straight segment between two existing points.
 
 **The new point, step by step:**
 
@@ -202,7 +210,7 @@ SMOTE creates observations by **interpolation**: placing a new point on the stra
 
 ![SMOTE step by step: a random minority point and its 5 nearest minority neighbours, one neighbour chosen, a new point between them, and the result after a few repetitions](images/smote_steps.gif){width=100%}
 
-Figure 4 shows the steps:
+Figure 7 shows the steps:
 
 1. Take only the minority observations, and find the $k$ nearest minority neighbours of each one, usually $k = 5$ (a KNN search, as in the [KNN Note](../91-knn/note.md)).
 2. Pick a minority point at random.
@@ -246,7 +254,7 @@ Figure 4 shows the steps:
 >
 > imbalanced-learn builds each new point exactly as our function does (imbalanced-learn source, `_smote/base.py`): a random minority point, one of its `k_neighbors` nearest minority neighbours, and a random factor between 0 and 1. `fit_resample` returns the original observations first and the synthetic observations after them.
 
-On our data, SMOTE creates 278 new observations: 320 observations become 598 (299 + 299). Figure 3, right, shows them in orange, lying on segments between red points. The boundary moves up again; the minority recall rises to **0.71** (5 of 7) and the precision falls to 0.29.
+On our data, SMOTE creates 278 new observations: 320 observations become 598 (299 + 299). Figure 5, right, shows them in orange, lying on segments between red points. The boundary moves up again; the minority recall rises to **0.71** (5 of 7) and the precision falls to 0.29.
 
 ### 7.3 Advantages and disadvantages
 
@@ -259,10 +267,10 @@ On our data, SMOTE creates 278 new observations: 320 observations become 598 (29
 
 SMOTE is popular, but whether to use it is much debated, because of five disadvantages:
 
-1. **SMOTE cannot handle categorical features.** Interpolating between category 0 and category 1 can give 0.7, which is not a category (Figure 5, left).
+1. **SMOTE cannot handle categorical features.** Interpolating between category 0 and category 1 can give 0.7, which is not a category (Figure 8, left).
 2. **SMOTE is slow on large data.** SMOTE needs a nearest-neighbour search, which measures many distances and becomes slow with many observations or many features.
 3. **SMOTE depends on $k$.** With $k = 1$, every new point lies on the segment to the single nearest neighbour, so the new points have little variety. With a very large $k$, neighbours can be far away and new points appear all over the feature space. The middle is hard to find; $k = 5$ is the usual default, but the best value depends on the data.
-4. **SMOTE is sensitive to outliers.** A noisy minority point far from the others gets picked too, and the segments to its neighbours cross the majority region, so one noisy observation creates more noisy observations (Figure 5, right). Our own data shows this: the red outlier at the bottom of Figure 3, right, pulls a trail of orange points down with it.
+4. **SMOTE is sensitive to outliers.** A noisy minority point far from the others gets picked too, and the segments to its neighbours cross the majority region, so one noisy observation creates more noisy observations (Figure 8, right). Our own data shows this: the red outlier at the bottom of Figure 5, right, pulls a trail of orange points down with it.
 5. **The new observations may not be realistic.** Nothing guarantees that the invented points follow the true distribution of the population. They follow the straight lines between existing points, which real data may not.
 
 ![Two SMOTE failures: a new point between two categories, and an outlier that spreads new points into the majority](images/smote_problems.png){width=90%}
@@ -310,11 +318,11 @@ The leaky setup reports more than twice the honest score, and almost all of the 
 
 > **Key point:** A balanced random forest trains every tree on a balanced sample: the minority observations (or a bootstrap sample of them) plus the same number of random majority observations.
 
-Ensemble methods ([ensemble learning Note](../101-ensemble-learning/note.md)) such as bagging and random forests can be changed to handle imbalanced data. A random forest ([random forest Note](../108-random-forest-intro/note.md)) trains many decision trees, each on a random sample of the observations, and combines their votes. A **balanced random forest** changes only how each sample is drawn: every sample is balanced, even though the data is not.
+Ensemble methods ([ensemble learning Note](../101-ensemble-learning/note.md)) such as bagging and random forests can be changed to handle imbalanced data. A random forest ([random forest Note](../108-random-forest-intro/note.md)) trains many decision trees, each on a random sample of the observations, and combines their votes. A **balanced random forest** (G-256) changes only how each sample is drawn: every sample is balanced, even though the data is not.
 
 ![A balanced random forest: every tree is trained on a balanced sample, then the trees vote](images/balanced_rf.png){height=42%}
 
-In Figure 6, the training data has 900 majority and 300 minority observations. Each sample takes 300 minority observations and 300 majority observations drawn at random, 600 observations in all, and one tree is trained on it. To predict, every tree votes and the majority vote wins: here 1, 0 and 1 give 1.
+In Figure 9, the training data has 900 majority and 300 minority observations. Each sample takes 300 minority observations and 300 majority observations drawn at random, 600 observations in all, and one tree is trained on it. To predict, every tree votes and the majority vote wins: here 1, 0 and 1 give 1.
 
 Undersampling (section 5) threw most majority observations away for good. Here each tree throws different observations away, so together the trees still see most of the majority class. On our data, 100 trees each draw 21 of the 299 majority observations, so a given observation is missed by every tree with probability $(1 - 1/299)^{2100} \approx 0.001$.
 
@@ -339,7 +347,7 @@ On our data, the balanced forest finds 5 of the 7 minority test observations (re
 
 > **Key point:** Leave the data alone and change the learning itself, so that mistakes on the minority class cost more.
 
-**Cost-sensitive learning** changes how the algorithm learns, so that it handles imbalanced data better. There are two ways: class weights, and a custom loss function.
+**Cost-sensitive learning** (G-493) changes how the algorithm learns, so that it handles imbalanced data better. There are two ways: class weights, and a custom loss function.
 
 ### 9.1 Class weights
 
@@ -360,7 +368,7 @@ With 900 observations of class 1 and 100 observations of class 0, we might give 
 
 ![The line logistic regression learns as the weight of class 0 grows from 1 to 50](images/class_weight.png){width=90%}
 
-Figure 7 shows the effect. With weight 1 (no weighting), the line sits below the red points; at 5, 25 and 50 it moves further up into the majority class. The bigger the weight, the more pressure on the model to classify the minority correctly:
+Figure 10 shows the effect. With weight 1 (no weighting), the line sits below the red points; at 5, 25 and 50 it moves further up into the majority class. The bigger the weight, the more pressure on the model to classify the minority correctly:
 
 | Weight of class 0 | Accuracy | Precision (0) | Recall (0) |
 |---|---|---|---|
@@ -379,7 +387,7 @@ Most scikit-learn classifiers that minimise a loss accept `class_weight`: `Logis
 
 > **Key point:** Some libraries (gradient boosting, XGBoost, LightGBM) let us write our own loss, so we can set exactly how much each kind of mistake costs.
 
-The losses we have used so far are standard ones: mean squared error, log loss ([log loss Note](../73-log-loss/note.md)). Some algorithms let us replace them with a **custom loss function** (also called a custom objective) that fits our problem. Suppose missing a minority observation (a false negative, if the minority is the positive class) is worse than a false alarm: we write a log loss that charges more for that mistake.
+The losses we have used so far are standard ones: mean squared error, log loss ([log loss Note](../73-log-loss/note.md)). Some algorithms let us replace them with a **custom loss function** (G-523; also called a custom objective) that fits our problem. Suppose missing a minority observation (a false negative, if the minority is the positive class) is worse than a false alarm: we write a log loss that charges more for that mistake.
 
 **The weighted log loss, step by step:**
 
@@ -420,7 +428,7 @@ $$\frac{\partial L_i}{\partial z_i} = b\thinspace(1 - y_i)\thinspace p_i - a\thi
 > y_pred = (p > 0.5).astype(int)
 > ```
 >
-> A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (first derivative) and **Hessian** (second derivative) of each observation's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities (XGBoost docs, Custom Objective), so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
+> A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (G-865; first derivative) and **Hessian** (G-887; second derivative) of each observation's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities (XGBoost docs, Custom Objective), so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
 
 With $b = 1$ (the ordinary log loss), XGBoost finds 2 of the 7 minority test observations. With $b = 3.5$ it finds 3 (recall **0.43**, precision 0.38). Section 10 repeats the comparison on real data, where the effect is clear.
 
@@ -447,7 +455,9 @@ The toy test set has only 7 minority observations, so one observation found or m
 | XGBoost, ordinary log loss | 0.83 | 0.54 | 0.65 | 0.953 |
 | XGBoost, custom loss (minority mistakes cost 10) | 0.56 | 0.77 | 0.65 | 0.953 |
 
-Three things stand out:
+Figure 11 draws the table's first two columns. Three things stand out:
+
+![Minority precision against minority recall on the mammography data. Each arrow goes from a model as is to the same model with a fix: every fix moves right (more calcifications found) and down (more false alarms)](images/tradeoff.png){width=90%}
 
 - **Recall rises sharply.** Logistic regression finds 40% of the calcifications as is and 85% after any of the four fixes. The forest goes from 54% to 85%, and XGBoost from 54% to 77%.
 - **Precision falls.** The models now flag many more majority observations as class 1. A screening test works the same way: sending more patients for a second look catches more real cases, and also more healthy people. Whether that trade is worth it depends on the cost of each mistake.

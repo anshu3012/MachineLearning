@@ -17,9 +17,9 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression, conce
 
 > **Key point:** The perceptron trick stops as soon as every point is correct. The fix: let every point act on the line, with strength depending on its distance. Replacing the step function with the sigmoid function does exactly this, and also turns the model's output into a probability.
 
-The previous Note found the weakness of the perceptron trick: once no point is misclassified, the line stops moving, wherever it happens to be. Logistic regression keeps improving the line after that.
+The previous Note found the weakness of the perceptron trick: once no point is misclassified, the line stops moving, wherever it happens to be. **Logistic regression** (G-1120) keeps improving the line after that.
 
-This Note changes the perceptron's rule so that correctly classified points also take part. The change needs one new ingredient, the **sigmoid function**, one of the most important functions in machine learning and deep learning.
+This Note changes the perceptron's rule so that correctly classified points also take part. The change needs one new ingredient, the **sigmoid function** (G-1798), one of the most important functions in machine learning and deep learning.
 
 ## 2. The new idea: every point pushes or pulls
 
@@ -29,7 +29,7 @@ This Note changes the perceptron's rule so that correctly classified points also
 
 > **Key point:** Old rule: only misclassified points act. New rule: all points act.
 
-So far, only misclassified points acted: each one **pulled** the line towards itself. Correct points did nothing.
+This is the **push and pull** (G-1592) idea. So far, only misclassified points acted: each one **pulled** the line towards itself. Correct points did nothing.
 
 The new rule: correctly classified points **push** the line away from themselves. Then, even when every point is correct, the line keeps moving: points on both sides push it, and it keeps moving until the pushes balance. The aim is a line in the middle of the gap; Section 7 measures how close this rule gets.
 
@@ -56,19 +56,23 @@ $$w_{\text{new}} = w_{\text{old}} + \eta\thinspace(y - \hat{y})\thinspace x$$
 
 For a correctly classified point, $y$ and $\hat{y}$ are equal (both 0 or both 1), so $y - \hat{y} = 0$ and nothing changes. To let correct points act, $y - \hat{y}$ must not be 0.
 
-$y$ is the true class from the data, so it cannot change. What can change is how the model produces $\hat{y}$. So far it computed $z = w \cdot x$ and passed it through a **step function**: 1 if $z > 0$, otherwise 0. As long as $\hat{y}$ is only ever 0 or 1, the problem remains. We need a function whose output can be anything between 0 and 1.
+$y$ is the true class from the data, so it cannot change. What can change is how the model produces $\hat{y}$. So far it computed $z = w \cdot x$ and passed it through a **step function** (G-1889): 1 if $z > 0$, otherwise 0. As long as $\hat{y}$ is only ever 0 or 1, the problem remains. We need a function whose output can be anything between 0 and 1.
+
+Figure 1 shows the problem as a picture. With the step function, the update $y - \hat y$ is exactly 0 for every correctly placed point, near or far, and exactly $\pm 1$ for every misplaced one, however far it is from the line. The planned table of Section 2.2 needs a smooth curve instead.
+
+![The update y − ŷ with the step function, against the point's position z = w · x. Correct points give 0 at any distance; wrong points give +1 (positive points, green) or −1 (negative points, blue) at any distance.](images/step_update.png)
 
 ## 4. The sigmoid function
 
 > **Key point:** σ(z) = 1 / (1 + e^(−z)). The sigmoid squeezes any number into the range 0 to 1, with σ(0) = 0.5.
 
-The **sigmoid function** is
+The **sigmoid function**, also called the **logistic function** (G-1119), is
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
 ![The step function and the sigmoid function](images/step_vs_sigmoid.png){height=38%}
 
-Its key properties (Figure 1, right):
+Its key properties (Figure 2, right):
 
 - For a very large $z$, $e^{-z}$ is almost 0, so $\sigma(z)$ is almost 1.
 - For a very negative $z$, $e^{-z}$ is huge, so $\sigma(z)$ is almost 0.
@@ -100,7 +104,7 @@ To make a yes-or-no prediction, we predict "placed" when $\hat{y} \geq 0.5$, whi
 
 > **Key point:** Lines parallel to the boundary have equal probability; the probability changes gradually across the plane.
 
-Figure 2 colours the plane by $\sigma(x_1 + x_2)$, for the line $x_1 + x_2 = 0$.
+Figure 3 colours the plane by $\sigma(x_1 + x_2)$, for the line $x_1 + x_2 = 0$.
 
 ![σ(w · x) as the probability of being placed](images/probability_map.png){height=50%}
 
@@ -110,7 +114,7 @@ Figure 2 colours the plane by $\sigma(x_1 + x_2)$, for the line $x_1 + x_2 = 0$.
 
 So instead of a hard yes or no, every student now gets a **probability of being placed**: the further onto the positive side, the higher the chance. The probability of **not** being placed is $1 - \hat{y}$. A student with $\hat{y} = 0.7$ has a 70% chance of being placed and a 30% chance of not.
 
-This probabilistic reading is the second view of logistic regression mentioned in the perceptron Note, and the next Note builds on it.
+This **probabilistic interpretation** (G-1566) is the second view of logistic regression mentioned in the perceptron Note, and the next Note builds on it.
 
 ## 6. The new update in action
 
@@ -139,7 +143,7 @@ None of the values is 0, so every point updates the weights.
 
 > **Key point:** y − σ(z) is large for points deep on the wrong side and small for points deep on the correct side.
 
-Figure 3 draws $y - \sigma(z)$ against $z$, the point's signed position relative to the line.
+Figure 4 draws $y - \sigma(z)$ against $z$, the point's signed position relative to the line.
 
 ![The size of the update against the point's position](images/push_pull.png){height=42%}
 
@@ -172,7 +176,7 @@ For a correct point, the push is strongest when it is just on the correct side, 
 >     return w
 > ```
 
-Figure 4 compares three lines on data with a wide gap between the classes (`make_classification` with `class_sep=30`):
+Figure 5 compares three lines on data with a wide gap between the classes (`make_classification` with `class_sep=30`):
 
 ![Step perceptron, sigmoid perceptron and logistic regression](images/three_lines.png){height=50%}
 
@@ -182,11 +186,15 @@ Figure 4 compares three lines on data with a wide gap between the classes (`make
 | Perceptron with sigmoid | 3.07 | 1.21 |
 | Logistic regression (scikit-learn) | 2.20 | 1.97 |
 
+Figure 6 trains both perceptrons side by side on the same random sequence of points. The step perceptron makes its last change at the 44th point; after that every point is correct and the line freezes close to the green class. The sigmoid line keeps moving, because every point still sends an update, and it drifts away from the green points.
+
+![The step perceptron (left) and the sigmoid perceptron (right) trained on the same random points, learning rate 0.1. The step line stops changing after 44 points; the sigmoid line keeps moving away from the green class, ending with a gap of 1.21 against 0.25.](images/race.gif)
+
 The step version stops right next to the green class. The sigmoid version moves well away from it, a clear improvement. But it is still not centred, while scikit-learn's logistic regression keeps a nearly equal gap on both sides.
 
 So the change was in the right direction. Why is the sigmoid line still off-centre? The line is not finished yet. Run longer, the sigmoid perceptron keeps moving towards the logistic regression line, and with the small penalty that scikit-learn adds by default it lands on that line (details in the Extra below). In fact the sigmoid update is already the gradient descent step of logistic regression (Bishop §4.3.2), as the [gradient descent Note](../75-logistic-gradient-descent/note.md) will show.
 
-What we still lack is a way to say which line is best: a **loss function**, one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function is the subject of the next Note.
+What we still lack is a way to say which line is best: a **loss function** (G-1130), one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function is the subject of the next Note.
 
 > **Extra:** The test, in the notebook. Gaps (blue, green) of the sigmoid perceptron:
 >

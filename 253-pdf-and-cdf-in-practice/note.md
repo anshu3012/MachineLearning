@@ -19,7 +19,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![One density curve per iris species, for each of the four measurements](images/iris_kde_species.png){height=48%}
 
-The [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md) and the [density estimation Note](../243-density-estimation-kde/note.md) explained what PDFs and CDFs are and how to estimate them. This Note shows three ways a data analyst uses them. Here a **feature** is an input variable, one column of the data table; an **observation** is one record, one row; the **target** is the output we predict.
+The [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md) and the [density estimation Note](../243-density-estimation-kde/note.md) explained what PDFs and CDFs are and how to estimate them. This Note shows three ways a data analyst uses them. Here a **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row; the **target** (G-1949) is the output we predict.
 
 1. **Feature selection:** which features help to tell the classes apart (Figure 1).
 2. **Measuring a rule:** how often a decision rule read off the PDFs is right, using the CDF.
@@ -33,15 +33,15 @@ The [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md) and the
 
 > **Key point:** 150 flowers of three species, four measurements each; the task is to predict the species from the measurements.
 
-The **iris dataset** describes 150 iris flowers, 50 of each of three species: setosa, versicolor and virginica. For every flower it gives four measurements in centimetres: sepal length, sepal width, petal length and petal width. The classic machine learning task is to predict the species from these four numbers.
+The **iris dataset** (G-973) describes 150 iris flowers, 50 of each of three species: setosa, versicolor and virginica. For every flower it gives four measurements in centimetres: sepal length, sepal width, petal length and petal width. The classic machine learning task is to predict the species from these four numbers.
 
-Each of the four measurements is a feature, an input used for the prediction, and the species is the target. **Feature selection** keeps the features that help to predict and removes the ones that do not (see the [what is feature engineering Note](../23-what-is-feature-engineering/note.md)). Suppose we may keep only two of the four. Which two?
+Each of the four measurements is a feature, an input used for the prediction, and the species is the target. **Feature selection** (G-768) keeps the features that help to predict and removes the ones that do not (see the [what is feature engineering Note](../23-what-is-feature-engineering/note.md)). Suppose we may keep only two of the four. Which two?
 
 ### 2.2 Reading the class PDFs
 
 > **Key point:** The petal measurements separate the three species; the sepal measurements overlap, so the petal features are the ones to keep.
 
-For each feature we draw three density curves (KDEs), one per species, on the same axes (Figure 1), as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 6). Each curve shows where that species' values are concentrated.
+For each feature we draw three density curves, one **kernel density estimate** (KDE, G-1005) per species, on the same axes (Figure 1), as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 6). Each curve shows where that species' values are concentrated.
 
 - **Petal length (top left):** the setosa curve sits alone, far left, below about 2.3 cm. Versicolor and virginica overlap only a little.
 - **Petal width (top right):** the same picture.
@@ -97,13 +97,23 @@ So the rule is right for 98% of versicolor flowers (no versicolor is 0.7 or belo
 3. **Example:**
    $$0.98 - 0 = 0.98, \qquad 1 - 0.10 = 0.90$$
 
-> **Extra:** All 50 setosa flowers have petal width 0.6 or less, so the full rule gets $50 + 49 + 45 = 144$ of the 150 flowers right: an accuracy of 96%, from one feature and two cut-offs.
+> **Extra:** All 50 setosa flowers have petal width 0.6 or less, so the full rule gets $50 + 49 + 45 = 144$ of the 150 flowers right: an **accuracy** (G-162) of 96%, from one feature and two cut-offs.
+
+Why 1.7 and not another cut-off? Figure 3 slides the cut-off between the two CDF curves. Moving it right catches more versicolor flowers (the orange dot climbs) but loses virginica flowers (the green dot climbs too, so $1 - F$ falls):
+
+- at 1.3 cm: 0.56 of versicolor right, all virginica right, 128 of 150 in total;
+- at 1.6 and 1.7 cm: 144 of 150, the best of the cut-offs tried;
+- at 1.9 cm: all versicolor right, but only 0.58 of virginica, 129 in total.
+
+![The cut-off slides from 1.3 to 1.9 cm across the versicolor (orange) and virginica (green) empirical CDFs. The dots give each class's share at or below the cut-off; the title counts the flowers the rule gets right.](images/cutoff_sweep.gif)
 
 ### 3.1 The empirical CDF
 
 > **Key point:** The empirical CDF of a sample is the share of its values at or below $x$; it is a step function that estimates the true CDF.
 
-The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** (ECDFs): for each $x$, the share of the sample's values that are at or below $x$. With 50 flowers per species, each flower adds a step of $1/50 = 0.02$, so the curve climbs in steps, like the CDF of a discrete variable (see the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md)). The ECDF is the standard estimate of the true CDF (Wasserman 2004, ch. 7), good enough for all practical purposes.
+The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** (ECDFs, G-679): for each $x$, the share of the sample's values that are at or below $x$. Figure 4 builds the versicolor ECDF: a cut-off slides right, each flower at or below it turns orange, and the curve's height is the orange share. With 50 flowers per species, each flower adds a step of $1/50 = 0.02$, so the curve climbs in steps, like the CDF of a discrete variable (see the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md)). The ECDF is the standard estimate of the true CDF (Wasserman 2004, ch. 7), good enough for all practical purposes.
+
+![Building the empirical CDF of the 50 versicolor petal widths. At each cut-off x, the flowers at or below x turn orange and F(x) is their share; at 1.7 cm, 49 of 50 gives 0.98.](images/ecdf_build.gif)
 
 > **Python:** An ECDF per class.
 >
@@ -120,10 +130,10 @@ The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** 
 
 Every density so far described **one** feature. A density can also describe two features together: then it gives, for every pair of values, how densely the data is packed around that combination. Three features would also work, but such plots are hard to read, so in practice 2D is the limit.
 
-Figure 3 shows the **2D density plot** of petal length (x axis) and sepal length (y axis) for all 150 flowers, with the 1D density of each feature along its edge. Read it as a map of a mountain range seen from above:
+Figure 5 shows the **2D density plot** (G-49) of petal length (x axis) and sepal length (y axis) for all 150 flowers, with the 1D density of each feature along its edge. Read it as a map of a mountain range seen from above:
 
 - the colour is the height: the darker the blue, the higher the density;
-- each line joins points of equal density, like the height lines of the contour plot in the [gradient descent Note](../57-gradient-descent/note.md);
+- each line joins points of equal density, like the height lines of the **contour plot** (G-468) in the [gradient descent Note](../57-gradient-descent/note.md);
 - the two dark centres are two peaks: the most common combinations of the two measurements.
 
 ![2D density plot of petal length and sepal length, with each feature's 1D density on its edge](images/joint_kde.png){height=55%}

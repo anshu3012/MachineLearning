@@ -26,7 +26,7 @@ Figure 1 shows the two routes. The left one assumes the data follows a famous di
 
 > **Key point:** Density estimation is the family of techniques that estimate the PDF of a random variable from a set of observations.
 
-**Density estimation** is a statistical technique for estimating the probability density function of a random variable from a set of observations (data). An **observation** is one record, one row of the data table; a **feature** is one variable, one column of that table. In simpler terms, it estimates the **underlying distribution**: the distribution that produced the data points.
+**Density estimation** (G-586) is a statistical technique for estimating the probability density function of a random variable from a set of observations (data). An **observation** (G-1374) is one record, one row of the data table; a **feature** (G-772) is one variable, one column of that table. In simpler terms, it estimates the **underlying distribution** (G-2037): the distribution that produced the data points.
 
 Density estimation is used in:
 
@@ -41,13 +41,13 @@ The methods come in two families, the two routes of Figure 1:
 
 Common techniques include kernel density estimation (Section 5), histogram-based estimation, and the Gaussian mixture model. The choice depends on the data and on what the estimate is for.
 
-> **Extra:** A **Gaussian mixture model** assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (MML §11.1, §11.5).
+> **Extra:** A **Gaussian mixture model** (G-829) assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (MML §11.1, §11.5).
 
 ## 3. Parametric density estimation
 
 > **Key point:** Look at the histogram, pick the famous distribution it resembles, estimate that distribution's parameters from the sample, and plug them into its PDF formula.
 
-**Parametric density estimation** estimates the PDF by assuming that the data comes from a specific parametric family of distributions (normal, exponential, and so on). Once the family is chosen, only its parameters are unknown, and the data is used to estimate them.
+**Parametric density estimation** (G-1451) estimates the PDF by assuming that the data comes from a specific parametric family of distributions (normal, exponential, and so on). Once the family is chosen, only its parameters are unknown, and the data is used to estimate them.
 
 ### 3.1 The steps
 
@@ -105,6 +105,14 @@ The curve depends only on the two parameters. Change them and the curve changes 
 
 So the whole game is estimating the parameters well. The more data we have, the closer the sample's mean and standard deviation get to the population's, and the better the PDF. With little data, the estimates, and so the curve, can be poor.
 
+Figure 3 fits the same normal curve to the first 10, 30, 100 and all 1,000 values of our sample:
+
+- **10 values:** $\bar{x} = 48.32$, so the fitted peak sits too far left.
+- **30 and 100 values:** the mean is close (50.08 and 49.75), but $s$ is about 3.8, so the fitted curve is too narrow and too tall.
+- **1,000 values:** $\bar{x} = 49.86$ and $s = 4.94$; the orange curve lies almost on the dashed true curve.
+
+![Normal PDFs fitted to the first 10, 30, 100 and 1,000 values of the sample (orange) against the true PDF with mean 50 and standard deviation 5 (dashed).](images/more_data.gif)
+
 > **Extra:** `sample.std()` in NumPy divides by $n$, not $n - 1$. With 1,000 values the difference is tiny (4.944 against 4.946); see Bessel's correction in the [measures of dispersion Note](../222-measures-of-dispersion/note.md).
 
 > **Extra:** Older code fits this kind of curve with `sns.distplot`, which seaborn has deprecated (seaborn 0.13 docs). `distplot` drew a KDE (Section 5) by default (`kde=True`, `fit=None`), not a fitted normal, so its curve can differ slightly from the parametric one even on the same data. Today we use `sns.histplot(x, stat="density", kde=True)` for a histogram with a KDE, and compute a fitted normal with `scipy.stats.norm` as above.
@@ -115,7 +123,11 @@ So the whole game is estimating the parameters well. The more data we have, the 
 
 Parametric estimation needs the data to resemble a famous distribution. Sometimes it does not: the histogram is not normal, not uniform, not log-normal, not anything with a name. Data with two peaks is a common example. Then the assumption of step 1 fails, and the method cannot be used.
 
-**Non-parametric density estimation** estimates the PDF of a random variable without assuming any underlying distribution. The method needs no predefined distribution function. Instead of summarising the data by a few parameters (a mean and a standard deviation), it uses **every data point** to build the curve.
+Figure 4 shows the failure on the two-peaked data of section 5.2 (300 values around 20, 700 around 40). A normal curve has one peak, so the fitted normal ($\bar{x} = 33.6$, $s = 10.3$) puts its highest point near the valley between the groups, where there is little data. The KDE of section 5 follows both peaks.
+
+![1,000 two-peaked values. Red: the fitted normal PDF, one hump centred between the groups. Orange: the KDE with bandwidth 3, which follows both peaks.](images/normal_fails.png)
+
+**Non-parametric density estimation** (G-1338) estimates the PDF of a random variable without assuming any underlying distribution. The method needs no predefined distribution function. Instead of summarising the data by a few parameters (a mean and a standard deviation), it uses **every data point** to build the curve.
 
 - **Advantage:** no assumption about the shape, so it works for any data.
 - **Disadvantages:** it is **computationally intensive**, since every point takes part in every density value, and it needs **more data** to give an accurate estimate.
@@ -126,17 +138,17 @@ The most common non-parametric method is the kernel density estimate.
 
 > **Key point:** KDE places a small bump (a kernel) on every data point and adds the bumps up; the sum, divided by the number of points, is the estimated PDF.
 
-The kernel density estimate (KDE) is the smooth curve drawn over a histogram in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7). **Kernel density estimation** is the technique behind it: it uses a kernel function to smooth out the data into a continuous estimate of the density.
+The **kernel density estimate** (KDE, G-1005) is the smooth curve drawn over a histogram in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7). **Kernel density estimation** is the technique behind it: it uses a kernel function to smooth out the data into a continuous estimate of the density.
 
 ### 5.1 How a KDE is built
 
 > **Key point:** One Gaussian bump centred on each point, all of the same width; at every $x$, add the bumps' heights.
 
-Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 3, left) shows two groups with nothing in between. No famous distribution has that shape, so we use a KDE.
+Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 5, left) shows two groups with nothing in between. No famous distribution has that shape, so we use a KDE.
 
-1. **Choose a kernel.** A **kernel** is a small, symmetric bump with area 1. The most used one is the **Gaussian kernel**: the normal curve.
-2. **Put one kernel on every point.** Each data point becomes the centre (mean) of its own normal curve (Figure 3, right, dotted).
-3. **Give all kernels the same width.** The standard deviation of each bump is the **bandwidth**, $h$. The bandwidth is a setting we choose.
+1. **Choose a kernel.** A **kernel** (G-1009) is a small, symmetric bump with area 1. The most used one is the **Gaussian kernel** (G-828): the normal curve.
+2. **Put one kernel on every point.** Each data point becomes the centre (mean) of its own normal curve (Figure 5, right, dotted).
+3. **Give all kernels the same width.** The standard deviation of each bump is the **bandwidth** (G-257), $h$. The bandwidth is a setting we choose.
 4. **Add up.** At every $x$, add the heights of all the bumps at that $x$. Where many points sit close together, many bumps overlap and the sum is high. Dividing by the number of points keeps the total area at 1.
 
 ![KDE by hand: a Gaussian bump of bandwidth 1 on each of six points (dotted); their scaled sum is the KDE (orange)](images/kde_build.png)
@@ -162,7 +174,7 @@ The result has two peaks, matching the two groups. No formula was assumed anywhe
 
 > **Key point:** A small bandwidth gives thin bumps and a spiky curve; a large one gives wide bumps and a smooth curve that can blur real features. The right value is found by trying.
 
-Figure 4 first builds the KDE of the six points one bump at a time, then turns the bandwidth. Watch the orange sum: with thin bumps it becomes six separate spikes, and with wide bumps the two groups melt into one hill.
+Figure 6 first builds the KDE of the six points one bump at a time, then turns the bandwidth. Watch the orange sum: with thin bumps it becomes six separate spikes, and with wide bumps the two groups melt into one hill.
 
 ![The KDE of section 5.1 built step by step: a bump of bandwidth 1 drops onto each of the six points and the orange sum grows (0.206 at x = 3). Then the bandwidth sweeps from 0.2 (six spikes) to 3 (one hill)](images/kde_anim.gif){height=55%}
 
@@ -171,7 +183,7 @@ The bandwidth sets how wide each bump is, and so how smooth the KDE is:
 - **Small bandwidth:** thin, tall bumps. Each point shows up as its own spike, and the curve is irregular. The curve follows the noise of this particular sample.
 - **Large bandwidth:** wide, low bumps that overlap a lot. The curve is smooth, but too much smoothing hides real features.
 
-Figure 5 shows this on 1,000 values with two peaks: 300 values around 20 and 700 around 40.
+Figure 7 shows this on 1,000 values with two peaks: 300 values around 20 and 700 around 40.
 
 ![KDE of two-peaked data with bandwidth 0.5, 3 and 5](images/kde_bandwidth.png)
 
@@ -231,13 +243,17 @@ The multiplier explains why the same number gives different curves in the two li
 
 Why estimate a PDF when a histogram already shows the data? A histogram describes the **sample** we happen to have, and its picture changes with the number of bins. The goal of statistics is to learn about the **population**. A density estimate tries to describe the population's distribution, from which the sample came.
 
+Figure 8 draws four samples of 200 values from the same two-peaked population. Watch the bars: each sample's histogram has different spikes and gaps. The orange KDE changes much less from sample to sample and stays close to the dashed population PDF.
+
+![Four samples of 200 values from one two-peaked population. The histogram (bars) changes with every sample; the KDE with bandwidth 3 (orange) stays close to the population PDF (dashed).](images/sample_vs_population.gif)
+
 A good estimate needs the right ingredients:
 
 - **Parametric:** a correct assumption about the family, and enough data to estimate the parameters well. The bin count of the histogram plays no part in the fitted curve.
 - **KDE:** a sensible bandwidth, which plays the role the bins play in a histogram, and enough data.
 - **Both:** outliers affect the estimate. In a parametric fit an outlier pulls the mean and inflates the standard deviation; in a KDE it adds a small bump of its own.
 
-If the sample does not represent the population, for example because of sampling bias (see the [challenges in ML Note](../07-challenges-in-ml/note.md)), no density estimate can repair that.
+If the sample does not represent the population, for example because of **sampling bias** (G-1734; see the [challenges in ML Note](../07-challenges-in-ml/note.md)), no density estimate can repair that.
 
 ## 7. Summary
 

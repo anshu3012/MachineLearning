@@ -14,7 +14,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 
 ## 1. Overview
 
-> **Key point:** Statistics for ML splits into four modules: descriptive statistics, probability distributions, inferential statistics, and a few miscellaneous tools.
+> **Key point:** **Statistics** (G-1884) for ML splits into four modules: **descriptive statistics** (G-596), **probability distributions** (G-1571), **inferential statistics** (G-944), and a few miscellaneous tools.
 
 ![The four modules of statistics for ML](images/roadmap.png){height=60%}
 
@@ -24,11 +24,13 @@ Figure 1 shows the whole map. Hypothesis testing, in the inferential module, dep
 
 > **Key point:** Statistics is how we summarise data and draw conclusions from it, and many ML algorithms are built on it.
 
-Statistics turns raw data into summaries and decisions. In data work it shows up in three places:
+Statistics turns raw data into summaries and decisions. In data work it shows up in three places (Figure 2):
 
 - **Understanding data:** every exploratory analysis is built from statistical summaries and graphs.
 - **Algorithms:** linear regression, logistic regression and Naive Bayes all come out of statistics (ISLR ch. 3, §4.3, §4.4.4).
 - **Decisions:** checking whether a new medicine, or a new website design, really works better than the old one needs a statistical test (Bruce et al. 2020, ch. 3).
+
+![The three places statistics shows up in data work, with an example of each](images/three_uses.png){width=90%}
 
 ## 3. The four modules
 
@@ -36,7 +38,7 @@ Statistics turns raw data into summaries and decisions. In data work it shows up
 
 ![One key figure from each module: box plots of Titanic ages (Note 230), a kernel density estimate built from bumps (Note 243), 100 confidence intervals (Note 281) and a Q-Q plot of iris sepal lengths (Note 260)](images/module_gallery.png){width=95%}
 
-Figure 2 previews what each module produces: summaries of the data in hand, a smooth shape for a distribution, a statement about a population with its uncertainty, and a diagnostic plot.
+Figure 3 previews what each module produces: summaries of the data in hand, a smooth shape for a distribution, a statement about a population with its uncertainty, and a diagnostic plot.
 
 ### 3.1 Descriptive statistics
 
@@ -60,9 +62,9 @@ This module describes data that is already in our hands. Its topics, and where e
 
 > **Key point:** A probability distribution describes how likely each value of a feature is; the hypothesis tests of the next module depend on it.
 
-This module studies the shapes data can take. Here a **feature** is an input variable, one column of the data table, and an **observation** is one record, one row of that table:
+This module studies the shapes data can take. Here a **feature** (G-772) is an input variable, one column of the data table, and an **observation** (G-1374) is one record, one row of that table:
 
-- **Random variables**, and the functions that describe them: the PMF (for counts), the PDF (for measurements) and the CDF (for running totals of probability).
+- **Random variables** (G-1620), and the functions that describe them: the PMF (for counts), the PDF (for measurements) and the CDF (for running totals of probability).
 - **Kernel density estimation**, the smooth curve over a histogram, met in the density plot of the [univariate analysis Note](../20-univariate-analysis/note.md).
 - **2D density plots**, the same idea for two features at once.
 - **Named distributions**: normal, uniform, Bernoulli, binomial, log-normal and others. The normal distribution's 68-95-99.7 rule appears in the [z-score outliers Note](../42-outliers-zscore/note.md).
@@ -73,11 +75,11 @@ The basic rules of probability are in the [events Note](../330-events-and-types-
 
 > **Key point:** Use a sample to say something about the whole population, and say how sure we are.
 
-This module draws conclusions about a population from a sample:
+This module draws conclusions about a **population** (G-1525) from a **sample** (G-1731):
 
-- **Central limit theorem:** why averages of samples behave predictably.
+- **Central limit theorem** (G-364): why averages of samples behave predictably.
 - **Confidence intervals:** a range built by a method that captures the true population value in a stated share of repeated samples.
-- **Hypothesis testing:** checking a claim about a population with a sample. The common tests are the z-test, t-test, chi-square test and ANOVA (Bruce et al. 2020, ch. 3), and the module ends with when to use which.
+- **Hypothesis testing** (G-913): checking a claim about a population with a sample. The common tests are the z-test, t-test, chi-square test and ANOVA (Bruce et al. 2020, ch. 3), and the module ends with when to use which.
 
 ### 3.4 Miscellaneous topics
 

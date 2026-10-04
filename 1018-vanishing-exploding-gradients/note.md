@@ -50,6 +50,12 @@ The whole problem rests on one fact of arithmetic. Multiply numbers that are all
 On the log scale of Figure 2 each product is a straight line. Watch where the lines end after 10 factors. Below 1, every factor cuts the product by the same ratio, so it ends at $9.5 \times 10^{-7}$ for 0.25 and $10^{-10}$ for 0.1. Above 1, every factor raises it, to 58 for 1.5.
  Think of a message passed back along a line of ten people, each repeating it at a quarter of the volume they heard: the person at the far end hears almost nothing.
 
+The same arithmetic can be seen with a single factor used again and again (Figure 3).
+
+![One factor multiplied by itself k times, for k from 1 to 50, on a log scale: 2 (blue), 1 (grey) and 0.5 (red). Idea after StatQuest, "Recurrent Neural Networks (RNNs), Clearly Explained!!!"](images/powers.gif){height=32%}
+
+In Figure 3, watch the three lines leave 1. A factor of 2 gives 16 after 4 uses and $1.1 \times 10^{15}$ after 50. A factor of 0.5 gives $8.9 \times 10^{-16}$ after 50. A factor of exactly 1 stays at 1. So vanishing and exploding gradients are one mechanism: a long product whose factors sit on one side of 1. The [problems with RNN Note](../1060-problems-with-rnn/note.md) meets exactly this case, because a recurrent network reuses the same weight at every time step.
+
 Two more conditions make this a problem in practice:
 
 - **Depth:** the problem only appears in **deep neural networks** (G-571), with many hidden layers, because only they have long chains of factors.
@@ -129,7 +135,7 @@ From the output back to the input, each layer in the middle of the network divid
 
 We store the 20 weights of the first layer (2 inputs × 10 nodes), train for one epoch, and read them again. They agree to six decimals: the largest change among the 20 is $3.7 \times 10^{-8}$.
 
-Over 100 epochs (Figure 3, red) the training loss goes from 0.704 to 0.700, next to 0.693, the loss of guessing 0.5 for every point. The test accuracy is 46%, no better than guessing. The first-layer weights moved by $3 \times 10^{-7}$ on average in all that time.
+Over 100 epochs (Figure 4, red) the training loss goes from 0.704 to 0.700, next to 0.693, the loss of guessing 0.5 for every point. The test accuracy is 46%, no better than guessing. The first-layer weights moved by $3 \times 10^{-7}$ on average in all that time.
 
 ![Training loss over 100 epochs: 10 sigmoid layers stay at the guessing level; 3 sigmoid layers and 10 ReLU layers learn](images/loss_curves.png){height=36%}
 
@@ -141,14 +147,18 @@ Over 100 epochs (Figure 3, red) the training loss goes from 0.704 to 0.700, next
 
 Two signs:
 
-1. **The loss does not change.** Keras prints the loss after every epoch. If it stays at its starting value, as in Figure 3, the gradients may be vanishing.
+1. **The loss does not change.** Keras prints the loss after every epoch. If it stays at its starting value, as in Figure 4, the gradients may be vanishing.
 2. **The weights do not change.** Plot a weight such as $W_{11}^{1}$ against the epoch. A flat line means it is not being updated. Tools such as TensorBoard draw these plots automatically during training.
 
-Figure 4 shows both signs at once. Watch the red bars: in the backward pass each sigmoid layer cuts the gradient again, and during training the first layer's bar stays near $10^{-9}$ while the red loss stays flat at 0.70.
+Figure 5 shows both signs at once. Watch the red bars: in the backward pass each sigmoid layer cuts the gradient again, and during training the first layer's bar stays near $10^{-9}$ while the red loss stays flat at 0.70.
 
 ![The gradient of every layer for 10 sigmoid layers (red) and 10 ReLU layers (green), log scale. First the backward pass at the start, from layer 11 (output) to layer 1 (input); then training, every second epoch, with the loss below](images/gradient_flow.gif){width=100% height=58%}
 
-The ReLU gradients are about the same size in every layer throughout. They grow while the network learns and shrink after epoch 75 because the loss is then close to 0: every gradient carries the output error $(y - \hat{y})$ as a factor (section 3.2), and that error is almost 0 once the network fits the data.
+![The 20 weights of the first layer, one line each, over the 100 epochs. Left: 10 sigmoid layers. Right: 10 ReLU layers](images/weights_frozen.gif){height=50%}
+
+Figure 6 is the second sign on its own. On the left every line is flat: after 100 epochs the 20 weights have moved by $3 \times 10^{-7}$ on average, so the first layer is still at its random starting values. On the right the lines of the ReLU network spread out, by 0.62 on average: that layer is learning.
+
+In Figure 5, the ReLU gradients are about the same size in every layer throughout. They grow while the network learns and shrink after epoch 75 because the loss is then close to 0: every gradient carries the output error $(y - \hat{y})$ as a factor (section 3.2), and that error is almost 0 once the network fits the data.
 
 ## 6. Five ways to fix it
 
@@ -158,7 +168,7 @@ The ReLU gradients are about the same size in every layer throughout. They grow 
 
 > **Key point:** With 3 hidden layers instead of 10, the first-layer gradients are only 10 times smaller than the last, and the network learns: loss 0.29, test accuracy 92%.
 
-Fewer layers mean fewer factors in each product. The same experiment with 3 sigmoid hidden layers (Figure 1 and Figure 3, orange):
+Fewer layers mean fewer factors in each product. The same experiment with 3 sigmoid hidden layers (Figure 1 and Figure 4, orange):
 
 - the first layer's gradients average $1.3 \times 10^{-3}$, only 10 times smaller than the output layer's;
 - the loss falls from 0.691 to 0.293 in 100 epochs, and the test accuracy is 92%;
@@ -176,11 +186,11 @@ The slope of ReLU is 0 for $z < 0$ and 1 for $z > 0$. A product of 1s stays 1, s
 
 ![The slope of each activation against its input: sigmoid (red) never exceeds 0.25; ReLU (green) is exactly 0 or 1](images/slopes.png){height=28%}
 
-Figure 5 puts the two slopes side by side. Each slope is one factor of the gradient for every layer it sits in: the red curve can only shrink the product, the green line at 1 passes it on unchanged.
+Figure 7 puts the two slopes side by side. Each slope is one factor of the gradient for every layer it sits in: the red curve can only shrink the product, the green line at 1 passes it on unchanged.
  Keeping 10 hidden layers but switching them to ReLU (the output stays sigmoid for binary cross-entropy):
 
 - the gradients are about the same size in every layer, between $4 \times 10^{-5}$ and $3 \times 10^{-4}$ (Figure 1, green);
-- the loss falls from 0.691 to 0.007 in 100 epochs, and the test accuracy is 100% (Figure 3, green);
+- the loss falls from 0.691 to 0.007 in 100 epochs, and the test accuracy is 100% (Figure 4, green);
 - the first-layer weights moved by 0.62 on average.
 
 The spikes in the green curve come from the large learning rate of 0.5, chosen so that plain SGD moves at all in the sigmoid networks. Retrained with smaller rates, the ReLU network has fewer spikes: 3 at 0.1 and none at 0.05 (Notebook).
@@ -213,7 +223,7 @@ A **residual block** adds a layer's input directly to its output, so the gradien
 
 ![A residual block: the output is the layers' result $F(x)$ plus the input $x$](images/residual.png){height=22%}
 
-In Figure 6, the green shortcut carries $x$ around the two layers to the sum; on the way back, the gradient follows it to $x$ without passing through the layers.
+In Figure 8, the green shortcut carries $x$ around the two layers to the sum; on the way back, the gradient follows it to $x$ without passing through the layers.
 
 ## 7. The exploding gradient problem
 
@@ -257,7 +267,7 @@ We build 10 hidden layers of 10 nodes again, now with linear activations (no squ
 
 ![Clipping by norm, on an example gradient of two weights: the gradient of norm 1000 is scaled to norm 1 and keeps its direction](images/clipping.png){height=30%}
 
-In Figure 7, the red gradient $(600, 800)$ has norm 1000, above the limit 1. Dividing both parts by 1000 gives $(0.6, 0.8)$: it still points the same way, so the update still goes downhill, but its step is 1000 times shorter.
+In Figure 9, the red gradient $(600, 800)$ has norm 1000, above the limit 1. Dividing both parts by 1000 gives $(0.6, 0.8)$: it still points the same way, so the update still goes downhill, but its step is 1000 times shorter.
 
 With clipping the same network produces finite numbers: the loss falls from 12,155 to 2,049 over 5 epochs. Still enormous, because the starting weights are bad, but it decreases instead of breaking. Proper initialisation and batch normalisation also help against exploding gradients.
 
@@ -283,6 +293,7 @@ With clipping the same network produces finite numbers: the loss falls from 12,1
 **Built from**
 
 - CampusX, "Vanishing Gradient Problem in ANN | Exploding Gradient Problem | Code Example", YouTube, https://www.youtube.com/watch?v=uCrevbBh0zM
+- StatQuest with Josh Starmer, "Recurrent Neural Networks (RNNs), Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=AsNTP8Kwu80 (section 3.1: one factor used many times, 2 and 0.5 to the power 50)
 
 **Other references**
 

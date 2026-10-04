@@ -51,7 +51,7 @@ MLPs work on any supervised problem, regression or classification. Adding hidden
 
 > **Key point:** At least one convolutional layer; the standard network for images and video.
 
-An image is a grid of pixels, and what matters in it (an edge, a corner) is small and can sit anywhere. So the network looks at the image through a small window. In part 2 of Figure 2, a 3 × 3 filter slides over the digit one stop at a time; at each stop it writes one number, and the numbers form a new grid called a feature map.
+An image is a grid of pixels, and what matters in it (an edge, a corner) is small and can sit anywhere. So the network looks at the image through a small window. In part 2 of Figure 2, a 3 × 3 filter slides over the digit one stop at a time; at each stop it writes one number, and the numbers form a new grid called a **feature map** (G-766).
 
 A layer that slides small filters over an image in this way is a **convolutional layer** (G-483), taught in the CNN Notes. A **convolutional neural network (CNN)** (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
 
@@ -293,6 +293,7 @@ GANs generate data that never existed: photos of people who never lived, a predi
 | Multi-layer perceptron (MLP) | Many perceptrons organised in layers: input, hidden and output |
 | Convolutional neural network (CNN) | A network with at least one convolutional layer; the standard network for images |
 | Convolutional layer | A layer that slides small filters over an image |
+| Feature map | The grid of numbers a filter produces as it slides over the image |
 | Feed-forward network | A network in which information moves only from the first layer to the last |
 | Recurrent neural network (RNN) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence |
 | LSTM (long short-term memory) | An improved RNN that remembers over longer sequences |

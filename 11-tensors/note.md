@@ -27,17 +27,17 @@ Figure 1 shows the whole family. The rest of this Note explains each one and whe
 
 > **Key point:** Scalars, vectors and matrices are all tensors; "tensor" is the general name for any number of dimensions.
 
-A **tensor** is a data structure: a container that stores numbers. (A tensor can store text too, but in ML it almost always holds numbers.)
+A **tensor** (G-1957) is a data structure: a container that stores numbers. (A tensor can store text too, but in ML it almost always holds numbers.)
 
 We have met tensors before under other names:
 
-- a single number is a **scalar**,
-- a list of numbers is a **vector**,
-- a table of numbers is a **matrix**.
+- a single number is a **scalar** (G-1743),
+- a list of numbers is a **vector** (G-2081),
+- a table of numbers is a **matrix** (G-1180).
 
 But what do we call a stack of matrices, or a stack of those? Rather than inventing a new name for every case, mathematics and physics use one general term for all of them: tensor.
 
-> **Extra:** Programmers know tensors as **arrays**: a 1D array is a list, a 2D array a list of lists, and so on. In NumPy, the main Python library for numbers, every tensor is an array, called an `ndarray` (NumPy docs, "The N-dimensional array").
+> **Extra:** Programmers know tensors as **arrays** (G-214): a 1D array is a list, a 2D array a list of lists, and so on. In NumPy, the main Python library for numbers, every tensor is an array, called an `ndarray` (NumPy docs, "The N-dimensional array").
 
 ## 3. Tensors from 0D to 5D
 
@@ -100,10 +100,10 @@ Four words describe any tensor (Figure 3):
 
 ![Rank, axes, shape and size of a matrix](images/rank_shape_size.png)
 
-- An **axis** is one direction along which the numbers are arranged. A matrix has two: down the rows (axis 0) and across the columns (axis 1).
-- The **rank** is the number of axes. The rank is the same as the number of dimensions of the tensor, and NumPy calls it `ndim`. Scalar: 0, vector: 1, matrix: 2.
-- The **shape** lists how many items lie along each axis. The matrix in Figure 3 has shape (2, 3): 2 rows and 3 columns.
-- The **size** is the total number of items in the tensor.
+- An **axis** (G-242) is one direction along which the numbers are arranged. A matrix has two: down the rows (axis 0) and across the columns (axis 1).
+- The **rank** (G-1629) is the number of axes. The rank is the same as the number of dimensions of the tensor, and NumPy calls it `ndim`. Scalar: 0, vector: 1, matrix: 2.
+- The **shape** (G-1787) lists how many items lie along each axis. The matrix in Figure 3 has shape (2, 3): 2 rows and 3 columns.
+- The **size** (G-1816) is the total number of items in the tensor.
 
 **Size**, step by step:
 
@@ -124,7 +124,17 @@ The word *dimension* is used in two different ways, and mixing them up is a comm
 
 Both statements are true at the same time: [1, 2, 3, 4] is a 1D tensor and a 4-dimensional vector.
 
-*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. Each of the three numbers is a **feature** (an input variable, one column of the data table). The vector [8.1, 91, 0] is a point in 3-dimensional space, with one axis for each feature (Figure 4). So the student is a 3-dimensional vector, but still a 1D tensor.
+*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. Each of the three numbers is a **feature** (G-772; an input variable, one column of the data table). The list [8.1, 91, 0] is also a place in space. Give each feature its own axis: CGPA, IQ and state. Then read the list as walking instructions from the origin (the point where all three axes are 0):
+
+1. The first number says how far to walk along the CGPA axis: 8.1.
+2. The second number says how far to walk along the IQ axis: 91.
+3. The third number says how far to walk along the state axis: 0.
+
+![A list of three numbers read as a walk along three axes](images/list_to_point.gif)
+
+In Figure 4, watch the dashed walk for [8.1, 91, 0] end at one point, and the arrow drawn from the origin to that point. A second student, [6.2, 120, 1], walks to a different point. The translation works both ways: every list of three numbers gives exactly one point, and every point gives back exactly one list (idea after 3Blue1Brown, "Vectors"). A list read in this way, as a point or arrow in space, is a **vector** (G-2081), and three axes are needed to draw it, so [8.1, 91, 0] is a 3-dimensional vector. The list still has only one axis of its own, so the student is still a 1D tensor.
+
+Figure 5 shows 40 example students drawn the same way, each one a point.
 
 ![Each student is a point in 3D space](images/student_space.png)
 
@@ -138,7 +148,7 @@ With 50 features, each student would be a 50-dimensional vector, and still a 1D 
 
 > **Key point:** One observation's features form a 1D tensor; the whole table of features is a 2D tensor.
 
-Most ML data starts as a table (Figure 5). Each student is an **observation** (one record, one row of the table). Suppose we have 1,000 students with three features (CGPA, IQ, state) and a **target**, the output we predict (placed or not):
+Most ML data starts as a table (Figure 6). Each student is an **observation** (G-1374; one record, one row of the table). Suppose we have 1,000 students with three features (CGPA, IQ, state) and a **target** (G-1949), the output we predict (placed or not):
 
 ![Tabular data as tensors](images/tabular.png)
 
@@ -148,33 +158,33 @@ Most ML data starts as a table (Figure 5). Each student is an **observation** (o
 
 Whenever we work with tabular data, we are working with 1D and 2D tensors.
 
-> **Extra:** The table of all features is usually called **X**, and the target column **y** (scikit-learn Glossary). You will see these names in almost all ML code.
+> **Extra:** The table of all features is usually called **X**, and the target column **y** (G-2129; scikit-learn Glossary). You will see these names in almost all ML code.
 
 ### 6.2 3D: text
 
 > **Key point:** Each word becomes a vector, each sentence a matrix, and a set of sentences a 3D tensor.
 
-ML algorithms work only with numbers, so text must be turned into numbers first. Converting text into vectors is called **vectorization**.
+ML algorithms work only with numbers, so text must be turned into numbers first. Converting text into vectors is called **vectorization** (G-2084).
 
-One simple method is **one-hot encoding** (the [one-hot encoding Note](../27-one-hot-encoding/note.md) applies it to categorical columns):
+One simple method is **one-hot encoding** (G-1379; the [one-hot encoding Note](../27-one-hot-encoding/note.md) applies it to categorical columns):
 
-1. List every unique word: the **vocabulary**. For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
+1. List every unique word: the **vocabulary** (G-2093). For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
 2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], riya = [0, 1, 0, 0], and so on.
 3. Each sentence becomes a matrix with one row per word. "Hi Rahul" has 2 words, so its shape is (2, 4).
 
 ![Sentences as a 3D tensor](images/nlp_tensor.png)
 
-All three sentences together form a 3D tensor of shape (3, 2, 4), with size $3 \times 2 \times 4 = 24$ (Figure 6).
+All three sentences together form a 3D tensor of shape (3, 2, 4), with size $3 \times 2 \times 4 = 24$ (Figure 7).
 
 ### 6.3 3D: time series
 
 > **Key point:** Measurements taken at regular times stack into a 3D tensor, with one axis for time.
 
-A **time series** is data recorded at regular intervals, such as a stock's price every day.
+A **time series** (G-1975) is data recorded at regular intervals, such as a stock's price every day.
 
 ![Stock prices as a 3D tensor](images/timeseries_tensor.png)
 
-Figure 7 builds it up:
+Figure 8 builds it up:
 
 - **One year:** the daily high and low prices for 365 days form a 2D tensor of shape (365, 2).
 - **Ten years:** ten of those yearly tables stacked together form a 3D tensor of shape (10, 365, 2).
@@ -185,14 +195,14 @@ The middle axis here is the **time axis**. Much medical and sensor data has this
 
 > **Key point:** One colour image is a 3D tensor; a batch of images is a 4D tensor.
 
-An image is a grid of tiny dots called **pixels**, and each pixel is stored as numbers.
+An image is a grid of tiny dots called **pixels** (G-1501), and each pixel is stored as numbers.
 
 - **Black and white:** one number per pixel, so the image is a 2D tensor (height x width).
-- **Colour:** each pixel has three numbers, for red, green and blue. These form three layers called **channels**, so a colour image is a 3D tensor of shape (height, width, 3).
+- **Colour:** each pixel has three numbers, for red, green and blue. These form three layers called **channels** (G-375), so a colour image is a 3D tensor of shape (height, width, 3).
 
 ![Images as tensors](images/image_tensor.png)
 
-A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 32 such images is a 4D tensor of shape (32, 600, 800, 3) (Figure 8). Image tasks in deep learning, covered in later Notes, work with exactly these tensors.
+A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 32 such images is a 4D tensor of shape (32, 600, 800, 3) (Figure 9). Image tasks in deep learning, covered in later Notes, work with exactly these tensors.
 
 > **Extra:** The order of the axes is a convention. TensorFlow usually puts the channels last, (batch, height, width, channels), while PyTorch puts them first, (batch, channels, height, width) (TensorFlow docs, `Conv2D`; PyTorch docs, `Conv2d`). Always check which order a library expects.
 
@@ -200,9 +210,9 @@ A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 
 
 > **Key point:** A video is a sequence of images, so a batch of videos is a 5D tensor, and an enormous one.
 
-A video is a series of images, called **frames**, shown quickly one after another. Our eyes can tell apart only about 12 separate images per second, so faster sequences look like smooth motion. Videos are usually recorded at 30, 60 or 120 frames per second.
+A video is a series of images, called **frames** (G-801), shown quickly one after another. Our eyes can tell apart only about 12 separate images per second, so faster sequences look like smooth motion. Videos are usually recorded at 30, 60 or 120 frames per second.
 
-Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 x 720 pixels in colour (Figure 9):
+Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 x 720 pixels in colour (Figure 10):
 
 ![Videos as a 5D tensor](images/video_tensor.png)
 
@@ -216,7 +226,7 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
 2. **Formula:** $\text{storage (bytes)} = \text{size} \times 4$.
 3. **Example:** $\text{size} = 4 \times 1800 \times 480 \times 720 \times 3 = 7{,}464{,}960{,}000$ numbers, so storage $= 7{,}464{,}960{,}000 \times 4 = 29{,}859{,}840{,}000$ bytes: about 30 billion bytes.
 
-Converted to gigabytes, that is about 27.8 GB if 1 GB means $1024^3$ bytes (the usual convention in computing), or 29.9 GB if 1 GB means $10^9$ bytes. Either way, four one-minute videos need around 28 to 30 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data: they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than its raw 7.5 GB.
+Converted to gigabytes, that is about 27.8 GB if 1 GB means $1024^3$ bytes (the usual convention in computing), or 29.9 GB if 1 GB means $10^9$ bytes. Either way, four one-minute videos need around 28 to 30 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data (**compression**, G-433): they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than its raw 7.5 GB.
 
 The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note in NumPy: from a scalar to a real photo (shape (427, 640, 3)) and the video storage calculation.
 
@@ -241,6 +251,7 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 **Built from**
 
 - CampusX, "What are Tensors | Tensor In-depth Explanation | Tensor in Machine Learning", YouTube, https://www.youtube.com/watch?v=vVhD2EyS41Y
+- Sanderson, G. (3Blue1Brown), "Vectors | Chapter 1, Essence of linear algebra", YouTube, https://www.youtube.com/watch?v=fNk_zzaMoSs
 
 **Other references**
 

@@ -220,7 +220,11 @@ Figure 6 fits a straight line to 40 points: 30 follow $y = 2x + 1$, and 10 (25%)
 | MAE | $\hat{y} = 1.96x + 1.31$ |
 | Huber, $\delta = 1$ | $\hat{y} = 1.95x + 1.48$ |
 
-MSE has moved the line up by about $0.25 \times 8 = 2$, between the two groups. MAE and Huber stay with the 75% of points that follow the pattern. With $\delta = 1$, Huber treats every outlier error of about 8 like MAE, so its line is close to MAE's; a larger $\delta$ would move it towards MSE's.
+MSE has moved the line up by about $0.25 \times 8 = 2$, between the two groups. MAE and Huber stay with the 75% of points that follow the pattern. With $\delta = 1$, Huber treats every outlier error of about 8 like MAE, so its line is close to MAE's. A larger $\delta$ moves it towards MSE's.
+
+![The Huber line (green) refitted on the 40 points of Figure 6 as $\delta$ grows from 0.25 to 16, with the MSE and MAE lines dashed](images/huber_delta.gif){height=40%}
+
+In Figure 7, watch the green line leave the orange MAE line and climb to the blue MSE line as $\delta$ grows: $\hat{y} = 1.96x + 1.29$ at $\delta = 0.25$, $1.89x + 2.78$ at $\delta = 4$, and $1.88x + 3.55$, exactly the MSE line, from $\delta = 6$ on. Once $\delta$ is larger than every error, no observation is treated as an outlier, and Huber loss is the squared error.
 
 > **Extra:** Here Huber does not land halfway between MSE and MAE: it behaves like MSE only for errors below $\delta$. Huber's real gain is that it is smooth (no corner at 0, unlike MAE) while still resisting outliers.
 
@@ -228,7 +232,9 @@ MSE has moved the line up by about $0.25 \times 8 = 2$, between the two groups. 
 
 > **Key point:** For two classes. One sigmoid output node; loss $-y\log\hat{y} - (1 - y)\log(1 - \hat{y})$.
 
-**Binary cross-entropy** (G-304), also called **log loss**, is the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../73-log-loss/note.md):
+When the output is a probability, the loss should be near 0 if the network gives the true class a high probability, and very large if it gives the true class a probability near 0. Minus the log of that probability behaves this way: $-\log 1 = 0$, $-\log 0.5 = 0.69$ and $-\log 0.01 = 4.6$.
+
+**Binary cross-entropy** (G-304), also called **log loss**, is this loss for two classes, and the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../73-log-loss/note.md):
 
 $$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y}), \qquad J = -\frac{1}{n}\sum_{i=1}^{n}\big[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\big]$$
 
@@ -244,9 +250,28 @@ Two students, with natural logs:
 
 ![The loss for each label as the predicted probability changes, with the two students marked](images/bce_curves.png){height=32%}
 
-Figure 7 draws the two halves of the formula. Watch each curve shoot up as the prediction moves towards the wrong label: a confident wrong answer costs far more than a hesitant one.
+Figure 8 draws the two halves of the formula. Watch each curve shoot up as the prediction moves towards the wrong label: a confident wrong answer costs far more than a hesitant one.
 
 After each loss, gradient descent updates the weights, then the next student comes.
+
+### 8.1 Why not the squared error?
+
+> **Key point:** For a badly wrong probability, the slope of cross-entropy is huge and the slope of the squared error is small. The slope is the push on the weights, so cross-entropy corrects bad predictions much faster.
+
+The squared error $(1 - p)^2$ could also score a probability $p$ given to the true class: it is 0 when $p = 1$ and largest when $p = 0$. The difference lies in the slope, which sets how hard the observation pushes the weights (section 5.2).
+
+![The probability p given to the true class slides from 0.99 to 0.01. Red: cross-entropy and its tangent. Blue: the squared error and its tangent. The title prints both slopes. Idea after StatQuest, "Neural Networks Part 6: Cross Entropy"](images/ce_vs_mse.gif){height=40%}
+
+In Figure 9, watch the two dotted tangent lines as $p$ falls:
+
+1. **In words:** the slope of $-\log p$ is $-1/p$, and the slope of $(1 - p)^2$ is $-2(1 - p)$.
+2. **Formula:**
+   $$\frac{d}{dp}(-\log p) = -\frac{1}{p}, \qquad \frac{d}{dp}(1 - p)^2 = -2(1 - p)$$
+3. **Example:** for student 1, $p = 0.73$: the slopes are $-1/0.73 = -1.37$ and $-2 \times 0.27 = -0.54$. For a badly wrong prediction, $p = 0.01$: the slopes are $-1/0.01 = -100$ and $-2 \times 0.99 = -1.98$.
+
+The squared error's slope can never be steeper than $-2$, however wrong the prediction. The cross-entropy's slope keeps growing as $p$ approaches 0. So with cross-entropy, the worse the prediction, the larger the correction.
+
+### 8.2 Advantages and disadvantages
 
 - **Advantage:** it is differentiable, so gradient descent applies directly.
 - **Disadvantage:** it is less intuitive than MSE or MAE: the number has no everyday unit.
@@ -283,6 +308,17 @@ The network changes in two ways:
 - the **output layer has one node per class** (here 3: yes, no, maybe);
 - they all use the **softmax** activation, $\hat y_j = e^{z_j} / (e^{z_1} + e^{z_2} + e^{z_3})$, so the three outputs lie between 0 and 1 and add up to 1 (see the [softmax regression Note](../79-softmax-regression/note.md), section 2).
 
+Why softmax, and not simply the largest raw output? Take three raw outputs of the output layer, 1.43, $-0.4$ and 0.23. They are hard to read: they are not between 0 and 1 and do not add up to 1. Two ways to tidy them are compared in Figure 10.
+
+![Three raw outputs (left), after argmax (middle) and after softmax (right), while the raw output of class 1 slides from 1.43 down to −1. Idea after StatQuest, "Neural Networks Part 5: ArgMax and SoftMax"](images/argmax_softmax.gif){height=36%}
+
+- **Argmax** sets the largest output to 1 and the rest to 0: here (1, 0, 0). The result is easy to read. But in Figure 10 the argmax bars stand still while the raw output of class 1 falls from 1.43 all the way to 0.26, and then jump at once when it drops below class 3's 0.23. A small change in a weight almost never changes the argmax output, so its slope is 0 and gradient descent gets no direction to move in.
+- **Softmax** gives (0.68, 0.11, 0.21): the same order, every value between 0 and 1, and a sum of 1. In Figure 10 the softmax bars move at every step, so every small change in a weight changes the loss, and gradient descent has a slope to follow.
+
+So training uses softmax, and argmax is used only afterwards, to read off the predicted class (see section 6 of the [MNIST Note](../1012-mnist-ann/note.md)).
+
+The softmax outputs are called probabilities, but they are not a reliable measure of how sure the network should be: the MNIST network of that Note gives random noise the label 3 with a softmax output of 0.997 (its section 9.2).
+
 The labels are [one-hot encoded](../27-one-hot-encoding/note.md): yes = (1, 0, 0), no = (0, 1, 0), maybe = (0, 0, 1). A handwritten-digit network is the same idea with 10 classes (0 to 9) and 10 softmax output nodes.
 
 ### 9.2 Two students
@@ -298,7 +334,7 @@ Student 1 gets a large loss because the network gave its true class only 0.2. Af
 
 ![Softmax outputs of the two students; only the true class (green) enters the loss](images/cce_bars.png){height=28%}
 
-In Figure 8, the grey bars play no part in the loss: only the green bar's height matters.
+In Figure 11, the grey bars play no part in the loss: only the green bar's height matters.
 
 ## 10. Sparse categorical cross-entropy
 
@@ -311,7 +347,7 @@ In Figure 8, the grey bars play no part in the loss: only the green bar's height
    $$L = -\log \hat y_c$$
 3. **Example:** student 1 has label 0 and $\hat{y} = (0.2, 0.3, 0.5)$, so $L = -\log 0.2 = 1.609$; student 2 has label 1, so $L = -\log 0.6 = 0.511$. These are exactly the numbers of Section 9.2.
 
-The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of them by 0. The sparse version goes straight to one log (Figure 9).
+The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of them by 0. The sparse version goes straight to one log (Figure 12).
 
 ![Student 1 under both label formats: three products, two of them zero, against one lookup](images/sparse_vs_onehot.png){height=22%}
 
@@ -361,6 +397,8 @@ Loss functions are not limited to these. Other problems have their own losses (F
 - The loss scores one observation; the cost averages the losses over a batch or the training set.
 - MSE's slope grows with the error, so far observations drive the updates; MAE's slope is always $\pm 1$.
 - Huber loss is MSE inside $\pm\delta$ and MAE outside, and smooth everywhere.
+- Cross-entropy's slope $-1/p$ grows without limit for a badly wrong probability; the squared error's slope stays within $-2$.
+- Argmax has slope 0, so training uses softmax; argmax only reads off the final class.
 - The loss decides the output layer: linear for MSE, MAE and Huber, sigmoid for binary cross-entropy, softmax for the categorical ones.
 - Sparse categorical cross-entropy is the same loss with integer labels.
 - Keras names:
@@ -374,6 +412,8 @@ Loss functions are not limited to these. Other problems have their own losses (F
 **Built from**
 
 - CampusX, "Loss Functions in Deep Learning | Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=gb5nm_3jBIo
+- StatQuest with Josh Starmer, "Neural Networks Part 5: ArgMax and SoftMax", YouTube, https://www.youtube.com/watch?v=KpKog-L9veg (section 9.1: why softmax and not argmax)
+- StatQuest with Josh Starmer, "Neural Networks Part 6: Cross Entropy", YouTube, https://www.youtube.com/watch?v=6ArSys5qHAU (section 8.1: cross-entropy against the squared error)
 
 **Other references**
 

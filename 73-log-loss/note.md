@@ -94,7 +94,7 @@ The logarithm turns multiplication into addition:
 
 $$\log(a \times b) = \log a + \log b$$
 
-So instead of the likelihood, we compute its log, the **log-likelihood** (G-1113):
+So instead of the likelihood, we compute its log, the **log-likelihood** (G-1113). Every log in this Note is the natural log (base $e$), which is what `np.log` computes; any other base gives different numbers but the same best model.
 
 $$\log(0.7 \times 0.4 \times 0.4 \times 0.8) = \log 0.7 + \log 0.4 + \log 0.4 + \log 0.8 = -2.41$$
 
@@ -132,6 +132,25 @@ The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the pr
 
 So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. The second effect matters for points close to the decision boundary: a correct point with $p = 0.6$ still costs 0.51, so lowering the loss means moving the decision boundary further away from it.
 
+### 5.1 Why not the squared error?
+
+> **Key point:** For a badly wrong prediction, the log loss curve is far steeper than the squared error curve, so the model gets a much stronger push to correct itself.
+
+Linear regression used the squared error, so a natural question is why logistic regression does not. For one point, the squared error would be $(1 - p)^2$: the gap between the probability given to the true class and 1, squared.
+
+Figure 5 slides one point from a good prediction to a bad one and draws both costs. Watch the two black **tangent lines** (G-1945): the steepness of each tangent is the slope of that cost.
+
+![The cost of one point under log loss (red) and squared error (blue) as the probability p given to the true class falls from 0.95 to 0.03. The squared error never exceeds 1 and its slope never exceeds 2 in size. The log loss grows without limit, and at p = 0.1 its slope is already −10 against −1.8. Idea after StatQuest, "Neural Networks Part 6: Cross Entropy"](images/log_vs_square.gif)
+
+| p | Log loss: cost | Log loss: slope $-1/p$ | Squared error: cost | Squared error: slope $-2(1 - p)$ |
+|---|---|---|---|---|
+| 0.9 | 0.11 | $-1.1$ | 0.01 | $-0.2$ |
+| 0.5 | 0.69 | $-2.0$ | 0.25 | $-1.0$ |
+| 0.1 | 2.30 | $-10.0$ | 0.81 | $-1.8$ |
+| 0.03 | 3.51 | $-33.3$ | 0.94 | $-1.9$ |
+
+Gradient descent (section 7) takes steps whose size depends on the slope of the loss. With the squared error, a terrible prediction ($p = 0.03$) gives almost the same slope as a mediocre one ($p = 0.1$). With log loss, the worse the prediction, the steeper the slope, so the worst mistakes are corrected with the largest steps.
+
 > **Extra:** On perfectly separable data, gradient descent on this loss slowly turns the decision boundary towards the one with the widest gap (Soudry et al. 2018).
 
 ## 6. One formula for both classes
@@ -144,14 +163,14 @@ So the loss punishes confident mistakes very heavily, and keeps rewarding the mo
 
 The cost of a point uses $\hat{y}$ if the point is green and $1 - \hat{y}$ if it is red. Writing it as $-\log \hat{y}$ for every point would be wrong for the red ones. One expression handles both cases:
 
-$$\text{cost}_i = -\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
+$$\text{cost of point } i = -\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
 
 - **Green point** ($y_i = 1$): the second term is multiplied by 0 and vanishes, leaving $-\log \hat y_i$.
 - **Red point** ($y_i = 0$): the first term vanishes, leaving $-\log(1 - \hat y_i)$.
 
 ![The one formula draws two cost curves: green points pay $-\log \hat y$, red points pay $-\log(1 - \hat y)$. Model 1's four points sit on their own curves; their costs add up to 2.41.](images/one_formula.png){height=42%}
 
-In Figure 5, watch where the curves rise: a green point is expensive when $\hat y$ is near 0, a red point when $\hat y$ is near 1, so each point is punished only for leaning towards the wrong colour.
+In Figure 6, watch where the curves rise: a green point is expensive when $\hat y$ is near 0, a red point when $\hat y$ is near 1, so each point is punished only for leaning towards the wrong colour.
 
 With numbers, for model 1: point 2 is red with $\hat{y} = 0.6$, so its cost is $-\log(1 - 0.6) = -\log 0.4 = 0.92$. Point 3 is green with $\hat{y} = 0.4$, so its cost is $-\log 0.4 = 0.92$.
 
@@ -183,11 +202,32 @@ This loss is called **binary cross entropy** or **log loss** (G-303). For model 
 
 The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such **closed-form solution** (G-398), a formula that gives the answer in one step, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
 
-So we use **gradient descent** (G-862): compute the derivative of $L$ with respect to $w$ and step downhill repeatedly.
+### 7.1 The search in a picture
+
+> **Key point:** Try a curve, score it with the log loss, change the curve a little so that the score improves, and repeat until the score stops falling.
+
+Without a formula, the best model has to be searched for. Figure 7 shows the search on one feature: the CGPA of 30 students and whether each was placed. A candidate model is an S-shaped sigmoid curve giving P(placed) for every CGPA.
+
+![Thirty students (green: placed, blue: not placed) and a candidate sigmoid curve. Each red bar is the gap between a student and the curve: 1 minus the probability the curve gives to the student's true class. From curve to curve the bars shrink and the log loss falls from 1.190 to 0.138, where it stops falling. Idea after StatQuest, "Logistic Regression Details Pt 2: Maximum Likelihood"; the data and curves are our own](images/curve_search.gif)
+
+Step by step, in Figure 7:
+
+1. **Curve 1** slopes the wrong way: it gives high-CGPA students a low probability of being placed. The red bars are long, and the log loss is 1.190.
+2. **Curve 5** slopes the right way but is nearly flat. Every student gets a probability near 0.5, so the bars are still long: log loss 0.444.
+3. **Curve 11** is steeper. Most bars are short: log loss 0.218.
+4. **Curve 28** is the last one. The only long bars belong to the four students between CGPA 6.0 and 6.1, where placed and not-placed students overlap, and no curve can make all four short. The log loss is 0.138 and no longer falls.
+
+The curve with the smallest log loss is the maximum likelihood model of section 3.
+
+### 7.2 Gradient descent
+
+> **Key point:** Gradient descent decides how to change the curve at each try: it steps in the direction in which the loss falls fastest.
+
+The method that chooses each next curve is **gradient descent** (G-862): compute the derivative of $L$ with respect to $w$ and step downhill repeatedly. Figure 8 runs it on the four points of section 2.
 
 ![Gradient descent on the log loss of the four points, starting from model 1 (dotted line). Left: the decision boundary (P(green) = 0.5) turns; the labels give each point's probability for its true colour. Right: the log loss per step, with model 2's 0.434 dashed. Key frames: steps 0, 3 and 40.](images/gd_four.gif){height=80%}
 
-In Figure 6, watch the loss pass model 2's value by step 3 and keep falling while the decision boundary turns to put all four points on their correct side. On these four perfectly separable points the loss keeps shrinking towards 0, as Section 5's Extra notes. The next Note works out the derivative of the sigmoid, and the one after derives the gradient and codes logistic regression from scratch.
+In Figure 8, watch the loss pass model 2's value by step 3 and keep falling while the decision boundary turns to put all four points on their correct side. On these four perfectly separable points the loss keeps shrinking towards 0, as Section 5's Extra notes. The next Note works out the derivative of the sigmoid, and the one after derives the gradient and codes logistic regression from scratch.
 
 ## 8. Summary
 
@@ -202,6 +242,7 @@ In Figure 6, watch the loss pass model 2's value by step 3 and keep falling whil
 - The perceptron versions had no measure of "best"; a loss function provides one.
 - Maximum likelihood: choose the model that gives the observed classes the highest probability.
 - Logs avoid tiny products; the minus sign gives a positive loss to minimise.
+- Compared with the squared error, log loss has a much steeper slope for badly wrong predictions, so they are corrected with larger steps.
 - Log loss: $L = -\frac{1}{n}\sum[y\log\hat{y} + (1 - y)\log(1 - \hat{y})]$; it has no closed-form minimum.
 
 ## 9. Sources
@@ -209,6 +250,8 @@ In Figure 6, watch the loss pass model 2's value by step 3 and keep falling whil
 **Built from**
 
 - CampusX, "Logistic Regression Part 4 | Loss Function | Maximum Likelihood | Binary Cross Entropy", YouTube, https://www.youtube.com/watch?v=6bXOo0sxY5c
+- StatQuest with Josh Starmer, "Logistic Regression Details Pt 2: Maximum Likelihood", YouTube, https://www.youtube.com/watch?v=BfKanl1aSG0
+- StatQuest with Josh Starmer, "Neural Networks Part 6: Cross Entropy", YouTube, https://www.youtube.com/watch?v=6ArSys5qHAU
 
 **Other references**
 

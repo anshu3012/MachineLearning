@@ -17,24 +17,24 @@ tags: [subject/ml, area/linear-algebra, area/models-1, step/foundations, step/mo
 
 > **Key point:** Logistic regression separates two classes with a straight line. The perceptron trick is a simple way to find such a line: pick a random point, and if it is on the wrong side, move the line towards it.
 
-**Logistic regression** is one of the most widely used classification algorithms. Logistic regression is also the basic building block of neural networks: a single neuron (the **perceptron**) is very close to it. Understanding it well is a good foundation for deep learning.
+**Logistic regression** (G-1120) is one of the most widely used classification algorithms. Logistic regression is also the basic building block of neural networks: a single neuron (the **perceptron**, G-1486) is very close to it. Understanding it well is a good foundation for deep learning.
 
 Logistic regression can be explained in two ways:
 
 - **Geometric:** find a line that separates the classes.
 - **Probabilistic:** predict the probability that a point belongs to a class.
 
-These Notes build it step by step. This Note starts with the **perceptron trick**, a very simple geometric method. The perceptron trick does not give the best possible line (Bishop §4.1.7), but it explains the idea that the later Notes improve on: the sigmoid function, the loss function and gradient descent.
+These Notes build it step by step. This Note starts with the **perceptron trick** (G-1485), a very simple geometric method. The perceptron trick does not give the best possible line (Bishop §4.1.7), but it explains the idea that the later Notes improve on: the sigmoid function, the loss function and gradient descent.
 
 ## 2. When logistic regression works
 
 > **Key point:** The two classes must be (almost) linearly separable: a straight line, plane or hyperplane can split them.
 
-Take a dataset of students. Each student is one **observation** (one record, one row of the data table). There are two **features** (input variables, one column each), CGPA and IQ, and one **target** (the output we predict): placed or not placed. We want a model that takes a new student's CGPA and IQ and predicts whether they will be placed.
+Take a dataset of students. Each student is one **observation** (G-1374; one record, one row of the data table). There are two **features** (G-772; input variables, one column each), CGPA and IQ, and one **target** (G-1949; the output we predict): placed or not placed. We want a model that takes a new student's CGPA and IQ and predicts whether they will be placed.
 
 ![Linearly separable data and data that no straight line can split](images/separable.png){height=42%}
 
-Data is **linearly separable** when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane**. A few points on the wrong side are fine: the data only needs to be almost separable.
+Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane** (G-911). A few points on the wrong side are fine: the data only needs to be almost separable.
 
 Logistic regression draws a straight divider, just as linear regression fits a straight line. So on data like Figure 1 (right), where one class surrounds the other, it cannot do well.
 
@@ -56,7 +56,7 @@ With CGPA as $x_1$ and IQ as $x_2$, this becomes $A x_1 + B x_2 + C = 0$. A thir
 
 > **Key point:** Ax + By + C > 0 on one side, < 0 on the other, = 0 on the line.
 
-Every line splits the plane into a **positive side** and a **negative side**. To find which side a point $(x_1, y_1)$ is on, put it into the left-hand side:
+Every line splits the plane into a **positive side** and a **negative side** (G-1529). To find which side a point $(x_1, y_1)$ is on, put it into the left-hand side:
 
 - $A x_1 + B y_1 + C > 0$: positive side.
 - $A x_1 + B y_1 + C < 0$: negative side.
@@ -91,7 +91,11 @@ The algorithm:
    - pick one training point at random;
    - if it is on the correct side of the line, do nothing;
    - if it is on the wrong side, change $A$, $B$ and $C$ so that the line moves towards it.
-3. Stop after the chosen number of loops, or as soon as no point is misclassified (**convergence**).
+3. Stop after the chosen number of loops, or as soon as no point is misclassified (**convergence**, G-472).
+
+Figure 4 draws the loop.
+
+![The perceptron trick as a loop: start with any line, pick a random training point, leave the line alone if the point is on the correct side, otherwise move the line towards it; repeat until the chosen number of loops is done or no point is wrong.](images/loop.png)
 
 Each misclassified point "pulls" the line towards itself until it is on the correct side. After enough pulls, the line settles between the classes.
 
@@ -111,7 +115,7 @@ Append a 1 to the point, $(5, 2, 1)$, and subtract it from the coefficients $(2,
 
 $$(2 - 5,\ 3 - 2,\ 5 - 1) = (-3,\ 1,\ 4) \quad\Rightarrow\quad -3x + y + 4 = 0$$
 
-Now the point gives $-15 + 2 + 4 = -9 < 0$: it is on the negative side, as it should be (Figure 4, left).
+Now the point gives $-15 + 2 + 4 = -9 < 0$: it is on the negative side, as it should be (Figure 5, left).
 
 ### 6.2 A positive point on the negative side
 
@@ -121,7 +125,7 @@ The point $(-3, -2)$ belongs to the positive class, but gives $-6 - 6 + 5 = -7 <
 
 $$(2 - 3,\ 3 - 2,\ 5 + 1) = (-1,\ 1,\ 6) \quad\Rightarrow\quad -x + y + 6 = 0$$
 
-Now it gives $3 - 2 + 6 = 7 > 0$: positive side (Figure 4, right).
+Now it gives $3 - 2 + 6 = 7 > 0$: positive side (Figure 5, right).
 
 ![One update for each kind of mistake](images/update.png){height=55%}
 
@@ -129,7 +133,7 @@ Now it gives $3 - 2 + 6 = 7 > 0$: positive side (Figure 4, right).
 
 > **Key point:** Multiply the point by a learning rate such as 0.1 before adding or subtracting, so the line moves a little at a time.
 
-The full update above jumps the line a long way, which can undo what other points taught it. As in gradient descent, the step is scaled by a small **learning rate** $\eta$, usually around 0.1 or 0.01:
+The full update above jumps the line a long way, which can undo what other points taught it. As in gradient descent, the step is scaled by a small **learning rate** (G-1068) $\eta$, usually around 0.1 or 0.01:
 
 $$\text{new coefficients} = \text{old coefficients} - \eta \times (x, y, 1)$$
 
@@ -137,7 +141,7 @@ With $\eta = 0.1$, the first example gives $(2 - 0.5,\ 3 - 0.2,\ 5 - 0.1) = (1.5
 
 ![The perceptron trick in small steps, learning rate 0.1. First, the negative point (5, 2) sits on the positive (green) side; each step subtracts $0.1 \times (5, 2, 1)$ from the coefficients, its value falls by 3 (21, 18, 15, ...), and at step 8 the point is on the negative side. Then the positive point $(-3, -2)$; each step adds $0.1 \times (-3, -2, 1)$, its value rises by 1.4 from $-7$, and it crosses at step 6. The dashed line is the start line $2x + 3y + 5 = 0$](images/small_steps.gif){width=100%}
 
-In Figure 5, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount, because, writing the point as $p = (x, y, 1)$, $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$: the change is $0.1 \times (25 + 4 + 1) = 3$ for $(5, 2)$ and $0.1 \times (9 + 4 + 1) = 1.4$ for $(-3, -2)$.
+In Figure 6, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount, because, writing the point as $p = (x, y, 1)$, $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$: the change is $0.1 \times (25 + 4 + 1) = 3$ for $(5, 2)$ and $0.1 \times (9 + 4 + 1) = 1.4$ for $(-3, -2)$.
 
 ## 7. Writing the algorithm compactly
 
@@ -157,7 +161,11 @@ The same sum works for any number of features, just with more terms. In vectors 
 
 > **Key point:** Compute w · x for the student. If it is positive, predict 1 (placed); otherwise predict 0.
 
-For a student with CGPA 7.5 and IQ 110, the observation is $x = (1,\ 7.5,\ 110)$. The model computes $w_0 \times 1 + w_1 \times 7.5 + w_2 \times 110$. If the result is above 0, it predicts placed (1); otherwise not placed (0). The rule "1 if positive, else 0" is a **step function** of $w \cdot x$.
+For a student with CGPA 7.5 and IQ 110, the observation is $x = (1,\ 7.5,\ 110)$. The model computes $w_0 \times 1 + w_1 \times 7.5 + w_2 \times 110$. If the result is above 0, it predicts placed (1); otherwise not placed (0). The rule "1 if positive, else 0" is a **step function** (G-1889) of $w \cdot x$.
+
+Figure 7 applies it to the three points of Sections 3 and 6 with the line $2x + 3y + 5 = 0$, that is $w = (5, 2, 3)$. The values 12 and 21 land on the step at 1, the value $-12$ at 0. The point $(5, 2)$ is predicted 1 but belongs to the negative class, so $y - \hat y = -1$ in the rule below, and the update subtracts, exactly as in Section 6.1.
+
+![The step function turns w · x into a prediction. With the line 2x + 3y + 5 = 0: (2, 1) gives 12 and ŷ = 1, (5, 2) gives 21 and ŷ = 1, (−4, −3) gives −12 and ŷ = 0.](images/step_rule.png)
 
 ### 7.3 One update rule
 
@@ -221,7 +229,9 @@ So the loop needs no if-statements: for each random point, compute $\hat{y}$ and
 | Perceptron trick | Moving a line towards each misclassified point until the classes are separated |
 | Linearly separable | Data whose classes a straight line, plane or hyperplane can split |
 | Hyperplane | The flat divider in more than three dimensions |
-| Feature, target, observation | An input variable (one column), the output we predict, and one record (one row) |
+| Feature | An input variable: one column of the data table |
+| Target | The output we predict |
+| Observation | One record: one row of the data table |
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0 |
 | Step function | A function that outputs 1 for positive inputs and 0 otherwise |
 | Convergence | The point where training stops changing, here when no point is misclassified |

@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-1, area/models-2, step/model, concept/decision-tr
 
 > **Key point:** A decision tree is a set of nested if-else questions learned from data. Each question cuts the data in two (or more) parts, and the tree picks the question that makes the parts as pure as possible.
 
-A **decision tree** predicts by asking a chain of questions about the input **features** (input variables, one column each of the data table), one at a time, until it reaches an answer. Each **observation** (one record, one row of the table) travels down the questions to a prediction of the **target** (the output we predict). Figure 1 shows a tiny one that recommends an app.
+A **decision tree** (G-561) predicts by asking a chain of questions about the input **features** (G-772; input variables, one column each of the data table), one at a time, until it reaches an answer. Each **observation** (G-1374; one record, one row of the table) travels down the questions to a prediction of the **target** (G-1949; the output we predict). Figure 1 shows a tiny one that recommends an app.
 
 ![A decision tree that recommends an app from occupation and gender](images/app_tree.png){height=30%}
 
@@ -108,9 +108,9 @@ A deeper tree keeps going: each new question cuts one existing box in two. Figur
 
 > **Key point:** In 2D the cuts are lines, in 3D planes, in more dimensions hyperplanes; the pieces are rectangles, cuboids and hyper-cuboids.
 
-With 2 input features the cuts are lines and the pieces are rectangles. With 3 features, imagine the points floating in a room: each cut is a flat sheet (a plane) parallel to one wall, and the pieces are cuboids, like rooms. With more features the cuts become **hyperplanes** (the [multiple linear regression Note](../53-multiple-linear-regression/note.md)) and the pieces hyper-cuboids.
+With 2 input features the cuts are lines and the pieces are rectangles. With 3 features, imagine the points floating in a room: each cut is a flat sheet (a plane) parallel to one wall, and the pieces are cuboids, like rooms. With more features the cuts become **hyperplanes** (the [multiple linear regression Note](../53-multiple-linear-regression/note.md)) and the pieces **hyper-cuboids** (G-907).
 
-The cuts are always parallel to an axis, because each question looks at one feature only. The decision boundary of a tree is therefore made of straight, axis-parallel pieces: a staircase, never a slanted line or a curve.
+The cuts are always parallel to an axis, because each question looks at one feature only. The decision boundary of a tree is therefore made of straight, **axis-parallel** pieces (G-243): a staircase, never a slanted line or a curve.
 
 ### 3.3 Two ways to see a decision tree
 
@@ -138,11 +138,11 @@ Figure 4 names the parts of a tree. The words are the same as for trees in compu
 
 ![The parts of a decision tree](images/terminology.png){height=36%}
 
-- **Root node:** the first node, holding all the training observations.
-- **Splitting:** dividing a node's observations into parts according to a question.
-- **Decision node:** a node in the middle, neither root nor leaf; it asks a question and splits again.
-- **Leaf node** (terminal node): a node that is not split; it gives the prediction.
-- **Branch** (subtree): a node together with everything below it. A tree is built by building its branches recursively.
+- **Root node** (G-1706): the first node, holding all the training observations.
+- **Splitting** (G-1855): dividing a node's observations into parts according to a question.
+- **Decision node** (G-556): a node in the middle, neither root nor leaf; it asks a question and splits again.
+- **Leaf node** (G-1060; terminal node): a node that is not split; it gives the prediction.
+- **Branch** (G-332; subtree): a node together with everything below it. A tree is built by building its branches recursively.
 
 The open questions are now precise:
 
@@ -163,6 +163,10 @@ The open questions are now precise:
 - **Fast predictions.** A prediction follows one path from the root to a leaf and ignores every other branch, so its cost grows only logarithmically with the number of training observations.
 
 > **Extra:** Why "logarithmic"? A tree that halves the data at each question needs about $\log_2 n$ questions to reach a single observation. For $n = 1{,}000{,}000$ observations that is only about 20 questions, because $2^{20} \approx 1{,}000{,}000$. Real trees are rarely perfectly balanced, so this is a best case (sklearn UG §1.10).
+>
+> Figure 5 measures it. Fully grown trees on 1,000 to 300,000 synthetic training observations need 8.2 to 23.2 questions per prediction on average. The count rises in a straight line against $\log_2 n$, by about 1.8 questions each time $n$ doubles: a 300-fold larger training set costs only 15 more questions. The tree is not perfectly balanced, so the line is steeper than $\log_2 n$ itself.
+
+![Average number of questions per prediction for fully grown trees trained on 1,000 to 300,000 observations (blue), against log₂ n, the depth of a perfectly balanced tree (dashed). Both grow in a straight line on the log scale.](images/path_length.png)
 
 ### 5.2 Disadvantages
 
@@ -175,7 +179,7 @@ The open questions are now precise:
 
 > **Key point:** Trees are mostly used for classification, but the same idea predicts numbers; hence the name CART.
 
-Decision trees are mostly used for classification problems, but the same logic also works for regression problems (Note 99). These two uses give trees their other name, **CART**: **classification and regression trees**.
+Decision trees are mostly used for classification problems, but the same logic also works for regression problems (Note 99). These two uses give trees their other name, **CART** (G-347): **classification and regression trees**.
 
 ### 5.4 A tree in action: Akinator
 
@@ -193,7 +197,7 @@ After about a dozen questions only one character fits, and the game names it. Ea
 
 > **Key point:** More knowledge about a system means less uncertainty, and less uncertainty means less entropy.
 
-**Entropy** is a measure of disorder, which we can also read as a measure of impurity. The idea of entropy comes from physics (thermodynamics) and is also central to information theory.
+**Entropy** (G-691) is a measure of disorder, which we can also read as a measure of impurity. The idea of entropy comes from physics (thermodynamics) and is also central to information theory.
 
 Water shows the idea. In ice (solid) the molecules are packed tightly and can barely move. In liquid water they move a little, and in vapour they move anywhere. Ice is the most ordered state, so it has the least entropy; vapour has the most.
 
@@ -202,6 +206,24 @@ In data, disorder means uncertainty about the class. If a set of observations is
 ### 6.2 The formula
 
 > **Key point:** Entropy is minus the sum, over the classes, of each class's share times the log of that share.
+
+**The idea: entropy is average surprise.** Pick one observation at random from a set and look at its class. A common class is no surprise; a rare class is a big surprise. Take dataset 2 of section 6.3, with 1 yes and 4 no: drawing a "no" (share 0.8) is expected, drawing the "yes" (share 0.2) is surprising. So the surprise must go up as the share $p$ goes down.
+
+The simplest choice, $1/p$, fails one test. A class with share 1 is certain, so its surprise should be 0, but $1/1 = 1$. Taking the log fixes it, because $\log_2 1 = 0$. The **surprise** of a class with share $p$ is therefore
+
+$$\text{surprise} = \log_2 \frac{1}{p}$$
+
+For dataset 2, the surprise of "yes" is $\log_2(1/0.2) = 2.32$ and the surprise of "no" is $\log_2(1/0.8) = 0.32$.
+
+Entropy is the surprise we get **on average** per draw. We meet "yes" in 0.2 of the draws and "no" in 0.8 of them, so we weight each surprise by its share:
+
+$$H = 0.2 \times 2.32 + 0.8 \times 0.32 = 0.722$$
+
+This weighted average is an **expected value** (G-725). Figure 6 repeats the two steps for three sets. Watch the right panel: the two bars are the surprises, and the dashed line is their weighted average, the entropy. The line sits close to the common class's low bar when the set is nearly pure, and rises to 1 when the classes are equal and every draw is equally surprising.
+
+![Entropy as average surprise, for 1 yes and 4 no, 2 yes and 3 no, and 5 yes and 5 no. Left: the share of each class. Right: the surprise of each class and, dashed, their weighted average, the entropy: 0.722, 0.971 and 1. Idea after StatQuest, "Entropy (for data science) Clearly Explained!!!".](images/surprise.gif)
+
+Writing "share times surprise, added over the classes" in symbols gives $H = \sum p_i \log_2 (1/p_i)$. Because $\log_2(1/p) = -\log_2 p$, the same sum is $-\sum p_i \log_2 p_i$, the standard form. The log and the minus sign both come from the surprise.
 
 1. **In words:** for each class, take its share of the observations ($p_i$), multiply it by $\log_2 p_i$, add these up over all classes, and change the sign.
 2. **Formula:**
@@ -254,7 +276,7 @@ $$H = -\tfrac{2}{8}\log_2\tfrac{2}{8} - \tfrac{3}{8}\log_2\tfrac{3}{8} - \tfrac{
 
 > **Key point:** Plotted against the share of yes, two-class entropy is an arch: 0 at both ends, 1 in the middle, symmetric.
 
-Figure 5 plots the two-class entropy against $P(\text{yes})$, with our examples marked.
+Figure 7 plots the two-class entropy against $P(\text{yes})$, with our examples marked.
 
 ![Two-class entropy against the share of yes observations](images/entropy_curve.png){height=36%}
 
@@ -268,13 +290,13 @@ The curve is symmetric because with two classes $P(\text{no}) = 1 - P(\text{yes}
 
 > **Key point:** For a continuous feature, the more peaked the distribution, the lower the entropy; the more spread out, the higher.
 
-Entropy so far needed classes. For a numerical output, such as a price, we can still compare two datasets by their density curves, the KDE (the [univariate analysis Note](../20-univariate-analysis/note.md), section 7). Figure 6 shows two price features.
+Entropy so far needed classes. For a numerical output, such as a price, we can still compare two datasets by their density curves, the KDE (the [univariate analysis Note](../20-univariate-analysis/note.md), section 7). Figure 8 shows two price features.
 
 ![Two price distributions: a peaked one (low entropy) and a spread one (high entropy)](images/spread_entropy.png){height=34%}
 
 The right question is again "where do we know more?". In dataset 1 most values lie between $-1$ and 1, so a random value is easy to guess closely. In dataset 2 they spread over $-3$ to 3. So the more peaked curve, dataset 1, has the lower entropy, and the flatter curve, dataset 2, the higher.
 
-> **Extra:** The continuous version is called **differential entropy**. For a normal distribution with standard deviation $\sigma$ it equals $\tfrac{1}{2}\log_2(2\pi e\sigma^2)$. (Cover and Thomas, Example 8.1.2). For Figure 6, $\sigma = 0.5$ gives 1.05 bits and $\sigma = 1.5$ gives 2.63 bits.
+> **Extra:** The continuous version is called **differential entropy** (G-607). For a normal distribution with standard deviation $\sigma$ it equals $\tfrac{1}{2}\log_2(2\pi e\sigma^2)$. (Cover and Thomas, Example 8.1.2). For Figure 8, $\sigma = 0.5$ gives 1.05 bits and $\sigma = 1.5$ gives 2.63 bits.
 
 ## 7. Information gain
 
@@ -284,11 +306,11 @@ The right question is again "where do we know more?". In dataset 1 most values l
 
 > **Key point:** Gain = entropy of the parent minus the weighted average entropy of the children.
 
-**Information gain** is the metric used to train decision trees: it measures the quality of a split on one feature. Information gain is the decrease in entropy after the dataset is split on that feature. Building a tree means finding, at each node, the feature with the highest information gain.
+**Information gain** (G-946) is the metric used to train decision trees: it measures the quality of a split on one feature. Information gain is the decrease in entropy after the dataset is split on that feature. Building a tree means finding, at each node, the feature with the highest information gain.
 
 1. **In words:** compute the parent's entropy; split; compute each child's entropy; average the children's entropies, weighting each child by its share of the observations; subtract.
 2. **Formula:**
-   $$\text{IG} = H(\text{parent}) - \sum_{k} \frac{n_k}{n} H(\text{child}_k)$$
+   $$\text{IG} = H(\text{parent}) - \sum_{k} \frac{n_k}{n} H(\text{child } k)$$
    where $n$ is the number of observations in the parent and $n_k$ the number in child $k$.
 3. **Example:** the outlook split of Play Tennis, below: $0.940 - 0.694 = 0.247$.
 
@@ -300,7 +322,7 @@ The right question is again "where do we know more?". In dataset 1 most values l
 
 $$H(\text{parent}) = -\tfrac{9}{14}\log_2\tfrac{9}{14} - \tfrac{5}{14}\log_2\tfrac{5}{14} = 0.940$$
 
-**Step 2: split and compute each child's entropy.** Grouping by outlook gives three children (Figure 7):
+**Step 2: split and compute each child's entropy.** Grouping by outlook gives three children (Figure 9):
 
 - sunny: 5 days, 2 yes and 3 no, $H = 0.971$;
 - overcast: 4 days, all yes, $H = 0$;
@@ -327,7 +349,9 @@ The overcast child has entropy 0: it is pure, so it becomes a **leaf** and is no
 | wind | 0.048 |
 | temperature | 0.029 |
 
-Outlook wins, so it becomes the root, as in Figure 2.
+Outlook wins, so it becomes the root, as in Figure 2. Figure 10 repeats Steps 2 to 4 for each feature in turn: every split leaves some impure children, but only outlook produces a pure one (overcast) and the lowest weighted entropy.
+
+![Step 5, one feature per frame: the 14 days split by outlook, humidity, wind and temperature. Bars: each child's yes (green) and no (red) days with its entropy. Right: the information gains so far; outlook's 0.247 is the largest.](images/gain_race.gif)
 
 **Step 6: recurse.** The same steps run on each impure child. Among the sunny days, humidity has a gain of 0.971 (it separates them perfectly); among the rainy days, wind does. These splits give exactly the tree of Figure 2.
 
@@ -335,7 +359,7 @@ Outlook wins, so it becomes the root, as in Figure 2.
 
 > **Key point:** At each node the tree takes the best split right now and never revisits it.
 
-Decision trees use a **recursive greedy search, top-down**: starting at the root, each node picks the split with the highest gain at that moment, then the same search runs inside each child. Once a node reaches entropy 0 (a leaf), it is not split further.
+Decision trees use a **recursive greedy search** (G-871), top-down: starting at the root, each node picks the split with the highest gain at that moment, then the same search runs inside each child. Once a node reaches entropy 0 (a leaf), it is not split further.
 
 > **Extra:** "Greedy" means the tree never looks ahead. A split that looks weak now but would enable two excellent splits later is never chosen. Finding the best possible tree is far too slow (the problem is NP-complete), so practical tree algorithms are greedy (sklearn UG §1.10).
 
@@ -355,7 +379,7 @@ In scikit-learn's `DecisionTreeClassifier`, the hyperparameter `criterion` choos
 
 > **Key point:** One minus the sum of the squared class shares.
 
-**Gini impurity** measures, like entropy, how pure the children of a split are; only the formula differs.
+**Gini impurity** (G-847) measures, like entropy, how pure the children of a split are; only the formula differs.
 
 1. **In words:** square each class's share, add the squares, and subtract the total from 1.
 2. **Formula:**
@@ -371,11 +395,18 @@ Dataset 2 is purer, and $0.32 < 0.48$, just as its entropy was lower.
 
 Both measures are 0 for a pure node. With $P(\text{yes}) = 1$: entropy is $-1 \log_2 1 = 0$, and Gini is $1 - (1^2 + 0^2) = 0$.
 
-They differ at the maximum. With $P(\text{yes}) = P(\text{no}) = 0.5$, entropy is 1 while Gini is $1 - (0.25 + 0.25) = 0.5$. Figure 8 plots both curves.
+They differ at the maximum. With $P(\text{yes}) = P(\text{no}) = 0.5$, entropy is 1 while Gini is $1 - (0.25 + 0.25) = 0.5$. Figure 11 plots both curves.
 
 ![Entropy and Gini impurity against the share of yes observations](images/gini_vs_entropy.png){height=34%}
 
-Information gain works the same way with Gini: the parent's Gini minus the weighted Gini of the children. For the outlook split, $0.459 - 0.343 = 0.116$, and outlook again wins against the other three features.
+Choosing a split works the same way with Gini: the parent's Gini minus the weighted Gini of the children. Here is the outlook split of section 7.2 again, step by step:
+
+1. **Parent:** 9 yes and 5 no, so $G = 1 - \left((9/14)^2 + (5/14)^2\right) = 0.459$.
+2. **Children:** sunny (2 yes, 3 no) has $G = 0.48$; overcast (4 yes) has $G = 0$; rain (3 yes, 2 no) has $G = 0.48$.
+3. **Weighted Gini of the children:** $\tfrac{5}{14}(0.48) + \tfrac{4}{14}(0) + \tfrac{5}{14}(0.48) = 0.343$.
+4. **Drop in impurity:** $0.459 - 0.343 = 0.116$.
+
+Outlook again wins against the other three features, so Gini picks the same root as entropy did.
 
 **Which to use?**
 
@@ -415,9 +446,13 @@ The parent has 3 yes and 5 no, so $H = 0.954$. Take the candidate "rating $\le 3
 
 $$\text{IG} = 0.954 - \left(\tfrac{4}{8}(0) + \tfrac{4}{8}(0.811)\right) = 0.954 - 0.406 = 0.549$$
 
-Figure 9 shows the gain of every candidate. "Rating $\le 3.2$" has the largest, 0.549, so it becomes the question at this node.
+Figure 12 shows the gain of every candidate. "Rating $\le 3.2$" has the largest, 0.549, so it becomes the question at this node.
 
 ![Information gain of every candidate threshold on the rating feature](images/rating_gains.png){height=32%}
+
+Figure 13 plays the search: the threshold slides from left to right across the sorted ratings, and each stop adds one bar to the gain chart. Watch the left and right entropies: the gain is highest where one side becomes pure and the other is nearly pure.
+
+![The threshold sliding along the rating feature. Left: the 8 observations and the candidate threshold, with the entropy of each side. Right: the information gain of each threshold tried so far; the peak is rating ≤ 3.2.](images/threshold_sweep.gif)
 
 The right part (1 no, 3 yes) is still impure, so the search repeats inside it, and so on down the tree.
 
@@ -456,6 +491,8 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 **Built from**
 
 - CampusX, "Decision Trees Geometric Intuition | Entropy | Gini impurity | Information Gain", YouTube, https://www.youtube.com/watch?v=IZnno-dKgVQ
+- StatQuest with Josh Starmer, "Entropy (for data science) Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=YtebGVx-Fxw
+- StatQuest with Josh Starmer, "Decision and Classification Trees, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=_L39rN6gz7Y
 
 **Other references**
 
@@ -479,6 +516,7 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 | Hyper-cuboid | A box in many dimensions: the region a tree's cuts carve out |
 | CART | Classification and regression trees: the tree algorithm used for both kinds of problem |
 | Entropy | A measure of disorder: $-\sum p_i \log_2 p_i$; 0 when pure, 1 for a 50/50 two-class node |
+| Surprise | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution |
 | Information gain | The drop in entropy from a parent to its weighted children; the tree splits on the highest |
 | Gini impurity | A measure of impurity: $1 - \sum p_i^2$; 0 when pure, 0.5 for a 50/50 two-class node |

@@ -17,7 +17,7 @@ tags: [subject/ml, area/data, step/get-data, concept/api]
 
 > **Key point:** We can build our own dataset by asking a website's API for its data, page by page, and joining the replies into one DataFrame.
 
-CSV files, JSON files and SQL databases hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an **API** that hands out their data on request, so we can collect it ourselves.
+CSV files, JSON files and SQL databases hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an **API** (G-204) that hands out their data on request, so we can collect it ourselves.
 
 Figure 1 shows the whole process. We send a request, get back a reply in JSON, turn it into a DataFrame, repeat for every page, join the pages and save the result as a CSV file.
 
@@ -67,7 +67,7 @@ Figure 3 takes the request apart:
 
 ### 4.1 The API key
 
-An **API key** is a secret code that tells the API who is asking. To get a TMDB key, we create a free account, log in, and open Settings, then the API section.
+An **API key** (G-205) is a secret code that tells the API who is asking. To get a TMDB key, we create a free account, log in, and open Settings, then the API section.
 
 Each key has a limit on how many requests it can make. So every user should create their own key and never share it: if many people use one key, it runs out.
 
@@ -102,9 +102,9 @@ The plan follows from the reply's structure:
 
 > **Key point:** `requests.get(url)` sends the request; `.json()` turns the reply into Python objects; `pd.DataFrame` turns a list of dictionaries into a table.
 
-We need two libraries: pandas, and **requests**, which sends web requests from Python. Both come with Anaconda.
+We need two libraries: pandas, and **requests** (G-1674), which sends web requests from Python. Both come with Anaconda.
 
-`requests.get(url)` sends the request and returns a **response** object. The response carries a **status code**, a number that says how the request went (RFC 9110, §15):
+`requests.get(url)` sends the request and returns a **response** (G-1686) object. The response carries a **status code** (G-1886), a number that says how the request went (RFC 9110, §15):
 
 | Status code | Meaning |
 |---|---|
@@ -160,7 +160,9 @@ The TVmaze reply differs from TMDB's in two ways:
 >
 > `timeout=10` gives up after 10 seconds instead of waiting forever.
 
-> **Extra:** In TVmaze, the rating is a small dictionary inside each show: `"rating": {"average": 6.6}`. `pd.DataFrame` would put the whole dictionary into one cell. `pd.json_normalize` opens nested dictionaries into their own columns, so we get a column `rating.average` holding 6.6.
+> **Extra:** In TVmaze, the rating is a small dictionary inside each show: `"rating": {"average": 6.6}`. `pd.DataFrame` would put the whole dictionary into one cell. `pd.json_normalize` (G-99) opens nested dictionaries into their own columns, so we get a column `rating.average` holding 6.6 (Figure 5).
+>
+> ![The first show of the saved TVmaze reply. `pd.DataFrame` keeps the nested rating dictionary in one cell; `pd.json_normalize` opens it into its own column, `rating.average`](images/normalize.png){width=100%}
 
 ## 7. Looping over every page
 
@@ -168,11 +170,11 @@ The TVmaze reply differs from TMDB's in two ways:
 
 One page is only a small part of the data. To get everything, we run the one-page code in a **for loop**, once per page, changing only the page number in the URL. For TMDB that is `range(1, 429)`: pages 1 to 428, because `range` stops just before its end value.
 
-Each pass builds a small DataFrame, `temp_df`, and adds it to a list. After the loop, `pd.concat` joins all the pages into one DataFrame. Figure 5 shows this with the first 5 TVmaze pages: 1,208 shows.
+Each pass builds a small DataFrame, `temp_df`, and adds it to a list. After the loop, `pd.concat` joins all the pages into one DataFrame. Figure 6 shows this with the first 5 TVmaze pages: 1,208 shows.
 
 ![Five pages fetched one by one, then joined into one table](images/pages_loop.gif){height=45%}
 
-Every page's DataFrame numbers its rows from 0. Joined as they are, the index labels would repeat: 0 to 239, then 0 to 244 again, and so on. With `ignore_index=True`, pandas throws the old labels away and numbers the rows 0 to 1,207 (Figure 5, last frame).
+Every page's DataFrame numbers its rows from 0. Joined as they are, the index labels would repeat: 0 to 239, then 0 to 244 again, and so on. With `ignore_index=True`, pandas throws the old labels away and numbers the rows 0 to 1,207 (Figure 6, last frame).
 
 > **Python:** The loop (TVmaze, first 5 pages).
 >
@@ -216,7 +218,7 @@ Once the loop has finished, one line saves the table, for example as `movies.csv
 >
 > `index=False` leaves out the row numbers. Without it, the file gets an extra unnamed first column holding 0, 1, 2, ...
 
-Figure 6 is a first look at the dataset we built: most of the 1,056 rated shows score between 7 and 8.5 out of 10. The other 152 shows have no rating yet (missing values).
+Figure 7 is a first look at the dataset we built: most of the 1,056 rated shows score between 7 and 8.5 out of 10. The other 152 shows have no rating yet (missing values).
 
 ![Average ratings of the 1,208 TV shows fetched from TVmaze](images/ratings.png)
 

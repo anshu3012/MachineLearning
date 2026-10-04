@@ -18,6 +18,8 @@ tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 
 **Gradient descent** (G-862) on the **log loss** (G-303) (the next Note) needs the **derivative** (G-595) of the **sigmoid function** (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
 
+In plain words, the answer is easy to picture. The sigmoid is an S-shaped curve: flat on the far left, steep in the middle, flat again on the far right. So its slope is close to 0 at both ends and largest in the middle (Figure 3 in section 4 rides a tangent line along the curve). The formula of this Note gives that slope exactly.
+
 As a reminder, the sigmoid is
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
@@ -98,6 +100,13 @@ In Figure 3, watch the two coloured parts of the bar: the slope is large only wh
 - At $z = 0$ the sigmoid is steepest: $0.5 \times 0.5 = 0.25$. The value 0.25 is the largest value the derivative can take.
 - Far from 0, the sigmoid is almost flat, near 0 or 1, so its slope is almost 0.
 - The curve is symmetric: $\sigma'(-z) = \sigma'(z)$.
+
+**What the shape means.** The slope says how much the output $\sigma(z)$ moves when $z$ is nudged. Near $z = 0$ the model is unsure (output near 0.5), and a small change in $z$ changes the output a lot. Far from 0 the output is already close to 0 or 1, and the same nudge changes it by almost nothing: at $z = 4$ the slope is 0.018, about 14 times smaller than at $z = 0$.
+
+The derivative is used in two places later:
+
+- the [logistic gradient descent Note](../75-logistic-gradient-descent/note.md) puts it into the chain rule to get the gradient of the log loss;
+- the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) shows what the small slopes do in a deep neural network (the Extra below gives the short version).
 
 > **Python:** The derivative, checked numerically.
 >

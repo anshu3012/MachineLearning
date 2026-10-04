@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+% Section 3: the two branches. Descriptive statistics summarises the data in hand (the 891 Titanic fares); inferential
+% statistics reasons from a sample to a population we cannot fully observe (the salary survey of section 4).
+\begin{tikzpicture}[b/.style={box=#1, text width=4.6cm, minimum height=1.9cm, align=center, font=\sffamily\small}]
+  \node[title, font=\sffamily\bfseries] at (0, 1.6) {descriptive};
+  \node[b=cblue] (d1) at (0, 0) {\textbf{the data we have}\\the 891 Titanic fares};
+  \node[b=cblue] (d2) at (0, -2.6) {\textbf{a summary of it}\\mean 32.2, median, box plot, histogram};
+  \draw[arrow] (d1) -- node[right, note] {summarise} (d2);
+  \node[title, font=\sffamily\bfseries] at (6.6, 1.6) {inferential};
+  \node[b=corange] (i1) at (6.6, 0) {\textbf{a sample}\\50,000 people's salaries};
+  \node[b=corange] (i2) at (6.6, -2.6) {\textbf{a statement about the population}\\the average salary in India, with its uncertainty};
+  \draw[arrow] (i1) -- node[right, note] {infer} (i2);
+\end{tikzpicture}
+\end{document}

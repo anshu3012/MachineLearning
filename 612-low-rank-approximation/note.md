@@ -40,7 +40,7 @@ This Note covers:
 
 The dot product multiplies a row by a column and gives one number (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md), section 3.1). Multiplying the other way round, a column by a row, gives a matrix.
 
-1. **In words:** the **outer product** $\mathbf{u}\mathbf{v}^{\mathsf T}$ of an $m$-vector $\mathbf{u}$ and an $n$-vector $\mathbf{v}$ is the $m \times n$ matrix whose entry in row $i$, column $j$ is $u_i v_j$.
+1. **In words:** the **outer product** (G-1418) $\mathbf{u}\mathbf{v}^{\mathsf T}$ of an $m$-vector $\mathbf{u}$ and an $n$-vector $\mathbf{v}$ is the $m \times n$ matrix whose entry in row $i$, column $j$ is $u_i v_j$.
 2. **Formula:**
    $$\mathbf{u}\mathbf{v}^{\mathsf T} = \begin{bmatrix} u_1 \cr u_2 \end{bmatrix}\begin{bmatrix} v_1 & v_2 \end{bmatrix} = \begin{bmatrix} u_1v_1 & u_1v_2 \cr u_2v_1 & u_2v_2 \end{bmatrix}$$
 3. **Example:**
@@ -52,7 +52,7 @@ Every row is a multiple of $\mathbf{v}^{\mathsf T}$ and every column a multiple 
 
 > **Key point:** Multiplying out $U\Sigma V^{\mathsf T}$ pairs each $\mathbf u_i$ only with its own $\mathbf v_i$, because $\Sigma$ is diagonal.
 
-1. **In words:** a matrix of rank $r$ is the sum of $r$ rank-1 layers. Layer $i$ is the outer product of the $i$-th left and right singular vectors, weighted by the $i$-th singular value.
+1. **In words:** a matrix of **rank** (G-1629) $r$ is the sum of $r$ **rank-1 layers** (G-1631). Layer $i$ is the outer product of the $i$-th left and right singular vectors, weighted by the $i$-th singular value.
 2. **Formula:**
    $$A = U\Sigma V^{\mathsf T} = \sum_{i=1}^{r} \sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T}$$
 3. **Example:** for $A$ with rows $[3, 0]$ and $[4, 5]$, with $\sigma_1 = 3\sqrt5$, $\mathbf u_1 = \frac{1}{\sqrt{10}}[1, 3]$, $\mathbf v_1 = \frac{1}{\sqrt2}[1, 1]$, and $\sigma_2 = \sqrt5$, $\mathbf u_2 = \frac{1}{\sqrt{10}}[-3, 1]$, $\mathbf v_2 = \frac{1}{\sqrt2}[-1, 1]$:
@@ -85,7 +85,7 @@ Figure 2 shows the first four layers of the photo of Figure 1. Each is a column 
 
 > **Key point:** Stop the sum after $k$ layers. The result has rank $k$ and needs only $k(m + n + 1)$ numbers.
 
-1. **In words:** keep the $k$ largest singular values with their vectors and drop the rest. The result $\hat A_k$ ("A hat k") is the **rank $k$ approximation** of $A$, also called the **truncated SVD**.
+1. **In words:** keep the $k$ largest singular values with their vectors and drop the rest. The result $\hat A_k$ ("A hat k") is the **rank $k$ approximation** of $A$, also called the **truncated SVD** (G-1630).
 2. **Formula:**
    $$\hat A_k = \sum_{i=1}^{k} \sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T} = U_k\Sigma_kV_k^{\mathsf T}$$
    where $U_k$ is the first $k$ columns of $U$, $\Sigma_k$ the top-left $k \times k$ block of $\Sigma$, and $V_k$ the first $k$ columns of $V$.
@@ -99,7 +99,9 @@ Figure 2 shows the first four layers of the photo of Figure 1. Each is a column 
    $$\text{numbers stored} = k(m + n + 1)$$
 3. **Example:** the photo of Figure 1 is $427 \times 640$, so it has $273{,}280$ numbers. With $k = 20$ we store $20 \times (427 + 640 + 1) = 21{,}360$ numbers, which is 7.8% of the original.
 
-The layered storage only pays off when $k$ is small: with $k$ near $\min(m, n)$, the layers cost more than the matrix itself.
+The layered storage only pays off when $k$ is small: with $k$ near $\min(m, n)$, the layers cost more than the matrix itself. Figure 3 shows where the line is crossed for the photo: the cost grows by $m + n + 1 = 1{,}068$ numbers per layer and reaches the full 273,280 at $k = 256$.
+
+![The numbers stored for a rank-k approximation of the 427 × 640 photo, k(m + n + 1), against the 273,280 numbers of the full matrix. k = 20 needs 7.8%; from k = 256 on, the layers cost more than the matrix.](images/storage.png)
 
 ## 4. The best approximation: Eckart–Young
 
@@ -111,7 +113,7 @@ The layered storage only pays off when $k$ is small: with $k$ near $\min(m, n)$,
 
 To say which approximation is "closest", we need the size of the difference $A - B$. Vectors have a length (the L2 norm of the [magnitude, distance and scalar operations Note](../361-magnitude-distance-and-scalar-operations/note.md)). For matrices we use the largest stretch.
 
-1. **In words:** the **spectral norm** $\lVert M\rVert_2$ is the longest $M\mathbf{x}$ can be for a unit vector $\mathbf{x}$. By the ellipse picture of the [SVD geometry Note](../610-svd-geometry/note.md) (section 5.2), that is $\sigma_1$.
+1. **In words:** the **spectral norm** (G-1852) $\lVert M\rVert_2$ is the longest $M\mathbf{x}$ can be for a unit vector $\mathbf{x}$. By the ellipse picture of the [SVD geometry Note](../610-svd-geometry/note.md) (section 5.2), that is $\sigma_1$.
 2. **Formula:**
    $$\lVert M\rVert_2 = \max_{\lVert\mathbf{x}\rVert = 1}\lVert M\mathbf{x}\rVert = \sigma_1(M)$$
 3. **Example:** for $A$ with rows $[3, 0]$ and $[4, 5]$, $\lVert A\rVert_2 = \sigma_1 = 6.71$.
@@ -120,16 +122,20 @@ To say which approximation is "closest", we need the size of the difference $A -
 
 > **Key point:** Among all rank $k$ matrices $B$, the truncated SVD makes $\lVert A - B\rVert_2$ smallest, and the smallest value is $\sigma_{k+1}$.
 
-1. **In words:** the error of the truncated SVD is the sum of the layers we dropped. The biggest of those is layer $k + 1$, so the largest stretch of the error is $\sigma_{k+1}$. The **Eckart–Young theorem** says no other rank $k$ matrix does better (MML Thm 4.25; Eckart and Young 1936).
+1. **In words:** the error of the truncated SVD is the sum of the layers we dropped. The biggest of those is layer $k + 1$, so the largest stretch of the error is $\sigma_{k+1}$. The **Eckart–Young theorem** (G-657) says no other rank $k$ matrix does better (MML Thm 4.25; Eckart and Young 1936).
 2. **Formula:**
    $$A - \hat A_k = \sum_{i=k+1}^{r}\sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T}, \qquad \lVert A - \hat A_k\rVert_2 = \sigma_{k+1} \le \lVert A - B\rVert_2 \ \text{ for every } B \text{ of rank } k$$
 3. **Example:** for $A$ and $k = 1$, the error is the second layer, rows $[1.5, -1.5]$ and $[-0.5, 0.5]$, whose largest stretch is $\sigma_2 = \sqrt5 \approx 2.24$. A natural alternative rank-1 guess, keeping the second row of $A$ and zeroing the first, $B$ with rows $[0, 0]$ and $[4, 5]$, leaves the error with rows $[3, 0]$ and $[0, 0]$: its largest stretch is 3, worse than 2.24.
 
 The difference $A - \hat A_k$ is itself written in SVD form, with singular values $\sigma_{k+1}, \sigma_{k+2}, \dots$. Its largest one is $\sigma_{k+1}$, and the spectral norm of a matrix is its largest singular value. That reasoning is the whole proof of the error formula; the harder part is that no other $B$ wins.
 
+Figure 4 makes both halves visible for $A$. On the left, each error matrix is applied to the unit circle. Both errors have rank 1, so they flatten the circle onto a line segment; the segment of $A - \hat A_1$ reaches 2.24 from the centre, the one of $A - B$ reaches 3. On the right, we try 20,000 random rank-1 matrices instead of $\hat A_1$. Their errors spread from 2.26 upwards; not one gets below $\sigma_2 = 2.236$.
+
+![Eckart–Young on the 2 × 2 example. Left: the unit circle (dotted) sent through the error of the truncated SVD (green, longest stretch 2.24) and through the error of the other guess B (red, longest stretch 3). Right: the spectral errors of 20,000 random rank-1 matrices; none falls below σ₂ = 2.236 (green line).](images/eckart_young.png)
+
 > **Extra:** Why no other rank $k$ matrix can win, in outline. A rank $k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ right singular vectors span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
 
-> **Extra:** The theorem also holds for a second common size measure (Eckart and Young 1936), the **Frobenius norm** $\lVert M\rVert_F$: the square root of the sum of all squared entries, the L2 norm of the matrix read as one long vector. It equals $\sqrt{\sigma_1^2 + \sigma_2^2 + \dots}$, and the truncated SVD's error is $\sqrt{\sigma_{k+1}^2 + \sigma_{k+2}^2 + \dots}$. For $A$: $\lVert A\rVert_F = \sqrt{9 + 0 + 16 + 25} = \sqrt{50} = \sqrt{45 + 5}$. In NumPy, `np.linalg.norm(M)` is the Frobenius norm and `np.linalg.norm(M, 2)` the spectral norm.
+> **Extra:** The theorem also holds for a second common size measure (Eckart and Young 1936), the **Frobenius norm** (G-809) $\lVert M\rVert_F$: the square root of the sum of all squared entries, the L2 norm of the matrix read as one long vector. It equals $\sqrt{\sigma_1^2 + \sigma_2^2 + \dots}$, and the truncated SVD's error is $\sqrt{\sigma_{k+1}^2 + \sigma_{k+2}^2 + \dots}$. For $A$: $\lVert A\rVert_F = \sqrt{9 + 0 + 16 + 25} = \sqrt{50} = \sqrt{45 + 5}$. In NumPy, `np.linalg.norm(M)` is the Frobenius norm and `np.linalg.norm(M, 2)` the spectral norm.
 
 ## 5. Compressing an image
 
@@ -144,7 +150,7 @@ Reading Figure 1 in order of $k$:
 - **$k = 20$** (7.8%): the building and the trees are recognisable.
 - **$k = 50$** (19.5%) and **$k = 100$** (39.1%): close to the original, with some graininess in the flat sky.
 
-Figure 3 replays the rebuild one layer at a time. Watch the right panel: the first layers are broad stripes that set the overall light and dark, later ones are fine detail, and the red dot on the singular values slides down as each added layer matters less.
+Figure 5 replays the rebuild one layer at a time. Watch the right panel: the first layers are broad stripes that set the overall light and dark, later ones are fine detail, and the red dot on the singular values slides down as each added layer matters less.
 
 ![The photo rebuilt layer by layer, k = 1 to 100: the sum of the first k layers (left), the layers just added (right, blue positive, red negative) and the singular values kept so far (filled)](images/rank_rebuild.gif){height=55%}
 
@@ -156,14 +162,14 @@ The "error" in each title is $\sigma_{k+1}/\sigma_1$: the spectral error of Sect
 
 > **Key point:** Plot the singular values: they usually fall steeply and then flatten. Keep the steep part, or keep enough to reach a chosen share of $\sum\sigma_i^2$.
 
-Figure 4 (left) plots all 427 singular values of the photo on a log scale. The first is 326.7, the fifth 18.6, the fiftieth about 4.4, and the last about 0.01. A few directions carry most of the picture.
+Figure 6 (left) plots all 427 singular values of the photo on a log scale. The first is 326.7, the fifth 18.6, the fiftieth about 4.4, and the last about 0.01. A few directions carry most of the picture.
 
 ![Singular values of the photo, and the share of $\sum\sigma_i^2$ kept by the first $k$](images/singular_decay.png)
 
 Two common ways to choose $k$:
 
 - **The elbow.** Keep the singular values before the curve flattens: the steep part is structure, the flat part detail or noise.
-- **A share of the total.** The sum of the squared singular values equals the sum of all squared entries of the matrix (the Frobenius norm squared). Figure 4 (right) shows that the first 5 singular values keep 96.5% of it, the first 20 keep 98.1%, the first 50 keep 98.9%.
+- **A share of the total.** The sum of the squared singular values equals the sum of all squared entries of the matrix (the Frobenius norm squared). Figure 6 (right) shows that the first 5 singular values keep 96.5% of it, the first 20 keep 98.1%, the first 50 keep 98.9%.
 
 The share rule is the same rule as choosing the number of principal components by explained variance in the [PCA on MNIST Note](../49-pca-mnist/note.md) (section 7). The match is not a coincidence: the [SVD in machine learning Note](../613-svd-in-machine-learning/note.md) shows that PCA is an SVD.
 
@@ -186,21 +192,21 @@ The share rule is the same rule as choosing the number of principal components b
 
 > **Key point:** Random noise spreads its energy thinly over all singular values, while structure piles up in a few large ones. Keeping only the large ones removes most of the noise.
 
-Figure 5 starts from a simple $120 \times 160$ picture made of a square and two bars. Each shape is a rectangle of constant brightness, which is an outer product (a column of 1s and 0s times a row of 1s and 0s), so the picture has rank 3. We add random noise to every pixel (normal, with standard deviation 0.3).
+Figure 7 starts from a simple $120 \times 160$ picture made of a square and two bars. Each shape is a rectangle of constant brightness, which is an outer product (a column of 1s and 0s times a row of 1s and 0s), so the picture has rank 3. We add random noise to every pixel (normal, with standard deviation 0.3).
 
 ![Noise reduction: a rank-3 picture, the same with noise, and the rank-3 approximation of the noisy one](images/denoise.png)
 
-The singular values of the noisy picture (Figure 5, bottom left) split into two groups:
+The singular values of the noisy picture (Figure 7, bottom left) split into two groups:
 
 - three large ones, 42.1, 21.4 and 13.3: the shapes;
-- a flat **noise floor** of values near 5 to 7: the noise.
+- a flat **noise floor** (G-1328) of values near 5 to 7: the noise.
 
 The intuition: noise has no structure, so no direction is special and its contribution spreads over all singular values at a low level. The shapes are concentrated in three directions, so they stand out above the floor. The height of the floor can be predicted: for an $m \times n$ matrix of pure noise with standard deviation $s$, the largest singular value is close to $s(\sqrt m + \sqrt n)$ (Gavish and Donoho 2014). Here that is $0.3 \times (\sqrt{120} + \sqrt{160}) = 7.1$, the top of the observed floor.
 
 1. **In words:** measure the error as the size of (approximation minus clean picture) relative to the size of the clean picture, both in the Frobenius norm. Keep the singular values above the noise floor.
 2. **Formula:**
    $$\text{error} = \frac{\lVert \hat A_k - A_{\text{clean}}\rVert_F}{\lVert A_{\text{clean}}\rVert_F}$$
-3. **Example:** the noisy picture itself has an error of 87%. Its rank-3 approximation has 19%. Keeping more layers makes it worse again: 24% at $k = 4$, 41% at $k = 10$, 77% at $k = 50$ (Figure 5, bottom right), because each extra layer adds back mostly noise.
+3. **Example:** the noisy picture itself has an error of 87%. Its rank-3 approximation has 19%. Keeping more layers makes it worse again: 24% at $k = 4$, 41% at $k = 10$, 77% at $k = 50$ (Figure 7, bottom right), because each extra layer adds back mostly noise.
 
 The same idea, keeping only the singular values above the noise floor, is a standard way to remove noise from a data matrix (Gavish and Donoho 2014). Picking $k$ at the edge of the noise floor is the elbow rule of Section 6.
 

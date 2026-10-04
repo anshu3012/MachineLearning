@@ -19,7 +19,7 @@ This Note follows Chapter 7 (Sections 7.3.1 and 7.3.2) of *Mathematics for Machi
 
 ![A linear program: the feasible region (blue) is a polygon, and the profit lines $3x_1 + 2x_2 = 6, 9, 11$ slide outward until the last one touches the region at a corner, $(3, 1)$](images/lp_region.png){height=48%}
 
-The [convex sets and functions Note](../621-convex-sets-and-functions/note.md) defined a convex optimisation problem. Two families of them are so common that they have their own names and their own solvers: **linear programs** and **quadratic programs**. Figure 1 shows a linear program.
+The [convex sets and functions Note](../621-convex-sets-and-functions/note.md) defined a convex optimisation problem. Two families of them are so common that they have their own names and their own solvers: **linear programs** (G-1093) and **quadratic programs** (G-1598). Figure 1 shows a linear program.
 
 For each family we write the problem, solve a small example from the picture, derive its dual with the Lagrangian of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md), and check everything in Python.
 
@@ -39,7 +39,7 @@ For each family we write the problem, solve a small example from the picture, de
    $$\min \ -3x_1 - 2x_2 \quad \text{subject to} \quad x_1 + x_2 \le 4, \quad x_1 + 3x_2 \le 9, \quad x_1 \le 3, \quad -x_1 \le 0, \quad -x_2 \le 0$$
    So $\mathbf{c} = [-3, -2]^{\mathsf T}$, $\mathbf{b} = [4, 9, 3, 0, 0]^{\mathsf T}$, and $A$ has the rows $[1, 1]$, $[1, 3]$, $[1, 0]$, $[-1, 0]$, $[0, -1]$.
 
-Each constraint is a half-plane, and the feasible region is their overlap: a convex polygon (in more dimensions, a **polytope**). The objective is linear, so it is convex too, and a linear program is a convex optimisation problem.
+Each constraint is a half-plane, and the feasible region is their overlap: a convex polygon (in more dimensions, a **polytope**, G-1518). The objective is linear, so it is convex too, and a linear program is a **convex optimisation problem** (G-478).
 
 ### 2.2 The answer is at a corner
 
@@ -78,6 +78,10 @@ We follow the recipe of the [Lagrange multipliers Note](../620-lagrange-multipli
    $$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \cr-2 \end{bmatrix} + 2\begin{bmatrix} 1 \cr1 \end{bmatrix} + 1\begin{bmatrix} 1 \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
    The dual value is $-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 3 \times 1) = -11$, the same as the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. Strong duality holds, as it does for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
 
+Figure 3 shows what the equality $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$ means at the best corner. Each active constraint has a normal arrow pointing out of the region: $[1, 1]$ for the oven and $[1, 0]$ for demand. The profit direction $[3, 2]$ is 2 oven arrows plus 1 demand arrow. Every way of raising profit therefore pushes against an active wall, which is why no feasible move can improve on the corner; the weights 2 and 1 are the multipliers.
+
+![The dual condition at the best corner (3, 1). The profit direction −c = [3, 2] (red) equals 2 times the oven normal [1, 1] (orange) plus 1 times the demand normal [1, 0] (green): non-negative weights, the multipliers 2 and 1.](images/lp_normals.png)
+
 The primal has $d$ variables and $m$ constraints; the dual has $m$ variables and $d$ equality constraints. We can solve whichever is smaller. By convention the primal is minimised and the dual maximised.
 
 ### 2.4 Reading the multipliers
@@ -92,9 +96,11 @@ The multipliers are the shadow prices of the [Lagrange multipliers Note](../620-
 | Flour: $x_1 + 3x_2 \le 9$ | $6 < 9$, inactive | 0 | profit 11 (no change) |
 | Demand: $x_1 \le 3$ | $3 = 3$, active | 1 | profit 12 (up by 1) |
 
-Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
+![The best profit re-solved with one more unit of each resource. Oven: 13, up by 2. Flour: 11, unchanged. Demand: 12, up by 1. The rises are the multipliers.](images/shadow_bars.png)
 
-> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
+Figure 4 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
+
+> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (G-1374; one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
 
 ## 3. Quadratic programming
 
@@ -107,12 +113,12 @@ Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothin
 1. **In words:** minimise a quadratic bowl over a region cut out by linear inequalities.
 2. **Formula:** a **quadratic program** is
    $$\min_{\mathbf{x} \in \mathbb{R}^d} \ \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + \mathbf{c}^{\mathsf T}\mathbf{x} \quad \text{subject to} \quad A\mathbf{x} \le \mathbf{b}$$
-   with $Q$ symmetric and **positive definite** (all eigenvalues positive), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md), Section 4.2). The term $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ is a quadratic form (see the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md)).
+   with $Q$ symmetric and **positive definite** (G-1530; all eigenvalues positive), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md), Section 4.2). The term $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ is a **quadratic form** (G-1597) (see the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md)).
 3. **Example:** $Q = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ (eigenvalues 1 and 3) and $\mathbf{c} = [-8, -7]^{\mathsf T}$, so the objective is $x_1^2 + x_1 x_2 + x_2^2 - 8x_1 - 7x_2$. The constraints are $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$: a triangle.
 
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}
 
-Without constraints, the gradient $Q\mathbf{x} + \mathbf{c}$ is zero at $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. That point is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 3). It does not have to be a corner, as it would for a linear program.
+Without constraints, the gradient $Q\mathbf{x} + \mathbf{c}$ is zero at $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. That point is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 5). It does not have to be a corner, as it would for a linear program.
 
 ### 3.2 Solving it with the KKT conditions
 
@@ -124,7 +130,11 @@ $$2x_1 + x_2 - 8 + \lambda = 0, \qquad x_1 + 2x_2 - 7 + \lambda = 0, \qquad x_1 
 
 Subtracting the second from the first gives $x_1 - x_2 = 1$; with $x_1 + x_2 = 2$ this means $x_1 = 1.5$, $x_2 = 0.5$. Then $\lambda = 8 - 3 - 0.5 = 4.5$.
 
-The checks of the KKT conditions: both coordinates are positive, so the two sign constraints are inactive with multiplier 0; $\lambda = 4.5 \ge 0$. The objective value is $2.25 + 0.75 + 0.25 - 12 - 3.5 = -12.25$.
+Figure 6 shows the stationarity condition at the answer. The downhill direction $-\nabla f = [4.5, 4.5]$ points straight out of the edge, exactly $\lambda = 4.5$ times the edge's normal $[1, 1]$. It has no part along the edge, so sliding along the edge cannot lower $f$, and stepping out of the triangle is not allowed.
+
+![The quadratic program at its answer (1.5, 0.5) (star). The downhill direction $-\nabla f = [4.5, 4.5]$ (red) is 4.5 times the normal of the active edge $x_1 + x_2 = 2$; the unconstrained minimum (3, 2) lies outside the triangle.](images/qp_kkt.png)
+
+The checks of the **KKT conditions** (G-1013): both coordinates are positive, so the two sign constraints are inactive with multiplier 0; $\lambda = 4.5 \ge 0$. The objective value is $2.25 + 0.75 + 0.25 - 12 - 3.5 = -12.25$.
 
 ### 3.3 The dual of a quadratic program
 
@@ -139,13 +149,17 @@ The checks of the KKT conditions: both coordinates are positive, so the two sign
    $$\mathbf{x} = -\tfrac13 \begin{bmatrix} 2(-3.5) - (-2.5) \cr-(-3.5) + 2(-2.5) \end{bmatrix} = \begin{bmatrix} 1.5 \cr0.5 \end{bmatrix}, \qquad D = -\tfrac12 \times 6.5 - 4.5 \times 2 = -12.25$$
    where $6.5 = \tfrac13(2 \times 12.25 - 2 \times 8.75 + 2 \times 6.25)$. The dual maximum equals the primal minimum $-12.25$.
 
+Figure 7 draws $D$ along the edge multiplier, with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
+
+![The dual function of the quadratic program along the edge multiplier λ (the other two multipliers at 0): a concave curve below the primal minimum −12.25 (dashed), touching it at λ = 4.5.](images/qp_dual.png)
+
 The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$. They are easy to keep: after a gradient step, setting every negative multiplier to 0 restores them.
 
 ### 3.4 Quadratic programs in ML
 
 > **Key point:** Training a support vector machine is a quadratic program, in its primal form and in its dual form.
 
-- **SVM, primal:** minimise $\tfrac12\lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ (see the [SVM soft margin Note](../94-svm-soft-margin/note.md)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite, because $b$ has no squared term, so the dual is derived as in the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) (Section 7.2) rather than with $Q^{-1}$.
+- **SVM, primal** (**support vector machine**, G-1921): minimise $\tfrac12\lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ (see the [SVM soft margin Note](../94-svm-soft-margin/note.md)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite, because $b$ has no squared term, so the dual is derived as in the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) (Section 7.2) rather than with $Q^{-1}$.
 - **SVM, dual:** maximise $\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf x_i^{\mathsf T}\mathbf x_j$ subject to $\alpha_i \ge 0$ and $\sum_i \alpha_i y_i = 0$: a quadratic program in the multipliers. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
 - **Lasso, constraint form:** least squares subject to $\sum_i |w_i| \le t$ is a quadratic program once each weight is split into a positive and a negative part (Tibshirani 1996, §6).
 

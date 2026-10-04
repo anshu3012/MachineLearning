@@ -20,13 +20,17 @@ The [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md) buil
 
 | Type | Input | Output | Example |
 |---|---|---|---|
-| Many-to-one | sequence | one value | sentiment analysis, rating prediction |
+| Many-to-one | sequence | one value | **sentiment analysis** (G-1769), rating prediction |
 | One-to-many | one value (not a sequence) | sequence | image captioning, music generation |
 | Many-to-many, same length | sequence | sequence, one output per input | part-of-speech tagging, named entity recognition |
 | Many-to-many, different lengths | sequence | sequence of another length | machine translation |
 | One-to-one | one value | one value | image classification (not an RNN) |
 
-Each type has its own unrolled picture, shown in Figures 1 to 5. The type also changes how backpropagation runs through the network, which the [backpropagation through time Note](../1059-backpropagation-through-time/note.md) covers.
+Figure 1 sorts the types by the two questions of the Key point. Each type also has its own unrolled picture, shown in Figures 2 to 6.
+
+![The two questions. Is the input one value or a sequence? Is the output one value or a sequence? Each answer pair gives one type; only the three with a sequence on at least one side are RNNs](images/two_questions.png){width=80%}
+
+The type also changes how backpropagation runs through the network, which the **backpropagation through time** (G-246; [backpropagation through time Note](../1059-backpropagation-through-time/note.md)) covers.
 
 ## 2. Prerequisites
 
@@ -38,14 +42,14 @@ Each type has its own unrolled picture, shown in Figures 1 to 5. The type also c
 
 > **Key point:** A sequence goes in, one value comes out. The RNN reads every time step and predicts only after the last one.
 
-A **many-to-one** RNN takes a sequence as input, such as a sentence, a string of characters or a time series, and gives a non-sequential output: one number, such as a class label 1 or 0.
+A **many-to-one** RNN (G-1155) takes a sequence as input, such as a sentence, a string of characters or a time series, and gives a non-sequential output: one number, such as a class label 1 or 0.
 
 - **Sentiment analysis:** the input is a review, read word by word; the output is its sentiment, 1 (positive) or 0 (negative).
-- **Rating prediction:** the input is a review; the output is a star rating from 1 to 5. The output is still one value, so this is a multi-class classification problem on top of a many-to-one RNN.
+- **Rating prediction:** the input is a review; the output is a star rating from 1 to 5. The output is still one value, so this is a **multi-class classification** (G-1266) problem on top of a many-to-one RNN.
 
 ![Many-to-one, unrolled: one word enters at each time step, the hidden state passes to the next step (red arrows), and only the last step produces an output](images/many_to_one.png){width=70%}
 
-Figure 1 is the RNN of the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md), unrolled: many inputs, one output, hence the name. Goodfellow §10.2 describes this pattern as a network that reads an entire sequence and then produces a single output, a fixed-size summary of the sequence.
+Figure 2 is the RNN of the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md), unrolled: many inputs, one output, hence the name. Goodfellow §10.2 describes this pattern as a network that reads an entire sequence and then produces a single output, a fixed-size summary of the sequence.
 
 > **Python:** In Keras a recurrent layer returns only its last hidden state by default (`return_sequences=False`), which is exactly many-to-one.
 >
@@ -61,37 +65,37 @@ Figure 1 is the RNN of the [RNN forward propagation Note](../1056-rnn-forward-pr
 
 > **Key point:** One non-sequential input goes in, a sequence comes out. The input enters once, and the RNN produces an output at every time step.
 
-A **one-to-many** RNN takes a non-sequential input and produces a sequence. An image is non-sequential data: it is a grid of numbers with no order in time. The output can be words, a sentence or a time series.
+A **one-to-many** RNN (G-1386) takes a non-sequential input and produces a sequence. An image is non-sequential data: it is a grid of numbers with no order in time. The output can be words, a sentence or a time series.
 
-- **Image captioning:** the input is one image; the output is a sentence that describes it. An image of a man playing cricket might give "a man plays cricket".
+- **Image captioning** (G-918): the input is one image; the output is a sentence that describes it. An image of a man playing cricket might give "a man plays cricket".
 - **Music generation:** one input starts the network, and it keeps producing music notes, one per time step.
 
 ![One-to-many, unrolled: the image enters at the first time step only; every time step produces one word of the caption](images/one_to_many.png){width=70%}
 
-In Figure 1 the arrows fanned in to one output; in Figure 2 they fan out. The input enters once, at the first time step. At every time step the RNN produces an output and passes its hidden state on to the next step. Goodfellow §10.2.4 names image captioning as the standard task for an RNN that maps one fixed-length vector to a sequence.
+In Figure 2 the arrows fanned in to one output; in Figure 3 they fan out. The input enters once, at the first time step. At every time step the RNN produces an output and passes its hidden state on to the next step. Goodfellow §10.2.4 names image captioning as the standard task for an RNN that maps one fixed-length vector to a sequence.
 
-> **Extra:** Goodfellow §10.4 gives two ways to feed the single input to such an RNN: as the initial hidden state, or as an input at every time step (and the two can be combined). The Notebook uses the second way: Keras' `RepeatVector(6)` copies the input to 6 time steps, and the RNN with `return_sequences=True` returns 6 hidden states. An input of shape $(2, 8)$, two "images" of 8 numbers, gives an output of shape $(2, 6, 5)$: 6 words per image, each a probability over 5 words.
+> **Extra:** Goodfellow §10.4 gives two ways to feed the single input to such an RNN: as the initial hidden state, or as an input at every time step (and the two can be combined). The Notebook uses the second way: Keras' `RepeatVector(6)` (G-133) copies the input to 6 time steps, and the RNN with `return_sequences=True` returns 6 hidden states. An input of shape $(2, 8)$, two "images" of 8 numbers, gives an output of shape $(2, 6, 5)$: 6 words per image, each a probability over 5 words.
 
 ## 5. Many-to-many
 
 > **Key point:** A sequence goes in and a sequence comes out. Such models are also called sequence-to-sequence models. The two sequences can have the same length or different lengths.
 
-A **many-to-many** RNN takes a sequence and returns a sequence, so it is also called a **sequence-to-sequence** (seq2seq) model. It comes in two kinds.
+A **many-to-many** RNN (G-1154) takes a sequence and returns a sequence, so it is also called a **sequence-to-sequence** (G-1771; seq2seq) model. It comes in two kinds.
 
 ### 5.1 Same length
 
 > **Key point:** One output for every input: the RNN predicts at every time step.
 
-In a **same-length many-to-many** RNN, the output sequence has as many elements as the input sequence.
+In a **same-length many-to-many** (G-1721) RNN, the output sequence has as many elements as the input sequence.
 
-- **Part-of-speech tagging:** for each word of a sentence, predict its part of speech. "my name is Riya" gives pronoun, noun, verb, proper noun: 4 words in, 4 tags out. In natural language processing (NLP), tagging is a common preprocessing step.
-- **Named entity recognition (NER):** for each word, decide whether it is an entity, a specific thing the program must act on. In "let's meet at 7 pm at the airport", "7 pm" and "airport" are entities. Chatbots use NER to pick out times and places.
+- **Part-of-speech tagging** (G-1456): for each word of a sentence, predict its part of speech. "my name is Riya" gives pronoun, noun, verb, proper noun: 4 words in, 4 tags out. In **natural language processing** (G-1305; NLP), tagging is a common preprocessing step.
+- **Named entity recognition** (G-1300; NER): for each word, decide whether it is an entity, a specific thing the program must act on. In "let's meet at 7 pm at the airport", "7 pm" and "airport" are entities. Chatbots use NER to pick out times and places.
 
 ![Many-to-many with the same length, unrolled: each time step takes one word and gives one tag](images/many_to_many_same.png){width=70%}
 
-In Figure 3, each time step takes the next input and gives an output, and the hidden state moves on, until the inputs run out. Goodfellow §10.2 lists this as the first RNN pattern: an output at each time step, with recurrent connections between hidden units.
+In Figure 4, each time step takes the next input and gives an output, and the hidden state moves on, until the inputs run out. Goodfellow §10.2 lists this as the first RNN pattern: an output at each time step, with recurrent connections between hidden units.
 
-> **Python:** `return_sequences=True` makes the recurrent layer return the hidden state of every time step. A `Dense` layer on that 3D output acts on the last axis, so it makes one prediction per time step (Keras documentation, `Dense`).
+> **Python:** `return_sequences=True` (G-136) makes the recurrent layer return the hidden state of every time step. A `Dense` layer on that 3D output acts on the last axis, so it makes one prediction per time step (Keras documentation, `Dense`).
 >
 > ```python
 > model = keras.Sequential([
@@ -107,16 +111,16 @@ With the same weights, the last of the hidden states returned by `return_sequenc
 
 > **Key point:** The output sequence can be longer or shorter than the input. The RNN first reads the whole input (the encoder), and only then starts writing the output (the decoder).
 
-In a **variable-length many-to-many** RNN, the input and output sequences can have different lengths. The standard example is **machine translation**: translating a sentence from one language into another. Nothing guarantees that a sentence and its translation have the same number of words: some languages say the same thing in fewer words. "I am going home" has 4 words; its Hindi translation "main ghar ja raha hoon" has 5.
+In a **variable-length many-to-many** (G-2072) RNN, the input and output sequences can have different lengths. The standard example is **machine translation** (G-1141): translating a sentence from one language into another. Nothing guarantees that a sentence and its translation have the same number of words: some languages say the same thing in fewer words. "I am going home" has 4 words; its Hindi translation "main ghar ja raha hoon" has 5.
 
 ![Many-to-many with different lengths, unrolled: the encoder reads all 4 English words; only after the last one does the decoder produce the 5 Hindi words](images/many_to_many_variable.png){width=100%}
 
-In Figure 4 the network produces nothing while it reads the input. It starts producing output only after the last input word. The reason is the task: translation does not work word by word. We read the whole sentence, understand its meaning and grammar, and only then decide on the translation. Translating each word as soon as it arrives would lose both the grammar and the context.
+In Figure 5 the network produces nothing while it reads the input. It starts producing output only after the last input word. The reason is the task: translation does not work word by word. We read the whole sentence, understand its meaning and grammar, and only then decide on the translation. Translating each word as soon as it arrives would lose both the grammar and the context.
 
 The two parts have names.
 
-- The **encoder** is the part that reads the input. It emits a summary of the input, usually a simple function of its last hidden state (Goodfellow §10.4).
-- The **decoder** is the part that writes the output, starting from that summary.
+- The **encoder** (G-682) is the part that reads the input. It emits a summary of the input, usually a simple function of its last hidden state (Goodfellow §10.4).
+- The **decoder** (G-564) is the part that writes the output, starting from that summary.
 
 Together they form an **encoder-decoder** architecture. Its advance over the earlier patterns is that the input length and the output length can differ (Goodfellow §10.4). Speech recognition and question answering have the same need (Goodfellow §10.4).
 
@@ -126,11 +130,11 @@ Together they form an **encoder-decoder** architecture. Its advance over the ear
 
 > **Key point:** Non-sequential in, non-sequential out: no time steps and no recurrence. One-to-one is an ordinary ANN or CNN, so technically it is not an RNN.
 
-A **one-to-one** network takes a non-sequential input and gives a non-sequential output. Image classification is an example: the input is an image, a grid of values, and the output is 1 or 0, cat or not.
+A **one-to-one** network (G-1387) takes a non-sequential input and gives a non-sequential output. Image classification is an example: the input is an image, a grid of values, and the output is 1 or 0, cat or not.
 
 ![One-to-one: one input, one output, no time steps and no feedback](images/one_to_one.png){width=35%}
 
-In Figure 5 everything happens in a single time step, with no feedback connection. Such a network is the plain neural network of the earlier Notes, an ANN or a CNN. One-to-one is listed only to complete the picture; technically there are three types of RNN: many-to-one, one-to-many and many-to-many, the last with its two kinds.
+In Figure 6 everything happens in a single time step, with no feedback connection. Such a network is the plain neural network of the earlier Notes, an ANN or a CNN. One-to-one is listed only to complete the picture; technically there are three types of RNN: many-to-one, one-to-many and many-to-many, the last with its two kinds.
 
 ## 7. The types in Keras
 
@@ -146,7 +150,11 @@ The Notebook builds one small model of each type, untrained, and checks its shap
 | Many-to-many, different lengths | `SimpleRNN(3)`, `RepeatVector(6)`, `SimpleRNN(3, return_sequences=True)`, `Dense(7)` | $(3, 4, 5)$ | $(3, 6, 7)$ |
 | One-to-one | `Dense(3)`, `Dense(1)` | $(2, 8)$ | $(2, 1)$ |
 
-A 3D output (batch, time steps, values) means one prediction per time step; a 2D output (batch, values) means one prediction per observation.
+Figure 7 follows the shape through each model, layer by layer. Watch the time-step axis: `RepeatVector` creates it, `return_sequences=True` keeps it, and a recurrent layer with `return_sequences=False` removes it.
+
+![The Notebook's models, layer by layer. Grey: the shape each layer hands on; bold: the model's output. The one-to-one model, two `Dense` layers from $(2, 8)$ to $(2, 1)$, is left out](images/keras_shapes.png){width=100%}
+
+A 3D output (batch, time steps, values) means one prediction per time step; a 2D output (batch, values) means one prediction per **observation** (G-1374).
 
 ## 8. Summary
 

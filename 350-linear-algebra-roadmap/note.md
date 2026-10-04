@@ -16,7 +16,12 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/linear-alge
 
 ![The eight modules of linear algebra for ML](images/roadmap.png){height=62%}
 
-Figure 1 shows the whole map. This Note says what each module covers, why ML needs it, which topics can wait, and where each topic is taught.
+Figure 1 shows the whole map. For each module this Note says:
+
+- what it covers;
+- why ML needs it;
+- which topics can wait;
+- where each topic is taught.
 
 ## 2. Why ML needs linear algebra
 
@@ -24,7 +29,36 @@ Figure 1 shows the whole map. This Note says what each module covers, why ML nee
 
 The first pillar, statistics, has its own [roadmap Note](../210-statistics-roadmap/note.md). If statistics is the eyes of an ML engineer, linear algebra is the hands and feet: it stores the data and does every calculation on it.
 
+Figure 2 shows the starting point on real data. Three iris flowers form a table of numbers, a **matrix** (G-1180); each row of that table is a **vector** (G-2081), an arrow from the origin in the space of the features. Every ML algorithm works on such matrices and vectors.
+
+![Three iris flowers, one per species: their petal length and width as a 3 × 2 matrix (left) and each row drawn as a vector (right).](images/rows_as_vectors.png){height=32%}
+
 Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in section 3 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md).
+
+### 2.1 A neural network is matrix maths
+
+> **Key point:** One layer of a neural network is three steps of linear algebra: multiply a vector by a matrix, add a vector, and set the negative numbers to 0.
+
+The models do their work with the same objects. Figure 3 follows one iris flower through one layer of a **neural network** (G-1316), with numbers picked by hand so that every step can be checked:
+
+1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width. The layer's **weights** (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights.
+2. **Add.** The layer's **biases** (G-284) form a second vector, added number by number. The result is $[0.6, -0.2]$.
+3. **Cut.** The **ReLU** (G-1668) function turns every negative number into 0, which leaves $[0.6, 0]$.
+
+The next layer repeats the same three steps on $[0.6, 0]$ with its own weights and biases. A whole network is this chain of matrix products and vector additions, which the [forward propagation Note](../1010-forward-propagation/note.md) works through in full.
+
+![One layer of a neural network on one iris flower: the input vector times the weight matrix, plus the bias vector, then ReLU. Worked example after StatQuest, "Essential Matrix Algebra for Neural Networks", with our own numbers.](images/network_as_matrices.png){width=95%}
+
+### 2.2 Two ways to know linear algebra
+
+> **Key point:** Knowing how to compute a result and knowing what the result means are two different skills; the computer does the first, we need the second.
+
+Every topic on the roadmap can be known in two ways:
+
+- **Numerically:** how to carry out the operation, such as multiplying two matrices or finding an eigenvalue by hand.
+- **Geometrically:** what the operation does to arrows and to space, such as a matrix turning and stretching every vector.
+
+The numeric skill carries a calculation through. The geometric skill tells us which tool fits a problem, why the tool works and how to read its result. NumPy does the numeric half for us (section 4.8), so the geometric half is the one worth our time. The maths Notes that follow therefore start each topic from its picture and then give the numbers.
 
 ## 3. How to read the roadmap
 
@@ -32,7 +66,7 @@ Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in se
 
 ![The marks on the roadmap: three levels of importance, and "later" for topics only particular algorithms need](images/reading_key.png){width=65%}
 
-Figure 2 is the key to the marks; everything above the dashed line is worth covering in one go.
+Figure 4 is the key to the marks; everything above the dashed line is worth covering in one go.
 
 The roadmap marks every topic in three ways:
 
@@ -48,19 +82,19 @@ Everything not marked "later" is worth covering in one go before moving deep int
 
 ![A preview of six modules, each picture taken from the Note that teaches it: a vector as a point (Note 360), cosine similarity (Note 362), matrices as transformations (Note 500), tensors (Note 11), eigenvectors (Note 530) and the eigen-decomposition in PCA (Note 48)](images/module_thumbs.png){width=85%}
 
-Figure 3 shows what each module looks like once we study it; the subsection numbers match the captions.
+Figure 5 shows what each module looks like once we study it; the subsection numbers match the captions.
 
 ### 4.1 Scalars
 
 > **Key point:** A scalar is a plain number.
 
-Scalars are ordinary numbers such as 2, 5 or -6, and the arithmetic on them. The [tensors Note](../11-tensors/note.md) places them as 0D tensors. They need no separate study.
+**Scalars** (G-1743) are ordinary numbers such as 2, 5 or -6, and the arithmetic on them. The [tensors Note](../11-tensors/note.md) places them as 0D tensors. They need no separate study.
 
 ### 4.2 Vectors
 
 > **Key point:** Vectors are where linear algebra starts, and where ML data starts: every observation of a dataset is a vector.
 
-Each **observation** (one record, one row of the data table) is a vector. This module tries to cover everything about vectors that ML uses:
+Each **observation** (G-1374; one record, one row of the data table) is a vector. This module tries to cover everything about vectors that ML uses:
 
 | Topic | Why ML needs it | Where it is taught |
 |---|---|---|
@@ -80,7 +114,7 @@ Each **observation** (one record, one row of the data table) is a vector. This m
 
 The first part is the mechanics taught in school mathematics (classes 11 and 12): what matrices are, types of matrices, operations with a scalar and with a vector, the inverse and the determinant.
 
-The second part is conceptual: the rank of a matrix, column space, change of basis, solving a system of linear equations, linear transformations, and the dot product seen as the engine of matrix multiplication. **Linear transformations** are marked very important.
+The second part is conceptual: the rank of a matrix, column space, change of basis, solving a system of linear equations, linear transformations, and the dot product seen as the engine of matrix multiplication. **Linear transformations** (G-1097) are marked very important.
 
 So far, the inverse appears in the [normal equation](../54-multiple-lr-maths/note.md) of linear regression, and the idea of a matrix as a transformation in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4.1). The rest of this module comes in a later maths Note.
 
@@ -88,19 +122,19 @@ So far, the inverse appears in the [normal equation](../54-multiple-lr-maths/not
 
 > **Key point:** Tensors are super important for deep learning, and for representing any kind of data.
 
-What a tensor is, and how tables, text, images and videos become tensors, is taught in the [tensors Note](../11-tensors/note.md).
+What a **tensor** (G-1957) is, and how tables, text, images and videos become tensors, is taught in the [tensors Note](../11-tensors/note.md).
 
 ### 4.5 Eigenvalues and eigenvectors
 
 > **Key point:** Eigenvectors are the directions a matrix only stretches; PCA is built on them.
 
-Anyone who has studied PCA has met eigenvalues and eigenvectors. They are taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4), and in more depth in a later maths Note.
+Anyone who has studied PCA has met **eigenvalues** (G-665) and **eigenvectors** (G-666). They are taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4), and in more depth in a later maths Note.
 
 ### 4.6 Matrix factorisation
 
 > **Key point:** Factorising a matrix splits it into simpler matrices; LU, QR, eigen-decomposition and SVD are the ones ML meets.
 
-**Matrix factorisation** (or **decomposition**) writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in the [PCA step by step Note](../48-pca-step-by-step/note.md); the others come in a later maths Note.
+**Matrix factorisation** (G-1177), or **decomposition**, writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in the [PCA step by step Note](../48-pca-step-by-step/note.md); the others come in a later maths Note.
 
 > **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see the [Ridge gradient descent Note](../65-ridge-gradient-descent/note.md)). Least-squares problems can be solved through a QR factorisation (Trefethen and Bau 1997, Lecture 11, Algorithm 11.2), and recommender systems use SVD-like factorisations of the user-item rating matrix to predict missing ratings (Koren, Bell and Volinsky 2009).
 
@@ -108,8 +142,8 @@ Anyone who has studied PCA has met eigenvalues and eigenvectors. They are taught
 
 > **Key point:** Quadratic forms and the pseudo-inverse are needed only by particular algorithms, so they can wait.
 
-- **Quadratic forms** are used heavily when solving SVMs (see the [SVM maths Note](../93-svm-maths/note.md)).
-- The **Moore-Penrose pseudo-inverse** gives an inverse for matrices that are not square, or that have no ordinary inverse. The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) mentions why libraries need it.
+- **Quadratic forms** (G-1597) are used heavily when solving SVMs (see the [SVM maths Note](../93-svm-maths/note.md)).
+- The **Moore-Penrose pseudo-inverse** (G-1262) gives an inverse for matrices that are not square, or that have no ordinary inverse. The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) mentions why libraries need it.
 
 Both come in a later maths Note.
 
@@ -117,7 +151,7 @@ Both come in a later maths Note.
 
 > **Key point:** NumPy is how linear algebra is done in Python; SciPy adds more.
 
-All linear algebra in the ML and DL world runs through **NumPy**, so a strong command of it pays off everywhere. **SciPy**, built on NumPy, adds more routines; it is used less, but we should know it exists.
+All linear algebra in the ML and DL world runs through **NumPy** (G-1369), so a strong command of it pays off everywhere. **SciPy** (G-1751), built on NumPy, adds more routines; it is used less, but we should know it exists.
 
 > **Python:** NumPy's linear algebra lives in `np.linalg`.
 >
@@ -130,6 +164,10 @@ All linear algebra in the ML and DL world runs through **NumPy**, so a strong co
 > np.linalg.inv(A)               # inverse of A
 > np.linalg.eig(A)               # eigenvalues, eigenvectors
 > ```
+>
+> Figure 6 draws what the last lines compute: the length of $v$ is 5, and $A$ has eigenvalues 1.38 and 3.62, so it stretches its two eigenvectors by those factors without turning them.
+
+![Left: v = (3, 4) has length 5. Right: A = [[2, 1], [1, 3]] stretches its eigenvectors (thick arrows) by its eigenvalues 1.38 and 3.62 (thin arrows), along the same lines.](images/numpy_outputs.png){height=34%}
 
 ## 5. Resources
 
@@ -177,6 +215,8 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 **Built from**
 
 - CampusX, "Linear Algebra Roadmap for Machine Learning and Deep Learning | Complete Guide | CampusX", YouTube, https://www.youtube.com/watch?v=rIsCKVyh4dI
+- Sanderson, G. (3Blue1Brown), "Essence of linear algebra preview", YouTube, https://www.youtube.com/watch?v=kjBOesZCoqc
+- Starmer, J. (StatQuest), "Essential Matrix Algebra for Neural Networks, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=ZTt9gsGcdDo
 
 **Other references**
 

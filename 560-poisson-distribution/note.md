@@ -18,7 +18,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/poisson-d
 
 ![Events on a time line, counted per day; the average count is the rate $\lambda$](images/counts_in_intervals.png)
 
-Figure 1 shows the kind of data the Poisson distribution describes. Events (here, questions from students) arrive at random moments; we cut time into equal intervals (days) and count the events in each. The counts vary from day to day, but their average, the **rate** $\lambda$, stays about the same.
+Figure 1 shows the kind of data the Poisson distribution describes. Events (here, questions from students) arrive at random moments; we cut time into equal intervals (days) and count the events in each. The counts vary from day to day, but their average, the **rate** $\lambda$ (G-1633), stays about the same.
 
 The Poisson distribution was named in one line in the [PDF Note](../242-pdf-and-continuous-cdf/note.md): a discrete distribution of counts, with parameter $\lambda$. This Note teaches it in full:
 
@@ -37,14 +37,18 @@ The Poisson distribution was named in one line in the [PDF Note](../242-pdf-and-
 
 > **Key point:** The binomial distribution needs a number of trials and a probability; the Poisson distribution needs only a rate.
 
-The binomial distribution counts successes in a fixed number $n$ of trials, each with success probability $p$ (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)). Many counts have no trials to count:
+The **binomial distribution** (G-308) counts successes in a fixed number $n$ of trials, each with success probability $p$ (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)). Many counts have no trials to count:
 
 - the questions students send in one day;
 - the flashes of a firefly in 10 seconds;
 - customers entering a shop in one hour;
 - typing errors on one page of a book.
 
-For these we know how **often** the event happens on average, its frequency in a standard interval of time or distance. The **Poisson distribution** turns that average into a probability for every possible count.
+For these we know how **often** the event happens on average, its frequency in a standard interval of time or distance. The **Poisson distribution** (G-1509) turns that average into a probability for every possible count.
+
+Figure 2 sets the two side by side. A binomial count is built from boxes we can number: 10 trials, each a success or not, so the count can never pass 10. A Poisson count has no boxes: events land at random moments on a time line, and we simply count how many fall in each day.
+
+![Top: a binomial count, 10 numbered trials with success probability 0.6, here 8 successes. Bottom: a Poisson count, events at random moments with 4 a day on average; the counts per day are 2, 4, 4, 5 and 3. One seeded simulation of each.](images/trials_vs_rate.png)
 
 For example, a firefly lights up 3 times in 10 seconds on average. The Poisson distribution answers questions such as: how likely is it that it lights up 8 times in 20 seconds?
 
@@ -52,7 +56,7 @@ For example, a firefly lights up 3 times in 10 seconds on average. The Poisson d
 
 > **Key point:** $Y \sim \text{Po}(\lambda)$ reads "$Y$ follows a Poisson distribution with rate $\lambda$".
 
-A distribution is often written as a short name with its parameters in brackets. The symbol $\sim$ reads "follows":
+A distribution is often written as a short name with its **parameters** (G-1448) in brackets. The symbol $\sim$ reads "follows":
 
 | Notation | Read as | Parameters |
 |---|---|---|
@@ -90,8 +94,8 @@ The three ingredients:
 
 The formula uses two pieces of notation:
 
-- **Euler's number** $e$, also called Napier's constant, is a fixed number, $e \approx 2.71828$. It turns up across mathematics, physics and nature; here we only need its value.
-- A **negative power** means one over the positive power: $a^{-n} = 1 / a^{n}$. So $e^{-4} = 1 / e^{4} = 1 / 54.6 = 0.0183$.
+- **Euler's number** $e$ (G-716), also called Napier's constant, is a fixed number, $e \approx 2.71828$. It turns up across mathematics, physics and nature; here we only need its value.
+- A **negative power** (G-1311) means one over the positive power: $a^{-n} = 1 / a^{n}$. So $e^{-4} = 1 / e^{4} = 1 / 54.6 = 0.0183$.
 
 The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! = 1$ (as in the binomial coefficient of the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)).
 
@@ -105,7 +109,7 @@ The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! =
 3. **Example:** with $\lambda = 4$ and $y = 7$:
    $$P(Y = 7) = \frac{4^{7}\thinspace e^{-4}}{7!} = \frac{16384 \times 0.0183}{5040} = \frac{300.1}{5040} = 0.0595$$
 
-So there was only about a 6% chance of exactly 7 questions. The bar at 7 in the left panel of Figure 2 has this height.
+So there was only about a 6% chance of exactly 7 questions. The bar at 7 in the left panel of Figure 3 has this height.
 
 > **Extra:** A common slip is to read $e^{-4}$ as $0.183$. The correct value is $0.0183$; with $0.183$ the answer would come out as 0.595, ten times too large. The final answer 0.06 needs 0.0183.
 
@@ -140,42 +144,44 @@ The firefly flashes 3 times in 10 seconds on average, and we ask about 20 second
 
 > **Key point:** One bar per count, starting at 0 and running on to the right without end; the bars are tallest near $\lambda$.
 
-The graph of a Poisson distribution plots each count $y$ against its probability. Figure 2 shows it for $\lambda = 4$:
+The graph of a Poisson distribution plots each count $y$ against its probability. Figure 3 shows it for $\lambda = 4$:
 
 - it starts at 0, since no event can happen a negative number of times;
 - it peaks at 3 and 4 (both have probability 0.195);
 - it has a tail to the right that never ends, though after about 12 the bars are too small to see.
 
-The bars add to 1, as in every PMF (see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)).
+The bars add to 1, as in every **probability mass function (PMF)** (G-1572; see the [PMF Note](../241-pmf-and-discrete-cdf/note.md)).
 
 ![Poisson PMFs for three rates; the dashed line marks the mean $\lambda$](images/poisson_shapes.png)
 
-Figure 3 shows how $\lambda$ changes the shape:
+Figure 4 shows how $\lambda$ changes the shape:
 
-- **$\lambda = 1$:** most days have 0 or 1 events; the distribution is strongly right-skewed (see the [skewness Note](../252-skewness/note.md)).
+- **$\lambda = 1$:** most days have 0 or 1 events; the distribution is strongly right-skewed (**skewness**, G-1817; see the [skewness Note](../252-skewness/note.md)).
 - **$\lambda = 4$:** the peak moves right and the bars spread out; a mild right skew remains.
 - **$\lambda = 10$:** the peak sits at 9 and 10, the spread is wider, and the shape is close to a symmetric bell.
 
-> **Extra:** The skewness of a Poisson distribution is $1/\sqrt{\lambda}$ (NIST Handbook §1.3.6.6.19): 1 for $\lambda = 1$, 0.5 for $\lambda = 4$, 0.32 for $\lambda = 10$. It shrinks towards 0 as $\lambda$ grows, which matches Figure 3: the shape gets closer to a symmetric bell, a normal distribution with mean $\lambda$ and variance $\lambda$ (see the [normal distribution Note](../250-normal-distribution/note.md)).
+> **Extra:** The skewness of a Poisson distribution is $1/\sqrt{\lambda}$ (NIST Handbook §1.3.6.6.19): 1 for $\lambda = 1$, 0.5 for $\lambda = 4$, 0.32 for $\lambda = 10$. It shrinks towards 0 as $\lambda$ grows, which matches Figure 4: the shape gets closer to a symmetric bell, a normal distribution with mean $\lambda$ and variance $\lambda$ (see the [normal distribution Note](../250-normal-distribution/note.md)).
 
 ## 5. Mean and variance
 
 > **Key point:** A Poisson variable has mean $\lambda$ and variance $\lambda$: one number fixes both its centre and its spread.
 
-The expected value is the sum of every value times its probability (see the [expected value Note](../332-expected-value-and-variance/note.md)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
+The **expected value** (G-725) is the sum of every value times its probability (see the [expected value Note](../332-expected-value-and-variance/note.md)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
 
-1. **In words:** the average count is the rate, and so is the variance; the standard deviation is the square root of the rate.
+1. **In words:** the average count is the rate, and so is the variance; the **standard deviation** (G-1871) is the square root of the rate.
 2. **Formula:**
    $$E[Y] = \lambda, \qquad \mathrm{Var}(Y) = \lambda, \qquad \sigma = \sqrt{\lambda}$$
 3. **Example:** for the questions, $\lambda = 4$: on average 4 questions per day, variance 4, standard deviation $\sqrt{4} = 2$. So 7 questions is $(7 - 4)/2 = 1.5$ standard deviations above the mean.
 
-A simulation of 100,000 days with `rng.poisson(lam=4)` gives an average of 3.994 and a variance of 3.987, both close to 4.
+A simulation of 100,000 days with `rng.poisson(lam=4)` gives an average of 3.994 and a variance of 3.987, both close to 4. Figure 5 shows the simulation growing. With 10 days the bars are ragged and the variance is 6.76; as days are added, the bars settle onto the Poisson dots, and the running mean and variance both settle on 4.
+
+![The simulation of 100,000 days with rate 4, growing from 10 to 100,000 days. Left: the share of days with each count settles onto the Poisson PMF (dots). Right: the running mean and running variance both settle near 4.](images/mean_var_sim.gif)
 
 > **Extra:** Why the mean is $\lambda$. Writing out the sum and cancelling one $y$ against $y!$:
 > $$E[Y] = \sum_{y=0}^{\infty} y\thinspace\frac{\lambda^{y} e^{-\lambda}}{y!} = \lambda \sum_{y=1}^{\infty} \frac{\lambda^{y-1} e^{-\lambda}}{(y-1)!} = \lambda \times 1 = \lambda$$
 > The remaining sum is the Poisson PMF summed over all counts, which is 1. The same trick, cancelling $y(y-1)$ against $y!$, gives $E[Y(Y-1)] = \lambda^2$. Then $E[Y^2] = E[Y(Y-1)] + E[Y] = \lambda^2 + \lambda$, and $\mathrm{Var}(Y) = \lambda^2 + \lambda - \lambda^2 = \lambda$.
 
-> **Extra:** Mean equal to variance is a quick check on real count data. A variance clearly larger than the mean is called **overdispersion**. The notebook tests two causes by breaking one Poisson condition at a time while keeping the mean near 4:
+> **Extra:** Mean equal to variance is a quick check on real count data. A variance clearly larger than the mean is called **overdispersion** (G-1428). The notebook tests two causes by breaking one Poisson condition at a time while keeping the mean near 4:
 >
 > | Simulated days (100,000) | Mean | Variance | $P(Y \ge 12)$ seen | Poisson with the same mean says |
 > |---|---|---|---|---|
@@ -184,6 +190,10 @@ A simulation of 100,000 days with `rng.poisson(lam=4)` gives an average of 3.994
 > | events come in pairs (not independent) | 4.01 | 7.96 | 0.0163 | 0.0009 |
 >
 > Each broken condition raises the variance above the mean, and the Poisson model then underestimates days with 12 or more events by a factor of about 20 to 40. With both conditions kept, mean, variance and tail all match.
+
+![The three simulations of the table, 100,000 days each. Bars: the share of days with each count. Dots: a Poisson PMF with the same mean. Only the first case (constant rate, independent events) matches; the other two are wider.](images/overdispersion.png)
+
+Figure 6 draws the table. The first panel sits on the Poisson dots. When the rate changes from day to day, the bars spread out in both directions, with more empty days and a longer tail. When events come in pairs, only even counts occur, and their bars are taller and wider than the Poisson dots.
 
 ## 6. Probability of a range of counts
 
@@ -197,7 +207,9 @@ The counts $0, 1, 2, \dots$ are separate outcomes: one day cannot have both exac
 3. **Example:** the bars for 0 to 6 are 0.0183, 0.0733, 0.1465, 0.1954, 0.1954, 0.1563 and 0.1042:
    $$P(Y \le 6) = 0.8893, \qquad P(Y \ge 7) = 1 - 0.8893 = 0.111$$
 
-The right panel of Figure 2 shows these red bars. A day with 7 or more questions happens about once in 9 days: unusual, but not rare.
+The right panel of Figure 3 shows these red bars. A day with 7 or more questions happens about once in 9 days: unusual, but not rare. Figure 7 does the sum one bar at a time: the bars for 0 to 6 stack up into a column of height 0.8893, and the gap left to 1 is $P(Y \ge 7)$.
+
+![Adding the Po(4) bars for 0 to 6 questions one at a time into a running total, P(Y ≤ 6) = 0.8893. The red remainder up to 1 is P(Y ≥ 7) = 0.111.](images/range_sum.gif)
 
 More examples with $\lambda = 4$:
 
@@ -207,7 +219,7 @@ More examples with $\lambda = 4$:
 | at most 2, $P(Y \le 2)$ | 0.238 |
 | between 2 and 6, $P(2 \le Y \le 6)$ | 0.798 |
 
-> **Python:** `cdf` adds the bars up to a count; `sf` adds the bars above it.
+> **Python:** `cdf`, the **cumulative distribution function** (G-515), adds the bars up to a count; `sf` adds the bars above it.
 >
 > ```python
 > questions = stats.poisson(4)
@@ -226,7 +238,7 @@ A website has 1000 visitors a day, and each visitor buys with probability 0.004.
 
 ![A day cut into n moments, each with a question with probability 4/n (top); the binomial PMF B(n, 4/n) (bars) settles onto the Poisson PMF with $\lambda = 4$ (dots) as n grows from 5 to 1000](images/binomial_limit.gif){height=45%}
 
-Figure 4 keeps $np = 4$ and lets $n$ grow. The top strip shows one simulated day cut into $n$ moments, with a dot where a question arrived. Watch the bars: at $n = 5$ they are bunched around 4, and as the moments get finer they spread out and sit on the Poisson dots.
+Figure 8 keeps $np = 4$ and lets $n$ grow. The top strip shows one simulated day cut into $n$ moments, with a dot where a question arrived. Watch the bars: at $n = 5$ they are bunched around 4, and as the moments get finer they spread out and sit on the Poisson dots.
 
 | $n$ | $p$ | Largest gap between the two PMFs |
 |---|---|---|
@@ -246,7 +258,7 @@ The binomial limit is where the Poisson distribution comes from. Cut a day into 
 
 A count follows a Poisson distribution when these three conditions hold (Ross §4.7):
 
-1. **Events are independent.** One question does not make the next more or less likely.
+1. **Events are independent** (G-934). One question does not make the next more or less likely.
 2. **The rate is constant.** The average count is the same for every interval of the same length; an exam week with more questions breaks this.
 3. **Events happen one at a time.** Two events never happen at exactly the same moment.
 
@@ -258,7 +270,7 @@ Typical Poisson counts:
 - goals in a football match (Maher 1982);
 - rare-event counts, such as accidents at a crossing per month.
 
-In machine learning, a **target** (the output we predict) that is a count, such as bike rentals per hour or insurance claims per year, is often modelled with **Poisson regression**. The model predicts $\lambda$ for each **observation** (one record, a row of the data table) from its **features** (the input variables); scikit-learn has it as `PoissonRegressor` (scikit-learn docs). Counts of words in a document also appear in text models.
+In machine learning, a **target** (G-1949; the output we predict) that is a count, such as bike rentals per hour or insurance claims per year, is often modelled with **Poisson regression** (G-1510). The model predicts $\lambda$ for each **observation** (G-1374; one record, a row of the data table) from its **features** (G-772; the input variables); scikit-learn has it as `PoissonRegressor` (scikit-learn docs). Counts of words in a document also appear in text models.
 
 ## 9. Summary
 

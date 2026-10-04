@@ -25,7 +25,7 @@ Figure 1 shows the central idea of statistics: we rarely see the whole group we 
 
 > **Key point:** Statistics is the branch of mathematics for collecting, organising, summarising and drawing conclusions from data.
 
-**Statistics** is the branch of mathematics that deals with collecting, analysing, interpreting and presenting data. Statistics gives us tools to make sense of large amounts of data, to draw conclusions and to make decisions based on data.
+**Statistics** (G-1884) is the branch of mathematics that deals with collecting, analysing, interpreting and presenting data. Statistics gives us tools to make sense of large amounts of data, to draw conclusions and to make decisions based on data.
 
 Few branches of mathematics are applied as widely. Some examples:
 
@@ -39,10 +39,12 @@ Few branches of mathematics are applied as widely. Some examples:
 
 > **Key point:** Descriptive statistics describes the data in hand; inferential statistics predicts things about a larger group from it.
 
-Statistics has two branches:
+Statistics has two branches (Figure 2):
 
-- Descriptive statistics (see the [understanding your data Note](../19-understanding-your-data/note.md)) summarises and describes the data we already have, without drawing conclusions beyond it. The mean, median, standard deviation, five-number summary and every graph of our data belong here. Descriptive statistics studies the past: what the data says.
-- **Inferential statistics** uses the data we have to make predictions, or **inferences**, about a larger group we cannot fully observe.
+- **Descriptive statistics** (G-596; see the [understanding your data Note](../19-understanding-your-data/note.md)) summarises and describes the data we already have, without drawing conclusions beyond it. The mean, median, standard deviation, five-number summary and every graph of our data belong here. Descriptive statistics studies the past: what the data says.
+- **Inferential statistics** (G-944) uses the data we have to make predictions, or **inferences** (G-943), about a larger group we cannot fully observe.
+
+![The two branches. Descriptive statistics summarises the data we have (the 891 Titanic fares); inferential statistics goes from a sample to a statement about the population (the salary survey of section 4)](images/two_branches.png){width=85%}
 
 Every exploratory data analysis so far, such as the summaries in the [understanding your data Note](../19-understanding-your-data/note.md), was descriptive statistics. Inferential statistics needs one more idea first: population and sample.
 
@@ -54,8 +56,8 @@ Suppose the government asks us for the average salary in India. India has about 
 
 So we pick, say, 50,000 people from different states, regions, genders and age groups. We ask them, compute their average salary, and use it to **infer** the average salary of the whole country (Figure 1).
 
-- The **population** is the entire group of individuals or objects we are interested in studying: here, every person in India.
-- A **sample** is a subset of the population, the part we actually measure: here, the 50,000 people.
+- The **population** (G-1525) is the entire group of individuals or objects we are interested in studying: here, every person in India.
+- A **sample** (G-1731) is a subset of the population, the part we actually measure: here, the 50,000 people.
 
 Inferential statistics is exactly this step: from a sample, say something about the population. Two more examples:
 
@@ -70,23 +72,31 @@ Inferential statistics is exactly this step: from a sample, say something about 
 
 A badly made sample gives wrong conclusions about the population, however carefully we analyse it. A good sample is:
 
-- **Large enough:** a tiny sample makes the result depend on luck. Such luck-driven error is the sampling noise of the [challenges in ML Note](../07-challenges-in-ml/note.md).
-- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has sampling bias, from the same Note.
+- **Large enough:** a tiny sample makes the result depend on luck. Such luck-driven error is the **sampling noise** (G-1737) of the [challenges in ML Note](../07-challenges-in-ml/note.md).
+- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has **sampling bias** (G-1734), from the same Note. Figure 3 shows the effect on the Titanic fares.
 - **Representative:** every kind of member is present. For India's average salary we need people from every state, men and women, every age group, business owners and employees.
 
-Different ways of building samples are called **sampling techniques**; a later maths Note covers them.
+![Why a sample must be random. Grey: the means of 1,000 random samples of 50 fares, which centre on the population mean, 32.2. Red: one sample of 50 passengers taken only from first class, whose mean, 72.6, is more than twice too high](images/biased_sample.png){width=90%}
+
+Different ways of building samples are called **sampling techniques** (G-1738); a later maths Note covers them.
 
 ### 4.2 Parameters and statistics
 
 > **Key point:** A number that describes the population is a parameter (Greek letters); the same number computed from a sample is a statistic (Latin letters).
 
-A number computed from the whole population, such as India's true average salary, is a **parameter**. The same number computed from a sample is a **statistic**, and we use it as an estimate of the parameter.
+A number computed from the whole population, such as India's true average salary, is a **parameter**. The same number computed from a sample is a **statistic** (G-1880), and we use it as an estimate of the parameter.
 
 The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different.
 
-Figure 2 shows this with a population we can see in full: the 891 fares of the Titanic passengers, whose mean is the parameter $\mu = 32.2$. We draw one random sample, one passenger at a time. Watch the orange sample mean $\bar{x}$: after 3 passengers it is 67.0, after 10 it is 65.0, and even after 100 it is 36.4, near $\mu$ but not equal to it.
+Figure 4 shows this with a population we can see in full: the 891 fares of the Titanic passengers, whose mean is the parameter $\mu = 32.2$. We draw one random sample, one passenger at a time. Watch the orange sample mean $\bar{x}$: after 3 passengers it is 67.0, after 10 it is 65.0, and even after 100 it is 36.4, near $\mu$ but not equal to it.
 
 ![One random sample of Titanic fares drawn one passenger at a time: the sample mean (orange) swings widely while the sample is small and ends near, but not on, the population mean (blue)](images/sample_mean_walk.gif){height=55%}
+
+Three things follow from Figure 4:
+
+- **A new sample gives a new estimate.** The grey histogram of Figure 3 collects the means of 1,000 different random samples of 50 fares. The means spread out around $\mu$ instead of landing on one value. None of them is wrong; each is one estimate of the same parameter.
+- **More data gives a better estimate.** With 3 passengers one expensive ticket drags $\bar{x}$ to 67.0; by 100 passengers the same ticket is outvoted and $\bar{x}$ is 36.4. How far to trust an estimate is exactly what the tools of section 5 measure.
+- **A sample is the training data of ML.** In machine learning the rows we train on are the sample, and the population is everything the model will meet later. A model, like $\bar{x}$, is an estimate made from a sample and judged on the population.
 
 So we always keep track of which one we have, and write them differently:
 
@@ -105,11 +115,11 @@ The mean and variance are covered in the [measures of central tendency Note](../
 
 Inferential statistics has a set of standard tools. Each gets its own Note later:
 
-- **Hypothesis testing:** we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called **statistical tests**.
-- **Confidence intervals:** we estimate a population parameter from a sample and give a range that most likely contains it.
-- **ANOVA (analysis of variance):** compares the means of several groups at once.
+- **Hypothesis testing** (G-913): we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called **statistical tests** (G-1883).
+- **Confidence intervals** (G-446): we estimate a population parameter from a sample and give a range that most likely contains it.
+- **ANOVA** (G-203; analysis of variance): compares the means of several groups at once.
 - **Regression:** models how one variable depends on others. The [linear regression Notes](../50-simple-linear-regression/note.md) use it as an ML algorithm.
-- **Chi-square test:** a test designed for categorical variables.
+- **Chi-square test** (G-381): a test designed for categorical variables.
 - **Sampling techniques:** ways of drawing a good sample from a population.
 - **Bayesian statistics:** reasoning that updates beliefs with data, built on [Bayes' theorem](../85-bayes-theorem/note.md).
 
@@ -117,7 +127,7 @@ Inferential statistics has a set of standard tools. Each gets its own Note later
 
 > **Key point:** Every feature is categorical (nominal or ordinal) or numerical (discrete or continuous); the type decides which statistics and graphs make sense.
 
-Descriptive statistics starts by asking what type of data each feature holds (Figure 3). We mostly work with tables. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row of the table. So "data" here means the values of one feature.
+Descriptive statistics starts by asking what type of data each feature holds (Figure 5). We mostly work with tables. A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row of the table. So "data" here means the values of one feature.
 
 ![The four types of data](images/data_types.png)
 
@@ -129,8 +139,8 @@ The first split, into categorical and numerical data, is the one of the [types o
 
 Categorical data is nominal or ordinal, as the [ordinal and label encoding Note](../26-ordinal-label-encoding/note.md) explains:
 
-- **Nominal:** the categories have no order. Gender, state, religion and favourite IPL team are nominal: no state is "more" than another.
-- **Ordinal:** the categories have a natural order. Course feedback of bad, average and good is ordinal: bad < average < good.
+- **Nominal** (G-1330): the categories have no order. Gender, state, religion and favourite IPL team are nominal: no state is "more" than another.
+- **Ordinal** (G-1403): the categories have a natural order. Course feedback of bad, average and good is ordinal: bad < average < good.
 
 ### 6.2 Discrete and continuous data
 
@@ -138,8 +148,8 @@ Categorical data is nominal or ordinal, as the [ordinal and label encoding Note]
 
 Numerical data is discrete or continuous:
 
-- **Discrete data** can take only separate values, usually whole numbers that come from counting. A rank is 1, 2 or 3, never 1.5. The number of children in a family, or of siblings on board the Titanic, is discrete.
-- **Continuous data** can take any value in a range, including every decimal in between. Weight (35.3 kg), height and a ticket fare are continuous.
+- **Discrete data** (G-616) can take only separate values, usually whole numbers that come from counting. A rank is 1, 2 or 3, never 1.5. The number of children in a family, or of siblings on board the Titanic, is discrete.
+- **Continuous data** (G-465) can take any value in a range, including every decimal in between. Weight (35.3 kg), height and a ticket fare are continuous.
 
 > **Extra:** Age is a borderline case. We usually record it in whole years (26, 27, 35), which makes the feature discrete. Age itself is continuous, though: the Titanic data stores a baby of five months as 0.42 years. What matters is how the feature is recorded and used.
 
@@ -174,6 +184,7 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 **Built from**
 
 - CampusX, "Session 38 - Descriptive Statistics Part 1 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=Uv3Blie7F3g
+- StatQuest with Josh Starmer, "Population and Estimated Parameters, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=vikkiwjQqfU
 
 **Other references**
 

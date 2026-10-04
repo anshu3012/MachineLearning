@@ -102,7 +102,11 @@ These have very different consequences, and accuracy cannot tell them apart. The
 
 > **Key point:** Rows are the actual classes, columns the predicted ones. The diagonal holds the correct predictions.
 
-Figure 2 shows the confusion matrices of both models on the heart-disease test set (61 patients).
+In plain words: draw a 2 × 2 grid. Each test patient goes into one cell, chosen by two questions: what is the patient's true class (the row), and what did the model predict (the column)? Figure 2 fills the grid one patient at a time for both models. Watch the green cells, where truth and prediction agree, and the red cells, where they differ.
+
+![The 61 heart-disease test patients placed one by one into the confusion matrix of each model. Rows are the actual class, columns the predicted class. Green cells (the diagonal) collect the correct predictions, red cells the mistakes. The last frame counts the diagonal: 53 of 61 for logistic regression, 51 of 61 for the decision tree. Colouring the diagonal green and the mistakes red follows StatQuest, "Machine Learning Fundamentals: The Confusion Matrix"; the data and models are our own](images/matrix_fill.gif)
+
+Figure 3 shows the two finished confusion matrices.
 
 ![Confusion matrices for logistic regression and the decision tree](images/heart.png){height=50%}
 
@@ -118,7 +122,16 @@ In scikit-learn's layout, each **row** is an actual class and each **column** a 
 - **False positives** (G-748) **(7):** healthy patients wrongly flagged as ill.
 - **False negatives** (G-747) **(1):** an ill patient the model missed.
 
-The decision tree makes the same 7 false positives but 3 false negatives. So most of its extra errors are of the more dangerous kind: missed patients.
+**Choosing between the models, cell by cell.** The matrices of Figure 3 let us compare the models one cell at a time:
+
+| Cell | Logistic regression | Decision tree | Better |
+|---|---|---|---|
+| TP (ill, flagged) | 28 | 26 | logistic regression |
+| TN (healthy, cleared) | 25 | 25 | tie |
+| FP (healthy, flagged) | 7 | 7 | tie |
+| FN (ill, missed) | 1 | 3 | logistic regression |
+
+The decision tree makes the same 7 false positives but 3 false negatives. So its extra errors are of the more dangerous kind: missed patients. Logistic regression is at least as good in every cell, so it is the model to choose here. Accuracy alone (0.869 against 0.836) says which model is better; the matrix also says why.
 
 > **Extra:** Some books and websites draw the matrix the other way round, with predictions as rows (for example Fawcett 2006, Fig. 1). Always check the axis labels before reading one.
 
@@ -128,7 +141,7 @@ The decision tree makes the same 7 false positives but 3 false negatives. So mos
 
 ![How the four names are built](images/naming.png){width=85%}
 
-Figure 3 builds each name from two parts:
+Figure 4 builds each name from two parts:
 
 - **Positive / Negative** is the model's prediction: 1 or 0.
 - **True / False** says whether that prediction was correct.
@@ -173,7 +186,7 @@ The confusion matrix gives the accuracy, but the accuracy cannot give back the c
 
 ![Confusion matrices for iris (3 classes) and digits (10 classes)](images/multiclass.png){height=45%}
 
-In Figure 4, each row is an actual class and each column a predicted class, as before:
+In Figure 5, each row is an actual class and each column a predicted class, as before:
 
 - **Iris** (left): 3 × 3. The one mistake is a versicolor flower predicted as virginica (row versicolor, column virginica).
 - **Digits** (right): 10 × 10, from scikit-learn's 8 × 8 pixel images of handwritten digits. Logistic regression gets 97.2% right. The off-diagonal cells show exactly which digits get confused: for example, two 8s were read as 5s.
@@ -197,7 +210,13 @@ $$\text{accuracy} = \frac{99{,}990}{100{,}000} = 0.9999$$
 
 ![The "always not a threat" model on 100,000 passengers. Left: its confusion matrix. Right: its accuracy against the share of threats it catches.](images/imbalance.png){height=40%}
 
-An accuracy of 99.99%, for a model that catches none of the 10 threats (Figure 5: a full bar beside an empty one). The confusion matrix shows the problem at once: all 10 positives are false negatives.
+An accuracy of 99.99%, for a model that catches none of the 10 threats (Figure 6: a full bar beside an empty one). The confusion matrix shows the problem at once: all 10 positives are false negatives.
+
+Figure 7 shows that the high accuracy comes from the imbalance, not from the model. The model stays the same ("not a threat" for everyone) while the share of threats grows. Watch the blue bar.
+
+![The always-"not a threat" model as the share of threats among 100,000 passengers grows from 0.01 percent to 50 percent. Its accuracy is simply the share of non-threats, so it falls from 99.99 percent to 50 percent. The share of threats it catches stays at 0 throughout](images/imbalance_sweep.gif)
+
+The model never changes and never catches a threat, yet its accuracy runs from 99.99% down to 50%. Its accuracy only measures how rare the positive class is.
 
 So on imbalanced data, accuracy alone is the wrong metric. The next Note introduces **precision** (G-1547) and **recall** (G-1641), which focus on the rare class.
 
@@ -220,6 +239,7 @@ So on imbalanced data, accuracy alone is the wrong metric. The next Note introdu
 **Built from**
 
 - CampusX, "Accuracy and Confusion Matrix | Type 1 and Type 2 Errors | Classification Metrics Part 1", YouTube, https://www.youtube.com/watch?v=c09drtuCS3c
+- StatQuest with Josh Starmer, "Machine Learning Fundamentals: The Confusion Matrix", YouTube, https://www.youtube.com/watch?v=Kdsp6soqA7o
 
 **Other references**
 

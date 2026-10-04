@@ -54,7 +54,7 @@ class ABC(Scene):
 
         def eq():
             a, b, c = A.get_value(), B.get_value(), C.get_value()
-            return Text(f"{term(a, 'x', True)} {term(b, 'y')} {term(c, '')} = 0", font_size=40).move_to([3.6, 1.6, 0])
+            return Text(f"{term(a, 'x', True)} {term(b, 'y')} {term(c, '')} = 0", font_size=40).move_to([3.3, 1.6, 0])
 
         box = Square(side_length=2 * R * U, color=GREY_C, stroke_width=2).move_to(P(0, 0))
         axes = VGroup(Line(P(-R, 0), P(R, 0), color=GREY_C, stroke_width=2), Line(P(0, -R), P(0, R), color=GREY_C, stroke_width=2))
@@ -63,12 +63,12 @@ class ABC(Scene):
                          ((30, 10, box.get_top() + UP * 5), (30, 10, box.get_bottom() + DOWN * 5),
                           (20, 30, box.get_left() + LEFT * 10), (20, 30, box.get_right() + RIGHT * 10))]).set_z_index(5)
         title = Text("What A, B and C do to the line Ax + By + C = 0", font_size=32, weight=BOLD).to_edge(UP, buff=0.2).set_z_index(10)
-        plus = Text("green: positive side, Ax + By + C > 0", font_size=26, color=GREEN_C).move_to([3.6, 2.5, 0]).set_z_index(10)
+        plus = Text("green: positive side, Ax + By + C > 0", font_size=26, color=GREEN_C).move_to([3.3, 2.5, 0]).set_z_index(10)
         self.add(always_redraw(side), axes, always_redraw(line), masks, box.set_z_index(6), title, plus,
                  always_redraw(lambda: eq().set_z_index(10)))
 
         def say(s, color=BLUE_C):
-            t = Text(s, font_size=30, color=color, line_spacing=0.9).move_to([3.6, 0.2, 0]).set_z_index(10)
+            t = Text(s, font_size=27, color=color, line_spacing=0.9).move_to([3.3, 0.2, 0]).set_z_index(10)
             if hasattr(self, "cap"):
                 self.remove(self.cap)
             self.cap = t
@@ -93,12 +93,12 @@ class ABC(Scene):
         self.play(B.animate.set_value(3), run_time=0.8)
         # one update
         dot = Dot(P(*PT), radius=0.13, color=RED_C).set_z_index(7)
-        dl = Text("(4, 5), negative class", font_size=26, color=RED_C).next_to(dot, DOWN, buff=0.12).set_z_index(7)
+        dl = Text("(4, 5)", font_size=28, color=RED_C).next_to(dot, DOWN, buff=0.12).set_z_index(7)
         say("A negative point on the positive side:\n2(4) + 3(5) + 5 = 28 > 0, misclassified", RED_C)
         self.play(FadeIn(dot, dl), run_time=0.6)
         self.wait(1.6)
         snap()
-        work = Text("(2, 3, 5) − (4, 5, 1) = (−2, −2, 4)", font_size=34).move_to([3.6, -1.5, 0]).set_z_index(10)
+        work = Text("(2, 3, 5) − (4, 5, 1) = (−2, −2, 4)", font_size=30).move_to([3.3, -1.5, 0]).set_z_index(10)
         say("Subtract the point, with a 1 appended,\nfrom the coefficients", BLUE_C)
         self.play(FadeIn(work), run_time=0.6)
         self.wait(0.8)

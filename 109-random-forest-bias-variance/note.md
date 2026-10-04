@@ -15,39 +15,41 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 ## 1. Overview
 
-> **Key point:** A random forest takes fully grown trees, which have low bias and high variance, and averages away most of the variance. The result has low bias and low variance, the combination single models rarely reach.
+> **Key point:** A **random forest** (G-1611) takes fully grown trees, which have low bias and high variance, and averages away most of the variance. The result has low bias and low variance, the combination single models rarely reach.
 
 ![Concentric circles: (a) one fully grown tree draws boxes around single points; (b) a random forest of 500 trees draws one smooth inner region. Titles give the accuracy on the training and test sets](images/circles.png){height=45%}
 
 Figure 1 shows the whole story. One fully grown tree (a) carves out thin strips and small boxes for single points: it overfits. A forest of 500 such trees (b) keeps the shape of the data, a blue disc inside an orange ring, and drops most of the strips. Its test accuracy rises from 0.86 to 0.91.
 
-This Note explains why, using the bias-variance trade-off, and shows the same effect on a regression problem. The Notebook (`notebook.ipynb`) computes every number; `images/figs.py` draws the figures.
+This Note explains why, using the **bias-variance trade-off** (G-288), and shows the same effect on a regression problem. The Notebook (`notebook.ipynb`) computes every number; `images/figs.py` draws the figures.
 
 ## 2. Why a forest lowers the variance
 
 > **Key point:** A random forest is bagging with fully grown trees: each tree keeps the bias low, and averaging many of them removes most of the variance.
 
-We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). Bagging escapes this by averaging low-bias, high-variance models, each trained on its own random sample, so a change in the data is spread across many models (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Think of many people guessing the number of sweets in a jar: each guess is off, some high and some low, but the average of the guesses lands close to the truth.
+We want low **bias** (G-287) and low **variance** (G-2078), but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). **Bagging** (G-2154) escapes this by averaging low-bias, high-variance models (G-1132), each trained on its own random sample, a **bootstrap sample** (G-319), so a change in the data is spread across many models (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Think of many people guessing the number of sweets in a jar: each guess is off, some high and some low, but the average of the guesses lands close to the truth.
 
-A random forest applies this to **fully grown** trees (no `max_depth`). Each tree fits its training data almost perfectly, so the forest starts with low bias; averaging hundreds of them keeps the bias low and cuts the variance. The next two sections measure the effect.
+A random forest applies this to **fully grown** **decision trees** (G-561; no `max_depth`). Each tree fits its training data almost perfectly, so the forest starts with low bias; averaging hundreds of them keeps the bias low and cuts the variance. Figure 2 shows the recipe. The next two sections measure the effect.
+
+![A random forest is bagging with fully grown trees. Each bootstrap sample grows one deep tree with low bias and high variance; averaging the 500 trees (or taking their majority vote) keeps the low bias and cancels most of the variance](images/forest_flow.png){width=90%}
 
 ## 3. Seeing it in classification
 
 > **Key point:** On noisy concentric circles, one tree scores 0.86 on the test set and a forest of 500 trees 0.91.
 
-The data is made with `make_circles` (the [kernel trick code Note](../96-kernel-trick-code/note.md)): 500 **observations** (records, one row of the data table each), 2 **features** (input variables, one column each) and a **target** (the output we predict) with two classes. The blue class (1) sits in a small disc inside the orange class (0), with plenty of noise, so the classes overlap. We train on 400 points and test on 100.
+The data is made with `make_circles` (the [kernel trick code Note](../96-kernel-trick-code/note.md)): 500 **observations** (G-1374; records, one row of the data table each), 2 **features** (G-772; input variables, one column each) and a **target** (G-1949; the output we predict) with two classes. The blue class (1) sits in a small disc inside the orange class (0), with plenty of noise, so the classes overlap. We train on 400 points and test on 100.
 
 **One fully grown tree** (Figure 1a). Its surface has long thin strips and isolated boxes. Each exists because of a single point: a lone blue point among orange ones gets its own blue strip, although the region around it clearly belongs to orange.
 
 - Training accuracy: **1.00**, every training point is classified correctly: low bias.
-- Test accuracy: **0.86**. A new sample from the same pattern would produce different strips in different places: high variance. This is overfitting.
+- Test accuracy: **0.86**. A new sample from the same pattern would produce different strips in different places: high variance. This is **overfitting** (G-1429).
 
 **A random forest of 500 trees** (Figure 1b). Most strips and boxes are gone. The surface captures the true nature of the data: a blue region inside an orange one.
 
 - Training accuracy: still **1.00**.
 - Test accuracy: **0.91**: the variance has dropped.
 
-Variance means how much a model changes when the training data changes, so Figure 2 changes the data. It draws the circles eight times with the same recipe (draw 1 is the data of Figure 1) and trains both models on each draw. Watch the left panel: the tree's strips and boxes jump to new places with every draw. The forest's disc barely moves. The last frame overlays all eight surfaces: white marks the places where the draws disagree. Two draws of the tree disagree on 11% of the plane; two draws of the forest on 5%. Averaged over the eight draws, test accuracy is 0.80 for the tree and 0.83 for the forest.
+Variance means how much a model changes when the training data changes, so Figure 3 changes the data. It draws the circles eight times with the same recipe (draw 1 is the data of Figure 1) and trains both models on each draw. Watch the left panel: the tree's strips and boxes jump to new places with every draw. The forest's disc barely moves. The last frame overlays all eight surfaces: white marks the places where the draws disagree. Two draws of the tree disagree on 11% of the plane; two draws of the forest on 5%. Averaged over the eight draws, test accuracy is 0.80 for the tree and 0.83 for the forest.
 
 ![The circles data drawn eight times. Each frame: one fully grown tree (left) and a random forest of 500 trees (right) trained on that draw, with test accuracy. Last frame: the share of the eight surfaces that say blue; white means the draws disagree](images/resample_variance.gif){height=55%}
 
@@ -77,9 +79,9 @@ Variance means how much a model changes when the training data changes, so Figur
 
 ![Two bumps plus noise: (a) one fully grown regression tree; (b) bagging with 1,000 fully grown trees; (c) a random forest of 1,000 trees. The dashed curve is the true pattern](images/curves.png){height=36%}
 
-The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-regressor/note.md), which compares one tree with bagging. Here we add the random forest. We train on 150 points and test on 1,000; the dashed curve in Figure 3 is the true pattern.
+The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-regressor/note.md), which compares one tree with bagging. Here we add the random forest. We train on 150 points and test on 1,000; the dashed curve in Figure 4 is the true pattern.
 
-- **(a) One fully grown tree** (red) passes through every training point: training error 0, test **mean squared error (MSE)** (the [regression metrics Note](../52-regression-metrics/note.md)) **0.0192**.
+- **(a) One fully grown tree** (red) passes through every training point: training error 0, test **mean squared error (MSE)** (G-1201; the [regression metrics Note](../52-regression-metrics/note.md)) **0.0192**.
 - **(b) Bagging with 1,000 fully grown trees** (green) no longer reaches every outlier and stays closer to the dashed curve: test MSE **0.0140**.
 - **(c) A random forest of 1,000 trees** (blue) draws almost the same curve, with the same test MSE. Its training MSE rises a little, from 0 to 0.0018, while its test MSE falls about 27% below the single tree's.
 

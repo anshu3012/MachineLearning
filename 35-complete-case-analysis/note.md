@@ -29,9 +29,9 @@ This Note covers the left-most box: removing rows, called complete case analysis
 
 > **Key point:** Almost every scikit-learn algorithm fails on data with missing values, so we must deal with the gaps before training.
 
-We use three words for the parts of a data table. A **feature** is an input variable: one column of the table, such as `age`. The **target** is the output we predict. An **observation** is one record: one row of the table.
+We use three words for the parts of a data table. A **feature** (G-772) is an input variable: one column of the table, such as `age`. The **target** (G-1949) is the output we predict. An **observation** (G-1374) is one record: one row of the table.
 
-A **missing value** is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see "Handling missing values" in the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
+A **missing value** (G-1234) is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see "Handling missing values" in the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
 > **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier` and, since versions 1.3 and 1.4, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them (scikit-learn docs, Estimators that handle NaN values).
 
@@ -55,8 +55,8 @@ When a column is missing most of its values, we can instead remove the column it
 
 Imputation, met in the feature engineering Note, fills each missing value with an estimate. There are two families:
 
-- **Univariate imputation** looks at one feature at a time. To fill a gap in `age`, it uses only the other values of `age`.
-- **Multivariate imputation** looks at several features together. To fill a gap in `age`, it also uses features such as `income` or `education`.
+- **Univariate imputation** (G-2051) looks at one feature at a time. To fill a gap in `age`, it uses only the other values of `age`.
+- **Multivariate imputation** (G-1282) looks at several features together. To fill a gap in `age`, it also uses features such as `income` or `education`.
 
 Univariate techniques depend on the type of the feature:
 
@@ -67,10 +67,14 @@ Univariate techniques depend on the type of the feature:
 
 scikit-learn's `SimpleImputer` class does all of these. Multivariate imputation has two main techniques, each with its own class:
 
-- **KNN imputer** (`KNNImputer`): fills a gap from the most similar observations, using the k-nearest-neighbours algorithm.
-- **Iterative imputer** (`IterativeImputer`): predicts each feature with an ML model trained on the other features, and repeats. Its algorithm is called **MICE**.
+- **KNN imputer** (G-108) (`KNNImputer`): fills a gap from the most similar observations, using the k-nearest-neighbours algorithm.
+- **Iterative imputer** (G-98) (`IterativeImputer`): predicts each feature with an ML model trained on the other features, and repeats. Its algorithm is called **MICE** (G-1216).
 
-A last technique, the **missing indicator**, adds a column that records whether the value was missing (1) or not (0). The indicator is used together with imputation.
+Figure 2 compares the two options on four real rows of the job data used in Section 8, where row 3 has no `enrolled_university` value. Removing the row loses its three good values; imputing keeps them and fills the gap with the most frequent category.
+
+![Four rows of the job data. Left: row 3 has a gap. Middle: removing the row also removes its three good values. Right: imputing fills the gap with the mode, no_enrollment.](images/remove_vs_impute.png){height=26%}
+
+A last technique, the **missing indicator** (G-1233), adds a column that records whether the value was missing (1) or not (0). The indicator is used together with imputation.
 
 ### 3.3 Where each technique is covered
 
@@ -89,9 +93,9 @@ A last technique, the **missing indicator**, adds a column that records whether 
 
 > **Key point:** Complete case analysis keeps only the observations that have a value in every feature we use.
 
-**Complete case analysis (CCA)**, also called **listwise deletion**, discards every observation that is missing a value in any of the features we use. Only the **complete cases** remain: observations with a value in every feature used.
+**Complete case analysis (CCA)** (G-425), also called **listwise deletion**, discards every observation that is missing a value in any of the features we use. Only the **complete cases** remain: observations with a value in every feature used.
 
-Figure 2 applies it to the table of Section 3.1. Row 3 has a `NaN` in column `f1`, so the whole row goes, and four complete cases are left.
+Figure 3 applies it to the table of Section 3.1. Row 3 has a `NaN` in column `f1`, so the whole row goes, and four complete cases are left.
 
 ![Complete case analysis: the row with a missing value is dropped, along with its other values](images/cca_table.png)
 
@@ -104,7 +108,7 @@ The name says what we analyse: only the complete cases. The number of columns st
 > df.dropna(subset=["age"])     # only gaps in "age" count
 > ```
 >
-> **`dropna`** returns a new DataFrame without the incomplete rows. `subset` lists the columns to check; gaps in other columns are then ignored.
+> **`dropna`** (G-637) returns a new DataFrame without the incomplete rows. `subset` lists the columns to check; gaps in other columns are then ignored.
 
 ## 5. Why data goes missing: MCAR, MAR and MNAR
 
@@ -120,19 +124,19 @@ Whether this is safe depends on *which* 50 rows are missing. If they are scatter
 
 If instead the gaps sit in a pattern, for example all in the first 50 rows or all in the last 50, there is a reason behind them. Deleting those rows then removes a particular kind of row, and the data that remains is different.
 
-Data where the gaps are spread purely at random is called **missing completely at random (MCAR)**. MCAR is the first condition for using CCA.
+Data where the gaps are spread purely at random is called **missing completely at random (MCAR)** (G-1192). MCAR is the first condition for using CCA.
 
 ### 5.2 The other two kinds: MAR and MNAR
 
 > **Extra:** Statisticians name three ways in which data goes missing. MCAR is the first; the other two have a reason behind the gaps.
 >
 > - **MCAR (missing completely at random):** the gaps have no reason at all. *Example:* a survey sheet gets coffee spilled on it, and a few answers become unreadable.
-> - **MAR (missing at random):** the gaps depend on *another feature that we can see*. *Example:* job applicants with no relevant experience leave the "years of experience" field empty more often. Whether `experience` is missing depends on `relevent_experience`, which is recorded.
-> - **MNAR (missing not at random):** the gaps depend on *the missing value itself*. *Example:* applicants with very little experience leave the field empty because they do not want to show it. The reason is hidden in the very value we lost.
+> - **MAR (missing at random)** (G-1158): the gaps depend on *another feature that we can see*. *Example:* job applicants with no relevant experience leave the "years of experience" field empty more often. Whether `experience` is missing depends on `relevent_experience`, which is recorded.
+> - **MNAR (missing not at random)** (G-1248): the gaps depend on *the missing value itself*. *Example:* applicants with very little experience leave the field empty because they do not want to show it. The reason is hidden in the very value we lost.
 >
 > Rubin gave the three kinds these names (Rubin 1976). The name MAR is confusing: the data is *not* missing at random overall, only at random once we know the other feature.
 
-Figure 3 makes each kind happen on purpose, using the `experience` column of the job-applicant data from Section 8. Red is the full column; green is what CCA keeps.
+Figure 4 makes each kind happen on purpose, using the `experience` column of the job-applicant data from Section 8. Red is the full column; green is what CCA keeps.
 
 ![The experience column after hiding values in three ways: MCAR keeps the shape, while MAR and MNAR remove short experience and push the mean up](images/mechanisms.png){width=100%}
 
@@ -184,9 +188,11 @@ The column itself carries almost no information: only 50 of its values exist. Re
 
 **Disadvantages:**
 
-1. **It can throw away a large part of the data.** Each row is dropped if *any* of the chosen columns has a gap, so the losses add up across columns.
-2. **It distorts the data when the gaps are not random.** If the data is MAR or MNAR, the dropped rows carry information the model never sees, as Figure 3 showed.
+1. **It can throw away a large part of the data.** Each row is dropped if *any* of the chosen columns has a gap, so the losses add up across columns (Figure 5).
+2. **It distorts the data when the gaps are not random.** If the data is MAR or MNAR, the dropped rows carry information the model never sees, as Figure 4 showed.
 3. **The deployed model cannot handle missing values.** The model was trained only on complete rows. Once deployed, a new row may arrive with a gap, and the model has no way to deal with it.
+
+![Complete case analysis on the 19,158 job applicants of Section 8, adding the five chosen columns one at a time. Each column alone is missing at most 4 percent, but together they cost 10.3 percent of the rows.](images/rows_lost.gif)
 
 The third point is the biggest. Because of it, CCA is used less often than imputation, which the next five Notes cover.
 
@@ -200,7 +206,7 @@ The third point is the biggest. Because of it, CCA is used less often than imput
 
 The data describes applicants for a data science job: 19,158 rows and 13 columns. Its features include the candidate's ID, city, the **city development index** of that city (a score from 0 to 1), gender, relevant experience, university enrolment, education level, major subject, years of experience, company size and type, and hours of data science training. The target is 1 if the candidate was hired and 0 if not.
 
-Figure 4 shows the share of missing values in every column.
+Figure 6 shows the share of missing values in every column.
 
 ![Share of missing values per column: green columns are under 5%, red columns are above](images/missing_share.png)
 
@@ -217,7 +223,7 @@ CCA on `gender` alone would delete 23.5% of the rows, and on `company_type` 32%.
 > df.isnull().mean() * 100
 > ```
 >
-> **`isnull()`** marks each missing cell `True`. The mean of a column of `True`/`False` values is the share of `True`, since `True` counts as 1.
+> **`isnull()`** (G-974) marks each missing cell `True`. The mean of a column of `True`/`False` values is the share of `True`, since `True` counts as 1.
 
 The file here is a gzip-compressed copy of the full data, which pandas reads directly. The data comes from the Kaggle dataset *HR Analytics: Job Change of Data Scientists*, with small changes.
 
@@ -265,7 +271,7 @@ The five columns are each missing at most 4%, yet together they cost 10.3% of th
 
 For each numerical column, we draw the histogram of the full column and of the CCA column on the same axes. Both use **density** on the vertical axis, so that bars from 19,158 rows and from 17,182 rows have comparable heights.
 
-Figure 5 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves (**KDE**, Note 20), red solid before and green dashed after.
+Figure 7 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves (**KDE** (G-1005), Note 20), red solid before and green dashed after.
 
 ![Histograms (top) and density curves (bottom) of the three numerical columns, before and after CCA: the shapes are almost identical](images/numeric_before_after.png){width=100%}
 
@@ -300,7 +306,7 @@ In this file, `experience` runs from 0 to 20. The last bar is so tall because th
 
 A categorical column has no histogram of numbers, so we compare the share of each category instead. If Graduates are 62% of the data before CCA, they should still be about 62% after.
 
-Figure 6 and the tables below show the shares for the two categorical columns.
+Figure 8 and the tables below show the shares for the two categorical columns.
 
 ![Share of each category before and after CCA: every pair of bars is nearly equal](images/category_shares.png){width=100%}
 

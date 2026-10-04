@@ -26,9 +26,13 @@ The Note uses the dot product and its geometric form from the [dot product and c
 
 > **Key point:** A line in 2D becomes a plane in 3D and a hyperplane beyond; models that classify with a straight boundary need its equation in any dimension.
 
-In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$D the equivalent is a hyperplane (see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)).
+In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$D the equivalent is a **hyperplane** (G-911; see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)).
 
-ML data is very often high-dimensional. Each **feature** (an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../70-perceptron-trick/note.md) and [SVM](../92-svm-intuition/note.md), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
+ML data is very often high-dimensional. Each **feature** (G-772; an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../70-perceptron-trick/note.md) and [SVM](../92-svm-intuition/note.md), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
+
+Figure 2 shows one such boundary on real data. With three features of the iris flowers (sepal length, petal length and petal width), a linear SVM fitted with scikit-learn finds a **plane** (G-1502) with every setosa flower on one side and every versicolor flower on the other. With all four features the same boundary would be a hyperplane, which we can no longer draw but can still write down.
+
+![Iris setosa (blue) and versicolor (orange) in three features, separated by the plane −0.54x₁ + 0.98x₂ + 0.62x₃ − 0.18 = 0 that a linear SVM (scikit-learn LinearSVC) found.](images/iris_plane.png){height=45%}
 
 ## 3. From a line to a hyperplane
 
@@ -38,7 +42,7 @@ ML data is very often high-dimensional. Each **feature** (an input variable, one
 
 > **Key point:** $y = mx + b$ and $ax + by + c = 0$ describe the same line; the general form is the one that grows into higher dimensions.
 
-In school a line is $y = mx + b$, with slope $m$ and intercept $b$. The same line has a general form, $ax + by + c = 0$, used in the [perceptron trick Note](../70-perceptron-trick/note.md) (section 3.1).
+In school a line is $y = mx + b$, with **slope** (G-1823) $m$ and **intercept** (G-960) $b$. The same line has a general form, $ax + by + c = 0$, used in the [perceptron trick Note](../70-perceptron-trick/note.md) (section 3.1).
 
 Solving the general form for $y$ links the two:
 
@@ -56,7 +60,9 @@ Letters $x, y, z$ run out after three dimensions, so we number the axes instead:
 - **Plane (3D):** $w_1x_1 + w_2x_2 + w_3x_3 + w_0 = 0$
 - **Hyperplane ($n$D):** $w_1x_1 + w_2x_2 + \dots + w_nx_n + w_0 = 0$
 
-Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ becomes $2x_1 + 3x_2 - 6 = 0$: here $w_1 = 2$, $w_2 = 3$ and $w_0 = -6$.
+Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ becomes $2x_1 + 3x_2 - 6 = 0$: here $w_1 = 2$, $w_2 = 3$ and $w_0 = -6$. Figure 3 (left) draws it in the school form: slope $-a/b = -2/3$ and intercept $-c/b = 2$. The right panel plugs points into the equation, which section 4 writes as a dot product.
+
+![The line 2x₁ + 3x₂ − 6 = 0. Left: the same line as x₂ = −(2/3)x₁ + 2, with its slope triangle and intercept 2. Right: [3, 0], [0, 2] and [1.5, 1] give 0 and lie on the line; [3, 2] gives 6 and does not.](images/line_forms.png)
 
 ## 4. The vector form
 
@@ -73,7 +79,7 @@ Both are column vectors, the default. Writing the dot product as a row times a c
    $$w^{\mathsf T}x + w_0 = 0$$
 3. **Example:** for $w = [2, 3]$ and $w_0 = -6$, the point $x = [3, 0]$ gives
    $$w^{\mathsf T}x + w_0 = 2 \times 3 + 3 \times 0 - 6 = 0$$
-   so $[3, 0]$ lies on the line $2x_1 + 3x_2 - 6 = 0$.
+   so $[3, 0]$ lies on the line $2x_1 + 3x_2 - 6 = 0$ (Figure 3, right).
 
 This one equation is valid in 2D, 3D and $n$D: only the number of components of $w$ and $x$ changes. The equation is the same $w \cdot u + b$ that SVM uses in the [SVM maths Note](../93-svm-maths/note.md), with $b = w_0$.
 
@@ -90,7 +96,7 @@ Now slide the line down until it passes through the origin. Its intercept $b$ be
 - A line, plane or hyperplane passes through the origin exactly when $w_0 = 0$.
 - A non-zero $w_0$ moves it parallel to itself, away from the origin. In Figure 1 (right), $2x_1 + 3x_2 = 0$ passes through the origin, while $2x_1 + 3x_2 - 6 = 0$ crosses the $x_2$ axis at $-(-6)/3 = 2$.
 
-Figure 2 turns both knobs on real data: the iris setosa and versicolor flowers, plotted by petal length $x_1$ and petal width $x_2$ (in cm). Watch the line while $w_0$ changes: it slides without turning, and the arrow $w$ keeps its direction. Turning $w$ instead tilts the line, which stays at 90° to $w$ (Section 6). The shaded side is where $w^{\mathsf T}x + w_0 > 0$, the side $w$ points to (the sign rule at the end of Section 6). With $w = [1, 1]$ and $w_0 = -3.2$, all 50 versicolor flowers fall on the shaded side and all 50 setosa flowers on the other.
+Figure 4 turns both knobs on real data: the iris setosa and versicolor flowers, plotted by petal length $x_1$ and petal width $x_2$ (in cm). Watch the line while $w_0$ changes: it slides without turning, and the arrow $w$ keeps its direction. Turning $w$ instead tilts the line, which stays at 90° to $w$ (Section 6). The shaded side is where $w^{\mathsf T}x + w_0 > 0$, the side $w$ points to (the sign rule at the end of Section 6). With $w = [1, 1]$ and $w_0 = -3.2$, all 50 versicolor flowers fall on the shaded side and all 50 setosa flowers on the other.
 
 ![The two knobs of $w^{\mathsf T}x + w_0 = 0$ on iris setosa (blue) and versicolor (orange): changing $w_0$ slides the line, turning $w$ tilts it; the shaded side is where $w^{\mathsf T}x + w_0 > 0$](images/hyperplane_knobs.gif)
 
@@ -114,7 +120,7 @@ For a hyperplane through the origin, every point $x$ on it satisfies $w^{\mathsf
 
 $$w^{\mathsf T}x = w \cdot x = \lVert w \rVert\thinspace\lVert x \rVert \cos\theta = 0$$
 
-For non-zero $w$ and $x$, the lengths are positive, so $\cos\theta = 0$ and $\theta = 90^\circ$. Each point $x$ on the hyperplane is a vector lying in the hyperplane, and $w$ is at a right angle to every one of them. So $w$ is perpendicular to the hyperplane itself. A vector perpendicular to a line, plane or hyperplane is called its **normal vector**.
+For non-zero $w$ and $x$, the lengths are positive, so $\cos\theta = 0$ and $\theta = 90^\circ$. Each point $x$ on the hyperplane is a vector lying in the hyperplane, and $w$ is at a right angle to every one of them. So $w$ is perpendicular to the hyperplane itself. A vector perpendicular to a line, plane or hyperplane is called its **normal vector** (G-1346).
 
 With numbers, for the line $2x_1 + 3x_2 = 0$ in Figure 1 (left): $w = [2, 3]$, and the points $[3, -2]$ and $[-1.5, 1]$ lie on the line. Both give $w \cdot x = 0$:
 
@@ -126,7 +132,7 @@ $$2 \times 3 + 3 \times (-2) = 0, \qquad 2 \times (-1.5) + 3 \times 1 = 0$$
 
 ![The plane x1 + 2x2 + 2x3 = 0 and its normal vector w = [1, 2, 2]](images/plane_normal.png){height=45%}
 
-Figure 3 shows the plane $x_1 + 2x_2 + 2x_3 = 0$. Its coefficients form $w = [1, 2, 2]$, drawn in orange. The three blue vectors lie in the plane, for example $[2, -1, 0]$, with $1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$. The orange $w$ stands at 90° to all of them.
+Figure 5 shows the plane $x_1 + 2x_2 + 2x_3 = 0$. Its coefficients form $w = [1, 2, 2]$, drawn in orange. The three blue vectors lie in the plane, for example $[2, -1, 0]$, with $1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$. The orange $w$ stands at 90° to all of them.
 
 So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$D we cannot draw it, but the argument of Section 6.1 never used the number of dimensions.
 
@@ -141,7 +147,32 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 > X @ w    # array([0, 0, 0]): all on the plane
 > ```
 
-> **Extra:** $w$ stays perpendicular when $w_0 \neq 0$. Take any two points $x$ and $y$ on the hyperplane: $w^{\mathsf T}x + w_0 = 0$ and $w^{\mathsf T}y + w_0 = 0$. Subtracting, $w^{\mathsf T}(x - y) = 0$. The vector $x - y$ runs along the hyperplane, so $w$ is perpendicular to every direction in it. The shared normal vector is why the two lines in Figure 1 (right) share the same $w$ and are parallel.
+### 6.3 A plane from a point and a normal vector
+
+> **Key point:** A point $x_0$ and a normal vector $w$ fix a plane: it holds every $x$ with $w \cdot (x - x_0) = 0$. Expanding gives $w^{\mathsf T}x + w_0 = 0$ with $w_0 = -w \cdot x_0$, so $w$ is the normal vector for any $w_0$.
+
+Sections 6.1 and 6.2 assumed $w_0 = 0$. The same result holds for a hyperplane anywhere in space, and Figure 6 shows why in four steps.
+
+1. **One point is not enough.** Think of the plane as a sheet of cardboard pinned at one point, $x_0 = (1, 1, 1)$. The sheet can still pivot about the pin, so one point leaves the plane open.
+2. **A normal vector fixes the plane.** Choose the direction that must stand at 90° to the sheet, here $w = [1, 2, 2]$. Only one position of the sheet fits.
+3. **Arrows inside the plane.** Take any other point $x$ on the plane. The points $x_0$ and $x$ are vectors from the origin, and they do not lie in the plane. Their difference $x - x_0$ does: it is the arrow from the pin to $x$, drawn on the cardboard. So $w$ is at 90° to it, and their dot product is 0 (section 6.1).
+4. **The constant slides the plane.** Changing $w_0$ moves the plane along $w$ without turning it.
+
+![A plane from the point x0 = (1, 1, 1) and the normal vector w = [1, 2, 2]. The sheet can pivot about one point; the normal vector fixes it; the arrow from x0 to any point x of the plane stays at 90° to w; changing w0 slides the plane along w. Idea after Khan Academy, "Defining a plane in R3 with a point and normal vector".](images/point_normal.gif)
+
+**Worked example.** With $w = [1, 2, 2]$ and $x_0 = (1, 1, 1)$, a point $x = (x_1, x_2, x_3)$ is on the plane when
+
+$$w \cdot (x - x_0) = 1 (x_1 - 1) + 2 (x_2 - 1) + 2 (x_3 - 1) = 0$$
+
+Multiplying out gives $x_1 + 2x_2 + 2x_3 - 5 = 0$. The coefficients are again $w$, and the constant is $w_0 = -5$. The point $(3, 1, 0)$ lies on this plane, since $3 + 2 + 0 - 5 = 0$.
+
+**The formal version.** For any number of dimensions,
+
+$$w^{\mathsf T}(x - x_0) = 0 \quad\Longleftrightarrow\quad w^{\mathsf T}x + w_0 = 0, \qquad w_0 = -w^{\mathsf T}x_0$$
+
+Read from right to left, the same steps show that $w$ stays perpendicular when $w_0 \neq 0$. Take any two points $x$ and $y$ on the hyperplane: $w^{\mathsf T}x + w_0 = 0$ and $w^{\mathsf T}y + w_0 = 0$. Subtracting, $w^{\mathsf T}(x - y) = 0$. The vector $x - y$ runs along the hyperplane, so $w$ is perpendicular to every direction in it.
+
+All hyperplanes with the same $w$ and different $w_0$ therefore share one normal vector and are parallel. The shared normal vector is why the two lines in Figure 1 (right) are parallel, and why $x_1 + 2x_2 + 2x_3 = 0$ of Figure 5 is parallel to the plane of this example.
 
 > **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. To see this, start at a point $p$ on the hyperplane and step a distance $t$ along $w$: $x = p + t\thinspace w/\lVert w \rVert$. Then $w^{\mathsf T}x + w_0 = (w^{\mathsf T}p + w_0) + t\thinspace w^{\mathsf T}w/\lVert w \rVert = 0 + t\lVert w \rVert$, which has the sign of $t$. This sign rule is the side test of the [perceptron trick Note](../70-perceptron-trick/note.md) and the decision rule of the [SVM maths Note](../93-svm-maths/note.md).
 
@@ -157,12 +188,16 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 - The general form of a line grows into a hyperplane by adding one term per dimension; the sum of terms is a dot product.
 - $w_0$ shifts the hyperplane; $w_0 = 0$ means it passes through the origin.
 - $w$ is the normal vector: perpendicular to the hyperplane, because $w \cdot x = 0$ means a 90° angle.
+- A point $x_0$ and a normal vector $w$ give the hyperplane $w \cdot (x - x_0) = 0$, so $w_0 = -w \cdot x_0$.
 
 ## 8. Sources
 
 **Built from**
 
+- CampusX, "Equation of a Hyper-plane in N dimensions", YouTube, https://www.youtube.com/watch?v=10e-b8AgdVA
 - CampusX, "Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1", YouTube, https://www.youtube.com/watch?v=mQewAJb8oJ8
+- Khan Academy, "Defining a plane in R3 with a point and normal vector | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=UJxgcVaNTqY
+- Khan Academy, "Normal vector from plane equation | Vectors and spaces | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=gw-4wltP5tY
 
 ## 9. Key terms
 

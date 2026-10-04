@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 
 ## 1. Overview
 
-> **Key point:** Self-attention builds each word's new vector as a **weighted sum** of the embeddings of all the words in the sentence. The weights come from **dot products** (how similar two words are), normalised by a **softmax**. Each embedding plays three roles, **query**, **key** and **value**, so three learned matrices $W_Q$, $W_K$, $W_V$ turn it into three vectors, one per role. For a whole sentence at once: $Y = \text{softmax}(QK^{\top})\thinspace V$.
+> **Key point:** **Self-attention** (G-1764) builds each word's new vector as a **weighted sum** of the embeddings of all the words in the sentence. The weights come from **dot products** (how similar two words are), normalised by a **softmax** (G-1830). Each embedding plays three roles, **query**, **key** (G-1011) and **value** (G-2068), so three learned matrices $W_Q$, $W_K$, $W_V$ turn it into three vectors, one per role. For a whole sentence at once: $Y = \text{softmax}(QK^{\top})\thinspace V$.
 
 The [what is self-attention Note](../1072-what-is-self-attention/note.md) treated self-attention as a box: static embeddings go in, contextual embeddings come out. This Note opens the box. We build self-attention from first principles, as if inventing it:
 
@@ -42,13 +42,17 @@ Take two short phrases, "money bank grows" and "river bank flows". "Bank" means 
 $$\text{bank}_{\text{new}} = 0.29\thinspace\text{money} + 0.52\thinspace\text{bank} + 0.19\thinspace\text{grows}$$
 $$\text{bank}_{\text{new}} = 0.25\thinspace\text{river} + 0.54\thinspace\text{bank} + 0.21\thinspace\text{flows}$$
 
-The left-hand sides are the same word, but the right-hand sides differ, because the neighbours differ. The meaning of "bank" now depends on its context. We can do the same for every word of each phrase: "money" becomes a mix of money, bank and grows, and so on.
+The left-hand sides are the same word, but the right-hand sides differ, because the neighbours differ. The meaning of "bank" now depends on its context (Figure 2).
+
+![The new "bank" in each phrase as a mix of the words of the phrase, with the real weights of section 4. The same word keeps about half of itself and borrows the rest from different neighbours](images/bank_mix.png){width=95%}
+
+We can do the same for every word of each phrase: "money" becomes a mix of money, bank and grows, and so on.
 
 Machines work with vectors, not words, so we write the mix with embeddings. With $e_{\text{money}}$ the embedding of "money" (a vector of $n$ numbers), the new vector of "bank" is
 
 $$y_{\text{bank}} = 0.29\thinspace e_{\text{money}} + 0.52\thinspace e_{\text{bank}} + 0.19\thinspace e_{\text{grows}}$$
 
-A weighted sum of $n$-number vectors is again an $n$-number vector. The new vectors are the **contextual embeddings** we wanted. Two questions remain: where do the weights come from, and how do we make them sum to 1?
+A weighted sum of $n$-number vectors is again an $n$-number vector. The new vectors are the **contextual embeddings** (G-462) we wanted. Two questions remain: where do the weights come from, and how do we make them sum to 1?
 
 ## 4. Weights from similarity
 
@@ -58,7 +62,7 @@ A weighted sum of $n$-number vectors is again an $n$-number vector. The new vect
 
 > **Key point:** Two vectors that point the same way have a large dot product.
 
-The weight $0.29$ means: "bank" takes 29% of its new meaning from "money". The more related two words are, the larger that share should be. The **dot product** of two vectors is a simple measure of how similar they are (the [dot product Note](../362-dot-product-and-cosine-similarity/note.md)).
+The weight $0.29$ means: "bank" takes 29% of its new meaning from "money". The more related two words are, the larger that share should be. The **dot product** (G-634) of two vectors is a simple measure of how similar they are (the [dot product Note](../362-dot-product-and-cosine-similarity/note.md)).
 
 1. **In words:** multiply the vectors number by number, then add.
 2. **Formula:** $a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n$.
@@ -66,13 +70,13 @@ The weight $0.29$ means: "bank" takes 29% of its new meaning from "money". The m
    $$a \cdot b = 6 \times 4 + 1 \times 2 = 26, \qquad a \cdot c = 6 \times 1 + 1 \times 5 = 11$$
    $a$ is more similar to $b$ than to $c$, and the dot products say so.
 
-In the Notebook every embedding has length 1, so the dot product is exactly the cosine similarity: 1 for a word with itself, near 0 for unrelated words.
+In the Notebook every embedding has length 1, so the dot product is exactly the **cosine similarity** (G-491): 1 for a word with itself, near 0 for unrelated words.
 
 ### 4.2 Softmax turns scores into weights
 
 > **Key point:** Raw dot products can be any size and even negative. The softmax makes them positive and makes them sum to 1.
 
-Call $s_{ij} = e_i \cdot e_j$ the **score** of word $i$ with word $j$. Scores can be large, small or negative, for example 36, $-15$ and 32. We want weights that are positive and sum to 1, so they read as shares: "bank is 52% bank, 29% money, 19% grows". The **softmax** function does exactly this.
+Call $s_{ij} = e_i \cdot e_j$ the **score** (G-223, attention score) of word $i$ with word $j$. Scores can be large, small or negative, for example 36, $-15$ and 32. We want weights that are positive and sum to 1, so they read as shares: "bank is 52% bank, 29% money, 19% grows". The **softmax** function does exactly this.
 
 1. **In words:** raise $e$ to the power of each score, then divide by the total.
 2. **Formula:** for word $i$ in a sentence of $N$ words,
@@ -96,7 +100,7 @@ The same three steps, with "money" and then "grows" in place of "bank", give $y_
 
 ![The weights of the simple self-attention for both phrases, with real embeddings, as a grid of dots: the area of each dot is the weight. Row $i$ shows how word $i$ mixes the words of its phrase; every row sums to 1](images/weights_dots.png){width=90%}
 
-Figure 2 shows all the weights, one dot per pair of words, so the large ones stand out at a glance (a picture of the weights used by Sanderson 2024, Ch 6). Each word keeps about half of its own meaning (the diagonal: a vector is most similar to itself) and borrows the rest from its neighbours. The row of "bank" differs between the two phrases: it borrows 0.29 from "money" in one, 0.25 from "river" in the other. In the previous Note, these outputs moved "bank" towards "river" in "river bank flows".
+Figure 3 shows all the weights, one dot per pair of words, so the large ones stand out at a glance (a picture of the weights used by Sanderson 2024, Ch 6). Each word keeps about half of its own meaning (the diagonal: a vector is most similar to itself) and borrows the rest from its neighbours. The row of "bank" differs between the two phrases: it borrows 0.29 from "money" in one, 0.25 from "river" in the other. In the previous Note, these outputs moved "bank" towards "river" in "river bank flows".
 
 ## 5. All words at once, with matrices
 
@@ -108,11 +112,13 @@ Nothing in the computation for "grows" waits for the computation for "bank": eac
 2. **Formula:** with $X$ of shape $N \times n$ (one row per word),
    $$S = XX^{\top}\ (N \times N), \qquad W = \text{softmax}_{\text{rows}}(S), \qquad Y = WX\ (N \times n)$$
    Entry $(i, j)$ of $S$ is $e_i \cdot e_j = s_{ij}$, and row $i$ of $Y$ is $y_i$.
-3. **Example:** for "money bank grows", $X$ is $3 \times 50$ (3 words, 50 numbers each), $S$ and $W$ are $3 \times 3$ (Figure 2, left) and $Y$ is $3 \times 50$. For "i put my money in the bank", $X$ is $7 \times 50$, $S$ is $7 \times 7$ and $Y$ is again $7 \times 50$. In the Notebook, the matrix version gives exactly the same numbers as a loop over the words, one at a time.
+3. **Example:** for "money bank grows", $X$ is $3 \times 50$ (3 words, 50 numbers each), $S$ and $W$ are $3 \times 3$ (Figure 3, left) and $Y$ is $3 \times 50$. For "i put my money in the bank", $X$ is $7 \times 50$, $S$ is $7 \times 7$ and $Y$ is again $7 \times 50$. In the Notebook, the matrix version gives exactly the same numbers as a loop over the words, one at a time. Figure 4 shows the shapes.
+
+![The whole sentence at once, for "money bank grows". One product gives every score, a softmax on each row gives every weight, and a second product gives every contextual embedding](images/matrix_shapes.png){width=100%}
 
 Whether the sentence has 3 words or 3,000, the work is a few matrix multiplications, which a GPU does in parallel. This parallelism is what lets transformers train fast (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md), section 5).
 
-The parallel computation has a cost. Nothing in $Y = \text{softmax}(XX^{\top})X$ depends on the order of the rows: shuffle the words and each word gets the same new vector, only in a different row. The order of words is lost, although word order matters in text. The transformer restores it separately, with positional encoding (the [positional encoding Note](../1078-positional-encoding/note.md)).
+The parallel computation has a cost. Nothing in $Y = \text{softmax}(XX^{\top})X$ depends on the order of the rows: shuffle the words and each word gets the same new vector, only in a different row. The order of words is lost, although word order matters in text. The transformer restores it separately, with **positional encoding** (G-1528; the [positional encoding Note](../1078-positional-encoding/note.md)).
 
 ## 6. The problem: nothing to learn
 
@@ -120,12 +126,12 @@ The parallel computation has a cost. Nothing in $Y = \text{softmax}(XX^{\top})X$
 
 The three steps are a dot product, a softmax and another product. None of them has a weight or a bias. With no parameters there is nothing to train: the output for a sentence depends only on the static embeddings, never on the task or its data.
 
-The resulting contextual embeddings are **general**: they use the context, but in the same way for every task. Sometimes that is not enough. Suppose we train an English-to-Hindi translator whose data contains
+The resulting contextual embeddings are **general** (G-836, general contextual embeddings): they use the context, but in the same way for every task. Sometimes that is not enough. Suppose we train an English-to-Hindi translator whose data contains
 
 - "how are you" → "main theek hoon" (as a reply), and
 - "that task is a piece of cake" → "vah kaam bahut aasaan hai" ("that work is very easy").
 
-General contextual embeddings of "piece of cake" lean towards the literal meaning, a slice of cake. A good translator must learn from its data that the phrase means "very easy". In the same way, "break a leg" should become "shubh kaamnaayein" ("good wishes") and not a sentence about a broken leg. What the model needs are **task-specific contextual embeddings**: still built from the neighbouring words, but in a way learned from the task's data. For that, self-attention needs learnable parameters.
+General contextual embeddings of "piece of cake" lean towards the literal meaning, a slice of cake. A good translator must learn from its data that the phrase means "very easy". In the same way, "break a leg" should become "shubh kaamnaayein" ("good wishes") and not a sentence about a broken leg. What the model needs are **task-specific contextual embeddings** (G-1952): still built from the neighbouring words, but in a way learned from the task's data. For that, self-attention needs learnable parameters.
 
 Where can they go? The softmax is a fixed formula. The parameters can only enter in the two products: the one that computes the scores and the one that forms the weighted sum.
 
@@ -154,8 +160,10 @@ Self-attention should do the same: from each embedding, derive three separate ve
 **What a query and a key could compute: an invented example.** Suppose the model would like nouns to take in the adjectives in front of them, as in "the old brown dog". Imagine that each noun's query asks "are there adjectives before me?" and that each adjective's key answers "I am an adjective here". If the matrices put such questions and answers into the same direction, a large dot product means a match (Sanderson 2024, Ch 6, who builds the same kind of imagined example). With 2 numbers per query and key:
 
 1. **In words:** the query of "dog" points along the first axis (looking for adjectives); the keys of "old" and "brown" point mostly the same way; the keys of "the" and "dog" point along the second axis.
-2. **Formula:** $s_{	ext{dog},j} = q_{	ext{dog}} \cdot k_j$, then the softmax over $j$.
-3. **Example:** $q_{	ext{dog}} = (3, 0)$, $k_{	ext{the}} = (0, 2)$, $k_{	ext{old}} = (3, 0.5)$, $k_{	ext{brown}} = (2.8, 1)$, $k_{	ext{dog}} = (0.2, 2)$. The scores are $0$, $9$, $8.4$ and $0.6$, and the softmax gives the weights $0.000$, $0.646$, $0.354$ and $0.000$: "dog" takes its new meaning from "old" and "brown" only.
+2. **Formula:** $s_{\text{dog},j} = q_{\text{dog}} \cdot k_j$, then the softmax over $j$.
+3. **Example:** $q_{\text{dog}} = (3, 0)$, $k_{\text{the}} = (0, 2)$, $k_{\text{old}} = (3, 0.5)$, $k_{\text{brown}} = (2.8, 1)$, $k_{\text{dog}} = (0.2, 2)$. The scores are $0$, $9$, $8.4$ and $0.6$, and the softmax gives the weights $0.000$, $0.646$, $0.354$ and $0.000$: "dog" takes its new meaning from "old" and "brown" only (Figure 5).
+
+![The invented example. Left: the query of "dog" (red) points along the first axis, like the keys of "old" and "brown"; the keys of "the" and "dog" point along the second. Right: the scores and the weights after the softmax](images/dog_query.png){width=100%}
 
 In a trained model nobody chooses these directions, and what a matrix actually learns is much harder to read; the example only shows the kind of job a query and a key can do together. Section 9.3 shows a real one: learned matrices that make every word look for the sentiment word.
 
@@ -167,7 +175,7 @@ In a trained model nobody chooses these directions, and what a matrix actually l
 
 > **Key point:** A new vector from an old one: multiply by a matrix.
 
-To make a new vector from an old one, scaling alone (making it longer or shorter) is too limited: the direction must change as well. The standard way is a **linear transformation**, multiplying the vector by a matrix (the [linear transformations Note](../500-linear-transformations-and-matrices/note.md)). We use three matrices, $W_Q$, $W_K$ and $W_V$, one per role.
+To make a new vector from an old one, scaling alone (making it longer or shorter) is too limited: the direction must change as well. The standard way is a **linear transformation** (G-1097), multiplying the vector by a matrix (the [linear transformations Note](../500-linear-transformations-and-matrices/note.md)). We use three matrices, $W_Q$, $W_K$ and $W_V$, one per role.
 
 1. **In words:** each embedding, written as a row vector, times each of the three matrices gives the word's query, key and value vectors.
 2. **Formula:**
@@ -176,7 +184,7 @@ To make a new vector from an old one, scaling alone (making it longer or shorter
 3. **Example:** in 2-D, with $e = (1, 2)$,
    $$W_Q = \begin{pmatrix} 1 & 0 \cr1 & 1 \end{pmatrix}, \quad W_K = \begin{pmatrix} 0 & 1 \cr1 & 0 \end{pmatrix}, \quad W_V = \begin{pmatrix} 2 & 0 \cr0 & 0.5 \end{pmatrix}$$
    $$q = (1 \cdot 1 + 2 \cdot 1,\ 1 \cdot 0 + 2 \cdot 1) = (3, 2), \quad k = (2, 1), \quad v = (2, 1)$$
-   One embedding has become three different vectors (Figure 3; here $k$ and $v$ happen to be equal, because $W_K$ and $W_V$ map this particular $e$ to the same point).
+   One embedding has become three different vectors (Figure 6; here $k$ and $v$ happen to be equal, because $W_K$ and $W_V$ map this particular $e$ to the same point).
 
 ![The embedding $e = (1, 2)$ multiplied by $W_Q$, $W_K$ and $W_V$: each matrix moves the arrow to a new place](images/qkv_arrows.gif){height=50%}
 
@@ -196,7 +204,7 @@ $$s_{2j} = q_{\text{bank}} \cdot k_j, \qquad w_{2j} = \text{softmax}_j(s_{2j}), 
 
 > **Key point:** $Q = XW_Q$, $K = XW_K$, $V = XW_V$, and then $Y = \text{softmax}(QK^{\top})\thinspace V$. Still fully parallel.
 
-The matrix form of section 5 carries over (Figure 4, and SLP3 eq. 7.33):
+The matrix form of section 5 carries over (Figure 7, and SLP3 eq. 7.33):
 
 1. **In words:** multiply the embedding matrix by the three weight matrices; compare every query with every key in one product; softmax each row; mix the values.
 2. **Formula:**
@@ -217,12 +225,12 @@ The self-attention inside a transformer works this way, with one more step: the 
 
 > **Key point:** Two models identical except for the three matrices, which start at the identity, so both begin as the same function.
 
-Section 6 claimed that learnable matrices make the contextual embeddings task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md)): 25,000 training and 25,000 test reviews, each an **observation** (one record of the data), with the sentiment, positive or negative, as the **target** (the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
+Section 6 claimed that learnable matrices make the contextual embeddings task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md)): 25,000 training and 25,000 test reviews, each an **observation** (G-1374; one record of the data), with the sentiment, positive or negative, as the **target** (G-1949; the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
 
 - **Static embeddings:** 50 numbers per word, learned from the training reviews themselves by the counting method of the [what is self-attention Note](../1072-what-is-self-attention/note.md), section 4.2, then **frozen**, so they cannot adapt to the task. They do capture meaning: the nearest words to "great" are wonderful, fine, fantastic, excellent, marvelous, superb.
 - **Model:** embeddings → self-attention → the average of the contextual embeddings over the words of the review → one sigmoid node.
 - **Fixed:** self-attention without parameters, $Y = \text{softmax}(XX^{\top})X$. The only trainable weights are the 51 of the final node.
-- **Learned:** $Y = \text{softmax}(QK^{\top})V$ with $W_Q$, $W_K$, $W_V$ of size $50 \times 50$, which adds 7,500 trainable weights. The three matrices start at the identity matrix, so at the start the learned model computes exactly what the fixed model computes.
+- **Learned:** $Y = \text{softmax}(QK^{\top})V$ with $W_Q$, $W_K$, $W_V$ of size $50 \times 50$, which adds 7,500 trainable weights. The three matrices start at the **identity matrix** (G-915), so at the start the learned model computes exactly what the fixed model computes.
 
 Both train with Adam for 5 epochs, batch size 64, 3 runs each with different seeds.
 
@@ -241,7 +249,7 @@ The three runs of each model agree to within 0.004. Both models have exactly the
 
 > **Key point:** Without parameters, each word mostly attends to itself. After training, almost every word attends to "terrible".
 
-What did the matrices learn? Figure 5 takes a real 10-word stretch from a test review, "and the rest of the cast rendered terrible performances the", and shows the attention weights of both models.
+What did the matrices learn? Figure 8 takes a real 10-word stretch from a test review, "and the rest of the cast rendered terrible performances the", and shows the attention weights of both models.
 
 ![Attention weights on a real review. Left: without parameters, each word borrows mostly from itself and spreads the rest evenly. Right: with learned $W_Q$, $W_K$, $W_V$, almost every word borrows most from "terrible", the word that decides the sentiment](images/weights_review.png){width=100%}
 

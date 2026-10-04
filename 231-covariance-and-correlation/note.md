@@ -18,7 +18,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![Covariance by quadrants: each point's product of distances from the two means](images/quadrants.png)
 
-A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row. A scatter plot shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both: the two mean lines cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
+A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. A **scatter plot** (G-1749) shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both: the two mean lines cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
 
 ## 2. From mean to variance to covariance
 
@@ -26,15 +26,17 @@ A **feature** is one variable of the data, one column of the table; an **observa
 
 Each measure fixes a blind spot of the one before:
 
-- **Mean:** gives the centre of a feature, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
-- **Variance:** gives the spread, and tells those two apart (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). But it looks at one feature at a time.
-- **Covariance:** the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.1) shows. Only a measure that uses both features together can tell them apart.
+- **Mean** (G-1203): gives the centre of a feature, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
+- **Variance** (G-2078): gives the spread, and tells those two apart (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). But it looks at one feature at a time.
+- **Covariance** (G-496): the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.1) shows. Only a measure that uses both features together can tell them apart (Figure 2).
+
+![Two tiny datasets with the same means and the same variances, 2/3 for each feature. The rising one has covariance +2/3, the falling one −2/3.](images/same_variance.png)
 
 ## 3. Covariance
 
 > **Key point:** Covariance averages the product of each point's distances from the two means; positive means the features rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
 
-Covariance is taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.2): the average product of each point's distances from the two means, whose sign gives the direction of a linear relationship (see the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)). That Note divides by $N$, as for a whole population; a sample divides by $n - 1$ instead.
+Covariance is taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.2): the average product of each point's distances from the two means, whose sign gives the direction of a linear relationship (see the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)). That Note divides by $N$, as for a whole **population** (G-1525); a **sample** (G-1731) divides by $n - 1$ instead.
 
 $$\sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y) \qquad\qquad s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$$
 
@@ -51,7 +53,15 @@ The sample version divides by $n - 1$ for the same reason as the sample variance
 
 $$s_{xy} = \frac{86}{5 - 1} = 21.5$$
 
-The covariance is positive: more experience goes with a higher salary.
+Figure 3 draws the same computation. Each employee's product is the area of a rectangle from the two mean lines to that employee's point. Watch the running sum grow as each rectangle is added.
+
+![The five employees added one at a time. Each rectangle runs from the mean lines to the point; its area is the product in the table. The areas add up to 86, and 86 / 4 = 21.5.](images/cov_rectangles.gif)
+
+- Employees 1 and 2 lie below and left of both means: two negative distances, a positive product (30 and 12).
+- Employee 3 lies on the mean of $x$, so the rectangle has zero width and adds 0.
+- Employees 4 and 5 lie above and right of both means: two positive distances, a positive product (24 and 20).
+
+Every rectangle is positive, so the covariance is positive: more experience goes with a higher salary.
 
 ### 3.1 Reading covariance from the quadrants
 
@@ -71,11 +81,19 @@ $$s_{xy} = \frac{-24 - 18 + 0 - 16 - 25}{4} = \frac{-83}{4} = -20.75$$
 
 A third case: if every student got the same package of 10 lakh, whatever their backlogs, then $y - \bar{y} = 0$ for every point. Every product is 0, and the covariance is exactly 0: no linear relationship.
 
+A fourth case is a common interview trap: a covariance of 0 does not mean "no relationship". Take $x = -2, -1, 0, 1, 2$ and $y = x^2 = 4, 1, 0, 1, 4$, with means 0 and 2. The products are $-4, +1, 0, -1, +4$ (Figure 4): each positive rectangle on one side is cancelled by an equal negative one on the other. So
+
+$$s_{xy} = \frac{-4 + 1 + 0 - 1 + 4}{4} = 0$$
+
+although $y$ is completely fixed by $x$. Covariance sees only a straight-line trend: zero covariance means no linear relationship, and a curved one can still be there.
+
+![Five points on the curve $y = x^2$. The red rectangles (negative products) cancel the blue ones (positive products), so the covariance is 0 although the points follow the curve exactly](images/zero_cov_curve.png){height=35%}
+
 ### 3.2 The flaw: covariance depends on the scale
 
 > **Key point:** Multiplying a feature by a number multiplies the covariance by it too, so the size of a covariance says nothing about how strong the relationship is.
 
-Covariance tells the direction of the relationship, but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the features.
+Covariance tells the direction of the **linear relationship** (G-1095), but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the features.
 
 1. **In words:** if every $x$ is multiplied by $a$ and every $y$ by $c$, every distance from the mean is multiplied too, so every product, and the covariance, is multiplied by $a \times c$.
 2. **Formula:**
@@ -84,21 +102,21 @@ Covariance tells the direction of the relationship, but not its **strength**: ho
    $$\text{cov} = 12 \times 21.5 = 258$$
    Measuring salary in rupees instead of lakhs multiplies the covariance by 100,000: $2{,}150{,}000$. The employees are the same; only the units changed.
 
-Figure 2 shows the problem with 40 random points. The left panel plots a feature against itself, a perfect straight line, with covariance 1205. The middle panel plots $x$ against a noisier $y$, a weaker relationship, with covariance 939. The right panel doubles both features: the picture is identical to the middle one, yet the covariance jumps to 3757, larger than for the perfect line.
+Figure 5 shows the problem with 40 random points. The left panel plots a feature against itself, a perfect straight line, with covariance 1205. The middle panel plots $x$ against a noisier $y$, a weaker relationship, with covariance 939. The right panel doubles both features: the picture is identical to the middle one, yet the covariance jumps to 3757, larger than for the perfect line.
 
 ![Covariance changes with the scale; correlation does not](images/scale.png)
 
 So a large covariance does not mean a strong relationship. Covariance is reliable only for its sign. Its main use is as the building block of correlation.
 
-> **Extra:** The covariance of a feature with itself is its variance. With $y = x$ the formula becomes $\sum (x_i - \bar{x})(x_i - \bar{x}) / (n-1) = \sum (x_i - \bar{x})^2 / (n-1)$, the sample variance. The same fact explains why the covariance matrix of the [PCA step by step Note](../48-pca-step-by-step/note.md) has the variances on its diagonal, and why Figure 2's left panel shows the variance of $x$, 1205.
+> **Extra:** The covariance of a feature with itself is its variance. With $y = x$ the formula becomes $\sum (x_i - \bar{x})(x_i - \bar{x}) / (n-1) = \sum (x_i - \bar{x})^2 / (n-1)$, the sample variance. The same fact explains why the covariance matrix of the [PCA step by step Note](../48-pca-step-by-step/note.md) has the variances on its diagonal, and why Figure 5's left panel shows the variance of $x$, 1205.
 
 ## 4. Correlation
 
 > **Key point:** Correlation is covariance divided by the two standard deviations; it always lies between -1 and +1, gives both direction and strength, and does not change with the units.
 
-The Pearson correlation coefficient $r$ appears in the [understanding your data Note](../19-understanding-your-data/note.md) (section 9.1). Here we build it from covariance, which shows why it fixes the scale problem.
+The **Pearson correlation coefficient** $r$ (G-1474), or **correlation** (G-490) for short, appears in the [understanding your data Note](../19-understanding-your-data/note.md) (section 9.1). Here we build it from covariance, which shows why it fixes the scale problem.
 
-1. **In words:** divide the covariance by the standard deviation of $x$ and by the standard deviation of $y$.
+1. **In words:** divide the covariance by the **standard deviation** (G-1871) of $x$ and by the standard deviation of $y$.
 2. **Formula:**
    $$r = \frac{\text{cov}(x, y)}{s_x\thinspace s_y}$$
    For a population, $\rho = \sigma_{xy} / (\sigma_x \sigma_y)$. The $n - 1$ in the covariance and in the two standard deviations cancel, so both versions give the same number.
@@ -114,15 +132,37 @@ Both relationships are strong; one rises and one falls.
 
 The scale of $r$, from $-1$ to $+1$, is read as in the [understanding your data Note](../19-understanding-your-data/note.md) (section 9.1): the sign gives the direction, and the closer $|r|$ is to 1, the closer the points lie to a straight line, so the stronger the relationship. Unlike covariance, which can be any number (1205, 3757, $-5000$), $r$ never leaves that range.
 
-In Figure 2, $x$ against itself gives $r = 1.00$. $x$ against $y$ gives $r = 0.65$: positive, but the points scatter around the line, so it is clearly below 1.
+Strength has a practical meaning: prediction. When the points lie close to a line, knowing $x$ pins $y$ down to a narrow range; when they scatter widely, the same $x$ leaves a wide range of possible $y$ values.
 
-> **Extra:** Rules of thumb put names on $r$, but fields disagree. One common scale calls $|r|$ of 0.7 to 0.9 strong, 0.4 to 0.6 moderate and 0.1 to 0.3 weak; a medical scale calls 0.7 only moderate (Akoglu 2018, Table 1). On the first scale, the employees' $r = 0.957$ is strong and Figure 2's $r = 0.65$ is moderate.
+In Figure 5, $x$ against itself gives $r = 1.00$. $x$ against $y$ gives $r = 0.65$: positive, but the points scatter around the line, so it is clearly below 1.
 
-### 4.2 Correlation does not depend on the scale
+Figure 6 sweeps $r$ from $-1$ to $+1$ on the same 60 random points. Watch the cloud:
+
+- at $r = -1$ and $r = +1$ every point lies on one straight line;
+- as $|r|$ falls to 0.9, 0.6 and 0.3, the points spread further from the line;
+- at $r = 0$ the cloud has no tilt at all.
+
+![The same 60 random points with their correlation set to −1, −0.9, −0.6, −0.3, 0, 0.3, 0.6, 0.9 and +1 (standardized features). Red clouds fall, blue clouds rise, the grey cloud at 0 has no tilt.](images/r_sweep.gif)
+
+> **Extra:** Rules of thumb put names on $r$, but fields disagree. One common scale calls $|r|$ of 0.7 to 0.9 strong, 0.4 to 0.6 moderate and 0.1 to 0.3 weak; a medical scale calls 0.7 only moderate (Akoglu 2018, Table 1). On the first scale, the employees' $r = 0.957$ is strong and Figure 5's $r = 0.65$ is moderate.
+
+### 4.2 Few points can fake a strong correlation
+
+> **Key point:** A straight line passes through any two points, so two observations always give $r = +1$ or $-1$; a correlation is only as trustworthy as the amount of data behind it.
+
+Take only the first two employees, $(2, 1)$ and $(5, 2)$. Their means are 3.5 and 1.5, so
+
+$$s_{xy} = \frac{(-1.5)(-0.5) + (1.5)(0.5)}{1} = 1.5, \qquad s_x = 2.121, \quad s_y = 0.707, \qquad r = \frac{1.5}{2.121 \times 0.707} = 1$$
+
+The result is $r = 1$, a "perfect" relationship, from two people. Any two points with different $x$ and different $y$ do the same, because one straight line always passes through both. With three or more points, landing on one line by chance becomes unlikely, and the more points there are, the more an observed $r$ can be trusted.
+
+So $r$ answers "how strong is the relationship in this data?", not "how sure are we that it is real?". The second question needs the number of observations as well, and is answered by the correlation significance test in the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md).
+
+### 4.3 Correlation does not depend on the scale
 
 > **Key point:** Scaling a feature scales its standard deviation by the same amount, which cancels the change in the covariance.
 
-In Figure 2, doubling both features quadrupled the covariance but left $r$ at 0.65. Scaling by positive numbers never changes the correlation.
+In Figure 5, doubling both features quadrupled the covariance but left $r$ at 0.65. Scaling by positive numbers never changes the correlation.
 
 > **Extra:** Proof that correlation ignores the units.
 >
@@ -145,24 +185,24 @@ Because it gives both the direction and the strength, and does not depend on uni
 > np.corrcoef(x, y)[0, 1]   # 0.957
 > ```
 >
-> Both return a 2 by 2 matrix; `[0, 1]` picks the value for the pair. In pandas, `df["a"].cov(df["b"])` and `df["a"].corr(df["b"])`. The Notebook (`notebook.ipynb`) reruns the scale experiment of Figure 2.
+> Both return a 2 by 2 matrix; `[0, 1]` picks the value for the pair. In pandas, `df["a"].cov(df["b"])` and `df["a"].corr(df["b"])`. The Notebook (`notebook.ipynb`) reruns the scale experiment of Figure 5.
 
 ## 5. Correlation does not imply causation
 
 > **Key point:** Two features can move together without one causing the other, often because a hidden third factor drives both.
 
-**Causation** is a cause-and-effect relationship: a change in one thing produces a change in the other. A correlation only says two things move together. The phrase "correlation does not imply causation" means that a correlation, however strong, is not evidence that one variable causes the other.
+**Causation** (G-359) is a cause-and-effect relationship: a change in one thing produces a change in the other. A correlation only says two things move together. The phrase "correlation does not imply causation" means that a correlation, however strong, is not evidence that one variable causes the other.
 
 Two examples:
 
 - **Firefighters and fire size.** At bigger fires, more firefighters are present: a strong positive correlation. Reading it as "more firefighters make bigger fires" is obviously wrong; the size of the fire decides how many firefighters are sent. Here the direction is clear, but in many datasets it is not.
-- **Ice cream and drownings.** On days when more ice cream is sold, more people drown. Ice cream does not cause drowning. Hot weather drives both: when it is hotter, more people buy ice cream and more people go swimming (Figure 3). A third factor of this kind is what statisticians call a confounder (Freedman et al. 2007, ch. 2).
+- **Ice cream and drownings.** On days when more ice cream is sold, more people drown. Ice cream does not cause drowning. Hot weather drives both: when it is hotter, more people buy ice cream and more people go swimming (Figure 7). A third factor of this kind is what statisticians call a confounder (Freedman et al. 2007, ch. 2).
 
 ![A hidden cause makes two features correlated](images/confounder.png)
 
-A hidden factor that drives two variables, like the weather here, is called a **confounding variable** (or confounder). Experience and salary are a subtler case: they are correlated, but the salary may come from skills that grow with experience, not from the years themselves.
+A hidden factor that drives two variables, like the weather here, is called a **confounding variable** (G-448), or confounder. Experience and salary are a subtler case: they are correlated, but the salary may come from skills that grow with experience, not from the years themselves.
 
-Establishing causation needs more than data that happens to be collected: controlled experiments such as **randomised controlled trials**, where a random half of the subjects gets a treatment and the other half does not, or carefully designed observational studies. Until then, a correlation is a hint worth investigating, not a conclusion.
+Establishing causation needs more than data that happens to be collected: controlled experiments such as **randomised controlled trials** (G-1623), where a random half of the subjects gets a treatment and the other half does not, or carefully designed observational studies. Until then, a correlation is a hint worth investigating, not a conclusion.
 
 ## 6. Summary
 
@@ -180,6 +220,8 @@ Establishing causation needs more than data that happens to be collected: contro
 - Points in quadrants I and III push the covariance up; II and IV push it down.
 - $\text{cov}(a x, c y) = ac\thinspace\text{cov}(x, y)$, but $r$ stays the same.
 - The covariance of a feature with itself is its variance.
+- Zero covariance means no straight-line relationship; a curve such as $y = x^2$ can still be there.
+- Two points always give $r = \pm 1$; trust $r$ only with enough data.
 - Correlation does not imply causation; a confounding variable can drive both features.
 
 ## 7. Sources
@@ -187,6 +229,8 @@ Establishing causation needs more than data that happens to be collected: contro
 **Built from**
 
 - CampusX, "Session 39 - Descriptive Statistics Part 2 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=1ndVC500-EU
+- StatQuest with Josh Starmer, "Covariance, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=qtaqvPAeEJY
+- StatQuest with Josh Starmer, "Pearson's Correlation, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=xZ_z8KWkhXE
 
 **Other references**
 

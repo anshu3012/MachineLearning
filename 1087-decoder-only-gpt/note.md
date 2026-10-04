@@ -14,9 +14,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/gelu, co
 
 ## 1. Overview
 
-> **Key point:** GPT is a transformer with the encoder removed. What is left is a stack of identical blocks, each with two parts: masked self-attention, then an MLP. Each part adds its result to the token's vector. One pass reads a text and gives a guess for the next token at **every** position. Training improves all these guesses at once. Generation keeps only the last guess, appends it, and runs the pass again. We load the released GPT-2 small (124,439,808 parameters) and run it in plain NumPy to check every claim.
+> **Key point:** **GPT** (G-855) is a transformer with the encoder removed. What is left is a stack of identical blocks, each with two parts: masked self-attention, then an MLP. Each part adds its result to the token's vector. One pass reads a text and gives a guess for the next token at **every** position. Training improves all these guesses at once. Generation keeps only the last guess, appends it, and runs the pass again. We load the released GPT-2 small (124,439,808 parameters) and run it in plain NumPy to check every claim.
 
-The [transformer decoder Note](../1083-transformer-decoder/note.md) built the decoder of the translation transformer. It has three sub-layers: masked self-attention, cross-attention to the encoder, and a feed-forward network. GPT keeps the decoder and drops the encoder. With no encoder there is nothing to cross-attend to, so the cross-attention goes too. Radford et al. (2018, §4.1) describe their model as a "12-layer decoder-only transformer with masked self-attention heads".
+The [transformer decoder Note](../1083-transformer-decoder/note.md) built the decoder of the translation transformer. It has three sub-layers: masked self-attention, cross-attention to the encoder, and a feed-forward network. GPT keeps the decoder and drops the encoder. With no encoder there is nothing to cross-attend to, so the cross-attention goes too. Radford et al. (2018, §4.1) describe their model, a **decoder-only transformer** (G-565), as a "12-layer decoder-only transformer with masked self-attention heads".
 
 Figure 1 follows one real pass of GPT-2 small on "Steve Jobs was the founder of". Watch three things:
 
@@ -62,24 +62,30 @@ Figure 2 shows the two blocks side by side. The rest of this Note goes through t
 
 ## 4. Tokens
 
-> **Key point:** GPT-2 reads text as **tokens**, pieces of words from a fixed list of 50,257. Common words are one token; rare words are split into pieces.
+> **Key point:** GPT-2 reads text as **tokens** (G-1981), pieces of words from a fixed list of 50,257. Common words are one token; rare words are split into pieces.
 
-A tokenizer cuts the text into pieces from a fixed vocabulary. GPT-2's vocabulary has 50,257 tokens (Radford et al. 2019, §2.3). It is built with byte pair encoding, which starts from single bytes and merges the most frequent pairs (Radford et al. 2019, §2.2). The Notebook runs GPT-2's own tokenizer:
+A tokenizer cuts the text into pieces from a fixed vocabulary. GPT-2's vocabulary has 50,257 tokens (Radford et al. 2019, §2.3). It is built with **byte pair encoding** (G-335), which starts from single bytes and merges the most frequent pairs (Radford et al. 2019, §2.2). The Notebook runs GPT-2's own tokenizer:
 
 | Text | Tokens |
 |---|---|
 | Steve Jobs was the founder of | `Steve`, ` Jobs`, ` was`, ` the`, ` founder`, ` of` (6 tokens) |
 | Unbelievably, tokenization splits rare words. | `Un`, `bel`, `iev`, `ably`, `,`, ` token`, `ization`, ` splits`, ` rare`, ` words`, `.` (11 tokens) |
 
-The space before a word belongs to the token: " Jobs" with a space and "Jobs" without one are different tokens. In the figures we draw the word without its space.
+The space before a word belongs to the token: " Jobs" with a space and "Jobs" without one are different tokens (Figure 3). In the other figures we draw the word without its space.
+
+![GPT-2's tokenizer on the two example texts. Each box is one token; the open-box sign marks the space that belongs to it. "Unbelievably" becomes 4 tokens and "tokenization" 2](images/tokens.png){width=100%}
 
 ## 5. From tokens to vectors: token and position embeddings
 
-> **Key point:** Each token's vector is its row of the token embedding matrix $W_E$ (50,257 × 768) plus the row of the position matrix $W_P$ (1,024 × 768) for its place in the text. Both matrices are learned.
+> **Key point:** Each token's vector is its row of the **token embedding matrix** (G-1980) $W_E$ (50,257 × 768) plus the row of the **position embedding matrix** (G-1526) $W_P$ (1,024 × 768) for its place in the text. Both matrices are learned.
 
 The first step is a lookup, as in the [what is self-attention Note](../1072-what-is-self-attention/note.md). Token number 19206, "Steve", takes row 19206 of $W_E$: 768 numbers. Then the vector for position 0 is added from $W_P$. For the token $t_i$ at position $i$:
 
 $$x_i = W_E[t_i] + W_P[i]$$
+
+![The first input vector of the pass: row 19206 of $W_E$ (the token "Steve") plus row 0 of $W_P$ (position 0). Blue: learned weights; grey: data](images/embed_lookup.png){width=70%}
+
+Figure 4 shows the lookup and the addition for the first token.
 
 GPT uses **learned** positions: "We used learned position embeddings instead of the sinusoidal version proposed in the original work" (Radford et al. 2018, §4.1). $W_P$ is just another weight matrix, trained with the rest. The [positional encoding Note](../1078-positional-encoding/note.md) explains why positions are needed at all: attention by itself ignores word order.
 
@@ -87,7 +93,7 @@ GPT uses **learned** positions: "We used learned position embeddings instead of 
 
 ## 6. Inside a GPT-2 block
 
-> **Key point:** A block reads the token vector through a LayerNorm, computes a change, and **adds** the change back: $x \leftarrow x + \text{Attn}(\mathrm{LN_1}(x))$, then $x \leftarrow x + \text{MLP}(\mathrm{LN_2}(x))$. The vector that flows from block to block, never replaced, only added to, is called the **residual stream**.
+> **Key point:** A block reads the token vector through a LayerNorm, computes a change, and **adds** the change back: $x \leftarrow x + \text{Attn}(\mathrm{LN_1}(x))$, then $x \leftarrow x + \text{MLP}(\mathrm{LN_2}(x))$. The vector that flows from block to block, never replaced, only added to, is called the **residual stream** (G-1683).
 
 ### 6.1 Prenorm: LayerNorm at the input
 
@@ -105,7 +111,7 @@ The paper states the change in one sentence: "Layer normalization (Ba et al., 20
 
 > **Key point:** In GPT-2 small the stream vector of " of" grows from length 4.9 to 400 over the 12 blocks, because each block adds and nothing rescales. The final LayerNorm brings it back to a fixed scale; without it, the prediction is lost.
 
-In the prenorm formula only the copies are normalised; the stream $x$ itself is never rescaled. Each block adds two vectors to it, so nothing stops its length from growing. Figure 3 measures this for the last token, " of":
+In the prenorm formula only the copies are normalised; the stream $x$ itself is never rescaled. Each block adds two vectors to it, so nothing stops its length from growing. Figure 5 measures this for the last token, " of":
 
 ![Length of the stream vector of " of" after each block of GPT-2 small (grey), and the lengths of the vectors added by each block's attention (orange) and MLP (green)](images/residual_stream.png){width=90%}
 
@@ -128,7 +134,7 @@ Both parts were built in earlier Notes, so here is only what GPT-2 small uses:
 
 ### 6.4 GELU
 
-> **Key point:** GPT replaces the ReLU of the MLP with **GELU**, $x\thinspace\Phi(x)$, a smooth curve that lets small negative values through.
+> **Key point:** GPT replaces the ReLU of the MLP with **GELU** (G-834), $x\thinspace\Phi(x)$, a smooth curve that lets small negative values through.
 
 Radford et al. (2018, §4.1): "For the activation function, we used the Gaussian Error Linear Unit (GELU)". Hendrycks and Gimpel (2016, §2) define it as the input times the probability that a standard normal value is smaller than it:
 
@@ -138,7 +144,7 @@ where $\Phi$ is the standard normal cumulative distribution function. They also 
 
 ![GELU and ReLU. For large positive x both give x; for large negative x both give about 0; near 0 GELU is a smooth curve that dips to −0.17](images/gelu.png){width=80%}
 
-Figure 4 shows the difference. ReLU cuts every negative input to exactly 0 with a sharp corner. GELU passes small negative values as small negative outputs, down to −0.17 at $x = -0.75$, and its curve has no corner. In GPT-2, negative inputs are the common case: on the example prompt, 83.4 percent of the MLP's 3,072 hidden values are negative before GELU, and their outputs all lie between −0.17 and 0 (Notebook). In the words of Hendrycks and Gimpel (2016, abstract), the GELU "weights inputs by their value, rather than gates inputs by their sign as in ReLUs".
+Figure 6 shows the difference. ReLU cuts every negative input to exactly 0 with a sharp corner. GELU passes small negative values as small negative outputs, down to −0.17 at $x = -0.75$, and its curve has no corner. In GPT-2, negative inputs are the common case: on the example prompt, 83.4 percent of the MLP's 3,072 hidden values are negative before GELU, and their outputs all lie between −0.17 and 0 (Notebook). In the words of Hendrycks and Gimpel (2016, abstract), the GELU "weights inputs by their value, rather than gates inputs by their sign as in ReLUs".
 
 ## 7. A guess at every position
 
@@ -148,7 +154,7 @@ Figure 4 shows the difference. ReLU cuts every negative input to exactly 0 with 
 
 > **Key point:** GPT-2 has no separate output matrix. The scores for the next token are the dot products of the final vector with every row of the token embedding matrix $W_E$.
 
-GPT-1 wrote the output layer as $P(u) = \text{softmax}(h_n W_e^T)$, with $W_e$ the token embedding matrix (Radford et al. 2018, §3.1, eq. 2). The released GPT-2 file follows the same design: it contains `wte` and no separate output matrix (Notebook). Using one matrix for both jobs is called **tying** the weights, and the translation transformer did the same (Vaswani et al. 2017, §3.4). The [unembedding Note](../1088-unembedding-and-sampling/note.md) shows what these dot products mean and how a token is chosen from them.
+GPT-1 wrote the output layer as $P(u) = \text{softmax}(h_n W_e^T)$, with $W_e$ the token embedding matrix (Radford et al. 2018, §3.1, eq. 2). The released GPT-2 file follows the same design: it contains `wte` and no separate output matrix (Notebook). Using one matrix for both jobs is called **tying** the weights (**tied weights**, G-1973), and the translation transformer did the same (Vaswani et al. 2017, §3.4). The [unembedding Note](../1088-unembedding-and-sampling/note.md) shows what these dot products mean and how a token is chosen from them.
 
 ### 7.2 Every position predicts
 
@@ -163,7 +169,9 @@ GPT-1 wrote the output layer as $P(u) = \text{softmax}(h_n W_e^T)$, with $W_e$ t
 | founder | of | 0.74 | of | 0.74 |
 | of | Apple | 0.69 | (not yet written) | |
 
-The early guesses are reasonable but wrong: after "Steve" alone, many continuations are possible. Each position can only see the tokens before it, which is exactly what the mask enforces. The Notebook checks it: replacing the last token " of" by " in" changes the last position's scores by up to 42, and the scores at positions 0 to 4 by exactly 0.
+![The table as bars: the probability the pass gave the true next token at each position (green when it was also the top guess), with the top guess above. At the last position there is no true token yet; the orange bar is the guess used for generation](images/every_position.png){width=100%}
+
+Figure 7 draws the table. The early guesses are reasonable but wrong: after "Steve" alone, many continuations are possible. Each position can only see the tokens before it, which is exactly what the mask enforces. The Notebook checks it: replacing the last token " of" by " in" changes the last position's scores by up to 42, and the scores at positions 0 to 4 by exactly 0.
 
 ### 7.3 Training: all positions at once
 
@@ -176,7 +184,7 @@ This is the same training as the [transformer decoder Note](../1083-transformer-
 | Tokens | 61, so 60 predictions, all from one pass |
 | Mean cross-entropy | 3.69 (natural log) |
 | Uniform guess over 50,257 tokens | $\ln 50{,}257 = 10.83$ |
-| Perplexity, $e^{3.69}$ | 40.1 |
+| **Perplexity** (G-1492), $e^{3.69}$ | 40.1 |
 | Top guess correct | 36.7 percent |
 
 The easiest prediction was " as" after "tasks, such" (loss 0.006, probability 0.994). The hardest were content words the context does not force, such as " begin" in "language models begin to learn" (loss 9.44).
@@ -185,15 +193,15 @@ The easiest prediction was " as" after "tasks, such" (loss 0.006, probability 0.
 
 > **Key point:** To write text, GPT keeps only the last position's guess, picks a token, appends it, and runs the whole pass again on the longer text.
 
-This is the loop of the [transformer inference Note](../1084-transformer-inference/note.md), without the encoder. Picking the most likely token each time (greedy decoding) on our prompt gives "Steve Jobs was the founder of Apple, and he …": " Apple" (0.69), then "," (0.31), then " and" (0.18), then " he" (0.16).
+This is the loop of the [transformer inference Note](../1084-transformer-inference/note.md), without the encoder. Picking the most likely token each time (**greedy decoding**, G-870) on our prompt gives "Steve Jobs was the founder of Apple, and he …": " Apple" (0.69), then "," (0.31), then " and" (0.18), then " he" (0.16).
 
 As a check of our NumPy model, we ran greedy decoding on the prompt of the Hugging Face guide to text generation, which uses the same GPT-2 small weights (von Platen 2020). Our 30 tokens are word for word the guide's: "I enjoy walking with my cute dog, but I'm not sure if I'll ever be able to walk with my dog. I'm not sure if I'll ever be able to walk". The repetition is a known weakness of always taking the top token; the [unembedding and sampling Note](../1088-unembedding-and-sampling/note.md) replaces it by sampling.
 
-Sanderson (2024, Ch 5) frames a chatbot as this same loop run on a text that begins with a **system prompt**, a few lines setting the scene of a user talking with a helpful assistant, followed by the user's question. The model then continues the text as the assistant would. Turning a pre-trained model into a good assistant needs further training, which the [history of LLMs Note](../1067-history-of-llms/note.md), §9, describes.
+Sanderson (2024, Ch 5) frames a chatbot as this same loop run on a text that begins with a **system prompt** (G-1935), a few lines setting the scene of a user talking with a helpful assistant, followed by the user's question. The model then continues the text as the assistant would. Turning a pre-trained model into a good assistant needs further training, which the [history of LLMs Note](../1067-history-of-llms/note.md), §9, describes.
 
 ## 8. Context size
 
-> **Key point:** A GPT model reads at most a fixed number of tokens, its **context size**: 512 for GPT-1, 1,024 for GPT-2, 2,048 for GPT-3. Anything earlier in a longer text cannot affect the prediction.
+> **Key point:** A GPT model reads at most a fixed number of tokens, its **context size** (G-459): 512 for GPT-1, 1,024 for GPT-2, 2,048 for GPT-3. Anything earlier in a longer text cannot affect the prediction.
 
 GPT-2 "increase[d] the context size from 512 to 1024 tokens" (Radford et al. 2019, §2.3); GPT-3 uses "a context window of $n_{\text{ctx}} = 2048$ tokens" (Brown et al. 2020, §2.1). In GPT-2 the limit is built into the weights: $W_P$ has exactly 1,024 rows, so there is no position vector for a 1,025th token, and our forward pass refuses such an input (Notebook). A longer text must be cut, and the cut-off tokens cannot influence the next guess at all.
 
@@ -205,13 +213,15 @@ The window also sets the cost. Each attention head computes one weight for every
 | 1,024 | 1,048,576 | 150,994,944 |
 | 2,048 | 4,194,304 | 603,979,776 |
 
-Doubling the context multiplies the attention weights by 4.
+Doubling the context multiplies the attention weights by 4 (Figure 8).
+
+![Attention weights computed by one head for a context of $n$ tokens: $n^2$, on log scales. Each doubling of the context, as from GPT-1 to GPT-2 to GPT-3, multiplies them by 4](images/context_cost.png){width=90%}
 
 ## 9. Counting the parameters
 
 > **Key point:** GPT-2 small has 124,439,808 parameters: 31 percent in the token embedding, 23 percent in attention, 46 percent in the MLPs. In GPT-3 the embedding is a tiny share; attention holds a third and the MLPs two thirds of its 174.6 billion.
 
-Sanderson (2024, Ch 5–7) counts GPT-3's weights one kind of matrix at a time, keeping a running tally. Figure 5 does the same for both models: GPT-2 small counted from the released file, and GPT-3 computed from the sizes in Brown et al. (2020, Table 2.1).
+Sanderson (2024, Ch 5–7) counts GPT-3's weights one kind of matrix at a time, keeping a running tally. Figure 9 does the same for both models: GPT-2 small counted from the released file, and GPT-3 computed from the sizes in Brown et al. (2020, Table 2.1).
 
 ![Running tally of parameters, one kind of matrix at a time, as a share of each model. Blue: embeddings. Orange: attention ($W_Q$, $W_K$, $W_V$, $W_O$). Green: MLP. Grey (thin): biases and LayerNorms](images/param_tally.gif)
 

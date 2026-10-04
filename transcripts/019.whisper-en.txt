@@ -1,0 +1,165 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 19.
+So till now we have worked on data gathering and now in the next 4 videos we will work on understanding your data.
+So if you get a data set and after that what are the first steps you should do to understand the things inside the data,
+we will discuss this in the next 4 videos. So I will just share my screen and let's start our discussion.
+So guys, in the next 4 videos, we are going to work on understanding your data.
+So I have divided this whole thing into 4 videos as I am saying.
+In today's first video, we will discuss what are the basic questions that you should ask when you first get your data.
+Asking basic questions, we are going to read this today.
+Now what exactly we will read in this, we will understand after some time.
+In tomorrow's video, we will start reading EDA.
+So EDA means exploratory data analysis.
+And in this we will read one thing which we call univariate analysis.
+Univariate analysis, this will be our focus for tomorrow as in Monday.
+After that we will continue EDA and there we will study multivariate analysis and lastly I will tell you an automation tool
+by which you will be able to do this analysis with one line code and there we will use a library which we call pandas profiler
+It is a very good library. We will learn to use this.
+So the end goal is that by using these four videos, you have to explain so much that how data is analyzed in the beginning.
+So let's start with this video which is asking basic questions.
+Now what I have done is that I have already taken a data set.
+I guess you must be knowing about this data set.
+This is the very famous titanic data set, where like this is a competition on Kaggle and whenever someone starts in machine learning then this is the first data set that they usually start with.
+So we will learn on this data, like I will tell you that when I get any data set then what I do first, I am going to tell you that in this video.
+So I basically try to ask 7 questions, I have written the same 7 questions here and I will tell you the answer of those questions one by one.
+So I have already imported Pandas and that data set and that data set is inside the DF variable.
+So the first question that comes to my mind whenever I get a data set is that how big is the data?
+How much data am I dealing with?
+And the simplest way to know this is to do df.shape
+And df.shape will tell you how many rows and columns are there in your data
+Generally, you get small data
+But it is possible that sometimes you are dealing with big data
+In such scenarios, you should know beforehand what you have to do next
+So this is the first question that I ask
+How big is the data?
+We got the answer to this
+Now, the second question that comes into my mind is that how is the data visible?
+So, you might be knowing that the first thing that you do is you write df.head.
+This is a function that gives you the top 5 rows of your data, it gives you a preview.
+And here is my data. This is the titanic data set where we have 12 columns and these are my top 5 rows.
+I personally do one more thing, whenever I get a data set, sometimes there is some bias in the data set.
+What does bias mean? That the initial rows are similar and the later rows are similar.
+So if you don't want to see that bias, you want to see an overall thing, then rather than using head,
+you can use a function called sample and I sent 5 in it because I am saying that
+Take out 5 random rows from this data set and as I am running it, you can see that these rows are random.
+So this is a good strategy in the beginning because let's say there is a type of data in the beginning or the end.
+So if you are looking at the beginning data, then it is possible that a wrong idea may sit in your mind about the data.
+Let's say everything was below 10 in age, then it will come to your mind that this is the data of children.
+But if you are randomly picking up things, then the chance of this being a mistake decreases.
+So, I always say that whenever you want to see the data, use the sample. It's a much better approach.
+So, this was the second question.
+Third question is that what is the data type of every column in my data?
+This becomes very important for further work.
+And to know this, you have a built-in function in pandas. We call it info.
+As soon as you write df.info, you get a lot of information.
+about your columns. So, here you can see about each column, how many not null values are there and what is their data type.
+I am getting this much. Also, I am getting to know that how much space my data is occupying in memory.
+Now, here clearly I can see that there are certain columns which are numerical and certain columns which are categorical.
+Here you can understand the meaning of object, that is a string.
+So here you can get to know one or two things that there are some numerical columns which are encoded in float.
+For example, look at the example of age.
+Now you can easily denote age in integer, but whoever made this data kept it in float.
+Means in numerical values, they have kept it in decimal values which is not needed.
+So, if you want you can reduce this memory by changing this data type to integer.
+So, obviously there is not much difference in such a small data set.
+But if you are working on a very big data set, then such small optimization tricks can save a lot of your memory.
+And overall when you run an algorithm on your data, then its speed also increases because your data memory is reduced.
+So, these kind of things you get to know in this step when you get to know the data type of the columns.
+Again, a very basic question.
+Next, moving on to the fourth question.
+This is a very important question.
+Do you have missing values in your data?
+So, missing values are very troubling.
+Filling missing values is also a work of tension.
+And that's why you should know beforehand that do you have missing values in your data or not.
+One way is to see directly here. Here it is clearly visible that non-null values are 891, 891, 891.
+Here it is 714. So clearly you can see that you have missing values. Here it is 204.
+So clearly you can see that there are a lot of missing values. Here it is 889. You can see two missing values.
+But if you are working on a very big data set and you want the exact number of missing values in every column,
+So you can write this small code which I always use df.isnull.sum
+This code will always tell the number of missing values in the form of a panda series in all your columns
+As you can see here, so you can see most of the columns they don't have any missing value
+But age has 177 missing values, cabin has 687 missing values and embarked has 2 values of 2 missing values
+Now in this step, you can understand beforehand in which columns you have to fill the values and in which columns you have to remove the values.
+Like here clearly I can see that in cabin more than 60-70% values are missing.
+So either I will remove those columns or replace them with a single value like no cabin.
+Here in age there are 177 missing values so I will try to fill these values.
+So, this question is very important to answer in the beginning that how many missing values are there and how many are there.
+This is the next question. Now, let's move on to the fifth question.
+How does the data look mathematically? How does the data in the columns look mathematically?
+Here, you can use a built-in function called describe.
+Describe gives you a high-level mathematical summary on all your numerical columns.
+Let me show you. Here you have some metrics on every numerical column.
+Count, mean, standard deviation, minimum value, 25 percentile value, 50 percentile value, 75 percentile value and max.
+Passenger ID will not depend on all this because these are categorical columns.
+In age, you can derive some insights.
+In fare, you can derive some insights.
+Like in age, clearly you can see that the mean age of all passengers in Titanic is somewhere close to 30.
+Standard deviation is 14.
+Your minimum value is 0.42.
+So apparently there is this guy who is a very small kid.
+25% people's age is 20 or less than that, 50% people's age is 28 or less than that, 75% people's age is 38 or less than that
+so if there is an anomaly in your data, you will understand it immediately if it is a numerical column
+so this is also an important step, sometimes due to doing this step, I get to know something in the data which is very useful for further analysis
+So you should do this step also.
+The only problem is that the insights you will get will be on numerical columns only.
+I hope you understood this thing also.
+Next is one more important question.
+Do you have duplicate values in your data?
+Because if you give duplicate values to your algorithm then it will be wrong.
+It is not good to give duplicate values.
+So it is always a good strategy that even before starting any sort of analysis
+analysis, you should know whether there are duplicate values in your data. And this is a simple way to find out.
+There is a duplicated function. Duplicated. And put a sum on it. And it will tell you how many rows are being duplicated.
+In this data, all the rows are unique. So there is no duplication. But if you work on any other real-world data set,
+there is a great chance that you will get some number, 5 means there are 5 duplicate rows, 10 means there are 10 duplicate rows.
+Then you can remove it using the drop duplicate function which is there in pandas. The last question that I usually ask is
+that is there any correlation between your columns? Correlation means that what effect is there on the other thing
+what effect it has on other things. So, you might know that when you get data in machine learning,
+then all the columns are not useful. Some columns are there for no reason. So, to identify those columns
+and remove them is a very important part of your machine learning process. So, this thing of making a correlation
+tells you which input column is not having any effect on the output. You remove those types of columns,
+Generally speaking. And obviously this thing also works on numerical columns.
+So you generally do this step at the last. Actually you do it multiple times.
+Honestly I do it in the beginning as well as later. Let me show you how it works.
+You just have to call this function by saying cor and it will give you a correlation
+between all these numerical columns. So you can see this is a grid.
+i.e. how is the correlation of each column with each column
+and this is Pearson Correlation Coefficient
+i.e. the value ranges from minus 1 to 1
+the negative is inversely proportional
+actually not exactly inversely proportional
+but inversely correlated
+i.e. one thing increases and the other thing goes down
+and if it is a positive value
+then one thing increases and the other thing goes up
+so this is the relationship
+so here my output column is survived
+So what I have to do is, I have to find the correlation of survived with all the other columns.
+So what I will do is, this is a data frame, I will just write this code and I will get the answer.
+So here you can see, correlation of survived with survived is 1, which should also happen.
+Correlation of survived with itself is 1, right.
+But if I look at the rest of the things, then here you can see that
+With this column, there is a strong correlation of survived with positive correlation of 0.2
+Means, as your fare increases, your survival chance also increases
+And this is actually a valid point
+If you are very rich, then you must have taken such tickets which are expensive
+And then people will go first to save you
+You might know all this
+This is also a positive correlation with the column
+With this column, there is a strong negative correlation, meaning as the passenger class is increasing, the chance of survival is decreasing.
+And if you have worked with the Titanic data set, then you would know that here P class is 1, 2 and 3.
+3 is the cheapest class there, so most of the people died there.
+So that is why as your P class is increasing, as in if you are going towards 3, then your survival is decreasing, like coming from 1 to 0.
+So, this is also a thing that helps you a lot initially. Then you will get some columns like here.
+There is a correlation of 0.00 with the passenger ID. There is no correlation. So, this column will not work for you.
+And really passenger ID will not work for you. So, this kind of thing gives you an idea that which thing is important in your data.
+Anyways, this is what we had to discuss in the first video that if you have a data set,
+then what are the first questions, what are the series of questions that you would ask upfront,
+so that your mind gets clear about your data.
+In the next three videos, we will perform EDA, exploratory data analysis,
+where we will plot the graphs and take deeper insight, intuition of our data set.
+Then we will be able to know our data better.
+So yeah, that's it for today's video.
+I know it is a small video. I guess it is good for you. You will read it soon.
+And tomorrow we will discuss about EDA.
+So that's it. Thanks for watching. Bye.

@@ -18,7 +18,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/chi-square-
 
 ![The chi-square test in four steps](images/observed_expected.png)
 
-The chi-square test was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test for categorical data. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) the chi-square test is the test for two categorical **features** (a feature is a variable of the data, one column of the data table, such as gender). Figure 1 shows how every chi-square test works: observed counts and expected counts go into one number, $\chi^2$, and its tail area under the chi-square distribution is the p-value.
+The chi-square test was named in the [what is statistics Note](../220-what-is-statistics/note.md) as the test for categorical data. In the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) the chi-square test is the test for two categorical **features** (G-772; a feature is a variable of the data, one column of the data table, such as gender). Figure 1 shows how every chi-square test works: observed counts and expected counts go into one number, $\chi^2$, and its tail area under the chi-square distribution is the p-value.
 
 This Note covers:
 
@@ -39,8 +39,8 @@ This Note covers:
 
 A categorical feature is summarised by counts, one per category (see the [frequency tables Note](../223-frequency-tables-and-graphs/note.md)). For a chi-square test we need two sets of counts:
 
-- **observed counts** $O$: how many **observations** (records, one row of the data table each) of the sample fall in each category or cell;
-- **expected counts** $E$: how many would fall there, on average, if $H_0$ were true.
+- **observed counts** $O$ (G-1375): how many **observations** (G-1374; records, one row of the data table each) of the sample fall in each category or cell;
+- **expected counts** $E$ (G-723): how many would fall there, on average, if $H_0$ were true.
 
 If $H_0$ is true, $O$ and $E$ differ only by chance. A large mismatch is evidence against $H_0$.
 
@@ -54,7 +54,11 @@ If $H_0$ is true, $O$ and $E$ differ only by chance. A large mismatch is evidenc
 3. **Example:** three cells with $O = 20, 26, 14$ and $E = 15, 33, 12$ (section 4):
    $$\chi^2 = \frac{(20 - 15)^2}{15} + \frac{(26 - 33)^2}{33} + \frac{(14 - 12)^2}{12} = 1.667 + 1.485 + 0.333 = 3.48$$
 
-$\chi^2$ is 0 only when every observed count equals its expected count. $\chi^2$ can never be negative.
+$\chi^2$ is 0 only when every observed count equals its expected count. $\chi^2$ can never be negative. This number is the **chi-square statistic** (G-379).
+
+Figure 2 builds it for the example. Each category has its observed and expected bar; the gaps are $+5$, $-7$ and $+2$. Squaring and dividing by $E$ turns each gap into one block, and the blocks stack into $\chi^2 = 3.48$. The adult gap is the largest, but its block is smaller than the child block, because 7 out of an expected 33 is a smaller surprise than 5 out of an expected 15.
+
+![The chi-square statistic built cell by cell for the age groups against the census shares. Left: observed and expected counts, with each gap. Right: each cell's (O − E)² / E stacked into the total, 3.48.](images/chi2_build.gif)
 
 ## 3. The chi-square distribution
 
@@ -62,13 +66,13 @@ $\chi^2$ is 0 only when every observed count equals its expected count. $\chi^2$
 
 ![Chi-square densities for four degrees of freedom](images/chi2_curves.png){height=35%}
 
-The **chi-square distribution** is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [t-procedure Note](../282-t-procedure/note.md)), it has one parameter, the **degrees of freedom** (df). Figure 2 shows four of them:
+The **chi-square distribution** (G-378) is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [t-procedure Note](../282-t-procedure/note.md)), it has one parameter, the **degrees of freedom** (G-578; df). Figure 3 shows four of them:
 
 - with 1 or 2 df, the density is highest at 0 and falls steadily;
 - with more df, the peak moves right and the curve spreads out;
 - the mean of a chi-square distribution equals its df (NIST Handbook §1.3.6.6.6).
 
-Only large $\chi^2$ values count as evidence against $H_0$, so the p-value is always the **right-tail** area beyond our $\chi^2$. The 5% critical values are 3.84 for 1 df, 5.99 for 2 df and 7.81 for 3 df.
+Only large $\chi^2$ values count as evidence against $H_0$, so the p-value is always the **right-tail** area beyond our $\chi^2$ (a **right-tailed test**, G-1693). The 5% **critical values** (G-504) are 3.84 for 1 df, 5.99 for 2 df and 7.81 for 3 df.
 
 > **Extra:** Where the distribution comes from: the sum of the squares of $k$ independent standard normal variables follows a chi-square distribution with $k$ df (this is its definition). Each $(O - E)/\sqrt{E}$ is roughly normal for large counts, but the terms are not independent, because the counts must add up to $n$. Pearson (1900) showed that $\chi^2$ still follows a chi-square distribution for large samples, with one df lost to that constraint. The notebook checks this: 200,000 samples of 60 people drawn with the census shares of section 4 true give a mean $\chi^2$ of 2.00, equal to $df = 2$, and 4.9% of them pass the 5% critical value 5.99.
 
@@ -80,7 +84,7 @@ Only large $\chi^2$ values count as evidence against $H_0$, so the p-value is al
 
 > **Key point:** Do the age groups in our sample of 60 match a population that is 25% children, 55% adults and 20% elderly?
 
-The **goodness-of-fit test** asks whether the counts of one categorical feature fit a claimed distribution. We use the 60 people of the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md). Suppose a census says the population is 25% children, 55% adults and 20% elderly.
+The **goodness-of-fit test** (G-853) asks whether the counts of one categorical feature fit a claimed distribution. We use the 60 people of the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md). Suppose a census says the population is 25% children, 55% adults and 20% elderly.
 
 - $H_0$: the age groups occur in the claimed proportions 0.25, 0.55, 0.20;
 - $H_1$: at least one proportion differs.
@@ -110,7 +114,7 @@ The degrees of freedom are $k - 1 = 2$: once two expected counts are known, the 
 
 ![Goodness of fit for the age groups: the counts (left) and the p-value as a tail area (right)](images/goodness_of_fit.png)
 
-Figure 3 shows both halves of the test. On the left, more children and fewer adults were observed than expected. On the right, $\chi^2 = 3.48$ sits below the critical value 5.99, and the red tail area beyond it is $p = 0.175$.
+Figure 4 shows both halves of the test. On the left, more children and fewer adults were observed than expected. On the right, $\chi^2 = 3.48$ sits below the critical value 5.99, and the red tail area beyond it is $p = 0.175$.
 
 Since $0.175 > 0.05$, we fail to reject $H_0$: the sample is consistent with the census proportions. The gaps on the left are within what chance produces in 60 people.
 
@@ -145,7 +149,7 @@ With 1 df this gives $p = 0.302$. The proportion test in the [choosing a hypothe
 
 > **Key point:** Is the gender mix the same in every age group, or do gender and age group go together?
 
-The **chi-square test of independence** asks whether two categorical features are related. The counts go in a contingency table (see the [contingency tables Note](../340-venn-diagrams-and-contingency-tables/note.md)):
+The **chi-square test of independence** (G-380) asks whether two categorical features are related. The counts go in a **contingency table** (G-464; see the [contingency tables Note](../340-venn-diagrams-and-contingency-tables/note.md)):
 
 | | child | adult | elderly | row total |
 |---|---|---|---|---|
@@ -160,7 +164,7 @@ The **chi-square test of independence** asks whether two categorical features ar
 
 > **Key point:** Independence means $P(A \text{ and } B) = P(A)\thinspace P(B)$; multiplied by $n$, this gives $E = \text{row total} \times \text{column total} / n$.
 
-Two events are independent when the probability of both is the product of their probabilities (see the [independent events Note](../83-independent-events/note.md)). The marginal probabilities come from the totals (see the [joint and marginal probability Note](../341-joint-marginal-conditional-probability/note.md)).
+Two events are independent when the probability of both is the product of their probabilities (see the [independent events Note](../83-independent-events/note.md)). The **marginal probabilities** (G-1165) come from the totals (see the [joint and marginal probability Note](../341-joint-marginal-conditional-probability/note.md)).
 
 1. **In words:** the expected count of a cell is its row total times its column total, divided by the grand total.
 2. **Formula:**
@@ -177,6 +181,10 @@ All six expected counts:
 | column total | 20 | 26 | 14 | 60 |
 
 The expected table has the same totals as the observed one; only the inside is spread out "as if independent".
+
+Figure 5 sets the observed and expected tables side by side, with the third table holding each cell's contribution to $\chi^2$, computed in the next section. The darkest contribution cells are the elderly men (4 observed, 6.07 expected) and the adult men (14 observed, 11.27 expected).
+
+![The test of independence for gender by age group. Left: observed counts. Middle: counts expected if gender and age group were independent, row total × column total / 60. Right: each cell's (O − E)² / E; the six add up to χ² = 2.50.](images/independence_table.png)
 
 ### 5.3 The statistic and the decision
 
@@ -229,15 +237,15 @@ The Kaggle Titanic training file has 891 passengers. Survival against sex:
 
 The four contributions are 65.4, 105.0, 35.6 and 57.1, so $\chi^2 = 263.1$ with $df = 1$ and $p = 3.7 \times 10^{-59}$. We reject $H_0$: survival depended on sex.
 
-> **Extra:** For a 2 by 2 table, `chi2_contingency` applies **Yates' continuity correction** by default: it shrinks each $|O - E|$ by 0.5 before squaring (Yates 1934), which lowers $\chi^2$ and so makes the test slightly more cautious. Here it gives $\chi^2 = 260.7$ instead of 263.1; pass `correction=False` to get the plain statistic. With counts this large the choice does not matter.
+> **Extra:** For a 2 by 2 table, `chi2_contingency` applies **Yates' continuity correction** (G-2135) by default: it shrinks each $|O - E|$ by 0.5 before squaring (Yates 1934), which lowers $\chi^2$ and so makes the test slightly more cautious. Here it gives $\chi^2 = 260.7$ instead of 263.1; pass `correction=False` to get the plain statistic. With counts this large the choice does not matter.
 
 ### 6.2 Class and survival
 
-> **Key point:** First class had 136 survivors where independence predicts 83; third class had 119 where it predicts 189.
+> **Key point:** First class had 136 survivors where independence predicts 83; third class had 119 where it predicts 188.
 
 ![Titanic passengers by class and outcome: observed counts and counts expected under independence](images/titanic_class.png)
 
-The crosstab of class against survival was drawn as a heatmap in the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md). Figure 4 compares its observed counts with the expected ones. First class has far more survivors than independence predicts, third class far fewer. The survival rates were 63%, 47% and 24% for the three classes, against 38% overall.
+The crosstab of class against survival was drawn as a heatmap in the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md). Figure 6 compares its observed counts with the expected ones. First class has far more survivors than independence predicts, third class far fewer. The survival rates were 63%, 47% and 24% for the three classes, against 38% overall.
 
 The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \times 10^{-23}$. We reject $H_0$: survival depended on class.
 
@@ -251,7 +259,7 @@ The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \tim
 
 1. **Counts, not percentages.** The formula needs the number of observations in each cell. Percentages or means give a wrong $\chi^2$.
 2. **Independent observations.** Each observation is counted in exactly one cell, and observations do not influence each other. The same person measured twice breaks this.
-3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the chi-square distribution is only a large-sample approximation. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
+3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the chi-square distribution is only a large-sample approximation. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (G-782) (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
 
 > **Extra:** What goes wrong below the rule. A ruler marked in metres is fine for a room but useless for a grain of rice; the chi-square curve is likewise only a good ruler for large counts. The notebook draws 200,000 samples with $H_0$ true, so a correct 5% test should reject 5% of them:
 >
@@ -263,9 +271,13 @@ The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \tim
 >
 > With large expected counts the test keeps its 5% promise. With two rare categories and tiny samples, the false-alarm rate drifts away from 5%, more than double in one case and about half in the other, so the p-value can no longer be trusted.
 
+Figure 7 shows why. With large expected counts the simulated $\chi^2$ values spread smoothly along the chi-square curve. With expected counts below 1, only a few count patterns are possible, so $\chi^2$ can take only a few values: it piles up on a handful of spikes that the smooth curve cannot describe, and the share beyond the 5% line (dashed) is wrong.
+
+![Simulated χ² values with H₀ true, 200,000 samples each (bars), against the chi-square distribution with 2 df (curve). Left: every expected count is at least 12, and the curve fits. Middle and right: expected counts of 0.4 and 0.5 make χ² pile up on a few values, and the share beyond the 5% critical value (dashed) becomes 11.2% or 2.7%.](images/small_counts.png)
+
 ### 7.2 Strength of a relationship: Cramér's V
 
-> **Key point:** Cramér's V rescales $\chi^2$ to a number between 0 (no relationship) and 1 (perfect relationship) (Cramér 1946).
+> **Key point:** **Cramér's V** (G-500) rescales $\chi^2$ to a number between 0 (no relationship) and 1 (perfect relationship) (Cramér 1946).
 
 $\chi^2$ grows with the sample size: the same pattern in 10 times as many observations gives a 10 times larger $\chi^2$. To measure strength, we divide the size out.
 
@@ -277,11 +289,15 @@ $\chi^2$ grows with the sample size: the same pattern in 10 times as many observ
 
 For class and survival, $V = \sqrt{102.9 / 891} = 0.34$. Both relationships are significant, but sex was the stronger predictor of survival. In scipy: `stats.contingency.association(table, method="cramer")`.
 
+Figure 8 shows why the rescaling is needed. The Titanic sex-by-survival table is shrunk to a tenth and grown to ten times its size, keeping the same pattern. $\chi^2$ grows with the number of passengers, from 26.3 to 263.1 to 2,630.5, but $V$ stays at 0.54 every time.
+
+![Left: the Titanic sex-by-survival pattern with a tenth, the actual and ten times the passengers. χ² (blue, log scale) grows with the sample; Cramér's V stays 0.54. Right: V for sex (0.54) and for class (0.34) against survival.](images/cramers_v.png)
+
 ### 7.3 Chi-square in machine learning
 
 > **Key point:** Feature selection with `SelectKBest(chi2)` ranks categorical features by how strongly they are related to the target.
 
-Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](../29-pipelines/note.md)) scores each feature against the **target** (the output we predict) with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). The score is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
+**Feature selection** (G-768) with **`SelectKBest`** (G-1762) `(score_func=chi2)` (see the [pipelines Note](../29-pipelines/note.md)) scores each feature against the **target** (G-1949; the output we predict) with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). The score is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
 
 ## 8. Summary
 

@@ -33,7 +33,7 @@ The answers are a first sketch of the data, not a full study. They tell us its s
 
 > **Key point:** Our example is the Titanic passenger list: 891 passengers, and for each one, whether they survived.
 
-The **Titanic dataset** comes from a famous Kaggle competition, and it is the usual first dataset in ML. Each row is one **observation** (one record): one passenger of the ship that sank in 1912. The task is to predict `Survived`, the **target** (the output we predict), from the other columns, the **features** (the input variables, one column each).
+The **Titanic dataset** comes from a famous Kaggle competition, and it is the usual first dataset in ML. Each row is one **observation** (G-1374; one record): one passenger of the ship that sank in 1912. The task is to predict `Survived`, the **target** (G-1949; the output we predict), from the other columns, the **features** (G-772; the input variables, one column each).
 
 | Column | Meaning |
 |---|---|
@@ -110,7 +110,7 @@ Already we can see some traits of the data: `NaN` (missing) values in `Age` and 
 
 > **Key point:** `df.info()` lists every column's data type and number of non-missing values, plus the memory the data takes.
 
-Each column's **data type** (its dtype) decides what we can do with it later: average it, plot it, or turn it into numbers first. `df.info()` reports it for every column in one go.
+Each column's **data type** (G-540; its dtype) decides what we can do with it later: average it, plot it, or turn it into numbers first. `df.info()` reports it for every column in one go.
 
 ### 5.1 Reading the output of info
 
@@ -146,7 +146,7 @@ memory usage: 118.9 KB
 Three things can be read from it:
 
 - **Types:** 7 columns are numerical (`int64` whole numbers, `float64` decimals) and 5 are text (`str`). Text columns usually hold categories, such as `Sex` or `Embarked`.
-- **Non-null count:** "non-null" means "not missing". `Age` has 714 values out of 891, so 177 are missing; `Cabin` and `Embarked` also have gaps.
+- **Non-null count:** "non-null" (G-1337) means "not missing". `Age` has 714 values out of 891, so 177 are missing; `Cabin` and `Embarked` also have gaps.
 - **Memory:** the whole table takes about 119 KB.
 
 > **Extra:** In pandas 3, text columns show as `str`. Older pandas (and older tutorials) show them as `object`.
@@ -173,6 +173,8 @@ For 891 rows this hardly matters. On a dataset with millions of rows, such small
 | Before | int64 | 8 | 28,512 bytes |
 | After | int8 | 1 | 3,564 bytes |
 
+![The four small-number columns stored as int64 and as int8, measured with pandas: 28,512 bytes against 3,564](images/dtype_memory.png){width=70%}
+
 > **Extra:** `Age` is `float64` even though ages are usually whole numbers. There are two reasons, and both mean we should leave it as it is:
 >
 > - **Missing values:** `NaN` is itself a decimal value, so a whole-number column with gaps becomes `float64`.
@@ -194,7 +196,7 @@ Missing values cause trouble: most ML algorithms cannot handle them, and filling
 >
 > `df.isnull()` gives a table of `True` (missing) and `False` (present), the same size as `df`. `.sum()` adds up each column; `True` counts as 1, so the result is the number of missing values per column.
 
-Figure 3 shows the result. Only three columns have gaps:
+Figure 4 shows the result. Only three columns have gaps:
 
 - **Cabin:** 687 missing, 77% of rows.
 - **Age:** 177 missing, 20%.
@@ -241,7 +243,7 @@ The rows of the table mean:
 
 - **count:** the number of non-missing values. For `Age` it is 714, not 891.
 - **mean:** the average.
-- **std:** the **standard deviation**, how far values typically lie from the mean. A small std means values cluster close to the mean; a large one means they are spread out.
+- **std:** the **standard deviation** (G-1871), how far values typically lie from the mean. A small std means values cluster close to the mean; a large one means they are spread out.
 - **min** and **max:** the smallest and largest values.
 
 > **Extra:** The mean, step by step.
@@ -267,9 +269,9 @@ The rows of the table mean:
 
 > **Key point:** The 25%, 50% and 75% rows are percentiles: the value below which that share of the data lies.
 
-A **percentile** splits sorted data by share. The 25% value of `Age` is 20.12: a quarter of the passengers with a known age were 20.12 or younger.
+A **percentile** (G-1483) splits sorted data by share. The 25% value of `Age` is 20.12: a quarter of the passengers with a known age were 20.12 or younger.
 
-The three rows together cut the data into four groups of equal size (Figure 4). These cut points are called **quartiles**. The middle one, the 50% value, is the **median**: half the values lie below it and half above.
+The three rows together cut the data into four groups of equal size (Figure 5). These cut points are called **quartiles** (G-1602). The middle one, the 50% value, is the **median**: half the values lie below it and half above.
 
 ![Titanic ages with the 25%, 50% and 75% values from describe](images/age_quartiles.png)
 
@@ -312,7 +314,7 @@ The table is quick to read and often shows something unexpected. For the Titanic
 
 > **Key point:** `df.duplicated().sum()` counts rows that are exact copies of an earlier row; duplicates should be removed before training.
 
-A **duplicate row** is a row identical to another one in every column. Duplicates give some examples more weight than others, so they distort what a model learns. We check for them before any analysis.
+A **duplicate row** (G-648) is a row identical to another one in every column. Duplicates give some examples more weight than others, so they distort what a model learns. We check for them before any analysis.
 
 > **Python:** Finding and removing duplicates.
 >
@@ -325,7 +327,9 @@ A **duplicate row** is a row identical to another one in every column. Duplicate
 
 The Titanic data has 0 duplicates: every row is unique. Real-world datasets often do have some.
 
-For example, if we add the first two passengers to the table a second time, `duplicated().sum()` returns 2. `drop_duplicates()` then brings the table back to 891 rows.
+For example, if we add the first two passengers to the table a second time, `duplicated().sum()` returns 2. `drop_duplicates()` then brings the table back to 891 rows (Figure 6).
+
+![The first two passengers added again as rows 891 and 892. `duplicated()` marks the two copies True; `drop_duplicates()` removes them](images/duplicates.png){width=100%}
 
 ## 9. How are the columns related?
 
@@ -335,7 +339,7 @@ For example, if we add the first two passengers to the table a second time, `dup
 
 > **Key point:** A positive correlation means both columns rise together; a negative one means one rises as the other falls; near 0 means no straight-line link.
 
-**Correlation** measures how a change in one feature goes with a change in another. pandas computes the **Pearson correlation coefficient**, written $r$, which always lies between $-1$ and $+1$ (Figure 5):
+**Correlation** (G-490) measures how a change in one feature goes with a change in another. pandas computes the **Pearson correlation coefficient** (G-1474), written $r$, which always lies between $-1$ and $+1$ (Figure 7):
 
 - **Close to +1:** when one goes up, the other goes up too.
 - **Close to -1:** when one goes up, the other goes down. The two are inversely related.
@@ -369,7 +373,7 @@ We only care how each feature relates to the target, `Survived`. So we compute a
 >
 > `df.corr()` gives a table of the correlation of every numerical column with every other. `["Survived"]` keeps one column of that table. `numeric_only=True` tells pandas to skip text columns.
 
-Figure 6 shows the result. `Survived` with itself is exactly 1, as every column is with itself, so it is left out.
+Figure 8 shows the result. `Survived` with itself is exactly 1, as every column is with itself, so it is left out.
 
 ![Correlation of each numerical column with Survived](images/corr_survived.png)
 
@@ -383,7 +387,7 @@ The correlation check is useful at the start, and we repeat it later, after clea
 
 > **Extra:** Correlation has two limits worth remembering:
 >
-> - **Text columns are skipped.** `Sex` is missing from Figure 6, yet it matters most: coded as female 1 and male 0, its correlation with `Survived` is +0.54.
+> - **Text columns are skipped.** `Sex` is missing from Figure 8, yet it matters most: coded as female 1 and male 0, its correlation with `Survived` is +0.54.
 > - **Only straight-line links count.** A feature with $r$ near 0 can still be related to the target in a curved or more complex way, so a low $r$ is a hint, not proof, that a column is useless.
 
 ## 10. Summary

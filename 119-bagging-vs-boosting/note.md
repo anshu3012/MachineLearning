@@ -27,7 +27,7 @@ We have now seen both: bagging in the [bagging Note](../105-bagging-intuition/no
 
 > **Key point:** Bagging starts from low-bias, high-variance models and lowers their variance; boosting starts from high-bias, low-variance models and lowers their bias.
 
-We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). Bagging takes **low-bias, high-variance** models, such as fully grown trees or KNN with a small k, and averages away much of their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Boosting attacks the trade-off from the opposite end.
+We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). **Bagging** (G-2154) takes **low-bias, high-variance** models (G-1132), such as fully grown trees or KNN with a small k, and averages away much of their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Boosting attacks the trade-off from the opposite end.
 
 ### 2.1 Boosting: high bias, low variance models
 
@@ -35,8 +35,8 @@ We want low bias and low variance, but a single model usually trades one for the
 
 Boosting needs base models with **high bias and low variance**:
 
-- a **shallow decision tree**, whose depth is very small;
-- above all the **decision stump**, a tree of depth 1 (the AdaBoost intuition Note, section 2.2).
+- a **shallow decision tree** (G-1785), whose depth is very small;
+- above all the **decision stump** (G-559), a tree of depth 1 (the AdaBoost intuition Note, section 2.2).
 
 A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays fairly low: on noisy data it creeps up only with very many stumps (average test accuracy 0.846 with 50 stumps, 0.837 with 1,500, in the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md), section 3). ESL §15.2 states the same contrast: bagged trees improve only through lower variance, while boosting grows its trees adaptively to remove bias.
 
@@ -58,17 +58,20 @@ The type of base model is the most important of the three differences.
 > | stump | 0.566 | 0.738 | **0.814** |
 > | fully grown tree | 0.746 | **0.808** | 0.750 |
 >
+>
+> ![The table as bars. Boosting lifts the stump most (0.566 to 0.814); bagging lifts the fully grown tree most (0.746 to 0.808)](images/swap_bars.png){width=90%}
+>
 > Boosting helps stumps most, bagging helps full trees most. AdaBoost with full trees is no better than one tree: the first tree already classifies every training observation correctly, its error is 0, and boosting stops after that single tree, since no mistakes are left to pass on.
 
 ## 3. Difference 2: parallel against sequential learning
 
 > **Key point:** Bagging trains all its models side by side, independently; boosting trains them one after another, each depending on the one before.
 
-**Bagging is parallel** (Figure 1, left). Bagging stands for bootstrap aggregation (the bagging Note). From a dataset of, say, 1,000 **observations** (records, one row of the data table each), each base model gets its own random sample of observations. No model needs anything from any other, so all of them can be trained at the same time.
+**Bagging is parallel** (**parallel learning**, G-1443; Figure 1, left). Bagging stands for bootstrap aggregation (the bagging Note). From a dataset of, say, 1,000 **observations** (G-1374; records, one row of the data table each), each base model gets its own random sample of observations. No model needs anything from any other, so all of them can be trained at the same time.
 
-**Boosting is sequential** (Figure 1, right). The data goes to model 1, which does its job and passes its mistakes on to model 2. Model 2 does its job and passes its own mistakes to model 3, and so on. Model 2 cannot start before model 1 has finished, because it learns from model 1's mistakes.
+**Boosting is sequential** (**sequential learning**, G-1775; Figure 1, right). The data goes to model 1, which does its job and passes its mistakes on to model 2. Model 2 does its job and passes its own mistakes to model 3, and so on. Model 2 cannot start before model 1 has finished, because it learns from model 1's mistakes.
 
-Figure 2 runs both on the noisy circles of the Notebook, one base model per frame. Watch the marker sizes on the left. In bagging (top) each tree's sample is a fresh random draw: big and small markers land anywhere, whatever the earlier trees got wrong. In boosting (bottom) the weights pile up on the observations the stumps so far keep missing, near the border of the disc, so each stump depends on all the ones before it. The right panels show difference 1 as well: bagging's deep trees fit the training data at once (training accuracy 0.89 with one tree, 1.00 by 50), while boosting's stumps start weak (0.61) and climb stage by stage (0.85 after 100).
+Figure 3 runs both on the noisy circles of the Notebook, one base model per frame. Watch the marker sizes on the left. In bagging (top) each tree's sample is a fresh random draw: big and small markers land anywhere, whatever the earlier trees got wrong. In boosting (bottom) the weights pile up on the observations the stumps so far keep missing, near the border of the disc, so each stump depends on all the ones before it. The right panels show difference 1 as well: bagging's deep trees fit the training data at once (training accuracy 0.89 with one tree, 1.00 by 50), while boosting's stumps start weak (0.61) and climb stage by stage (0.85 after 100).
 
 ![Bagging (top: fully grown trees, each on its own random sample; marker size = copies drawn) against AdaBoost (bottom: stumps; marker size = weight from earlier mistakes) on the noisy circles, one base model per frame. Right: the vote so far; white means a split vote](images/parallel_vs_sequential.gif){height=60%}
 
@@ -78,11 +81,13 @@ Figure 2 runs both on the noisy circles of the Notebook, one base model per fram
 
 > **Key point:** In bagging every base model's vote counts the same, like a democracy; in boosting each model's vote is weighted by how well it did.
 
-When a new query point arrives, every trained base model gives its answer. The two methods combine those answers differently.
+When a new **query point** (G-1605) arrives, every trained base model gives its answer. The two methods combine those answers differently.
 
-**Bagging: equal votes.** Suppose four models answer 1, 1, 0 and 1. Every vote has the same weight, like a democracy, so the majority wins: three say 1, the output is 1 (Figure 1, left: every weight is 1).
+**Bagging: equal votes.** Suppose four models answer 1, 1, 0 and 1. Every vote has the same weight, like a democracy, so the **majority vote** (G-1146) wins: three say 1, the output is 1 (Figure 1, left: every weight is 1).
 
-**Boosting: weighted votes.** Every model carries its own weight, its alpha (the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md), section 6). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say.
+**Boosting: weighted votes.** Every model carries its own weight, its alpha (the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md), section 6). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects $0.8 + 1.5 = 2.3$ and class 0 collects 5, so the output is 0, although two of the three models said 1 (Figure 4).
+
+![Equal against weighted votes. Bagging: four models answer 1, 1, 0, 1 with weight 1 each, so 1 wins three votes to one. Boosting: three models answer 1, 1, 0 with alphas 0.8, 1.5 and 5 (box height), so 0 wins, 5 to 2.3](images/vote_weights.png){width=85%}
 
 ## 5. Summary
 

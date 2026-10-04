@@ -20,7 +20,13 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 Figure 1 rolls one die and draws two events: $A$ = "at least 4" and $B$ = "even". Every outcome sits in exactly one region: in $A$ only, in both, in $B$ only, or in neither. Counting the outcomes in a region gives its probability.
 
-This Note covers two ways of showing how events overlap. The Venn diagram is a picture; the contingency table is the same information as a grid of counts. Joint, marginal and conditional probabilities, the subject of the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md), are all read off these two views.
+This Note covers two ways of showing how events overlap:
+
+- the Venn diagram, a picture (section 2);
+- the contingency table, the same information as a grid of counts (section 3);
+- how to switch between them (section 4).
+
+Joint, marginal and conditional probabilities, the subject of the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md), are all read off these two views.
 
 Sample spaces and events are defined in the [random experiments and events Note](../330-events-and-types-of-events/note.md); the complement and addition rules used here are in the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md).
 
@@ -28,7 +34,7 @@ Sample spaces and events are defined in the [random experiments and events Note]
 
 > **Key point:** In a Venn diagram the rectangle is the whole sample space, with probability 1; each event is a circle, and overlaps show shared outcomes.
 
-A **Venn diagram** comes from set theory. A rectangle stands for the **universal set** $U$, everything there is. Each event is drawn as a circle inside it.
+A **Venn diagram** (G-2086) comes from set theory. A rectangle stands for the **universal set** (G-2053) $U$, everything there is. Each event is drawn as a circle inside it.
 
 ### 2.1 The rectangle is the sample space
 
@@ -70,9 +76,9 @@ The four probabilities add up to $6/6 = 1$, because every outcome lies in exactl
 
 Each one is read from the diagram by counting the outcomes in its shaded part:
 
-- **Intersection** $A \cap B$, the overlap: $\lbrace4, 6\rbrace$, so $P(A \cap B) = 2/6$.
-- **Union** $A \cup B$, everything inside either circle: $\lbrace2, 4, 5, 6\rbrace$, so $P(A \cup B) = 4/6$.
-- **Complement** $A^c$, everything outside circle $A$: $\lbrace1, 2, 3\rbrace$, so $P(A^c) = 3/6$.
+- **Intersection** (G-967) $A \cap B$, the overlap: $\lbrace4, 6\rbrace$, so $P(A \cap B) = 2/6$.
+- **Union** (G-2045) $A \cup B$, everything inside either circle: $\lbrace2, 4, 5, 6\rbrace$, so $P(A \cup B) = 4/6$.
+- **Complement** (G-422) $A^c$, everything outside circle $A$: $\lbrace1, 2, 3\rbrace$, so $P(A^c) = 3/6$.
 - **Neither**, $(A \cup B)^c$, everything outside both circles: $\lbrace1, 3\rbrace$, so $P = 2/6$.
 
 The union can also be found without counting, by the general addition rule from the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md). The overlap is inside both circles, so it is subtracted once:
@@ -85,7 +91,7 @@ $$P\big((A \cup B)^c\big) = 1 - P(A \cup B) = 1 - \frac{4}{6} = \frac{2}{6}$$
 
 Both routes agree with the counts in the table above.
 
-> **Extra:** "Neither $A$ nor $B$" can also be built as "not $A$ and not $B$": $A^c \cap B^c = \lbrace1, 2, 3\rbrace\cap \lbrace1, 3, 5\rbrace= \lbrace1, 3\rbrace$. The identity is **De Morgan's law**: $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the right panel is exactly the region outside both circles.
+> **Extra:** "Neither $A$ nor $B$" can also be built as "not $A$ and not $B$": $A^c \cap B^c = \lbrace1, 2, 3\rbrace\cap \lbrace1, 3, 5\rbrace= \lbrace1, 3\rbrace$. The identity is **De Morgan's law** (G-550): $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the right panel is exactly the region outside both circles.
 
 > **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [mutually exclusive events Note](../84-mutually-exclusive-events/note.md)) are circles that do not touch. Whether two overlapping events are independent needs a calculation: here $P(A) \cdot P(B) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4}$, but $P(A \cap B) = \frac{2}{6} = \frac{1}{3}$. The two differ, so $A$ and $B$ are dependent (see the [independent events Note](../83-independent-events/note.md)): knowing the roll is even makes "at least 4" more likely, $2/3$ instead of $1/2$.
 
@@ -93,7 +99,7 @@ Both routes agree with the counts in the table above.
 
 > **Key point:** A contingency table puts the categories of one event in the rows and of the other in the columns; each inner cell counts the outcomes in one Venn region, and the totals count whole circles.
 
-A contingency table (also called a crosstab, see the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)) counts every pair of categories of two categorical **features** (a feature is a variable, one column of the data table). Applied to two events, it holds the same information as the Venn diagram, arranged as a grid.
+A **contingency table** (G-464), also called a **crosstab** (G-511; see the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)), counts every pair of categories of two categorical **features** (G-772; a feature is a variable, one column of the data table). Applied to two events, it holds the same information as the Venn diagram, arranged as a grid.
 
 ### 3.1 The die as a table
 
@@ -153,11 +159,19 @@ Now every probability from section 2 can be read from the table:
 - $P(\text{Maths} \cup \text{Bio}) = 0.40 + 0.50 - 0.10 = 0.80$, the general addition rule.
 - $P(\text{neither}) = 0.20 = 1 - 0.80$, the complement of the union.
 
+Figure 4 shades the cells behind each of these four probabilities: one cell for the intersection, a row for $P(\text{Maths})$, three cells for the union, and the one remaining cell for "neither".
+
+![The students' probability table four times; the orange cells add up to the probability named above each panel.](images/table_reads.png)
+
 ## 4. Switching between the two views
 
 > **Key point:** Venn regions and table cells are the same sets of outcomes, so either view can be rebuilt from the other.
 
-The Venn diagram and the contingency table carry exactly the same information:
+The Venn diagram and the contingency table carry exactly the same information. Figure 5 lights up each Venn region of the die example together with its table cell, then a whole circle together with its total:
+
+![The die example: each Venn region (orange numbers) lights up with the matching cell of the contingency table; a whole circle matches a row or column total.](images/venn_table_link.gif)
+
+The full correspondence:
 
 | Venn diagram | Contingency table |
 |---|---|
@@ -172,7 +186,7 @@ The Venn diagram and the contingency table carry exactly the same information:
 Each view suits different work:
 
 - A **Venn diagram** shows how events overlap at a glance, and makes unions, complements and De Morgan's law easy to see.
-- A **contingency table** scales to real data with many **observations** (records, one row of the data table each) and more than two categories, such as three passenger classes. pandas builds it in one call, which the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md) uses on the Titanic data.
+- A **contingency table** scales to real data with many **observations** (G-1374; records, one row of the data table each) and more than two categories, such as three passenger classes. pandas builds it in one call, which the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md) uses on the Titanic data.
 
 ## 5. Summary
 

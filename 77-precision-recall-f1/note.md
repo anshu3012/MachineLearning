@@ -16,7 +16,7 @@ tags: [subject/ml, area/production, step/evaluate, concept/precision-recall]
 
 > **Key point:** Precision asks "of everything predicted positive, how much really is?". Recall asks "of everything really positive, how much did we catch?". F1 combines them into one number.
 
-The previous Note showed that accuracy can be misleading, especially on imbalanced data, and that it hides which kind of mistake a model makes. This Note introduces three metrics built from the confusion matrix that fix this: **precision**, **recall** and the **F1 score**.
+The previous Note showed that accuracy can be misleading, especially on imbalanced data, and that it hides which kind of mistake a model makes. This Note introduces three metrics built from the **confusion matrix** (G-449) that fix this: **precision** (G-1547), **recall** (G-1641) and the **F1 score** (G-743).
 
 ![Which part of the confusion matrix precision and recall use](images/pr_grid.png){height=42%}
 
@@ -53,7 +53,9 @@ In words: of everything the model **predicted** positive, how much really was po
 - Model A: $100 / (100 + 100) = 0.50$. Half of what it calls spam is not spam.
 - Model B: $100 / (100 + 10) = 0.91$.
 
-Model B has the higher precision, matching the choice above.
+Model B has the higher precision, matching the choice above. Figure 2 shows where the two numbers come from: precision reads only the outlined "predicted spam" column, and model B's column holds far fewer false positives.
+
+![The confusion matrices of the two spam filters, both with accuracy 0.80. Precision reads the outlined column, everything predicted spam: 100 of 200 for model A (0.50), 100 of 110 for model B (0.91).](images/spam_matrices.png)
 
 ## 3. Recall
 
@@ -90,7 +92,7 @@ In words: of everything that **really** is positive, how much did the model catc
 
 Model A has the higher recall, matching the choice above.
 
-> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994).
+> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (G-2022) (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994).
 
 ### 3.3 Choosing between them
 
@@ -105,7 +107,7 @@ Model A has the higher recall, matching the choice above.
 
 Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). A later Note looks at this trade-off (scikit-learn docs, "Precision-Recall" example).
 
-Figure 2 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
+Figure 3 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
 
 ![The decision threshold slides across the heart-disease test set. Each dot is a patient at its predicted probability of disease, in the lane of its true class; the shaded side is flagged. Green: caught; orange: missed; red: false alarm; grey: correctly cleared. Right: precision, recall and F1 at that threshold](images/threshold_sweep.gif)
 
@@ -125,7 +127,7 @@ For a model that tells cats from dogs, calling a cat a dog is no worse than the 
 
 $$F_1 = \frac{2 \times \text{precision} \times \text{recall}}{\text{precision} + \text{recall}}$$
 
-This formula is the **harmonic mean** of the two, not the ordinary (arithmetic) average.
+This formula is the **harmonic mean** (G-880) of the two, not the ordinary (arithmetic) average.
 
 An everyday picture: a chain is only as strong as its weakest link. F1 behaves the same way: one weak score drags the whole number down, however good the other score is.
 
@@ -162,7 +164,9 @@ On the heart-disease test set of the previous Note:
 | Logistic regression (standardised) | 0.800 | 0.966 | 0.875 |
 | Decision tree | 0.788 | 0.897 | 0.839 |
 
-Logistic regression misses fewer patients (higher recall), which matters most for a disease.
+Logistic regression misses fewer patients (higher recall), which matters most for a disease. Figure 5 draws the table: the two models are close on precision, and the gap in recall carries over into F1.
+
+![Precision, recall and F1 on the 61 heart-disease test patients: standardised logistic regression (blue) and a decision tree (orange).](images/heart_scores.png)
 
 > **Extra:** In a two-class problem, scikit-learn reports the scores of class 1. With `average=None` it shows both classes: for logistic regression, precision is 0.962 for class 0 and 0.800 for class 1. The default comes from the setting `pos_label=1` (scikit-learn docs, `precision_score`).
 
@@ -174,7 +178,7 @@ Logistic regression misses fewer patients (higher recall), which matters most fo
 
 > **Key point:** Each class in turn is treated as "positive" and all the others as "negative".
 
-A model sorts 108 animals into dog, cat and rabbit (Figure 4).
+A model sorts 108 animals into dog, cat and rabbit (Figure 6).
 
 ![A three-class confusion matrix with per-class precision and recall](images/multiclass.png){height=48%}
 
@@ -187,14 +191,14 @@ A model sorts 108 animals into dog, cat and rabbit (Figure 4).
 | cat | 0.588 | 0.882 | 0.706 | 34 |
 | rabbit | 0.714 | 0.588 | 0.645 | 34 |
 
-The **support** is the number of items really in each class.
+The **support** (G-1924) is the number of items really in each class.
 
 ### 6.2 Combining the classes
 
 > **Key point:** Macro: the plain mean of the class scores. Weighted: each class counts in proportion to its support.
 
-- **Macro average:** $(0.862 + 0.588 + 0.714) / 3 = 0.722$ for precision. Every class counts equally.
-- **Weighted average:** $(0.862 \times 40 + 0.588 \times 34 + 0.714 \times 34) / 108 = 0.729$. Bigger classes count more.
+- **Macro average** (G-1143): $(0.862 + 0.588 + 0.714) / 3 = 0.722$ for precision. Every class counts equally.
+- **Weighted average** (G-2113): $(0.862 \times 40 + 0.588 \times 34 + 0.714 \times 34) / 108 = 0.729$. Bigger classes count more.
 
 When the classes are about the same size, the two agree closely. When they are very imbalanced, the choice matters: macro gives rare classes a full say, while weighted reflects performance on a typical item.
 
@@ -209,7 +213,7 @@ When the classes are about the same size, the two agree closely. When they are v
 > print(classification_report(y_test, y_pred))
 > ```
 >
-> `classification_report` prints precision, recall, F1 and support for every class, plus the accuracy and both averages.
+> `classification_report` (G-396) prints precision, recall, F1 and support for every class, plus the accuracy and both averages.
 
 On scikit-learn's handwritten digits (10 classes), logistic regression reaches a macro F1 of 0.971; its weakest class is the digit 5, with precision 0.875.
 

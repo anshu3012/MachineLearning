@@ -19,7 +19,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 Figure 1 tosses a fair coin 100,000 times, three separate times, and plots the share of heads after each toss; the bars on the right count run 1's heads and tails (the idea follows Seeing Theory, Kunin et al.). Watch the three lines: early on the share jumps around between 0 and 1. After thousands of tosses all three runs sit on 0.5, the value we get from the sample space $\lbrace H, T\rbrace$ without tossing at all.
 
-These are the two kinds of probability in this Note. The **empirical probability** is the share we observe in data; the **theoretical probability** is the share we work out from the sample space. A last section adds the rules that every probability obeys.
+These are the two kinds of probability in this Note. The **empirical probability** (G-678) is the share we observe in data; the **theoretical probability** (G-1966) is the share we work out from the sample space. A last section adds the rules that every probability obeys.
 
 The terms random experiment, trial, outcome, sample space and event are defined in the [random experiments and events Note](../330-events-and-types-of-events/note.md).
 
@@ -27,7 +27,7 @@ The terms random experiment, trial, outcome, sample space and event are defined 
 
 > **Key point:** A probability is a number from 0 to 1 that measures how likely an event is: 0 means it never happens, 1 means it always happens.
 
-A **probability** is a measure of how likely a particular event is to occur. We write the probability of an event $A$ as $P(A)$. A probability always lies between 0 and 1:
+A **probability** (G-1574) is a measure of how likely a particular event is to occur. We write the probability of an event $A$ as $P(A)$. A probability always lies between 0 and 1:
 
 - $P(A) = 0$: $A$ never happens (the impossible event).
 - $P(A) = 1$: $A$ always happens (the sure event).
@@ -51,13 +51,13 @@ Probability is always computed for an event: "getting a head", "rolling a 3", "t
 3. **Example:** a coin tossed 100 times landed heads 55 times and tails 45 times:
    $$P(\text{head}) = \frac{55}{100} = 0.55$$
 
-Empirical probability is the relative frequency of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), and the estimated PMF of the [PMF Note](../241-pmf-and-discrete-cdf/note.md), read as the probability of an event.
+Empirical probability is the **relative frequency** (G-1664) of the [frequency tables Note](../223-frequency-tables-and-graphs/note.md), and the estimated PMF of the [PMF Note](../241-pmf-and-discrete-cdf/note.md), read as the probability of an event.
 
 ### 3.1 A bag of marbles
 
 > **Key point:** Each colour's empirical probability is its count divided by the 200 draws, whatever the bag holds.
 
-A bag holds 50 marbles: 20 red, 15 blue and 15 green. We draw one marble, note its colour and put it back (**with replacement**), 200 times. Red came up 80 times, blue 70 times and green 50 times.
+A bag holds 50 marbles: 20 red, 15 blue and 15 green. We draw one marble, note its colour and put it back (**with replacement**, G-2125), 200 times. Red came up 80 times, blue 70 times and green 50 times.
 
 $$P(\text{red}) = \frac{80}{200} = 0.40, \qquad P(\text{blue}) = \frac{70}{200} = 0.35, \qquad P(\text{green}) = \frac{50}{200} = 0.25$$
 
@@ -71,7 +71,9 @@ The Titanic dataset of the [random experiments and events Note](../330-events-an
 
 $$P(\text{class 1}) = \frac{216}{891} \approx 0.242, \quad P(\text{class 2}) = \frac{184}{891} \approx 0.207, \quad P(\text{class 3}) = \frac{491}{891} \approx 0.551$$
 
-Here there is no formula to fall back on: the data is all we have, so the empirical probability is the probability.
+Here there is no formula to fall back on: the data is all we have, so the empirical probability is the probability. Figure 3 draws the three shares against the "1 out of 3" that a careless count of the sample space would give (the Extra of section 4 explains why that count is wrong).
+
+![The empirical probability of each Titanic class, from 891 passengers, against the wrong "1 out of 3" (dashed).](images/titanic_classes.png){height=34%}
 
 > **Python:** The share of each value in a column.
 >
@@ -89,9 +91,9 @@ Here there is no formula to fall back on: the data is all we have, so the empiri
 
 > **Key point:** When every outcome is equally likely, the theoretical probability of an event is its number of outcomes divided by the size of the sample space; no trials are needed.
 
-**Theoretical probability** (also called **classical probability**) is worked out from the sample space instead of from data. Theoretical probability applies when each outcome in the sample space is **equally likely**, as with a fair die: a 3 is as likely as a 2, a 4 or any other face.
+**Theoretical probability** (also called **classical probability**) is worked out from the sample space instead of from data. Theoretical probability applies when each outcome in the sample space is **equally likely** (G-702), as with a fair die: a 3 is as likely as a 2, a 4 or any other face.
 
-1. **In words:** the number of outcomes in the event (the **favourable outcomes**) divided by the number of outcomes in the sample space.
+1. **In words:** the number of outcomes in the event (the **favourable outcomes**, G-758) divided by the number of outcomes in the sample space.
 2. **Formula:**
    $$P(A) = \frac{\text{number of favourable outcomes}}{\text{total number of outcomes in the sample space}}$$
 3. **Example:** rolling a 3 on a die. Only the outcome 3 is favourable, out of 6:
@@ -119,7 +121,7 @@ For the marble bag, each of the 50 marbles is equally likely to be drawn, so the
 
 ![The marble bag: empirical shares from 200 draws (solid) against the theoretical shares from the bag's contents (hatched)](images/marbles.png){height=28%}
 
-Figure 3 puts the two side by side. Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)), so the share of blue has standard deviation $\sqrt{p(1-p)/n} = \sqrt{0.3 \times 0.7 / 200} = 0.032$. A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
+Figure 4 puts the two side by side. Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)), so the share of blue has standard deviation $\sqrt{p(1-p)/n} = \sqrt{0.3 \times 0.7 / 200} = 0.032$. A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
 
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >
@@ -132,7 +134,7 @@ Figure 3 puts the two side by side. Red matches exactly; blue and green are 0.05
 
 > **Key point:** The more trials we run, the closer the empirical probability gets to the theoretical one; with few trials they can be far apart.
 
-The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the law of large numbers, met in the [PMF Note](../241-pmf-and-discrete-cdf/note.md).
+The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the **law of large numbers** (G-1052), met in the [PMF Note](../241-pmf-and-discrete-cdf/note.md).
 
 Ten tosses of a fair coin can easily give 3 heads, an empirical probability of 0.3 against the theoretical 0.5. One simulated coin, tossed more and more times:
 
@@ -143,7 +145,9 @@ Ten tosses of a fair coin can easily give 3 heads, an empirical probability of 0
 
 The distance does not shrink at every step (10,000 tosses landed a little further away than 1,000), but the overall trend is clear. Figure 1 shows the same pattern toss by toss in three runs: wild swings at first, a narrow band after 1,000 tosses, and a flat line at 0.5 near 100,000.
 
-A die behaves the same way. In 10 simulated rolls, the face 3 did not appear at all, an empirical $P(3) = 0$. In 100,000 rolls it appeared in a share of 0.1662, against the theoretical $1/6 \approx 0.1667$.
+A die behaves the same way. In 10 simulated rolls, the face 3 did not appear at all, an empirical $P(3) = 0$. In 100,000 rolls it appeared in a share of 0.1662, against the theoretical $1/6 \approx 0.1667$. Figure 5 shows all six faces at 10, 1,000 and 100,000 rolls: the bars start ragged and end level with the dashed line.
+
+![The share of each face in 10, 1,000 and 100,000 simulated rolls of a die (the Notebook's draws), against the theoretical 1/6 (dashed). Face 3 is orange.](images/die_rolls.gif)
 
 > **Python:** Tossing a coin many times.
 >
@@ -177,7 +181,7 @@ Machine learning models learn from data, and many of their probabilities are cou
 
 > **Key point:** Probabilities are never negative, the whole sample space has probability 1, and the probabilities of events with no shared outcomes add up.
 
-Every probability, empirical or theoretical, obeys three rules called the **axioms of probability**. Everything else about probability is derived from them. Modern probability rests on axioms of this kind, due to Kolmogorov (MML §6.1.2); the three below, and the complement and general addition rules of sections 6.2 and 6.3, are Theorems 1.1 and 1.4 of Grinstead and Snell (1997, §1.2).
+Every probability, empirical or theoretical, obeys three rules called the **axioms of probability** (G-240). Everything else about probability is derived from them. Modern probability rests on axioms of this kind, due to Kolmogorov (MML §6.1.2); the three below, and the complement and general addition rules of sections 6.2 and 6.3, are Theorems 1.1 and 1.4 of Grinstead and Snell (1997, §1.2).
 
 1. **Non-negative:** $P(A) \ge 0$ for every event $A$.
 2. **The sure event has probability 1:** $P(S) = 1$.
@@ -189,7 +193,7 @@ Two facts follow at once. $S$ and $\varnothing$ share no outcome and $S \cup \va
 
 > **Key point:** The probability that $A$ does not happen is 1 minus the probability that it does.
 
-The **complement** of an event $A$, written $A^c$ (or $\bar{A}$, "not $A$"), is the event made of every outcome in the sample space that is not in $A$. On a die, the complement of "odd" $= \lbrace1, 3, 5\rbrace$ is "even" $= \lbrace2, 4, 6\rbrace$.
+The **complement** (G-422) of an event $A$, written $A^c$ (or $\bar{A}$, "not $A$"), is the event made of every outcome in the sample space that is not in $A$. On a die, the complement of "odd" $= \lbrace1, 3, 5\rbrace$ is "even" $= \lbrace2, 4, 6\rbrace$.
 
 $A$ and $A^c$ are mutually exclusive and exhaustive: exactly one of them happens in every trial. So by axioms 2 and 3, $P(A) + P(A^c) = 1$.
 
@@ -199,7 +203,9 @@ $A$ and $A^c$ are mutually exclusive and exhaustive: exactly one of them happens
 3. **Example:** the chance of at least one head in two tosses. Its complement is "no heads" $= \lbrace TT\rbrace$, with probability $1/4$:
    $$P(\text{at least one head}) = 1 - P(TT) = 1 - \frac{1}{4} = \frac{3}{4}$$
 
-The result matches the count in section 4. The complement is often the shortcut: "at least one" events have many outcomes, while their complement "none" has one.
+The result matches the count in section 4. The complement is often the shortcut: "at least one" events have many outcomes, while their complement "none" has one. Figure 6 shows why the shortcut works: the four outcomes split into the three in $A$ and the one in its complement.
+
+![The two-toss sample space split into A = at least one head (orange, 3 outcomes) and its complement, no heads (blue, 1 outcome).](images/complement.png){height=24%}
 
 ### 6.3 The general addition rule
 
@@ -207,7 +213,7 @@ The result matches the count in section 4. The complement is often the shortcut:
 
 The addition rule of axiom 3 holds only for mutually exclusive events. When $A$ and $B$ share outcomes, $P(A) + P(B)$ is too large.
 
-Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 4 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1.
+Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 7 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1.
 
 ![The general addition rule on one die: the overlap $\lbrace5\rbrace$ is counted twice by $P(A) + P(B)$](images/addition.png)
 

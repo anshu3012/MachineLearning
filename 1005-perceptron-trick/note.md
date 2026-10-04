@@ -25,14 +25,43 @@ The trick itself is taught in full in two earlier Notes, and we do not repeat it
 - the [perceptron trick Note](../70-perceptron-trick/note.md): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate (its Figure 5 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
 - the [perceptron code Note](../71-perceptron-code/note.md): the code, an animation of the line moving update by update (its Figure 1), and why the final line depends on the random order.
 
-This Note adds what is new when we see the trick as the training of a perceptron.
+This Note has these parts:
+
+1. a one-picture recap of the trick (section 3);
+2. the trick in the perceptron's own terms (section 4);
+3. the loop running on real data (section 5);
+4. when to stop (section 6);
+5. loops against epochs (section 7);
+6. why the trick is not enough (section 8).
 
 ## 2. Prerequisites
 
 - The [perceptron Note](../1004-perceptron/note.md): weights, bias, summation and step activation.
 - The [perceptron trick Note](../70-perceptron-trick/note.md) and the [perceptron code Note](../71-perceptron-code/note.md).
 
-## 3. The trick in perceptron terms
+## 3. The trick in one picture
+
+> **Key point:** C slides the line, A and B turn it. Subtracting a wrongly placed negative point from (A, B, C) turns and slides the line until the point is on the correct side.
+
+The trick works like a conversation between the line and the points. We start with any line and ask one randomly picked point: "are you on the correct side?" A point on the correct side answers "leave the line where it is". A point on the wrong side answers "come towards me", and the line moves towards that point. Repeating the question many times brings the line to a place where no point complains.
+
+The data must be **linearly separable** (G-1103): a straight line can split the two classes. Otherwise some point always complains.
+
+To move the line we change the three numbers of its equation $Ax + By + C = 0$. Figure 2 shows what each number does, and then one full move.
+
+![The line 2x + 3y + 5 = 0. First C changes, then A, then B. Then the negative point (4, 5), which sits on the positive (green) side, is subtracted from the coefficients](images/abc_update.gif){height=42%}
+
+In Figure 2, watch three things in order:
+
+1. **Changing $C$** slides the line while keeping it parallel to itself.
+2. **Changing $A$ or $B$** turns the line.
+3. **One update.** The point $(4, 5)$ belongs to the negative class, but $2(4) + 3(5) + 5 = 28 > 0$, so it sits on the positive side: it is misclassified. We append a 1 to the point and subtract it from the coefficients:
+   $$(2,\ 3,\ 5) - (4,\ 5,\ 1) = (-2,\ -2,\ 4)$$
+   The new line is $-2x - 2y + 4 = 0$. The point now gives $-2(4) - 2(5) + 4 = -14 < 0$: it is on the negative side, as it should be.
+
+The update changes all three numbers at once, so the line turns and slides in one move. For a positive point on the negative side we add instead of subtracting. In practice we do not subtract the whole point: we multiply it by a small **learning rate** (G-1068), such as 0.01, so the line moves in small steps. The [perceptron trick Note](../70-perceptron-trick/note.md) works through both cases and the learning rate.
+
+## 4. The trick in perceptron terms
 
 > **Key point:** The line Ax + By + C = 0 of the trick is the perceptron's z = 0. A and B are the weights, C is the bias, and the column of 1s is the bias input.
 
@@ -45,18 +74,48 @@ The perceptron trick works on the line $Ax_1 + Bx_2 + C = 0$. The perceptron's *
 | $C$ ($w_0$) | bias $b$ | shifts the line |
 | column $x_0 = 1$ | the constant input 1 | carries the bias |
 
-So the column of 1s added in the trick's code is exactly the extra input "1" of the perceptron diagram (Figure 1 of the [perceptron Note](../1004-perceptron/note.md)). The update $w \leftarrow w + \eta(y - \hat{y})x$ changes both weights and the bias in one step.
+So the column of 1s added in the trick's code is exactly the extra input "1" of the perceptron diagram (Figure 1 of the [perceptron Note](../1004-perceptron/note.md)), and the 1 we appended to the point $(4, 5)$ in section 3 is that same input.
+
+The two cases, add or subtract, fold into one rule. With the label $y$ and the prediction $\hat{y}$ both 0 or 1:
+
+$$w \leftarrow w + \eta\thinspace(y - \hat{y})\thinspace x$$
+
+Here $w = (w_0, w_1, w_2)$ holds the bias and the two weights, $x = (1, x_1, x_2)$ is the point with its 1, and $\eta$ is the learning rate. The four cases of $(y, \hat{y})$ show that the rule does the right thing every time:
+
+| $y$ | $\hat{y}$ | $y - \hat{y}$ | What the rule does |
+|---|---|---|---|
+| 1 | 1 | 0 | nothing: the point is correct |
+| 0 | 0 | 0 | nothing: the point is correct |
+| 1 | 0 | $+1$ | adds $\eta x$: a positive point on the negative side |
+| 0 | 1 | $-1$ | subtracts $\eta x$: a negative point on the positive side |
+
+The rule changes both weights and the bias in one step.
 
 Training and prediction then split cleanly:
 
 1. **Training:** run the loop of Figure 1 on the labelled data. Its only output is the three numbers $w_1$, $w_2$ and $b$.
 2. **Prediction:** freeze them, compute $z$ for a new point and apply the step function.
 
-## 4. When to stop
+## 5. The loop on real data
+
+> **Key point:** Each loop picks one point. A correctly classified pick leaves the line still; a misclassified pick moves it. Most picks leave the line still.
+
+Figure 3 runs the rule of section 4 on real flowers: 50 setosa (label 0) and 50 versicolor (label 1) from the Iris dataset, described by petal length and petal width, with learning rate 0.1.
+
+![The perceptron trick pick by pick on Iris setosa and versicolor. The ring marks the picked flower: green when it is correctly classified, red when it is misclassified](images/trick_iris.gif){height=42%}
+
+In Figure 3, watch the ring and the line together:
+
+- **Green ring:** the picked flower is on the correct side, $y - \hat{y} = 0$, and the line does not move.
+- **Red ring:** the picked flower is on the wrong side, and the line jumps towards it.
+
+Of the 146 picks in this run, only 26 move the line; the other 120 leave it still. The counter in the title shows the number of misclassified flowers after each pick. The count starts at 50, because the starting line puts every flower on the positive side, and reaches 0 at pick 146.
+
+## 6. When to stop
 
 > **Key point:** Either run a fixed number of loops, or stop at convergence: the moment no training point is misclassified.
 
-The loop in Figure 1 needs a rule to end it. Two are common:
+The loop in Figure 1 needs a **stopping rule** (G-1894) to end it. Two are common:
 
 1. **A fixed number of loops**, for example 1,000. If the line is not good yet, run more, such as 10,000.
 2. **[Convergence](../70-perceptron-trick/note.md):** after every update, count the misclassified training points. Stop as soon as the count is 0, since no point can move the line any more.
@@ -65,17 +124,17 @@ Rule 2 only ever stops on linearly separable data: if no line separates the clas
 
 ![The perceptron trick on two pairs of Iris species (petal length and width, 100 flowers each, learning rate 0.1), counting the misclassified training points after every loop](images/stopping_rules.png){height=30%}
 
-Figure 2 runs the combined rule on real data. Watch the blue line: setosa and versicolor can be split by a line, so the count hits 0 at loop 146 and convergence stops training. The red line, versicolor against virginica, never reaches 0 (its best is 6), so only the cap of 1,000 loops ends it. Six other random orders give the same picture.
+Figure 4 runs the combined rule on real data. Watch the blue line: setosa and versicolor can be split by a line, so the count hits 0 at loop 146 and convergence stops training (the run of Figure 3). The red line, versicolor against virginica, never reaches 0 (its best is 6), so only the cap of 1,000 loops ends it. Six other random orders give the same picture.
 
 > **Extra:** scikit-learn's `Perceptron` uses a similar combination, with a looser early stop. `max_iter` caps the number of epochs (default 1,000). With `tol` set (default $10^{-3}$), training also stops once the loss has failed to improve by at least `tol` for `n_iter_no_change` epochs in a row (default 5) (scikit-learn docs, `Perceptron`). This stop can fire before every point is classified correctly: in the [perceptron Note](../1004-perceptron/note.md), section 8, it ended training after 7 epochs at 75% training accuracy.
 
-## 5. Loops and epochs
+## 7. Loops and epochs
 
 > **Key point:** One random pick is one update, not one epoch. An epoch is one pass over the whole training set, so with 100 points, 1,000 single picks are about 10 epochs.
 
 Each loop of the trick looks at one randomly chosen point. The number of loops is sometimes loosely called the number of "epochs", but that is not the standard meaning.
 
-An [epoch](../57-gradient-descent/note.md) is one full pass over the training set. In the trick, one pass means as many picks as there are points:
+An [**epoch**](../57-gradient-descent/note.md) (G-696) is one full pass over the training set. In the trick, one pass means as many picks as there are points:
 
 1. **In words:** divide the number of single-point updates by the number of training points.
 2. **Formula:**
@@ -87,9 +146,9 @@ Because the picks are random, a stretch of 100 picks does not visit every point 
 
 ![Each cell is one of 100 training points, and its number counts how often it has been picked. Left: 100 random picks, as in the perceptron trick; 38 points are never picked while others are picked 2 or 3 times. Right: one shuffled epoch; every point is picked exactly once](images/random_picks.gif){width=100%}
 
-In Figure 3, watch the red cells: on the right they all turn green by pick 100; on the left 38 stay red. Over 2,000 runs the average is 36.6 unseen points, matching $(1 - 1/100)^{100} \approx 0.37$ (the figure's script, `images/random_picks.py`, runs the check). Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
+In Figure 5, watch the red cells: on the right they all turn green by pick 100; on the left 38 stay red. Over 2,000 runs the average is 36.6 unseen points, matching $(1 - 1/100)^{100} \approx 0.37$ (the figure's script, `images/random_picks.py`, runs the check). Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
 
-## 6. Why it is only a trick
+## 8. Why it is only a trick
 
 > **Key point:** The trick finds a separating line, but cannot say how good that line is, and different random orders give different lines.
 
@@ -97,23 +156,25 @@ The perceptron trick is simple and usually works. But on the same data, differen
 
 The fix is a [loss function](../73-log-loss/note.md): a number that scores every possible line, so training can look for the best one. The [perceptron loss Note](../1006-perceptron-loss/note.md) builds it.
 
-## 7. Summary
+## 9. Summary
 
 | Idea | Meaning |
 |---|---|
 | Training | Finding $w_1$, $w_2$ and $b$ from labelled data |
 | Perceptron trick | Pick a random point; if it is misclassified, pull the line towards it |
+| $C$; $A$ and $B$ | $C$ slides the line; $A$ and $B$ turn it |
 | Update | $w \leftarrow w + \eta(y - \hat{y})x$, with $x_0 = 1$ for the bias |
 | Stop: fixed loops | Run, for example, 1,000 picks |
 | Stop: convergence | Stop when no training point is misclassified |
 | Epoch | One pass over the whole training set, not one pick |
 
 - The trick's $A$, $B$, $C$ are the perceptron's $w_1$, $w_2$, $b$.
+- A correctly classified pick leaves the line still; only misclassified picks move it.
 - Convergence is only reached on linearly separable data, so a maximum number of loops is kept as a backstop.
 - 1,000 random picks on 100 points are about 10 epochs.
 - The trick cannot score a line; a loss function can.
 
-## 8. Sources
+## 10. Sources
 
 **Built from**
 
@@ -123,9 +184,12 @@ The fix is a [loss function](../73-log-loss/note.md): a number that scores every
 
 - scikit-learn documentation, `sklearn.linear_model.Perceptron`.
 
-## 9. Key terms
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|
 | Training (a perceptron) | Finding its weights and bias from labelled data |
 | Stopping rule | The condition that ends a training loop: a fixed number of loops, or convergence |
+| Linearly separable | Data whose two classes a straight line can split |
+| Learning rate ($\eta$) | The small factor that multiplies each update, so the line moves in small steps |
+| Epoch | One full pass over the training set |

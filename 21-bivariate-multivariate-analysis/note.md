@@ -22,7 +22,7 @@ Univariate analysis looks at one column at a time. Here we look at columns toget
 - **Bivariate analysis:** studying two columns together, to find how they are related.
 - **Multivariate analysis:** studying more than two columns together in one view.
 
-Each column is a variable. In ML, an input variable is a **feature** (one column of the data table), the variable we want to predict is the **target**, and each row, one record, is an **observation**.
+Each column is a variable. In ML, an input variable is a **feature** (G-772; one column of the data table), the variable we want to predict is the **target** (G-1949), and each row, one record, is an **observation** (G-1374).
 
 The choice of plot depends on the data types of the two columns. Two columns can be numerical + numerical, numerical + categorical, or categorical + categorical. Figure 1 shows the plots that suit each pair.
 
@@ -66,9 +66,9 @@ The Titanic columns are the same as in the Note on understanding data: `SibSp` c
 
 > **Key point:** Bigger bills get bigger tips: the dots rise from left to right.
 
-A **scatter plot** puts one numerical column on the x-axis and another on the y-axis, and draws one dot per observation (one row). In the tips data, each dot is one bill: its total on x, its tip on y.
+A **scatter plot** (G-1749) puts one numerical column on the x-axis and another on the y-axis, and draws one dot per observation (one row). In the tips data, each dot is one bill: its total on x, its tip on y.
 
-Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly **linear relationship**, one that follows a straight line.
+Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly **linear relationship** (G-1095), one that follows a straight line.
 
 The tips themselves explain the line: they are close to a fixed share of the bill. Half of all tips lie between 13% and 19% of the bill, with a median of 15%. A few dots break the trend, such as a 7-dollar bill with a 5-dollar tip, but the general direction is clear.
 
@@ -107,7 +107,7 @@ Reading it, the bills and tips far from the main cloud (the biggest ones) mostly
 
 > **Key point:** A bar plot shows one number per category, by default the mean; each bar's height is the average of the numerical column for that group.
 
-A **bar plot** puts a categorical column on the x-axis and a numerical column on the y-axis. Each bar's height is the **mean** of the numerical column for that category.
+A **bar plot** (G-258) puts a categorical column on the x-axis and a numerical column on the y-axis. Each bar's height is the **mean** (G-1203) of the numerical column for that category.
 
 On the Titanic, we can ask: what was the average age of the passengers in each class? With `Pclass` on x and `Age` on y, the bars give:
 
@@ -133,13 +133,13 @@ The hue setting splits each bar by a further column. Figure 3 splits each class 
 >
 > Plotly draws the bars we give it, so we compute the means first with `groupby`. seaborn computes them itself: `sns.barplot(data=titanic, x="Pclass", y="Age", hue="Sex")`.
 
-> **Extra:** The black line on each bar in Figure 3 is a **confidence interval**: a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default (seaborn docs, `barplot`: `errorbar=("ci", 95)`).
+> **Extra:** The black line on each bar in Figure 3 is a **confidence interval** (G-446): a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default (seaborn docs, `barplot`: `errorbar=("ci", 95)`).
 
 ## 5. Box plot: spread of a numerical column across categories
 
 > **Key point:** Side-by-side box plots compare the whole spread of a numerical column across categories, not only its mean.
 
-A **box plot** summarises a numerical column by its median, its quartiles and its outliers (it is covered in detail with univariate analysis). Drawn once per category, side by side, it compares whole distributions, not only averages.
+A **box plot** (G-329) summarises a numerical column by its median, its quartiles and its outliers (it is covered in detail with univariate analysis). Drawn once per category, side by side, it compares whole distributions, not only averages.
 
 Figure 4 puts `Sex` on the x-axis and `Age` on the y-axis, and splits each sex by survival (hue). The plot also shows the outliers: the dots above the boxes, mostly among the men.
 
@@ -162,7 +162,7 @@ Two patterns stand out:
 
 > **Key point:** Drawing the distribution of a numerical column once per category, on the same axes, shows where the groups differ.
 
-A **KDE plot** draws the smooth density curve (KDE) of a column, the estimate of its PDF from the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7, density plot).
+A **KDE plot** (G-1005) draws the smooth density curve (KDE) of a column, the estimate of its PDF from the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7, density plot).
 
 To compare groups, we split the rows by a category and draw one curve per group. Figure 5 shows the ages of the Titanic passengers twice: in red those who died, in green those who survived.
 
@@ -199,7 +199,7 @@ Such a pattern is invisible in the raw table of 891 rows. A plot of two columns 
 
 > **Key point:** `pd.crosstab` builds the count table; colour makes it readable at a glance.
 
-With two categorical columns, the first question is how many rows fall into each pair of categories. A **crosstab** (cross-tabulation) is a table with the categories of one column as rows, those of the other as columns, and a count in every cell.
+With two categorical columns, the first question is how many rows fall into each pair of categories. A **crosstab** (G-511; cross-tabulation) is a table with the categories of one column as rows, those of the other as columns, and a count in every cell.
 
 On the Titanic, a crosstab of class against survival gives:
 
@@ -209,7 +209,7 @@ On the Titanic, a crosstab of class against survival gives:
 | 2 | 97 | 87 |
 | 3 | 372 | 119 |
 
-A **heatmap** draws such a table as coloured cells: the bigger the number, the darker the cell (Figure 6). With a 3 by 2 table we can still read the numbers; with dozens of rows and columns, colour is the only quick way to spot the large and small cells.
+A **heatmap** (G-886) draws such a table as coloured cells: the bigger the number, the darker the cell (Figure 6). With a 3 by 2 table we can still read the numbers; with dozens of rows and columns, colour is the only quick way to spot the large and small cells.
 
 ![Passengers per class and outcome, as a heatmap](images/heatmap_class.png)
 
@@ -259,9 +259,9 @@ The ports raise a new question: why would the boarding port matter? A plot rarel
 
 > **Key point:** A clustermap is a heatmap whose rows and columns are reordered so that similar ones sit together, with a tree showing which ones were joined.
 
-A **clustermap** starts from the same table as a heatmap. The clustermap then moves the rows so that rows with similar values sit next to each other, and does the same for the columns.
+A **clustermap** (G-402) starts from the same table as a heatmap. The clustermap then moves the rows so that rows with similar values sit next to each other, and does the same for the columns.
 
-The tree on the side is a **dendrogram**. The dendrogram joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike.
+The tree on the side is a **dendrogram** (G-582). The dendrogram joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike.
 
 Figure 8 applies it to `Parch` (parents or children aboard) against survival. Passengers with 1 or 2 parents or children aboard are joined first: they had similar numbers of deaths and survivals. The rare large families (3 to 6) form another group, and passengers travelling without parents or children (0) stand apart.
 
@@ -286,7 +286,7 @@ The same works for `SibSp` (siblings or spouses aboard). Those with 1 or 2 sibli
 
 > **Key point:** A pair plot draws a scatter plot for every pair of numerical columns in one grid, and a histogram of each column on the diagonal.
 
-With many numerical columns, drawing a scatter plot for every pair by hand is slow: 4 columns already give 6 pairs. A **pair plot** finds all the numerical columns and draws every pair in one grid.
+With many numerical columns, drawing a scatter plot for every pair by hand is slow: 4 columns already give 6 pairs. A **pair plot** (G-1437) finds all the numerical columns and draws every pair in one grid.
 
 Figure 9 does this for the four iris measurements. Each cell off the diagonal is a scatter plot of the column above it (x) against the column to its left (y). A column against itself would be a straight line, so the diagonal shows each column's histogram instead.
 
@@ -314,7 +314,7 @@ Colouring by species (hue) makes the pair plot multivariate, and shows which mea
 
 > **Key point:** A line plot is a scatter plot with the dots joined in order; we use it when the x-axis is time.
 
-A **line plot** joins the dots of a scatter plot from left to right. Joining is only meaningful when the x values have a natural order, such as years, months or dates: the line then shows how the number moves over time. Stock prices and daily case counts are usual examples.
+A **line plot** (G-1088) joins the dots of a scatter plot from left to right. Joining is only meaningful when the x values have a natural order, such as years, months or dates: the line then shows how the number moves over time. Stock prices and daily case counts are usual examples.
 
 The flights data has one row per month. To plot the passengers of each year, we first add up the 12 months of every year.
 
@@ -341,7 +341,7 @@ Figure 10 shows a steady rise: from 1,520 thousand passengers in 1949 to 5,714 t
 
 > **Key point:** Colour shows both the yearly growth and the summer peak in one picture.
 
-A **pivot table** reshapes long data into a grid: one column's values become the rows, another's become the columns, and a third fills the cells. For the flights, months become rows, years become columns, and each cell holds that month's passengers.
+A **pivot table** (G-1500) reshapes long data into a grid: one column's values become the rows, another's become the columns, and a third fills the cells. For the flights, months become rows, years become columns, and each cell holds that month's passengers.
 
 > **Python:** A pivot table.
 >

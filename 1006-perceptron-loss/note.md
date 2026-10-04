@@ -97,6 +97,21 @@ Figure 3 compares the three losses on this example. The 0-1 loss charges both mi
 
 > **Extra:** The value is the distance times a fixed number. The distance from a point to the line $Ax + By + C = 0$ is $|Ax + By + C| / \sqrt{A^2 + B^2}$ (see the [equation of a hyperplane Note](../363-equation-of-a-hyperplane/note.md)). Here $\sqrt{2^2 + 3^2} = 3.61$, so the distances are $30 / 3.61 = 8.32$ and $6 / 3.61 = 1.66$. Dividing every term by the same 3.61 does not change which line is best.
 
+### 5.4 The candidates on every line
+
+> **Key point:** Turn the line a little: the count of mistakes usually stays the same, but the value-based loss changes. Only a loss that changes can tell gradient descent which way to turn the line.
+
+Sections 5.1 to 5.3 scored one line. Figure 4 scores every line: a line through the centre of 10 of the Note's points (5 per class) turns through a full circle, and for each angle we compute the count of mistakes and the value-based loss, which section 6 names the perceptron loss.
+
+![A line turning through 360 degrees over 10 points. Top right: the number of misclassified points (0-1 loss). Bottom right: the perceptron loss, the average of the values of the misclassified points](images/rotating_line.gif){height=45%}
+
+In Figure 4, watch the two curves grow as the line turns:
+
+- **The red count moves in jumps.** Between two jumps it is flat: a small turn of the line changes no point's side, so the count cannot say whether the turn helped.
+- **The green loss changes smoothly.** Every small turn that moves the line closer to or further from a misclassified point changes the loss, so the loss always says which way is better.
+
+Both curves are 0 for the same lines, the ones that separate the two classes. The difference is on the way there: the green curve slopes down towards those lines, and gradient descent follows that slope.
+
 ## 6. The perceptron loss
 
 > **Key point:** With labels −1 and +1, the loss of one point is max(0, −y f(x)): zero when the point is on its correct side, and |f(x)| when it is not.
@@ -114,7 +129,7 @@ scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the 
    $$\max(0, -(-1)(30)) + \max(0, -(1)(-6)) = 30 + 6 = 36,$$
    and dividing by $n = 2$ gives $L = 18$.
 
-$f(x_i)$ is the perceptron's $z$ for observation $i$. The quantity $\max(0, s)$ is just "$s$ if $s$ is positive, otherwise 0".
+$f(x_i)$ is the perceptron's $z$ for observation $i$. The quantity $\max(0, s)$ means: $s$ if $s$ is positive, otherwise 0.
 
 > **Extra:** The full formula in scikit-learn also adds a regularisation term $\alpha R(w)$, as in [Ridge regression](../63-ridge-regression-intuition/note.md). We leave it out here (no regularisation).
 
@@ -131,11 +146,22 @@ A point can relate to the line in four ways:
 | $+1$ | negative | positive | $\lvert f(x) \rvert$ (mistake) |
 | $-1$ | positive | positive | $\lvert f(x) \rvert$ (mistake) |
 
+![The four cases on the line $2x + 3y + 4 = 0$, one point per case. For each point the row fills in from left to right: the label, the value f(x), their product with the sign flipped, and the loss](images/four_cases.gif){height=60%}
+
+Figure 5 runs the table on four points, one per row of the table. Watch each row fill in from left to right:
+
+1. $(2, 2)$ with $y = +1$: $f = 14$, so $-y f = -14$, and $\max(0, -14) = 0$.
+2. $(-4, -3)$ with $y = -1$: $f = -13$, so $-y f = -13$, and the loss is 0.
+3. $(-2, -2)$ with $y = +1$: $f = -6$, so $-y f = +6$, and the loss is 6.
+4. $(4, 6)$ with $y = -1$: $f = 30$, so $-y f = +30$, and the loss is 30.
+
+The average over the four points is $L = (0 + 0 + 6 + 30)/4 = 9$.
+
 So the formula is the "value in the line's equation" loss of Section 5.3, written in one line with no if-statements. The label $y$ only has size 1, so it fixes the sign and the size comes from $f(x)$.
 
 ![The loss of one point against s = y f(x)](images/point_loss.png){height=38%}
 
-Figure 4 plots the loss of one point against $s = y f(x)$. The perceptron loss (red) is 0 for every point on its correct side and rises steadily the further a point is on the wrong side.
+Figure 6 plots the loss of one point against $s = y f(x)$. The perceptron loss (red) is 0 for every point on its correct side and rises steadily the further a point is on the wrong side.
 
 > **Extra:** The SVM's [hinge loss](../94-svm-soft-margin/note.md) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line. Once every point is on its correct side, every observation's gradient is 0 (section 7.1), so the updates stop at the first separating line reached, even one that passes very close to the points of one class.
 
@@ -179,7 +205,7 @@ Putting them together:
 
 ![The same step repeated on the point $(-2, -2)$: each step raises $f(-2, -2)$ by $0.1 \times ((-2)^2 + (-2)^2 + 1) = 0.9$, until the point crosses the line after 7 steps](images/one_point_steps.gif){height=40%}
 
-In Figure 5, watch the line turn and slide towards the point: the point's loss falls by 0.9 per step, 6, 5.1, 4.2 and so on, and turns to 0 at step 7, when the gradient becomes 0 and the updates stop.
+In Figure 7, watch the line turn and slide towards the point: the point's loss falls by 0.9 per step, 6, 5.1, 4.2 and so on, and turns to 0 at step 7, when the gradient becomes 0 and the updates stop.
 
 > **Extra:** At exactly $y f = 0$ the max has a corner and no true derivative. Any slope between the two one-sided slopes, 0 and $-y x_1$, is a valid **subgradient** (G-1910) there: the slope of a line that touches the corner and stays below the loss. The code takes 0, because it updates only when $y f < 0$.
 
@@ -227,10 +253,10 @@ The loss is the average over all observations, while each update looks at one ob
 
 ![The perceptron with a swappable activation and loss](images/flexibility.png){height=45%}
 
-The perceptron's design has two free slots (Figure 6): the activation function, which shapes the output, and the loss function, used in training. The weighted sum and the training method (gradient descent) stay the same.
+The perceptron's design has two free slots (Figure 8): the activation function, which shapes the output, and the loss function, used in training. The weighted sum and the training method (gradient descent) stay the same.
 
 - **Step + perceptron loss:** the perceptron of this Note. Output: a class, $+1$ or $-1$.
-- **[Sigmoid](../72-sigmoid-function/note.md) + [binary cross-entropy](../73-log-loss/note.md):** output a probability between 0 and 1 for two classes. Sigmoid with binary cross-entropy is logistic regression. The loss is
+- **[Sigmoid](../72-sigmoid-function/note.md) + [binary cross-entropy](../73-log-loss/note.md):** output a probability between 0 and 1 for two classes. Sigmoid with binary cross-entropy is logistic regression. The [loss functions Note](../1014-dl-loss-functions/note.md) explains with numbers why this loss suits a probability. The loss is
   $$L = -\frac{1}{n}\sum_{i=1}^{n} \big[ y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i) \big]$$
 - **[Softmax](../79-softmax-regression/note.md) + categorical cross-entropy:** one output per class, probabilities that add to 1. Softmax with categorical cross-entropy is softmax regression, for more than two classes.
 - **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat y_i)^2$ (see the [simple linear regression Note](../50-simple-linear-regression/note.md)).

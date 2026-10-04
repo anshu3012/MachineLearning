@@ -15,9 +15,9 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 
 ## 1. Overview
 
-> **Key point:** Five facts sum up Ridge. Coefficients shrink but never reach 0. The largest shrink most. Bias rises and variance falls with λ. The loss curve's lowest point slides towards 0. Use Ridge when there are 2 or more features.
+> **Key point:** Five facts sum up Ridge. Coefficients shrink but never reach 0. The largest shrink most. Bias rises and variance falls with λ. The loss curve's lowest point slides towards 0. Ridge helps most with many or correlated features, or with few observations.
 
-The last three Notes built Ridge regression: the idea, the formulas, and gradient descent. This Note collects the five points that are easiest to mix up afterwards. The five points are also common interview questions.
+The last three Notes built **Ridge regression** (G-1691): the idea, the formulas, and gradient descent. This Note collects the five points that are easiest to mix up afterwards. The five points are also common interview questions.
 
 | # | Question | Short answer |
 |---|---|---|
@@ -25,9 +25,9 @@ The last three Notes built Ridge regression: the idea, the formulas, and gradien
 | 2 | Which coefficients are affected most? | the largest ones |
 | 3 | What happens to bias and variance? | bias rises, variance falls |
 | 4 | What happens to the loss function? | its lowest point moves towards 0 |
-| 5 | When should Ridge be used? | with 2 or more features |
+| 5 | When should Ridge be used? | when least squares is unstable: many or correlated features, or few observations |
 
-A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the value we predict. All diabetes examples below use test size 0.2 and random state 2.
+A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the value we predict. All diabetes examples below use test size 0.2 and random state 2.
 
 ## 2. Point 1: coefficients shrink but never reach 0
 
@@ -50,13 +50,13 @@ A small alpha (0.1) shrinks the coefficients and nudges test R² up; the larger 
 
 The reason is the slope formula from the Ridge maths Note: $m = \frac{\text{top}}{\text{bottom} + \lambda}$. Adding $\lambda$ to the bottom makes the fraction smaller, but a fraction with a non-zero top never becomes 0.
 
-> **Extra:** Never reaching 0 is the key difference from Lasso (the next Note), which can set coefficients exactly to 0 and so removes features from the model.
+> **Extra:** Never reaching 0 is the key difference from **Lasso** (G-1047; the next Note), which can set coefficients exactly to 0 and so removes features from the model.
 
 ## 3. Point 2: the largest coefficients shrink most
 
 > **Key point:** A large coefficient falls quickly as λ grows; a small one hardly changes.
 
-Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2.
+Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2: its **coefficient path** (G-409).
 
 ![Coefficient paths for alpha from 0 to 2](images/paths.png){height=45%}
 
@@ -78,7 +78,7 @@ The penalty is $\lambda\sum\beta_j^2$, and the square grows fast: a coefficient 
 
 > **Key point:** A small λ gives low bias and high variance (overfitting); a large λ gives high bias and low variance (underfitting). The best λ is in between.
 
-Recall the bias-variance Note: **bias** is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
+Recall the bias-variance Note: **bias** (G-287) is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
 
 Measuring bias needs the true curve, so here we use made-up data where we know it: $y = 0.7x^2 - 2x + 3$ plus noise (standard deviation 2). We fit a degree-15 polynomial with Ridge to 15 training observations, then repeat with fresh noise 300 times. Bias² compares the average fitted curve with the true curve; variance measures how much the 300 fits spread around their average. Both are measured at 14 test points between the training ones.
 
@@ -93,11 +93,11 @@ Measuring bias needs the true curve, so here we use made-up data where we know i
 | 100 | 4.17 | 0.31 | 8.48 |
 | 1000 | 5.05 | 0.26 | 9.31 |
 
-- **Small alpha:** the flexible curve bends with each noisy sample, so the variance is high: overfitting.
-- **Large alpha:** the coefficients are squeezed so hard that the curve is too stiff, and bias takes over: underfitting.
+- **Small alpha:** the flexible curve bends with each noisy sample, so the variance is high: **overfitting** (G-1429).
+- **Large alpha:** the coefficients are squeezed so hard that the curve is too stiff, and bias takes over: **underfitting** (G-2035).
 - **In between** (here about alpha 1): the total error is smallest.
 
-So, as in the bias-variance Note, λ moves a model along the trade-off (ISL §6.2.1). Choose λ where variance has fallen a lot but bias has not yet risen much.
+So, as in the bias-variance Note, λ moves a model along the **bias-variance trade-off** (G-288; ISL §6.2.1). Choose λ where variance has fallen a lot but bias has not yet risen much.
 
 > **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7), and the noise part is $2^2 = 4$ here, the floor no model can beat. The features are standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. The training $x$ values are fixed and only the noise is redrawn, so every fit covers the same range; test points sit between training points, so no fit has to extrapolate.
 
@@ -108,6 +108,16 @@ So, as in the bias-variance Note, λ moves a model along the trade-off (ISL §6.
 To see this in one picture, take the one-feature example and hold the intercept at $-2.29$, its linear regression value. Then the loss depends only on the slope $m$:
 
 $$L(m) = \sum_{i=1}^{n}(y_i - m x_i + 2.29)^2 + \lambda m^2$$
+
+Build the curve one point at a time for $\lambda = 50$. For each slope, compute the squared error, add the penalty $50m^2$, and plot the sum:
+
+| Slope $m$ | Squared error | Penalty $50m^2$ | Loss (sum) |
+|---|---|---|---|
+| 10 | 56,053 | 5,000 | 61,053 |
+| 17.7 | 37,285 | 15,664 | **52,950** |
+| 27.8 | 28,342 | 38,642 | 66,984 |
+
+The squared error alone is lowest at 27.8, the linear regression slope. But there the penalty is large, 38,642. At 17.7 the squared error is higher, yet the penalty is so much smaller that the sum is the lowest of all. The penalty has moved the lowest point from 27.8 to 17.7 (StatQuest, "Ridge vs Lasso Regression, Visualized!!!", builds the curve the same way).
 
 Figure 4 draws this curve while $\lambda$ grows from 0 to 100.
 
@@ -132,15 +142,27 @@ With two coefficients $\beta_1$ and $\beta_2$, the loss has two parts: the squar
 
 The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer, so both coefficients are smaller.
 
-A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained** view of the problem; the details come in a later Note.
+A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained form** (G-454) of the problem; the details come in a later Note.
 
 > **Extra:** The answer to "why is it called Ridge?" is often given with this picture: the solution always lies on the edge of the circle. Historically, the name comes from older work: Hoerl had used *ridge analysis* to study curved response surfaces, and the Ridge formula looked mathematically similar, so the method was labelled "ridge regression" (Hoerl and Kennard 1970, §2).
 
-## 6. Point 5: use Ridge with 2 or more features
+## 6. Point 5: use Ridge where least squares is unstable
 
-> **Key point:** Ridge helps when there are several features, especially correlated ones. With a single feature there is little to gain.
+> **Key point:** Ridge helps when the least-squares coefficients change a lot from sample to sample. That happens with many features, with correlated features, and with very few observations. With one feature and plenty of data there is little to gain.
 
-Regularisation fights overfitting caused by many, large coefficients. With one feature there is only one slope, so there is little room to overfit. With 2 or more features, and especially with many or correlated features, the coefficients can become extreme, and Ridge keeps them in check. With correlated features, a large positive coefficient on one can cancel a large negative one on its partner, like the s1 ($-896$) and s2 ($+561$) pair above; Ridge's size limit stops this (ESL §3.4.1).
+Regularisation fights overfitting, and Ridge works best where the least-squares coefficients have high variance (ISL §6.2.1). Three situations cause it:
+
+- **Many features for the number of observations.** Each extra coefficient is one more thing to estimate from the same data.
+- **Correlated features.** A large positive coefficient on one can cancel a large negative one on its partner, like the s1 ($-896$) and s2 ($+561$) pair above; Ridge's size limit stops this (ESL §3.4.1).
+- **Very few observations,** even with one feature. The two-point line of the [Ridge intuition Note](../63-ridge-regression-intuition/note.md) is this case: its slope swings widely from sample to sample.
+
+A common rule of thumb is "use Ridge with 2 or more features". The rule covers the first two situations, which are the usual ones in practice.
+
+Figure 6 tests the point on the diabetes data with only 40 training observations, averaged over 200 random splits, with alpha chosen by cross-validation on the training part. With bmi as the only feature, Ridge scores 0.30 against 0.31 for linear regression: nothing to gain, because 40 observations pin down one slope well. With all 10 features, linear regression drops to 0.29 and Ridge lifts it to 0.39.
+
+![Mean test R² over 200 splits with 40 training observations: linear regression (grey) against Ridge with alpha chosen by cross-validation (blue). With one feature Ridge gains nothing (0.31 against 0.30); with 10 features it gains 0.10 (0.29 to 0.39).](images/one_vs_many.png)
+
+The third situation shows up when the same one-feature test is run with only 3 training observations. Both models are then poor, but linear regression is far worse: its mean test R² is $-3.44$ against $-1.79$ for Ridge (script `one_vs_many.py`). From about 6 observations on, the gain is gone.
 
 ## 7. Summary
 
@@ -150,13 +172,16 @@ Regularisation fights overfitting caused by many, large coefficients. With one f
 | 2 | The largest coefficients shrink fastest; small ones barely change at first |
 | 3 | Larger λ: higher bias, lower variance. Pick λ in between |
 | 4 | The loss curve rises and its lowest point slides towards 0 |
-| 5 | Use Ridge with 2 or more features, especially correlated ones |
+| 5 | Use Ridge where least squares is unstable: many or correlated features, or very few observations |
+
+Ridge never sets a coefficient to exactly 0. Lasso, the [next Note](../67-lasso-regression/note.md), does: its penalty puts a sharp corner in the loss curve at 0.
 
 ## 8. Sources
 
 **Built from**
 
 - CampusX, "5 Key Points - Ridge Regression | Part 4 | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=8osKeShYVRQ
+- StatQuest with Josh Starmer, "Ridge vs Lasso Regression, Visualized!!!", YouTube, https://www.youtube.com/watch?v=Xm2C_gTAl8c. Building the penalised loss curve point by point (Section 5).
 
 **Other references**
 

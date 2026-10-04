@@ -38,7 +38,7 @@ The Note then states both definitions (Section 5) and shows why a likelihood is 
 
 > **Key point:** The coin follows a Bernoulli distribution with $p = 0.5$; plugging in the event "tails" gives its probability.
 
-Tossing a coin once has two outcomes, heads or tails, so it follows a **Bernoulli distribution** with one parameter $p$, the probability of heads (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md), Section 2.1). For a fair coin, $p = 0.5$.
+Tossing a coin once has two outcomes, heads or tails, so it follows a **Bernoulli distribution** (G-275) with one parameter $p$, the probability of heads (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md), Section 2.1). For a fair coin, $p = 0.5$.
 
 1. **In words:** the Bernoulli PMF gives the probability of each outcome $k$ (1 for heads, 0 for tails) once $p$ is known.
 2. **Formula:**
@@ -53,7 +53,7 @@ Common sense gives the same answer: if heads has probability 0.5, tails has $1 -
 
 Now turn it around. We are told the coin is fair, we toss it five times, and all five come up heads. Is "fair" still believable? The tosses are independent, so the probability of five heads under $p$ is a product of five equal factors (see the [independent events Note](../83-independent-events/note.md)).
 
-1. **In words:** the likelihood of a parameter value is the probability of the observed data computed with that value; the data stays fixed and we change the parameter.
+1. **In words:** the **likelihood** (G-1086) of a parameter value is the probability of the observed data computed with that value; the data stays fixed and we change the parameter.
 2. **Formula:**
    $$L(p \mid \text{5 heads}) = p \times p \times p \times p \times p = p^{5}$$
 3. **Example:** for a fair coin, $L(0.5) = 0.5^5 = 0.031$. For a coin with $p = 0.7$, $L(0.7) = 0.7^5 = 0.168$.
@@ -90,7 +90,9 @@ We draw five times, putting each ball back before the next draw so that the draw
    $$L(p \mid \text{5 green}) = p^{5}$$
 3. **Example:** $L(2/5) = 0.4^5 = 0.010$. For a bag with 4 green balls out of 5, $L(4/5) = 0.8^5 = 0.328$, about 32 times higher.
 
-So five green draws point to a bag with mostly green balls (Figure 2, right). The direction is the same as for the coin: the event is fixed, and we compare parameter values by how well each one explains it.
+So five green draws point to a bag with mostly green balls (Figure 2, right). The direction is the same as for the coin: the event is fixed, and we compare parameter values by how well each one explains it. Figure 3 shows the two readings of the bag side by side: with $p$ known, two bars for the two possible draws; with the five green draws known, one curve over every candidate $p$.
+
+![The bag read both ways. Left, probability: with p = 2/5 known, a draw is red with probability 0.6 and green with 0.4. Right, likelihood: with five green draws observed, L(p) = p⁵ for every share p of green balls; L(2/5) = 0.010 and L(4/5) = 0.328.](images/bag_both.png)
 
 ## 4. Heights: a continuous example
 
@@ -114,7 +116,7 @@ The parameters were known and the event was a range of heights: probability.
 
 > **Key point:** We measure one person at 100 cm. The likelihood of $\mu = 150$, $\sigma = 10$ is the height of the $N(150, 10^2)$ curve at 100: $1.49 \times 10^{-7}$, almost nothing.
 
-Now we pick one person at random and measure 100 cm. How plausible are $\mu = 150$ and $\sigma = 10$ for this **observation** (one recorded value)?
+Now we pick one person at random and measure 100 cm. How plausible are $\mu = 150$ and $\sigma = 10$ for this **observation** (G-1374; one recorded value)?
 
 1. **In words:** put the observed value into the normal PDF, with the parameter values being questioned.
 2. **Formula:**
@@ -136,9 +138,9 @@ An observation of 140 cm makes $\mu = 150$ quite plausible; 100 cm or 200 cm mak
 
 ### 4.3 The likelihood function: slide the parameter
 
-> **Key point:** Keep the observation fixed and slide $\mu$: the heights trace the likelihood function, which peaks at the $\mu$ equal to the observation.
+> **Key point:** Keep the observation fixed and slide $\mu$: the heights trace the **likelihood function** (G-1085), which peaks at the $\mu$ equal to the observation.
 
-Because only $x - \mu$ matters, moving the observation away from $\mu$ is the same as moving $\mu$ away from the observation. The natural way to use likelihood is the second one: the data is what we have, and we try parameter values. Figure 3 fixes one person at 130 cm and slides the candidate mean from 100 to 200 cm.
+Because only $x - \mu$ matters, moving the observation away from $\mu$ is the same as moving $\mu$ away from the observation. The natural way to use likelihood is the second one: the data is what we have, and we try parameter values. Figure 4 fixes one person at 130 cm and slides the candidate mean from 100 to 200 cm.
 
 ![One person measured at 130 cm. Top: the candidate curve N(μ, 10²) slides; the orange bar is its height at 130. Bottom: those heights against μ, the likelihood function, highest at μ = 130](images/likelihood_slide.gif)
 
@@ -148,7 +150,7 @@ The likelihood is highest, 0.040, when the curve is centred on the observation. 
 
 > **Key point:** Probabilities are areas under a fixed distribution; likelihoods are heights at fixed data under a distribution that can move.
 
-A second example (Starmer, StatQuest) draws the same contrast with mouse weights following $N(32, 2.5^2)$ (Figure 4):
+A second example (Starmer, StatQuest) draws the same contrast with mouse weights following $N(32, 2.5^2)$ (Figure 5):
 
 - **probability** (left): the distribution is fixed; the chance that a mouse weighs 32 to 34 grams is the shaded area, 0.29;
 - **likelihood** (right): we weighed one mouse at 34 grams; the likelihood of $N(32, 2.5^2)$ is its height at 34, 0.12. Shifting the mean to 34 raises the likelihood to 0.16.
@@ -178,8 +180,12 @@ All three examples follow one pattern:
 | Bag | $P(\text{red} \mid p = 2/5) = 0.6$ | $L(p = 2/5 \mid \text{5 green}) = 0.010$ |
 | Heights | $P(170 \le X \le 180 \mid 150, 10) = 0.021$ | $L(150, 10 \mid x = 100) = 1.5 \times 10^{-7}$ |
 
-- **Probability** measures the chance that a certain event will occur out of all possible events. A probability is a number from 0 to 1.
-- **Likelihood** is a function that measures how plausible a particular parameter value is, given some observed data. The likelihood says how well an observed outcome supports a parameter value.
+- **Probability** (G-1574) measures the chance that a certain event will occur out of all possible events. A probability is a number from 0 to 1.
+- **Likelihood** is a function that measures the **plausibility** (G-1505) of a particular parameter value: how believable it is, given some observed data. The likelihood says how well an observed outcome supports a parameter value.
+
+Figure 6 shows that both readings come from one table. Each cell holds the probability of $k$ heads in 5 tosses for a coin with heads-probability $p$. Reading along a row (orange, $p = 0.5$) fixes the parameter and runs over the events: that is probability. Reading down a column (green, $k = 5$) fixes the data and runs over the parameter values: that is likelihood, the values $p^5$ of Section 2.2.
+
+![One table, two readings: P(k heads in 5 tosses | p) for p from 0 to 1 and k from 0 to 5. A row (orange, p = 0.5) lists the probabilities of every event. A column (green, k = 5) lists the likelihood of every p.](images/one_table.png)
 
 Said another way: a probability tells us how often to expect an outcome when we understand the process that produces the data; a likelihood tells us how good a model is, given data we have already seen.
 
@@ -194,7 +200,9 @@ The coin shows both sides. With $p$ fixed at 0.5, the probabilities of all possi
 1. **In words:** the area under the likelihood curve, over every possible value of the parameter, is not 1.
 2. **Formula:**
    $$\int_0^1 p^{5}\thinspace dp = \left[\frac{p^{6}}{6}\right]_0^1 = \frac{1}{6}$$
-3. **Example:** the area is $0.167$, not 1. The Notebook confirms both sums: 1.000 for the probabilities, 0.167 for the likelihood area.
+3. **Example:** the area is $0.167$, not 1. The Notebook confirms both sums: 1.000 for the probabilities, 0.167 for the likelihood area (Figure 7).
+
+![Left: with p = 0.5 fixed, the probabilities of 0 to 5 heads add up to 1. Right: with five heads fixed, the area under the likelihood L(p) = p⁵ is 1/6.](images/sums.png)
 
 So a likelihood value only means something next to another likelihood value for the same data: 0.168 against 0.031 says $p = 0.7$ explains five heads better than $p = 0.5$.
 

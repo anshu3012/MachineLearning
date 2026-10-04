@@ -19,7 +19,12 @@ tags: [subject/maths, area/linear-algebra, step/foundations, step/model, concept
 
 ![The dot product of a fixed vector a and a turning vector b: positive for an acute angle, 0 at 90 degrees, negative for an obtuse angle](images/angle_dot.gif)
 
-Figure 1 shows the whole idea. As $b$ turns away from $a$, the dot product $a \cdot b$ falls from its largest value (same direction) through 0 (right angle) to negative values (pointing apart). This Note computes the dot product, states its laws, explains this geometric meaning, and turns it into cosine similarity, the standard way to compare texts in a recommender system.
+Figure 1 shows the whole idea. As $b$ turns away from $a$, the dot product $a \cdot b$ falls from its largest value (same direction) through 0 (right angle) to negative values (pointing apart). This Note:
+
+- computes the dot product and states its laws (section 3);
+- lists what it is used for (section 4);
+- explains this geometric meaning (section 5);
+- turns it into cosine similarity, the standard way to compare texts in a recommender system (section 6).
 
 Vectors, magnitudes and distances are covered in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) and the [magnitude, distance and scalar operations Note](../361-magnitude-distance-and-scalar-operations/note.md).
 
@@ -29,8 +34,8 @@ Vectors, magnitudes and distances are covered in the [vectors and feature vector
 
 Vectors can be multiplied, but not in the ordinary sense. There are two products of two vectors:
 
-- The dot product, also called the **scalar product**, because its result is a scalar.
-- The **cross product**, also called the **vector product**, because its result is a vector.
+- The **dot product** (G-634), also called the **scalar product** (G-1742), because its result is a scalar.
+- The **cross product** (G-506), also called the **vector product**, because its result is a vector.
 
 ML uses the dot product almost everywhere, and the cross product rarely. This Note is about the dot product.
 
@@ -49,7 +54,9 @@ The [PCA step by step Note](../48-pca-step-by-step/note.md) (section 2.1) define
 3. **Example:** for $a = [1, 2, 3]$ and $b = [4, 5, 6]$,
    $$a \cdot b = 1 \times 4 + 2 \times 5 + 3 \times 6 = 4 + 10 + 18 = 32$$
 
-Both vectors must have the same number of components; otherwise some component would have no partner.
+Both vectors must have the same number of components; otherwise some component would have no partner. Figure 2 builds the sum one pair at a time.
+
+![The dot product of [1, 2, 3] and [4, 5, 6], one pair of components at a time: the products 4, 10 and 18 (green) add up to 32.](images/dot_steps.gif){height=30%}
 
 ### 3.1 The dot product as a matrix product
 
@@ -59,9 +66,9 @@ The dot product can also be written as a matrix multiplication. Write $a$ as a r
 
 ![A row of shape 1 x 3 times a column of shape 3 x 1 gives a 1 x 1 result, the dot product](images/row_times_column.png)
 
-The school rule of matrix multiplication says a $1 \times n$ matrix can multiply an $n \times 1$ matrix because the inner sizes match, and the result has the outer sizes: $1 \times 1$, a single number (Figure 2). Each entry of the row meets its partner in the column, the products are added, and the result is exactly the dot product.
+The school rule of matrix multiplication says a $1 \times n$ matrix can multiply an $n \times 1$ matrix because the inner sizes match, and the result has the outer sizes: $1 \times 1$, a single number (Figure 3). Each entry of the row meets its partner in the column, the products are added, and the result is exactly the dot product.
 
-By default a vector is a column. So to put $a$ in the row position we transpose it, and write
+By default a vector is a column. So to put $a$ in the row position we **transpose** (G-2012) it, and write
 
 $$a \cdot b = a^{\mathsf T} b$$
 
@@ -73,8 +80,8 @@ This form, $a^{\mathsf T}b$, appears throughout the inner workings of ML algorit
 
 Two rules hold for the dot product:
 
-- **Commutative law:** $a \cdot b = b \cdot a$. Swapping the vectors only swaps the factors in each product.
-- **Distributive law:** $a \cdot (b + c) = a \cdot b + a \cdot c$.
+- **Commutative law** (G-420): $a \cdot b = b \cdot a$. Swapping the vectors only swaps the factors in each product.
+- **Distributive law** (G-627): $a \cdot (b + c) = a \cdot b + a \cdot c$.
 
 With numbers, take $a = [1, 2, 3]$, $b = [4, 5, 6]$ and $c = [7, 8, 9]$:
 
@@ -102,8 +109,10 @@ With numbers, take $a = [1, 2, 3]$, $b = [4, 5, 6]$ and $c = [7, 8, 9]$:
 In linear algebra the dot product does three main jobs:
 
 1. **Similarity.** It tells how similar two vectors are, and so which of several vectors are closest in direction. Section 6 builds this into cosine similarity.
-2. **Projection.** It gives the projection of one vector onto another: how far $a$ reaches along the direction of $b$. Projections are used in the [PCA step by step Note](../48-pca-step-by-step/note.md) and the [SVM maths Note](../93-svm-maths/note.md).
+2. **Projection** (G-1583). It gives the projection of one vector onto another: how far $a$ reaches along the direction of $b$. For $a = [3, 4]$ and $b = [7, 1]$ that distance is $a \cdot b / \lVert b \rVert = 25 / 7.07 = 3.54$ (Figure 4). Projections are used in the [PCA step by step Note](../48-pca-step-by-step/note.md) and the [SVM maths Note](../93-svm-maths/note.md). The [dot product and duality Note](../520-dot-product-and-duality/note.md) builds the whole dot product from this shadow.
 3. **Matrix multiplication.** Every entry of a matrix product is the dot product of a row with a column.
+
+![The projection of a = [3, 4] onto b = [7, 1]: the shadow of a along b (green) has length a · b / ‖b‖ = 3.54.](images/projection.png){height=34%}
 
 Two uses in ML follow from these. A recommender system turns items into vectors and recommends the most similar ones, measured with the dot product. And deep learning runs on matrix multiplications, so behind the scenes it is computing dot products all the time.
 
@@ -138,7 +147,7 @@ The lengths of non-zero vectors are positive. So the sign of $a \cdot b$ is the 
 - **Right angle** ($\theta = 90^\circ$): $\cos\theta = 0$, so $a \cdot b = 0$.
 - **Obtuse angle** ($90^\circ < \theta \le 180^\circ$): $\cos\theta < 0$, so $a \cdot b < 0$.
 
-So if two non-zero vectors have $a \cdot b = 0$, they are perpendicular. For example, $[3, 4] \cdot [-4, 3] = -12 + 12 = 0$. Perpendicular vectors are called **orthogonal**; as data, they share nothing, and they are as dissimilar as two vectors can be without pointing apart. Algorithms such as SVM use this property heavily, and the [equation of a hyperplane Note](../363-equation-of-a-hyperplane/note.md) relies on it.
+So if two non-zero vectors have $a \cdot b = 0$, they are perpendicular. For example, $[3, 4] \cdot [-4, 3] = -12 + 12 = 0$. Perpendicular vectors are called **orthogonal** (G-1408); as data, they share nothing, and they are as dissimilar as two vectors can be without pointing apart. Algorithms such as SVM use this property heavily, and the [equation of a hyperplane Note](../363-equation-of-a-hyperplane/note.md) relies on it.
 
 ### 5.3 The angle between two vectors
 
@@ -152,23 +161,44 @@ If we know all the components of $a$ and $b$, in any number of dimensions, we ca
 3. **Example:** for $a = [3, 4]$ and $b = [4, 3]$,
    $$\cos\theta = \frac{24}{5 \times 5} = 0.96, \qquad \theta = \cos^{-1}(0.96) \approx 16.26^\circ$$
 
+Figure 5 draws this pair next to the perpendicular pair of section 5.2.
+
+![Left: [3, 4] and [4, 3], dot product 24, angle 16.26 degrees. Right: [3, 4] and [−4, 3], dot product 0, a right angle.](images/angle_examples.png){height=32%}
+
 ## 6. Cosine similarity
 
 > **Key point:** Cosine similarity is $\cos\theta$ between two vectors: 1 for the same direction, 0 for orthogonal, -1 for opposite. Cosine similarity compares direction and ignores length.
 
-### 6.1 Definition and range
+### 6.1 Two phrases as two arrows
+
+> **Key point:** Count the words of each phrase, draw the counts as an arrow, and compare the arrows by the angle between them; repeating words makes an arrow longer but does not turn it.
+
+Take two words, *good* and *movie*, and count how often a phrase uses each. The two counts are the components of a 2D vector, so every phrase is an arrow. Figure 6 walks through four cases.
+
+1. **Two phrases.** *good movie* has the counts $[1, 1]$ and *good* has $[1, 0]$. The angle between the two arrows is $45^\circ$, and $\cos 45^\circ = 0.71$.
+2. **A longer phrase.** *good good good* has the counts $[3, 0]$. Its arrow is three times as long as the arrow of *good*, but points the same way. The angle with *good movie* is still $45^\circ$, so the cosine is still 0.71.
+3. **The same words.** *good movie good movie* has the counts $[2, 2]$, on the same line as $[1, 1]$. The angle is $0^\circ$ and the cosine is 1.
+4. **No shared word.** *good* is $[1, 0]$ and *movie* is $[0, 1]$. The arrows are at a right angle, and the cosine is 0.
+
+So the cosine of the angle is a score of how alike two phrases are: 1 when they use the same words in the same proportions, 0 when they share no word. The length of a phrase does not enter the score. This score is the **cosine similarity** (G-491).
+
+![Phrases as arrows in the plane of two word counts. Repeating "good" stretches the orange arrow without turning it, so the angle and the cosine similarity do not change. Idea after StatQuest, "Cosine Similarity, Clearly Explained!!!".](images/phrase_angle.gif){height=45%}
+
+A real text has thousands of different words, so its vector has thousands of components and cannot be drawn. The angle still exists, and the formula of section 5.3 computes its cosine from the components.
+
+### 6.2 Definition and range
 
 > **Key point:** Cosine similarity runs from -1 to 1, and its sign tells whether the angle is acute or obtuse.
 
-The **cosine similarity** of two vectors is the cosine of the angle between them,
+The cosine similarity of two vectors is the cosine of the angle between them,
 
 $$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}$$
 
-computed from the components exactly as in Section 5.3. In ML it is a standard **similarity measure**: a number that says how alike two vectors are.
+computed from the components exactly as in Section 5.3. In ML it is a standard **similarity measure** (G-1802): a number that says how alike two vectors are.
 
 ![What each value of cosine similarity means](images/cosine_scale.png)
 
-Figure 3 reads its values:
+Figure 7 reads its values:
 
 - **1:** $\theta = 0^\circ$. The vectors point in exactly the same direction, so they are completely similar, even if their lengths differ.
 - **Between 0 and 1:** the angle is acute ($0^\circ$ to $90^\circ$); the closer to 1, the more similar.
@@ -178,11 +208,11 @@ Figure 3 reads its values:
 
 With numbers: $p = [1, 2, 3]$ and $q = [2, 4, 5]$ have cosine similarity 0.996 (angle $5.1^\circ$), so they are almost the same direction. $p$ and $r = [-1, -2, 1]$ have cosine similarity $-0.218$ (angle $102.6^\circ$): an obtuse angle.
 
-### 6.2 Recommending movies by angle
+### 6.3 Recommending movies by angle
 
 > **Key point:** Turn every summary into a vector, compute the cosine similarity with the movie the user liked, and recommend the movies with the smallest angles.
 
-The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6) turned movie summaries into bag-of-words vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
+The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6) turned movie summaries into **bag-of-words** (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
 
 For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = *this is 2023*:
 
@@ -193,7 +223,9 @@ For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = 
    $$\cos\theta_{BC} = \frac{1}{2 \times 1.73} \approx 0.29$$
    A shares no word with B, so $\cos\theta_{AB} = 0$: orthogonal. A user who likes B gets C.
 
-Word counts are never negative, so for texts the cosine similarity always lies between 0 and 1.
+Word counts are never negative, so for texts the cosine similarity always lies between 0 and 1. Figure 8 shows the whole table for the three summaries, plus B written twice (the Extra below).
+
+![Cosine similarity of the word-count vectors of A, B, C and B written twice (B2). B and C: 0.29; A and the others: 0; B and B2: 1, although B2 is twice as long.](images/text_cosine.png){height=40%}
 
 > **Extra:** Why cosine beats distance for text. Write B twice in a row, *my name is riya my name is riya*. Its vector is $2B$: same direction, twice as long. Its cosine similarity with B is exactly 1, but its Euclidean distance from B is 2. A long review and a short review on the same topic should count as similar; the angle sees this and the distance does not. Manning, Raghavan and Schütze (2008, §6.3.1) make the same point: two documents with very similar content can be far apart "simply because one is much longer than the other", and the standard way to compare two documents is the cosine similarity of their vectors.
 
@@ -230,6 +262,7 @@ Word counts are never negative, so for texts the cosine similarity always lies b
 **Built from**
 
 - CampusX, "Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1", YouTube, https://www.youtube.com/watch?v=mQewAJb8oJ8
+- Starmer, J. (StatQuest), "Cosine Similarity, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=e9U0QAFbfLI
 
 **Other references**
 

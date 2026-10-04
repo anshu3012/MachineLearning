@@ -17,9 +17,9 @@ tags: [subject/deep-learning, area/dl-rnn, step/foundations, step/features, step
 
 > **Key point:** Some data comes as a **sequence**, where the order of the items carries meaning: words in a sentence, prices over time, sound over time. An ordinary neural network (ANN) handles sequences badly. Text comes in different lengths, padding it to one length wastes most of the network, and the network has to learn every pattern separately at every position. A **recurrent neural network** (RNN) reads a sequence one item at a time with the same weights and carries a memory forward.
 
-So far the deep learning Notes have used one kind of network: the **artificial neural network** (ANN), or multi-layer perceptron, from the [MLP intuition Note](../1009-mlp-intuition/note.md). An ANN works well on tabular data, where each observation (one record of the data, one row of the table) is a fixed list of features (input variables, one per column). A **convolutional neural network** (CNN) is built for data laid out on a grid, such as images.
+So far the deep learning Notes have used one kind of network: the **artificial neural network** (G-216; ANN), or **multi-layer perceptron** (G-1270), from the [MLP intuition Note](../1009-mlp-intuition/note.md). An ANN works well on tabular data, where each **observation** (G-1374; one record of the data, one row of the table) is a fixed list of **features** (G-772; input variables, one per column). A **convolutional neural network** (G-484; CNN) is built for data laid out on a grid, such as images.
 
-This Note introduces a third family. A **recurrent neural network** (RNN) is a neural network specialised for **sequential data**: data that is a sequence of values $x^{(1)}, x^{(2)}, \dots, x^{(\tau)}$ whose order matters (Goodfellow et al., ch. 10). This Note covers:
+This Note introduces a third family. A **recurrent neural network** (G-1647; RNN) is a neural network specialised for **sequential data** (G-1774): data that is a sequence of values $x^{(1)}, x^{(2)}, \dots, x^{(\tau)}$ whose order matters (Goodfellow et al., ch. 10). This Note covers:
 
 - what makes data sequential (section 3);
 - how an ANN would have to take text, and the four problems that causes (sections 4 and 5);
@@ -39,7 +39,7 @@ The RNN itself, its formula and its code come in the next Note.
 
 > **Key point:** Data is sequential when changing the order of its items changes its meaning.
 
-Take the placement problem of earlier Notes: predict whether a student is placed from three features, IQ, CGPA and gender. If we list the same three features in a different order, the student has not changed, and a network trained on that order gives the same answer (Figure 1, left). Tabular data like this is **non-sequential**: the order of the features carries no information.
+Take the placement problem of earlier Notes: predict whether a student is placed from three features, IQ, CGPA and gender. If we list the same three features in a different order, the student has not changed, and a network trained on that order gives the same answer (Figure 1, left). Tabular data like this is **non-sequential** (G-1340): the order of the features carries no information.
 
 A sentence is different. "Dog bites man" and "man bites dog" use the same three words, but they mean opposite things (Figure 1, right). When we read, we take the words one by one and keep in mind what came before. Data like this is **sequential**.
 
@@ -51,6 +51,12 @@ Sequential data is everywhere:
 - **Time series:** a company's share price day by day; where it goes next depends on where it has been.
 - **Speech and audio:** a sound wave is a sequence of air-pressure values over time.
 - **DNA:** a sequence of the bases A, C, G and T.
+
+Sequences also come in **different lengths**. Take a **time series** (G-1975; measurements taken over time): to predict next week's share price, we may have 9 weeks of prices for one share and only 5 for another. A network built for exactly 9 inputs has no place for the shorter series (Figure 2). Section 5.1 meets the same problem with text.
+
+![Real weekly prices of two shares in early 2018, each divided by its first price: 9 weeks of share A (Google), 5 weeks of share B (Netflix). An ANN's input layer has a fixed number of inputs; the 9-week series fills it, the 5-week series leaves 4 inputs with no value (idea after StatQuest, "Recurrent Neural Networks (RNNs), Clearly Explained!!!")](images/series_lengths.gif){width=100%}
+
+In Figure 2, watch the bottom row: the boxes are the network's inputs, and their number cannot change from one series to the next.
 
 RNNs are an old idea: they go back to the 1980s (Rumelhart et al. 1986, cited in Goodfellow et al., ch. 10). They became widely used once enough data and computing power were available, as for deep learning in general (the [what is deep learning Note](../1002-what-is-deep-learning/note.md)).
 
@@ -66,11 +72,11 @@ Suppose we want a model that reads a short review and predicts its sentiment: 1 
 | food tasted bad | 3 | 0 |
 | we loved the music | 4 | 1 |
 
-A network works with numbers, not words, so the first step is to turn words into vectors. The simplest way is **one-hot encoding** (the [one-hot encoding Note](../27-one-hot-encoding/note.md)): list every distinct word in the training data (the **vocabulary**), then write each word as a vector of 0s with a 1 at that word's place in the list. Our three reviews use 12 distinct words, so each word becomes a vector of length 12.
+A network works with numbers, not words, so the first step is to turn words into vectors. The simplest way is **one-hot encoding** (G-1379; the [one-hot encoding Note](../27-one-hot-encoding/note.md)): list every distinct word in the training data (the **vocabulary**, G-2093), then write each word as a vector of 0s with a 1 at that word's place in the list. Our three reviews use 12 distinct words, so each word becomes a vector of length 12.
 
-To give a whole review to an ANN, we stack its word vectors one after another into one long input vector (Figure 2):
+To give a whole review to an ANN, we stack its word vectors one after another into one long input vector (Figure 3):
 
-1. **In words:** the input size is the number of words times the vocabulary size. A fully connected layer then has one weight per input per node.
+1. **In words:** the input size is the number of words times the vocabulary size. A **fully connected layer** (G-811) then has one weight per input per node.
 2. **Formula:** with $T$ words, a vocabulary of $V$ words and $h$ hidden nodes,
    $$\text{inputs} = T \times V, \qquad \text{weights} = T \times V \times h$$
 3. **Example:** review 1 has $T = 5$ and $V = 12$, so $5 \times 12 = 60$ inputs. With $h = 4$ hidden nodes the first layer has $60 \times 4 = 240$ weights.
@@ -89,7 +95,7 @@ So far, so good for review 1. The trouble starts with the other two reviews.
 
 Review 2 has 3 words, so $3 \times 12 = 36$ inputs; review 3 has $4 \times 12 = 48$. The network built for review 1 expects exactly 60. An ANN's input layer has a fixed size, chosen when the network is built, so it cannot take 36 inputs one time and 48 the next.
 
-Real text varies far more than our three reviews. The IMDB dataset holds 50,000 film reviews labelled positive or negative (Maas et al. 2011; available in Keras). Among its 25,000 training reviews, the shortest has 11 words, the median 178 words and the longest 2,494 words (Figure 3).
+Real text varies far more than our three reviews. The **IMDB dataset** (G-923) holds 50,000 film reviews labelled positive or negative (Maas et al. 2011; available in Keras). Among its 25,000 training reviews, the shortest has 11 words, the median 178 words and the longest 2,494 words (Figure 4).
 
 ![Lengths of the 25,000 IMDB training reviews. Most are a few hundred words long, but a long tail reaches 2,494 words](images/imdb_lengths.png){width=100%}
 
@@ -108,9 +114,13 @@ Real text varies far more than our three reviews. The IMDB dataset holds 50,000 
 
 > **Key point:** Padding every review with zero vectors up to the longest one fixes the size, but most of the input is then zeros, and the number of weights explodes.
 
-The usual workaround is **zero padding**: find the longest review and fill every shorter review with all-zero word vectors until it has the same length. In Figure 2, reviews 2 and 3 get 2 and 1 rows of padding, so every review has 60 inputs.
+The usual workaround is **zero padding** (G-1436, padding): find the longest review and fill every shorter review with all-zero word vectors until it has the same length. In Figure 3, reviews 2 and 3 get 2 and 1 rows of padding, so every review has 60 inputs.
 
-Padding works, but it is expensive:
+Padding works, but it is expensive. Figure 5 shows the trade-off on the 25,000 training reviews. Watch the grey padding grow as the chosen length rises, while the red part, the words that are cut off, shrinks.
+
+![Every IMDB training review padded (grey) or cut (red) to one input length, from 100 to 2,494 words. A short length cuts most reviews; a length that cuts none makes 90% of the input zeros](images/padding_waste.gif)
+
+The two ends of Figure 5 are the two costs:
 
 - **Mostly zeros.** If we pad every IMDB review to the longest one, 2,494 words, then on average 90% of each input is padding.
 - **Huge layers.** Suppose we cut every review to 100 words and use the 10,000 most common words. Each review becomes $100 \times 10{,}000 = 1{,}000{,}000$ inputs. A first layer with only 10 nodes then needs $1{,}000{,}000 \times 10 = 10$ million weights (Keras counts 10,000,010 with the biases).
@@ -121,7 +131,7 @@ Most of those weights only ever multiply zeros: wasted memory and wasted computa
 
 > **Key point:** The padded length is fixed when we build the network. A longer text at prediction time has to be cut, and the cut-off words are lost.
 
-Padding to the longest review would make the network enormous, so in practice we pick a maximum length, for example 500 words, and cut longer reviews. The network then never sees the end of those reviews. Among the 25,000 IMDB test reviews, 7.7% are longer than 500 words. For those reviews, the part after word 500 cannot reach the network at all, however important it is.
+Padding to the longest review would make the network enormous, so in practice we pick a maximum length, for example 500 words, and cut longer reviews. The network then never sees the end of those reviews. Among the 25,000 IMDB test reviews, 7.7% are longer than 500 words (8.4% of the training reviews: the red bars in the 500-word frame of Figure 5). For those reviews, the part after word 500 cannot reach the network at all, however important it is.
 
 ### 5.4 Every position must be learned separately
 
@@ -137,7 +147,9 @@ We can see the effect on the IMDB data. We train a small ANN on the first 50 wor
 |---|---|---|---|---|---|
 | Test accuracy | 67.9% | 67.2% | 65.9% | 63.6% | 57.4% |
 
-The words are the same, yet accuracy falls steadily as they move: from 67.9% to 57.4% after a shift of 20 positions, where 50% is guessing. The network had tied what it learned to particular positions, exactly as Goodfellow et al. describe. (The 68% at shift 0 is modest because this small ANN sees only the first 50 words and a 1,000-word vocabulary; the drop, not the level, is the point. Averaged over 3 seeds; Notebook section 5.)
+![The same test reviews, pushed further to the right. Every word is still there, yet the accuracy falls towards guessing](images/shift_accuracy.png){width=90%}
+
+The words are the same, yet accuracy falls steadily as they move (Figure 6): from 67.9% to 57.4% after a shift of 20 positions, where 50% is guessing. The network had tied what it learned to particular positions, exactly as Goodfellow et al. describe. (The 68% at shift 0 is modest because this small ANN sees only the first 50 words and a 1,000-word vocabulary; the drop, not the level, is the point. Averaged over 3 seeds; Notebook section 5.)
 
 > **Extra:** Bag of words (the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md), section 6.2) avoids the length problem by counting each word instead of placing it, so every text becomes one vector of length $V$. The price is that the order is gone completely: "dog bites man" and "man bites dog" give exactly the same count vector, $(1, 1, 1)$ for (bites, dog, man). Bag of words throws away exactly what makes the data sequential.
 
@@ -145,17 +157,19 @@ The words are the same, yet accuracy falls steadily as they move: from 67.9% to 
 
 > **Key point:** An RNN reads one item at a time and reuses the same weights at every step. It carries a summary of what it has read so far, so its size does not depend on the length of the sequence.
 
-The four problems share one cause: an ANN reads the whole sequence at once, through a separate set of weights for each position. An RNN does the opposite:
+The four problems share one cause: an ANN reads the whole sequence at once, through a separate set of weights for each position. An RNN is still an ordinary network, with weights, biases, layers and activations. It adds one thing: a **feedback loop**, a connection that sends the hidden layer's output back into the same layer for the next item. The hidden layer with this loop is the **recurrent layer** (G-1646). The loop changes three things:
 
 - **One item at a time.** It reads word 1, then word 2, then word 3, in order.
-- **The same weights at every step.** The weights that process word 2 are the ones that process word 50. This **parameter sharing** is what lets a model handle sequences of any length and recognise a pattern wherever it appears (Goodfellow et al., ch. 10).
-- **A memory.** After each word, the RNN updates an internal state, a short summary of everything it has read so far, and passes it on to the next step.
+- **The same weights at every step.** The weights that process word 2 are the ones that process word 50. This **parameter sharing** (G-1447) is what lets a model handle sequences of any length and recognise a pattern wherever it appears (Goodfellow et al., ch. 10).
+- **A memory.** After each word, the RNN updates an internal state, a short summary of everything it has read so far, and passes it on to the next step. This state is the **hidden state** (G-891).
 
 ![Top: an ANN gives each position its own weights, so when "food tasted bad" shifts one place, "bad" meets $W_4$ instead of $W_3$. Bottom: an RNN reads one word at a time through one cell with the same weights and passes a memory on; the 5-word and the 3-word review use the same cell with no padding. The memory is drawn as the words read so far, older ones fainter; the next Note shows the numbers it really holds](images/ann_vs_rnn.gif){width=100%}
 
-In Figure 4, watch the weights each word meets: in the ANN they change with the word's position, in the RNN they are always the same cell.
+In Figure 7, watch the weights each word meets: in the ANN they change with the word's position, in the RNN they are always the same cell.
 
-Because the weights are shared across steps, an RNN's size does not grow with the length of the text. With the same 10,000-word vocabulary and 10 nodes, a Keras `SimpleRNN` layer has 100,110 weights, whether the review has 10 words or 2,494. The padded ANN layer of section 5.2 needed 10,000,010 for 100 words: 100 times more.
+Because the weights are shared across steps, an RNN's size does not grow with the length of the text. With the same 10,000-word vocabulary and 10 nodes, a Keras `SimpleRNN` layer has 100,110 weights, whether the review has 10 words or 2,494. The padded ANN layer of section 5.2 needed 10,000,010 for 100 words: 100 times more. Figure 8 shows how the gap grows with the length of the review.
+
+![Weights in a first layer of 10 nodes over a 10,000-word vocabulary. The dense layer grows with every extra word (red); the RNN layer stays at 100,110 for any length (blue). Both axes are logarithmic](images/weights_vs_length.png){width=90%}
 
 > **Python:** Counting the weights of the two layers.
 >
@@ -173,14 +187,14 @@ How the memory is computed, and where the number 100,110 comes from, is the subj
 
 > **Key point:** RNNs and their descendants power sentiment analysis, next-word suggestions, image captions, translation, speech recognition and forecasting.
 
-- **Sentiment analysis:** reading a review and deciding whether it is positive or negative. An online shop can score thousands of product reviews this way. The IMDB data of section 5 was built for exactly this task (Maas et al. 2011).
+- **Sentiment analysis** (G-1769): reading a review and deciding whether it is positive or negative. An online shop can score thousands of product reviews this way. The IMDB data of section 5 was built for exactly this task (Maas et al. 2011).
 - **Next-word suggestions:** when we type in Gmail, Smart Compose suggests how the sentence continues, using a neural language model that reads the words typed so far (Chen et al. 2019). Phone keyboards suggest the next word in the same spirit.
-- **Image captions:** a CNN reads a photo and an LSTM, a kind of RNN, writes a sentence describing it (Vinyals et al. 2015). Such a model could describe the surroundings to a person who cannot see them.
+- **Image captions:** a CNN reads a photo and an **LSTM** (G-1123), a kind of RNN, writes a sentence describing it (Vinyals et al. 2015). Such a model could describe the surroundings to a person who cannot see them.
 - **Machine translation:** an LSTM reads a sentence in one language and another LSTM writes it in another (Sutskever et al. 2014).
 - **Speech recognition:** deep RNNs turn a sound wave into text (Graves et al. 2013).
-- **Time series forecasting:** predicting the next values of a series, such as sales or electricity demand (Hewamalage et al. 2021).
+- **Time series** (G-1975) **forecasting:** predicting the next values of a series, such as sales or electricity demand (Hewamalage et al. 2021).
 
-Question-answering systems, which read a paragraph and answer questions about it, now mostly use **transformers** such as BERT (Devlin et al. 2019) instead of RNNs. Transformers grew out of the RNN line of work and come at the end of the deep learning Notes.
+Question-answering systems, which read a paragraph and answer questions about it, now mostly use **transformers** (G-2007) such as BERT (Devlin et al. 2019) instead of RNNs. Transformers grew out of the RNN line of work and come at the end of the deep learning Notes.
 
 The next Notes build up the RNN family step by step: the simple RNN, the types of RNN, backpropagation through time, the vanishing-gradient problem in RNNs, then LSTM and GRU, deep RNNs and bidirectional RNNs.
 
@@ -203,6 +217,7 @@ The next Notes build up the RNN family step by step: the simple RNN, the types o
 **Built from**
 
 - CampusX, "Why RNNs are needed | RNNs Vs ANNs | RNN Part 1", YouTube, https://www.youtube.com/watch?v=4KpRP-YUw6c
+- StatQuest with Josh Starmer, "Recurrent Neural Networks (RNNs), Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=AsNTP8Kwu80. 02:00–04:30 (share prices as sequences of different lengths; an RNN as a network with a feedback loop).
 
 **Other references**
 
@@ -226,6 +241,7 @@ The next Notes build up the RNN family step by step: the simple RNN, the types o
 | Recurrent neural network (RNN) | A neural network that reads a sequence one item at a time, with the same weights at every step, and carries a memory forward |
 | Vocabulary | The list of distinct words a text model knows |
 | Zero padding (text) | Adding all-zero word vectors to shorter texts so that every text has the same length |
+| Recurrent layer | A hidden layer whose output at one step is an input to itself at the next (the feedback loop) |
 | Parameter sharing | Using the same weights at different positions or time steps |
 | Time series | A sequence of measurements taken over time |
 | IMDB dataset | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset |

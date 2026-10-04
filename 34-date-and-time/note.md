@@ -15,7 +15,7 @@ tags: [subject/ml, area/features, step/features, concept/datetime]
 
 > **Key point:** A date or time column hides many useful features (year, month, weekday, hour, time passed); we convert the column to a datetime type and pull each one out with `.dt`.
 
-A **feature** is an input variable (one column of the data table), and an **observation** is one record (one row). A single value such as `2019-12-10 23:40:00` looks like one piece of information. The value actually holds a dozen, like a train ticket that also tells the day, the season and whether you travel at night: the year, the month, the weekday, whether it is a weekend, the hour, and more.
+A **feature** (G-772) is an input variable (one column of the data table), and an **observation** (G-1374) is one record (one row). A single value such as `2019-12-10 23:40:00` looks like one piece of information. The value actually holds a dozen, like a train ticket that also tells the day, the season and whether you travel at night: the year, the month, the weekday, whether it is a weekend, the hour, and more.
 
 Figure 1 shows one value split into these features. The rest of the Note shows the pandas code for each one. The Notebook (`notebook.ipynb`) runs every example.
 
@@ -90,7 +90,7 @@ When pandas loads a CSV file, a date column arrives as plain text (dtype `str`).
 
 Figure 4 shows what the conversion buys us.
 
-**`pd.to_datetime`** converts text into **datetime** values: values that pandas understands as points in time.
+**`pd.to_datetime`** (G-1472) converts text into **datetime** (G-545) values: values that pandas understands as points in time.
 
 > **Python:** Converting the column.
 >
@@ -122,13 +122,15 @@ The table itself looks the same before and after: only `orders.info()` shows the
 > The fix is to state the format: `pd.to_datetime(s, format="%d/%m/%Y")` gives 10 and 25 December. Here `%d` is the day, `%m` the month and `%Y` the four-digit year. Two more options help with messy columns:
 >
 > - `format="mixed"` guesses the format separately for each value.
-> - `errors="coerce"` turns a value that cannot be read into **NaT** ("not a time"), the datetime version of NaN.
+> - `errors="coerce"` turns a value that cannot be read into **NaT** (G-1304) ("not a time"), the datetime version of NaN.
 
 ## 5. Extracting parts of a date
 
 > **Key point:** `column.dt.<part>` returns one part of every date in the column at once.
 
-The **`.dt` accessor** gives a datetime column its date tools, the way `.str` gives a text column its text tools. Each tool returns a new column with one value per observation. We store each one as a new feature.
+The **`.dt` accessor** (G-46) gives a datetime column its date tools, the way `.str` gives a text column its text tools. Each tool returns a new column with one value per observation. We store each one as a new feature. Figure 5 adds the features of this section one at a time to the first five orders.
+
+![The first five order dates, with one extracted feature added per step: year, month, day, weekday, weekend flag, week of the year, quarter and semester. The newest column is orange.](images/extract_steps.gif)
 
 ### 5.1 Year
 
@@ -210,7 +212,7 @@ There is no ready-made `.dt` tool for this, so we build it from the weekday. Sat
 | 3 | 2019-08-17 | 5 | Saturday | 1 |
 | 4 | 2019-01-06 | 6 | Sunday | 1 |
 
-284 of the 1,000 orders fall on a weekend. Figure 5 (left) shows the rows per weekday.
+284 of the 1,000 orders fall on a weekend. Figure 6 (left) shows the rows per weekday.
 
 ![Left: rows of `orders.csv` per day of the week. Right: messages per hour of the day in `messages.csv`](images/counts.png){width=100%}
 
@@ -232,7 +234,7 @@ A year has 52 weeks, and sometimes 53. The week number tells us where in the yea
 
 Older code writes `orders["date"].dt.week`. `.dt.week` was deprecated in pandas 1.1 and removed in pandas 2, so it now fails with `AttributeError: 'DatetimeProperties' object has no attribute 'week'`. The new way gives exactly the same numbers.
 
-> **Extra:** The week numbers follow the **ISO calendar**: weeks run Monday to Sunday, and week 1 is the week that contains the year's first Thursday (ISO 8601). So the last days of December can belong to week 1 of the next year. 29 December 2019 (a Sunday) is in week 52 of 2019, but 30 December 2019 (a Monday) is in week 1 of 2020. For such dates `isocalendar().year` differs from `.dt.year`.
+> **Extra:** The week numbers follow the **ISO calendar** (G-975): weeks run Monday to Sunday, and week 1 is the week that contains the year's first Thursday (ISO 8601). So the last days of December can belong to week 1 of the next year. 29 December 2019 (a Sunday) is in week 52 of 2019, but 30 December 2019 (a Monday) is in week 1 of 2020. For such dates `isocalendar().year` differs from `.dt.year`.
 
 ### 5.7 Quarter
 
@@ -245,6 +247,10 @@ Older code writes `orders["date"].dt.week`. `.dt.week` was deprecated in pandas 
 > ```
 
 December and October fall in quarter 4, August in quarter 3, January in quarter 1. Companies often report sales by quarter, so this feature matches how business data is usually grouped.
+
+Figure 7 lays out the 2019 orders as a calendar: each column is one week of the year, each row a weekday, and the dashed lines start each quarter. Every date's week and quarter can be read off its position.
+
+![The order rows of orders.csv per day in 2019. Columns are ISO weeks of the year, rows are weekdays; dashed lines mark the first week of each quarter.](images/order_calendar.png)
 
 ### 5.8 Semester
 
@@ -287,13 +293,13 @@ How long ago an order was placed is often a useful feature, for example "days si
 > today = pd.Timestamp("2021-04-21 16:02:16")
 > ```
 >
-> A **Timestamp** is pandas' type for one single point in time; a datetime column is a column of Timestamps.
+> A **Timestamp** (G-1978) is pandas' type for one single point in time; a datetime column is a column of Timestamps.
 
 ### 6.2 The Timedelta
 
 > **Key point:** `today - orders["date"]` gives one Timedelta per row: a length of time in days, hours, minutes and seconds.
 
-A **Timedelta** is a length of time, such as `498 days 16:02:16`. Subtracting one Timestamp from another gives one. Figure 6 shows it for one order.
+A **Timedelta** (G-1977) is a length of time, such as `498 days 16:02:16`. Subtracting one Timestamp from another gives one. Figure 8 shows it for one order.
 
 ![The time between an order and "today", and three ways to turn it into a number](images/elapsed.png){width=100%}
 
@@ -364,7 +370,7 @@ For row 0: $12 \times (2021 - 2019) + (4 - 12) = 24 - 8 = 16$ months.
 | 4 | 2019-01-06 | 27 | 27 |
 | 11 | 2019-08-02 | 21 | 20 |
 
-The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row 11 shows why (Figure 6): from 2 August 2019 to 21 April 2021 is 20 months and 19 days. The average-month way gives 20.65 and rounds it up to 21; the calendar way counts 20.
+The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row 11 shows why (Figure 8): from 2 August 2019 to 21 April 2021 is 20 months and 19 days. The average-month way gives 20.65 and rounds it up to 21; the calendar way counts 20.
 
 > **Extra:** Neither way is wrong; they answer slightly different questions. The average-month way measures a length of time, the calendar way counts month changes. Pick one and use it for every row. For a model, days passed (`.dt.days`) is often the simplest choice: it is exact and needs no rounding.
 
@@ -396,11 +402,11 @@ The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row
 
 `.dt.time` keeps only the time of day and drops the date. The time of day is useful when only the clock time matters.
 
-The hour feature already tells a story. Figure 5 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: the app is used for night-time chat.
+The hour feature already tells a story. Figure 6 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: the app is used for night-time chat.
 
 ![The same night-time pattern on a 24-hour clock: almost every message falls in the shaded arc](images/night_clock.png){width=45%}
 
-Figure 7 wraps the hours around a clock, so the arc from 22:00 to 03:00 reads as one stretch of night.
+Figure 9 wraps the hours around a clock, so the arc from 22:00 to 03:00 reads as one stretch of night.
 
 > **Extra:** `.dt.time` returns a column of Python `datetime.time` objects (dtype `object`), not a datetime column. The `.dt` tools no longer work on it, and a model cannot use it directly. For a model, the `hour` and `min` numbers are the better features.
 
@@ -431,7 +437,7 @@ Check row 0 in hours: 2684 days are $2684 \times 24 = 64{,}416$ hours, and 15:12
 
 ![Row 0's Timedelta divided by one hour, one minute and one second](images/timedelta_units.png){width=70%}
 
-Figure 8 shows the three divisions for row 0.
+Figure 10 shows the three divisions for row 0.
 
 The unit letters are case-sensitive:
 

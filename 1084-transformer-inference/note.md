@@ -14,7 +14,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 
 ## 1. Overview
 
-> **Key point:** At prediction time (**inference**) the transformer has no target sentence. The encoder runs once and turns the input sentence into $H_{\text{enc}}$. The decoder then runs once per output word: at step 1 its input is `<start>` alone; at each later step it is `<start>` plus every word chosen so far. Only the last position's vector goes through the linear layer and the softmax, the most likely word is chosen, and it is appended to the input. The loop stops at `<end>`. The causal mask stays on, exactly as in training.
+> **Key point:** At prediction time (**inference**) the transformer has no target sentence. The encoder runs once and turns the input sentence into $H_{\text{enc}}$. The decoder then runs once per output word: at step 1 its input is `<start>` alone; at each later step it is `<start>` plus every word chosen so far. Only the last position's vector goes through the linear layer and the softmax, the most likely word is chosen, and it is appended to the input. The loop stops at `<end>`. The **causal mask** (G-358) stays on, exactly as in training.
 
 The [transformer decoder Note](../1083-transformer-decoder/note.md) followed the transformer during training, when the whole target sentence is known and every position is computed in one pass. This Note follows the same trained model when it is used: a new English sentence comes in, and the French translation has to be written word by word (Figure 1).
 
@@ -37,11 +37,15 @@ The Notebook trains a small transformer on 40,000 English–French sentence pair
 | | Training | Inference |
 |---|---|---|
 | Encoder | runs once on the input sentence | the same |
-| Decoder input | `<start>` + the correct target sentence (teacher forcing) | `<start>` + the words chosen so far |
+| Decoder input | `<start>` + the correct target sentence (**teacher forcing**, G-1955) | `<start>` + the words chosen so far |
 | Decoder runs | once per sentence pair | once per output word |
 | Positions used at the output | all (one loss term each) | only the last (it gives the next word) |
 | Causal mask | on | on |
-| Way of working | **non-autoregressive**: all positions in parallel | **autoregressive**: each new word depends on the earlier ones |
+| Way of working | **non-autoregressive** (G-1331): all positions in parallel | **autoregressive** (G-235): each new word depends on the earlier ones |
+
+Figure 2 counts the decoder runs for "we're friends .".
+
+![Decoder runs for "we're friends ." → "nous sommes amies .". Training makes one run and uses every position (one loss term each). Inference makes 5 runs; each recomputes all positions so far (grey) and uses only the last one (orange) to choose the next word](images/runs_grid.png){width=80%}
 
 In training the correct French sentence is in the data, so the decoder can receive all of it at once, shifted right. In inference no French sentence exists yet. The word at step 2 depends on the word chosen at step 1, so step 2 cannot start before step 1 ends (the [masked self-attention Note](../1081-masked-self-attention/note.md), section 4). The paper describes the decoder this way: "at each step the model is auto-regressive, consuming the previously generated symbols as additional input when generating the next" (Vaswani et al. 2017, §3).
 
@@ -49,7 +53,7 @@ In training the correct French sentence is in the data, so the decoder can recei
 
 > **Key point:** A small transformer with the paper's design, trained with teacher forcing for 25 epochs on 40,000 short sentence pairs (about 4 minutes on a GPU), translates unseen sentences with a BLEU score of 41.4.
 
-The data and the test set are those of the [encoder–decoder Note](../1068-encoder-decoder/note.md): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, dropout 0.1, Adam with the paper's warm-up learning-rate schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
+The data and the test set are those of the [encoder–decoder Note](../1068-encoder-decoder/note.md): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, **dropout** (G-639) 0.1, Adam with the paper's **learning-rate warm-up** (G-1075) schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
 
 | | Paper's base model | This Note's model |
 |---|---|---|
@@ -61,7 +65,7 @@ The data and the test set are those of the [encoder–decoder Note](../1068-enco
 
 ![Training the small transformer: the cross-entropy loss on the training pairs and on the 5 percent held out for validation, per epoch](images/training_curve.png){width=80%}
 
-Figure 2 shows the training. The training loss keeps falling for all 25 epochs; the validation loss stops improving after about 10 epochs and then creeps up slightly, a first sign of overfitting.
+Figure 3 shows the training. The training loss keeps falling for all 25 epochs; the validation loss stops improving after about 10 epochs and then creeps up slightly, a first sign of **overfitting** (G-1429).
 
 Some translations of test sentences:
 
@@ -74,7 +78,7 @@ Some translations of test sentences:
 | they have everything they need . | ils ont tout ce dont elles ont besoin . | ils ont tout ce dont ils ont besoin . |
 | the pain has mostly gone away . | la douleur est partie de suite . | la douleur a en majeure partie disparu . |
 
-The **BLEU score** (the [history of LLMs Note](../1067-history-of-llms/note.md), section 4) over all 1,500 test sentences is 41.4. The LSTM encoder–decoder of the [encoder–decoder Note](../1068-encoder-decoder/note.md), on the same test sentences with the same scoring code, reached 13.1; the two models differ in size and training time as well as in architecture, so the gap is not a measure of the architecture alone.
+The **BLEU score** (G-315; the [history of LLMs Note](../1067-history-of-llms/note.md), section 4) over all 1,500 test sentences is 41.4. The LSTM encoder–decoder of the [encoder–decoder Note](../1068-encoder-decoder/note.md), on the same test sentences with the same scoring code, reached 13.1; the two models differ in size and training time as well as in architecture, so the gap is not a measure of the architecture alone.
 
 ## 5. Step 1: the encoder, then `<start>`
 
@@ -88,15 +92,15 @@ Take the new sentence "we're friends .".
 
 1. **Input.** `<start>` is embedded and the positional encoding of position 1 is added: $X$ is $1 \times d_{\text{model}}$.
 2. **Masked self-attention.** With one position there is one query and one key. The softmax over a single score gives the weight 1, so the output is the value vector of `<start>` itself (multiplied by $W_O$). Add and norm follow.
-3. **Cross-attention.** The query of `<start>` is compared with the keys of the 3 English tokens. In the last decoder block of the trained model, averaged over the 4 heads, the weights are 0.78 on "we're", 0.21 on "friends" and 0.01 on ".". The output is the matching weighted sum of the English value vectors. Add and norm follow.
+3. **Cross-attention** (G-507). The query of `<start>` is compared with the keys of the 3 English tokens. In the last decoder block of the trained model, averaged over the 4 heads, the weights are 0.78 on "we're", 0.21 on "friends" and 0.01 on ".". The output is the matching weighted sum of the English value vectors. Add and norm follow.
 4. **Feed-forward network**, add and norm. Then the next decoder block repeats steps 2 to 4 with its own weights.
 5. **Output layer.** The final vector goes through the linear layer ($d_{\text{model}} \to 8{,}004$) and the softmax. The most likely word is "nous", with probability 0.999.
 
 ![Step 1 of translating "we're friends .": the 5 most likely first words, and the cross-attention weights of `<start>` on the English words (last decoder block, mean of 4 heads)](images/step1.png){width=95%}
 
-Figure 3 shows step 1: almost all the probability goes to "nous", and the position that predicts it reads mostly "we're".
+Figure 4 shows step 1: almost all the probability goes to "nous", and the position that predicts it reads mostly "we're".
 
-Choosing the most likely word at every step is **greedy decoding**, the method the [encoder–decoder Note](../1068-encoder-decoder/note.md) used for its LSTM decoder (section 6; SLP3 §7.6.1).
+Choosing the most likely word at every step is **greedy decoding** (G-870), the method the [encoder–decoder Note](../1068-encoder-decoder/note.md) used for its LSTM decoder (section 6; SLP3 §7.6.1).
 
 ## 6. Later steps: the input grows by one word
 
@@ -114,7 +118,7 @@ Both vectors could go through the output layer, but the one for `<start>` would 
 
 **The stop.** When the chosen word is `<end>`, the translation is finished: "nous sommes amies .". A maximum length stops sentences that never produce `<end>`; the Notebook allows 11 words, the paper allowed the input length plus 50 (Vaswani et al. 2017, §6.1).
 
-Figure 4 shows the same loop on a longer sentence, "i think you're right .", one step per frame: the 5 most likely words at each step, and the cross-attention weights of the position being predicted. The decoder reads "i" and "think" for "je" and "pense", "you're" for "vous" (0.84), and "right" for "raison" (0.81). At step 4 the model is unsure between the formal "vous" (0.670) and the informal "tu" (0.327); greedy decoding takes "vous" and keeps it, and the rest of the sentence follows from that choice ("vous avez raison").
+Figure 5 shows the same loop on a longer sentence, "i think you're right .", one step per frame: the 5 most likely words at each step, and the cross-attention weights of the position being predicted. The decoder reads "i" and "think" for "je" and "pense", "you're" for "vous" (0.84), and "right" for "raison" (0.81). At step 4 the model is unsure between the formal "vous" (0.670) and the informal "tu" (0.327); greedy decoding takes "vous" and keeps it, and the rest of the sentence follows from that choice ("vous avez raison").
 
 ![The trained transformer translating "i think you're right ." one step per frame. Left: the 5 most likely next words (the chosen one in orange). Right: the cross-attention weights, in the last decoder block, of the position that predicts the next word (mean of 4 heads)](images/decode_anim.gif){height=70%}
 
@@ -163,11 +167,11 @@ With the mask, the vector of `<start>` at step 8 is exactly the vector of `<star
 
 ![Test BLEU of 3 trained models with the mask on at inference (as in training) and switched off](images/mask_bleu.png){width=75%}
 
-All three models lose between 2.4 and 2.9 BLEU points (Figure 5), and more than 4 translations in 10 change. Without the mask, the earlier positions take in words they never saw during training, a kind of input the model was not trained on. Individual sentences can go either way (without the mask, "they are alone ." becomes the correct "ils sont seuls ." instead of "ils sont seule ."), but on average the translations get worse.
+All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 4 translations in 10 change. Without the mask, the earlier positions take in words they never saw during training, a kind of input the model was not trained on. Individual sentences can go either way (without the mask, "they are alone ." becomes the correct "ils sont seuls ." instead of "ils sont seule ."), but on average the translations get worse.
 
-> **Extra:** Because the earlier positions never change, their keys and values do not change either. Recomputing them at every step wastes time. The **KV cache** stores the key and value vectors of every position the first time they are computed and reuses them at later steps, so each step only computes the query, key and value of the new word (SLP3 §7.8). The cache is correct only because of the property measured above: with the mask, adding a word does not change what was computed before.
+> **Extra:** Because the earlier positions never change, their keys and values do not change either. Recomputing them at every step wastes time. The **KV cache** (G-1022) stores the key and value vectors of every position the first time they are computed and reuses them at later steps, so each step only computes the query, key and value of the new word (SLP3 §7.8). The cache is correct only because of the property measured above: with the mask, adding a word does not change what was computed before.
 
-> **Extra:** Greedy decoding never revisits a choice, as the "vous"/"tu" step showed. **Beam search** keeps several candidate sentences at each step and chooses the most probable complete sentence at the end (SLP3 §13.4). The paper's translations used beam search with 4 candidates (Vaswani et al. 2017, §6.1).
+> **Extra:** Greedy decoding never revisits a choice, as the "vous"/"tu" step showed. **Beam search** (G-272) keeps several candidate sentences at each step and chooses the most probable complete sentence at the end (SLP3 §13.4). The paper's translations used beam search with 4 candidates (Vaswani et al. 2017, §6.1).
 
 ## 8. Summary
 

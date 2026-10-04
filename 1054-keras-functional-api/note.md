@@ -15,13 +15,17 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/functional-api, c
 
 > **Key point:** Keras' `Sequential` model is a straight line of layers: one input, one output. The **functional API** connects layers like a graph: a model can have several inputs, several outputs, branches that split and join, and skip connections. Each layer is called on the output of the layer before it, and `keras.Model(inputs, outputs)` collects the graph into a model.
 
-Every network in the deep learning Notes so far, ANN or CNN, was built with Keras' `Sequential` class. A Sequential model is a list of layers: data enters the first layer, passes through each layer in turn, and leaves the last. The Keras documentation calls it "appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor" (Keras documentation, The Sequential model); Chollet describes it as "basically a Python list" and therefore "limited to simple stacks of layers" (Chollet and Watson 2025, ch. 7).
+Every network in the deep learning Notes so far, ANN or CNN, was built with Keras' `Sequential` class, a **Sequential model** (G-1776). A Sequential model is a list of layers: data enters the first layer, passes through each layer in turn, and leaves the last. The Keras documentation calls it "appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor" (Keras documentation, The Sequential model); Chollet describes it as "basically a Python list" and therefore "limited to simple stacks of layers" (Chollet and Watson 2025, ch. 7).
 
-Many useful networks are not straight lines (Figure 1). This Note introduces the **functional API**, the Keras way of building them: "The functional API can handle models with non-linear topology, shared layers, and even multiple inputs or outputs" (Keras documentation, The Functional API).
+Many useful networks are not straight lines (Figure 1). The pattern of connections between a network's layers is its **topology** (G-1991). This Note introduces the **functional API** (G-818), the Keras way of building them: "The functional API can handle models with non-linear topology, shared layers, and even multiple inputs or outputs" (Keras documentation, The Functional API).
 
 ![(a) A Sequential model is one straight line. (b) One input, two outputs: a face photo gives both an age and an emotion. (c) Three inputs, one output: product details, a text description and a photo together give a price](images/topologies.png){width=100%}
 
-This Note covers when Sequential is not enough, how to build a functional model, models with two outputs, two inputs and a skip connection, and a real model that predicts a person's age and gender from one face photo.
+This Note covers:
+
+- when Sequential is not enough (section 3);
+- how to build a functional model: two outputs, two inputs and a skip connection (section 4);
+- a real model that predicts a person's age and gender from one face photo (section 5).
 
 ## 2. Prerequisites
 
@@ -42,9 +46,13 @@ A Sequential model rests on three assumptions:
 
 Two examples break them.
 
-**Two outputs from one photo.** We have 25,000 face photos, and for each we want to predict two things: the person's age (a number, so regression) and the emotion shown, such as happy, sad or angry (a class, so classification). We could train two separate networks, one per target. A better design passes the photo through one CNN, which finds the facial features once, and then splits into two branches: one ends in an age, the other in an emotion (Figure 1b).
+**Two outputs from one photo.** We have 25,000 face photos, and for each we want to predict two things: the person's age (a number, so **regression**, G-1655) and the emotion shown, such as happy, sad or angry (a class, so **classification**, G-395). We could train two separate networks, one per target (Figure 2a). A better design passes the photo through one CNN, which finds the facial features once, and then splits into two branches: one ends in an age, the other in an emotion (Figure 1b). A model that predicts several targets at once, each from its own output layer, is a **multi-output model** (G-1272).
 
-**Three inputs for one output.** An online shop wants to predict the price of a product from three things: its details (a table of numbers such as size and weight), its text description and its photo. A naive approach trains three networks, one per input, and averages their three prices. A better design gives each input the kind of layers that suits it, dense layers for the table, an RNN for the text (the [why RNNs Note](../1055-why-rnn/note.md)), a CNN for the photo, then **concatenates** the three results into one vector and predicts a single price from it (Figure 1c).
+**Three inputs for one output.** An online shop wants to predict the price of a product from three things: its details (a table of numbers such as size and weight), its text description and its photo. A naive approach trains three networks, one per input, and averages their three prices (Figure 2b). A better design gives each input the kind of layers that suits it, dense layers for the table, an RNN for the text (the [why RNNs Note](../1055-why-rnn/note.md)), a CNN for the photo, then **concatenates** the three results into one vector and predicts a single price from it (Figure 1c). A model that takes several inputs is a **multi-input model** (G-1269).
+
+![The naive designs. (a) Two separate networks, one per target: the photo passes through two CNNs. (b) Three networks, one per input, whose prices are averaged: no network sees the three inputs together. Compare Figure 1b and 1c](images/naive_designs.png){width=100%}
+
+In Figure 2b, each network guesses a price from one kind of input alone, and the average only mixes three separate guesses. In Figure 1c, the layers after `concatenate` see all three inputs at once, so they can learn how the inputs work together.
 
 Neither network is a single line, so neither can be built with `Sequential`. The Keras guide lists exactly these cases: a Sequential model is not appropriate when the model has multiple inputs or multiple outputs, or when we want a non-linear topology, "e.g. a residual connection, a multi-branch model" (Keras documentation, The Sequential model). "The functional API makes it easy to manipulate multiple inputs and outputs. This cannot be handled with the Sequential API" (Keras documentation, The Functional API).
 
@@ -56,11 +64,11 @@ Neither network is a single line, so neither can be built with `Sequential`. The
 
 > **Key point:** Three features in, two hidden layers, then a branch: one output for age (linear) and one for city (sigmoid).
 
-Take a small table with three **features** (input variables, one per column): yearly salary, height and marital status. From them we want to predict two **targets** (the outputs we predict) for each **observation** (one person, one row of the table): the person's age, and whether the person lives in Delhi or Mumbai. The network has two hidden layers of 128 and 64 nodes, then branches into two output nodes (Figure 2).
+Take a small table with three **features** (G-772; input variables, one per column): yearly salary, height and marital status. From them we want to predict two **targets** (G-1949; the outputs we predict) for each **observation** (G-1374; one person, one row of the table): the person's age, and whether the person lives in Delhi or Mumbai. The network has two hidden layers of 128 and 64 nodes, then branches into two output nodes (Figure 3).
 
 ![A functional model with one input and two outputs. Both outputs read the second hidden layer. The numbers are each layer's parameters](images/toy_two_outputs.png){width=70%}
 
-> **Python:** The model of Figure 2.
+> **Python:** The model of Figure 3.
 >
 > ```python
 > from keras import Model
@@ -78,9 +86,13 @@ Take a small table with three **features** (input variables, one per column): ye
 >
 > `Dense(128, activation="relu")` creates a layer; the second pair of brackets, `(x)`, calls it on `x` and returns its output. That call is the connection: it says where the layer's input comes from. `Model(inputs=..., outputs=...)` then collects every layer between the inputs and the outputs. With two outputs, `outputs` is a list.
 
-The pattern is always the same: **create a layer, then call it on its input.** The age output uses a linear activation, because age is a number; the place output uses a sigmoid, because it is a probability between 0 and 1 (Delhi = 0, Mumbai = 1).
+The pattern is always the same: **create a layer, then call it on its input.** Figure 4 runs the code of Figure 3 line by line. Watch each call add one node and one edge to the graph, until `Model` collects them all.
 
-`model.summary()` shows a fourth column that a Sequential summary does not have: for each layer, the layer it is connected to. It reports 8,898 parameters in total (Notebook). Each comes from the parameter count of a dense layer.
+![Building the model of Figure 3, one line of code per frame. Each call adds a node (black border) and the edge from its input; the blue number is the layer's parameter count, and the running total reaches 8,898](images/graph_build.gif){height=62%}
+
+The age output uses a linear activation, because age is a number; the place output uses a **sigmoid** (G-1798), because it is a probability between 0 and 1 (Delhi = 0, Mumbai = 1).
+
+`model.summary()` shows a fourth column that a Sequential summary does not have: for each layer, the layer it is connected to. It reports 8,898 **parameters** (G-1065, learnable parameters; the weights and biases that training learns) in total (Notebook), the total that Figure 4 builds up. Each comes from the parameter count of a **dense layer** (G-583).
 
 1. **In words:** every node has one weight per input plus one bias.
 2. **Formula:** $\text{parameters} = \text{inputs} \times \text{nodes} + \text{nodes}$.
@@ -98,17 +110,19 @@ The pattern is always the same: **create a layer, then call it on its input.** T
 
 > **Key point:** Two inputs each go through their own dense layers; a `Concatenate` layer joins the two results end to end; the joined vector continues to one output.
 
-The second shape has two inputs: one of 32 numbers and one of 128. Each goes through its own small stack of dense layers, and the two results are joined (Figure 3a).
+The second shape has two inputs: one of 32 numbers and one of 128. Each goes through its own small stack of dense layers, and the two results are joined (Figure 5a).
 
 ![(a) Two inputs processed separately and joined by `Concatenate`. (b) A skip connection: the input jumps over two convolution layers and is added to their output](images/two_inputs_and_skip.png){width=95%}
 
-The joining layer is `Concatenate`.
+The joining layer is `Concatenate` (G-71).
 
 1. **In words:** concatenation places two vectors one after the other to make a longer vector. Nothing is added or multiplied.
 2. **Formula:** $\text{concat}\big((a_1, \dots, a_m), (b_1, \dots, b_n)\big) = (a_1, \dots, a_m, b_1, \dots, b_n)$, of length $m + n$.
-3. **Example:** $(0.2, 0.0, 1.3, 0.7)$ and $(0.5, 0.9, 0.0, 0.1)$ give $(0.2, 0.0, 1.3, 0.7, 0.5, 0.9, 0.0, 0.1)$: 8 numbers.
+3. **Example:** $(0.2, 0.0, 1.3, 0.7)$ and $(0.5, 0.9, 0.0, 0.1)$ give $(0.2, 0.0, 1.3, 0.7, 0.5, 0.9, 0.0, 0.1)$: 8 numbers (Figure 6a).
 
-> **Python:** The model of Figure 3a.
+![The same two vectors joined two ways. (a) `Concatenate` places them one after the other: 8 numbers. (b) `Add` sums them position by position: 4 numbers, so the two shapes must match](images/concat_vs_add.png){width=85%}
+
+> **Python:** The model of Figure 5a.
 >
 > ```python
 > from keras.layers import Concatenate
@@ -133,7 +147,7 @@ The model has 10,789 parameters (Notebook). To predict, we pass both inputs toge
 
 > **Key point:** A skip connection adds a block's input to the block's output. The functional API expresses it with an `Add` layer that receives two tensors.
 
-A **skip connection** (also called a residual connection) lets the input of a block jump over the block's layers and be added to their output (Figure 3b). The ResNet networks of the [pretrained models Note](../1051-pretrained-models/note.md) are built from such blocks, and the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) explains why they help very deep networks train. "A common use case for this is residual connections" of models that are "not connected sequentially, which the Sequential API cannot handle" (Keras documentation, The Functional API).
+A **skip connection** (G-1818; also called a **residual connection**, G-1681) lets the input of a block jump over the block's layers and be added to their output (Figure 5b). The ResNet networks of the [pretrained models Note](../1051-pretrained-models/note.md) are built from such blocks, and the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) explains why they help very deep networks train. "A common use case for this is residual connections" of models that are "not connected sequentially, which the Sequential API cannot handle" (Keras documentation, The Functional API).
 
 > **Python:** A block of two convolutions with a skip connection.
 >
@@ -147,7 +161,7 @@ A **skip connection** (also called a residual connection) lets the input of a bl
 > block = Model(inputs, outputs)
 > ```
 >
-> `Add` adds its inputs element by element, so they must have the same shape. `padding="same"` and 16 filters keep `y` at $32 \times 32 \times 16$, the shape of `inputs`.
+> `Add` adds its inputs element by element (Figure 6b), so they must have the same shape. `padding="same"` and 16 filters keep `y` at $32 \times 32 \times 16$, the shape of `inputs`.
 
 The `Add` layer receives two tensors, `inputs` and `y`: the input reaches it by two routes, which is not a single line. The block has $2 \times (3 \times 3 \times 16 \times 16 + 16) = 4{,}640$ parameters, all in the two convolutions (Notebook).
 
@@ -169,7 +183,7 @@ The task has two **targets**: age, a number (regression), and gender, one of two
 
 > **Key point:** VGG16's frozen convolutional base, Flatten, then two branches of 256 nodes, one ending in a linear age output and one in a sigmoid gender output.
 
-The model combines the [transfer learning Note](../1053-transfer-learning/note.md) with section 4: VGG16's convolutional base, frozen, reads the photo, and the network then branches into two heads (Figure 4).
+The model combines **transfer learning** (G-2005; the [transfer learning Note](../1053-transfer-learning/note.md)) with section 4: **VGG16**'s (G-2088) convolutional base, frozen, reads the photo, and the network then branches into two heads (Figure 7).
 
 ![The age and gender model: one frozen VGG16 base, Flatten, and two branches with their own output and loss](images/age_gender_model.png){width=70%}
 
@@ -191,13 +205,13 @@ The model combines the [transfer learning Note](../1053-transfer-learning/note.m
 >
 > `conv_base.input` and `conv_base.output` connect the pretrained base into the new graph: the model's input is VGG16's input, and Flatten is called on VGG16's output. The names `"age"` and `"gender"` are used below to give each output its own loss.
 
-For a $128 \times 128$ photo the base outputs $4 \times 4 \times 512$, which Flatten turns into 8,192 numbers. Each branch then has $(8{,}192 + 1) \times 256 + (256 + 1) = 2{,}097{,}665$ parameters. The whole model has 18,910,018 parameters, of which 4,195,330 (the two branches) are trainable and the 14,714,688 of the base are frozen (Notebook).
+For a $128 \times 128$ photo the base outputs $4 \times 4 \times 512$, which a **flatten layer** (G-788) turns into 8,192 numbers. Each branch then has $(8{,}192 + 1) \times 256 + (256 + 1) = 2{,}097{,}665$ parameters. The whole model has 18,910,018 parameters, of which 4,195,330 (the two branches) are trainable and the 14,714,688 of the base are frozen (Notebook).
 
 ### 5.3 One loss per output
 
 > **Key point:** Each output gets its own loss: mean absolute error for age, binary cross-entropy for gender. Training minimises their weighted sum.
 
-A model with two outputs needs two losses, one per output. Keras lets us pass them as a dictionary keyed by the output names, together with **loss weights** that "modulate their contribution to the total training loss" (Keras documentation, The Functional API).
+A model with two outputs needs two losses, one per output. Keras lets us pass them as a dictionary keyed by the output names, together with **loss weights** (G-1131) that "modulate their contribution to the total training loss" (Keras documentation, The Functional API).
 
 > **Python:** Compiling and training the two-output model.
 >
@@ -212,11 +226,13 @@ A model with two outputs needs two losses, one per output. Keras lets us pass th
 >
 > The targets are passed as a dictionary with the same keys, so Keras knows which target belongs to which output.
 
-1. **In words:** the total loss is each output's loss times its weight, added up. Age errors are measured in years, which are large numbers, while binary cross-entropy is usually below 1; a small weight on age keeps it from swamping the gender loss.
+1. **In words:** the total loss is each output's loss times its weight, added up (Figure 8). Age errors are measured in years, which are large numbers, while binary cross-entropy is usually below 1; a small weight on age keeps it from swamping the gender loss.
 2. **Formula:** $L = 0.1 \times L_{\text{age}} + 1.0 \times L_{\text{gender}}$
 3. **Example:** with an age error of 9 years and a gender loss of 0.30, $L = 0.1 \times 9 + 1.0 \times 0.30 = 0.9 + 0.3 = 1.2$. Without the weight, age would contribute 9 of the 9.3.
 
-The mean absolute error (MAE) is the average distance between predicted and true age, in years (the [loss functions Note](../1014-dl-loss-functions/note.md)).
+![The worked example as bars. Without weights, the age part (9.0) is 30 times the gender part (0.3), so training would mostly reduce the age error. With a weight of 0.1 on age, the two parts are 0.9 and 0.3](images/loss_weights.png){width=95%}
+
+The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years (the [loss functions Note](../1014-dl-loss-functions/note.md)). The gender output uses **binary cross-entropy** (G-304), the loss for a yes-or-no target with a sigmoid output.
 
 > **Extra:** The base is frozen and the photos are not augmented, so the base turns each photo into the same 8,192 numbers in every epoch. The Notebook therefore runs every photo through the base once and trains only the two branches on the stored numbers. The model is the same; only the repeated work is skipped.
 
@@ -235,7 +251,7 @@ To see whether one model with two outputs loses anything, we also trained two se
 
 ![The two-output model on the test photos, epoch by epoch: the age error (left) and the gender accuracy (right). Thin lines: 3 seeds; thick lines: their mean; dashed: guessing](images/two_output_curves.png){width=100%}
 
-Both heads learn from the first epoch (Figure 5): after one epoch the age error is already 9.0 years and the gender accuracy 85.6%, far better than guessing (dashed lines). Later epochs change little: the mean age error moves between 8.4 and 9.6 years from epoch to epoch, and the gender accuracy between 85.0% and 86.3%. The two-output model does as well as the two separate models: its gender accuracy is slightly higher, its age error slightly higher too, and in both cases the ranges of the three seeds overlap.
+Both heads learn from the first epoch (Figure 9): after one epoch the age error is already 9.0 years and the gender accuracy 85.6%, far better than guessing (dashed lines). Later epochs change little: the mean age error moves between 8.4 and 9.6 years from epoch to epoch, and the gender accuracy between 85.0% and 86.3%. The two-output model does as well as the two separate models: its gender accuracy is slightly higher, its age error slightly higher too, and in both cases the ranges of the three seeds overlap.
 
 The two branches in this model share no trainable layer, only the frozen base, so each head learns its own target much as a separate model would; the results agree with that. What the single model saves is the base: one photo passes once through VGG16's 14.7 million convolution weights and gives both answers. Two separate models would each need their own copy of the base and their own pass through it, $2 \times (14{,}714{,}688 + 2{,}097{,}665) = 33{,}624{,}706$ parameters in total, against 18,910,018 for the one model.
 

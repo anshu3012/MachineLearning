@@ -17,9 +17,9 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm, concept/nex
 
 > **Key point:** A next-word predictor turns text generation into supervised learning: every beginning of a sentence is an input, and the word that follows it is the output. An Embedding layer, an LSTM and a softmax layer then learn to pick the most likely next word from the vocabulary. On stories it has never seen, the trained model beats simple guessing rules.
 
-A **next-word predictor** takes some text and suggests the word that comes next. Phone keyboards that suggest the next word while we type, e-mail tools that suggest how to finish a sentence and code completion tools all do this.
+A **next-word predictor** (G-1322) takes some text and suggests the word that comes next. Phone keyboards that suggest the next word while we type, e-mail tools that suggest how to finish a sentence and code completion tools all do this.
 
-Repeated, it becomes a **text generator**: predict a word, add it to the text, predict the next one, and so on. This Note builds one with an LSTM in Keras, on a real public-domain book: Grimms' Fairy Tales.
+Repeated, it becomes a **text generator** (G-1964): predict a word, add it to the text, predict the next one, and so on. This Note builds one with an LSTM in Keras, on a real public-domain book: Grimms' Fairy Tales.
 
 ![The next-word predictor. The words before the gap become 50 integers (zeros in front), the Embedding layer turns each into 100 numbers, the LSTM reads them one time step at a time, and its last hidden state goes to a softmax layer with one node per vocabulary word. The word with the highest probability is the prediction](images/architecture.png){width=100%}
 
@@ -41,7 +41,7 @@ Figure 1 shows the whole model. The rest of the Note builds the training data fo
 
 > **Key point:** Supervised learning trains a model on data where every input comes with its correct output. Plain text has no such pairs, so we make them.
 
-In supervised learning, every **observation** (one record of the data) has an input and a **target** (the output we predict). The model learns the mapping from input to target, then predicts the target for new inputs. A text is only a list of sentences. To use supervised learning, we must create the pairs from the text itself.
+In **supervised learning** (G-1919), every **observation** (G-1374; one record of the data) has an input and a **target** (G-1949; the output we predict). The model learns the mapping from input to target, then predicts the target for new inputs. A text is only a list of sentences. To use supervised learning, we must create the pairs from the text itself.
 
 ### 3.2 Every prefix predicts its next word
 
@@ -54,11 +54,11 @@ Take the sentence "a certain king had a beautiful garden". We read it word by wo
 - input "a certain king", output "had";
 - and so on, until input "a certain king had a beautiful", output "garden".
 
-Each input is a **prefix** of the sentence (its first few words), and its output is the next word. We repeat this for every sentence of the text and collect all the pairs into one dataset.
+Each input is a **prefix** (G-1555) of the sentence (its first few words), and its output is the next word. We repeat this for every sentence of the text and collect all the pairs into one dataset.
 
 ![The pairs made from one sentence. Each prefix is an input; the word after it is the output. Zeros in front make every input the same length](images/ngram_pairs.png){width=95%}
 
-Figure 2 shows the pairs. A prefix is also called an **n-gram**: a sequence of $n$ consecutive words.
+Figure 2 shows the pairs. A prefix is also called an **n-gram** (G-1287): a sequence of $n$ consecutive words.
 
 ## 4. Preparing the data
 
@@ -84,7 +84,7 @@ Every story is split into sentences at a full stop, question mark or exclamation
 
 > **Key point:** `TextVectorization` builds the vocabulary from the training sentences and replaces every word by its index. We keep the 3,000 most frequent words; every other word becomes `[UNK]`.
 
-A model needs numbers, so every word gets an integer, as in the [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md). We build the vocabulary from the training sentences only. They contain 4,288 different words; `TextVectorization(max_tokens=3000)` keeps 3,000 entries: index 0 is the padding value, index 1 is `[UNK]`, the **out-of-vocabulary (OOV) token** for any word outside the vocabulary, and the 2,998 most frequent words follow ("the" is 2, "and" is 3).
+A model needs numbers, so every word gets an integer, as in the [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md). We build the vocabulary from the training sentences only. They contain 4,288 different words; `TextVectorization(max_tokens=3000)` keeps 3,000 entries: index 0 is the padding value, index 1 is `[UNK]`, the **out-of-vocabulary (OOV) token** (G-1416) for any word outside the vocabulary, and the 2,998 most frequent words follow ("the" is 2, "and" is 3).
 
 The first sentence, "A certain king had a beautiful garden, and in the garden stood a tree which bore golden apples.", becomes
 
@@ -121,7 +121,7 @@ A pair whose output is `[UNK]` is dropped: no model can name a word that is not 
 
 > **Key point:** Every sequence is brought to 51 integers: zeros in front of the short ones, and the long ones cut from the front. The last input word always sits right before the output.
 
-The sequences have different lengths; the longest has 259 integers. We give every input the last 50 words before its output: `keras.utils.pad_sequences(sequences, maxlen=51, padding="pre", truncating="pre")` adds zeros at the start of every shorter sequence (padding and its cost are covered in the [why RNNs Note](../1055-why-rnn/note.md)) and cuts the start of every longer one. Only 16.1% of the training pairs have more than 50 input words. The first sequence $[6, 964]$ becomes 49 zeros followed by $6, 964$.
+The sequences have different lengths; the longest has 259 integers. We give every input the last 50 words before its output: `keras.utils.pad_sequences(sequences, maxlen=51, padding="pre", truncating="pre")` adds zeros at the start of every shorter sequence (padding and its cost are covered in the [why RNNs Note](../1055-why-rnn/note.md)) and cuts the start of every longer one. Only 16.1% of the training pairs have more than 50 input words. The first sequence $[6, 964]$ becomes 49 zeros followed by $6, 964$ (Figure 3, top row).
 
 Padding in front keeps the real words at the end of every row. The last real word of the input is then always the last time step the LSTM reads, right before it predicts.
 
@@ -129,7 +129,10 @@ Padding in front keeps the real words at the end of every row. The last real wor
 
 > **Key point:** All columns but the last are the input $X$; the last column is the output $y$. $X$ has shape $(72589, 50)$.
 
-Every padded row holds an input followed by its output, so we split it:
+Every padded row holds an input followed by its output, so we split it at the last column (Figure 3):
+
+![The first three training sequences, padded in front to 51 integers. The red dashed line splits each row: the first 50 columns are the input $X$, the last column is the output $y$](images/pad_split.png){width=95%}
+
 
 - $X$ = all columns except the last: shape $(72589, 50)$, 50 time steps per observation;
 - $y$ = the last column: shape $(72589,)$, one word index per observation.
@@ -150,15 +153,17 @@ Every padded row holds an input followed by its output, so we split it:
 
 > **Key point:** A regression model could output 2.7, and no word has the index 2.7.
 
-The output $y$ is a number, so the task looks like regression. But the number 2 only names the word "the"; 2.7 means nothing, and a regression model can output any real number. The numbers are categories, so the task is **classification**: with 3,000 possible words, it is **multi-class classification**.
+The output $y$ is a number, so the task looks like regression. But the number 2 only names the word "the"; 2.7 means nothing, and a regression model can output any real number. The numbers are categories, so the task is **classification** (G-395): with 3,000 possible words, it is **multi-class classification** (G-1266). Figure 4a shows the problem with a number: 2.7 lies between "the" and "and" and names neither.
 
 ### 5.2 One-hot targets
 
 > **Key point:** Each target becomes a one-hot vector of length 3,000; the model outputs 3,000 probabilities, and the largest one names the predicted word.
 
-We replace every target by its one-hot vector (see the [one-hot encoding Note](../27-one-hot-encoding/note.md)): 3,000 numbers, all 0 except a 1 at the word's index. The output layer then has 3,000 nodes with a softmax activation. The softmax gives 3,000 probabilities that add up to 1, one per vocabulary word, and the predicted word is the one with the highest probability.
+We replace every target by its one-hot vector (see the [one-hot encoding Note](../27-one-hot-encoding/note.md)): 3,000 numbers, all 0 except a 1 at the word's index. The output layer, a **softmax output layer** (G-1832), then has 3,000 nodes with a softmax activation. The softmax gives 3,000 probabilities that add up to 1, one per vocabulary word, and the predicted word is the one with the highest probability. Figure 4b shows both for the prefix "but": the target puts all its weight on the real next word, and the trained model spreads its probability over likely words, with the most on that word.
 
-> **Python:** One-hot targets with `to_categorical`.
+![(a) A regression output names no word: 2.7 falls between the indices of "the" and "and". (b) After the prefix "but": the one-hot target (green outline, 1 for the real next word "the") and the model's softmax probabilities for its five most likely words (seed 0)](images/onehot_softmax.png){width=100%}
+
+> **Python:** One-hot targets with `to_categorical` (G-151).
 >
 > ```python
 > Y = keras.utils.to_categorical(y, num_classes=3000)
@@ -183,7 +188,7 @@ Figure 1 shows the data flow for one observation.
 2. **LSTM.** The LSTM reads the 50 vectors one time step at a time. After the last one it outputs its hidden state $h_{50}$, 150 numbers, one per unit (see the [LSTM architecture Note](../1062-lstm-architecture/note.md)). This is a many-to-one RNN.
 3. **Dense.** $h_{50}$ goes to a layer of 3,000 nodes with a softmax activation, which gives one probability per vocabulary word.
 
-The model is compiled with the categorical cross-entropy loss (the loss for multi-class classification with one-hot targets; see the [loss functions Note](../1014-dl-loss-functions/note.md)), the Adam optimizer, and accuracy as the metric.
+The model is compiled with the **categorical cross-entropy** (G-350) loss (the loss for multi-class classification with one-hot targets; see the [loss functions Note](../1014-dl-loss-functions/note.md)), the Adam optimizer, and accuracy as the metric.
 
 > **Python:** The model.
 >
@@ -224,11 +229,11 @@ $$4\thinspace\big((150 + 100) \times 150 + 150\big) = 4 \times 37{,}650 = 150{,}
 
 > **Key point:** We train until the validation loss stops falling, and keep the weights of the best epoch.
 
-We train with batch size 64 and check the model after every epoch on the validation pairs. **Early stopping** (see the [early stopping Note](../1022-early-stopping/note.md)) ends training once the validation loss has not improved for 3 epochs, and restores the weights of the epoch with the lowest validation loss. The whole run is repeated with 5 seeds.
+We train with batch size 64 and check the model after every epoch on the validation pairs. **Early stopping** (G-656; see the [early stopping Note](../1022-early-stopping/note.md)) ends training once the validation loss has not improved for 3 epochs, and restores the weights of the epoch with the lowest validation loss. The whole run is repeated with 5 seeds.
 
 ![Next-word accuracy during training (seed 0). The dotted line marks epoch 6, the epoch with the lowest validation loss, whose weights are kept](images/accuracy_curves.png){width=100%}
 
-Figure 3 shows one run. Every seed keeps epoch 6. After it, the training loss keeps falling (from 4.35 to 3.95 by epoch 9) while the validation loss rises (from 4.75 to 4.83): the model starts to fit details of the training stories that do not hold in new ones, the beginning of **overfitting** (see the [regularisation Note](../1026-regularization-in-dl/note.md)). Early stopping keeps the weights from before that point.
+Figure 5 shows one run. Every seed keeps epoch 6. After it, the training loss keeps falling (from 4.35 to 3.95 by epoch 9) while the validation loss rises (from 4.75 to 4.83): the model starts to fit details of the training stories that do not hold in new ones, the beginning of **overfitting** (G-1429; see the [regularisation Note](../1026-regularization-in-dl/note.md)). Early stopping keeps the weights from before that point.
 
 ### 7.2 Comparing with simple guessing rules
 
@@ -241,7 +246,7 @@ A next-word accuracy of 17.5% sounds low, so we compare it with two simple rules
 
 ![Next-word accuracy on the 11,366 test pairs. The LSTM bar is the mean of 5 seeds; the error bar is one standard deviation](images/baselines.png){width=95%}
 
-Figure 4 and the Notebook give:
+Figure 6 and the Notebook give:
 
 | Method | Test accuracy |
 |---|---|
@@ -283,13 +288,15 @@ For "a certain king had a beautiful garden and in the", the model answers "door"
 
 ![The sentence "But the fish said, 'Pray let me live!'", the first test sentence of 8 to 14 known words, typed into the model (seed 0) one word at a time. After each prefix: the model's five most likely next words. Then the real next word appears, green when it is among the five](images/next_word_bars.gif){width=100%}
 
-In Figure 5, watch the guesses change with each word: after "but" the model guesses "the", "he" and "she"; after "but the" it guesses nouns of the stories such as "king" and "wolf". The real next word is among the five guesses at 3 of the 7 steps ("the" first, "said" fourth, "me" second); a new subject such as "fish" ranks 642nd.
+In Figure 7, watch the guesses change with each word: after "but" the model guesses "the", "he" and "she"; after "but the" it guesses nouns of the stories such as "king" and "wolf". The real next word is among the five guesses at 3 of the 7 steps ("the" first, "said" fourth, "me" second); a new subject such as "fish" ranks 642nd.
 
 ### 8.2 Many words: text generation
 
 > **Key point:** Add the predicted word to the text and predict again. Ten repetitions write ten words.
 
-To write more than one word, we loop: predict the next word, append it to the text, and feed the longer text back in.
+To write more than one word, we loop: predict the next word, append it to the text, and feed the longer text back in. Figure 8 runs the loop for the prompt "the wolf".
+
+![Text generation, one prediction per frame, for the prompt "the wolf" (seed 0). The new word (green) is appended, and the longer text is the next input](images/generate_loop.gif)
 
 > **Python:** Ten words, one at a time.
 >
@@ -316,7 +323,7 @@ The text is also repetitive: different prompts lead into the same phrase, and "s
 
 > **Key point:** Two directions: tune the hyperparameters, or change the architecture.
 
-1. **Hyperparameter tuning.** The vocabulary size (3,000 here), the number of LSTM units (150), the size of the word vectors (100), the optimizer, the learning rate and the number of epochs can all be changed, and each choice judged on the validation stories.
+1. **Hyperparameter tuning** (G-909). The vocabulary size (3,000 here), the number of LSTM units (150), the size of the word vectors (100), the optimizer, the learning rate and the number of epochs can all be changed, and each choice judged on the validation stories, the **validation set** (G-2067).
 2. **Other architectures.** Several LSTM layers stacked on each other (the [deep RNNs Note](../1065-deep-rnns/note.md)) or the GRU (the [GRU Note](../1064-gru/note.md)) can be compared in the same way.
 
 ## 10. Summary

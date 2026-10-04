@@ -26,11 +26,13 @@ The Notebook for this Note (`notebook.ipynb`) runs every example, with the data 
 
 > **Key point:** JSON is a plain-text data format that almost every programming language can read, which makes it the standard way programs exchange data.
 
-**JSON** stands for **JavaScript Object Notation**. JSON started in the JavaScript language, but it is now a universal format: Java, Python, JavaScript and almost every other language can read and write it.
+**JSON** (G-987) stands for **JavaScript Object Notation**. JSON started in the JavaScript language, but it is now a universal format: Java, Python, JavaScript and almost every other language can read and write it.
 
-Its most important use is in APIs. An **API** (application programming interface) is a service that other programs can send requests to. When a program sends a request to an API, the reply usually comes back as JSON, so any language can use it.
+Its most important use is in APIs. An **API** (G-204; application programming interface) is a service that other programs can send requests to. When a program sends a request to an API, the reply usually comes back as JSON, so any language can use it.
 
-JSON is very common in ML work. Many datasets on sites such as Kaggle come as JSON files.
+JSON is very common in ML work. Many datasets on sites such as Kaggle come as JSON files. Figure 2 shows the first recipe of the dataset used in section 4.
+
+![The first record of `train.json`, one recipe: an object of key and value pairs, whose `ingredients` value is an array (9 items, the first two shown)](images/json_anatomy.png){width=100%}
 
 > **Extra:** What JSON text looks like.
 >
@@ -55,7 +57,7 @@ JSON is very common in ML work. Many datasets on sites such as Kaggle come as JS
 
 > **Key point:** SQL is the language for asking a database for data; a lot of real-world data lives in SQL databases.
 
-**SQL** stands for **Structured Query Language**. SQL is the language we use to pull data out of a **database**: a program that stores data as tables and answers requests for it.
+**SQL** (G-1857) stands for **Structured Query Language**. SQL is the language we use to pull data out of a **database** (G-544): a program that stores data as tables and answers requests for it.
 
 A request written in SQL is called a **query**. Company data (customers, orders, payments) usually lives in databases, and many datasets online are shared as SQL files. So for ML we often need to get data out of a database and into a DataFrame.
 
@@ -81,9 +83,9 @@ The ML task behind this dataset is classification: look at a dish's ingredients 
 > recipes.shape     # (39774, 3)
 > ```
 >
-> `read_json` works exactly like `read_csv`: we give it the file name, and it returns a DataFrame. The file sits in the `data` folder next to the Notebook.
+> `read_json` (G-130) works exactly like `read_csv`: we give it the file name, and it returns a DataFrame. The file sits in the `data` folder next to the Notebook.
 
-Figure 2 shows what happens. The file is a list of objects.
+Figure 3 shows what happens. The file is a list of objects.
 
 Each object becomes one row, and each key (`id`, `cuisine`, `ingredients`) becomes one column. The result has 39,774 dishes and 3 columns.
 
@@ -91,7 +93,7 @@ Each object becomes one row, and each key (`id`, `cuisine`, `ingredients`) becom
 
 The `ingredients` column is unusual: each cell holds a whole Python list, not a single value. Before training a model on it, we would have to turn those lists into numbers. The `id` column carries no information about the cuisine, so it would be dropped.
 
-Figure 3 counts the dishes of each cuisine. There are 20 cuisines, and they are far from equal: Italian has 7,838 dishes, Brazilian only 467.
+Figure 4 counts the dishes of each cuisine. There are 20 cuisines, and they are far from equal: Italian has 7,838 dishes, Brazilian only 467.
 
 ![How many dishes of each cuisine](images/cuisines.png){height=50%}
 
@@ -132,7 +134,7 @@ Our example is a free exchange-rate API. The address below returns how much one 
 >
 > `rates.loc["USD", "rates"]` picks the row labelled `USD` and the column `rates`.
 
-Figure 4 shows how this reply becomes a table. The reply is one object. Its key `rates` holds a second object with one key per currency.
+Figure 5 shows how this reply becomes a table. The reply is one object. Its key `rates` holds a second object with one key per currency.
 
 pandas makes each currency inside `rates` a row label, and each top-level key a column. Single values, like the base currency `INR` and the date, are repeated on every row. The result is 166 rows (currencies) and 7 columns.
 
@@ -148,18 +150,18 @@ On 3 October 2026, one rupee was worth 0.0104 US dollars, 0.00923 euros and 1.64
 
 Our example is the `world` dataset, shared as one file, `world.sql`. A `.sql` file is a list of SQL commands that create tables and fill them with rows.
 
-To use it, we load it into a **database server**: a program that holds databases and answers queries. MySQL, PostgreSQL and SQLite are common ones.
+To use it, we load it into a **database server** (G-543): a program that holds databases and answers queries. MySQL, PostgreSQL and SQLite are common ones.
 
-One easy way to run MySQL on a personal computer is **XAMPP**, a free package that installs a web server and a MySQL server together. The steps are:
+One easy way to run MySQL on a personal computer is **XAMPP** (G-2130), a free package that installs a web server and a MySQL server together. The steps are:
 
 1. Download `world.sql`.
 2. Install XAMPP and open its control panel.
 3. Start two services: **Apache** (the web server) and **MySQL** (the database server).
-4. Open `localhost/phpmyadmin` in a browser. **phpMyAdmin** is a web page for managing MySQL databases.
+4. Open `localhost/phpmyadmin` in a browser. **phpMyAdmin** (G-1493) is a web page for managing MySQL databases.
 5. Create a new database named `world`.
 6. Import `world.sql` into it. Large SQL files take a little while.
 
-After the import, the database holds three tables:
+After the import, the database holds three tables (Figure 6):
 
 | Table | Rows | One row is | Some columns |
 |---|---|---|---|
@@ -167,7 +169,9 @@ After the import, the database holds three tables:
 | `country` | 239 | a country | `Name`, `Continent`, `SurfaceArea`, `IndepYear`, `Population`, `LifeExpectancy` |
 | `countrylanguage` | 984 | a language spoken in a country | `CountryCode`, `Language`, `IsOfficial`, `Percentage` |
 
-> **Extra:** We skip the server in this Note. Python comes with **SQLite**, a database that lives in a single file and needs no server, no XAMPP and no install. We converted `world.sql` into the file `data/world.db` (the script `data/make_world_db.py` does it), with the same three tables and the same rows. The pandas code is identical either way; only the connection line differs.
+![The three tables of the `world` database and how they link: each city and each language row names its country through `CountryCode`, which matches the `Code` of a row in `country`](images/world_tables.png){width=100%}
+
+> **Extra:** We skip the server in this Note. Python comes with **SQLite** (G-1859), a database that lives in a single file and needs no server, no XAMPP and no install. We converted `world.sql` into the file `data/world.db` (the script `data/make_world_db.py` does it), with the same three tables and the same rows. The pandas code is identical either way; only the connection line differs.
 
 ## 7. Connecting Python to the database
 
@@ -175,7 +179,7 @@ After the import, the database holds three tables:
 
 Python and a database are two separate programs. To let them talk, we need a **connector**: a library that opens a **connection** between them.
 
-For MySQL the connector is `mysql.connector`; for SQLite it is `sqlite3`, which comes with Python. Figure 5 shows the bridge.
+For MySQL the connector is `mysql.connector`; for SQLite it is `sqlite3`, which comes with Python. Figure 7 shows the bridge.
 
 ![Python talks to the database through a connection](images/sql_flow.png)
 
@@ -229,7 +233,7 @@ To connect to MySQL, we tell `connect` four things:
 
 > **Key point:** Changing the query changes what comes back; `WHERE` lets the database filter rows before they reach pandas.
 
-Anyone who knows SQL can shape the data with the query itself. To keep only Indian cities, we add `WHERE CountryCode = 'IND'`: 341 rows come back instead of 4,079. Changing `'IND'` to `'USA'` gives the 274 American cities (Figure 6).
+Anyone who knows SQL can shape the data with the query itself. To keep only Indian cities, we add `WHERE CountryCode = 'IND'`: 341 rows come back instead of 4,079. Changing `'IND'` to `'USA'` gives the 274 American cities (Figure 8).
 
 ![WHERE keeps only the matching rows](images/sql_where.png)
 

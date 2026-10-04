@@ -18,7 +18,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 
 ![100 samples from N(50, 15²), each with its 95% confidence interval; 93 intervals contain the population mean 50 (blue), 7 miss it (orange)](images/coverage.png)
 
-We built the interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ in the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md). Computing it is easy; saying correctly what it means is not, and it is a favourite interview question. Figure 1 shows the answer in one picture.
+We built the **confidence interval** (G-446) $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ in the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md). Computing it is easy; saying correctly what it means is not, and it is a favourite interview question. Figure 1 shows the answer in one picture.
 
 This Note covers:
 
@@ -33,7 +33,7 @@ This Note covers:
 
 Suppose the subscribers' mean age has the 95% confidence interval 25.06 to 30.94 years (the example of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)). The true mean age $\mu$ of all 77,000 subscribers is one fixed number. The true mean is either inside this interval or not; we just do not know which.
 
-What is random is the sample. Another online event brings other people, another $\bar{x}$ and another interval. A **95% confidence level** means:
+What is random is the sample. Another online event brings other people, another $\bar{x}$ and another interval. A 95% **confidence level** (G-447) means:
 
 - if we drew many random samples of the same size,
 - and built a 95% confidence interval from each,
@@ -92,13 +92,20 @@ All three statements below sound reasonable and are wrong.
 
 **Misreading 2: "If we repeat the sampling, 95% of the new sample means will fall in this interval."** Misreading 2 is easy to slip into, because it also talks about repeating. But it fixes our one interval and moves the sample means, the wrong way round. Our interval is centred on our $\bar{x}$, not on $\mu$, so on average it catches only about 83% of new sample means, not 95%. Think of a dartboard: a ring drawn around where our first dart landed catches fewer later darts than a ring drawn around the bullseye.
 
+Figure 3 measures misreadings 2 and 3 with the Notebook's simulation. One interval, 45.30 to 53.62, happened to land close to $\mu$:
+
+- it catches 94.2% of 100,000 new sample means (left), but that is luck: over 2,000 different first samples the share averages 0.837 (right), close to the 0.834 derived in the Extra below, and some intervals catch fewer than half;
+- it catches only 21.7% of 100,000 individual values (middle), because individual values spread with $\sigma = 15$, not with the **standard error** (G-1872) $15/\sqrt{50} = 2.12$.
+
+![Left: one 95% interval (orange band) against 100,000 new sample means. Middle: the same interval against 100,000 individual values. Right: for 2,000 different first samples, the share of new means each interval catches; the red line is the average, the dashed line 0.95.](images/misreadings.png)
+
 > **Extra:** Where the 83% comes from. A new mean must land within $1.96$ standard errors of the first mean, and the difference of two independent means has $\sqrt{2}$ times the spread of one, so the share is $P(|Z| < 1.96/\sqrt{2}) = 0.834$. The share depends on where the first interval landed: for one simulated interval close to $\mu$ (45.30 to 53.62), 94.2% of 100,000 new sample means fell inside.
 
 **Misreading 3: "95% of the subscribers are between 25.06 and 30.94 years old."** The interval is about the **mean** age, not about individual ages. Individual ages spread with $\sigma = 15$, a much wider range. In the simulation, only 21.7% of individual values fell inside the interval 45.30 to 53.62.
 
 **The correct reading:** "We are 95% confident that the mean age of all subscribers is between 25.06 and 30.94 years", meaning that this interval came from a method which, over many samples, captures the true mean 95% of the time.
 
-> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, Bayesian statistics (see the [what is statistics Note](../220-what-is-statistics/note.md)), which treats $\mu$ itself as uncertain. Its intervals are called credible intervals: an interval $[a, b]$ is a 95% credible interval if the posterior probability that the parameter lies in it is 0.95 (Pishro-Nik 2014, §9.1.9).
+> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, **Bayesian statistics** (G-271; see the [what is statistics Note](../220-what-is-statistics/note.md)), which treats $\mu$ itself as uncertain. Its intervals are called **credible intervals** (G-501): an interval $[a, b]$ is a 95% credible interval if the posterior probability that the parameter lies in it is 0.95 (Pishro-Nik 2014, §9.1.9).
 
 ## 4. What sets the width of an interval
 
@@ -108,13 +115,13 @@ The z-interval is
 
 $$\bar{x} \pm z_{\alpha/2}\thinspace\frac{\sigma}{\sqrt{n}}$$
 
-The centre $\bar{x}$ moves from sample to sample. The width, twice the margin of error, depends on three things:
+The centre $\bar{x}$ moves from sample to sample. The width, twice the **margin of error** (G-1162), depends on three things:
 
-- the **critical value** $z_{\alpha/2}$, set by the confidence level;
+- the **critical value** (G-504) $z_{\alpha/2}$, set by the confidence level;
 - the **population standard deviation** $\sigma$;
 - the **sample size** $n$.
 
-The margin of error is half the distance between the limits: $E = (\text{upper} - \text{lower})/2$. Figure 3 changes one factor at a time, starting from 95%, $\sigma = 15$ and $n = 50$, where $E = 1.96 \times 15/\sqrt{50} = 4.16$.
+The margin of error is half the distance between the limits: $E = (\text{upper} - \text{lower})/2$. Figure 4 changes one factor at a time, starting from 95%, $\sigma = 15$ and $n = 50$, where $E = 1.96 \times 15/\sqrt{50} = 4.16$.
 
 ![Margin of error as each factor changes, the other two fixed](images/margin_factors.png)
 
@@ -122,7 +129,7 @@ The margin of error is half the distance between the limits: $E = (\text{upper} 
 
 > **Key point:** More confidence means a wider interval; 100% confidence needs an infinitely wide one.
 
-A wider range is more likely to be right but says less, as the betting game of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md) (section 3) shows. Figure 3 (left) puts numbers on this trade-off:
+A wider range is more likely to be right but says less, as the betting game of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md) (section 3) shows. Figure 4 (left) puts numbers on this trade-off:
 
 | Confidence level | $z_{\alpha/2}$ | Margin of error ($\sigma = 15$, $n = 50$) |
 |---|---|---|
@@ -139,7 +146,7 @@ Near 100% the curve shoots up: $z_{\alpha/2}$ grows without limit, and a 100% in
 
 > **Key point:** The margin of error is proportional to $\sigma$: a more variable population gives a wider interval.
 
-Doubling $\sigma$ doubles the margin of error: $\sigma = 5$ gives 1.39, $\sigma = 15$ gives 4.16, $\sigma = 30$ gives 8.32 (Figure 3, middle, a straight line).
+Doubling $\sigma$ doubles the margin of error: $\sigma = 5$ gives 1.39, $\sigma = 15$ gives 4.16, $\sigma = 30$ gives 8.32 (Figure 4, middle, a straight line).
 
 The link between spread and width is common sense. A batsman whose scores swing wildly, 10 in one match and 200 in the next, is hard to predict: a 95% range might be 20 to 80 runs. A very consistent batsman, such as Rahul Dravid in his prime, could get a 95% range of 40 to 45. The more the data varies, the less precisely its mean can be pinned down.
 
@@ -147,15 +154,17 @@ The link between spread and width is common sense. A batsman whose scores swing 
 
 > **Key point:** The margin of error falls as $1/\sqrt{n}$: fast at first, then slowly; quadrupling the sample halves the margin.
 
-Larger samples give narrower intervals, but not in proportion (Figure 3, right):
+Larger samples give narrower intervals, but not in proportion (Figure 4, right):
 
 | $n$ | 10 | 30 | 50 | 120 | 500 | 1000 |
 |---|---|---|---|---|---|---|
 | Margin of error | 9.30 | 5.37 | 4.16 | 2.68 | 1.31 | 0.93 |
 
-Going from 10 to 30 people cuts the margin from 9.30 to 5.37: a big gain for 20 more people. Going from 500 to 1000 cuts it only from 1.31 to 0.93, for 500 more people. This diminishing return is the $1/\sqrt{n}$ shape: to halve the margin we need four times the sample.
+Figure 5 draws 20 intervals at each sample size, from the same 20 standardized sample means. Watch them shrink towards the red line; the same four miss at every $n$, because the confidence level, not the sample size, sets how many miss. Going from 10 to 30 people cuts the margin from 9.30 to 5.37: a big gain for 20 more people. Going from 500 to 1000 cuts it only from 1.31 to 0.93, for 500 more people. This diminishing return is the $1/\sqrt{n}$ shape: to halve the margin we need four times the sample.
 
 A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin halves again, from 5.37 to 2.68. There is no point beyond which more data stops improving the interval; each improvement just costs more people.
+
+![20 simulated 95% intervals for μ = 50 at n = 10, 30, 50, 120, 500 and 1000. The margin of error falls from 9.30 to 0.93; the share that miss (orange) stays the same.](images/n_shrink.gif)
 
 > **Extra:** Solving $E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ for $n$ gives the sample size needed for a chosen margin of error.
 >
@@ -170,7 +179,7 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 > **Key point:** 95% is the common compromise between being right often and giving a useful, narrow range.
 
-The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 3 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
+The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 4 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
 
 The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
 

@@ -1,9 +1,7 @@
-"""Six shapes a histogram can take, from synthetic data with a fixed seed."""
+"""Six shapes a histogram can take, from synthetic data with a fixed seed. Plotly."""
 from pathlib import Path
 import numpy as np
-import pandas as pd
-import seaborn as sns
-import seaborn.objects as so
+from plotly.subplots import make_subplots
 
 here = Path(__file__).parent
 rng = np.random.default_rng(1)
@@ -16,16 +14,14 @@ shapes = {
     "uniform": rng.uniform(10, 90, n),
     "no pattern (too many bins)": rng.normal(50, 15, 60),
 }
-df = pd.concat([pd.DataFrame({"value": v, "shape": k}) for k, v in shapes.items()])
-plot = (
-    so.Plot(df, x="value")
-    .facet(col="shape", wrap=3, order=list(shapes))
-    .add(so.Bars(color="#4C78A8"), so.Hist(stat="proportion", bins=30, common_bins=False, common_norm=False))
-    .share(x=False, y=False)
-    .label(x="", y="share of values", title="{}".format)
-    .layout(size=(11, 6))
-    .theme({**sns.axes_style("white"), "font.family": "Latin Modern Roman", "font.size": 13,
-            "axes.titlesize": 15, "axes.labelsize": 14})
-)
-plot.save(here / "hist_shapes.png", dpi=200, bbox_inches="tight")
-plot.save(here / "hist_shapes.pdf", bbox_inches="tight")
+fig = make_subplots(rows=2, cols=3, subplot_titles=list(shapes), horizontal_spacing=0.08, vertical_spacing=0.16)
+for i, v in enumerate(shapes.values()):
+    c, e = np.histogram(v, bins=30)
+    fig.add_bar(x=(e[:-1] + e[1:]) / 2, y=c / c.sum(), width=np.diff(e), marker_color="#4C78A8",
+                marker_line=dict(color="white", width=0.5), row=i // 3 + 1, col=i % 3 + 1)
+fig.update_yaxes(title_text="share of values", col=1)
+fig.update_annotations(font_size=20)
+fig.update_layout(template="simple_white", width=1100, height=620, showlegend=False, bargap=0,
+                  font=dict(family="Latin Modern Roman", size=16), margin=dict(l=70, r=20, t=40, b=40))
+fig.write_image(here / "hist_shapes.png", scale=2)
+fig.write_image(here / "hist_shapes.pdf")

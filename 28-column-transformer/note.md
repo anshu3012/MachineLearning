@@ -16,9 +16,9 @@ tags: [subject/ml, area/features, step/features, concept/column-transformer]
 
 > **Key point:** A column transformer sends each column to its own transformer and joins all the outputs into one array, in a single step.
 
-Real datasets mix feature types. A **feature** is an input variable, one column of the data table. One feature has missing values, another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
+Real datasets mix feature types. A **feature** (G-772) is an input variable, one column of the data table. One feature has missing values, another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
 
-Figure 1 shows the whole topic. Every column goes to the transformer that fixes its problem, and scikit-learn's **`ColumnTransformer`** runs all of them at once and joins their outputs into one array of numbers.
+Figure 1 shows the whole topic. Every column goes to the transformer that fixes its problem, and scikit-learn's **`ColumnTransformer`** (G-417) runs all of them at once and joins their outputs into one array of numbers.
 
 ![Each column of the COVID data and the transformer it needs; ColumnTransformer runs them all and joins the outputs](images/overview.png)
 
@@ -28,20 +28,20 @@ Figure 1 shows the whole topic. Every column goes to the transformer that fixes 
 
 Take customer data with four features:
 
-- **age:** numerical, but some values are missing. Age needs simple imputation to fill them.
+- **age:** numerical, but some values are **missing values** (G-1235). Age needs **imputation** (G-927) to fill them.
 - **city:** nominal categories. City needs one-hot encoding.
 - **gender:** nominal categories. Gender also needs one-hot encoding.
 - **review:** ordinal categories, such as good and excellent. Review needs ordinal encoding.
 
 If we apply each transformation separately, we get three separate NumPy arrays: one from imputing age, one from one-hot encoding city and gender, and one from ordinal encoding review. We then have to join the three into one big array before we can train a model.
 
-Gluing arrays by hand is a lot of manual work, and the work grows with every feature. Think of a kitchen where each cook prepares one ingredient: a column transformer is the head chef who hands each ingredient to the right cook and plates the results together. A **column transformer** is a scikit-learn class that does the whole job in one go: it takes the DataFrame and returns one finished array.
+Gluing arrays by hand is a lot of manual work, and the work grows with every feature. Think of a kitchen where each cook prepares one ingredient: a column transformer is the head chef who hands each ingredient to the right cook and plates the results together. A **column transformer** (G-415) is a scikit-learn class that does the whole job in one go: it takes the DataFrame and returns one finished array.
 
 ## 3. The COVID toy data
 
 > **Key point:** 100 made-up patients; fever has missing values, cough is ordinal, gender and city are nominal, and age is ready as it is.
 
-The data is a small made-up dataset of 100 patients. Each patient is one **observation** (one record, one row of the table). There are six columns: the features age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough and city, and the **target** `has_covid` (Yes or No), the output we would predict. The dataset is a toy for practising the technique, not real medical data.
+The data is a small made-up dataset of 100 patients. Each patient is one **observation** (G-1374) (one record, one row of the table). There are six columns: the features age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough and city, and the **target** (G-1949) `has_covid` (Yes or No), the output we would predict. The dataset is a toy for practising the technique, not real medical data.
 
 | age | gender | fever | cough | city | has_covid |
 |---|---|---|---|---|---|
@@ -49,11 +49,13 @@ The data is a small made-up dataset of 100 patients. Each patient is one **obser
 | 27 | Male | 100.0 | Mild | Delhi | Yes |
 | 42 | Male | 101.0 | Mild | Delhi | No |
 
-A few quick counts describe the columns:
+A few quick counts describe the columns (Figure 2):
 
 - **cough:** 62 patients have a Mild cough and 38 a Strong one.
 - **city:** four cities: Kolkata (32), Bangalore (30), Delhi (22) and Mumbai (16).
 - **fever:** 10 of the 100 values are missing.
+
+![The COVID toy data: the two cough categories, the four cities, and the missing values per column. Each panel names the transformer that fixes it.](images/covid_profile.png)
 
 > **Python:** Loading the data and counting values.
 >
@@ -104,7 +106,7 @@ We split the data into a training set (80 rows) and a test set (20 rows) before 
 
 > **Key point:** Without a column transformer, we transform each column separately, get one array per step, and glue the arrays together with `np.concatenate`.
 
-Figure 2 shows the plan. Four separate steps each give an array of 80 rows, and a fifth step joins them into one array of 80 rows and 7 columns.
+Figure 3 shows the plan. Four separate steps each give an array of 80 rows, and a fifth step joins them into one array of 80 rows and 7 columns.
 
 ![Transforming by hand: one array per step, joined at the end](images/by_hand.png)
 
@@ -112,7 +114,7 @@ Figure 2 shows the plan. Four separate steps each give an array of 80 rows, and 
 
 > **Key point:** `SimpleImputer` replaces each missing fever with the mean fever of the training set.
 
-`SimpleImputer` (with its default setting) fills every missing value with the column's mean. We pick only the `fever` column, fit the imputer on the training set and transform both sets.
+**`SimpleImputer`** (G-1809), with its default setting, fills every missing value with the column's mean. We pick only the `fever` column, fit the imputer on the training set and transform both sets.
 
 > **Python:** Imputing fever.
 >
@@ -176,7 +178,7 @@ The column count works out as follows:
 
 > **Key point:** Age is taken out unchanged, then `np.concatenate` joins the four arrays side by side.
 
-Age needs no transformation, but it still has to become an array so it can be joined to the others. Then **`np.concatenate`** with `axis=1` puts the arrays next to each other, column after column: 1 + 1 + 4 + 1 = 7 columns.
+Age needs no transformation, but it still has to become an array so it can be joined to the others. Then **`np.concatenate`** (G-1355) with `axis=1` puts the arrays next to each other, column after column: 1 + 1 + 4 + 1 = 7 columns.
 
 > **Python:** Extracting age and joining everything.
 >
@@ -208,7 +210,7 @@ The hand-made way works, but it is hectic for only four features. With 50 column
 
 > **Key point:** Each transformation is a tuple of three items: a name, a transformer object, and a list of column names.
 
-The parameter **`transformers`** is a list of tuples, one tuple per transformation. Figure 3 shows the three items inside one tuple.
+The parameter **`transformers`** is a list of tuples, one tuple per transformation. Figure 4 shows the three items inside one tuple.
 
 ![The three items of one tuple in the transformers list](images/tuple.png)
 
@@ -222,10 +224,10 @@ Our data needs three tuples: one for the imputer, one for the ordinal encoder, a
 
 > **Key point:** `remainder` decides what happens to columns that no transformer touches: `"drop"` removes them, `"passthrough"` keeps them unchanged.
 
-Sometimes we do not transform every column. The parameter **`remainder`** says what to do with the rest:
+Sometimes we do not transform every column. The parameter **`remainder`** (G-1669) says what to do with the rest:
 
 - **`"drop"`:** remove them from the output. Dropping is the default.
-- **`"passthrough"`:** keep them as they are.
+- **`"passthrough"`** (G-1460): keep them as they are.
 
 Here age has no transformer. We want to keep it, so we use `remainder="passthrough"`. With `"drop"`, age would disappear and the output would have 6 columns.
 
@@ -253,7 +255,7 @@ Here age has no transformer. We want to keep it, so we use `remainder="passthrou
 > transformer.transform(X_test).shape        # (20, 7)
 > ```
 
-Figure 4 shows what happens inside, using three training rows, one of them with a missing fever. The columns are routed to their transformers, each transformer works only on its own columns, and the outputs are stitched side by side. That missing fever is filled with 100.9, the mean fever of the training set.
+Figure 5 shows what happens inside, using three training rows, one of them with a missing fever. The columns are routed to their transformers, each transformer works only on its own columns, and the outputs are stitched side by side. That missing fever is filled with 100.9, the mean fever of the training set.
 
 ![ColumnTransformer step by step: route, transform, stitch](images/column_flow.gif)
 
@@ -279,7 +281,7 @@ After it, they are three rows of 7 numbers. The table below is turned on its sid
 
 Bangalore is the first city alphabetically, so it was the dropped category: a Bangalore row has 0 in all three city columns.
 
-The column transformer combines naturally with another scikit-learn tool, the pipeline, covered in the next Note. Used together, they make preprocessing much simpler.
+The column transformer combines naturally with another scikit-learn tool, the **pipeline** (G-1499), covered in the next Note. Used together, they make preprocessing much simpler.
 
 > **Extra:** The output columns come in the order of the `transformers` list, and the `remainder` columns go last. So the column transformer puts age at the end, while our hand-made array had it first. Both arrays hold the same 7 columns, only in a different order.
 
@@ -295,7 +297,7 @@ The result of `fit_transform` is a NumPy array without column names, so it is ea
 
 > **Key point:** Each output name is the transformer's name, two underscores, then the column name.
 
-**`get_feature_names_out`** lists the output columns in order. Each name starts with the transformer's name and two underscores; columns kept by `remainder` start with `remainder__`.
+**`get_feature_names_out`** (G-846) lists the output columns in order. Each name starts with the transformer's name and two underscores; columns kept by `remainder` start with `remainder__`.
 
 > **Python:** Listing the output column names.
 >
@@ -311,7 +313,9 @@ The result of `fit_transform` is a NumPy array without column names, so it is ea
 
 > **Key point:** After `set_output(transform="pandas")`, the column transformer returns a DataFrame.
 
-Calling **`set_output(transform="pandas")`** once makes every later `fit_transform` and `transform` return a pandas DataFrame, with the names above as its columns.
+Calling **`set_output(transform="pandas")`** (G-1780) once makes every later `fit_transform` and `transform` return a pandas DataFrame, with the names above as its columns. Figure 6 shows the result for the first three training patients; the header colours mark which transformer made each column.
+
+![The first three training patients after set_output(transform="pandas"). Red: the imputer (tnf1), purple: the ordinal encoder (tnf2), green: the one-hot encoder (tnf3), grey: the remainder.](images/named_output.png)
 
 > **Python:** Getting a DataFrame back.
 >

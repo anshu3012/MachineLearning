@@ -21,13 +21,19 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/c
 
 Figure 1 shows the idea. The orange curve is a normal distribution with mean 5 and standard deviation 2.5. Subtracting 5 and dividing by 2.5 turns it into the blue curve, which has mean 0 and standard deviation 1. The shape stays exactly the same; only the numbers on the axis change.
 
-This Note builds on the [normal distribution Note](../250-normal-distribution/note.md). The Note introduces the standard normal distribution, shows how to read a z-table, uses it on two problems, derives the 68-95-99.7 rule, and ends with where the normal distribution is used in data science.
+This Note builds on the [normal distribution Note](../250-normal-distribution/note.md). It covers:
+
+- the standard normal distribution and how to standardize (sections 2 and 3);
+- how to read a z-table (section 4);
+- two problems solved with it (section 5);
+- the 68-95-99.7 rule, derived (section 6);
+- where the normal distribution is used in data science (section 7).
 
 ## 2. The standard normal distribution
 
 > **Key point:** The standard normal distribution is the normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$.
 
-Among all normal distributions, one is special: the one with $\mu = 0$ and $\sigma = 1$. This distribution is called the **standard normal distribution** (or **standard normal variate**) and is written with the letter $Z$:
+Among all normal distributions, one is special: the one with $\mu = 0$ and $\sigma = 1$. This distribution is called the **standard normal distribution** (G-1873; or **standard normal variate**) and is written with the letter $Z$:
 
 $$Z \sim N(0, 1)$$
 
@@ -37,23 +43,27 @@ Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard dev
 2. **Formula:**
    $$\phi(z) = \frac{1}{\sqrt{2\pi}}\thickspace e^{-\frac{z^2}{2}}$$
    The standard normal PDF has its own symbol, $\phi$ (phi), and its CDF is written $\Phi$ (capital phi).
-3. **Example:** at $z = 0$, $\phi(0) = 1/\sqrt{2\pi} = 1/2.5066 = 0.3989$, the height of the peak in Figure 1. At $z = 1$, $\phi(1) = 0.3989 \times e^{-0.5} = 0.3989 \times 0.6065 = 0.2420$.
+3. **Example:** at $z = 0$, $\phi(0) = 1/\sqrt{2\pi} = 1/2.5066 = 0.3989$, the height of the peak in Figure 2. At $z = 1$, $\phi(1) = 0.3989 \times e^{-0.5} = 0.3989 \times 0.6065 = 0.2420$.
+
+![The standard normal PDF with the two worked values: the peak φ(0) = 0.3989 and φ(1) = 0.2420, one standard deviation to the right.](images/phi_curve.png){height=36%}
 
 ## 3. Standardizing a normal variable
 
 > **Key point:** Subtracting the mean and dividing by the standard deviation turns $X \sim N(\mu, \sigma^2)$ into $Z \sim N(0, 1)$.
 
-To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its z-score. Turning values into z-scores is the standardization of the [standardization Note](../24-standardization/note.md):
+To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its **z-score** (G-2141). Turning values into z-scores is the **standardization** (G-1874) of the [standardization Note](../24-standardization/note.md):
 
 $$z = \frac{x - \mu}{\sigma}$$
 
+In plain words, a z-score is the number of standard deviations a value lies above or below the mean. A positive z-score is above the mean, a negative one below, and the further from 0, the more unusual the value.
+
 For Figure 1, $x = 10$ becomes $z = (10 - 5)/2.5 = 2$: the value 10 lies two standard deviations above the mean. Every tick on the top axis lines up with its z-score below.
 
-Figure 2 shows the two steps as motion. Subtracting 5 slides the curve left until its centre sits at 0. Dividing by 2.5 squeezes it 2.5 times narrower, and the curve grows 2.5 times taller so the total area stays 1. Watch the shaded tail: the cut-off rides from 10 to 2, and the area beyond it stays 0.0228 the whole time. That unchanged area is why $P(X > 10) = P(Z > 2)$, and why one table of $Z$ serves every normal variable.
+Figure 3 shows the two steps as motion. Subtracting 5 slides the curve left until its centre sits at 0. Dividing by 2.5 squeezes it 2.5 times narrower, and the curve grows 2.5 times taller so the total area stays 1. Watch the shaded tail: the cut-off rides from 10 to 2, and the area beyond it stays 0.0228 the whole time. That unchanged area is why $P(X > 10) = P(Z > 2)$, and why one table of $Z$ serves every normal variable.
 
 ![Standardizing as motion: X ~ N(5, 2.5²) slides left by its mean, then squeezes by its standard deviation into N(0, 1); the shaded tail beyond 10, later beyond z = 2, keeps the same area 0.0228](images/squash_to_z.gif)
 
-Real data works the same way. A **feature** is one variable of the data, one column of the table; an **observation** is one record, one row. The `Age` feature of the Titanic data (714 known ages) is roughly bell-shaped, with mean 29.70 years and standard deviation 14.53 years. Standardizing it gives a feature with mean $2 \times 10^{-16}$ (0 up to rounding) and standard deviation 1.
+Real data works the same way. A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. The `Age` feature of the Titanic data (714 known ages) is roughly bell-shaped, with mean 29.70 years and standard deviation 14.53 years. Standardizing it gives a feature with mean $2 \times 10^{-16}$ (0 up to rounding) and standard deviation 1.
 
 > **Python:** Standardizing a feature by hand.
 >
@@ -75,24 +85,27 @@ Real data works the same way. A **feature** is one variable of the data, one col
 Two benefits make the standard normal distribution so useful:
 
 1. **Comparison.** Two normal distributions with different means and spreads (heights in centimetres and in inches, marks in two different exams) can be compared side by side once both are standardized.
+   For example, a student scores 80 in an exam with mean 70 and standard deviation 10, and 65 in another exam with mean 50 and standard deviation 5. The raw marks favour the first exam. The z-scores say the opposite:
+   $$z_1 = \frac{80 - 70}{10} = 1, \qquad z_2 = \frac{65 - 50}{5} = 3$$
+   The second result is three standard deviations above its mean, a far rarer performance than the first.
 2. **One table for all probabilities.** The areas under the standard normal curve have been computed once and printed in a table. Any probability about any normal variable becomes a lookup in that table after standardizing.
 
 ## 4. The z-table
 
 > **Key point:** A z-table lists $\Phi(z)$, the area under the standard normal curve to the left of $z$: the probability that $Z$ is at most $z$.
 
-A **z-table** (standard normal table) lists the CDF of the standard normal distribution for many values of $z$:
+A **z-table** (G-2142), or standard normal table, lists the CDF of the standard normal distribution for many values of $z$:
 
 $$\Phi(z) = P(Z \le z) = \text{area under the curve from } -\infty \text{ to } z$$
 
-The table gives an **area**, so a probability, not the height of the curve at $z$ (Figure 3, left). There are two tables: one for negative $z$ and one for positive $z$.
+The table gives an **area**, so a probability, not the height of the curve at $z$ (Figure 4, left). There are two tables: one for negative $z$ and one for positive $z$.
 
 To look up a z-score with two decimals, such as 1.33:
 
 1. Choose the positive table, because 1.33 is positive.
 2. Find the row for the first two digits, **1.3**.
 3. Find the column for the second decimal, **0.03**.
-4. Read the cell where they cross: **0.90824** (Figure 3, right).
+4. Read the cell where they cross: **0.90824** (Figure 4, right).
 
 ![The area to the left of z = 1.33 (left) and where it sits in the z-table (right)](images/z_table.png)
 
@@ -127,6 +140,10 @@ The heights of adult men in a population are normal with mean 68 inches and stan
    $$P(X > 72) = 1 - 0.90824 = 0.09176$$
    About 9.2% of men are taller than 72 inches. (With the unrounded $z = 1.3333$, software gives 0.0912.)
 
+Figure 5 draws the problem. The shaded tail is the answer; the second row of tick labels shows that 72 inches sits at $z = 1.33$ on the standard normal scale.
+
+![Heights N(68, 3²). The area above 72 inches (orange) is 1 − Φ(1.33) = 0.09176; the tick labels give each height's z-score.](images/heights_tail.png){height=36%}
+
 The steps are always the same: draw the curve, standardize the value, look up the area, then subtract if needed.
 
 ### 5.2 Between the mean and one standard deviation above it
@@ -150,7 +167,7 @@ The answer, 34.13%, does not depend on $\mu$ or $\sigma$: it holds for every nor
 
 > **Key point:** Repeating the calculation for 1, 2 and 3 standard deviations, and doubling by symmetry, gives 68.27%, 95.45% and 99.73%.
 
-By symmetry, the same 34.13% lies between $\mu - \sigma$ and $\mu$. So the share within one standard deviation on either side is
+Figure 7 repeats the calculation of section 5.2 for 1, 2 and 3 standard deviations. By symmetry, the same 34.13% lies between $\mu - \sigma$ and $\mu$. So the share within one standard deviation on either side is
 
 $$P(\mu - \sigma \le X \le \mu + \sigma) = 2 \times 0.3413 = 0.6827$$
 
@@ -162,7 +179,22 @@ The same steps for 2 and 3 standard deviations:
 | $\mu \pm 2\sigma$ | $\Phi(2) - 0.5 = 0.9772 - 0.5 = 0.4772$ | 95.45% |
 | $\mu \pm 3\sigma$ | $\Phi(3) - 0.5 = 0.99865 - 0.5 = 0.49865$ | 99.73% |
 
-The 68-95-99.7 pattern is the **empirical rule** of the [z-score outliers Note](../42-outliers-zscore/note.md), now derived from the z-table instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
+![The areas within 1, 2 and 3 standard deviations of the mean, shaded one step at a time: 68.27, 95.45 and 99.73 percent.](images/empirical_rule.gif)
+
+The 68-95-99.7 pattern is the **empirical rule** (G-53) of the [z-score outliers Note](../42-outliers-zscore/note.md), now derived from the z-table instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
+
+### 6.1 Using the rule without a table
+
+> **Key point:** The rule gives the middle; symmetry splits what is left over into two equal tails. Together they answer "below" and "above" questions in the head.
+
+The rule can also be run in the other direction, to get areas quickly with no table. Figure 8 shows the steps with the rounded figures 68 and 95:
+
+1. **The middle.** 68 percent of the values lie within one standard deviation of the mean.
+2. **The leftover.** The rest is $100 - 68 = 32$ percent. The curve is symmetric, so each tail holds half of it: 16 percent.
+3. **Below $z = 1$.** Everything left of 1 is the middle plus the left tail: $68 + 16 = 84$ percent. The z-table agrees: $\Phi(1) = 0.8413$. Below $z = -1$ lies only the left tail, 16 percent.
+4. **Above $z = 2$.** Within two standard deviations lie 95 percent, so 5 percent is left over, 2.5 percent in each tail. The z-table gives $1 - \Phi(2) = 0.0228$; the rule's round 95 makes the mental answer slightly high.
+
+![Tail areas from the rule: the middle 68 percent leaves 32, split into two tails of 16; below z = 1 lies 68 + 16 = 84 percent; beyond 2 standard deviations each tail holds 2.5 percent. Idea after Khan Academy, "ck12.org exercise: Standard normal distribution and the empirical rule"](images/tails_from_rule.gif)
 
 A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up: $1 - \Phi(4.4) \approx 0.000005$. Roughly speaking, most good batsmen sit within one or two standard deviations of the mean, and only the very greatest approach three.
 
@@ -170,10 +202,12 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 
 > **Key point:** Outlier detection, the assumptions of some ML models, hypothesis testing, and the central limit theorem.
 
-1. **Outlier detection.** For a feature that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (the z-score method, see the [z-score outliers Note](../42-outliers-zscore/note.md)). For the Titanic ages the limits are $29.70 \pm 3 \times 14.53$, from $-13.88$ to $73.28$ years. No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged.
-2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (the errors) are normal, not the inputs (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). Linear and logistic regression also tend to work better on normal-looking inputs (see the [function transformer Note](../30-function-transformer/note.md)), and a Gaussian mixture model is built from normal curves (see the [density estimation Note](../243-density-estimation-kde/note.md)).
-3. **Hypothesis testing.** Many statistical tests assume that the data, or a statistic computed from it, is normally distributed.
-4. **The central limit theorem.** Averages of samples from almost any distribution, normal or not, follow approximately a normal distribution, more closely as the samples grow (Pishro-Nik §7.1.2). This result, the topic of a later Note, is what makes the normal distribution central to inferential statistics.
+1. **Outlier detection.** For a feature that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (the z-score method, see the [z-score outliers Note](../42-outliers-zscore/note.md)). For the Titanic ages the limits are $29.70 \pm 3 \times 14.53$, from $-13.88$ to $73.28$ years. No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged as **outliers** (G-1420; Figure 9).
+
+   ![The 714 Titanic ages with the mean and the +1, +2 and +3 standard deviation lines. Only the passengers aged 74 and 80 (circled) lie beyond 73.28.](images/age_outliers.png){height=36%}
+2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (G-1685; the errors) are normal, not the inputs (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). Linear and logistic regression also tend to work better on normal-looking inputs (see the [function transformer Note](../30-function-transformer/note.md)), and a Gaussian mixture model is built from normal curves (see the [density estimation Note](../243-density-estimation-kde/note.md)).
+3. **Hypothesis testing** (G-913). Many statistical tests assume that the data, or a statistic computed from it, is normally distributed.
+4. **The central limit theorem** (G-364). Averages of samples from almost any distribution, normal or not, follow approximately a normal distribution, more closely as the samples grow (Pishro-Nik §7.1.2). This result, the topic of a later Note, is what makes the normal distribution central to inferential statistics.
 
 ## 8. Summary
 
@@ -195,6 +229,8 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 **Built from**
 
 - CampusX, "Session 41 - Normal Distribution | DSMP 2023", YouTube, https://www.youtube.com/watch?v=ADqYqSdtyW8
+- Khan Academy, "Z-score introduction", YouTube, https://www.youtube.com/watch?v=5S-Zfa-vOXs
+- Khan Academy, "ck12.org exercise: Standard normal distribution and the empirical rule", YouTube, https://www.youtube.com/watch?v=2fzYE-Emar0
 
 **Other references**
 

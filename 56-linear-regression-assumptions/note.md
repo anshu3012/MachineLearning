@@ -15,7 +15,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lr-assumptions]
 
 > **Key point:** Linear regression is reliable when five conditions hold: a linear relationship, no multicollinearity, normal residuals, constant spread of residuals, and no pattern in the residuals over the rows.
 
-Linear regression always produces a line or hyperplane, whatever the data looks like. Whether that line can be trusted depends on a few conditions, called the **assumptions** of linear regression. Like the rules of a game, they do not stop anyone from playing, but break them and the score means little.
+Linear regression always produces a line or hyperplane, whatever the data looks like. Whether that line can be trusted depends on a few conditions, called the **assumptions** (G-220) of linear regression. Like the rules of a game, they do not stop anyone from playing, but break them and the score means little.
 
 Textbooks list them in slightly different ways; these five are the core ones (ISL §3.3.3; Kutner Ch. 3 and §7.6):
 
@@ -27,9 +27,11 @@ Textbooks list them in slightly different ways; these five are the core ones (IS
 | 4 | Homoscedasticity: residuals have the same spread everywhere | residuals against predictions |
 | 5 | No autocorrelation of the residuals | residuals in row order |
 
-Three words first. A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the output we predict.
+Three words first. A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-The first two assumptions concern the features; the last three concern the **residuals**, the errors $y_i - \hat y_i$ on each observation.
+The first two assumptions concern the features; the last three concern the **residuals** (G-1685), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
+
+![The 60 test observations: actual target against predicted target. Each stick is one residual, the vertical gap to the dashed diagonal of perfect predictions (blue: actual above, red: actual below). Assumptions 3 to 5 are about these sticks.](images/residuals_def.png)
 
 The example data has 200 observations, three features and one target. A linear regression trained on 70% of it scores $R^2 = 0.96$ on the other 30% (60 observations); each check below uses those 60 test residuals.
 
@@ -55,11 +57,11 @@ Linear regression fits straight lines, so the relationship between each feature 
 
 A curved relationship (for example, the output growing with the square of the feature) breaks this assumption, because a straight line then misses the pattern systematically.
 
-The check is a scatter plot of the output against each feature (Figure 1).
+The check is a scatter plot of the output against each feature (Figure 2).
 
 ![Each feature against the target](images/linearity.png)
 
-- **feature1:** a clear rising line (correlation 0.82).
+- **feature1:** a clear rising line (**correlation** (G-490) 0.82).
 - **feature3:** also rising, with more scatter (0.58).
 - **feature2:** no visible relationship at all (0.03). Its fitted coefficient is only $-0.28$, against 72.7 and 53.3 for the other two: the model has learned to almost ignore it.
 
@@ -69,7 +71,7 @@ The check is a scatter plot of the output against each feature (Figure 1).
 
 > **Key point:** The features should not be strongly related to each other. If they are, the model cannot tell which one deserves the credit, and the coefficients become unreliable.
 
-**Multicollinearity** means one feature can be (largely) predicted from the others. Multicollinearity was met in the one-hot encoding Note with the dummy variable trap.
+**Multicollinearity** (G-1273) means one feature can be (largely) predicted from the others. Multicollinearity was met in the one-hot encoding Note with the dummy variable trap.
 
 ### 3.1 Why it is a problem
 
@@ -79,11 +81,15 @@ A coefficient $\beta_1$ is the change in the output when $x_1$ rises by 1 *and a
 
 An analogy: two scientists finish a project together. If one is a physicist and the other a chemist, it is easy to say who contributed what. If both have identical skills, it is impossible. With related features the model faces the second case, so the coefficients become unreliable: a small change in the data can move them a long way (ISL §3.3.3). The predictions, on the other hand, usually stay good (Kutner §7.6).
 
+Figure 3 tests this on our data. We refit the model on 20 **bootstrap** (G-320) resamples of the training data: each resample draws 140 observations from the 140 with replacement, so it differs a little from the original. With the Note's own features (left), feature1's coefficient stays between 69.9 and 78.0. Then we add a near-copy of feature1, feature1 plus a little noise (VIF 429, Section 3.2). Now feature1's coefficient swings from 21.5 to 102.5 and the copy's swings the opposite way, sometimes below 0. Their sum stays between 69.7 and 78.0: the model knows the pair's joint effect, but not how to split the credit.
+
+![Refitting on 20 bootstrap resamples of the training data. Left: the Note's features; feature1's coefficient barely moves. Right: with a near-copy of feature1 added, the two coefficients swing wildly in opposite directions, while their sum (dashed green) stays steady.](images/collinear_coefs.gif)
+
 ### 3.2 Checking it
 
 > **Key point:** A VIF near 1 means no multicollinearity; above 5 is a problem. All three features here have VIF 1.01.
 
-The standard check is the **variance inflation factor (VIF)**. For each feature, a regression predicts that feature from all the other features; if they predict it well (high $R^2$), the feature is redundant.
+The standard check is the **variance inflation factor (VIF)** (G-2075). For each feature, a regression predicts that feature from all the other features; if they predict it well (high $R^2$), the feature is redundant.
 
 In words: the VIF of a feature is one divided by the part of it the other features cannot explain.
 
@@ -103,7 +109,7 @@ where $R_j^2$ is the R² of predicting feature $j$ from the others. With numbers
 > # [1.011, 1.010, 1.014]
 > ```
 
-A quicker, rougher check is a heatmap of the correlations between the features (Figure 2). Here every correlation between different features is at most 0.06: no multicollinearity.
+A quicker, rougher check is a **heatmap** (G-886) of the correlations between the features (Figure 4). Here every correlation between different features is at most 0.06: no multicollinearity.
 
 ![Correlations between the features, and their VIF](images/multicollinearity.png)
 
@@ -113,26 +119,26 @@ A quicker, rougher check is a heatmap of the correlations between the features (
 
 > **Key point:** The residuals should follow a bell-shaped (normal) distribution centred on 0: most errors small, few large, positive and negative alike.
 
-When the model is right on average, its errors should scatter around 0: many small errors and few large ones, as often too high as too low. Such a bell-shaped spread is a normal distribution.
+When the model is right on average, its errors should scatter around 0: many small errors and few large ones, as often too high as too low. Such a bell-shaped spread is a **normal distribution** (G-1343).
 
-Two checks, both on the residuals (Figure 3, top):
+Two checks, both on the residuals (Figure 5, top):
 
 - **Histogram or density plot:** roughly a bell centred on 0. Here it is, apart from a small bump.
-- **Q-Q plot** (from the function transformer Note): the points should lie on the straight line. Here they do, with small wiggles.
+- **Q-Q plot** (G-1596; from the function transformer Note): the points should lie on the straight line. Here they do, with small wiggles.
 
 ![Residual checks for assumptions 3, 4 and 5](images/residual_checks.png){height=62%}
 
-> **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** gives a p-value; above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl 2012).
+> **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** (G-1788) gives a **p-value** (G-1433); above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl 2012).
 
 ## 5. Assumption 4: homoscedasticity
 
 > **Key point:** The residuals should have the same spread for small and large predictions. A funnel shape (heteroscedasticity) breaks the assumption.
 
-**Homoscedasticity** means "same scatter": the size of the errors does not depend on the size of the prediction. Its opposite, **heteroscedasticity**, is common (ISL §3.3.3): for example, a house-price model that is off by a few thousand on cheap houses and by much more on expensive ones.
+**Homoscedasticity** (G-902) means "same scatter": the size of the errors does not depend on the size of the prediction. Its opposite, **heteroscedasticity** (G-889), is common (ISL §3.3.3): for example, a house-price model that is off by a few thousand on cheap houses and by much more on expensive ones.
 
-The check is a scatter plot of residuals against predicted values (Figure 3, bottom left). The plot should look like an even band around 0, with no shape. Here it does: the spread is roughly the same from the lowest to the highest prediction.
+The check is a scatter plot of residuals against predicted values (Figure 5, bottom left). The plot should look like an even band around 0, with no shape. Here it does: the spread is roughly the same from the lowest to the highest prediction.
 
-Figure 4 (middle) shows what heteroscedasticity looks like: a funnel that widens to the right.
+Figure 6 (middle) shows what heteroscedasticity looks like: a funnel that widens to the right.
 
 ![What failed assumptions look like (made-up data)](images/violations.png)
 
@@ -142,13 +148,15 @@ Figure 4 (middle) shows what heteroscedasticity looks like: a funnel that widens
 
 > **Key point:** One residual should not predict the next. Plotted in row order, the residuals should jump around randomly, not drift in waves.
 
-**Autocorrelation** means each residual is related to the one before it: if the model was too high on one observation, it is also too high on the next. Autocorrelation is common in time-series data, measurements taken at points in time (ISL §3.3.3).
+**Autocorrelation** (G-230) means each residual is related to the one before it: if the model was too high on one observation, it is also too high on the next. Autocorrelation is common in **time series** (G-1975) data, measurements taken at points in time (ISL §3.3.3).
 
-The check is to plot the residuals in row order (Figure 3, bottom right). They should jump up and down with no pattern. Here they do.
+The check is to plot the residuals in row order (Figure 5, bottom right). They should jump up and down with no pattern. Here they do.
 
-Figure 4 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. One cause is a missing feature that changes slowly from one observation to the next, such as a time trend: the model cannot see the trend, so the trend shows up in the residuals (tested in the Extra below). Autocorrelation makes the model look more certain than it is: its confidence intervals come out too narrow (ISL §3.3.3).
+Figure 6 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. One cause is a missing feature that changes slowly from one observation to the next, such as a time trend: the model cannot see the trend, so the trend shows up in the residuals. Figure 7 shows this test (details in the Extra below): residuals of a model that misses a slow wave form the same wave; adding the wave as a feature leaves random jumps. Autocorrelation makes the model look more certain than it is: its confidence intervals come out too narrow (ISL §3.3.3).
 
-> **Extra:** The **Durbin-Watson statistic** puts a number on autocorrelation: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative (statsmodels docs). Here it is 2.31, close to 2: no sign of autocorrelation. To test the missing-trend cause, the notebook makes data $y = 2x + 3\sin(t/25) + \text{noise}$, with $t$ the observation number. Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 4 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
+![Residuals in row order for data built as y = 2x + 3 sin(t/25) + noise. Left: a model on x alone leaves the slow wave in its residuals (Durbin-Watson 0.40). Right: with sin(t/25) added as a feature, the residuals jump randomly (Durbin-Watson 2.09).](images/autocorr_fix.png)
+
+> **Extra:** The **Durbin-Watson statistic** (G-649) puts a number on autocorrelation: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative (statsmodels docs). Here it is 2.31, close to 2: no sign of autocorrelation. To test the missing-trend cause, the notebook makes data $y = 2x + 3\sin(t/25) + \text{noise}$, with $t$ the observation number. Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 6 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
 
 ## 7. Summary
 

@@ -44,7 +44,7 @@ Almost every CNN follows the pattern of Figure 2. The sequence of layers is the 
 1. **Input:** an image, for example an RGB image of 32 × 32 × 3.
 2. **Convolution layer:** (G-480) a set of **filters** (G-778) (kernels), say 3, each with 3 channels because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
 3. **Non-linearity:** an activation function such as ReLU applied to every number of the feature maps.
-4. **Pooling layer:** shrinks the volume.
+4. **Pooling layer** (G-1520): shrinks the volume.
 5. **Repeat** steps 2–4 as many times as needed: a second convolution, a second pooling, and so on.
 6. **Flatten:** turn the final 3D volume into one long 1D vector of numbers.
 7. **Fully connected layers** (G-811): the Dense layers of an ANN, as many as the problem needs.

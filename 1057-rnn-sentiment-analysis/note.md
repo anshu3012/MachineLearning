@@ -17,9 +17,13 @@ tags: [subject/deep-learning, area/dl-rnn, step/features, step/model, concept/rn
 
 > **Key point:** An RNN only reads numbers, so text must become numbers first. Two ways: integer encoding (each word becomes its index in the vocabulary) and a learned embedding (each word becomes a short, dense vector that the network learns). On IMDB movie reviews, the same SimpleRNN reaches about 0.80 test accuracy with an embedding, against 0.50 with raw integers.
 
-**Sentiment analysis** is the task of predicting whether a text is positive or negative. The data is a set of texts, each with a label: 1 for positive, 0 for negative. This Note builds a sentiment analysis model with the RNN of the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md), in Keras, on real movie reviews.
+**Sentiment analysis** (G-1769) is the task of predicting whether a text is positive or negative. The data is a set of texts, each with a label: 1 for positive, 0 for negative. This Note builds a sentiment analysis model with the RNN of the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md), in Keras, on real movie reviews.
 
-The aim is the workflow, not the best accuracy: how text becomes numbers, how the numbers enter a `SimpleRNN`, and what changes when a learned embedding is added.
+The aim is the workflow, not the best accuracy:
+
+- how text becomes numbers (sections 3 and 4);
+- how the numbers enter a `SimpleRNN` (section 5);
+- what changes when a learned embedding is added (sections 6 and 7).
 
 ![IMDB reviews cut to their last 50 words. Dashed: training accuracy; solid: test accuracy; mean of 3 runs. Raw integer inputs stay near a coin toss; a learned 2-number embedding lifts the same SimpleRNN to about 0.80 on the test reviews](images/imdb_curves.png){width=95%}
 
@@ -40,13 +44,13 @@ Figure 1 is the result of the whole Note.
 
 > **Key point:** Vocabulary, replace, pad.
 
-Each review is one **observation** (one record of the data), and its label is the **target** (the output we predict). Before an RNN can read the reviews, every word must become a number. **Integer encoding** does it in three steps.
+Each review is one **observation** (G-1374; one record of the data), and its label is the **target** (G-1949; the output we predict). Before an RNN can read the reviews, every word must become a number. **Integer encoding** (G-956) does it in three steps.
 
 ![Integer encoding of two sentences: build the vocabulary and number its words, replace every word by its number, then pad the shorter sequence with 0](images/integer_encoding.png){width=100%}
 
-1. **Vocabulary.** List the unique words of the whole document, the **vocabulary**, and give each one an integer: hi is 1, there is 2, how is 3, are is 4, you is 5.
+1. **Vocabulary.** List the unique words of the whole document, the **vocabulary** (G-2093), and give each one an integer: hi is 1, there is 2, how is 3, are is 4, you is 5.
 2. **Replace.** Write every sentence as the integers of its words: "hi there" becomes $[1, 2]$ and "how are you" becomes $[3, 4, 5]$.
-3. **Pad.** The sequences have different lengths, so add zeros at the start or the end of the shorter ones until all have the same length: $[1, 2, 0]$ and $[3, 4, 5]$. The integer 0 is kept for padding, so no word gets it.
+3. **Pad.** The sequences have different lengths, so we use **padding** (G-1436): add zeros at the start or the end of the shorter ones until all have the same length: $[1, 2, 0]$ and $[3, 4, 5]$. The integer 0 is kept for padding, so no word gets it.
 
 Figure 2 shows the three steps.
 
@@ -54,7 +58,7 @@ Figure 2 shows the three steps.
 
 > **Key point:** Keras' `TextVectorization` layer lower-cases the text, strips punctuation, splits it into words, builds the vocabulary and replaces each word by its index, in one step.
 
-Splitting a text into words is **tokenization**. Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
+Splitting a text into words is **tokenization** (G-1984). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
 
 Take a document of 10 short cheering slogans, such as "go india", "india india" and "jeetega bhai jeetega india jeetega". `adapt` reads the document and builds the vocabulary, most frequent word first. The Notebook prints 19 entries:
 
@@ -68,7 +72,7 @@ Take a document of 10 short cheering slogans, such as "go india", "india india" 
 
 "india" appears 4 times, more than any other word, so it gets the first free index, 2.
 
-**Out-of-vocabulary words.** A word seen only at prediction time, never in training, has no index. The layer maps every such word to a special **out-of-vocabulary (OOV) token**, `[UNK]`, with index 1. In the Notebook, "go pakistan" becomes $[16, 1]$: "pakistan" is not in the vocabulary.
+**Out-of-vocabulary words.** A word seen only at prediction time, never in training, has no index. The layer maps every such word to a special **out-of-vocabulary (OOV) token** (G-1416), `[UNK]`, with index 1. In the Notebook, "go pakistan" becomes $[16, 1]$: "pakistan" is not in the vocabulary.
 
 > **Python:** Integer encoding with `TextVectorization`; it also pads the sequences with 0 at the end.
 >
@@ -93,7 +97,7 @@ For lists of integers of different lengths, `keras.utils.pad_sequences(sequences
 
 > **Key point:** `keras.datasets.imdb.load_data()` returns the reviews as lists of integers, one integer per word.
 
-The **IMDB dataset** holds 50,000 movie reviews from the Internet Movie Database, labelled positive or negative: 25,000 for training and 25,000 for testing (Keras documentation, IMDB dataset). Keras ships it already tokenized and integer encoded, so the steps of section 3 are done. The first training review starts
+The **IMDB dataset** (G-923) holds 50,000 movie reviews from the Internet Movie Database, labelled positive or negative: 25,000 for training and 25,000 for testing (Keras documentation, IMDB dataset). Keras ships it already tokenized and integer encoded, so the steps of section 3 are done. The first training review starts
 
 $$[1, 14, 22, 16, 43, 530, 973, 1622, 1385, 65, \dots]$$
 
@@ -105,9 +109,11 @@ where 1 marks the start of a review and every other integer is a word. Decoded w
 
 > **Key point:** Reviews have different lengths (the first three have 218, 189 and 141 words). `pad_sequences(maxlen=50)` pads the short ones and cuts the long ones to 50 words, so training is fast.
 
-Training on full reviews is slow, so we keep 50 words per review: `keras.utils.pad_sequences(X, maxlen=50)`. Shorter reviews get zeros in front; longer reviews are cut. The training data then has shape $(25000, 50)$. The cut throws information away: the median review has 178 words. With time, use full reviews.
+Training on full reviews is slow, so we keep 50 words per review: `keras.utils.pad_sequences(X, maxlen=50)`. Shorter reviews get zeros in front; longer reviews are cut. The training data then has shape $(25000, 50)$. The cut throws information away: the median review has 178 words. When training time allows, use full reviews.
 
-**Which 50 words?** `pad_sequences` cuts from the start by default (`truncating="pre"`), so a long review keeps its **last** 50 words, not its first 50 (Keras documentation, `pad_sequences`). Passing `truncating="post"` keeps the first 50.
+**Which 50 words?** `pad_sequences` cuts from the start by default (`truncating="pre"`), so a long review keeps its **last** 50 words, not its first 50 (Keras documentation, `pad_sequences`). Passing `truncating="post"` keeps the first 50. Figure 3 shows both cases on real training reviews.
+
+![`pad_sequences(maxlen=50)` on four IMDB training reviews. The three long ones lose their start (red) and keep their last 50 words (blue); the shortest review, 11 words, gets 39 zeros in front](images/pad_truncate.png){width=100%}
 
 ## 5. Approach 1: integer encoding into a SimpleRNN
 
@@ -146,15 +152,17 @@ Each review is 50 integers. At time step 1 the first integer enters the recurren
 
 > **Key point:** `return_sequences=False` (the default) returns only the last hidden state. `return_sequences=True` returns the hidden state of every time step.
 
-The recurrent layer computes a hidden state at every time step. With `return_sequences=False`, only the last one leaves the layer; the others stay inside and only feed the next time step. Sentiment analysis needs one answer per review, after the last word, so `False` is right here.
+The recurrent layer computes a hidden state at every time step (Figure 4). The argument `return_sequences` (G-137) chooses which of them leave the layer. With `return_sequences=False`, only the last one leaves the layer; the others stay inside and only feed the next time step. Sentiment analysis needs one answer per review, after the last word, so `False` is right here.
 
-Some tasks need an output at every word: named entity recognition labels each word (for example, is it a person's name?), and machine translation produces a sentence. Those use `return_sequences=True`. The [types of RNN Note](../1058-types-of-rnn/note.md) covers these cases.
+![The SimpleRNN of section 5 unrolled over a review's 50 integers. Top: with `return_sequences=False` only $h_{50}$ goes on to the sigmoid output. Bottom: with `True` every hidden state leaves the layer, one per word](images/return_sequences.png){width=100%}
+
+Some tasks need an output at every word: **named entity recognition** (G-1300) labels each word (for example, is it a person's name?), and **machine translation** (G-1141) produces a sentence. Those use `return_sequences=True`. The [types of RNN Note](../1058-types-of-rnn/note.md) covers these cases.
 
 ### 5.4 Training
 
 > **Key point:** Binary cross-entropy, Adam, 5 epochs, the test reviews as validation data. Raw integers give a test accuracy near a coin toss.
 
-We compile with binary cross-entropy loss and the Adam optimizer, train for 5 epochs and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
+We compile with **binary cross-entropy** (G-304) loss and the **Adam** (G-169) optimizer, train for 5 **epochs** (G-696) and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
 
 Only 50 words per review and only 5 epochs make the task harder. But the embedding model of section 7 gets the same 50 words and the same 5 epochs and reaches 0.80. The main difference between the two models is how a word enters the RNN (the embedding model also keeps only the 10,000 most frequent words), so the representation of the words is what holds this model back.
 
@@ -168,21 +176,21 @@ Only 50 words per review and only 5 epochs make the task harder. But the embeddi
 
 Two problems come with the earlier representations.
 
-- **Sparse.** Take a 20-word review padded to the longest review of 2,000 words: 1,980 of its 2,000 numbers are padding zeros. A one-hot vector over a 10,000-word vocabulary is 9,999 zeros and one 1. A representation where most values are 0 is **sparse**.
+- **Sparse.** Take a 20-word review padded to the longest review of 2,000 words: 1,980 of its 2,000 numbers are padding zeros. A one-hot vector over a 10,000-word vocabulary is 9,999 zeros and one 1. A representation where most values are 0 is **sparse** (G-1845).
 - **No meaning.** Integers and one-hot vectors say nothing about meaning. In one-hot space every pair of words is the same distance apart, $\sqrt{2}$, so "good" is as far from "great" as from "awful" (Goodfellow §12.4.2).
 
-A **word embedding** represents each word as a real-valued vector of a chosen, small size, such as 2 or 32 numbers, most of them non-zero: a **dense** representation. The vectors are learned so that words that appear in similar contexts are close to each other, which often puts words with similar meanings next to each other (Goodfellow §12.4.2).
+A **word embedding** (G-2127) represents each word as a real-valued vector of a chosen, small size, such as 2 or 32 numbers, most of them non-zero: a **dense** representation (G-585). The vectors are learned so that words that appear in similar contexts are close to each other, which often puts words with similar meanings next to each other (Goodfellow §12.4.2).
 
 ### 6.2 Learning the embedding with the model
 
 > **Key point:** Keras' `Embedding` layer learns the vectors during training, by backpropagation, together with the RNN.
 
-Word2Vec (Mikolov et al. 2013) and GloVe (Pennington et al. 2014) are well-known embedding methods trained on large text collections: Word2Vec learned its vectors from a text of 1.6 billion words, and GloVe was trained on texts of 1 to 42 billion tokens. In deep learning we can also learn an embedding as part of our own model: Keras' `Embedding` layer turns each integer into a dense vector of fixed size (Keras documentation, `Embedding`). Its input must be integer encoded.
+Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are well-known embedding methods trained on large text collections: Word2Vec learned its vectors from a text of 1.6 billion words, and GloVe was trained on texts of 1 to 42 billion tokens. In deep learning we can also learn an embedding as part of our own model: Keras' `Embedding` layer turns each integer into a dense vector of fixed size (Keras documentation, `Embedding`). Its input must be integer encoded.
 
 `Embedding` takes two main arguments:
 
 - `input_dim`: the vocabulary size;
-- `output_dim`: the size of each word's vector, a hyperparameter (2, 32, 200, ...) to tune.
+- `output_dim`: the size of each word's vector, a **hyperparameter** (G-910) (2, 32, 200, ...) to tune.
 
 > **Extra:** Older code also passes `input_length`, the number of words per sequence. Keras 3 removed that argument; the sequence length comes from the input shape (`keras.Input(shape=(50,))`) instead (Keras documentation, `Embedding`).
 
@@ -197,7 +205,7 @@ Word2Vec (Mikolov et al. 2013) and GloVe (Pennington et al. 2014) are well-known
 
 ![The embedding layer as a lookup: the one-hot vector of "go" (index 16) times $E$ keeps row 16 of $E$, which becomes the word's dense vector](images/embedding_lookup.png){width=80%}
 
-$E$ starts random and is trained with the rest of the network by backpropagation. Figure 3 shows the lookup. The Notebook checks that the one-hot product and the layer's output are the same numbers.
+$E$ starts random and is trained with the rest of the network by **backpropagation** (G-247). Figure 5 shows the lookup. The Notebook checks that the one-hot product and the layer's output are the same numbers.
 
 Applied to a padded sequence of 5 integers, the layer returns 5 rows of 2 numbers, one per word (the padding index 0 also gets a row). For the 10 slogans, padded to 5 words, the output has shape $(10, 5, 2)$: 100 numbers.
 
@@ -238,7 +246,7 @@ Now each time step carries 2 numbers instead of 1, so the RNN's input is (50 tim
 | Training accuracy | 0.50 | 0.90 |
 | Test accuracy | 0.50 | 0.80 |
 
-The green lines of Figure 1 show the embedding model. Test accuracy levels off at about 0.80 from epoch 2 while training accuracy keeps rising to 0.90: the model is starting to memorise the training reviews, which is **overfitting**. The [regularization Note](../1026-regularization-in-dl/note.md) and the [early stopping Note](../1022-early-stopping/note.md) cover the remedies.
+The green lines of Figure 1 show the embedding model. Test accuracy levels off at about 0.80 from epoch 2 while training accuracy keeps rising to 0.90: the model is starting to memorise the training reviews, which is **overfitting** (G-1429). The [regularization Note](../1026-regularization-in-dl/note.md) and the [early stopping Note](../1022-early-stopping/note.md) cover the remedies.
 
 ### 7.3 What the embedding learned
 
@@ -246,19 +254,19 @@ The green lines of Figure 1 show the embedding model. Test accuracy levels off a
 
 ![The learned 2-number vectors of a few IMDB words after training. Positive words (green) and negative words (red) end up on opposite sides; frequent neutral words (grey) sit between them](images/embedding_words.png){width=85%}
 
-Figure 4 plots the learned vectors of 8 positive, 8 negative and 8 neutral words. Nobody told the network which words are positive. Goodfellow §12.4.2 explains the pattern: words that share features learned by the model end up close together. The only label this model learns from is the sentiment, and Figure 4 shows its embedding sorting the words by sentiment along one direction.
+Figure 6 plots the learned vectors of 8 positive, 8 negative and 8 neutral words. Nobody told the network which words are positive. Goodfellow §12.4.2 explains the pattern: words that share features learned by the model end up close together. The only label this model learns from is the sentiment, and Figure 6 shows its embedding sorting the words by sentiment along one direction.
 
 The trained model can also be watched while it reads. We take the first test review of 20 to 30 words, with no rare word, that the model classifies correctly (Notebook, last section), and record the hidden state after every word. Applying the output layer to each hidden state gives the prediction the model would make if the review stopped there.
 
 ![The trained embedding model reads a negative test review word by word. Top: the 32 numbers of the hidden state after each word (blue positive, red negative). Bottom: the prediction if the review stopped at that word. The prediction falls from 0.97 to 0.09 at "worst" and ends at 0.005](images/running_review.gif){width=100%}
 
-In Figure 5, watch the column for "worst": the hidden state changes colour there, and the later words keep it on the negative side.
+In Figure 7, watch the column for "worst": the hidden state changes colour there, and the later words keep it on the negative side.
 
 ### 7.4 Learned or pre-trained embeddings
 
 > **Key point:** We can learn the embedding with the model, as here, or load pre-trained vectors such as Word2Vec or GloVe.
 
-A pre-trained embedding was learned on a large general text collection. An embedding learned with the model is fitted to our own data and task. Which works better depends on the data (Goodfellow §15.1.1):
+A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a large general text collection. An embedding learned with the model is fitted to our own data and task. Which works better depends on the data (Goodfellow §15.1.1):
 
 - Pre-training helps most when the labelled observations are few, and when the text used for pre-training is very large.
 - Words are a case where pre-training is especially useful, because one-hot words carry no similarity information (section 6.1). In natural language processing, the vectors are often learned once on a huge text of billions of words, then used as they are or fine-tuned for the task.

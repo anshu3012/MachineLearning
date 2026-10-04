@@ -99,6 +99,11 @@ Each box in Figure 1 is an ordinary layer of nodes, like a hidden layer of an AN
 - the forget gate's layer, the input gate's $i_t$ layer and the output gate's layer use the **sigmoid**;
 - the candidate layer that makes $\tilde c_t$ uses **tanh** (G-1947).
 
+The two activations have different jobs, which is why each layer uses the one it does.
+
+- **The sigmoid gives a share.** It turns any number into a number between 0 and 1: $\sigma(10) = 0.99995$, $\sigma(-5) = 0.007$. An output between 0 and 1 reads as "what fraction to let through": 1 is all of it, 0 is none. The three gate layers decide how much, so they use the sigmoid.
+- **tanh gives a value.** It turns any number into a number between $-1$ and 1: $\tanh(2) = 0.96$, $\tanh(-5) = -1.00$. An output that can be positive or negative reads as a value to store. The candidate layer proposes what to store, so it uses tanh.
+
 The number of nodes per layer is a hyperparameter, such as 3 or 128. Whatever we choose, all four layers get the same number. Each layer outputs one number per node, so $f_t$, $i_t$, $\tilde c_t$ and $o_t$ have as many entries as there are units, and so do $c_t$ and $h_t$.
 
 ## 5. The forget gate
@@ -119,7 +124,7 @@ Figure 3 draws the layer. Joining two vectors end to end is **concatenation** (G
 2. **Formula:**
    $$f_t = \sigma\big([h_{t-1}, x_t]\thinspace W_f + b_f\big)$$
    Shapes: $(1 \times 7)(7 \times 3) = 1 \times 3$, plus the $1 \times 3$ bias, and the sigmoid keeps $1 \times 3$. So $f_t$ has 3 numbers, the same as $c_{t-1}$.
-3. **Example:** section 8 works through all the gates with numbers.
+3. **Example:** section 5.3 works through the forget gate of one unit; section 8 works through all the gates of a 2-unit cell.
 
 ### 5.2 Removing from the cell state
 
@@ -134,6 +139,19 @@ The second step of the forget gate multiplies the old cell state, pointwise, by 
    - $f_t = [0.5, 0.5, 0.5]$ gives $[2, 2.5, 3]$: half of the memory is forgotten;
    - $f_t = [1, 1, 1]$ gives $[4, 5, 6]$: nothing is forgotten;
    - $f_t = [0, 0, 0]$ gives $[0, 0, 0]$: everything is erased.
+
+### 5.3 One unit, with numbers
+
+> **Key point:** With one unit every quantity is a single number. An input of 1 gives $f = 0.99$ and keeps almost all of the memory; an input of $-10$ gives $f = 0.00$ and erases it.
+
+Take an LSTM with one unit, so $h_{t-1}$, $c_{t-1}$, $x_t$ and $f_t$ are single numbers. The forget gate's layer has a weight 2.0 for $h_{t-1}$, a weight 1.5 for $x_t$ and a bias 1.0. The cell holds $h_{t-1} = 1$ and the long-term memory $c_{t-1} = 2$.
+
+1. **The input is $x_t = 1$.** The weighted sum is $2.0 \times 1 + 1.5 \times 1 + 1.0 = 4.5$, and $f_t = \sigma(4.5) = 0.989$. The gate keeps $0.989 \times 2 = 1.98$ of the memory: almost all of it.
+2. **The input is $x_t = -10$.** The weighted sum is $2.0 \times 1 + 1.5 \times (-10) + 1.0 = -12$, and $f_t = \sigma(-12) = 0.000006$. The gate keeps $0.000006 \times 2 = 0.00$: the memory is erased.
+
+The memory was the same in both cases; only the input changed, and the input decided how much to forget. Figure 4 slides the input from 1 down to $-10$: watch the red point run down the sigmoid curve and the green bar, the kept memory, shrink with it.
+
+![The forget gate of a one-unit LSTM as the input $x_t$ falls from 1 to $-10$. Left: the gate value $f_t$ on the sigmoid curve. Right: the old long-term memory (grey, 2.00) and what the gate keeps of it (green, $f_t \times 2$). Idea after StatQuest, "Long Short-Term Memory (LSTM), Clearly Explained", with our own numbers](images/forget_sweep.gif){width=100%}
 
 A gate lets something through or stops it. Because the sigmoid keeps every entry of $f_t$ between 0 and 1, $f_t$ decides how much of each entry of $c_{t-1}$ passes, anywhere from 0% to 100%. And $f_t$ itself is decided by the current input and the previous hidden state. In the story of the [LSTM Note](../1061-lstm/note.md), the forget gate is what removes a king from memory once the story reveals his death.
 
@@ -183,13 +201,15 @@ The trouble with a simple RNN is that information from early words fades as it i
 
 $$c_t = [1, 1, 1] \odot [4, 5, 6] + [0, 0, 0] \odot \tilde c_t = [4, 5, 6]$$
 
-Nothing is lost. Figure 4 holds the input gate closed for 20 steps and changes only the forget gate. With $f = 1$ the first entry stays at 4. With $f = 0.9$ it keeps 90 percent per step and falls to $4 \times 0.9^{20} = 0.49$; with $f = 0.5$ it is gone after a few steps.
+Nothing is lost. Figure 5 holds the input gate closed for 20 steps and changes only the forget gate. With $f = 1$ the first entry stays at 4. With $f = 0.9$ it keeps 90 percent per step and falls to $4 \times 0.9^{20} = 0.49$; with $f = 0.5$ it is gone after a few steps.
 
 ![The first entry of the cell state $[4, 5, 6]$ over 20 time steps with the input gate closed, for three forget-gate values. Only $f = 1$ carries the value unchanged](images/carry.png){width=90%}
 
 If the cell decides at every step that nothing should be removed and nothing added, the information from the beginning of a long sentence reaches its end intact. The gates decide, step by step, how much of the cell state moves on.
 
-> **Extra:** Goodfellow §10.10.1 describes the cell state as having a linear self-loop whose weight is the forget gate: introducing such self-loops "to produce paths where the gradient can flow for long durations" is the core contribution of the LSTM (Hochreiter and Schmidhuber 1997). The original paper reports bridging time lags of more than 1000 discrete time steps on artificial tasks. The [LSTM Note](../1061-lstm/note.md) tests the effect on real reviews.
+The same line is why an LSTM can be trained on long sequences. In a simple RNN the error travelling backwards is multiplied by a weight and an activation slope at every time step, and it fades (see the [problems with RNNs Note](../1060-problems-with-rnn/note.md)). Along the cell state it is multiplied only by the forget gate, which can stay close to 1. Producing such "paths where the gradient can flow for long durations" is the core contribution of the LSTM (Goodfellow §10.10.1; Hochreiter and Schmidhuber 1997).
+
+> **Extra:** Goodfellow §10.10.1 describes the cell state as having a linear self-loop whose weight is the forget gate. The original paper (Hochreiter and Schmidhuber 1997) reports bridging time lags of more than 1000 discrete time steps on artificial tasks. The [LSTM Note](../1061-lstm/note.md) tests the effect on real reviews.
 
 ## 7. The output gate
 
@@ -234,7 +254,7 @@ Shapes: $o_t$ and $\tanh(c_t)$ are both $1 \times 3$, so $h_t$ is $1 \times 3$, 
 
 ![The time step above, one vector per frame. Each row is "value × gate = result": the forget gate scales the old cell state, the input gate scales the candidate, and the output gate scales $\tanh(c_t)$. The new cell state is drawn as what is kept (green) plus what is added (blue)](images/lstm_step.gif){height=55%}
 
-In Figure 5, watch unit 2: its forget gate (0.25) wipes most of its old value, and its input gate (0.88) lets in most of a strongly negative candidate, so its cell state turns from $-0.5$ to $-0.8$.
+In Figure 6, watch unit 2: its forget gate (0.25) wipes most of its old value, and its input gate (0.88) lets in most of a strongly negative candidate, so its cell state turns from $-0.5$ to $-0.8$.
 
 ## 9. Counting the parameters
 
@@ -252,7 +272,7 @@ Keras counts 96 for `LSTM(3)` on 4 input features, and 24 for `SimpleRNN(3)` on 
 
 ![Where the 96 parameters of `LSTM(3)` on 4 input features come from: four layers, each fully connected from the 7 numbers of $[h_{t-1}, x_t]$ to 3 units, so $7 \times 3$ weights plus 3 biases each](images/param_count.png){width=90%}
 
-Figure 6 shows why the count is exactly four times a SimpleRNN's: the same layer, repeated once per gate and once for the candidate.
+Figure 7 shows why the count is exactly four times a SimpleRNN's: the same layer, repeated once per gate and once for the candidate.
 
 > **Python:** An LSTM layer in Keras, and where its weights live.
 >
@@ -277,7 +297,7 @@ To see the gates at work, we train a small LSTM on movie reviews from the IMDB d
 
 ![The trained LSTM reading a real IMDB review, one word per frame. Top four panels: the forget, input and output gates (0 to 1) and the cell state of the 8 units. Bottom: the prediction the model would give if the review ended at that word](images/lstm_gates.gif){height=55%}
 
-Figure 7 shows the review "i don't believe it luc is not only a genius now he has always been one this film is for everyone who likes real good deep films just perfect", labelled positive.
+Figure 8 shows the review "i don't believe it luc is not only a genius now he has always been one this film is for everyone who likes real good deep films just perfect", labelled positive.
 
 - **The forget gate stays mostly open.** Its values lie between 0.65 and 0.86 (mean 0.76) for every unit and every word, so each step keeps most of the cell state and drops a part of it.
 - **The cell state moves with the meaning.** Around "not only", several units of $c_t$ turn clearly positive or negative, and the prediction falls from 0.52 to 0.31. From "good deep films" to "perfect" other units swing strongly, and the prediction climbs to 0.81.
@@ -307,6 +327,7 @@ The gates of this small model vary only a little from word to word; the large ch
 **Built from**
 
 - CampusX, "LSTM Architecture | Part 2 | The How? | CampusX", YouTube, https://www.youtube.com/watch?v=Akv3poqqwI4
+- StatQuest with Josh Starmer, "Long Short-Term Memory (LSTM), Clearly Explained", YouTube, https://www.youtube.com/watch?v=YCzL96nL7j0 (the sigmoid as the share to keep and tanh as a value; a one-unit forget gate with numbers)
 
 **Other references**
 

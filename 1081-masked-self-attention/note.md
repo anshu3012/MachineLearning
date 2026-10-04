@@ -14,9 +14,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/masked-a
 
 ## 1. Overview
 
-> **Key point:** The transformer decoder writes its output one word at a time during prediction, because each word needs the words before it. During training the correct output sentence is already known, so all positions can be computed in one pass. The catch: ordinary self-attention would then let every word look at the words after it, which it cannot do at prediction time. **Masked self-attention** blocks those future words by adding $-\infty$ to their scores before the softmax, so their weights become exactly 0.
+> **Key point:** The transformer decoder writes its output one word at a time during prediction, because each word needs the words before it. During training the correct output sentence is already known, so all positions can be computed in one pass. The catch: ordinary self-attention would then let every word look at the words after it, which it cannot do at prediction time. **Masked self-attention** (G-1172) blocks those future words by adding $-\infty$ to their scores before the softmax, so their weights become exactly 0.
 
-The [transformer encoder Note](../1080-transformer-encoder/note.md) opened the encoder. The decoder reuses most of its parts, but its first attention layer is different: the paper calls it **masked multi-head attention** (Vaswani et al. 2017, Figure 1). One sentence sums up why it is needed:
+The [transformer encoder Note](../1080-transformer-encoder/note.md) opened the encoder. The decoder reuses most of its parts, but its first attention layer is different: the paper calls it **masked multi-head attention** (G-1171; Vaswani et al. 2017, Figure 1). One sentence sums up why it is needed:
 
 *The transformer decoder is autoregressive at prediction time and non-autoregressive at training time.*
 
@@ -36,11 +36,15 @@ This Note explains that sentence (Figure 1) and the small change to self-attenti
 
 > **Key point:** An autoregressive model produces a sequence one item at a time, and each new item depends on the items it has already produced.
 
-In deep learning, an **autoregressive model** generates the items of a sequence one after another, each conditioned on the items generated before it. Choosing the next word from the words already chosen is called **causal** or **autoregressive generation** (SLP3 §7.6).
+In deep learning, an **autoregressive model** (G-234) generates the items of a sequence one after another, each conditioned on the items generated before it. Choosing the next word from the words already chosen is called **causal** or **autoregressive generation** (SLP3 §7.6).
 
 An example outside text: a model predicts a share price every day. The model predicted 29 for Wednesday and 30 for Thursday. Its prediction for Friday uses those two earlier values. The term comes from time series, where an autoregressive model predicts the next value as a linear function of earlier values; deep learning uses it more loosely for any model that generates step by step from its own earlier outputs (SLP3 §7.6, footnote 4).
 
 We have met such a model already. The LSTM decoder of the [encoder–decoder Note](../1068-encoder-decoder/note.md) writes one word per step, and during prediction the word it wrote at step $t-1$ is its input at step $t$. The transformer decoder works the same way: "at each step the model is auto-regressive, consuming the previously generated symbols as additional input when generating the next" (Vaswani et al. 2017, §3).
+
+Figure 2 draws the loop for the translation used in this Note.
+
+![Autoregressive generation. At each step the decoder writes one word (green), and that word becomes part of the next step's input (dashed), so step $t$ must wait for step $t-1$](images/autoregressive.png){width=100%}
 
 Text has to be generated this way. Which word comes next depends on the words already written, so a translation cannot be written in one go: the later words depend on the earlier ones.
 
@@ -67,7 +71,7 @@ If the model writes a wrong word at some step, the wrong word becomes part of th
 
 Now suppose training also ran step by step. We take the training pair "How are you?" and "Comment ça va ?". The encoder reads the English sentence. The decoder starts with `<start>` and predicts a first word, say "très", which is wrong. Then:
 
-- At step 2, **teacher forcing** (the [encoder–decoder Note](../1068-encoder-decoder/note.md), section 5.2) feeds the correct word "comment", not the wrong "très". The decoder predicts the next word.
+- At step 2, **teacher forcing** (G-1955; the [encoder–decoder Note](../1068-encoder-decoder/note.md), section 5.2) feeds the correct word "comment", not the wrong "très". The decoder predicts the next word.
 - At steps 3, 4 and 5 the inputs are again the correct words "ça", "va" and "?".
 - The loss compares the five predictions with the correct words, and backpropagation updates the weights.
 
@@ -88,7 +92,7 @@ The decoder input is the target sentence shifted right by one place, with `<star
 
 ![Training against inference, with the masked weights of a trained decoder (one attention head, first decoder block). Left: training computes every row in one pass. Right: inference computes one new row per step (red outline), as each word is written. The rows are the same numbers](images/train_infer_anim.gif){height=50%}
 
-Figure 2 shows both ways with real weights from the trained translation model of the [transformer inference Note](../1084-transformer-inference/note.md). Watch the right panel: each inference step adds one row, and that row is exactly the row the training pass computed all at once. Section 6 explains how the training pass keeps the later words out.
+Figure 3 shows both ways with real weights from the trained translation model of the [transformer inference Note](../1084-transformer-inference/note.md). Watch the right panel: each inference step adds one row, and that row is exactly the row the training pass computed all at once. Section 6 explains how the training pass keeps the later words out.
 
 ## 5. The problem: self-attention sees the future
 
@@ -106,9 +110,11 @@ The Notebook runs self-attention on our five decoder inputs. Each word gets 8 ra
 | va | 0.280 | 0.140 | 0.172 | 0.155 | 0.254 | 0.254 |
 | ? | 0.166 | 0.272 | 0.142 | 0.200 | 0.220 | 0 |
 
-Take the row of "comment". Its output takes 0.415 of its mix from "ça", 0.065 from "va" and 0.215 from "?". But at prediction time, when the decoder has written only `<start> comment`, the words "ça", "va" and "?" do not exist. The output for `<start>` is the worst case: 87% of it comes from words that will not exist when it is needed.
+Take the row of "comment". Its output takes 0.415 of its mix from "ça", 0.065 from "va" and 0.215 from "?". But at prediction time, when the decoder has written only `<start> comment`, the words "ça", "va" and "?" do not exist. The output for `<start>` is the worst case: 87% of it comes from words that will not exist when it is needed (Figure 4).
 
-So the model would be trained on information that is missing at prediction time. Training on such information is **data leakage** (the [toy project Note](../13-toy-project/note.md)): information that will not exist when the model is used reaches it during training. A model trained with leaked information can do well on the training data and badly on real inputs. Here the leak is especially direct. The decoder's job at position 1 is to predict "comment", and with the leak the input of position 1 already contains "comment" itself. "Guessing the next word is pretty simple if you already know it!" (SLP3 §7.3).
+![The last column of the table as bars: the share of each word's weight that comes from the words after it. The earlier the word, the more of it is borrowed from the future](images/future_weight.png){width=90%}
+
+So the model would be trained on information that is missing at prediction time. Training on such information is **data leakage** (G-535; the [toy project Note](../13-toy-project/note.md)): information that will not exist when the model is used reaches it during training. A model trained with leaked information can do well on the training data and badly on real inputs. Here the leak is especially direct. The decoder's job at position 1 is to predict "comment", and with the leak the input of position 1 already contains "comment" itself. "Guessing the next word is pretty simple if you already know it!" (SLP3 §7.3).
 
 We seem stuck:
 
@@ -127,7 +133,7 @@ We seem stuck:
 
 Recall the steps of scaled dot-product attention (the [scaled dot-product attention Note](../1074-scaled-dot-product-attention/note.md)): compute the scores $QK^T$, divide by $\sqrt{d_k}$, apply the softmax row by row, multiply by $V$. The weights we want to remove are those above the diagonal: row $i$ (the word being computed) must give 0 weight to every column $j > i$ (a later word).
 
-Setting them to 0 after the softmax would not work, because each row of weights must still sum to 1. Instead, one extra step goes in before the softmax. The mask matrix $M$ has the same shape as the score matrix:
+Setting them to 0 after the softmax would not work, because each row of weights must still sum to 1. Instead, one extra step goes in before the softmax. The **mask matrix** (G-1169) $M$ has the same shape as the score matrix:
 
 $$M_{ij} = \begin{cases} 0 & \text{if } j \le i \cr-\infty & \text{if } j > i \end{cases}$$
 
@@ -139,7 +145,7 @@ Masked self-attention is then
 
 $$\text{MaskedAttention}(Q, K, V) = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}} + M\right) V$$
 
-(SLP3 eq. 7.34). The paper puts it in one sentence: "We implement this inside of scaled dot-product attention by masking out (setting to $-\infty$) all values in the input of the softmax which correspond to illegal connections" (Vaswani et al. 2017, §3.2.3). Because it hides everything after the current word, the mask is called a **causal mask** (look-ahead mask).
+(SLP3 eq. 7.34). The paper puts it in one sentence: "We implement this inside of scaled dot-product attention by masking out (setting to $-\infty$) all values in the input of the softmax which correspond to illegal connections" (Vaswani et al. 2017, §3.2.3). Because it hides everything after the current word, the mask is called a **causal mask** (G-358; look-ahead mask).
 
 ### 6.2 One row by hand
 
@@ -162,13 +168,13 @@ Adding 0 instead of $-\infty$ would change nothing, since $e^{s + 0} = e^{s}$; o
 
 ![Self-attention weights on the decoder input. Left: without the mask, every word takes weight from the words after it (red outlines). Right: with the causal mask, every weight above the diagonal is exactly 0](images/masked_weights.png){width=100%}
 
-Figure 3 compares the two weight matrices. With the mask, the first row puts all its weight (1.0) on `<start>`, the only word it may see. Row 2 splits between `<start>` and "comment" (0.412 and 0.588), and so on. The last row, "?", is the same as without the mask, because nothing comes after it. In the Notebook every weight above the diagonal is exactly 0, not just small, and every row still sums to 1.
+Figure 5 compares the two weight matrices. With the mask, the first row puts all its weight (1.0) on `<start>`, the only word it may see. Row 2 splits between `<start>` and "comment" (0.412 and 0.588), and so on. The last row, "?", is the same as without the mask, because nothing comes after it. In the Notebook every weight above the diagonal is exactly 0, not just small, and every row still sums to 1.
 
 ![Masked self-attention row by row: the word being computed (red outline) may take only from itself and the words before it; the grey cells are blocked by the mask](images/mask_fill.gif){height=55%}
 
-Figure 4 builds the matrix one row at a time, in the order the words would appear at prediction time. Each row uses only words that already exist when that word is written. Masking gives us both: a single parallel pass, and no word seeing its future.
+Figure 6 builds the matrix one row at a time, in the order the words would appear at prediction time. Each row uses only words that already exist when that word is written. Masking gives us both: a single parallel pass, and no word seeing its future.
 
-The weights above come from random, untrained matrices. Figure 5 runs the same steps in a trained model: one attention head of the first decoder block of the translation transformer trained in the [transformer inference Note](../1084-transformer-inference/note.md), on the same input `<start> comment ça va ?`, with $d_k = 32$. Each score is drawn as a dot whose area shows its size. Watch three things: dividing by $\sqrt{32}$ shrinks every dot by the same factor; the mask replaces the whole upper triangle by $-\infty$; and after the softmax every row is a set of weights summing to 1, with nothing above the diagonal. In this head, "ça" takes its weight from `<start>` (0.46) and "comment" (0.51), and "?" takes 0.98 from "ça" (exported by that Note's Notebook, section 8).
+The weights above come from random, untrained matrices. Figure 7 runs the same steps in a trained model: one attention head of the first decoder block of the translation transformer trained in the [transformer inference Note](../1084-transformer-inference/note.md), on the same input `<start> comment ça va ?`, with $d_k = 32$. Each score is drawn as a dot whose area shows its size. Watch three things: dividing by $\sqrt{32}$ shrinks every dot by the same factor; the mask replaces the whole upper triangle by $-\infty$; and after the softmax every row is a set of weights summing to 1, with nothing above the diagonal. In this head, "ça" takes its weight from `<start>` (0.46) and "comment" (0.51), and "?" takes 0.98 from "ça" (exported by that Note's Notebook, section 8).
 
 ![Masked self-attention in a trained decoder, as a grid of dots (rows: the word being computed). Raw scores $q \cdot k$ (blue positive, red negative), divided by $\sqrt{d_k}$, masked with $-\infty$ above the diagonal, then the softmax of each row](images/trained_grid.gif){height=55%}
 
@@ -182,7 +188,7 @@ The weights above come from random, untrained matrices. Figure 5 runs the same s
 
 > **Key point:** `use_causal_mask=True` in Keras' `MultiHeadAttention` computes exactly the masked attention of section 6.
 
-Keras' `MultiHeadAttention` layer has a `use_causal_mask` argument that applies this mask, "a causal mask to prevent tokens from attending to future tokens" (Keras documentation). With one head, the same $W_Q$, $W_K$, $W_V$ as the hand computation and the output matrix set to the identity (as in the [scaled dot-product attention Note](../1074-scaled-dot-product-attention/note.md), section 7), Keras returns the same weights and outputs; the largest difference is $3 \times 10^{-8}$.
+Keras' `MultiHeadAttention` layer has a `use_causal_mask` (G-154) argument that applies this mask, "a causal mask to prevent tokens from attending to future tokens" (Keras documentation). With one head, the same $W_Q$, $W_K$, $W_V$ as the hand computation and the output matrix set to the identity (as in the [scaled dot-product attention Note](../1074-scaled-dot-product-attention/note.md), section 7), Keras returns the same weights and outputs; the largest difference is $3 \times 10^{-8}$.
 
 > **Python:** Masked self-attention by hand, and with Keras.
 >
@@ -231,13 +237,17 @@ The Notebook times both ways on the GPU, for a batch of 64 random sequences with
 
 ![Time for a batch of 64: one masked pass stays nearly flat as the sequence grows, while $n$ one-word steps grow with $n$](images/timing.png){width=85%}
 
-The masked pass barely changes from 8 to 128 positions, because the GPU computes all positions at the same time; the step-by-step time grows with the number of steps, because each step must wait for the one before (Figure 6). The measurement covers one attention layer; a real decoder repeats it in every layer of every block, for every training pair. Parallel training "making it practical to pretrain on trillions of tokens" rests on exactly this (SLP3 §7.7).
+The masked pass barely changes from 8 to 128 positions, because the GPU computes all positions at the same time; the step-by-step time grows with the number of steps, because each step must wait for the one before (Figure 8). The measurement covers one attention layer; a real decoder repeats it in every layer of every block, for every training pair. Parallel training "making it practical to pretrain on trillions of tokens" rests on exactly this (SLP3 §7.7).
 
 ## 8. Masked multi-head attention
 
 > **Key point:** In the decoder, the mask is applied inside every head of multi-head attention. The layer is otherwise the same as in the encoder.
 
-The decoder uses multi-head attention, not a single head (the [multi-head attention Note](../1077-multi-head-attention/note.md)). The mask goes inside each head's scaled dot-product attention, exactly as in section 6 (Vaswani et al. 2017, §3.2.3: the mask is implemented "inside of scaled dot-product attention"). Every head therefore produces a lower-triangular weight matrix. The heads are concatenated and multiplied by $W_O$ as usual. This layer is the first sub-layer of every decoder block (Vaswani et al. 2017, §3.1); the rest of the block is in the [transformer decoder Note](../1083-transformer-decoder/note.md).
+The **decoder** (G-564) uses **multi-head attention** (G-1268), not a single head (the [multi-head attention Note](../1077-multi-head-attention/note.md)). The mask goes inside each head's scaled dot-product attention, exactly as in section 6 (Figure 9) (Vaswani et al. 2017, §3.2.3: the mask is implemented "inside of scaled dot-product attention"). Every head therefore produces a lower-triangular weight matrix. The heads are concatenated and multiplied by $W_O$ as usual.
+
+![Masked multi-head attention. Every head applies the causal mask, so every head's weight matrix is lower-triangular (grey: the blocked future); the heads are then concatenated and multiplied by $W_O$](images/masked_heads.png){width=80%}
+
+This layer is the first sub-layer of every decoder block (Vaswani et al. 2017, §3.1); the rest of the block is in the [transformer decoder Note](../1083-transformer-decoder/note.md).
 
 The encoder has no mask: it reads a whole input sentence that is fully known, both at training and at prediction time, so each word may look at every other word (SLP3 §13.3). The paper agrees: its diagram of scaled dot-product attention marks the mask step as optional, "Mask (opt.)" (Vaswani et al. 2017, Figure 2), and §3.2.3 applies the mask only in the decoder's self-attention.
 

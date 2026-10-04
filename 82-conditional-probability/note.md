@@ -15,32 +15,33 @@ tags: [subject/ml, area/probability, step/foundations, concept/conditional-proba
 
 > **Key point:** The probability of A given B, P(A | B), is the probability of A once we know B has happened. P(A | B) equals P(A ∩ B) / P(B).
 
-The next Notes build the **Naive Bayes** classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
+The next Notes build the **Naive Bayes** (G-1298) classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
 
-**Conditional probability** answers questions of the form "how likely is A, now that we know B is true?". Conditional probability is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
+**Conditional probability** (G-444) answers questions of the form "how likely is A, now that we know B is true?". Conditional probability is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
 
 ## 2. The definition
 
 > **Key point:** P(A | B) = P(A ∩ B) / P(B), as long as P(B) is not zero.
 
-For two events $A$ and $B$:
-
-$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad P(B) \neq 0$$
-
-- $P(A \mid B)$ is read "the probability of A given B".
-- $A \cap B$ (A intersection B) means "both A and B happen".
+An everyday picture: a friend draws a card from a deck and says "it is red". We stop thinking about all 52 cards and look only at the 26 red ones. The chance that the card is a heart is now 13 out of 26, one half, instead of one quarter.
 
 ![Conditional probability as a share of B](images/venn.png){height=32%}
 
 The idea (Figure 1): once we know $B$ has happened, every outcome outside $B$ is ruled out. $B$ becomes the whole world, and the question is what share of it also belongs to $A$.
 
-An everyday picture: a friend draws a card from a deck and says "it is red". We stop thinking about all 52 cards and look only at the 26 red ones. The chance that the card is a heart is now 13 out of 26, one half, instead of one quarter.
+Written as a formula, for two **events** (G-717) $A$ and $B$:
+
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad P(B) \neq 0$$
+
+- $P(A \mid B)$ is read "the probability of A given B".
+- $A \cap B$ (A **intersection**, G-967) means "both A and B happen".
+- The top is the part of $B$ that also belongs to $A$; the bottom is all of $B$. For the card: $P(\text{heart and red}) / P(\text{red}) = (13/52) / (26/52) = 1/2$.
 
 ## 3. An example with two dice
 
 > **Key point:** Rolling two dice has 36 equally likely outcomes. Conditioning on "sum ≤ 10" shrinks the space to 33 outcomes.
 
-Roll two dice together. Each outcome is a pair, (die 1, die 2): (1, 1), (1, 2), ..., (6, 6). There are $6 \times 6 = 36$ outcomes, all equally likely. This set of all outcomes is the **sample space**.
+Roll two dice together. Each outcome is a pair, (die 1, die 2): (1, 1), (1, 2), ..., (6, 6). There are $6 \times 6 = 36$ outcomes, all equally likely. This set of all outcomes is the **sample space** (G-1729).
 
 ![The 36 outcomes, the event B, and A ∩ B](images/dice.png){height=48%}
 
@@ -61,7 +62,7 @@ With equally likely outcomes, a probability is the number of favourable outcomes
 
 Now ask: **what is the probability that die 1 shows 5, given that the sum is at most 10?**
 
-Since B is known to have happened, only its 33 outcomes are possible. These 33 outcomes form the **reduced sample space**. Inside it, die 1 shows 5 in the outcomes (5, 1), (5, 2), (5, 3), (5, 4) and (5, 5); the sixth, (5, 6), has sum 11 and is ruled out (Figure 2, right). So
+Since B is known to have happened, only its 33 outcomes are possible. These 33 outcomes form the **reduced sample space** (G-1649). Inside it, die 1 shows 5 in the outcomes (5, 1), (5, 2), (5, 3), (5, 4) and (5, 5); the sixth, (5, 6), has sum 11 and is ruled out (Figure 2, right). So
 
 $$P(A \mid B) = \frac{5}{33} \approx 0.152$$
 
@@ -106,26 +107,67 @@ The order matters. Given that die 1 shows 5, the reduced space is its 6 outcomes
 
 $$P(B \mid A) = \frac{P(A \cap B)}{P(A)} = \frac{5/36}{6/36} = \frac{5}{6}$$
 
-So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$ (Figure 3, last scene). Confusing the two is a classic mistake. Bayes' theorem (two Notes later) is exactly the rule that converts one into the other.
+So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$ (Figure 3, last scene). Figure 4 sets the two side by side on the grid. The overlap is the same 5 red cells in both panels; what changes is the world we divide by: B's 33 cells on the left, A's 6 cells on the right.
 
-## 5. Summary
+![The same overlap, two different worlds. Left: given B (the 33 cells with sum at most 10), A covers 5 cells, so P(A | B) = 5/33. Right: given A (die 1 shows 5), B covers 5 of its 6 cells, so P(B | A) = 5/6. Grey cells are ruled out.](images/swap.png)
+
+Confusing the two is a classic mistake. Bayes' theorem (two Notes later) is exactly the rule that converts one into the other.
+
+## 5. The multiplication rule
+
+> **Key point:** P(A ∩ B) = P(A | B) × P(B) = P(B | A) × P(A). The chance that both happen can be built from either side.
+
+Multiply both sides of the definition by $P(B)$:
+
+$$P(A \cap B) = P(A \mid B) \times P(B)$$
+
+In words: for both to happen, B must happen, and then A must happen given B. This is the **multiplication rule**. The same event can be built from the other side, starting with A:
+
+$$P(A \cap B) = P(B \mid A) \times P(A)$$
+
+An everyday example. Rahul likes bagels and pizza.
+
+- A: he eats a bagel for breakfast. $P(A) = 0.6$.
+- B: he eats pizza for lunch. $P(B) = 0.5$.
+- On the days he has pizza for lunch, he had a bagel for breakfast 7 times out of 10: $P(A \mid B) = 0.7$.
+
+What is $P(B \mid A)$, the chance of pizza for lunch given a bagel for breakfast?
+
+1. Build "both" from the B side: $P(A \cap B) = 0.7 \times 0.5 = 0.35$.
+2. The A side must give the same number: $P(B \mid A) \times 0.6 = 0.35$.
+3. Divide: $P(B \mid A) = 0.35 / 0.6 \approx 0.58$.
+
+![The multiplication rule as an area. Left: the B strip is 0.5 wide and A fills 0.7 of its height. Right: the A strip is 0.6 wide and B fills 0.58 of its height. The red area, the chance of both, is 0.35 in each.](images/mult_rule.png){height=38%}
+
+Figure 5 shows the rule as an area. The whole square is every day, with area 1. On the left, the strip for B is 0.5 wide and A fills 0.7 of it, so the red rectangle has area 0.35. On the right, the strip for A is 0.6 wide and B fills 0.58 of it: the same area, 0.35.
+
+Two things to take from the example:
+
+- **The order matters again:** $P(A \mid B) = 0.7$ but $P(B \mid A) = 0.58$, as in Section 4.
+- **The events affect each other:** $P(A \mid B) = 0.7$ is not $P(A) = 0.6$, so knowing B changes the chance of A. Such events are **dependent events** (G-590). When knowing B changes nothing, the events are independent ([Note 83](../83-independent-events/note.md)).
+
+Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is Bayes' theorem ([Note 85](../85-bayes-theorem/note.md)).
+
+## 6. Summary
 
 - Conditional probability: $P(A \mid B) = P(A \cap B) / P(B)$.
 - Knowing B shrinks the sample space to B; count A's share inside it.
+- Multiplication rule: $P(A \cap B) = P(A \mid B) \times P(B) = P(B \mid A) \times P(A)$.
 - Two dice: $P(\text{die 1} = 5 \mid \text{sum} \leq 10) = 5/33$, against $P(\text{sum} \leq 10 \mid \text{die 1} = 5) = 5/6$.
 
-## 6. Sources
+## 7. Sources
 
 **Built from**
 
 - CampusX, "Naive Bayes Classifier | Part 1 | Conditional Probability", YouTube, https://www.youtube.com/watch?v=Ty7knppVo9E
+- Khan Academy, "Calculating conditional probability | Probability and Statistics", YouTube, https://www.youtube.com/watch?v=6xPkG2pA-TU (the breakfast-and-lunch example and the multiplication rule read both ways)
 - **Sanderson, G. (3Blue1Brown):** "Bayes' theorem", 3blue1brown.com/lessons/bayes-theorem. The picture of conditioning as shrinking the space of possibilities; Figure 3 recreates it with our own dice example.
 
 **Other references**
 
 - **scikit-learn user guide:** Section 1.9, "Naive Bayes", scikit-learn 1.9.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -133,5 +175,7 @@ So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$ (Figure 3, last scene). Confus
 | Event | A set of outcomes, such as "the sum is at most 10" |
 | Intersection (A ∩ B) | The event that both A and B happen |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$ |
+| Multiplication rule | $P(A \cap B) = P(A \mid B) \times P(B)$: the chance of both is the chance of one times the chance of the other given the first |
+| Dependent events | Events where knowing one changes the probability of the other |
 | Reduced sample space | The outcomes that remain possible once the condition is known |
 | Naive Bayes | A classification algorithm based on Bayes' theorem (later Notes) |

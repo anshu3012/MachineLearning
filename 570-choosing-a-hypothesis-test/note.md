@@ -18,7 +18,7 @@ tags: [subject/statistics, area/inference, step/foundations, step/understand, co
 
 ![Choosing a test from the features involved](images/test_chooser.png)
 
-The earlier hypothesis-testing Notes built the z-test and three t-tests. Real questions come with data of many kinds: counts of men and women, heights, age groups. Figure 1 is the guide this Note follows: name the **features** the question is about, and the test follows. A feature is a variable of the data, one column of the data table, such as gender or height.
+The earlier hypothesis-testing Notes built the z-test and three t-tests. Real questions come with data of many kinds: counts of men and women, heights, age groups. Figure 1 is the guide this Note follows: name the **features** (G-772) the question is about, and the test follows. A feature is a variable of the data, one column of the data table, such as gender or height.
 
 This Note covers:
 
@@ -26,7 +26,7 @@ This Note covers:
 - a small dataset with two categorical and two numerical features;
 - one test for each kind of question: the one-sample proportion test, the chi-square test, the t-tests, the correlation test and ANOVA.
 
-Two of these tests are new here and taught in full: the one-sample proportion test and the correlation test. The chi-square tests and ANOVA each get their own Note: the [chi-square tests Note](../571-chi-square-tests/note.md) and the [one-way ANOVA Note](../572-one-way-anova/note.md).
+Two of these tests are new here and taught in full: the **one-sample proportion test** (G-1381) and the **correlation test** (G-489). The chi-square tests and ANOVA each get their own Note: the [chi-square tests Note](../571-chi-square-tests/note.md) and the [one-way ANOVA Note](../572-one-way-anova/note.md).
 
 ## 2. One logic for every test
 
@@ -34,13 +34,13 @@ Two of these tests are new here and taught in full: the one-sample proportion te
 
 Every test in this Note follows the eight steps of a hypothesis test (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)). In short:
 
-1. **Hypotheses.** $H_0$ says there is no difference or no relationship; $H_1$ says there is one.
-2. **Significance level.** Fix $\alpha$, usually 0.05, before running the test (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)).
+1. **Hypotheses.** The **null hypothesis** $H_0$ (G-1361) says there is no difference or no relationship; the **alternative hypothesis** $H_1$ (G-193) says there is one.
+2. **Significance level** (G-1801). Fix $\alpha$, usually 0.05, before running the test (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)).
 3. **Test.** Choose the test from the features involved (Figure 1) and compute its statistic.
 4. **P-value.** The probability, if $H_0$ were true, of a result at least as extreme as ours (see the [p-values Note](../300-p-values/note.md)).
 5. **Decision.** $p \le \alpha$: reject $H_0$. $p > \alpha$: fail to reject $H_0$.
 
-With $\alpha = 0.05$ in a two-tailed test, the rejection region is the outer 2.5% at each end of the test statistic's distribution, 5% in total (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
+With $\alpha = 0.05$ in a **two-tailed test** (G-2028), the **rejection region** (G-1662) is the outer 2.5% at each end of the test statistic's distribution, 5% in total (see the [errors, power and tails Note](../292-errors-power-and-tails/note.md)).
 
 ![The six tests of this Note, sorted by the one shared rule](images/p_sort.png){width=80%}
 
@@ -54,13 +54,13 @@ These three mix-ups are common enough to correct here; each is explained in the 
 
 - **"$H_0$ is always true."** We **assume** $H_0$ while computing the p-value, as a starting point. The test exists because $H_0$ may be false.
 - **"The p-value is the probability that $H_1$ is true."** The p-value is the probability of data this extreme if $H_0$ were true (see the [p-values Note](../300-p-values/note.md)). The p-value says nothing directly about how likely either hypothesis is.
-- **"$p > 0.05$, so we accept $H_0$."** A large p-value means the sample gives too little evidence against $H_0$. We say we **fail to reject** $H_0$; absence of evidence is not proof (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
+- **"$p > 0.05$, so we accept $H_0$."** A large p-value means the sample gives too little evidence against $H_0$. We say we **fail to reject** $H_0$ (G-746); absence of evidence is not proof (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
 
 ## 3. The example dataset
 
 > **Key point:** 60 people with two categorical features (gender, age group) and two numerical features (height, weight); each pair of feature kinds leads to a different test.
 
-We use one sample of 60 people with four features. Each person is one **observation** (one record, a row of the table):
+We use one sample of 60 people with four features. Each person is one **observation** (G-1374; one record, a row of the table):
 
 | gender | age_group | height (m) | weight (kg) |
 |---|---|---|---|
@@ -94,7 +94,7 @@ With one categorical feature, the natural question is about proportions: is ther
 
 $$H_0: \pi = 0.5, \qquad H_1: \pi \neq 0.5$$
 
-Our sample has 26 men out of 60, a **sample proportion** $\hat{p} = 26/60 = 0.433$. The sample proportion is below 0.5, but a sample of 60 can easily miss by that much.
+Our sample has 26 men out of 60, a **sample proportion** $\hat{p}$ (G-1726) $= 26/60 = 0.433$. The sample proportion is below 0.5, but a sample of 60 can easily miss by that much.
 
 ### 4.2 The z statistic for a proportion
 
@@ -102,7 +102,7 @@ Our sample has 26 men out of 60, a **sample proportion** $\hat{p} = 26/60 = 0.43
 
 A proportion is the mean of a 0/1 column, with standard deviation $\sqrt{\pi(1 - \pi)}$ (the Bernoulli variance, see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)). By the central limit theorem the sample proportion is close to normal for large $n$ (see the [sampling distribution Note](../271-sampling-distribution-and-clt/note.md)). So the z-test of the [rejection region Note](../291-rejection-region-and-z-test/note.md) applies, with these pieces:
 
-1. **In words:** the gap between the sample proportion and the claimed proportion, divided by the standard error the claim implies.
+1. **In words:** the gap between the sample proportion and the claimed proportion, divided by the **standard error** (G-1872) the claim implies.
 2. **Formula:**
    $$z = \frac{\hat{p} - \pi_0}{\sqrt{\pi_0 (1 - \pi_0) / n}}$$
 3. **Example:** $\hat{p} = 0.433$, $\pi_0 = 0.5$, $n = 60$:
@@ -149,14 +149,14 @@ Adding a second categorical feature changes the question: is there a difference 
 - $H_0$: gender and age group are independent (the share of men is the same in every age group);
 - $H_1$: they are related.
 
-The counts go in a contingency table, as in the [contingency tables Note](../340-venn-diagrams-and-contingency-tables/note.md); pandas builds it with `pd.crosstab` (see the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)):
+The counts go in a **contingency table** (G-464), as in the [contingency tables Note](../340-venn-diagrams-and-contingency-tables/note.md); pandas builds it with `pd.crosstab` (see the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)):
 
 | | child | adult | elderly |
 |---|---|---|---|
 | female | 12 | 12 | 10 |
 | male | 8 | 14 | 4 |
 
-The **chi-square test of independence** gives $\chi^2 = 2.50$ with $p = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$: the sample does not show that the gender mix changes with age group.
+The **chi-square test of independence** (G-380) gives $\chi^2 = 2.50$ with $p = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$: the sample does not show that the gender mix changes with age group.
 
 ![Share of men in each age group, with the overall share as the dashed line](images/chi_square_shares.png){width=75%}
 
@@ -170,11 +170,13 @@ Our sample's mean height is 1.533 m. An earlier sample from the same population 
 
 $$H_0: \mu = 1.55, \qquad H_1: \mu \neq 1.55$$
 
-The question calls for the one-sample t-test of the [one-sample t-test Note](../301-one-sample-t-test/note.md): $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$ with $n - 1$ degrees of freedom. With $s = 0.211$ and $n = 60$:
+The question calls for the **one-sample t-test** (G-1382) of the [one-sample t-test Note](../301-one-sample-t-test/note.md): $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$ with $n - 1$ degrees of freedom. With $s = 0.211$ and $n = 60$:
 
 $$t = \frac{1.5327 - 1.55}{0.211 / \sqrt{60}} = \frac{-0.0173}{0.0273} = -0.64, \qquad df = 59, \quad p = 0.53$$
 
-We fail to reject $H_0$: the mean height is consistent with 1.55 m.
+We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 6 shows why. Under $H_0$, the t statistic follows **Student's t-distribution** (G-1906) with 59 **degrees of freedom** (G-578). Our $t = -0.64$ sits near the middle of it, far inside the 5% rejection region beyond $\pm 2.00$, and the two tails at least that far out hold 53% of the area.
+
+![The one-sample t-test of the 60 heights against 1.55 m. The curve is the t-distribution with 59 degrees of freedom; our t = −0.64. The shaded tails, at least as far from 0 as our t, hold p = 0.53; the dashed lines mark the 5% rejection region.](images/t_one_sample.png)
 
 ## 7. Two numerical features: the correlation test
 
@@ -184,11 +186,11 @@ We fail to reject $H_0$: the mean height is consistent with 1.55 m.
 
 > **Key point:** $H_0$: the population correlation $\rho$ is 0, no linear relationship; $H_1$: $\rho \neq 0$.
 
-Pearson's correlation coefficient $r$ runs from $-1$ to $+1$; a value near 0 means no linear relationship (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)). But $r$ comes from a sample. Two unrelated features give a small non-zero $r$ in a sample by chance, so we test:
+**Pearson's correlation coefficient** $r$ (G-1474) runs from $-1$ to $+1$; a value near 0 means no linear relationship (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)). But $r$ comes from a sample. Two unrelated features give a small non-zero $r$ in a sample by chance, so we test:
 
 $$H_0: \rho = 0 \ \text{(no relationship)}, \qquad H_1: \rho \neq 0$$
 
-Here $\rho$ (rho) is the correlation in the population, and $r$ is its estimate from the sample.
+Here $\rho$ (rho) is the **population correlation** (G-1522), and $r$ is its estimate from the sample.
 
 ### 7.2 The test statistic
 
@@ -202,7 +204,9 @@ Under $H_0$ the statistic below follows Student's t-distribution (see the [t-pro
 3. **Example:** $r = 0.30$ from $n = 30$ pairs:
    $$t = \frac{0.30 \times \sqrt{28}}{\sqrt{1 - 0.09}} = \frac{0.30 \times 5.29}{0.954} = 1.66, \qquad df = 28, \quad p = 0.11$$
 
-So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ from 100 pairs gives $t = 3.11$ and $p = 0.002$: significant. Sample size matters as much as the size of $r$.
+So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ from 100 pairs gives $t = 3.11$ and $p = 0.002$: significant. Sample size matters as much as the size of $r$. Figure 7 keeps $r = 0.30$ and adds pairs. Each extra pair raises $t$ and narrows the t-distribution, so the statistic slides out towards the tail. From 44 pairs on, it lands in the rejection region.
+
+![The correlation test for a fixed r = 0.30 as the number of pairs n grows from 10 to 100. Left: the test statistic t (vertical line) on the t-distribution with n − 2 degrees of freedom; the red tails are the 5% rejection region. Right: the p-value against n; it falls below 0.05 from n = 44.](images/r_vs_n.gif)
 
 ### 7.3 Height and weight
 
@@ -210,7 +214,7 @@ So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ fr
 
 ![Height against weight for the 60 people](images/height_weight.png){height=32%}
 
-Figure 6 shows a tight upward pattern. Here $r = 0.980$ and $n = 60$:
+Figure 8 shows a tight upward pattern. Here $r = 0.980$ and $n = 60$:
 
 $$t = \frac{0.980 \times \sqrt{58}}{\sqrt{1 - 0.961}} = 37.9, \qquad p = 1.2 \times 10^{-42}$$
 
@@ -224,7 +228,7 @@ We reject $H_0$: taller people in this population are heavier.
 > result.pvalue        # 1.2e-42
 > ```
 
-> **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 6: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)).
+> **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 8: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)).
 
 ## 8. One numerical and one categorical feature: t-test or ANOVA
 
@@ -244,7 +248,7 @@ We reject $H_0$: adult men and women differ in mean height. If the two measureme
 
 > **Key point:** Does mean weight differ between children, adults and the elderly? Three groups: one-way ANOVA.
 
-Age group has three categories. **One-way ANOVA** (analysis of variance) tests whether all three group means are equal:
+Age group has three categories. **One-way ANOVA** (G-1389; analysis of variance) tests whether all three group means are equal:
 
 $$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}, \qquad H_1: \text{at least one mean differs}$$
 
@@ -252,7 +256,7 @@ The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.00
 
 ![Left: heights of adult women and men, two groups. Right: weights of children, adults and the elderly, three groups](images/groups.png){width=95%}
 
-Figure 7 shows both comparisons. On the left the two boxes do not overlap; on the right the child group sits far below the other two, which is why both tests reject $H_0$.
+Figure 9 shows both comparisons. On the left the two boxes do not overlap; on the right the child group sits far below the other two, which is why both tests reject $H_0$.
 
 > **Extra:** With one numerical feature and **two** categorical features (weight by gender and age group together), the test is **two-way ANOVA**. Two-way ANOVA asks about each categorical feature and about their interaction (Montgomery, ch. 5).
 

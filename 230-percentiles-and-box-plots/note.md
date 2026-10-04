@@ -19,20 +19,35 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![Building a box plot by hand: sort, box, fences, whiskers and outliers](images/boxplot_build.gif)
 
-Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. The way there is a chain of ideas, each needing the one before: quantiles, percentiles and how to compute them, the five-number summary and the IQR, and finally the box plot.
+Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. The way there is a chain of ideas, each needing the one before:
+
+1. quantiles (section 2);
+2. percentiles and how to compute them (section 3);
+3. the five-number summary and the IQR (section 4);
+4. the box plot, built and read (sections 5 and 6).
 
 ## 2. Quantiles
 
 > **Key point:** Quantiles cut sorted data into equal-sized groups; quartiles make 4 groups, quintiles 5, deciles 10 and percentiles 100.
 
-**Quantiles** are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An **observation** is one record, one row of the data table; a **feature** is one variable, one column of that table. Quantiles help us understand a distribution, compare features and spot outliers.
+**Quantiles** (G-1599) are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An **observation** (G-1374) is one record, one row of the data table; a **feature** (G-772) is one variable, one column of that table. Quantiles help us understand a distribution, compare features and spot outliers.
 
-The names are confusing because they sound alike. "Quantile" is the general word; the others are kinds of quantile, named by the number of groups (Figure 2):
+Figure 2 shows the idea on the 244 restaurant bills of the tips data, one dot per bill, sorted along a line:
 
-- **Quartiles** cut the data into 4 groups, at the 25th, 50th and 75th percentiles: $Q_1$, $Q_2$ (the median) and $Q_3$. The [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) meets them in `describe()`.
-- **Quintiles** cut it into 5 groups, at the 20th, 40th, 60th and 80th percentiles.
-- **Deciles** cut it into 10 groups, at the 10th, 20th, ..., 90th percentiles.
-- **Percentiles** cut it into 100 groups.
+1. **One cut in the middle** leaves 122 bills on each side. That cut, at 17.8 dollars, is the median.
+2. **Cutting each half in the middle again** gives four groups of 61 bills. The three cuts, at 13.3, 17.8 and 24.2 dollars, are the quartiles.
+3. **The two middle groups** lie between the first and third cuts. They hold half of the bills, 122, and they become the box of the box plot in section 5.
+
+![The 244 total bills as dots. One cut makes 2 groups of 122; cutting each half again makes 4 groups of 61; the stretch from the first cut to the third becomes the box. Idea after StatQuest, "Quantiles and Percentiles, Clearly Explained!!!"](images/quantile_cuts.gif)
+
+A quantile is the cut itself, a value on the line, and not the group between two cuts.
+
+The names are confusing because they sound alike. "Quantile" is the general word; the others are kinds of quantile, named by the number of groups (Figure 3):
+
+- **Quartiles** (G-1602) cut the data into 4 groups, at the 25th, 50th and 75th percentiles: $Q_1$, $Q_2$ (the **median**, G-1209) and $Q_3$. The [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) meets them in `describe()`.
+- **Quintiles** (G-1608) cut it into 5 groups, at the 20th, 40th, 60th and 80th percentiles.
+- **Deciles** (G-554) cut it into 10 groups, at the 10th, 20th, ..., 90th percentiles.
+- **Percentiles** (G-1483) cut it into 100 groups.
 
 ![Quartiles, quintiles and deciles cut the same sorted data into 4, 5 and 10 groups](images/quantiles.png)
 
@@ -55,7 +70,7 @@ A percentile is not a percentage. A 90% score in a board exam means 90 marks out
 
 > **Key point:** Compute the position $(p/100) \times (n+1)$; if it falls between two values, move the same fraction of the way from the lower to the upper one.
 
-Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). How many marks put a student at the 75th percentile? Figure 3 shows the answer.
+Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). How many marks put a student at the 75th percentile? Figure 4 shows the answer.
 
 ![Finding the 75th percentile of ten marks](images/percentile_location.png)
 
@@ -95,17 +110,21 @@ This value, 92, is the median, as it should be.
 
 > **Key point:** The percentile rank of a value counts the values below it, plus half of those equal to it, as a share of all values.
 
-The reverse question: a student scored 88. At which percentile is that score?
+The reverse question: a student scored 88. At which percentile is that score? The answer is the score's **percentile rank** (G-1482).
+
+Figure 5 gives each of the ten marks one tenth of the scale, from 0 to 100. A mark's percentile rank is the middle of its own tenth: everything below it (blue) plus half of its own block (orange).
 
 1. **In words:** count the values below the given value, add half the number of values equal to it, divide by the total, and multiply by 100.
 2. **Formula:** with $X$ the number of values below the value, $Y$ the number equal to it, and $n$ the total,
    $$\text{percentile rank} = \frac{X + 0.5\thinspace Y}{n} \times 100$$
 3. **Example:** three marks (78, 82, 84) lie below 88, and one mark equals it. So
-   $$\text{percentile rank}_{88} = \frac{3 + 0.5 \times 1}{10} \times 100 = 35$$
+   $$\text{percentile rank of 88} = \frac{3 + 0.5 \times 1}{10} \times 100 = 35$$
    A score of 88 is at the 35th percentile. For 99, nine marks lie below it:
-   $$\text{percentile rank}_{99} = \frac{9 + 0.5 \times 1}{10} \times 100 = 95$$
+   $$\text{percentile rank of 99} = \frac{9 + 0.5 \times 1}{10} \times 100 = 95$$
 
-Counting half of the equal values puts a value in the middle of its own share of the data. Without the half, the lowest mark would be at the 0th percentile and the highest at the 90th, which is lopsided.
+![The percentile rank of 78, 84, 88, 93 and 99. Each mark owns one tenth of the scale; the black line stops halfway through the mark's own block, at 5, 25, 35, 55 and 95.](images/percentile_rank.gif)
+
+Counting half of the equal values puts a value in the middle of its own share of the data, as the black line in Figure 5 shows. Without the half, the lowest mark would be at the 0th percentile and the highest at the 90th, which is lopsided.
 
 > **Python:** Percentile rank.
 >
@@ -121,15 +140,22 @@ Counting half of the equal values puts a value in the middle of its own share of
 
 > **Key point:** Minimum, Q1, median, Q3 and maximum split the data into four equal parts; the IQR, Q3 - Q1, is the width of the middle half.
 
-The five-number summary (minimum, $Q_1$, median, $Q_3$, maximum) and the IQR are defined in the [univariate analysis Note](../20-univariate-analysis/note.md), section 8. In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
+The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are defined in the [univariate analysis Note](../20-univariate-analysis/note.md), section 8. In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
 
-The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it: in Section 5, replacing 1500 by 15000 leaves the IQR at 94.25. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
+The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Figure 6 takes the ten values of Section 5 and replaces the largest, 1500, by 15000:
+
+- **The box does not move.** $Q_1$ stays 234, the median 285.5 and $Q_3$ 328.25, so the IQR stays 94.25. Only the position of the last value changed, and the quartiles depend on the middle positions.
+- **The mean and standard deviation move a lot.** The mean jumps from 377.6 to 1727.6 and the **standard deviation** (G-1871) from 406 to 4664, because both add up every value, the extreme one included.
+
+![The ten values of Section 5 (grey dots) with the box from $Q_1$ to $Q_3$ and the median line, on a log scale. Changing 1500 to 15000 moves the mean (red) and the standard deviation, not the box.](images/iqr_robust.png)
+
+This property is **robustness** (G-1700): a statistic is robust when a few extreme values cannot pull it far. The IQR and the median are robust, the mean and the standard deviation are not. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
 
 ## 5. Building a box plot by hand
 
 > **Key point:** Quartiles give the box, fences 1.5 IQR beyond it decide how far the whiskers reach, and any value beyond the fences is drawn as an outlier.
 
-A box plot (box-and-whisker plot) draws the five-number summary; the [univariate analysis Note](../20-univariate-analysis/note.md) (section 8) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
+A **box plot** (G-329), or box-and-whisker plot, draws the five-number summary; the [univariate analysis Note](../20-univariate-analysis/note.md) (section 8) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
 
 $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
@@ -146,13 +172,13 @@ $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
 The box runs from 234 to 328.25, with the median line at 285.5.
 
-**Step 3: the fences.** The whiskers' limits are not the smallest and largest values. They are computed 1.5 IQR beyond the box (see the [IQR outliers Note](../43-outliers-iqr/note.md), section 3):
+**Step 3: the fences.** The whiskers' limits are not the smallest and largest values. They are the **fences** (G-776), computed 1.5 IQR beyond the box (see the [IQR outliers Note](../43-outliers-iqr/note.md), section 3):
 $$\text{IQR} = 328.25 - 234 = 94.25, \qquad 1.5 \times \text{IQR} = 141.375$$
 $$\text{lower fence} = 234 - 141.375 = 92.625, \qquad \text{upper fence} = 328.25 + 141.375 = 469.625$$
 
 **Step 4: whiskers and outliers.** Each whisker stops at the last real value inside its fence:
 
-- **Left:** the fence is at 92.625; the smallest value inside it is 213. So the whisker ends at 213, and 6, below the fence, is drawn as an outlier dot.
+- **Left:** the fence is at 92.625; the smallest value inside it is 213. So the whisker ends at 213, and 6, below the fence, is drawn as an **outlier** (G-1420) dot.
 - **Right:** the fence is at 469.625; the last value inside it is 350. The whisker ends at 350, and 1500 is an outlier.
 
 These four steps are the whole construction. Plotting libraries follow the same steps, though their percentile formula can shift the quartiles slightly (Section 3.1).
@@ -178,10 +204,12 @@ One box plot answers four questions:
 
 - **Where is the centre?** The median line.
 - **How spread out is the data?** The width of the box (the IQR) and the reach of the whiskers.
-- **Is it skewed?** If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
+- **Is it skewed?** A lopsided distribution has **skewness** (G-1817). If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
 - **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method of the [IQR outliers Note](../43-outliers-iqr/note.md)).
 
-Its fifth use is comparison. Splitting a numerical feature by a categorical one gives one box plot per category, side by side, as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 5). Figure 4 splits the Titanic ages by ticket class.
+A box plot hides how many observations stand behind it: a box drawn from 10 values looks as solid as one drawn from 1,000. Drawing the raw points over the box, as in the last frame of Figure 2, shows the amount of data as well.
+
+Its fifth use is comparison. Splitting a numerical feature by a categorical one gives one box plot per category, side by side, as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 5). Figure 7 splits the Titanic ages by ticket class.
 
 ![Ages of Titanic passengers for each ticket class](images/box_by_class.png)
 
@@ -211,6 +239,8 @@ Comparing the three boxes:
 **Built from**
 
 - CampusX, "Session 39 - Descriptive Statistics Part 2 | DSMP 2023", YouTube, https://www.youtube.com/watch?v=1ndVC500-EU
+- StatQuest with Josh Starmer, "Quantiles and Percentiles, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=IFKQLDmRK0Y
+- StatQuest with Josh Starmer, "Boxplots are Awesome!!!", YouTube, https://www.youtube.com/watch?v=fHLhBnmwUM0
 
 ## 9. Key terms
 

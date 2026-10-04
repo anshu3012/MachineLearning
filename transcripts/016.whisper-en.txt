@@ -1,0 +1,167 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 16.
+We will continue the data gathering part. In the last video, we saw how CSB works with data.
+In this video, we will see how to work with JSON and SQL files. So I will share my screen.
+So, before going into the coding part, I will just explain what is JSON and SQL and why they are so famous that you can find them in many places.
+So, JSON is basically JavaScript on notation and it is a universal format. Universal format means that it can be understood by almost all programming languages.
+Where is the most important use of JSON?
+When you have a server and an API is kept on it.
+If you don't know about APIs, then I will work on APIs after 1-2 videos.
+When you request on API, then when the API of the pallet gives you data,
+it is generally in JSON format.
+And this JSON format can be used in different languages.
+Java can also be used, Python can also be used, any other language can also be used.
+And that is why JSON is a very popular data format.
+And when you go to Kaggle, you may get some data sets where you need to use JSON.
+Second is SQL. I guess you already know SQL.
+If you are from a computer science background, then the full form of SQL is Structured Query Language.
+Basically, you are directly taking the data from the database and loading it in your pandas data frame.
+That is the whole idea.
+This is also very famous on Kaggle.
+You will get a lot of datasets where you will get data in SQL format.
+So, what are we going to do now?
+We will see a little code on both of them.
+How to work with JSON and how to work with SQL.
+So, I am in my Jupyter Notebook. I have made a new folder by calling it day16.
+And I have also made a GitHub repository for this.
+So, as soon as you go to that GitHub repository, you will get all the codes day-wise.
+So, the first thing that you have to do is, you have to import pandas as pv.
+I have already downloaded a new dataset. Let me show you how it is.
+There is a dataset called recipe. This one guys.
+The data I have here is in a file called train.json.
+and here basically there are different cuisines and in these cuisines like this is a cuisine
+I don't know greek and its ingredients are written, similarly this is a cuisine
+ok we are actually looking at the train data, I don't see the name of the cuisine
+This prediction is basically a classification data set where you look at the ingredients and decide
+what type of cuisine it is. We don't know exactly what type of cuisine it is. It is a type of cuisine.
+Jamaican, Mexican, Italian. Basically, you have to look at the ingredients and tell what type of cuisine it is.
+So we will bring this JSON data in pandas and convert it in a data frame.
+Now obviously we don't have to do prediction, that is not our work now.
+You can learn it later.
+But if you see here, you have to write a very simple code.
+pd dot read underscore json
+Like read underscore csv used to be, read underscore json is the same.
+And here you don't have to do anything.
+You have to write the name of your file
+File is located on my same folder
+And as soon as you run it
+See
+This is the data frame
+The name of the cuisine came
+And the name of the ingredients came
+Inside a list
+We have a total of 39000 different dishes
+And
+There are 3 columns
+And there is no need of ID as such
+So yeah that's it
+that's how simple it is. If you see its documentation, then here also there are many options like
+it was in read underscore csv, like we read btype, there are convert dates, there is encoding too,
+sometimes if you are not getting UTF-8, then you can change it. Here also there is a thing of chunk size,
+if your JSON file is very big, you can load it in chunks so that it doesn't have to be on your RAM.
+how many rows you want to load. So, you go and check this documentation once. I will put its link in the description.
+And if possible, do some experiment by searching different datasets on Kaggle. One more thing I will show you quickly that
+you can use read underscore JSON and can load JSON from a URL if you want. Like this was on my machine, this file.
+And let's say this is a URL where this JSON is present. This is the JSON data which I am getting from this API.
+Now I have to convert this into Pandas DataFrame. So I don't have to do anything special. I just have to copy paste this URL here.
+pd.read underscore JSON and here you just have to paste this URL. That's it.
+And as you will run it, you would see that you have your data frame.
+So, this is actually the data set of currency exchange rates.
+This is the data set of the currency value of INR in different currencies.
+And I have 160 rows and 7 columns.
+So, yeah, that is how simple it is.
+So, read and underscore JSON behind the scenes does a lot of heavy lifting.
+So, you don't need to take so much tension.
+Now, this is done. Let's move on to SQL data. Before that, I'll just do one thing.
+I'll add Excel and make this notebook a little more readable.
+Working with JSON and here I can write working with SQL.
+For SQL, I am using this data set from Kaggle, this is actually the data set of world cities and this is in SQL format.
+So this is a SQL file which is on your screen and you will get a lot of such files on Kaggle.
+Now my work is to convert this particular format into Pandas data frame.
+It is very simple, you don't have to do anything. First of all, you have to download this file and you can download this file very easily.
+You just have to login on Kaggle once. Like so. I have already downloaded this. Now what I have to do is,
+first of all, I will need a software. This is called XAMPP. See, the entire flow is this.
+First of all, you run this sql file on your machine on a database, it can be any database like mysql, postgre or sqlite, you can use anything, I prefer mysql.
+First of all, you have to download this software, it is called ZAMP.
+and as soon as you download and install it, what you can do after that
+as soon as you search for XAMPP, you will get this option
+XAMPP control panel, as soon as you open it
+you will see this control panel
+if you have ever done web development in the past, then you may know all this
+here you have to start two things
+apache which is your web server
+and mysql which is your database server
+you have to start these two, for now I have already done it
+and once you do this, then what you have to do
+you have to hit one URL on your machine, localhost slash phpmyadmin, and what you have to do here,
+these are all my databases, I have to make a new database here, so I will click on new,
+and here I will make a new database by the name of world, because the name of my dataset is the same,
+So, world and I clicked on create. See, here the dataset is made, the database is made actually.
+And then I will import here, choose file and I will go to the bottom of the page, to w, I just downloaded it.
+Here it is, world.sql. I will open it. And now I will just import this file completely.
+It takes some time depending on how big the sql file is.
+Sql files are generally big because there is a lot of data in the database.
+So see here it is saying that 5344 query is executed.
+And if you see in world, these three tables have been made.
+City, country and country language. So if I click on city,
+So these are all my cities, their country code, in which district it comes, how much is the population, this is the country,
+this is the detail of all the countries, surface area, independence year, population, life expectancy and here is the country language.
+These are different languages and now what I have to do is to convert this data into pandas data frame.
+For this you have to first install a library which we call as mysql.connector.
+The work of this library is to make Python talk to mysql because your data is in mysql database and you need it in python.
+So you will have to create some sort of a bridge which will talk to both the softwares and that bridge is your mysql.connector library.
+So, here you have to write pip install mysql.connector
+As soon as you run this code, it will be automatically installed, you just have to stay connected to the net
+See, in my case it says successfully installed mysql.connector
+Now I will import this, so I will write import mysql.connector
+First of all, you have to create a connection through python to your database.
+How do you do that? You write the name of your library, mysql.connector.
+Here you have many functions. You need a function called connect.
+You pass 4 things in it. First, the IP address of your database server.
+IP address means your database is running on which machine, if it is running on your own machine
+then you will put the value of host, localhost, localhost means my own machine
+if you are working with any remote server then you have to put its IP address if you are working with AWS
+next is your username on that machine
+our username is root in the beginning when we work with XAMPP
+Password is empty and then you have to tell which database is on that database server
+because you can see there are more databases here but which one do I want? World
+So I'll write databases world and ld
+Now as soon as you run this code, you get a MySQL connection object by flipping it
+and you do your work by using this connection object
+I am storing this in a variable, I am calling it con as in connection.
+Now the main work starts from here.
+You have a function in pandas.
+It is called read underscore sql underscore query.
+It has to tell two things.
+First one is sql query and second is your connection object.
+This function will automatically create your pandas data frame.
+like let me show you that I want this whole table of city
+so what I will do is I will write a string select all from city
+my table and I will pass my connection object
+and now as soon as I will run this code you can see
+the things that I had here
+exactly the same things came here
+You can do a lot of things in this. You can change the query according to you. If you know SQL, then you will know that you can do many things.
+Where country code is like, I am not sure if India IND is written or not, but let's try.
+See, I have filtered my data, now I have only 341 rows, because all the cities I have now are of India.
+If I would have written USA here, then only USA cities would have come, 274 cities.
+So if you know this SQL, then by using SQL, you can write any query and manipulate the data according to you.
+Similarly, if I want this table of country, in this case what I would do is, I would write here select star from city instead I would have written country.
+see guys, now what you can do here, you can put any filter, for example, you have to put that I want the name of those countries where life expectancy is greater than 59 or 60
+So what code you will write? You will write this, copy where life expectancy is greater than 60.
+And here you will get only those countries, only 167 countries are coming where life expectancy is greater than 60.
+So I am saying that you don't have to do anything, you just have to give the name of the table here.
+I will tell you one last thing, like this is the third table, let's try it once, so we will try it like this
+and then you know that you store it in a variable, df is equal to this and then if you print df, here you have your data frame.
+So this is a very useful function, if you go to its documentation, then there are not many options here,
+There are a lot of work options. You can make an index column. See, I passed SQL, my query and I passed connection.
+I passed these two things. I told you that you can use index column in read-in-CSV. You can use parse dates.
+If your particular table column is a date, you can use this thing. And here also you have an option to load your data in chunks
+so that you don't have to put pressure on your RAM, so again go and check this documentation, experiment a little bit with different data sets
+there are a few more ways to work with SQL, but what I told you is a simple one and it works, I personally use this whenever I have SQL data
+So yeah, that's all we have to do today.
+We have covered two things.
+How to work with JSON and how to work with SQL.
+And in tomorrow's video, we will fetch data from an API and make our data frame.
+So I hope you liked the video.
+Please consider subscribing.
+Thanks for watching.

@@ -16,7 +16,7 @@ tags: [subject/maths, area/models-1, step/model, concept/convexity]
 
 > **Key point:** A convex cost function is one bowl: every chord lies on or above the curve, any minimum is the global minimum, and gradient descent finds it from any start. A non-convex one can have several dips, and gradient descent may stop in the wrong one.
 
-The [gradient descent Note](../57-gradient-descent/note.md) (Section 8) introduced the idea: a **convex** function is one where a straight line between any two points on its curve never goes below the curve. Linear regression's loss is convex; other losses can trap gradient descent in a **local minimum** instead of the **global minimum**.
+The [gradient descent Note](../57-gradient-descent/note.md) (Section 8) introduced the idea: a **convex** function (G-476) is one where a straight line between any two points on its curve never goes below the curve. Linear regression's loss is convex; other losses can trap **gradient descent** (G-862) in a **local minimum** (G-1110) instead of the **global minimum** (G-848).
 
 ![One dataset, two models: the loss of a straight line over its two parameters is one bowl (left); the loss of a tiny neural network has two separate minima with a ridge between them (right)](images/loss_surfaces.png)
 
@@ -26,7 +26,7 @@ Figure 1 shows the difference on real losses. Both maps fit the same 21 points; 
 
 > **Key point:** We fix the data and treat the loss as a function of the model's parameters; one parameter gives a curve, two give a surface, many give a surface we can no longer draw.
 
-A **loss function** (or **cost function**) measures how far a model's predictions are from the true values (see the [regression metrics Note](../52-regression-metrics/note.md)). During training the data is fixed. What changes are the parameters, so we read the loss as a function of the parameters:
+A **loss function** (G-1130), or **cost function** (G-492), measures how far a model's predictions are from the true values (see the [regression metrics Note](../52-regression-metrics/note.md)). During training the data is fixed. What changes are the parameters, so we read the loss as a function of the parameters:
 
 $$\text{loss} = L(\text{parameters})$$
 
@@ -38,11 +38,15 @@ The number of parameters sets the shape we can draw:
 - **Two parameters**, such as slope $m$ and intercept $b$ of [simple linear regression](../51-linear-regression-maths/note.md): the loss is a surface over a plane, drawn as a contour map in Figure 1 (left).
 - **Many parameters**, as in a neural network: the same idea in more dimensions, which we cannot draw.
 
+Figure 2 shows the idea with one parameter. The 21 points never move. Only the slope $m$ of the line $y = mx$ changes, from $-1$ to 3. Each slope gives the line its own errors (red sticks), and so its own loss: a point on the curve on the right. At $m = -1$ the loss is 6.18; at $m = 1.02$ it reaches its lowest value, 0.18.
+
+![The loss as a function of one parameter. Left: the line y = mx on the fixed data, with its errors, as the slope m changes from −1 to 3. Right: the mean squared error for each m; the lowest point is m = 1.02, loss 0.18.](images/loss_of_m.gif)
+
 Whether this function is convex decides how easy its lowest point is to find.
 
 ## 3. The chord test
 
-> **Key point:** Pick two points on the graph and join them with a straight line (a chord); the function is convex if, for every such pair, the curve between them never rises above the chord.
+> **Key point:** Pick two points on the graph and join them with a straight line (a **chord**, G-384); the function is convex if, for every such pair, the curve between them never rises above the chord.
 
 ### 3.1 The definition as a formula
 
@@ -56,17 +60,17 @@ The picture "the chord lies on or above the curve" becomes a formula once we nam
    The left side is the curve; the right side is the chord.
 3. **Example:** $f(w) = w^2$ with $a = -1$, $b = 3$ and $\theta = 0.5$. The midpoint is $0.5 \times (-1) + 0.5 \times 3 = 1$, so
    $$\text{curve: } f(1) = 1, \qquad \text{chord: } 0.5 \times f(-1) + 0.5 \times f(3) = 0.5 \times 1 + 0.5 \times 9 = 5$$
-   $1 \le 5$: the curve is below the chord (Figure 2, left). The same holds for every pair of points, so $w^2$ is convex.
+   $1 \le 5$: the curve is below the chord (Figure 3, left). The same holds for every pair of points, so $w^2$ is convex.
 
 ![The chord test. Left: for $w^2$, the curve at the midpoint (1) is below the chord (5): convex. Right: for $g(w) = w^4 - 4w^2 + w$, the curve at the midpoint (0) is above the chord ($-3.94$): non-convex](images/chord_test.png)
 
-A function that fails the test for even one pair of points is **non-convex**. Take $g(w) = w^4 - 4w^2 + w$ with $a = -1.5$, $b = 1.5$, $\theta = 0.5$ (Figure 2, right):
+A function that fails the test for even one pair of points is **non-convex** (G-1333). Take $g(w) = w^4 - 4w^2 + w$ with $a = -1.5$, $b = 1.5$, $\theta = 0.5$ (Figure 3, right):
 
 $$\text{curve: } g(0) = 0, \qquad \text{chord: } 0.5 \times g(-1.5) + 0.5 \times g(1.5) = 0.5 \times (-5.44) + 0.5 \times (-2.44) = -3.94$$
 
 Here $0 > -3.94$: the curve rises above the chord, so $g$ is non-convex. One failing pair is enough.
 
-> **Extra:** The same inequality with $<$ instead of $\le$ (for $a \ne b$ and $0 < \theta < 1$) defines a **strictly convex** function: the curve is strictly below every chord, never touching it in between. $w^2$ is strictly convex. The function $\max(0, |w| - 1)$ is convex but not strictly: it is flat at 0 between $-1$ and $1$, and the chord from $-0.5$ to $0.5$ lies exactly on the curve.
+> **Extra:** The same inequality with $<$ instead of $\le$ (for $a \ne b$ and $0 < \theta < 1$) defines a **strictly convex** function (G-1899): the curve is strictly below every chord, never touching it in between. $w^2$ is strictly convex. The function $\max(0, |w| - 1)$ is convex but not strictly: it is flat at 0 between $-1$ and $1$, and the chord from $-0.5$ to $0.5$ lies exactly on the curve.
 
 ### 3.2 Why convexity matters: one minimum
 
@@ -81,9 +85,9 @@ The first guarantee follows from the chord test. Suppose some point $c$ were a l
 
 The second guarantee follows the same way. If a strictly convex $f$ had two different minimum points $c$ and $d$ with the same lowest value $f^\ast$, the strict chord test at their midpoint would give $f\big(\tfrac{c + d}{2}\big) < \tfrac{1}{2}f^\ast+ \tfrac{1}{2}f^\ast= f^\ast$, a value below the lowest one, which is impossible.
 
-A non-convex function gives no such promise. In Figure 2 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
+A non-convex function gives no such promise. In Figure 3 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
 
-> **Extra:** Points with zero slope are called **stationary points**. For $g$, the derivative $g'(w) = 4w^3 - 8w + 1$ is zero at $w = -1.47$, $0.13$ and $1.35$. The second derivative $g''(w) = 12w^2 - 8$ tells them apart (see the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md)):
+> **Extra:** Points with zero slope are called **stationary points** (G-1879). For $g$, the derivative $g'(w) = 4w^3 - 8w + 1$ is zero at $w = -1.47$, $0.13$ and $1.35$. The second derivative $g''(w) = 12w^2 - 8$ tells them apart (see the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md)):
 >
 > | $w$ | $g''(w)$ | Shape | Kind |
 > |---|---|---|---|
@@ -101,7 +105,7 @@ Gradient descent steps downhill and stops where the slope is zero (see the [grad
 
 ![Gradient descent on $g(w) = w^4 - 4w^2 + w$ with learning rate 0.02, started at $w = -2$ (green) and $w = 2$ (orange). Key frames: the two starts, after two steps, after 30 steps, and the two end points](images/two_starts.gif)
 
-Figure 3 runs gradient descent on $g$ from two starting points with the same learning rate:
+Figure 4 runs gradient descent on $g$ from two starting points with the same learning rate:
 
 | Start | Ends at | Loss there | Kind |
 |---|---|---|---|
@@ -128,7 +132,7 @@ The chord test confirms it. Between $(m, b) = (-1, 0)$ and $(3, 0)$, the midpoin
 
 $$\text{curve: } L(1, 0) = 0.18, \qquad \text{chord: } 0.5 \times 6.18 + 0.5 \times 5.91 = 6.05$$
 
-In two dimensions the chord is a straight line through the parameter plane, and the surface stays below it. The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 3.3) proves this holds for every linear regression loss: its Hessian never has a negative eigenvalue.
+In two dimensions the chord is a straight line through the parameter plane, and the surface stays below it. Figure 5 (left) walks along that straight line from $(-1, 0)$ to $(3, 0)$ and plots the loss on the way: a U-shaped curve that stays under the dashed chord everywhere. The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 3.3) proves this holds for every linear regression loss: its Hessian never has a negative eigenvalue.
 
 ### 5.2 A tiny neural network: two minima and a ridge
 
@@ -142,11 +146,13 @@ The chord test between the two minima fails at the midpoint $(0, 0)$:
 
 $$\text{curve: } L(0, 0) = 1.71, \qquad \text{chord: } 0.5 \times 0 + 0.5 \times 0 = 0$$
 
-$1.71 > 0$, so the loss is non-convex. A convex function could never have two separate lowest points with a higher point between them.
+$1.71 > 0$, so the loss is non-convex. A convex function could never have two separate lowest points with a higher point between them. Figure 5 (right) walks the straight path between the two minima: the loss climbs from 0 over a ridge of height 1.71 and comes back down to 0, entirely above the chord (red).
+
+![The chord test along a straight path in parameter space. Left: the line model, from (m, b) = (−1, 0) to (3, 0); the loss (blue) stays below the chord (dashed). Right: the tiny network, between its two minima (−2, −1.5) and (2, 1.5); the loss rises above the chord (red), to 1.71 at the midpoint.](images/chord_slices.png)
 
 Here both minima are equally good, so landing in either is fine. Real networks have millions of weights, many such symmetries, and also genuine local minima and flat stretches, so their losses are non-convex (Goodfellow et al. §8.2.2–8.2.3).
 
-> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. The midpoint is a **saddle point**: the loss rises along one diagonal and falls along the other (see the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
+> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. The midpoint is a **saddle point** (G-1718): the loss rises along one diagonal and falls along the other (see the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
 
 > **Python:** a numerical chord test. We pick 10,000 random pairs of parameter points and random $\theta$, and record by how much the curve ever rises above the chord. A result above 0 proves the loss is non-convex; 0 is evidence (not proof) that it is convex.
 >

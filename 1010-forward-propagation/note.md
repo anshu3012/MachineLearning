@@ -129,6 +129,14 @@ $$z^{3} = W^{3\mathsf T} a^{2} + b^{3} = 0.8 \times 0.641 - 0.6 \times 0.553 + 0
 
 So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probability of being placed. Since 0.594 is above 0.5, the network predicts *placed*. Four input numbers became one prediction, using nothing but matrix products, additions and sigmoids.
 
+### 5.3 The shapes at a glance
+
+> **Key point:** In every layer the inner sizes of the product match and drop out; what remains is one number per node of that layer.
+
+![The shapes of the three layers, then the three layers nesting into one formula](images/shapes.gif){height=40%}
+
+Figure 5 lines the three layers up. Watch the two red numbers in each row: the number of columns of the transposed weight matrix must equal the number of entries of the incoming activation (4 and 4, then 3 and 3, then 2 and 2). Those inner sizes drop out, and the outer sizes, shown in green, give the shape of the result. The second half of Figure 5 previews section 6: each layer's formula wraps around the one before it.
+
 ## 6. The whole network in one formula
 
 > **Key point:** $\hat{y} = \sigma\big(W^{3\mathsf T}\thinspace\sigma(W^{2\mathsf T}\thinspace\sigma(W^{1\mathsf T} a^{0} + b^{1}) + b^{2}) + b^{3}\big)$. More layers only make the chain longer.
@@ -139,9 +147,25 @@ $$a^{k} = \sigma\left(W^{k\mathsf T} a^{k-1} + b^{k}\right), \qquad k = 1, 2, 3$
 
 Substituting each activation into the next writes the whole network as one nested formula:
 
-$$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace\underbrace{\sigma\big(W^{2\mathsf T}\thinspace\underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})}_{a^{1}} + b^{2}\big)}_{a^{2}} + b^{3}\Big)$$
+$$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace\underbrace{\sigma\big(W^{2\mathsf T}\thinspace\underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})} _{a^{1}} + b^{2}\big)} _{a^{2}} + b^{3}\Big)$$
 
 The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md), section 7.2), and the network would be no more powerful than one perceptron.
+
+### 6.1 Another way to see it: the forward pass for every input
+
+> **Key point:** Run the forward pass for every possible input and plot the results: each node gives a surface over the inputs, and the output node's surface is the network's prediction everywhere.
+
+So far one student went through the network and one number came out. The same forward pass can be run for every student we can imagine. Figure 6 does this for the two features CGPA and IQ, each from 0 to 1 after scaling, with the 10th and 12th marks held at this student's 0.69 and 0.81. For each pair (CGPA, IQ) we plot the output of one node as a height, which gives a surface.
+
+![The output of each node of the 4-3-2-1 network for every CGPA and IQ, one node per frame; the red dot is the student of this Note. Each frame has its own height scale. Idea after StatQuest, "Neural Networks Pt. 4: Multiple Inputs and Outputs"](images/surfaces.gif){height=40%}
+
+In Figure 6, watch the red dot and the heights:
+
+1. **Layer 1.** Each of the three nodes gives a tilted surface. The red dot sits at the heights 0.606, 0.394 and 0.656 of section 4.2.
+2. **Layer 2.** Each of the two nodes combines the three surfaces of layer 1 into a new surface. The red dot sits at 0.641 and 0.553.
+3. **Output.** The last node combines those two surfaces into the prediction surface, with the red dot at 0.594.
+
+The output surface is the whole network seen as a function: for every input it gives the prediction. With our hand-set weights the surface is almost flat: it only runs from 0.589 to 0.596, so the prediction hardly depends on CGPA or IQ. Training changes the weights, which bends and tilts this surface until it is high for students who are placed and low for those who are not. The [MLP intuition Note](../1009-mlp-intuition/note.md) shows the surfaces of trained networks.
 
 > **Python:** Forward propagation with NumPy.
 >
@@ -180,6 +204,7 @@ The nested formula is what a neural network is, as a function: a chain of matrix
 **Built from**
 
 - CampusX, "Forward Propagation | How a neural network predicts output?", YouTube, https://www.youtube.com/watch?v=7MuiScUkboE
+- StatQuest with Josh Starmer, "Neural Networks Pt. 4: Multiple Inputs and Outputs", YouTube, https://www.youtube.com/watch?v=83LYR-1IcjA (section 6.1: the forward pass as a surface over all inputs)
 
 **Other references**
 

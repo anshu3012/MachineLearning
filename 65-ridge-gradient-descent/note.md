@@ -17,9 +17,9 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 
 > **Key point:** Ridge can also be trained with gradient descent. The gradient is the linear regression gradient plus λw, so each step also pulls the coefficients a little towards 0.
 
-The previous Note found the Ridge coefficients in one step with a formula. Like plain linear regression, Ridge can instead be trained with **gradient descent**: start somewhere, and repeatedly step downhill on the loss.
+The previous Note found the Ridge coefficients in one step with a formula. Like plain linear regression, **Ridge regression** (G-1691) can instead be trained with **gradient descent** (G-862): start somewhere, and repeatedly step downhill on the loss.
 
-Here a **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** $y$ is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (the gradient descent Notes). This Note derives the Ridge gradient, codes it from scratch, and shows the scikit-learn options.
+Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) $y$ is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (the gradient descent Notes). This Note derives the Ridge gradient, codes it from scratch, and shows the scikit-learn options.
 
 ## 2. The gradient
 
@@ -59,9 +59,9 @@ As in every gradient descent Note, all coefficients are updated together:
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y + \lambda w_{\text{old}}\right)$$
 
-where $\eta$ is the learning rate. The first entry of $w$ is the intercept, which is not penalised. So, as before, the $\lambda w$ term uses $\lambda I w$ with the top-left entry of $I$ set to 0.
+where $\eta$ is the **learning rate** (G-1068). The first entry of $w$ is the intercept, which is not penalised. So, as before, the $\lambda w$ term uses $\lambda I w$ with the top-left entry of $I$ set to 0.
 
-> **Extra:** Rearranging the update gives $w_{\text{new}} = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$. So every step first shrinks the coefficients by the factor $1 - \eta\lambda$, then takes the ordinary linear regression step. The per-step shrinking is why the L2 penalty is also called **weight decay**, the name used for neural networks (ESL §3.4.1).
+> **Extra:** Rearranging the update gives $w_{\text{new}} = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$. So every step first shrinks the coefficients by the factor $1 - \eta\lambda$, then takes the ordinary linear regression step. The per-step shrinking is why the L2 penalty is also called **weight decay** (G-2108), the name used for neural networks (ESL §3.4.1).
 
 Figure 1 splits the first step of the one-feature example of Section 3 ($\lambda = 100$, $\eta = 0.005$) into its two parts. Watch the red arrow: the shrink halves the slope before the ordinary step is taken.
 
@@ -115,9 +115,13 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.001, learning 
 
 > **Extra:** This gradient adds up the errors of all observations instead of averaging them, so its size grows with the number of observations. The summed gradient is why the learning rate must be tiny here. The maths: write $H = X^{\mathsf T}X + \lambda I$ and $w^\ast$ for the exact answer. One update turns the error $w - w^\ast$ into $(I - \eta H)(w - w^\ast)$. Along each eigenvector of $H$ with eigenvalue $h$, the error is multiplied by $1 - \eta h$ every step, so it shrinks only if $\eta < 2/h$ for the largest $h$. On this training set (353 observations) the largest eigenvalue is 353, so the limit is $\eta < 2/353 = 0.0057$. 0.005 is just below it; 0.006 is just above it, and the steps overshoot and grow: after 100 epochs the largest coefficient is about 15,000.
 
+Figure 4 runs the code above at both learning rates. For about 50 epochs the two runs look alike; then the run with 0.006 bends upwards, because the overshoot along the steepest direction is multiplied by $\lvert 1 - 0.006 \times 353 \rvert = 1.12$ every step and finally dominates.
+
+![The largest coefficient of the from-scratch code per epoch on the diabetes data, alpha 0.001. Learning rate 0.005 (blue, below the limit 2/353) settles; 0.006 (red, above it) grows to about 15,000 after 100 epochs. Log scale.](images/lr_limit.png)
+
 ## 5. Gradient descent stops early
 
-> **Key point:** Stopping gradient descent early keeps the coefficients small, so early stopping is a regulariser of its own, much like the ridge penalty.
+> **Key point:** Stopping gradient descent early keeps the coefficients small, so **early stopping** (G-656) is a regulariser of its own, much like the ridge penalty.
 
 Think of pouring water into an ice-cube tray: stop pouring early and every cube is only partly full. Gradient descent starts with small coefficients and fills them up step by step; stopping early leaves the slow ones small.
 
@@ -141,7 +145,7 @@ Both regularisers rescue the badly overfitting linear regression, and by a simil
 
 > **Key point:** Gradient descent creeps along flat directions of the loss bowl, so after a few hundred steps the coefficients in those directions are still small.
 
-Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 4 tracks gradient descent for up to a million epochs.
+Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 5 tracks gradient descent for up to a million epochs.
 
 ![Test R² and distance from the exact answer, per epoch](images/convergence.png){height=42%}
 
@@ -179,12 +183,16 @@ The slow direction comes from s1 and s2, which are strongly correlated (the [fir
 > ridge.score(X_test, y_test)        # R² 0.463
 > ```
 
-- **SGDRegressor** (the stochastic gradient descent Note) adds the Ridge penalty with `penalty="l2"`. Its `alpha` is the penalty strength.
-- **Ridge** has a `solver` setting. `"cholesky"` and `"svd"` use the formula directly. `"sparse_cg"`, `"lsqr"`, `"sag"` and `"saga"` reach the answer step by step, and `max_iter` limits the steps.
+- **SGDRegressor** (G-1783; the stochastic gradient descent Note) adds the Ridge penalty with `penalty="l2"`. Its `alpha` is the penalty strength.
+- **Ridge** has a `solver` (G-1836) setting. `"cholesky"` and `"svd"` use the formula directly. `"sparse_cg"`, `"lsqr"`, `"sag"` and `"saga"` reach the answer step by step, and `max_iter` limits the steps.
 
 `Ridge` has no learning-rate setting at all, even with an iterative solver (scikit-learn docs, `Ridge`). Here `sparse_cg` reaches the exact answer, 0.463.
 
 > **Extra:** `SGDRegressor` averages the loss over the observations, while `Ridge` adds it up. The `SGDRegressor` objective is (scikit-learn user guide §1.5.8) $\frac{1}{n}\sum \frac{1}{2}(y_i - \hat y_i)^2 + \alpha \cdot \frac{1}{2}\lVert w \rVert^2$. Multiplying by $2n$ gives $\sum (y_i - \hat y_i)^2 + n\alpha \lVert w \rVert^2$, the `Ridge` loss with alpha $n\alpha$. So the same `alpha` means a stronger penalty in `SGDRegressor`: its `alpha` equals `Ridge`'s `alpha` divided by the number of observations. With 353 training observations, `SGDRegressor(alpha=0.001)` matches `Ridge(alpha=0.353)`: run long, its coefficients land within 3 of that model's, but up to 840 away from `Ridge(alpha=0.001)`.
+
+Figure 6 shows the three sets of coefficients side by side. The orange bars of `SGDRegressor(alpha=0.001)` sit on the blue bars of `Ridge(alpha=0.353)`, not on the grey bars of `Ridge(alpha=0.001)`; the biggest gap is in s1.
+
+![Coefficients on the diabetes training data (353 observations): Ridge with alpha 0.001 (grey) and 0.353 (blue), and SGDRegressor with alpha 0.001 run for 50,000 epochs (orange). The orange bars match the blue ones.](images/alpha_scale.png)
 
 ## 7. Summary
 

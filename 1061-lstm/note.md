@@ -41,7 +41,7 @@ Take the sentence "Maharashtra is a beautiful state. The language spoken there i
 
 In Figure 2, compare the two red lines: the answer depends on the first box in both, but only the short chain still delivers it to the blank.
 
-The cause is the vanishing gradient problem in long chains of time steps, taught in the [problems with RNNs Note](../1060-problems-with-rnn/note.md). The effect is that recent inputs dominate the hidden state, and the influence of early inputs on far-away predictions is small. A simple RNN behaves like someone who has watched a long series but remembers only the latest episodes.
+The cause is the **vanishing gradient** (G-2070) problem in long chains of time steps, taught in the [problems with RNNs Note](../1060-problems-with-rnn/note.md). The effect is that recent inputs dominate the hidden state, and the influence of early inputs on far-away predictions is small. A simple RNN behaves like someone who has watched a long series but remembers only the latest episodes.
 
 ## 4. How we read a story: two kinds of context
 
@@ -53,8 +53,8 @@ Read a short story and decide, at the end, whether it is a good story or a bad o
 
 Our mind processes such a story word by word, and keeps two kinds of context.
 
-- **Short-term context:** what is happening in the story right now.
-- **Long-term context:** what matters for the story as a whole. The mind builds it from the short-term context, keeping only what seems important.
+- **Short-term context** (G-1793): what is happening in the story right now.
+- **Long-term context** (G-1124): what matters for the story as a whole. The mind builds it from the short-term context, keeping only what seems important.
 
 The long-term context changes as the story goes:
 
@@ -91,6 +91,8 @@ The fix is to run two lines through the network:
 - the upper line carries the **long-term memory**.
 
 If something important appears at the first time step and is never removed from the long-term line, it reaches the last time step and the output, no matter how long the chain.
+
+Why does the upper line keep things when the lower one does not? On the lower line, every time step pushes the memory through a layer of weights, and many such steps in a row make early information fade (section 3). On the upper line, no weights act on the memory directly. A step can only do two things to it: scale it down to remove something, and add something new. If a step does neither, the memory passes through exactly as it was.
 
 An example with pronouns. A text says "Ankita is a great girl." The next sentence needs a pronoun: "\_\_\_\_ is a state topper." To choose "she", the network must remember that the subject is a girl. So when "Ankita is a great girl" arrives, the short-term memory passes "Ankita, girl" to the long-term memory. Later the text says "Rahul is a cricketer. \_\_\_\_ has scored three centuries this season." Now the long-term memory drops Ankita and girl and stores Rahul and boy, and the pronoun becomes "he". Olah (2015) uses the same picture: the cell state may hold the gender of the current subject, so that the right pronoun can be used, and forgets it when a new subject appears.
 
@@ -143,11 +145,27 @@ Figure 6 shows the cell as a box.
   2. compute the new short-term memory $h_t$.
 - **Outputs (2):** the new cell state $c_t$ and the new hidden state $h_t$. Both go on to the next time step; $h_t$ can also be the output at this step.
 
-## 10. The two paths on real reviews
+## 10. The two paths at work
+
+> **Key point:** A single LSTM unit carries a number across three time steps without loss. On real movie reviews whose words are followed by 25 extra time steps, a SimpleRNN stays at chance in all 10 runs, while an LSTM still learns the sentiment in 9 runs of 10.
+
+### 10.1 A small test with numbers
+
+> **Key point:** Two series are identical on days 2 to 4 and differ only on day 1. The LSTM's long-term memory splits on day 1 and stays split, so it predicts day 5 correctly for both.
+
+Two shops report their daily sales, scaled to lie between 0 and 1. On days 2, 3 and 4 both report the same values: 0.6, 0.3, 0.9. They differ only on day 1: shop A sold 0, shop B sold 1. Day 5 repeats day 1: 0 for A, 1 for B. So the last three inputs say nothing about the answer; a network can only get day 5 right if it still remembers day 1.
+
+We train the smallest possible LSTM on these two sequences, a single unit, so the cell state and the hidden state are one number each. Figure 7 shows them day by day.
+
+![A one-unit LSTM reads the two sales series (left). Its long-term memory (middle) and short-term memory (right) after each day; the last short-term memory is the prediction for day 5. Idea after StatQuest, "Long Short-Term Memory (LSTM), Clearly Explained", with our own data and trained model](images/two_series.gif){width=100%}
+
+Watch the middle panel. On day 1 the long-term memory goes to 0.80 for shop B and to $-0.40$ for shop A. On days 2 to 4 both shops feed in the same numbers, yet the two memories stay apart: B's keeps growing to 3.46 while A's stays between $-0.5$ and 0. On day 4 the short-term memory, which is the prediction, is 0.99 for B and 0.00 for A, against the true 1 and 0. The same happened with all 5 random starts we tried (Notebook).
+
+### 10.2 Real reviews
 
 > **Key point:** On real movie reviews whose words are followed by 25 extra time steps, a SimpleRNN stays at chance in all 10 runs, while an LSTM still learns the sentiment in 9 runs of 10.
 
-We can test the idea on real data. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector by an embedding layer, and the **target** (G-1949) (the output we predict) is positive or negative. Each review is one **observation** (G-1374) (one record of the data).
+We can test the idea on real data too. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector by an embedding layer, and the **target** (G-1949) (the output we predict) is positive or negative. Each review is one **observation** (G-1374) (one record of the data).
 
 The test changes one thing: the distance between the words and the end of the sequence.
 
@@ -158,7 +176,7 @@ Both networks have the same embedding, 32 units in the recurrent layer and a sig
 
 ![Validation accuracy of SimpleRNN (grey) and LSTM (green). Thin lines: 10 runs each; thick lines: their mean. The dotted line is 0.5. With 25 padding steps after the words, every SimpleRNN run stays near chance](images/long_memory.png){width=100%}
 
-Figure 7 and the Notebook give, after 15 epochs (mean ± standard deviation over the 10 runs):
+Figure 8 and the Notebook give, after 15 epochs (mean ± standard deviation over the 10 runs):
 
 | | SimpleRNN | LSTM |
 |---|---|---|
@@ -190,6 +208,7 @@ An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at
 **Built from**
 
 - CampusX, "LSTM | Long Short Term Memory | Part 1 | The What? | CampusX", YouTube, https://www.youtube.com/watch?v=z7IPBg6MyrU
+- StatQuest with Josh Starmer, "Long Short-Term Memory (LSTM), Clearly Explained", YouTube, https://www.youtube.com/watch?v=YCzL96nL7j0 (no weights act directly on the long-term memory; the test with two series that differ only on day 1)
 
 **Other references**
 

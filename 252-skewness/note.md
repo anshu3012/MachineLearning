@@ -14,17 +14,23 @@ tags: [subject/statistics, area/data, step/understand, concept/skewness]
 
 ## 1. Overview
 
-> **Key point:** Skewness measures how far a distribution is from symmetric; it shows in the tail, in the order of mode, median and mean, and in one number whose size tells us whether we may treat a **feature** (one variable of the data, one column of the table) as normal.
+> **Key point:** Skewness measures how far a distribution is from symmetric; it shows in the tail, in the order of mode, median and mean, and in one number whose size tells us whether we may treat a **feature** (G-772; one variable of the data, one column of the table) as normal.
 
 ![Mode, median and mean in a left-skewed, a symmetric and a right-skewed feature](images/skew_order.png)
 
-Skewness was introduced in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10): 0 for a symmetric feature, positive for a long right tail, negative for a long left tail, with the formula worked by hand. This Note goes deeper. The Note links skewness to the [normal distribution](../250-normal-distribution/note.md), explains why the tail matters, shows how the mean, median and mode separate (Figure 1), gives the sample formula that pandas uses, and gives a scale for reading the number.
+Skewness was introduced in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10): 0 for a symmetric feature, positive for a long right tail, negative for a long left tail, with the formula worked by hand. This Note goes deeper:
+
+- it links skewness to the [normal distribution](../250-normal-distribution/note.md) (section 2);
+- it explains why the tail matters (section 3);
+- it shows how the mean, median and mode separate, and why (section 4, Figures 1 and 3);
+- it gives the sample formula that pandas uses (section 5);
+- it gives a scale for reading the number (section 6).
 
 ## 2. Skewness as distance from the normal shape
 
 > **Key point:** A normal distribution is perfectly symmetric; skewness measures the asymmetry, so the larger it is, the less we can treat the data as normal.
 
-A normal distribution is a symmetric bell with a specific formula (see the [normal distribution Note](../250-normal-distribution/note.md)). **Skewness** is a measure of the asymmetry of a probability distribution: the degree to which a dataset deviates from that symmetric shape.
+A normal distribution is a symmetric bell with a specific formula (see the [normal distribution Note](../250-normal-distribution/note.md)). **Skewness** (G-1817) is a measure of the asymmetry of a probability distribution: the degree to which a dataset deviates from that symmetric shape.
 
 - In a **symmetric** distribution with one peak, the mean, median and mode are equal, and the two tails are equally long.
 - In a **skewed** distribution the mean, median and mode differ, and one tail is longer than the other.
@@ -35,21 +41,38 @@ So skewness is a warning light. The more it grows, the less the data looks like 
 
 > **Key point:** The skew is named after the long tail; a tail event has a very low probability but a very large effect.
 
-Positive (right) skew has a long right tail and negative (left) skew a long left tail, as the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10) shows. The tail is where the outliers are, and in finance it gets special attention.
+**Positive skew** (G-1533), or right skew, has a long right tail and **negative skew** (G-1312), or left skew, a long left tail, as the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10) shows. The tail is where the outliers are, and in finance it gets special attention.
 
-A **tail event** is an event with a very low probability of happening that has a huge impact when it does. Investors who fund start-ups are an example. Out of 50 companies they invest in, perhaps 45 to 48 fail and the money is lost.
+A **tail event** (G-1943) is an event with a very low probability of happening that has a huge impact when it does. Investors who fund start-ups are an example. Out of 50 companies they invest in, perhaps 45 to 48 fail and the money is lost.
 
 But one or two succeed so spectacularly that they repay all the losses and more. The returns form a heavily right-skewed distribution, and the whole strategy rests on its long right tail.
+
+The Titanic fares show the same pattern on real data (Figure 2). Most passengers paid less than 100, but a few paid far more:
+
+- the 45 highest fares, 5 percent of the 891 passengers, start at 113.28;
+- those 45 passengers paid 31.5 percent of all the money;
+- the single largest fare, 512.33, is more than 35 times the median fare of 14.45.
+
+![The 891 Titanic fares on a log count scale. The 45 highest fares (red) are the long right tail: 5 percent of the passengers, 31.5 percent of the money.](images/fare_tail.png)
 
 ## 4. The order of mode, median and mean
 
 > **Key point:** Right skew: mode < median < mean. Left skew: mean < median < mode. The stronger the skew, the further apart they are.
 
-The three measures of central tendency (see the [measures of central tendency Note](../221-measures-of-central-tendency/note.md)) react differently to a tail:
+The three **measures of central tendency** (G-1205; see the [measures of central tendency Note](../221-measures-of-central-tendency/note.md)) react differently to a tail:
 
-- the **mode** stays at the peak, where most values are;
+- the **mode** (G-1251) stays at the peak, where most values are;
 - the **median** moves a little towards the tail, since it only counts values;
-- the **mean** moves furthest, because every extreme value in the tail pulls it.
+- the **mean** (G-1203) moves furthest, because every extreme value in the tail pulls it.
+
+Two pictures explain why the median and the mean part ways (Figure 3):
+
+- **The median is the equal-area line.** Half of the area under the curve lies on each side of it. In a lopsided curve the median is not at the peak: the tail side holds more area than its low height suggests, so the line has to move towards the tail.
+- **The mean is the balance point.** Picture the shape cut out of wood and resting on a beam. The mean is where a support must stand for the beam to stay level. A small piece far out in the tail has a long lever arm, so it counts for more than its area.
+
+Figure 3 moves the support under a right-skewed shape. Under the mode, 74 percent of the area is on the right and the beam tips right. Under the median the areas are equal, 50 and 50, yet the beam still tips right, because the right half reaches much further out. The beam is level only under the mean, with 59 percent of the area on the left and 41 percent on the right. So a long right tail puts the mean to the right of the median, and a long left tail puts it to the left.
+
+![A right-skewed shape on a beam (mode 1, median 1.68, mean 2). The support under the mode or the median lets the long right tail tip the beam; under the mean it balances. Idea after Khan Academy, "Median, mean and skew from density curves"](images/balance_point.gif)
 
 So the order depends on the side of the tail (Figure 1):
 
@@ -61,11 +84,11 @@ So the order depends on the side of the tail (Figure 1):
 
 The stronger the skew, the further the mean is from the median and the mode. With little skew the three almost coincide; for a perfect normal distribution they are equal.
 
-Figure 2 shows this as the skewness changes smoothly. Each shape keeps its peak (the mode) at 0 and its standard deviation at 1; only the tail grows, first to the right, then to the left. Watch the mean (red) run ahead into the tail, the median (orange) follow less far, and the marker on the bar below cross from "approximately symmetric" into "highly skewed" (section 6).
+Figure 4 shows this as the skewness changes smoothly. Each shape keeps its peak (the mode) at 0 and its standard deviation at 1; only the tail grows, first to the right, then to the left. Watch the mean (red) run ahead into the tail, the median (orange) follow less far, and the marker on the bar below cross from "approximately symmetric" into "highly skewed" (section 6).
 
 ![Skewness swept from 0 to 1.6 and to -1.6: the mode stays at the peak while the median and, further, the mean follow the long tail](images/skew_sweep.gif){height=50%}
 
-> **Extra:** The shapes in Figure 2 are gamma distributions, whose skewness is $2/\sqrt{k}$ for shape parameter $k$ (SciPy's `stats.gamma(k).stats(moments="s")` returns this value, and the figure script checks it in every frame), mirrored for negative skew. In every frame the order mode < median < mean (or its mirror) holds.
+> **Extra:** The shapes in Figure 4 are gamma distributions, whose skewness is $2/\sqrt{k}$ for shape parameter $k$ (SciPy's `stats.gamma(k).stats(moments="s")` returns this value, and the figure script checks it in every frame), mirrored for negative skew. In every frame the order mode < median < mean (or its mirror) holds.
 
 The mode-median-mean order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005). The order does hold for the features of Figure 1.
 
@@ -73,28 +96,32 @@ The mode-median-mean order is a rule of thumb, not a law: it can fail, for examp
 
 > **Key point:** Sample skewness is the third moment of the standardized values, with a small correction for sample size; pandas and Excel use this version.
 
-Skewness is the third **statistical moment**: where the mean uses the values themselves and the variance their squared distances, skewness uses **cubed** distances (moments are explained in the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)). Cubing keeps the sign, so values far above the mean push the total up and values far below push it down.
+Skewness is the third **statistical moment** (G-1882): where the mean uses the values themselves and the variance their squared distances, skewness uses **cubed** distances (moments are explained in the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)). Cubing keeps the sign, so values far above the mean push the total up and values far below push it down.
 
-We worked the population version, $g_1$, by hand in the [univariate analysis Note](../20-univariate-analysis/note.md). The version in pandas' `skew()` and Excel's `SKEW` is the **sample skewness**:
+We worked the population version, $g_1$, by hand in the [univariate analysis Note](../20-univariate-analysis/note.md). The version in pandas' `skew()` and Excel's `SKEW` is the **sample skewness** (G-1728):
 
 1. **In words:** standardize every value with the sample mean and sample standard deviation, cube, add up, and multiply by a factor that corrects for small samples.
 2. **Formula:** for $n$ values with sample mean $\bar{x}$ and sample standard deviation $s$ (divided by $n - 1$),
    $$G_1 = \frac{n}{(n - 1)(n - 2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3$$
-3. **Example:** the values 1, 2, 3, 4, 10 have $\bar{x} = 4$ and $s = 3.536$. Their standardized values are $-0.849, -0.566, -0.283, 0, 1.697$, whose cubes are $-0.611, -0.181, -0.023, 0, 4.888$. The sum is 4.074, so
-   $$G_1 = \frac{5}{4 \times 3} \times 4.074 = 0.4167 \times 4.074 = 1.70$$
+3. **Example:** the values 1, 2, 3, 4, 10 have $\bar{x} = 4$ and $s = 3.536$. Their standardized values are $-0.849, -0.566, -0.283, 0, 1.697$, whose cubes are $-0.611, -0.181, -0.023, 0, 4.888$. The sum is 4.073, so
+   $$G_1 = \frac{5}{4 \times 3} \times 4.073 = 0.4167 \times 4.073 = 1.70$$
    The result, 1.70, is what pandas gives, against $g_1 = 1.14$ without the correction.
 
-The $n - 1$ inside $s$ is Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The two versions differ by a fixed factor, $G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$ (Joanes and Gill 1998): 1.49 for our 5 values, but only 1.002 for the 891 Titanic observations (records, or rows of the table). So with hundreds of observations $G_1$ and $g_1$ are almost equal.
+Figure 5 plays the four steps. Watch step 3: cubing shrinks the small distances (the cube of $-0.283$ is only $-0.023$) and blows up the large one ($1.697^3 = 4.888$). The one far value, 10, outweighs the other four together, so the sum, and the skewness, is positive.
+
+![The sample skewness of 1, 2, 3, 4, 10 in four steps: distances from the mean, standardized values, cubes (sum 4.073), and the final G1 = 1.70.](images/cube_steps.gif)
+
+The $n - 1$ inside $s$ is **Bessel's correction** (G-279; see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The two versions differ by a fixed factor, $G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$ (Joanes and Gill 1998): 1.49 for our 5 values, but only 1.002 for the 891 Titanic observations (records, or rows of the table). So with hundreds of observations $G_1$ and $g_1$ are almost equal.
 
 In practice nobody computes this by hand: `df["Fare"].skew()` returns 4.79 at once. What matters is interpreting the number.
 
-> **Extra:** A simpler measure is **Pearson's skewness coefficient**, $3(\bar{x} - \text{median})/s$ (Doane and Seward 2011). Pearson's coefficient uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 it gives $3 \times (4 - 3)/3.536 = 0.85$: the same sign, a different size. The coefficient is quick to compute but less used than the moment version.
+> **Extra:** A simpler measure is **Pearson's skewness coefficient** (G-1475), $3(\bar{x} - \text{median})/s$ (Doane and Seward 2011). Pearson's coefficient uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 it gives $3 \times (4 - 3)/3.536 = 0.85$: the same sign, a different size. The coefficient is quick to compute but less used than the moment version.
 
 ## 6. Reading a skewness value
 
 > **Key point:** Between $-0.5$ and 0.5, approximately symmetric; between 0.5 and 1 in size, moderately skewed; beyond 1 in size, highly skewed.
 
-Real data almost never has a skewness of exactly 0, so we need a scale (Figure 3):
+Real data almost never has a skewness of exactly 0, so we need a scale (Figure 6):
 
 ![A rule of thumb for reading skewness values](images/skew_scale.png){height=30%}
 
@@ -107,7 +134,7 @@ Real data almost never has a skewness of exactly 0, so we need a scale (Figure 3
 Two Titanic features show the two ends of the scale:
 
 - **Age**, skewness 0.39: approximately symmetric. Together with its roughly bell-shaped histogram, we may treat it as normal for practical purposes, as the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) did.
-- **Fare**, skewness 4.79: highly skewed, far from normal. A feature like this is a candidate for a log transform (see the [function transformer Note](../30-function-transformer/note.md)).
+- **Fare**, skewness 4.79: highly skewed, far from normal. A feature like this is a candidate for a **log transform** (G-1112; see the [function transformer Note](../30-function-transformer/note.md)).
 
 These cut-offs are a rule of thumb, not a law; they come from Bulmer (1979).
 
@@ -126,9 +153,11 @@ These cut-offs are a rule of thumb, not a law; they come from Bulmer (1979).
 
 > **Key point:** Zero skewness only says "symmetric"; a flat or two-humped distribution can be symmetric too.
 
-Skewness applies to every distribution, not only to the normal one, and a skewness near 0 does not prove normality. The uniform distribution (see the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)) and a symmetric distribution with two humps both have skewness 0, and neither is normal.
+Skewness applies to every distribution, not only to the normal one, and a skewness near 0 does not prove normality. The **uniform distribution** (G-2043; see the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)) and a symmetric distribution with two humps both have skewness 0, and neither is normal. Figure 7 draws 10,000 values from each: all three skewness values round to 0, but only the first histogram is a bell.
 
-So skewness is one check among several. We look at the shape as well (histogram, density plot) and, best of all, at a Q-Q plot (see the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)).
+![10,000 values each from a normal, a uniform and a symmetric two-humped distribution. All three have skewness close to 0; only the first is normal.](images/symmetric_not_normal.png)
+
+So skewness is one check among several. We look at the shape as well (histogram, density plot) and, best of all, at a **Q-Q plot** (G-1596; see the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)).
 
 ## 7. Summary
 
@@ -149,6 +178,7 @@ So skewness is one check among several. We look at the shape as well (histogram,
 **Built from**
 
 - CampusX, "Session 41 - Normal Distribution | DSMP 2023", YouTube, https://www.youtube.com/watch?v=ADqYqSdtyW8
+- Khan Academy, "Median, mean and skew from density curves", YouTube, https://www.youtube.com/watch?v=JFesFhraX2M
 
 **Other references**
 

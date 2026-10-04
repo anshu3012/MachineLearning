@@ -17,13 +17,13 @@ tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple
 
 > **Key point:** We fill each gap in a numerical column with one number taken from the same column: its mean or median, an arbitrary value, or a value at the end of its distribution.
 
-Note 35 mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
+Note 35 mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
 
 Figure 1 shows the three techniques on a small `Age` column with two gaps:
 
 - **Mean or median imputation** fills each gap with a typical value from the centre of the column.
-- **Arbitrary value imputation** fills each gap with a value that never occurs, such as 99 or $-1$.
-- **End of distribution imputation** fills each gap with a value at the edge of the column's distribution.
+- **Arbitrary value imputation** (G-208) fills each gap with a value that never occurs, such as 99 or $-1$.
+- **End of distribution imputation** (G-686) fills each gap with a value at the edge of the column's distribution.
 
 ![Three ways to fill the gaps of a numerical column; the fill values come from the training set](images/overview.png)
 
@@ -35,7 +35,7 @@ After every imputation we check what it did to the column. We compare four thing
 
 > **Key point:** Mean or median imputation replaces every missing value with the mean or the median of the known values of the column.
 
-**Mean imputation** replaces each missing value with the mean of the column. **Median imputation** replaces it with the median. Both are computed from the values that are present.
+**Mean imputation** (G-1197) replaces each missing value with the mean of the column. **Median imputation** (G-1208) replaces it with the median. Both are computed from the values that are present.
 
 ### 2.1 Mean or median
 
@@ -103,17 +103,19 @@ We split the data 80/20: 712 training rows and 179 test rows. In the training se
 > X_train["Age_mean"] = X_train["Age"].fillna(mean_age)
 > ```
 >
-> **`fillna(value)`** returns the column with every `NaN` replaced by `value`. We keep the original column next to the filled ones to compare them. `copy()` makes `X_train` an independent table, so adding columns gives no `SettingWithCopyWarning`.
+> **`fillna(value)`** (G-82) returns the column with every `NaN` replaced by `value`. We keep the original column next to the filled ones to compare them. `copy()` makes `X_train` an independent table, so adding columns gives no `SettingWithCopyWarning`.
 
 The same is done for `Fare`, with median 14.46 and mean 32.62. The test set is filled later with these same training values.
 
-> **Extra:** Computing the mean on the whole table before the split lets the test rows influence the fill value. The test set would then no longer be truly unseen data. Letting test rows shape the fill value is called **data leakage**, and the rule is always: fit on the training set, apply to both sets (scikit-learn docs, Data leakage).
+> **Extra:** Computing the mean on the whole table before the split lets the test rows influence the fill value. The test set would then no longer be truly unseen data. Letting test rows shape the fill value is called **data leakage** (G-535), and the rule is always: fit on the training set, apply to both sets (scikit-learn docs, Data leakage).
 
 ### 3.2 Variance shrinks
 
 > **Key point:** Mean or median imputation always lowers the variance, and the more values are missing, the more it drops.
 
-The variance measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is.
+The **variance** (G-2078) measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is. Figure 3 shows it on the training ages: the 148 filled values form one tall bar at the mean, and the band of one standard deviation narrows.
+
+![The 712 training ages before and after mean imputation. The 148 filled ages (red) stack at the mean; the band of one standard deviation narrows from 15.5 to 44.1 to 17.1 to 42.5.](images/variance_shrink.gif)
 
 | Column | Original | Median imputed | Mean imputed |
 |---|---|---|---|
@@ -135,7 +137,7 @@ The variance measures the average squared distance from the mean. Every filled v
 
 > **Key point:** For `Age`, a tall peak appears at the fill value; for `Fare`, the curves before and after lie on top of each other.
 
-Figure 3 draws the density curve (KDE, Note 20) of each column before and after imputation. Blue is the original column with its gaps skipped; orange is median imputed; green dashed is mean imputed.
+Figure 4 draws the density curve (KDE, Note 20) of each column before and after imputation. Blue is the original column with its gaps skipped; orange is median imputed; green dashed is mean imputed.
 
 ![Density of Age and Fare before and after mean and median imputation: Age gains a tall peak at the centre, Fare barely changes](images/mean_median_kde.png){width=100%}
 
@@ -145,7 +147,7 @@ For `Age`, the peak grows from about 0.03 to about 0.05, and the curve becomes n
 
 > **Key point:** A filled value ignores the other features, so imputing `Age` weakens its link with them: its correlation with `Family` falls by about a fifth.
 
-**Covariance** measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. **Correlation** is the covariance rescaled to lie between $-1$ and $1$.
+**Covariance** (G-496) measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. **Correlation** (G-490) is the covariance rescaled to lie between $-1$ and $1$.
 
 | Covariance with | `Fare` | `Family` |
 |---|---|---|
@@ -159,7 +161,11 @@ For `Age`, the peak grows from about 0.03 to about 0.05, and the curve becomes n
 | `Age` median imputed | 0.092 | $-0.243$ |
 | `Age` mean imputed | 0.088 | $-0.245$ |
 
-The relationship with `Family` weakened by about a fifth. For `Fare`, the covariance with `Family` only moved from 17.26 to 16.48 (median) and 16.39 (mean).
+The relationship with `Family` weakened by about a fifth. Figure 5 shows why. Every filled age sits at the same value, 29.8, whatever the passenger's family size, so the 148 filled points form a flat line with no trend. Mixed in with the real points, that flat line pulls the correlation towards 0.
+
+![Age against Family in the 712 training rows (jittered sideways). Left: the 564 known ages. Right: after mean imputation, the 148 filled ages (red) all sit at 29.8 and carry no trend, so the correlation weakens from −0.299 to −0.245.](images/age_family_scatter.png)
+
+For `Fare`, the covariance with `Family` only moved from 17.26 to 16.48 (median) and 16.39 (mean).
 
 > **Python:** The whole covariance or correlation table in one call.
 >
@@ -174,7 +180,7 @@ The relationship with `Family` weakened by about a fifth. For `Fare`, the covari
 
 > **Key point:** Imputing `Age` narrows its box, and the number of outliers jumps from 7 to 69.
 
-Figure 4 shows box plots before and after. A box plot draws the middle half of the data as a box, from the first quartile (Q1) to the third (Q3). Points more than 1.5 box-lengths beyond the box are outliers (Note 20).
+Figure 6 shows box plots before and after. A box plot draws the middle half of the data as a box, from the first quartile (Q1) to the third (Q3). Points more than 1.5 box-lengths beyond the box are outliers (Note 20).
 
 ![Box plots before and after imputation: the Age box narrows and many new outliers appear on both sides; Fare is unchanged](images/mean_median_box.png){width=100%}
 
@@ -215,7 +221,7 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 
 `"most_frequent"` fills with the mode, used mainly for categorical columns (next Note). `"constant"` is used for arbitrary value and end of distribution imputation (Sections 5 and 6).
 
-> **Extra:** `add_indicator=True` adds the **missing indicator** of Note 35, covered in its own Note. Since scikit-learn 1.5, `strategy` may also be a function, such as `np.nanmax`. A column with no values at all is dropped with a warning when the strategy is not `"constant"`, unless `keep_empty_features=True`, which keeps it filled with 0 (scikit-learn docs, SimpleImputer).
+> **Extra:** `add_indicator=True` adds the **missing indicator** (G-1233) of Note 35, covered in its own Note. Since scikit-learn 1.5, `strategy` may also be a function, such as `np.nanmax`. A column with no values at all is dropped with a warning when the strategy is not `"constant"`, unless `keep_empty_features=True`, which keeps it filled with 0 (scikit-learn docs, SimpleImputer).
 
 ### 4.2 A different strategy per column
 
@@ -234,9 +240,13 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 > X_test = trf.transform(X_test)
 > ```
 >
-> The other columns pass through unchanged, because of `remainder="passthrough"`. **`set_output(transform="pandas")`** makes `transform` return a DataFrame with column names instead of a bare numpy array.
+> The other columns pass through unchanged, because of `remainder="passthrough"`. **`set_output(transform="pandas")`** (G-1780) makes `transform` return a DataFrame with column names instead of a bare numpy array.
 
-After `fit`, each imputer stores its learned value in **`statistics_`**:
+Figure 7 runs the two steps on six test rows with gaps: `fit` learns the training median of `Age` and the training mean of `Fare`, and `transform` writes those values into every gap, test rows included.
+
+![SimpleImputer on six test rows with gaps (red). fit learns median Age 28.75 and mean Fare 32.62 from the training set; transform fills every gap with them (orange).](images/imputer_fit_transform.gif)
+
+After `fit`, each imputer stores its learned value in **`statistics_`** (G-145):
 
 ```python
 trf.named_transformers_["imputer1"].statistics_  # [28.75]
@@ -276,7 +286,7 @@ We fill `Age` with 99 and with $-1$, and `Fare` with 999 and with $-1$, each int
 | `Age` variance | 204.35 | 951.73 | 318.09 |
 | `Fare` variance | 2,448.20 | 47,219.20 | 2,378.57 |
 
-Figure 5 shows the distributions. For `Age`, each fill value creates a second hump: at 99 (red) or at $-1$ (purple dashed), and the main peak drops. For `Fare`, 999 flattens the curve; $-1$ sits next to the many cheap tickets, so its curve almost matches the original.
+Figure 8 shows the distributions. For `Age`, each fill value creates a second hump: at 99 (red) or at $-1$ (purple dashed), and the main peak drops. For `Fare`, 999 flattens the curve; $-1$ sits next to the many cheap tickets, so its curve almost matches the original.
 
 ![Density of Age and Fare after arbitrary value imputation: a new hump appears at 99 or at -1](images/arbitrary_kde.png){width=100%}
 
@@ -339,7 +349,7 @@ The fill value, step by step:
 
 > **Key point:** The end values create a hump at the edge of the distribution and change the variance, just as arbitrary values do.
 
-Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values land at the far right, creating a second hump there, and the variance rises from 204.35 to 465.07. For `Fare`, the 36 filled values make only a small bump, and the variance moves from 2,448.20 to 2,378.92.
+Figure 9 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values land at the far right, creating a second hump there, and the variance rises from 204.35 to 465.07. For `Fare`, the 36 filled values make only a small bump, and the variance moves from 2,448.20 to 2,378.92.
 
 ![Density before and after end of distribution imputation; the dotted line is the fill value](images/end_of_distribution.png){width=100%}
 

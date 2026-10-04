@@ -15,7 +15,7 @@ tags: [subject/ml, area/foundations, step/frame, concept/problem-framing]
 
 > **Key point:** Before any code, we turn a vague business goal into a clear ML task, by answering seven questions in order.
 
-A company rarely asks for "a classification model". The company brings a business problem, such as "we need more revenue". **Framing** an ML problem means turning that business problem into a precise ML task that a team can build, measure and improve.
+A company rarely asks for "a classification model". The company brings a business problem, such as "we need more revenue". **Framing** (G-802) an ML problem means turning that business problem into a precise ML task that a team can build, measure and improve.
 
 Figure 1 shows the seven framing steps, applied to one running example: Netflix wants to increase its revenue.
 
@@ -60,7 +60,7 @@ The third way looks the most promising. Netflix earns money through a monthly **
 
 > **Key point:** The churn rate is the percentage of customers who leave in a given period.
 
-Customers leaving a platform is called **churn**. The **churn rate** measures how fast customers leave.
+Customers leaving a platform is called **churn** (G-387). The **churn rate** (G-386) measures how fast customers leave.
 
 **Churn rate**, step by step:
 
@@ -81,6 +81,10 @@ A steady churn rate does not mean every company slowly disappears. New customers
 
 A customer base works like a population. If the death rate is higher than the birth rate, the population shrinks; if the birth rate is higher, it grows. Here, new customers are the births and churn is the deaths.
 
+![Two customer bases with the same 4 percent monthly churn rate: one gains 50 new users a month, the other 30](images/churn_flow.gif)
+
+Figure 5 runs the analogy for twelve months on example numbers. Both panels start with 1,000 users and lose 4 percent of them every month, which is 40 users in month 1. Each month follows the same rule: users next month = users now, minus the users who left, plus the users who joined. On the left, 50 users join each month, more than leave, and the base grows to about 1,097. On the right, only 30 join, fewer than leave, and the base shrinks to about 903.
+
 ## 4. Step 1: Business problem to ML problem
 
 > **Key point:** "Increase revenue" becomes a number the team can aim at: bring the monthly churn rate down from 4% to 3.75%.
@@ -91,7 +95,7 @@ Suppose Netflix's monthly churn rate is about 4%. Our target becomes: **bring th
 
 ![A vague goal becomes a measurable target, and the target's size at Netflix scale](images/goal_to_target.png){width=75%}
 
-Figure 5 shows the whole step: vague goal, measurable target, and why the small drop matters.
+Figure 6 shows the whole step: vague goal, measurable target, and why the small drop matters.
 
 A drop of 0.25 percentage points sounds small. At Netflix's scale, it is large: for every 10 crore (100 million) subscribers,
 
@@ -122,7 +126,7 @@ Predicting the overall churn rate ("next month, 4% will leave") is a different t
 
 To reduce churn, we must stop the customers who are about to leave. So our main task is to **identify the customers who are going to leave the platform**: for each customer, will they leave, yes or no?
 
-In ML terms, each customer in a given month is one **observation** (one record, one row of the data table). Whether that customer leaves is the **target** (the output we predict).
+In ML terms, each customer in a given month is one **observation** (G-1374; one record, one row of the data table). Whether that customer leaves is the **target** (G-1949; the output we predict).
 
 ### 5.2 The end product: a discount
 
@@ -144,11 +148,11 @@ The **long-term plan** is separate work with other teams: better content, a bett
 
 At this point, the problem looks like **supervised classification**: for every customer, predict whether they will leave this month (yes or no).
 
-Then a colleague asks: why treat everyone who might leave the same? Some customers are very unhappy, others only a little, and discounts at Netflix's scale are expensive. Figure 6 compares the two ideas.
+Then a colleague asks: why treat everyone who might leave the same? Some customers are very unhappy, others only a little, and discounts at Netflix's scale are expensive. Figure 7 compares the two ideas.
 
 ![A yes or no answer gives everyone the same discount; a score lets the discount grow with the risk](images/yes_no_vs_score.png)
 
-So instead of yes or no, we predict, for each customer, **how likely they are to leave**, as a score from 0 to 100%. The higher the score, the larger the discount. Because the output is now a number, we treat this as a **regression** problem.
+So instead of yes or no, we predict, for each customer, **how likely they are to leave**, as a score from 0 to 100%. The higher the score, the larger the discount. Because the output is now a number, we treat this as a **regression** (G-1655) problem.
 
 > **Extra:** In practice, this task is usually still built as **binary classification** (leaves or stays). Most classifiers, such as logistic regression (Note 13), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn API docs, `LogisticRegression.predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
 
@@ -166,19 +170,19 @@ So we do not have to start from scratch. We can ask that team which factors they
 
 ![The existing churn-rate model gives us its factors as a starting point](images/reuse_model.png){width=65%}
 
-Figure 7 shows how the existing model feeds into ours.
+Figure 8 shows how the existing model feeds into ours.
 
 ## 7. Step 4: Getting data
 
 > **Key point:** We decide carefully which data we need, then work with data engineers to get it.
 
-Getting data is one of the most important steps. We sit down and think: what data do we need, and which **features** (input variables, one column each of the data table) should it have?
+Getting data is one of the most important steps. We sit down and think: what data do we need, and which **features** (G-772; input variables, one column each of the data table) should it have?
 
 To predict how likely a customer is to leave, we study how each customer used Netflix in a given month:
 
 ![One observation: a customer's month of use as features, and whether they leave as the target](images/customer_row.png){width=85%}
 
-Figure 8 shows one observation; the table below says what each feature tells us.
+Figure 9 shows one observation; the table below says what each feature tells us.
 
 | Feature (per customer, per month) | What it tells us |
 |---|---|
@@ -190,26 +194,26 @@ Figure 8 shows one observation; the table below says what each feature tells us.
 
 For example, a customer who searched 300 times in a month and did not find 300 of the things they searched for is clearly not getting what they want.
 
-Getting these features is a job for a **data engineer**. Netflix's day-to-day records live in its **OLTP** database (online transaction processing: the system that records every action as it happens). Data engineers copy this data into a **data warehouse**, where it is organised for analysis, and from there build the dataset we need.
+Getting these features is a job for a **data engineer** (G-533). Netflix's day-to-day records live in its **OLTP** (G-1378) database (online transaction processing: the system that records every action as it happens). Data engineers copy this data into a **data warehouse** (G-541), where it is organised for analysis, and from there build the dataset we need.
 
 ## 8. Step 5: Metrics
 
 > **Key point:** Before we start, we define how we will know whether our work is succeeding.
 
-We need **metrics**: numbers that tell us, and our team, whether we are moving in the right direction. Without them, we cannot tell whether six months of work achieved anything.
+We need **metrics** (G-1215): numbers that tell us, and our team, whether we are moving in the right direction. Without them, we cannot tell whether six months of work achieved anything.
 
 For the churn project, two checks are natural:
 
 ![The two checks: do the circles match in size, and how much do they overlap?](images/two_checks.png){width=55%}
 
-Figure 9 draws both checks as two circles: the customers we flagged and the customers who really left.
+Figure 10 draws both checks as two circles: the customers we flagged and the customers who really left.
 
 - **Predicted vs actual leavers:** compare how many customers we predicted would leave with how many actually left. If the difference is small (say, 0.25%), we are on the right track.
 - **The right customers:** check whether the customers we flagged are the same customers who actually left, or different ones.
 
 Choosing metrics deserves real time and thought, just like choosing the data.
 
-> **Extra:** The second check has standard names, covered in Notes 76 and 77. **Precision** asks: of the customers we flagged, how many really left? **Recall** asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
+> **Extra:** The second check has standard names, covered in Notes 76 and 77. **Precision** (G-1547) asks: of the customers we flagged, how many really left? **Recall** (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
 
 ## 9. Step 6: Online or batch learning
 
@@ -217,8 +221,8 @@ Choosing metrics deserves real time and thought, just like choosing the data.
 
 We also decide at the start how the model will learn once it is in production (Notes 4 and 5):
 
-- **Batch learning:** train on our machine, deploy to the server, and periodically take the model down, retrain it on new data and deploy it again.
-- **Online learning:** the model keeps learning on the server from data as it arrives.
+- **Batch learning** (G-265): train on our machine, deploy to the server, and periodically take the model down, retrain it on new data and deploy it again.
+- **Online learning** (G-1391): the model keeps learning on the server from data as it arrives.
 
 ### 9.1 Why churn suits online learning
 
@@ -235,11 +239,11 @@ A model trained once would quickly fall out of date. So online learning is the b
 
 > **Key point:** Data flows from the app to the OLTP database, to the data warehouse, and into a model that keeps training.
 
-Figure 10 shows the flow we would try to build. New data keeps arriving in the OLTP database, flows on into the data warehouse, and passes through the model, which keeps training and keeps producing a churn score for every customer.
+Figure 11 shows the flow we would try to build. New data keeps arriving in the OLTP database, flows on into the data warehouse, and passes through the model, which keeps training and keeps producing a churn score for every customer.
 
 ![Online learning for churn, with batch learning as a fallback](images/online_vs_batch.png)
 
-Online learning is hard to build, and our data setup may not allow it. In that case we fall back on batch learning: every week, we take the model offline, retrain it on the latest data, and deploy it again (Figure 10, bottom).
+Online learning is hard to build, and our data setup may not allow it. In that case we fall back on batch learning: every week, we take the model offline, retrain it on the latest data, and deploy it again (Figure 11, bottom).
 
 ## 10. Step 7: Checking assumptions
 
@@ -249,7 +253,7 @@ While framing, we make many assumptions without noticing. The last step is to wr
 
 ![Each assumption gets a check before we build](images/assumptions.png){width=70%}
 
-Figure 11 pairs each assumption with its check.
+Figure 12 pairs each assumption with its check.
 
 - **Is the data really available?** We assumed columns such as watch time and searches exist. We confirm this with the data engineering team.
 - **Does one model work everywhere?** Netflix is a multinational company, and we assumed one model would serve users all over the world. But factors that predict churn in the US may not work as well in India, so we may need separate models for different regions.
@@ -262,7 +266,7 @@ There are many more such assumptions in a real project, and each one is cheaper 
 
 ![Planning first avoids the costly turn back](images/plan_first.png){width=70%}
 
-Figure 12 contrasts the two habits.
+Figure 13 contrasts the two habits.
 
 There is no fixed procedure for framing. What matters is the habit: we do not start coding straight away; we first sit down and think the problem through.
 

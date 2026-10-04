@@ -17,17 +17,17 @@ tags: [subject/ml, area/models-1, step/model, concept/best-fit-line, concept/lin
 
 > **Key point:** Linear regression fits a straight line through the data and uses that line to predict a number. Simple linear regression uses one feature.
 
-**Linear regression** is usually the first ML algorithm people learn, for good reason. Linear regression is simple, easy to explain, and many later algorithms build on its ideas.
+**Linear regression** (G-1094) is usually the first ML algorithm people learn, for good reason. Linear regression is simple, easy to explain, and many later algorithms build on its ideas.
 
-Three words first. A **feature** is an input variable (one column of the data table). The **target** is the output we predict (another column). An **observation** is one record (one row), here one student.
+Three words first. A **feature** (G-772) is an input variable (one column of the data table). The **target** (G-1949) is the output we predict (another column). An **observation** (G-1374) is one record (one row), here one student.
 
-Linear regression is a **supervised** algorithm for **regression** problems, where the target is a number, such as a price or a salary. Figure 1 shows its family.
+Linear regression is a **supervised** (G-1919) algorithm for **regression** (G-1655) problems, where the target is a number, such as a price or a salary. Figure 1 shows its family.
 
 ![The linear regression family](images/lr_family.png)
 
-- **Simple linear regression:** one feature and one target. This Note.
-- **Multiple linear regression:** several features, for example CGPA, gender and 12th-grade marks to predict a package.
-- **Polynomial regression:** for data that follows a curve rather than a line.
+- **Simple linear regression** (G-1808): one feature and one target. This Note.
+- **Multiple linear regression** (G-1279): several features, for example CGPA, gender and 12th-grade marks to predict a package.
+- **Polynomial regression** (G-1515): for data that follows a curve rather than a line.
 - **Regularised versions** of these models, which add a penalty against overfitting, come later.
 
 This Note builds the intuition and runs the scikit-learn code. The next Note derives the mathematics and writes the algorithm from scratch.
@@ -45,7 +45,7 @@ Our data describes 200 students from one college who were placed in campus recru
 | 7.82 | 3.25 |
 
 - `cgpa`: the student's grade point average, out of 10. This is the feature, the **input**.
-- `package`: the salary offered, in **LPA** (lakh rupees per year). This is the target, the **output**: it depends on the CGPA.
+- `package`: the salary offered, in **LPA** (G-1135) (lakh rupees per year). This is the target, the **output**: it depends on the CGPA.
 
 The goal is a model that takes a new student's CGPA and predicts their package. Such a model could sit behind a small website where a student types in their CGPA.
 
@@ -79,7 +79,7 @@ Imagine every student's package lay exactly on a straight line. A straight line 
 
 $$y = mx + b$$
 
-where $x$ is the input (CGPA), $y$ is the output (package), $m$ is the **slope** and $b$ is the **intercept**. Knowing $m$ and $b$, we could put any new CGPA into the equation and read off the package exactly.
+where $x$ is the input (CGPA), $y$ is the output (package), $m$ is the **slope** (G-1823) and $b$ is the **intercept** (G-960). Knowing $m$ and $b$, we could put any new CGPA into the equation and read off the package exactly.
 
 ### 3.3 Why real data is not on a line
 
@@ -91,13 +91,13 @@ Real data is almost never perfectly linear. Two students with the same CGPA may 
 - one may have joined a company that pays more;
 - one may have had a bad day in the test.
 
-None of these can be captured as a feature in the data. Such hard-to-measure, random influences are called **stochastic errors**, and they scatter the points around the trend.
+None of these can be captured as a feature in the data. Such hard-to-measure, random influences are called **stochastic errors** (G-1891), and they scatter the points around the trend.
 
 ### 3.4 The best-fit line
 
 > **Key point:** We still draw one line: the one whose total error over all points is the smallest.
 
-Since no line can pass through every point, linear regression draws the line that is wrong by the least overall: the **best-fit line**. A tailor making one ready-made shirt size for a group does the same: no one gets a perfect fit, but the size is chosen so that the total misfit is as small as possible.
+Since no line can pass through every point, linear regression draws the line that is wrong by the least overall: the **best-fit line** (G-280). A tailor making one ready-made shirt size for a group does the same: no one gets a perfect fit, but the size is chosen so that the total misfit is as small as possible.
 
 For each student, the **error** is the vertical gap between their real package and the line's prediction. A good line keeps all these gaps small. Figure 3 compares three lines on the 160 training students.
 
@@ -107,7 +107,7 @@ For each student, the **error** is the vertical gap between their real package a
 2. **A steeper line**: 52.0. Better, but it overshoots at high CGPA.
 3. **The best-fit line**: 16.6, the smallest possible total.
 
-The total used is the **sum of squared errors**: each gap is squared, so that gaps above and below the line both count, and then all are added. How the best $m$ and $b$ are found from this is the subject of the next Note.
+The total used is the **sum of squared errors** (G-1913): each gap is squared, so that gaps above and below the line both count, and then all are added. How the best $m$ and $b$ are found from this is the subject of the next Note.
 
 ## 4. Linear regression in scikit-learn
 
@@ -162,7 +162,11 @@ The first test student has a CGPA of 8.58 and was offered 4.10 LPA. The model pr
 | 6.22 | 2.33 | 2.57 |
 | 4.57 | 1.94 | 1.65 |
 
-The predictions are close, but not exact: the stochastic errors of Section 3.3 cannot be predicted from CGPA. How to measure a regression model's accuracy properly is the subject of a later Note on regression metrics.
+The predictions are close, but not exact: the stochastic errors of Section 3.3 cannot be predicted from CGPA. Figure 4 shows all 40 test students: every prediction (orange diamond) sits on the line at the student's CGPA, and the grey segment is the gap to the real package.
+
+![The 40 test students: real packages (blue), predictions on the best-fit line (orange), and the gap between them (grey). The first test student, CGPA 8.58, is 0.21 LPA above the line.](images/test_predictions.png)
+
+How to measure a regression model's accuracy properly is the subject of a later Note on regression metrics.
 
 ## 5. What the model learned: m and b
 
@@ -197,7 +201,7 @@ The result is exactly the prediction from `lr.predict`. All `predict` does is pu
 
 ![The slope and the intercept of the best-fit line](images/slope_intercept.png)
 
-The slope is the change in the output for one unit of change in the input (the green triangle in Figure 4). Here, every extra CGPA point adds 0.56 LPA to the predicted package.
+The slope is the change in the output for one unit of change in the input (the green triangle in Figure 5). Here, every extra CGPA point adds 0.56 LPA to the predicted package.
 
 So $m$ acts like a **weight**: it says how strongly the output depends on the input.
 
@@ -208,7 +212,7 @@ So $m$ acts like a **weight**: it says how strongly the output depends on the in
 
 > **Key point:** The intercept is the line's value when the input is 0. Sometimes it has a real meaning, sometimes it does not.
 
-The intercept is where the line crosses the vertical axis: the prediction for an input of 0. Here, $b = -0.90$ LPA at CGPA 0 (the red point in Figure 4).
+The intercept is where the line crosses the vertical axis: the prediction for an input of 0. Here, $b = -0.90$ LPA at CGPA 0 (the red point in Figure 5).
 
 An intercept of $-0.90$ has no real meaning: no student has a CGPA of 0, and a negative salary is impossible. The intercept is just where the line has to start so that it fits the students we do have, between CGPA 4 and 10.
 
@@ -216,7 +220,7 @@ In other data, the intercept can mean something real.
 
 Take years of experience and salary: a fresher has 0 years of experience but still earns a salary. There, the intercept is the starting salary, and it should not be 0. The intercept is what lets the line start at the right height.
 
-> **Extra:** The line does not know where the real data ends. For CGPA 10 it predicts 4.68 LPA, which is reasonable. For CGPA 100, which cannot exist, it calmly predicts 54.9 LPA. Predicting outside the range of the training data is called **extrapolation**. A straight line keeps rising forever, but nothing tells us the real data does; past CGPA 10 we have no students to check it against. So predictions far outside the training range are risky, for any model (NIST Handbook §4.1.4.1).
+> **Extra:** The line does not know where the real data ends. For CGPA 10 it predicts 4.68 LPA, which is reasonable. For CGPA 100, which cannot exist, it calmly predicts 54.9 LPA. Predicting outside the range of the training data is called **extrapolation** (G-738). A straight line keeps rising forever, but nothing tells us the real data does; past CGPA 10 we have no students to check it against. So predictions far outside the training range are risky, for any model (NIST Handbook §4.1.4.1).
 
 ## 6. Summary
 

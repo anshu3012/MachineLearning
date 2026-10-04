@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+% Section 9: using the report. Read the sections in order, write down observations (the Note's two examples), and
+% turn each into a task for cleaning or analysis.
+\begin{tikzpicture}[b/.style={box=#1, text width=3.6cm, minimum height=1.6cm, align=center, font=\sffamily\small}]
+  \node[b=cblue] (r) at (0, 0) {\textbf{1--2. build and read}\\Overview, Alerts, each variable, Interactions, Correlations, Missing values};
+  \node[b=cgreen] (o) at (4.6, 0) {\textbf{3. write down}\\``\texttt{Cabin} is 77\% missing''\\``\texttt{Pclass} and \texttt{Fare} are strongly linked''};
+  \node[b=corange] (t) at (9.2, 0) {\textbf{4. turn into tasks}\\columns to drop, missing values to fill, outliers to check};
+  \draw[arrow] (r) -- (o); \draw[arrow] (o) -- (t);
+  \node[note] at (4.6, -1.5) {the report lists facts; we decide what they mean};
+\end{tikzpicture}
+\end{document}

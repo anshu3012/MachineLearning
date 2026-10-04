@@ -17,7 +17,7 @@ tags: [subject/ml, area/data, area/features, area/production, step/understand, s
 
 > **Key point:** A mathematical transformation applies one formula to every value of a feature, usually to make a skewed feature closer to a normal distribution.
 
-A **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row). So far, feature transformation has meant filling missing values, encoding categories and scaling numbers. This Note adds one more kind: **mathematical transformation**, where we apply a mathematical formula, such as a logarithm or a square root, to every value of a feature.
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). So far, feature transformation has meant filling missing values, encoding categories and scaling numbers. This Note adds one more kind: **mathematical transformation** (G-1174), where we apply a mathematical formula, such as a logarithm or a square root, to every value of a feature.
 
 Think of a map of India drawn to scale: Delhi, Mumbai and a small village are hard to show together. A log scale works like a map that shrinks the big distances more than the small ones, so everything fits on one page.
 
@@ -29,18 +29,24 @@ The formulas covered here are the log, reciprocal, square and square root transf
 
 ## 2. Why make data normal
 
-> **Key point:** Some algorithms, such as linear and logistic regression, work better when the features are close to a normal distribution; tree-based algorithms do not care.
+> **Key point:** Some algorithms, such as linear and logistic regression, often score better when a skewed feature is brought close to a normal distribution (section 7 measures it); tree-based algorithms do not care.
 
-Note 20 introduced the **normal distribution**: the symmetric, bell-shaped curve. Note 20 also introduced skewness, the number that says how lopsided a distribution is.
+Note 20 introduced the **normal distribution** (G-1343): the symmetric, bell-shaped curve. Note 20 also introduced **skewness** (G-1817), the number that says how lopsided a distribution is.
 
-Real data is rarely normal. Fares, salaries and house prices are usually right-skewed: most values are small and a few are huge.
+Real data is rarely normal. Fares, salaries and house prices are usually right-skewed: most values are small and a few are huge. Figure 2 shows the Titanic fares against the normal curve with the same mean and standard deviation:
+
+- half the passengers paid 14.45 or less, yet the largest fare is 512.33;
+- the matching normal curve is far too low at the peak and too high in between;
+- it even puts over 20 percent of its area below 0, where no fare can be.
+
+![The 891 Titanic fares (bars, skewness 4.79) against a normal curve with the same mean, 32.20, and standard deviation, 49.69 (dashed).](images/fare_not_normal.png)
 
 The normal distribution is the most important distribution in statistics. Many statistical methods are built around it, so once data is normal, many problems become easier to solve.
 
 In ML, this matters for the statistical algorithms:
 
-- **Care about the distribution:** linear regression and logistic regression. They tend to perform better when the features are close to normal.
-- **Do not care:** decision trees and random forests. Their results hardly change whatever the shape of the data.
+- **Care about the distribution:** **linear regression** (G-1094) and logistic regression. They tend to perform better when the features are close to normal.
+- **Do not care:** **decision trees** (G-561) and **random forests** (G-1611). Their results hardly change whatever the shape of the data.
 
 So when we use an algorithm of the first kind on a skewed feature, we try to make that feature normal first. The mathematical transformations in this Note do exactly that.
 
@@ -56,9 +62,13 @@ There is no fixed list of transformations. Any formula can be one: $x^2 + 2x$ is
 
 scikit-learn offers three classes for this job:
 
-1. **`FunctionTransformer`**, the most widely used, and the subject of this Note. `FunctionTransformer` can apply the log, reciprocal, square and square root transforms, or any custom function we write.
-2. **`PowerTransformer`**, which applies the Box-Cox and Yeo-Johnson transforms. The power transformer is covered in the next Note.
-3. **`QuantileTransformer`**, which is used much less and is not covered in these Notes.
+1. **`FunctionTransformer`** (G-819), the most widely used, and the subject of this Note. `FunctionTransformer` can apply the log, reciprocal, square and square root transforms, or any custom function we write.
+2. **`PowerTransformer`** (G-1543), which applies the Box-Cox and Yeo-Johnson transforms. The power transformer is covered in the next Note.
+3. **`QuantileTransformer`** (G-1600), which is used much less and is not covered in these Notes.
+
+Figure 3 runs all three on the Titanic fares with their simplest settings. Each pulls the long right tail in, from skewness 4.79 to 0.39, $-0.04$ and $-0.93$. In all three, the 15 passengers with a fare of 0 stay apart as a small group on the left; for the quantile transformer that group is what pulls its skewness below 0.
+
+![The 891 Titanic fares, raw and after each of scikit-learn's three mathematical transformers, with the skewness of each result.](images/three_transformers.png)
 
 ## 4. Checking whether a column is normal
 
@@ -68,20 +78,46 @@ Before transforming a feature, we need to know whether it is normal already. The
 
 1. **Density plot:** draw the histogram with its KDE curve, as in Note 20. The shape gives a first idea of how normal the feature is.
 2. **Skewness:** pandas' `skew()`. A value near 0 means symmetric; positive means right-skewed, negative means left-skewed (Note 20).
-3. **Q-Q plot:** the most reliable of the three, and the most used. The rest of this section explains how to read it.
+3. **Q-Q plot:** the most reliable of the three, and the most used. The rest of this section explains how it is built and how to read it.
 
-### 4.1 Reading a Q-Q plot
+### 4.1 How a Q-Q plot is built
+
+> **Key point:** Sort the data, cut the normal curve into as many equal slices as there are values, and plot the $k$-th smallest value against the $k$-th slice; a straight line of dots means the data has the normal shape.
+
+A **Q-Q plot** (G-1596) (quantile-quantile plot) compares our data with a perfect normal distribution (Wilk and Gnanadesikan 1968). **Quantiles** (G-1599) are the values that cut sorted data into equal-sized groups. The plot asks one question for every value: if the data were normal, where would the smallest value sit, where the second smallest, and so on?
+
+We build one by hand for the five values 1, 2, 3, 4 and 10 from the skewness example of Note 20. Figure 4 animates the steps:
+
+1. **Sort the values:** 1, 2, 3, 4, 10.
+2. **Cut the normal curve into five slices of equal probability** (the top panel). Each slice holds one fifth of the area. The edge slices are wide, because values out there are rare; the middle slices are narrow.
+3. **Take the $z$-value at the middle of each slice** (the orange diamonds): $-1.28$, $-0.52$, 0, 0.52 and 1.28. These are the places where five values from a perfect normal distribution would sit.
+4. **Pair them in order and plot.** The smallest value, 1, goes with the smallest $z$, $-1.28$: a vertical dotted line at $-1.28$ and a horizontal one at 1 meet at the first dot. Then 2 goes with $-0.52$, and so on.
+5. **Draw the best straight line through the dots.** The first four dots lie close to a line; the value 10 jumps far above it. A dot above the line at the right end is the mark of a long right tail.
+
+![A Q-Q plot built one pair at a time for the values 1, 2, 3, 4 and 10. Top: the normal curve in five equal-probability slices, with the z-value of each. Bottom: each sorted value against its z-value. Construction after StatQuest, "Quantile-Quantile Plots (QQ plots), Clearly Explained!!!".](images/qq_pairs.gif)
+
+**The formal version.** For the $i$-th of $n$ sorted values, the matching normal quantile is
+
+$$z_i = \Phi^{-1}\left(\frac{i - 0.5}{n}\right),$$
+
+where $\Phi^{-1}$ turns a probability into the $z$-value with that much of the normal curve to its left. With $n = 5$, the probabilities are 0.1, 0.3, 0.5, 0.7 and 0.9, which give $z = -1.28,\ -0.52,\ 0,\ 0.52,\ 1.28$, and the pairs $(-1.28, 1)$, $(-0.52, 2)$, $(0, 3)$, $(0.52, 4)$ and $(1.28, 10)$.
+
+The same construction works against any distribution: cut that distribution's curve into slices instead. In this Note the comparison is always with the normal.
+
+> **Extra:** scipy's `probplot` uses a slightly different rule for the probabilities (Filliben's estimate; SciPy docs, `scipy.stats.probplot`), so its $z$-values differ a little, but the picture is the same.
+
+### 4.2 Reading a Q-Q plot
 
 > **Key point:** The closer the points lie to the straight red line, the closer the data is to a normal distribution.
 
-A **Q-Q plot** (quantile-quantile plot) compares our data with a perfect normal distribution (Wilk and Gnanadesikan 1968). Each point stands for one value of the feature:
+With hundreds of values the dots merge into a curve, and we read its shape. Each point stands for one value of the feature:
 
 - **horizontal axis (theoretical quantiles):** where that value would sit if the data were perfectly normal;
 - **vertical axis (sample quantiles):** where the value actually sits in our data.
 
 The red line is the best straight line through the points. If the data is normal, its values sit exactly where a normal distribution predicts, and every point lands on that line.
 
-Figure 2 shows four made-up features, with the histogram on top and the Q-Q plot below.
+Figure 5 shows four made-up features, with the histogram on top and the Q-Q plot below.
 
 ![Four shapes of data (top) and their Q-Q plots (bottom)](images/qq_shapes.png){width=100%}
 
@@ -91,20 +127,6 @@ Figure 2 shows four made-up features, with the histogram on top and the Q-Q plot
 - **Fat tails:** the data has more extreme values than a normal distribution on both sides, so the points leave the line at both ends.
 
 The further the points stray from the line, the further the data is from normal.
-
-> **Extra:** How a Q-Q plot is built, step by step, using the five values 1, 2, 3, 4 and 10 from the skewness example of Note 20.
->
-> 1. **In words:** sort the values. Cut the normal curve into as many equal-probability slices as there are values, and take the $z$-value at the middle of each slice. Pair the $i$-th smallest value with the $i$-th $z$-value, and plot the pairs.
-> 2. **Formula:** for the $i$-th of $n$ sorted values, the matching normal quantile is
->    $$z_i = \Phi^{-1}\left(\frac{i - 0.5}{n}\right),$$
->    where $\Phi^{-1}$ turns a probability into the $z$-value with that much of the normal curve to its left.
-> 3. **Example:** with $n = 5$, the probabilities are 0.1, 0.3, 0.5, 0.7 and 0.9, which give
->    $$z = -1.28,\ -0.52,\ 0,\ 0.52,\ 1.28.$$
->    The pairs are $(-1.28, 1)$, $(-0.52, 2)$, $(0, 3)$, $(0.52, 4)$ and $(1.28, 10)$. Figure 3 plots them: the first four lie close to a line, and the value 10 jumps far above it, the mark of a right tail.
->
-> ![Building a Q-Q plot by hand for the values 1, 2, 3, 4 and 10](images/qq_build.png)
->
-> scipy's `probplot` uses a slightly different rule for the probabilities (Filliben's estimate; SciPy docs, `scipy.stats.probplot`), so its $z$-values differ a little, but the picture is the same.
 
 > **Python:** A Q-Q plot with scipy and Plotly.
 >
@@ -127,7 +149,7 @@ The further the points stray from the line, the further the data is from normal.
 
 > **Key point:** The log transform replaces every value with its logarithm; it pulls a long right tail in, so it is the transform for right-skewed data.
 
-The **log transform** is simple: take the log of every value of the feature. The base can be 10 or $e$; both give the same shape.
+The **log transform** (G-1112) is simple: take the log of every value of the feature. The base can be 10 or $e$; both give the same shape.
 
 The log transform, step by step:
 
@@ -137,11 +159,19 @@ The log transform, step by step:
 3. **Example:** with base 10, the values 1, 10, 100 and 1000 become
    $$\log_{10} 1 = 0,\quad \log_{10} 10 = 1,\quad \log_{10} 100 = 2,\quad \log_{10} 1000 = 3.$$
 
-Figure 4 shows why this helps. On the ordinary scale, 1, 10 and 100 are squeezed together and 1000 lies far away. After the log, the four values sit at equal steps: every multiplication by 10 becomes the same step of $+1$.
+Figure 6 shows why this helps. On the ordinary scale, 1, 10 and 100 are squeezed together and 1000 lies far away. After the log, the four values sit at equal steps: every multiplication by 10 becomes the same step of $+1$.
 
 ![The log brings 1, 10, 100 and 1000 to equal steps](images/log_scale.png)
 
-So a value much bigger than all the others is brought back near them. A long right tail is pulled in, and the distribution starts to look more normal. The result rarely becomes perfectly normal, but it gets much closer than before.
+**What the log keeps.** A logarithm answers the question "which power of the base gives this number?". With base 2, $8 = 2^3$, so $\log_2 8 = 3$; and $1/8 = 2^{-3}$, so $\log_2 (1/8) = -3$. The log keeps only the exponent.
+
+Figure 7 shows what that does to a number line. On the ordinary line, 8 is far from 1, while 1/8 is squeezed against 0, although both are "8 times" away from 1. On the log axis every doubling is one step to the right and every halving one step to the left, so 8 times up and 8 times down are the same distance from 1: three steps.
+
+![The values 1/8 to 8 sliding from an ordinary number line to a log₂ axis. The log keeps only the exponent, so each doubling or halving becomes one equal step. Idea after StatQuest, "Logs (logarithms), Clearly Explained!!!".](images/log_axis.gif)
+
+A value much bigger than all the others is therefore brought back near them. The average shows it: the mean of 1, 2 and 8 is 3.7, pulled up by the 8. The mean of their logs (0, 1 and 3) is 1.3, and $2^{1.3} = 2.5$: on the log scale the big value sways the average far less. This log-scale average is the **geometric mean** (G-844).
+
+A long right tail is therefore pulled in, and the distribution starts to look more normal. The result rarely becomes perfectly normal, but it gets much closer than before.
 
 Two rules for using it:
 
@@ -166,7 +196,9 @@ The $\log(1 + x)$ transform, step by step:
    $$\ln 8.25 = 2.11,\quad \ln 72.28 = 4.28,\quad \ln 513.33 = 6.24.$$
    Before, the biggest fare is 70 times the smallest; after, it is less than 3 times.
 
-People usually use `np.log1p`. If a feature has no zeros, `np.log` works too.
+People usually use `np.log1p`. If a feature has no zeros, `np.log` works too. Figure 8 compares the two curves: near 0 the plain log plunges towards minus infinity, while $\log(1 + x)$ starts at 0; above about 10 the two curves almost coincide.
+
+![np.log(x) (red) and np.log1p(x) (green). At 0 the plain log has no value; log(1 + x) maps the 15 zero fares to 0. For large x the two are almost equal.](images/log_vs_log1p.png){height=34%}
 
 ## 6. Reciprocal, square and square root transforms
 
@@ -176,7 +208,7 @@ People usually use `np.log1p`. If a feature has no zeros, `np.log` works too.
 
 > **Key point:** $1/x$ makes big values small and small values big, reversing the order of the data.
 
-The **reciprocal transform**, step by step:
+The **reciprocal transform** (G-1643), step by step:
 
 1. **In words:** replace each value with 1 divided by it.
 2. **Formula:**
@@ -193,7 +225,7 @@ The reciprocal is a very different kind of transform from the others, since it f
 
 > **Key point:** $x^2$ stretches big values apart; it is used for left-skewed data.
 
-The **square transform**, step by step:
+The **square transform** (G-1861), step by step:
 
 1. **In words:** multiply each value by itself.
 2. **Formula:**
@@ -208,7 +240,7 @@ So the square is the transform for left-skewed data. On right-skewed data it doe
 
 > **Key point:** $\sqrt{x}$ pulls a right tail in, but more gently than the log.
 
-The **square root transform**, step by step:
+The **square root transform** (G-1860), step by step:
 
 1. **In words:** replace each value with its square root.
 2. **Formula:**
@@ -229,6 +261,10 @@ We usually cannot tell in advance which transform will work best. What we do kno
 - **left-skewed data:** start with the square transform.
 
 Beyond that, each transform is one line of code, so we try them all and keep the one that gives the best result.
+
+Figure 9 puts the four transforms side by side, with the example values of this section on each curve. Read the slope of each curve: where it flattens, big values are squashed together (log, square root); where it steepens, they are pulled apart (square); the reciprocal falls, so it reverses the order.
+
+![The four transforms of this section as curves, with the worked examples on them: log(1 + x) and the square root for the fares 7.25, 71.28 and 512.33; the square for the marks 30, 80 and 90; 1/x for 2, 4, 10 and 100 (log x axis).](images/transform_shapes.png)
 
 ## 7. Function transformer on the Titanic data
 
@@ -280,7 +316,7 @@ As always, we split before anything else: 80% for training (712 rows) and 20% fo
 
 > **Key point:** `Age` is close to normal (skewness 0.36); `Fare` is strongly right-skewed (skewness 4.88).
 
-We check both training features with a density plot and a Q-Q plot, as in Section 4. The left halves of Figures 5 and 6 show them.
+We check both training features with a density plot and a Q-Q plot, as in Section 4. The left halves of Figures 10 and 12 show them.
 
 - **Age:** the density plot looks roughly normal, though not perfectly. In the Q-Q plot, most points lie near the line and stray only in a few places. Skewness: 0.36.
 - **Fare:** not normal at all. The density plot has a long right tail: a few passengers paid huge fares, and most paid very little. In the Q-Q plot, the points curve far above the line on the right. Skewness: 4.88.
@@ -321,7 +357,7 @@ First we train two models on the raw features, to have something to compare with
 
 > **Key point:** `FunctionTransformer(func=np.log1p)` applies $\log(1 + x)$ to every feature it receives.
 
-**`FunctionTransformer`** (in `sklearn.preprocessing`) applies a function we give it to the data. Its first parameter, **`func`**, is that function: a built-in one such as `np.log1p`, or our own.
+**`FunctionTransformer`** (in `sklearn.preprocessing`) applies a function we give it to the data. Its first parameter, **`func`** (G-814), is that function: a built-in one such as `np.log1p`, or our own.
 
 Here we pass `np.log1p` rather than `np.log`, because 15 passengers have a fare of 0. Like every transformer, `FunctionTransformer` is fitted on the training set and then used to transform both sets.
 
@@ -387,17 +423,21 @@ The improvement for logistic regression holds up: about 2 points. The decision t
 
 > **Key point:** The log brought `Fare` from skewness 4.88 to 0.40, but pushed `Age` from 0.36 to -2.24.
 
-Figure 5 shows `Fare` before and after the transform. Before, `Fare` was very far from normal; after, the skewness is 0.40 and the points lie much closer to the line. The change in `Fare` is what improved logistic regression, as Section 7.7 confirms.
+Figure 10 shows `Fare` before and after the transform. Before, `Fare` was very far from normal; after, the skewness is 0.40 and the points lie much closer to the line. The change in `Fare` is what improved logistic regression, as Section 7.7 confirms.
 
 ![Fare before (blue) and after (green) the log transform: density plot and Q-Q plot](images/fare_log.png){width=100%}
 
-Figure 6 does the same for `Age`. Here the transform made things worse: `Age` was close to normal before, and after the log it has a long left tail, with skewness -2.24.
+Figure 11 shows the same change as a process: every fare slides from its raw value to its log. Watch the tall bar at the left spread out while the long right tail is pulled in, and the Q-Q curve on the right straighten towards the red line; the skewness in the title falls from 4.88 to 0.40. The small group left behind at 0 is the passengers with a fare of 0.
+
+![The training fares sliding from raw values to log(1 + x), with the axis rescaled to 0-1 in every frame: histogram (left) and Q-Q plot (right). The skewness falls from 4.88 to 0.40.](images/fare_morph.gif)
+
+Figure 12 does the same for `Age`. Here the transform made things worse: `Age` was close to normal before, and after the log it has a long left tail, with skewness -2.24.
 
 ![Age before (blue) and after (green) the log transform: density plot and Q-Q plot](images/age_log.png){width=100%}
 
 Such damage happens when we force a log onto a feature that is not right-skewed. The log squashes the big ages and stretches the small ones, so the few children become a new left tail.
 
-The tall bar near age 30 in Figure 6 is the 177 passengers whose missing age was filled with the mean. After the log it stays one tall bar, near 3.4.
+The tall bar near age 30 in Figure 12 is the 177 passengers whose missing age was filled with the mean. After the log it stays one tall bar, near 3.4.
 
 ### 7.7 Log on Fare only, with ColumnTransformer
 
@@ -458,7 +498,7 @@ To compare all the transforms quickly, we wrap the steps in one function. The fu
 >
 > A **lambda** is a one-line function without a name: `lambda x: x**2` means "take x, return x squared". `max_iter=1000` lets logistic regression take more steps, which the square transform's huge numbers need.
 
-Figure 7 shows the Q-Q plot of `Fare` after each transform, with its skewness and accuracy.
+Figure 13 shows the Q-Q plot of `Fare` after each transform, with its skewness and accuracy.
 
 ![Fare after each transform: Q-Q plot, skewness and cross-validated accuracy of logistic regression](images/transforms_compare.png){width=100%}
 
@@ -506,6 +546,8 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 **Built from**
 
 - CampusX, "Function Transformer | Log Transform | Reciprocal Transform | Square Root Transform", YouTube, https://www.youtube.com/watch?v=cTjj3LE8E90
+- StatQuest with Josh Starmer, "Quantile-Quantile Plots (QQ plots), Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=okjYjClSjOg (the step-by-step construction of section 4.1)
+- StatQuest with Josh Starmer, "Logs (logarithms), Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=VSi0Z04fWj0 (the exponent view, the log axis and the mean of logs in section 5)
 
 **Other references**
 
@@ -524,8 +566,10 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | Mathematical transformation | Applying one mathematical formula to every value of a feature |
 | Normal distribution | A symmetric, bell-shaped distribution; the target shape of these transformations |
 | Q-Q plot | A plot of a feature's sorted values against the values a normal distribution would have; points on the line mean normal |
+| Quantiles | Values that cut sorted data into equal-sized groups |
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail |
+| Geometric mean | The average taken on the log scale; less swayed by one big value than the plain mean |
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0 |
 | Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values |
 | Square transform | Replacing each value with $x^2$; used for left-skewed data |

@@ -1,0 +1,229 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 17.
+So till now we have learnt how to bring data from 3 different data sources.
+We learnt how to bring data from CSV files, JSON and SQL.
+In today's video, we are going to do a different thing.
+What we are going to do is that if we want to make a Pandas data frame by fetching data from an API of a website,
+then how do we do that? We are going to learn that in this video.
+So, let me share the screen and let's start with the video.
+Okay guys, so before starting, I would like to first discuss what APIs are.
+It may be that you don't know what APIs are.
+So, just a quick introduction.
+The full form of API is Application Programming Interface.
+And in today's date, where we are completely dependent on software,
+our every work is done by an app.
+Trust me, APIs are very important to run those apps.
+So, I will quickly tell you in a simple manner that what is API.
+If you are asked to tell the simplest definition of API, then you just have to say that API actually makes two softwares talk to each other.
+In other words, APIs are nothing but data pipelines which take information from point A to point B.
+I will give you some scenarios so that you can understand more clearly what APIs are.
+I hope all of you have done flight booking or you have cut railway tickets.
+Now I will give you an example of railway reservation where APIs are used a lot.
+So to make a reservation for the railway, you have multiple options, either you can do it directly from the IRCTC website
+or you can do it from MakeMyTrip or you can do it from Yatra.com or you can do it from Xevo and all
+From these, you can make a reservation for any train from anywhere.
+Now notice this scenario, by the way these are all different companies, these are all different companies with their own databases.
+But if you book a ticket of 15th April, Rajdhani Express, Hawra to Delhi.
+And you booked 15 number seat in B2 Bogie.
+Now imagine that you have booked this seat from IRCTC, now if someone else goes on Make My Trip and try to book this seat from the same train,
+I know you don't book the seat exactly, but I just want to ask you that will this seat be available or will it be booked?
+Obviously, this seat will be booked. Why? Because this seat has been booked by IRCTC.
+So, notice one thing here that although these are all different websites, different companies, different databases,
+but somehow they are able to share this information among each other that this seat has been booked, now we cannot book this.
+So, now the question arises that how did this information come to MakeMyTrip? This data belongs to IRCTC.
+Now, it is not that IRCTC will share its database with MakeMyTrip. This is not safe at all.
+So, its answer is that MakeMyTrip is using API of IRCTC.
+What IRCTC has done is that it has written some code and made some functions around its database.
+If you call these functions with correct input, like there is a function, check and tell whether the seat is empty or not.
+So if you are telling the train number, date, bogie number, then the IRCTC server will return you a data in JSON format which will tell whether the seat is empty or not.
+So basically you can talk to this database through this layer of API.
+That is why APIs are so important in the case of flight booking.
+In fact, you must have seen that companies like Facebook whose software is available for every platform
+like website, mobile website, Android app, iPhone app, they all work on a single database.
+What happens there is that there is a single database of Facebook on which APIs are written
+and different platforms like android, ios, web are all interacting with the same database through this API
+so if someone sends me a friend request on android then it will also be visible on ios
+because ios is also talking with the same database using the API
+so to be honest if you are in the software domain then you should read a bit about it
+how it is made and how it is used
+You should learn both these things if you are in computer science domain.
+For this video, I guess I have given you sufficient information.
+I will put the link of another video in the description of this video.
+If you watch that video, you will get some more clarity.
+And besides that, you should do some more research yourself.
+APIs are quite important.
+So what we are going to do in today's video is that we have a website.
+I will show you.
+the website is tmdb. tmdb is a website whose name is the movies database.
+on this website we have movies data and we can get that data if we use their APIs.
+Let me show you this, if you google TMDB API, you will see this website, developersthemoviedb.org
+Here you will find different APIs, different APIs means different APIs to fetch different things.
+For example, here is a section called Movies, in that we have this API, just one second, Get Top Rated, this is an API, I am going to try it out and here is the URL.
+If I hit on this URL, then this website will give me top rated movies from its database.
+Now here you have to tell your API key.
+Now where will you get API key?
+You have to go to this website and here first of all you have to click on login or you have to create an account.
+My account is already created, I am logging in and here in profiles and settings I have to go to settings
+And at this place, there is an API option and this is my API key.
+So if you log in here, you will get your API key.
+Please don't use my API key because then there is a limit that you can take so many API calls.
+So if you use it, then I will have to make an account again.
+So please try to make your own.
+Now see what I am doing, where the API key is written, here I have pasted my API key and now as soon as I run it,
+see guys, generally when you go to any web browser and type URL, then you get a web page.
+But when you hit any API, then you get this kind of data by flipping it.
+This is called JSON, we saw it in the last video too.
+Now this JSON is not understood, so there are some tools to understand it.
+One of those tools is, if you google it, JSON viewer, so this is a website, JSON viewer, here you have to paste all the data and when you click on viewer, you will see the structure of JSON.
+So if you don't know how JSON looks, then JSON is like a Python dictionary. So look here, this is our dictionary, it has four key value pairs.
+What is the first key value? Page. What is the value of page? One.
+What is the second key? Result. And the value of result is a list of Python.
+And in that list, again there are many Python dictionaries.
+Like if I click on the first dictionary, then this is the first movie.
+We are making top rated movies. This is the first top rated movie.
+And the name of the movie is Dilwale Dulhaniya Le Jaenge.
+So in TMDB, the number one top rated movie is DDLJ.
+It feels good to know.
+The second movie is Gabriel's Inferno Part 2.
+I have no idea about this movie.
+The eighth movie is Wolf Walkers.
+Again, I have no idea about it.
+If I go to the third in this JSON,
+then it is written here that total pages are 428.
+If you notice now, we are on page number 1.
+This is page number 1.
+How many pages are there? 428.
+And how many top rated movies are there? 8551.
+So this is the whole structure of JSON. Now what I have to do is create a new data frame in pandas
+which will have the data of 8, 5, 5, 1 movies. What will happen in the data? I am opening one movie.
+In our data frame, what will be the columns? First of all, it will be the title. First of all, it will be the ID.
+This ID is also important. Then it will be the title. Then it will be the release date. Then it will be the vote average.
+It will be the vote count. What else is there? We can keep the popularity. Let me do one thing.
+I am opening the notepad and I am typing, first will be ID, then will be title, then will be release date, then will be overview, then will be, we can also have,
+means we can take any column, there is no such problem.
+I am just taking selective columns, you can take any number of them.
+Popularity, vote underscore average and lastly we will have vote underscore count.
+So the data frame which will be created after doing this task,
+its shape will be 8, 8, 5, 1, movies cross how many rows, how many columns?
+1 column, 2, 3, 4, 5, 6, 7. This will be our resultant data frame.
+Now we have to write a code in Python.
+The code which we will use to hit on this API, we will fetch this data.
+And then we will extract things from that data in data frame format.
+And how many times we will do this work?
+How many pages are there here? How many pages were there? I forgot. 428. So a loop will run which will run 428 times.
+Every time a new URL will be hit. The data of movies will come. From that we will remove things and will append in our data frame.
+And eventually when the loop will end, we will get a very big data frame in which there will be data of 8000 movies across 7 columns.
+So this is what we are going to do in this video.
+The video will be a little big, I guess you can understand because this is a kind of mini project.
+Here you are creating your own data set.
+So yes, it will take some time.
+So let's start.
+So guys, let's start with the coding part.
+First of all, we have to import two libraries.
+First of all, we have to import pandas.
+And we will need one more library by saying request.
+By using this, we will create our HTTP request using Python.
+Okay. Just one second. Yeah.
+So, both of them are built-in by default installed in Anaconda.
+So, you don't have to do it yourself.
+Next, what you will do is using the requests library,
+you will call the get function.
+And you will pass this URL there, like this, right? This is the URL.
+Now as you will run it, what is happening behind the scenes is that Python is using request library
+and is making an HTTP request on that API and that API will give data which we will see here.
+So if I run this, see, response 200 means, there are HTTP codes, so 200 means that everything is done properly.
+404 means that the thing for which you were hitting is not available. 500 means server down.
+I guess you know all this. Now what am I doing? Whatever is coming from there, I am storing it in a variable.
+Let's call it response. And now what am I doing? I am calling response.json to explicitly convert the incoming data to JSON format.
+now this is exactly the same data which we had there, now what I have to do, I just need this results thing, I have shown you,
+I just need this results thing, because all the details of the movie is here, so what I will do is, since this is actually a dictionary,
+So, if I want a particular key, I will just write its name like this, results, and see guys, now I have only a list.
+There are different dictionaries in the list. Now, just one last step from here and everything will be very easy.
+You don't have to do anything. This list has to be converted into a data frame and it is very easy to do.
+So, what you have to do is simply, I'll just cut this code. You have to write pd.dataFrame and pass this list in it.
+And as soon as you run this code, you can see, here is your code. Your data frame has been created.
+In fact, what I'll do is, I'm showing you by making it a little smaller.
+Anyways, let me show you the head of this.
+So, all the things there like adult, backdrop path, genre id, id, original language.
+I have got all these things.
+Now, I will extract the things that I need by this syntax.
+I need ID, Title, Overview, Release Date, Popularity, Vote Average, and Vote Count.
+popularity, vote, average and vote count
+ok
+and run it
+and you can see guys
+now I am not heading
+I will show you the whole
+see
+here is our data frame
+every page has 20 movies
+and here are my 20 movies
+ok
+I can store it in a data frame, df is equal to this and if I come down and print the df or take out the head
+then these are my top 5 movies and this is all the data that I needed. I guess you understood this.
+Now what I have to do is that I have to do this work in loop and how many times will the loop run?
+We will make a new data frame in the loop every time and we will append it in the old data frame.
+So we will have a big data frame when the loop will be finished of 8000 movies.
+So this is what we are going to do next.
+So now guys what we will do is we will do this entire process in the loop.
+So first of all I am making an empty data frame by the name of df.
+And you know how to make an empty data frame.
+like this. This is my empty data frame. If I print df then there is nothing in it.
+Now I will run a loop for i in the range of, it will start from 1 and will go to how many pages?
+There are in total I guess 428 pages. So I would write 429 because last one is not included.
+Now every time I have to repeat the same process in the loop.
+So what I will do is, I will just copy this piece of code and I will paste it over here.
+So every time I am hitting on this URL in the loop.
+But in this URL I will do string formatting in place of page 1.
+Dot format i.
+The value of i will be my page number.
+After that, when I will get the data, I will copy this code and paste it over here.
+So, this time I have kept the data frame name as temp underscore df because there can be confusion with the name outside.
+And the code inside is exactly same.
+So, every time I am getting a temporary data frame in which there will be a detail of 20 movies.
+Now what I have to do every time is that I have to append my outside data frame df to this temp df.
+And again I will just check one more thing guys, I will make ignore index true.
+What will happen with this? See, when you will run the loop for the first time, then your movie's index will be 1 to 20.
+If you will run the loop for the second time, then again it will be 1 to 20.
+So, our indexing will become weird. First from 1 to 20, then from 1 to 20, then from 1 to 20.
+What I want is that from 1 to 20, then from 21 to 40, then from 41 to 60.
+So, this ignore index works exactly the same. It will create its own indexing.
+And whatever result will come, I will put it back in the bigger data frame.
+That's it guys. This is the code. You just have to run this code in the loop.
+Now obviously since we are doing the manipulation by bringing data from server 429 times,
+then it will take time. So what I will do is, I will just run this code and I will pause the video.
+So guys, the code has been executed. It took 2 minutes actually, not much.
+So if I run df now, you can see I have this data frame in which 8, 5, 5, 1 rows are there
+Exactly what you have seen here, total results in this place
+So I will also show you the shape, 8, 5, 5, 1, 7 which we had initially planned
+Now what you can do, once you have done this
+You can convert this data frame to CSV by writing this code.
+You will write df.toCSV and you can export it by the name of movies.csv and it will come here.
+See, movies.csv. This is the data.
+Now what you can do is, you can upload this data on Kaggle, I hope you know Kaggle, Kaggle is a data science platform
+where you can upload data, see new data set and the more data you upload in Kaggle, Kaggle starts giving more respect to your profile
+you become a Kaggle expert. In the past, many of my students have created data sets like this and uploaded on Kaggle
+and boosted their profile. And trust me, through Kaggle, they get a lot of internship opportunities.
+You can do four things in Kaggle which boosts your profile. Either you can provide data sets like we are doing now
+or you can provide notebooks like we make notebooks, you can upload them. You can participate in competitions
+and you can participate in discussions.
+In these four fields, you can move forward in Kaggle.
+So, some of my students were making data sets in the past
+and they got a good response from the Kaggle community.
+So, you can also try this.
+Now, you might ask that what data set should we make?
+I have made movies.
+You will also get a lot of data set of movies on Kaggle.
+What you can do is, you can go to the rapid API.
+This is the URL.
+On this URL, you will get a list of free APIs.
+see across different categories see and here lines are there of covid, football, cities data set, weather data set, realtor I guess properties data set
+Instagram also has some API, Amazon also has some API, Word also has some API.
+So explore in the categories and go to that website and apply the same procedure and generate CSV files.
+And upload in Kaggle on your profile and you can also become a data set expert on Kaggle.
+And this will be a very strong thing with your profile.
+So yeah that's it for today's video. I hope you liked it.
+If you like it, then try something along with it.
+You will not learn by just watching the video, you should also try some things.
+So please go to rapid API and pick your favorite thing.
+And try to create its data set.
+So yeah, that's it for the video. Thanks for watching. Bye.

@@ -19,11 +19,11 @@ tags: [subject/ml, area/data, step/understand, concept/kurtosis, concept/pandas-
 
 The last three Notes built EDA by hand: the first questions for a new dataset, univariate analysis, and bivariate and multivariate analysis. Each step took a few lines of pandas or one plot at a time. A **profiling report** does most of this work in one go: we hand it a DataFrame, and it returns a web page that describes every column and every pair of columns.
 
-The library that builds it is known as **Pandas Profiling**. Figure 1 shows what one line of code produces: a report with six sections, each answering questions from the earlier Notes.
+The library that builds it is known as **Pandas Profiling** (G-1440). Figure 1 shows what one line of code produces: a report with six sections, each answering questions from the earlier Notes.
 
 ![What a profiling report contains](images/report_sections.png)
 
-We use the same Titanic data as before, 891 passengers. The Notebook (`notebook.ipynb`) builds the report and saves it as `titanic_report.html`; every figure from Figure 2 onwards is a screenshot of that page.
+We use the same Titanic data as before, 891 passengers. The Notebook (`notebook.ipynb`) builds the report and saves it as `titanic_report.html`; Figures 3 to 11 are screenshots of that page.
 
 ## 2. Building the report
 
@@ -33,7 +33,7 @@ We use the same Titanic data as before, 891 passengers. The Notebook (`notebook.
 
 > **Key point:** One `pip install` command adds the library to our Python setup.
 
-Pandas Profiling is not part of pandas; it is a separate library. We install it once, from a terminal or from a notebook cell. The command downloads the library from PyPI, the public store of Python libraries, and installs it on our machine.
+Pandas Profiling is not part of pandas; it is a separate library. We install it once, from a terminal or from a notebook cell. The command downloads the library from **PyPI** (G-1593), the public store of Python libraries, and installs it on our machine.
 
 > **Python:** Installing the library.
 >
@@ -51,11 +51,13 @@ Pandas Profiling is not part of pandas; it is a separate library. We install it 
 
 > **Key point:** `ProfileReport(df)` builds the report; `to_file` saves it as a web page we open in any browser.
 
-Once installed, building a report takes three steps:
+Once installed, building a report takes three steps (Figure 2):
 
 1. Import `ProfileReport` from the library.
 2. Call `ProfileReport` on our DataFrame. The call creates a report object.
-3. Save the object as an HTML file with `to_file`.
+3. Save the object as an **HTML** (G-904) file with `to_file`.
+
+![The three lines of code as a flow: the CSV file becomes a DataFrame, `ProfileReport` builds the report object in 10 to 15 seconds, and `to_file` saves it as a web page](images/build_flow.png){width=100%}
 
 > **Python:** Building and saving the report.
 >
@@ -93,7 +95,7 @@ The page has six sections, listed in Figure 1. A menu at the top jumps to each o
 
 > **Key point:** Rows, columns, missing cells, duplicate rows and memory use, all in one table.
 
-The Overview section opens with the dataset as a whole. Figure 2 shows it for the Titanic data. These are the same first questions we asked with `df.shape`, `df.info()`, `df.isnull().sum()` and `df.duplicated().sum()` in the Note on understanding data.
+The Overview section opens with the dataset as a whole. Figure 3 shows it for the Titanic data. These are the same first questions we asked with `df.shape`, `df.info()`, `df.isnull().sum()` and `df.duplicated().sum()` in the Note on understanding data.
 
 ![The Overview section: dataset statistics and variable types](images/report_overview.png)
 
@@ -133,7 +135,7 @@ The report decides the type itself, from the values. `Survived` and `Pclass` hol
 
 > **Key point:** Alerts are a ready-made list of possible problems, one line per column; each one is a question to check, not a verdict.
 
-The second tab of the Overview section lists **alerts**: warnings about columns that may need attention. Figure 3 shows the ten alerts for the Titanic data.
+The second tab of the Overview section lists **alerts**: warnings about columns that may need attention. Figure 4 shows the ten alerts for the Titanic data.
 
 ![The Alerts tab of the Overview section](images/report_alerts.png)
 
@@ -161,7 +163,7 @@ Some columns are not worth studying. `PassengerId` is just a running number, as 
 
 > **Key point:** For a categorical column, the report counts each category and draws the counts as bars, like a count plot.
 
-Figure 4 shows the block for `Sex`. On the left, a table gives the basic facts; on the right, a bar for each category with its count.
+Figure 5 shows the block for `Sex`. On the left, a table gives the basic facts; on the right, a bar for each category with its count.
 
 ![The Variables block for Sex](images/report_sex.png)
 
@@ -179,7 +181,7 @@ The "More details" button opens four further tabs:
 
 > **Key point:** For a numerical column, the report gives the main summary numbers and a histogram; "More details" adds percentiles, spread and the extreme values.
 
-Figure 5 shows the block for `Age`. The missing values are printed in red, because they triggered an alert.
+Figure 6 shows the block for `Age`. The missing values are printed in red, because they triggered an alert.
 
 ![The Variables block for Age](images/report_age.png)
 
@@ -193,7 +195,7 @@ The two tables give, among others:
 
 On the right is the histogram of `Age`, the same shape as in the Note on univariate analysis.
 
-"More details" opens four tabs: Statistics, Histogram, Common values and Extreme values. The Statistics tab (Figure 6) has two tables.
+"More details" opens four tabs: Statistics, Histogram, Common values and Extreme values. The Statistics tab (Figure 7) has two tables.
 
 ![The Statistics tab of Age, under More details](images/report_age_details.png)
 
@@ -230,7 +232,7 @@ On the right is the histogram of `Age`, the same shape as in the Note on univari
 >
 > The far value 10 hardly changes the MAD, while it would raise the standard deviation a lot. For `Age`, the MAD is 9 years.
 
-> **Extra:** Two more entries in Figure 6:
+> **Extra:** Two more entries in Figure 7:
 >
 > - **Kurtosis** measures how heavy the tails of a distribution are compared with a normal (bell-shaped) curve. The report gives 0 for a normal curve and a positive value when extreme values are more common than in one. `Age` has 0.18, close to normal.
 > - **Monotonicity** says whether the values only ever go up (or only down) from one row to the next. Ages in a passenger list are "not monotonic"; a running number like `PassengerId` is increasing.
@@ -246,7 +248,7 @@ The extreme values are where outliers show up first. Here they look genuine: bab
 
 > **Key point:** The Interactions section draws a scatter plot for any two numerical columns we pick, which is bivariate analysis on demand.
 
-The Interactions section holds a scatter plot for every pair of numerical columns. Two rows of tabs pick the pair: the top row sets the x-axis column, the second row the y-axis column. Figure 7 shows `Age` on the x-axis against `Fare` on the y-axis.
+The Interactions section holds a scatter plot for every pair of numerical columns. Two rows of tabs pick the pair: the top row sets the x-axis column, the second row the y-axis column. Figure 8 shows `Age` on the x-axis against `Fare` on the y-axis.
 
 ![The Interactions section: Age against Fare](images/report_interactions.png){height=55%}
 
@@ -258,7 +260,7 @@ Picking the same column for both axes gives no useful plot: every dot would lie 
 
 > **Key point:** The Correlations section shows the correlation of every pair of columns as a heatmap; dark blue is a strong positive link, dark red a strong negative one.
 
-**Correlation** measures how strongly two columns move together, from $-1$ to $+1$, as defined in the Note on understanding data. The Correlations section computes it for every pair and draws the results as a heatmap. Figure 8 shows **Pearson's r**, the coefficient for straight-line relationships between numbers.
+**Correlation** measures how strongly two columns move together, from $-1$ to $+1$, as defined in the Note on understanding data. The Correlations section computes it for every pair and draws the results as a heatmap. Figure 9 shows **Pearson's r**, the coefficient for straight-line relationships between numbers.
 
 ![Pearson's r for every pair of numerical columns](images/report_correlations.png){height=50%}
 
@@ -297,7 +299,7 @@ So at a glance we learn which **features** (input variables, one column each) re
 
 > **Key point:** The Missing values section shows, per column, how many values are present (Count) and in which rows the gaps are (Matrix).
 
-The fifth section is all about missing values. Its first tab, Count (Figure 9), draws one bar per column; the bar's height is the share of rows that have a value.
+The fifth section is all about missing values. Its first tab, Count (Figure 10), draws one bar per column; the bar's height is the share of rows that have a value.
 
 ![The Count tab of the Missing values section](images/report_missing_count.png){height=40%}
 
@@ -307,7 +309,7 @@ The numbers above the bars are the counts of present values. Most columns are co
 - **`Cabin`:** only 204 present, so 687 missing.
 - **`Embarked`:** 889 present, so 2 missing.
 
-The second tab, Matrix (Figure 10), draws the whole table as a picture. Each column of the data is a vertical strip, and each row of the data a thin horizontal line through all strips, from row 1 at the top to row 891 at the bottom. A filled line means the value is there; a white line means it is missing.
+The second tab, Matrix (Figure 11), draws the whole table as a picture. Each column of the data is a vertical strip, and each row of the data a thin horizontal line through all strips, from row 1 at the top to row 891 at the bottom. A filled line means the value is there; a white line means it is missing.
 
 ![The Matrix tab of the Missing values section](images/report_missing_matrix.png){height=40%}
 
@@ -331,6 +333,8 @@ The report covers in seconds what took three Notes by hand. The report does not 
 2. Read it in order: Overview and Alerts, then each variable, then Interactions, Correlations and Missing values.
 3. Write down every observation, for example "`Cabin` is 77% missing" or "`Pclass` and `Fare` are strongly linked".
 4. Turn the observations into tasks: columns to drop, missing values to fill, outliers to check.
+
+![Using the report: read the sections in order, write down what we notice (the two examples above), and turn each observation into a task](images/report_to_tasks.png){width=95%}
 
 Reading reports becomes faster with practice. Running the library on three or four different datasets, and writing down observations each time, builds the habit of knowing where to look.
 

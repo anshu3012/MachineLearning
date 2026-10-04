@@ -25,7 +25,7 @@ Figure 1 shows which measure fits which kind of feature. This Note works through
 
 > **Key point:** One typical value that summarises where a feature's values sit.
 
-A **measure of central tendency** is a statistical measure that represents a typical, central value of a dataset. A **feature** is one variable of the data, one column of the table, and an **observation** is one record, one row. A measure of central tendency summarises a whole feature with the single value that best represents it.
+A **measure of central tendency** (G-1205) is a statistical measure that represents a typical, central value of a dataset. A **feature** (G-772) is one variable of the data, one column of the table, and an **observation** (G-1374) is one record, one row. A measure of central tendency summarises a whole feature with the single value that best represents it.
 
 Take the `Age` feature of 1,000 passengers. Reading 1,000 ages tells us little. One number for where the ages are centred tells us a lot: "the average salary", "the average package", "a batsman's average" are all such numbers.
 
@@ -35,13 +35,13 @@ There are several such measures. The main ones are the mean, median and mode; th
 
 > **Key point:** The mean is the sum of the values divided by how many there are; it uses every value, so one extreme value can drag it far away.
 
-The mean, the sum of the values divided by their count, is worked through in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1). What is new here is that the population and the sample get different symbols, as the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2) explains. For a population of $N$ values and a sample of $n$ values,
+The **mean** (G-1203), the sum of the values divided by their count, is worked through in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1). What is new here is that the population and the sample get different symbols, as the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2) explains. For a population of $N$ values and a sample of $n$ values,
 
 $$\mu = \frac{1}{N}\sum_{i=1}^{N} x_i \qquad\qquad \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
 
 where $\sum_{i=1}^{n} x_i$ means "add up $x_1, x_2, \dots, x_n$". For the values 3, 4, 1, 2 and 5, $\bar{x} = 15/5 = 3$.
 
-The two formulas do the same arithmetic. They differ in what they describe: $\mu$ is the true centre of the whole population, $\bar{x}$ is the centre of one sample. Nothing guarantees they are equal: they can be close, or very different.
+The two formulas do the same arithmetic. They differ in what they describe: $\mu$, the **population mean** (G-1524), is the true centre of the whole population; $\bar{x}$, the **sample mean** (G-1725), is the centre of one sample. Nothing guarantees they are equal: they can be close, or very different.
 
 ### 3.1 The weak spot of the mean: outliers
 
@@ -62,7 +62,7 @@ So before using the mean, we check whether the feature has outliers. If it does,
 
 > **Key point:** The median is the middle value of the sorted data; extreme values sit at the ends of the sorted list, so they cannot move it.
 
-The median, the middle value of the sorted data, and its position $(n+1)/2$ are in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). With an even number of values there is no single middle one, so we take the mean of the two middle ones. For sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$,
+The **median** (G-1209), the middle value of the sorted data, and its position $(n+1)/2$ are in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). With an even number of values there is no single middle one, so we take the mean of the two middle ones. For sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$,
 
 $$\text{median} = \begin{cases} x_{((n+1)/2)} & n \text{ odd} \cr\dfrac{x_{(n/2)} + x_{(n/2+1)}}{2} & n \text{ even} \end{cases}$$
 
@@ -96,7 +96,7 @@ The same reasoning gives practical advice: when comparing colleges or companies,
 
 > **Key point:** The mode is the most frequent value; it is the natural centre for categorical and discrete data.
 
-The **mode** is the value that appears most often in the data.
+The **mode** (G-1251) is the value that appears most often in the data.
 
 1. **In words:** count how often each value appears; the mode is the one with the highest count.
 2. **Formula:** with $f(v)$ the number of times value $v$ appears,
@@ -112,7 +112,7 @@ The mode is most useful for:
 
 For a continuous feature, the mode is rarely useful: with values such as 32.17 and 32.18, almost every value appears only once.
 
-If two values tie for the highest count, both are modes. Data with two modes is bimodal (two peaks, as in the [power transformer Note](../31-power-transformer/note.md)); with more, it is **multimodal**.
+If two values tie for the highest count, both are modes. Data with two modes is **bimodal** (G-296) (two peaks, as in the [power transformer Note](../31-power-transformer/note.md)); with more, it is **multimodal** (G-1275).
 
 > **Python:** The mode.
 >
@@ -129,7 +129,7 @@ If two values tie for the highest count, both are modes. Data with two modes is 
 
 > **Key point:** The weighted mean multiplies each value by its importance before averaging, so more important values count more.
 
-In the ordinary mean, every value counts equally. The **weighted mean** gives each value a **weight**, a number that says how much it counts.
+In the ordinary mean, every value counts equally. The **weighted mean** (G-2117) gives each value a **weight** (G-2111), a number that says how much it counts.
 
 1. **In words:** multiply each value by its weight, add these products, and divide by the sum of the weights.
 2. **Formula:** for values $x_i$ with weights $w_i$,
@@ -152,14 +152,16 @@ This weighting is exactly what a voting regressor with weights does (see the [vo
 
 > **Key point:** The trimmed mean drops a fixed share of the smallest and largest values, then averages the rest, so outliers cannot pull it.
 
-The **trimmed mean** removes a chosen percentage of the smallest and of the largest values, and takes the mean of what is left. The percentage removed from each end is the **trimming percentage**.
+The **trimmed mean** (G-2017) removes a chosen percentage of the smallest and of the largest values, and takes the mean of what is left. The percentage removed from each end is the **trimming percentage** (G-2018).
 
 1. **In words:** sort the values, remove the lowest $p$ percent and the highest $p$ percent, and take the mean of the rest.
 2. **Formula:** for $n$ sorted values $x_{(1)} \le \dots \le x_{(n)}$, cut $k = \lfloor p\thinspace n \rfloor$ values from each end ($\lfloor\ \rfloor$ means round down):
    $$\bar x_{\text{trim}} = \frac{1}{n - 2k}\sum_{i=k+1}^{n-k} x_{(i)}$$
 3. **Example:** the class with the founder has $n = 10$ salaries: 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000 thousand rupees. A 10% trim cuts $k = \lfloor 0.1 \times 10 \rfloor = 1$ value from each end: 28 and 2000. Then
    $$\bar x_{\text{trim}} = \frac{30 + 31 + 32 + 33 + 35 + 36 + 38 + 40}{8} = \frac{275}{8} = 34.375$$
-   The plain mean was 230.3; the trimmed mean, 34.4, describes the class again (Figure 2).
+   The plain mean was 230.3; the trimmed mean, 34.4, describes the class again (Figure 2, and Figure 6 below).
+
+   ![The worked example on a log scale: the 10% trim cuts the lowest salary, 28, and the founder's 2000; the mean of the 8 left is 34.4, while the plain mean of all 10 is 230.3, above every student but one](images/trim_example.png){width=95%}
 
 The trimmed mean sits between the mean and the median: trimming nothing gives the plain mean, and trimming almost 50% from each end leaves only the middle, the median. In between, it uses more values than the median yet ignores the extremes.
 
@@ -196,8 +198,8 @@ When there are no outliers, the mean is the better summary: it uses every value,
 
 > **Extra:** Two more means appear in special cases.
 >
-> - **Geometric mean** $= \left(x_1 x_2 \cdots x_n\right)^{1/n}$, for growth rates. An investment that grows 10% one year and 50% the next is multiplied by $1.1 \times 1.5 = 1.65$. The geometric mean factor is $\sqrt{1.65} \approx 1.2845$: an average growth of 28.45% a year. The ordinary mean, 30%, is wrong: $1.3 \times 1.3 = 1.69$, not 1.65.
-> - **Harmonic mean** $= n / (1/x_1 + \dots + 1/x_n)$, for rates such as speeds. The F1 score is the harmonic mean of precision and recall (see the [precision, recall and F1 Note](../77-precision-recall-f1/note.md)).
+> - **Geometric mean** (G-844) $= \left(x_1 x_2 \cdots x_n\right)^{1/n}$, for growth rates. An investment that grows 10% one year and 50% the next is multiplied by $1.1 \times 1.5 = 1.65$. The geometric mean factor is $\sqrt{1.65} \approx 1.2845$: an average growth of 28.45% a year. The ordinary mean, 30%, is wrong: $1.3 \times 1.3 = 1.69$, not 1.65.
+> - **Harmonic mean** (G-880) $= n / (1/x_1 + \dots + 1/x_n)$, for rates such as speeds. The F1 score is the harmonic mean of precision and recall (see the [precision, recall and F1 Note](../77-precision-recall-f1/note.md)).
 
 ## 9. Summary
 

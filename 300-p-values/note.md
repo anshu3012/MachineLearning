@@ -17,7 +17,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/p-value]
 
 ![P-value of 100 coin tosses under H₀ (fair coin): the red bars, at or beyond the observed number of heads, add up to the p-value](images/coin_p_value.gif){height=48%}
 
-The rejection region approach only says whether a test statistic crossed a boundary (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)). The **p-value approach** computes one more number, the p-value, which also measures how strong the evidence is. Figure 1 shows the idea: the further the observed result sits in the tail, the smaller the red area, and the smaller the p-value.
+The rejection region approach only says whether a test statistic crossed a boundary (see the [rejection region Note](../291-rejection-region-and-z-test/note.md)). The **p-value approach** (G-1431) computes one more number, the p-value, which also measures how strong the evidence is. Figure 1 shows the idea: the further the observed result sits in the tail, the smaller the red area, and the smaller the p-value.
 
 This Note covers:
 
@@ -30,7 +30,7 @@ This Note covers:
 
 > **Key point:** The p-value is $P(\text{a result as or more extreme than ours} \mid H_0 \text{ true})$, where "more extreme" means "more evidence against $H_0$".
 
-The **p-value** is the probability of getting a sample as extreme as our own sample, or more extreme, given that the null hypothesis is true.
+The **p-value** (G-1433) is the probability of getting a sample as extreme as our own sample, or more extreme, given that the null hypothesis is true.
 
 Two words need care:
 
@@ -39,13 +39,31 @@ Two words need care:
 
 In simple words, the p-value is a measure of the strength of the evidence against the null hypothesis that our sample provides.
 
+### 2.1 The definition on five tosses
+
+> **Key point:** Four heads in five tosses of a fair coin: the p-value is our result plus everything more extreme, $5/32 + 1/32 = 0.19$.
+
+A small case can be counted by hand. We suspect a coin favours heads, toss it 5 times and get 4 heads. $H_0$ says the coin is fair; $H_1$ says heads are more likely.
+
+1. **The world of $H_0$.** Five tosses of a fair coin have $2^5 = 32$ equally likely outcomes. Sorted by the number of heads, they give the bars $1, 5, 10, 10, 5, 1$ out of 32 (Figure 2, first frame).
+2. **Our result.** Exactly 4 heads happens in 5 of the 32 outcomes: $5/32 = 0.156$.
+3. **Anything more extreme.** Five heads would be even stronger evidence for a coin that favours heads. It happens in 1 outcome: $1/32$.
+4. **Add them.**
+   $$p = \frac{5}{32} + \frac{1}{32} = \frac{6}{32} = 0.19$$
+
+Why add the more extreme results? A single result is always unlikely when there are many possible results: even the most likely count in 100 tosses, 50 heads, has probability 0.08. So the probability of our exact result says little. The question that matters is how often a fair coin does **at least this well** against $H_0$.
+
+![Five tosses of a fair coin. Red: the observed 4 heads, then the more extreme 5 heads; together 6/32. Last frame: a two-sided alternative also counts the equally rare other side (orange), 12/32. Idea after StatQuest, "How to calculate p-values".](images/five_flips.gif){height=45%}
+
+The last frame of Figure 2 changes $H_1$ to "the coin is not fair", with no direction. Then 0 or 1 heads is as much evidence against $H_0$ as 4 or 5 heads, and both sides are added: $12/32 = 0.375$. The direction of $H_1$ decides which bars count; section 6 does the same for the z-test.
+
 ## 3. A coin tossed 100 times
 
 > **Key point:** For 53 heads out of 100, the p-value is $P(X \ge 53) = 0.309$ under a fair coin; for 60 heads it is 0.028, for 80 heads about $6 \times 10^{-10}$.
 
 ### 3.1 The experiment
 
-Our experiment: toss a coin 100 times and count the heads. Each toss is a Bernoulli trial (head or tail), repeated $n = 100$ times, so the number of heads $X$ follows a binomial distribution (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)). If the coin is fair, $X \sim \text{Binomial}(100, 0.5)$.
+Our experiment: toss a coin 100 times and count the heads. Each toss is a Bernoulli trial (head or tail), repeated $n = 100$ times, so the number of heads $X$ follows a **binomial distribution** (G-308; see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)). If the coin is fair, $X \sim \text{Binomial}(100, 0.5)$.
 
 Figure 1 plots its PMF. The PMF looks like a normal curve, but it is discrete. 50 heads is the most likely count. Counts between 40 and 60 come up 96.5% of the time; 65 or more, or 30 or fewer, are rare.
 
@@ -97,7 +115,9 @@ With 80 heads the red area is invisible: if the coin were fair, 80 heads would a
 
 ### 4.1 The correct reading
 
-Imagine repeating the whole experiment, 100 tosses, many times with a fair coin. A p-value of 0.309 says that in about 31% of those experiments we would see 53 heads **or more**. A result like ours is common for a fair coin, so it is weak evidence against $H_0$.
+Imagine repeating the whole experiment, 100 tosses, many times with a fair coin. A p-value of 0.309 says that in about 31% of those experiments we would see 53 heads **or more**. A result like ours is common for a fair coin, so it is weak evidence against $H_0$. Figure 3 does the repeating: 10,000 experiments of 100 tosses with a fair coin. After 10 experiments the share with 53 or more heads is 30.0%, after 100 it is 32.0%, and after 10,000 it is 31.2%, close to the p-value 30.9%.
+
+![10 to 10,000 simulated experiments of 100 fair-coin tosses. Red: experiments with 53 or more heads; their share settles near the p-value, 30.9%.](images/repeat_coin.gif)
 
 For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin would give 60 or more heads. Either we were unlucky, or the coin is not fair. For 80 heads, practically no experiment with a fair coin would ever get there.
 
@@ -106,11 +126,14 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 > **Extra:** Each of these statements about $p = 0.03$ is wrong. They follow misinterpretations 1, 2, 4, 7 and 9 in the list of Greenland et al. (2016); the second and third are two sides of misinterpretation 1.
 >
 > - **"About 3 experiments in 100 would give exactly our result."** The p-value counts results **as or more extreme**, not exactly ours. For 53 heads, exactly 53 has probability 0.067, while the p-value is 0.309.
-> - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. The probability of $H_0$ would need Bayes' theorem and a prior (see the [Bayes theorem Note](../85-bayes-theorem/note.md)).
+> - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. The probability of $H_0$ would need **Bayes' theorem** (G-269) and a prior (see the [Bayes theorem Note](../85-bayes-theorem/note.md)).
 > - **"There is a 97% chance that $H_1$ is true."** Same mistake, the other way round.
 > - **"The result happened by chance with probability 3%."** The p-value assumes chance alone (that is what $H_0$ says); it does not measure the probability of chance.
-> - **"A small p-value means a large or important effect."** With a huge sample, a tiny difference gives a tiny p-value. The p-value measures evidence, not size: a training program that adds 0.1 cars a day can be "highly significant" and useless.
-> - **"$p > 0.05$ proves $H_0$."** A p-value above 0.05 means only that the evidence was not strong enough (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
+> - **"A small p-value means a large or important effect."** With a huge sample, a tiny difference gives a tiny p-value. The p-value measures evidence, not size: a training program that adds 0.1 cars a day can be "highly significant" and useless. Figure 4 shows it for the right-tailed z-test with $\sigma = 5$: with the true effect fixed at 0.1 cars a day, the p-value drops below 0.05 once the sample passes about 6,765 employees, and keeps falling.
+
+> - **"A p-value above 0.05 proves $H_0$."** A p-value above 0.05 means only that the evidence was not strong enough (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
+
+![The p-value of the right-tailed z-test at a true effect of 0.1 cars a day (σ = 5), for samples of 10 to 100,000 employees. The effect never changes; only the sample size does.](images/p_vs_n.png){height=34%}
 
 ## 5. Deciding with a p-value
 
@@ -133,13 +156,17 @@ For the coin at $\alpha = 0.05$:
 
 With 53 heads we cannot conclude that the coin is unfair. We also cannot say we proved it fair.
 
+What does the 0.05 promise? Take a case where $H_0$ is true by construction: the training-program test of section 6.1 ($H_0: \mu = 50$, $\sigma = 5$, $n = 30$, right-tailed), run on samples drawn from a population whose mean really is 50. Nothing is there to find, yet the samples differ by chance, and so do their p-values. Figure 5 collects them. With $H_0$ true, the p-values spread evenly between 0 and 1, so about 5 percent of them fall at or below 0.05: 5.3 percent of the 10,000 tests here. Each of those is a **false positive** (G-748): the rule rejects a true $H_0$. So $\alpha = 0.05$ means that when there is no effect, the rule raises a false alarm in about 1 test out of 20. A stricter $\alpha$ of 0.01 would cut the false alarms to 1 in 100.
+
+![P-values of 100, 1,000 and 10,000 z-tests on samples drawn with H₀ true. The bars level out at 5 percent each (dashed line); the red bar, p ≤ 0.05, holds the false positives. Idea after StatQuest, "p-values: What they are and how to interpret them".](images/null_p_values.gif){height=32%}
+
 > **Extra:** Why the rule $p \le \alpha$ gives the same decision as the rejection region. The rejection region is the tail whose area is $\alpha$; the p-value is the tail area beyond our statistic. Our statistic lies inside the rejection region exactly when it is further out than the critical value, that is, exactly when the tail beyond it is smaller than the tail beyond the critical value: $p \le \alpha$. The two approaches always agree on the decision; the p-value adds how far inside or outside we landed.
 
 ### 5.2 A scale of evidence
 
 ![A common rule of thumb for reading p-values](images/evidence_scale.png){height=22%}
 
-Sometimes no $\alpha$ is given, for example when we explore an independent dataset in a machine learning project. Then a rule of thumb helps (Figure 2):
+Sometimes no $\alpha$ is given, for example when we explore an independent dataset in a machine learning project. Then a rule of thumb helps (Figure 6):
 
 | p-value | Evidence against $H_0$ | What to do |
 |---|---|---|
@@ -168,7 +195,7 @@ $H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$, $\bar{x} = 53$, $\alph
 3. **Example:**
    $$p = 1 - \Phi(3.29) = 1 - 0.9995 = 0.0005$$
 
-$0.0005 \le 0.05$: we reject $H_0$. The training program raised productivity, and the evidence is very strong (Figure 3, left).
+$0.0005 \le 0.05$: we reject $H_0$. The training program raised productivity, and the evidence is very strong (Figure 7, left).
 
 Compare a smaller z of 1.7: $p = 1 - \Phi(1.7) = 1 - 0.9554 = 0.045$. This p-value is also below 0.05, so both samples lead to "reject". But 0.045 is close to the boundary, while 0.0005 leaves no doubt. This difference is exactly what the rejection region approach could not show.
 
@@ -182,7 +209,7 @@ $H_0: \mu = 50$, $H_1: \mu \neq 50$, $\sigma = 4$, $n = 40$, $\bar{x} = 49$, $\a
 3. **Example:** the z-table gives $\Phi(-1.58) = 0.057$:
    $$p = 2 \times 0.057 = 0.114$$
 
-$0.114 > 0.05$: we fail to reject $H_0$ (Figure 3, right). The 40 packets do not show that the mean weight differs from 50 g.
+$0.114 > 0.05$: we fail to reject $H_0$ (Figure 7, right). The 40 packets do not show that the mean weight differs from 50 g.
 
 ### 6.3 Beyond the z-table
 
@@ -220,6 +247,8 @@ A printed z-table stops around $z = 4$, where the area is practically 1. For lar
 **Built from**
 
 - CampusX, "Session 46 - Hypothesis Testing Part 2 | p-values | t-tests | DSMP 2023", YouTube, https://www.youtube.com/watch?v=xHTMjxx14sU
+- StatQuest with Josh Starmer, "How to calculate p-values", YouTube, https://www.youtube.com/watch?v=JQc3yx0-Q9E
+- StatQuest with Josh Starmer, "p-values: What they are and how to interpret them", YouTube, https://www.youtube.com/watch?v=vemZtEM63GY
 
 **Other references**
 

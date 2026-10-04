@@ -16,17 +16,23 @@ tags: [subject/ml, area/foundations, step/foundations, concept/independent-event
 
 > **Key point:** Two events are independent when knowing one happened does not change the probability of the other: P(A | B) = P(A). Equivalently, P(A ∩ B) = P(A) × P(B).
 
-This Note and the next cover two ideas that are often confused: **independent events** and **mutually exclusive events**. Naive Bayes relies on the first: its "naive" assumption is that the **features** (the input variables, one column each of the data table) are independent of each other. Knowing exactly what independence means makes that assumption easy to understand.
+This Note and the next cover two ideas that are often confused: **independent events** and **mutually exclusive events**. Naive Bayes relies on the first: its "naive" assumption is that the **features** (G-772; the input variables, one column each of the data table) are independent of each other. Knowing exactly what independence means makes that assumption easy to understand.
 
 ## 2. The definition
 
 > **Key point:** A and B are independent if P(A ∩ B) = P(A) × P(B).
 
-Two events $A$ and $B$ are **independent** if
+Toss a coin and roll a die. Both can happen, and what the coin shows makes no difference to what the die shows. Events like these, where one happening does not change the chance of the other, are **independent events** (G-934).
+
+The formal definition: two events $A$ and $B$ are independent if
 
 $$P(A \cap B) = P(A) \times P(B)$$
 
-In words: the probability that both happen is the product of their separate probabilities.
+In words: the probability that both happen is the product of their separate probabilities. This is the **product rule for independent events** (G-1576). Section 4 shows that the product rule and "makes no difference" say the same thing.
+
+Figure 1 draws the rule as areas for the dice example of the next section. The whole square is the sample space, with area 1. Event $A$ is a band of width $1/6$, event $B$ a band of height $1/6$. Because $A$ takes the same share inside $B$ as everywhere else, their overlap is a rectangle of $1/6 \times 1/6 = 1/36$.
+
+![The product rule as areas. The square is the sample space (area 1); A is a band of width 1/6, B a band of height 1/6, and their overlap is a 1/6 × 1/6 rectangle: P(A ∩ B) = 1/36.](images/product_area.png){width=60%}
 
 Independent events **can** happen together. What makes them independent is that one happening makes no difference to the chance of the other.
 
@@ -34,7 +40,7 @@ Independent events **can** happen together. What makes them independent is that 
 
 > **Key point:** A coin has no memory; two dice do not influence each other.
 
-- **Coin tosses.** A fair coin has come up heads three times in a row. The probability of heads on the next toss is still $1/2$: the coin has no memory of earlier tosses. In a simulation of a million sequences of four tosses, the fourth toss was heads in 49.9% of the cases that started with three heads.
+- **Coin tosses.** A fair coin has come up heads three times in a row. The probability of heads on the next toss is still $1/2$: the coin has no memory of earlier tosses. Believing that tails is now "due" is a common mistake called the **gambler's fallacy**. In a simulation of a million sequences of four tosses, the fourth toss was heads in 49.9% of the cases that started with three heads.
 - **Two dice.** Die 1 shows 3. The probability that die 2 shows 6 is still $1/6$: what one die shows does not affect the other.
 
 Check the definition with the dice. Let $A$ be "die 2 shows 6" and $B$ be "die 1 shows 3". Of the 36 equally likely outcomes, only (3, 6) is in both, so
@@ -45,7 +51,7 @@ The two events are independent.
 
 ![The 36 outcomes of two dice. Purple cells are in both events. Left: row $B$ and column $A$ cross in one cell, so $P(A \cap B) = 1/36 = P(A) \times P(B)$. Right: the "sum at least 10" cells crowd into row $D$, so the product rule fails](images/dice_grid.png){width=95%}
 
-Figure 1 draws both checks on the grid of outcomes. In the left grid, the shaded column takes 1 of the 6 cells inside row $B$, the same share it takes of the whole grid (6 of 36). In the right grid, the red cells take 3 of the 6 cells inside row $D$ but only 6 of 36 overall: knowing $D$ makes $C$ three times as likely.
+Figure 2 draws both checks on the grid of outcomes. In the left grid, the shaded column takes 1 of the 6 cells inside row $B$, the same share it takes of the whole grid (6 of 36). In the right grid, the red cells take 3 of the 6 cells inside row $D$ but only 6 of 36 overall: knowing $D$ makes $C$ three times as likely.
 
 ## 4. Why this means "no difference"
 
@@ -55,7 +61,11 @@ From the conditional probability Note, $P(A \mid B) = P(A \cap B) / P(B)$. If $A
 
 $$P(A \mid B) = \frac{P(A) \times P(B)}{P(B)} = P(A)$$
 
-Knowing $B$ happened leaves the probability of $A$ exactly as it was. The same argument gives $P(B \mid A) = P(B)$. An unchanged probability is the intuition behind the definition: independence means information about one event tells us nothing about the other.
+Knowing $B$ happened leaves the probability of $A$ exactly as it was. Figure 3 checks this on a million simulated coin sequences: whatever the first three tosses showed, the fourth comes up heads about half the time.
+
+![One million sequences of four fair coin tosses. For each number of heads among the first three tosses, the share of sequences with heads on the fourth toss: 0.499, 0.499, 0.502 and 0.499.](images/coin_memory.png)
+
+The same argument gives $P(B \mid A) = P(B)$. An unchanged probability is the intuition behind the definition: independence means information about one event tells us nothing about the other.
 
 > **Extra:** The same result can be seen by counting. For independent events, the share of $B$'s outcomes that also belong to $A$ (that is, $n(A \cap B) / n(B)$, the conditional probability) equals the share of the whole sample space that belongs to $A$ ($n(A) / n$). In the dice example, 1 of die 1's six "3" outcomes has die 2 = 6, and 6 of all 36 outcomes do: both $1/6$.
 
@@ -65,27 +75,44 @@ Knowing $B$ happened leaves the probability of $A$ exactly as it was. The same a
 
 ![Conditioning on die 1 leaves one event unchanged and changes the other](images/independence.png){height=50%}
 
-Figure 2 conditions two different events on what die 1 shows:
+Figure 4 conditions two different events on what die 1 shows:
 
 - **Left:** "die 2 shows 6" has probability $1/6$ whatever die 1 shows. Independent.
-- **Right:** "the sum is at least 10" has probability $1/6$ overall, but given die 1 it ranges from 0 (die 1 shows 1, 2 or 3) to $1/2$ (die 1 shows 6). Knowing die 1 changes it a lot, so these events are **not** independent.
+- **Right:** "the sum is at least 10" has probability $1/6$ overall, but given die 1 it ranges from 0 (die 1 shows 1, 2 or 3) to $1/2$ (die 1 shows 6). Knowing die 1 changes it a lot, so these events are **not** independent: they are **dependent events** (G-590).
 
 Checking with the definition for $C$ = "sum at least 10" and $D$ = "die 1 shows 6": $P(C \cap D) = 3/36 = 1/12$, while $P(C) \times P(D) = 1/6 \times 1/6 = 1/36$. The product rule fails.
+
+### 5.1 The same test on real data
+
+> **Key point:** On a data table, compare the share of A overall with the share of A inside the rows where B is true.
+
+With dice we know the exact probabilities. With data we only have counts, so we estimate each probability as a share of rows and run the same test. Take the 891 passengers of the Titanic training data, with $A$ = "survived" and $B$ = "is a woman".
+
+1. **The share of A overall:** 342 of the 891 passengers survived, so $P(A) \approx 342/891 = 0.384$.
+2. **The share of A inside B:** of the 314 women, 233 survived, so $P(A \mid B) \approx 233/314 = 0.742$.
+3. **Compare:** 0.742 is almost twice 0.384. Knowing that a passenger is a woman changes the chance of survival a lot, so the two events are not independent.
+
+![Survival on the Titanic: the share who survived among all 891 passengers (0.384, dashed line), among the 314 women (0.742) and among the 577 men (0.189).](images/titanic_check.png){height=40%}
+
+Figure 5 shows the three shares. If survival were independent of sex, all three bars would sit near the dashed line.
+
+Shares from data are estimates, not exact probabilities. A large gap like this one is clear evidence of dependence. When the two shares are close, the data only suggests independence, and more rows give a more reliable answer.
 
 ## 6. Why Naive Bayes cares
 
 > **Key point:** Naive Bayes assumes the features are independent given the class, so that their probabilities can simply be multiplied.
 
-With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence. The **target** (the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (ISL §4.4.4; the Naive Bayes intuition Note).
+With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence. The **target** (G-1949; the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (ISL §4.4.4; the Naive Bayes intuition Note).
 
 ![Under independence, the probability of all three words given spam is the product of the three single-word probabilities](images/nb_product.png){width=85%}
 
-Figure 3 shows the product: each word's probability is estimated on its own, then the three are multiplied.
+Figure 6 shows the product: each word's probability is estimated on its own, then the three are multiplied.
 
 ## 7. Summary
 
 - Independent: $P(A \cap B) = P(A) \times P(B)$, equivalently $P(A \mid B) = P(A)$.
 - Independent events can happen together; one just does not affect the other.
+- On data: compare the share of A overall with the share of A inside B. Titanic: 0.384 overall against 0.742 for women, so not independent.
 - Coins and separate dice are independent; "die 1 = 6" and "sum ≥ 10" are not.
 
 ## 8. Sources
@@ -93,6 +120,8 @@ Figure 3 shows the product: each word's probability is estimated on its own, the
 **Built from**
 
 - CampusX, "Naive Bayes Classifier | Part 2 | Independent Events in Probability", YouTube, https://www.youtube.com/watch?v=0GD480CnrO4
+
+- Khan Academy, "Conditional probability and independence | Probability | AP Statistics", YouTube, https://www.youtube.com/watch?v=pIfpHdGVwLU (testing independence on a table of counts; our own check uses the Titanic data)
 
 **Other references**
 
@@ -104,4 +133,5 @@ Figure 3 shows the product: each word's probability is estimated on its own, the
 |---|---|
 | Independent events | Events where one happening does not change the probability of the other |
 | Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$ |
+| Gambler's fallacy | The mistaken belief that after a run of heads, tails is "due"; independent tosses have no memory |
 | Dependent events | Events that are not independent: knowing one changes the probability of the other |

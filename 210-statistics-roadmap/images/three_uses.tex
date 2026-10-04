@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+% Section 2: the three places statistics shows up in data work, with the Note's examples.
+\begin{tikzpicture}[b/.style={box=#1, text width=4.2cm, minimum height=2.2cm, align=center, font=\sffamily\small}]
+  \node[box=cgrey, font=\sffamily\bfseries] (s) at (5.0, 2.4) {statistics};
+  \node[b=cblue] (u) at (0, 0) {\textbf{understanding data}\\[3pt]summaries and graphs in every exploratory analysis};
+  \node[b=cgreen] (a) at (5.0, 0) {\textbf{algorithms}\\[3pt]linear regression, logistic regression, Naive Bayes};
+  \node[b=corange] (d) at (10.0, 0) {\textbf{decisions}\\[3pt]does the new medicine or website design really work better? a statistical test};
+  \foreach \x in {u, a, d} \draw[arrow] (s) -- (\x);
+\end{tikzpicture}
+\end{document}

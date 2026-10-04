@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bptt, concept/par
 
 > **Key point:** Backpropagation through time (BPTT) is ordinary backpropagation applied to the unfolded RNN. Because $W_i$ and $W_h$ are used at every time step, their gradient is a sum with one term per time step.
 
-An RNN learns like any neural network: forward propagation gives a prediction and a loss, backpropagation gives the derivative of the loss with respect to every weight, and gradient descent updates the weights. In an RNN this backward pass runs over the network unfolded in time, so it is called **backpropagation through time** (G-246) (**BPTT**; Goodfellow §10.2). No special algorithm is needed: the chain rule on the unfolded graph is enough (Goodfellow §10.2.2).
+An RNN learns like any neural network: forward propagation gives a prediction and a loss, backpropagation gives the derivative of the loss with respect to every weight, and gradient descent updates the weights. In an RNN this backward pass runs over the network **unfolded** (G-2041) in time, so it is called **backpropagation through time** (G-246) (**BPTT**; Goodfellow §10.2). No special algorithm is needed: the chain rule on the unfolded graph is enough (Goodfellow §10.2.2).
 
 ![The RNN unfolded over three time steps. Loss $L$ depends on $W_i$ through three paths, one for each time step at which $W_i$ is used. BPTT adds up the three terms](images/bptt_paths.png){width=100%}
 
@@ -54,7 +54,7 @@ The task is **many-to-one** (G-1156): a sequence goes in, a single output comes 
 > **Key point:** $W_i$ is $3 \times 3$, $W_h$ is $3 \times 3$, $W_o$ is $3 \times 1$. We leave out the biases to keep the formulas short.
 
 - **Input:** 3 numbers per time step.
-- **Recurrent layer:** 3 nodes, with input weights $W_i$ ($3 \times 3$) and feedback weights $W_h$ ($3 \times 3$).
+- **Recurrent layer** (G-1646): 3 nodes, with input weights $W_i$ ($3 \times 3$) and feedback weights $W_h$ ($3 \times 3$).
 - **Output:** 1 sigmoid node, with weights $W_o$ ($3 \times 1$).
 
 The three matrices hold 21 weights. The biases (3 in the recurrent layer, 1 in the output) are learned in exactly the same way as the weights, so we leave them out here.
@@ -119,6 +119,8 @@ In Figure 3, the red arrow stops at $w_o$: the error never needs to travel back 
 
 > **Key point:** $h_3$ depends on $W_i$ directly, and also through $h_2$, which depends on $W_i$ directly and through $h_1$.
 
+The unfolded network uses the same $W_i$ at every **time step** (G-1976): however many steps we draw, there is still only one $W_i$ to train. Using one set of weights at every step is **parameter sharing** (G-1447). A shared weight changes the loss once for every place it is used. Each such route from the loss back to the weight is a **path** (G-1465), and the rule for several paths is simple: work out each path's product, then add them up. The [memoization Note](../1019-mlp-memoization/note.md) met the same rule in an ANN, where a first-layer weight reaches the loss through several nodes.
+
 Follow the dependencies backwards from $L$:
 
 - $L$ depends on $\hat{y}$; $\hat{y}$ depends on $h_3$ and $W_o$.
@@ -128,7 +130,11 @@ Follow the dependencies backwards from $L$:
 
 So $W_i$ affects $L$ in three ways, the three coloured paths of Figure 1. By the chain rule with several paths (section 6 of the [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md)), the derivative is the sum of the three path products:
 
-$$\frac{\partial L}{\partial W_i} = \underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial W_i}}_{\text{path 1}} + \underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial W_i}}_{\text{path 2}} + \underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial W_i}}_{\text{path 3}}$$
+$$\frac{\partial L}{\partial W_i} = \underset{\text{path 1}}{\underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial W_i}}} + \underset{\text{path 2}}{\underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial W_i}}} + \underset{\text{path 3}}{\underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial W_i}}}$$
+
+Figure 4 lights up the three paths one after another on the one-node example of section 5. Each path starts at $L$, runs back along the hidden states and turns down at one use of $w_i$; its value is written below as it arrives, and the last frame adds the three values.
+
+![The three paths from the loss back to the shared input weight $w_i$, traced one at a time: green through $h_3$ only, orange through $h_3$ and $h_2$, purple through $h_3$, $h_2$ and $h_1$. The numbers are the path products of the one-node example (section 6.3); their sum is the gradient](images/three_paths.gif){width=100%}
 
 In each path, the last factor $\partial h_t/\partial W_i$ is the **immediate** derivative: how $h_t$ changes with $W_i$ when $h_{t-1}$ is held fixed, so only the direct use of $W_i$ at step $t$ counts (Pascanu et al. 2013 use the same convention). The other uses of $W_i$ are covered by the other paths.
 
@@ -165,7 +171,7 @@ Path 2 is 0 because the second input is $x_2 = 0$: $w_i$ had no effect at that s
 
 ![The gradient of a shared weight as a running sum of one term per time step, for $w_i$ (left, this section) and $w_h$ (right, section 7). Orange bars are the path terms; the red bar is the total](images/path_sums.png){width=100%}
 
-In Figure 4, watch where each zero comes from: $x_2 = 0$ removes a term for $w_i$, and $h_0 = 0$ removes a different term for $w_h$.
+In Figure 5, watch where each zero comes from: $x_2 = 0$ removes a term for $w_i$, and $h_0 = 0$ removes a different term for $w_h$.
 
 ## 7. The gradient for $W_h$
 
@@ -191,7 +197,13 @@ There are again three paths, one through each use of $W_h$, and the same compact
 
 ![BPTT on the one-node example as one backward walk. The orange disc is the error reaching each hidden state; at each step it is multiplied by the tanh slope, drops one term into $\partial L/\partial w_i$ (times $x_t$) and one into $\partial L/\partial w_h$ (times $h_{t-1}$), then is multiplied by $w_h$ to reach the step before](images/bptt_pulse.gif){width=100%}
 
-Figure 5 runs sections 6.3 and 7 together, from right to left. Watch the disc shrink: the error reaching $h_3$, $h_2$ and $h_1$ is 0.342, 0.156 and 0.109, because each step back multiplies it by $d_t\thinspace w_h$ (0.457, then 0.700), and both factors are below 1 here. The further back a time step, the smaller the error that reaches it; the [problems with RNN Note](../1060-problems-with-rnn/note.md) follows this effect over long sequences.
+Figure 6 runs sections 6.3 and 7 together, from right to left. Watch the disc shrink: the error reaching $h_3$, $h_2$ and $h_1$ is 0.342, 0.156 and 0.109, because each step back multiplies it by $d_t\thinspace w_h$ (0.457, then 0.700), and both factors are below 1 here. The further back a time step, the smaller the error that reaches it.
+
+Figure 7 shows where this leads on a longer sequence: the same one-node network on 30 inputs, all equal to 1. The bars are added from the last time step backwards. Each step back multiplies the term by about 0.26, so the first three terms already give 0.1336 of the total 0.1361, and a term 10 steps back is smaller than 0.000001 (Notebook). The gradient is still a sum of 30 terms, but only the last few time steps have a say in it.
+
+![The size of each time step's term in $\partial L/\partial w_i$ for a 30-step sequence, added from the output backwards (log scale). Red: the newest bar](images/long_paths.gif){width=90% height=45%}
+
+The [problems with RNN Note](../1060-problems-with-rnn/note.md) follows this effect, the **vanishing gradient** (G-2070), over long sequences.
 
 > **Extra:** With matrices, the same computation runs as a loop backwards in time (Goodfellow §10.2.2, eq. 10.21 and 10.26, here in the row-vector form of Keras). Start with the error at the last hidden state, $\delta = (\hat{y} - y)\thinspace W_o^{\mathsf T}$. Then for $t = T$ down to 1:
 >
@@ -230,7 +242,7 @@ Run on the three toy reviews with gradient descent (learning rate 0.5, all three
 
 ![The training loop on the three toy reviews. Left: the mean loss per epoch. Right: the prediction for each review; the black line marks its target](images/training_loop.gif){width=100%}
 
-In Figure 6, watch the third review: it starts as the most "positive" prediction (0.661) although its target is 0, and BPTT pushes it down to 0.006.
+In Figure 8, watch the third review: it starts as the most "positive" prediction (0.661) although its target is 0, and BPTT pushes it down to 0.006.
 
 Compared with backpropagation in an ANN, the only new point is the unfolding in time, which turns one shared weight into several uses and its derivative into a sum.
 
@@ -252,6 +264,8 @@ Compared with backpropagation in an ANN, the only new point is the unfolding in 
 **Built from**
 
 - CampusX, "How Backpropagation works in RNN | Backpropagation Through Time", YouTube, https://www.youtube.com/watch?v=OvCz1acvt-k
+- StatQuest with Josh Starmer, "Recurrent Neural Networks (RNNs), Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=AsNTP8Kwu80 (the weights are shared across every unrolled copy)
+- Sanderson, G. (3Blue1Brown), "Backpropagation calculus | Deep Learning Chapter 4", YouTube, https://www.youtube.com/watch?v=tIeHLnjs5U8 (a quantity that influences the cost along several paths gets the sum of the path derivatives)
 
 **Other references**
 
@@ -267,6 +281,7 @@ Compared with backpropagation in an ANN, the only new point is the unfolding in 
 | Feature | An input variable; here one of the 3 positions of a word vector |
 | Target | The output we predict, here the sentiment |
 | Many-to-one | An RNN task with a sequence as input and a single output |
+| Parameter sharing | Using the same weights at every time step |
 | Path (in the chain rule) | One route through the computation from the loss to a weight; the derivative is the sum over all paths |
 | Immediate derivative | The derivative of $h_t$ with respect to a weight with $h_{t-1}$ held fixed: only the weight's direct use at step $t$ |
 | Dummy copy $W^{(t)}$ | A copy of a shared weight used only at time step $t$; the gradient of the shared weight is the sum over the copies |

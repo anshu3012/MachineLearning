@@ -19,9 +19,13 @@ tags: [subject/ml, area/models-1, area/production, step/model, step/evaluate, co
 
 Linear regression fits a straight line (or flat plane). Real relationships are often curved: the output may first fall and then rise, or grow faster and faster. A straight line misses such patterns.
 
-A **feature** is an input variable (one column of the data table), an **observation** is one record (one row), and the **target** is the output we predict.
+A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-**Polynomial regression** handles curves without a new algorithm. Polynomial regression creates new features from powers of the existing ones and gives them to plain linear regression, the way a straight ruler can trace a curve if we feed it bent graph paper. The **degree** is the highest power used.
+**Polynomial regression** (G-1515) handles curves without a new algorithm. Polynomial regression creates new features from powers of the existing ones and gives them to plain **linear regression** (G-1094), the way a straight ruler can trace a curve if we feed it bent graph paper. The **degree** (G-577) is the highest power used.
+
+Figure 1 shows the trick on this Note's data. Each point is drawn against $x$ and against a new feature, $x^2$. In that space the points lie close to a flat plane, and fitting a flat plane is exactly what linear regression does. The black curve is where the data can sit on the plane: seen from the side, it is the U-shaped fit.
+
+![The 160 training points of Section 2 plotted against x and the new feature x², with the target upwards. They lie close to the flat plane $\hat y = 1.92 + 1.04x + 0.82x^2$, which linear regression fits; the black curve along the plane is the fitted U-shape.](images/curve_to_plane.png)
 
 ## 2. A curved pattern
 
@@ -31,15 +35,17 @@ The example data has 200 points that follow
 
 $$y = 0.8x^2 + 0.9x + 2 + \text{noise}$$
 
-for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary linear regression, the best straight line scores only $R^2 = 0.38$ on the test points. The line cannot bend, so it misses the low middle and both high ends (the red line in Figure 2, left).
+for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary linear regression, the best straight line scores only $R^2 = 0.38$ on the test points. The line cannot bend, so it misses the low middle and both high ends (Figure 2). The misses form a pattern: the points sit above the line at both ends and below it in the middle. A residual pattern like this is the sign of a curved relationship (assumption 1 of the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)).
+
+![The best straight line on the 160 training points (test R² 0.38). Blue sticks: points above the line, mostly at both ends. Red sticks: points below it, mostly in the middle.](images/line_misses.png)
 
 ## 3. Adding powers as new features
 
 > **Key point:** For degree 2, each observation gets a new feature holding $x^2$. Linear regression then finds one coefficient per feature.
 
-The trick: for each observation, compute $x^2$ and add it as a new column of the table (Figure 1).
+The trick: for each observation, compute $x^2$ and add it as a new column of the table (Figure 3).
 
-![PolynomialFeatures turns one column into 1, x and x²](images/features.png)
+![`PolynomialFeatures` (G-1516) turns one column into 1, x and x²](images/features.png)
 
 With the features $x$ and $x^2$, linear regression fits
 
@@ -64,7 +70,7 @@ Linearity in the coefficients is why polynomial regression is called "linear": *
 > lr.coef_, lr.intercept_        # [0, 1.04, 0.82], 1.92
 > ```
 >
-> `include_bias=True` adds the column of 1s; `LinearRegression` fits its own intercept anyway, so that column gets coefficient 0 and either setting works.
+> `include_bias=True` (G-929) adds the column of 1s; `LinearRegression` fits its own intercept anyway, so that column gets coefficient 0 and either setting works.
 
 With the $x^2$ feature, the test R² jumps from 0.38 to 0.83. The learned equation, $\hat{y} = 1.92 + 1.04x + 0.82x^2$, is close to the true $2 + 0.9x + 0.8x^2$. The remaining difference comes from the noise: refitting on the same training observations with the noise removed gives exactly $2 + 0.9x + 0.8x^2$ (notebook).
 
@@ -72,23 +78,27 @@ With the $x^2$ feature, the test R² jumps from 0.38 to 0.83. The learned equati
 
 > **Key point:** Too low a degree underfits; too high a degree bends to fit the noise and overfits. Training R² keeps rising with the degree, but test R² falls.
 
-Higher degrees add more features, $x^3$, $x^4$ and so on, and the curve can bend more. Figure 2 fits three degrees to only 25 training points, then scores them on 200 new test points.
+Higher degrees add more features, $x^3$, $x^4$ and so on, and the curve can bend more. Figure 4 fits three degrees to only 25 training points, then scores them on 200 new test points.
 
 ![Polynomial fits of degree 1, 2 and 15, and R² against the degree](images/degrees.png){height=48%}
 
 | Degree | Training R² | Test R² | |
 |---|---|---|---|
-| 1 | 0.48 | 0.28 | **underfits**: too simple to follow the curve |
+| 1 | 0.48 | 0.28 | **underfits** (G-2035): too simple to follow the curve |
 | 2 | 0.94 | 0.86 | right shape: matches how the data was made |
 | 6 | 0.97 | 0.81 | starting to fit noise |
 | 10 | 0.98 | 0.28 | overfits |
 | 15 | 0.99 | $-9.35$ | overfits badly: wild swings between and beyond the points |
 
-The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree $(d+1)$ model contains every degree $d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this overfitting).
+The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree $(d+1)$ model contains every degree $d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this **overfitting**, G-1429).
 
-The degree is a hyperparameter, chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
+Figure 5 runs through all fifteen degrees one at a time. Watch the curve on the left: up to degree 8 it stays close to the U-shape, then it starts to wiggle between the training points and shoot off at the edges, and the orange test R² on the right falls away while the blue training R² stays near the top.
 
-> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The **condition number** measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 2 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`.
+![Polynomial fits of degree 1 to 15 on the 25 training points, one degree per frame. Left: the fitted curve against the training points (blue) and 200 test points (grey). Right: training and test R² so far; test R² is clipped at −1.](images/degree_sweep.gif)
+
+The degree is a **hyperparameter** (G-910), chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
+
+> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The **condition number** (G-441) measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 4 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`. Even so, rounding shows once: on these 25 points the training R² of degree 15 comes out 0.0002 below that of degree 14, which exact least squares can never do (Figure 5).
 >
 > Are the wild swings of the degree-15 curve overfitting or rounding error? Overfitting: an exact degree-15 fit, computed in a numerically safer way, swings even more wildly (test R² $-3{,}727$ against $-9.35$; notebook).
 
@@ -100,9 +110,9 @@ With two features $x$ and $y$, degree 2 creates all terms of total power up to 2
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
-The product $xy$ is an **interaction term**: it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\thinspace y$, which depends on $y$. The fitted model is a curved surface instead of a flat plane.
+The product $xy$ is an **interaction term** (G-959): it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\thinspace y$, which depends on $y$. The fitted model is a curved surface instead of a flat plane.
 
-Figure 3 shows data made from $z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$ plus noise. A plane reaches $R^2 = 0.61$; a degree-2 surface reaches 0.98.
+Figure 6 shows data made from $z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$ plus noise. A plane reaches $R^2 = 0.61$; a degree-2 surface reaches 0.98.
 
 ![A plane vs a degree-2 surface on curved 3D data](images/surface.png){height=45%}
 

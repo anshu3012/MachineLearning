@@ -17,6 +17,8 @@ tags: [subject/deep-learning, area/dl-training, area/models-1, step/model, conce
 
 > **Key point:** Batch, stochastic and mini-batch gradient descent differ only in how many **observations** (G-1374) (records, one row of the data table each) feed each update. In Keras one setting chooses between them: `batch_size`. Big batches finish an epoch faster; small batches get further per epoch, on a noisier path.
 
+A network learns by looking at observations and then changing its weights. The question of this Note is how many observations it should look at before each change: all of them, one, or a small group.
+
 The three variants of gradient descent are taught in the [batch](../58-batch-gradient-descent/note.md), [stochastic](../59-stochastic-gradient-descent/note.md) and [mini-batch gradient descent Notes](../60-mini-batch-gradient-descent/note.md):
 
 - **Batch:** one update per **epoch** (G-696), from all $n$ observations.
@@ -78,6 +80,18 @@ In Figure 2, follow the arrows once round the loop: there is exactly one red upd
    - report the average loss of the epoch.
 
 With 50 observations and 10 epochs the weights are updated $10 \times 50 = 500$ times, against 10 times for batch gradient descent. The observations are shuffled each epoch so that their order cannot bias the updates (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
+
+Why update on a single observation at all? Because one batch update is expensive on large data. Each update needs the derivative of every parameter for every observation it uses:
+
+1. **In words:** terms per update = number of parameters × number of observations in the update.
+2. **Formula:**
+   $$\text{terms per update} = p \times m$$
+   with $p$ parameters and $m$ observations per update.
+3. **Example:** a model with 23,000 parameters and 1 million observations needs $23{,}000 \times 1{,}000{,}000 = 23$ billion terms for one batch update, and 1,000 updates need 23 trillion. With one observation per update the cost is 23,000 terms, a million times less.
+
+One observation is a usable stand-in for the whole data because real data is redundant: many observations look alike, so their gradients point in similar directions. Section 8 shows single-observation steps reaching the same place as full-batch steps.
+
+A second benefit: when a new observation arrives, stochastic gradient descent can take one more step on it, without starting again from the whole data (see the [online learning Note](../05-online-learning/note.md)).
 
 ![Stochastic gradient descent on 50 observations. Each square is one observation (numbers are their IDs) in that epoch's shuffled order; red is the observation driving the current update.](images/sgd_loop.gif){height=50%}
 
@@ -151,9 +165,21 @@ In Figure 5, watch the bars as much as the curves: after 10 epochs stochastic gr
 
 > **Key point:** Batch gradient descent lowers the loss smoothly; stochastic zigzags, because each step follows one random observation. The noise can shake it out of a local minimum, but stops it from settling exactly.
 
+![The three variants as paths on one loss surface, epoch by epoch. The model is a single sigmoid neuron on the 320 training observations, with one weight for age and one for salary; grey lines are contours of the loss and the star is its lowest point. All three start at the same point with learning rate 0.3](images/paths.gif){height=75%}
+
+Figure 6 draws the three paths on a loss surface that has only two weights, so that it can be seen. Watch the three dots over the 15 epochs:
+
+- **Batch (blue):** a smooth line, one step per epoch. No step ever raises the loss, but after 15 epochs and 15 updates the loss is still 0.68, far from the star.
+- **Mini-batch (orange):** a slightly wobbly line, 10 steps per epoch. It reaches the star's loss, 0.33, by epoch 15, and 29 of its 150 steps raised the loss a little.
+- **Stochastic (red):** a staggering walk, 320 steps per epoch. It is near the star within the first epoch (loss 0.33), but then keeps wandering around the star: 2,633 of its 4,800 steps raised the loss.
+
+Every stochastic step used one customer only, and the walk still ends where the full-data steps are heading. The customers are redundant enough for one of them to point roughly the right way.
+
+The same behaviour shows in the full network of section 6.
+
 ![Left: training loss per epoch over 100 epochs. Right: loss on all 320 training observations after each single update](images/loss_curves.png){height=33%}
 
-Figure 6 (left) trains each variant for 100 epochs:
+Figure 7 (left) trains each variant for 100 epochs:
 
 | `batch_size` | Loss after 100 epochs | Test accuracy |
 |---|---|---|
@@ -161,7 +187,7 @@ Figure 6 (left) trains each variant for 100 epochs:
 | 32 (mini-batch) | 0.288 | 85.0% |
 | 1 (stochastic) | 0.194 | 87.5% |
 
-Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 6, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. **Mini-batch gradient descent** (G-1222), averaging 32 observations per step, never made it rise.
+Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 7, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. **Mini-batch gradient descent** (G-1222), averaging 32 observations per step, never made it rise.
 
 Batch gradient descent walks smoothly into the valley of the loss; stochastic gradient descent staggers in. Think of asking for directions: batch asks the whole town and takes the average answer before each step, so every step is good but slow to get; stochastic asks one passer-by per step, so the steps come fast but some point the wrong way. The noise has two sides (see section 5 of the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)):
 
@@ -178,7 +204,7 @@ The downside is memory. To multiply all observations at once, all observations m
 
 ![The two costs of `batch_size` on our 320 training observations (both axes log scale). Grey: observations that must sit in memory for one update. Blue: updates per epoch, $\lceil 320 / \text{batch size} \rceil$.](images/memory_tradeoff.png){height=40%}
 
-In Figure 7, watch the two lines cross: moving right buys fewer, vectorised updates at the price of memory, and mini-batch (orange) sits near the crossing, with 32 observations in memory and 10 updates per epoch.
+In Figure 8, watch the two lines cross: moving right buys fewer, vectorised updates at the price of memory, and mini-batch (orange) sits near the crossing, with 32 observations in memory and 10 updates per epoch.
 
 ## 10. Mini-batch: the middle ground
 
@@ -229,6 +255,7 @@ So there are 3 updates per epoch, the last from fewer observations. With `batch_
 - In Keras, `batch_size` chooses the variant; the default, 32, is mini-batch.
 - Batch finishes epochs fastest; stochastic needs the fewest epochs to converge.
 - Stochastic's path is jagged: it can escape local minima but never settles exactly.
+- One batch update costs parameters × observations terms; one observation per update cuts that cost, and works because data is redundant.
 - Batch is vectorised but needs all observations in memory; mini-batch keeps the vectorisation with one batch in memory.
 - A batch size that does not divide the number of observations leaves a smaller last batch.
 
@@ -237,6 +264,7 @@ So there are 3 updates per epoch, the last from fewer observations. With `batch_
 **Built from**
 
 - CampusX, "Gradient Descent in Neural Networks | Batch vs Stochastics vs Mini Batch Gradient Descent", YouTube, https://www.youtube.com/watch?v=7z6yXpYk7sw
+- StatQuest with Josh Starmer, "Stochastic Gradient Descent, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=vMh0zPT0tLI (section 5: the count of terms per update, redundancy in the data, and one more step on new data)
 
 **Other references**
 

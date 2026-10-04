@@ -199,13 +199,25 @@ Figure 5 shows where the two new steps sit: the purple $\sigma$ boxes after each
 
 > **Key point:** Three links, $L \to \hat{y} \to z_f \to W_{11}^{2}$; the first two multiply to $-(y - \hat{y})$.
 
+Before the algebra, here is what a chain of derivatives means. Nudge the output weight $W_{11}^{2}$ a little. The weighted sum $z_f$ of the output node moves, then the prediction $\hat{y}$ moves, then the loss $L$ moves. Each quantity moves by a fixed multiple of the one before it, and those multiples are the factors of the chain rule.
+
+![Four number lines for student 1: the weight, the weighted sum, the prediction and the loss. The weight is nudged from 0.1 to 0.11 and each dot moves in turn; the faint dots mark the starting values. Idea after 3Blue1Brown, "Backpropagation calculus"](images/number_lines.gif){height=60%}
+
+In Figure 6, watch the dots move one after another:
+
+1. The weight rises by 0.01, and $z_f$ rises by 0.0083: $z_f$ moves 0.832 times as far, because the weight is multiplied by the hidden output $O_{11} = 0.832$.
+2. $\hat{y}$ rises by 0.0021: it moves 0.248 times as far as $z_f$, the slope of the sigmoid at this point.
+3. $L$ falls by 0.0038: it moves 1.84 times as far as $\hat{y}$, in the opposite direction, the slope of the loss.
+
+Multiplying the three gives the change of the loss per unit change of the weight: $0.832 \times 0.248 \times (-1.84) = -0.38$. Section 7.3 computes the exact derivative, $-0.3815$. The rest of this section finds each factor as a formula.
+
 ![The chain from the loss to a first-layer weight in the classification network: each arrow multiplies by its local derivative](images/chain.png){width=100%}
 
 Call $z_f = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$ the weighted sum of the output node, so $\hat{y} = \sigma(z_f)$. A change in $W_{11}^{2}$ changes $z_f$, then $\hat{y}$, then $L$:
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_f} \cdot \frac{\partial z_f}{\partial W_{11}^{2}}$$
 
-The first two factors (Figure 6, left):
+The first two factors (Figure 7, left):
 
 - Differentiating the loss:
   $$\frac{\partial L}{\partial \hat{y}} = -\frac{y}{\hat{y}} + \frac{1 - y}{1 - \hat{y}} = \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}$$
@@ -225,9 +237,9 @@ These are the regression formulas with $-1$ in place of $-2$.
 
 > **Key point:** Two more links: $z_f \to O_{11}$ gives $W_{11}^{2}$; $O_{11} \to z_p$ gives the sigmoid derivative $O_{11}(1 - O_{11})$.
 
-For $W_{11}^{1}$ the chain is five links long (Figure 6). With $z_p = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$ the weighted sum of hidden node 1, so $O_{11} = \sigma(z_p)$:
+For $W_{11}^{1}$ the chain is five links long (Figure 7). With $z_p = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$ the weighted sum of hidden node 1, so $O_{11} = \sigma(z_p)$:
 
-$$\frac{\partial L}{\partial W_{11}^{1}} = \underbrace{\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial z_f}}_{-(y - \hat{y})} \cdot \underbrace{\frac{\partial z_f}{\partial O_{11}}}_{W_{11}^{2}} \cdot \underbrace{\frac{\partial O_{11}}{\partial z_p}}_{O_{11}(1 - O_{11})} \cdot \underbrace{\frac{\partial z_p}{\partial W_{11}^{1}}}_{x_{i1}}$$
+$$\frac{\partial L}{\partial W_{11}^{1}} = \underbrace{\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial z_f}} _{-(y - \hat{y})} \cdot \underbrace{\frac{\partial z_f}{\partial O_{11}}} _{W_{11}^{2}} \cdot \underbrace{\frac{\partial O_{11}}{\partial z_p}} _{O_{11}(1 - O_{11})} \cdot \underbrace{\frac{\partial z_p}{\partial W_{11}^{1}}} _{x_{i1}}$$
 
 The other five follow the same pattern. Only the last factor changes within a node ($x_{i1}$, $x_{i2}$ or 1), and the second node uses $W_{21}^{2}$ and $O_{12}$:
 
@@ -238,13 +250,17 @@ The other five follow the same pattern. Only the last factor changes within a no
 
 Compared with regression, each hidden derivative has one extra factor, $O(1 - O)$: the derivative of the hidden node's own sigmoid.
 
+> **Extra:** Here each hidden node feeds a single output node, so only one path leads from it to the loss. When a hidden node feeds several nodes of the next layer, a change in its output reaches the loss along every one of those paths, and its derivative is the sum over the paths (see section 6.1 of the [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md)). With two output nodes, whose weighted sums are $z_{f1}$ and $z_{f2}$:
+> $$\frac{\partial L}{\partial O_{11}} = \frac{\partial L}{\partial z_{f1}}\thinspace W_{11}^{2} + \frac{\partial L}{\partial z_{f2}}\thinspace W_{12}^{2}$$
+> Deeper and wider networks, and the recurrent networks of later Notes, use this sum at every hidden node.
+
 ### 7.3 Student 1 in numbers
 
 > **Key point:** $-(y - \hat{y}) = -0.4585$; output weights get $-0.381$, hidden weights $-0.0513$.
 
-![Backpropagation on the classification network for student 1. Forward, values flow left to right (blue). Backward, the gradient flows right to left (red): it starts as $\hat{y} - y = -0.4585$ at the output and is multiplied by one local derivative per step, $\times 0.1$ along $W_{11}^{2}$, $\times 0.140$ through the hidden sigmoid, $\times 8$ along $W_{11}^{1}$, until every weight holds its gradient](images/backprop_chain.gif){width=100%}
+![Backpropagation on the classification network for student 1. Forward, values flow left to right (blue). Backward, the gradient flows right to left (red): it starts as $\hat{y} - y = -0.4585$ at the output and is multiplied by one local derivative per step, $\times 0.1$ along $W_{11}^{2}$, $\times 0.140$ through the hidden sigmoid, $\times 8$ along $W_{11}^{1}$, until every weight holds its gradient. Idea after 3Blue1Brown, "Backpropagation calculus"](images/backprop_chain.gif){width=100%}
 
-In Figure 7, watch the running product along the bottom: each step back multiplies the gradient by one number, and the two small factors, 0.1 and 0.140, shrink it from $-0.4585$ to $-0.0513$. Picturing the chain rule as a product of local sensitivities along the path follows 3Blue1Brown's "Backpropagation calculus".
+In Figure 8, watch the running product along the bottom: each step back multiplies the gradient by one number, and the two small factors, 0.1 and 0.140, shrink it from $-0.4585$ to $-0.0513$.
 
 1. **In words:** compute $-(y - \hat{y})$ once, then multiply by each parameter's factors.
 2. **Formula:** the formulas of Sections 7.1 and 7.2.
@@ -282,16 +298,23 @@ Training with the same loops and $\eta = 0.001$:
 | Our code | 0.6942 | 0.6942 | 0.6937 |
 | Keras | 0.6942 | 0.6942 | 0.6937 |
 
-The loss barely moves, and every student gets a probability of about 0.54 (Figure 8).
+The loss barely moves, and every student gets a probability of about 0.54 (Figure 9).
 
 ![The classifier's predicted probability for each student over 50 epochs](images/stuck.png){height=30%}
 
-In Figure 8, all four lines lie on top of each other at about 0.54 and stay flat: the placed students never rise towards 1, and the others never fall towards 0. Is the code wrong? The same network in Keras (sigmoid activations, `loss="binary_crossentropy"`, same weights and settings) gives the same numbers to four digits (Figure 1, right). So backpropagation is computed correctly; the network is simply not learning.
+In Figure 9, all four lines lie on top of each other at about 0.54 and stay flat: the placed students never rise towards 1, and the others never fall towards 0. Is the code wrong? The same network in Keras (sigmoid activations, `loss="binary_crossentropy"`, same weights and settings) gives the same numbers to four digits (Figure 1, right). So backpropagation is computed correctly; the network is simply not learning.
 
 The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0.5 for everyone: the network has learned nothing beyond "two students are placed, two are not". Two causes add up:
 
 - **A tiny learning rate** with tiny hidden gradients (Section 7.3): the weights hardly move.
 - **Identical hidden nodes:** every weight starts at 0.1, so both hidden nodes stay the same, and the network acts as if it had one hidden node. Two hidden nodes with the same inputs need different starting weights to "break symmetry" (Goodfellow et al. 2016, §8.4); two hidden nodes stuck as copies of each other are the **symmetry problem** (G-1933); the Notebook confirms that the two columns of $W^{1}$ are still equal after training. Two twins given the same lessons in the same order give the same answers on every exam.
+
+![Training the classifier for 2,000 epochs with learning rate 0.1. Left: every weight starts at 0.1. Right: one weight, $W_{11}^{1}$, starts at 0.11. Top: the CGPA weight of each hidden node. Bottom: the average loss](images/symmetry.gif){height=50%}
+
+Figure 10 shows the symmetry problem at work, with the larger learning rate 0.1 so that the weights move. Watch the blue and orange lines in the top row:
+
+- **Left, all weights 0.1:** the two lines lie on top of each other for all 2,000 epochs. The two hidden nodes receive the same updates and never separate. The loss stops at 0.49.
+- **Right, one weight 0.11:** a difference of 0.01 in one starting weight is enough. The two lines drift apart, each hidden node learns its own job, and after a bumpy stretch the loss falls to 0.04. All four students are then classified correctly, with probabilities 0.96, 0.96, 0.02 and 0.03.
 
 > **Extra:** With $\eta = 0.1$ and 2,000 epochs the loss falls to 0.49: students 1 and 2 get 0.66 and student 3 gets 0.01, but student 4 still gets 0.66 instead of a low value. The two hidden nodes are still equal, so the network still acts as if it had a single hidden node. With $\eta = 0.5$ the steps are too big: the loss goes up in 36 of the 2,000 epochs, reaches its lowest value, 0.705, at epoch 194, and ends higher, at 0.76 (Notebook). Starting weights, learning rate and the sigmoid's small slope are exactly the problems that the Notes on improving a network address.
 
@@ -311,13 +334,14 @@ The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0
 - For a sigmoid output with binary cross-entropy, $\partial L/\partial z = \hat{y} - y$.
 - Each sigmoid on the way back adds a factor $O(1 - O)$, which shrinks the gradient.
 - Correct backpropagation can still fail to learn: starting weights and the learning rate matter.
+- Hidden nodes that start with identical weights stay identical; a difference of 0.01 in one starting weight breaks the symmetry.
 
 ## 10. Sources
 
 **Built from**
 
 - CampusX, "Backpropagation Part 2 | The How | Complete Deep Learning Playlist", YouTube, https://www.youtube.com/watch?v=ma6hWrU-LaI
-- Sanderson, G. (3Blue1Brown), "Backpropagation calculus", *Neural Networks*, chapter 5, 3blue1brown.com/lessons/backpropagation-calculus (the chain rule as a product of local derivatives along the network; Figure 3 recreates the idea on our own network and numbers).
+- Sanderson, G. (3Blue1Brown), "Backpropagation calculus", *Neural Networks*, chapter 5, 3blue1brown.com/lessons/backpropagation-calculus (the chain rule as a product of local derivatives along the network; Figures 6 and 8 recreate the idea on our own network and numbers).
 
 **Other references**
 

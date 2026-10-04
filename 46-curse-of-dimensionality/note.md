@@ -21,8 +21,8 @@ Of the four parts of feature engineering (see Figure 1 of the [feature engineeri
 
 Two parts remain:
 
-- **Feature selection**: keep only the useful features. Feature selection is usually done after a model is built, to check whether removing features helps the model.
-- **Feature extraction**: build a few new features from the old ones. Its most important technique, PCA, comes next.
+- **Feature selection** (G-768): keep only the useful features. Feature selection is usually done after a model is built, to check whether removing features helps the model.
+- **Feature extraction** (G-762): build a few new features from the old ones. Its most important technique, PCA, comes next.
 
 Both rest on one idea: the curse of dimensionality. This Note explains that idea, why it matters, and how we deal with it.
 
@@ -30,16 +30,18 @@ Both rest on one idea: the curse of dimensionality. This Note explains that idea
 
 > **Key point:** Every dataset has an optimal number of features. Past it, extra features do not help, and often make the model worse and slower.
 
-In ML, each **feature** (an input variable, one column of the data table) is called a dimension. Each **observation** is one record (one row), here one image, and the **target** is the output we predict, here the digit (see the [types of ML Note](../03-types-of-ml/note.md), section 3.3). A dataset with 10 features is 10-dimensional, and one with 1,000 features is **high-dimensional**. Here "dimension" has the "dimensions of a vector" sense, not the number of axes of a tensor; the [tensors Note](../11-tensors/note.md), section 5, separates the two.
+In ML, each **feature** (G-772) (an input variable, one column of the data table) is called a dimension. Each **observation** (G-1374) is one record (one row), here one image, and the **target** (G-1949) is the output we predict, here the digit (see the [types of ML Note](../03-types-of-ml/note.md), section 3.3). A dataset with 10 features is 10-dimensional, and one with 1,000 features is **high-dimensional** (G-897). Here "dimension" has the "dimensions of a vector" sense, not the number of axes of a tensor; the [tensors Note](../11-tensors/note.md), section 5, separates the two.
 
 More features seem as if they should always help, since the model gets more information. In practice more features do not always help. Think of a detective handed a thousand pages of witness statements, most of them about the weather: the few useful clues get harder to find, not easier.
 
-Every dataset has an **optimal number of features**. Up to that number, each new feature improves the model. Beyond it:
+Every dataset has an **optimal number of features** (G-1397). Up to that number, each new feature improves the model. Beyond it:
 
 - performance stops improving, and often gets worse;
 - the model needs more computation and becomes more complex.
 
-These problems together are the **curse of dimensionality**: the problems that appear when data has too many dimensions (a name from Bellman; ESL §2.5).
+High-dimensional data is common. Two everyday sources are images, where every pixel is a feature, and text, where every word is a feature: an email spam classifier can easily work on 3,000 features.
+
+These problems together are the **curse of dimensionality** (G-520): the problems that appear when data has too many dimensions (a name from Bellman; ESL §2.5).
 
 ## 3. An example: images of digits
 
@@ -80,7 +82,7 @@ The blue line shows the optimal number of features: after about 40 pixels, addin
 > score(np.hstack([X, noise[:, :400]])) # 64 pixels + 400 random: 80%
 > ```
 
-> **Extra:** Cross-validation, used in `cross_val_score`, splits the data into 5 parts and tests on each part in turn. Cross-validation gives a more reliable accuracy than a single train/test split. It is covered in detail later.
+> **Extra:** **Cross-validation** (G-510), used in `cross_val_score`, splits the data into 5 parts and tests on each part in turn. Cross-validation gives a more reliable accuracy than a single train/test split. It is covered in detail later.
 
 ## 4. Why more dimensions cause trouble
 
@@ -96,7 +98,7 @@ Suppose we lose our wallet. Where is it easiest to find?
 2. **On the campus.** Now it can be anywhere on a two-dimensional area. The search takes much longer.
 3. **In a multi-storey building.** Now it can be on any floor, in any room. Three dimensions make the search harder still.
 
-The wallet is the same in each case. Only the number of dimensions changed, and with it the size of the space.
+The wallet is the same in each case. Only the number of dimensions changed, and with it the size of the space. Figure 3 in the next section draws the road, the campus and the building as grids of cells.
 
 ### 4.2 The same data spreads thin
 
@@ -145,7 +147,11 @@ In high dimensions, every point is far from every other point. The nearest neigh
 > **Key point:** Too many dimensions cause two problems: lower performance and more computation.
 
 1. **Performance decreases.** Useless features spread the data thin and push the truly similar points apart (Section 4.3). In Figure 2, accuracy fell from 96% to 80%.
-2. **Computation increases.** Every extra feature is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 features took about 1.6 times as long as with 64 (timings vary from machine to machine).
+2. **Computation increases.** Every extra feature is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 features took about 1.6 times as long as with 64 in the Notebook run, and 2.4 times in the run behind Figure 5 (timings vary from run to run and machine to machine).
+
+Figure 5 draws both problems on the red-line experiment of Figure 2. As random features are added, the share of images whose nearest other image shows the same digit falls from 98.8 to 72.5 percent, and the time to score the model keeps climbing.
+
+![The digits data with useless random features added. Left: the share of images whose nearest other image shows the same digit. Right: the time to score KNN with 5-fold cross-validation (best of 3 runs; machine dependent).](images/two_problems.png)
 
 The fix for both is to bring the number of features down to the optimal number.
 
@@ -153,20 +159,20 @@ The fix for both is to bring the number of features down to the optimal number.
 
 > **Key point:** Dimensionality reduction lowers the number of features. Dimensionality reduction comes in two kinds: feature selection keeps the best features; feature extraction builds new ones.
 
-**Dimensionality reduction** means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in the [feature engineering Note](../23-what-is-feature-engineering/note.md), sections 8 and 9:
+**Dimensionality reduction** (G-611) means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in the [feature engineering Note](../23-what-is-feature-engineering/note.md), sections 8 and 9:
 
 - **Feature selection** keeps a subset of the existing features unchanged, for example with forward selection or backward elimination.
 - **Feature extraction** builds new features, each a mix of all the old ones, so that a few new features hold most of the information.
 
-Figure 5 shows both on five features, F1 to F5: selection keeps F1 and F3, while extraction builds two new features, PC1 and PC2, neither equal to any original feature. The main extraction techniques:
+Figure 6 shows both on five features, F1 to F5: selection keeps F1 and F3, while extraction builds two new features, PC1 and PC2, neither equal to any original feature. The main extraction techniques:
 
-- **PCA** (principal component analysis), covered next;
-- **LDA** (linear discriminant analysis);
+- **PCA** (principal component analysis, G-1469), covered next;
+- **LDA** (linear discriminant analysis, G-1059);
 - **t-SNE** (t-distributed stochastic neighbour embedding).
 
 ![Feature selection vs feature extraction](images/selection_vs_extraction.png)
 
-> **Extra:** The F2 feature in Figure 5 is 0 in every observation, like the edge pixels in Figure 1. Removing such a constant feature is the simplest feature selection there is. In scikit-learn it is done by `VarianceThreshold`.
+> **Extra:** The F2 feature in Figure 6 is 0 in every observation, like the edge pixels in Figure 1. Removing such a constant feature is the simplest feature selection there is. In scikit-learn it is done by `VarianceThreshold`.
 
 ## 7. Summary
 

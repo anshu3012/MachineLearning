@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-rnn, area/dl-transformers, step/model, con
 
 > **Key point:** An encoder–decoder turns one sequence into another of a different length. The **encoder**, an LSTM, reads the input word by word and hands its final state, the **context vector**, to the **decoder**, a second LSTM that writes the output word by word until it produces an end token. During training the decoder is fed the correct previous word (**teacher forcing**); during prediction it is fed its own previous word.
 
-Translating "nice to meet you" into Hindi gives "aap se mil kar achha laga": a sequence goes in and a sequence of a different length comes out. The [history of LLMs Note](../1067-history-of-llms/note.md) calls such tasks **sequence-to-sequence** tasks and places the encoder–decoder (Sutskever et al. 2014) as the first stage of the road to the transformer. This Note opens the architecture up: what sits inside each block, how the whole thing is trained, how it predicts, and the improvements used in the original paper.
+Translating "nice to meet you" into Hindi gives "aap se mil kar achha laga": a sequence goes in and a sequence of a different length comes out. The [history of LLMs Note](../1067-history-of-llms/note.md) calls such tasks **sequence-to-sequence tasks** (G-1773) and places the encoder–decoder (Sutskever et al. 2014) as the first stage of the road to the transformer. This Note opens the architecture up: what sits inside each block, how the whole thing is trained, how it predicts, and the improvements used in the original paper.
 
 ![A trained encoder–decoder translating a real English sentence into French, one decoder step per frame: the five most likely words at each step, and the chosen word (orange), which becomes the next input](images/greedy_decoding.gif){height=55%}
 
@@ -38,6 +38,10 @@ Machine translation is the running example of this Note. Three difficulties come
 2. **The output length varies.** The Hindi sentences vary in the same way.
 3. **The two lengths are not tied.** "Nice to meet you" has 4 words; "aap se mil kar achha laga" has 6. Nothing guarantees that a 3-word input gives a 3-word output.
 
+Figure 2 shows the third difficulty on the real English–French data of section 6. For each English sentence length, the French translations spread over several lengths.
+
+![The 40,000 English–French training pairs of section 6 (English up to 8 tokens, French up to 10, punctuation counted), counted by the length of each side. Only 30% of the pairs lie on the dashed diagonal, where both sides have the same length](images/pair_lengths.png){width=75%}
+
 An LSTM already copes with the first difficulty: it reads one word per step for as many steps as the sentence has. What is new is producing an output whose length the model must decide for itself.
 
 ## 4. The architecture
@@ -46,21 +50,21 @@ An LSTM already copes with the first difficulty: it reads one word per step for 
 
 At the highest level the architecture has three parts:
 
-1. **The encoder** receives the input sentence one **token** (one word, for now) per step and builds a summary of the whole sentence.
+1. **The encoder** (G-682) receives the input sentence one **token** (G-1981; one word, for now) per step and builds a summary of the whole sentence.
 2. **The context vector** is that summary: a fixed list of numbers.
-3. **The decoder** reads the context vector and writes the output sentence one token per step.
+3. **The decoder** (G-564) reads the context vector and writes the output sentence one token per step.
 
 ### 4.1 The encoder
 
 > **Key point:** One LSTM unrolled over the input words. Its hidden and cell states after the last word form the context vector.
 
-The encoder is a single LSTM unrolled over time, as in [the LSTM Note](../1061-lstm/note.md). At step 1 it reads "think" together with the initial states $h_0, c_0$ and produces $h_1, c_1$; at step 2 it reads "about" with $h_1, c_1$; and so on. Each step updates the states with the new word, so after the last word the pair $(h_n, c_n)$ summarises the whole sentence. This pair is the **context vector** (Sutskever et al. 2014, section 2; SLP3 §14.7).
+The encoder is a single LSTM unrolled over time, as in [the LSTM Note](../1061-lstm/note.md). At step 1 it reads "think" together with the initial states $h_0, c_0$ and produces $h_1, c_1$; at step 2 it reads "about" with $h_1, c_1$; and so on. Each step updates the states with the new word, so after the last word the pair $(h_n, c_n)$ summarises the whole sentence. This pair is the **context vector** (G-461; Sutskever et al. 2014, section 2; SLP3 §14.7).
 
 The initial states are usually all zeros, which is what Keras uses when no initial state is given (Keras 3.15 `LSTM` docstring). The encoder's outputs at each step are not used; only its final states are.
 
 ![The encoder reads one word per step and ends with one context vector of fixed size, the decoder's only view of the input. A 5-token sentence and an 8-token sentence end in the same space, so each word gets a thinner share. A picture of the idea, not of the LSTM's actual numbers](images/context_squeeze.gif){height=50%}
 
-Figure 2 pictures the consequence. However long the input, the decoder sees only the fixed-size pair $(h_n, c_n)$; the more words the encoder reads, the less room each word has in it. The [attention Note](../1069-attention-mechanism/note.md), section 7, measures what this costs on long sentences.
+Figure 3 pictures the consequence. However long the input, the decoder sees only the fixed-size pair $(h_n, c_n)$; the more words the encoder reads, the less room each word has in it. The [attention Note](../1069-attention-mechanism/note.md), section 7, measures what this costs on long sentences.
 
 A GRU or a plain RNN cell can replace the LSTM. Plain RNNs are rarely chosen because of the vanishing gradient problem (the [problems with RNN Note](../1060-problems-with-rnn/note.md)); the original paper used LSTMs.
 
@@ -76,7 +80,7 @@ The decoder is a different LSTM from the encoder: the two do not share weights. 
 
 The `<end>` token is what lets the decoder choose the output length. Sutskever et al. (2014, section 2) use a single end-of-sentence symbol `<EOS>` for both roles.
 
-To output a word, the decoder's hidden state passes through a dense layer with a **softmax** activation, with one unit per word of the output vocabulary. The softmax gives a probability for every word, and the word with the highest probability is the output of that step.
+To output a word, the decoder's hidden state passes through a dense layer with a **softmax** (G-1830) activation, with one unit per word of the output vocabulary. The softmax gives a probability for every word, and the word with the highest probability is the output of that step.
 
 ## 5. Training
 
@@ -86,7 +90,7 @@ To output a word, the decoder's hidden state passes through a dense layer with a
 
 > **Key point:** A parallel corpus: each observation is a sentence and its translation. Words are turned into numbers; the output vocabulary gets two extra tokens, `<start>` and `<end>`.
 
-Translation data comes as a **parallel corpus**: a table with two columns, a sentence in the source language and its translation in the target language. Each row is one **observation** (one training example). The source sentence is the input; the translation is the **target**, the output we want the model to produce.
+Translation data comes as a **parallel corpus** (G-1442): a table with two columns, a sentence in the source language and its translation in the target language. Each row is one **observation** (G-1374; one training example). The source sentence is the input; the translation is the **target** (G-1949), the output we want the model to produce.
 
 To follow the training by hand, take a corpus of two observations:
 
@@ -95,7 +99,7 @@ To follow the training by hand, take a corpus of two observations:
 | think about it | soch lo |
 | come in | andar aa jao |
 
-A network needs numbers, so we first **tokenise** (split each sentence into tokens) and then encode each token. The simplest encoding is one-hot (the [one-hot encoding Note](../27-one-hot-encoding/note.md)):
+A network needs numbers, so we first **tokenise** (G-1983; split each sentence into tokens) and then encode each token. The simplest encoding is one-hot (the [one-hot encoding Note](../27-one-hot-encoding/note.md)):
 
 - English has 5 distinct words: think, about, it, come, in. "think" is $[1, 0, 0, 0, 0]$, "about" is $[0, 1, 0, 0, 0]$.
 - Hindi has 5 distinct words: soch, lo, andar, aa, jao. Two special tokens are added, `<start>` and `<end>`, for 7 in total. `<start>` is $[1, 0, 0, 0, 0, 0, 0]$, "soch" is $[0, 1, 0, 0, 0, 0, 0]$.
@@ -104,7 +108,7 @@ A network needs numbers, so we first **tokenise** (split each sentence into toke
 
 > **Key point:** At every decoder step the input is the correct previous word from the data, whatever the model predicted. Feeding the gold word is called teacher forcing, and it speeds up training.
 
-Both LSTMs start with random weights. The first observation goes through the network (Figure 3):
+Both LSTMs start with random weights. The first observation goes through the network (Figure 4):
 
 1. The encoder reads "think", "about", "it", one vector per step, and passes its final states to the decoder.
 2. The decoder receives `<start>`. The softmax gives 7 probabilities; with random weights the largest might belong to "andar", while the correct first word is "soch". The prediction is wrong.
@@ -114,7 +118,7 @@ Both LSTMs start with random weights. The first observation goes through the net
 
 ![Training on one observation. The decoder's input at each step (green) is the previous gold word, not the model's own prediction (red)](images/seq2seq_training.png){width=100%}
 
-Feeding the gold word instead of the prediction is called **teacher forcing**. If a wrong word were fed back, every later step would build on the mistake, and early in training most predictions are wrong. With teacher forcing every step learns from a correct history, which speeds up training (SLP3 §14.7.1). Section 7 measures the effect.
+Feeding the gold word instead of the prediction is called **teacher forcing** (G-1955). If a wrong word were fed back, every later step would build on the mistake, and early in training most predictions are wrong. With teacher forcing every step learns from a correct history, which speeds up training (SLP3 §14.7.1). Section 7 measures the effect.
 
 In code, teacher forcing is just a shift. The decoder's input is the gold target sentence with `<start>` in front; its target is the same sentence with `<end>` at the back:
 
@@ -126,7 +130,7 @@ In code, teacher forcing is just a shift. The decoder's input is the gold target
 
 > **Key point:** Each decoder step is a classification over the output vocabulary, so the loss is categorical cross-entropy, summed or averaged over the steps.
 
-At every step the decoder picks one word out of 7: a multi-class classification. The loss is **categorical cross-entropy** (the [loss functions Note](../1014-dl-loss-functions/note.md)), computed at every step.
+At every step the decoder picks one word out of 7: a multi-class classification. The loss is **categorical cross-entropy** (G-350; the [loss functions Note](../1014-dl-loss-functions/note.md)), computed at every step.
 
 1. **In words:** at each step, take minus the natural log of the probability the model gave to the correct word. Add the steps up (or average them).
 2. **Formula:** with $V$ words in the vocabulary and the one-hot target $y_t$,
@@ -135,7 +139,11 @@ At every step the decoder picks one word out of 7: a multi-class classification.
    $$L_1 = -\ln 0.1 = 2.303, \qquad L_2 = -\ln 0.1 = 2.303, \qquad L_3 = -\ln 0.4 = 0.916$$
    The total is $5.52$ and the mean $1.84$. Keras' `SparseCategoricalCrossentropy` returns the same mean (Notebook).
 
-The two wrong steps cost much more than the correct one, as they should. Keras averages over the steps; padding positions are excluded.
+The two wrong steps cost much more than the correct one, as they should (Figure 5): $-\ln p$ grows quickly as the probability of the correct word falls.
+
+![The worked example. Left: the probability the decoder gave each correct word. Right: the loss at each step, $-\ln p$. A probability of 0.1 costs 2.303, one of 0.4 costs 0.916; the mean, 1.84, is what Keras reports](images/step_loss.png){width=95%}
+
+Keras averages over the steps; padding positions are excluded.
 
 ### 5.4 Backpropagation and the update
 
@@ -154,7 +162,9 @@ After training we translate a new sentence:
 3. That word is fed in as the next input; there is no gold word to force.
 4. Steps 2 and 3 repeat until the decoder outputs `<end>`.
 
-Choosing the most likely word at each step is called **greedy decoding** (SLP3 §14.7). No gradients are computed and no weights change. A mistake at one step is fed into the next one; the toy model of section 5, for instance, could translate "think about it" as "soch jao lo".
+Choosing the most likely word at each step is called **greedy decoding** (G-870; SLP3 §14.7). No gradients are computed and no weights change. A mistake at one step is fed into the next one; the toy model of section 5, for instance, could translate "think about it" as "soch jao lo" (Figure 6). Compare Figure 4: there the gold word replaced each mistake; here nothing does.
+
+![Prediction with greedy decoding on the toy example. Each output becomes the next input (dashed). The wrong word "jao" at step 2 is fed back into step 3, and no gold word corrects it](images/seq2seq_inference.png){width=100%}
 
 The Notebook trains a real model of this kind. The data is the English–French corpus of the Keras examples (sentence pairs from the Tatoeba project): 40,000 training pairs with up to 8 English words, with vocabularies of 6,004 English and 8,004 French tokens (the most frequent words plus the 4 special tokens `<pad>`, `<unk>`, `<start>`, `<end>`; rarer words become `<unk>`). Each block has an embedding of size 128 and an LSTM of 256 units: 4.6 million parameters in all, most of them in the two embeddings and the softmax layer. Training for 15 epochs with teacher forcing takes about 5 minutes on a shared GPU. On 1,500 English sentences it never saw, greedy decoding gives, for example:
 
@@ -181,7 +191,7 @@ The Notebook trains a real model of this kind. The data is the English–French 
 
 Short, common sentences come out right. Rare words become `<unk>`, because they are outside the vocabulary. Some outputs are fluent French with the wrong meaning: "ça ne me dérange pas" means "that doesn't bother me", and the last example starts correctly ("la douleur a été", "the pain was") and then drifts into nonsense ("made in prison"). Figure 1 shows the decoding of "i think you're right ." step by step. The model is sure of "je pense que vous êtes", but at step 6 its top two words are "sérieux" (0.059) and "raison" (0.056, the right word). Greedy decoding takes the top word and never revisits the choice, so the output is "je pense que vous êtes sérieux ." ("I think you are serious").
 
-The **BLEU score** (the [history of LLMs Note](../1067-history-of-llms/note.md), section 4; SLP3 §13.6.2) over the 1,500 test sentences is 13.1 on a 0–100 scale, counting every French translation in the corpus as a reference. The score is far below the 34.81 of Sutskever et al. (2014), who trained a 384-million-parameter model on 12 million sentence pairs (section 9).
+The **BLEU score** (G-315; the [history of LLMs Note](../1067-history-of-llms/note.md), section 4; SLP3 §13.6.2) over the 1,500 test sentences is 13.1 on a 0–100 scale, counting every French translation in the corpus as a reference. The score is far below the 34.81 of Sutskever et al. (2014), who trained a 384-million-parameter model on 12 million sentence pairs (section 9).
 
 ## 7. Teacher forcing, measured
 
@@ -219,7 +229,7 @@ With a vocabulary of 100,000 words, every one-hot input vector has 100,000 numbe
 
 > **Key point:** Several LSTM layers on top of each other in each block. The context vector then has one pair of states per layer, which gives the summary more room.
 
-In a **stacked** LSTM the outputs of one layer at each step are the inputs of the layer above, and each layer passes its own states forward in time (Figure 5). The encoder's context vector is then the final $(h, c)$ of every layer, and each decoder layer starts from the matching encoder layer. Three reasons are given for stacking (the [deep RNNs Note](../1065-deep-rnns/note.md) treats stacking in full):
+In a **stacked** LSTM (G-1865) the outputs of one layer at each step are the inputs of the layer above, and each layer passes its own states forward in time (Figure 8). The encoder's context vector is then the final $(h, c)$ of every layer, and each decoder layer starts from the matching encoder layer. Three reasons are given for stacking (the [deep RNNs Note](../1065-deep-rnns/note.md) treats stacking in full):
 
 1. **More room for the summary.** One layer must squeeze a long sentence into one $(h, c)$ pair; several layers give several. Sutskever et al. (2014, section 3.4) found that deep LSTMs "significantly outperform shallow LSTMs, where each additional layer reduced perplexity by nearly 10%, possibly due to their much larger hidden state".
 2. **Levels of abstraction.** Lower layers tend to work closer to the words and higher layers closer to the meaning, as early layers of the visual system detect edges that later layers combine into shapes (SLP3 §14.4.1).
@@ -231,11 +241,15 @@ The original paper used 4 layers in each block.
 
 > **Key point:** Feeding "it about think" instead of "think about it" puts the first source words right next to the first target words, which made the original model train much better.
 
-The third trick reverses the order of the source words, but not of the target words. In "think about it" → "soch lo", the word "think" is read first and "soch" is written first, with "about" and "it" in between. Reversed, "think" is the last word the encoder reads, right before the decoder writes "soch". Sutskever et al. (2014, section 3.3) explain the gain this way: the average distance between corresponding words is unchanged, but the first few source words are now very close to the first few target words, so backpropagation "has an easier time establishing communication" between the two sentences. On their English–French task, reversing lowered the test perplexity from 5.8 to 4.7 and raised BLEU from 25.9 to 30.6. They also found that LSTMs trained on reversed sentences did much better on long sentences.
+The third trick reverses the order of the source words, but not of the target words. In "think about it" → "soch lo", the word "think" is read first and "soch" is written first, with "about" and "it" in between. Reversed, "think" is the last word the encoder reads, right before the decoder writes "soch". Sutskever et al. (2014, section 3.3) explain the gain this way: the average distance between corresponding words is unchanged, but the first few source words are now very close to the first few target words, so backpropagation "has an easier time establishing communication" between the two sentences. On their English–French task, reversing lowered the test **perplexity** (G-1492) from 5.8 to 4.7 and raised BLEU from 25.9 to 30.6. They also found that LSTMs trained on reversed sentences did much better on long sentences.
 
 ## 9. The original model
 
 > **Key point:** Sutskever et al. (2014) translated English to French with two 4-layer LSTMs of 1,000 units, 1,000-number embeddings and reversed input, and beat a strong phrase-based system.
+
+Figure 9 puts the original model next to the Notebook's model. The original had more than 80 times as many parameters and 300 times as many training pairs.
+
+![The Notebook's model against the original model of Sutskever et al. (2014): parameters and training pairs (log scales), and test BLEU](images/scale_compare.png){width=100%}
 
 The details, from Sutskever et al. (2014, sections 3.1–3.6):
 

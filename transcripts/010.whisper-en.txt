@@ -1,0 +1,332 @@
+hello guys welcome to my youtube channel this is 100 days of machine learning and today is day 10
+and today we are going to study what are the various job roles that are available in the
+field of data science and machine learning okay so as a beginner when i was searching for jobs
+in this field uh things were very confusing in fact it will be the same problem for you too
+if you also go to this field to search for a job after studying a lot then you would be
+be thoroughly confused because here there are a lot of different job profiles. So today's
+video I am shooting just for this so that since you are studying about this thing you
+should have this idea that what are the different job profiles in this field. So I will first
+show you what are the various job profiles. I will share my screen. So there is this website
+It's called AngelList. It's a very famous website. A lot of startups put their jobs here.
+So I would recommend after watching this video, go and explore this website once.
+So if you go to any job search engine, like this is a job search engine.
+Here if you search machine learning engineer, then you will see some jobs.
+Like you can see here, machine learning engineer job, salary of 12-18 lakhs and all.
+machine learning engineer salary of 7 to 11 lakhs and here there are some 200 companies
+which are startups at this point and hiring machine learning engineers
+but the problem is that you will see one more job profile and it is called data scientist
+this, now this data scientist is a different job profile means it is in the same domain
+but the work is a little different so companies hire data scientists also
+Data Scientist is 7 to 11 lakhs package, Data Scientist is 60 to 80 thousand salary.
+And you will see that you will get many roles of Data Scientist.
+Then another job role also comes which we call Data Analyst.
+Data Analyst and these are all the job profiles of Data Analyst.
+These are different companies which are hiring Data Analyst.
+Now, one more last is Data Engineer. This is Data Engineer. This is different from other three.
+This is Data Engineer's job profile. So when I was a beginner and I was looking at jobs,
+I got confused whether I want to become a Machine Learning Engineer or Data Scientist or Data Engineer or Data Analyst.
+So today's video will resolve your doubt that in which job profile you should go.
+I will tell you what is the need of every job profile, what are the responsibilities,
+and what kind of skill set you need.
+Along with that I will also tell you how to get salaries.
+You can go and see the salaries yourself.
+I will also link a blog post in the description of this video
+in which I have told you in more detail what are all these job roles.
+So after watching this video, you can also read the blog once.
+So let's start our discussion. So we will start our discussion with the fact that there are 4 different job profiles.
+Data Analyst, Data Engineer, Data Scientist and ML Engineer which are on your screen.
+Now the first question is that why are 4 profiles needed?
+The answer to this question is hidden in our last video where we discussed Machine Learning Development Life Cycle.
+That if you want to make a machine learning software or machine learning based software
+So you have to go through a process to make that software.
+So if you remember that, we had discussed that what do you do first?
+First of all, you plan, right?
+After that, you bring data, right?
+After that, you do processing.
+After that, you do EDA.
+after that you do modeling means you train the algorithm, after that you evaluate it, after that you deploy it,
+and lastly you optimize it. These whole series of steps are important if you are making a machine learning product.
+So, these job roles actually came out because of this process.
+One person cannot do all the work, that is the funda.
+Especially if you are working in a very big company.
+You cannot leave such a big process on one person.
+That is why different job roles were defined for different stages of this process.
+And we are going to see these 4 job roles today.
+So these data analyst, data engineer, data scientist, machine learning engineer
+These four people will solve one puzzle in this whole process.
+We will start with the first guy who comes first in this process.
+We call him Data Engineer.
+Data Engineer is the person whose work is to bring data and give it on the table.
+So that the people in front can use that data.
+Data is not easily available, at least when we do a project we just use a CSV file.
+This doesn't happen in actual big companies.
+In big companies there is a concept called OLTP or OLAP.
+OLTP, its full form is Online Transaction Processing.
+Basically your website's database, let's take the example of Flipkart.
+Flipkart will have a website database which will be used to run its app and website.
+Now your Flipkart's analytics team or data science team will not work directly in that database
+because it is a running database and users are interacting with it.
+You can't directly work on analysis there.
+So what you have to do is, you have to make another thing from that OLTP database which is called OLAP.
+The full form of OLAP is online analytical processing.
+So the work of your data engineer is to create OLAP from the database of the actual running website which we call OLTP.
+So that your analytics team can work on that data.
+The whole idea is that you don't want to expose your analytics team directly on the database.
+Because that is a running thing. There shouldn't be any problem in that.
+You can call OLTP as database in simple terms.
+And you can call OLAP as data warehouse in simpler terms.
+Maybe you have heard of it.
+So one of the most important work of our data engineer is to make data warehouse from database.
+Now this is not an easy work, it is a very specialized work and you should have a lot of software knowledge,
+you should have knowledge of databases then you can do this work.
+Let's see some other job roles.
+Sometimes your data source is coming from multiple places, from your company's database,
+from some other API, by scraping the data of some third party website.
+So your job as a data engineer is to bring data from different sources and give it to your analytics team in the correct format.
+Second job is move store the data in optimal servers warehouses.
+Which I have also discussed.
+Build data pipelines, APIs for easy access of data.
+So once you make this OLAP, after that what you do is you create pipelines.
+Pipelines means, anything can happen, APIs can happen on which your analytics team will hit and they will get the data.
+So how to talk to the data warehouse, you will create these pipelines if you are the data engineer.
+And finally, handle the database and data warehouses.
+Their periodic maintenance, if something is going wrong then handle it.
+Keep watching these pipelines all the time to see if there is any break and keep checking whether these APIs are working properly all the time.
+This is the work of data engineer. Now, to be honest, this is a very important job role according to the industry,
+especially if you are working in a big organization where data is at scale, there is a lot of data,
+there the work of data engineer becomes very important because keeping the data properly, because data is gold guys, data is gold.
+To handle that data properly, the work of the person becomes very important.
+And that's why in today's date data engineers get a lot of salary.
+If you go to that website which I have just shown you, Injilist,
+and if you go there and check how the salaries are,
+then you would find that data engineers get a lot of salary.
+And one of the reasons for this is that the skills you need for data engineering
+are not easily taught or are not easily available to people.
+Basically, data engineers are less and this job role is very important.
+So whoever is there, they get a good salary. If you ask what skills are required to become a data engineer,
+so these are the skills. This person is one who should know software well. This guy is a proper software developer
+who has full knowledge of backend, databases and server. So the first thing that you need in order to become a great data engineer is
+you should have a strong grasp of algorithms and data structures. Because you are handling things at scale,
+You should have knowledge of data structures and algorithms.
+Second, you should also learn some programming languages.
+Java, R, Python, Scala, you can use any of them.
+I know more than one, it's very good.
+Advance DBMS, you should have the flavour of different databases.
+Both SQL, NoSQL.
+Next, Big Data Tools.
+Obviously, if you are working in a big company,
+then you are going to work with big data.
+And the way to handle big data is completely different.
+You need big data tools.
+Like Apache Spark, Hadoop, Kafka or Hive.
+Next is you should also have good experience with cloud platforms like AWS and GCP.
+Google Cloud Platform or Azure.
+You should also work with distributed systems.
+And you should also have good knowledge of system design.
+And lastly, you should know how to build data pipelines.
+Here you have to use some software tools like Apache Airflow.
+There are some tools which are very famous.
+You have to learn all these.
+This thing is difficult guys. I would say this. I have done a lot of work in this domain.
+I find the data engineering part the most difficult because this is hardcore software.
+A software person can do it well and you should handle things at scale.
+It is a very difficult work. This is something in which you get into when you are very passionate about software.
+This is the field under data but it is not related to data science.
+So anyways, let's move on to the second guy which is data analyst.
+Now if you remember, the life cycle of data science, the machine learning development life cycle,
+stage 1 was gathering data. Who is doing that? Data engineer.
+Now when data comes to you, the first thing you have to do is to do analysis on that data.
+You have to clean the data and then you have to make reports.
+Whatever you have learnt, whatever you have got in your data analysis process, you have to tell that to people.
+So that people can learn from that and make further models. So the whole idea of data analyst is that
+its work is to summarize whatever has happened in the past in the data, to tell its story.
+Means you have a company's one year data, you have to tell why a particular product failed.
+Right? Or why did our profit decrease last year? You get the answer of such things from the data, okay?
+So, data analysis is understood by name. Its core work is to run analysis on data and tell people, okay?
+So, if you talk about responsibilities, then first comes cleaning and organizing raw data.
+I have always told you that whenever data will come to you, it will not come in the correct format.
+There will be something or the other in it. Cleaning it is the first work, okay?
+Second, Analyzing data to derive insights.
+To take out the hidden story inside the data.
+Creating data visualization, this is a very important part.
+See, whatever a data analyst is,
+one of his work is that he gives reports to the senior management
+that let's say why that product failed.
+So you have to tell its story.
+So you won't run codes like this because that guy is a CEO, right?
+He doesn't know the codes, he has management background.
+So you have to use graphs to tell your story properly.
+By the way, one more thing, with data analyst, there is another job role called business analyst.
+It is the same type of job role, both have the same work, to tell people the story of data.
+Data analyst is a bit of engineering based role and business analyst is a bit of management based role.
+Means you will do engineering, you will become data analyst.
+You will do MBA, you will become business analyst.
+Core idea is same, tools are a bit different.
+Here you use Python more, you write more codes.
+there you use some different tools like tabliu or some other tools like microsoft vi
+next is you produce and maintain reports make slides and present it in meeting in front of people
+just ignore what is happening with this video i don't know if you are seeing this or not
+but i was seeing a lot of fluctuations on my screen so please ignore that
+next is collaborating with team colleagues based on inside scheme
+So the analysts, the data analysts, they also talk to other teams, have meetings so that they can make them understand what is going on,
+means what happened in the past. Next is optimizing data collection procedures. Basically, the whole work is to optimize it, to make it fast.
+What skills do you need? You need a good understanding of statistics. If you want to tell the story of data, then you should know statistics very well.
+Next is programming languages. You should understand or know Python or R.
+Creative and analytical thinking. This is very important work. You have to show analytical thinking always.
+Analytical thinking means common sense in simple sense. Whenever you see data,
+you have to use your common sense and find the summary in it. So it's very important.
+Business acumen, basically you should have understanding of your business.
+If you are in medical domain, then you should have understanding of medical domain.
+If you are in banking domain, then you should have understanding of how banking system works.
+If you are in sports domain, then you should have understanding of sports.
+Only then you will be able to do analysis very well.
+Because think about it, you are a cricket website data analyst and you don't know cricket at all.
+So you won't be able to do analysis. You don't know what is average, strike rate.
+I hope you are understanding this thing.
+You should also have strong communication skills.
+It is a valid thing because you are communicating with so many people. You are giving presentation to the CEO. You are talking to the other team.
+We will proceed to the next point. Next point is you should also have a good understanding of data mining, cleaning and munging.
+We have read it. You should know data visualization. There are different libraries for that. Data storytelling.
+This is very useful thing. This is something which is like an art.
+I mean I haven't seen all of them, many people don't have this talent, some people have this talent.
+Data storytelling, like when I tell students to give a presentation by analyzing some data,
+some people give a very poor presentation and a boring presentation.
+When I tell some students to give a presentation, they make a story out of that data.
+Right, so that presentation becomes very interesting.
+So it is said that if you are going to become a data analyst, then you should know data storytelling,
+You should know the art of storytelling and use the data to tell a story.
+So those data analysts are very successful in their career. So try to develop this art.
+Speaking in front of camera, making a story, making something interesting.
+Next is you should know SQL because sometimes you work with databases.
+And lastly, if you become a business analyst by mistake then you should know Excel very well.
+Maybe data analyst doesn't need so much of Excel. Business analyst needs it a lot.
+So this is our Data Analyst. Now let's move on to the third guy, Data Scientist.
+If you want to know about Data Scientist in one line, you won't get a better line than this.
+A Data Scientist is someone who is better at statistics than any software engineer
+and better at software engineering than any statistician.
+This is the best description of a data scientist.
+Data scientist is basically the guy who is the full stack guy.
+The guy who knows everything.
+So if you are working in a startup,
+then it is possible that there is no data engineer there.
+Who can work there? Data scientist.
+There is no data analyst also.
+Who can work there? Data scientist.
+So a data scientist is a person who can do every work of the entire workflow, machine learning, development, life cycle.
+Although it should not be done. The main difference between a data scientist and a data analyst,
+data engineering is a very different field, but the most important difference between a data analyst and a data scientist is that
+The data analyst looks at the past. What happened? Why did it happen? How did it happen? What was the reason for it?
+Whereas data scientist's job is to understand the data and make something for the future.
+For example, I want to increase my sales on Amazon. What is its method?
+If I put a recommendation engine, it is going to make a recommendation engine.
+If I want to give a better experience to customers of Uber, how can we do it?
+We can take them to the destination in a faster way. How will that happen?
+If you can reach point A to point B as soon as possible, then you can optimize that route.
+This is what data scientists do. Data scientist is someone who does predictive modeling.
+And your data analyst gives a kind of summary on the data. That is the main difference.
+So actually, what you are reading now, machine learning and all, your end goal should be to become data scientist.
+This is the guy who is the main guy. He does everything.
+And that's why it is called full stack. Full stack means he should know the whole thing.
+It is not necessary that you will do everything. Especially if you are in a big company,
+then your role will be very defined. Data engineer will bring data.
+Data analyst will give report on it. You will read that report and create a model.
+And that model will be used by some other people to integrate into the website or app.
+So your end to end work in a big company will be to create the model.
+Create the best performing model but at a startup or a smaller company you can perform all the roles.
+So I always tell the students that if you want to enter the field of data science,
+the job role that you should apply for is data scientist.
+In some places it is also called decision scientist so don't get confused.
+So yeah, you understood the work completely. You should have knowledge of all algorithms.
+And you should have strong Maths. You should have little bit of software.
+You don't need much software. Communication skills should be very good.
+Because you have to talk to data analyst when you are taking reports.
+You have to talk to the person who will deploy your model in the website.
+So communication should be strong. And you should have strong Maths.
+Analytical skills should be good. I have not written separately here.
+You can read the blog which I will put in the description, everything is there.
+Next is ML Engineer.
+So many people get confused that when they are studying machine learning, they want to become ML Engineer only.
+But actually the machine learning engineer, especially the one who has a job role, his work is very small.
+Why is his work small? I will tell you.
+ML Engineer is that person whose work is that once the model is made, he will get it deployed in the website.
+Because most likely your data scientist doesn't know software development.
+And your software developers don't know data science.
+So if you want to integrate a model in a website or a mobile app,
+then both the parties won't be able to talk because their expertise area is different.
+So you need to bridge this knowledge gap.
+And here comes a new job profile which is called machine learning engineer.
+So, if you read its responsibilities, it is written here. Deploying a machine learning model to production ready environment.
+This is its most important work. Second, scaling and optimizing the model for production.
+Working on a big scale and optimizing it that how frequently you have to retrain and how your data will come while retraining.
+taking backup of model, these type of things, this guy does.
+Monitoring and maintenance of deployed model,
+this guy does all the maintenance and maintenance of it.
+If you talk about skills, then he should know mathematics because
+to handle models, you should know mathematics.
+Programming language should be there for sure.
+Distributed system knowledge should be there because
+it is possible that you are putting things in your production at scale,
+then you should have knowledge of distributed system.
+data model and evaluation, you should know how to evaluate models, you should also know about machine learning models of different algorithms,
+and you should know the concepts of software engineering along with system design. So this is your job role of a machine learning engineer.
+So these are the 4 job roles and where did all these 4 come from? From the machine learning development life cycle.
+So if you haven't seen that video, then watch it once, it is just the first video. Now I will show you one last thing, that is comparison.
+between all these job roles, we will talk about some points, analytical skills, basically common sense,
+business acumen, knowledge of your domain, data storytelling, soft skills, communication skills, software skills,
+so if you talk about data analyst, then analytical skills should be high because you are drawing insights from data,
+you need good analytical skills, business acumen medium to high, you should have knowledge of your business,
+then only you will be able to do better analysis. Data storytelling is high because you talk across teams
+and you have to tell people the hidden things in the data. So if your data storytelling is good,
+then you will move ahead in the job. Soft skills are medium to high because again you need to talk to people.
+Software skills are medium. There should be SQL, there should be one or two programming languages.
+You don't need to enter a lot of data structure and algorithms. If you don't know distributed system and system design, then it will be fine.
+Next is data engineer, the person who brings data. Analytical skills, medium.
+Common sense doesn't have much work, you have to run codes and bring things on the table.
+Business acumen, doesn't matter. Zomato's data engineer can become Flipkart's data engineer
+because domain is not that important. When data is coming on the database,
+then it doesn't matter if it is Flipkart's data or Zomato's data. Scale of the data matters.
+Both are big companies, they know how to handle big data. Any big company can handle big data.
+Data storytelling, you don't have to talk much to anyone, you have to go and handle the data on the server.
+So, there is no need for data storytelling.
+Soft skill, medium, you will mostly talk to the analytics team that we have made pipelines
+and you can access it like this.
+You don't need very high communication skill for that.
+Software skills, very high.
+Means you have to handle only at-scale data all the time on the server.
+You should know a lot of technicalities.
+So, this is our data engineer.
+Next is data scientist.
+For this person, everything should be high. Simple thing is analytical skill, common sense should be high.
+You are working with model. Business acumen should be high. How will you make a good model otherwise?
+Data storytelling should be high. If you are talking to machine learning engineer or data analyst,
+then you have to keep soft skills high and data storytelling should also be high.
+Software skill medium, you don't need much DSL go unless and until you are making your own algorithms.
+People generally don't make their own algorithms, so you don't need a lot of software skills to be honest.
+Last is ML engineer, analytical skills medium to high, just like your data scientist.
+Business acumen, medium will also work because you are getting a model, you just have to handle it a little.
+Data storytelling, there is no need, your work is to deploy on production, there is no need for storytelling.
+Soft skills high because you are talking to two people, you are talking to the data scientist team
+If you are talking to a web development team or a software team, if you are in between then you should know communication.
+And last one is software skills. They should be high because obviously you are dealing with big systems.
+DSL, system design, distributed systems, you should know all these.
+Now if you talk to me in a nutshell that what should I become if you still don't understand,
+then I will tell you to become a data scientist. If you want a lot of money then you can try being a data engineer.
+and if you want to play with data without getting into too much maths, then become a data analyst.
+And if you don't know anything about it, then become a machine learning engineer.
+Now do two things after watching this video. I am putting a link of a blog.
+Read that. There are things given in a little more detail.
+Second, do one thing. Go to your website and search for these job roles.
+And then click and read by yourself what they want.
+I always tell this to students that if you ever want to know what is the requirement in any field,
+then it is a very simple work. Don't ask from a senior, don't ask from a teacher.
+Go directly to the job websites and see what the companies are asking for and develop the same skills.
+After today's video, you should know one thing with surety that what do you want to become out of these four things?
+And what do I have to study to become that? Rest we are studying.
+So yeah, that's it for this video.
+If there is any mistake in the middle, ignore it.
+And if you like the video, please subscribe.
+And by the way, this is the last video where we are just discussing this theory.
+From tomorrow, we will properly start our maths part.
+So I am excited for that.
+I hope you are also.
+So yeah, thanks for watching the video.

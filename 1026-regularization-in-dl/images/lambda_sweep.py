@@ -45,14 +45,14 @@ def frame(k):
     for col, c, name in (("train_loss_data", GREY, "training"), ("val_loss_data", RED, "validation")):
         fig.add_trace(go.Scatter(x=x, y=s[col], mode="lines+markers", line=dict(color=c, width=3), marker=dict(size=7)), 1, 3)
         fig.add_trace(go.Scatter(x=[k], y=[s[col][k]], mode="markers", marker=dict(color=c, size=18, line=dict(color="black", width=2))), 1, 3)
-        fig.add_annotation(x=3.5, y=0.86 if name == "validation" else 0.78, xref="x3", yref="y3",
+        fig.add_annotation(x=3.5, y=1.33 if name == "validation" else 1.21, xref="x3", yref="y3",
                            xanchor="center", showarrow=False, text=name, font=dict(color=c, size=20))
     fig.update_xaxes(range=[-2, 3], showticklabels=False, row=1, col=1)
     fig.update_yaxes(range=[-1.75, 2.25], showticklabels=False, row=1, col=1)
     fig.update_xaxes(range=[-3, 3], title="weight", row=1, col=2)
     fig.update_yaxes(type="log", range=[0, 2.5], dtick=1, title="number of weights", row=1, col=2)
     fig.update_xaxes(tickvals=x, ticktext=[f"{v:g}" for v in LAMS], tickangle=60, title="λ", row=1, col=3)
-    fig.update_yaxes(range=[0, 0.9], row=1, col=3)
+    fig.update_yaxes(range=[0, 1.4], row=1, col=3)
     fig.update_annotations(font=dict(size=22), selector=lambda a: a.yref == "paper")
     verdict = VERDICT.get(lam, "a smooth boundary that follows the moons")
     fig.update_layout(template="simple_white", width=1300, height=520, font=FONT, showlegend=False,

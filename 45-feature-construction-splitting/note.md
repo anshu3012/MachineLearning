@@ -16,7 +16,7 @@ tags: [subject/ml, area/features, step/features, concept/feature-construction]
 
 > **Key point:** Feature construction builds a new feature from existing ones by hand; feature splitting breaks one feature that holds several facts into several features.
 
-A **feature** is an input variable (one column of the data table), an **observation** is one record (one row, here one passenger), and the **target** is the output we predict (here `Survived`).
+A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row, here one passenger), and the **target** (G-1949) is the output we predict (here `Survived`).
 
 Every technique in the Notes so far changed a feature that was already there: filling gaps, encoding, scaling, removing outliers. Those are all feature transformation. This Note covers the second part of feature engineering: making new features. A cook does the same: from flour and water already on the shelf, a cook makes dough, an ingredient the shelf did not have.
 
@@ -30,10 +30,10 @@ Figure 1 shows the two ideas on the Titanic data. Construction combines `SibSp` 
 
 Every earlier technique had a fixed procedure. Standardization, for example, always subtracts the mean and divides by the standard deviation. Feature construction has no such procedure.
 
-Feature construction means creating a new feature by hand, from existing features, because we believe it will help the model (see the [feature engineering Note](../23-what-is-feature-engineering/note.md), section 7). Three things decide which feature we build:
+**Feature construction** (G-760) means creating a new feature by hand, from existing features, because we believe it will help the model (see the [feature engineering Note](../23-what-is-feature-engineering/note.md), section 7). Three things decide which feature we build:
 
 - **intuition:** a sense of what could matter for the target;
-- **domain knowledge:** knowing the field the data comes from;
+- **domain knowledge** (G-631): knowing the field the data comes from;
 - **experience:** after working on many datasets, useful features become easier to spot.
 
 At first feature construction feels hard, because it is not obvious which features could be built from which. The habit to build is simple: for every new dataset, ask "can I construct a new feature that helps the model?"
@@ -80,7 +80,7 @@ The baseline is logistic regression scored with 20-fold cross-validation (Notes 
 
 > **Key point:** Family size = `SibSp` + `Parch` + 1, where the 1 counts the passenger.
 
-`SibSp` and `Parch` both count relatives on board. Added together, they give the number of relatives. Adding 1 for the passenger gives the **family size**: the number of people travelling together as a family.
+`SibSp` and `Parch` both count relatives on board. Added together, they give the number of relatives. Adding 1 for the passenger gives the **family size** (G-750): the number of people travelling together as a family.
 
 1. **In words:** siblings and spouses, plus parents and children, plus the passenger.
 2. **Formula:**
@@ -97,11 +97,15 @@ The baseline is logistic regression scored with 20-fold cross-validation (Notes 
 >
 > Adding two columns adds them row by row, so every passenger gets their own family size.
 
+Figure 2 does the addition row by row for six passengers. Its last column then sorts each size into a family type, the grouping of Section 3.3.
+
+![Family_size = SibSp + Parch + 1 built row by row for six Titanic passengers, then each size grouped into a family type (alone, small or large); the newest result is orange.](images/family_build.gif){height=30%}
+
 ### 3.3 Grouping the size into a family type
 
 > **Key point:** Family size 1 means alone (0), 2 to 4 means a small family (1), and 5 or more means a large family (2).
 
-Instead of the exact size, we keep only the kind of group the passenger was in. This new feature is the **family type**:
+Instead of the exact size, we keep only the kind of group the passenger was in. This new feature is the **family type** (G-751):
 
 | Family size | Family type | Code |
 |---|---|---|
@@ -109,7 +113,9 @@ Instead of the exact size, we keep only the kind of group the passenger was in. 
 | 2 to 4 | small family | 1 |
 | 5 or more | large family | 2 |
 
-Figure 2 shows why these groups make sense. Passengers alone survived 30% of the time, small families 55% to 72%, and large families 0% to 33%.
+The last column of Figure 2 applies this table to the six passengers: Heikkinen (size 1) is alone, Braund (size 2) is in a small family, and the other four (sizes 5 to 7) are in large families.
+
+Figure 3 shows why these groups make sense. Passengers alone survived 30% of the time, small families 55% to 72%, and large families 0% to 33%.
 
 ![Survival rate for each family size, coloured by family type (all 891 passengers)](images/family_survival.png){width=100%}
 
@@ -139,7 +145,7 @@ The pattern is not a straight line. Survival rises from alone to small families,
 | `Age`, `Pclass`, `SibSp`, `Parch` (baseline) | 69.4% |
 | `Age`, `Pclass`, `Family_type` one-hot | 72.7% |
 
-The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times (Section 8). One-hot encoding (Note 27) matters here because survival rises and then falls across the three groups (Figure 2), and only a separate weight per group can follow that shape (Section 8 explains why).
+The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times (Section 8). One-hot encoding (Note 27) matters here because survival rises and then falls across the three groups (Figure 3), and only a separate weight per group can follow that shape (Section 8 explains why).
 
 Fed in as one number 0, 1, 2, as in the code below, the same feature moves 20-fold accuracy only from 69.3% to 70.0%.
 
@@ -158,7 +164,7 @@ Fed in as one number 0, 1, 2, as in the code below, the same feature moves 20-fo
 
 The same habit works on any dataset. In IPL ball-by-ball data, anyone who follows cricket knows two numbers that rate players better than raw totals.
 
-**Strike rate**, for a batter:
+**Strike rate** (G-1902), for a batter:
 
 1. **In words:** runs scored for every 100 balls faced.
 2. **Formula:**
@@ -166,7 +172,7 @@ The same habit works on any dataset. In IPL ball-by-ball data, anyone who follow
 3. **Example:** 45 runs off 30 balls give
    $$\frac{45}{30} \times 100 = 150.$$
 
-**Economy rate**, for a bowler:
+**Economy rate** (G-658), for a bowler:
 
 1. **In words:** runs given away per over bowled.
 2. **Formula:**
@@ -174,7 +180,9 @@ The same habit works on any dataset. In IPL ball-by-ball data, anyone who follow
 3. **Example:** 32 runs in 4 overs give
    $$\frac{32}{4} = 8.$$
 
-Neither feature exists in raw ball-by-ball data. Both are built from features that do, using knowledge of the game.
+Neither feature exists in raw ball-by-ball data. Both are built from features that do, using knowledge of the game. Figure 4 shows why the constructed feature helps, on illustrative numbers: two batters with the same 45 runs look equal on the raw feature, but the strike rate separates the one who needed 30 balls from the one who needed 45.
+
+![Illustrative numbers: two batters with 45 runs each. The raw runs are equal; the constructed strike rate is 150 for 30 balls and 100 for 45 balls.](images/ratio_feature.png){height=30%}
 
 > **Extra:** Strike rate and economy are ratios, and ratios are a natural kind of constructed feature in other data too: price per square foot, debt per unit of income, clicks per visit. The intuition: a ratio removes the effect of size, so a big flat and a small flat can be compared by their price per square foot. Taking the ratio of two features is one of the first new features worth trying, and the model then tells us whether it helps (Kuhn and Johnson, §1.1).
 
@@ -186,12 +194,14 @@ Neither feature exists in raw ball-by-ball data. Both are built from features th
 
 > **Key point:** Tidy data has one observation per row and one atomic value per cell.
 
-Data is **tidy** when:
+Data is **tidy** (G-1972) when:
 
 - each row is one observation (here, one passenger);
-- each cell holds an **atomic value**: one single piece of information, not several pushed into one place.
+- each cell holds an **atomic value** (G-222): one single piece of information, not several pushed into one place.
 
-Sometimes a dataset is not tidy: one cell holds two or three facts at once. Such a feature is hard to plot, group or give to a model, because the facts inside it cannot be used separately.
+Sometimes a dataset is not tidy: one cell holds two or three facts at once. The Titanic `Name` column is an example (Figure 5): each cell holds a surname, a title and given names. Such a feature is hard to plot, group or give to a model, because the facts inside it cannot be used separately.
+
+![The first four Titanic names. Left: three facts packed into each cell. Right: the same names split into surname, title and given names, one fact per cell.](images/tidy_names.png)
 
 > **Extra:** The usual definition of tidy data, from the statistician Hadley Wickham, has three rules (Wickham and Grolemund, §12.2): each variable is a column, each observation is a row, and each cell holds one value. A name column that holds a title and a first name breaks the first and third rules: two variables share one column and one cell.
 
@@ -199,9 +209,9 @@ Sometimes a dataset is not tidy: one cell holds two or three facts at once. Such
 
 > **Key point:** A name like "Mr. Ankit" holds a title and a first name; splitting gives one feature for each.
 
-Take a name feature whose value is "Mr. Ankit". The value holds two facts: the **title** Mr (the word before the name that shows sex, and often marital status or rank) and the first name Ankit.
+Take a name feature whose value is "Mr. Ankit". The value holds two facts: the **title** (G-1979) Mr (the word before the name that shows sex, and often marital status or rank) and the first name Ankit.
 
-**Feature splitting** breaks such a feature into one feature per fact: here, a `Title` feature with Mr and a `First_name` feature with Ankit. The new features can affect the model in ways the combined feature could not. Splitting is useful in many situations, and Note 33 already split two Titanic columns, `Cabin` and `Ticket`, in the same way.
+**Feature splitting** (G-769) breaks such a feature into one feature per fact: here, a `Title` feature with Mr and a `First_name` feature with Ankit. The new features can affect the model in ways the combined feature could not. Splitting is useful in many situations, and Note 33 already split two Titanic columns, `Cabin` and `Ticket`, in the same way.
 
 ## 6. Splitting the title out of the Titanic names
 
@@ -209,7 +219,7 @@ Take a name feature whose value is "Mr. Ankit". The value holds two facts: the *
 
 Every name in the Titanic data has the same shape: surname, a comma, the title with a full stop, then the other names. For example, "Braund, Mr. Owen Harris".
 
-Figure 3 shows how two splits isolate the title:
+Figure 6 shows how two splits isolate the title:
 
 1. Split at ", " (comma and space). Piece 0 is the surname, Braund; piece 1 is "Mr. Owen Harris".
 2. Split piece 1 at ".". Piece 0 is the title, Mr.
@@ -242,7 +252,7 @@ The 891 names give 17 different titles. One unusual name, "Rothes, the Countess.
 
 > **Key point:** Survival rate differs strongly by title: 79% for Mrs, 70% for Miss, 57% for Master, but only 16% for Mr.
 
-Grouping passengers by title and averaging `Survived` gives each title's survival rate (Figure 4):
+Grouping passengers by title and averaging `Survived` gives each title's survival rate (Figure 7):
 
 - **Mrs** (married women): 79% of 125 survived, the highest of the common titles.
 - **Miss** (unmarried women and girls): 70% of 182.
@@ -262,7 +272,7 @@ The title carries a lot of information about survival that the raw name hid, and
 >
 > `agg(["mean", "size"])` gives each title's survival rate and its number of passengers. Select the `Survived` column before averaging: `df.groupby("Title").mean()` fails in pandas 3, because it tries to average text columns such as `Name`.
 
-> **Extra:** Treat the grey bars in Figure 4 with care. Lady, Sir, Ms and the Countess show 100% survival, but each is a single passenger. One person cannot give a reliable rate. So before using the title in a model, we group rare titles into one category. scikit-learn's `OneHotEncoder` can do this for us (Section 8).
+> **Extra:** Treat the grey bars in Figure 7 with care. Lady, Sir, Ms and the Countess show 100% survival, but each is a single passenger. One person cannot give a reliable rate. So before using the title in a model, we group rare titles into one category. scikit-learn's `OneHotEncoder` can do this for us (Section 8).
 
 ### 7.1 A married feature from the title
 
@@ -279,7 +289,7 @@ Splitting and construction often work together. From the split-out title we can 
 >
 > `df["Title"] == "Mrs"` gives True or False for every row, and `.astype(int)` turns these into 1 and 0.
 
-> **Extra:** Older code builds the column in two steps: `df["Is_Married"] = 0`, then `df["Is_Married"].loc[df["Title"] == "Mrs"] = 1`. The second line first selects the column and then changes the selection, which is called **chained assignment**. In pandas 3 the selection is always a separate copy, so the line prints a `ChainedAssignmentError` warning and changes nothing: every row stays 0.
+> **Extra:** Older code builds the column in two steps: `df["Is_Married"] = 0`, then `df["Is_Married"].loc[df["Title"] == "Mrs"] = 1`. The second line first selects the column and then changes the selection, which is called **chained assignment** (G-372). In pandas 3 the selection is always a separate copy, so the line prints a `ChainedAssignmentError` warning and changes nothing: every row stays 0.
 >
 > The one-step version above avoids the problem.
 
@@ -300,7 +310,7 @@ Splitting and construction often work together. From the split-out title we can 
 
 ![Cross-validated accuracy for each set of features (grey: baseline; blue: construction; orange: splitting)](images/scores.png){height=50%}
 
-> **Extra:** Figure 5 shows the results:
+> **Extra:** Figure 8 shows the results:
 >
 > | Features | Accuracy | Change |
 > |---|---|---|
@@ -311,11 +321,11 @@ Splitting and construction often work together. From the split-out title we can 
 > | baseline + `Is_Married` | 75.9% | +6.5 |
 > | baseline + `Title` one-hot | 81.6% | +12.2 |
 >
-> The grey bars in Figure 5 show the spread of single-fold scores: about 4 to 5 points either way.
+> The grey bars in Figure 8 show the spread of single-fold scores: about 4 to 5 points either way.
 
 > **Extra:** Why `Family_size` adds exactly nothing. Logistic regression gives each feature a weight and adds them up, so it can already use $w \cdot (\text{SibSp} + \text{Parch})$ by giving both raw features the same weight. A new feature that is a plain sum of existing ones gives a linear model no new information. Grouping is different: alone, small and large is a bend that no weighted sum of the raw counts can draw.
 
-> **Extra:** Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with a single weight $w$, the feature adds $0$, $w$ and $2w$ to the model's score for alone, small and large. These three always go in one direction: if small is above alone ($w > 0$), large must be above small too. But survival goes up and then down (Figure 2). One-hot encoding (Note 27) gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within the fold-to-fold spread; the one-hot version beats it in 78.
+> **Extra:** Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with a single weight $w$, the feature adds $0$, $w$ and $2w$ to the model's score for alone, small and large. These three always go in one direction: if small is above alone ($w > 0$), large must be above small too. But survival goes up and then down (Figure 3). One-hot encoding (Note 27) gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within the fold-to-fold spread; the one-hot version beats it in 78.
 
 > **Extra:** The title is clearly worth keeping: it beats the baseline in 99 of the 100 folds and ties in the last one.
 >

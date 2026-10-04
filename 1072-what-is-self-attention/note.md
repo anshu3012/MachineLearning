@@ -15,9 +15,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, step/model, c
 
 ## 1. Overview
 
-> **Key point:** A word embedding gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". **Self-attention** is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings**, in which each word's vector depends on the words around it.
+> **Key point:** A word embedding gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". **Self-attention** (G-1764) is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings** (G-462), in which each word's vector depends on the words around it.
 
-Every NLP application, whether sentiment analysis, named entity recognition or machine translation, starts from words, and computers work with numbers. The first step is always to turn words into numbers. Word embeddings do this well, but they have one weakness: they are **static**, the same in every sentence. Self-attention is the transformer's answer to that weakness, and it is the core of the transformer (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md)).
+Every **natural language processing** (G-1305; NLP) application, whether sentiment analysis, named entity recognition or machine translation, starts from words, and computers work with numbers. The first step is always to turn words into numbers. Word embeddings do this well, but they have one weakness: they are **static** (G-1877), the same in every sentence. Self-attention is the transformer's answer to that weakness, and it is the core of the transformer (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md)).
 
 This Note explains **what** self-attention does and why it is needed. The next Note, the [self-attention step by step Note](../1073-self-attention-step-by-step/note.md), explains **how** it works inside.
 
@@ -34,15 +34,17 @@ This Note explains **what** self-attention does and why it is needed. The next N
 
 > **Key point:** One-hot encoding and bag of words turn words into numbers but carry no meaning. Word embeddings carry meaning: similar words get similar vectors.
 
-Turning text into numbers is called **vectorization**. The early methods count words:
+Turning text into numbers is called **vectorization** (G-2084). The early methods count words (Figure 2):
 
-- **One-hot encoding** lists the **vocabulary** (the distinct words) and writes each word as a vector with a 1 at its own place. For the vocabulary mat, cat, rat: mat is $[1, 0, 0]$, cat is $[0, 1, 0]$, rat is $[0, 0, 1]$. The sentence "mat cat mat" becomes $[1,0,0],\ [0,1,0],\ [1,0,0]$.
-- **Bag of words** counts how often each vocabulary word appears in a sentence: "mat cat mat" becomes $[2, 1, 0]$ (two mats, one cat, no rat) and "cat rat rat" becomes $[0, 1, 2]$.
+- **One-hot encoding** (G-1379) lists the **vocabulary** (G-2093; the distinct words) and writes each word as a vector with a 1 at its own place. For the vocabulary mat, cat, rat: mat is $[1, 0, 0]$, cat is $[0, 1, 0]$, rat is $[0, 0, 1]$. The sentence "mat cat mat" becomes $[1,0,0],\ [0,1,0],\ [1,0,0]$.
+- **Bag of words** (G-250) counts how often each vocabulary word appears in a sentence: "mat cat mat" becomes $[2, 1, 0]$ (two mats, one cat, no rat) and "cat rat rat" becomes $[0, 1, 2]$.
 - **TF-IDF** improves bag of words by weighting each count by how rare the word is across documents (SLP3 ch. 5).
 
-None of these says anything about meaning: in one-hot space, every pair of words is equally far apart. **Word embeddings** fix this (the [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md), section 6). A neural network reads a large text collection, such as all of Wikipedia, sees how each word is used, and represents every word as a dense vector of $n$ numbers, where $n$ is typically 64, 256 or 512. Words used in similar ways get similar vectors.
+![The counting methods on the vocabulary mat, cat, rat. (a) One-hot: one row per word. (b) Bag of words: one row of counts per sentence](images/vectorization.png){width=95%}
 
-A useful picture: each embedding is an arrow, and **each direction in the space is one aspect of meaning**, not each number. King and queen point in similar directions, and cricketer points elsewhere. The step from "man" to "woman" is roughly the same arrow as the step from "king" to "queen", so that arrow can be read as a direction for gender, and the dot product of a word's vector with it measures how much of that aspect the word carries (Sanderson 2024, Ch 5). The single numbers of an embedding have no labels and rarely a clean meaning of their own; the meaning lives in directions, which mix many numbers. The [meaning as direction Note](../1086-meaning-as-direction/note.md) shows this on real word vectors. For this Note one fact is enough: similar words lie close together.
+None of these says anything about meaning: in one-hot space, every pair of words is equally far apart. **Word embeddings** (G-2127) fix this (the [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md), section 6). A neural network reads a large text collection, such as all of Wikipedia, sees how each word is used, and represents every word as a dense vector of $n$ numbers, where $n$ is typically 64, 256 or 512. Words used in similar ways get similar vectors.
+
+A useful picture: each embedding is an arrow, and **each direction in the space is one aspect of meaning**, not each number. King and queen point in similar directions, and cricketer points elsewhere. The step from "man" to "woman" is roughly the same arrow as the step from "king" to "queen", so that arrow can be read as a direction for gender, and the **dot product** (G-634) of a word's vector with it measures how much of that aspect the word carries (Sanderson 2024, Ch 5). The single numbers of an embedding have no labels and rarely a clean meaning of their own; the meaning lives in directions, which mix many numbers. The [meaning as direction Note](../1086-meaning-as-direction/note.md) shows this on real word vectors. For this Note one fact is enough: similar words lie close together.
 
 ## 4. Static embeddings hold an average meaning
 
@@ -59,7 +61,7 @@ Suppose we train embeddings with two dimensions, which we read as **taste** and 
    $$e_{\text{apple}} = \frac{n_f\thinspace(1, 0) + n_c\thinspace(0, 1)}{n_f + n_c}$$
 3. **Example:** corpus A has 9,000 fruit sentences and 1,000 company sentences:
    $$e_{\text{apple}} = \frac{9000\thinspace(1, 0) + 1000\thinspace(0, 1)}{10000} = (0.9,\ 0.1)$$
-   Corpus B, with the numbers swapped, gives $(0.1,\ 0.9)$ (Figure 2).
+   Corpus B, with the numbers swapped, gives $(0.1,\ 0.9)$ (Figure 3).
 
 ![The same word gets a different static vector from a different corpus: its vector is the average meaning in that corpus](images/average_meaning.png){width=60%}
 
@@ -69,11 +71,11 @@ The formula is a simplification: real embedding methods do not literally average
 
 > **Key point:** Embeddings learned from 116,830 real English sentences put "bank" next to shop and supermarket: in that text, a bank is always a building where money is kept.
 
-The Notebook learns 50-number embeddings from the 116,830 distinct English sentences of the Keras English–French translation dataset. It counts which words appear within 4 words of each other and compresses the counts with the SVD, the method of latent semantic analysis (the [SVD in machine learning Note](../613-svd-in-machine-learning/note.md), section 3).
+The Notebook learns 50-number embeddings from the 116,830 distinct English sentences of the Keras English–French translation dataset. It counts which words appear within 4 words of each other and compresses the counts with the **singular value decomposition** (G-1813; SVD), the method of **latent semantic analysis** (G-1049) (the [SVD in machine learning Note](../613-svd-in-machine-learning/note.md), section 3).
 
-> **Extra:** The counts are first weighted by **positive pointwise mutual information** (PPMI), which scores how much more often two words appear together than chance would give, and sets negative scores to 0. The SVD then keeps the 50 strongest directions. Word2vec, the best-known embedding method, can be seen as implicitly working with such a PPMI-weighted count matrix (Levy and Goldberg 2014, cited in SLP3 ch. 5).
+> **Extra:** The counts are first weighted by **positive pointwise mutual information** (G-1544; PPMI), which scores how much more often two words appear together than chance would give, and sets negative scores to 0. The SVD then keeps the 50 strongest directions. Word2vec, the best-known embedding method, can be seen as implicitly working with such a PPMI-weighted count matrix (Levy and Goldberg 2014, cited in SLP3 ch. 5).
 
-The nearest neighbours of a few words, by cosine similarity:
+The **nearest neighbours** (G-1306) of a few words, by **cosine similarity** (G-491):
 
 | Word | Six nearest words |
 |---|---|
@@ -94,7 +96,11 @@ Static embeddings are trained once and then used again and again, in every sente
 
 With static embeddings, "apple" enters the translation model with its average vector, $(0.9, 0.1)$ in corpus A: a fruit. In this sentence, it is the company. What we want is an embedding that notices "launched" and "phone", raises the technology part and lowers the taste part. It should also not be misled by "orange", which belongs to a different part of the sentence.
 
-The same holds for two shorter phrases, "money bank grows" and "river bank flows". The word "bank" means a financial institution in the first and the side of a river in the second, but a static embedding gives it exactly the same vector in both. In the Notebook, Keras' `Embedding` layer, loaded with the embeddings of section 4.2, returns identical numbers for "bank" in the two phrases: an embedding layer is a lookup table, and the lookup ignores the neighbours. SLP3 (ch. 7) makes the same point: with static embeddings, a word's representation "is always the same vector irrespective of the context".
+The same holds for two shorter phrases, "money bank grows" and "river bank flows". The word "bank" means a financial institution in the first and the side of a river in the second, but a static embedding gives it exactly the same vector in both. In the Notebook, Keras' `Embedding` layer, loaded with the embeddings of section 4.2, returns identical numbers for "bank" in the two phrases: an embedding layer is a **lookup table**, and the lookup ignores the neighbours (Figure 4).
+
+![An embedding layer is a lookup table. In both phrases, "bank" picks the same row, so it gets the same 50 numbers whatever its neighbours](images/lookup_same.png){width=95%}
+
+SLP3 (ch. 7) makes the same point: with static embeddings, a word's representation "is always the same vector irrespective of the context".
 
 An embedding that changes with the sentence is a **contextual embedding** (SLP3 ch. 7).
 
@@ -112,11 +118,13 @@ The Notebook passes the two phrases through the simplest form of self-attention,
 | after self-attention, "money bank grows" | **0.68** | 0.13 |
 | after self-attention, "river bank flows" | 0.21 | **0.71** |
 
+![The table as bars. The static vector leans a little towards "money". After self-attention, the same word leans strongly towards "money" in one phrase and towards "river" in the other](images/bank_bars.png){width=90%}
+
 The static vector leans a little towards money, the average meaning of the corpus. After self-attention, the vector for "bank" in "river bank flows" is now much closer to "river" than to "money", although the corpus never once used "bank" in that sense. The neighbours alone changed it.
 
 ![Real word vectors, flattened to 2-D. The static "bank" (grey square) sits with the money words. After self-attention (red diamonds), the "bank" of "river bank flows" has moved towards the river words; the "bank" of "money bank grows" stays on the money side and moves towards "grows"](images/bank_map.png){width=95%}
 
-Figure 3 shows the same thing on a map. The map keeps only 2 of the 50 directions, so distances on it are approximate; the table gives the exact similarities.
+Figure 6 shows the same thing on a map. The map keeps only 2 of the 50 directions, so distances on it are approximate; the table gives the exact similarities.
 
 How the box computes its output, and how it learns to do so for a particular task, is the subject of the [self-attention step by step Note](../1073-self-attention-step-by-step/note.md).
 

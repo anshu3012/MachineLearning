@@ -17,9 +17,15 @@ tags: [subject/ml, area/features, area/models-1, step/features, step/model, conc
 
 > **Key point:** One-hot encoding turns a nominal column into one 0/1 column per category; we then drop one of those columns, and group rare categories first if there are too many.
 
-Note 26 encoded ordinal features, whose categories have an order. A **feature** is an input variable (one column of the data table); the **target** is the output we predict; an **observation** is one record (one row). This Note handles the other kind of categorical feature: **nominal** features, whose categories have no order. The technique for them is one-hot encoding.
+Note 26 encoded ordinal features, whose categories have an order. A **feature** (G-772) is an input variable (one column of the data table); the **target** (G-1949) is the output we predict; an **observation** (G-1374) is one record (one row). This Note handles the other kind of categorical feature: **nominal** features, whose categories have no order. The technique for them is one-hot encoding.
 
-Figure 1 shows the whole topic. We one-hot encode the column, drop one of the new columns to avoid the dummy variable trap, and, when a column has very many categories, keep only the frequent ones. pandas and scikit-learn can both do the work.
+Figure 1 shows the whole topic. The steps are:
+
+1. one-hot encode the column (section 2);
+2. drop one of the new columns to avoid the dummy variable trap (section 3);
+3. when a column has very many categories, keep only the frequent ones (sections 4 and 8).
+
+pandas (section 6) and scikit-learn (section 7) can both do the work.
 
 ![One-hot encoding of a nominal column, step by step, and the two tools that do it](images/overview.png)
 
@@ -43,7 +49,7 @@ An everyday picture: numbering colours 0, 1, 2 is like ranking players by the nu
 
 > **Key point:** A column with 3 categories becomes 3 columns of 0s and 1s.
 
-**One-hot encoding** creates one new column for every category of a nominal column. For `color` we get three columns, named after the old column and the category: `color_Y` for Yellow, `color_B` for Blue and `color_R` for Red.
+**One-hot encoding** (G-1379) creates one new column for every category of a nominal column. For `color` we get three columns, named after the old column and the category: `color_Y` for Yellow, `color_B` for Blue and `color_R` for Red.
 
 Then we fill them observation by observation:
 
@@ -55,7 +61,11 @@ Figure 2 shows the result. In every row exactly one column is "hot" (1), which i
 
 ![One-hot encoding of the color column: one column per category, one 1 per row](images/onehot_colors.png)
 
-In effect, each text value has become a **vector**, a short list of numbers: Yellow is [1, 0, 0], Blue is [0, 1, 0] and Red is [0, 0, 1]. No vector is bigger than another, so no false order is created. Whenever we meet nominal data in an ML problem, this is what we do. The same trick turned words into vectors in the [tensors Note](../11-tensors/note.md) (section "3D: text"); here it is applied to the categories of a column.
+Figure 3 builds the same table step by step. Watch three things in turn: the three new columns appear, one per category; each row then gets its single 1; at the end the first column is dropped, which section 3 explains.
+
+![The color column one-hot encoded step by step: a new column for each category, then one 1 per row, then the first column dropped so that 0, 0 means Yellow. Table build-up after StatQuest, "One-Hot, Label, Target and K-Fold Target Encoding".](images/onehot_fill.gif)
+
+In effect, each text value has become a **vector** (G-2081), a short list of numbers: Yellow is [1, 0, 0], Blue is [0, 1, 0] and Red is [0, 0, 1]. No vector is bigger than another, so no false order is created. Whenever we meet nominal data in an ML problem, this is what we do. The same trick turned words into vectors in the [tensors Note](../11-tensors/note.md) (section "3D: text"); here it is applied to the categories of a column.
 
 ### 2.3 More categories, more columns
 
@@ -63,7 +73,7 @@ In effect, each text value has become a **vector**, a short list of numbers: Yel
 
 A natural question: if a column has 50 different categories, do we really make 50 columns? Yes. The vector for each row gets one entry per category.
 
-So the number of columns, the **dimensionality** of the data, grows with every category. Section 4 shows how we keep this under control.
+So the number of columns, the **dimensionality** (G-612) of the data, grows with every category. Section 4 shows how we keep this under control.
 
 ## 3. The dummy variable trap
 
@@ -73,7 +83,7 @@ So the number of columns, the **dimensionality** of the data, grows with every c
 
 > **Key point:** The 0/1 columns are called dummy variables; we keep $n - 1$ of them.
 
-The 0/1 columns made by one-hot encoding are called **dummy variables**. In practice we do not keep all of them. With $n$ categories we get $n$ dummy columns, and then we remove one, so that $n - 1$ columns remain.
+The 0/1 columns made by one-hot encoding are called **dummy variables** (G-647). In practice we do not keep all of them. With $n$ categories we get $n$ dummy columns, and then we remove one, so that $n - 1$ columns remain.
 
 Usually the first column is the one removed. Removing the second or the last one works just as well; what matters is that exactly one is removed. The reason is a problem called multicollinearity.
 
@@ -81,9 +91,9 @@ Usually the first column is the one removed. Removing the second or the last one
 
 > **Key point:** The dummy columns always add up to 1, so any one of them can be calculated from the others; such dependence is called multicollinearity.
 
-The features are also called **independent variables**, and the target is called the **dependent variable**: the target depends on the features. As the name says, the features should be independent of each other. There should be no mathematical relationship between them.
+The features are also called **independent variables** (G-937), and the target is called the **dependent variable** (G-591): the target depends on the features. As the name says, the features should be independent of each other. There should be no mathematical relationship between them.
 
-**Multicollinearity** means that some features do have such a relationship: one feature can be calculated from the others. The three colour columns have exactly this problem.
+**Multicollinearity** (G-1273) means that some features do have such a relationship: one feature can be calculated from the others. The three colour columns have exactly this problem.
 
 **In words:** every row has exactly one 1 among the three dummy columns, so the three always add up to 1. Then any one column is 1 minus the other two.
 
@@ -93,13 +103,13 @@ $$Y + B + R = 1 \quad\Longrightarrow\quad Y = 1 - B - R$$
 
 For a Yellow row, $B = 0$ and $R = 0$, so $Y = 1 - 0 - 0 = 1$. The column `color_Y` tells the model nothing that `color_B` and `color_R` do not already say.
 
-The dependence causes trouble mainly for linear models with an intercept, such as linear regression and logistic regression, which come in later Notes: the dummy columns add up to the intercept column, so the model cannot be solved uniquely (Kuhn and Johnson 2019, §5.1). Because the dummy columns create it, the problem is called the **dummy variable trap**.
+The dependence causes trouble mainly for linear models with an intercept, such as linear regression and logistic regression, which come in later Notes: the dummy columns add up to the intercept column, so the model cannot be solved uniquely (Kuhn and Johnson 2019, §5.1). Because the dummy columns create it, the problem is called the **dummy variable trap** (G-646).
 
 ### 3.3 Dropping one column loses nothing
 
 > **Key point:** With `color_Y` dropped, the row 0, 0 still means Yellow.
 
-If we remove `color_Y`, can we still tell all three colours apart? Yes (Figure 3):
+If we remove `color_Y`, can we still tell all three colours apart? Yes (Figure 4):
 
 - Blue is $B = 1, R = 0$.
 - Red is $B = 0, R = 1$.
@@ -107,7 +117,7 @@ If we remove `color_Y`, can we still tell all three colours apart? Yes (Figure 3
 
 ![The three dummy columns always add up to 1, so one can be dropped; 0, 0 then stands for Yellow](images/dummy_trap.png)
 
-So $n - 1$ columns are enough to represent $n$ categories. Keeping the $n$-th one adds no information, only the multicollinearity. The dropped category is called the **reference category** (or baseline): it is the one shown by all zeros.
+So $n - 1$ columns are enough to represent $n$ categories. Keeping the $n$-th one adds no information, only the multicollinearity. The dropped category is called the **reference category** (G-1650) (or baseline): it is the one shown by all zeros.
 
 > **Extra:** Why multicollinearity confuses a linear model, with small numbers. Suppose yellow cars sell for 5 lakh rupees, blue for 7 and red for 9. A linear model predicts price as $b + w_Y Y + w_B B + w_R R$, where $b$ is a starting value and the $w$'s are weights it learns.
 >
@@ -127,11 +137,18 @@ Suppose we want to predict the selling price of a second-hand car, and one featu
 
 One-hot encoding would create 32 columns, one for Maruti Suzuki, one for Hyundai, and so on. The dimensionality grows, and processing becomes slower.
 
-Figure 4 shows why there is a better way. A few brands, such as Maruti and Hyundai, have thousands of cars, while others, such as Land Rover or Peugeot, have only a handful.
+Figure 5 shows why there is a better way. A few brands, such as Maruti and Hyundai, have thousands of cars, while others, such as Land Rover or Peugeot, have only a handful.
 
 ![Number of cars per brand in the car data; brands with 100 cars or fewer are grouped as uncommon](images/brand_counts.png)
 
 So we keep only the most frequent categories and merge all the rare ones into a single new category, called "other" or "uncommon". Here, keeping every brand with more than 100 cars leaves 12 brands plus "uncommon": 13 columns instead of 32. Grouping rare categories is useful whenever some categories are very common and others very rare.
+
+> **Extra:** Target encoding, another answer for columns with very many categories. **Target encoding** replaces each category by the mean of the target over the training rows of that category, so the column stays one column. In the training set of section 7.2, Maruti becomes about 4.02 lakh rupees (the mean selling price of its 1962 cars), Hyundai 4.61 lakh and BMW 41.69 lakh. Two cautions come with it:
+>
+> - **Rare categories.** Opel has one training car, sold for 68,000 rupees; a mean of one row is not reliable. So the encoder mixes each category's mean with the overall mean (6.41 lakh here), and leans on the overall mean when the category has few rows.
+> - **Leakage.** The codes are built from the target, so a row's own target must not be used to encode that row; otherwise the model sees the answer during training, a form of **data leakage** (G-535). The standard fix is to split the training set into folds and encode each fold with means from the other folds (k-fold target encoding).
+>
+> scikit-learn's `TargetEncoder` does both: it shrinks towards the overall mean, and `fit_transform` encodes fold by fold (scikit-learn API, `TargetEncoder`; StatQuest, "One-Hot, Label, Target and K-Fold Target Encoding").
 
 ## 5. The car data
 
@@ -147,7 +164,7 @@ The dataset has 8128 second-hand cars (observations) and five columns:
 
 `selling_price` is the target, so the task is a regression problem. `km_driven` is already a number. The other three features are categorical:
 
-- **brand:** 32 categories (Figure 4).
+- **brand:** 32 categories (Figure 5).
 - **fuel:** 4 categories: Diesel (4402 cars), Petrol (3631), CNG (57) and LPG (38).
 - **owner:** 5 categories: First Owner, Second Owner, Third Owner, Fourth & Above Owner, and Test Drive Car.
 
@@ -164,6 +181,10 @@ The dataset has 8128 second-hand cars (observations) and five columns:
 > df["brand"].nunique()
 > ```
 
+Figure 6 counts the cars in each category of `fuel` and `owner`. Note the rare categories: only 38 LPG cars and 5 test-drive cars, yet each still gets a whole column.
+
+![The categories of fuel and owner in the 8128 cars, with the number of cars in each. Every category becomes one one-hot column.](images/car_categories.png)
+
 We first one-hot encode `fuel` and `owner`. `brand` gets the many-categories treatment at the end, in Section 8.
 
 > **Extra:** `owner` could also be seen as ordinal: a first-owner car is "newer" than a second-owner one. The category Test Drive Car does not fit neatly into that order, so treating the column as nominal is a reasonable choice. Deciding between nominal and ordinal is often a judgement call like this.
@@ -176,9 +197,9 @@ We first one-hot encode `fuel` and `owner`. `brand` gets the many-categories tre
 
 > **Key point:** Encoding `fuel` and `owner` turns 5 columns into 12.
 
-pandas has a function for one-hot encoding called **`get_dummies`**. We give it the DataFrame and the list of columns to encode.
+pandas has a function for one-hot encoding called **`get_dummies`** (G-845). We give it the DataFrame and the list of columns to encode.
 
-Before running it, we can predict the shape. `fuel` is removed and 4 new columns arrive; `owner` is removed and 5 new columns arrive. So 5 columns become $5 - 2 + 4 + 5 = 12$.
+Figure 7 runs it on the first four cars. Before running it, we can predict the shape. `fuel` is removed and 4 new columns arrive; `owner` is removed and 5 new columns arrive. So 5 columns become $5 - 2 + 4 + 5 = 12$.
 
 > **Python:** One-hot encoding two columns with pandas.
 >
@@ -216,6 +237,8 @@ The result above still contains the dummy variable trap: all $n$ columns are kep
 
 One column fewer per feature: `fuel_CNG` and `owner_First Owner` are gone. The categories are sorted alphabetically, so these are the first ones. A CNG car is now the row with 0 in all three remaining fuel columns.
 
+![get_dummies on the first four cars: the text columns fuel and owner become 4 and 5 columns of 0s and 1s (12 columns in all); drop_first=True then removes fuel_CNG and owner_First Owner (10 columns). Orange cells are the 1s. Owner columns are shortened, for example own_2nd for owner_Second Owner.](images/dummies_steps.gif)
+
 ## 7. One-hot encoding with scikit-learn
 
 > **Key point:** In an ML project we use scikit-learn's `OneHotEncoder`, because it remembers the categories it learned and always produces the same columns.
@@ -226,7 +249,7 @@ One column fewer per feature: `fuel_CNG` and `owner_First Owner` are gone. The c
 
 `get_dummies` is handy for data analysis, but it is not used inside an ML project. The function does not remember which categories it saw, or which column it put at which position. Run it on different data and the result can change.
 
-Figure 5 shows the problem. The model was trained on 4 fuel columns.
+Figure 8 shows the problem. The model was trained on 4 fuel columns.
 
 New data that happens to hold only Diesel and Petrol cars gives just 2 columns with `get_dummies`, so the shapes no longer match. `OneHotEncoder` learned all 4 categories during `fit` and always returns the same 4 columns.
 
@@ -253,7 +276,7 @@ The first four columns are the features and `selling_price` is the target. We ho
 
 > **Key point:** `drop="first"` gives $n - 1$ columns, `sparse_output=False` gives a normal array, and `dtype` sets the number type.
 
-scikit-learn's class for this is **`OneHotEncoder`**. Three parameters are useful here:
+scikit-learn's class for this is **`OneHotEncoder`** (G-1390). Three parameters are useful here:
 
 - **`drop="first"`:** drop the first category of each column, as `drop_first=True` did in pandas. The value must be the text `"first"`; `drop=True` gives an error.
 - **`sparse_output=False`:** return a normal NumPy array (explained below).
@@ -268,7 +291,7 @@ scikit-learn's class for this is **`OneHotEncoder`**. Three parameters are usefu
 >                     dtype=np.int32)
 > ```
 
-By default, `OneHotEncoder` returns a **sparse matrix**. Most entries of a one-hot result are 0, so a sparse matrix saves memory by storing only the positions and values of the non-zero entries. To see it as a normal table we would call `.toarray()` on it; `sparse_output=False` gives the normal array straight away.
+By default, `OneHotEncoder` returns a **sparse matrix** (G-1843). Most entries of a one-hot result are 0, so a sparse matrix saves memory by storing only the positions and values of the non-zero entries. To see it as a normal table we would call `.toarray()` on it; `sparse_output=False` gives the normal array straight away.
 
 > **Extra:** In older scikit-learn versions this parameter was called `sparse`. The parameter was renamed `sparse_output` in version 1.2, and the old name was removed in 1.4 (scikit-learn release notes, 1.2 and 1.4). Likewise, `get_feature_names` is now `get_feature_names_out`.
 
@@ -328,13 +351,13 @@ The encoded array holds only the fuel and owner information. To get all the feat
 >
 > `.values` turns the two DataFrame columns into a NumPy array. `np.hstack` ("horizontal stack") joins arrays with the same number of rows, side by side.
 
-Stacking by hand works, but it is clumsy: pull out some columns, encode them, then glue everything back together. The **column transformer**, covered in the next Note, applies a different transformer to each column in a single step.
+Stacking by hand works, but it is clumsy: pull out some columns, encode them, then glue everything back together. The **column transformer** (G-415), covered in the next Note, applies a different transformer to each column in a single step.
 
 ## 8. Top categories on the brand column
 
 > **Key point:** Brands with 100 cars or fewer are replaced by "uncommon"; one-hot encoding then gives 13 columns instead of 32.
 
-Back to `brand` and its 32 categories (Figure 4). We count the cars per brand and pick a threshold of 100. Every brand at or below it is replaced by the word `uncommon`, which affects 20 brands, from Nissan (81 cars) down to Peugeot (1 car).
+Back to `brand` and its 32 categories (Figure 5). Figure 9 shows the grouping before and after. We count the cars per brand and pick a threshold of 100. Every brand at or below it is replaced by the word `uncommon`, which affects 20 brands, from Nissan (81 cars) down to Peugeot (1 car).
 
 > **Python:** Grouping rare brands, then one-hot encoding.
 >
@@ -351,6 +374,8 @@ Back to `brand` and its 32 categories (Figure 4). We count the cars per brand an
 > `counts <= threshold` gives True or False for each brand; `counts[...]` keeps only the True ones, and `.index` takes their names.
 
 The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai, Mahindra, Maruti, Renault, Skoda, Tata, Toyota, Volkswagen) plus `uncommon`. The `uncommon` column is rarely 1: only 538 of the 8128 cars, about 7%, fall into it.
+
+![The 32 brands of the car data, then the 13 columns left after the 20 brands with 100 cars or fewer (red) are replaced by uncommon, which holds 538 cars.](images/brand_grouping.gif)
 
 > **Extra:** `OneHotEncoder` can do this grouping itself. With `min_frequency=101`, categories seen fewer than 101 times in the training set are merged into one column, `brand_infrequent_sklearn`; `max_categories=13` instead keeps at most 13 columns. Adding `handle_unknown="infrequent_if_exist"` sends brands never seen before into the same column (scikit-learn API docs, `OneHotEncoder`). The encoder's grouping is better than replacing by hand: the counting happens on the training set only, as the split-first rule requires, and the encoder remembers it. On this training set Skoda has only 81 cars, so it gets grouped too.
 
@@ -377,11 +402,12 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 **Built from**
 
 - CampusX, "One Hot Encoding | Handling Categorical Data | Day 27 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=U5oCv3JKWKA
+- StatQuest with Josh Starmer, "One-Hot, Label, Target and K-Fold Target Encoding, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=589nCGeWG1w (the table build-up of Figure 3; target encoding in section 4)
 
 **Other references**
 
 - Kuhn, M. and Johnson, K. (2019). *Feature Engineering and Selection: A Practical Approach for Predictive Models*. CRC Press. §5.1 Creating Dummy Variables for Unordered Categories; §5.8 Factors versus Dummy Variables in Tree-Based Models. feat.engineering.
-- scikit-learn API reference. `sklearn.preprocessing.OneHotEncoder`. scikit-learn.org.
+- scikit-learn API reference. `sklearn.preprocessing.OneHotEncoder` and `sklearn.preprocessing.TargetEncoder`. scikit-learn.org.
 - scikit-learn release notes. Versions 1.2 and 1.4. scikit-learn.org/stable/whats_new.
 
 ## 11. Key terms
@@ -399,6 +425,7 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1 |
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category |
+| Target encoding | Replacing each category by the mean of the target for that category, learned on training rows only |
 | get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$ |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory |
