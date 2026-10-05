@@ -1,0 +1,24 @@
+# Task: deep read-and-fix of a batch of Notes (Opus), with mechanical edits delegated to opencode
+
+An independent audit of 15 random Notes, after all earlier sweeps, found about 8 problems per Note, including false or self-contradicting statements that every tool and sweep had missed (examples: "column" where the Note's own section and figure say "row"; a Key point that the Note's own worked example disproves; a percentage that disagrees with the section it links to; a log-normal said to lean left when the figure shows right; a text number that disagrees with its own table). The audit tables are in `/home/anshu/.claude/jobs/8c1c0992/tmp/audit_A.md` and `audit_B.md`: read them first to calibrate what to look for. Read `docs/NOTE-RULES.md` in full (§10–§21) and `docs/independent-audit.md`.
+
+## Your job, per Note on your list
+1. **Read like the auditor.** Every line, as a beginner on a phone. Open every figure (`images/<name>.png`, `<name>_frames.png` for a GIF) and read the text baked into it. Recompute every key number from the Note's own data, table or executed notebook (`<Note>.ipynb` outputs). Test every Key point and summary claim against the worked examples in the Note. Check every number that a link points at agrees with the linked section.
+2. **You fix everything that needs judgment yourself** (with the Edit tool): false or misleading statements, contradictions inside the Note, figure/text mismatches, missing conditions, wrong type words, Key points that the examples contradict, wrong numbers, skipped reasoning steps, terms used before they are explained (term + plain meaning at first use in each section, link to the section that explains it: `docs/term-owners.tsv`), missing examples, wrong ownership wording. If text inside a figure is wrong, fix the figure script and re-render (never matplotlib) and look at the new frames.
+3. **Delegate the mechanical classes to opencode** (never a Claude model; it saves the weekly limit). Run from the repo root:
+   `opencode run -m openwebui/internal-qwen3.6-35b-a3b "<precise instruction naming the file and the lines>"`
+   Use it only for edits that a tool can verify:
+   - calculations inside sentences and display lines over ~40 visible characters → one operation per `$$...$$` line (acceptance: `tools/find_inline_calc.py <Note.md>` prints 0 found, apart from single unsplittable matrices);
+   - links to a whole Note or with "Note" in the text → idea as link text, exact section anchor (acceptance: `tools/section_links.py --check <Note.md>` shows 0 broken and nothing outside the generated block);
+   - rebuilding (`tools/build.sh <Note folder>`) and re-running checks.
+   Give it one Note and one class per run, with the exact lines. Check its result with the acceptance tool and `git diff -U0 -- <Note.md>`: it must not change any other text, number or maths; revert its edit (`git checkout -p` is not available: restore the lines with the Edit tool) and do it yourself if it went wrong. Run one opencode job at a time (the server is shared with other agents).
+4. Keep every correct fact, number, figure, Extra and gotcha (§14). Attach conditions; never delete a claim because it is hard to check. No filler or puffery edits. Do not touch the generated "Where this fits" block.
+
+## Checks per Note (all must pass)
+`tools/build.sh <Note folder>` prints Built; `python tools/github_math.py --check <Note.md>` clean; `grep -nP "[\t\x08\x0c\r]" <Note.md>` empty; `tools/find_inline_calc.py` 0 (or listed unsplittable matrices); `tools/section_links.py --check` 0 broken.
+
+## Do not touch
+git, `glossary.md` (read only), `course_map/`, `tools/`, `docs/`, `site/`, and any Note not on your list. No background agents. Scratch files in `/home/anshu/.claude/jobs/8c1c0992/tmp/<your-batch>/`.
+
+## Report (as text, short)
+Per Note: the false/contradictory statements fixed (one line each, with what the evidence was), counts of other fixes by kind, what opencode did and whether you had to redo any of it, anything left and why. Then any **new kind of problem** the rules do not cover.
