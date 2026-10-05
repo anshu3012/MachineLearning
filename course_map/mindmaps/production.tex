@@ -34,9 +34,9 @@
 
   % overfitting and tuning
   \node[prob] (over) at (5.2,3.4)  {\textbf{Overfitting}\\[-1pt]{\normalsize good on training data only}\nt{ML-007}};
-  \node[con]  (tune) at (10.4,3.4) {Hyperparameter tuning\nt{ML-105--106}};
+  \node[con]  (tune) at (10.4,3.4) {Hyperparameter tuning\nt{ML-028, ML-105--106}};
   \node[con]  (opt)  at (15.6,4.4) {Optuna\nt{ML-128}};
-  \node[con]  (grid) at (15.6,2.4) {Grid and random search\nt{ML-028, ML-106}};
+  \node[con]  (grid) at (15.6,2.4) {Grid and random search\nt{ML-093, ML-028, ML-106}};
   \node[con]  (cv)   at (15.6,0.1) {Cross-validation\nt{ML-028}};
   \node[prev] (reg)  at (10.4,0.9) {Regularisation\nt{ML-062}};
   \draw[needs] (split.east) -- (over.west);

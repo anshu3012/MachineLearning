@@ -37,6 +37,9 @@ jobs:
           cache: npm
           cache-dependency-path: quartz/package-lock.json
 
+      - name: Check the course structure (docs/STRUCTURE.md)
+        run: pip install --quiet pyyaml plotly && python3 tools/check_structure.py
+
       - name: Copy Notes and config into Quartz
         run: bash site/build-content.sh quartz
 

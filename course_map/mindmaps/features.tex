@@ -54,7 +54,7 @@
   % putting the steps together
   \node[con]  (ct)   at (5.5,-2.6) {Column transformer\nt{ML-027}};
   \node[con]  (pipe) at (11,-2.6)  {\textbf{Pipelines}\nt{ML-028}};
-  \node[prob] (leak) at (11,-4.8)  {Data leakage\nt{ML-012}};
+  \node[prob] (leak) at (11,-4.8)  {Data leakage\nt{ML-028, ML-012}};
   \node[prev] (dep)  at (16.5,-2.6) {Deployment\nt{ML-009, ML-012}};
   \draw[needs] (ct) -- (pipe);
   \draw[fixes] (leak) -- (pipe);

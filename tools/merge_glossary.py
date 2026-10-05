@@ -11,7 +11,7 @@ root = Path(__file__).resolve().parent.parent
 gloss = root / "glossary.md"
 lock = open(root / ".glossary.lock", "w")
 fcntl.flock(lock, fcntl.LOCK_EX)          # several agents merge at once: one at a time, so IDs never collide
-head, table = gloss.read_text().split("|---|---|---|---|\n")
+head, table = gloss.read_text().split("|---|---|---|---|---|\n")
 rows = [r for r in table.splitlines() if r.startswith("| ")]
 ROW = re.compile(r'^\| <span id="G-(\d+)">G-\d+</span> \| (.+?) \| ')
 ids = {ROW.match(r).group(2).lower(): int(ROW.match(r).group(1)) for r in rows}
@@ -32,9 +32,10 @@ added = []
 for t, m in new:
     if t.lower() in ids or re.search(r"G-\d+", t + m[:12]):     # known term, or the row already cites its ID
         continue
-    added.append(f'| <span id="G-{nxt}">G-{nxt}</span> | {t} | {m.rstrip(".")}. | [Note {name[:6]}]({folder}/{name}.md) |')
+    # Home = this Note (fix the section and fill the Concept before committing: tools/check_structure.py flags it)
+    added.append(f'| <span id="G-{nxt}">G-{nxt}</span> | {t} | {m.rstrip(".")}. | [Note {name[:6]}]({folder}/{name}.md) |  |')
     ids[t.lower()] = nxt
     nxt += 1
 rows = sorted(rows + added, key=lambda r: ROW.match(r).group(2).lower())
-gloss.write_text(head + "|---|---|---|---|\n" + "\n".join(rows) + "\n")
+gloss.write_text(head + "|---|---|---|---|---|\n" + "\n".join(rows) + "\n")
 print(f"added {len(added)} of {len(new)} terms")
