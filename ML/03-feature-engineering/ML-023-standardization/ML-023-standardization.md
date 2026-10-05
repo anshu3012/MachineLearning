@@ -335,7 +335,7 @@ For a **decision tree** (G-561), scaling made no difference at all. A decision t
 
 > **Extra:** Why `solver="sag"`? A **solver** (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
 >
-> The default solver, `"lbfgs"`, does find good weights on the raw data too (87.5% on raw data, 86.7% on scaled data), but needs 65 steps on raw data against 7 on scaled data. Either way, unscaled data makes the training harder.
+> The default solver, `"lbfgs"`, does find good weights on the raw data too (87.5% on raw data, 86.7% on scaled data), but needs 65 steps on raw data against 7 on scaled data. The 0.8-point gap between those two accuracies is one test user out of 120, so it is noise, not a sign that scaling hurt. Either way, unscaled data makes the training harder.
 
 In this experiment, scaling never hurt KNN, logistic regression with `sag` or the decision tree. In general, standardizing does no harm, but for some algorithms it helps a lot.
 

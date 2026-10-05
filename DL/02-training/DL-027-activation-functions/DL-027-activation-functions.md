@@ -149,7 +149,7 @@ Functions built from a simple comparison are faster than those built from expone
 
 A **zero-centred** activation function (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
 
-Figure 4 shows the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like sigmoid outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same **learning rate** (the size of each step), 2.5.
+Figures 3 and 4 show the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like sigmoid outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same **learning rate** (the size of each step), 2.5.
 
 The loss of this node is a surface over the two weights. For a pair $(w_1, w_2)$ the height is the mean squared error over the 200 observations, drawn as $\log_{10}(L + 0.001)$ so that the region near the minimum is visible. Two points on it, for either kind of input:
 
@@ -289,7 +289,7 @@ Figure 6 shows those layer outputs. The sigmoid's values all sit above 0, around
 Disadvantages:
 
 1. **Saturating.** For large $|z|$ the slope is 0, so tanh also suffers from the vanishing gradient.
-2. **Computationally expensive**, because of the exponentials (about 1,250 ms for 10 million values in the Notebook).
+2. **Computationally expensive**, because of the exponentials (about 1,250 ms for 10 million values in the Notebook). Tanh comes out faster than the sigmoid here only because of how the Notebook computes them: the sigmoid is written as three separate NumPy steps (an exponential, an addition, a division), while `np.tanh` is one built-in step. Both are slower than ReLU, which needs no exponential.
 
 Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not the vanishing gradient.
 

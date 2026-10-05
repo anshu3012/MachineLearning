@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 
 > **Key point:** Five main types of network (MLP, CNN, RNN, autoencoder, GAN) each suit a kind of data or task. Neural networks rose and fell twice before deep learning took off in 2012, and today they power cars, games, assistants and creative tools.
 
-This Note gives the big picture before the technical Notes start. The Note has three parts:
+This Note gives that big picture before the technical Notes start. The Note has three parts:
 
 1. **Types of neural networks:** what each of the five main types is for (Figure 1).
 2. **History:** from the first perceptron in 1958 to the ImageNet breakthrough of 2012 (Figure 3).
@@ -146,7 +146,7 @@ Figure 5 is a small experiment of our own design: watch the red curve as neurons
 
 > **Key point:** Networks failed on large problems: too little labelled data, too little computing power, random weight initialisation, and stronger rivals such as SVM and random forests.
 
-By the early 1990s it became clear that networks did not perform well on large problems. Four reasons stood out:
+The theorem in section 3.3 says a good network exists; it does not say we can train one in practice. By the early 1990s it became clear that networks did not perform well on large problems. Four reasons stood out:
 
 1. **Too little labelled data.**
 2. **Too little computing power** to compute all the weights with backpropagation and add many layers.

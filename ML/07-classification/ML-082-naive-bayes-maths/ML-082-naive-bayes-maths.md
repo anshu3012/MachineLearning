@@ -58,7 +58,7 @@ The **evidence** $P(x)$ ([G-718; the probability of the features on their own](.
 
 $$P(C_k \mid x) \propto P(x \mid C_k)\thinspace P(C_k)$$
 
-Figure 3 checks this on the cricket example of Section 6. The two scores are 0.040 for win and 0.056 for loss. Dividing both by their sum, the evidence 0.096, gives the posteriors 0.42 and 0.58: the bars change height but not order.
+Figure 3 checks this on the cricket scores of Section 1. The two scores are 0.040 for win and 0.056 for loss. Dividing both by their sum, the evidence 0.096, gives the posteriors 0.42 and 0.58: the bars change height but not order.
 
 ![The cricket example. Left: the scores P(x | C) P(C), 0.040 for win and 0.056 for loss. Right: the same scores divided by the evidence P(x) = 0.096, the posteriors 0.42 and 0.58. Both pick loss.](images/evidence_drop.png)
 

@@ -254,6 +254,8 @@ Figure 7 adds 0 to 20 features of random numbers next to CGPA. The split is the 
 
 The training R² rises from 0.773 to 0.802, which looks like progress. The test R² shows the truth: it falls from 0.781 to 0.755, because the extra features are noise. Adjusted R² on the training data stays at 0.772, so it reports the true story without needing a test set.
 
+With no random features, the test R² (0.781) is a little above the training R² (0.773). This is luck of the split, not a better fit on unseen data: the test set has only 40 students, and over 200 different splits the test R² ranges from 0.66 to 0.84 (5th to 95th percentile) and lands above the training R² in 44 percent of them (Notebook). What matters in the table is the direction as features are added.
+
 ### 7.2 The formula
 
 > **Key point:** Adjusted R² scales the unexplained part by $(n-1)/(n-1-k)$, which grows with the number of features $k$.

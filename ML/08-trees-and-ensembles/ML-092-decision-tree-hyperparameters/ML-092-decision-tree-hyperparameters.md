@@ -107,11 +107,7 @@ For a numerical feature, the tree normally checks every candidate threshold and 
 
 With `splitter="random"`, the threshold of each feature is drawn at random, and the tree keeps the best of these random splits. Each split is a little worse, so the tree needs more of them: fully grown on the moons data, it ends with about 99 leaves instead of 45 (average over 50 datasets). Test accuracy does not improve: 0.862 against 0.866 for `"best"`.
 
-Think of one guesser who guesses wildly: no better on their own. Ask a crowd of such guessers and average them, and the wild guesses cancel out. Random splits work the same way: scikit-learn builds its random-split trees for use inside ensembles such as Extra Trees, not alone (sklearn reference, `ExtraTreeClassifier`). [The wisdom of the crowd](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#2-the-wisdom-of-the-crowd) explains why averaging helps.
-
-Figure 4 shows the idea with the random-feature trees of Section 4.6 on the moons split. Three fully grown trees that each see one random feature per split draw three different surfaces, with test accuracies of 0.880, 0.888 and 0.864. The average vote of 50 such trees scores 0.888, above 0.856, the average score of those 50 trees on their own.
-
-![Fully grown trees with max_features = 1 on the moons training data. Three trees with different random seeds draw different surfaces (test accuracy 0.880, 0.888, 0.864); the average vote of 50 such trees (right) scores 0.888.](images/random_trees.png)
+Think of one guesser who guesses wildly: no better on their own. Ask a crowd of such guessers and average them, and the wild guesses cancel out. Random splits work the same way: scikit-learn builds its random-split trees for use inside ensembles such as Extra Trees, not alone (sklearn reference, `ExtraTreeClassifier`). [The wisdom of the crowd](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#2-the-wisdom-of-the-crowd) explains why averaging helps, and section 4.6 shows it on the moons data with a related kind of random tree.
 
 ### 4.3 max_depth
 
@@ -137,9 +133,11 @@ The root of the moons tree holds 375 observations and splits into 216 and 159. W
 - a node with 78, 71 or 59 observations is not split again: it becomes a leaf;
 - a node with 137 observations is still split, because $137 \ge 100$.
 
-The result has 7 leaves (Figure 6, top right). With `min_samples_split=301`, the root (375 observations) splits, but neither child (216 or 159 observations) reaches 301, so the tree stops after one question.
+The result has 7 leaves (Figure 4, top right). With `min_samples_split=301`, the root (375 observations) splits, but neither child (216 or 159 observations) reaches 301, so the tree stops after one question.
 
 So: **higher value, more underfitting; lower value, more overfitting.**
+
+![Four ways to stop the tree early on the moons data](images/stopping_rules.png){height=60%}
 
 ### 4.5 min_samples_leaf
 
@@ -147,15 +145,13 @@ So: **higher value, more underfitting; lower value, more overfitting.**
 
 `min_samples_leaf` (G-1220; default 1) is the smallest number of observations allowed in a leaf. A split is only made if **both** children keep at least that many observations.
 
-With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split would leave fewer than 100 observations on one side. With `min_samples_leaf=20` it has 11 leaves (Figure 6, bottom left).
+With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split would leave fewer than 100 observations on one side. With `min_samples_leaf=20` it has 11 leaves (Figure 4, bottom left).
 
 `min_samples_leaf` works much like `min_samples_split`: a higher value underfits, a lower value overfits.
 
 Figure 5 sweeps it from 1 to 150. The number of leaves falls from 43 to 2 and training accuracy falls with it, from 1.00 to 0.82. Test accuracy is best in between, 0.904 at `min_samples_leaf=10`; from 70 onwards the tree keeps at most three questions (4 leaves or fewer) and **underfits** (G-2035).
 
 ![min_samples_leaf from 1 to 150 on the moons data. Left: the decision surface. Right: training accuracy (blue), test accuracy (orange) and the number of leaves (green bars).](images/leaf_sweep.gif)
-
-![Four ways to stop the tree early on the moons data](images/stopping_rules.png){height=60%}
 
 ### 4.6 max_features
 
@@ -167,6 +163,10 @@ On the moons data there are only 2 features, so `max_features=1` means each node
 
 The random subset adds randomness on purpose, so two trees grown on the same data differ. On a single tree the gain is absent: on the moons data, `max_features=1` scores 0.857 against 0.866 for all features (average over 50 datasets). The payoff comes from averaging many such trees: different trees make different errors, and the average cancels part of them (ESL §15.2).
 
+Figure 6 shows this on the moons split. Three fully grown trees that each see one random feature per split draw three different surfaces, with test accuracies of 0.880, 0.888 and 0.864. The average vote of 50 such trees scores 0.888, above 0.856, the average score of those 50 trees on their own.
+
+![Fully grown trees with max_features = 1 on the moons training data. Three trees with different random seeds draw different surfaces (test accuracy 0.880, 0.888, 0.864); the average vote of 50 such trees (right) scores 0.888.](images/random_trees.png)
+
 The same idea is the heart of **random forests** (see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works) and [node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling)): many trees, each seeing random features at every split.
 
 > **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the features at each node. When two features give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible (sklearn reference, `random_state`).
@@ -175,7 +175,7 @@ The same idea is the heart of **random forests** (see [how a random forest works
 
 > **Key point:** Caps the number of leaves; the tree keeps the splits that reduce impurity the most.
 
-`max_leaf_nodes` (G-1186) limits how many leaves the tree may have. With `max_leaf_nodes=2` there is one split and two leaves; with 5, exactly 5 leaves (Figure 6, bottom right).
+`max_leaf_nodes` (G-1186) limits how many leaves the tree may have. With `max_leaf_nodes=2` there is one split and two leaves; with 5, exactly 5 leaves (Figure 4, bottom right).
 
 When this limit is set, scikit-learn grows the tree **best-first**: it always makes the split with the largest impurity decrease next, wherever it is in the tree, until the leaf budget is used up (sklearn reference, `max_leaf_nodes`). Higher value: overfitting; lower value: underfitting.
 

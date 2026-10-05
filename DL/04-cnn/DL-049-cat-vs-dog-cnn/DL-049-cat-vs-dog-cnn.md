@@ -215,6 +215,8 @@ We trained the model three times with different random seeds (each seed gives di
 
 (Means of 3 seeds; Notebook.)
 
+At epoch 1 the validation accuracy (72.8%) is above the training accuracy (65.2%). The training figure is the average over all 586 batches of the epoch, including the early ones seen while the weights were still poor; the validation figure uses the model as it is at the end of the epoch (Keras FAQ). By epoch 3, training is ahead.
+
 The two curves tell different stories (Figure 5). The training accuracy rises every epoch, from 65% to 99%, and the training loss falls almost to 0. The validation accuracy reaches about 80% by epoch 2 or 3 and then stays there, moving between 79% and 80%. The validation loss is lowest at epoch 3 (0.44) and then climbs every epoch, to 1.34 at epoch 10: on the photos it gets wrong, the model becomes more and more confident (section 8.1 counts these photos). By epoch 10 the gap between training and validation accuracy is 0.20.
 
 Such a growing gap between training and validation performance is **overfitting**: the model fits details of its own training photos that do not hold for new photos (see [why neural networks overfit](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit)). [Early stopping](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras) shows how to stop training near the epoch where the validation loss is lowest.
@@ -343,6 +345,7 @@ Both models label both photos correctly and with near certainty, even though the
 - Keras documentation: `image_dataset_from_directory`, keras.io/api/data_loading/image (arguments and defaults: `labels="inferred"`, `label_mode`, `batch_size=32`, `image_size=(256, 256)`, `validation_split`, `subset`).
 - Keras documentation: Image classification from scratch, keras.io/examples/vision/image_classification_from_scratch (the Kaggle Cats vs Dogs dataset; deleting files without "JFIF" in their header: 1,590 files).
 - Microsoft Download Center: Kaggle Cats and Dogs Dataset (kagglecatsanddogs_5340.zip; 12,500 cat and 12,500 dog photos; readme pointing to the Asirra project of Microsoft Research).
+- Keras FAQ, "Why is my training loss much higher than my testing loss?" (the training metric is averaged over the epoch's batches; the validation metric uses the model at the end of the epoch).
 - Photos for prediction: Wikimedia Commons. Kitten (David Corby, CC BY 2.5); golden retriever (Janneke Vreugdenhil, public domain).
 
 ## 12. Key terms

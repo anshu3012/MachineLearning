@@ -114,7 +114,7 @@ Class 2 has the highest average, so soft voting predicts **class 2**. Hard votin
 
 ![Hard and soft voting reach different answers when one model is very sure and the others are not](images/hard_vs_soft.png){height=30%}
 
-> **Extra:** In the examples above both kinds of voting agree. Figure 2 shows a case where they do not. M1 is very sure of class 0 (0.9); M2 and M3 lean only slightly to class 1 (0.6 and 0.55). Hard voting counts two votes for class 1 and answers **1**. Soft voting averages 0.583 for class 0 against 0.417 for class 1 and answers **0**.
+In the examples above both kinds of voting agree. Figure 2 shows a case where they do not. M1 is very sure of class 0 (0.9); M2 and M3 lean only slightly to class 1 (0.6 and 0.55). Hard voting counts two votes for class 1 and answers **1**. Soft voting averages 0.583 for class 0 against 0.417 for class 1 and answers **0**.
 
 ### 3.4 Which one to use
 

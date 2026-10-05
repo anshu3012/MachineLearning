@@ -77,7 +77,7 @@ The information is in the data in every case: only the distance changes. The RNN
 
 > **Key point:** The gradient of $W_i$ is a sum of short-term terms (recent inputs) and long-term terms (distant inputs). Each long-term term contains a long product of factors $\partial h_t/\partial h_{t-1}$, which shrinks towards 0. So the weights learn almost only from recent inputs.
 
-**The idea on one weight.** Take the one-node RNN of [the smallest RNN](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#41-the-smallest-rnn-one-node), unrolled over many time steps, and look only at the feedback weight $w_h$. The first input travels to the last step through the red arrows, and every arrow multiplies it by $w_h$.
+**The idea on one weight.** Take the one-node RNN of [the smallest RNN](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#41-the-smallest-rnn-one-node), unrolled over many time steps, and look only at the feedback weight $w_h$. The first input travels to the last step along the feedback connection (the red arrow in the unrolled picture there), one step at a time, and every step multiplies it by $w_h$.
 
 1. **In words:** one multiplication by the same weight per time step. After many steps, the first input has been multiplied by that weight many times over.
 2. **Formula:** after $d$ steps, the first input is multiplied by $w_h^{\thinspace d}$.

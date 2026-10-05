@@ -22,6 +22,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 - three fixes, the third being a change of activation;
 - two **linear variants** (G-1098; Leaky ReLU, Parametric ReLU), which change ReLU's negative side by a straight line;
 - two **non-linear variants** (G-1336; ELU, SELU), which use an exponential curve there.
+- two smooth versions of ReLU used in transformers (GELU, SiLU).
 
 ![ReLU and its four variants (left) and their derivatives (right). On the negative side ReLU's slope is 0; every variant keeps a slope above 0. The Leaky ReLU slope is drawn as 0.1 instead of 0.01 to make it visible](images/variants.png){width=100%}
 
@@ -120,7 +121,7 @@ Figure 4 follows the same runs through training, on a log scale (each step along
 
 1. **Learning rate 10 (red).** The nodes die during the very first epoch. After 8 of its 16 batches, 41% of the first-layer nodes are negative everywhere; after that the share never moves again.
 2. **Bias $-1$ with ReLU (grey).** 72% and 100% of the nodes start negative everywhere and stay so for all 200 epochs: a flat line.
-3. **Bias $-1$ with Leaky ReLU (blue) and ELU (green).** The same nodes start negative, but their slope is not 0, so their weights keep changing. The ELU shares start falling within 3 epochs; the Leaky ReLU shares from epoch 8 in the first layer and epoch 11 in the second, where they drop from 100% to 38% by epoch 27.
+3. **Bias $-1$ with Leaky ReLU (blue) and ELU (green).** These are two of the variants in Figure 1, defined in sections 5.1 and 6.1. The same nodes start negative, but their slope is not 0, so their weights keep changing. The ELU shares start falling within 3 epochs; the Leaky ReLU shares from epoch 8 in the first layer and epoch 11 in the second, where they drop from 100% to 38% by epoch 27.
 4. **Learning rate 0.1 (dotted).** Few nodes are ever negative everywhere.
 
 ## 4. Three ways to prevent dead nodes

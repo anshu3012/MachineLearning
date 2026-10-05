@@ -118,7 +118,9 @@ So the green points rise and the red points stay low. In 3D a flat plane between
 
 ![Lifting two rings into 3D with $z = e^{-(x_1^2 + x_2^2)}$: the centre rises and a plane splits the classes](images/lift_3d.gif){height=55%}
 
-This bump is the shape behind the **RBF kernel**, short for radial basis function: "radial" because it depends only on a distance. The RBF kernel puts such a bump on the distance between two points: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its value is close to 1 for two points that are near each other and close to 0 for two points far apart. So each training point mainly influences the points near it, much like a weighted vote of the nearest neighbours (see [how KNN predicts](../ML-085-knn/ML-085-knn.md#2-how-knn-predicts)). The setting $\gamma$ (gamma, G-823) controls how far that influence reaches; [gamma, how far one point's influence reaches](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) in the next Note shows its effect. Back in the original 2D plane, the flat plane corresponds to a circle around the centre: the curved boundary we needed.
+Back in the original 2D plane, the flat plane corresponds to a circle around the centre: the curved boundary we needed (Section 5 draws it).
+
+This bump is the shape behind the **RBF kernel**, short for radial basis function: "radial" because it depends only on a distance. The RBF kernel puts such a bump on the distance between two points: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its value is close to 1 for two points that are near each other and close to 0 for two points far apart. So each training point mainly influences the points near it, much like a weighted vote of the nearest neighbours (see [how KNN predicts](../ML-085-knn/ML-085-knn.md#2-how-knn-predicts)). The setting $\gamma$ (gamma, G-823) controls how far that influence reaches; [gamma, how far one point's influence reaches](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) in the next Note shows its effect.
 
 ## 5. The kernel trick in SVM
 

@@ -204,6 +204,8 @@ Watch the red lines move in while the middle of the histogram stays put. The roo
 
 > **Key point:** The Johnson–Lindenstrauss lemma implies that the dimension needed for $n$ nearly perpendicular directions grows only with $\log n$. Turned around, the number of directions that fit grows exponentially with the dimension: going from about 5,900 to 11,800 dimensions raises the guaranteed count from a thousand to a million.
 
+Section 5 fixed the number of directions and the dimension and asked how perpendicular they can be. The opposite question is how many directions fit if we allow every angle to be a few degrees off 90, and how that count grows with the dimension. A classic result answers it.
+
 The **Johnson–Lindenstrauss lemma** (G-984) says: a cloud of points in many dimensions can be copied into far fewer dimensions with every distance kept almost the same. Before the formula, one small instance of its two pieces (the symbols are in the table of section 1):
 
 - **The points and the map.** $n = 2$ points in $\mathbb{R}^3$ ($D = 3$): $u = (3, 4, 0)$ and $v = (0, 0, 0)$. A map $f$ into $\mathbb{R}^2$ ($k = 2$) that drops the third number gives $f(u) = (3, 4)$ and $f(v) = (0, 0)$.

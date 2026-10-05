@@ -197,7 +197,9 @@ On the diabetes data (10 features, 353 training patients), with learning rate 0.
 | OLS (`LinearRegression`) | 151.88 | 0.440 |
 | Batch gradient descent, 1,000 epochs | 152.01 | 0.453 |
 
-Figure 4 draws what this code does over its 1,000 epochs. The test R² climbs slowly at first, passes the OLS value 0.440 at epoch 407 and ends at 0.453. The intercept is close to its final value after one epoch and then settles near 152.
+Figure 4 draws what this code does over its 1,000 epochs. The test R² climbs slowly at first, passes the OLS value 0.440 at epoch 407 and ends at 0.453.
+
+Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epochs gradient descent has not finished: some coefficients, above all that of s1, are still far from their OLS values (the second Extra of Section 5 shows why). This not-yet-fitted line happens to predict the 89 test patients a little better, the same effect that early stopping (Section 5) uses on purpose. On the training data OLS still has the lower error. The intercept is close to its final value after one epoch and then settles near 152.
 
 ![What the GDRegressor code produces on the diabetes data, learning rate 0.5. Left: test R² after each epoch against the OLS value. Right: the intercept against the OLS intercept. Both axes of epochs use a log scale.](images/code_run.png)
 

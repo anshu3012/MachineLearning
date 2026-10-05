@@ -56,7 +56,7 @@ The goal is a model that takes a new student's CGPA and predicts their package. 
 
 Suppose someone asks what package a student from this college gets. Without looking at CGPA, the most reasonable answer is the average of all packages: **3.00 LPA**.
 
-The average ignores everything that makes one student different from another. A student with CGPA 9 and a student with CGPA 5 would get the same prediction. The red dashed line in Figure 2 is this "same guess for everyone".
+The average ignores everything that makes one student different from another. A student with CGPA 9 and a student with CGPA 5 would get the same prediction. The red dashed line in Figure 2 (in the next section) is this "same guess for everyone".
 
 ## 3. A line through the data
 

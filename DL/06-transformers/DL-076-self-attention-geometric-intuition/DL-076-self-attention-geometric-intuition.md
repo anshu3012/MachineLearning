@@ -203,6 +203,8 @@ Sections 6 and 7.1 treated $y_{bank}$ as the new vector of "bank". Inside a tran
    $$(7, 3) + (6.68, 3.03) = (13.68, 6.03)$$
    This is at 24 degrees: almost no turn, only longer (Notebook).
 
+   The pull towards "river" from section 7.2 is still there, but inside $\Delta e$: the change points at 24 degrees, below $v_{bank}$ at 30 degrees. It does not point below $e_{bank}$ at 23 degrees, because $W_V$ turned bank's own value vector upwards. So with these hand-picked numbers the sum turns by only about one degree.
+
 ![The attention output as a change added to the word's vector. The weighted value vectors (red) are placed at the tip of $e_{bank}$ (grey); their sum is $\Delta e$ (purple); $e_{bank} + \Delta e$ is the new vector, blue for "money bank" and orange for "river bank"](images/residual_nudge.gif){height=55%}
 
 Watch, in Figure 8, how the same grey arrow receives a different purple change in each sentence and so ends in a different place. With our hand-picked numbers the change is almost as long as the vector itself.

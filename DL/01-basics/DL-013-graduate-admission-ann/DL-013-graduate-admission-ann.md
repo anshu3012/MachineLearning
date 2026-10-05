@@ -219,11 +219,11 @@ $$R^2 = 1 - 1.06 = -0.06$$
 
 The fraction is the model's error relative to the average-guess error.
 
+![Training and validation loss. Left: the first network is still learning when it stops after 10 epochs. Right: the second network, trained for 100 epochs, levels off.](images/curves.png)
+
 Figure 4 plots the loss on the vertical axis against the epoch on the horizontal axis, for the training students and the validation students. Its left panel shows why the first network scores so low: after 10 epochs the loss is still falling steeply. The network simply has not finished learning, like a cake taken out of the oven halfway through its baking time.
 
 > **Extra:** The Notebook checks that the number of epochs matters most. Over three random starts, the same one-layer network reaches $R^2$ between 0.42 and 0.78 after 100 epochs, against $-16.4$ to 0.19 after 10 epochs.
-
-![Training and validation loss. Left: the first network is still learning when it stops after 10 epochs. Right: the second network, trained for 100 epochs, levels off.](images/curves.png)
 
 ## 6. Improving the network
 

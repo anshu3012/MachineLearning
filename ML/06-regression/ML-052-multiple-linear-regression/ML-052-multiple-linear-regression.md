@@ -39,6 +39,8 @@ Take two inputs, CGPA ($x_1$) and IQ ($x_2$), and the package ($y$) as output. E
 
 In 2D we drew the line that passes closest to all points. In 3D we draw a flat **plane** (G-1502) that cuts through the cloud of points: some points lie above it, some below, and the plane keeps as close as possible to all of them (Figure 2).
 
+Figure 2 and the figures after it use this Note's example data of Figure 1: 100 made-up observations with two features, feature1 and feature2, standing in for CGPA and IQ (section 4 shows how the data is made).
+
 ![100 observations in 3D, then the fitted plane, then each observation's error as a stick to the plane (green above, red below), while the view circles once](images/plane_orbit.gif){height=50%}
 
 Watch the sticks as the view turns: about half the points sit above the plane (50 of 100) and half below, and from the side the plane cuts through the middle of the cloud. Fitting the plane means making these sticks, squared and added up, as small as possible, just as with the line.

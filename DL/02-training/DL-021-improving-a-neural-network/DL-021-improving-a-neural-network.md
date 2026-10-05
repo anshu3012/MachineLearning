@@ -133,6 +133,8 @@ Figure 5 measures the first and third rows of the table on MNIST, with the 32-32
 - **Speed (left).** With batches of 8, one epoch is 7,500 weight updates and takes 5.9 seconds. With batches of 512 it is 118 updates and takes 0.4 seconds; beyond that the GPU is already busy and the time stops falling.
 - **Results (right).** Batches of 8 to 512 all reach about 96 percent. Batches of 2,048 reach 94.2 percent and batches of 8,192 only 89.6 percent.
 
+So on this small problem the "small batches give better results" row of the table shows up only at the large end. From 8 to 512 the test accuracies lie between 96.2 and 96.5 percent, too close to call a winner; the drop starts at 2,048.
+
 Part of that drop is simple counting: in 10 epochs, batches of 8,192 make only 80 weight updates, against 75,000 for batches of 8. A larger learning rate with a warm-up, below, is how large batches make up for the missing updates.
 
 To keep the speed of large batches and still get good results, some researchers use a **learning rate warm-up** (G-1071): the learning rate starts very small in the first epochs and is then increased quickly. Training with large batches and a warm-up is both fast and accurate.

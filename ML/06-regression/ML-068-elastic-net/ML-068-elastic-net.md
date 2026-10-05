@@ -188,21 +188,21 @@ Figure 5 turns the shape from diamond into circle on real data: two diabetes fea
 
 The weak feature s1 is dropped over a whole range of mixes, not only at pure Lasso.
 
-**The formula behind the shapes.** Call the two coefficients $b_1$ (bmi) and $b_2$ (s1), the budget 15, and the mix $r$ (the `l1_ratio`). A pair $(b_1, b_2)$ is inside the region when
+**The formula behind the shapes.** Call the two coefficients $\beta_1$ (bmi) and $\beta_2$ (s1), as in Section 2, the budget 15, and the mix $r$ (the `l1_ratio`). A pair $(\beta_1, \beta_2)$ is inside the region when
 
-$$r\thinspace\frac{|b_1| + |b_2|}{15}$$
+$$r\thinspace\frac{|\beta_1| + |\beta_2|}{15}$$
 
-$$+ (1 - r)\thinspace\frac{b_1^2 + b_2^2}{15^2} \le 1$$
+$$+ (1 - r)\thinspace\frac{\beta_1^2 + \beta_2^2}{15^2} \le 1$$
 
 Check it at the two ends, then at one point in between:
 
 | $r$ | Formula | Shape |
 |---|---|---|
-| 1 | $(\lvert b_1\rvert + \lvert b_2\rvert)/15 \le 1$, so $\lvert b_1\rvert + \lvert b_2\rvert \le 15$ | diamond (Lasso) |
-| 0 | $(b_1^2 + b_2^2)/225 \le 1$, so $b_1^2 + b_2^2 \le 225$ | circle of radius 15 (Ridge) |
+| 1 | $(\lvert \beta_1\rvert + \lvert \beta_2\rvert)/15 \le 1$, so $\lvert \beta_1\rvert + \lvert \beta_2\rvert \le 15$ | diamond (Lasso) |
+| 0 | $(\beta_1^2 + \beta_2^2)/225 \le 1$, so $\beta_1^2 + \beta_2^2 \le 225$ | circle of radius 15 (Ridge) |
 | 0.5 | half of each term | rounded diamond with corners kept |
 
-At $r = 0.5$ the point $(b_1, b_2) = (15, 0)$ gives
+At $r = 0.5$ the point $(\beta_1, \beta_2) = (15, 0)$ gives
 
 $$0.5 \times \frac{15}{15} + 0.5 \times \frac{225}{225}$$
 

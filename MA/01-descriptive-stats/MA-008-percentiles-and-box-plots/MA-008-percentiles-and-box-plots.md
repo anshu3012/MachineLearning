@@ -163,7 +163,11 @@ Counting half of the equal values puts a value in the middle of its own share of
 
 The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are met in [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot). In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
 
-The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Figure 6 takes the ten values of Section 5 and replaces the largest, 1500, by 15000:
+The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Take these ten sorted values, the running example of Section 5:
+
+$$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
+
+Their quartiles, with the location formula of Section 3.1, are $Q_1 = 234$, median $= 285.5$ and $Q_3 = 328.25$; Section 5 (step 2) works them out one step at a time. Figure 6 replaces the largest value, 1500, by 15000:
 
 - **The box does not move.** $Q_1$ stays 234, the median 285.5 and $Q_3$ 328.25, so the IQR stays 94.25. Only the position of the last value changed, and the quartiles depend on the middle positions.
 - **The mean and standard deviation move a lot.** Both add up every value, the extreme one included. The mean, one step per line:

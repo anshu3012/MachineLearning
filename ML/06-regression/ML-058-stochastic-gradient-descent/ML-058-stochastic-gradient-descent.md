@@ -82,7 +82,12 @@ and with **learning rate** (G-1068; the step size) 0.01 the coefficient rises by
 
 $$0.01 \times 0.4 = 0.004$$
 
-So an epoch of SGD makes $n$ small updates instead of one big one. On the diabetes data an epoch is 353 updates.
+So an epoch of SGD makes $n$ small updates instead of one big one.
+
+This Note runs SGD on two datasets from the earlier Notes:
+
+- the **diabetes data** of [batch gradient descent in code](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code): 10 features and 353 training patients, so an epoch is 353 updates;
+- the **100-point example** of [gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class): 100 points with one feature, so only a slope $m$ and an intercept $b$ to learn, which lets us draw the paths.
 
 **Why one observation is enough.** Real data repeats itself: many observations look alike and say almost the same thing about the coefficients. Take 12 points that sit in three tight clusters. The gradient from one point of a cluster is close to the gradient from its neighbours, so summing all 12 before every step mostly repeats work. One random point already points roughly downhill, and the next random point corrects it. SGD gains the most when the data has such redundancy (StatQuest, "Stochastic Gradient Descent, Clearly Explained!!!").
 
@@ -224,7 +229,7 @@ The main parameters:
 
 `SGDRegressor` is a general class: gradient descent only minimises whatever loss it is given, so one class trains several linear models.
 
-On the diabetes data, `"constant"` with `eta0=0.01` reaches test R² 0.43 in 97 epochs. The default `"invscaling"` schedule shrinks the rate as $\eta_0 / t^{0.25}$, so it needs a larger start: with `eta0=0.2` it reaches 0.45 in 75 epochs, the best of these runs and above OLS's 0.44. A shrinking schedule is like a car braking as it nears a parking spot: it must start fast enough to arrive at all.
+On the diabetes data, `"constant"` with `eta0=0.01` reaches test R² 0.43 in 97 epochs. The default `"invscaling"` schedule shrinks the rate as $\eta_0 / t^{0.25}$, so it needs a larger start: with `eta0=0.2` it reaches 0.45 in 75 epochs, the best of these runs and above OLS's 0.44. OLS gives the lowest error on the training data, not on the test data: coefficients that stop a little short of OLS can score slightly higher on the 89 unseen test patients, so a gap of 0.01 does not mean SGD found a better fit. A shrinking schedule is like a car braking as it nears a parking spot: it must start fast enough to arrive at all.
 
 Figure 8 puts these runs side by side. Each bar is a run of SGD with its starting rate written below it; its height is the test $R^2$, so a taller bar is a better model. With the shrinking schedule, a start of 0.01 leaves the model far from the answer (0.16); raising the start to 0.05, 0.1 and 0.2 brings it to the constant-rate result (green) and then just past OLS (grey).
 

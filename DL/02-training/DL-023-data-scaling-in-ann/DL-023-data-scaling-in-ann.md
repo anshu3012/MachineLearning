@@ -120,13 +120,13 @@ $$0.004 \times 38 = 0.15 \quad \text{(through age)}$$
 
 So $z$ swings wildly from step to step, the predictions flip between all 0 and all 1, and training is unstable, as in Figure 1.
 
-> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller **learning rate** (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
-
 The Notebook measures this on the real network before any training (Figure 1, right). With raw inputs, the salary weights' gradients average 1,393 and the age weights' 0.73: about 1,900 times smaller. That is close to the ratio of the average salary to the average age:
 
 $$69{,}742 / 38 \approx 1{,}835$$
 
 After standardizing, both are around 0.01, within a factor of 2.
+
+> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller **learning rate** (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
 
 ### 4.2 The shape of the loss
 

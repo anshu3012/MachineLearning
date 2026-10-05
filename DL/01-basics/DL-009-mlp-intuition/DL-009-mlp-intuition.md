@@ -125,7 +125,15 @@ All the contour lines are parallel to the hyperplane, because $p$ depends on the
 
 Suppose the green points sit in a wedge, as in Figure 5. Perceptron 1 (left) separates them from the points below-left; perceptron 2 (middle) separates them from the points above-left. Neither line alone works: perceptron 1 misclassifies 44 of the 160 points, perceptron 2 misclassifies 40.
 
-Before the maps, the surfaces. Each panel of Figure 4 is the height $p$ above the plane, for the three perceptrons of Figure 5 (their weights are given in Section 3.3):
+Before the maps, the surfaces. Each panel of Figure 4 is the height $p$ above the plane, for the three perceptrons of Figure 5. Their weights are our own, chosen to show the effect:
+
+$$p_1 = \sigma(3x_1 + 3x_2)$$
+
+$$p_2 = \sigma(3x_1 - 3x_2)$$
+
+$$p = \sigma(8p_1 + 8p_2 - 12)$$
+
+The third perceptron reads $p_1$ and $p_2$ instead of the features; sections 3.2 and 3.3 explain this way of combining them. At the point $(0, 0)$:
 
 $$p_1(0, 0) = \sigma(0) = 0.5$$
 
@@ -382,7 +390,7 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 >
 > `hidden_layer_sizes=(4, 4, 4, 4)` gives four hidden layers of 4 nodes. scikit-learn calls the sigmoid `"logistic"`. The input and output layers are sized automatically from `X` and `y`.
 
-> **Extra:** **ReLU** (G-1668) is another activation function, the recommended default for hidden units in modern networks (Goodfellow et al. 2016, §6.3). The `solver` (G-1836; lbfgs or adam) is the method used to find the weights; adam is one of the **optimizers** (G-1401) covered later. The circles use lbfgs and the spirals adam, because each worked best on its data. Averaged over 5 random starts (Notebook): on the circles, lbfgs 97% against adam 47%; on the ReLU spirals, adam 84% against lbfgs 78%.
+> **Extra:** **ReLU** (G-1668) is another activation function, the recommended default for hidden units in modern networks (Goodfellow et al. 2016, §6.3). The `solver` (G-1836; lbfgs or adam) is the method used to find the weights; adam is one of the **optimizers** (G-1401) covered later. The circles use lbfgs and the spirals adam, because each worked best on its data. Averaged over 5 random starts (Notebook): on the circles, lbfgs 97% against adam 47%; on the ReLU spirals, adam 84% against lbfgs 78%. Adam's 47% on the circles is a stopping problem, not a weak method: its loss sits at 0.693 on a flat stretch, like the start of Figure 11, and scikit-learn's default stopping rule (`n_iter_no_change=10`, `tol=1e-4`) ends training there after 41 to 274 steps. With `n_iter_no_change=5000` the same five runs reach 99 to 100% (Notebook).
 
 ## 6. Summary
 

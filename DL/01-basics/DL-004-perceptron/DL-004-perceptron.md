@@ -22,12 +22,14 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 
 The **perceptron** (G-1486) is the building block of every **neural network** (G-1316; see [deep learning as ML with neural networks](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#21-the-simple-definition-ml-with-neural-networks)). It is also a **supervised learning** (G-1919) algorithm in its own right, like linear regression or logistic regression. Figure 1 shows its whole design.
 
-This Note covers four things:
+This Note covers six things:
 
 - the parts of the model (section 3);
 - training and prediction (section 4);
 - how it compares with a brain cell (section 5);
-- what it does geometrically (section 7).
+- what the weights say about each input (section 6);
+- what it does geometrically (section 7);
+- training one in scikit-learn (section 8).
 
 How the perceptron learns its weights starts with the [perceptron trick](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#3-the-trick-in-one-picture).
 

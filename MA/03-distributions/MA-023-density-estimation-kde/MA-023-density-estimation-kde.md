@@ -121,6 +121,8 @@ Figure 3 fits the same normal curve to the first 10, 30, 100 and all 1,000 value
 - **30 and 100 values:** the mean is close (50.08 and 49.75), but $s$ is about 3.8, so the fitted curve is too narrow and too tall.
 - **1,000 values:** $\bar{x} = 49.86$ and $s = 4.94$; the orange curve lies almost on the dashed true curve.
 
+The 100 values look worse than the 10 here ($s = 3.86$ against 4.43), which seems to break "more data, better estimates". That is luck of this one sample. Over 10,000 fresh samples, the average error of $s$ shrinks steadily: 0.94 with 10 values, 0.53 with 30, 0.28 with 100 and 0.09 with 1,000. A value of $s$ as low as 3.86 from 100 values happens in fewer than 1 sample in 1,000 (Notebook). "More data, better estimates" holds on average, not for every single sample.
+
 ![Normal PDFs fitted to the first 10, 30, 100 and 1,000 values of the sample (orange) against the true PDF with mean 50 and standard deviation 5 (dashed).](images/more_data.gif)
 
 > **Extra:** Older code draws this kind of plot with `sns.distplot`, which seaborn has deprecated (seaborn 0.13 docs). Today we use `sns.histplot(x, stat="density", kde=True)` for a histogram with a KDE, and compute a fitted normal with `scipy.stats.norm` as above.

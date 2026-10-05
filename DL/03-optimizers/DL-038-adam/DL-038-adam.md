@@ -174,6 +174,8 @@ In Figure 5 the vertical axis is how far the loss is above its lowest possible v
 
 Figure 5 shows the same runs step by step. The step counts in the table are the first time a run gets within 0.01; the curves show what happens next. Gradient descent and AdaGrad keep falling smoothly. Momentum and Adam cross the line, swing back above it, and settle in smaller and smaller swings. RMSProp falls steadily, then very steeply after step 45, then jumps back up near step 105 and keeps bouncing around 0.01 to the end.
 
+Momentum is no faster than gradient descent here (64 steps against 61). Its speed carries it past the minimum on the way down, so its loss rises and falls several times before it first gets within 0.01 (the bumps in its curve in Figure 5). These are the overshoot and oscillation of the table in section 3; on a small convex bowl that a plain step already crosses quickly, the swings cost the steps the speed gained.
+
 Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around a few times, each swing smaller, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one (a **convex function**, G-476) the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks (**non-convex functions**, G-1333).
 
 ## 7. Adam on real data: MNIST

@@ -262,7 +262,7 @@ Think of a treasure hunt. If gold lies everywhere, any random dig finds some, an
 
 ![Best 5-fold CV accuracy so far, averaged over 20 runs of each sampler on the SVM search; the bands are ± one standard error](images/best_so_far.png){width=100%}
 
-How to read Figure 6: across is the number of trials run, up is the best score found so far (not the latest score), averaged over 20 separate runs; the shaded band shows the spread between runs. A curve that is higher at the same trial count has found a better setting sooner. The first 10 trials are identical, because TPE starts at random (section 5.2). From then on, the TPE curve rises faster. After 20 trials TPE averages 0.780; random search reaches that average only at trial 42. TPE finishes ahead in 19 of the 20 runs (Notebook). Fewer trials for the same score is exactly what Bayesian optimisation promises.
+How to read Figure 6: across is the number of trials run, up is the best score found so far (not the latest score), averaged over 20 separate runs; the shaded band shows the spread between runs. A curve that is higher at the same trial count has found a better setting sooner. The first 10 trials are identical, because TPE starts at random (section 5.2). From then on, the TPE curve rises faster. After 20 trials TPE averages 0.780 and random search 0.777; random search reaches 0.780 only at trial 42. After 50 trials TPE is level with or ahead of random search in 19 of the 20 runs (Notebook). Fewer trials for the same score is exactly what Bayesian optimisation promises.
 
 > **Extra:** The three samplers on the forest objective of section 5, one study each:
 >

@@ -436,7 +436,7 @@ The expected value says where the outcomes centre; the variance says how much a 
 | Standard deviation | $\sqrt{\mathrm{Var}(X)}$ | 1.708 | 0.5 |
 
 - A random variable is a function from outcomes to real numbers; the event we study decides its rule.
-- One sample space can carry many random variables: sum, difference, larger face.
+- One sample space can carry many random variables: the sum and the difference of two dice.
 - The expected value is a probability-weighted average, the long-run mean of many trials; it need not be a possible value.
 - The variance is the expected squared distance from the expected value; the shortcut $E[X^2] - (E[X])^2$ gives the same number.
 - Expected values are linear: constants come out, sums split. No independence is needed for this.

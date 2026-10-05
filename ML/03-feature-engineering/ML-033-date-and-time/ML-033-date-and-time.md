@@ -299,7 +299,7 @@ How long ago an order was placed is often a useful feature, for example "days si
 
 > **Key point:** `today - orders["date"]` gives one Timedelta per row: a length of time in days, hours, minutes and seconds.
 
-A **Timedelta** (G-1977) is a length of time, such as `498 days 16:02:16`. Subtracting one Timestamp from another gives one. Figure 8 shows it for one order.
+A **Timedelta** (G-1977) is a length of time, such as `498 days 16:02:16`. Subtracting one Timestamp from another gives one. Figure 8 shows it for one order, row 11 (2 August 2019), which section 6.3 comes back to.
 
 ![The time between an order and "today", and three ways to turn it into a number](images/elapsed.png){width=100%}
 

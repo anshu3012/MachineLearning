@@ -163,9 +163,9 @@ The result on the first six rows:
 
 > **Key point:** `.str.extract(r"(\d+)")` finds the first run of digits in each value.
 
-A **regular expression** (G-1656) (regex) is a short pattern that describes text. The pattern `\d+` means "one or more digits", and the brackets mark the part to keep. So `str.extract(r"(\d+)")` returns `85` from `C85` and `123` from `C123`. Two more values, to see the rule at work: from `B57 B59` it returns `57` (only the first run of digits is taken), and from `F G73` it returns `73` (letters and spaces before the digits are skipped).
-
 The **`.str`** (G-47) accessor applies a text method to every value of a column at once. The accessor is how pandas reaches string tools such as `extract`, `split` and `isdigit`.
+
+A **regular expression** (G-1656) (regex) is a short pattern that describes text. The pattern `\d+` means "one or more digits", and the brackets mark the part to keep. So `str.extract(r"(\d+)")` returns `85` from `C85` and `123` from `C123`. Two more values, to see the rule at work: from `B57 B59` it returns `57` (only the first run of digits is taken), and from `F G73` it returns `73` (letters and spaces before the digits are skipped).
 
 ### 5.2 The category part
 

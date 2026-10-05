@@ -216,7 +216,9 @@ Figure 8 (left) trains each variant for 100 epochs:
 | 32 (mini-batch) | 0.288 | 85.0% |
 | 1 (stochastic) | 0.194 | 87.5% |
 
-Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 8, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. **Mini-batch gradient descent** (G-1222), averaging 32 observations per step, never made it rise.
+These test accuracies are measured on the random 80 test observations, not on the last 80 observations used for validation in section 7, so they cannot be compared with the 96.2% there.
+
+Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 8, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. **Mini-batch gradient descent** (G-1222), averaging 32 observations per step, never made it rise. (In Figure 7, 29 mini-batch steps did raise the loss: that was the one-neuron model with the larger learning rate 0.3; here the learning rate is 0.01, so each step is smaller.)
 
 Batch gradient descent walks smoothly into the valley of the loss; stochastic gradient descent staggers in. Think of asking for directions: batch asks the whole town and takes the average answer before each step, so every step is good but slow to get; stochastic asks one passer-by per step, so the steps come fast but some point the wrong way. The noise has two sides (see section 5 of the [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#5-a-noisy-path)):
 

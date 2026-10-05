@@ -161,7 +161,7 @@ The Notebook measures the saturation directly: one random query against 10 rando
 | 512 | 0.95 | 0.32 | 0.068 | 0.35 |
 | 1,024 | 0.97 | 0.32 | 0.046 | 0.35 |
 
-Without scaling, at $d = 1{,}024$ one word takes 97% of the weight on average, and the gradient is 7.6 times smaller than with scaling. With scaling, both numbers stay the same for every $d$.
+Without scaling, at $d = 1{,}024$ one word takes 97% of the weight on average, and the gradient is 7.6 times smaller than with scaling. With scaling, both numbers stay the same from $d = 64$ on (0.32 and 0.35). At $d = 1$ they are a little lower, because with one number per vector all 10 scores are that single query number times a key number: when the query number happens to be near 0, every score is near 0 and the weights come out nearly even.
 
 ![One random query against 10 random keys, using the first $d$ numbers of each, for $d$ from 1 to 1,024. Left: the softmax of the raw dot products collapses onto one key. Right: divided by $\sqrt{d}$, the weights stay spread out. Under each panel, the Notebook's averages over 2,000 draws](images/saturation_anim.gif){height=50%}
 

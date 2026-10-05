@@ -39,7 +39,7 @@ In the **aggregation** (G-183) step, each base model returns a number, since thi
 
 ![Aggregation in a bagging regressor: at three inputs x, each of the 50 bagged trees of section 3 returns a number (grey dots); the bagging prediction is their mean (blue diamond)](images/aggregation_mean.png){height=30%}
 
-Figure 1 shows the aggregation step on the 50 trees of section 3. Watch how far apart the single trees land at x = -1 (from about 0.0 to 0.9), while the mean sits in the middle of the cloud: no tree is trusted on its own.
+Figure 1 shows the aggregation step on the 50 trees of section 3, trained on a small dataset with one input x and a number as the target (section 3 describes it). Watch how far apart the single trees land at x = -1 (from about 0.0 to 0.9), while the mean sits in the middle of the cloud: no tree is trusted on its own.
 
 The aggregation step, on the numbers of Figure 1:
 
@@ -78,7 +78,7 @@ Why the mean is smoother, step by step:
 
 In the terms of the bias-variance trade-off (G-288), each tree keeps its low bias, and averaging removes much of its **variance** (G-2074), the swing of its prediction from one training sample to another (Breiman, 1996, section 1).
 
-Figure 3 builds the bagging regressor of Figure 2b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77) into a smooth curve (0.95 with 50 trees).
+Figure 3 builds the bagging regressor of Figure 2b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77, below the 0.92 of Figure 2a because this tree saw only 25 of the 150 points) into a smooth curve (0.95 with 50 trees).
 
 ![The bagging regressor built one tree at a time: every tree so far (grey), the newest tree and its 25 drawn points (green), and the mean of the trees, the bagging prediction (blue)](images/bagging_curve_grows.gif){height=55%}
 

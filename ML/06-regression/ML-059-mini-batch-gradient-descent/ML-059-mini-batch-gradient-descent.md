@@ -149,8 +149,10 @@ The table averages 20 random splits; the last column is how much test R² jumps 
 
 - With batch size 1, test R² climbs fastest at first but then jumps from epoch to epoch, more than twice as much as with 8.
 - With batch size 8, test R² gets close to OLS (0.44) early and stays there more steadily.
-- With batch size 32, the curve is smooth but slower, with fewer updates per epoch.
+- With batch size 32, the curve in Figure 5 is smooth but slower, with fewer updates per epoch.
 - Full batch has made only 100 updates in total and is far from done.
+
+Averaged over the 20 splits, batch sizes 8 and 32 jump by the same amount (0.031 each), so the smoother curve of 32 in Figure 5 holds for that one split only. The clear gain in steadiness in the table is from batch size 1 to 8.
 
 Like the learning rate, the batch size is tuned by trying values, and the two settings interact. A very small batch gives a noisy derivative, so it may need a small learning rate to stay stable (Goodfellow §8.1.3).
 

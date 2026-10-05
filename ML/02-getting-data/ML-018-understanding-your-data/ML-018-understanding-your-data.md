@@ -410,7 +410,7 @@ Figure 9 shows the result. `Survived` with itself is exactly 1, as every column 
 ![Correlation of each numerical column with Survived](images/corr_survived.png)
 
 - **Fare, +0.26:** a positive link. Passengers with more expensive tickets survived more often. Fare goes with class: the mean fare was 84.15 in first class and 13.68 in third, and 63% of first-class passengers survived against 24% of third-class passengers. The number shows that fare and survival move together; it does not show why (section 9.1).
-- **Pclass, -0.34:** the strongest link, and negative. As the class number goes up (from first towards third), the chance of survival goes down. Most of those who died travelled in third class, the cheapest.
+- **Pclass, -0.34:** the strongest link among these numerical columns, and negative. As the class number goes up (from first towards third), the chance of survival goes down. Most of those who died travelled in third class, the cheapest.
 - **PassengerId, -0.01:** essentially no link. As expected for a running number, this column will not help a model.
 
 The correlation check is useful at the start, and we repeat it later, after cleaning and creating new features.

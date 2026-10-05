@@ -307,6 +307,8 @@ We could square the residuals and add them, as for regression. Figure 7 shows wh
 
 In Figure 7, watch the two red tangent lines as the dot slides to the left: the blue one turns almost vertical, the orange one barely tilts.
 
+Sections 3 to 5 in one table: each model of the target, its NLL for one observation, and the loss that NLL is.
+
 | Model of the target | NLL per observation | Name of the loss |
 |---|---|---|
 | $N(\hat y, \sigma^2)$, any real $y$ | $(y - \hat y)^2/(2\sigma^2) + \text{const}$ | squared error (MSE) |

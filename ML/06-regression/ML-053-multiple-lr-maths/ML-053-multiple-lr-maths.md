@@ -530,9 +530,7 @@ So $\beta_0 = -0.81$, the **intercept** (G-960), and $\beta_1 = 0.57$, the **slo
 
 > **Key point:** Every possible set of predictions lies on one flat plane, and the real targets stick out of it. The best predictions are the point of the plane closest to the targets, where the error meets the plane at a right angle; that right angle gives the normal equation.
 
-The point straight below is the **projection** (G-1583) of y onto the plane.
-
-The normal equation also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ targets as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the **column space** (G-414) of $X$. Unless the data lie exactly on a line, $y$ is not in it.
+The normal equation also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ targets as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the **column space** (G-414) of $X$. Unless the data lie exactly on a line, $y$ is not in it. The point of the plane straight below $y$ is the **projection** (G-1583) of $y$ onto the plane.
 
 With three observations every vector has three entries, so we can draw it. Figure 7 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
 

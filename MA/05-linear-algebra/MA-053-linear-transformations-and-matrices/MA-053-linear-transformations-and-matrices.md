@@ -67,51 +67,7 @@ A scalar is a single number, such as $c = 3$.
 
    $$L(\mathbf{0}) = \mathbf{0}$$
 
-3. **Example:** with the matrix $A$ of Section 5, $\mathbf{v} = [-1, 2]$ and $\mathbf{w} = [1, 0]$, where $A$ is:
-
-   $$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$$
-
-   The sum is:
-
-   $$\mathbf{v} + \mathbf{w} = [0, 2]$$
-
-   Transforming the sum, one entry per line:
-
-   $$\text{first: } (1)(0) + (3)(2) = 6$$
-
-   $$\text{second: } (-2)(0) + (0)(2) = 0$$
-
-   $$A[0, 2] = [6, 0]$$
-
-   Transforming each vector and then adding:
-
-   $$\text{first: } (1)(-1) + (3)(2) = 5$$
-
-   $$\text{second: } (-2)(-1) + (0)(2) = 2$$
-
-   $$A\mathbf{v} = [5, 2]$$
-
-   $$\text{first: } (1)(1) + (3)(0) = 1$$
-
-   $$\text{second: } (-2)(1) + (0)(0) = -2$$
-
-   $$A\mathbf{w} = [1, -2]$$
-
-   $$[5, 2] + [1, -2] = [6, 0]$$
-
-   The same.
-
-Multiplying by a matrix always passes both rules, not only for these two vectors. Section 5 shows that $A\mathbf{x}$ is $x_1$ times column 1 plus $x_2$ times column 2; call the columns $\mathbf a_1$ and $\mathbf a_2$. The coordinates of $\mathbf{v} + \mathbf{w}$ are $v_1 + w_1$ and $v_2 + w_2$, so:
-
-$$A(\mathbf{v} + \mathbf{w}) = (v_1 + w_1)\mathbf a_1 + (v_2 + w_2)\mathbf a_2$$
-
-$$= (v_1\mathbf a_1 + v_2\mathbf a_2) + (w_1\mathbf a_1 + w_2\mathbf a_2)$$
-
-$$= A\mathbf{v} + A\mathbf{w}$$
-
-A scalar $c$ factors out of every term in the same way:
-
-$$A(c\mathbf{v}) = c v_1\mathbf a_1 + c v_2\mathbf a_2 = cA\mathbf{v}$$
+   Section 5 checks both rules on a matrix, once matrix multiplication has been explained.
 
 > **Another way to see it:** Take one output of a transformation, say $-x$ when the input coordinate $x$ goes 2, 3, 4. The output goes $-2, -3, -4$: each step of 1 in the input changes the output by the same amount, $-1$, like the constant slope of a straight line. For $2^x$ the output goes 4, 8, 16: the change grows, like the slope of a curve, so $2^x$ is not linear. This constant-change test checks the "lines stay lines" rule. It does not check the origin: $x + 1$ also changes by a constant amount, yet it moves 0 to 1, so it is not linear in the sense of this Note (it is affine, see Section 7.3). A linear transformation needs both properties.
 
@@ -178,6 +134,52 @@ The formula on the right, $[ax + by,\ cx + dy]$, is the rule usually memorised i
 > ```
 >
 > `A[:, 0]` takes all rows of column 0: the first column.
+
+**Matrix multiplication passes the linearity test.** Section 3 gave the two algebraic rules of a linear transformation. We can now check them on $A$. Take $\mathbf{v} = [-1, 2]$, $\mathbf{w} = [1, 0]$ and the matrix $A$ above:
+
+$$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$$
+
+The sum is:
+
+$$\mathbf{v} + \mathbf{w} = [0, 2]$$
+
+Transforming the sum, one entry per line:
+
+$$\text{first: } (1)(0) + (3)(2) = 6$$
+
+$$\text{second: } (-2)(0) + (0)(2) = 0$$
+
+$$A[0, 2] = [6, 0]$$
+
+Transforming each vector and then adding:
+
+$$\text{first: } (1)(-1) + (3)(2) = 5$$
+
+$$\text{second: } (-2)(-1) + (0)(2) = 2$$
+
+$$A\mathbf{v} = [5, 2]$$
+
+$$\text{first: } (1)(1) + (3)(0) = 1$$
+
+$$\text{second: } (-2)(1) + (0)(0) = -2$$
+
+$$A\mathbf{w} = [1, -2]$$
+
+$$[5, 2] + [1, -2] = [6, 0]$$
+
+The same.
+
+Multiplying by a matrix always passes both rules, not only for these two vectors. As shown above, $A\mathbf{x}$ is $x_1$ times column 1 plus $x_2$ times column 2; call the columns $\mathbf a_1$ and $\mathbf a_2$. The coordinates of $\mathbf{v} + \mathbf{w}$ are $v_1 + w_1$ and $v_2 + w_2$, so:
+
+$$A(\mathbf{v} + \mathbf{w}) = (v_1 + w_1)\mathbf a_1 + (v_2 + w_2)\mathbf a_2$$
+
+$$= (v_1\mathbf a_1 + v_2\mathbf a_2) + (w_1\mathbf a_1 + w_2\mathbf a_2)$$
+
+$$= A\mathbf{v} + A\mathbf{w}$$
+
+A scalar $c$ factors out of every term in the same way:
+
+$$A(c\mathbf{v}) = c v_1\mathbf a_1 + c v_2\mathbf a_2 = cA\mathbf{v}$$
 
 ## 6. Reading a matrix as a picture
 

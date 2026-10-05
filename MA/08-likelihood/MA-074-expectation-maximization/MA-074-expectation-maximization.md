@@ -212,13 +212,13 @@ the result MML reports after five iterations (eq. 11.57). Figure 4 shows the mos
 
 > **Key point:** The same two steps fit means, full covariance matrices and weights; on Old Faithful the two ellipses find the short and the long eruptions.
 
-The two ellipses start in the wrong places and settle on the short and the long eruptions within about 10 iterations.
-
-![EM on the 272 eruptions of the Old Faithful geyser from a poor start. Left: each eruption's colour mixes the two component colours by its responsibilities; ellipses show 1 and 2 standard deviations. Right: the log-likelihood after each iteration only goes up](images/em_2d.gif)
+Sections 2 to 4 used one feature, so each component was a bell curve. With two features each component is a hill whose contour lines are ellipses (the [multivariate normal](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal)), and the same two steps fit its mean vector and covariance matrix.
 
 Each Old Faithful eruption has two **features** (input variables, one column each of the data table): how long the eruption lasted and how long the geyser had waited since the previous one, both in minutes (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). Short eruptions tend to follow short waits; long eruptions follow long waits.
 
-Figure 5 starts EM deliberately badly: two round-ish components centred at (2 minutes, 90 minutes) and (4.5, 50), where there are no eruptions at all.
+![EM on the 272 eruptions of the Old Faithful geyser from a poor start. Left: each eruption's colour mixes the two component colours by its responsibilities; ellipses show 1 and 2 standard deviations. Right: the log-likelihood after each iteration only goes up](images/em_2d.gif)
+
+Figure 5 starts EM deliberately badly: two round-ish components centred at (2 minutes, 90 minutes) and (4.5, 50), where there are no eruptions at all. The two ellipses start in these wrong places and settle on the short and the long eruptions within about 10 iterations.
 
 | Iteration | 0 | 1 | 5 | 10 and later |
 |---|---|---|---|---|

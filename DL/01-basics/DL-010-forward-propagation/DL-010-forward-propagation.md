@@ -216,22 +216,6 @@ $$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace\underbrace{\sigma\big(W^
 
 The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#73-linear-layers-collapse-into-one), section 7.3), and the network would be no more powerful than one perceptron.
 
-### 6.1 Another way to see it: the forward pass for every input
-
-> **Key point:** Run the forward pass for every possible input and plot the results: each node gives a surface over the inputs, and the output node's surface is the network's prediction everywhere.
-
-So far one student went through the network and one number came out. The same forward pass can be run for every student we can imagine. Figure 6 does this for the two features CGPA and IQ, each from 0 to 1 after scaling, with the 10th and 12th marks held at this student's 0.69 and 0.81. For each pair (CGPA, IQ) we plot the output of one node as a height, which gives a surface (a sheet over the CGPA-IQ floor).
-
-![The output of each node of the 4-3-2-1 network for every CGPA and IQ, one node per frame; the red dot is the student of this Note. Each frame has its own height scale. Idea after StatQuest, "Neural Networks Pt. 4: Multiple Inputs and Outputs"](images/surfaces.gif){height=40%}
-
-In Figure 6, CGPA and IQ run along the two floor axes and the height is the node's output. Watch the red dot and the heights:
-
-1. **Layer 1.** Each of the three nodes gives a tilted surface. The red dot sits at the heights 0.606, 0.394 and 0.656 of section 4.2.
-2. **Layer 2.** Each of the two nodes combines the three surfaces of layer 1 into a new surface. The red dot sits at 0.641 and 0.553.
-3. **Output.** The last node combines those two surfaces into the prediction surface, with the red dot at 0.594.
-
-The output surface is the whole network seen as a function: for every input it gives the prediction. With our hand-set weights the surface is almost flat: it only runs from 0.589 to 0.596, so the prediction hardly depends on CGPA or IQ. Training changes the weights, which bends and tilts this surface until it is high for students who are placed and low for those who are not. The [MLP intuition](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons) shows the surfaces of trained networks.
-
 > **Python:** Forward propagation with NumPy.
 >
 > ```python
@@ -256,6 +240,22 @@ The output surface is the whole network seen as a function: for every input it g
 > a matrix with one row of activations per student (for $n = 2$ students, a $2 \times 3$ matrix).
 >
 > With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
+
+### 6.1 Another way to see it: the forward pass for every input
+
+> **Key point:** Run the forward pass for every possible input and plot the results: each node gives a surface over the inputs, and the output node's surface is the network's prediction everywhere.
+
+So far one student went through the network and one number came out. The same forward pass can be run for every student we can imagine. Figure 6 does this for the two features CGPA and IQ, each from 0 to 1 after scaling, with the 10th and 12th marks held at this student's 0.69 and 0.81. For each pair (CGPA, IQ) we plot the output of one node as a height, which gives a surface (a sheet over the CGPA-IQ floor).
+
+![The output of each node of the 4-3-2-1 network for every CGPA and IQ, one node per frame; the red dot is the student of this Note. Each frame has its own height scale. Idea after StatQuest, "Neural Networks Pt. 4: Multiple Inputs and Outputs"](images/surfaces.gif){height=40%}
+
+In Figure 6, CGPA and IQ run along the two floor axes and the height is the node's output. Watch the red dot and the heights:
+
+1. **Layer 1.** Each of the three nodes gives a tilted surface. The red dot sits at the heights 0.606, 0.394 and 0.656 of section 4.2.
+2. **Layer 2.** Each of the two nodes combines the three surfaces of layer 1 into a new surface. The red dot sits at 0.641 and 0.553.
+3. **Output.** The last node combines those two surfaces into the prediction surface, with the red dot at 0.594.
+
+The output surface is the whole network seen as a function: for every input it gives the prediction. With our hand-set weights the surface is almost flat: it only runs from 0.589 to 0.596, so the prediction hardly depends on CGPA or IQ. Training changes the weights, which bends and tilts this surface until it is high for students who are placed and low for those who are not. The [MLP intuition](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons) shows the surfaces of trained networks.
 
 ## 7. Summary
 

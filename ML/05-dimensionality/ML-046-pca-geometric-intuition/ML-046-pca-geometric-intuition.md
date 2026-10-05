@@ -74,7 +74,7 @@ Imagine shining a light so each point casts a shadow on the x-axis. Dropping eac
 - On the rooms axis (orange), the shadows stretch from 1 to 5.
 - On the grocery shops axis (green), they cover only a short stretch.
 
-The data is spread out along rooms and bunched up along grocery shops. So we keep rooms. The size of this spread is measured by the **variance** (G-2074) of the shadows: 1.33 for rooms and 0.10 for grocery shops.
+The data is spread out along rooms and bunched up along grocery shops. So we keep rooms. The size of this spread is measured by the **variance** (G-2074) of the shadows, the average squared distance of the shadows from their mean ([section 5](#5-variance) computes it step by step): 1.33 for rooms and 0.10 for grocery shops.
 
 Feature selection by spread therefore keeps the features with the largest variance.
 

@@ -282,7 +282,9 @@ The remembered push carries $w_2$ past the floor, and only slowly does the gradi
 >
 > Each new position depends on the last two, so the size of the swing is set by the two roots $z$ (the solutions) of this equation (Goh 2017, "The dynamics of momentum"):
 >
-> $$z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$$ The roots multiply to $\beta$. When
+> $$z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$$
+>
+> The roots multiply to $\beta$. When
 >
 > $$(1 + \beta - \eta\lambda)^2 < 4\beta$$
 >

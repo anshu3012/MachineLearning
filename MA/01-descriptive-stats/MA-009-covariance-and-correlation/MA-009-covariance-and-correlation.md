@@ -191,8 +191,6 @@ So a large covariance does not mean a strong relationship. Covariance is reliabl
 
 > **Key point:** Correlation is covariance divided by the two standard deviations; it always lies between -1 and +1, gives both direction and strength, and does not change with the units.
 
-The **Pearson correlation coefficient** $r$ (G-1474), or **correlation** (G-490) for short, appears in the [understanding your data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (section 9.1). 
-
 The covariance 21.5 mixes years and lakh rupees, so its size means nothing by itself. To remove the units, divide it by how spread out each feature is: the **standard deviation** (G-1871) of $x$ and of $y$. The result is the **correlation** (G-490).
 
 The standard deviation is the square root of the average squared distance from the mean (with $n - 1$ for a sample). Using the distances from the table in section 3, one step per line:

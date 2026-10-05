@@ -72,7 +72,7 @@ Most deep learning code in these Notes uses **TensorFlow** (G-1959) with **Keras
 
 > **Key point:** Four things: basic Python, the overall flow of an ML project, vectors and matrices, and derivatives.
 
-Before the formula, one neuron with small numbers. A neuron takes two input numbers, multiplies each by its own weight, adds them, adds a shift, and squashes the result into the range 0 to 1.
+To see why these four are needed, we work through what one neuron computes, with small numbers. A neuron takes two input numbers, multiplies each by its own weight, adds them, adds a shift, and squashes the result into the range 0 to 1.
 
 | Quantity | Name | Value in our example |
 |---|---|---|

@@ -202,6 +202,12 @@ What makes a language model "large" shows up in five places, here with GPT-3's n
 
 > **Key point:** GPT is the model; ChatGPT is an application built on it. ChatGPT came from fine-tuning a GPT model on dialogue, then improving it with **reinforcement learning from human feedback** (RLHF).
 
+GPT and ChatGPT are often confused. GPT is a model; ChatGPT is a chat application built on a GPT model and released by OpenAI on 30 November 2022 (OpenAI 2022). An analogy: a laptop brand and the processor inside it. We call the laptop by its brand, not by its processor, and the same processor can power other brands' laptops. In the same way, other companies build their own products on GPT models through OpenAI's paid interface.
+
+![The analogy as a picture. Left: a laptop is a product built around a processor. Right: ChatGPT is an application built around a GPT model. The same processor, or the same model, can also power someone else's product](images/model_vs_app.png){width=90%}
+
+In Figure 8, the inner box is the part that does the computing and the outer box is what the user sees and names.
+
 **A chatbot is a next-word predictor in a script.** A language model only continues text. A chat application turns it into an assistant in three steps (Sanderson 2024, "Large Language Models explained briefly" and "Transformers, the tech behind LLMs"):
 
 1. **The script.** Write a text around the user's message: a short setup ("What follows is a conversation between a user and a helpful AI assistant"), then the user's words after "User:", then "Assistant:".
@@ -214,12 +220,6 @@ The format alone is not enough. The Notebook tests it:
 - **Result:** it writes "Assistant: I'm a French citizen." and then goes on to invent the user's next turn itself.
 
 GPT-2 continues the layout of the text, but it is not a helpful assistant. The training steps below are what make the reply helpful.
-
-GPT and ChatGPT are often confused. GPT is a model; ChatGPT is a chat application built on a GPT model and released by OpenAI on 30 November 2022 (OpenAI 2022). An analogy: a laptop brand and the processor inside it. We call the laptop by its brand, not by its processor, and the same processor can power other brands' laptops. In the same way, other companies build their own products on GPT models through OpenAI's paid interface.
-
-![The analogy as a picture. Left: a laptop is a product built around a processor. Right: ChatGPT is an application built around a GPT model. The same processor, or the same model, can also power someone else's product](images/model_vs_app.png){width=90%}
-
-In Figure 8, the inner box is the part that does the computing and the outer box is what the user sees and names.
 
 ChatGPT was trained with the method of InstructGPT (Ouyang et al. 2022; OpenAI 2022), in three steps:
 

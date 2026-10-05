@@ -77,7 +77,7 @@ Internal covariate shift is like a game of whispers along a line of children: th
 
 Batch normalisation fixes the mean and standard deviation of every node's values at each normalised layer. The later layers then get a stable distribution to work on. Without it, a network suffering from internal covariate shift needs a low learning rate and very careful weight initialisation (**initialisation**, G-947) to train at all (Ioffe and Szegedy 2015).
 
-Figure 3 shows what the second hidden layer receives in the circles network of section 7, for all 500 observations, while it trains. Watch the bars against their grey starting position. Without batch normalisation the values drift and spread: the three nodes' means grow from 0.37, 0.20 and 0.43 to 0.83, 0.94 and 0.75, and their spreads from about 0.3 to 0.6 up to about 0.9. With batch normalisation every node stays centred near 0 with spread near 1, moving only as far as its $\gamma$ and $\beta$ have learned to move it (Notebook).
+Figure 3 shows what the second hidden layer receives in the circles network of section 7 (a small network that classifies 500 points lying on two concentric circles), for all 500 observations, while it trains. Watch the bars against their grey starting position. Without batch normalisation the values drift and spread: the three nodes' means grow from 0.37, 0.20 and 0.43 to 0.83, 0.94 and 0.75, and their spreads from about 0.3 to 0.6 up to about 0.9. With batch normalisation every node stays centred near 0 with spread near 1, moving only as far as its $\gamma$ and $\beta$ have learned to move it (Notebook).
 
 ![What the second hidden layer receives during training, with and without batch normalisation. Each dot is one observation's value at one node of the first hidden layer; the bar is the mean plus and minus one standard deviation, the grey bar the same at the start](images/drift.gif){width=100% height=50%}
 
@@ -158,7 +158,7 @@ $$\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace\frac{\partial L}{\p
 
 Every step above is differentiable, so these slopes (gradients) exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
 
-**Why undo the normalisation?** Scaling and shifting is the opposite of normalising, which looks strange.
+**Why undo the normalisation?** Scaling and shifting is the opposite of normalising, which looks strange. Suppose training set $\gamma$ to the batch's standard deviation and $\beta$ to the batch's mean:
 $$\gamma = \sqrt{\sigma_B^2 + \epsilon}$$
 $$\beta = \mu_B$$
 

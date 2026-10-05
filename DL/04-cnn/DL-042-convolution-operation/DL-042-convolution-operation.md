@@ -70,7 +70,7 @@ Figure 2 takes a colour photo of 427 × 640 pixels apart. Each channel is a grid
 
 > **Key point:** A window of five weights of 1/5 replaces each run of five numbers by their average. Sharp jumps are smoothed out.
 
-Take one row of pixels from the photo of Figure 5: the first 40 pixels of row 100. The values jump up and down as the row crosses bright and dark stripes (Figure 3, grey line).
+Take one row of pixels from a greyscale photo of a staircase (SciPy's `ascent` image, shown in full in Figure 5): the first 40 pixels of row 100. The values jump up and down as the row crosses bright and dark stripes (Figure 3, grey line).
 
 Now lay a window over the first five pixels, average them, and write the result down. Move the window one pixel to the right and repeat. The list of averages is called a **moving average** (G-2267).
 

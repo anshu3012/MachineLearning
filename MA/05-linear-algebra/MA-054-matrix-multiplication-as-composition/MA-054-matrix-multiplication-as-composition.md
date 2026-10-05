@@ -326,7 +326,9 @@ $$M_2[-1, 1] = [2, -1]$$
 
 In one step, with the product matrix:
 
-$$(M_2M_1)[1, 1] = [2, -1]$$ However many linear layers we stack, the result is still one matrix, one linear transformation.
+$$(M_2M_1)[1, 1] = [2, -1]$$
+
+However many linear layers we stack, the result is still one matrix, one linear transformation.
 
 ![Two linear layers (left) and their single product matrix (right) move a square of inputs to the same place](images/layers_collapse.gif){height=45%}
 

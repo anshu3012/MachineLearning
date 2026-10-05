@@ -73,7 +73,7 @@ Instability is the reason decision trees are by far the usual base model for bag
 
 > **Key point:** Beyond a point, more models or more observations per model change little.
 
-With 500 trees instead of 100 (50 observations each), accuracy moves only from 0.912 to 0.920. With 500 trees of 150 observations each it is 0.904. More estimators usually help up to some number, then stop making a difference. Both settings are worth tuning.
+With 500 trees instead of 100 (50 observations each), accuracy moves only from 0.912 to 0.920. With 500 trees of 150 observations each it is 0.904. Both changes are smaller than the wobble of Figure 2 (0.896 to 0.928): with 125 test observations, each one right or wrong moves the accuracy by 0.008. More estimators usually help up to some number, then stop making a difference. Both settings are worth tuning.
 
 ### 2.4 Pasting, random subspaces and random patches
 

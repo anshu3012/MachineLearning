@@ -384,7 +384,7 @@ One student moved the weights a little. Training repeats the steps:
    - compute the average loss of the epoch.
 3. **Stop** after a fixed number of epochs, or at **convergence** (G-472): when the loss stops falling.
 
-In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.12, an average of 26.35. Each update helps the next prediction a little; the predictions rise from 0.32 to 0.67 over the four students. Running the outer loop 100 or 1,000 times brings the predictions close to the real packages, as [the regression code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#43-training) shows.
+In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.12, an average of 26.35. Each update helps the next prediction a little; the predictions rise from 0.32 to 0.67 over the four students. The losses still grow from student to student because each student's real package is larger (4 up to 7 LPA) while every prediction is still below 1. Running the outer loop 100 or 1,000 times brings the predictions close to the real packages, as [the regression code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#43-training) shows.
 
 ![The full algorithm for 1,000 epochs: predictions against real packages (left) and the average loss of each epoch (right)](images/epochs.gif){height=45%}
 

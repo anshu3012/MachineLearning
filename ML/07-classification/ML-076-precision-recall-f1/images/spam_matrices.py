@@ -1,6 +1,6 @@
 """The two equal-accuracy model pairs of Sections 2 and 3 as confusion matrices (Plotly heatmaps).
 spam_matrices.png: spam filters A and B, 1,000 emails, accuracy 0.80. The outlined column, everything predicted spam,
-is what precision reads: 100 of 200 for A (0.50), 100 of 110 for B (0.91).
+is what precision reads: 190 of 290 for A (0.66), 100 of 110 for B (0.91).
 cancer_matrices.png: cancer detectors A and B, 1,000 X-rays, accuracy 0.90. The outlined row, everyone who really has
 cancer, is what recall reads: 150 of 160 for A (0.94), 100 of 160 for B (0.63)."""
 from pathlib import Path
@@ -31,5 +31,5 @@ def draw(models, word, metric, acc, expect, out):
     fig.write_image(here / out, scale=2)
 
 
-draw({"Model A": (100, 100, 100, 700), "Model B": (100, 10, 190, 700)}, "spam", "precision", 0.8, [0.5, 0.91], "spam_matrices.png")
+draw({"Model A": (190, 100, 100, 610), "Model B": (100, 10, 190, 700)}, "spam", "precision", 0.8, [0.66, 0.91], "spam_matrices.png")
 draw({"Model A": (150, 90, 10, 750), "Model B": (100, 40, 60, 800)}, "cancer", "recall", 0.9, [0.94, 0.63], "cancer_matrices.png")

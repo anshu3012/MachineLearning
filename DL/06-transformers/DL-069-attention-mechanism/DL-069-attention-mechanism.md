@@ -205,6 +205,8 @@ Three things stand out:
    $$\text{without: } 5.9 / 14.3 = 0.41$$
 
    $$\text{with: } 17.5 / 33.3 = 0.53$$
+
+   With attention, the first three groups do not fall in order: 8–10 words (35.9) scores above 1–4 words (33.3). The three runs spread widely there (30.2 to 35.9 on 1–4 words, 33.3 to 39.0 on 8–10), so the three short groups are level within run-to-run noise. The training set also leans towards longer sentences, which helps the 8–10 group: 39,070 of its 60,000 pairs have 9 or more English words (Notebook). The clear fall starts at 11 words.
 3. **The advantage of attention grows with length.** The ratio rises from 2.3 to 3.0: the longer the sentence, the more it matters that no word has to pass through one fixed vector.
 
 The attention model still loses quality on the longest sentences, unlike the model of Bahdanau et al. (2015, Figure 2), which showed "no performance deterioration even with sentences of length 50 or more". Their model had 1,000 hidden units and was trained on 348 million words; ours has 256 units and 60,000 sentence pairs, in a corpus where long sentences are rare.

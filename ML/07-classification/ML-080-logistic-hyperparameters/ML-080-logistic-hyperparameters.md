@@ -65,7 +65,7 @@ The next animation shades the plane by the model's predicted probability, so fir
 
 $$p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$$
 
-Here are two fits of the 300 points:
+Here are two fits of a small dataset of 300 points with two features $x_1$ and $x_2$ and two classes (the same points as Figure 2 below):
 
 - at $C = 100$ the coefficients are $w_1 = -1.38$ and $w_2 = -1.25$, and the point $(0, 0)$ gets $p = 0.73$;
 - at $C = 0.01$ they are $w_1 = -0.49$ and $w_2 = -0.04$, and $(0, 0)$ gets $p = 0.51$.

@@ -100,6 +100,8 @@ The clusters k-means ends with depend on the random start of step 2. A poor star
 
 > **Key point:** Run k-means for k = 1, 2, 3, ..., plot the WCSS of each, and pick the k where the curve bends from steep to flat: the **elbow method** (G-671).
 
+Section 4 assumed k = 3 for the students. To see how k is chosen when we do not know it, this section switches to a real dataset whose true number of groups is known: 272 eruptions of the Old Faithful geyser, which come in two kinds, short and long (section 5.4). If the method works, it should pick k = 2 there.
+
 ### 5.1 WCSS: how tight the clusters are
 
 > **Key point:** WCSS adds up, over all clusters, the squared distance from each point to its own centroid. Small WCSS means tight clusters.
@@ -174,7 +176,7 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 
 | Step | What happens | With the students (k = 3) |
 |---|---|---|
-| 1. Choose k | We decide the number of clusters | k = 3, later checked by the elbow method |
+| 1. Choose k | We decide the number of clusters | k = 3, assumed (the elbow method picks k = 2 on Old Faithful) |
 | 2. Initialize | k random points become the centroids | three students picked at random |
 | 3. Assign | Every point joins its nearest centroid (Euclidean distance) | 18 × 3 = 54 distances per round |
 | 4. Move | Each centroid moves to the mean of its points | mean CGPA, mean IQ per cluster |

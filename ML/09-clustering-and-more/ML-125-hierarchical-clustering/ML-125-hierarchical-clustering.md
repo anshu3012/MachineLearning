@@ -158,7 +158,7 @@ Figure 6 plays these merges. In every frame the red outline marks the smallest d
 
 ![The proximity matrix shrinking merge by merge with single linkage on the five points. Left: the points, one colour per cluster; the dashed line is the closest pair. Right: the current matrix with its smallest off-diagonal distance outlined.](images/matrix_shrink.gif)
 
-Single linkage separates groups well when there is a clear gap between them (Figure 7, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 7 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
+Single linkage separates groups well when there is a clear gap between them (Figure 7 in section 8.5, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 7 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
 
 ### 8.2 Complete linkage (max)
 
@@ -171,7 +171,7 @@ Single linkage separates groups well when there is a clear gap between them (Fig
    $$\max(2.24, 2.00) = 2.24$$
    At the last step, $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ is the largest of six distances: 7.07 (P1 to P5).
 
-Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 7 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
+Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 7 of section 8.5 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
 
 ### 8.3 Average linkage
 

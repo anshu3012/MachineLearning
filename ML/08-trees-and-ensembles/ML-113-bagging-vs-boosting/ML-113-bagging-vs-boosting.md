@@ -71,7 +71,7 @@ The type of base model is the most important of the three differences.
 
 Figure 3 adds base models one at a time and tracks the accuracy on the training data and on test data, averaged over 20 fresh draws of the noisy circles (350 training and 150 test points each).
 
-- **Bagging (left).** One fully grown tree already scores 0.92 on its training data: the bias is low from the start. The gap down to its test accuracy, 0.78, is the variance. Adding trees averages part of that variance away, and the test accuracy rises to 0.82.
+- **Bagging (left).** One fully grown tree already scores 0.92 on the training data: the bias is low from the start. The score is not 1.00, as for the single tree of the Extra above, because a bagged tree is grown on a random sample drawn with replacement, which leaves out about 36.8% of the training observations ([drawing with replacement](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement)); the score counts all of them. The gap down to its test accuracy, 0.78, is the variance. Adding trees averages part of that variance away, and the test accuracy rises to 0.82.
 - **Boosting (right).** One stump scores 0.63 on the training data and 0.60 on the test data: both are poor and close together, the mark of high bias and low variance. Each added stump lowers the bias, so both curves climb together, to 0.88 and 0.84 after 100 stumps.
 
 ![Training accuracy (grey) and test accuracy (red) against the number of base models, averaged over 20 draws of the noisy circles. Left: bagging with fully grown trees. Right: AdaBoost with stumps.](images/error_curves.png){width=95%}

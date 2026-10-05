@@ -24,7 +24,8 @@ This Note covers:
 - why transfer learning is needed (section 3);
 - how it works (section 4);
 - why it works (section 5);
-- its two forms, **feature extraction** (G-762) and **fine-tuning** (G-779) (sections 6 and 7);
+- its two forms, **feature extraction** (G-762) and **fine-tuning** (G-779) (section 6);
+- both forms in Keras code (section 7);
 - an experiment that compares them with training from scratch (section 8).
 
 ## 2. Prerequisites

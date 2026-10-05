@@ -83,7 +83,7 @@ So the order depends on the side of the tail (Figure 1):
 |---|---|---|
 | Right skew | mode < median < mean | fares: 8.05 < 14.45 < 32.20 |
 | Symmetric | mode = median = mean | all close to 50 |
-| Left skew | mean < median < mode | marks: 76.7 < 80.0 < 86.3 |
+| Left skew | mean < median < mode | simulated easy-exam marks (skewness $-0.90$): 76.7 < 80.0 < 86.3 |
 
 The stronger the skew, the further the mean is from the median and the mode. With little skew the three almost coincide; for a perfect normal distribution they are equal.
 

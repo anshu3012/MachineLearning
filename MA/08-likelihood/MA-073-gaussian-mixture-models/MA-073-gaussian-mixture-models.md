@@ -215,7 +215,7 @@ For each observation, write $z$ for the number of the component that produced it
 
 We only ever see $x$, never $z$. A variable that is part of the model but never observed is a **latent variable** (G-1050; Latin *latere*, to lie hidden). Figure 5 shows what is lost. The top row is 300 draws coloured by the component that produced them; the bottom row is the same draws as we receive them. Between the bumps, a grey point could have come from either neighbour, and nothing in the value says which. The responsibilities of Section 3 are our best guess about $z$: the probability of each value of $z$, given $x$.
 
-![300 draws from the mixture of Figure 6. Top: coloured by the component z that produced each draw, which the sampler knows but we never see. Bottom: the same draws as we observe them, with z lost.](images/latent.png)
+![300 draws from the three-component mixture of Figure 4. Top: coloured by the component z that produced each draw, which the sampler knows but we never see. Bottom: the same draws as we observe them, with z lost.](images/latent.png)
 
 ## 6. The mixture density
 

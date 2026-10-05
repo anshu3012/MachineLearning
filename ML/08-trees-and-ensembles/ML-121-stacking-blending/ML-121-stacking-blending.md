@@ -78,9 +78,11 @@ Bagging is covered in [the core idea of bagging](../ML-099-bagging-intuition/ML-
 
 In the basic recipe, the base models are trained on the 1,000 students and then asked to predict the same 1,000 students. A model that overfits, such as a deep decision tree, reproduces its training targets almost exactly. Its column in the new dataset is then nearly a copy of the target.
 
-The meta-model sees that column and decides the tree is almost always right. On new students the tree is much worse, but the meta-model still trusts it. The overfitting of one base model is passed up to the meta-model, and the whole stack fails.
+The meta-model sees that column and decides the tree is almost always right. On new students the tree is much worse, but the meta-model still trusts it. The overfitting of one base model is passed up to the meta-model, and the whole stack can do worse on new data.
 
-The Notebook (section 7) measures this on the heart data. On their own training observations, the random forest and gradient boosting are off by only 0.09 and 0.07 on average (the gap between predicted probability and true class); on observations they did not see, by 0.30 and 0.25. The meta-model trained on the in-sample predictions gives those two models weights of 3.5 and 3.8, and KNN only 1.0 (Figure 3).
+The Notebook (section 7) measures this on the heart-disease data of section 9.1 (303 patients; the task is to predict heart disease, 1, or none, 0). On their own training observations, the random forest and gradient boosting are off by only 0.09 and 0.07 on average (the gap between predicted probability and true class); on observations they did not see, by 0.30 and 0.25. The meta-model trained on the in-sample predictions gives those two models weights of 3.5 and 3.8, and KNN only 1.0 (Figure 3).
+
+On the 61 test patients this leaky stack scores 0.852 accuracy, below the honest K-fold stack (0.869, section 9.2) but above blending on the same split (0.820, section 9.3). The leak does not always sink the score, and with only 61 test patients one patient is 1.6 points of accuracy, so a single split cannot rank the methods. Blending also pays for its smaller training sets; section 9.4 measures that cost over 100 splits.
 
 ![The leak in numbers on the heart data. Left: the random forest and gradient boosting look three times better on their own training patients than on unseen ones. Right: the meta-model trained on those in-sample predictions trusts them most](images/leak_numbers.png){width=100%}
 

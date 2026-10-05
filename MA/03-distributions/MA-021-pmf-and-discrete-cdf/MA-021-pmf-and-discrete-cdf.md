@@ -28,6 +28,7 @@ Figure 1 shows the whole Note in one animation. The blue bars are the PMF of the
 - PMF from a list of outcomes, on three coin flips (section 2);
 - PMF from a formula (sections 3, 4 and 6);
 - PMF from a simulation (section 5);
+- two famous PMFs, Bernoulli and binomial (section 7);
 - CDF: a running total of the PMF (section 8).
 
 ## 2. From outcomes to a PMF: three coin flips

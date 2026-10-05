@@ -39,11 +39,11 @@ Figure 1 shades the part of this table that each metric reads: precision reads o
 
 > **Key point:** Two spam filters with the same accuracy can differ a lot in false positives.
 
-Two team members each build a spam filter, tested on 1,000 emails. Spam is the positive class.
+Two team members each build a spam filter, tested on the same 1,000 emails: 290 spam and 710 normal. Spam is the positive class.
 
 | | TP | FP | FN | TN | Accuracy |
 |---|---|---|---|---|---|
-| Model A | 100 | 100 | 100 | 700 | 0.80 |
+| Model A | 190 | 100 | 100 | 610 | 0.80 |
 | Model B | 100 | 10 | 190 | 700 | 0.80 |
 
 Both have accuracy 0.80, so accuracy cannot choose between them. They differ in the kind of mistake:
@@ -61,18 +61,18 @@ $$\text{precision} = \frac{TP}{TP + FP}$$
 
 In words: of everything the model **predicted** positive, how much really was positive? Precision uses the "predicted 1" column of the confusion matrix (Figure 1, left).
 
-- Model A: half of what it calls spam is not spam.
-  $$100 / (100 + 100) = 0.50$$
+- Model A: about a third of what it calls spam is not spam.
+  $$190 / (190 + 100) = 0.66$$
 - Model B:
   $$100 / (100 + 10) = 0.91$$
 
 Model B has the higher precision, matching the choice above. Figure 2 shows where the two numbers come from: precision reads only the outlined "predicted spam" column, and model B's column holds far fewer false positives.
 
-![The confusion matrices of the two spam filters, both with accuracy 0.80. Precision reads the outlined column, everything predicted spam: 100 of 200 for model A (0.50), 100 of 110 for model B (0.91).](images/spam_matrices.png)
+![The confusion matrices of the two spam filters, both with accuracy 0.80. Precision reads the outlined column, everything predicted spam: 190 of 290 for model A (0.66), 100 of 110 for model B (0.91).](images/spam_matrices.png)
 
-> **Extra:** The precision formula has no TN in it. Suppose model A were tested on 100 times more normal email, with TN 70,000 instead of 700 and nothing else changed. Its precision would still be:
+> **Extra:** The precision formula has no TN in it. Suppose model A were tested on 100 times more normal email, with TN 61,000 instead of 610 and nothing else changed. Its precision would still be:
 >
-> $$100 / 200 = 0.50$$
+> $$190 / 290 = 0.66$$
 >
 > So when real positives are rare and negatives are plentiful, as with a rare disease, precision still reports honestly on the positive predictions (StatQuest, "ROC and AUC, Clearly Explained!").
 

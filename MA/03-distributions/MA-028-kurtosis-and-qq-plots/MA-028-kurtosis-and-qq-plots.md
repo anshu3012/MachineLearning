@@ -174,7 +174,7 @@ The third way is a **statistical test** (G-1881). The **Shapiro-Wilk test** (G-1
 
 > **Extra:** For the 150 iris sepal lengths of Section 7.3, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even small departures from normality (Ghasemi and Zahediasl 2012), so they are best read together with a Q-Q plot.
 
-Figure 4 tests that claim on data of one fixed shape: a Student t distribution with 10 degrees of freedom (a setting that controls the tails: fewer degrees of freedom give fatter tails), a bell with tails only slightly fatter than normal. For each sample size we draw 200 samples and count how often Shapiro-Wilk rejects normality at 5 percent:
+A gotcha follows from how these tests work: with large samples they flag even small departures from normality (Ghasemi and Zahediasl 2012). Figure 4 tests that claim on data of one fixed shape: a Student t distribution with 10 degrees of freedom (a setting that controls the tails: fewer degrees of freedom give fatter tails), a bell with tails only slightly fatter than normal. For each sample size we draw 200 samples and count how often Shapiro-Wilk rejects normality at 5 percent:
 
 - with 20 values it rejects 12 percent of the samples, close to the 5 percent it would reject for truly normal data;
 - with 500 values, 66 percent;

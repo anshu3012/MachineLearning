@@ -61,7 +61,7 @@ The two events are independent.
 
 ![The 36 outcomes of two dice. Purple cells are in both events. Left: row $B$ and column $A$ cross in one cell, so $P(A \cap B) = 1/36 = P(A) \times P(B)$. Right: the "sum at least 10" cells crowd into row $D$, so the product rule fails](images/dice_grid.png){width=95%}
 
-Figure 2 draws both checks on the grid of outcomes. In the left grid, the shaded column takes 1 of the 6 cells inside row $B$, the same share it takes of the whole grid (6 of 36). In the right grid, the cells of $C$ (red, and purple where they fall in row $D$) take 3 of the 6 cells inside row $D$ but only 6 of 36 overall: knowing $D$ makes $C$ three times as likely.
+Figure 2 draws this check on the grid of outcomes, next to a pair of events that fails it. In the left grid, the shaded column takes 1 of the 6 cells inside row $B$, the same share it takes of the whole grid (6 of 36). The right grid uses two new events: $C$ = "the sum of the two dice is at least 10" and $D$ = "die 1 shows 6" (section 5 checks them with the formula). There, the cells of $C$ (red, and purple where they fall in row $D$) take 3 of the 6 cells inside row $D$ but only 6 of 36 overall: knowing $D$ makes $C$ three times as likely.
 
 ## 4. Why this means "no difference"
 

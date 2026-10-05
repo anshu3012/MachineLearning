@@ -267,7 +267,7 @@ Deep RNNs also serve as parts of larger architectures. An encoder-decoder model 
 
 > **Key point:** 3 million characters of IMDB reviews; at every character, predict the next one. Three LSTM models, 2 seeds each.
 
-Section 8 says a deep RNN pays off on a complex task with a lot of data. **Next-character prediction** is such a task with real data: the model reads review text one character at a time and, at every time step, predicts the next character. To do it well, the model must learn spelling, common words and some grammar.
+Section 8 says a deep RNN pays off on a complex task with a lot of data. **Next-character prediction** is such a task with real data: the model reads review text one character at a time and, at every time step, predicts the next character. To do it well, the model must learn spelling, common words and some grammar. The models use LSTM layers, which stack exactly like the simple recurrent layers above (section 10 shows the same stacking for LSTM and GRU layers).
 
 - **Data:** the first 3 million characters of the IMDB training reviews (see [the IMDB dataset](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset)) for training, and 300,000 characters of the test reviews for validation. The 42 characters that occur at least 50 times get their own id; the rest share one "rare" id: 43 symbols in all.
 - **Observations:** windows of 100 characters, 29,999 for training and 2,999 for validation. The target at each step is the next character: a many-to-many task, so every LSTM layer has `return_sequences=True`.

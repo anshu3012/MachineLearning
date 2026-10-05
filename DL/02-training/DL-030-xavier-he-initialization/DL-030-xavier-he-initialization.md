@@ -38,6 +38,8 @@ Each comes in a **normal** version (weights from a **normal distribution**, G-13
 
 Figure 1 shows the effect. Only the scale of the random weights changes between the lines. The vertical axis is a log scale: equal distances mean equal multiplication, and each labelled gridline is 100 times the one below it (1, $10^{-2}$, $10^{-4}$, ...). A falling straight line is a signal that shrinks by the same factor at every layer.
 
+The Xavier tanh line still drifts down, from 0.63 at layer 1 to 0.32 at layer 5 and 0.23 at layer 10. Xavier keeps the weighted sum the same size as its input, but tanh then shrinks every value a little, because $|\tanh z|$ is smaller than $|z|$. Near 0 tanh is almost a straight line through the origin, so as the signal gets smaller the shrinking slows down: the line flattens, while the 0.01 line keeps falling to 0.
+
 ## 2. Prerequisites
 
 - [The four starts that fail](../DL-029-weight-initialization/DL-029-weight-initialization.md#4-do-not-start-every-weight-at-zero).

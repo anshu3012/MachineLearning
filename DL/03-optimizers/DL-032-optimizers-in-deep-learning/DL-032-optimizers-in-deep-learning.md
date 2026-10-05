@@ -193,7 +193,11 @@ A **saddle point** (G-1718) is a point where the surface slopes up in one direct
 
 $$w_{t+1} = w_t - \eta \times 0$$
 
-$$= w_t$$ Saddle points are usually surrounded by a **plateau** (G-1503) where the gradient is close to zero in every direction, so gradient descent crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
+$$= w_t$$
+
+Saddle points are usually surrounded by a **plateau** (G-1503) where the gradient is close to zero in every direction, so gradient descent crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
+
+Figure 6 shows the crawl on the simplest saddle, $L = w_1^2 - w_2^2$, which rises along $w_1$ and falls along $w_2$. Gradient descent starts at $(1.5, 0.001)$, almost exactly on the ridge, with learning rate 0.1.
 
 In Figure 6 the left panel is the surface of $L(w_1, w_2) = w_1^2 - w_2^2$ with the path on it. The height at the start is:
 
@@ -204,8 +208,6 @@ $$= 2.25 - 0.000001$$
 $$\approx 2.25$$
 
 The right panel plots the length of each step. A **log scale** axis: each gridline is 10 times the one below it, so equal vertical distances mean equal ratios, and a straight line down is a steady percentage drop per step. Watch the right panel fall while the left path nears the flat centre.
-
-Figure 6 shows the crawl on the simplest saddle, $L = w_1^2 - w_2^2$, which rises along $w_1$ and falls along $w_2$. Gradient descent starts at $(1.5, 0.001)$, almost exactly on the ridge, with learning rate 0.1.
 
 ![Gradient descent near a saddle point. Left: the surface $L = w_1^2 - w_2^2$ with the path (red dot: current position). Right: the length of each step, on a log scale](images/saddle_gd.gif){width=100%}
 

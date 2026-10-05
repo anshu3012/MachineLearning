@@ -268,7 +268,7 @@ To measure a regression model, we use the **R² score** (G-1717): how much of th
 | Test set | 0.628 |
 | 5-fold cross-validation | 0.461 |
 
-Cross-validation ([checking with cross-validation](../ML-029-function-transformer/ML-029-function-transformer.md#75-checking-with-cross-validation)) averages the score over 5 different splits. Cross-validation gives a lower and more honest number here, 0.46.
+Cross-validation ([checking with cross-validation](../ML-029-function-transformer/ML-029-function-transformer.md#75-checking-with-cross-validation)) averages the score over 5 different splits. Cross-validation gives a lower number here, 0.46. Much of that drop comes from how the folds are cut: a plain `cv=5` does not shuffle the rows, so each fold is a block of consecutive rows in file order. With shuffled, repeated folds the same untransformed model scores 0.60 (section 7). Within this section every method is scored on the same 5 folds, so the comparison stays fair.
 
 > **Python:** The baseline.
 >

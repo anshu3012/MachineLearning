@@ -88,7 +88,9 @@ So the arrow between two words is trained to encode how their contexts differ. "
 If $g$ means "more female", then adding $g$ to "king" should land near "queen":
 
 $$e_{\text{king}} + g$$
-$$= e_{\text{king}} - e_{\text{man}} + e_{\text{woman}}$$ Pennington et al. (2014, §4.1) answer such an **analogy question** (G-196), "a is to b as c is to ?", with the word whose vector has the largest cosine similarity with $w_b - w_a + w_c$. Figure 1 animates this rule on the real GloVe vectors, and the table gives the results (Notebook). "Rank" is the place of the expected word when the three question words are removed from the candidates. Figure 4 draws the same results.
+$$= e_{\text{king}} - e_{\text{man}} + e_{\text{woman}}$$
+
+Pennington et al. (2014, §4.1) answer such an **analogy question** (G-196), "a is to b as c is to ?", with the word whose vector has the largest cosine similarity with $w_b - w_a + w_c$. Figure 1 animates this rule on the real GloVe vectors, and the table gives the results (Notebook). "Rank" is the place of the expected word when the three question words are removed from the candidates. Figure 4 draws the same results.
 
 ![Each analogy question in GloVe: the cosine of the result point with the closest word among all candidates (grey) and with the expected word (green when it ranks first once the question words are removed, red with its rank otherwise). A single dot means the expected word is the closest of all](images/analogy_glove.png){width=95%}
 

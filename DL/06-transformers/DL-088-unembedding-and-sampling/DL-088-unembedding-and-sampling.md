@@ -227,7 +227,7 @@ The unembedding is a fixed linear map applied to the last stream vector. Nothing
 
 ![Logit lens on GPT-2 small, "Steve Jobs was the founder of": the 8 most likely next tokens read from the last token's stream after each block. Orange: " Apple"](images/logit_lens.gif)
 
-Watch Figure 6 for the moment the guesses change kind. Before block 1 the stream is the token-plus-position vector, and its "guesses" are word fragments with no relation to the question. From block 1 to block 8 the top guess is " the": a safe, grammatical continuation of "founder of". After block 9, company names arrive together: " Apple" 0.15, " Microsoft" 0.12, " Silicon", " IBM". After block 10 " Microsoft" leads (0.53, " Apple" second at 0.29). After block 11 " Apple" has 0.92, and the final output gives it 0.69 (Notebook).
+Watch Figure 6 for the moment the guesses change kind. Before block 1 the stream is the token-plus-position vector, and its "guesses" are word fragments with no relation to the question. From block 1 to block 8 the top guess is " the": a safe, grammatical continuation of "founder of". After block 9, company names arrive together: " Apple" 0.15, " Microsoft" 0.12, " Silicon", " IBM". After block 10 " Microsoft" leads (0.53, " Apple" second at 0.29). After block 11 " Apple" has 0.92, and the final output gives it 0.69 (Notebook). The last block makes the guess less sure but keeps " Apple" first: the guess does not have to grow more confident at every block, it only has to end at the final distribution, which here leaves the other 0.31 to tokens such as " Microsoft" and " the".
 
 | Read after | Rank of " Apple" | Its probability | Top guess |
 |---|---|---|---|

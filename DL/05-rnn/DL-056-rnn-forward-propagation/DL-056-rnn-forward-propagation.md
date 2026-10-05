@@ -93,13 +93,7 @@ Keras processes several reviews at once. The three reviews above, sent together,
 > print(batch.shape)        # (3, 4, 5)
 > ```
 
-A gotcha: the RNN does not know that the grey row is padding. It runs a fourth step on the zero row, so for the 3-word reviews the last hidden state is $h_4$, computed from $h_3$ alone:
-
-$$h_4 = \tanh(0 \cdot W_i + h_3 W_h + b_h)$$
-
-$$h_4 = \tanh(h_3 W_h + b_h)$$
-
-$h_4$ is in general not equal to $h_3$. Keras' `Masking` layer (or `mask_zero=True` in an `Embedding` layer) tells the RNN to skip padded steps (Keras guide "Understanding masking and padding"). The worked example of section 5.3 feeds the 3 words without padding.
+Padding has a cost inside the RNN too; section 5.4 shows it once the RNN's formula is known.
 
 ## 4. The architecture of an RNN
 
@@ -321,6 +315,18 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
 > $$o^{(t)} = c + V h^{(t)}$$
 >
 > Their $U$, $W$ and $V$ are our $W_i$, $W_h$ and $W_o$, transposed. We use row vectors because Keras stores its weights that way: the `kernel` of shape (input features, units) multiplies the input from the right.
+
+### 5.4 Gotcha: padded steps still run
+
+> **Key point:** The RNN runs a step on every padded zero row, so a padded review's last hidden state is not the one after its last word. A mask makes the RNN skip padded steps.
+
+The batch of section 3.3 gave the 3-word reviews a grey row of zeros as padding. The RNN does not know that the grey row is padding. It runs a fourth step on the zero row, so for the 3-word reviews the last hidden state is $h_4$, computed from $h_3$ alone:
+
+$$h_4 = \tanh(0 \cdot W_i + h_3 W_h + b_h)$$
+
+$$h_4 = \tanh(h_3 W_h + b_h)$$
+
+$h_4$ is in general not equal to $h_3$. Keras' `Masking` layer (or `mask_zero=True` in an `Embedding` layer) tells the RNN to skip padded steps (Keras guide "Understanding masking and padding"). The worked example of section 5.3 feeds the 3 words without padding, so it stops at $h_3$.
 
 ## 6. Three properties of an RNN
 

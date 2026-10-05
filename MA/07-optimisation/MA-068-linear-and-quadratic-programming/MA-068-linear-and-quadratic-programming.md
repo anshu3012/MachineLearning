@@ -366,7 +366,7 @@ The lowest point of the tilted bowl is $-Q^{-1}\mathbf{t}$, one step per line:
 
 Multiply the whole-number table by $\mathbf{t}$, row by row. First row, $[2, -1]$:
 
-$$2(-3.5) - (-2.5) - (-2.5) = -4.5$$
+$$2(-3.5) - (-2.5) = -4.5$$
 
 Second row, $[-1, 2]$:
 

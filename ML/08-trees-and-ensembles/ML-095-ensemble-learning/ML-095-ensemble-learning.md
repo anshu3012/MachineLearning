@@ -76,7 +76,7 @@ Models are the same: an ensemble of identical models makes the same mistakes as 
 2. **Same algorithm, different data:** for example three linear models, each trained on a different part of the data. Different data makes them learn differently.
 3. **Both:** different algorithms, each shown different data.
 
-In Figure 3 and in Figure 6a, each dot is a data point with two features (its position), coloured by its true class, and the pale background colour shows what the vote predicts at that position: orange area, one class; blue area, the other. Where the colour changes is the decision boundary. A dot sitting in the wrong colour is a point the vote gets wrong. Figure 3 tests the first way on the two-moons data of section 5. Watch the left panel: three copies of the same tree draw one **decision boundary** (G-555), the line where the prediction switches class, so their vote is that tree and scores the same 0.875. On the right, three different algorithms disagree in places, and their vote scores 0.890.
+In Figure 3 and in Figure 6a, each dot is a data point with two features (its position), coloured by its true class, and the pale background colour shows what the vote predicts at that position: orange area, one class; blue area, the other. Where the colour changes is the decision boundary. A dot sitting in the wrong colour is a point the vote gets wrong. Figure 3 tests the first way on the two-moons data (two interlocking half-moon classes, used again in section 5). Watch the left panel: three copies of the same tree draw one **decision boundary** (G-555), the line where the prediction switches class, so their vote is that tree and scores the same 0.875. On the right, three different algorithms disagree in places, and their vote scores 0.890.
 
 ![Left: three copies of one depth-3 tree, trained on the same data, and their vote. Right: logistic regression (green), a depth-3 tree (red) and KNN with k = 5 (purple), and their vote (black dashed). Test accuracy of the vote in each title](images/same_vs_different.png)
 
@@ -165,6 +165,8 @@ Each decision boundary is wrong in its own places. The majority vote (black) fol
 **Regression.** In Figure 6b, four lines are fitted, each to a different set of 10 random points. One is too steep, one too flat, two are in between. Their mean (black) is not extreme in any direction: it lands in the middle, close to the real trend.
 
 Figure 7 keeps adding lines, each fitted to its own 10 random points, up to 25. Watch the black mean settle near the true trend (red dashed) while single lines keep scattering. Averaged over 500 such crowds, one line misses the true trend by 0.75 (root mean squared gap), the mean of 5 lines by 0.45 and the mean of 25 by 0.37.
+
+The gain slows down after a few lines because every line is fitted to points drawn from the same 60 noisy observations. The noise in those 60 points is an error the lines share, and averaging cannot cancel a shared error (section 6.3). One line fitted to all 60 points misses the true trend by 0.34, and the mean of many lines closes in on that floor, not on 0.
 
 ![Lines added one at a time, each fitted to 10 random points of the same data. Left: the lines (blue), their mean (black) and the true trend (red dashed). Right: the gap between the mean line and the true trend, averaged over 500 crowds](images/crowd_of_lines.gif)
 

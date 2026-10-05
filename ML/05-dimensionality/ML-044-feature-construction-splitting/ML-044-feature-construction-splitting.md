@@ -141,7 +141,7 @@ The pattern is not a straight line. Survival rises from alone to small families,
 
 `Family_type` now carries what `SibSp`, `Parch` and `Family_size` said, so we drop those three. The model is left with `Age`, `Pclass` and `Family_type`: three features instead of four.
 
-Accuracy is the share of passengers the model classifies correctly.
+Accuracy is the share of passengers the model classifies correctly. The table below scores with 10-fold cross-validation repeated 10 times, the steadier setup of Section 8, so its baseline reads 69.4% instead of the 69.3% of the single 20-fold run in Section 3.1.
 
 | Features | Accuracy (10 × 10-fold cross-validation) |
 |---|---|

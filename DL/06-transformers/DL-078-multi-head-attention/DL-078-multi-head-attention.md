@@ -186,7 +186,7 @@ Follow one head's value vectors through to the output. With $d_{\text{model}}$ n
    $$\begin{pmatrix} 1 \cr2 \cr3 \end{pmatrix}\begin{pmatrix} 1 & 0 & 2 \end{pmatrix}$$
    $$= \begin{pmatrix} 1 & 0 & 2 \cr2 & 0 & 4 \cr3 & 0 & 6 \end{pmatrix}$$
    Every row of the result is a multiple of the same row, so the result has rank 1, the size of the bottleneck.
-3. **Example:** in BERT-base (768 numbers per word, heads of 64; section 8), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values (numbers that measure how strongly a matrix stretches in each of its independent directions) are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 4).
+3. **Example:** in BERT-base, a published trained transformer that section 8 looks at in detail (768 numbers per word, heads of 64), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values (numbers that measure how strongly a matrix stretches in each of its independent directions) are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 4).
 
 ![BERT-base, layer 1: the singular values of each of the 12 heads' value maps $W_V^i W_O^i$, largest first (log scale). All 12 drop to rounding-error size after exactly 64](images/value_rank.png){width=85%}
 

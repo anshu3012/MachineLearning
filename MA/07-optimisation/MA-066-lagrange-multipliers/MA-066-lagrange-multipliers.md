@@ -203,7 +203,7 @@ Figure 5 plots the best value $f^\ast(c)$ against the position $c$ of the line. 
 
 $$R = 100\thinspace h^{2/3} s^{1/3} \text{ rupees}$$
 
- The budget is $b = 20{,}000$ rupees, so the constraint is $20h + 2000s = 20{,}000$. Here we maximise, and the same condition holds: at the best plan a revenue contour touches the budget line (Figure 7, left), so the gradient of the revenue is $\lambda$ times the gradient of the spending.
+ The budget is $b = 20{,}000$ rupees, so the constraint is $20h + 2000s = 20{,}000$. Here we maximise, and the same condition holds: at the best plan a revenue contour touches the budget line (Figures 6 and 7 below build this picture), so the gradient of the revenue is $\lambda$ times the gradient of the spending.
 
 Figure 6 shows the revenue first. The revenue is a number for every plan: for $h = 667$ hours and $s = 3.33$ tonnes,
 

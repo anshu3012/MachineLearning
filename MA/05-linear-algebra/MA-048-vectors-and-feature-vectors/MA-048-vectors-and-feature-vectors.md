@@ -334,5 +334,5 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 | NLP (G-1305) | Natural language processing: ML on text |
 | Bag of words | Turning a text into a vector of word counts over the vocabulary |
 | Row vector | A vector written as one row, shape $1 \times n$ |
-| Data matrix | The feature vectors of a dataset stacked as rows | the iris table, $150 \times 4$ |
+| Data matrix | The feature vectors of a dataset stacked as rows, such as the iris table, $150 \times 4$ |
 | Column vector | A vector written as one column, shape $n \times 1$; the default meaning of "vector" |

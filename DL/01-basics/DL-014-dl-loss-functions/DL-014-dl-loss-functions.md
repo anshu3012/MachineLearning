@@ -43,7 +43,7 @@ In simple linear regression, the loss is the mean squared error, and $\hat y_i =
 
 The loss is the algorithm's eyes. Without it, the algorithm has no way to know which direction is better.
 
-![Gradient descent on the 30 points of Figure 6 that follow y = 2x + 1: the line moves (left) while its MSE loss falls (right)](images/train_loop.gif){height=45%}
+![Gradient descent on 30 points that follow y = 2x + 1 (the same 30 points reappear in Figure 6): the line moves (left) while its MSE loss falls (right)](images/train_loop.gif){height=45%}
 
 Figure 2 runs this loop from $m = 0$, $b = 0$ with learning rate 0.01. Watch the loss fall from 156 to 1.45 in two steps, then creep down to 0.12 by step 500 as the line settles on the points.
 
@@ -181,7 +181,7 @@ The only change from MSE is the absolute value in place of the square. The MAE's
 
 ![One point is lifted from the pattern to 42 above it; the line is refitted with MSE (blue) and MAE (orange) each time](images/outlier_drag.gif){height=40%}
 
-Figure 5 drags one point away from the 30 points of Figure 6 that follow $y = 2x + 1$. Watch the MSE line tilt towards the point, rising by 3.7 at $x = 9$, while the MAE line does not move at all.
+Figure 5 uses the same 30 points as Figure 2, which follow $y = 2x + 1$, and drags one of them away. Watch the MSE line tilt towards the point, rising by 3.7 at $x = 9$, while the MAE line does not move at all.
 
 Advantages:
 

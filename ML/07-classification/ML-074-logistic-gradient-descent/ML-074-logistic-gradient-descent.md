@@ -246,9 +246,7 @@ $$-(1 - y)\hat y\thinspace x = -1 \times 0.426 \times (-0.5) = 0.213$$
 
 > **Key point:** y(1 − ŷ) − (1 − y)ŷ simplifies to y − ŷ.
 
-Adding the two parts:
-
-Multiply out the brackets:
+Add the two parts and multiply out the brackets:
 
 $$y(1 - \hat{y}) - (1 - y)\hat{y}$$
 
@@ -344,7 +342,7 @@ Compare it with the sigmoid perceptron of [the new update in action](../ML-071-s
 | Update | $w \leftarrow w + \eta\thinspace(y_i - \hat y_i)\thinspace x_i$ | $w \leftarrow w + \eta\thinspace\frac{1}{m}\sum_{i}(y_i - \hat y_i)\thinspace x_i$ |
 | Points used per update | one, picked at random | all $m$, averaged |
 
-Each point pulls the weights with a strength equal to its error $y_i - \hat y_i$. Figure 4 draws that strength as the size of each point on the data of section 8.
+Each point pulls the weights with a strength equal to its error $y_i - \hat y_i$. Figure 4 draws that strength as the size of each point on the data of section 8: 100 points with two features, in two classes that overlap a little.
 
 ![The 100 points of section 8 during batch gradient descent; the area of each circle shows the size of the point's error $y - \hat y$, and the orange line is the decision boundary. At the start many points have a large error and the boundary moves a lot per epoch. By epoch 5,000 only the points in the overlap still have a large error; their pulls balance out, and the boundary stops](images/pulls.gif)
 

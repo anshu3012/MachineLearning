@@ -144,7 +144,7 @@ $$1 \times 2 + 1 \times 3 + 0 = 5$$
 
    $$1.40 - 2.40 + 3.00 = 2.00$$
 
-The answer is 2.00 instead of 15, and its dots lie far below the dashed line.
+   The answer is 2.00 instead of 15, and its dots lie far below the dashed line.
 2. **One training step.** The model answers all 20 pairs (the two pairs of the table plus 18 random pairs from 0 to 10), measures how far each answer is from the true sum, and moves each parameter a little in the direction that shrinks that error. This repeated nudging is **gradient descent** (G-862; see [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)).
 3. **After 3,000 steps.** The parameters are $w_1 = 1.00$, $w_2 = 1.00$ and $c = 0.04$, every dot sits on the dashed line, and the answer for 7 and 8 is 14.99. Nobody wrote "add" into the model: the values 1, 1 and 0 are addition, and they were found in the data.
 
@@ -190,7 +190,7 @@ Figure 6 measures this story on the 5,574 text messages of Figure 2, with the wo
 
 1. **Today.** Our hand-written rule is: *if the message contains "call", mark it as spam*. The rule catches 42.5 percent of the spam. A Naive Bayes filter that learned from 4,574 labelled messages catches 88.1 percent. The filter gives every word a weight; "call" has a weight of +1.4, a sign of spam.
 2. **The spammers adapt.** We replace "call" with "ring" in every spam message. The hand-written rule now catches 0.0 percent. The learned filter still catches 87.3 percent, because it weighs all the words of a message, not one.
-3. **Retraining.** The filter trains again on labelled messages that contain the new wording. Nobody edits its code. The weight of "ring" moves from −0.3 to +4.1, the filter catches 91.0 percent, and the hand-written rule stays at 0.0 until someone rewrites it.
+3. **Retraining.** The filter trains again on labelled messages that contain the new wording. Nobody edits its code. The weight of "ring" moves from −0.3 to +4.1, the filter catches 91.0 percent (a little more than before the change, because the new weight of "ring", +4.1, is a much stronger sign of spam than the +1.4 that "call" had), and the hand-written rule stays at 0.0 until someone rewrites it.
 
 > **Extra:** Real spam filters moved to ML in exactly this way. An early study trained a simple filter that learns word probabilities from labelled emails. Using words alone, 97.1% of the emails it flagged as junk really were junk, and it caught 94.3% of all junk (Sahami et al. 1998, Table 1). That method, Naive Bayes, is covered in [Naive Bayes](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture).
 

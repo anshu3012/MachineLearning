@@ -132,7 +132,7 @@ The summary numbers of `Height`:
 |---|---|---|---|---|---|---|---|
 | 10,000 | 66.37 | 3.85 | 54.26 | 63.51 | 66.32 | 69.17 | 79.00 |
 
-Figure 4 shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
+Figure 4 (in Section 5, where the limits are added to it) shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
 
 > **Extra:** One inch is 2.54 cm. The heights run from 54.26 inches (138 cm) to 79.00 inches (201 cm), with a mean of 66.37 inches (169 cm).
 

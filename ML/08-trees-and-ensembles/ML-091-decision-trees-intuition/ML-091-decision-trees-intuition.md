@@ -155,6 +155,8 @@ The open questions are now precise:
 
 > **Key point:** Trees are easy to read, need little preparation and predict fast; they overfit easily and struggle with imbalanced data.
 
+Before answering those questions, we look at what the tree picture already tells us about trees as models: where they shine, where they fail, and where they are used. Section 6 then returns to the open questions.
+
 ### 5.1 Advantages
 
 > **Key point:** Intuitive, no scaling needed, fast predictions.
@@ -166,6 +168,8 @@ The open questions are now precise:
 > **Extra:** Why "logarithmic"? A tree that halves the data at each question needs about $\log_2 n$ questions to reach a single observation. For $n = 1{,}000{,}000$ observations that is only about 20 questions, because $2^{20} \approx 1{,}000{,}000$. Real trees are rarely perfectly balanced, so this is a best case (sklearn UG §1.10).
 >
 > Figure 5 measures it. Fully grown trees on 1,000 to 300,000 synthetic training observations need 8.2 to 23.2 questions per prediction on average. The count rises in a straight line against $\log_2 n$, by about 1.8 questions each time $n$ doubles: a 300-fold larger training set costs only 15 more questions. The tree is not perfectly balanced, so the line is steeper than $\log_2 n$ itself.
+>
+> At 1,000 observations the tree needs fewer questions than the dashed line (8.2 against 10). The dashed line counts the questions to reach every single observation, but a fully grown tree stops as soon as a leaf is pure, and pure leaves often hold several observations: this tree has only 103 leaves for 1,000 observations (the figure's script, `images/path_length.py`, checks it). For 103 leaves a perfectly balanced tree would need about 6.7 questions, so the tree still needs more than its best case.
 
 ![Average number of questions per prediction for fully grown trees trained on 1,000 to 300,000 observations (blue), against log₂ n, the depth of a perfectly balanced tree (dashed). Both grow in a straight line on the log scale.](images/path_length.png)
 
@@ -197,6 +201,8 @@ After about a dozen questions only one character fits, and the game names it. Ea
 ### 6.1 Disorder and uncertainty
 
 > **Key point:** More knowledge about a system means less uncertainty, and less uncertainty means less entropy.
+
+Back to the open questions of section 4. To choose the best feature, the tree needs a number that says how mixed the classes of a node are, so that it can compare the nodes a split produces. Entropy is that number.
 
 **Entropy** (G-691) is a measure of disorder, which we can also read as a measure of impurity. The idea of entropy comes from physics (thermodynamics) and is also central to information theory.
 
