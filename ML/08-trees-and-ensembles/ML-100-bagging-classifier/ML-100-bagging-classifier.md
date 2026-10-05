@@ -1,7 +1,7 @@
 ---
 title: "Bagging Classifier"
 video: 106
-prerequisites: ["[[MA-012-expected-value-and-variance]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-028-pipelines]]", "[[ML-061-bias-variance]]", "[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[MA-012-expected-value-and-variance]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-028-pipelines]]", "[[ML-061-bias-variance]]", "[[ML-091-decision-trees-intuition]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, step/tune, concept/bagging, concept/grid-search, concept/oob-score]
 ---
 
@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview).
 > - **Leads to:** [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
-> - **Compare with:** [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#6-sources); [Cross-validation](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#41-the-data-and-the-base-models); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview).
+> - **Compare with:** [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#1-overview); [Cross-validation](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#41-the-data-and-the-base-models); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/cross-at
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources).
+> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#1-overview).
 > - **Compare with:** [Bahdanau (additive) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#4-bahdanau-attention); [Self-attention (query, key, value)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#4-self-attention-in-the-same-three-equations).
 <!-- /where-this-fits -->
 

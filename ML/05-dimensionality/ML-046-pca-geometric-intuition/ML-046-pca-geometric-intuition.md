@@ -1,7 +1,7 @@
 ---
 title: "PCA: Geometric Intuition"
 video: 47
-prerequisites: ["[[MA-006-measures-of-dispersion]]", "[[MA-053-linear-transformations-and-matrices]]", "[[MA-056-eigenvectors-and-eigenvalues]]", "[[MA-057-svd-geometry]]", "[[ML-003-types-of-ml]]", "[[ML-006-instance-vs-model-based]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-045-curse-of-dimensionality]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[MA-006-measures-of-dispersion]]", "[[MA-009-covariance-and-correlation]]", "[[MA-053-linear-transformations-and-matrices]]", "[[MA-056-eigenvectors-and-eigenvalues]]", "[[MA-057-svd-geometry]]", "[[ML-003-types-of-ml]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-023-standardization]]", "[[ML-045-curse-of-dimensionality]]"]
 tags: [subject/ml, area/data, area/features, step/understand, step/reduce, concept/feature-extraction, concept/pca, concept/variance]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, area/features, step/understand, step/reduce, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Dimensionality reduction](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction); [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Feature scaling](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#65-feature-scaling); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Dimensionality reduction](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction); [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is).
 > - **Leads to:** [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix).
 > - **Compare with:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [Feature selection](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#1-where-we-are-in-feature-engineering); [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#22-splitting-any-matrix-into-layers).
 <!-- /where-this-fits -->

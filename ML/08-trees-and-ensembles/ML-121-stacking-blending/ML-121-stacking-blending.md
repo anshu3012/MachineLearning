@@ -9,9 +9,9 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning).
+> - **Builds on:** [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview).
 > - **Leads to:** [Random under- and oversampling](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#6-random-oversampling); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary).
-> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#6-sources); [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Boosting](../../../ML/08-trees-and-ensembles/ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#1-overview); [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Boosting](../../../ML/08-trees-and-ensembles/ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models).
 <!-- /where-this-fits -->
 
 ## 1. Overview

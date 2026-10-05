@@ -22,7 +22,7 @@ COL = ["#F58518", "#4C78A8", "#54A24B", "#B279A2"]
 
 def read_first(v):
     """The Learning path table's rule: the four latest earlier Notes that teach a Concept this Note builds on."""
-    _, before, _, _ = bm.neighbours(v)
+    _, before, _, _, _ = bm.neighbours(v)
     return sorted(set(before.values()))[-4:]
 
 

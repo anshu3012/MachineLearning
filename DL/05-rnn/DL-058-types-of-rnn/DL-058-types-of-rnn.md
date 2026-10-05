@@ -11,7 +11,8 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/rnn-types, concep
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
-> - **Leads to:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing); [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#11-sources); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
+> - **Used here, taught in full later:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing).
+> - **Leads to:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#1-overview); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview

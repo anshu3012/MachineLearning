@@ -9,7 +9,8 @@ tags: [subject/ml, area/features, step/features, concept/mixed-variables]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature construction and splitting](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features).
+> - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is).
+> - **Used here, taught in full later:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction).
 <!-- /where-this-fits -->
 
 ## 1. Overview

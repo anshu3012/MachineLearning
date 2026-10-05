@@ -1,7 +1,7 @@
 ---
 title: "The Perceptron Loss Function and the Flexible Perceptron"
 video: D006
-prerequisites: ["[[ML-005-online-learning]]", "[[ML-069-perceptron-trick]]"]
+prerequisites: ["[[ML-058-stochastic-gradient-descent]]", "[[ML-069-perceptron-trick]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-loss]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-los
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Stochastic gradient descent](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#1-overview); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick).
+> - **Builds on:** [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick).
 > - **Compare with:** [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#8-why-soft-margin).
 <!-- /where-this-fits -->
 

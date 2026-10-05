@@ -11,7 +11,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 >
 > - **Builds on:** [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior).
 > - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data).
-> - **Compare with:** [Ridge regression](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
+> - **Compare with:** [Ridge regression](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

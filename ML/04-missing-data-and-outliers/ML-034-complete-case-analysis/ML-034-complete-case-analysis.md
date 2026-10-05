@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Data: Complete Case Analysis"
 video: 35
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-019-univariate-analysis]]"]
 tags: [subject/ml, area/data, step/clean, concept/complete-case, concept/missing-values]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/clean, concept/complete-case, concept/missing
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview).
 > - **Leads to:** [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview); [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation); [Iterative imputation (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
 > - **Compare with:** [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Outliers](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers).
 <!-- /where-this-fits -->

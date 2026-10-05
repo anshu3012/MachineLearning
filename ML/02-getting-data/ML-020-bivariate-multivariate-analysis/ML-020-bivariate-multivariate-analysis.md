@@ -1,7 +1,7 @@
 ---
 title: "EDA: Bivariate and Multivariate Analysis"
 video: 21
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[ML-018-understanding-your-data]]", "[[ML-019-univariate-analysis]]"]
 tags: [subject/ml, area/data, step/understand, concept/bivariate, concept/correlation]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/understand, concept/bivariate, concept/correl
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers).
+> - **Builds on:** [Exploratory data analysis](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#1-overview); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
 > - **Leads to:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection).
 > - **Compare with:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#2-from-mean-to-variance-to-covariance); [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation).
 <!-- /where-this-fits -->

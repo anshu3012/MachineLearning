@@ -1,7 +1,7 @@
 ---
 title: "Outlier Detection with the IQR Method"
 video: 43
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-040-what-are-outliers]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[ML-019-univariate-analysis]]", "[[ML-040-what-are-outliers]]"]
 tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/trimming]
 ---
 
@@ -10,7 +10,8 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
+> - **Builds on:** [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
+> - **Used here, taught in full later:** [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview).
 > - **Compare with:** [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview).
 <!-- /where-this-fits -->
 

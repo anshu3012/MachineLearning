@@ -9,7 +9,7 @@ tags: [subject/ml, area/features, step/features, concept/power-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built).
+> - **Builds on:** [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape).
 > - **Compare with:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
 <!-- /where-this-fits -->
 

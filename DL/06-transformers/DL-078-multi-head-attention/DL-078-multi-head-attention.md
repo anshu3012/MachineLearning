@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/multi-he
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview).
-> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

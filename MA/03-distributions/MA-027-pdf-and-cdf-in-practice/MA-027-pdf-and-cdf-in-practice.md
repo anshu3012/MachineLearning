@@ -11,7 +11,8 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is).
-> - **Leads to:** [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
+> - **Used here, taught in full later:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
+> - **Leads to:** [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
 > - **Compare with:** [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 

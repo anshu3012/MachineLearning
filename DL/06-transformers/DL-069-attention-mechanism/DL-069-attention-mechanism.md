@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/attentio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many).
+> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#3-why-sequence-to-sequence-is-hard).
 > - **Leads to:** [Luong (multiplicative) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#5-luong-attention); [Self-attention (query, key, value)](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out).
 > - **Compare with:** [Luong (multiplicative) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#5-luong-attention); [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#7-what-a-trained-models-cross-attention-looks-like).
 <!-- /where-this-fits -->

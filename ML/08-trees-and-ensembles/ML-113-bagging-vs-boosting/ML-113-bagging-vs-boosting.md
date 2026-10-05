@@ -1,7 +1,7 @@
 ---
 title: "Bagging vs Boosting"
 video: 119
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-061-bias-variance]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-061-bias-variance]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, step/model, concept/boosting]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview).
+> - **Builds on:** [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview).
 > - **Leads to:** [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
 > - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#4-baggingregressor-on-the-boston-housing-data); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking).
 <!-- /where-this-fits -->

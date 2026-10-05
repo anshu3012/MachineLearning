@@ -1,7 +1,7 @@
 ---
 title: "Covariance and Correlation"
 video: M03
-prerequisites: []
+prerequisites: ["[[MA-003-statistics-roadmap]]"]
 tags: [subject/statistics, area/data, area/descriptive, step/understand, concept/causation, concept/correlation, concept/covariance]
 ---
 
@@ -10,7 +10,9 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [PCA](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md); [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview).
+> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
+> - **Used here, taught in full later:** [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum).
+> - **Leads to:** [PCA](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md); [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
 <!-- /where-this-fits -->
 
 ## 1. Overview

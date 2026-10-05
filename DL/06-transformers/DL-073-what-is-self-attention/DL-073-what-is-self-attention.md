@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings); [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#11-sources); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
+> - **Builds on:** [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings); [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#1-overview); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
 > - **Leads to:** [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview); [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview).
 > - **Compare with:** [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#7-what-a-trained-models-cross-attention-looks-like).
 <!-- /where-this-fits -->

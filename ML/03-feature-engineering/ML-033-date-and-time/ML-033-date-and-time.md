@@ -1,7 +1,7 @@
 ---
 title: "Handling Date and Time Variables"
 video: 34
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/features, step/features, concept/datetime]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, step/features, concept/datetime]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [CSV files](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from).
+> - **Builds on:** [CSV files](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from); [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview

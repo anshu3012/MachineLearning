@@ -11,7 +11,7 @@ tags: [subject/statistics, area/inference, area/production, step/foundations, st
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
-> - **Leads to:** [Deployment](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production).
+> - **Used here, taught in full later:** [Deployment](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production).
 > - **Compare with:** [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
 <!-- /where-this-fits -->
 

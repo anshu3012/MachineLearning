@@ -1,7 +1,7 @@
 ---
 title: "Column Transformer"
 video: 28
-prerequisites: ["[[ML-022-what-is-feature-engineering]]"]
+prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[ML-025-ordinal-label-encoding]]"]
 tags: [subject/ml, area/features, step/features, concept/column-transformer]
 ---
 
@@ -10,8 +10,9 @@ tags: [subject/ml, area/features, step/features, concept/column-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#10-the-feature-engineering-notes-in-order); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories).
-> - **Leads to:** [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview); [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
+> - **Builds on:** [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Encoding categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#1-overview).
+> - **Used here, taught in full later:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#31-what-binning-is-good-for).
+> - **Leads to:** [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

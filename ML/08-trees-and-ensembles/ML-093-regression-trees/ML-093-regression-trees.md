@@ -1,7 +1,7 @@
 ---
 title: "Regression Trees"
 video: 99
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-028-pipelines]]", "[[ML-051-regression-metrics]]", "[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-028-pipelines]]", "[[ML-051-regression-metrics]]", "[[ML-091-decision-trees-intuition]]"]
 tags: [subject/ml, area/features, area/models-2, area/production, step/features, step/model, step/tune, concept/feature-importance, concept/grid-search, concept/regression-tree]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, area/models-2, area/production, step/features,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
 > - **Leads to:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Permutation importance](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#7-permutation-importance); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
 > - **Compare with:** [Simple linear regression](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#6-our-own-linear-regression-class); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
 <!-- /where-this-fits -->

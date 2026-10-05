@@ -1,7 +1,7 @@
 ---
 title: "Gradient Descent from Scratch"
 video: 57
-prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-006-instance-vs-model-based]]", "[[ML-049-simple-linear-regression]]"]
+prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-049-simple-linear-regression]]"]
 tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundations, step/model, step/tune, concept/convexity, concept/gradient, concept/gradient-descent, concept/learning-rate]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
+> - **Builds on:** [Feature scaling](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#65-feature-scaling); [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
 > - **Leads to:** [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code); [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview); [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
 > - **Compare with:** [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Normal equation](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#1-overview).
 <!-- /where-this-fits -->

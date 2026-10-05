@@ -10,7 +10,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/lagrange]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map).
-> - **Leads to:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets).
+> - **Leads to:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview); [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets).
 <!-- /where-this-fits -->
 
 ## 1. Overview

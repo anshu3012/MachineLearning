@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propag
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#9-sources); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#7-sources).
-> - **Leads to:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#13-sources); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
+> - **Builds on:** [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#1-overview); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#1-overview).
+> - **Leads to:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#1-overview); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

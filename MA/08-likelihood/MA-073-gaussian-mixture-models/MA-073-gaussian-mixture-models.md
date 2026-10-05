@@ -1,6 +1,6 @@
 ---
 title: "Gaussian Mixture Models"
-prerequisites: ["[[MA-018-bayes-theorem]]", "[[MA-020-random-variables-and-distributions]]", "[[MA-070-maximum-likelihood-estimation]]"]
+prerequisites: ["[[MA-009-covariance-and-correlation]]", "[[MA-018-bayes-theorem]]", "[[MA-024-normal-distribution]]", "[[MA-070-maximum-likelihood-estimation]]"]
 tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm, concept/multivariate-normal]
 ---
 
@@ -9,8 +9,8 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate).
-> - **Leads to:** [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
+> - **Builds on:** [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#2-from-mean-to-variance-to-covariance); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate).
+> - **Used here, taught in full later:** [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
 > - **Compare with:** [Kernel density estimation (KDE)](../../../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md#1-overview); [K-means](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em).
 <!-- /where-this-fits -->
 

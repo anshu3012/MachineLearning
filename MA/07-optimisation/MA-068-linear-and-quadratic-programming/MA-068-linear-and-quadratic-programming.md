@@ -9,7 +9,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/lp-qp]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets).
-> - **Leads to:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources).
+> - **Leads to:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

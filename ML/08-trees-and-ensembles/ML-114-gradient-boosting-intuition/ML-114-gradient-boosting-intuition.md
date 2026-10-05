@@ -1,7 +1,7 @@
 ---
 title: "Gradient Boosting: the Intuition"
 video: 120
-prerequisites: ["[[ML-056-gradient-descent]]", "[[ML-071-sigmoid-function]]", "[[ML-072-log-loss]]", "[[ML-093-regression-trees]]", "[[ML-095-ensemble-learning]]"]
+prerequisites: ["[[ML-056-gradient-descent]]", "[[ML-071-sigmoid-function]]", "[[ML-072-log-loss]]", "[[ML-093-regression-trees]]", "[[ML-113-bagging-vs-boosting]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concept/gradient-boosting, concept/learning-rate]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [Boosting](../../../ML/08-trees-and-ensembles/ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models).
 > - **Leads to:** [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is); [Gradient descent](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#2-prerequisites); [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#3-when-adagrad-helps).
 > - **Compare with:** [AdaBoost](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#2-the-hyperparameters-of-adaboostclassifier).
 <!-- /where-this-fits -->

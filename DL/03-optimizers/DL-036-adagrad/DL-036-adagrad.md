@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources).
+> - **Builds on:** [Learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#1-overview).
 > - **Leads to:** [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
 <!-- /where-this-fits -->
 

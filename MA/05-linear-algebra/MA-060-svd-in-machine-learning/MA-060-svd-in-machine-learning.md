@@ -10,7 +10,7 @@ tags: [subject/maths, area/linear-algebra, step/reduce, step/model, concept/lsa,
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
-> - **Leads to:** [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other).
+> - **Used here, taught in full later:** [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other).
 > - **Compare with:** [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation).
 <!-- /where-this-fits -->
 

@@ -10,7 +10,8 @@ tags: [subject/ml, area/foundations, area/production, step/foundations, step/dep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [APIs](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data); [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [MLOps and cost](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#10-cost); [Framing an ML problem](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview).
+> - **Used here, taught in full later:** [APIs](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data); [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview).
+> - **Leads to:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [MLOps and cost](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#10-cost); [Framing an ML problem](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Beta and A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#101-beta-testing).
 > - **Compare with:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
 <!-- /where-this-fits -->
 

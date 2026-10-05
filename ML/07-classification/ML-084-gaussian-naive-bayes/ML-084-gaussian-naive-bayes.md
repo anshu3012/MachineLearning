@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes with Numerical Data: Gaussian Naive Bayes"
 video: 90
-prerequisites: ["[[MA-003-statistics-roadmap]]", "[[MA-016-independent-events]]", "[[MA-018-bayes-theorem]]", "[[ML-003-types-of-ml]]"]
+prerequisites: ["[[MA-017-mutually-exclusive-events]]", "[[MA-018-bayes-theorem]]", "[[MA-020-random-variables-and-distributions]]", "[[ML-003-types-of-ml]]"]
 tags: [subject/ml, area/data, area/descriptive, area/models-1, step/foundations, step/understand, step/model, concept/naive-bayes, concept/normal-distribution, concept/pdf]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, area/descriptive, area/models-1, step/foundations,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Independent and mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#3-conditional-probability-for-mutually-exclusive-events); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables).
 > - **Compare with:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter).
 <!-- /where-this-fits -->
 

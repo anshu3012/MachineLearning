@@ -1,7 +1,7 @@
 ---
 title: "The Maths Behind XGBoost"
 video: 126
-prerequisites: ["[[MA-056-eigenvectors-and-eigenvalues]]", "[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[ML-007-challenges-in-ml]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-114-gradient-boosting-intuition]]"]
+prerequisites: ["[[MA-056-eigenvectors-and-eigenvalues]]", "[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[ML-031-binning-binarization]]", "[[ML-036-missing-categorical-data]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-114-gradient-boosting-intuition]]"]
 tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, concept/hessian, concept/taylor-series, concept/xgboost]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Missing values](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview).
+> - **Builds on:** [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#31-what-binning-is-good-for); [Missing values](../../../ML/04-missing-data-and-outliers/ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview).
 > - **Leads to:** [Convex and non-convex loss](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#3-the-loss-is-a-function-of-all-nine-parameters).
 <!-- /where-this-fits -->
 

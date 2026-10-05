@@ -9,7 +9,8 @@ tags: [subject/statistics, area/data, step/understand, concept/skewness]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
+> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
+> - **Leads to:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
 > - **Compare with:** [Kurtosis and moments](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments).
 <!-- /where-this-fits -->
 

@@ -1,7 +1,7 @@
 ---
 title: "Feature Scaling: Standardization"
 video: 24
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]", "[[ML-018-understanding-your-data]]", "[[ML-022-what-is-feature-engineering]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/features, step/features, concept/feature-scaling, concept/standardization]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, step/features, concept/feature-scaling, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation).
+> - **Builds on:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
 > - **Leads to:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [K-means](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#7-k-means-binning); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
 > - **Compare with:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
 <!-- /where-this-fits -->

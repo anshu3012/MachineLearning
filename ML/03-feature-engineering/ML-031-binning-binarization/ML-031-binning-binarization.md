@@ -1,7 +1,7 @@
 ---
 title: "Binning and Binarization: Equal Width, Equal Frequency and k-means Binning"
 video: 32
-prerequisites: ["[[MA-074-expectation-maximization]]", "[[ML-003-types-of-ml]]", "[[ML-006-instance-vs-model-based]]", "[[ML-007-challenges-in-ml]]", "[[ML-022-what-is-feature-engineering]]"]
+prerequisites: ["[[MA-074-expectation-maximization]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/features, area/models-2, step/features, step/model, concept/binning, concept/kmeans]
 ---
 
@@ -10,8 +10,9 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
-> - **Leads to:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is); [Elbow method and WCSS](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method).
+> - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Feature scaling](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#65-feature-scaling); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
+> - **Used here, taught in full later:** [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is); [Elbow method and WCSS](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method); [Clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering).
+> - **Leads to:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
 > - **Compare with:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#1-overview); [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
 <!-- /where-this-fits -->
 

@@ -1,7 +1,7 @@
 ---
 title: "Outlier Detection with the Z-score Method"
 video: 42
-prerequisites: ["[[MA-003-statistics-roadmap]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-019-univariate-analysis]]", "[[ML-040-what-are-outliers]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[MA-020-random-variables-and-distributions]]", "[[MA-026-skewness]]", "[[ML-019-univariate-analysis]]", "[[ML-023-standardization]]", "[[ML-040-what-are-outliers]]"]
 tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, concept/capping, concept/normal-distribution, concept/trimming, concept/zscore]
 ---
 
@@ -10,7 +10,8 @@ tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
+> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics); [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape).
+> - **Used here, taught in full later:** [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview).
 > - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview).
 > - **Compare with:** [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->

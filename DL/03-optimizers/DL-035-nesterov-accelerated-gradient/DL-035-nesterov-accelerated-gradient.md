@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/nag]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
+> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#1-overview); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
 > - **Compare with:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
 <!-- /where-this-fits -->
 

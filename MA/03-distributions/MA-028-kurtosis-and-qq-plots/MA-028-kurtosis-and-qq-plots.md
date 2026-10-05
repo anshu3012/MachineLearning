@@ -1,7 +1,7 @@
 ---
 title: "Kurtosis and Checking Normality with Q-Q Plots"
 video: M06
-prerequisites: ["[[MA-020-random-variables-and-distributions]]"]
+prerequisites: ["[[MA-024-normal-distribution]]"]
 tags: [subject/statistics, area/data, step/understand, concept/kurtosis, concept/qq-plot]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/statistics, area/data, step/understand, concept/kurtosis, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions).
-> - **Leads to:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn); [Assumptions of linear regression](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#9-sources).
+> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is).
+> - **Leads to:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn); [Assumptions of linear regression](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#1-overview).
 > - **Compare with:** [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape).
 <!-- /where-this-fits -->
 

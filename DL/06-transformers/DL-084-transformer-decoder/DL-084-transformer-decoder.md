@@ -1,7 +1,7 @@
 ---
 title: "The Transformer Decoder"
 video: D083
-prerequisites: ["[[DL-058-types-of-rnn]]", "[[DL-081-transformer-encoder]]", "[[DL-082-masked-self-attention]]", "[[DL-083-cross-attention]]"]
+prerequisites: ["[[DL-068-encoder-decoder]]", "[[DL-081-transformer-encoder]]", "[[DL-082-masked-self-attention]]", "[[DL-083-cross-attention]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transformer, concept/transformer-decoder]
 ---
 
@@ -10,8 +10,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview); [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#7-what-a-trained-models-cross-attention-looks-like).
-> - **Leads to:** [Transformer inference (autoregressive decoding, KV cache, beam search)](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#9-sources); [The transformer end to end (capstone)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Label smoothing](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
+> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#3-why-sequence-to-sequence-is-hard); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview); [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#7-what-a-trained-models-cross-attention-looks-like).
+> - **Used here, taught in full later:** [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Label smoothing](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing).
+> - **Leads to:** [Transformer inference (autoregressive decoding, KV cache, beam search)](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#1-overview); [The transformer end to end (capstone)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
 > - **Compare with:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#6-the-model-embedding-lstm-dense).
 <!-- /where-this-fits -->
 

@@ -11,7 +11,8 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is).
-> - **Leads to:** [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
+> - **Used here, taught in full later:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
+> - **Leads to:** [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection).
 > - **Compare with:** [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 

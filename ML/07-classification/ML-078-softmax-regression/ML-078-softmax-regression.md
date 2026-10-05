@@ -1,7 +1,7 @@
 ---
 title: "Softmax Regression (Multinomial Logistic Regression)"
 video: 79
-prerequisites: ["[[ML-010-tensors]]", "[[ML-012-toy-project]]"]
+prerequisites: ["[[ML-026-one-hot-encoding]]", "[[ML-074-logistic-gradient-descent]]"]
 tags: [subject/ml, area/models-1, step/model, concept/softmax]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/softmax]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [One-hot encoding](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); [Logistic regression](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data).
+> - **Builds on:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works); [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#1-overview).
 > - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview); [Categorical and sparse categorical cross-entropy](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview); [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
 <!-- /where-this-fits -->
 

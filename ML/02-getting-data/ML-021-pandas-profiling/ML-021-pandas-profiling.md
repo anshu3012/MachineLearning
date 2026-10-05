@@ -12,7 +12,7 @@ tags: [subject/ml, area/data, step/understand, concept/kurtosis, concept/pandas-
 >
 > - **Builds on:** [Setup: conda, Jupyter and Colab](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#3-jupyter-notebooks).
 > - **Leads to:** [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built).
-> - **Compare with:** [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#13-sources).
+> - **Compare with:** [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

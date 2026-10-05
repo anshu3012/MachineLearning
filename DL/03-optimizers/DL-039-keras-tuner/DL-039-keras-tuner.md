@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-optimizers, area/production, step/tune, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
 > - **Compare with:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#5-tuning-with-gridsearchcv).
 <!-- /where-this-fits -->
 

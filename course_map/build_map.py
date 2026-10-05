@@ -155,9 +155,10 @@ def order(video):
 
 def neighbours(video):
     """Concepts this Video builds on, leads to and is compared with, each with the Video that teaches it.
-    "Builds on" only ever names Notes that come before this one: a needed Concept taught later goes to "Leads to"."""
+    "Builds on" only names Notes that come before this one. A needed Concept taught only later is not a building
+    block and not something this Note leads to: it goes to `later` ("Used here, taught in full later")."""
     own = {cid for cid, c in CONCEPTS.items() if video in c["videos"]}
-    before, after, compare = {}, {}, {}
+    before, after, compare, later = {}, {}, {}, {}
     here = order(video)
 
     def first_video(cid, earlier):
@@ -178,12 +179,14 @@ def neighbours(video):
             other_first = (t in ("needs", "is a kind of", "fixes")) == mine_is_a
             # "Builds on" points at the Note that teaches the concept (its owner), not merely the nearest
             # earlier Note that uses it; "Leads to" points at the next Note that uses it
-            v = first_note(CONCEPTS[other]) if other_first else first_video(other, False)
+            # the teaching Note is the one named for the Concept (home_note), not the first overview that lists it
+            v = home_note(CONCEPTS[other]) if other_first else first_video(other, False)
             if v and v != video and v in NOTES:
-                if other_first and order(v) > here:     # taught only later: not a building block of this Note
-                    other_first = False
+                if other_first and order(v) > here:
+                    later[other] = v
+                    continue
                 (before if other_first else after)[other] = v
-    return own, before, after, compare
+    return own, before, after, compare, later
 
 
 def pipeline_strip(steps_here):
@@ -228,6 +231,8 @@ def section_of(note_md, name):
                 if m:
                     heading = m.group(1) if "$" not in m.group(1) else heading
                     first = first or heading
+                    if re.match(r"[\d.]+ (sources|key terms)", heading.lower()):
+                        heading = ""            # a mention in Sources or Key terms is not where it is taught
                     continue
                 low = line.lower()
                 if heading and ((f"**{key}**" in low) if bold else key in low) and not line.startswith("!["):
@@ -250,13 +255,14 @@ def concept_list(items, md_dir, limit=6):
 
 
 def where_block(video):
-    own, before, after, compare = neighbours(video)
+    own, before, after, compare, later = neighbours(video)
     steps_here = sorted({CONCEPTS[c]["step"] for c in own})
     lines = [BEGIN,
              "> **Where this fits:** Pipeline map " + ("step " if len(steps_here) == 1 else "steps ")
              + ", ".join(f"{s} ({STEPS[s]})" for s in steps_here) + ". See the [Course map](../../../00-course-map/00-course-map.md).",
              ">", "> ![](images/where_this_fits.png)", ">"]
-    for label, items in (("Builds on", before), ("Leads to", after), ("Compare with", compare)):
+    for label, items in (("Builds on", before), ("Used here, taught in full later", later), ("Leads to", after),
+                         ("Compare with", compare)):
         if items:
             lines.append(f"> - **{label}:** {concept_list(items, '../../../')}.")
     lines.append(END)
@@ -359,7 +365,7 @@ MINDMAPS = [("foundations", "Foundations and framing"), ("data", "Getting, under
 def reading_rounds(target=1004):
     """The rounds of the reading-order figure (same rule as 00-course-map/images/learning_path.py)."""
     def read_first(v):
-        _, before, _, _ = neighbours(v)
+        _, before, _, _, _ = neighbours(v)
         return sorted(set(before.values()))[-4:]
     r1 = read_first(target)
     seen = {target, *r1}

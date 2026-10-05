@@ -1,6 +1,6 @@
 ---
 title: "Convex Sets, Convex Functions and Convex Optimisation"
-prerequisites: ["[[MA-066-lagrange-multipliers]]"]
+prerequisites: ["[[MA-065-convex-and-non-convex-cost-functions]]", "[[MA-066-lagrange-multipliers]]"]
 tags: [subject/maths, area/calculus, step/foundations, concept/convex-optimisation]
 ---
 
@@ -9,8 +9,8 @@ tags: [subject/maths, area/calculus, step/foundations, concept/convex-optimisati
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality).
-> - **Leads to:** [Logistic regression](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data); [Convex and non-convex loss](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters); [Linear and quadratic programming](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#2-linear-programming); [Local minima and saddle points](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#54-local-minima).
+> - **Builds on:** [Convex and non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality).
+> - **Leads to:** [Logistic regression](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data); [Linear and quadratic programming](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#2-linear-programming); [Local minima and saddle points](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#54-local-minima).
 <!-- /where-this-fits -->
 
 

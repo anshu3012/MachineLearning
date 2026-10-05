@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-rnn, area/dl-transformers, step/model, con
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Types of RNN (many-to-one, one-to-many, many-to-many)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#6-one-to-one); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm).
-> - **Leads to:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#11-sources); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview).
+> - **Leads to:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#1-overview); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

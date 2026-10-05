@@ -1,6 +1,6 @@
 ---
 title: "Choosing a Hypothesis Test"
-prerequisites: ["[[MA-037-t-procedure]]", "[[MA-038-null-and-alternative-hypotheses]]", "[[MA-039-rejection-region-and-z-test]]"]
+prerequisites: ["[[MA-009-covariance-and-correlation]]", "[[MA-037-t-procedure]]", "[[MA-038-null-and-alternative-hypotheses]]", "[[MA-039-rejection-region-and-z-test]]"]
 tags: [subject/statistics, area/inference, step/foundations, step/understand, concept/correlation-test, concept/proportion-test, concept/t-test, concept/test-choice]
 ---
 
@@ -9,8 +9,7 @@ tags: [subject/statistics, area/inference, step/foundations, step/understand, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
-> - **Leads to:** [Correlation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation).
+> - **Builds on:** [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
 > - **Compare with:** [Chi-square tests](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview); [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview).
 <!-- /where-this-fits -->
 

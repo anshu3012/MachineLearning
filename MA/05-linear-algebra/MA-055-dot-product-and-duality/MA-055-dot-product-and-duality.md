@@ -10,7 +10,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/dot-product
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
-> - **Leads to:** [Equation of a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
+> - **Leads to:** [Equation of a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

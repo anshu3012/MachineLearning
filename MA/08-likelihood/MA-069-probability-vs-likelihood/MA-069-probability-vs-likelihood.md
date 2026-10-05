@@ -1,6 +1,6 @@
 ---
 title: "Probability vs Likelihood"
-prerequisites: ["[[MA-003-statistics-roadmap]]"]
+prerequisites: ["[[MA-020-random-variables-and-distributions]]"]
 tags: [subject/maths, area/descriptive, area/likelihood, step/foundations, concept/likelihood, concept/normal-distribution]
 ---
 
@@ -9,8 +9,9 @@ tags: [subject/maths, area/descriptive, area/likelihood, step/foundations, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
-> - **Leads to:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
+> - **Builds on:** [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables).
+> - **Used here, taught in full later:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
+> - **Leads to:** [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
 > - **Compare with:** [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 

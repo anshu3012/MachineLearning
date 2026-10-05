@@ -9,7 +9,7 @@ tags: [subject/ml, area/features, step/features, concept/feature-construction]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
+> - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#31-what-binning-is-good-for).
 > - **Compare with:** [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction).
 <!-- /where-this-fits -->
 

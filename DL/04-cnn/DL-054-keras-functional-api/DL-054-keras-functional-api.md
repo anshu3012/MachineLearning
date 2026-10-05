@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/functional-api, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+> - **Builds on:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
 <!-- /where-this-fits -->
 
 ## 1. Overview

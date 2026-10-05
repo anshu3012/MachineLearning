@@ -1,7 +1,7 @@
 ---
 title: "Bagging: Bootstrap Aggregation"
 video: 105
-prerequisites: ["[[MA-012-expected-value-and-variance]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-028-pipelines]]", "[[ML-061-bias-variance]]", "[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[MA-012-expected-value-and-variance]]", "[[ML-007-challenges-in-ml]]", "[[ML-037-missing-indicator-random-sample]]", "[[ML-061-bias-variance]]", "[[ML-091-decision-trees-intuition]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, concept/bagging, concept/oob-score]
 ---
 
@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Grid and random search](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Expected value and variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Grid and random search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Expected value and variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value).
 > - **Leads to:** [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
-> - **Compare with:** [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#6-sources); [Cross-validation](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#41-the-data-and-the-base-models); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
+> - **Compare with:** [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#1-overview); [Cross-validation](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#41-the-data-and-the-base-models); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
 <!-- /where-this-fits -->
 
 ## 1. Overview

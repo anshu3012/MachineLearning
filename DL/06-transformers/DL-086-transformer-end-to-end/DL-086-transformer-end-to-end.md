@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/tune, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Transformer inference (autoregressive decoding, KV cache, beam search)](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#9-sources).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#1-overview); [Transformer inference (autoregressive decoding, KV cache, beam search)](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

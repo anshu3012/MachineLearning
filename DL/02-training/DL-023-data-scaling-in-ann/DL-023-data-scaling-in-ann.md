@@ -1,7 +1,7 @@
 ---
 title: "Scaling the Inputs of a Neural Network"
 video: D023
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]", "[[ML-018-understanding-your-data]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-024-normalization]]", "[[ML-056-gradient-descent]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-024-normalization]]", "[[ML-056-gradient-descent]]"]
 tags: [subject/deep-learning, area/dl-training, area/features, step/features, concept/feature-scaling, concept/input-scaling, concept/standardization]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class).
+> - **Builds on:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
 > - **Leads to:** [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset).
 > - **Compare with:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Decision trees](../../../ML/08-trees-and-ensembles/ML-094-dtreeviz/ML-094-dtreeviz.md#1-overview).
 <!-- /where-this-fits -->

@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/position
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out).
-> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

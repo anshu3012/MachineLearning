@@ -1,7 +1,7 @@
 ---
 title: "Ridge Regression: Five Key Points"
 video: 66
-prerequisites: ["[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-009-mldlc]]", "[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]", "[[ML-056-gradient-descent]]", "[[ML-061-bias-variance]]", "[[ML-062-ridge-regression-intuition]]"]
+prerequisites: ["[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-023-standardization]]", "[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]", "[[ML-056-gradient-descent]]", "[[ML-061-bias-variance]]", "[[ML-062-ridge-regression-intuition]]"]
 tags: [subject/ml, area/models-1, step/model, concept/ridge]
 ---
 
@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Builds on:** [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
 > - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data).
-> - **Compare with:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
+> - **Compare with:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

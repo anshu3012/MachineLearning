@@ -1,7 +1,7 @@
 ---
 title: "Voting Regressor"
 video: 104
-prerequisites: ["[[MA-016-independent-events]]", "[[MA-021-pmf-and-discrete-cdf]]", "[[ML-009-mldlc]]"]
+prerequisites: ["[[MA-017-mutually-exclusive-events]]", "[[MA-031-bernoulli-and-binomial]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, concept/cross-validation, concept/voting]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution).
+> - **Builds on:** [Independent and mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#3-conditional-probability-for-mutually-exclusive-events); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution).
 > - **Leads to:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#1-overview); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking); [Random under- and oversampling](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#6-random-oversampling); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary).
 > - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [OOB score](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#1-overview); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking).
 <!-- /where-this-fits -->

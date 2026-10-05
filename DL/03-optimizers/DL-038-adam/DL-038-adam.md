@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adam]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
+> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#1-overview); [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
 > - **Leads to:** [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview).
 > - **Compare with:** [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
 <!-- /where-this-fits -->

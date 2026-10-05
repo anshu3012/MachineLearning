@@ -1,7 +1,7 @@
 ---
 title: "Estimating a Population Mean with the Central Limit Theorem"
 video: M07
-prerequisites: ["[[MA-020-random-variables-and-distributions]]", "[[MA-033-sampling-distribution-and-clt]]"]
+prerequisites: ["[[MA-024-normal-distribution]]", "[[MA-033-sampling-distribution-and-clt]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/clt]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions); [Sampling distribution and standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions).
+> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Sampling distribution and standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions).
 > - **Leads to:** [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
 <!-- /where-this-fits -->
 

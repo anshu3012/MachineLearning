@@ -1,7 +1,7 @@
 ---
 title: "K-Means in Python with scikit-learn"
 video: 129
-prerequisites: ["[[MA-074-expectation-maximization]]", "[[ML-003-types-of-ml]]", "[[ML-006-instance-vs-model-based]]"]
+prerequisites: ["[[MA-074-expectation-maximization]]", "[[ML-003-types-of-ml]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concept/clustering, concept/elbow-method, concept/kmeans]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#65-feature-scaling); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
 > - **Leads to:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step).
 > - **Compare with:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
 <!-- /where-this-fits -->

@@ -10,7 +10,8 @@ tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
-> - **Leads to:** [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum).
+> - **Used here, taught in full later:** [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum).
+> - **Leads to:** [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection).
 > - **Compare with:** [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#81-two-groups-the-two-sample-t-test).
 <!-- /where-this-fits -->
 

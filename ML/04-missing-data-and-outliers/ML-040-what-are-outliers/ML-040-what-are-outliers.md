@@ -1,7 +1,7 @@
 ---
 title: "What are Outliers"
 video: 41
-prerequisites: ["[[MA-008-percentiles-and-box-plots]]", "[[MA-020-random-variables-and-distributions]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[MA-008-percentiles-and-box-plots]]", "[[MA-024-normal-distribution]]", "[[MA-026-skewness]]", "[[ML-007-challenges-in-ml]]", "[[ML-019-univariate-analysis]]", "[[ML-023-standardization]]"]
 tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/outliers, concept/percentile, concept/trimming, concept/zscore]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is).
 > - **Compare with:** [Missing values](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#31-the-data-and-the-fill).
 <!-- /where-this-fits -->
 

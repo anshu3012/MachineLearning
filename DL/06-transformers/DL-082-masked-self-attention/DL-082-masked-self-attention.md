@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/masked-a
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out).
-> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
+> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#1-overview); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

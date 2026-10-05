@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Data: KNN Imputer"
 video: 39
-prerequisites: ["[[MA-048-vectors-and-feature-vectors]]", "[[ML-006-instance-vs-model-based]]", "[[ML-007-challenges-in-ml]]", "[[ML-037-missing-indicator-random-sample]]"]
+prerequisites: ["[[MA-048-vectors-and-feature-vectors]]", "[[ML-006-instance-vs-model-based]]", "[[ML-036-missing-categorical-data]]", "[[ML-037-missing-indicator-random-sample]]"]
 tags: [subject/ml, area/data, area/linear-algebra, step/foundations, step/clean, concept/knn-imputer, concept/vector-norm]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, area/linear-algebra, step/foundations, step/clean,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [K-nearest neighbours](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Missing values](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator); [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
+> - **Builds on:** [K-nearest neighbours](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Missing values](../../../ML/04-missing-data-and-outliers/ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview); [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator); [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
 > - **Leads to:** [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#1-overview).
 > - **Compare with:** [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview); [Iterative imputation (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice); [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity).
 <!-- /where-this-fits -->

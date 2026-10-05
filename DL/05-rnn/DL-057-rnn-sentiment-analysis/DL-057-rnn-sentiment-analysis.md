@@ -1,7 +1,7 @@
 ---
 title: "Sentiment Analysis with an RNN in Keras"
 video: D057
-prerequisites: ["[[DL-010-forward-propagation]]", "[[DL-018-vanishing-exploding-gradients]]", "[[DL-027-activation-functions]]", "[[DL-055-why-rnn]]", "[[DL-056-rnn-forward-propagation]]"]
+prerequisites: ["[[DL-010-forward-propagation]]", "[[DL-018-vanishing-exploding-gradients]]", "[[DL-027-activation-functions]]", "[[DL-055-why-rnn]]"]
 tags: [subject/deep-learning, area/dl-rnn, step/features, step/model, concept/rnn, concept/sequence-padding, concept/text-vectorization, concept/word-embedding]
 ---
 
@@ -10,8 +10,9 @@ tags: [subject/deep-learning, area/dl-rnn, step/features, step/model, concept/rn
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh); [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data); [Parameter sharing across time steps](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#1-overview).
-> - **Leads to:** [Types of RNN (many-to-one, one-to-many, many-to-many)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#6-one-to-one); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [Next-word prediction with an LSTM](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#1-overview); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn).
+> - **Builds on:** [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh); [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data).
+> - **Used here, taught in full later:** [Parameter sharing across time steps](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview).
+> - **Leads to:** [Types of RNN (many-to-one, one-to-many, many-to-many)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#6-one-to-one); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [Next-word prediction with an LSTM](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#1-overview); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn); [Bidirectional RNNs](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works).
 > - **Compare with:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
 <!-- /where-this-fits -->
 

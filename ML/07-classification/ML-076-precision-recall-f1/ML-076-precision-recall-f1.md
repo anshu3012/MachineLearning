@@ -1,7 +1,7 @@
 ---
 title: "Classification Metrics: Precision, Recall and F1 Score"
 video: 77
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-075-accuracy-confusion-matrix]]"]
+prerequisites: ["[[ML-075-accuracy-confusion-matrix]]"]
 tags: [subject/ml, area/production, step/evaluate, concept/precision-recall]
 ---
 
@@ -10,7 +10,8 @@ tags: [subject/ml, area/production, step/evaluate, concept/precision-recall]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
+> - **Builds on:** [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
+> - **Used here, taught in full later:** [Imbalanced data](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#2-what-imbalanced-data-looks-like).
 > - **Leads to:** [ROC curve and AUC](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve).
 <!-- /where-this-fits -->
 

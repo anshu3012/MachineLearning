@@ -1,7 +1,7 @@
 ---
 title: "Batch Normalisation"
 video: D031
-prerequisites: ["[[ML-006-instance-vs-model-based]]", "[[ML-012-toy-project]]", "[[ML-018-understanding-your-data]]", "[[ML-059-mini-batch-gradient-descent]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-059-mini-batch-gradient-descent]]"]
 tags: [subject/deep-learning, area/dl-training, area/features, step/features, step/model, concept/batch-norm, concept/covariate-shift, concept/standardization]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview).
-> - **Leads to:** [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma).
+> - **Builds on:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Feature scaling](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#65-feature-scaling); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
+> - **Used here, taught in full later:** [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma).
 > - **Compare with:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Dropout](../../../DL/02-training/DL-025-dropout-code/DL-025-dropout-code.md#3-dropout-for-regression); [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation).
 <!-- /where-this-fits -->
 

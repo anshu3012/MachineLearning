@@ -9,7 +9,7 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/percentile, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles).
+> - **Builds on:** [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles).
 > - **Compare with:** [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview); [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview).
 <!-- /where-this-fits -->
 

@@ -1,7 +1,7 @@
 ---
 title: "Voting Ensemble: Why Majority Voting Works"
 video: 102
-prerequisites: ["[[MA-003-statistics-roadmap]]", "[[MA-016-independent-events]]", "[[ML-009-mldlc]]", "[[ML-028-pipelines]]"]
+prerequisites: ["[[MA-017-mutually-exclusive-events]]", "[[MA-020-random-variables-and-distributions]]", "[[ML-028-pipelines]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/descriptive, area/models-2, step/foundations, step/model, concept/binomial-dist, concept/voting]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/descriptive, area/models-2, step/foundations, step/model
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Builds on:** [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Independent and mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#3-conditional-probability-for-mutually-exclusive-events); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables).
 > - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking); [Poisson distribution](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#2-what-the-poisson-distribution-describes).
 <!-- /where-this-fits -->
 

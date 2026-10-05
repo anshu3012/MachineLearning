@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#11-sources).
+> - **Builds on:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#1-overview).
 > - **Leads to:** [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview); [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview).
 > - **Compare with:** [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#7-what-a-trained-models-cross-attention-looks-like).
 <!-- /where-this-fits -->
