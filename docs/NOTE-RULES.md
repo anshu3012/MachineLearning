@@ -206,3 +206,14 @@ The user asked "why use incorrect terms like numbers? The correct term is a vect
 - **First use in each later section: term + plain meaning**, e.g. "f takes a vector (a list of numbers) and gives a scalar (one number)". Within the same section after that, the term alone ("vector in, scalar out").
 - **Explained before used, and linked:** a term may appear only after it is explained, in this Note or another. If another Note explains it, its first use in this Note links to the exact section that explains it (`docs/term-owners.tsv`, made by `tools/term_owners.py`), with the plain meaning beside it. If no Note explains it yet, explain it here.
 - Never a wrong plain word in place of the term ("one number" for a vector), and never the term alone where the reader has not met it in this section.
+
+## 21. The Note agrees with itself, its figures and its links (independent audit, 2026-10-04)
+An independent reader, not shown the user's examples, found these in randomly chosen Notes after the §15–§20 sweep. All are errors under §19/§20.
+- **Internal consistency:** a fact stated twice must agree (row vs column of the same matrix; a table and the summary on whether a layer is tied; "the same drop" in one paragraph and "no drop" in the next). A running example keeps its numbers; if they change, the text says so and why.
+- **Text inside a figure or animation** (titles, labels, baked-in sentences) must agree with the body. Read the `_frames.png` of every GIF, not only the body text.
+- **A number must agree with the section it links to.** "Two thirds of the parameters" linked to a count where it is 46% is false for that link. Name the case the number belongs to.
+- **Ownership points the right way:** the Note that teaches a term says it is defined here; a later Note is never named as the definer of something taught earlier.
+- **Conditions stay attached to claims** (approximately, for large n, when the variance is finite, for GPT-3 not GPT-2), in the Key point and Key terms too, not only in the Extra.
+- **Link text must not change what the sentence says:** the linked words read as part of the sentence's meaning; never make a link title the grammatical subject.
+- **Key point boxes stay short:** one or two plain sentences.
+- **Display lines wider than about 40 visible characters** are split even when the finder misses them (it under-counts some LaTeX).
