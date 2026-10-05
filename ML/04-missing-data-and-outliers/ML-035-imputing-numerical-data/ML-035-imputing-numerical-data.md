@@ -433,18 +433,25 @@ Figure 10 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values la
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Mean imputation | Filling every gap with the mean of the column's known values |
-| Median imputation | Filling every gap with the median of the column's known values; better for skewed columns |
-| Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$ |
-| End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\thinspace\text{IQR}$ |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| Covariance | How two features move together; positive if they rise together, no fixed limits |
-| Correlation | Covariance rescaled to lie between $-1$ and $1$ |
-| `strategy` (G-150) | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant |
-| `fill_value` | The value `SimpleImputer` uses with `strategy="constant"` |
-| `statistics_` | The fill values a fitted `SimpleImputer` has learned, one per column |
-| `fillna` | The pandas method that replaces every `NaN` with a given value |
+| Arbitrary value imputation (G-208) | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. |
+| End of distribution imputation (G-686) | Filling every gap in a numerical column with a value at the far edge of its distribution, $\mu \pm 3\sigma$ for a normal column or $Q_3 + 1.5\thinspace\text{IQR}$ for a skewed one, so the model can tell which rows were missing. |
+| Mean imputation (G-1197) | Filling every gap with the mean of the column's known values. |
+| Median imputation (G-1208) | Filling every gap with the median of the column's known values; better for skewed columns. |
+| `fillna` (G-82) | The pandas method that replaces every `NaN` with a given value. |
+| `statistics_` (G-145) | The fill values a fitted `SimpleImputer` has learned, one per column. |
+| `fill_value` (G-81) | The value `SimpleImputer` uses with `strategy="constant"`. |
+| `strategy` (SimpleImputer) (G-150) | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [MCAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
+| [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
+| [set_output](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#62-a-dataframe-instead-of-an-array) (G-1780) | Method that, called as `set_output(transform="pandas")`, makes a scikit-learn transformer return a pandas DataFrame with column names instead of a bare NumPy array. |

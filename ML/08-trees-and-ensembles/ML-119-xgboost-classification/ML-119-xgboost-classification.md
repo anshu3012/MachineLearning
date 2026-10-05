@@ -316,10 +316,19 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Similarity score (classification) | (sum of residuals) squared / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities |
-| Output value (classification) | The number a leaf of an XGBoost classification tree adds to the prediction, in log-odds: sum of residuals / ($\sum p(1-p) + \lambda$), with $p$ the previous predicted probabilities. |
-| `min_child_weight` | Smallest allowed sum of $p(1-p)$ (in regression: number of observations) in a leaf; default 1 |
-| `base_score` | XGBoost's starting prediction, which every tree then corrects; for classification it is given as a probability, which XGBoost turns into log-odds. |
-| Cover | XGBoost's name for the sum of $p(1-p)$ (in regression: the number of observations) in a node |
+| Output value (classification) (G-1425) | The number a leaf of an XGBoost classification tree adds to the prediction, in log-odds: sum of residuals / ($\sum p(1-p) + \lambda$), with $p$ the previous predicted probabilities. |
+| `min_child_weight` (G-117) | XGBoost's smallest allowed size of a leaf, measured as the sum of $p(1-p)$ over its rows (in regression: the number of rows). A split that would leave a child below it is not made, which stops tiny leaves; default 1. |
+| `base_score` (G-61) | XGBoost's starting prediction, which every tree then corrects; for classification it is given as a probability, which XGBoost turns into log-odds. |
+| Cover (G-498) | XGBoost's measure of how much data a node holds, as its similarity score counts it: the sum of $p(1-p)$ over the node's observations in classification, the number of observations in regression. The tree dump prints it as `cover`. |
+| Similarity score (classification) (G-1803) | The same score for XGBoost classification trees: how well the leftover errors (residuals) in a node agree, $(\text{sum of residuals})^2 / (\sum p(1-p) + \lambda)$ with $p$ the previous probabilities. As in regression, it is used to choose splits. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Similarity score](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |
+| [Gain (XGBoost)](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split) (G-820) | How much a split improves an XGBoost tree: the similarity scores of the two children minus the similarity score of the parent; the split with the largest gain is chosen. |

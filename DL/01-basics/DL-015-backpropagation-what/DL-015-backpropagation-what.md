@@ -429,11 +429,17 @@ So backpropagation tells every weight and bias whether to go up or down, and by 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Backpropagation | The algorithm that trains a neural network: forward pass, loss, then the chain rule backwards to get every weight's gradient, then a gradient-descent update |
-| Linear activation | No activation: a node outputs its weighted sum plus bias unchanged |
-| Initialisation | Giving every weight and bias its starting value before training begins; a bad start can cause vanishing or exploding gradients or slow convergence. |
-| Gradient of the loss (G-863) | The collection of the derivatives of the loss with respect to every weight and bias |
-| Convergence (G-469) | The point where further updates no longer lower the loss |
-| tf.GradientTape (G-88) | TensorFlow's tool that records a computation and returns its exact derivatives automatically |
+| Backpropagation (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| Gradient (of the loss) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Convergence (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472) | The point where the fills hardly change between two iterations. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| [Linear activation](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node) (G-1089) | An activation that passes a node's weighted sum through unchanged, $f(z) = z$. Used in the output layer for regression. |
+| [Initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview) (G-947) | Giving every weight and bias its starting value before training begins; a bad start can cause vanishing or exploding gradients or slow convergence. |
+| [Converge](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#9-when-to-stop-convergence) (G-469) | To settle at a minimum, with steps becoming negligible. |
+| [`GradientTape`](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#62-the-last-factors) (G-88) | TensorFlow's tool that records a computation and returns its gradients automatically. |

@@ -311,10 +311,20 @@ The two searches also work well one after the other, a plan called "coarse to fi
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Fold (G-2227) | One of the equal blocks the data is cut into for cross-validation; each fold is the test block once |
-| Parameter grid | A dictionary that lists the model settings to tune (hyperparameter names) and the values to try for each. |
-| List of grids | Several separate sets of hyperparameter values to try (parameter grids), passed to the search together, so values that do not work together never meet in one combination. |
-| Selection bias | The optimism of a score that was picked as the best of many noisy scores: the winner partly won by luck on the same folds, so it looks a little better than it will on new data. |
-| Nested cross-validation | A way to score a tuned model fairly: the whole tuning search runs inside each outer fold of cross-validation, so the chosen model is scored on data the search never saw. |
+| Fold (G-2227) | One of the equal blocks the data is cut into for cross-validation; each fold is the test block once. |
+| Parameter grid (G-1446) | A dictionary that lists the model settings to tune (hyperparameter names) and the values to try for each. |
+| Nested cross-validation (G-2158) | A way to score a tuned model fairly: the whole tuning search runs inside each outer fold of cross-validation, so the chosen model is scored on data the search never saw. |
+| List of grids (G-1105) | Several separate sets of hyperparameter values to try (parameter grids), passed to the search together, so values that do not work together never meet in one combination. |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
+| [RandomizedSearchCV](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv) (G-1625) | A scikit-learn tool that tries a fixed number of randomly drawn combinations of model settings (hyperparameters) and scores each with cross-validation, instead of trying every combination. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Correlation between base models](../../../ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#33-why-more-randomness-helps) (G-488) | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance. |
+| [Selection bias](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#74-the-best-score-of-a-grid-is-a-little-lucky) (G-2157) | The optimism of a score that was picked as the best of many noisy scores: the winner partly won by luck on the same folds, so it looks a little better than it will on new data. |

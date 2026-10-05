@@ -279,13 +279,20 @@ Tasks whose input and output are of different kinds, such as audio and text, or 
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Cross-attention | Attention in which the queries come from one sequence and the keys and values from another; in the transformer decoder, queries from the decoder and keys and values from the encoder output |
-| Encoder–decoder attention | The paper's name for cross-attention, also called source attention: the decoder's attention layer whose queries come from the output sentence and whose keys and values come from the encoder, so each word being written can draw on the input sentence. |
-| $X_{dec}$ | The decoder's numbers for the output sentence (its representation), one row per output position, which go into cross-attention. |
-| $H_{enc}$ (G-30) | The encoder's final output, one row per input word |
-| Query (G-1607) | The vector of the position that is looking: in cross-attention, an output position |
-| Key and value | In attention, the vectors of the words being looked at: keys are compared with the query to get the weights, and values are mixed with those weights; in cross-attention both come from the encoder's input words. |
-| Alignment | Which input words each output word relates to; read from the cross-attention weights |
-| Multimodal | Involving more than one kind of data, such as text and images or text and sound |
+| Cross-attention (G-507) | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
+| Encoder–decoder attention (G-684) | The paper's name for cross-attention, also called source attention: the decoder's attention layer whose queries come from the output sentence and whose keys and values come from the encoder, so each word being written can draw on the input sentence. |
+| $X_{dec}$ (G-44) | The decoder's numbers for the output sentence (its representation), one row per output position, which go into cross-attention. |
+| [Query, key, value vectors](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#3-self-attention-in-one-paragraph) (G-1607) | Three vectors made from each word's embedding by learned matrices: a word's query is compared with every word's key by dot products to get attention weights, and those weights mix the value vectors into the word's new vector. |
+| [Key](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
+| [Value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
+| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
+| [Multimodal model](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#63-multimodal-models) (G-1274) | A model that takes in or produces more than one modality. |
+| [$H_{\text{enc}}$](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#4-the-setup-one-training-pair) (G-30) | The output of the last encoder block: one vector per input word, read by every decoder block. |
+| [Key and value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1010) | In attention, the vectors of the words being looked at: keys are compared with the query to get the weights, and values are mixed with those weights; in cross-attention both come from the encoder's input words. |
+| [Alignment](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#8-seeing-the-alignment) (G-191) | Which input words each output word relates to; read from the cross-attention weights. |
+| [Multimodal](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |

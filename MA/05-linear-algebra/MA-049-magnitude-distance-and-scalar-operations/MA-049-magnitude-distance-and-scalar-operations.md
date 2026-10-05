@@ -287,11 +287,18 @@ $$[3, 4] / 5 = [0.6, 0.8]$$
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Magnitude (norm, length) of a vector (G-1028) | Its distance from the origin: $\sqrt{x_1^2 + \dots + x_n^2}$ |
-| L2 norm (G-1028) | The usual magnitude: square root of the sum of squared components |
-| L1 norm | The sum of the absolute values of the components |
-| Shifting | Adding or subtracting the same scalar to every component of a vector, such as $[2, 3] + 1 = [3, 4]$; it moves the point to a new place. |
-| Broadcasting | NumPy stretching a single number (a scalar) or a smaller array to match a bigger array before an operation. |
-| Scaling (a vector) | Multiplying or dividing every component of a vector by the same scalar, such as $2 \times [1, 3] = [2, 6]$; it makes the arrow longer or shorter along the same line. |
+| L2 norm (norm, magnitude, length of a vector) (G-1028) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. |
+| L1 norm (G-1025) | The sum of the absolute values of the components. |
+| Shifting (G-1791) | Adding or subtracting the same scalar to every component of a vector, such as $[2, 3] + 1 = [3, 4]$; it moves the point to a new place. |
+| Broadcasting (G-333) | NumPy stretching a single number (a scalar) or a smaller array to match a bigger array before an operation. |
+| Mean centring (G-1195) | Subtracting the mean from every value, so the column's mean becomes 0. |
+| Scaling (a vector) (G-1746) | Multiplying or dividing every component of a vector by the same scalar, such as $2 \times [1, 3] = [2, 6]$; it makes the arrow longer or shorter along the same line. |
+| [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| [Unit vector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) | A vector of length 1, used to describe a direction. |

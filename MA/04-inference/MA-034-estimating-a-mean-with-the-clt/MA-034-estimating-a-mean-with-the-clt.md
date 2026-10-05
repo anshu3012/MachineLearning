@@ -286,8 +286,13 @@ The result is only as good as the samples. Biased samples (see [sampling noise a
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Point estimate | A single number computed from sample data as the best guess for an unknown population parameter |
-| $\hat{\mu}$ | An estimate of the population mean $\mu$ (the hat marks an estimate): a value computed from samples, here the mean of the sample means, used in place of the unknown $\mu$. |
-| Number of samples ($k$) | How many samples are drawn; different from the sample size $n$ |
+| Point estimate (G-1507) | A single number computed from sample data as the best guess for an unknown population parameter. |
+| $\hat{\mu}$ (G-12) | An estimate of the population mean $\mu$ (the hat marks an estimate): a value computed from samples, here the mean of the sample means, used in place of the unknown $\mu$. |
+| Number of samples ($k$) (G-1365) | How many samples are drawn; different from the sample size $n$. |
+| [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |
+| [Sample size ($n$)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1727) | The number of values in one sample, written $n$, such as 50 people; a larger $n$ makes the sample mean vary less from sample to sample (its spread is $\sigma/\sqrt{n}$). |

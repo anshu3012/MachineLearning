@@ -402,15 +402,36 @@ Each ReLU node contributes one bent line. The weights and biases slide, flip and
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Transfer function | Another name for the activation function: the function a node applies to its weighted sum to give its output. |
-| Linear activation | $g(z) = z$, the same as no activation; Keras' `activation="linear"` |
-| Zero-centred activation | An activation whose outputs average about 0 over a layer, positive and negative; it feeds the next layer roughly centred inputs, which helps training converge faster. |
-| Saturating function | A function that squeezes any input into a bounded range, such as the sigmoid into 0 to 1, so its slope goes to 0 at the ends; those near-zero slopes make gradients vanish in deep networks. |
-| Non-saturating function | A function with no ceiling on its output, so it does not flatten out, such as ReLU for positive inputs; its slope does not shrink to 0, which avoids the vanishing gradient that saturating functions cause. |
-| Tanh (hyperbolic tangent) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable: one column of the data table, such as $x_1$ |
-| Target | The output we predict, such as the class |
-| `make_circles` | scikit-learn function that generates two concentric rings of observations, one ring per class |
+| Transfer function (G-2004) | Another name for the activation function: the function a node applies to its weighted sum to give its output. |
+| Tanh (hyperbolic tangent) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
+| ReLU (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| `make_circles` (G-110) | scikit-learn function that generates two concentric rings of observations, one ring per class. |
+| Zero-centred activation (G-2148) | An activation whose outputs average about 0 over a layer, positive and negative; it feeds the next layer roughly centred inputs, which helps training converge faster. |
+| Saturating function (G-1741) | A function that squeezes any input into a bounded range, such as the sigmoid into 0 to 1, so its slope goes to 0 at the ends; those near-zero slopes make gradients vanish in deep networks. |
+| Non-saturating function (G-1339) | A function with no ceiling on its output, so it does not flatten out, such as ReLU for positive inputs; its slope does not shrink to 0, which avoids the vanishing gradient that saturating functions cause. |
+| [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
+| [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
+| [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Universal approximation theorem](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#33-universal-approximation) (G-2052) | A network with a hidden layer and enough neurons can approximate any continuous function. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Piecewise linear](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-1496) | Made of straight segments joined at bends; the shape of a ReLU network's decision boundary. |
+| [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| [Dying ReLU problem](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) (G-650) | ReLU nodes ending up with a negative weighted sum for every input, so they output 0 and stop learning. |
+| [Linear activation](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node) (G-1089) | An activation that passes a node's weighted sum through unchanged, $f(z) = z$. Used in the output layer for regression. |

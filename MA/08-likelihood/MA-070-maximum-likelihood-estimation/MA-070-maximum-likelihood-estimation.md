@@ -430,14 +430,24 @@ Figure 9 runs the Notebook's simulation for more sample sizes. Watch the orange 
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Fitting a distribution | Choosing a family of distributions for data, then choosing its parameters |
-| Likelihood function $L(\theta)$ (G-1085) | The product of the densities (or probabilities) of all observations, as a function of the parameters with the data fixed |
-| $\theta$ (theta) | One symbol for all the parameters of a model |
-| Maximum likelihood estimation (MLE) | Fitting parameters by making the likelihood of the observed data as large as possible |
-| Maximum likelihood estimate $\hat\theta_{\text{ML}}$ | The parameter value where the likelihood function is highest |
-| Increasing function | A function whose output grows whenever its input grows, such as the log; it keeps the position of a maximum |
-| Negative log-likelihood (NLL) | The log-likelihood with its sign flipped, so a better fit gives a smaller number; fitting minimises it, which is the same as maximising the likelihood. |
-| Closed-form solution | An answer given by a formula in the data, without iterative search |
-| Consistency (of an estimator) | Getting closer to the true parameter value as the amount of data grows |
+| Fitting a distribution (G-786) | Choosing a family of distributions for data, then choosing its parameters. |
+| Maximum likelihood estimate $\hat\theta_{\text{ML}}$ (G-1190) | The parameter value where the likelihood function is highest. |
+| $\theta$ (theta) (G-21) | One symbol for all the parameters of a model. |
+| Maximum likelihood estimation (MLE) (G-1191) | Fitting parameters by making the likelihood of the observed data as large as possible. |
+| Increasing function (G-930) | A function whose output grows whenever its input grows, such as the log; it keeps the position of a maximum. |
+| Negative log-likelihood (NLL) (G-1310) | The log-likelihood with its sign flipped, so a better fit gives a smaller number; fitting minimises it, which is the same as maximising the likelihood. |
+| Consistency (of an estimator) (G-452) | Getting closer to the true parameter value as the amount of data grows. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Parameters (of a distribution)](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#8-parameters-of-a-distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
+| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
+| [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Independent and identically distributed (i.i.d.)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) | Values that do not affect each other and all come from the same distribution. |
+| [Likelihood function $L(\theta \mid \text{data})$](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#43-the-likelihood-function-slide-the-parameter) (G-1085) | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. |
+| [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
+| [Closed-form solution](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) | An answer given directly by a formula of ordinary operations. |

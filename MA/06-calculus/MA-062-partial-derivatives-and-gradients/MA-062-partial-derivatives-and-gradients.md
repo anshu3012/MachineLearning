@@ -628,14 +628,20 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Contour map (contour plot) | A surface seen from straight above; each contour line joins points of equal height, and lines close together mean a steep surface |
-| Partial derivative | The slope of $f$ when only one input $x_i$ moves and the others are held fixed, written $\partial f/\partial x_i$ |
-| Function of several variables | A function that takes several numbers in (a vector of $n$ inputs) and gives one number out, $f: \mathbb{R}^n \to \mathbb{R}$; a loss that depends on many weights is one. |
-| Gradient as a row vector | Writing the gradient as one row of partial derivatives, $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$; this convention makes the chain rule a matrix product. |
-| Nabla ($\nabla$) | The upside-down triangle $\nabla$, read "nabla" or "grad"; $\nabla f$ means the gradient of $f$, the vector that collects all its partial derivatives. |
-| Directional derivative | How steeply a function rises when we step in a chosen direction, given by a unit vector $\mathbf{u}$, instead of only along an axis. It is the dot product $\nabla f \cdot \mathbf{u}$. |
-| Steepest ascent | The direction in which $f$ increases fastest: the direction of the gradient; gradient descent steps the opposite way to go downhill fastest. |
-| Multivariate chain rule | How to take a derivative when a function depends on its inputs through in-between (intermediate) variables: multiply the derivatives along each path and add the paths. In matrix form, a row gradient times a matrix of inner derivatives. |
-| Gradient checking | Checking that a gradient formula is right by comparing it with a numerical estimate made by nudging each weight a tiny amount (finite differences), measured by the relative error. |
+| Contour plot (G-468) | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
+| Function of several variables (G-815) | A function that takes several numbers in (a vector of $n$ inputs) and gives one number out, $f: \mathbb{R}^n \to \mathbb{R}$; a loss that depends on many weights is one. |
+| Nabla ($\nabla$) (G-1295) | The upside-down triangle $\nabla$, read "nabla" or "grad"; $\nabla f$ means the gradient of $f$, the vector that collects all its partial derivatives. |
+| Gradient as a row vector (G-858) | Writing the gradient as one row of partial derivatives, $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$; this convention makes the chain rule a matrix product. |
+| Directional derivative (G-614) | How steeply a function rises when we step in a chosen direction, given by a unit vector $\mathbf{u}$, instead of only along an axis. It is the dot product $\nabla f \cdot \mathbf{u}$. |
+| Steepest ascent (G-1888) | The direction in which $f$ increases fastest: the direction of the gradient; gradient descent steps the opposite way to go downhill fastest. |
+| Multivariate chain rule (G-1281) | How to take a derivative when a function depends on its inputs through in-between (intermediate) variables: multiply the derivatives along each path and add the paths. In matrix form, a row gradient times a matrix of inner derivatives. |
+| Gradient checking (G-860) | Checking that a gradient formula is right by comparing it with a numerical estimate made by nudging each weight a tiny amount (finite differences), measured by the relative error. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Jacobian](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |

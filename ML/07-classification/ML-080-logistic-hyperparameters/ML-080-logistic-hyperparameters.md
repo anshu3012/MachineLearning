@@ -246,15 +246,23 @@ So of about fifteen settings, C is the one to tune first, and the rest follow fr
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| C (G-337) | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation |
-| l1_ratio | The share of the penalty that is L1: 0 is Ridge, 1 is Lasso, in between is Elastic Net |
-| Solver | The optimisation method used to find the coefficients |
-| lbfgs | The default solver of LogisticRegression; supports L2 or no penalty |
-| saga | A solver (the method that finds the weights) that updates them from randomly chosen rows (stochastic) and supports every penalty, including Elastic Net. |
-| ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum |
-| class_weight | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes |
-| Recall (G-1641) | The share of actual positives that the model finds |
-| Precision | The share of predicted positives that are actually positive |
-| Dash | A Python library for building interactive web apps with Plotly charts |
+| C (LogisticRegression) (G-337) | The setting that controls how strongly LogisticRegression is regularised: C is the inverse of the regularisation strength, so smaller C means stronger regularisation. |
+| Solver (G-1836) | The method a model uses to find its best settings during training. |
+| ConvergenceWarning (G-473) | A warning that the solver stopped at max_iter before reaching the minimum. |
+| class_weight (G-391) | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes. |
+| `max_iter` (LogisticRegression) (G-114) | The largest number of solver iterations; default 100, raised when a ConvergenceWarning appears. |
+| Dash (G-529) | A Python library for building interactive web apps with Plotly charts. |
+| lbfgs (G-1058) | The default solver of LogisticRegression; supports L2 or no penalty. |
+| saga (G-1720) | A solver (the method that finds the weights) that updates them from randomly chosen rows (stochastic) and supports every penalty, including Elastic Net. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [l1_ratio](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#3-alpha-and-l1_ratio) (G-1027) | The share of the total penalty given to the L1 (Lasso) part. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |
+| [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |

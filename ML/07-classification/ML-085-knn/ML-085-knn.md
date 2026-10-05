@@ -471,17 +471,35 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| k (n_neighbors) | The number of neighbours that vote; KNN's main hyperparameter |
-| Query point | The new point whose class we want to predict |
-| Neighbours (G-1306) | The k training points closest to the query point |
-| Majority vote | Predicting the class that most of the neighbours have |
-| KNeighborsClassifier | scikit-learn's KNN classifier; `n_neighbors=5` by default |
-| Square-root rule | A rough starting value for k, the number of neighbours in KNN: about $\sqrt{n}$, where $n$ is the number of training rows, made odd to avoid ties. |
-| Decision surface | A plot colouring every point of the input space by the class the model would predict there |
-| meshgrid | NumPy function that builds every combination of x and y values: the grid for a decision surface |
-| Latency | The delay between a request and its answer; high for KNN on large data |
-| Inference (G-941) | Learning how the features affect the target, rather than only predicting it |
-| Black box model (G-311) | A model that gives predictions without showing how each feature contributed |
-| Minkowski distance | A family of distances between two points, $\left(\sum_i \lvert x_i - y_i \rvert^p\right)^{1/p}$, set by the number $p$: $p = 2$ gives the Euclidean distance and $p = 1$ the Manhattan distance; KNN uses it to find the nearest neighbours. |
+| K-nearest neighbours (KNN) (G-998) | Predicting from the answers of the k closest stored points. |
+| Query point (G-1605) | The new point whose class we want to predict. |
+| Majority vote (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| Minkowski distance (G-1227) | A family of distances between two points, $\left(\sum_i \lvert x_i - y_i \rvert^p\right)^{1/p}$, set by the number $p$: $p = 2$ gives the Euclidean distance and $p = 1$ the Manhattan distance; KNN uses it to find the nearest neighbours. |
+| k (n_neighbors) (G-992) | The number of neighbours that vote; KNN's main hyperparameter. |
+| Decision surface (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
+| Latency (G-1048) | The delay between a request and its answer; high for KNN on large data. |
+| Inference (vs prediction) (G-941) | Learning how the inputs affect the output, rather than only predicting it; not the deployment sense (running a trained model) nor inferential statistics. |
+| Black box model (black box) (G-311) | A model whose inner workings are hidden: it gives predictions without showing how each input contributed. |
+| KNeighborsClassifier (G-1016) | scikit-learn's KNN classifier; `n_neighbors=5` by default. |
+| meshgrid (G-1211) | NumPy function that builds every combination of x and y values: the grid for a decision surface. |
+| Square-root rule (G-1862) | A rough starting value for k, the number of neighbours in KNN: about $\sqrt{n}$, where $n$ is the number of training rows, made odd to avoid ties. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
+| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [Lazy learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#32-no-real-training) (G-1057) | Another name for instance-based learning: no work until a question arrives. |
+| [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
+| [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-520) | The problems that appear when data has too many dimensions: lower performance and more computation. |
+| [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) | Data in which one class is much rarer than another. |
+| [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |

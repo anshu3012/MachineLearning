@@ -327,31 +327,39 @@ RL is harder to set up than the other types, but its use is growing fast.
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Supervision | Correct answers that guide an algorithm while it learns |
-| Supervised learning | Learning from data with inputs and outputs, to predict outputs |
-| Feature | An input variable; one column of the data table |
-| Target | The output we want to predict; also called the label |
-| Observation | One record; one row of the data table |
-| Labelled data | Data that includes the target |
-| Numerical data | Data made of numbers |
-| Categorical data (G-351) | Data made of categories |
-| Regression | Supervised learning with a numerical output |
-| Classification | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
-| Unsupervised learning | Learning from inputs only, to find structure |
-| Clustering | Splitting data into groups of similar observations |
-| Cluster | One group found by clustering |
-| Dimension | One feature |
-| Dimensionality reduction | Reducing the number of features while keeping the information |
-| Feature extraction | New features computed from existing ones by an algorithm such as PCA |
-| PCA (G-1469) | Principal component analysis, a dimensionality reduction technique |
-| Anomaly detection | Finding observations that do not fit the pattern of the rest |
-| Association rule learning | Finding items that tend to occur together |
-| Semi-supervised learning | Learning from a few labelled observations and many unlabelled ones |
-| Label propagation (G-2172) | Semi-supervised method in which labels hop from labelled observations to their nearest neighbours, step by step |
-| Reinforcement learning | Learning by acting and receiving rewards or punishments |
-| Agent | The learner in reinforcement learning, such as a self-driving car or a game-playing program: it acts in an environment, gets rewards or punishments, and improves its rules for acting. |
-| Environment | In reinforcement learning, the world the agent acts in, such as the road or a game board; it rewards or punishes each action, and the agent learns from that. |
-| Policy | The agent's rules for which action to take |
-| Reward / punishment | Good / bad feedback after an action |
+| Supervision (G-1920) | Correct answers that guide an algorithm while it learns. |
+| Target (G-1949) | The output column we predict, such as the class; also called the label. |
+| Observation (G-1374) | One record of a dataset: one row of the data table. |
+| Supervised learning (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| Label (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
+| Labelled data (G-1034) | Data that includes the output column. |
+| Regression (G-1655) | Supervised learning with a numerical output. |
+| Numerical data (G-1367) | Data made of numbers. |
+| Classification (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| Categorical data (categorical column) (G-351) | Data made of categories: labels rather than numbers. |
+| Unsupervised learning (G-2058) | Learning from inputs only, to find structure. |
+| Clustering (G-401) | Splitting data into groups of similar rows. |
+| Cluster (G-399) | One group found by clustering. |
+| Dimension (G-610) | One feature (input column) of the data, seen as one axis of the space the observations live in: 10 features give 10 dimensions. A tensor's dimensions mean something else, its number of axes. |
+| Anomaly detection (G-201) | Finding rows that do not fit the pattern of the rest. |
+| Association rule learning (G-218) | Finding items that tend to occur together. |
+| Semi-supervised learning (G-1768) | Learning from a few labelled rows and many unlabelled ones: the algorithm labels the rest from the few labels, which saves the cost of labelling everything by hand. |
+| Label propagation (G-2172) | Semi-supervised method in which labels hop from labelled observations to their nearest neighbours, step by step. |
+| Reinforcement learning (G-1660) | Learning by acting and receiving rewards or punishments. |
+| Agent (G-179) | The learner in reinforcement learning, such as a self-driving car or a game-playing program: it acts in an environment, gets rewards or punishments, and improves its rules for acting. |
+| Environment (G-694) | In reinforcement learning, the world the agent acts in, such as the road or a game board; it rewards or punishes each action, and the agent learns from that. |
+| Policy (G-1512) | The agent's rules for which action to take. |
+| Reward / punishment (G-1690) | Good / bad feedback after an action. |
+| Input / output (G-948) | The columns we know / the column we want to predict. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#1-overview) (G-893) | Clustering that builds a hierarchy of clusters, from single points up to one cluster. |
+| [Dimensionality reduction](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction) (G-611) | Reducing the number of input columns while keeping the information. |
+| [Feature construction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
+| [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
+| [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
+| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |

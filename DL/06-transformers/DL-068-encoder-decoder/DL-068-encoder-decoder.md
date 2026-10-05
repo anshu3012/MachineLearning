@@ -317,18 +317,24 @@ The details, from Sutskever et al. (2014, sections 3.1–3.6):
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sequence-to-sequence task (G-1772) | A task whose input and output are both sequences, possibly of different lengths |
-| Encoder | The LSTM that reads the input sequence and summarises it |
-| Context vector | The encoder's final hidden and cell states, handed to the decoder |
-| Decoder | The LSTM that writes the output sequence, one token per step, starting from the context vector |
-| Token | One unit of text the model reads or writes; here, one word |
-| `<start>` and `<end>` tokens | Special tokens that tell the decoder to begin writing and mark the end of the output |
-| Parallel corpus | A dataset of sentences paired with their translations, one pair per row; it is the training data of a translation model. |
-| Observation | One record of the data: here, one sentence pair |
-| Target | The output we want the model to produce: here, the translation |
-| Teacher forcing | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
-| Greedy decoding | Predicting by choosing the most likely token at each step and feeding it back |
-| Stacked (deep) LSTM | Several LSTM layers on top of each other, each feeding its outputs to the next; the extra layers give the model more room and capacity, with higher layers working closer to the meaning. |
-| BLEU score | A 0–100 measure of translation quality based on matching word sequences with reference translations |
+| Parallel corpus (G-1442) | A dataset of sentences paired with their translations, one pair per row; it is the training data of a translation model. |
+| Teacher forcing (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
+| Greedy decoding (G-870) | Predicting by choosing the most likely token at each step and feeding it back. |
+| Stacked (deep) LSTM (G-1865) | Several LSTM layers on top of each other, each feeding its outputs to the next; the extra layers give the model more room and capacity, with higher layers working closer to the meaning. |
+| `<start>` and `<end>` tokens (G-56) | Special tokens that tell the decoder to begin writing and mark the end of the output. |
+| [Sequence-to-sequence (seq2seq) task](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#3-sequence-to-sequence-problems) (G-1772) | A task with a sequence as input and a sequence as output, possibly of different lengths, such as translation. |
+| [Encoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) | The part of a seq2seq model that reads the input sequence and summarises it. |
+| [Token](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#4-tokens) (G-1981) | One unit of text the model reads or writes; here, one word. |
+| [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
+| [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
+| [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Tokenisation (tokenization)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983) | Splitting a text into tokens (words or word pieces), the units a language model reads and writes, before they are turned into vectors. |
+| [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
+| [BLEU score](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
+| [Perplexity](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing) (G-1492) | A score of how surprised a language model is by the correct tokens: the exponential of the mean cross-entropy per token; lower means it gave the correct tokens higher probability. |

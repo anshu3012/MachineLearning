@@ -364,18 +364,27 @@ The text is also repetitive: different prompts lead into the same phrase, and "s
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Next-word predictor | A model that takes some text and predicts the word that comes next |
-| Text generator | A next-word predictor run in a loop, each predicted word added to the text |
-| Observation | One record of the data, here one prefix with its next word |
-| Target | The output we predict, here the next word |
-| Prefix | The first few words of a sentence; in next-word prediction each prefix is one training input and the word that follows it is the target. |
-| n-gram | A sequence of $n$ consecutive words |
-| Multi-class classification | Predicting one of more than two classes; here one of 3,000 words |
-| `to_categorical` | The Keras function that turns class indices into one-hot vectors |
-| Softmax output layer | A layer with one node per class whose outputs are probabilities that add up to 1 |
-| Overfitting | Fitting the training data well but new data poorly |
-| Out-of-vocabulary (OOV) token | `[UNK]`, the placeholder for every word outside the vocabulary |
-| Bigram (G-2269) | A pair of consecutive words; the bigram rule guesses the word that most often follows the previous one |
-| Baseline (G-2270) | A simple rule whose score a model must beat to show it has learned something |
+| Next-word predictor (G-1322) | A model that takes some text and predicts the word that comes next. |
+| Text generator (G-1964) | A next-word predictor run in a loop, each predicted word added to the text. |
+| Prefix (G-1555) | The first few words of a sentence; in next-word prediction each prefix is one training input and the word that follows it is the target. |
+| n-gram (G-1287) | A sequence of $n$ consecutive words. |
+| Multi-class classification (G-1266) | Classification where the output is one of more than two classes, such as the next word out of a whole vocabulary; the output layer has one node per class. |
+| `to_categorical` (G-151) | Keras function that turns integer class labels into 0/1 vectors with a single 1 at the label's position (one-hot encoding). |
+| Baseline (G-2270) | A simple rule whose score a model must beat to show it has learned something. |
+| Bigram (G-2269) | A pair of consecutive words; the bigram rule guesses the word that most often follows the previous one. |
+| One-hot target (G-1380) | A target with probability 1 on the correct word and 0 on all others. |
+| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Out-of-vocabulary (OOV) token](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#32-tokenizing-in-keras) (G-1416) | A placeholder token, `[UNK]`, that stands for every word not in the vocabulary, so a word never seen in training still gets an index. |
+| [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| [Softmax output layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture) (G-1832) | An output layer with one node per class whose outputs are probabilities adding up to 1. |
+| [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
+| [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
+| [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |

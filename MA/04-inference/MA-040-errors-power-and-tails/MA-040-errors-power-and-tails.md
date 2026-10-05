@@ -220,12 +220,22 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Type I error (false positive) | A false alarm: the test declares an effect when there is none (rejecting $H_0$ when it is actually true); its probability is $\alpha$. |
-| Type II error (false negative) | A miss: the test finds no effect when there really is one (failing to reject $H_0$ when it is actually false); its probability is $\beta$. |
-| $\beta$ | The chance that a test misses a real effect, failing to reject a false $H_0$ (the probability of a Type II error). $1 - \beta$ is the test's power. |
-| Power of a test | The probability that a test detects a real effect, that is, rejects $H_0$ when $H_0$ is false; it equals $1 - \beta$, where $\beta$ is the probability of a Type II error. |
-| One-tailed test (one-sided test) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail |
-| Right-tailed and left-tailed test | One-tailed tests that count only one tail as evidence against $H_0$: a right-tailed test rejects for large values of the test statistic (as for $H_1: \mu > \mu_0$), a left-tailed test for small ones (as for $H_1: \mu < \mu_0$). |
-| Two-tailed test (two-sided test) | A test that looks for an effect in either direction: $H_1$ uses $\neq$, and the significance level is split into $\alpha/2$ in each tail. |
+| Type I error (false positive) (G-2032) | A false alarm: the test declares an effect when there is none (rejecting $H_0$ when it is actually true); its probability is $\alpha$. |
+| Type II error (false negative) (G-2033) | A miss: the test finds no effect when there really is one (failing to reject $H_0$ when it is actually false); its probability is $\beta$. |
+| Power of a test (G-1539) | The probability that a test detects a real effect, that is, rejects $H_0$ when $H_0$ is false; it equals $1 - \beta$, where $\beta$ is the probability of a Type II error. |
+| One-tailed test (one-sided test) (G-1385) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail. |
+| Two-tailed test (two-sided test) (G-2028) | A test that looks for an effect in either direction: $H_1$ uses $\neq$, and the significance level is split into $\alpha/2$ in each tail. |
+| $\beta$ (G-5) | The chance that a test misses a real effect, failing to reject a false $H_0$ (the probability of a Type II error). $1 - \beta$ is the test's power. |
+| [False positive (FP)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-748) | Predicted positive, but actually negative; a Type I error. |
+| [False negative (FN)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-747) | Predicted negative, but actually positive; a Type II error. |
+| [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (G-449) | A table counting a classifier's predictions for every pair of actual and predicted class, so we can see which kinds of mistake it makes, which accuracy alone hides. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Paired t-test (dependent t-test)](../../../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test) (G-1439) | A test of whether two linked measurements of the same subjects differ on average; it works on the difference within each pair (a t-test on the differences). |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [SelectKBest](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (G-1762) | scikit-learn class that gives every column a score and keeps the `k` best, so only the most useful features go into the model. |
+| [Right-tailed and left-tailed test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#32-the-curves-and-the-tail-area) (G-1693) | One-tailed tests that count only one tail as evidence against $H_0$: a right-tailed test rejects for large values of the test statistic (as for $H_1: \mu > \mu_0$), a left-tailed test for small ones (as for $H_1: \mu < \mu_0$). |

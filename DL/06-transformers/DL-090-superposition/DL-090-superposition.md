@@ -414,15 +414,19 @@ The MLP of GPT-2 has 4 times as many hidden neurons as the vector has numbers ([
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | A property of the input that a network represents, stored as a direction in a vector |
-| Interference | The part of a feature's reading that comes from other active features, in proportion to the cosines between their directions |
-| Nearly perpendicular | Two directions whose angle is close to 90 degrees, so their cosine (and dot product) is close to 0; letting feature directions be only nearly perpendicular lets a vector of $d$ numbers store more than $d$ features, at the price of a little interference. |
-| Johnson–Lindenstrauss lemma | A cloud of $n$ points in many dimensions can be copied into far fewer dimensions, about $\log n/\varepsilon^2$, with every squared distance kept within a factor $1 \pm \varepsilon$. |
-| Superposition | A network storing more features than it has dimensions by giving each feature its own nearly perpendicular direction. |
-| Superposition hypothesis | The proposal that real neural networks store features in superposition (Elhage et al. 2022) |
-| Polysemantic neuron | A neuron that responds to several unrelated features |
-| Sparsity $S$ | The probability that a feature is 0 in an observation; high sparsity means the feature is rarely active |
-| Importance $I_i$ | The weight of feature $i$ in the toy model's loss |
-| Toy model of superposition | A tiny network that squeezes more features than it has hidden numbers and is trained to rebuild its input, $x' = \text{ReLU}(W^TWx + b)$; it shows when a network stores more features than dimensions (superposition). |
+| Superposition hypothesis (G-1916) | The proposal that real neural networks store features in superposition (Elhage et al. 2022). |
+| Interference (G-962) | The part of a feature's reading that comes from other active features, in proportion to the cosines between their directions. |
+| Nearly perpendicular (G-1307) | Two directions whose angle is close to 90 degrees, so their cosine (and dot product) is close to 0; letting feature directions be only nearly perpendicular lets a vector of $d$ numbers store more than $d$ features, at the price of a little interference. |
+| Johnson–Lindenstrauss lemma (G-984) | A cloud of $n$ points in many dimensions can be copied into far fewer dimensions, about $\log n/\varepsilon^2$, with every squared distance kept within a factor $1 \pm \varepsilon$. |
+| Polysemantic neuron (G-1517) | A neuron that responds to several unrelated features. |
+| Importance $I_i$ (G-925) | The weight of feature $i$ in the toy model's loss. |
+| Sparsity $S$ (G-1848) | The probability that a feature is 0 in an observation; high sparsity means the feature is rarely active. |
+| Superposition (G-1917) | A network storing more features than it has dimensions by giving each feature its own nearly perpendicular direction. |
+| Toy model of superposition (G-1994) | A tiny network that squeezes more features than it has hidden numbers and is trained to rebuild its input, $x' = \text{ReLU}(W^TWx + b)$; it shows when a network stores more features than dimensions (superposition). |
+| [Linearly independent](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence) (G-1102) | Said of a set of vectors in which none can be built from the others, so each one adds a new direction to the span. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

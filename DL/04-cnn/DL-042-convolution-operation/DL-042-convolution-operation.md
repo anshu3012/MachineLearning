@@ -362,15 +362,23 @@ The number of filters becomes the number of channels of the output. The Notebook
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Pixel | One cell of an image grid, holding an intensity value |
-| Channel | One grid of an image: 1 for greyscale, 3 (red, green, blue) for colour |
-| Edge | In an image, a place where the intensity changes sharply, such as where a dark region meets a light one. Finding edges is the first job of a CNN's filters. |
-| Filter (kernel) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
-| Convolution operation | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
-| Feature map (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present |
-| Edge detector (G-659) | A filter whose feature map is large along edges of one direction |
+| Convolution operation (G-481) | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
 | Moving average (G-2267) | The list of averages a sliding window gives: each output is the mean of the numbers under the window, so sharp jumps are smoothed out. |
-| Cross-correlation | The slide, multiply and add of a CNN filter done without first flipping the filter; a true convolution flips it. Most deep learning libraries compute cross-correlation and call it convolution, which does not matter because the filter values are learned. |
-| `Conv2D` | The Keras layer that performs 2D convolution, `Conv2D(filters, kernel_size)`: it slides learned filters over an image and outputs one feature map per filter. |
+| Filter (kernel) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| Edge (G-661) | In an image, a place where the intensity changes sharply, such as where a dark region meets a light one. Finding edges is the first job of a CNN's filters. |
+| Feature map (CNN) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| Edge detector (filter) (G-659) | A filter whose feature map is large along edges of one direction. |
+| `Conv2D` (G-72) | The Keras layer that performs 2D convolution, `Conv2D(filters, kernel_size)`: it slides learned filters over an image and outputs one feature map per filter. |
+| Cross-correlation (G-508) | The slide, multiply and add of a CNN filter done without first flipping the filter; a true convolution flips it. Most deep learning libraries compute cross-correlation and call it convolution, which does not matter because the filter values are learned. |
+| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
+| [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
+| [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Pixel](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-1501) | One dot of an image, stored as one or more numbers. |
+| [Channel](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-375) | One colour layer of an image (red, green or blue). |
+| [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |

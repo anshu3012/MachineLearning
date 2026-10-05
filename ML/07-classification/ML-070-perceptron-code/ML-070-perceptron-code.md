@@ -210,10 +210,21 @@ Logistic regression keeps adjusting the boundary even when every training point 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| make_classification | scikit-learn function that creates random classification data |
-| class_sep | make_classification setting for how far apart the classes are |
-| Generalisation (G-838) | How well a model performs on new data it was not trained on |
-| Margin (gap) | The distance from a separating line to the nearest point of a class |
-| Decision boundary | The line (in general, the surface) where a classifier's prediction switches from one class to the other |
+| make_classification (G-1149) | scikit-learn function that creates random classification data. |
+| Margin (gap) (G-1159) | The distance from a separating line to the nearest point of a class. |
+| Generalisation (generalise) (G-838) | How well a model performs on new data it was not trained on. |
+| class_sep (G-390) | make_classification setting for how far apart the classes are. |
+| [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Bias (of a perceptron)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
+| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
+| [Random seed](../../../ML/08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1617) | A number that fixes a random number generator so that a run can be repeated exactly. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |

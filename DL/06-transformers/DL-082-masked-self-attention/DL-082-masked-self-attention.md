@@ -309,15 +309,19 @@ The encoder has no mask: it reads a whole input sentence that is fully known, bo
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Autoregressive model | A model that generates a sequence one item at a time, each item conditioned on the items it generated before |
-| Autoregressive (causal) generation | Choosing each next word from the words already chosen |
-| Prediction (inference) (G-1548) | Using a trained model on new inputs, with no correct output available |
-| Teacher forcing | During training, feeding the decoder the correct previous word instead of its own prediction |
-| Data leakage | Training a model with information that will not be available when the model is used |
-| Mask matrix $M$ | A matrix added to the attention scores: 0 where attention is allowed, $-\infty$ where it is blocked |
-| Causal (look-ahead) mask | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it |
-| Masked self-attention | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
-| Masked multi-head attention | Multi-head attention with the causal mask in every head, so no word can take information from the words after it; the first sub-layer of the transformer decoder. |
-| `use_causal_mask` | The argument of Keras' `MultiHeadAttention` that hides future tokens, so each token can attend only to itself and earlier tokens (the causal mask). |
+| Masked self-attention (G-1172) | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
+| Masked multi-head attention (G-1171) | Multi-head attention with the causal mask in every head, so no word can take information from the words after it; the first sub-layer of the transformer decoder. |
+| Autoregressive model (G-234) | A model that generates a sequence one item at a time, each item conditioned on the items it generated before. |
+| Mask matrix $M$ (G-1169) | A matrix added to the attention scores: 0 where attention is allowed, $-\infty$ where it is blocked. |
+| Causal (look-ahead) mask (G-357) | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it; used in training and at inference. |
+| `use_causal_mask` (G-154) | The argument of Keras' `MultiHeadAttention` that hides future tokens, so each token can attend only to itself and earlier tokens (the causal mask). |
+| Autoregressive (causal) generation (G-233) | Producing one output at a time, each chosen from the outputs already produced and fed back as input for the next. |
+| [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
+| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
+| [Predict (prediction, inference)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#41-learning-rules-from-data) (G-1548) | Use a trained model to give an answer for new data it has not seen, with no correct output available. |

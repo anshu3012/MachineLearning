@@ -238,11 +238,20 @@ That one running number is what momentum keeps for the gradients, RMSProp for th
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Time series | Data recorded one value after another in time, such as a daily temperature |
-| Exponentially weighted moving average (EWMA) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
-| $\beta$ (beta) | The number between 0 and 1 that sets how much weight a running average (the EWMA) keeps on the past; usually 0.9 in deep learning. |
-| $1/(1-\beta)$ | Roughly how many recent values a running average that favours new values (the EWMA) covers: about 10 for $\beta = 0.9$. |
-| $V_0$ | The value a running average (the EWMA) starts from: 0, or the first value $\theta_1$. |
-| `ewm` | The pandas method for averages that weight recent values more (exponentially weighted calculations); its `alpha` $= 1 - \beta$. |
+| Exponentially weighted moving average (EWMA) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
+| $1/(1-\beta)$ (G-1) | Roughly how many recent values a running average that favours new values (the EWMA) covers: about 10 for $\beta = 0.9$. |
+| $\beta$ (beta) (G-4) | The number between 0 and 1 that sets how much weight a running average (the EWMA) keeps on the past; usually 0.9 in deep learning. |
+| $V_0$ (G-36) | The value a running average (the EWMA) starts from: 0, or the first value $\theta_1$. |
+| `ewm` (G-79) | The pandas method for averages that weight recent values more (exponentially weighted calculations); its `alpha` $= 1 - \beta$. |
+| [Time series](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) | Data recorded at regular time intervals. |
+| [Noise ($\varepsilon$)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#31-the-model) (G-1326) | The random part of a target that the model's prediction does not explain. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
+| [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
+| [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
+| [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| [pandas, DataFrame](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (G-1441) | Python's main table library, and its name for a table. |

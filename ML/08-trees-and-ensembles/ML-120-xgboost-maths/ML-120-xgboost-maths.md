@@ -443,13 +443,21 @@ The XGBoost library follows the same convention as those examples. Its tree dump
 
 ## 17. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Objective function | The quantity a model minimises: loss plus regularisation term |
-| Regularisation term $\Omega$ | XGBoost's penalty on each tree, added to the loss so it prefers small, simple trees: $\gamma$ for every leaf plus $\frac{1}{2}\lambda$ times each squared leaf weight, $\gamma T + \frac{1}{2}\lambda\sum_j w_j^2$ with $T$ the number of leaves. |
-| Leaf weight $w_j$ | The output value of leaf $j$ of a tree: the number the tree gives every observation that lands in that leaf; XGBoost solves for these values. |
-| Taylor series | Approximation of a function near a point by a polynomial built from its derivatives there |
-| Gradient $g_i$ | First derivative of observation $i$'s loss with respect to the previous prediction |
-| Hessian $h_i$ | Second derivative of observation $i$'s loss with respect to the previous prediction |
-| Instance set $I_j$ | The observations that land in leaf $j$ |
-| Structure score | XGBoost's number for how good one tree's shape is: the best value of its loss-plus-penalty objective, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$. Lower is better, so it is used to compare candidate splits. |
+| Leaf weight $w_j$ (G-1063) | The output value of leaf $j$ of a tree: the number the tree gives every observation that lands in that leaf; XGBoost solves for these values. |
+| Regularisation term $\Omega$ (G-1658) | XGBoost's penalty on each tree, added to the loss so it prefers small, simple trees: $\gamma$ for every leaf plus $\frac{1}{2}\lambda$ times each squared leaf weight, $\gamma T + \frac{1}{2}\lambda\sum_j w_j^2$ with $T$ the number of leaves. |
+| Objective function (XGBoost) (G-1371) | The quantity XGBoost minimises: the loss plus a regularisation term. |
+| Taylor series (G-1954) | Approximation of a function near a point by a polynomial built from its derivatives there. |
+| Gradient $g_i$ (G-857) | How fast row $i$'s loss changes as the previous prediction for that row moves (the first derivative of its loss with respect to that prediction). XGBoost uses it with the Hessian $h_i$ in a second-order approximation of the loss to build the next tree. |
+| Hessian $h_i$ (G-887) | How fast row $i$'s gradient changes as the previous prediction moves (the second derivative of that row's loss with respect to the prediction). XGBoost uses it together with the gradient to compute leaf weights and split gains. |
+| Instance set $I_j$ (G-954) | The rows that land in leaf $j$. |
+| Structure score (G-1905) | XGBoost's number for how good one tree's shape is: the best value of its loss-plus-penalty objective, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$. Lower is better, so it is used to compare candidate splits. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Objective function](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#2-the-problem-pca-solves) (G-1372) | The quantity an algorithm tries to make as large or as small as possible. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Similarity score](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |

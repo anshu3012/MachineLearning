@@ -389,9 +389,20 @@ Each tree splits on one feature at a time, an **axis-parallel split** (G-243), s
 
 ## 15. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Odds | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$ |
-| Log-odds | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
-| Leaf value in log-odds | $\sum r / \sum p(1-p)$ over a leaf's observations: the amount the leaf adds to the log-odds |
-| Newton step | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point |
+| Odds (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
+| Log-odds (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
+| Leaf value in log-odds (G-1062) | The amount a leaf adds to the log-odds in gradient boosting for classification, converted from the leaf's residuals because a probability cannot be added to log-odds: $\sum r / \sum p(1-p)$ over the leaf's rows. |
+| Newton step (G-1320) | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. |
+| [Weak learner](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners) (G-2104) | A model whose accuracy is only a little better than random guessing. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Pseudo-residual](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Axis-parallel split](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#32-lines-planes-hyperplanes) (G-243) | A cut that tests one column, so it is a line, plane or hyperplane parallel to the other axes. |

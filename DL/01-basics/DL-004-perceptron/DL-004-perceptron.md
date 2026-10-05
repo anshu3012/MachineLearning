@@ -309,19 +309,36 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Perceptron | A model that computes a weighted sum of its inputs plus a bias and passes it through an activation function |
-| Bias (of a perceptron) | The weight on a constant input of 1; it shifts the boundary away from the origin |
-| Threshold (of a perceptron) (G-2261) | The value the weighted sum must reach for the output to be 1; it equals $-b$ |
-| Summation ($z$) | The weighted sum $w_1x_1 + w_2x_2 + \dots + b$ inside a perceptron |
-| Activation function | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
-| Neuron (G-1318) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on |
-| Dendrites, nucleus, axon | The parts of a brain neuron that receive signals (dendrites), process them (nucleus) and send the result on (axon); in a perceptron they match the inputs with weights, the summation and activation, and the output. |
-| Neuroplasticity | The brain's connections strengthening, weakening, vanishing or forming over time |
-| Feature importance (weights) | Reading the size of a weight as how much its input matters, fair only on scaled inputs |
-| Binary classifier | A model that separates exactly two classes |
-| Weight | The number each input is multiplied by; it says how strongly that input counts |
-| Step function | Outputs 1 when $z \geq 0$ and 0 otherwise |
-| Decision boundary | The line (plane, hyperplane) $z = 0$ where the prediction switches class |
-| Decision regions | The two sides of the decision boundary, one per predicted class |
+| Perceptron (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| Weight (in a network) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| Bias (of a perceptron) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
+| Summation ($z$) (G-1915) | The weighted sum $w_1x_1 + w_2x_2 + \dots + b$ inside a perceptron. |
+| Activation function (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
+| Threshold (of a perceptron) (G-2261) | The value the weighted sum must reach for the output to be 1; it equals $-b$. |
+| Neuron (biological) (G-1318) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on. |
+| Neuroplasticity (G-1319) | The brain's connections strengthening, weakening, vanishing or forming over time. |
+| Binary classifier (G-302) | A model that separates exactly two classes. |
+| Dendrites, nucleus, axon (G-581) | The parts of a brain neuron that receive signals (dendrites), process them (nucleus) and send the result on (axon); in a perceptron they match the inputs with weights, the summation and activation, and the output. |
+| Feature importance (weights) (G-763) | Reading the size of a weight as how much its input matters, fair only on scaled inputs. |
+| [Neural network](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
+| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |
+| [Decision region](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557) | The part of the input space in which a model predicts a given class. |
+| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
+| [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
+| [Linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) | Data whose classes a straight line, plane or hyperplane can split. |
+| [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |

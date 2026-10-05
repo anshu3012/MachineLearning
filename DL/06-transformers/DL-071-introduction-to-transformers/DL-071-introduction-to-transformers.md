@@ -307,18 +307,34 @@ Many more applications exist; Islam et al. (2023) survey them by field, from NLP
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Transformer | An encoder–decoder neural network built on self-attention and dense layers, with no RNN, that processes all positions of a sequence at once |
-| Self-attention (G-1763) | Attention in which the words of one sequence attend to each other; the transformer's main building block |
-| Sequence-to-sequence task (G-1772) | A task with a sequence as input and a sequence as output, such as translation |
-| Sequential training | Training in which step $t$ must wait for step $t-1$, as in an RNN; it cannot be spread over many processors |
-| Parallel training | Training in which all positions of a sequence are computed at the same time |
-| Natural language processing (NLP) | The field of making computers work with human language |
-| Transfer learning | Pre-training a model once on a large dataset, then fine-tuning it on a small one for a specific task |
-| Modality | A kind of data, such as text, images or audio |
-| Multimodal model | A model that takes in or produces more than one modality |
-| Generative AI | Models that create new content such as text, images, code or video |
-| Encoder-only / decoder-only transformer | A transformer that keeps only the encoder (BERT) or only the decoder (GPT) |
-| Vision Transformer (ViT) | A transformer that reads an image as a sequence of small patches |
-| Pruning, quantization, knowledge distillation | Ways to make a model smaller: remove weights, store them with fewer bits, or train a small model to imitate a large one |
+| Sequential training (G-1777) | Training in which step $t$ must wait for step $t-1$, as in an RNN; it cannot be spread over many processors. |
+| Multimodal model (G-1274) | A model that takes in or produces more than one modality. |
+| Vision Transformer (ViT) (G-2091) | A transformer that reads an image as a sequence of small patches. |
+| Modality (G-1250) | A kind of data, such as text, images or audio. |
+| Generative AI (G-841) | Models that create new content such as text, images, code or video. |
+| Encoder-only / decoder-only transformer (G-683) | A transformer that keeps only the encoder (BERT) or only the decoder (GPT). |
+| Parallel training (G-1445) | Training in which all positions of a sequence are computed at the same time. |
+| Pruning, quantization, knowledge distillation (G-1588) | Ways to make a model smaller: remove weights, store them with fewer bits, or train a small model to imitate a large one. |
+| [Transformer](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
+| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| [Sequence-to-sequence (seq2seq) task](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#3-sequence-to-sequence-problems) (G-1772) | A task with a sequence as input and a sequence as output, possibly of different lengths, such as translation. |
+| [Encoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) | The part of a seq2seq model that reads the input sequence and summarises it. |
+| [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
+| [Embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-677) | A learned vector representing a user, item or word, compared with others by dot products. |
+| [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview) (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
+| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
+| [Residual connection](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview) (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |
+| [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#1-overview) (G-1054) | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
+| [Feed-forward network (FFN)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#53-the-feed-forward-network) (G-774) | A small two-layer network inside each transformer block that works on each word's vector on its own: dense layers 512 → 2048 with ReLU → 512. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
+| [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
+| [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
+| [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
+| [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
+| [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
+| [n-gram](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#32-every-prefix-predicts-its-next-word) (G-1287) | A sequence of $n$ consecutive words. |
+| [Pruning](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split) (G-1587) | Stopping a tree early or cutting it back so it does not overfit. |

@@ -289,11 +289,20 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | One variable of the data, one column of the table |
-| Observation | One record, one row of the table |
-| Standard normal distribution | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
-| $\phi(z)$ | The height of the standard normal bell curve (mean 0, standard deviation 1) at $z$, which shows how densely values lie near $z$ (its probability density function). |
-| $\Phi(z)$ | The probability that a standard normal value is below $z$: the area under the bell curve to the left of $z$ (the CDF of the standard normal distribution). For example $\Phi(1) = 0.84$. |
-| Z-table | A table that gives, for many values of $z$, the probability that a standard normal value falls below $z$, written $\Phi(z)$; used to find normal probabilities. |
+| Standard normal distribution (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
+| $\phi(z)$ (G-19) | The height of the standard normal bell curve (mean 0, standard deviation 1) at $z$, which shows how densely values lie near $z$ (its probability density function). |
+| $\Phi(z)$ (G-18) | The probability that a standard normal value is below $z$: the area under the bell curve to the left of $z$ (the CDF of the standard normal distribution). For example $\Phi(1) = 0.84$. |
+| Z-table (G-2142) | A table that gives, for many values of $z$, the probability that a standard normal value falls below $z$, written $\Phi(z)$; used to find normal probabilities. |
+| [Z-score](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Hypothesis testing](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913) | Checking a claim about a population parameter with a sample. |
+| [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |

@@ -325,14 +325,20 @@ Compared with backpropagation in an ANN, the only new point is the unfolding in 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Backpropagation through time (BPTT) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
-| Observation | One record of the data, here one review |
-| Feature | An input variable; here one of the 3 positions of a word vector |
-| Target | The output we predict, here the sentiment |
-| Many-to-one (G-1155) | An RNN task with a sequence as input and a single output |
-| Parameter sharing | Using the same weights at every time step |
-| Path (in the chain rule) | One route through the computation from the loss to a weight; the derivative is the sum over all paths |
-| Immediate derivative | The part of a derivative that comes only from a weight's direct use at step $t$: the derivative of $h_t$ with respect to the weight with $h_{t-1}$ held fixed. |
-| Dummy copy $W^{(t)}$ | A copy of a weight that an RNN reuses at every time step, one copy for step $t$ only; the shared weight's gradient is the sum over the copies. |
+| Backpropagation through time (BPTT) (G-246) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
+| Path (in the chain rule) (G-1465) | One route through the computation from the loss to a weight; the derivative is the sum over all paths. |
+| Dummy copy $W^{(t)}$ (G-645) | A copy of a weight that an RNN reuses at every time step, one copy for step $t$ only; the shared weight's gradient is the sum over the copies. |
+| Immediate derivative (G-924) | The part of a derivative that comes only from a weight's direct use at step $t$: the derivative of $h_t$ with respect to the weight with $h_{t-1}$ held fixed. |
+| [Unfolding (unrolling)](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#41-the-smallest-rnn-one-node) (G-2041) | Drawing the recurrent layer once per time step, so the loop becomes a chain. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Many-to-one RNN](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one) (G-1155) | An RNN that reads a sequence and gives one output at the end. |
+| [Recurrent layer](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-1646) | A hidden layer whose output at one time step is an input to itself at the next. |
+| [Time step](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#32-time-steps) (G-1976) | One position in the sequence; word $j$ enters at $t = j$. |
+| [Parameter sharing](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn) (G-1447) | Using the same weights at every position or time step; it lets a model handle sequences of any length and recognise a pattern wherever it appears. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |

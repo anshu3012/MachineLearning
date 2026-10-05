@@ -438,24 +438,32 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| One-hot encoding | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row |
-| Dummy variable | One of the 0/1 columns made by one-hot encoding; each marks whether a row belongs to one category, so a model can use a categorical column as numbers. |
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Independent variables | Another name for the features, which should not depend on each other |
-| Dependent variable | Another name for the target, which depends on the features |
-| Multicollinearity | A mathematical relationship between features, so that one can be calculated from the others |
-| Dummy variable trap | The problem caused by keeping all $n$ dummy columns of a category: they always add up to 1, so any one can be calculated from the others (multicollinearity) and a linear model's weights become unstable. Dropping one column ($n - 1$ kept) avoids it. |
-| Reference category | The category whose dummy column is dropped; it is shown by all zeros |
-| Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category |
-| Target encoding (G-2185) | Replacing each category by the mean of the target for that category, learned on training rows only |
-| get_dummies | pandas function that turns each category into its own 0/1 column (one-hot encoding); `drop_first=True` keeps $n - 1$ of them. |
-| OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned |
-| Sparse matrix | A table stored as only its non-zero entries, to save memory |
-| sparse_output | The `OneHotEncoder` setting that picks the output format: `False` returns a normal NumPy array instead of a sparse matrix (a table stored as only its non-zero entries). |
-| get_feature_names_out | `OneHotEncoder` method that returns the names of the new columns |
-| handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training |
-| min_frequency | `OneHotEncoder` parameter that merges rare categories into one column |
+| One-hot encoding (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| Dimensionality (G-612) | The number of features (columns) in the data; one-hot encoding raises it by one column per category, and too high a dimensionality brings the curse of dimensionality. |
+| Dummy variable (G-647) | One of the 0/1 columns made by one-hot encoding; each marks whether a row belongs to one category, so a model can use a categorical column as numbers. |
+| Multicollinearity (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
+| Dummy variable trap (G-646) | The problem caused by keeping all $n$ dummy columns of a category: they always add up to 1, so any one can be calculated from the others (multicollinearity) and a linear model's weights become unstable. Dropping one column ($n - 1$ kept) avoids it. |
+| Reference category (G-1650) | The category whose dummy column is dropped; it is shown by all zeros. |
+| Target encoding (G-2185) | Replacing each category by the mean of the target for that category, learned on training rows only. |
+| get_dummies (G-845) | pandas function that turns each category into its own 0/1 column (one-hot encoding); `drop_first=True` keeps $n - 1$ of them. |
+| OneHotEncoder (G-1390) | scikit-learn's class for one-hot encoding; remembers the categories it learned. |
+| Sparse matrix (G-1843) | A table stored as only its non-zero entries, to save memory. |
+| get_feature_names_out (G-846) | `OneHotEncoder` method that returns the names of the new columns. |
+| handle_unknown (G-875) | `OneHotEncoder` parameter that decides what happens to categories never seen in training. |
+| min_frequency (G-1218) | `OneHotEncoder` parameter that merges rare categories into one column. |
+| sparse_output (G-1847) | The `OneHotEncoder` setting that picks the output format: `False` returns a normal NumPy array instead of a sparse matrix (a table stored as only its non-zero entries). |
+| Top categories (G-1987) | Keeping only the most frequent categories and merging the rest into one "uncommon" category. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
+| [Independent variables](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#5-inputs-and-output) (G-937) | Another name for the features: the input columns X that a model uses to predict the output. |
+| [Dependent variable](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#5-inputs-and-output) (G-591) | Another name for the target, the output $y$ that a model predicts; it is called dependent because it depends on the features. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415) | A scikit-learn class that applies different transformations to different columns at once and joins the results. |

@@ -297,18 +297,25 @@ A pretrained model is therefore a ready-made classifier only for its own 1,000 c
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Pretrained model | A network already trained by someone else on a large dataset, reused for our own predictions |
-| Labelled data | Data in which every observation comes with its correct answer, such as "cat" for a photo |
-| ImageNet | A database of over 14 million labelled photos in about 22,000 categories |
-| WordNet | An English dictionary that arranges words from general to specific; ImageNet's categories follow it |
-| Bounding box | A rectangle drawn around an object to show where it is in a photo |
-| Crowdsourcing | Splitting a large task, such as labelling, among many paid online workers |
-| ILSVRC | The ImageNet Large Scale Visual Recognition Challenge: 1,000 classes, about 1.2 million training photos |
-| Top-1 error | The share of photos whose true class is not the model's single most likely class |
-| Top-5 error | The share of photos whose true class is not among the model's five most likely classes |
-| AlexNet | The CNN that won ILSVRC 2012: five convolution layers, three dense layers, two GPUs, ReLU |
-| `keras.applications` | The Keras module that provides famous pretrained networks with their weights |
-| `preprocess_input` | The function that prepares pixels the way a given pretrained model expects |
-| `decode_predictions` | The function that turns 1,000 ImageNet probabilities into class names |
+| Pretrained model (G-1558) | A network already trained by someone else on a large dataset, reused for our own predictions. |
+| WordNet (G-2128) | An English dictionary that arranges words from general to specific; ImageNet's categories follow it. |
+| Bounding box (G-328) | A rectangle drawn around an object to show where it is in a photo. |
+| Crowdsourcing (G-512) | Splitting a large task, such as labelling, among many paid online workers. |
+| ILSVRC (G-917) | The ImageNet Large Scale Visual Recognition Challenge: 1,000 classes, about 1.2 million training photos. |
+| Top-5 error (G-1990) | The share of photos whose true class is not among the model's five most likely classes. |
+| Top-1 error (G-1989) | The share of photos whose true class is not the model's single most likely class. |
+| AlexNet (G-187) | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |
+| `keras.applications` (G-100) | The Keras module that provides famous pretrained networks with their weights. |
+| `preprocess_input` (G-126) | The function that prepares pixels the way a given pretrained model expects. |
+| `decode_predictions` (G-74) | The function that turns 1,000 ImageNet probabilities into class names. |
+| [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
+| [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
+| [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| [Labelled data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1034) | Data that includes the output column. |

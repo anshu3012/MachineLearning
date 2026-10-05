@@ -296,11 +296,18 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Constructor (`__init__`) | The method that runs when an object is created and stores its settings |
-| max_iter (G-113) | The largest number of assign-and-move rounds k-means may run |
-| np.argmin | NumPy function returning the position of the smallest value |
-| mean(axis=0) | The mean of each column of an array |
-| Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start |
-| Adjusted Rand score (G-175) | A number that is 1.0 when two labelings group the points identically, whatever the label numbers |
+| Constructor (`__init__`) (G-457) | The method that runs when an object is created and stores its settings. |
+| Local optimum (k-means) (G-1111) | A clustering where k-means has stopped but a better one exists, caused by a bad start. |
+| `max_iter` (KMeans) (G-113) | The largest number of assign-and-move rounds k-means may run. |
+| mean(axis=0) (G-1204) | The mean of each column of an array. |
+| np.argmin (G-1354) | NumPy function returning the position of the smallest value. |
+| [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| [WCSS (inertia)](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid; a smaller value means tighter clusters. |
+| [Centroid](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367) | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |
+| [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Adjusted Rand index (ARI)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#112-compared-with-k-means) (G-175) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random. |

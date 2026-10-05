@@ -340,13 +340,26 @@ The fix is the number we already met for the rats in section 5: the tail area be
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Significance level ($\alpha$) | The chance, fixed before the test, of wrongly declaring an effect when there is none (rejecting $H_0$ when it is actually true); usually 0.05. |
-| Z-test (one-sample) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
-| Z statistic | The value of $z$ computed from the sample in a z-test: the distance from $\mu_0$ in standard errors |
-| Test statistic | The number a test computes from the sample to make its decision, such as $z$ |
-| Rejection region (critical region) | The values of the test statistic for which we reject $H_0$; its area under $H_0$ is $\alpha$ |
-| Critical value | The boundary of the rejection region, e.g. 1.645 (right-tailed) or $\pm 1.96$ (two-tailed) at $\alpha = 0.05$ |
-| One-tailed and two-tailed test (G-1385, G-2028) | A test whose $H_1$ has a direction ($<$ or $>$), with all of $\alpha$ in one tail; or whose $H_1$ is $\neq$, with $\alpha/2$ in each tail |
-| Strength of evidence | How strongly the data speaks against the starting claim of no effect ($H_0$); the rejection region approach does not measure it. |
+| Z-test (one-sample) (G-2143) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
+| Z statistic (G-2137) | The number a z-test computes from the sample: how many standard errors the sample mean lies from the mean claimed by $H_0$. |
+| Significance level ($\alpha$) (G-1801) | The chance, fixed before the test, of wrongly declaring an effect when there is none (rejecting $H_0$ when it is actually true); usually 0.05. |
+| Rejection region (critical region) (G-1662) | The values of the test statistic for which we reject $H_0$; its area under $H_0$ is $\alpha$. |
+| Rejection region approach (G-1663) | Carrying out a test by checking whether the test statistic falls beyond a fixed boundary. |
+| One-sided and two-sided critical value (G-1383) | The cut-off beyond which the test statistic leads to rejecting $H_0$ (the critical value): one-sided puts the whole $\alpha$ in one tail, two-sided puts $\alpha/2$ in each of the two tails. |
+| Strength of evidence (G-1898) | How strongly the data speaks against the starting claim of no effect ($H_0$); the rejection region approach does not measure it. |
+| [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [Null hypothesis ($H_0$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
+| [Alternative hypothesis ($H_1$, $H_a$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis) (G-193) | The claim of an effect, difference or relationship: the statement that contradicts the null hypothesis $H_0$. |
+| [Sampling distribution of the sample mean](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1735) | The distribution of the means of many samples of size $n$; by the central limit theorem it is close to normal, centred on the population mean, with spread $\sigma/\sqrt{n}$. |
+| [Test statistic](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#6-the-eight-steps-of-a-hypothesis-test) (G-1963) | The number a test computes from the sample to make its decision, such as $z$ or $t$. |
+| [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
+| [Type I error (false positive)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032) | A false alarm: the test declares an effect when there is none (rejecting $H_0$ when it is actually true); its probability is $\alpha$. |
+| [Critical value](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula) (G-504) | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
+| [Two-tailed test (two-sided test)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-2028) | A test that looks for an effect in either direction: $H_1$ uses $\neq$, and the significance level is split into $\alpha/2$ in each tail. |
+| [One-tailed test (one-sided test)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-1385) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail. |
+| [Right-tailed and left-tailed test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#32-the-curves-and-the-tail-area) (G-1693) | One-tailed tests that count only one tail as evidence against $H_0$: a right-tailed test rejects for large values of the test statistic (as for $H_1: \mu > \mu_0$), a left-tailed test for small ones (as for $H_1: \mu < \mu_0$). |
+| [P-value](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |

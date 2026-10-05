@@ -359,16 +359,23 @@ When there are no outliers, the mean is the better summary: it uses every value,
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | One variable of the data, one column of the table |
-| Observation | One record, one row of the table |
-| Measure of central tendency | A single number for the typical, central value of a feature |
-| Population mean ($\mu$) | The mean of every value in the population |
-| Sample mean ($\bar{x}$) | The average of the values in a sample, $\bar{x}$: add them up and divide by $n$; it is used as the estimate of the population mean $\mu$. |
-| Multimodal | Having more than one mode (two modes: bimodal) |
-| Weighted mean | A mean in which each value is multiplied by a weight saying how much it counts |
-| Weight (G-2111) | A number saying how much a value counts in a weighted mean |
-| Trimmed mean | The mean after removing a fixed share of the smallest and largest values |
-| Trimming percentage | The share of values removed from each end for a trimmed mean |
-| Geometric mean | An average for values that multiply, such as growth factors: multiply the $n$ values together and take the $n$-th root. |
+| Measure of central tendency (G-1205) | A single number for the typical, central value of a column. |
+| Population mean ($\mu$) (G-1524) | The mean of every value in the population. |
+| Sample mean ($\bar{x}$) (G-1725) | The average of the values in a sample, $\bar{x}$: add them up and divide by $n$; it is used as the estimate of the population mean $\mu$. |
+| Median (G-1209) | The middle value of sorted data; the 50% percentile. |
+| Mode (G-1251) | The most common value of a column. |
+| Multimodal (G-1275) | Having more than one mode (two modes: bimodal). |
+| Weight (in a weighted mean) (G-2111) | A number saying how much a value counts in a weighted mean. |
+| Weighted mean (G-2117) | A mean in which each value is multiplied by a weight saying how much it counts. |
+| Trimmed mean (G-2017) | The mean after removing a fixed share of the smallest and largest values. |
+| Trimming percentage (G-2018) | The share of values removed from each end for a trimmed mean. |
+| Geometric mean (G-844) | An average for values that multiply, such as growth factors: multiply the $n$ values together and take the $n$-th root. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
+| [Bimodal](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296) | A distribution with two peaks. |
+| [Harmonic mean](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#42-why-the-harmonic-mean) (G-880) | An average that stays close to the smaller of the values, so one low value pulls it down; F1 uses it to combine precision and recall. For two values: $2ab/(a + b)$. |

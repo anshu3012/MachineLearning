@@ -633,4 +633,5 @@ if __name__ == "__main__":
         update_note(video)
     print(f"Course map built: {len(CONCEPTS)} concepts, {len(LINKS)} links, {len(NOTES)} Notes updated.")
     import subprocess
+    subprocess.run([sys.executable, str(ROOT / "tools" / "key_terms.py")], check=True)
     subprocess.run([sys.executable, str(ROOT / "tools" / "check_structure.py")], check=True)

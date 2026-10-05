@@ -213,11 +213,27 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Trainable parameter (G-1065) | A weight or bias whose value training must find |
-| Layer number | The position of a layer, from 0 for the input layer to the output layer |
-| 4-3-2-1 network | A neural network named by its layer sizes, input first: 4 inputs, hidden layers of 3 and 2 nodes, and 1 output; the name gives the architecture in one line. |
-| $b_{ij}$ | The number added to the weighted sum of node $j$ in layer $i$ before the activation (its bias), which lets the node shift its output. |
-| $O_{ij}$ | The one number that node $j$ in layer $i$ produces (its output), passed as input to every node of the next layer. |
-| $W_{ij}^{k}$ (G-37) | The weight entering layer $k$, from node $i$ of layer $k-1$ to node $j$ of layer $k$ |
+| $b_{ij}$ (G-23) | The number added to the weighted sum of node $j$ in layer $i$ before the activation (its bias), which lets the node shift its output. |
+| $O_{ij}$ (G-33) | The one number that node $j$ in layer $i$ produces (its output), passed as input to every node of the next layer. |
+| $W_{ij}^{k}$ (G-37) | The weight entering layer $k$, from node $i$ of layer $k-1$ to node $j$ of layer $k$. |
+| 4-3-2-1 network (G-51) | A neural network named by its layer sizes, input first: 4 inputs, hidden layers of 3 and 2 nodes, and 1 output; the name gives the architecture in one line. |
+| Layer number (G-1055) | The position of a layer, from 0 for the input layer to the output layer. |
+| [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Layer](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) (G-1056) | A group of neurons in a neural network that all work on the output of the layer before; stacking layers lets the network find more complex patterns. |
+| [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
+| [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
+| [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |

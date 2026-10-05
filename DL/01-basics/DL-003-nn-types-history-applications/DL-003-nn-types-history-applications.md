@@ -297,26 +297,30 @@ GANs generate data that never existed: photos of people who never lived, a predi
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Multi-layer perceptron (MLP) | Many perceptrons organised in layers: input, hidden and output |
-| Convolutional neural network (CNN) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
-| Convolutional layer (G-480) | A layer that slides small filters over an image |
-| Feature map (G-766) | The grid of numbers a filter produces as it slides over the image |
-| Feed-forward network | A network in which information moves only from the first layer to the last |
-| Recurrent neural network (RNN) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence |
-| LSTM (long short-term memory) (G-1123) | An improved RNN that remembers over longer sequences |
-| Autoencoder | A network with a narrow middle layer that learns to compress data and rebuild it |
-| Generative adversarial network (GAN) | A generator and a discriminator competing, so that the generator learns to create realistic new data |
-| Generator | The GAN network that creates new data |
-| Discriminator | In a GAN, the network that judges whether data is real or fake. |
-| XOR | The logic function that outputs 1 when exactly one of two inputs is 1 |
-| AI winter | A period when funding and interest in AI collapse |
-| Backpropagation | The algorithm that trains a network by differentiating its error and adjusting every weight |
-| Universal approximation theorem | A network with a hidden layer and enough neurons can approximate any continuous function |
-| Deep belief network | A many-layered network from Hinton and colleagues (2006) whose starting weights were set by unsupervised pre-training, one layer at a time; its success led the field to be renamed deep learning. |
-| Unsupervised pre-training | Setting a network's starting weights with a network trained layer by layer, instead of at random |
-| ImageNet | A very large labelled image dataset with a yearly classification competition |
-| AlexNet | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |
-| LiDAR | A sensor that measures distances to nearby objects with laser light |
-| Deep reinforcement learning | Reinforcement learning (an agent learning from rewards by trial and error) that uses deep neural networks; it raised the skill of game-playing programs. |
+| Multi-layer perceptron (MLP) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
+| Feed-forward network (G-775) | A network in which information moves only from the first layer to the last. |
+| Recurrent neural network (RNN) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| Autoencoder (G-231) | A network with a narrow middle layer that learns to compress data and rebuild it. |
+| Generative adversarial network (GAN) (G-840) | A generator and a discriminator competing, so that the generator learns to create realistic new data. |
+| Generator (G-843) | The GAN network that creates new data. |
+| Discriminator (G-620) | In a GAN, the network that judges whether data is real or fake. |
+| XOR (G-2134) | The logic function that outputs 1 when exactly one of two inputs is 1. |
+| AI winter (G-185) | A period when funding and interest in AI collapse. |
+| Universal approximation theorem (G-2052) | A network with a hidden layer and enough neurons can approximate any continuous function. |
+| Deep belief network (G-567) | A many-layered network from Hinton and colleagues (2006) whose starting weights were set by unsupervised pre-training, one layer at a time; its success led the field to be renamed deep learning. |
+| Unsupervised pre-training (G-2059) | Setting a network's starting weights with a network trained layer by layer, instead of at random. |
+| ImageNet (G-920) | A very large labelled image dataset with a yearly classification competition. |
+| LiDAR (G-1083) | A sensor that measures distances to nearby objects with laser light. |
+| Deep reinforcement learning (G-572) | Reinforcement learning (an agent learning from rewards by trial and error) that uses deep neural networks; it raised the skill of game-playing programs. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
+| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
+| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Deep Learning (DL)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
+| [AlexNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#53-alexnet-the-2012-winner) (G-187) | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |

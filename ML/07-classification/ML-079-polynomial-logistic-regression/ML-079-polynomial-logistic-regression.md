@@ -147,9 +147,18 @@ On real data with strongly non-linear patterns, decision trees, random forests o
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Polynomial features | New features made from powers and products of the original features |
-| Decision boundary | The line or curve where the model switches from predicting one class to the other |
-| make_moons (G-111) | scikit-learn function that creates two interlocking half-moon classes |
-| Test accuracy (G-2211) | Accuracy on data not used for training, an estimate of performance on new data |
+| Polynomial features (G-1513) | New input columns made from powers and products of the original inputs, such as $x_1^2$ and $x_1 x_2$; they let a linear model fit curves and curved decision boundaries. |
+| Test accuracy (G-2211) | Accuracy on data not used for training, an estimate of performance on new data. |
+| [Linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) | Data whose classes a straight line, plane or hyperplane can split. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [`make_moons`](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#34-dead-nodes-in-practice) (G-111) | scikit-learn function that generates two interleaving half-moon classes. |

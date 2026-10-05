@@ -345,25 +345,49 @@ None of the above would exist without people. Researchers worked on neural netwo
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Artificial neural network (ANN) | The simplest neural network: neurons in layers, each layer connected to the next by weights |
-| Neuron (in a network) | One unit of a neural network (in an ANN, a perceptron): it takes inputs from the layer before, combines them with its learned weights and passes its output on. |
-| Weight (in a network) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
-| Input layer | The first layer, with one node per feature |
-| Output layer | The last layer, which gives the prediction |
-| Hidden layer | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
-| Epoch | One pass of training over all the training data |
-| Deep network (G-570) | A neural network with many hidden layers |
-| Representation (G-2260) | A set of features that describes the data; a good one stays the same when unimportant details (such as handwriting) change |
-| Representation learning (feature learning) | Letting the algorithm discover useful features from raw data, instead of engineering them by hand |
-| Data hungry | Needing a lot of data before results become reliable |
-| Public dataset | A labelled dataset released for anyone to use |
-| Moore's law | The number of transistors on a chip doubles about every two years |
-| CUDA | NVIDIA's platform for programming GPUs, so a network's matrix multiplications can run in parallel on a GPU; it made training on GPUs practical. |
-| FPGA | A reprogrammable chip: fast and low-power, but expensive |
-| ASIC | A chip custom-made for one job, such as the TPU |
-| Edge TPU | A small Google chip for running networks on drones, watches and glasses |
-| NPU | A neural processing unit: a chip in phones that speeds up networks |
-| Architecture (of a network) | How a network's nodes are connected: how many, of what kind, and which connections |
-| Transfer learning | Reusing a network trained by others on a big dataset for our own problem |
+| Representation learning (feature learning) (G-1670) | Letting the algorithm discover useful features from raw data, instead of engineering them by hand. |
+| Artificial neural network (ANN) (G-216) | The simplest neural network: neurons in layers, each layer connected to the next by weights. |
+| Neuron (in a network) (G-1317) | One unit of a neural network (in an ANN, a perceptron): it takes inputs from the layer before, combines them with its learned weights and passes its output on. |
+| Input layer (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
+| Output layer (G-1424) | The last layer, which gives the prediction. |
+| Hidden layer (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
+| Representation (G-2260) | A set of features that describes the data; a good one stays the same when unimportant details (such as handwriting) change. |
+| Data hungry (G-534) | Needing a lot of data before results become reliable. |
+| Public dataset (G-1590) | A labelled dataset released for anyone to use. |
+| Moore's law (G-1261) | The number of transistors on a chip doubles about every two years. |
+| CUDA (G-514) | NVIDIA's platform for programming GPUs, so a network's matrix multiplications can run in parallel on a GPU; it made training on GPUs practical. |
+| FPGA (G-800) | A reprogrammable chip: fast and low-power, but expensive. |
+| ASIC (G-217) | A chip custom-made for one job, such as the TPU. |
+| NPU (G-1359) | A neural processing unit: a chip in phones that speeds up networks. |
+| Architecture (of a network) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
+| Transfer learning (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| Deep network (deep neural network) (G-570) | A neural network with many hidden layers. |
+| Edge TPU (G-660) | A small Google chip for running networks on drones, watches and glasses. |
+| [Deep Learning (DL)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
+| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| [Neural network](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| [Layer](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) (G-1056) | A group of neurons in a neural network that all work on the output of the layer before; stacking layers lets the network find more complex patterns. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
+| [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Generative adversarial network (GAN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#25-generative-adversarial-network-gan) (G-840) | A generator and a discriminator competing, so that the generator learns to create realistic new data. |
+| [Feature engineering](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#71-feature-engineering) (G-761) | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
+| [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
+| [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Interpretability](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#22-interpretability) (G-965) | How well people can understand why a model makes its decisions. |
+| [Black box model (black box)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#75-inference-which-feature-mattered) (G-311) | A model whose inner workings are hidden: it gives predictions without showing how each input contributed. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| [TPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-1996) | Google's chip built only for deep learning maths. |
+| [TensorFlow](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#23-the-software) (G-1959) | Google's deep learning library for building and training neural networks; most code in these Notes uses it with Keras, its built-in high-level interface. |
+| [Keras](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras) (G-1003) | The high-level interface built into TensorFlow for defining and training networks. |
+| [PyTorch](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#23-the-software) (G-1595) | Meta's deep learning library, most used in research. |

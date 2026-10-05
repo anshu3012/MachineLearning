@@ -396,15 +396,18 @@ The gates of this small model vary only a little from word to word; the large ch
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Cell state ($c_t$) | The LSTM's long-term memory, a vector passed along the top line of the cell |
-| Hidden state ($h_t$) | The LSTM's short-term memory and output at time $t$ |
-| Units | The LSTM setting for how many nodes each of its four internal layers has; it is also the length of the cell state $c_t$, the hidden state $h_t$ and every gate vector. |
-| Forget gate ($f_t$) | The LSTM gate that decides what to erase from the memory (cell state): a sigmoid layer whose outputs, between 0 and 1, scale each entry of the previous cell state $c_{t-1}$. |
-| Input gate ($i_t$) | The LSTM gate that adds new important information to the cell state: a sigmoid layer whose outputs, between 0 and 1, scale the candidate values before they are added. |
-| Candidate cell state ($\tilde c_t$) | In an LSTM, the new values that could be added to the long-term memory (cell state), made by a tanh layer. |
-| Output gate ($o_t$) | The LSTM gate that decides how much of the cell's memory to show as the new hidden state: a sigmoid layer gives $o_t$, between 0 and 1, which scales $\tanh(c_t)$ to give $h_t$. |
-| Gate | A sigmoid output between 0 and 1 that sets what fraction of a value passes |
-| Pointwise operation | An operation done entry by entry on vectors of the same length, such as $\odot$ |
-| Concatenation ($[h_{t-1}, x_t]$) | Joining two vectors end to end into one longer vector, so one layer can read both at once: 3 numbers and 4 numbers give 7. |
+| Forget gate ($f_t$) (G-793) | The LSTM gate that decides what to erase from the memory (cell state): a sigmoid layer whose outputs, between 0 and 1, scale each entry of the previous cell state $c_{t-1}$. |
+| Input gate ($i_t$) (G-950) | The LSTM gate that adds new important information to the cell state: a sigmoid layer whose outputs, between 0 and 1, scale the candidate values before they are added. |
+| Output gate ($o_t$) (G-1422) | The LSTM gate that decides how much of the cell's memory to show as the new hidden state: a sigmoid layer gives $o_t$, between 0 and 1, which scales $\tanh(c_t)$ to give $h_t$. |
+| Units (G-2049) | The LSTM setting for how many nodes each of its four internal layers has; it is also the length of the cell state $c_t$, the hidden state $h_t$ and every gate vector. |
+| Candidate cell state ($\tilde c_t$) (G-342) | In an LSTM, the new values that could be added to the long-term memory (cell state), made by a tanh layer. |
+| Pointwise operation (G-1508) | An operation done entry by entry on vectors of the same length, such as $\odot$. |
+| Concatenation ($[h_{t-1}, x_t]$) (G-436) | Joining two vectors end to end into one longer vector, so one layer can read both at once: 3 numbers and 4 numbers give 7. |
+| [Cell state ($c_t$)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm) (G-361) | The LSTM's long-term memory: a vector passed from step to step beside the hidden state; the gates add to it and remove from it, so information can be kept over many steps. |
+| [Hidden state ($h_t$)](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |
+| [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
+| [Gate](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#8-the-three-gates-in-one-line-each) (G-825) | A part of the LSTM cell that controls what moves into, out of, or along the cell state. |

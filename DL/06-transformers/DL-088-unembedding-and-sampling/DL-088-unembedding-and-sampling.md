@@ -292,15 +292,18 @@ Facts can appear at different depths. The Notebook repeats the lens on three oth
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Unembedding | The last step of a language model: the final vector's dot product with every token's vector, one score per token |
-| Unembedding matrix $W_U$ | The matrix that turns a language model's final vector into one score (logit) per vocabulary token; in GPT-2 it is the token embedding matrix $W_E$ itself (tied weights). |
-| Logit | A raw score before the softmax; one per vocabulary token |
-| Temperature $T$ | A number that makes a model's probabilities sharper or flatter: every raw score (logit) is divided by it before the softmax; low $T$ sharpens, high $T$ flattens. |
-| Greedy decoding | Always choosing the top token; the limit $T \to 0$ |
-| Sampling (G-1739) | Choosing the next token at random, with the softmax probabilities |
-| Entropy | $-\sum_k p_k \log_2 p_k$, in bits: how spread out a distribution is |
-| Top $k$ sampling | A sampling rule that keeps only the $k$ most likely tokens and samples the next token among them, so very unlikely tokens are never picked. |
-| Nucleus (top $p$) sampling | A sampling rule for text generation that keeps only the smallest set of most likely tokens whose probabilities add up to at least $p$, then samples among them; it cuts off the unlikely tail and adapts the cut to the context. |
-| Logit lens | A way to see what a language model would predict partway through: after each block, pass its running vector (the residual stream) through the final LayerNorm and the unembedding to read which tokens it would predict if it stopped there. It shows the guess forming over the blocks. |
+| Unembedding (G-2040) | The last step of a language model: the final vector's dot product with every token's vector, one score per token. |
+| Temperature $T$ (G-1956) | A number that makes a model's probabilities sharper or flatter: every raw score (logit) is divided by it before the softmax; low $T$ sharpens, high $T$ flattens. |
+| Sampling (text generation) (G-1739) | Choosing the next token at random according to the softmax probabilities, instead of always taking the most probable token, so the generated text does not keep repeating itself. |
+| Logit lens (G-1121) | A way to see what a language model would predict partway through: after each block, pass its running vector (the residual stream) through the final LayerNorm and the unembedding to read which tokens it would predict if it stopped there. It shows the guess forming over the blocks. |
+| Unembedding matrix $W_U$ (G-2039) | The matrix that turns a language model's final vector into one score (logit) per vocabulary token; in GPT-2 it is the token embedding matrix $W_E$ itself (tied weights). |
+| Top $k$ sampling (G-1985) | A sampling rule that keeps only the $k$ most likely tokens and samples the next token among them, so very unlikely tokens are never picked. |
+| Nucleus (top $p$) sampling (G-1360) | A sampling rule for text generation that keeps only the smallest set of most likely tokens whose probabilities add up to at least $p$, then samples among them; it cuts off the unlikely tail and adapts the cut to the context. |
+| [Logit](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-1122) | The raw score the final linear layer gives each vocabulary word, any number and not yet a probability; the softmax turns the logits into the probabilities of the next word. |
+| [argmax](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview) (G-212) | The position of the largest value; on 10 class probabilities, the predicted class. |
+| [Entropy](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#61-disorder-and-uncertainty) (G-691) | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
+| [Greedy decoding](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870) | Predicting by choosing the most likely token at each step and feeding it back. |

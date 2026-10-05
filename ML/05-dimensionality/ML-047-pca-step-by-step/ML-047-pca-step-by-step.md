@@ -455,20 +455,27 @@ A bar chart of these shares, one bar per component, is called a **scree plot** (
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Objective function | The quantity an algorithm tries to make as large or as small as possible |
-| Vector | A point seen as an arrow from the origin, with a direction and a length |
-| Unit vector | A vector of length 1, used to describe a direction |
-| Dot product | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
-| Transpose | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
-| Covariance | How two features move together: positive if they rise together, negative if not |
-| Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the features |
-| Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced |
-| Identity matrix | The matrix that leaves every vector unchanged |
-| Eigenvector | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
-| Eigenvalue | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
-| Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. In PCA it is done on the covariance matrix: the eigenvectors give the directions of the principal components and the eigenvalues the variance along each. |
-| Explained variance | How much of the data's spread one principal component keeps: the variance of the data along that component, equal to its eigenvalue. |
+| Objective function (G-1372) | The quantity an algorithm tries to make as large or as small as possible. |
+| Unit vector (G-2048) | A vector of length 1, used to describe a direction. |
+| Covariance matrix (G-495) | A square table with every feature's variance on the diagonal and every pair's covariance off it, so it sums up how the data spreads and which features move together; PCA takes its eigenvectors. |
+| Identity matrix (G-915) | The matrix that leaves every vector unchanged. |
+| Eigenvector (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
+| Eigenvalue (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
+| Eigen-decomposition (G-663) | Finding all the eigenvalues and eigenvectors of a matrix. In PCA it is done on the covariance matrix: the eigenvectors give the directions of the principal components and the eigenvalues the variance along each. |
 | Loading (loading score) (G-2204) | How much one original feature counts in a principal component (its weight there); it is one entry of that component's eigenvector. |
 | Scree plot (G-2205) | A bar chart with one bar per principal component, showing its share of the total variance (eigenvalue ÷ sum of eigenvalues); it shows how many components are worth keeping. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
+| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| [Mean centring](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195) | Subtracting the mean from every value, so the column's mean becomes 0. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Linear combination](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) (G-1091) | A sum of vectors each multiplied by a number, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$; changing the numbers reaches different vectors, and all the vectors it can reach form the span. |
+| [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
+| [Explained variance](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#71-explained-variance) (G-728) | How much of the data's spread one principal component keeps: the variance of the data along that component, equal to its eigenvalue. |

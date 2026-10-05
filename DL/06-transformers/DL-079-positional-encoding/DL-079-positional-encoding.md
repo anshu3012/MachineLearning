@@ -293,15 +293,21 @@ The smallest and largest values over all $p$ agree to four decimals: the dot pro
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Positional encoding | A vector added to each word's embedding that tells the model the word's position |
-| $d_{\text{model}}$ | The number of values in each embedding and each positional encoding; 512 in the original transformer |
-| Absolute position | A word's place counted from the start of the sentence |
-| Relative position | The distance between two words, such as "two words later" |
-| Bounded function | A function whose values stay within a fixed range, such as $-1$ to $1$ for sine |
-| Periodic function | A function that repeats after a fixed interval, its period |
-| Frequency and wavelength | How fast a wave repeats, and the distance after which it repeats; one is the inverse of the other |
-| Sinusoidal positional encoding | The fixed position code of the original transformer (Vaswani et al.): each position gets a vector of sine waves (even dimensions) and cosine waves (odd dimensions) of different wavelengths, added to the word's embedding so the model knows word order. |
-| Learned positional embedding | A trainable vector per position, learned like a word embedding |
-| Rotation matrix $M_k$ | The fixed matrix that turns the encoding of any position $p$ into that of $p + k$ |
+| Positional encoding (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
+| Absolute position (G-158) | A word's place counted from the start of the sentence. |
+| Relative position (G-1666) | The distance between two words, such as "two words later". |
+| Bounded function (G-327) | A function whose values stay within a fixed range, such as $-1$ to $1$ for sine. |
+| Periodic function (G-1489) | A function that repeats after a fixed interval, its period. |
+| Frequency and wavelength (G-806) | How fast a wave repeats, and the distance after which it repeats; one is the inverse of the other. |
+| Sinusoidal positional encoding (G-1815) | The fixed position code of the original transformer (Vaswani et al.): each position gets a vector of sine waves (even dimensions) and cosine waves (odd dimensions) of different wavelengths, added to the word's embedding so the model knows word order. |
+| Rotation matrix (G-1708) | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$. |
+| Learned positional embedding (G-1066) | A trainable vector per position, learned like a word embedding. |
+| Rotation matrix $M_k$ (G-1707) | The fixed matrix that turns the encoding of any position $p$ into that of $p + k$. |
+| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [$d_{\text{model}}$](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-27) | The number of values in each word's vector at the layer's input and output; 512 in the transformer. |

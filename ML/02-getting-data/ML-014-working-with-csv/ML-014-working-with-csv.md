@@ -597,29 +597,33 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 
 ## 21. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| CSV file | A text file holding a table: one row per line, commas between values |
-| Observation | One record of the data, one row of the table |
-| Feature | An input variable, one column of the data table |
-| Target | The output a model predicts |
-| TSV file | Like a CSV file, with tabs between values |
-| Header (G-884) | The line of a file that holds the column names |
-| Parameter (G-1448) | A named setting passed to a function, like `sep=";"` |
-| Relative path | A file's location, starting from the folder the code runs in |
-| User-Agent | A short text a browser sends with each request to say what it is; some servers refuse requests without one, so scraping code sends one too. |
-| Separator | The character between values on a line, such as `,` or a tab |
-| Index | The labels down the left side of a DataFrame, one per row (0, 1, 2, ... by default); pandas uses them to name and select rows. |
-| Series | pandas' one-column structure: a list of values with an index; a DataFrame is several Series side by side. |
-| Missing value | An empty entry, shown by pandas as `NaN` |
-| Encoding | The rulebook that maps text characters to stored bytes |
-| UTF-8 | The most common text encoding (the rulebook that maps characters to bytes); it covers almost every character in every language and is `read_csv`'s default. |
-| Parser (G-1454) | The part of a program that reads text and splits it into pieces |
-| dtype (G-540) | The data type of a column, such as `int64`, `float64` or `str` |
-| DataFrame (G-1441) | The pandas name for a table |
-| Datetime | A value pandas understands as a point in time |
-| Chunk | A piece of a file read as a small DataFrame, so a file too large for memory can be processed one piece at a time. |
-| Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time |
-| List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}` |
-| Function, lambda | A named reusable piece of code (`def`), and a one-line unnamed one |
-| For loop | Code that repeats once for each item of a collection |
+| CSV file (G-513) | A text file holding a table, with commas between values. |
+| Header (of a file) (G-884) | The line of a file that holds the column names. |
+| TSV file (G-2025) | Like a CSV file, with tabs between values. |
+| Parameter (of a function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| Relative path (G-1665) | A file's location, starting from the folder the code runs in. |
+| User-Agent (G-2064) | A short text a browser sends with each request to say what it is; some servers refuse requests without one, so scraping code sends one too. |
+| Separator (G-1770) | The character between values on a line, such as `,` or a tab. |
+| List, dictionary (G-1106) | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. |
+| Index (G-938) | The labels down the left side of a DataFrame, one per row (0, 1, 2, ... by default); pandas uses them to name and select rows. |
+| Missing value (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| Series (G-1778) | pandas' one-column structure: a list of values with an index; a DataFrame is several Series side by side. |
+| Encoding (G-685) | Two senses: the rulebook that maps text characters to stored bytes (Video 15); or turning categories into numbers (categorical encoding, Video 26). |
+| UTF-8 (G-2065) | The most common text encoding (the rulebook that maps characters to bytes); it covers almost every character in every language and is `read_csv`'s default. |
+| Reader (G-1640) | What `read_csv` returns with `chunksize`: it hands out one chunk at a time. |
+| Chunk (G-385) | A piece of a file read as a small DataFrame, so a file too large for memory can be processed one piece at a time. |
+| For loop (G-791) | Code that repeats once for each item of a collection. |
+| Function, lambda (G-817) | A named reusable piece of code (`def`), and a one-line unnamed one. |
+| [pandas, DataFrame](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (G-1441) | Python's main table library, and its name for a table. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Lambda (Python)](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#8-trying-the-other-transforms) (G-1040) | A one-line Python function without a name, such as `lambda x: x**2`. |
+| [Parse, parser](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#5-parsing-the-page-with-beautifulsoup) (G-1454) | Read text and build a structure from it; the part that does this. |
+| [Data type (dtype)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#5-what-type-is-each-column) (G-540) | The kind of values a column holds, such as `int64`, `float64` or `str`. |
+| [Dictionary (Python)](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#5-reading-the-reply) (G-603) | A lookup table from keys to values, written `{key: value}`. |
+| [Datetime](../../../ML/03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md#4-converting-text-to-a-datetime-type) (G-545) | A value pandas understands as a point in time, with date and time parts, so we can pull out parts such as the year or weekday and compute the time between two dates. |

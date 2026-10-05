@@ -495,14 +495,20 @@ So the problem type picks the loss, and the loss picks the output layer: the tab
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Loss function (error function) | The error of the model on one training observation |
-| Cost function | The average loss over a batch or the whole training set |
-| Squared loss (L2 loss) | The squared difference between target and prediction, $(y - \hat{y})^2$, used as the error a model lowers during training, so large errors cost much more than small ones; averaged over the rows it is the mean squared error. |
-| L1 loss | Another name for the mean absolute error used as a training loss |
-| Huber loss | A regression loss that is half the squared error for errors up to $\delta$ and grows in a straight line beyond; it acts like MSE for small errors and like MAE for large ones, so outliers pull less. |
-| $\delta$ (Huber) | The error size at which Huber loss switches from squaring the error to taking its absolute value. It is a setting chosen before training (a hyperparameter). |
-| Categorical cross-entropy (G-349) | $-\sum_j y_j \log \hat y_j$ with one-hot labels; the loss for more than two classes, with a softmax output |
-| Sparse categorical cross-entropy | Categorical cross-entropy with integer labels: $-\log \hat y_c$ for the true class $c$ |
-| KL divergence, focal loss, triplet loss | Losses for variational autoencoders, object detection and embeddings, taught with those networks |
+| Huber loss (G-905) | A regression loss that is half the squared error for errors up to $\delta$ and grows in a straight line beyond; it acts like MSE for small errors and like MAE for large ones, so outliers pull less. |
+| $\delta$ (Huber) (G-8) | The error size at which Huber loss switches from squaring the error to taking its absolute value. It is a setting chosen before training (a hyperparameter). |
+| KL divergence, focal loss, triplet loss (G-1014) | Losses for autoencoders, object detection and embeddings, taught with those networks. |
+| L1 loss (G-1024) | Another name for the mean absolute error used as a training loss. |
+| Squared loss (L2 loss) (G-1863) | The squared difference between target and prediction, $(y - \hat{y})^2$, used as the error a model lowers during training, so large errors cost much more than small ones; averaged over the rows it is the mean squared error. |
+| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Cost function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters) (G-492) | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
+| [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
+| [Mean absolute error (MAE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194) | The average absolute difference between actual and predicted values. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
+| [Sparse categorical cross-entropy](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#51-the-loss-for-many-classes) (G-1839) | The same loss as categorical cross-entropy, but it takes the labels as plain integers (such as the digits 0 to 9) instead of one-hot vectors, so the labels need no encoding. |

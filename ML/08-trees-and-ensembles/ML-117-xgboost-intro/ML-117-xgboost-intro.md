@@ -410,19 +410,23 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| XGBoost | eXtreme Gradient Boosting: a library that implements gradient boosting with many speed and accuracy optimisations |
-| Parallel processing | Splitting one job among several processor cores working at the same time |
-| Column block | XGBoost's storage of the data one sorted column per block, so each core can work on one feature |
-| Cache memory | A small, fast memory inside the processor that holds data used again and again |
-| Out-of-core computing (G-1413) | Training on data bigger than the RAM by loading it chunk by chunk |
-| Distributed computing | Sharing one job between several machines (nodes), coordinated by a master node |
-| GPU | Graphics processing unit: a processor with thousands of small cores for many small calculations at once |
-| Sparsity-aware split finding | XGBoost's way of handling missing values: at each split it tries sending them to the left and to the right side and keeps the side with the higher gain. |
-| Default direction | The side of a split that observations with a missing value follow |
-| Exact greedy algorithm | Finding a split by trying the midpoint between every pair of neighbouring sorted values |
-| Approximate tree learning (histogram-based training) | Finding a tree split by cutting each feature into bins and trying only the bin edges instead of every value; the split may be a little worse, but training is much faster. |
-| Weighted quantile sketch | XGBoost's method for choosing candidate split points in a column: it places bin edges at quantiles in which each row counts by its Hessian (weighted quantiles). |
-| LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use |
-| CatBoost | Yandex's gradient boosting library, with built-in handling of categorical columns |
+| XGBoost (G-2133) | eXtreme Gradient Boosting: a library that implements gradient boosting with many speed and accuracy optimisations. |
+| Parallel processing (G-1444) | Splitting one job among several processor cores working at the same time. |
+| Column block (G-412) | XGBoost's storage of the data one sorted column per block, so each core can work on one feature. |
+| Cache memory (G-338) | A small, fast memory inside the processor that holds data used again and again. |
+| Distributed computing (G-625) | Sharing one job between several machines (nodes), coordinated by a master node. |
+| Sparsity-aware split finding (G-1850) | XGBoost's way of handling missing values: at each split it tries sending them to the left and to the right side and keeps the side with the higher gain. |
+| Default direction (G-574) | The side of a split that rows with a missing value follow. XGBoost tries sending them left and then right and keeps the side with the larger gain, so trees handle missing values without filling them in. |
+| Exact greedy algorithm (G-719) | Finding a split by trying the midpoint between every pair of neighbouring sorted values. |
+| Approximate tree learning (histogram-based training) (G-207) | Finding a tree split by cutting each feature into bins and trying only the bin edges instead of every value; the split may be a little worse, but training is much faster. |
+| Weighted quantile sketch (G-2118) | XGBoost's method for choosing candidate split points in a column: it places bin edges at quantiles in which each row counts by its Hessian (weighted quantiles). |
+| LightGBM (G-1084) | Microsoft's gradient boosting library, aimed at speed and low memory use. |
+| CatBoost (G-348) | Yandex's gradient boosting library, with built-in handling of categorical columns. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Out-of-core learning (out-of-core computing)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#6-out-of-core-learning) (G-1413) | Training on data too big for the memory (RAM) by loading it chunk by chunk, offline. |
+| [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |

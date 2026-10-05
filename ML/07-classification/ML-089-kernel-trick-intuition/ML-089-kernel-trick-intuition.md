@@ -176,14 +176,21 @@ Why is it called a "trick"? As Section 3.2 showed, SVM never actually builds the
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature space (G-2219) | The space whose axes are the features; the feature map takes the data into a higher-dimensional one |
-| Kernel trick | Making non-linear data separable by mapping it to a higher dimension, without building the new features |
-| Feature map ($\phi$) | The lifting function: it takes one point and gives its coordinates in the higher-dimensional space |
-| Kernel (SVM), $K(a, b)$ (G-1004) | A function of two points that returns their dot product in the higher-dimensional space, $\phi(a) \cdot \phi(b)$, directly from the original values (not the Jupyter kernel) |
-| Kernel transformation | A loose name for lifting the data to the higher-dimensional space |
-| Non-linear data | Data whose classes no straight line, plane or hyperplane can separate |
-| RBF kernel | Radial basis function kernel, built on $e^{-(\text{distance})^2}$: it scores two points as similar (close to 1) when they are near each other and close to 0 when far apart; the usual first-choice SVM kernel for curved boundaries. |
-| Polynomial kernel | A function that gives the dot product of two points after their inputs are expanded into powers, such as $x^2$ (a kernel whose feature map is built from powers of the inputs); it lets an SVM draw curved boundaries. |
-| Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\thinspace x \cdot x' + r)$ |
+| Kernel trick (G-1008) | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. |
+| Non-linear data (G-1335) | Data whose classes no straight line, plane or hyperplane can separate. |
+| Feature space (G-2219) | The space whose axes are the features; the feature map takes the data into a higher-dimensional one. |
+| Feature map ($\phi$) (G-765) | A rule that gives each point extra coordinates built from its own values, such as $\phi(x) = (x, x^2)$, moving the data into a higher-dimensional space. Data that no straight line can separate becomes linearly separable there. |
+| Kernel transformation (G-1007) | A loose name for lifting the data to the higher-dimensional space with the feature map $\phi$. |
+| Kernel (SVM) (G-1004) | A function of two points, $K(a, b)$, that returns their dot product in the higher-dimensional space, $\phi(a) \cdot \phi(b)$, directly from the original values (not the Jupyter kernel). |
+| RBF kernel (G-1639) | Radial basis function kernel, built on $e^{-(\text{distance})^2}$: it scores two points as similar (close to 1) when they are near each other and close to 0 when far apart; the usual first-choice SVM kernel for curved boundaries. |
+| Polynomial kernel (G-1514) | A function that gives the dot product of two points after their inputs are expanded into powers, such as $x^2$ (a kernel whose feature map is built from powers of the inputs); it lets an SVM draw curved boundaries. |
+| Sigmoid kernel (G-1799) | A way to score how alike two points are, built from an S-shaped curve, $\tanh(\gamma\thinspace x \cdot x' + r)$ (a kernel). Like other kernels, it lets an SVM draw a curved boundary without computing new features. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [gamma (RBF kernel)](../../../ML/07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |

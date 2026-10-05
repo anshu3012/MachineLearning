@@ -266,10 +266,18 @@ So the update line works because it steps every parameter against its own slope,
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Rate of change | How much one quantity changes per unit change of another; the meaning of a derivative |
-| Negative gradient | The gradient with its sign flipped: the direction in which the loss falls fastest |
-| Divergence (G-628) | Updates that overshoot more and more, so the parameter and the loss run away |
-| Convergence (G-469) | The state where updates no longer change the parameters because the slope is about zero |
-| Local minimum | A valley of the loss that is lower than everything near it, but not the lowest overall |
+| Converge (G-469) | To settle at a minimum, with steps becoming negligible. |
+| [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
+| [Rate of change](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#3-the-difference-quotient-slope-of-a-secant-line) (G-1635) | How much one quantity changes per unit change of another; the meaning of a derivative. |
+| [Negative gradient](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#6-step-2a-pseudo-residuals-are-negative-gradients) (G-1308) | The direction that lowers the loss fastest: minus the derivative of the loss with respect to the prediction. |
+| [Diverge (divergence)](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate) (G-628) | To move further away with each step: the updates overshoot more and more, so the loss grows instead of shrinking. |

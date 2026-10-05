@@ -184,13 +184,17 @@ The "self" therefore describes where the inputs come from, not a different calcu
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Query (G-1607) | The vector that asks which other positions are useful: the decoder state in Luong attention, $q_i$ in self-attention |
-| Key | The vector compared with the query by a dot product |
-| Value | The vector mixed into the output, weighted by the attention weights |
-| Luong (dot) attention (G-1137) | Attention between a decoder state and the encoder states, scored by their dot product |
-| Self-attention (intra-attention) | Attention in which the queries, keys and values all come from one sequence |
-| Inter-sequence attention | Attention between two different sequences, such as an output and an input sentence |
-| Cross-attention | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
-| `keras.layers.Attention` | Keras' layer that lets each item of one sequence look at another sequence: it scores queries from the first against keys from the second by dot product (Luong-style attention). It returns the attention weights and the weighted sums of the values (context vectors). |
+| Self-attention (intra-attention) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| `keras.layers.Attention` (G-103) | Keras' layer that lets each item of one sequence look at another sequence: it scores queries from the first against keys from the second by dot product (Luong-style attention). It returns the attention weights and the weighted sums of the values (context vectors). |
+| Inter-sequence attention (G-958) | Attention between two different sequences, such as an output and an input sentence. |
+| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
+| [Luong attention (multiplicative, dot)](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#5-luong-attention) (G-1137) | Attention between a decoder state and the encoder states, scored by multiplying them: $s_i^\top h_j$ (dot) or $s_i^\top W_a h_j$. |
+| [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
+| [Key](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
+| [Value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
+| [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
+| [Query, key, value vectors](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#3-self-attention-in-one-paragraph) (G-1607) | Three vectors made from each word's embedding by learned matrices: a word's query is compared with every word's key by dot products to get attention weights, and those weights mix the value vectors into the word's new vector. |

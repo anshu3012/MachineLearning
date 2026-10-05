@@ -467,22 +467,29 @@ The two datasets give the honest picture. Keras Tuner always returns a winner, b
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Hyperparameter | A setting chosen before training that the network does not learn, such as the number of layers |
-| Hyperparameter tuning | Trying several hyperparameter values and keeping those that score best |
-| Keras Tuner | A Python library (`keras_tuner`) that searches for good hyperparameters of a Keras model |
-| Trial (G-2016) | One model built, trained and scored with one set of hyperparameter values |
-| `build_model(hp)` | The function that builds and compiles one network, asking `hp` for each tuned value |
-| `hp.Choice` | Tells the tuner that a setting to tune (a hyperparameter) takes one value from a list. |
-| `hp.Int` | Tells the tuner that a setting to tune (a hyperparameter) is a whole number between a minimum and a maximum, with an optional step. |
-| `hp.Float` | Tells the tuner that a setting to tune (a hyperparameter) is a decimal number in a range; `sampling="log"` spreads its values evenly over powers of ten. |
-| Conditional hyperparameter | A hyperparameter that exists only for some values of another, such as `units_3` |
-| `RandomSearch` | A tuner that tries random combinations of the hyperparameter values |
-| Objective (G-1373) | The metric the tuner maximises or minimises, such as `val_accuracy` |
-| Search space | All the values the hyperparameters may take during tuning |
-| Validation set | Observations held out from training and used to choose between models |
-| Test set | Observations used once, at the end, for an honest score |
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable, such as glucose: one column of the data table |
-| Target | The output we predict, here diabetes yes or no |
+| Keras Tuner (G-1001) | A Python library (`keras_tuner`) that searches for good hyperparameters of a Keras model. |
+| `build_model(hp)` (G-68) | The function that builds and compiles one network, asking `hp` for each tuned value. |
+| `hp.Choice` (G-90) | Tells the tuner that a setting to tune (a hyperparameter) takes one value from a list. |
+| `RandomSearch` (G-129) | A tuner that tries random combinations of the hyperparameter values. |
+| Objective (Keras Tuner) (G-1373) | The metric the tuner maximises or minimises, such as `val_accuracy`. |
+| `hp.Int` (G-92) | Tells the tuner that a setting to tune (a hyperparameter) is a whole number between a minimum and a maximum, with an optional step. |
+| Conditional hyperparameter (G-442) | A hyperparameter that exists only for some values of another, such as `units_3`. |
+| `hp.Float` (G-91) | Tells the tuner that a setting to tune (a hyperparameter) is a decimal number in a range; `sampling="log"` spreads its values evenly over powers of ten. |
+| [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Trial (hyperparameter tuning)](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary) (G-2016) | One run of a tuner (Optuna, Keras Tuner) with one set of hyperparameter values: one model built, trained and scored. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Search space](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#21-the-problem-a-random-forest-for-placement) (G-1756) | The ranges or lists of values each hyperparameter may take during tuning; the tuner only tries values from it, and each added value multiplies the number of combinations. |

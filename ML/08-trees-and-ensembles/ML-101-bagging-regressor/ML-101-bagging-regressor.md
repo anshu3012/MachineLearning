@@ -204,10 +204,30 @@ The **out-of-bag score** (G-1411) works for regression too (see [the out-of-bag 
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Bagging regressor | A bagging ensemble of regressors that predicts the mean of their predictions |
-| BaggingRegressor | scikit-learn class for bagging, pasting, random subspaces and random patches in regression |
+| Bagging regressor (G-252) | A bagging ensemble of regressors that predicts the mean of their predictions. |
+| BaggingRegressor (G-254) | scikit-learn class for bagging, pasting, random subspaces and random patches in regression. |
+| [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
+| [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |
+| [Aggregation (in an ensemble)](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
+| [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
+| [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Pasting](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1463) | Training several models, each on its own random sample of rows drawn without replacement (no row twice), and combining their predictions; it is bagging with this sample instead of a bootstrap sample. |
+| [Random subspaces](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1618) | Training several models, each on all rows but a random subset of columns, and combining their predictions (a kind of bagging). |
+| [Random patches](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1614) | Training several models, each on a random subset of rows and a random subset of columns, and combining their predictions (a kind of bagging). |
+| [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Out-of-bag (OOB) evaluation, OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

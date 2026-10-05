@@ -241,10 +241,24 @@ The regressor has no `class_weight`, since there are no classes.
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Forest-level hyperparameters | The settings that shape the forest itself: n_estimators, max_features, bootstrap, max_samples |
-| ccp_alpha | The penalty per leaf used to cut a fully grown tree back (cost-complexity pruning strength). |
-| warm_start | Setting that keeps already-trained trees and adds new ones on the next fit |
-| set_params | Method that changes a model's settings after it is created |
-| monotonic_cst | Setting that forces predictions to only rise or only fall as a feature grows |
+| Forest-level hyperparameters (G-792) | The settings that shape the forest itself: n_estimators, max_features, bootstrap, max_samples. |
+| ccp_alpha (G-360) | The penalty per leaf used to cut a fully grown tree back (cost-complexity pruning strength). |
+| warm_start (G-2100) | Setting that keeps already-trained trees and adds new ones on the next fit. |
+| set_params (G-1781) | Method that changes a model's settings after it is created. |
+| monotonic_cst (G-1259) | Setting that forces predictions to only rise or only fall as a column grows. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [n_estimators](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-1291) | The number of base models in an ensemble. |
+| [max_features](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-max_features) (G-1185) | The number of randomly chosen columns a tree considers at each split. |
+| [max_samples](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#32-bagging) (G-1187) | The number or share of rows each base model gets. |
+| [Node-level feature sampling (node-level column sampling)](../../../ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling) (G-1325) | Drawing a new random set of features before every split (random forest). |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |
+| [Pruning](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split) (G-1587) | Stopping a tree early or cutting it back so it does not overfit. |
+| [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
+| [Out-of-bag (OOB) evaluation, OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. |

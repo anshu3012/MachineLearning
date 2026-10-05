@@ -325,15 +325,18 @@ So whether an early layer learns depends on the long product of factors behind i
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Deep neural network (G-570) | A neural network with many hidden layers |
-| Exploding gradient | Gradients growing huge as they pass back through many layers, making updates erratic |
-| ReLU | The activation $\max(0, z)$; slope 0 for negative inputs and 1 for positive ones |
-| Dying ReLU (G-650) | A ReLU node whose input stays negative, so its slope and updates stay 0 |
-| Leaky ReLU | A ReLU variant with a small slope for negative inputs, so nodes do not die |
-| Glorot (Xavier) and He initialisation | Ways to choose the spread of random starting weights from the layer sizes |
-| Batch normalisation | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
-| Residual block | A block whose input is added to its output, giving the gradient a shortcut |
-| Gradient clipping | Capping the gradient before each update: if its overall size (its norm) is above a chosen limit, it is scaled down to that limit with its direction kept, so exploding gradients cannot make huge weight jumps. |
-| `make_moons` | scikit-learn function that generates two interleaving half-moon classes |
+| Vanishing gradient (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| Exploding gradient (G-731) | Gradients growing huge as they pass back through many layers, making updates erratic. |
+| Batch normalisation (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| Gradient clipping (G-861) | Capping the gradient before each update: if its overall size (its norm) is above a chosen limit, it is scaled down to that limit with its direction kept, so exploding gradients cannot make huge weight jumps. |
+| Glorot (Xavier) and He initialisation (G-850) | Ways to choose the spread of random starting weights from the layer sizes. |
+| Residual block (G-1680) | A block whose input is added to its output, giving the gradient a shortcut. |
+| [Deep network (deep neural network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-570) | A neural network with many hidden layers. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Dying ReLU problem](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) (G-650) | ReLU nodes ending up with a negative weighted sum for every input, so they output 0 and stop learning. |
+| [Leaky ReLU](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu) (G-1064) | A ReLU variant with a small slope for negative inputs, so nodes do not die. |
+| [`make_moons`](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#34-dead-nodes-in-practice) (G-111) | scikit-learn function that generates two interleaving half-moon classes. |

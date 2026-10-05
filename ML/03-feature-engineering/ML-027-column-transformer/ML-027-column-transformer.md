@@ -369,18 +369,23 @@ Calling **`set_output(transform="pandas")`** (G-1780) once makes every later `fi
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Column transformer | A scikit-learn class that applies a different transformer to each set of columns and joins the outputs into one array |
-| ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer |
-| transformers | The `ColumnTransformer` parameter that says which transformer to apply to which columns: a list of (name, transformer, columns) tuples. |
-| remainder | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"` |
-| passthrough (G-1460) | The `remainder` option that keeps untouched columns unchanged |
-| SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean |
-| fit_transform | Learns the numbers from the data and applies them in one call (fit, then transform); used on the training set only. |
-| np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side |
-| get_feature_names_out | Method returning the names of the output columns, in order |
-| set_output | Method that, called as `set_output(transform="pandas")`, makes a scikit-learn transformer return a pandas DataFrame with column names instead of a bare NumPy array. |
+| ColumnTransformer (G-417) | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. |
+| Column transformer (G-415) | A scikit-learn class that applies different transformations to different columns at once and joins the results. |
+| SimpleImputer (G-1809) | scikit-learn's class that fills missing values, by default with the column's mean. |
+| np.concatenate (G-1355) | NumPy function that joins arrays; with `axis=1` it puts them side by side. |
+| remainder (G-1669) | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"`. |
+| passthrough (ColumnTransformer) (G-1460) | The `remainder` option that keeps untouched columns unchanged. |
+| set_output (G-1780) | Method that, called as `set_output(transform="pandas")`, makes a scikit-learn transformer return a pandas DataFrame with column names instead of a bare NumPy array. |
+| fit_transform (G-785) | Learns the numbers from the data and applies them in one call (fit, then transform); used on the training set only. |
+| transformers (G-2008) | The `ColumnTransformer` parameter that says which transformer to apply to which columns: a list of (name, transformer, columns) tuples. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [Imputation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values) (G-927) | Filling in missing values, for example with the mean, median or mode. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
+| [get_feature_names_out](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#74-fit-on-the-training-set-transform-both) (G-846) | `OneHotEncoder` method that returns the names of the new columns. |

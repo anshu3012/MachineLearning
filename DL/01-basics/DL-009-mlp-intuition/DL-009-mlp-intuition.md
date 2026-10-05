@@ -428,12 +428,41 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Combining perceptrons | Feeding several perceptrons' outputs, weighted and with a bias, into another perceptron, so their straight boundaries combine into a curved decision boundary; this is a multi-layer perceptron. |
-| Edge detector (hidden node) (G-2263) | A node whose weights are positive on a strip of pixels and negative around it, so it switches on when that strip holds a stroke |
-| Architecture (of a neural network) (G-209) | How the nodes are arranged in layers and connected by weights |
-| Multi-class output layer | An output layer with one node per class; the highest output gives the prediction |
-| MLPClassifier | scikit-learn's class for a classifier built from layers of perceptrons (a multi-layer perceptron). |
-| hidden_layer_sizes | MLPClassifier setting: the number of nodes in each hidden layer, e.g. (4, 4) |
-| ReLU | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| Edge detector (hidden node) (G-2263) | A node whose weights are positive on a strip of pixels and negative around it, so it switches on when that strip holds a stroke. |
+| MLPClassifier (G-1246) | scikit-learn's class for a classifier built from layers of perceptrons (a multi-layer perceptron). |
+| Combining perceptrons (G-419) | Feeding several perceptrons' outputs, weighted and with a bias, into another perceptron, so their straight boundaries combine into a curved decision boundary; this is a multi-layer perceptron. |
+| hidden_layer_sizes (G-892) | MLPClassifier setting: the number of nodes in each hidden layer, e.g. (4, 4). |
+| Multi-class output layer (G-1267) | An output layer with one node per class; the highest output gives the prediction. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [XOR](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#31-the-perceptron-and-the-first-ai-winter) (G-2134) | The logic function that outputs 1 when exactly one of two inputs is 1. |
+| [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
+| [Probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
+| [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
+| [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
+| [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
+| [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
+| [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
+| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
+| [Multi-class classification](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#51-why-not-regression) (G-1266) | Classification where the output is one of more than two classes, such as the next word out of a whole vocabulary; the output layer has one node per class. |
+| [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Universal approximation theorem](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#33-universal-approximation) (G-2052) | A network with a hidden layer and enough neurons can approximate any continuous function. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [TensorFlow Playground](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#5-the-same-failure-on-larger-data) (G-1958) | A website that trains small neural networks in the browser and shows their boundaries. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Solver](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) | The method a model uses to find its best settings during training. |
+| [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |

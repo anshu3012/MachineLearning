@@ -248,9 +248,21 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Wisdom of the crowd (G-2124) | The combined judgement of many is often more accurate than any one member's |
+| Wisdom of the crowd (G-2124) | The combined judgement of many is often more accurate than any one member's. |
 | Base model (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
 | Meta-model (G-1213) | The final model in stacking: it takes the other models' (base models') predictions as its inputs and is trained to combine them. |
-| Robustness (G-1700) | Performing well even when the data changes somewhat |
+| Bagging (bootstrap aggregation) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| Bootstrapping (G-322) | Drawing random samples of the data to train each base model. |
+| Boosting (G-318) | Combining many simple models one after another to reduce bias, the error of a model that is too simple. |
+| Robustness (G-1700) | Performing well even when the data changes somewhat. |
+| Ensemble (G-690) | Several trained models whose predictions are combined. |
+| [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning) (G-689) | Combining several models into one stronger model. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |

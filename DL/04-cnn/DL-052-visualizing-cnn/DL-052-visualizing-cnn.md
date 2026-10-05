@@ -283,15 +283,21 @@ An analogy: reading a word. First we see strokes, then letters made of strokes, 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Black box (G-311) | A model whose inner workings are hidden: we see only its inputs and outputs |
-| Filter (G-777) | A small grid of learned weights that a convolution layer slides over its input |
-| Feature map (G-766) | The grid a filter produces for one input; large where the filter's pattern is present |
-| Edge detector (G-659) | A filter that responds strongly where brightness changes in one direction |
-| Colour blob | A filter that responds to one colour |
-| VGG16 | An image-recognition network (a CNN) of 13 convolution layers (all 3 × 3) in 5 blocks plus 3 dense layers, trained on ImageNet. |
-| Sparse | Mostly made of zeros, such as a feature map whose values are almost all 0, or a model whose coefficients are mostly exactly 0. |
-| Blank map | A feature map that is entirely zero for a given photo: its pattern is nowhere in the photo |
-| Receptive field | The region of the input photo that one value in a feature map depends on |
-| Top activations | The photos (or patches) that give a feature map its largest values |
+| VGG16 (G-2088) | An image-recognition network (a CNN) of 13 convolution layers (all 3 × 3) in 5 blocks plus 3 dense layers, trained on ImageNet. |
+| Colour blob (G-411) | A filter that responds to one colour. |
+| Sparse (G-1846) | Mostly made of zeros, such as a feature map whose values are almost all 0, or a model whose coefficients are mostly exactly 0. |
+| Blank map (G-313) | A feature map that is entirely zero for a given photo: its pattern is nowhere in the photo. |
+| Top activations (G-1986) | The photos (or patches) that give a feature map its largest values. |
+| [Black box model (black box)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#75-inference-which-feature-mattered) (G-311) | A model whose inner workings are hidden: it gives predictions without showing how each input contributed. |
+| [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
+| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
+| [Receptive field](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |

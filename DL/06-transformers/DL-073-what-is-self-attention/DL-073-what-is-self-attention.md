@@ -173,14 +173,24 @@ How the box computes its output, and how it learns to do so for a particular tas
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Vectorization (G-2084) | Turning words or text into vectors of numbers |
-| Vocabulary (G-2092) | The list of distinct words in the data |
-| Bag of words | A sentence as the count of each vocabulary word in it |
-| Word embedding | A dense vector of real numbers for each word, learned so that words used similarly get similar vectors |
-| Static embedding | An embedding that gives a word the same vector in every sentence, so "bank" gets one vector in both "money bank" and "river bank"; self-attention fixes this by making the vector depend on context. |
-| Average meaning | What a static embedding stores: the word's meaning averaged over all its uses in the training corpus |
-| Contextual embedding | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
-| Self-attention (G-1763) | A mechanism that takes the embeddings of all the words of a sequence and returns a contextual embedding for each |
-| PPMI | Positive pointwise mutual information: a score of how much more often two words appear together than by chance, with negative scores set to 0 |
+| Contextual embedding (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
+| Static embedding (G-1877) | An embedding that gives a word the same vector in every sentence, so "bank" gets one vector in both "money bank" and "river bank"; self-attention fixes this by making the vector depend on context. |
+| PPMI (G-1544) | Positive pointwise mutual information: a score of how much more often two words appear together than by chance, with negative scores set to 0. |
+| Average meaning (G-237) | What a static embedding stores: the word's meaning averaged over all its uses in the training corpus. |
+| [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
+| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
+| [Vectorization (of data)](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text) (G-2084) | Converting data such as text into vectors of numbers, because ML algorithms work only with numbers. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
+| [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Singular value decomposition (SVD)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview) (G-1813) | A way to write any matrix, square or not, as three simple steps: turn, stretch by the singular values, turn ($A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal; a factorisation). ML uses it for PCA and to compress data. |
+| [Latent semantic analysis (LSA)](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#32-topics-from-the-svd) (G-1049) | Describing each document by a few topic directions of the document-word matrix (its top $k$ singular directions, found with the SVD), so that texts on one topic line up. |
+| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
+| [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |

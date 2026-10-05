@@ -286,11 +286,19 @@ So a network turns one observation into a prediction by repeating the same step 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Forward propagation | Passing one observation through the network, layer by layer, to get the prediction |
-| Backpropagation | The training algorithm that sends the prediction error backwards to update the weights (taught in later Notes) |
-| Activation ($a^{k}$) | The vector of outputs of layer $k$; $a^{0}$ is the input observation |
-| Weight matrix ($W^{k}$) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$ |
-| Bias vector ($b^{k}$) | A column holding one bias per node of layer $k$; it is added to the layer's weighted sums before the activation. |
-| Weighted input ($z^{k}$) | The numbers a layer computes before its activation: each node's weighted sum of the previous layer's outputs plus its bias, $z^{k} = W^{k\mathsf T} a^{k-1} + b^{k}$. |
+| Forward propagation (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| Activation ($a^{k}$) (G-164) | The vector of outputs of layer $k$; $a^{0}$ is the input row. |
+| Bias vector ($b^{k}$) (G-286) | A column holding one bias per node of layer $k$; it is added to the layer's weighted sums before the activation. |
+| Weight matrix ($W^{k}$) (G-2109) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$. |
+| Weighted input ($z^{k}$) (G-2116) | The numbers a layer computes before its activation: each node's weighted sum of the previous layer's outputs plus its bias, $z^{k} = W^{k\mathsf T} a^{k-1} + b^{k}$. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |

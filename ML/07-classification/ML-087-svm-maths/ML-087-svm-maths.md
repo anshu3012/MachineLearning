@@ -345,10 +345,15 @@ The formulation of this Note is called the **hard-margin SVM** (G-879): it works
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Decision rule (SVM) | How a trained SVM labels a new point $u$: by which side of the separating line it falls on, predicting +1 if $w \cdot u + b \geq 0$ and −1 otherwise. |
-| Norm of a vector (G-1028) | The length of a vector, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$ |
-| Constraint | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point |
-| Constrained optimisation | Maximising or minimising a function while keeping one or more constraints true |
-| Hard-margin SVM | The SVM that allows no point inside the margin or on the wrong side; it needs perfectly separable data |
+| Decision rule (SVM) (G-558) | How a trained SVM labels a new point $u$: by which side of the separating line it falls on, predicting +1 if $w \cdot u + b \geq 0$ and −1 otherwise. |
+| Constraint (G-456) | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point. |
+| Hard-margin SVM (G-879) | The SVM that allows no point inside the margin or on the wrong side; it needs perfectly separable data. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [L2 norm (norm, magnitude, length of a vector)](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#22-in-n-dimensions) (G-1028) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. |
+| [Constrained optimisation](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-455) | Maximising or minimising a function while keeping one or more constraints true. |

@@ -315,15 +315,24 @@ Only step 1 is a linear transformation. The weights here are illustrative number
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Transformation | A function that takes a vector in and gives a vector out |
-| Matrix (of a transformation) | The grid of numbers that records a linear transformation: its columns are where the basis vectors land, which is enough to find where every vector lands. |
-| Matrix-vector multiplication | Multiplying a matrix by a vector, $A\mathbf{x}$: each column of $A$ is scaled by the matching entry of $\mathbf{x}$ and the results are added (a linear combination of the columns). |
-| Rotation matrix | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$ |
-| Shear | A linear transformation that keeps $\hat{\imath}$ fixed and slants $\hat{\jmath}$, so horizontal lines slide sideways, more the higher they are. |
-| Column space | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |
-| Data matrix | A dataset written as one matrix $X$: each observation's feature vector is a row and each feature a column, so the whole dataset can be handled with matrix operations. |
-| Diagonal matrix | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor |
-| Linear (transformation) (G-1097) | Keeps lines straight and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$ |
-| Affine transformation | A linear transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$ |
+| Transformation (G-2006) | A function that takes a vector in and gives a vector out. |
+| Matrix-vector multiplication (G-1181) | Multiplying a matrix by a vector, $A\mathbf{x}$: each column of $A$ is scaled by the matching entry of $\mathbf{x}$ and the results are added (a linear combination of the columns). |
+| Column space (G-414) | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |
+| Data matrix (G-536) | A dataset written as one matrix $X$: each observation's feature vector is a row and each feature a column, so the whole dataset can be handled with matrix operations. |
+| Diagonal matrix (G-601) | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. |
+| Affine transformation (G-178) | A linear transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$. |
+| Linear transformation (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| Matrix (of a transformation) (G-1175) | The grid of numbers that records a linear transformation: its columns are where the basis vectors land, which is enough to find where every vector lands. |
+| Shear (G-1789) | A linear transformation that keeps $\hat{\imath}$ fixed and slants $\hat{\jmath}$, so horizontal lines slide sideways, more the higher they are. |
+| [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
+| [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| [Bias (of a perceptron)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Rotation matrix](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#81-one-matrix-per-distance) (G-1708) | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$. |

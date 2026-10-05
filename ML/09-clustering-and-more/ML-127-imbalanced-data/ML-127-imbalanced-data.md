@@ -575,20 +575,26 @@ The techniques here are the most common. imbalanced-learn has many more, grouped
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record, one row of the data table |
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict, here the class |
-| Majority class | The class with the most observations in imbalanced data |
-| Minority class | The rare class in imbalanced data, usually the one we need to find |
-| Resampling | Changing the number of observations per class to balance the data |
-| Random undersampling | Dropping randomly chosen majority observations until the classes are equal |
-| Random oversampling | Copying randomly chosen minority observations until the classes are equal |
-| SMOTE | Synthetic Minority Over-sampling Technique: new minority observations by interpolation between minority neighbours |
-| Interpolation | Placing a new point on the segment between two existing points |
-| Synthetic data | Rows created by an algorithm rather than collected |
-| Balanced random forest | A random forest for imbalanced data: every tree is trained on a balanced sample, the minority observations plus the same number of random majority observations, and the trees then vote. |
-| Cost-sensitive learning | Changing the learning so that mistakes on some classes cost more |
-| Custom loss function | A loss written by the user, passed to libraries such as XGBoost with its gradient and Hessian |
-| imbalanced-learn | A Python library (`imblearn`) of tools that rebalance the classes by adding or removing rows (resampling techniques), plus balanced ensembles, with a `fit_resample` method. |
+| Majority class (G-1145) | The class with the most rows in imbalanced data. |
+| Minority class (G-1229) | The rare class in imbalanced data, usually the one we need to find. |
+| Random undersampling (G-1619) | Dropping randomly chosen majority rows until the classes are equal. |
+| imbalanced-learn (G-922) | A Python library (`imblearn`) of tools that rebalance the classes by adding or removing rows (resampling techniques), plus balanced ensembles, with a `fit_resample` method. |
+| Random oversampling (G-1613) | Copying randomly chosen minority rows until the classes are equal. |
+| SMOTE (G-1825) | Synthetic Minority Over-sampling Technique: it grows the minority class until the classes are equal by making new rows on the line between a minority row and one of its minority neighbours. |
+| Interpolation (G-964) | Placing a new point on the segment between two existing points. |
+| Balanced random forest (G-256) | A random forest for imbalanced data: every tree is trained on a balanced sample, the minority observations plus the same number of random majority observations, and the trees then vote. |
+| Cost-sensitive learning (G-493) | Changing the learning so that mistakes on some classes cost more. |
+| Custom loss function (G-523) | A loss written by the user, passed to libraries such as XGBoost with its gradient and Hessian. |
+| Resampling (G-1676) | Changing the number of rows per class to balance the data. |
+| Synthetic data (G-1934) | Rows created by an algorithm rather than collected. |
+| [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) | Data in which one class is much rarer than another. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Hessian $h_i$](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#8-the-second-order-approximation-of-the-objective) (G-887) | How fast row $i$'s gradient changes as the previous prediction moves (the second derivative of that row's loss with respect to the prediction). XGBoost uses it together with the gradient to compute leaf weights and split gains. |

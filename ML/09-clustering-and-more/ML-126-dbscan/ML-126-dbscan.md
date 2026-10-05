@@ -299,18 +299,22 @@ Things to try:
 
 ## 16. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| DBSCAN | A clustering method that groups points lying in crowded (dense) regions and labels lonely points as noise. The name stands for density-based spatial clustering of applications with noise. |
-| Centroid-based clustering | Clustering in which each group has a centre point (a centroid) and every point belongs to the group whose centre is nearest, as in k-means. |
-| Density-based clustering | Clustering that finds dense regions of points separated by sparse regions |
-| Dense region, sparse region | An area with many points close together; an area with few points |
-| eps (epsilon) | The radius of the neighbourhood DBSCAN examines around each point |
-| eps-neighbourhood | All points within distance eps of a point (the circle of radius eps around it); DBSCAN counts the points in it to judge how dense the data is there. |
-| MinPts (min_samples) | The DBSCAN setting for how many points a point's eps-neighbourhood (the circle of radius eps around it) must hold for the region to count as dense, which makes the point a core point. |
-| Core point | In DBSCAN, a point with at least MinPts points within distance eps of it; core points form the inside of a cluster and give it its shape. |
-| Border point | In DBSCAN, a point with fewer than MinPts points within eps but with a core point among them; it sits on the edge of a cluster and joins its nearest core point's cluster. |
-| Noise point | In DBSCAN, a point in a sparse area that is neither a core point nor a border point; it is treated as an outlier and labelled -1. |
-| Density-connected | Two points linked by a chain of core points with every step at most eps, so we can walk from one to the other through the dense region; DBSCAN puts density-connected points in the same cluster. |
-| OPTICS | A density-based clustering algorithm, like DBSCAN: it groups points that lie in dense areas, so clusters can have any shape (Ankerst et al. 1999). |
-| k-distance plot | A plot of every point's distance to its k-th nearest point, sorted from small to large; the bend where it shoots up gives a good eps for DBSCAN. |
+| DBSCAN (G-548) | A clustering method that groups points lying in crowded (dense) regions and labels lonely points as noise. The name stands for density-based spatial clustering of applications with noise. |
+| Centroid-based clustering (G-368) | Clustering in which each group has a centre point (a centroid) and every point belongs to the group whose centre is nearest, as in k-means. |
+| Density-based clustering (G-588) | Clustering that finds dense regions of points separated by sparse regions. |
+| Dense region, sparse region (G-584) | An area with many points close together; an area with few points. |
+| OPTICS (G-1396) | A density-based clustering algorithm, like DBSCAN: it groups points that lie in dense areas, so clusters can have any shape (Ankerst et al. 1999). |
+| eps (epsilon) (G-697) | The radius of the neighbourhood DBSCAN examines around each point. |
+| eps-neighbourhood (G-698) | All points within distance eps of a point (the circle of radius eps around it); DBSCAN counts the points in it to judge how dense the data is there. |
+| MinPts (min_samples) (G-1231) | The DBSCAN setting for how many points a point's eps-neighbourhood (the circle of radius eps around it) must hold for the region to count as dense, which makes the point a core point. |
+| Core point (G-486) | In DBSCAN, a point with at least MinPts points within distance eps of it; core points form the inside of a cluster and give it its shape. |
+| Border point (G-323) | In DBSCAN, a point with fewer than MinPts points within eps but with a core point among them; it sits on the edge of a cluster and joins its nearest core point's cluster. |
+| Noise point (G-1329) | In DBSCAN, a point in a sparse area that is neither a core point nor a border point; it is treated as an outlier and labelled -1. |
+| Density-connected (G-589) | Two points linked by a chain of core points with every step at most eps, so we can walk from one to the other through the dense region; DBSCAN puts density-connected points in the same cluster. |
+| k-distance plot (G-994) | A plot of every point's distance to its k-th nearest point, sorted from small to large; the bend where it shoots up gives a good eps for DBSCAN. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

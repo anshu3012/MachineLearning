@@ -340,11 +340,20 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 
 ## 17. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Similarity score | (sum of residuals) squared / (number of residuals + $\lambda$): how much a leaf's residuals agree |
-| Gain (XGBoost) | How much a split improves an XGBoost tree: the similarity scores of the two children minus the similarity score of the parent; the split with the largest gain is chosen. |
-| Output value (leaf weight) | The number an XGBoost regression leaf predicts: sum of residuals / (number of residuals + $\lambda$); with $\lambda = 0$ it is the mean residual, and a larger $\lambda$ pulls it towards 0. |
-| Eta ($\eta$) | XGBoost's name for the learning rate; default 0.3 |
-| Lambda ($\lambda$, `reg_lambda`) | XGBoost's setting that holds its trees back (regularisation): it is added to the number of residuals in the denominators of the similarity score and leaf output, which shrinks scores, gains and outputs, most for leaves with few residuals; default 1. |
-| Gamma ($\gamma$, `min_split_loss`) | A setting that stops weak splits in XGBoost: a split is kept only if its gain exceeds gamma; default 0. |
+| Similarity score (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |
+| Lambda ($\lambda$, `reg_lambda`) (G-1039) | XGBoost's setting that holds its trees back (regularisation): it is added to the number of residuals in the denominators of the similarity score and leaf output, which shrinks scores, gains and outputs, most for leaves with few residuals; default 1. |
+| Gain (XGBoost) (G-820) | How much a split improves an XGBoost tree: the similarity scores of the two children minus the similarity score of the parent; the split with the largest gain is chosen. |
+| Output value (leaf weight) (G-1426) | The number an XGBoost regression leaf predicts: sum of residuals / (number of residuals + $\lambda$); with $\lambda = 0$ it is the mean residual, and a larger $\lambda$ pulls it towards 0. |
+| Eta ($\eta$) (G-712) | XGBoost's name for the learning rate; default 0.3. |
+| Gamma ($\gamma$, `min_split_loss`) (G-821) | A setting that stops weak splits in XGBoost: a split is kept only if its gain exceeds gamma; default 0. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Approximate tree learning (histogram-based training)](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins) (G-207) | Finding a tree split by cutting each feature into bins and trying only the bin edges instead of every value; the split may be a little worse, but training is much faster. |
+| [gamma (RBF kernel)](../../../ML/07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. |

@@ -437,23 +437,34 @@ Tree-based algorithms only compare values within one feature, asking questions l
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Feature scaling (G-767) | Putting features on the same scale, so no feature dominates distances |
-| Euclidean distance | The straight-line distance between two points |
-| Standardization | Scaling a column by subtracting its mean and dividing by its standard deviation, so it gets mean 0 and std 1 |
-| Z-score | A value after standardization: how many standard deviations it lies from the mean |
-| Z-score normalization | Another name for standardization: rescaling a column so each value becomes its z-score, how many standard deviations it lies from the mean. |
-| Normalization (G-1349) | The other type of feature scaling, which squeezes values into a fixed range (next Note) |
-| Min-max scaling | The main normalization technique |
-| Robust scaler (G-1699) | A normalization technique that copes well with outliers |
-| Mean centring | Subtracting the mean from every value, so the column's mean becomes 0 |
-| StandardScaler | scikit-learn's class that standardizes columns: `fit` learns each column's mean and standard deviation from the training set, and `transform` applies $(x - \bar{x})/\sigma$. |
-| fit / transform | Learn the scaler's numbers from the training set / apply them to any data |
-| Kernel density estimate (KDE) | A smooth curve that shows where a column's values lie |
-| Data leakage | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
-| Solver | The method a model uses to find its best settings during training |
-| Gradient descent | Finding the lowest point of a function by repeated small steps downhill |
+| Standardization (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| Z-score normalization (G-2140) | Another name for standardization: rescaling a column so each value becomes its z-score, how many standard deviations it lies from the mean. |
+| Train-test split (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
+| StandardScaler (G-1876) | scikit-learn's class that standardizes columns: `fit` learns each column's mean and standard deviation from the training set, and `transform` applies $(x - \bar{x})/\sigma$. |
+| fit / transform (G-783) | Learn the scaler's numbers from the training set / apply them to any data. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Feature scaling (scaling)](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) | Putting columns on the same scale, so no column dominates distances. |
+| [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Normalization (feature scaling)](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
+| [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
+| [Robust scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#9-robust-scaling) (G-1699) | Subtract the median and divide by the interquartile range; copes well with outliers. |
+| [Z-score](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |
+| [Mean centring](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195) | Subtracting the mean from every value, so the column's mean becomes 0. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
+| [Decision region](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557) | The part of the input space in which a model predicts a given class. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| [Solver](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) | The method a model uses to find its best settings during training. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
+| [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |

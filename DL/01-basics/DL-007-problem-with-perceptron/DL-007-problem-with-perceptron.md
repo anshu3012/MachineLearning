@@ -199,7 +199,22 @@ The hidden layer has changed how the data is represented, into a form where the 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| AND, OR | Logic functions: 1 when both inputs are 1 (AND), or when at least one is (OR) |
-| TensorFlow Playground | A website that trains small neural networks in the browser and shows their boundaries |
+| AND, OR (G-199) | Logic functions: 1 when both inputs are 1 (AND), or when at least one is (OR). |
+| TensorFlow Playground (G-1958) | A website that trains small neural networks in the browser and shows their boundaries. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
+| [XOR](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#31-the-perceptron-and-the-first-ai-winter) (G-2134) | The logic function that outputs 1 when exactly one of two inputs is 1. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Non-linear data](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#2-data-that-no-straight-line-can-split) (G-1335) | Data whose classes no straight line, plane or hyperplane can separate. |
+| [Polynomial features](../../../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features) (G-1513) | New input columns made from powers and products of the original inputs, such as $x_1^2$ and $x_1 x_2$; they let a linear model fit curves and curved decision boundaries. |
+| [Representation learning (feature learning)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#1-overview) (G-1670) | Letting the algorithm discover useful features from raw data, instead of engineering them by hand. |

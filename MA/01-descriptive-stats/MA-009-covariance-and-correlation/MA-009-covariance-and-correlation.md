@@ -374,13 +374,25 @@ Establishing causation needs more than data that happens to be collected: contro
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | One variable of the data, one column of the table |
-| Observation | One record, one row of the table |
-| Population covariance ($\sigma_{xy}$) | The covariance computed from every member of a population: the average product of the two columns' distances from their means, dividing by $N$; it shows whether the two columns move together. |
-| Sample covariance ($s_{xy}$) | Covariance computed from a sample of $n$ observations: the products of the two features' distances from their means, added up and divided by $n - 1$; its sign says whether the two features rise together or move in opposite directions. |
-| Strength of a relationship | How closely the points follow a straight line; measured by $\lvert r \rvert$ |
-| Causation | A cause-and-effect relationship: changing one thing changes the other |
-| Confounding variable | A hidden factor that drives two variables and makes them correlated |
-| Randomised controlled trial | An experiment that assigns a treatment at random, to test causation |
+| Covariance (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
+| Correlation (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
+| Causation (G-359) | A cause-and-effect relationship: changing one thing changes the other. |
+| Confounding variable (G-448) | A hidden factor that drives two variables and makes them correlated. |
+| Randomised controlled trial (G-1623) | An experiment that assigns a treatment at random, to test causation. |
+| Population covariance ($\sigma_{xy}$) (G-1523) | The covariance computed from every member of a population: the average product of the two columns' distances from their means, dividing by $N$; it shows whether the two columns move together. |
+| Sample covariance ($s_{xy}$) (G-1724) | Covariance computed from a sample of $n$ observations: the products of the two features' distances from their means, added up and divided by $n - 1$; its sign says whether the two features rise together or move in opposite directions. |
+| Strength of a relationship (G-1897) | How closely the points follow a straight line; measured by $\lvert r \rvert$. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Scatter plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip) (G-1749) | A chart with one dot per row and one numerical column on each axis; it shows by eye whether two features rise together, fall together or are unrelated. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
+| [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
+| [Linear relationship](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095) | A relationship between two columns that follows a straight line. |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for straight-line relationships between two numerical columns, written $r$; the one `df.corr()` computes. |

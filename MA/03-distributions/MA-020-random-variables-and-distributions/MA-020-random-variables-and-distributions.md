@@ -263,17 +263,23 @@ The word "parameter" is the same as in [parameters and statistics](../../01-desc
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | One variable of the data, one column of the table |
-| Random experiment | An experiment whose outcome cannot be predicted, such as a coin toss |
-| Random variable | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers |
-| Discrete random variable | A random variable that takes separate values, such as a die's face |
-| Continuous random variable | A random variable that can take any value in a range, such as a CGPA |
-| Equiprobable | Equally likely: every outcome has the same probability, as the six faces of a fair die, so each has probability 1 divided by the number of outcomes. |
-| Probability distribution | A list of every possible outcome of a random variable with its probability |
-| Probability distribution function | A formula $y = f(x)$ giving the probability of each outcome; the umbrella term for PMF and PDF |
-| Probability mass function (PMF) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
-| Cumulative distribution function (CDF) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
-| Famous probability distributions | Common named shapes such as normal, uniform, binomial and Poisson |
-| Parameters (of a distribution) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape |
+| Probability distribution function (G-1570) | A formula $y = f(x)$ giving the probability of each outcome; the umbrella term for PMF and PDF. |
+| Random variable (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
+| Discrete random variable (G-617) | A random variable that takes separate values, such as a die's face. |
+| Continuous random variable (G-466) | A random variable that can take any value in a range, such as a CGPA. |
+| Probability distribution (G-1571) | A list of every possible outcome of a random variable with its probability. |
+| Equiprobable (G-704) | Equally likely: every outcome has the same probability, as the six faces of a fair die, so each has probability 1 divided by the number of outcomes. |
+| Famous probability distributions (G-753) | Common named shapes such as normal, uniform, binomial and Poisson. |
+| Parameters (of a distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
+| [Random experiment](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#21-random-experiment) (G-1610) | An experiment whose outcome cannot be predicted, such as a coin toss. |
+| [Sample space](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
+| [Probability density](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
+| [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
+| [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
+| [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |

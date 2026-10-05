@@ -248,11 +248,25 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Matrix factorisation (decomposition) | Writing a matrix as a product of simpler matrices |
-| SVD (singular value decomposition) (G-1813) | A factorisation that works for any matrix, square or not |
-| Quadratic form | An expression such as $\mathbf{x}^{\mathsf T}A\mathbf{x}$ that turns a vector into one number made only of squared entries and products of pairs of entries, such as $x_1^2 + 3x_2^2$; it is the curved part of a quadratic program's objective. |
-| Moore-Penrose pseudo-inverse (G-1262) | A generalised inverse for matrices that are not square or have no inverse |
-| NumPy | Python's library for arrays and linear algebra |
-| SciPy | A Python library built on NumPy that adds more scientific routines, such as extra linear algebra and statistics functions. |
+| Matrix factorisation (decomposition) (G-1177) | Writing a matrix as a product of simpler matrices. |
+| NumPy (G-1369) | Python's library for arrays and linear algebra. |
+| SciPy (G-1751) | A Python library built on NumPy that adds more scientific routines, such as extra linear algebra and statistics functions. |
+| [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
+| [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
+| [Neural network](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
+| [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| [Bias (of a perceptron)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
+| [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
+| [Quadratic form](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#31-the-problem) (G-1597) | An expression such as $\mathbf{x}^{\mathsf T}A\mathbf{x}$ that turns a vector into one number made only of squared entries and products of pairs of entries, such as $x_1^2 + 3x_2^2$; it is the curved part of a quadratic program's objective. |
+| [Moore–Penrose pseudo-inverse ($A^{+}$)](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#51-inverting-the-svd) (G-1262) | The closest thing to an inverse for a matrix that is not square or has no inverse (a generalised inverse): the SVD inverted with zero singular values left at zero, $V\Sigma^{+}U^{\mathsf T}$. |
+| [Singular value decomposition (SVD)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview) (G-1813) | A way to write any matrix, square or not, as three simple steps: turn, stretch by the singular values, turn ($A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal; a factorisation). ML uses it for PCA and to compress data. |

@@ -198,11 +198,17 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Out-of-bag (OOB) evaluation (G-1411) | Testing a bagging model by predicting each training observation with only the base models that never saw it |
-| OOB prediction | An observation's prediction from only the trees whose bootstrap sample missed it |
-| oob_score_ | The accuracy (classifier) or $R^2$ (regressor) of each training row's prediction by the trees that never saw it (the OOB predictions). |
-| oob_decision_function_ | Each training observation's class probabilities from its OOB trees |
-| oob_prediction_ | Each training observation's OOB prediction, for a regressor |
-| Validation set | Data held back from training to check and tune a model before the final test |
+| Out-of-bag (OOB) evaluation, OOB score (G-1411) | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. |
+| Out-of-bag observations (out-of-bag rows) (G-1412) | The observations a base model never saw because its bootstrap sample missed them (about 37%). |
+| OOB prediction (G-1392) | A prediction for a training row made only by the trees that never saw that row, because their random sample (bootstrap sample) missed it. |
+| oob_decision_function_ (G-1393) | Each training row's class probabilities, given only by the trees that never saw that row (its OOB trees). |
+| oob_prediction_ (G-1394) | For a regressor, each training row's prediction from only the trees that never saw it (its OOB prediction). |
+| oob_score_ (G-1395) | The accuracy (classifier) or $R^2$ (regressor) of each training row's prediction by the trees that never saw it (the OOB predictions). |
+| [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |
+| [Soft voting](../../../ML/08-trees-and-ensembles/ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828) | Predicting the class with the highest average predicted probability across the base models. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |

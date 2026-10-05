@@ -271,13 +271,18 @@ In Figure 7, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the p
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Threshold (G-1970) | The probability cut-off that turns a predicted probability into a class |
-| True positive rate (TPR) | The fraction of real positives the model flags; the same as recall |
-| False positive rate (FPR) | The fraction of real negatives the model wrongly flags |
-| Sensitivity (G-1641) | Another name for the true positive rate (recall) |
-| Specificity | The fraction of real negatives the model correctly clears, TN / (TN + FP); equal to 1 − FPR |
-| ROC curve | A plot of the true positive rate against the false positive rate as the classification threshold moves; it shows a binary classifier's trade-off at every threshold, and a curve nearer the top-left corner is better. |
-| AUC | A single score for a classifier from 0.5 (random) to 1 (perfect): the area under its ROC curve. |
-| predict_proba | scikit-learn method that returns predicted probabilities instead of classes |
+| ROC curve (G-1702) | A plot of the true positive rate against the false positive rate as the classification threshold moves; it shows a binary classifier's trade-off at every threshold, and a curve nearer the top-left corner is better. |
+| True positive rate (TPR) (G-2022) | The fraction of real positives the model flags; the same as recall. |
+| False positive rate (FPR) (G-749) | The fraction of real negatives the model wrongly flags. |
+| predict_proba (G-1549) | scikit-learn method that returns predicted probabilities instead of classes. |
+| AUC (G-229) | A single score for a classifier from 0.5 (random) to 1 (perfect): the area under its ROC curve. |
+| [Threshold (classification)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#61-from-probabilities-to-classes) (G-1970) | The probability above which a prediction counts as class 1. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |
+| [Specificity](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#32-the-formula) (G-2209) | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP). |

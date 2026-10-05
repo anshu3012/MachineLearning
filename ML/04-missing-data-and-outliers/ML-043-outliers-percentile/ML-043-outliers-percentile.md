@@ -350,18 +350,21 @@ This Note closes the outlier group. In the table below, $\mu$ is the mean, $\sig
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output a model predicts |
-| Percentile | The value below which a given share of the data lies |
-| Percentile rank | The percentile at which a given value falls |
-| Trimming | Removing the rows that hold outliers |
-| Capping | Replacing every value beyond a limit with the limit itself |
-| Percentile method (G-1481) | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any feature |
-| Winsorization | Capping with limits set by percentiles: values beyond a limit are replaced with the limit |
-| Cut-offs | The low and high percentiles chosen as outlier limits, such as the 1st and the 99th: values below the first or above the second are treated as outliers and trimmed or capped. |
-| Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default |
-| `np.where` | NumPy function that picks one value where a condition is true and another where it is false |
-| `clip` | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it |
+| Percentile method (percentile rule) (G-1481) | A way to find outliers: flag values below a low percentile or above a high one (e.g. 1st and 99th); it works for any column. |
+| Winsorization (G-2123) | Handling outliers by capping them at percentile limits: values beyond a chosen low or high percentile are replaced by that percentile's value. |
+| Cut-offs (G-526) | The low and high percentiles chosen as outlier limits, such as the 1st and the 99th: values below the first or above the second are treated as outliers and trimmed or capped. |
+| Linear interpolation (G-1092) | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. |
+| `clip` (G-70) | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
+| [Percentile rank](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#32-the-percentile-of-a-given-value) (G-1482) | The percentile a given value falls at: the values below it plus half of those equal to it, as a share of all values, $(X + 0.5Y)/n \times 100$. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
+| [Capping](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) | Replacing every value beyond a limit with the limit itself. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [`np.where`](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) (G-124) | NumPy function that picks one value where a condition is true and another where it is false. |

@@ -281,10 +281,14 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Projection view of the dot product | Reading the dot product as a shadow: $\mathbf{v} \cdot \mathbf{w}$ is the signed length of $\mathbf{w}$'s shadow (projection) on the line of $\mathbf{v}$ times the length $\lVert \mathbf{v} \rVert$, negative when the shadow points away from $\mathbf{v}$. |
-| Linear transformation to the number line | A linear transformation that sends each vector to a single number, keeping evenly spaced dots evenly spaced; its matrix is one row ($1 \times n$), so applying it is the same as a dot product with that row. |
-| Duality | The one-to-one match between vectors and linear maps that turn a vector into a number: every such map is a dot product with exactly one vector. So a vector can be read as a scoring function, and a scoring function as a vector. |
-| Dual vector | The one vector whose dot product does the same job as a given linear transformation from vectors to a number; for example, a linear model's weight vector is the dual vector of its scoring function. |
-| Embedding | A learned vector representing a user, item or word, compared with others by dot products |
+| Duality (G-644) | The one-to-one match between vectors and linear maps that turn a vector into a number: every such map is a dot product with exactly one vector. So a vector can be read as a scoring function, and a scoring function as a vector. |
+| Dual vector (G-643) | The one vector whose dot product does the same job as a given linear transformation from vectors to a number; for example, a linear model's weight vector is the dual vector of its scoring function. |
+| Linear transformation to the number line (G-1096) | A linear transformation that sends each vector to a single number, keeping evenly spaced dots evenly spaced; its matrix is one row ($1 \times n$), so applying it is the same as a dot product with that row. |
+| Projection view of the dot product (G-1582) | Reading the dot product as a shadow: $\mathbf{v} \cdot \mathbf{w}$ is the signed length of $\mathbf{w}$'s shadow (projection) on the line of $\mathbf{v}$ times the length $\lVert \mathbf{v} \rVert$, negative when the shadow points away from $\mathbf{v}$. |
+| [Projection](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) | Dropping a point or vector straight onto an axis, a line or another vector's direction, like casting a shadow. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-677) | A learned vector representing a user, item or word, compared with others by dot products. |

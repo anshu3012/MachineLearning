@@ -609,24 +609,32 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Mathematical transformation | Applying one mathematical formula to every value of a feature |
-| Normal distribution | A symmetric, bell-shaped distribution; the target shape of these transformations |
-| Q-Q plot | A plot of a feature's sorted values against the values a normal distribution would have; points on the line mean normal |
-| Quantiles | Values that cut sorted data into equal-sized groups |
-| Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot) |
-| Log transform | Replacing each value with its logarithm; pulls in a long right tail |
-| Geometric mean | The average taken on the log scale; less swayed by one big value than the plain mean |
-| log1p | NumPy's function that adds 1 to each value and then takes the log, $\log(1 + x)$, so the log transform also works when a value is 0. |
-| Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values |
-| Square transform | Replacing each value with $x^2$; used for left-skewed data |
-| Square root transform | Replacing each value with $\sqrt{x}$; it pulls a right tail in, more gently than the log. |
-| FunctionTransformer | scikit-learn's class that applies any function we give it to the data |
-| func | The `FunctionTransformer` parameter that holds the function to apply |
-| PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms |
-| QuantileTransformer | scikit-learn's third mathematical transformer, used much less |
-| Lambda (G-1040) | A one-line Python function without a name, such as `lambda x: x**2` |
+| Mathematical transformation (G-1174) | Applying one mathematical formula, such as the log or the square root, to every value of a column, usually to bring its distribution closer to normal. |
+| FunctionTransformer (G-819) | scikit-learn's class that applies any function we give it to the data. |
+| QuantileTransformer (G-1600) | A scikit-learn transformer that maps each column's values, through their quantiles, onto a uniform or normal distribution; it is used much less than the log and power transforms. |
+| Q-Q plot (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
+| Theoretical quantile (G-1968) | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). |
+| Log transform (G-1112) | Replacing each value with its logarithm; pulls in a long right tail. |
+| log1p (G-1117) | NumPy's function that adds 1 to each value and then takes the log, $\log(1 + x)$, so the log transform also works when a value is 0. |
+| Reciprocal transform (G-1643) | Replacing each value with $1/x$; reverses the order of the values. |
+| Square transform (G-1861) | Replacing each value with $x^2$; used for left-skewed data. |
+| Square root transform (G-1860) | Replacing each value with $\sqrt{x}$; it pulls a right tail in, more gently than the log. |
+| func (G-814) | The `FunctionTransformer` parameter that holds the function to apply. |
+| Lambda (Python) (G-1040) | A one-line Python function without a name, such as `lambda x: x**2`. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [PowerTransformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn) (G-1543) | scikit-learn's class that applies the Box-Cox or Yeo-Johnson power transform to each column, to make its distribution closer to normal. |
+| [Quantiles](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) | Values that cut sorted data into equal-sized groups; a fraction $p$ of the values lie below the quantile $Q(p)$. |
+| [Geometric mean](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#8-choosing-a-measure) (G-844) | An average for values that multiply, such as growth factors: multiply the $n$ values together and take the $n$-th root. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |

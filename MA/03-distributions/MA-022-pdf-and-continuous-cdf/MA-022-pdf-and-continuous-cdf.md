@@ -260,15 +260,19 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Continuous random variable | A random variable that can take any value in a range, with every decimal, such as a CGPA |
-| Probability density function (PDF) | The curve of a continuous random variable whose area over a range is the probability of that range; total area 1 |
-| Probability density | Probability per unit of $x$: the height of a PDF, whose area over a range is a probability |
-| Integration | Finding the area under a curve by adding up infinitely many thin strips |
-| $\int_a^b f(x)\thinspace dx$ (G-13) | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$ |
-| Log-normal distribution | A distribution with a long tail to the right (right-skewed, continuous) whose values follow a normal distribution once you take their logarithm. |
-| CDF of a continuous variable | $F(x) = P(X \le x)$, the area under the PDF to the left of $x$; rises smoothly from 0 to 1 |
-| Slope | How steeply a curve rises at a point: rise divided by run |
-| Derivative | The exact slope of a curve at each point, written $dF/dx$ |
-| Differentiation | Finding the slope of a curve at each point; the derivative of the CDF is the PDF |
+| Integration (G-957) | Finding the area under a curve by adding up infinitely many thin strips. |
+| Probability density (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
+| Probability density function (PDF) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
+| Differentiation (G-608) | Finding the slope of a curve at each point; the derivative of the CDF is the PDF. |
+| $\int_a^b f(x)\thinspace dx$ (G-13) | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$. |
+| [Continuous random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables) (G-466) | A random variable that can take any value in a range, such as a CGPA. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Log-normal distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#3-the-log-normal-distribution) (G-1115) | A distribution with a long tail to the right (right-skewed, continuous) whose values follow a normal distribution once you take their logarithm. |
+| [Poisson distribution](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#21-counts-in-an-interval) (G-1509) | A distribution that gives the probability of each possible count of events (0, 1, 2, ...) in a fixed interval of time or space, from the average count $\lambda$; used for counts such as questions per day. |
+| [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
+| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |

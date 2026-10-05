@@ -321,18 +321,30 @@ The one model has 18,910,018.
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| Sequential model | A Keras model whose layers form a single line: one input, one output |
-| Functional API | The Keras way of building a model as a graph of layers, by calling each layer on the output of the one before; unlike a Sequential model it allows several inputs or outputs, branches and skip connections. |
-| Topology | The pattern of connections between a network's layers |
-| Multi-output model | A model that predicts several targets at once, each from its own output layer |
-| Multi-input model | A model that takes several inputs, such as a photo and a table |
-| `Input` (G-97) | The Keras object that stands for a model's input and fixes its shape |
-| `Concatenate` | A layer that joins vectors end to end into one longer vector |
-| Skip (residual) connection (G-1681) | A connection that adds a block's input to the block's output |
-| `Add` | A layer that adds tensors of the same shape element by element |
-| Loss weight | A number that scales one output's loss in the total loss of a multi-output model |
+| Topology (G-1991) | The pattern of connections between a network's layers. |
+| Functional API (G-818) | The Keras way of building a model as a graph of layers, by calling each layer on the output of the one before; unlike a Sequential model it allows several inputs or outputs, branches and skip connections. |
+| Multi-output model (G-1272) | A model that predicts several targets at once, each from its own output layer. |
+| Multi-input model (G-1269) | A model that takes several inputs, such as a photo and a table. |
+| `Concatenate` (G-71) | A layer that joins vectors end to end into one longer vector. |
+| `Add` (G-59) | A layer that adds tensors of the same shape element by element. |
+| Loss weight (G-1131) | A number that scales one output's loss in the total loss of a multi-output model. |
+| `Input` (`keras.Input`) (G-97) | The Keras object that stands for a model's input and fixes the shape of one input row. |
+| [Sequential model](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras) (G-1776) | A Keras model whose layers form one stack, each feeding the next. |
+| [Regression](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) | Supervised learning with a numerical output. |
+| [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
+| [Residual connection](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview) (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |
+| [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| [VGG16](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#4-the-network-vgg16) (G-2088) | An image-recognition network (a CNN) of 13 convolution layers (all 3 × 3) in 5 blocks plus 3 dense layers, trained on ImageNet. |
+| [Flatten layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) | A layer that reshapes a multi-dimensional input into one dimension; no parameters. |
+| [Mean absolute error (MAE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194) | The average absolute difference between actual and predicted values. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |

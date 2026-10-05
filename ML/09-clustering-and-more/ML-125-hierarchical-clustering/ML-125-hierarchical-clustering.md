@@ -353,17 +353,23 @@ Limitation:
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Hierarchical clustering | Clustering that builds a hierarchy of clusters, from single points up to one cluster |
-| Agglomerative clustering | Grouping that starts with one cluster per point and repeatedly merges the closest pair (bottom-up hierarchical clustering). |
-| Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly |
-| Proximity matrix | An n × n table of the distances between every pair of points or clusters |
-| Linkage | The rule that measures the distance between two clusters, for example the distance between their closest points or their average distance; hierarchical clustering merges the two closest clusters by this rule, so the linkage shapes the result. |
-| Single linkage | In hierarchical clustering, a way to measure the distance between two clusters: the distance of their closest pair of points; the two closest clusters are merged next. |
-| Complete linkage | A way to measure the distance between two clusters in hierarchical clustering: the distance of their farthest pair of points; the closest two clusters are merged next. |
-| Average linkage | A way to measure the distance between two clusters in hierarchical clustering: the mean of all distances between a point of one cluster and a point of the other; the closest two clusters are merged next. |
-| Ward linkage | A rule for the distance between two clusters in hierarchical clustering: how much the total squared distance to the centroids grows if the two are merged. |
-| Cutting the dendrogram | Drawing a horizontal line through the dendrogram; the lines it crosses are the clusters |
-| AgglomerativeClustering | scikit-learn's class for agglomerative clustering: given the number of clusters, the distance and the linkage, `fit_predict` merges points bottom-up and returns each point's cluster. |
-| distance_threshold | Height at which `AgglomerativeClustering` stops merging, instead of a fixed number of clusters |
+| Hierarchical clustering (G-893) | Clustering that builds a hierarchy of clusters, from single points up to one cluster. |
+| Agglomerative clustering (G-180) | Grouping that starts with one cluster per point and repeatedly merges the closest pair (bottom-up hierarchical clustering). |
+| Divisive clustering (G-630) | Top-down hierarchical clustering: start with one cluster and split repeatedly. |
+| Proximity matrix (G-1585) | An n × n table of the distances between every pair of points or clusters. |
+| Single linkage (G-1811) | In hierarchical clustering, a way to measure the distance between two clusters: the distance of their closest pair of points; the two closest clusters are merged next. |
+| Complete linkage (G-427) | A way to measure the distance between two clusters in hierarchical clustering: the distance of their farthest pair of points; the closest two clusters are merged next. |
+| Average linkage (G-236) | A way to measure the distance between two clusters in hierarchical clustering: the mean of all distances between a point of one cluster and a point of the other; the closest two clusters are merged next. |
+| Ward linkage (G-2099) | A rule for the distance between two clusters in hierarchical clustering: how much the total squared distance to the centroids grows if the two are merged. |
+| Linkage (G-1104) | The rule that measures the distance between two clusters, for example the distance between their closest points or their average distance; hierarchical clustering merges the two closest clusters by this rule, so the linkage shapes the result. |
+| AgglomerativeClustering (G-181) | scikit-learn's class for agglomerative clustering: given the number of clusters, the distance and the linkage, `fit_predict` merges points bottom-up and returns each point's cluster. |
+| Cutting the dendrogram (G-527) | Drawing a horizontal line through the dendrogram; the lines it crosses are the clusters. |
+| distance_threshold (G-624) | Height at which `AgglomerativeClustering` stops merging, instead of a fixed number of clusters. |
+| [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| [Dendrogram](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories) (G-582) | A tree showing which rows (or columns) were joined as similar, and in what order. |
+| [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
+| [Minkowski distance](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1227) | A family of distances between two points, $\left(\sum_i \lvert x_i - y_i \rvert^p\right)^{1/p}$, set by the number $p$: $p = 2$ gives the Euclidean distance and $p = 1$ the Manhattan distance; KNN uses it to find the nearest neighbours. |

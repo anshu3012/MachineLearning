@@ -234,11 +234,16 @@ Figure 6 puts the overcast day before and after smoothing side by side. Watch th
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
+| Zero-frequency problem (G-2149) | A probability of 0 for a value never seen with a class, which forces that class's score to 0. |
 | Lookup table (G-1128) | The stored probabilities (class priors, and each feature value's probability within each class) that Naive Bayes computes once in training and then looks up to score new rows. |
-| Crosstab (G-511), `pd.crosstab` | A table counting the rows for every pair of categories of two columns; the pandas function that builds it |
-| MAP rule (G-1157) | Predict the class with the largest posterior probability |
-| Zero-frequency problem (G-2149) | A probability of 0 for a value never seen with a class, which forces that class's score to 0 |
-| Laplace smoothing (G-1045) | Adding a small count (usually 1) to every count so that no probability is 0 |
-| CategoricalNB (G-353) | scikit-learn's Naive Bayes for categorical features |
+| pd.crosstab (G-1470) | pandas function that counts how often each pair of values from two columns occurs. |
+| Laplace smoothing (G-1045) | Adding a small count (usually 1) to every count so that no probability is 0. |
+| CategoricalNB (G-353) | scikit-learn's Naive Bayes for categorical inputs. |
+| [Prior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565) | The probability of an event before any evidence is seen. |
+| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
+| [MAP rule](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#6-the-formula-and-the-map-rule) (G-1157) | Predict the class that is most probable for the row, given its features (the class with the largest posterior probability; maximum a posteriori). |
+| [Crosstab](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |

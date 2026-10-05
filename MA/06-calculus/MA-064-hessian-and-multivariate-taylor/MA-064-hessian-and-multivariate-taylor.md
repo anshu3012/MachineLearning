@@ -688,24 +688,28 @@ Figure 13 races the three methods on the curved valley above, all with the same 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Second derivative | The derivative of the derivative: the rate at which the slope changes; positive where a curve bends upward |
+| Tangent plane (G-1946) | The flat plane that touches a surface at one point with the same slopes (gradient) there; it approximates the surface near that point and is the first-order Taylor approximation. |
 | Quadratic approximation (G-2252) | A curved surface that matches a function near a point in value, slopes and bending: the tangent plane plus the terms $\tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$; it is the second-order Taylor polynomial, and Newton's method steps to its minimum. |
-| Second partial derivative | A partial derivative taken of a partial derivative, such as $\partial^2 f/\partial x^2$; it measures how the slope along one input changes, that is, how the surface bends. |
-| Mixed partial derivative | A second partial derivative with respect to two different variables, such as $\partial^2 f/\partial y\thinspace\partial x$ |
-| Hessian matrix | The table of how a many-input function's slopes change, which measures its curvature: the symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$. |
-| Curvature | How fast the slope of a surface changes; given in each direction by the Hessian |
-| Saddle point | A flat point where the surface curves up in some directions and down in others (Hessian eigenvalues of both signs) |
-| Stationary point | A point where every partial derivative is zero: a minimum, a maximum or a saddle point |
+| Second partial derivative (G-1760) | A partial derivative taken of a partial derivative, such as $\partial^2 f/\partial x^2$; it measures how the slope along one input changes, that is, how the surface bends. |
+| Mixed partial derivative (G-1236) | A second partial derivative taken with respect to two different variables, such as $\partial^2 f/\partial y\thinspace\partial x$: how the slope along $x$ changes as $y$ changes; the off-diagonal entries of the Hessian. |
+| Curvature (G-521) | How fast the slope of a surface changes; given in each direction by the Hessian. |
+| Hessian matrix (G-888) | The table of how a many-input function's slopes change, which measures its curvature: the symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$. |
 | Second partial derivative test (G-2253) | A test that tells what a stationary point of a function of two inputs is from one number, $D = f_{xx}f_{yy} - f_{xy}^2$: $D > 0$ a minimum or maximum (by the sign of $f_{xx}$), $D < 0$ a saddle point, $D = 0$ no answer. |
-| Tangent plane | The flat plane that touches a surface at one point with the same slopes (gradient) there; it approximates the surface near that point and is the first-order Taylor approximation. |
-| Multivariate Taylor series | $\sum_k D^k f(\mathbf x_0)\thinspace\boldsymbol{\delta}^k / k!$: approximation of $f$ near $\mathbf x_0$ from its derivatives there |
-| Multivariate Taylor polynomial | The multivariate Taylor series cut after a chosen order $k = m$ (giving $T_m$) |
-| Outer product | Multiplying a column vector by a row vector to get a whole matrix: $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$ has entry $\delta_i\delta_j$ for every pair; it is what $\boldsymbol{\delta}^2$ means in a Taylor polynomial of several variables. |
-| Newton's method | A way to find a minimum: at the current point, fit a bowl (the second-order Taylor polynomial, from the first and second derivatives), jump to its lowest point, and repeat; the step is $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. XGBoost uses one such step for every tree. |
-| Quasi-Newton method | Newton's method with the Hessian replaced by a stand-in matrix built from how the gradient changes between steps, so no second derivatives are computed; BFGS and L-BFGS are examples. |
-| Secant equation | The condition $B_{k+1}\mathbf{s} = \mathbf{y}$ on the matrix that stands in for the Hessian: the new matrix must reproduce the gradient change $\mathbf{y}$ seen over the last step $\mathbf{s}$, so it captures the curvature just observed. |
-| BFGS | The most used way to take Newton-like steps without computing second derivatives (a quasi-Newton method): it builds a stand-in for the Hessian from gradients alone, kept symmetric and positive definite. |
-| L-BFGS | An optimiser that uses the curvature of the loss without storing the full Hessian: it builds a stand-in for it from only the last few steps and gradient changes, saving memory (limited-memory BFGS, a quasi-Newton method). scikit-learn's default logistic regression solver. |
-| Laplace approximation | Replacing a distribution near its peak with a normal distribution whose width comes from the curvature there (the Hessian). |
+| Multivariate Taylor polynomial (G-1284) | An approximation of a function of several variables near a point, built from its derivatives there up to order $n$ (the multivariate Taylor series cut after the $k = n$ term); the second-order one uses the gradient and the Hessian. |
+| Multivariate Taylor series (G-1285) | An approximation of a function of several variables near a point $\mathbf x_0$ from all its derivatives there, each term adding one more order of correction: $\sum_k D^k f(\mathbf x_0)\thinspace\boldsymbol{\delta}^k / k!$. |
+| Outer product (G-1418) | Multiplying a column vector by a row vector to get a whole matrix: $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$ has entry $\delta_i\delta_j$ for every pair; it is what $\boldsymbol{\delta}^2$ means in a Taylor polynomial of several variables. |
+| Newton's method (G-1321) | A way to find a minimum: at the current point, fit a bowl (the second-order Taylor polynomial, from the first and second derivatives), jump to its lowest point, and repeat; the step is $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. XGBoost uses one such step for every tree. |
+| Quasi-Newton method (G-1603) | Newton's method with the Hessian replaced by a stand-in matrix built from how the gradient changes between steps, so no second derivatives are computed; BFGS and L-BFGS are examples. |
+| BFGS (G-283) | The most used way to take Newton-like steps without computing second derivatives (a quasi-Newton method): it builds a stand-in for the Hessian from gradients alone, kept symmetric and positive definite. |
+| L-BFGS (G-1023) | An optimiser that uses the curvature of the loss without storing the full Hessian: it builds a stand-in for it from only the last few steps and gradient changes, saving memory (limited-memory BFGS, a quasi-Newton method). scikit-learn's default logistic regression solver. |
+| Secant equation (G-1757) | The condition $B_{k+1}\mathbf{s} = \mathbf{y}$ on the matrix that stands in for the Hessian: the new matrix must reproduce the gradient change $\mathbf{y}$ seen over the last step $\mathbf{s}$, so it captures the curvature just observed. |
+| Laplace approximation (G-1043) | Replacing a distribution near its peak with a normal distribution whose width comes from the curvature there (the Hessian). |
+| Second derivative (G-2249) | The derivative of the derivative; it measures how the curve bends. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Contour plot](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468) | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
+| [Stationary point](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) (G-1879) | A point where a function is flat, its slope is zero (the derivative, or every partial derivative, is zero); it is a minimum, a maximum or a saddle point. |
+| [Saddle point](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718) | A flat point that curves up in one direction and down in another. |

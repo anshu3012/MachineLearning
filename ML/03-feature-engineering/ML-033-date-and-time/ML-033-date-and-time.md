@@ -511,19 +511,21 @@ The unit letters are case-sensitive:
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Observation | One record, one row of the data table |
-| Datetime | A value pandas understands as a point in time, with date and time parts, so we can pull out parts such as the year or weekday and compute the time between two dates. |
-| pd.to_datetime | The pandas function that converts text to datetime values |
-| datetime64 | The pandas column type for datetimes; `[us]` means microsecond resolution |
-| .dt accessor | The pandas tool that applies date and time methods to every value of a datetime column |
-| Day of week | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`) |
-| ISO week | The week number of the ISO calendar, from `.dt.isocalendar().week`; week 1 holds the year's first Thursday |
-| Quarter | One of four three-month parts of a year |
-| Semester | One of two six-month halves of a year |
-| Timestamp | pandas' type for a single point in time |
-| Timedelta | A length of time, the result of subtracting two datetimes |
-| NaT | "Not a time": the missing value of a datetime column |
-| Format string | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written |
+| pd.to_datetime (G-1472) | The pandas function that converts text to datetime values. |
+| Datetime (G-545) | A value pandas understands as a point in time, with date and time parts, so we can pull out parts such as the year or weekday and compute the time between two dates. |
+| NaT (G-1304) | "Not a time": the missing value of a datetime column. |
+| .dt accessor (G-46) | The pandas tool that applies date and time methods to every value of a datetime column. |
+| ISO week (G-975) | The week number of the ISO calendar, from `.dt.isocalendar().week`; week 1 holds the year's first Thursday. |
+| Timestamp (G-1978) | pandas' type for a single point in time. |
+| Timedelta (G-1977) | A length of time, the result of subtracting two datetimes. |
+| datetime64 (G-546) | The pandas column type for datetimes; `[us]` means microsecond resolution. |
+| Day of week (G-547) | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`). |
+| Format string (G-795) | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. |
+| Quarter (G-1601) | One of four three-month parts of a year. |
+| Semester (G-1767) | One of two six-month halves of a year. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

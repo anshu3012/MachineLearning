@@ -395,31 +395,37 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Variable | One column of a dataset |
-| Feature | An input variable, one column of the data table |
-| Target | The variable we want to predict |
-| Observation | One record, one row of the data table |
-| Univariate analysis | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
-| Bivariate analysis | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
-| Multivariate analysis | Studying more than two variables together |
-| Category | One of the fixed groups of a categorical column |
-| Frequency | How many times a value or category occurs |
-| Count plot | A bar chart with one bar per category, as tall as its frequency |
-| Pie chart | A circle split into slices sized by each category's share |
-| Histogram | A bar chart of how many values fall in each equal range (bin) of a numerical column |
-| Bin | One of the equal ranges a histogram splits the data into |
-| Distribution | How a column's values spread over their range |
-| Density plot | A histogram with a smooth KDE curve drawn along the tops of its bars, so the shape of a numerical column's distribution is easier to see. |
-| Kernel density estimate (KDE) | A smooth curve that estimates a column's distribution from its values |
-| Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities |
-| Box plot | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
-| Five-number summary | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
-| Interquartile range (IQR) | The width of the middle half of the data: Q3 - Q1. |
-| Fence (G-776) | A calculated limit 1.5 IQR beyond the box; values past it are possible outliers |
+| Univariate analysis (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
+| Bivariate analysis (G-310) | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
+| Multivariate analysis (G-1280) | Studying more than two variables together. |
+| Variable (G-2071) | One column of a dataset. |
+| Category (G-356) | One of the fixed groups of a categorical column. |
+| Count plot (G-494) | A bar chart with one bar per category, as tall as its frequency. |
+| Frequency (G-808) | How many times a value or category occurs. |
+| Pie chart (G-1495) | A circle split into slices sized by each category's share. |
+| Histogram (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
+| Bin (G-298) | One of the equal ranges a histogram splits the data into. |
+| Distribution (G-626) | How a column's values spread over their range. |
+| Density plot (G-587) | A histogram with a smooth KDE curve drawn along the tops of its bars, so the shape of a numerical column's distribution is easier to see. |
+| Kernel density estimate (KDE) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
+| Kernel (KDE) (G-2273) | A small symmetric bump with area 1, placed on each point to build a KDE curve. |
+| Box plot (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
+| Five-number summary (G-787) | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
+| Interquartile range (IQR) (G-966) | The width of the middle half of the data: Q3 - Q1. |
+| IQR method (IQR rule, IQR proximity rule) (G-972) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. |
 | Whisker (G-2181) | The line in a box plot from the box to the last value inside the fence; it shows how far the ordinary values reach, and values beyond it are drawn as separate dots. |
-| Kernel (G-2273) | The small bump placed on each value to build a KDE curve |
-| Outlier | A value far from the rest of the data |
-| Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail |
-| Normal distribution | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| Outlier (G-1420) | A value far from the rest of the data. |
+| Positive skew (right skew) (G-1533) | A long tail on the right: a few very large values. |
+| Negative skew (left skew) (G-1312) | A long tail on the left: a few very small values. |
+| Skewness (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| Fence (fences) (G-776) | A cut-off for spotting outliers in a box plot: 1.5 times the IQR (the width of the middle half of the data) beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
+| [Probability density](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |

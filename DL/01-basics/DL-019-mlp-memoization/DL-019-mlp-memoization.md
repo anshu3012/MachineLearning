@@ -411,12 +411,23 @@ On the **computation graph** (G-434; a diagram with one node per intermediate va
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Memoization | Storing the result of a function call and returning the stored result when the same input comes again |
-| Recursion | A function that calls itself on smaller inputs |
-| Exponential time | Work that is multiplied by a constant factor with every step of the input size |
-| Dynamic programming | Solving a problem by storing the answer to each overlapping sub-problem the first time it is computed and looking it up afterwards, so no work is repeated; memoization is one form of it. |
-| Dictionary (Python) | A lookup table from keys to values, written `{key: value}` |
-| `lru_cache` | Python's built-in tool that stores a function's results automatically, so a repeated call reuses them (memoization). |
-| Path (in a network) | A route from a node to the output along connections; a derivative sums its products over all paths |
+| Memoization (G-1210) | Storing the result of a function call and returning the stored result when the same input comes again. |
+| Recursion (G-1648) | A function that calls itself on smaller inputs. |
+| Exponential time (G-734) | Work that is multiplied by a constant factor with every step of the input size. |
+| Dynamic programming (G-652) | Solving a problem by storing the answer to each overlapping sub-problem the first time it is computed and looking it up afterwards, so no work is repeated; memoization is one form of it. |
+| `lru_cache` (G-109) | Python's built-in tool that stores a function's results automatically, so a repeated call reuses them (memoization). |
+| Path (in a network) (G-1464) | A route from a node to the output along connections; a derivative sums its products over all paths. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Dictionary (Python)](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#5-reading-the-reply) (G-603) | A lookup table from keys to values, written `{key: value}`. |
+| [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Computation graph](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation) (G-434) | A function broken into elementary steps, each a node, with arrows for the flow of values. Backpropagation walks it backwards, applying the chain rule one step at a time. |
+| [Backward pass](../../../DL/04-cnn/DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#1-overview) (G-249) | Computing the gradient of the loss for every tensor, from the output back to the input. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |

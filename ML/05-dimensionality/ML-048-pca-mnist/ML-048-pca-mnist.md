@@ -302,15 +302,22 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table; here one pixel |
-| Observation | One record: one row of the data table; here one image |
-| Target | The output we predict; here the digit |
-| MNIST | A dataset of 70,000 images of handwritten digits, 28 × 28 pixels each |
-| n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance |
-| explained_variance_ | How much of the data's spread each principal component keeps (its eigenvalue), stored on a fitted PCA, largest first. |
-| components_ | The directions of the principal components found by a fitted PCA (the eigenvectors of the covariance matrix), one per row. |
-| Explained variance ratio | The share of the data's total spread that one principal component keeps: its eigenvalue divided by the sum of all eigenvalues (its share of the total variance). Adding these shares from the largest down tells us how many components to keep. |
-| Cumulative explained variance | The share of the data's variance kept by the first $k$ principal components together; its curve over $k$ is used to choose how many components to keep. |
-| LDA | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |
+| explained_variance_ (G-729) | How much of the data's spread each principal component keeps (its eigenvalue), stored on a fitted PCA, largest first. |
+| components_ (G-430) | The directions of the principal components found by a fitted PCA (the eigenvectors of the covariance matrix), one per row. |
+| Cumulative explained variance (G-516) | The share of the data's variance kept by the first $k$ principal components together; its curve over $k$ is used to choose how many components to keep. |
+| Explained variance (G-728) | How much of the data's spread one principal component keeps: the variance of the data along that component, equal to its eigenvalue. |
+| Explained variance ratio (G-727) | The share of the data's total spread that one principal component keeps: its eigenvalue divided by the sum of all eigenvalues (its share of the total variance). Adding these shares from the largest down tells us how many components to keep. |
+| n_components (G-1289) | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
+| [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
+| [LDA](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-1059) | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |

@@ -277,13 +277,28 @@ Figure 7 shows why the EWMA comes first: three of the five optimizers are built 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Optimizer | The algorithm that turns the gradients into weight updates to minimise the loss, such as gradient descent or Adam |
-| Optimisation problem | Finding the inputs (here the weights and biases) that make a function (here the loss) smallest |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Learning-rate schedule (G-1070) | A plan, fixed before training, for lowering the learning rate during training |
-| Global minimum | The point with the lowest loss of all |
-| Local minimum | A point lower than everything around it, but not the lowest overall |
-| Saddle point | A point where the surface rises in one direction and falls in another; the gradient there is zero |
+| Optimisation problem (G-1399) | Finding the inputs (here the weights and biases) that make a function (here the loss) smallest. |
+| Saddle point (G-1718) | A flat point that curves up in one direction and down in another. |
+| [Initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview) (G-947) | Giving every weight and bias its starting value before training begins; a bad start can cause vanishing or exploding gradients or slow convergence. |
+| [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
+| [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |
+| [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Convergence (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472) | The point where the fills hardly change between two iterations. |
+| [Learning rate scheduler (learning schedule)](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1070) | A rule that changes the learning rate as training goes on, usually lowering it. |
+| [Non-convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
+| [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
+| [Plateau](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1503) | A nearly flat region of the loss, where steps become very small. |
+| [Newton's method](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#7-where-ml-uses-second-order-approximations) (G-1321) | A way to find a minimum: at the current point, fit a bowl (the second-order Taylor polynomial, from the first and second derivatives), jump to its lowest point, and repeat; the step is $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. XGBoost uses one such step for every tree. |

@@ -326,15 +326,39 @@ Batch normalisation learns faster, and it trains more reliably: without it one r
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Batch normalisation | A layer that standardises each node's values over the current mini-batch, then scales by $\gamma$ and shifts by $\beta$ |
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable, such as CGPA: one column of the data table |
-| Covariate shift | A change in the distribution of a model's inputs while the input-output relationship stays the same |
-| Internal covariate shift | The way the values a layer receives keep changing their spread and centre during training, because the layers before it keep updating (the change in the distribution of a network's activations). |
-| $\gamma$ (scale) and $\beta$ (shift) | The two learnable parameters per node of a batch normalisation layer: after normalising, the layer multiplies by $\gamma$ and adds $\beta$, so the network can choose its own mean and spread; they start at 1 and 0 in Keras. |
-| Moving mean and moving variance | Running averages of each node's mean and variance over the training batches, kept during training (in batch normalization) and used in place of the batch's own values at prediction. |
-| Non-trainable parameter | A stored number that gradient descent does not update, such as a moving mean |
-| $\epsilon$ (epsilon) | A tiny number added to the variance to avoid dividing by 0; 0.001 in Keras |
-| `BatchNormalization` | The Keras layer that applies batch normalisation: placed after a hidden layer, it standardises that layer's values over each mini-batch and learns $\gamma$ and $\beta$, which makes training faster. |
+| Covariate shift (G-497) | A change in the distribution of a model's inputs while the input-output relationship stays the same. |
+| Internal covariate shift (G-963) | The way the values a layer receives keep changing their spread and centre during training, because the layers before it keep updating (the change in the distribution of a network's activations). |
+| Moving mean and moving variance (G-1265) | Running averages of each node's mean and variance over the training batches, kept during training (in batch normalization) and used in place of the batch's own values at prediction. |
+| Non-trainable parameter (G-1341) | A stored number that gradient descent does not update, such as a moving mean. |
+| $\epsilon$ (epsilon) (G-9) | A tiny number added to the variance to avoid dividing by 0; 0.001 in Keras. |
+| $\gamma$ (scale) and $\beta$ (shift) (G-11) | The two learnable parameters per node of a batch normalisation layer: after normalising, the layer multiplies by $\gamma$ and adds $\beta$, so the network can choose its own mean and spread; they start at 1 and 0 in Keras. |
+| `BatchNormalization` (G-64) | The Keras layer that applies batch normalisation: placed after a hidden layer, it standardises that layer's values over each mini-batch and learns $\gamma$ and $\beta$, which makes training faster. |
+| [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
+| [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview) (G-947) | Giving every weight and bias its starting value before training begins; a bad start can cause vanishing or exploding gradients or slow convergence. |
+| [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) | Gradient descent that uses a small random group of rows for every update. |
+| [Batch size](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) | The number of rows in each batch; a hyperparameter. |
+| [Weight matrix ($W^{k}$)](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#41-the-weight-matrix) (G-2109) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$. |
+| [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [`make_circles`](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#41-an-experiment-linear-activations-on-circles) (G-110) | scikit-learn function that generates two concentric rings of observations, one ring per class. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
+| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |

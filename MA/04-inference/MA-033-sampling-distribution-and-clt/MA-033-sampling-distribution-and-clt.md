@@ -394,13 +394,20 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sampling distribution | The distribution of a statistic (such as the mean) computed from many independent samples of the same size from one population; it shows how much that statistic varies from sample to sample. |
-| Sampling distribution of the sample mean | The distribution of the means of many samples of size $n$; by the central limit theorem it is close to normal, centred on the population mean, with spread $\sigma/\sqrt{n}$. |
-| Sample size ($n$) | The number of values in one sample, written $n$, such as 50 people; a larger $n$ makes the sample mean vary less from sample to sample (its spread is $\sigma/\sqrt{n}$). |
-| Central limit theorem | For large enough samples from a population with finite variance, sample means follow approximately a normal distribution, whatever the distribution of the data; their mean is $\mu$ and their variance $\sigma^2/n$ |
-| Standard error | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
-| Independent and identically distributed (i.i.d.) | Values that do not affect each other and all come from the same distribution |
-| Exponential distribution | The pattern of waiting times between random events: short waits are common and long waits rare (a right-skewed continuous distribution). |
-| Gamma distribution | A family of right-skewed continuous distributions with a shape and a scale parameter |
+| Sampling distribution (G-1736) | The distribution of a statistic (such as the mean) computed from many independent samples of the same size from one population; it shows how much that statistic varies from sample to sample. |
+| Central limit theorem (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
+| Sample size ($n$) (G-1727) | The number of values in one sample, written $n$, such as 50 people; a larger $n$ makes the sample mean vary less from sample to sample (its spread is $\sigma/\sqrt{n}$). |
+| Standard error (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| Gamma distribution (G-822) | A family of right-skewed continuous distributions with a shape and a scale parameter. |
+| Independent and identically distributed (i.i.d.) (G-933) | Values that do not affect each other and all come from the same distribution. |
+| Sampling distribution of the sample mean (G-1735) | The distribution of the means of many samples of size $n$; by the central limit theorem it is close to normal, centred on the population mean, with spread $\sigma/\sqrt{n}$. |
+| [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
+| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
+| [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| [Statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics) (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
+| [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
+| [Exponential distribution](../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#31-the-distribution-of-waiting-times) (G-733) | The pattern of waiting times between random events: short waits are common and long waits rare (a right-skewed continuous distribution). |

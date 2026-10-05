@@ -333,14 +333,33 @@ On such a small problem every good start works. The differences show in deep net
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Fan-in | The number of inputs coming into a node, equal to the size of the previous layer. Xavier and He initialisation use it to set the spread of the starting weights. |
-| Fan-out | The number of outputs leaving a node, equal to the size of the next layer. Xavier initialisation uses it, with fan-in, to set the spread of the starting weights. |
-| Xavier (Glorot) normal | Starting weights drawn from a normal distribution whose spread is set by the layer's size, standard deviation $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$, so the signal keeps its size from layer to layer. |
-| Xavier (Glorot) uniform | Starting weights drawn evenly between $\pm\sqrt{6/(\text{fan-in} + \text{fan-out})}$, a range set by the layer's size, so the signal keeps its size from layer to layer. |
-| He normal | A way to set starting weights for ReLU layers: draw them from a normal distribution with standard deviation $\sqrt{2/\text{fan-in}}$, so the signal keeps roughly the same size from layer to layer. |
-| He uniform | A way to set starting weights for ReLU layers: draw them evenly between $-\sqrt{6/\text{fan-in}}$ and $+\sqrt{6/\text{fan-in}}$, so the signal keeps roughly the same size from layer to layer. |
-| LeCun initialisation | A way to pick a network's random starting weights: draw them from a normal distribution with standard deviation $\sqrt{1/\text{fan-in}}$ (fan-in is the number of inputs to a node), so the signal keeps a steady spread from layer to layer; the start SELU needs (Keras `lecun_normal`). |
-| `kernel_initializer` | The `Dense` argument that chooses how a layer's weight matrix starts; default `glorot_uniform` |
-| Truncated normal | A normal distribution with values beyond two standard deviations redrawn |
+| Fan-in (G-754) | The number of inputs coming into a node, equal to the size of the previous layer. Xavier and He initialisation use it to set the spread of the starting weights. |
+| Fan-out (G-755) | The number of outputs leaving a node, equal to the size of the next layer. Xavier initialisation uses it, with fan-in, to set the spread of the starting weights. |
+| LeCun initialisation (G-1077) | A way to pick a network's random starting weights: draw them from a normal distribution with standard deviation $\sqrt{1/\text{fan-in}}$ (fan-in is the number of inputs to a node), so the signal keeps a steady spread from layer to layer; the start SELU needs (Keras `lecun_normal`). |
+| He normal (G-881) | A way to set starting weights for ReLU layers: draw them from a normal distribution with standard deviation $\sqrt{2/\text{fan-in}}$, so the signal keeps roughly the same size from layer to layer. |
+| He uniform (G-882) | A way to set starting weights for ReLU layers: draw them evenly between $-\sqrt{6/\text{fan-in}}$ and $+\sqrt{6/\text{fan-in}}$, so the signal keeps roughly the same size from layer to layer. |
+| Truncated normal (G-2023) | A normal distribution restricted to a range and rescaled so its area is 1; it keeps its bell shape inside the range. Keras' normal initialisers cut at two standard deviations: values beyond are redrawn. |
+| `kernel_initializer` (G-105) | The `Dense` argument that chooses how a layer's weight matrix starts; default `glorot_uniform`. |
+| Xavier (Glorot) normal (G-2131) | Starting weights drawn from a normal distribution whose spread is set by the layer's size, standard deviation $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$, so the signal keeps its size from layer to layer. |
+| Xavier (Glorot) uniform (G-2132) | Starting weights drawn evenly between $\pm\sqrt{6/(\text{fan-in} + \text{fan-out})}$, a range set by the layer's size, so the signal keeps its size from layer to layer. |
+| [Glorot (Xavier) and He initialisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#63-initialise-the-weights-properly) (G-850) | Ways to choose the spread of random starting weights from the layer sizes. |
+| [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Uniform distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
+| [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
+| [`make_moons`](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#34-dead-nodes-in-practice) (G-111) | scikit-learn function that generates two interleaving half-moon classes. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |

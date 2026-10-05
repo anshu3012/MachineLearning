@@ -372,17 +372,27 @@ In Figure 10, watch the grey band: half of the rule is spent on impossible negat
 
 ## 15. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output a model predicts |
-| Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal features |
-| Normal distribution | A bell-shaped distribution: most values near the mean, fewer and fewer towards both ends |
-| Bell curve | The curve of a normal distribution |
-| 68-95-99.7 rule (empirical rule) | In a normal feature, about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean |
-| Z-score | How many standard deviations a value lies from the mean: $(x - \mu)/\sigma$ |
-| Tail (G-1942) | The part of a distribution far from the centre, where values are rare |
-| Outlier | A value far from the rest of the data |
-| Upper / lower limit (G-2062) | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers |
-| `np.where` | NumPy function that picks one value where a condition is true and another where it is false |
+| Z-score method (G-2139) | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. |
+| Bell curve (G-274) | The curve of a normal distribution. |
+| 68-95-99.7 rule (empirical rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
+| Tail (of a distribution) (G-1942) | The part of the curve far from the centre, where values are rare. |
+| Z-score (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |
+| Upper / lower limit (outlier detection) (G-2062) | The two cut-offs of the z-score method, $\mu - 3\sigma$ and $\mu + 3\sigma$; a value below the lower limit or above the upper limit counts as an outlier. |
+| `np.where` (G-124) | NumPy function that picks one value where a condition is true and another where it is false. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
+| [Capping](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) | Replacing every value beyond a limit with the limit itself. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [`clip`](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#7-capping-in-code-winsorization) (G-70) | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |

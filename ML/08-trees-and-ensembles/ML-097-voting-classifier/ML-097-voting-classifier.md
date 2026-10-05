@@ -309,13 +309,17 @@ Both approaches are used: different algorithms, or one algorithm with several se
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature (G-772) | An input variable: one column of the data table |
-| Observation (G-1374) | One record of the data: one row of the data table |
-| Target (G-1949) | The output we predict |
-| Voting classifier (G-2095) | A classifier that combines several trained classifiers by voting |
-| Hard voting (G-878) | Predicting the label that most base models predict |
-| Soft voting (G-1828) | Predicting the class with the highest average predicted probability across the base models |
-| weights (G-2120) | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance |
+| Voting classifier (G-2095) | A classifier that combines several trained classifiers by voting. |
+| Hard voting (G-878) | Predicting the label that most base models predict. |
+| Soft voting (G-1828) | Predicting the class with the highest average predicted probability across the base models. |
+| weights (G-2120) | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance. |
 | CalibratedClassifierCV (G-340) | scikit-learn wrapper that makes a classifier with no probabilities by default, such as an SVM, give calibrated probabilities. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

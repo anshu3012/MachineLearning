@@ -199,9 +199,18 @@ The random forest makes about 13% fewer mistakes than bagging (4.7% against 5.4%
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Tree-level feature sampling (G-2014) | Drawing one random set of features per tree, before the tree is grown; every split of that tree uses only those features (bagging) |
-| Node-level feature sampling (G-1325) | Drawing a new random set of features before every split (random forest) |
-| export_text | scikit-learn function that prints a trained tree as indented text |
-| Correlation between base models | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance |
+| Tree-level feature sampling (tree-level column sampling) (G-2014) | Drawing one random set of features per tree, before the tree is grown; every split of that tree uses only those features (bagging). |
+| Node-level feature sampling (node-level column sampling) (G-1325) | Drawing a new random set of features before every split (random forest). |
+| Correlation between base models (G-488) | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance. |
+| export_text (G-737) | scikit-learn function that prints a trained tree as indented text. |
+| [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [max_features](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-max_features) (G-1185) | The number of randomly chosen columns a tree considers at each split. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [estimators_features_](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#33-which-observations-and-features-each-tree-got) (G-710) | The column numbers each trained base model was given. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |

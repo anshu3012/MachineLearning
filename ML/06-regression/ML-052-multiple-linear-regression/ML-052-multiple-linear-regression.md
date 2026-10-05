@@ -176,13 +176,19 @@ On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise ad
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| Multiple linear regression | Linear regression with two or more features |
-| Plane | A flat surface in 3D; the model for two features |
-| Hyperplane | A flat surface in more than three dimensions; the model for three or more features |
-| Coefficient ($\beta_i$) | The weight of one feature: the change in the output per unit of that input, others fixed |
-| make_regression | scikit-learn function that generates data following a linear pattern plus noise |
+| Multiple linear regression (G-1279) | Linear regression with several input columns. |
+| Plane (G-1502) | A flat surface in 3D; the model for two input columns. |
+| Hyperplane (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
+| Coefficient ($\beta_i$) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
+| make_regression (G-1153) | scikit-learn function that generates data following a linear pattern plus noise. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Weight (in a weighted mean)](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#6-weighted-mean) (G-2111) | A number saying how much a value counts in a weighted mean. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |

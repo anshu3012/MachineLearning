@@ -627,26 +627,32 @@ Exactness for polynomials explains a result of [the second-order approximation o
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Function | A rule that assigns exactly one output to every input, written $f: \mathbb{R} \to \mathbb{R}$, $x \mapsto f(x)$ |
-| Domain | The set of allowed inputs of a function |
-| Codomain | The set in which a function's outputs lie |
-| Secant line | A straight line through two points of a curve; as the second point slides towards the first, it turns into the tangent line, whose slope is the derivative. |
-| Difference quotient | The average slope of a function over a step $h$: the change in output divided by the change in input, $(f(x + h) - f(x))/h$, the slope of the secant line. Shrinking $h$ towards 0 gives the derivative. |
-| Limit | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0) |
-| Tangent line | The line that touches a curve at one point with the curve's slope there; the limit of secant lines |
-| Differentiable | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
-| Power rule | The rule for differentiating a power of $x$: bring the power down in front and lower the power by one, $(x^n)' = n x^{n-1}$. |
-| Numerical derivative | An estimate of a derivative straight from its definition: the change in the function over a small step $h$, divided by $h$ (a finite difference); a computer can get it from function values alone. |
-| Central difference | A way to estimate a slope from two nearby points, one small step $h$ on each side: $(f(x + h) - f(x - h))/(2h)$ (a numerical derivative). It is more accurate than a one-sided step. |
-| Product rule | The rule for the derivative of a product of two functions: differentiate one factor at a time, keep the other, and add: $(fg)' = f'g + fg'$. |
-| Quotient rule | The rule for the derivative of a fraction of two functions: $(f/g)' = (f'g - fg')/g^2$. |
-| Composition | $g \circ f$: apply $f$, then $g$; $(g \circ f)(x) = g(f(x))$ |
-| Rate of change | How much one quantity changes per unit change of another; the meaning of a derivative |
-| Second derivative (G-2249) | The derivative of the derivative; it measures how the curve bends |
-| Taylor polynomial | A polynomial built from a function's value and its first $n$ derivatives at one point $x_0$, used to approximate the function near $x_0$; it is the Taylor series cut after the $(x - x_0)^n$ term. |
-| Maclaurin series | The Taylor series around $x_0 = 0$: an infinite sum of powers of $x$, built from a function's derivatives at 0, that approximates the function near 0. |
-| Linearisation | Replacing a function near a point by its tangent line (its first-order Taylor polynomial) |
-| Analytic function | A function that can be written exactly as its Taylor series (an infinite sum of powers) near every point. |
-| Power series | A polynomial with infinitely many terms, $\sum a_k (x - c)^k$; the Taylor series is one example, and it lets functions such as $e^x$ and $\sin x$ be computed from polynomials. |
+| Secant line (G-1758) | A straight line through two points of a curve; as the second point slides towards the first, it turns into the tangent line, whose slope is the derivative. |
+| Tangent line (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
+| Derivative (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| Function (G-816) | A rule that assigns exactly one output to every input, written $f: \mathbb{R} \to \mathbb{R}$, $x \mapsto f(x)$. |
+| Domain (G-632) | The set of allowed inputs of a function. |
+| Codomain (G-405) | The set in which a function's outputs lie. |
+| Rate of change (G-1635) | How much one quantity changes per unit change of another; the meaning of a derivative. |
+| Difference quotient (G-604) | The average slope of a function over a step $h$: the change in output divided by the change in input, $(f(x + h) - f(x))/h$, the slope of the secant line. Shrinking $h$ towards 0 gives the derivative. |
+| Limit (G-1087) | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0). |
+| Differentiable (G-606) | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
+| Power rule (G-1540) | The rule for differentiating a power of $x$: bring the power down in front and lower the power by one, $(x^n)' = n x^{n-1}$. |
+| Numerical derivative (G-1368) | An estimate of a derivative straight from its definition: the change in the function over a small step $h$, divided by $h$ (a finite difference); a computer can get it from function values alone. |
+| Central difference (G-363) | A way to estimate a slope from two nearby points, one small step $h$ on each side: $(f(x + h) - f(x - h))/(2h)$ (a numerical derivative). It is more accurate than a one-sided step. |
+| Product rule (G-1577) | The rule for the derivative of a product of two functions: differentiate one factor at a time, keep the other, and add: $(fg)' = f'g + fg'$. |
+| Quotient rule (G-1609) | The rule for the derivative of a fraction of two functions: $(f/g)' = (f'g - fg')/g^2$. |
+| Taylor polynomial (G-1953) | A polynomial built from a function's value and its first $n$ derivatives at one point $x_0$, used to approximate the function near $x_0$; it is the Taylor series cut after the $(x - x_0)^n$ term. |
+| Maclaurin series (G-1142) | The Taylor series around $x_0 = 0$: an infinite sum of powers of $x$, built from a function's derivatives at 0, that approximates the function near 0. |
+| Linearisation (G-1099) | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). |
+| Analytic function (G-197) | A function that can be written exactly as its Taylor series (an infinite sum of powers) near every point. |
+| Power series (G-1541) | A polynomial with infinitely many terms, $\sum a_k (x - c)^k$; the Taylor series is one example, and it lets functions such as $e^x$ and $\sin x$ be computed from polynomials. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431) | Applying one transformation and then another, seen as one overall transformation. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Taylor series](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) (G-1954) | Approximation of a function near a point by a polynomial built from its derivatives there. |
+| [Second derivative](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249) | The derivative of the derivative; it measures how the curve bends. |

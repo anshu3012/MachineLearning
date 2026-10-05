@@ -506,20 +506,64 @@ So the opening question, which customers will leave, is answered by the second n
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Keras workflow | Build, compile, fit, predict: the four steps of every Keras model |
-| Sequential model | A Keras model whose layers form one stack, each feeding the next |
-| Dense (fully connected) layer | A layer whose every node receives the output of every node in the layer before |
-| `keras.Input` (G-97) | The first item of a Sequential model; gives the shape of one input observation |
-| `model.summary()` | Prints each layer's output shape and number of trainable parameters |
-| Compile | Choosing the loss, the optimizer and the metrics before training |
-| Adam | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
-| `fit` | Trains the model on given inputs and outputs for a number of epochs |
-| Batch (G-263) | The observations used for one weight update; Keras uses 32 by default |
-| `get_weights()` (G-85) | Returns a layer's weight matrix and bias vector |
-| Threshold (classification) | The probability above which a prediction counts as class 1 |
-| Metric (G-1215) | A score reported during training, such as accuracy, that training does not minimise |
-| `validation_split` | The share of the training observations Keras holds back as a validation set |
-| History object | The object Keras' `fit` returns: its `.history` holds the loss and metrics of every epoch, used to draw the training curves. |
-| Training curves (learning curves) | Loss or accuracy plotted against the epoch, for the training and validation sets; they show how the model improves as training goes on and when the two sets start to differ. |
+| Keras (G-1003) | The high-level interface built into TensorFlow for defining and training networks. |
+| Sequential model (G-1776) | A Keras model whose layers form one stack, each feeding the next. |
+| Dense (fully connected) layer (G-583) | A layer whose every node receives the output of every node in the layer before. |
+| Threshold (classification) (G-1970) | The probability above which a prediction counts as class 1. |
+| Validation set (G-2067) | Data held back from training to check and tune a model before the final test. |
+| History object (G-900) | The object Keras' `fit` returns: its `.history` holds the loss and metrics of every epoch, used to draw the training curves. |
+| Training curves (learning curves) (G-2001) | Loss or accuracy plotted against the epoch, for the training and validation sets; they show how the model improves as training goes on and when the two sets start to differ. |
+| `model.summary()` (G-120) | Prints each layer's output shape and number of trainable parameters. |
+| `validation_split` (G-156) | The share of the training rows Keras holds back as a validation set. |
+| Compile (G-421) | Choosing the loss, the optimizer and the metrics before training. |
+| Keras workflow (G-1002) | Build, compile, fit, predict: the four steps of every Keras model. |
+| [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Churn](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#31-churn-rate) (G-387) | Customers leaving a platform or service. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [Duplicate row](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#8-are-there-duplicate-rows) (G-648) | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
+| [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) | Data in which one class is much rarer than another. |
+| [Exploratory data analysis (EDA)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda) (G-732) | Exploring data with summaries and plots to find patterns. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [get_dummies](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#61-get_dummies) (G-845) | pandas function that turns each category into its own 0/1 column (one-hot encoding); `drop_first=True` keeps $n - 1$ of them. |
+| [Train-test split](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
+| [standardize](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#65-yeo-johnson) (G-1875) | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview) (G-818) | The Keras way of building a model as a graph of layers, by calling each layer on the output of the one before; unlike a Sequential model it allows several inputs or outputs, branches and skip connections. |
+| [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
+| [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
+| [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
+| [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) | Gradient descent that uses a small random group of rows for every update. |
+| [Batch size](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) | The number of rows in each batch; a hyperparameter. |
+| [Weight matrix ($W^{k}$)](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#41-the-weight-matrix) (G-2109) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$. |
+| [ROC curve](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve) (G-1702) | A plot of the true positive rate against the false positive rate as the classification threshold moves; it shows a binary classifier's trade-off at every threshold, and a curve nearer the top-left corner is better. |
+| [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (G-449) | A table counting a classifier's predictions for every pair of actual and predicted class, so we can see which kinds of mistake it makes, which accuracy alone hides. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |
+| [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Metric (performance metric)](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#8-step-5-metrics) (G-1215) | A number that measures how well a model works, and so tells whether the work is moving in the right direction. |
+| [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
+| [`Input` (`keras.Input`)](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#4-building-a-functional-model) (G-97) | The Keras object that stands for a model's input and fixes the shape of one input row. |
+| [`fit`](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#8-training-the-model) (G-84) | Trains the model on given inputs and outputs for a number of epochs. |
+| [`get_weights()` / `set_weights()`](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#42-relu-and-tanh-nothing-moves) (G-85) | Keras methods that read and replace the weight and bias arrays of a model or a layer, as a list of arrays. |

@@ -442,11 +442,29 @@ Figure 10 shows both comparisons as [box plots](../../01-descriptive-stats/MA-00
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| One-sample proportion test | A test of whether the share (proportion) of one category in the population equals a claimed value $\pi_0$, using a z statistic (a z-test). |
-| Sample proportion $\hat{p}$ | The share of a sample that falls in one category, written $\hat{p}$, such as 26 men out of 60; it estimates that share in the whole population. |
-| Binomial test (exact test) (G-2246) | A test of a proportion that adds up binomial probabilities of every count as rare as the observed one or rarer |
-| Correlation test | A t-test of whether a sample correlation $r$ is strong enough to show that two numerical features are correlated in the population ($H_0: \rho = 0$). It uses $t = r\sqrt{n-2}/\sqrt{1-r^2}$ with $n - 2$ degrees of freedom. |
-| Population correlation $\rho$ | The correlation between two features in the whole population; $r$ estimates it |
-| Two-way ANOVA | ANOVA for one numerical feature and two categorical features |
+| One-sample proportion test (G-1381) | A test of whether the share (proportion) of one category in the population equals a claimed value $\pi_0$, using a z statistic (a z-test). |
+| Correlation test (G-489) | A t-test of whether a sample correlation $r$ is strong enough to show that two numerical features are correlated in the population ($H_0: \rho = 0$). It uses $t = r\sqrt{n-2}/\sqrt{1-r^2}$ with $n - 2$ degrees of freedom. |
+| Sample proportion $\hat{p}$ (G-1726) | The share of a sample that falls in one category, written $\hat{p}$, such as 26 men out of 60; it estimates that share in the whole population. |
+| Binomial test (exact test) (G-2246) | A test of a proportion that adds up binomial probabilities of every count as rare as the observed one or rarer. |
+| Population correlation $\rho$ (G-1522) | The correlation between two columns in the whole population; $r$ estimates it. |
+| Two-way ANOVA (G-2029) | A test of whether each of two category columns changes the mean of a number column, and whether their combination (interaction) does; it is ANOVA with one numerical and two categorical columns. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Null hypothesis ($H_0$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
+| [Alternative hypothesis ($H_1$, $H_a$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis) (G-193) | The claim of an effect, difference or relationship: the statement that contradicts the null hypothesis $H_0$. |
+| [Significance level ($\alpha$)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level) (G-1801) | The chance, fixed before the test, of wrongly declaring an effect when there is none (rejecting $H_0$ when it is actually true); usually 0.05. |
+| [Two-tailed test (two-sided test)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-2028) | A test that looks for an effect in either direction: $H_1$ uses $\neq$, and the significance level is split into $\alpha/2$ in each tail. |
+| [Rejection region (critical region)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value) (G-1662) | The values of the test statistic for which we reject $H_0$; its area under $H_0$ is $\alpha$. |
+| [Fail to reject $H_0$](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it) (G-746) | The decision that the evidence against the null hypothesis $H_0$ is not strong enough to drop it; it does not prove $H_0$. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [Contingency table](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
+| [Chi-square test of independence](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#51-the-question-and-the-table) (G-380) | A chi-square test of whether two categorical columns are related; $df = (r - 1)(c - 1)$. |
+| [One-sample t-test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#3-the-three-types-of-t-test) (G-1382) | A test of whether a population's mean equals a claimed value, from one sample, when the population standard deviation $\sigma$ is unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$. |
+| [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1906) | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
+| [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
+| [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for straight-line relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-1389) | A test of whether three or more group means are equal, with the groups defined by one categorical column. |

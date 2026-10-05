@@ -222,14 +222,19 @@ An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Long short-term memory (LSTM) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
-| Short-term context | What is happening in the sequence right now; an LSTM keeps it apart from the long-term context, which holds what matters for the whole sequence. |
-| Long-term context | What matters for the sequence as a whole, kept from earlier steps |
-| Cell state ($c_t$) | The LSTM's long-term memory: a vector passed from step to step beside the hidden state; the gates add to it and remove from it, so information can be kept over many steps. |
-| Hidden state ($h_t$) | The LSTM's short-term memory path, also its output at each step |
-| Gate | A part of the LSTM cell that controls what moves into, out of, or along the cell state |
-| Forget gate (G-793) | Removes information from the cell state |
-| Input gate (G-950) | Adds new information to the cell state |
-| Output gate (G-1422) | Produces the output and the next hidden state from the cell state |
+| Long short-term memory (LSTM) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
+| Short-term context (G-1793) | What is happening in the sequence right now; an LSTM keeps it apart from the long-term context, which holds what matters for the whole sequence. |
+| Long-term context (G-1124) | What matters for the sequence as a whole, kept from earlier steps. |
+| Cell state ($c_t$) (G-361) | The LSTM's long-term memory: a vector passed from step to step beside the hidden state; the gates add to it and remove from it, so information can be kept over many steps. |
+| Gate (G-825) | A part of the LSTM cell that controls what moves into, out of, or along the cell state. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| [Forget gate ($f_t$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#3-what-the-cell-must-do) (G-793) | The LSTM gate that decides what to erase from the memory (cell state): a sigmoid layer whose outputs, between 0 and 1, scale each entry of the previous cell state $c_{t-1}$. |
+| [Input gate ($i_t$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#3-what-the-cell-must-do) (G-950) | The LSTM gate that adds new important information to the cell state: a sigmoid layer whose outputs, between 0 and 1, scale the candidate values before they are added. |
+| [Output gate ($o_t$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#7-the-output-gate) (G-1422) | The LSTM gate that decides how much of the cell's memory to show as the new hidden state: a sigmoid layer gives $o_t$, between 0 and 1, which scales $\tanh(c_t)$ to give $h_t$. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Hidden state ($h_t$)](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |

@@ -449,28 +449,33 @@ Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in th
 
 ## 15. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record of the data, one row of the table |
-| Feature | A variable describing each observation, one column of the table |
-| Web scraping | Writing a program that downloads web pages and copies data out of them |
-| HTML | The language web pages are written in: a tree of nested tags |
-| Tag | One labelled box of a web page in HTML, such as a heading or a paragraph (`<h2>TCS</h2>`); a scraper finds the values it wants by their tags. |
-| Attribute | An extra setting written inside an HTML opening tag as `name="value"`, such as a class; scrapers use attributes to pick out the right tags. |
-| Class (G-389) | An attribute that labels tags; used to select the right ones |
-| Server | The computer that hosts a website and answers requests |
-| Request, response | What we send to a server, and what it sends back |
-| Status code | The number in a response saying how the request went (200 OK, 403 refused) |
-| requests | Python library for downloading web pages |
-| Headers (G-885) | Extra information sent with a request, such as the User-Agent |
-| Bot | A program that visits websites automatically |
-| robots.txt | A file at a site's root listing what bots are asked not to visit |
-| View Page Source | Browser option that shows a page's raw HTML |
-| Inspect | Browser tool that shows which tag draws each part of a page |
-| BeautifulSoup | Python library that parses HTML into a searchable tree |
-| Parse, parser | Read text and build a structure from it; the part that does this |
-| `find`, `find_all` | Return the first matching tag, or a list of all matching tags |
-| Container | A tag (often a `div`) that holds everything about one item, such as one company |
-| `pd.concat` | Joins several DataFrames into one |
-| f-string | A string starting with `f` where `{x}` is replaced by the value of `x` |
-| Wayback Machine | A web archive that keeps copies of web pages as they were |
+| Web scraping (G-2105) | Writing code that extracts data from web pages. |
+| HTML (G-904) | The language web pages are written in: a tree of nested tags. |
+| Request, response (G-1673) | What we send to a server, and what it sends back. |
+| Bot (G-325) | A program that visits websites automatically. |
+| Headers (HTTP) (G-885) | Extra information sent with a request, such as the User-Agent. |
+| View Page Source (G-2089) | Browser option that shows a page's raw HTML. |
+| robots.txt (G-1698) | A file at a site's root listing what bots are asked not to visit. |
+| Wayback Machine (G-2101) | A web archive that keeps copies of web pages as they were. |
+| Tag (G-1941) | One labelled box of a web page in HTML, such as a heading or a paragraph (`<h2>TCS</h2>`); a scraper finds the values it wants by their tags. |
+| Attribute (G-228) | An extra setting written inside an HTML opening tag as `name="value"`, such as a class; scrapers use attributes to pick out the right tags. |
+| Class (HTML) (G-389) | An attribute that labels tags; used to select the right ones. |
+| BeautifulSoup (G-273) | Python library that parses HTML into a searchable tree. |
+| Parse, parser (G-1454) | Read text and build a structure from it; the part that does this. |
+| Inspect (G-953) | Browser tool that shows which tag draws each part of a page. |
+| Container (G-458) | A tag (often a `div`) that holds everything about one item, such as one company. |
+| `find`, `find_all` (G-83) | Return the first matching tag, or a list of all matching tags. |
+| `pd.concat` (G-125) | pandas function that joins several DataFrames into one. |
+| [requests](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1674) | Python library that sends web requests. |
+| [Server](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-1779) | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
+| [Response](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1686) | What `requests.get` returns: the status code plus the reply. |
+| [Status code](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1886) | A number saying how a request went: 200 OK, 401, 404, 500. |
+| [User-Agent](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url) (G-2064) | A short text a browser sends with each request to say what it is; some servers refuse requests without one, so scraping code sends one too. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [f-string](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#7-looping-over-every-page) (G-741) | Text starting with `f` in which `{name}` is replaced by a value. |

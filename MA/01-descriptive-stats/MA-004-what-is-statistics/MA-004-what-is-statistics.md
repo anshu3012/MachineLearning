@@ -199,20 +199,29 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Statistics | The branch of mathematics for collecting, analysing, interpreting and presenting data |
-| Inferential statistics | Statistics that draws conclusions about a population from a sample |
-| Inference (G-943) | A conclusion about a population drawn from a sample |
-| Population | The entire group of individuals or objects we want to study |
-| Parameter (G-2276) | A number that describes the population, such as $\mu$ |
-| Statistic | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
-| Sampling techniques | Ways of drawing a sample from a population so that it is random and representative, and its conclusions hold for the population. |
-| Hypothesis testing | Checking a claim about a population parameter with a sample |
-| Statistical test (G-1881) | A procedure for hypothesis testing |
-| ANOVA | A test of whether several groups have the same mean (analysis of variance). |
-| Chi-square test | A statistical test for categorical variables |
-| Feature | One variable of the data, one column of the table |
-| Observation | One record, one row of the table |
-| Discrete data | Numerical data that takes only separate values, usually counts |
-| Continuous data | Numerical data that can take any value in a range |
+| Statistics (G-1884) | The branch of mathematics for collecting, analysing, interpreting and presenting data. |
+| Descriptive statistics (G-596) | Numbers that summarise data, such as count, mean, spread and percentiles. |
+| Inferential statistics (G-944) | Statistics that draws conclusions about a population from a sample. |
+| Inference (statistics) (G-943) | A conclusion about a population drawn from a sample. |
+| Population (G-1525) | The entire group of individuals or objects we want to study. |
+| Sampling techniques (G-1738) | Ways of drawing a sample from a population so that it is random and representative, and its conclusions hold for the population. |
+| Parameter (of a population) (G-2276) | A number that describes the whole population, such as its true mean $\mu$; it is usually unknown, so we estimate it from a sample statistic. |
+| Statistic (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
+| Discrete data (G-616) | Numerical data that takes only separate values, usually counts. |
+| Continuous data (G-465) | Numerical data that can take any value in a range. |
+| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
+| [Sampling noise](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1737) | Error in a sample's result because the sample is too small, so the answer depends on luck, such as asking only 5 fans; a larger sample reduces it. |
+| [Sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1734) | A sample that misrepresents the population because of how the data was collected, such as asking only Indian fans who should win a cricket match; a larger sample does not fix it. |
+| [Hypothesis testing](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913) | Checking a claim about a population parameter with a sample. |
+| [Statistical hypothesis test](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
+| [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
+| [ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) | A test of whether several groups have the same mean (analysis of variance). |
+| [Chi-square test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381) | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Nominal data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#21-nominal-data) (G-1330) | Categorical data whose categories have no order, such as states. |
+| [Ordinal data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data) (G-1403) | Categorical data whose categories have a natural order, such as Poor < Average < Good. |

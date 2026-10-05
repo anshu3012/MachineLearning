@@ -251,10 +251,19 @@ Each view suits different work:
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Venn diagram | A picture of events as circles inside a rectangle; overlaps show shared outcomes |
-| Universal set ($U$) | The rectangle of a Venn diagram; in probability, the sample space, with $P(U) = 1$ |
-| De Morgan's law | Two rules for "not" over "or" and "and": "neither A nor B" is "not A and not B", $(A \cup B)^c = A^c \cap B^c$; "not both" is "at least one fails", $(A \cap B)^c = A^c \cup B^c$. |
-| Row and column totals | The sums in the margins of a contingency table; each counts one whole event |
-| Grand total | The sum of every cell of a contingency table: the size of the whole sample |
+| Venn diagram (G-2086) | A picture of events as circles inside a rectangle; overlaps show shared outcomes. |
+| Universal set ($U$) (G-2053) | The rectangle of a Venn diagram; in probability, the sample space, with $P(U) = 1$. |
+| De Morgan's law (G-550) | Two rules for "not" over "or" and "and": "neither A nor B" is "not A and not B", $(A \cup B)^c = A^c \cap B^c$; "not both" is "at least one fails", $(A \cap B)^c = A^c \cup B^c$. |
+| Contingency table (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
+| Grand total (G-867) | The sum of every cell of a contingency table: the size of the whole sample. |
+| Row and column totals (G-1711) | The sums in the margins of a contingency table; each counts one whole event. |
+| [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The event that both A and B happen. |
+| [Union (A ∪ B)](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045) | The event that A or B (or both) happens. |
+| [Complement ($A^c$)](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#62-the-complement-rule) (G-422) | The event that $A$ does not happen: every outcome not in $A$. |
+| [Crosstab](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

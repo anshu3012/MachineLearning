@@ -328,22 +328,27 @@ The same habit is what separates people over time. Of the thousands of freshers 
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Framing an ML problem | Turning a business problem into a precise ML task that can be built and measured |
-| Churn | Customers leaving a platform or service |
-| Observation | One record, one row of the data table |
-| Target | The output we predict |
-| Feature | An input variable, one column of the data table |
-| Churn rate | The percentage of customers who leave during a given period |
-| Subscription | A model where customers pay a fixed amount every month (or year) |
-| Mathematical problem | A business goal restated as a measurable target, such as a churn rate to reach |
-| Big picture | The end product and how it will be used, which decides the type of ML problem |
-| Data engineer | The specialist who collects and organises data from company systems |
-| OLTP | Online transaction processing: the database that records every action as it happens |
-| Data warehouse | A store where data is copied and organised for analysis |
-| Metric (G-1215) | A number that tells whether the work is moving in the right direction |
-| Precision | Of the cases we flagged, the share that were really positive |
-| Recall (G-1641) | Of the real positive cases, the share we flagged |
-| Volatile | Changing quickly and unpredictably |
-| Inertia (G-939) | A big organisation's resistance to changing direction once it has started |
+| Framing an ML problem (G-802) | Turning a business problem into a precise ML task that can be built and measured. |
+| Churn (G-387) | Customers leaving a platform or service. |
+| Churn rate (G-386) | The percentage of customers who leave during a given period. |
+| Data engineer (G-533) | The specialist who collects and organises data from company systems. |
+| OLTP (G-1378) | Online transaction processing: the database that records every action as it happens. |
+| Metric (performance metric) (G-1215) | A number that measures how well a model works, and so tells whether the work is moving in the right direction. |
+| Big picture (G-294) | The end product and how it will be used, which decides the type of ML problem. |
+| Inertia (of an organisation) (G-939) | A big organisation's resistance to changing direction once it has started. |
+| Mathematical problem (G-1173) | A business goal restated as a measurable target, such as a churn rate to reach. |
+| Subscription (G-1911) | A model where customers pay a fixed amount every month (or year). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Regression](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) | Supervised learning with a numerical output. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Data warehouse](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from) (G-541) | A separate store of copied company data, safe to analyse without touching the live database. |
+| [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |
+| [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |
+| [Batch learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works) (G-265) | Training on the whole dataset at once, offline, then deploying. |
+| [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391) | Training incrementally on mini-batches while the model is live in production. |
+| [Volatile](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#5-where-kurtosis-matters-kurtosis-risk) (G-2094) | Changing quickly and unpredictably. |

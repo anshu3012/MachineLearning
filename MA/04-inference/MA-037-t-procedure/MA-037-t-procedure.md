@@ -279,11 +279,14 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| T-procedure | The confidence interval $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$, used when $\sigma$ is unknown |
-| Student's t-distribution | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
-| Degrees of freedom | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
-| T critical value | $t_{\alpha/2,\thinspace n-1}$: the t value leaving $\alpha/2$ in each tail; 2.045 for 95% and $n = 30$ |
-| T-table | A table of t critical values with one row per degrees of freedom and one column per tail area; we read the cut-off for a t-interval or t-test from it. |
-| One-sided and two-sided critical value | The cut-off beyond which the test statistic leads to rejecting $H_0$ (the critical value): one-sided puts the whole $\alpha$ in one tail, two-sided puts $\alpha/2$ in each of the two tails. |
+| T-procedure (G-1938) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is unknown: use the sample's $s$ and a t critical value in place of $z$, giving $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$. |
+| Student's t-distribution (G-1906) | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
+| Degrees of freedom (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
+| T critical value (G-1936) | The cut-off from Student's t-distribution that leaves $\alpha/2$ in each tail; the t-interval multiplies the standard error by it in place of $z_{\alpha/2}$. For 95% and $n = 30$ it is 2.045. |
+| T-table (G-1939) | A table of t critical values with one row per degrees of freedom and one column per tail area; we read the cut-off for a t-interval or t-test from it. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [One-sided and two-sided critical value](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value) (G-1383) | The cut-off beyond which the test statistic leads to rejecting $H_0$ (the critical value): one-sided puts the whole $\alpha$ in one tail, two-sided puts $\alpha/2$ in each of the two tails. |

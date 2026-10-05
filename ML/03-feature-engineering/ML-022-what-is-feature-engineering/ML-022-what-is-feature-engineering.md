@@ -308,22 +308,33 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Feature engineering | Using domain knowledge to turn raw data into features that improve an ML model |
-| Raw data | Data as it arrives, before any preparation |
-| Domain knowledge | Knowledge of the field the data comes from, such as medicine, property or shipping; it tells us which features make sense and which new ones would help. |
-| Feature transformation | Changing a column into a form the model can use better |
-| Imputation | Filling in missing values, for example with the mean, median or mode |
-| Mode | The most common value of a column |
-| Binning | Grouping a numerical column into ranges that act as categories |
-| Outlier | A value very different from the rest of the data |
-| Linear regression | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
-| Feature construction | Creating a new column by hand from existing ones |
-| Feature selection | Keeping only the useful columns and dropping the rest |
-| MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels |
-| Feature extraction | Building completely new columns from the old ones with an algorithm |
-| PCA (G-1469) | Principal component analysis: an extraction technique that rotates the axes and keeps the most useful new ones |
+| Domain knowledge (G-631) | Knowledge of the field the data comes from, such as medicine, property or shipping; it tells us which features make sense and which new ones would help. |
+| Raw data (G-1637) | Data as it arrives, before any preparation. |
+| Feature transformation (G-770) | Changing a column into a form the model can use better. |
+| Feature construction (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
+| Feature selection (G-768) | Keeping only the useful input columns and dropping the rest. |
+| Feature extraction (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
+| Imputation (G-927) | Filling in missing values, for example with the mean, median or mode. |
+| Binning (G-307) | Grouping a numerical column into ranges that act as categories. |
+| MNIST (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| Forward selection (G-798) | Feature selection that starts empty and adds the best column at a time. |
+| Backward elimination (G-248) | Feature selection that starts with all columns and removes the worst at a time. |
+| LDA (G-1059) | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |
+| [Exploratory data analysis (EDA)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda) (G-732) | Exploring data with summaries and plots to find patterns. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature engineering](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#71-feature-engineering) (G-761) | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
+| [Mode](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The most common value of a column. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
+| [Feature scaling (scaling)](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) | Putting columns on the same scale, so no column dominates distances. |
+| [Log transform](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) (G-1112) | Replacing each value with its logarithm; pulls in a long right tail. |
+| [Box-Cox transform](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#31-the-box-cox-formula) (G-331) | A power transform that reshapes a feature of positive values to look closer to normal, with a parameter $\lambda$ fitted to the data: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. |
+| [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
+| [High-dimensional data](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-897) | Data with a very large number of columns. |

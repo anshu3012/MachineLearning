@@ -448,22 +448,27 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Transformer | An encoder–decoder built from attention, feed-forward layers and layer normalisation, with no RNN |
-| Observation | One record of the data; here, one sentence pair |
-| Target | The output the model must learn to produce; here, the French sentence and, at each position, the correct next word |
-| Base model | The paper's standard transformer: $N = 6$, $d_{\text{model}} = 512$, 8 heads, $d_{\text{ff}} = 2048$, 65 million parameters |
-| Big model | The paper's larger transformer: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, 213 million parameters |
-| Learning-rate warm-up (G-1071) | Starting training with a small learning rate and raising it over the first steps; 4,000 steps in the paper |
-| Inverse square root decay | Lowering the learning rate in proportion to $1/\sqrt{\text{step}}$ after the warm-up, so the steps get smaller and the weights can settle near a minimum; the transformer paper's schedule. |
-| Residual dropout | Dropout applied to each sub-layer's output before it is added back to the sub-layer's input (and to the embedding sums); the original transformer uses it to reduce overfitting. |
-| Label smoothing | Replacing the one-hot target by a slightly softer one, $(1-\varepsilon)$ on the correct word plus $\varepsilon/K$ on every word, so training stops pushing the model towards complete certainty. |
-| One-hot target | A target with probability 1 on the correct word and 0 on all others |
-| Perplexity | A score of how surprised a language model is by the correct tokens: the exponential of the mean cross-entropy per token; lower means it gave the correct tokens higher probability. |
-| FLOP | One floating-point operation; training cost is counted in FLOPs |
-| Ensemble | Several trained models whose predictions are combined |
-| Checkpoint averaging | Averaging the weights of the last few saved copies of a model |
-| Beam search | Decoding that keeps several candidate sentences at each step |
-| Constituency parsing | Finding the grammatical tree of a sentence: its phrases and how they nest |
-| Pre-LN transformer (G-1545) | A transformer variant with layer normalisation inside the residual branch, which trains without warm-up |
+| FLOP (G-790) | One floating-point operation; training cost is counted in FLOPs. |
+| Pre-LN transformer (prenorm) (G-1545) | A transformer variant with layer normalisation at the input of each sub-layer, inside the residual branch, instead of after the addition; it trains without warm-up. |
+| Label smoothing (G-1031) | Replacing the one-hot target by a slightly softer one, $(1-\varepsilon)$ on the correct word plus $\varepsilon/K$ on every word, so training stops pushing the model towards complete certainty. |
+| Perplexity (G-1492) | A score of how surprised a language model is by the correct tokens: the exponential of the mean cross-entropy per token; lower means it gave the correct tokens higher probability. |
+| Constituency parsing (G-453) | Finding the grammatical tree of a sentence: its phrases and how they nest. |
+| Big model (G-293) | The paper's larger transformer: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, 213 million parameters. |
+| Checkpoint averaging (G-377) | Averaging the weights of the last few saved copies of a model. |
+| Inverse square root decay (G-969) | Lowering the learning rate in proportion to $1/\sqrt{\text{step}}$ after the warm-up, so the steps get smaller and the weights can settle near a minimum; the transformer paper's schedule. |
+| Residual dropout (G-1682) | Dropout applied to each sub-layer's output before it is added back to the sub-layer's input (and to the embedding sums); the original transformer uses it to reduce overfitting. |
+| [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
+| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [One-hot target](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#52-one-hot-targets) (G-1380) | A target with probability 1 on the correct word and 0 on all others. |
+| [Ensemble](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-690) | Several trained models whose predictions are combined. |
+| [Decoder-only transformer](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview) (G-565) | A transformer with the encoder removed, so no cross-attention: a stack of blocks, each with masked self-attention and an MLP, that guesses the next token at every position. GPT is built this way. |
+| [Transformer](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
+| [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
+| [Learning rate warm-up](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1071) | Starting training with a very small learning rate and raising it over the first epochs or steps (4,000 steps in the transformer paper). |
+| [Beam search](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#7-the-mask-stays-on-during-inference) (G-272) | A way of producing the output sentence (a decoding method) that keeps several candidate sentences at each step and picks the most probable complete one. |

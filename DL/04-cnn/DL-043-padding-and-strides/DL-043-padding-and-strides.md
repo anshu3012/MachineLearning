@@ -267,12 +267,16 @@ The second reason mattered more when computers were slower. With today's computi
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Padding | Extra rows and columns added around an image before convolution |
-| Zero padding (G-2146) | Padding with pixels of value 0 |
-| `valid` padding | No padding; the output shrinks to $n - f + 1$ |
-| `same` padding | Just enough padding to keep the output the size of the input (with stride 1) |
-| Stride | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
-| Strided convolution | A convolution with a stride larger than 1, used to make the feature map smaller. |
-| Output-size formula | The rule that gives the size of a convolution's output from the image size $n$, filter size $f$, padding $p$ and stride $s$: $\lfloor (n + 2p - f)/s \rfloor + 1$. |
+| Stride (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
+| Zero padding (image) (G-2146) | Adding rows and columns of 0-valued pixels around an image, so a convolution's feature map can keep the image's size. |
+| `valid` padding (G-155) | No padding; the output shrinks to $n - f + 1$. |
+| `same` padding (G-139) | Just enough padding to keep the output the size of the input (with stride 1). |
+| Strided convolution (G-1901) | A convolution with a stride larger than 1, used to make the feature map smaller. |
+| Output-size formula (G-1427) | The rule that gives the size of a convolution's output from the image size $n$, filter size $f$, padding $p$ and stride $s$: $\lfloor (n + 2p - f)/s \rfloor + 1$. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| [Padding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) | Adding zeros to sequences so that all have the same length. |

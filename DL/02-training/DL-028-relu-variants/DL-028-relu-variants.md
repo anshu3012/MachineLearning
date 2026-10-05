@@ -358,18 +358,38 @@ GELU is the activation inside GPT's feed-forward layers; its use there is in sec
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Dying ReLU problem | ReLU nodes ending up with a negative weighted sum for every input, so they output 0 and stop learning |
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable, such as $x_1$: one column of the data table |
-| Dead neuron | A node whose output is 0 for every input; it gets no updates and stays that way |
-| Linear variants of ReLU | ReLU variants that replace ReLU's flat zero on the negative side with a straight line of small slope (Leaky ReLU and PReLU), so a node with negative inputs still has a gradient and keeps learning. |
-| Non-linear variants of ReLU | ReLU variants with a curve on the negative side: ELU and SELU |
-| Leaky ReLU | $z$ for $z \ge 0$, $0.01z$ for $z < 0$ |
-| Parametric ReLU (PReLU) | An activation that passes positive inputs unchanged and multiplies negative ones by a small slope $a$ that is learned during training, one per node (a Leaky ReLU with a learned slope). |
-| ELU | Exponential linear unit: an activation that equals ReLU for positive inputs and follows a smooth exponential curve levelling off at $-\alpha$ for negative ones, so negative inputs still give a gradient and nodes do not die. Formula: $z$ for $z \ge 0$, $\alpha(e^{z} - 1)$ for $z < 0$. |
-| SELU | Scaled exponential linear unit: an activation that is ELU with $\alpha \approx 1.6733$, multiplied by $\lambda \approx 1.0507$; these constants make a network self-normalising, keeping each layer's outputs near mean 0 and standard deviation 1. |
-| GELU | Gaussian error linear unit, $z\thinspace\Phi(z)$: the input times the standard normal probability of a value below it; a smooth version of ReLU |
+| Dying ReLU problem (G-650) | ReLU nodes ending up with a negative weighted sum for every input, so they output 0 and stop learning. |
+| Linear variants of ReLU (G-1098) | ReLU variants that replace ReLU's flat zero on the negative side with a straight line of small slope (Leaky ReLU and PReLU), so a node with negative inputs still has a gradient and keeps learning. |
+| Non-linear variants of ReLU (G-1336) | ReLU variants with a curve on the negative side: ELU and SELU. |
+| Dead neuron (G-551) | A node whose output is 0 for every input; it gets no updates and stays that way. |
+| `make_moons` (G-111) | scikit-learn function that generates two interleaving half-moon classes. |
+| Leaky ReLU (G-1064) | A ReLU variant with a small slope for negative inputs, so nodes do not die. |
+| Parametric ReLU (PReLU) (G-1452) | An activation that passes positive inputs unchanged and multiplies negative ones by a small slope $a$ that is learned during training, one per node (a Leaky ReLU with a learned slope). |
+| ELU (G-674) | Exponential linear unit: an activation that equals ReLU for positive inputs and follows a smooth exponential curve levelling off at $-\alpha$ for negative ones, so negative inputs still give a gradient and nodes do not die. Formula: $z$ for $z \ge 0$, $\alpha(e^{z} - 1)$ for $z < 0$. |
+| SELU (G-1766) | Scaled exponential linear unit: an activation that is ELU with $\alpha \approx 1.6733$, multiplied by $\lambda \approx 1.0507$; these constants make a network self-normalising, keeping each layer's outputs near mean 0 and standard deviation 1. |
+| Self-normalising (G-1765) | Keeping the activations of every layer at mean 0 and standard deviation 1 without a separate normalisation step. |
 | SiLU (Swish) (G-2266) | A smooth version of ReLU that multiplies each input by its sigmoid, $z\thinspace\sigma(z)$; it is used as an activation and is close to GELU. SiLU stands for sigmoid linear unit; it is also called Swish. |
-| Self-normalising | Keeping the activations of every layer at mean 0 and standard deviation 1 without a separate normalisation step |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
+| [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
+| [Capacity](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-344) | A model's ability to fit a wide variety of functions; too much capacity for the data leads to overfitting. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Non-saturating function](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#55-non-saturating) (G-1339) | A function with no ceiling on its output, so it does not flatten out, such as ReLU for positive inputs; its slope does not shrink to 0, which avoids the vanishing gradient that saturating functions cause. |
+| [Zero-centred activation](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#54-zero-centred) (G-2148) | An activation whose outputs average about 0 over a layer, positive and negative; it feeds the next layer roughly centred inputs, which helps training converge faster. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
+| [Generalisation (generalise)](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#62-why-it-matters) (G-838) | How well a model performs on new data it was not trained on. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [GELU](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu) (G-834) | A smooth activation function that multiplies each input $x$ by $\Phi(x)$, the chance that a standard normal value is below $x$: $x\thinspace\Phi(x)$ (Gaussian Error Linear Unit). GPT's MLPs use it. |
+| [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
+| [$\Phi(z)$](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-18) | The probability that a standard normal value is below $z$: the area under the bell curve to the left of $z$ (the CDF of the standard normal distribution). For example $\Phi(1) = 0.84$. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |

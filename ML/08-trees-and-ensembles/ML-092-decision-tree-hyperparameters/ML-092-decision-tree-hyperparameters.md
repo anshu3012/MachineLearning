@@ -324,17 +324,26 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Depth | The number of questions on the longest path from a tree's root to a leaf |
-| max_depth | The cap on a tree's depth; None lets it grow until every leaf is pure |
-| splitter | A decision tree setting for how each split's threshold is chosen: "best" searches every threshold, "random" draws thresholds at random, which adds randomness that pays off when many trees are averaged. |
-| min_samples_split | The smallest number of observations a node must hold to be split |
-| min_samples_leaf | The smallest number of observations every leaf must keep |
-| max_features | The number of randomly chosen features a tree considers at each split |
-| max_leaf_nodes | The cap on the number of leaves; the tree grows best-first until it is reached |
-| min_impurity_decrease | A tree setting: a split is made only if it makes the nodes purer by at least this much (the smallest weighted impurity decrease allowed). |
-| Pruning | Stopping a tree early or cutting it back so it does not overfit |
-| Cost-complexity pruning (G-2222) | Growing a tree fully, then cutting back the leaves that buy the least fit: keep the subtree with the lowest leaf impurity + $\alpha$ × number of leaves |
-| ccp_alpha | The penalty per leaf, $\alpha$, in cost-complexity pruning; 0 means no pruning |
-| Fully grown tree | A tree split until every leaf is pure; usually overfits |
+| Depth (G-594) | The number of questions on the longest path from a tree's root to a leaf. |
+| max_depth (G-1184) | The cap on a tree's depth; None lets it grow until every leaf is pure. |
+| Fully grown tree (G-813) | A tree split until every leaf is pure; usually overfits. |
+| splitter (G-1853) | A decision tree setting for how each split's threshold is chosen: "best" searches every threshold, "random" draws thresholds at random, which adds randomness that pays off when many trees are averaged. |
+| min_samples_split (G-1221) | The smallest number of rows a node must hold to be split. |
+| Pruning (G-1587) | Stopping a tree early or cutting it back so it does not overfit. |
+| min_samples_leaf (G-1220) | The smallest number of rows every leaf must keep. |
+| max_features (G-1185) | The number of randomly chosen columns a tree considers at each split. |
+| max_leaf_nodes (G-1186) | The cap on the number of leaves; the tree grows best-first until it is reached. |
+| min_impurity_decrease (G-1219) | A tree setting: a split is made only if it makes the nodes purer by at least this much (the smallest weighted impurity decrease allowed). |
+| Cost-complexity pruning (G-2222) | Growing a tree fully, then cutting back the leaves that buy the least fit: keep the subtree with the lowest leaf impurity + $\alpha$ × number of leaves. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [ccp_alpha](../../../ML/08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#4-the-tree-level-hyperparameters) (G-360) | The penalty per leaf used to cut a fully grown tree back (cost-complexity pruning strength). |

@@ -749,29 +749,36 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Pipeline | A chain of steps where each step's output is the next step's input, run as one object |
-| Pipeline (class) | The scikit-learn class (in `sklearn.pipeline`) that builds a pipeline from a list of (name, object) tuples |
-| make_pipeline | scikit-learn function that chains steps such as preprocessing and a model into one object (a pipeline) from the objects alone, naming each step after its class. |
-| make_column_transformer | scikit-learn function that sets up different preprocessing for different columns (a column transformer) from (transformer, columns) pairs, without you naming the steps. |
-| Production code | The code that runs the deployed model on a server, for example behind a website |
-| named_steps | A pipeline's dictionary from each step's name to its object; used to reach one step and look inside it, for example when debugging. |
-| transformers_ | The attribute of a fitted column transformer that lists its fitted (name, transformer, columns) tuples; we use it to pull out one fitted step. |
-| handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training |
-| slice(0, 10) | Python object meaning positions 0 up to, not including, 10 |
-| SelectKBest | scikit-learn class that scores every feature and keeps the `k` best |
-| Chi-squared test (chi2) | A test scoring how strongly a feature is linked to the target; needs values of 0 or more |
-| Data leakage | Information from the test rows reaching the training |
-| Column transformer | A scikit-learn class that applies different transformations to different columns |
-| One-hot encoding | Replacing a nominal column by one 0/1 column per category |
-| Cross-validation | Testing a model by training and testing it several times on different parts of the training data |
-| Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth` |
-| Hyperparameter tuning | Trying several hyperparameter values and keeping the best |
-| GridSearchCV (G-89) | scikit-learn class that cross-validates every value in a grid and keeps the best |
-| step__parameter (G-146) | How a pipeline step's parameter is named: step name, two underscores, parameter name |
-| pickle | Python's tool for saving an object to a file and loading it back |
-| joblib | A library that saves and loads Python objects like pickle, better suited to large arrays |
+| Pipeline (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
+| handle_unknown="ignore" (G-876) | `OneHotEncoder` setting that outputs all zeros for a category not seen in training. |
+| Production code (G-1578) | The code that runs the deployed model on a server, for example behind a website. |
+| SelectKBest (G-1762) | scikit-learn class that gives every column a score and keeps the `k` best, so only the most useful features go into the model. |
+| Chi-squared test (chi2) (G-382) | A test scoring how strongly a column is linked to the target; needs values of 0 or more. |
+| Pipeline (class) (G-1498) | The scikit-learn class (in `sklearn.pipeline`) that builds a pipeline from a list of (name, object) tuples. |
+| make_pipeline (G-1152) | scikit-learn function that chains steps such as preprocessing and a model into one object (a pipeline) from the objects alone, naming each step after its class. |
+| named_steps (G-1301) | A pipeline's dictionary from each step's name to its object; used to reach one step and look inside it, for example when debugging. |
+| transformers_ (G-2009) | The attribute of a fitted column transformer that lists its fitted (name, transformer, columns) tuples; we use it to pull out one fitted step. |
+| Cross-validation (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| Data leakage (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| Hyperparameter (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| Hyperparameter tuning (G-909) | Trying several hyperparameter values and keeping the best. |
+| `GridSearchCV` (G-89) | The scikit-learn class that tries every combination of settings in a grid, scores each by cross-validation, and keeps the best. |
+| `step__param` name (G-146) | The full name of a setting inside a pipeline: step names and the parameter joined by `__`. |
+| best_score_ (G-281) | The best mean cross-validated score found by a search. |
+| joblib (G-983) | A library that saves and loads Python objects like pickle, better suited to large arrays. |
+| make_column_transformer (G-1150) | scikit-learn function that sets up different preprocessing for different columns (a column transformer) from (transformer, columns) pairs, without you naming the steps. |
+| slice(0, 10) (G-1822) | Python object meaning positions 0 up to, not including, 10. |
+| [Deployment (deploy, model deployment)](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-592) | Moving a model from development to production: putting it on a server so users can reach it. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [pickle](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#101-saving-the-model) (G-1494) | A Python module that saves objects to a file and loads them back. |
+| [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415) | A scikit-learn class that applies different transformations to different columns at once and joins the results. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |

@@ -580,22 +580,36 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output we predict |
-| Multivariate imputation | Imputation that also uses the other features |
-| Iterative imputer | A multivariate imputer that predicts each feature's gaps from the other features, repeating until the fills settle |
-| MICE | A way to fill gaps: each column's missing values are predicted by a model trained on the other columns, and the rounds repeat until the filled values settle (Multivariate Imputation by Chained Equations, the algorithm behind the iterative imputer). |
-| Chained equations | One prediction model per feature, each using the latest fills of the others |
-| Iteration (MICE) | One pass that re-predicts the gaps of every feature once, in order |
-| Iteration 0 | The starting table, with every gap filled by its feature's mean |
-| Convergence (G-472) | The point where the fills hardly change between two iterations |
-| `IterativeImputer` | scikit-learn's class that fills missing values by predicting each feature with gaps from the other features, repeating until the fills settle (MICE). Still experimental, so it needs an extra import. |
-| `enable_iterative_imputer` | The import that switches on the experimental `IterativeImputer` |
-| `BayesianRidge` | A linear regression that pulls its weights toward 0 a little; the default model of `IterativeImputer` |
-| `max_iter` (G-112) | The largest number of iterations `IterativeImputer` runs; default 10 |
-| `tol` | The size of change below which `IterativeImputer` stops early; default 0.001 |
-| `sample_posterior` | The `IterativeImputer` setting that draws each fill at random from the model's spread instead of using its single best prediction, so different seeds give several plausible filled tables. |
-| Multiple imputation | Making several filled copies of the data to see how unsure the fills are |
+| Iterative imputer (G-978) | Filling missing values by predicting each column from the other columns, over and over (multivariate imputation); its algorithm is MICE. |
+| MICE (G-1216) | A way to fill gaps: each column's missing values are predicted by a model trained on the other columns, and the rounds repeat until the filled values settle (Multivariate Imputation by Chained Equations, the algorithm behind the iterative imputer). |
+| Chained equations (G-373) | A way to fill gaps in several columns at once: each column gets its own prediction model, which fills its gaps using the latest fills of the other columns (the method behind MICE). |
+| Iteration 0 (G-977) | The starting table, with every gap filled by its column mean. |
+| Iteration (MICE) (G-976) | One pass that re-predicts the gaps of every column once, in order. |
+| Convergence (MICE) (G-472) | The point where the fills hardly change between two iterations. |
+| `BayesianRidge` (G-65) | A linear regression that keeps its weights small (built-in shrinkage); the default model of `IterativeImputer`. |
+| `IterativeImputer` (G-98) | scikit-learn's class that fills missing values by predicting each feature with gaps from the other features, repeating until the fills settle (MICE). Still experimental, so it needs an extra import. |
+| `max_iter` (IterativeImputer) (G-112) | The largest number of rounds `IterativeImputer` runs; default 10. |
+| `tol` (G-152) | The size of change below which `IterativeImputer` stops early; default 0.001. |
+| `sample_posterior` (G-141) | The `IterativeImputer` setting that draws each fill at random from the model's spread instead of using its single best prediction, so different seeds give several plausible filled tables. |
+| Multiple imputation (G-1278) | Making several filled copies of the data to see how unsure the fills are. |
+| `enable_iterative_imputer` (G-78) | The import that switches on the experimental `IterativeImputer`. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Multivariate imputation](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-1282) | Filling the gaps in one column using the values of the other columns too (as the KNN and iterative imputers do), so each fill fits the rest of its row. |
+| [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation) (G-1017) | Filling a missing value from the most similar rows (multivariate imputation, `KNNImputer`). |
+| [MCAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
+| [MAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158) | Missing at random: the gaps depend on another, recorded column. |
+| [MNAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1248) | Missing not at random: the gaps depend on the missing value itself. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Normal equations](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#52-the-gradient-then-zero) (G-1345) | A set of equations, one per coefficient, whose solution is the best-fit (least-squares) coefficients: $X^{\mathsf T}X\beta = X^{\mathsf T}y$. |
+| [Extrapolation](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#53-the-intercept-b-the-starting-value) (G-738) | Predicting for inputs outside the range of the training data. |
+| [Root mean squared error (RMSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705) | The square root of the average squared error (MSE), so the error is back in the output's units. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |

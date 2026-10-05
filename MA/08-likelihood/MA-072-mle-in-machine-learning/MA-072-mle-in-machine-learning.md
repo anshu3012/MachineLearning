@@ -492,14 +492,22 @@ MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Probabilistic model | A model that gives a probability for every possible target value, $p(y \mid x, \theta)$, instead of a single predicted value. |
-| Noise ($\varepsilon$) | The random part of a target that the model's prediction does not explain |
-| Gaussian noise | Random errors that follow a bell curve centred on 0, $N(0, \sigma^2)$. Assuming them and maximising the likelihood (MLE) gives the squared-error loss. |
-| Laplace distribution | A peaked, heavy-tailed distribution with density $e^{-\lvert x - \mu\rvert/b}/(2b)$ |
-| Categorical distribution | The distribution of one draw among $K$ classes with probabilities adding up to 1 |
-| Prior $p(\theta)$ | A distribution over the parameters expressing what we believe before seeing data |
-| Posterior $p(\theta \mid \text{data})$ | The distribution over the parameters after seeing the data; proportional to likelihood × prior |
-| Maximum a posteriori (MAP) estimation | Choosing the parameters with the largest posterior probability given the data, which weighs the likelihood by a prior belief about the parameters; in practice, minimise the negative log-likelihood minus the log prior. |
-| Point estimate | A single set of parameter values, as returned by MLE and MAP |
+| Probabilistic model (G-1567) | A model that gives a probability for every possible target value, $p(y \mid x, \theta)$, instead of a single predicted value. |
+| Noise ($\varepsilon$) (G-1326) | The random part of a target that the model's prediction does not explain. |
+| Gaussian noise (G-831) | Random errors that follow a bell curve centred on 0, $N(0, \sigma^2)$. Assuming them and maximising the likelihood (MLE) gives the squared-error loss. |
+| Laplace distribution (G-1044) | A peaked, heavy-tailed distribution with density $e^{-\lvert x - \mu\rvert/b}/(2b)$. |
+| Prior $p(\theta)$ (G-1564) | A distribution over the parameters expressing what we believe before seeing data. |
+| Posterior $p(\theta \mid \text{data})$ (G-1535) | The distribution over the parameters after seeing the data; proportional to likelihood × prior. |
+| Maximum a posteriori (MAP) estimation (G-1189) | Choosing the parameters with the largest posterior probability given the data, which weighs the likelihood by a prior belief about the parameters; in practice, minimise the negative log-likelihood minus the log prior. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
+| [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
+| [Iris dataset](../../../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md#21-the-iris-data) (G-973) | 150 iris flowers of three species, with four measurements each; a classic classification dataset. |
+| [Log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
+| [Categorical distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#23-bernoulli-in-machine-learning) (G-352) | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case. |
+| [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
+| [Point estimate](../../../MA/04-inference/MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#1-overview) (G-1507) | A single number computed from sample data as the best guess for an unknown population parameter. |

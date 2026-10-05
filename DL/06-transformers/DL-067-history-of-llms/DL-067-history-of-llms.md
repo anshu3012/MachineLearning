@@ -278,21 +278,28 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sequence-to-sequence (seq2seq) task | A task with a sequence as input and a sequence as output, possibly of different lengths, such as translation |
-| Encoder | The part of a seq2seq model that reads the input sequence and summarises it |
-| Decoder | The part of a seq2seq model that writes the output sequence |
-| Context vector | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention |
-| BLEU score | A measure of translation quality: how many word sequences of a translation match a human reference |
-| Attention | A mechanism that lets each output step weigh all input positions and focus on the useful ones |
-| Transformer | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
-| Self-attention (G-1763) | Attention in which the words of one sequence attend to each other |
-| Transfer learning | Reusing a model trained on one task as the starting point for a related task |
-| Pre-training | The first, general training of a model on a large dataset, such as ImageNet or a huge amount of unlabelled text, so that it learns general features; fine-tuning then adapts it to a task with little labelled data. |
-| Fine-tuning | Training a pre-trained model further on a small dataset for a specific task |
-| Language modelling | Training a model to predict the next word of a text |
-| Unsupervised pre-training | Pre-training on targets taken from the data itself, such as the next word, so no labels are needed |
-| Masked language model | A pre-training task that hides some words and asks the model to predict them from both sides (BERT) |
-| Large language model (LLM) | A transformer language model with billions of parameters, trained on a vast amount of text |
-| RLHF | Reinforcement learning from human feedback: improving a model with a reward model trained on human rankings of its outputs |
+| Transformer (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
+| Sequence-to-sequence (seq2seq) task (G-1772) | A task with a sequence as input and a sequence as output, possibly of different lengths, such as translation. |
+| Context vector (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
+| Encoder (G-682) | The part of a seq2seq model that reads the input sequence and summarises it. |
+| Decoder (G-564) | The part of a seq2seq model that writes the output sequence. |
+| BLEU score (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
+| Language modelling (G-1042) | Training a model to predict the next word of a text. |
+| Large language model (LLM) (G-1046) | A transformer language model with billions of parameters, trained on a vast amount of text. |
+| Masked language model (G-1170) | A pre-training task that hides some words and asks the model to predict them from both sides (BERT). |
+| RLHF (G-1695) | Reinforcement learning from human feedback: improving a model with a reward model trained on human rankings of its outputs. |
+| Pre-training (G-1546) | The first, general training of a model on a large dataset, such as ImageNet or a huge amount of unlabelled text, so that it learns general features; fine-tuning then adapts it to a task with little labelled data. |
+| [Attention](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226) | A mechanism that lets each output step weigh all input positions and focus on the useful ones. |
+| [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
+| [Image captioning](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#4-one-to-many) (G-918) | Producing a sentence that describes an image. |
+| [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
+| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
+| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| [Unsupervised pre-training](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#35-deep-belief-networks-and-the-name-deep-learning) (G-2059) | Setting a network's starting weights with a network trained layer by layer, instead of at random. |
+| [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
+| [Fine-tuning](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#62-fine-tuning) (G-779) | Training a pre-trained model further on a small dataset for a specific task. |

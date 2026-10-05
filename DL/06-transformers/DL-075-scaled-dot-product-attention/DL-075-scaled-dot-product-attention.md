@@ -275,13 +275,16 @@ The outputs agree too: the largest difference over the $3 \times 8$ numbers is $
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Scaled dot-product attention | $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$: self-attention with the scores divided by $\sqrt{d_k}$ |
-| $d_k$ | The length of each key vector (and query vector); attention divides its scores by $\sqrt{d_k}$ so that long vectors do not give scores so spread out that the softmax puts almost all the weight on one word. |
-| Attention score | A number that measures how strongly one word relates to another: the dot product of the first word's query with the second word's key. The softmax turns one word's scores into its attention weights. |
-| Variance (G-2074) | The average squared distance of values from their mean; a measure of spread |
-| Saturated softmax | A softmax whose inputs are so far apart that one weight is near 1 and the rest near 0; its gradient is then near 0, so training barely changes the scores. |
-| Softmax gradient | How much each softmax output changes when one input score changes: $\partial\alpha_i/\partial s_i = \alpha_i(1 - \alpha_i)$ and $\partial\alpha_i/\partial s_j = -\alpha_i\alpha_j$; training changes the scores through it, and it is near 0 everywhere when the softmax is saturated. |
-| Scaling factor | The number $1/\sqrt{d_k}$ that multiplies every attention score; it shrinks the spread of the scores so the softmax does not saturate. |
-| `MultiHeadAttention` | The Keras layer that computes multi-head attention: it learns $W_Q$, $W_K$, $W_V$ and an output matrix and applies scaled dot-product attention; with `num_heads=1` it is a single attention. |
+| Scaled dot-product attention (G-1745) | Self-attention in which every query–key dot-product score is divided by $\sqrt{d_k}$ before the softmax, so the scores do not spread so wide that the softmax saturates: $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. |
+| Saturated softmax (G-1740) | A softmax whose inputs are so far apart that one weight is near 1 and the rest near 0; its gradient is then near 0, so training barely changes the scores. |
+| Softmax gradient (G-1831) | How much each softmax output changes when one input score changes: $\partial\alpha_i/\partial s_i = \alpha_i(1 - \alpha_i)$ and $\partial\alpha_i/\partial s_j = -\alpha_i\alpha_j$; training changes the scores through it, and it is near 0 everywhere when the softmax is saturated. |
+| Scaling factor (G-1747) | The number $1/\sqrt{d_k}$ that multiplies every attention score; it shrinks the spread of the scores so the softmax does not saturate. |
+| `MultiHeadAttention` (G-121) | The Keras layer that computes multi-head attention: it learns $W_Q$, $W_K$, $W_V$ and an output matrix and applies scaled dot-product attention; with `num_heads=1` it is a single attention. |
+| $d_k$ (G-24) | The length of each key vector (and query vector); attention divides its scores by $\sqrt{d_k}$ so that long vectors do not give scores so spread out that the softmax puts almost all the weight on one word. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Attention score](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-223) | A number that measures how strongly one word relates to another: the dot product of the first word's query with the second word's key. The softmax turns one word's scores into its attention weights. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |

@@ -208,15 +208,19 @@ Two links to later Notes:
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Word embedding | A learned table that gives each word (or token) a dense vector of numbers |
-| Direction | The way an arrow (vector) points, regardless of its length. In a word embedding, meaning lives in directions: the arrow from "man" to "woman" points roughly the same way as the one from "uncle" to "aunt". |
-| Cosine similarity | The cosine of the angle between two vectors: 1 for the same direction, 0 for perpendicular, −1 for opposite |
-| Analogy question | "a is to b as c is to ?", answered by the word closest to $c - a + b$ |
-| Probe | A fixed direction used to score words: the dot product of a word's vector with it |
-| Plural direction | A direction in embedding space: the average of the arrows from singular to plural nouns, scaled to length 1; a word's dot product with it scores how plural the word is. |
-| GloVe | Word vectors learned from how often words appear near each other: training makes the dot product of two words' vectors match the log of their co-occurrence probability (Pennington et al. 2014). |
-| Token | The unit a language model reads: a word or a piece of a word |
-| Token-embedding table (G-1980) | GPT-2's table of 50,257 vectors of 768 numbers, one per token |
-| Co-occurrence probability | How likely word $k$ is to appear near word $i$ in the training text, written $P_{ik}$; GloVe trains word vectors from these probabilities. |
+| Direction (G-613) | The way an arrow (vector) points, regardless of its length. In a word embedding, meaning lives in directions: the arrow from "man" to "woman" points roughly the same way as the one from "uncle" to "aunt". |
+| GloVe (G-851) | Word vectors learned from how often words appear near each other: training makes the dot product of two words' vectors match the log of their co-occurrence probability (Pennington et al. 2014). |
+| Co-occurrence probability (G-404) | How likely word $k$ is to appear near word $i$ in the training text, written $P_{ik}$; GloVe trains word vectors from these probabilities. |
+| Analogy question (G-196) | "a is to b as c is to ?", answered by the word closest to $c - a + b$. |
+| Probe (G-1575) | A fixed direction used to score words: the dot product of a word's vector with it. |
+| Plural direction (G-1506) | A direction in embedding space: the average of the arrows from singular to plural nouns, scaled to length 1; a word's dot product with it scores how plural the word is. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Token](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#4-tokens) (G-1981) | One unit of text the model reads or writes; here, one word. |
+| [Token embedding matrix $W_E$](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#5-from-tokens-to-vectors-token-and-position-embeddings) (G-1980) | The learned table with one vector per token (50,257 vectors of 768 numbers in GPT-2); in GPT-2 also used as the output matrix. |
+| [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
+| [Unit vector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) | A vector of length 1, used to describe a direction. |

@@ -339,22 +339,28 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| Linear regression | A supervised algorithm that predicts a number with a straight line (or flat surface) through the data |
-| Simple linear regression | Linear regression with one feature |
-| Multiple linear regression | Linear regression with several features |
-| LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year |
-| Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$ |
-| Intercept | The line's value when the input is 0; $b$ in $y = mx + b$ |
-| Stochastic error | A random, unmeasurable influence that scatters data around its trend |
-| Best-fit line | The line with the smallest total error over all the training points |
-| Error (residual) | The gap between an actual value and the model's prediction: actual minus predicted |
-| Sum of squared errors (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest |
-| Least squares (ordinary least squares) (G-1406) | Fitting a line by making the sum of squared errors as small as possible |
-| coef_ | The fitted slope (one per feature) in scikit-learn |
-| intercept_ | The attribute of a fitted scikit-learn linear model that holds the learned intercept $b$, the prediction when every input is 0. |
-| Extrapolation | Predicting for inputs outside the range of the training data |
+| Linear regression (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| Simple linear regression (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |
+| LPA (G-1135) | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. |
+| Slope (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
+| Intercept (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| Stochastic error (G-1891) | A random, unmeasurable influence that scatters data around its trend. |
+| Best-fit line (G-280) | The line with the smallest total error over all the training points. |
+| Error (residual) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| Extrapolation (G-738) | Predicting for inputs outside the range of the training data. |
+| coef_ (G-406) | The fitted slope (one per input column) in scikit-learn. |
+| intercept_ (G-961) | The attribute of a fitted scikit-learn linear model that holds the learned intercept $b$, the prediction when every input is 0. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| [Regression](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) | Supervised learning with a numerical output. |
+| [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |
+| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
+| [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
+| [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
+| [Train-test split](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |

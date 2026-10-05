@@ -313,13 +313,26 @@ Comparing the three boxes:
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record, one row of the data table |
-| Feature | One variable, one column of the data table |
-| Quantiles | Values that cut sorted data into equal-sized groups |
-| Quintiles | The 20th, 40th, 60th and 80th percentiles: cuts into 5 groups |
-| Deciles | The 10th, 20th, ..., 90th percentiles: cuts into 10 groups |
-| Percentile location | Where the $p$-th percentile sits in sorted data: position $(p/100) \times (n+1)$; if it falls between two values, the percentile lies the same fraction of the way between them. |
-| Percentile rank | The percentile a given value falls at: the values below it plus half of those equal to it, as a share of all values, $(X + 0.5Y)/n \times 100$. |
-| Box-and-whisker plot | Another name for a box plot: the graph of a column's five-number summary, drawn as a box with whiskers and outliers as dots. |
+| Quantiles (G-1599) | Values that cut sorted data into equal-sized groups; a fraction $p$ of the values lie below the quantile $Q(p)$. |
+| Quintiles (G-1608) | The 20th, 40th, 60th and 80th percentiles: cuts into 5 groups. |
+| Deciles (G-554) | The 10th, 20th, ..., 90th percentiles: cuts into 10 groups. |
+| Percentile rank (G-1482) | The percentile a given value falls at: the values below it plus half of those equal to it, as a share of all values, $(X + 0.5Y)/n \times 100$. |
+| Box-and-whisker plot (G-330) | Another name for a box plot: the graph of a column's five-number summary, drawn as a box with whiskers and outliers as dots. |
+| Percentile location (G-1480) | Where the $p$-th percentile sits in sorted data: position $(p/100) \times (n+1)$; if it falls between two values, the percentile lies the same fraction of the way between them. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Quartiles](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
+| [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
+| [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
+| [Five-number summary](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-787) | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
+| [Interquartile range (IQR)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966) | The width of the middle half of the data: Q3 - Q1. |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Robustness](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#64-benefit-3-robustness) (G-1700) | Performing well even when the data changes somewhat. |
+| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
+| [Fence (fences)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) | A cut-off for spotting outliers in a box plot: 1.5 times the IQR (the width of the middle half of the data) beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |

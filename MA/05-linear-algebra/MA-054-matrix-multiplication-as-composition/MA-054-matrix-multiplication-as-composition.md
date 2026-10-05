@@ -371,12 +371,15 @@ The collapse is why the hidden layers of a network end with a non-linear activat
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Composition | Applying one transformation and then another, seen as one overall transformation |
-| Matrix product | The single matrix $BA$ that does the same as applying $A$ and then $B$ (their composition), so a chain of transformations can be done as one multiplication. |
-| Not commutative | The order of the factors matters: $AB \neq BA$ in general |
-| Associativity | A property of matrix multiplication: in a product of three matrices, which pair is multiplied first does not change the result, because both groupings mean apply $C$, then $B$, then $A$; written $(AB)C = A(BC)$. |
-| Transpose | Turning the rows of a matrix into its columns; $(AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}$ |
-| Row form (G-2245) | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left |
-| Shape rule | The rule for which matrices can be multiplied: an $m \times n$ matrix times an $n \times p$ matrix gives an $m \times p$ matrix, so the inner sizes must match. |
+| Composition (G-431) | Applying one transformation and then another, seen as one overall transformation. |
+| Matrix product (G-1179) | The single matrix $BA$ that does the same as applying $A$ and then $B$ (their composition), so a chain of transformations can be done as one multiplication. |
+| Not commutative (G-1352) | The order of the factors matters: $AB \neq BA$ in general. |
+| Associativity (G-219) | A property of matrix multiplication: in a product of three matrices, which pair is multiplied first does not change the result, because both groupings mean apply $C$, then $B$, then $A$; written $(AB)C = A(BC)$. |
+| Row form (G-2245) | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left. |
+| Shape rule (G-1786) | The rule for which matrices can be multiplied: an $m \times n$ matrix times an $n \times p$ matrix gives an $m \times p$ matrix, so the inner sizes must match. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |

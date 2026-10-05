@@ -333,9 +333,20 @@ In practice, Elastic Net with l1_ratio tuned by cross-validation covers all thre
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Elastic Net regression (G-667) | Linear regression with both the L1 and the L2 penalty |
-| l1_ratio | The share of the total penalty given to the L1 (Lasso) part |
-| Grouping effect | Elastic Net's tendency to give correlated features similar coefficients instead of keeping only one |
-| ElasticNetCV | scikit-learn's Elastic Net that picks alpha and l1_ratio by cross-validation |
+| Elastic Net regression (Elastic Net) (G-667) | Linear regression whose loss gets both the L2 (ridge) and the L1 (lasso) penalty, each with its own strength. It shrinks the coefficients and can set some to 0, so we need not choose between ridge and lasso in advance. |
+| l1_ratio (G-1027) | The share of the total penalty given to the L1 (Lasso) part. |
+| Grouping effect (G-874) | Elastic Net's tendency to give correlated inputs similar coefficients instead of keeping only one. |
+| ElasticNetCV (G-669) | scikit-learn's Elastic Net that picks alpha and l1_ratio by cross-validation. |
+| [L2 regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) | Another name for the squared-coefficient penalty used by Ridge. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [L1 regularisation](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1026) | Another name for the absolute-value penalty used by Lasso. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Feasible region](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
+| [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

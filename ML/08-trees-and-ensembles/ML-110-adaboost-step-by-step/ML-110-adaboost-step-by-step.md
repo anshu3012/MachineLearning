@@ -299,11 +299,15 @@ Figure 6 runs three real stages on our 5 observations. Here the stumps are fitte
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sample weight | A number attached to each observation saying how important it is; AdaBoost starts every observation at 1/n |
-| Weighted error | The total sample weight of the observations a model misclassifies |
-| Weight update | Multiplying misclassified observations' weights by $e^{\alpha}$ and correct observations' weights by $e^{-\alpha}$ |
-| Normalisation (of weights) | Dividing every weight by their sum so they add up to 1 |
-| Upsampling (resampling by weight) | Drawing a new dataset in which each observation is picked with probability equal to its weight |
-| Cumulative sum | The running total of a list of numbers; it turns weights into ranges on the line from 0 to 1 |
+| Sample weight (G-1730) | A number attached to each row saying how important it is; AdaBoost starts every row at $1/n$ and raises the weights of misclassified rows so the next model focuses on them. |
+| Weighted error (G-2114) | The total sample weight of the rows a model misclassifies; AdaBoost uses it to judge how good that model is. |
+| Weight update (G-2110) | The AdaBoost step that raises the weights of misclassified rows (times $e^{\alpha}$) and lowers the rest (times $e^{-\alpha}$), so the next model pays more attention to the mistakes. |
+| Upsampling (resampling by weight) (G-2063) | Drawing a new dataset of the same size in which each row is picked with probability equal to its weight, so heavily weighted rows appear more often for the next model. |
+| Cumulative sum (G-519) | The running total of a list of numbers; it turns weights into ranges on the line from 0 to 1. |
+| [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
+| [Alpha (model weight)](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#43-the-say-of-each-stump-alpha) (G-192) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes. |
+| [Normalisation (of weights)](../../../ML/08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1347) | Dividing every weight by their sum so they add up to 1. |

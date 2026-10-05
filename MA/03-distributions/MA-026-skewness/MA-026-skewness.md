@@ -223,11 +223,23 @@ So skewness is one check among several. We look at the shape as well (histogram,
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | One variable of the data, one column of the table |
-| Observation | One record, one row of the table |
-| Tail event | An event with a very low probability but a very large effect |
-| Sample skewness $G_1$ | The skewness formula used on a sample, $G_1$: the average cubed standardized distance from the mean, with a small-sample correction; it measures how lopsided the data is, and it is what pandas' `skew()` returns. |
-| Pearson's skewness coefficient | A simple measure of skew: three times the gap between the mean and the median, divided by the standard deviation, $3(\bar{x} - \text{median})/s$; positive for right skew, negative for left. |
-
+| Tail event (G-1943) | An event with a very low probability but a very large effect. |
+| Sample skewness $G_1$ (G-1728) | The skewness formula used on a sample, $G_1$: the average cubed standardized distance from the mean, with a small-sample correction; it measures how lopsided the data is, and it is what pandas' `skew()` returns. |
+| Pearson's skewness coefficient (G-1475) | A simple measure of skew: three times the gap between the mean and the median, divided by the standard deviation, $3(\bar{x} - \text{median})/s$; positive for right skew, negative for left. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [Positive skew (right skew)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1533) | A long tail on the right: a few very large values. |
+| [Negative skew (left skew)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1312) | A long tail on the left: a few very small values. |
+| [Measure of central tendency](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#2-what-central-tendency-means) (G-1205) | A single number for the typical, central value of a column. |
+| [Mode](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The most common value of a column. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
+| [Statistical moments](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) (G-1882) | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. |
+| [Bessel's correction](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#61-the-sample-version) (G-279) | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average. |
+| [Log transform](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) (G-1112) | Replacing each value with its logarithm; pulls in a long right tail. |
+| [Uniform distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
+| [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

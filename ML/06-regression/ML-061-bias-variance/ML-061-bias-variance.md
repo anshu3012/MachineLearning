@@ -210,17 +210,22 @@ Finding the model between too simple and too complex is the practical goal: we a
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output we predict |
-| Bias (G-287) | Error from a model being too simple to capture the true relationship |
-| Variance (G-2073) | How much a model's predictions change when it is trained on a different sample of data |
-| Underfitting | A model too simple for the pattern: high error on training and test data |
-| Overfitting | A model that fits the training data, noise included, and does badly on new data |
-| Bias-variance trade-off | Lowering bias by adding complexity tends to raise variance, and the reverse |
-| Noise (irreducible error) | Randomness in the data that no model can predict |
-| Regularisation | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
-| Bagging (G-251) | Averaging many models trained on different samples of the data to reduce variance |
-| Boosting | Combining many simple models in sequence, each fitted to the errors left by the ones before |
+| Bias (of a model) (G-287) | Error from a model being too simple to capture the true relationship. |
+| Variance (of a model) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
+| Bias-variance trade-off (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |
+| Noise (irreducible error) (G-1327) | Randomness in the data that no model can predict. |
+| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Training set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002) | The part of the data the model learns from. |
+| [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
+| [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
+| [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318) | Combining many simple models one after another to reduce bias, the error of a model that is too simple. |

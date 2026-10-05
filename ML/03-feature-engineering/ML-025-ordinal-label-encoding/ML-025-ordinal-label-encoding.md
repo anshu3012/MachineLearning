@@ -350,19 +350,25 @@ Figure 9 shows these five targets before and after.
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Nominal data | Categorical data whose categories have no order, such as states |
-| Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good |
-| Encoding | Turning categories into numbers so an ML algorithm can use them |
-| Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for features |
-| Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the target only |
-| Decision tree | A model that predicts by asking a chain of yes/no questions about the features |
-| OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories` |
-| categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order |
-| LabelEncoder | scikit-learn's class for label encoding the target |
-| classes_ | The attribute holding the classes `LabelEncoder` learned, in order |
-| Column transformer | A scikit-learn class that applies different transformations to different columns at once and joins the results. |
+| Nominal data (G-1330) | Categorical data whose categories have no order, such as states. |
+| Ordinal data (G-1403) | Categorical data whose categories have a natural order, such as Poor < Average < Good. |
+| Ordinal encoding (G-1404) | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. |
+| Label encoding (G-1030) | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. |
+| OrdinalEncoder (G-1405) | scikit-learn's class for ordinal encoding; takes the order through `categories`. |
+| categories_ (G-354) | The attribute holding the categories `OrdinalEncoder` learned, in order. |
+| LabelEncoder (G-1033) | scikit-learn's class for label encoding the target. |
+| classes_ (G-392) | The attribute holding the classes `LabelEncoder` learned, in order. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Numerical data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data) (G-1367) | Data made of numbers. |
+| [Categorical data (categorical column)](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-351) | Data made of categories: labels rather than numbers. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415) | A scikit-learn class that applies different transformations to different columns at once and joins the results. |
+| [Encoding](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#12-text-encoding-encoding) (G-685) | Two senses: the rulebook that maps text characters to stored bytes (Video 15); or turning categories into numbers (categorical encoding, Video 26). |

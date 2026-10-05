@@ -455,12 +455,16 @@ combinations, more than the 891 Titanic passengers, so many combinations never a
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| $P(X = x, Y = y)$ | The joint probability that $X$ takes the value $x$ and $Y$ the value $y$ together |
-| Joint probability distribution | The joint probabilities of every combination of values of two variables; they sum to 1 |
-| Marginal (simple, unconditional) probability | The probability of one variable's value whatever the other variable does |
-| Margins | The row and column totals of a contingency table, where marginal probabilities are read |
-| Marginal probability distribution | All the marginal probabilities of one variable, read from a joint table |
-| Marginalising | Adding up a table of probabilities of two variables (a joint distribution) over every value of one variable, which removes that variable and leaves the other's probabilities. |
-| `normalize` (`pd.crosstab`) | Turns counts into probabilities: `"all"` joint, `"index"` per row, `"columns"` per column |
+| Joint probability (G-986) | The probability that two events happen together, $P(A \cap B)$. |
+| Joint probability distribution (G-985) | The joint probabilities of every combination of values of two variables; they sum to 1. |
+| Marginal (simple, unconditional) probability (G-1164) | The probability of one variable's value whatever the other variable does. |
+| Margins (G-1167) | The row and column totals of a contingency table, where marginal probabilities are read. |
+| Marginalising (G-1166) | Adding up a table of probabilities of two variables (a joint distribution) over every value of one variable, which removes that variable and leaves the other's probabilities. |
+| $P(X = x, Y = y)$ (G-35) | The joint probability that $X$ takes the value $x$ and $Y$ the value $y$ together. |
+| `normalize` (`pd.crosstab`) (G-123) | Turns counts into probabilities: `"all"` joint, `"index"` per row, `"columns"` per column. |
+| Marginal probability distribution (G-1165) | All the marginal probabilities of one variable, read from a joint table. |
+| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |

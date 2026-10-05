@@ -266,8 +266,14 @@ A negative $R^2$ means worse than always predicting the mean price.
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Voting regressor (G-2097) | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions |
+| Voting regressor (G-2097) | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions. |
 | Ambiguity (G-2155) | How much the ensemble's members disagree: the spread of their predictions around their mean. It is the amount by which the vote's squared error beats the average member's. |
-| n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all |
+| n_jobs (G-1294) | scikit-learn setting for how many CPU cores to use in parallel; -1 means all. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
+| [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |

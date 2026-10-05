@@ -145,8 +145,12 @@ $$P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$$
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Mutually exclusive events | Events that cannot happen at the same time; their intersection has probability 0 |
-| Union (A ∪ B) | The event that A or B (or both) happens |
-| Addition rule (G-173) | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events, $P(A \cup B) = P(A) + P(B)$ |
+| Mutually exclusive events (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
+| Union (A ∪ B) (G-2045) | The event that A or B (or both) happens. |
+| Addition rule (general addition rule) (G-173) | The rule for the probability that $A$ or $B$ (or both) happens: add their probabilities and subtract the overlap so it is not counted twice, $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events the overlap is 0. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The event that both A and B happen. |

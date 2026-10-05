@@ -297,11 +297,16 @@ If the data has no high-cardinality features, the impurity-based importance of `
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Mean decrease in impurity (MDI) | Impurity-based feature importance: a feature's share of the total weighted impurity decrease of its splits, averaged over the trees; also called Gini importance |
-| Weighted impurity decrease | A split's impurity drop, weighted by the share of observations reaching the node: the $\Delta$ of `min_impurity_decrease` |
-| Interpretability | How well people can understand why a model makes its decisions |
-| Permutation importance | The drop in a model's test score when one feature's values are shuffled |
-| permutation_importance | scikit-learn function (in `sklearn.inspection`) that computes permutation importance |
-| Normalized importances | Importances divided by their total, so they add up to 1 |
+| Interpretability (G-965) | How well people can understand why a model makes its decisions. |
+| Mean decrease in impurity (MDI) (G-1196) | A score of how much a column helps the trees: its share of the total drop in impurity from all splits made on it, weighted and averaged over the trees (impurity-based feature importance, also called Gini importance). |
+| Weighted impurity decrease (G-2115) | How much a split lowers the impurity, weighted by the share of rows that reach the node; trees use it to judge splits (the $\Delta$ of `min_impurity_decrease`) and to score feature importance. |
+| Permutation importance (G-1490) | A feature's importance measured as the drop in a model's test score when that column's values are shuffled; a big drop means the model relies on it, and unlike impurity-based importance it is not fooled by columns with many unique values. |
+| Normalized importances (G-1350) | Importances divided by their total, so they add up to 1. |
+| permutation_importance (G-1491) | scikit-learn function (in `sklearn.inspection`) that computes permutation importance. |
+| [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
+| [Gini impurity](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#82-the-formula) (G-847) | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |

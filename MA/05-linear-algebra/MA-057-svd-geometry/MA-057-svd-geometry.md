@@ -429,18 +429,31 @@ The two agree for one important family. A **symmetric matrix** (G-1932) equals i
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Singular value decomposition (SVD) | A way to write any matrix, square or not, as three simple steps: turn, stretch by the singular values, turn ($A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal; a factorisation). ML uses it for PCA and to compress data. |
-| Singular value ($\sigma_i$) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first |
-| Right singular vector ($\mathbf v_i$) (G-1692) | An input direction of the SVD; a column of $V$ |
-| Left singular vector ($\mathbf u_i$) (G-1079) | An output direction of the SVD; a column of $U$ |
-| Singular value equation | $A\mathbf v_i = \sigma_i\mathbf u_i$ |
-| Orthonormal | Vectors of length 1 that are all perpendicular to each other |
-| Orthogonal matrix | A square matrix that only rotates or flips: its columns have length 1 and are all perpendicular (orthonormal), and its inverse is its transpose. |
-| Rotation | A transformation that turns space without stretching or flipping it (an orthogonal matrix with determinant $+1$). |
-| Reflection | A transformation that mirrors space, without stretching it (an orthogonal transformation with determinant $-1$). |
-| Full SVD | The version of the SVD that keeps every column of $U$ and $V$, so both are square and $\Sigma$ has the same shape as $A$, with the singular values on its diagonal padded with zeros. It gives complete orthonormal bases for both the input and the output space. |
-| Thin (reduced) SVD | A smaller form of the SVD that drops the columns of $U$ multiplied by the zero rows of $\Sigma$; those columns never affect the matrix, so it gives the same $A$ from smaller matrices. |
-| Symmetric matrix | A square matrix equal to its own transpose, such as $X^{\mathsf T}X$ or a covariance matrix; it always has a full set of perpendicular eigenvectors. |
-| Positive semi-definite | A symmetric matrix that never curves downward in any direction: its eigenvalues are all 0 or positive. For such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |
+| Singular value decomposition (SVD) (G-1813) | A way to write any matrix, square or not, as three simple steps: turn, stretch by the singular values, turn ($A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal; a factorisation). ML uses it for PCA and to compress data. |
+| Orthonormal (G-1409) | Vectors of length 1 that are all perpendicular to each other. |
+| Orthogonal matrix (G-1407) | A square matrix that only rotates or flips: its columns have length 1 and are all perpendicular (orthonormal), and its inverse is its transpose. |
+| Rotation (G-1709) | A transformation that turns space without stretching or flipping it (an orthogonal matrix with determinant $+1$). |
+| Reflection (G-1651) | A transformation that mirrors space, without stretching it (an orthogonal transformation with determinant $-1$). |
+| Singular value ($\sigma_i$) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
+| Singular value equation (G-1814) | The equation $A\mathbf v_i = \sigma_i\mathbf u_i$: the matrix sends each input direction $\mathbf v_i$ to its output direction $\mathbf u_i$, stretched by the singular value $\sigma_i$; it is used to compute each $\mathbf u_i$. |
+| Left singular vector ($\mathbf u_i$) (G-1079) | One of the output directions of the SVD: the unit vector that a right singular vector lands on, stretched by its singular value ($A\mathbf v_i = \sigma_i \mathbf u_i$); the columns of $U$. |
+| Right singular vector ($\mathbf v_i$) (G-1692) | A column $\mathbf v_i$ of $V$ in the SVD: a unit-length input direction that the matrix sends to $\sigma_i$ times the matching left singular vector $\mathbf u_i$. |
+| Full SVD (G-810) | The version of the SVD that keeps every column of $U$ and $V$, so both are square and $\Sigma$ has the same shape as $A$, with the singular values on its diagonal padded with zeros. It gives complete orthonormal bases for both the input and the output space. |
+| Thin (reduced) SVD (G-1969) | A smaller form of the SVD that drops the columns of $U$ multiplied by the zero rows of $\Sigma$; those columns never affect the matrix, so it gives the same $A$ from smaller matrices. |
+| Symmetric matrix (G-1932) | A square matrix equal to its own transpose, such as $X^{\mathsf T}X$ or a covariance matrix; it always has a full set of perpendicular eigenvectors. |
+| Positive semi-definite (G-1532) | A symmetric matrix that never curves downward in any direction: its eigenvalues are all 0 or positive. For such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |
+| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| [Orthogonal](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#52-perpendicular-vectors-have-dot-product-0) (G-1408) | At right angles (perpendicular); two non-zero vectors are orthogonal when their dot product is 0, which as data means they share nothing. |
+| [Identity matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915) | The matrix that leaves every vector unchanged. |
+| [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
+| [Inverse matrix](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968) | The matrix that undoes another: their product is the identity matrix. |
+| [Change of basis matrix](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis) (G-374) | A matrix $P$ that translates between two sets of axes: its columns are the new axes (basis vectors). $P^{-1}AP$ is the same transformation as $A$ seen in the new axes; in an eigenbasis it only scales. |
+| [Determinant](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. |
+| [Rank (of a matrix)](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |
+| [Column space](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

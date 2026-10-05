@@ -268,12 +268,17 @@ Seeing one word moved the belief about an email from 20% to 75%. A spam filter d
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
 | Bayes' theorem (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
-| Hypothesis (G-2214) | The statement whose probability we want, such as "Steve is a librarian" or "the email is spam" |
-| Prior (G-1565) | The probability of an event before any evidence is seen |
-| Likelihood (G-1086) | The probability of the observed evidence if a given event is true |
+| Bayesian statistics (G-271) | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. |
+| Hypothesis (Bayes' theorem) (G-2214) | The statement whose probability we want, such as "Steve is a librarian" or "the email is spam". |
+| Prior (G-1565) | The probability of an event before any evidence is seen. |
 | Evidence (G-718) | The overall chance of seeing what we observed, counted over every possible hypothesis, written $P(E)$. Bayes' theorem divides by it: posterior = likelihood × prior / evidence. |
-| Posterior (G-1536) | The probability of an event after the evidence is taken into account |
-| Bayesian statistics (G-271) | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem |
+| Posterior (G-1536) | The probability of an event after the evidence is taken into account. |
+| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
+| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
+| [Law of total probability](../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |
+| [Joint probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986) | The probability that two events happen together, $P(A \cap B)$. |

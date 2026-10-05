@@ -288,11 +288,19 @@ The hard-margin SVM forbids any point inside the margin. The soft-margin SVM rel
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Soft-margin SVM | The SVM that allows points inside the margin or on the wrong side, at a cost controlled by C |
-| Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane; 0 if it is on the correct side |
-| Margin error | The part of the soft-margin SVM loss, $\lVert w \rVert / 2$, that grows as the margin narrows; minimising it pushes the margin wider. |
-| Classification error (SVM) | The part of the soft-margin SVM loss that adds up every point's slack $\xi_i$ (how far the point sits on the wrong side of its own hyperplane): $\sum \xi_i$, the total slack of all points. |
-| Hinge loss | The SVM's error for one point: 0 when the point is on the correct side and outside the margin, growing in a straight line the further it goes past the margin; formula $\max(0, 1 - y(w^T x + b))$. |
-| C (SVM) | The weight on the classification error; a large C means few mistakes and a narrow margin, a small C a wide margin |
+| Soft-margin SVM (G-1829) | The SVM that allows points inside the margin or on the wrong side, at a cost controlled by C. |
+| Slack (ξ) (G-1820) | A number for each training point in the soft-margin SVM that says how far the point lies on the wrong side of its own margin line, in margin units: 0 on the correct side, above 1 on the wrong side of $\pi$ (slack $\xi_i$). The loss adds up the slacks, so each violation has a cost. |
+| Margin error (G-1161) | The part of the soft-margin SVM loss, $\lVert w \rVert / 2$, that grows as the margin narrows; minimising it pushes the margin wider. |
+| Classification error (SVM) (G-393) | The part of the soft-margin SVM loss that adds up every point's slack $\xi_i$ (how far the point sits on the wrong side of its own hyperplane): $\sum \xi_i$, the total slack of all points. |
+| C (SVM) (G-336) | The weight on the classification error; a large C means few mistakes and a narrow margin, a small C a wide margin. |
+| Hinge loss (G-898) | The SVM's error for one point: 0 when the point is on the correct side and outside the margin, growing in a straight line the further it goes past the margin; formula $\max(0, 1 - y(w^T x + b))$. |
+| [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |

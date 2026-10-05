@@ -319,15 +319,21 @@ Whether to pool depends on the application.
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Pooling | Replacing each small window of a feature map with one summary number, to shrink the map |
-| Downsampling | Reducing the height and width of a feature map |
-| Max pooling | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
-| Average pooling | Pooling that replaces each window of a feature map with the mean of its values, which shrinks the map; unlike max pooling, it fades strong values such as edges. |
-| Global pooling | Pooling that uses the whole feature map as one window, giving one number per map (its max or its average). It can replace the Flatten layer and needs far fewer parameters in the next layer, which reduces overfitting. |
-| Receptive field | The region of the input that one output value depends on |
-| Translation invariance | The output stays (almost) the same when the input is shifted slightly |
-| Translation equivariance | The output shifts in the same way as the input; a property of convolution |
-| `MaxPooling2D` | The Keras layer for 2D max pooling, `MaxPooling2D(pool_size, strides)`: it keeps only the largest value in each window of a feature map, which shrinks the map; it has no parameters. |
-| Image segmentation (G-2268) | Dividing an image into regions by saying which pixels belong to which object |
+| Max pooling (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| Translation invariance (G-2011) | The output stays (almost) the same when the input is shifted slightly. |
+| Translation equivariance (G-2010) | The output shifts in the same way as the input; a property of convolution. |
+| Pooling (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
+| Downsampling (G-636) | Reducing the height and width of a feature map. |
+| `MaxPooling2D` (G-116) | The Keras layer for 2D max pooling, `MaxPooling2D(pool_size, strides)`: it keeps only the largest value in each window of a feature map, which shrinks the map; it has no parameters. |
+| Average pooling (G-238) | Pooling that replaces each window of a feature map with the mean of its values, which shrinks the map; unlike max pooling, it fades strong values such as edges. |
+| Global pooling (G-849) | Pooling that uses the whole feature map as one window, giving one number per map (its max or its average). It can replace the Flatten layer and needs far fewer parameters in the next layer, which reduces overfitting. |
+| Image segmentation (G-2268) | Dividing an image into regions by saying which pixels belong to which object. |
+| Pooling layer (G-1520) | A CNN layer that shrinks the feature map from a convolution layer by replacing each small window with one number, such as its maximum; this cuts the computation and makes the features less sensitive to small shifts. |
+| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
+| [Receptive field](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |

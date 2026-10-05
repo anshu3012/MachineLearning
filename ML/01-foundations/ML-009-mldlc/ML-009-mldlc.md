@@ -530,39 +530,68 @@ Where the two differ:
 
 ## 15. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
-|----------|-------------------|
-| SDLC | Software development life cycle: the standard sequence of steps for building a software product from start to end; the ML development life cycle adapts it to ML projects. |
-| MLDLC | Machine learning development life cycle: the guidelines for building an ML product from idea to product |
-| End-to-end product | A complete product, from raw data to software that users use |
-| Framing the problem (G-802) | Deciding the goal, users, cost, team and approach before any work starts |
-| Data warehouse | A separate store of copied company data, safe to analyse without touching the live database |
-| ETL | Extract, transform, load: copying data from source systems into a warehouse |
-| Dirty data | Data with errors, gaps, duplicates or inconsistencies |
-| Data preprocessing (G-539) | Changes made to the data before training, so an algorithm can use it |
-| Exploratory data analysis (EDA) | Studying the data with graphs and summaries to find its patterns |
-| Observation | One record: one row of the data table |
-| Feature | An input variable: one column of the data table |
-| Target | The output we want to predict |
-| Univariate analysis | Studying one feature on its own |
-| Bivariate analysis | Studying the relationship between two features |
-| Multivariate analysis | Studying three or more features together |
-| Imbalanced data | Data where one class has far more observations than another |
-| Feature engineering | Creating new features, or changing existing ones, to help the model |
-| Model training (G-1255) | Giving data to an algorithm so it learns the pattern |
-| Performance metric (G-1215) | A number that measures how well a model works |
-| Model selection | Choosing the best one or few algorithms after evaluation |
-| Hyperparameter tuning | Adjusting an algorithm's settings for the best performance |
-| Ensemble learning | Combining several models into one stronger model |
-| Model deployment (G-592) | Putting a model on a server so users can reach it |
-| Binary file | A file that is not plain text, such as a saved model |
-| Pickle | A Python tool for saving a model (or any object) to a file |
-| JSON (G-987) | A plain-text format for structured data, used by APIs |
-| Beta testing | Releasing a new version to a small group of trusted users first |
-| A/B testing | Comparing an old and a new version, of a model or a web page, by showing each to a random half of the users at the same time, to see which one does better. |
-| Conversion rate | The share of people reached who become customers |
-| Feature scaling (G-767) | Putting features on the same scale, so no feature dominates distances |
-| Feature selection | Keeping only the useful features and dropping the rest |
-| Imputation | Filling in missing values, for example with the mean or median |
-| Rollback | Returning automatically to the last working version when something breaks |
-| Load balancing | Spreading requests across servers so all users are served quickly |
+|---|---|
+| SDLC (G-1755) | Software development life cycle: the standard sequence of steps for building a software product from start to end; the ML development life cycle adapts it to ML projects. |
+| MLDLC (G-1240) | Machine learning development life cycle: the guidelines for building an ML product from idea to product. |
+| End-to-end product (G-687) | A complete product, from raw data to software that users use. |
+| Data warehouse (G-541) | A separate store of copied company data, safe to analyse without touching the live database. |
+| ETL (G-714) | Extract, transform, load: copying data from source systems into a warehouse. |
+| Dirty data (G-615) | Data with errors, gaps, duplicates or inconsistencies. |
+| Data preprocessing (preprocessing) (G-539) | Cleaning and preparing the data before training, so an algorithm can use it. |
+| Exploratory data analysis (EDA) (G-732) | Exploring data with summaries and plots to find patterns. |
+| Imbalanced data (G-921) | Data in which one class is much rarer than another. |
+| Feature engineering (G-761) | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
+| Training (model training) (G-1255) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. |
+| Model selection (G-1254) | Training several algorithms and keeping the best. |
+| Ensemble learning (G-689) | Combining several models into one stronger model. |
+| Binary file (G-305) | A file that is not plain text, such as a saved model. |
+| Beta testing (G-282) | Releasing a new version to a small group of trusted users first. |
+| A/B testing (G-157) | Comparing an old and a new version, of a model or a web page, by showing each to a random half of the users at the same time, to see which one does better. |
+| Load balancing (G-1107) | Spreading requests across servers so all users are served quickly. |
+| [JSON (JavaScript Object Notation)](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is) (G-987) | A plain-text format for structured data, made of objects and arrays, that almost every language can read; used by APIs. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Framing an ML problem](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#1-overview) (G-802) | Turning a business problem into a precise ML task that can be built and measured. |
+| [CSV file](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513) | A text file holding a table, with commas between values. |
+| [API (Application Programming Interface)](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data) (G-204) | A service that returns data when our code asks for it; a website's API hands out its data on request. |
+| [Web scraping](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#1-overview) (G-2105) | Writing code that extracts data from web pages. |
+| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
+| [Duplicate row](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#8-are-there-duplicate-rows) (G-648) | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Feature scaling (scaling)](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) | Putting columns on the same scale, so no column dominates distances. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Imputation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values) (G-927) | Filling in missing values, for example with the mean, median or mode. |
+| [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview) (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
+| [Bivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310) | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
+| [Multivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-1280) | Studying more than two variables together. |
+| [Outlier detection](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#6-handling-outliers-detect-then-treat) (G-1419) | Finding the values that lie far from the rest of a feature: compute a lower and an upper limit, and flag every value outside them as an outlier, ready to be removed or changed. |
+| [Histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
+| [Feature construction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
+| [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
+| [Neural network](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
+| [Metric (performance metric)](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#8-step-5-metrics) (G-1215) | A number that measures how well a model works, and so tells whether the work is moving in the right direction. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
+| [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
+| [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318) | Combining many simple models one after another to reduce bias, the error of a model that is too simple. |
+| [Stacking](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#1-overview) (G-1866) | An ensemble in which the base models' predictions become the input columns of a new dataset, and a final meta-model learns how best to combine them. |
+| [Deployment (deploy, model deployment)](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-592) | Moving a model from development to production: putting it on a server so users can reach it. |
+| [pickle](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#101-saving-the-model) (G-1494) | A Python module that saves objects to a file and loads them back. |
+| [Conversion rate](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#32-customer-profiles-for-targeted-marketing) (G-474) | The share of people reached who become customers. |
+| [Rollback](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#72-bad-data-can-damage-the-model) (G-1703) | Restoring a model to an earlier, good version. |
+| [Model drift / concept drift](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#41-models-go-stale) (G-1253) | A model's accuracy dropping as the real world changes; sometimes called model rot. |
+| [Retrain](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#42-retraining-on-a-schedule) (G-1689) | Train a model again, here from scratch on old + new data. |
+| [MLOps](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#10-cost) (G-1244) | Running and maintaining ML models in production. |

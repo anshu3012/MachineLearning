@@ -292,25 +292,28 @@ The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Tensor | A container of numbers arranged along one or more axes |
-| Scalar | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
-| Vector | A list of numbers: a 1D tensor |
-| Matrix | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
-| Array | A grid of numbers with any number of dimensions (1D a list, 2D a list of lists); the programming name for a tensor. In NumPy every tensor is an array, an `ndarray`. |
-| Axis | One direction along which a tensor's numbers are arranged, used to say which way an operation runs; a matrix has two axes, down the rows (axis 0) and across the columns (axis 1). |
-| Rank (G-1629) | The number of axes of a tensor (`ndim` in NumPy) |
-| Shape | The number of items along each axis of a tensor, such as (2, 3) for a matrix with 2 rows and 3 columns; it tells how the data is laid out. |
-| Size | The total number of items in an array: the numbers in its shape multiplied together. |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| X, y | Usual names for the feature table and the target column |
-| Vectorization (G-2084) | Converting data such as text into vectors of numbers |
-| Vocabulary (G-2092) | The list of unique words in a set of texts |
-| Time series | Data recorded at regular time intervals |
-| Pixel | One dot of an image, stored as one or more numbers |
-| Channel | One colour layer of an image (red, green or blue) |
-| Frame | One image in a video |
-| Compression | Storing data in fewer bits, for example by throwing away detail the eye barely notices and not storing again what stays the same between video frames, so files take less space and are faster to send. |
+| Tensor (G-1957) | A container of numbers arranged along one or more axes. |
+| Scalar (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| Vector (G-2081) | A list of numbers: a 1D tensor. |
+| Matrix (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
+| Array (G-214) | A grid of numbers with any number of dimensions (1D a list, 2D a list of lists); the programming name for a tensor. In NumPy every tensor is an array, an `ndarray`. |
+| Axis (G-242) | One direction along which a tensor's numbers are arranged, used to say which way an operation runs; a matrix has two axes, down the rows (axis 0) and across the columns (axis 1). |
+| Rank (of a tensor) (G-1629) | The number of axes of a tensor (ndim in NumPy). |
+| Shape (G-1787) | The number of items along each axis of a tensor, such as (2, 3) for a matrix with 2 rows and 3 columns; it tells how the data is laid out. |
+| Size (G-1816) | The total number of items in an array: the numbers in its shape multiplied together. |
+| X, y (G-2129) | Usual names for the input table and the output column. |
+| Vectorization (of data) (G-2084) | Converting data such as text into vectors of numbers, because ML algorithms work only with numbers. |
+| Time series (G-1975) | Data recorded at regular time intervals. |
+| Pixel (G-1501) | One dot of an image, stored as one or more numbers. |
+| Channel (G-375) | One colour layer of an image (red, green or blue). |
+| Frame (G-801) | One image in a video. |
+| Compression (G-433) | Storing data in fewer bits, for example by throwing away detail the eye barely notices and not storing again what stays the same between video frames, so files take less space and are faster to send. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |

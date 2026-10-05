@@ -200,12 +200,14 @@ The fix is a [loss function](../../../ML/07-classification/ML-072-log-loss/ML-07
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Training (a perceptron) | Finding its weights and bias from labelled data |
-| Stopping rule | The condition that ends a training loop: a fixed number of loops, or convergence |
-| Linearly separable | Data whose two classes a straight line can split |
-| Learning rate ($\eta$) | The small factor that multiplies each update, so the line moves in small steps |
-| Epoch | One full pass over the training set |
-| Perceptron trick | Pick a random point; if it is misclassified, add or subtract it (times the learning rate) from the weights and bias |
-| Convergence | The point where no training point is misclassified, so no pick moves the line any more |
+| Stopping rule (G-1894) | The condition that ends a training loop: a fixed number of loops, or convergence. |
+| Epoch (G-696) | One full update of the parameters using the whole training set. |
+| Training (a perceptron) (G-2000) | Finding its weights and bias from labelled data. |
+| [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
+| [Linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) | Data whose classes a straight line, plane or hyperplane can split. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |

@@ -508,11 +508,19 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
 ## 6. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Vertex (G-2258) | A corner of the feasible region; a linear program always has a best point at a vertex |
+| Linear program (G-1093) | A problem of making a straight-line (linear) function as small as possible when the allowed choices are limited by linear inequalities (linear constraints). It is a common kind of convex problem with its own fast solvers. |
+| Quadratic program (G-1598) | A problem of finding the lowest point of a bowl-shaped function with squared terms (a convex quadratic) while meeting limits written as linear inequalities (constraints). |
+| Polytope (G-1518) | The region where a set of linear inequalities all hold, such as the feasible region of a linear program: a polygon in two dimensions. |
+| Vertex (G-2258) | A corner of the feasible region; a linear program always has a best point at a vertex. |
 | Simplex algorithm (G-2259) | A way to find the best corner of the region allowed by straight-line limits (solving a linear program): walk from one corner (vertex) to a neighbouring, better one until no neighbour is better. |
-| Linear program | A problem of making a straight-line (linear) function as small as possible when the allowed choices are limited by linear inequalities (linear constraints). It is a common kind of convex problem with its own fast solvers. |
-| Polytope | The region where a set of linear inequalities all hold, such as the feasible region of a linear program: a polygon in two dimensions. |
-| Quadratic program | A problem of finding the lowest point of a bowl-shaped function with squared terms (a convex quadratic) while meeting limits written as linear inequalities (constraints). |
-| Positive definite matrix | A symmetric matrix that curves upward in every direction: its eigenvalues are all positive, and its quadratic form is a strictly convex bowl. |
+| Quadratic form (G-1597) | An expression such as $\mathbf{x}^{\mathsf T}A\mathbf{x}$ that turns a vector into one number made only of squared entries and products of pairs of entries, such as $x_1^2 + 3x_2^2$; it is the curved part of a quadratic program's objective. |
+| Positive definite matrix (G-1530) | A symmetric matrix that curves upward in every direction: its eigenvalues are all positive, and its quadratic form is a strictly convex bowl. |
+| [Convex optimisation problem](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#61-the-definition) (G-478) | A search for the lowest point of a bowl-shaped (convex) function inside an allowed region with no dents or holes (convex inequality constraints, affine equality constraints). In such a problem every local minimum is the global one. |
+| [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [KKT conditions](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) | The four checks a point must pass to be a minimum when some constraints are inequalities: the Lagrangian's gradient is zero (stationarity), the point obeys every constraint (primal feasibility), every multiplier is at least 0 (dual feasibility), and each multiplier is 0 unless its constraint is tight (complementary slackness). |
+| [Support vector machine (SVM)](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) (G-1921) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |

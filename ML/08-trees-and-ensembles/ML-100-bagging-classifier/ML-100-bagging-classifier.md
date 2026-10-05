@@ -269,19 +269,33 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| BaggingClassifier (G-253) | scikit-learn class for bagging, pasting, random subspaces and random patches in classification |
-| estimator | The scikit-learn bagging setting that names the model to train many copies of (the base model); formerly `base_estimator`. |
-| n_estimators | The number of base models in an ensemble |
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Unstable model (G-2156) | A model whose fit changes a lot when the training data changes a little; bagging helps it most |
-| Out-of-bag (OOB) evaluation, OOB score (G-1411) | Testing a bagging model by predicting each training observation with only the base models that never saw it |
-| max_samples | The number or share of observations each base model gets |
-| bootstrap (G-320) | BaggingClassifier setting: draw observations with replacement (True, bagging) or without (False, pasting) |
-| bootstrap_features (G-321) | BaggingClassifier setting: draw features with replacement or without |
-| estimators_samples_ | The row numbers (observations) each trained base model was given |
-| estimators_features_ | The column numbers (features) each trained base model was given |
-| verbose | scikit-learn setting that prints progress messages during training |
+| Unstable model (G-2156) | A model whose fit changes a lot when the training data changes a little; bagging helps it most. |
+| Pasting (G-1463) | Training several models, each on its own random sample of rows drawn without replacement (no row twice), and combining their predictions; it is bagging with this sample instead of a bootstrap sample. |
+| Random subspaces (G-1618) | Training several models, each on all rows but a random subset of columns, and combining their predictions (a kind of bagging). |
+| Random patches (G-1614) | Training several models, each on a random subset of rows and a random subset of columns, and combining their predictions (a kind of bagging). |
+| BaggingClassifier (G-253) | scikit-learn class for bagging, pasting, random subspaces and random patches in classification. |
+| bootstrap (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |
+| bootstrap_features (G-321) | BaggingClassifier setting: draw columns with replacement or without. |
+| estimator (G-709) | The scikit-learn bagging setting that names the model to train many copies of (the base model); formerly `base_estimator`. |
+| estimators_features_ (G-710) | The column numbers each trained base model was given. |
+| estimators_samples_ (G-711) | The row numbers each trained base model was given. |
+| max_samples (G-1187) | The number or share of rows each base model gets. |
+| n_estimators (G-1291) | The number of base models in an ensemble. |
+| verbose (G-2087) | scikit-learn setting that prints progress messages during training. |
+| [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
+| [Out-of-bag observations (out-of-bag rows)](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations) (G-1412) | The observations a base model never saw because its bootstrap sample missed them (about 37%). |
+| [Out-of-bag (OOB) evaluation, OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. |
+| [OOB prediction](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#31-the-steps) (G-1392) | A prediction for a training row made only by the trees that never saw that row, because their random sample (bootstrap sample) missed it. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

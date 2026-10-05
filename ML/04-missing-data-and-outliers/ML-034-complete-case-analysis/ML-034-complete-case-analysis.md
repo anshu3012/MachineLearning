@@ -375,19 +375,27 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Univariate imputation | Filling the gaps in a column (imputation) using only that column's other values. |
-| Multivariate imputation | Filling the gaps in one column using the values of the other columns too (as the KNN and iterative imputers do), so each fill fits the rest of its row. |
-| SimpleImputer | scikit-learn's class for univariate imputation |
-| Complete case analysis (CCA) | Dropping every row that has a missing value in any chosen column; also called listwise deletion |
-| Complete case | An observation with a value in every feature used |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| MCAR | Missing completely at random: the gaps have no relation to any value in the data |
-| MAR | Missing at random: the gaps depend on another, recorded column |
-| MNAR | Missing not at random: the gaps depend on the missing value itself |
-| 5% rule of thumb | Drop the incomplete rows (complete case analysis) only for columns missing less than about 5% of their values, so only a small part of the data is lost. |
-| dropna | The pandas method that drops rows (or columns) with missing values |
-| isnull | The pandas method that marks each missing cell `True` |
+| Univariate imputation (G-2051) | Filling the gaps in a column (imputation) using only that column's other values. |
+| Multivariate imputation (G-1282) | Filling the gaps in one column using the values of the other columns too (as the KNN and iterative imputers do), so each fill fits the rest of its row. |
+| Complete case analysis (CCA) (G-425) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. |
+| dropna (G-637) | The pandas method that drops rows (or columns) with missing values. |
+| MCAR (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
+| MAR (G-1158) | Missing at random: the gaps depend on another, recorded column. |
+| MNAR (G-1248) | Missing not at random: the gaps depend on the missing value itself. |
+| isnull (G-974) | The pandas method that marks each missing cell `True`. |
+| 5% rule of thumb (G-52) | Drop the incomplete rows (complete case analysis) only for columns missing less than about 5% of their values, so only a small part of the data is lost. |
+| Complete case (G-426) | A row with a value in every column used. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [`KNNImputer`](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#7-knn-imputation-with-scikit-learn) (G-108) | scikit-learn's class for KNN imputation: it fills each gap from the most similar observations (the nearest neighbours), using their values of that feature. |
+| [`IterativeImputer`](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#8-the-iterative-imputer-in-scikit-learn) (G-98) | scikit-learn's class that fills missing values by predicting each feature with gaps from the other features, repeating until the fills settle (MICE). Still experimental, so it needs an extra import. |
+| [MICE](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-1216) | A way to fill gaps: each column's missing values are predicted by a model trained on the other columns, and the rounds repeat until the filled values settle (Multivariate Imputation by Chained Equations, the algorithm behind the iterative imputer). |
+| [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
+| [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
+| [SimpleImputer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#41-fever-fill-the-missing-values) (G-1809) | scikit-learn's class that fills missing values, by default with the column's mean. |

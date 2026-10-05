@@ -184,15 +184,21 @@ The number of new features grows quickly. With 2 features, degree 2 gives 6; deg
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output we predict |
-| Polynomial regression | Linear regression on powers (and products) of the features, to fit curves |
-| Degree | The highest power used in a polynomial, such as 2 for $x^2$. It sets the model's complexity: a higher degree lets the curve bend more, and too high a degree overfits. |
-| PolynomialFeatures | scikit-learn transformer that creates the power and product columns |
-| include_bias | PolynomialFeatures setting that adds a column of 1s (the power 0), which acts as an intercept; LinearRegression fits its own intercept anyway, so either setting works. |
-| Interaction term | A product of two features, such as $xy$, that lets one feature's effect depend on another |
-| Underfitting | A model too simple to capture the pattern; poor on training and test data |
-| Overfitting | A model so flexible that it learns the noise; good on training data, poor on test data |
+| Polynomial regression (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
+| Degree (G-577) | The highest power used in a polynomial, such as 2 for $x^2$. It sets the model's complexity: a higher degree lets the curve bend more, and too high a degree overfits. |
+| PolynomialFeatures (G-1516) | scikit-learn transformer that creates the power and product columns. |
+| include_bias (G-929) | PolynomialFeatures setting that adds a column of 1s (the power 0), which acts as an intercept; LinearRegression fits its own intercept anyway, so either setting works. |
+| Interaction term (G-959) | A product of two inputs, such as $xy$, that lets one input's effect depend on another. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Condition number](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#8-how-computers-compute-the-svd) (G-441) | A number that says how much a matrix can magnify small errors, such as rounding errors, when we solve with it; a large value means the answer is sensitive. It is the largest singular value over the smallest, $\sigma_1 / \sigma_n$. |

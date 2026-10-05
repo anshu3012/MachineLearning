@@ -386,10 +386,16 @@ So the algorithm runs as written: our code matches Keras, and when training stal
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| `set_weights` / `get_weights` (G-85) | Keras methods to write and read a model's weights and biases, as a list of arrays |
-| `batch_size=1` | Keras setting that updates the weights after every single row |
-| `shuffle=False` | Keras setting that keeps the rows in their original order in every epoch |
-| `keras.optimizers.SGD` | Plain gradient descent in Keras, with a fixed learning rate |
-| $\partial L/\partial z$ | How much the loss changes when a node's weighted sum $z$ changes (the derivative of the loss with respect to $z$). Every weight entering the node multiplies it by its own input. |
+| `batch_size=1` (G-62) | Keras setting that updates the weights after every single row. |
+| `shuffle=False` (G-143) | Keras setting that keeps the rows in their original order in every epoch. |
+| `keras.optimizers.SGD` (G-104) | Plain gradient descent in Keras, with a fixed learning rate. |
+| $\partial L/\partial z$ (G-16) | How much the loss changes when a node's weighted sum $z$ changes (the derivative of the loss with respect to $z$). Every weight entering the node multiplies it by its own input. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Symmetry problem](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#43-sigmoid-every-node-becomes-the-same-node) (G-1933) | Nodes that start with equal weights get equal updates and stay identical, so a layer acts like one node. |
+| [`get_weights()` / `set_weights()`](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#42-relu-and-tanh-nothing-moves) (G-85) | Keras methods that read and replace the weight and bias arrays of a model or a layer, as a list of arrays. |

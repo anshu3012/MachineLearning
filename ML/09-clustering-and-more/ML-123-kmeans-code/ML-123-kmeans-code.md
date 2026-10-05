@@ -210,14 +210,22 @@ What k-means did in 2 dimensions it does in 3, and in any higher number of dimen
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| KMeans | scikit-learn's k-means class, in `sklearn.cluster` |
-| inertia_ | The number stored on a trained `KMeans` model that measures how tight its clusters are: the total squared distance from each point to its cluster's centroid (its WCSS). The elbow method plots it against k. |
-| fit_predict | Trains a clustering model and returns the cluster of every observation |
-| labels_ | The cluster number of every training observation, after fitting |
-| cluster_centers_ | The coordinates of the final centroids of a fitted `KMeans` |
-| k-means++ | The default way `KMeans` picks its starting centroids: one by one, with far-away points more likely to be picked. |
-| n_init | How many times `KMeans` starts again from new starting centres (centroids); the run whose points sit closest to their centres (the lowest inertia) is kept. |
-| Boolean indexing | Selecting rows with an array of True/False values, e.g. `X[y_means == 0]` |
-| make_blobs | scikit-learn function that generates points around chosen centres |
+| inertia_ (G-940) | The number stored on a trained `KMeans` model that measures how tight its clusters are: the total squared distance from each point to its cluster's centroid (its WCSS). The elbow method plots it against k. |
+| fit_predict (G-784) | Trains a clustering model and returns the cluster of every row. |
+| labels_ (G-1035) | The cluster number of every training row, after fitting. |
+| cluster_centers_ (G-400) | The coordinates of the final centroids of a fitted `KMeans`. |
+| k-means++ (G-997) | The default way `KMeans` picks its starting centroids: one by one, with far-away points more likely to be picked. |
+| Boolean indexing (G-317) | Selecting rows with an array of True/False values, e.g. `X[y_means == 0]`. |
+| KMeans (G-1015) | scikit-learn's k-means class, in `sklearn.cluster`. |
+| make_blobs (G-1147) | scikit-learn function that generates points around chosen centres. |
+| n_init (G-1292) | How many times `KMeans` starts again from new starting centres (centroids); the run whose points sit closest to their centres (the lowest inertia) is kept. |
+| [Elbow method](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method) (G-671) | Choosing k at the point where the elbow curve bends from steep to flat. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [WCSS (inertia)](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid; a smaller value means tighter clusters. |
+| [Centroid](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367) | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |

@@ -276,10 +276,13 @@ So a likelihood value only means something next to another likelihood value for 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Probability | The chance of an event when the distribution and its parameters are known; between 0 and 1 |
-| Likelihood | How plausible a parameter value is, given observed data: the probability (or density) of the data computed with that value |
-| Likelihood function $L(\theta \mid \text{data})$ | The likelihood as a function of the parameters, with the data held fixed |
-| Observation | One recorded value (one row of the data table) |
-| Plausibility | How believable a parameter value is in the light of the data; measured by its likelihood relative to other values |
+| Likelihood (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
+| Likelihood function $L(\theta \mid \text{data})$ (G-1085) | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. |
+| Plausibility (G-1505) | How believable a parameter value is in the light of the data; measured by its likelihood relative to other values. |
+| [Bernoulli distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |

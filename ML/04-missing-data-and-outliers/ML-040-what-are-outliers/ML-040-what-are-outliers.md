@@ -277,19 +277,24 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record: one row of the data table |
-| Feature | An input variable: one column of the data table |
-| Outlier | A data point very far from the other data points |
-| Anomaly detection | Finding the data points that do not behave like the rest, such as fraudulent transactions |
-| Fraud detection | Spotting dishonest transactions; here the outliers are what we want to find |
-| Weight-based algorithm | An algorithm that learns one number per feature from all the points; sensitive to outliers |
-| Tree-based algorithm | An algorithm that splits the data with simple conditions; hardly affected by outliers |
-| Outlier detection | Finding the values that lie far from the rest of a feature: compute a lower and an upper limit, and flag every value outside them as an outlier, ready to be removed or changed. |
-| Trimming | Removing the observations that hold outliers |
-| Capping | Replacing every value beyond a limit with the limit itself |
-| Winsorization | Handling outliers by capping them at percentile limits: values beyond a chosen low or high percentile are replaced by that percentile's value. |
-| Discretization | Turning numbers into ranges (bins), so extreme values join the last range |
-| IQR (interquartile range) | The width of the middle half of the data: Q3 minus Q1 |
-| Percentile rule (G-1481) | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers |
+| Trimming (G-2019) | Removing the rows that hold outliers. |
+| Capping (G-345) | Replacing every value beyond a limit with the limit itself. |
+| Fraud detection (G-804) | Spotting dishonest transactions; here the outliers are what we want to find. |
+| Outlier detection (G-1419) | Finding the values that lie far from the rest of a feature: compute a lower and an upper limit, and flag every value outside them as an outlier, ready to be removed or changed. |
+| Weight-based algorithm (G-2112) | An algorithm that learns one number per input column from all the points; sensitive to outliers. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Anomaly detection](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) | Finding rows that do not fit the pattern of the rest. |
+| [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
+| [Interquartile range (IQR)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966) | The width of the middle half of the data: Q3 - Q1. |
+| [Winsorization](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#3-trimming-and-capping-winsorization) (G-2123) | Handling outliers by capping them at percentile limits: values beyond a chosen low or high percentile are replaced by that percentile's value. |
+| [Discretization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#1-overview) (G-619) | Turning a continuous column into a discrete one by cutting its range into intervals. |
+| [Tree-based algorithm](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#23-advantages) (G-2013) | An algorithm that splits the data with simple conditions; hardly affected by outliers. |
+| [Percentile method (percentile rule)](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview) (G-1481) | A way to find outliers: flag values below a low percentile or above a high one (e.g. 1st and 99th); it works for any column. |

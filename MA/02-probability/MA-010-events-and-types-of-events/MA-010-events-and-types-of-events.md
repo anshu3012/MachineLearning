@@ -336,17 +336,26 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Random experiment (G-1610) | An experiment with more than one possible outcome, none of which can be predicted, such as a coin toss |
-| Trial (G-2015) | One run of a random experiment; it gives exactly one outcome |
-| Outcome | The single result of one trial, such as heads or a 3 |
-| Sample space (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die |
-| Event (G-717) | A set of outcomes, a subset of the sample space, such as "odd" $= \lbrace1, 3, 5\rbrace$ |
-| Simple (elementary) event | An event with exactly one outcome |
-| Compound event | An event with two or more outcomes |
-| Without replacement | Drawing items without putting them back, so later draws depend on earlier ones |
-| Exhaustive events | Events that together cover the whole sample space, so at least one always happens |
-| Partition | A set of events of which exactly one happens in every trial: no two can happen together (mutually exclusive) and together they cover every outcome (exhaustive). |
-| Impossible event | An event that contains no outcome, so it can never happen, such as rolling a 7 with one die; it is the empty set $\varnothing$ and has probability 0. |
-| Sure (certain) event | The event that contains every outcome, the whole sample space, so it always happens; its probability is 1. |
+| Random experiment (G-1610) | An experiment whose outcome cannot be predicted, such as a coin toss. |
+| Trial (probability) (G-2015) | One run of a random experiment; it gives exactly one outcome. |
+| Outcome (G-1417) | The single result of one trial, such as heads or a 3. |
+| Sample space (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
+| Event (G-717) | A set of outcomes, such as "the sum is at most 10". |
+| Simple (elementary) event (G-1806) | An event with exactly one outcome. |
+| Compound event (G-432) | An event with two or more outcomes. |
+| Without replacement (G-2126) | Drawing items without putting them back, so later draws depend on earlier ones. |
+| Exhaustive events (G-721) | Events that together cover the whole sample space, so at least one always happens. |
+| Partition (G-1459) | A set of events of which exactly one happens in every trial: no two can happen together (mutually exclusive) and together they cover every outcome (exhaustive). |
+| Impossible event (G-926) | An event that contains no outcome, so it can never happen, such as rolling a 7 with one die; it is the empty set $\varnothing$ and has probability 0. |
+| Sure (certain) event (G-1925) | The event that contains every outcome, the whole sample space, so it always happens; its probability is 1. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Dependent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) | Events that are not independent: knowing one changes the probability of the other. |
+| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
+| [Mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
+| [Law of total probability](../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |

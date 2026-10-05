@@ -360,26 +360,32 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| B2C | Business to customer: a product sold to ordinary users |
-| B2B | Business to business: a product that helps a company run its business |
-| Data mining | Searching large amounts of data for useful patterns |
-| Demand forecasting | Predicting how much of something will be needed, where and when |
-| Buying behaviour | The pattern of what a customer buys |
-| Customer profile | A summary of what kind of buyer a customer is, built from their purchases |
-| Customer segmentation | Grouping customers by their buying behaviour |
-| Targeted marketing | Advertising only to the people most likely to buy |
-| Conversion rate | The share of people reached who become customers |
-| Association rule learning | Finding items that are often bought or occur together |
-| Past defaulters | Past borrowers who did not repay their loan; a loan model compares a new applicant with them, and high similarity means high risk. |
-| Logistic regression | A classifier that outputs a probability for each observation |
-| Credit scoring | Predicting whether a loan applicant will repay |
-| Surge pricing | Raising fares when demand is much higher than supply |
-| Delivery routing | Planning the most efficient route for deliveries |
-| IoT sensor | A device that measures something and sends the readings over the internet |
-| RPM | Revolutions per minute: how fast a motor turns |
-| Predictive maintenance | Repairing a machine before it breaks, based on predicted faults |
-| Anomaly detection | Spotting data that does not fit the normal pattern |
-| Sentiment analysis | Deciding whether a text expresses a positive or negative opinion |
-| Natural language processing (NLP) | The part of ML that works with human language |
+| B2C (G-245) | Business to customer: a product sold to ordinary users. |
+| B2B (G-244) | Business to business: a product that helps a company run its business. |
+| Demand forecasting (G-580) | Predicting how much of something will be needed, where and when. |
+| Customer profile (G-524) | A summary of what kind of buyer a customer is, built from their purchases. |
+| Conversion rate (G-474) | The share of people reached who become customers. |
+| Targeted marketing (G-1951) | Advertising only to the people most likely to buy. |
+| Customer segmentation (G-525) | Grouping customers by their buying behaviour. |
+| Credit scoring (G-502) | Predicting whether a loan applicant will repay. |
+| Surge pricing (G-1926) | Raising fares when demand is much higher than supply. |
+| IoT sensor (G-971) | A device that measures something and sends the readings over the internet. |
+| RPM (G-1715) | Revolutions per minute: how fast a motor turns. |
+| Predictive maintenance (G-1553) | Repairing a machine before it breaks, based on predicted faults. |
+| Sentiment analysis (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
+| Natural language processing (NLP) (G-1305) | The part of ML that works with human language. |
+| Buying behaviour (G-334) | The pattern of what a customer buys. |
+| Delivery routing (G-579) | Planning the most efficient route for deliveries. |
+| Past defaulters (G-1462) | Past borrowers who did not repay their loan; a loan model compares a new applicant with them, and high similarity means high risk. |
+| [Data mining](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#43-data-mining-finding-hidden-patterns) (G-537) | Using ML on data to extract patterns too hidden for graphs. |
+| [Regression](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) | Supervised learning with a numerical output. |
+| [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401) | Splitting data into groups of similar rows. |
+| [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#31-learning-from-inputs-only) (G-2058) | Learning from inputs only, to find structure. |
+| [Association rule learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning) (G-218) | Finding items that tend to occur together. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| [Anomaly detection](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) | Finding rows that do not fit the pattern of the rest. |

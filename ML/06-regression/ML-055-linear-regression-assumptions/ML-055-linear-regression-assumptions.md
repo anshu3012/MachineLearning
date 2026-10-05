@@ -242,18 +242,29 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output we predict |
-| Assumption (of a model) | A condition the data must meet for the model's results to be reliable |
-| Residual (G-705) | The error on one data point: actual minus predicted value |
+| Assumption (of a model) (G-220) | A condition the data must meet for the model's results to be reliable. |
+| Variance inflation factor (VIF) (G-2075) | A number for each input column that shows how well the other inputs predict it, $1 / (1 - R_j^2)$; above 5 signals multicollinearity (the input is redundant). |
 | Residual plot (G-2207) | The residuals (errors) plotted above and below a flat zero line, against a feature or the predicted value; a funnel or a wave in it shows that an assumption of linear regression is broken. |
-| Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other features predict feature $j$; above 5 signals multicollinearity |
-| Homoscedasticity | Prediction errors (residuals) with the same spread for every predicted value; an assumption of linear regression, checked by plotting residuals against predictions. |
-| Heteroscedasticity | Prediction errors (residuals) whose spread changes with the predicted value, often widening like a funnel; it breaks the equal-spread assumption (homoscedasticity) of linear regression. |
-| Autocorrelation | When each residual is related to the one before it in row order (too high on one observation, too high on the next), as is common in time series; linear regression assumes there is none. |
-| Shapiro-Wilk test | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
-| Durbin-Watson statistic | A number from 0 to 4 that checks whether a regression's residuals are linked to the residuals next to them (autocorrelation); about 2 means no such link. |
-| statsmodels | A Python library for statistical models and tests, such as the VIF and the Durbin-Watson statistic used to check the assumptions of linear regression. |
+| Homoscedasticity (G-902) | Prediction errors (residuals) with the same spread for every predicted value; an assumption of linear regression, checked by plotting residuals against predictions. |
+| Heteroscedasticity (G-889) | Prediction errors (residuals) whose spread changes with the predicted value, often widening like a funnel; it breaks the equal-spread assumption (homoscedasticity) of linear regression. |
+| Autocorrelation (G-230) | When each residual is related to the one before it in row order (too high on one observation, too high on the next), as is common in time series; linear regression assumes there is none. |
+| Durbin-Watson statistic (G-649) | A number from 0 to 4 that checks whether a regression's residuals are linked to the residuals next to them (autocorrelation); about 2 means no such link. |
+| Linear relationship (G-1095) | A relationship between two columns that follows a straight line. |
+| statsmodels (G-1885) | A Python library for statistical models and tests, such as the VIF and the Durbin-Watson statistic used to check the assumptions of linear regression. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
+| [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
+| [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |
+| [Heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-886) | A table drawn as coloured cells, darker for larger values. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
+| [Shapiro-Wilk test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test) (G-1788) | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
+| [P-value](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |
+| [Time series](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) | Data recorded at regular time intervals. |

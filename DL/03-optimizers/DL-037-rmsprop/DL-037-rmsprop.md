@@ -195,11 +195,28 @@ The defaults are `learning_rate=0.001`, `rho=0.9` and `epsilon=1e-7`, added insi
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| RMSProp | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
-| Root mean square | The square root of the average of squared values: the typical size of the gradients |
-| Accumulator $v_t$ | The running record of squared gradients that divides the learning rate |
-| `rho` | Keras' name for the number that sets how much of the past RMSProp's running average keeps (its decay factor $\beta$); default 0.9. |
-| Feature | An input variable, such as one pixel of an image |
-| Target | The output we predict, such as the digit |
+| RMSProp (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
+| `rho` (G-138) | Keras' name for the number that sets how much of the past RMSProp's running average keeps (its decay factor $\beta$); default 0.9. |
+| Accumulator $v_t$ (G-161) | The running record of squared gradients that divides the learning rate. |
+| Root mean square (G-1704) | The square root of the average of squared values: the typical size of the gradients. |
+| [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#1-overview) (G-168) | An optimizer that gives each parameter its own learning rate, $\eta/(\sqrt{v_t}+\epsilon)$, where $v_t$ sums its past squared gradients. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Sparse feature](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#3-when-adagrad-helps) (G-1841) | A feature whose values are mostly zero, such as "studied at an IIT". |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Elongated bowl](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss) (G-673) | A loss surface stretched far more in one direction than another, with long elliptical contours, as a sparse feature produces. Gradient descent on it wastes steps moving along the steep direction and crawls along the flat one. |
+| [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
+| [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Batch size](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) | The number of rows in each batch; a hyperparameter. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Effective learning rate](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#8-the-weakness-the-learning-rate-only-goes-down) (G-662) | The learning rate a parameter actually gets after AdaGrad's division: $\eta/(\sqrt{v_t}+\epsilon)$. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
+| [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |

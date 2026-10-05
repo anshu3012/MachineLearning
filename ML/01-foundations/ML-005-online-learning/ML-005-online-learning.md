@@ -287,21 +287,27 @@ The Notebook for this Note (`ML-005-online-learning.ipynb`) trains a model one r
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Online learning | Training incrementally on mini-batches while the model is live in production |
-| Incremental training (G-931) | Training in small steps, keeping what was learned before |
-| Sequential data | Data that comes as an ordered series of pieces whose order matters, such as text or a time series; models read it one piece after another, in order. |
-| Feature | An input variable; one column of the data table |
-| Target | The output we want to predict |
-| Observation | One record; one row of the data table |
-| Mini-batch (G-263) | A small group of observations used for one training step |
-| `partial_fit` (G-1458) | A scikit-learn method that continues training from where the model left off |
-| `SGDRegressor` (G-1783) | A scikit-learn model that does linear regression step by step |
-| River | A Python library for online machine learning |
-| Vowpal Wabbit | A fast learning library that can learn from data a piece at a time as it arrives (online learning). |
-| Learning rate (G-1068) | How strongly each new piece of data changes the model |
-| Out-of-core learning (G-1413) | Training on data too big for memory by feeding it in chunks, offline |
-| Biased model | A model pushed towards wrong answers, e.g. by bad data |
-| Parameter (G-1450) | A number inside a model that training changes, such as the slope of a line |
-| Rollback | Restoring a model to an earlier, good version |
+| Online learning (G-1391) | Training incrementally on mini-batches while the model is live in production. |
+| River (G-1694) | A Python library for online machine learning. |
+| Vowpal Wabbit (G-2098) | A fast learning library that can learn from data a piece at a time as it arrives (online learning). |
+| partial_fit (G-1458) | A scikit-learn method that continues training from where the model left off. |
+| SGDRegressor (G-1783) | A scikit-learn model that does linear regression with stochastic gradient descent, step by step, so it can also learn from data arriving in small pieces. |
+| Learning rate ($\eta$) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| Out-of-core learning (out-of-core computing) (G-1413) | Training on data too big for the memory (RAM) by loading it chunk by chunk, offline. |
+| Biased model (G-290) | A model pushed towards wrong answers, e.g. by bad data. |
+| Rollback (G-1703) | Restoring a model to an earlier, good version. |
+| [Incremental learning (incremental training)](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works) (G-931) | Training on small pieces of data over time, keeping what was learned before (the opposite of batch learning). |
+| [Batch learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works) (G-265) | Training on the whole dataset at once, offline, then deploying. |
+| [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview) (G-1774) | Data that comes as an ordered series of pieces whose order matters, such as text or a time series; models read it one piece after another, in order. |
+| [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
+| [Noise ($\varepsilon$)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#31-the-model) (G-1326) | The random part of a target that the model's prediction does not explain. |
+| [Anomaly detection](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) | Finding rows that do not fit the pattern of the rest. |

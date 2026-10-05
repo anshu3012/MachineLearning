@@ -242,9 +242,17 @@ The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Coverage | The share of intervals from repeated samples that contain the true parameter; equals the confidence level when the assumptions hold |
-| Precision | How narrow a confidence interval is; a narrower interval is a more precise estimate |
-| Required sample size | $n = (z_{\alpha/2}\thinspace\sigma/E)^2$: the smallest sample giving a margin of error $E$ |
-| Credible interval | The Bayesian counterpart of a confidence interval: a range that, after seeing the data, holds the parameter with a stated probability such as 0.95. So it can be read as "95% probability the parameter is in here", which a confidence interval cannot. |
+| Coverage (G-499) | The share of intervals from repeated samples that contain the true parameter; equals the confidence level when the assumptions hold. |
+| Credible interval (G-501) | The Bayesian counterpart of a confidence interval: a range that, after seeing the data, holds the parameter with a stated probability such as 0.95. So it can be read as "95% probability the parameter is in here", which a confidence interval cannot. |
+| Required sample size (G-1675) | The smallest sample size that gives a chosen margin of error $E$, found by solving the margin formula for $n$: $n = (z_{\alpha/2}\thinspace\sigma/E)^2$. |
+| [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
+| [Confidence level](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-447) | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$. |
+| [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [Bayesian statistics](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview) (G-271) | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. |
+| [Margin of error](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-1162) | The distance from the point estimate to either end of a confidence interval. |
+| [Critical value](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula) (G-504) | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
+| [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |

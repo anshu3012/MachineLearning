@@ -218,13 +218,22 @@ With more stages, the boundary can bend in more places and fit more complicated 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| AdaBoost (Adaptive Boosting) | A boosting algorithm that trains simple models (weak learners) one after another on reweighted data, and combines them by a vote in which each model counts by its alpha weight. |
-| Weak learner | A model whose accuracy is only a little better than random guessing |
-| Strong learner | A model with high accuracy |
-| Decision stump | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
-| Stage-wise additive model | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
-| Alpha (model weight) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes |
-| Hypothesis function | A model written as a function $h(x)$ that maps an input to a prediction |
-| Sign function | Returns +1 for a positive number and -1 for a negative one; AdaBoost uses it to turn the weighted vote of its stumps into a class. |
+| AdaBoost (Adaptive Boosting) (G-167) | A boosting algorithm that trains simple models (weak learners) one after another on reweighted data, and combines them by a vote in which each model counts by its alpha weight. |
+| Weak learner (G-2104) | A model whose accuracy is only a little better than random guessing. |
+| Strong learner (G-1904) | A model with high accuracy. |
+| Decision stump (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
+| Stage-wise additive model (G-1867) | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
+| Alpha (model weight) (G-192) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes. |
+| Hypothesis function (G-912) | A model written as a function $h(x)$ that maps an input to a prediction. |
+| Sign function (G-1800) | Returns +1 for a positive number and -1 for a negative one; AdaBoost uses it to turn the weighted vote of its stumps into a class. |
+| [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318) | Combining many simple models one after another to reduce bias, the error of a model that is too simple. |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [Information gain](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#71-the-definition) (G-946) | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Upsampling (resampling by weight)](../../../ML/08-trees-and-ensembles/ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight) (G-2063) | Drawing a new dataset of the same size in which each row is picked with probability equal to its weight, so heavily weighted rows appear more often for the next model. |

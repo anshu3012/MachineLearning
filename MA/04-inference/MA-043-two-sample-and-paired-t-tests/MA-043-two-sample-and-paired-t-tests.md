@@ -448,14 +448,20 @@ Figure 7 runs the test on scikit-learn's breast cancer data (569 tumours): scale
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Unpaired t-test | Another name for the independent two-sample t-test: a t-test that compares the means of two separate groups whose values are not paired. |
-| Equal variances (homogeneity of variance) | The assumption that two populations have the same variance, $\sigma_1^2 = \sigma_2^2$. Student's t-test needs it; Welch's t-test does not, and Levene's test checks it. |
-| Levene's test | A check of whether two or more groups have the same spread (a hypothesis test for equal variances, $H_0$: they do). Used before a two-sample t-test to choose between the equal-variance test and Welch's t-test. |
-| F-test | A check of whether two groups have the same spread, made from the ratio of the two sample variances (a hypothesis test of equal population variances); an alternative to Levene's test. |
-| Welch's t-test | The two-sample t-test that works even when the two groups' spreads differ (it does not assume equal variances). |
-| Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test |
-| Paired observations | Two measurements that belong to the same subject or matched pair |
+| Paired t-test (dependent t-test) (G-1439) | A test of whether two linked measurements of the same subjects differ on average; it works on the difference within each pair (a t-test on the differences). |
+| Independent two-sample t-test (G-936) | A t-test comparing the means of two separate, non-overlapping groups. |
+| Welch's t-test (G-2122) | The two-sample t-test that works even when the two groups' spreads differ (it does not assume equal variances). |
+| Levene's test (G-1082) | A check of whether two or more groups have the same spread (a hypothesis test for equal variances, $H_0$: they do). Used before a two-sample t-test to choose between the equal-variance test and Welch's t-test. |
+| Conservative degrees of freedom (G-2238) | The hand-calculation shortcut $\min(n_1, n_2) - 1$ for a two-sample t-test; Welch's formula is closer to exact. |
+| Pooled standard deviation (G-1519) | The combined standard deviation of two groups used by Student's two-sample t-test. |
 | Mean difference ($\mu_d$) (G-2237) | The average of each subject's difference between its two measurements (a paired design); the paired t-test tests whether it is 0, $\mu_d = 0$. |
-| Conservative degrees of freedom (G-2238) | The hand-calculation shortcut $\min(n_1, n_2) - 1$ for a two-sample t-test; Welch's formula is closer to exact |
+| Corrected resampled t-test (G-487) | A paired t-test for comparing two models' cross-validation scores that enlarges the variance to allow for the folds sharing most of their training data, so it does not report a "significant" difference too often. |
+| Equal variances (homogeneity of variance) (G-700) | The assumption that two populations have the same variance, $\sigma_1^2 = \sigma_2^2$. Student's t-test needs it; Welch's t-test does not, and Levene's test checks it. |
+| F-test (G-742) | A check of whether two groups have the same spread, made from the ratio of the two sample variances (a hypothesis test of equal population variances); an alternative to Levene's test. |
+| Paired observations (G-1438) | Two measurements that belong to the same subject or matched pair. |
+| Unpaired t-test (G-2054) | Another name for the independent two-sample t-test: a t-test that compares the means of two separate groups whose values are not paired. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |

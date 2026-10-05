@@ -264,14 +264,28 @@ The RNN family is built up step by step:
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sequential data | Data whose items come in an order that carries meaning, such as words in a sentence or prices over time |
-| Non-sequential data | Data whose features can be listed in any order without changing the meaning, such as a table row |
-| Recurrent neural network (RNN) | A neural network that reads a sequence one item at a time, with the same weights at every step, and carries a memory forward |
-| Vocabulary (G-2092) | The list of distinct words a text model knows |
-| Zero padding (text) | Adding all-zero word vectors to shorter texts so that every text has the same length |
-| Recurrent layer | A hidden layer whose output at one step is an input to itself at the next (the feedback loop) |
-| Parameter sharing | Using the same weights at every position or time step; it lets a model handle sequences of any length and recognise a pattern wherever it appears. |
-| Time series | A sequence of measurements taken over time |
-| IMDB dataset | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset |
+| Sequential data (G-1774) | Data that comes as an ordered series of pieces whose order matters, such as text or a time series; models read it one piece after another, in order. |
+| Non-sequential data (G-1340) | Data whose features can be listed in any order without changing the meaning, such as a table row. |
+| Parameter sharing (G-1447) | Using the same weights at every position or time step; it lets a model handle sequences of any length and recognise a pattern wherever it appears. |
+| Zero padding (text) (G-2145) | Adding all-zero word vectors to shorter texts so that every text has the same length. |
+| [Artificial neural network (ANN)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-216) | The simplest neural network: neurons in layers, each layer connected to the next by weights. |
+| [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
+| [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Time series](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) | Data recorded at regular time intervals. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
+| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
+| [IMDB dataset](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923) | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset. |
+| [Padding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) | Adding zeros to sequences so that all have the same length. |
+| [Recurrent layer](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-1646) | A hidden layer whose output at one time step is an input to itself at the next. |
+| [Hidden state ($h_t$)](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |
+| [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
+| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
+| [Transformer](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |

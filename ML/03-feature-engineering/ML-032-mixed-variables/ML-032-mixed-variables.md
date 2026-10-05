@@ -339,19 +339,21 @@ The new features are then ready for the usual tools: [one-hot encoding](../ML-02
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Mixed variable | A feature holding both numerical and categorical data |
-| Type 1 mixed variable | A column whose cells each contain a category and a number together, such as `C85` |
-| Type 2 mixed variable | A column with a number in some rows and a category in others |
-| pd.to_numeric | The pandas function that converts values to numbers |
-| errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping |
-| .str accessor | The pandas tool that applies a text method to every value of a column |
-| Regular expression | A short pattern that describes text, such as `\d+` for "one or more digits" |
-| str.extract | The pandas method that returns the part of each value matching a regular expression |
-| Raw string | A Python string written `r"..."`, in which a backslash is kept as it is |
-| Nullable integer (Int64) | The pandas integer type that can also hold a missing value, `<NA>` |
-| str dtype | The pandas 3 type for text columns, replacing `object` |
+| Mixed variable (G-1237) | A column holding both numerical and categorical data. |
+| pd.to_numeric (G-1473) | The pandas function that converts values to numbers. |
+| errors="coerce" (G-707) | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. |
+| Nullable integer (Int64) (G-1363) | The pandas integer type that can also hold a missing value, `<NA>`. |
+| .str accessor (G-47) | The pandas tool that applies a text method to every value of a column. |
+| Regular expression (G-1656) | A short pattern that describes text, such as `\d+` for "one or more digits". |
+| Raw string (G-1638) | A Python string written `r"..."`, in which a backslash is kept as it is. |
+| str dtype (G-1895) | The pandas 3 type for text columns, replacing `object`. |
+| str.extract (G-1896) | The pandas method that returns the part of each value matching a regular expression. |
+| Type 1 mixed variable (G-2030) | A column whose cells each contain a category and a number together, such as `C85`. |
+| Type 2 mixed variable (G-2031) | A column with a number in some rows and a category in others. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

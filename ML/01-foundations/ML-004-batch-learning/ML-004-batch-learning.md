@@ -218,16 +218,23 @@ The Notebook for this Note (`ML-004-batch-learning.ipynb`) has a slider for the 
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Server | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
-| Development environment | Our own machine, where we build and train a model |
-| Production environment | The server where a model serves real users |
-| Deploy (G-592) | Move a model from development to production |
-| Batch learning | Training on the whole dataset at once, offline, then deploying |
-| Offline learning | Training a model once on all the data away from the live system, for example on the engineer's own machine, and then deploying it; another name for batch learning. |
-| Incremental learning (G-931) | Training on small pieces of data over time (the opposite of batch) |
-| Recommendation engine (G-1644) | A model that suggests items, such as movies, to users |
-| Static model | A model that learns nothing new after deployment |
-| Retrain | Train a model again, here from scratch on old + new data |
-| Model drift / concept drift | A model's accuracy dropping as the real world changes |
+| Server (G-1779) | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
+| Development environment (G-599) | Our own machine, where we build and train a model. |
+| Production environment (G-1579) | The server where a model serves real users. |
+| Deployment (deploy, model deployment) (G-592) | Moving a model from development to production: putting it on a server so users can reach it. |
+| Batch learning (G-265) | Training on the whole dataset at once, offline, then deploying. |
+| Incremental learning (incremental training) (G-931) | Training on small pieces of data over time, keeping what was learned before (the opposite of batch learning). |
+| Offline learning (G-1377) | Training a model once on all the data away from the live system, for example on the engineer's own machine, and then deploying it; another name for batch learning. |
+| Recommendation engine (recommender system) (G-1644) | A model that suggests items, such as movies, that a user is likely to like. |
+| Static model (G-1878) | A model that learns nothing new after deployment. |
+| Model drift / concept drift (G-1253) | A model's accuracy dropping as the real world changes; sometimes called model rot. |
+| Retrain (G-1689) | Train a model again, here from scratch on old + new data. |
+| [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391) | Training incrementally on mini-batches while the model is live in production. |

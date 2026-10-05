@@ -323,21 +323,30 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices; ML uses it to store data (tables, text, images) as vectors and matrices and to work on a whole dataset in one step. |
-| Scalar | A single number, with a size but no direction (a speed) |
-| Vector (geometric view) | An arrow from the origin with a magnitude and a direction; its tip is a point in a coordinate system |
-| Magnitude (G-1028) | The length of a vector's arrow: its size |
-| Direction | The way a vector's arrow points |
-| Origin (G-2240) | The point where the axes cross; the tail of every vector in linear algebra |
+| Linear algebra (G-1090) | The branch of mathematics that studies linear equations, vectors and matrices; ML uses it to store data (tables, text, images) as vectors and matrices and to work on a whole dataset in one step. |
+| Origin (G-2240) | The point where the axes cross; the tail of every vector in linear algebra. |
+| Vector (geometric view) (G-2079) | A point in a coordinate system, drawn as an arrow from the origin. |
+| Component (G-429) | One number of a vector, its position along one axis. |
 | Coordinates (of a vector) (G-2241) | The numbers of a vector, read as walking instructions from the origin to its tip: the first says how far to walk along the $x$-axis, the second how far to walk up or down. |
-| Component | One number of a vector, how far to walk along one axis |
-| Dimension of a vector | The dimension of the space it lives in: its number of components |
-| Feature vector | The vector of feature values of one observation |
-| Recommender system (G-1644) | A system that suggests items a user is likely to like |
-| NLP (G-1305) | Natural language processing: ML on text |
-| Bag of words | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
-| Row vector | A vector written as one row, shape $1 \times n$ |
-| Data matrix | The feature vectors of a dataset stacked as rows, such as the iris table, $150 \times 4$ |
-| Column vector | A vector written as one column, shape $n \times 1$; the default meaning of "vector" |
+| Feature vector (G-771) | The vector of input values of one data point. |
+| Bag of words (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
+| Row vector (G-1714) | A vector written as one row, shape $1 \times n$. |
+| Column vector (G-416) | A vector written as one column, shape $n \times 1$; the default meaning of "vector". |
+| Dimension of a vector (G-609) | The dimension of the space it lives in: its number of components. |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
+| [L2 norm (norm, magnitude, length of a vector)](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#22-in-n-dimensions) (G-1028) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. |
+| [Direction](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview) (G-613) | The way an arrow (vector) points, regardless of its length. In a word embedding, meaning lives in directions: the arrow from "man" to "woman" points roughly the same way as the one from "uncle" to "aunt". |
+| [Dimension](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) (G-610) | One feature (input column) of the data, seen as one axis of the space the observations live in: 10 features give 10 dimensions. A tensor's dimensions mean something else, its number of axes. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
+| [Data matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) (G-536) | A dataset written as one matrix $X$: each observation's feature vector is a row and each feature a column, so the whole dataset can be handled with matrix operations. |
+| [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
+| [Recommendation engine (recommender system)](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#32-example-a-movie-recommender) (G-1644) | A model that suggests items, such as movies, that a user is likely to like. |

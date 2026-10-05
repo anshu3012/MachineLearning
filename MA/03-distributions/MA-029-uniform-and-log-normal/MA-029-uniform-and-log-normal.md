@@ -324,13 +324,18 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 
 ## 6. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record, one row of the data table |
-| Feature | One variable of the data, one column of the table |
-| Non-Gaussian distribution | Any distribution that is not normal |
-| Uniform distribution | A distribution in which every outcome in a range is equally likely |
-| Continuous uniform distribution $U(a, b)$ | A continuous variable spread evenly between $a$ and $b$, with density $1/(b - a)$ |
-| Random initialization | Starting a model's parameters at random values, often drawn from a uniform distribution |
-| Data augmentation | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images |
-| $\text{Lognormal}(\mu, \sigma^2)$ | A short way to write a log-normal distribution: positive values with a long tail to the right (right-skewed), whose logarithm is normal, $\ln X \sim N(\mu, \sigma^2)$. |
+| Non-Gaussian distribution (G-1334) | Any distribution that is not normal. |
+| Uniform distribution (G-2043) | A distribution in which every outcome in a range is equally likely. |
+| Continuous uniform distribution $U(a, b)$ (G-467) | A continuous variable spread evenly between $a$ and $b$, with density $1/(b - a)$. |
+| Random initialization (G-1612) | Starting a model's parameters at random values, often drawn from a uniform distribution. |
+| Log-normal distribution (G-1115) | A distribution with a long tail to the right (right-skewed, continuous) whose values follow a normal distribution once you take their logarithm. |
+| $\text{Lognormal}(\mu, \sigma^2)$ (G-20) | A short way to write a log-normal distribution: positive values with a long tail to the right (right-skewed), whose logarithm is normal, $\ln X \sim N(\mu, \sigma^2)$. |
+| [Discrete uniform distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die) (G-618) | A discrete distribution in which every possible value is equally likely, such as a fair die. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
+| [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

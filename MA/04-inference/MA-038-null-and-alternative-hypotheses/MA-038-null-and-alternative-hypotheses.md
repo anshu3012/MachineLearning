@@ -236,15 +236,27 @@ This is double the $\alpha$ we claimed.
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Statistical hypothesis test | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
-| Null hypothesis ($H_0$) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it |
-| Alternative hypothesis ($H_1$, $H_a$) | The claim of an effect, difference or relationship: the statement that contradicts the null hypothesis $H_0$. |
-| Status quo | Another name for the null hypothesis $H_0$: the current state of things, which the test keeps unless the data gives strong evidence against it. |
-| Research hypothesis | Another name for the alternative hypothesis: the idea that came out of research |
-| Reject $H_0$ | The decision that the data gives strong enough evidence against $H_0$ |
-| Fail to reject $H_0$ | The decision that the evidence against the null hypothesis $H_0$ is not strong enough to drop it; it does not prove $H_0$. |
-| Test statistic | The number a test computes from the sample to make its decision, such as $z$ or $t$ |
-| Rejection region approach | Carrying out a test by checking whether the test statistic falls beyond a fixed boundary |
-| P-value approach | Carrying out a test by computing a p-value, which also measures the strength of the evidence |
+| Hypothesis testing (G-913) | Checking a claim about a population parameter with a sample. |
+| Statistical hypothesis test (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
+| Null hypothesis ($H_0$) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
+| Alternative hypothesis ($H_1$, $H_a$) (G-193) | The claim of an effect, difference or relationship: the statement that contradicts the null hypothesis $H_0$. |
+| Status quo (G-1887) | Another name for the null hypothesis $H_0$: the current state of things, which the test keeps unless the data gives strong evidence against it. |
+| Research hypothesis (G-1677) | Another name for the alternative hypothesis: the idea that came out of research. |
+| P-value approach (G-1431) | Carrying out a test by computing a p-value, which also measures the strength of the evidence. |
+| Test statistic (G-1963) | The number a test computes from the sample to make its decision, such as $z$ or $t$. |
+| Fail to reject $H_0$ (G-746) | The decision that the evidence against the null hypothesis $H_0$ is not strong enough to drop it; it does not prove $H_0$. |
+| Reject $H_0$ (G-1661) | The decision that the data gives strong enough evidence against $H_0$. |
+| [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944) | Statistics that draws conclusions about a population from a sample. |
+| [Mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
+| [One-tailed test (one-sided test)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-1385) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail. |
+| [Rejection region approach](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value) (G-1663) | Carrying out a test by checking whether the test statistic falls beyond a fixed boundary. |
+| [Significance level ($\alpha$)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level) (G-1801) | The chance, fixed before the test, of wrongly declaring an effect when there is none (rejecting $H_0$ when it is actually true); usually 0.05. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Z-test (one-sample)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#1-overview) (G-2143) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
+| [T-test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#1-overview) (G-1940) | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution. |
+| [Chi-square test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381) | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). |
+| [ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) | A test of whether several groups have the same mean (analysis of variance). |

@@ -305,16 +305,24 @@ The same constraint limits parallel computation: Google's translation system kep
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Bidirectional RNN | Two RNNs reading a sequence in opposite directions, their hidden states joined at every time step, so the output at each word uses the words both before and after it. |
-| Unidirectional RNN | An RNN that reads in one direction only, so its output at $t$ depends only on inputs up to $t$ |
-| Forward and backward RNN | The left-to-right and the right-to-left halves of a bidirectional RNN |
-| BiLSTM, BiGRU | A bidirectional RNN made of LSTM or GRU layers |
-| Concatenation (G-436) | Placing two vectors one after the other to form one longer vector |
-| Named entity recognition (NER) | Labelling the names in a text with their type, such as person, location or organisation |
-| Part-of-speech tagging | Labelling every word of a sentence with its grammatical class, such as noun or verb |
-| Observation | One record of the data, here one sentence |
-| Target | The output we predict, here the tag of each word |
-| Latency | The delay between an input and the system's reply |
-| `Bidirectional` | The Keras wrapper that makes any recurrent layer read the sequence both forwards and backwards (bidirectional). |
+| Bidirectional RNN (G-292) | Two RNNs reading a sequence in opposite directions, their hidden states joined at every time step, so the output at each word uses the words both before and after it. |
+| BiLSTM, BiGRU (G-295) | A bidirectional RNN made of LSTM or GRU layers. |
+| Unidirectional RNN (G-2042) | An RNN that reads in one direction only, so its output at $t$ depends only on inputs up to $t$. |
+| `Bidirectional` (G-67) | The Keras wrapper that makes any recurrent layer read the sequence both forwards and backwards (bidirectional). |
+| Bidirectional encoder (G-291) | An encoder with one RNN reading forwards and one backwards, whose states are joined at each position. |
+| Forward and backward RNN (G-796) | The left-to-right and the right-to-left halves of a bidirectional RNN. |
+| [Hidden state ($h_t$)](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |
+| [Time step](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#32-time-steps) (G-1976) | One position in the sequence; word $j$ enters at $t = j$. |
+| [Named entity recognition (NER)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1300) | Marking which words of a sentence are entities, specific things a program must act on, such as "7 pm" and "airport"; chatbots use it to pick out times and places. |
+| [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
+| [Concatenation ($[h_{t-1}, x_t]$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t) (G-436) | Joining two vectors end to end into one longer vector, so one layer can read both at once: 3 numbers and 4 numbers give 7. |
+| [Many-to-many RNN](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many) (G-1154) | An RNN that takes a sequence and produces a sequence; also called sequence-to-sequence. |
+| [Part-of-speech tagging](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1456) | Labelling every word of a sentence with its part of speech. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Latency](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#71-large-datasets-slow-predictions) (G-1048) | The delay between a request and its answer; high for KNN on large data. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

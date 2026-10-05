@@ -304,14 +304,22 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Precision | Of all items predicted positive, the fraction that really are positive |
-| Recall (sensitivity) | Of all items that really are positive, the fraction the model found |
-| Specificity (G-2209) | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP) |
-| F1 score | One number that combines precision and recall as their harmonic mean, $2PR/(P + R)$; it is high only when both are high, so it is used when both kinds of mistake matter. |
-| Harmonic mean | An average that stays close to the smaller of the values, so one low value pulls it down; F1 uses it to combine precision and recall. For two values: $2ab/(a + b)$. |
-| Support | The number of items that really belong to a class |
-| Macro average | The plain mean of a metric (such as precision) over all classes, so every class counts equally however many rows it has. |
-| Weighted average | One number for a per-class score: the mean of the score over classes, each class counted by how many items really belong to it (its support). |
-| classification_report | scikit-learn function that prints precision, recall, F1 and support for every class |
+| Precision (G-1547) | Of all items predicted positive, the fraction that really are positive. |
+| Recall (sensitivity) (G-1641) | Of all items that really are positive, the fraction the model found. |
+| F1 score (G-743) | One number that combines precision and recall as their harmonic mean, $2PR/(P + R)$; it is high only when both are high, so it is used when both kinds of mistake matter. |
+| Specificity (G-2209) | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP). |
+| Harmonic mean (G-880) | An average that stays close to the smaller of the values, so one low value pulls it down; F1 uses it to combine precision and recall. For two values: $2ab/(a + b)$. |
+| Support (G-1924) | The number of items that really belong to a class. |
+| Macro average (G-1143) | The plain mean of a metric (such as precision) over all classes, so every class counts equally however many rows it has. |
+| Weighted average (G-2113) | One number for a per-class score: the mean of the score over classes, each class counted by how many items really belong to it (its support). |
+| classification_report (G-396) | scikit-learn function that prints precision, recall, F1 and support for every class. |
+| [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (G-449) | A table counting a classifier's predictions for every pair of actual and predicted class, so we can see which kinds of mistake it makes, which accuracy alone hides. |
+| [True positive (TP)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-2021) | A case the model predicts as positive that really is positive: a correct "yes". The count of these is one cell of the confusion matrix. |
+| [False negative (FN)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-747) | Predicted negative, but actually positive; a Type II error. |
+| [False positive (FP)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-748) | Predicted positive, but actually negative; a Type I error. |
+| [True negative (TN)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-2020) | A case the model predicts as negative that really is negative: a correct "no". The count of these is one cell of the confusion matrix. |
+| [True positive rate (TPR)](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#31-true-positive-rate) (G-2022) | The fraction of real positives the model flags; the same as recall. |

@@ -193,20 +193,27 @@ Figure 8 runs the four RNN types side by side, one time step per frame. Watch wh
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Many-to-one RNN | An RNN that reads a sequence and gives one output at the end |
-| One-to-many RNN | An RNN that takes one non-sequential input and produces a sequence |
-| Many-to-many RNN | An RNN that takes a sequence and produces a sequence; also called sequence-to-sequence |
-| Sequence-to-sequence (seq2seq) model | A model whose input and output are both sequences, such as a translator from English to Hindi; in RNNs it is the many-to-many type. |
-| Same-length many-to-many | Many-to-many with one output per input time step |
-| Variable-length many-to-many | A sequence-to-sequence setup (many-to-many) whose output length can differ from its input length. |
-| One-to-one | A network with non-sequential input and output: an ordinary ANN or CNN, not an RNN |
-| Encoder | The part of a sequence-to-sequence model that reads the whole input and summarises it |
-| Decoder | The part of a sequence-to-sequence model that writes the output from the encoder's summary |
-| Part-of-speech tagging | Labelling every word of a sentence with its part of speech |
-| Named entity recognition (NER) | Marking which words of a sentence are entities, specific things a program must act on, such as "7 pm" and "airport"; chatbots use it to pick out times and places. |
-| Machine translation | Translating a sentence from one language into another |
-| Image captioning | Producing a sentence that describes an image |
-| `return_sequences` | Keras switch: `False` returns the last hidden state, `True` returns the hidden state of every time step |
-| `RepeatVector` | Keras layer that repeats one vector at several time steps |
+| Many-to-one RNN (G-1155) | An RNN that reads a sequence and gives one output at the end. |
+| One-to-many RNN (G-1386) | An RNN that takes one non-sequential input and produces a sequence. |
+| Image captioning (G-918) | Producing a sentence that describes an image. |
+| `RepeatVector` (G-133) | Keras layer that repeats one vector at several time steps. |
+| Many-to-many RNN (G-1154) | An RNN that takes a sequence and produces a sequence; also called sequence-to-sequence. |
+| Sequence-to-sequence (seq2seq) model (G-1771) | A model whose input and output are both sequences, such as a translator from English to Hindi; in RNNs it is the many-to-many type. |
+| Same-length many-to-many (G-1721) | Many-to-many with one output per input time step. |
+| Part-of-speech tagging (G-1456) | Labelling every word of a sentence with its part of speech. |
+| Named entity recognition (NER) (G-1300) | Marking which words of a sentence are entities, specific things a program must act on, such as "7 pm" and "airport"; chatbots use it to pick out times and places. |
+| Variable-length many-to-many (G-2072) | A sequence-to-sequence setup (many-to-many) whose output length can differ from its input length. |
+| Machine translation (G-1141) | Translating a sentence from one language into another. |
+| One-to-one (G-1387) | A network with non-sequential input and output: an ordinary ANN or CNN, not an RNN. |
+| [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
+| [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview) (G-246) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
+| [Multi-class classification](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#51-why-not-regression) (G-1266) | Classification where the output is one of more than two classes, such as the next word out of a whole vocabulary; the output layer has one node per class. |
+| [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
+| [`return_sequences`](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#53-return_sequences) (G-136) | Argument of a Keras recurrent layer: `False` returns only the last hidden state, `True` returns the hidden state at every time step; `True` is needed on every stacked layer but the last. |
+| [Encoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) | The part of a seq2seq model that reads the input sequence and summarises it. |
+| [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

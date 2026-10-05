@@ -290,13 +290,30 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record of the data, here one movie review |
-| Target | The output we predict, here the sentiment of a review |
-| Long-term dependency | An output that depends on an input many time steps earlier |
-| Long-term dependency problem | A simple RNN's failure to link an output to an input many time steps earlier (a long-term dependency), because the gradient shrinks away as it flows back through time (the vanishing gradient through time). |
-| Short-term and long-term contributions | When an RNN learns, the signal that adjusts its weights (the BPTT gradient) is a sum of two kinds of parts: short-term ones measure how the loss changes through recent inputs, long-term ones through distant inputs. The long-term ones shrink towards 0, so the RNN fails to learn from distant inputs. |
-| Unstable training | Training that does not progress because exploding gradients make the updates huge |
-| Identity initialisation | Starting the recurrent weight matrix $W_h$ as the identity matrix (1 on the diagonal, 0 elsewhere), so at the start of training multiplying by it leaves the gradient unchanged instead of shrinking it. |
-| Skip connection through time | A connection from a hidden state several steps back directly to the present; it gives the gradient a shorter path, so it vanishes less. |
+| Unstable training (G-2056) | Training that does not progress because exploding gradients make the updates huge. |
+| Long-term dependency (G-1126) | An output that depends on an input many time steps earlier. |
+| Identity initialisation (G-914) | Starting the recurrent weight matrix $W_h$ as the identity matrix (1 on the diagonal, 0 elsewhere), so at the start of training multiplying by it leaves the gradient unchanged instead of shrinking it. |
+| Skip connection through time (G-1819) | A connection from a hidden state several steps back directly to the present; it gives the gradient a shorter path, so it vanishes less. |
+| Long-term dependency problem (G-1125) | A simple RNN's failure to link an output to an input many time steps earlier (a long-term dependency), because the gradient shrinks away as it flows back through time (the vanishing gradient through time). |
+| Short-term and long-term contributions (G-1792) | When an RNN learns, the signal that adjusts its weights (the BPTT gradient) is a sum of two kinds of parts: short-term ones measure how the loss changes through recent inputs, long-term ones through distant inputs. The long-term ones shrink towards 0, so the RNN fails to learn from distant inputs. |
+| [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview) (G-246) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
+| [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview) (G-1774) | Data that comes as an ordered series of pieces whose order matters, such as text or a time series; models read it one piece after another, in order. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| [Exploding gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-731) | Gradients growing huge as they pass back through many layers, making updates erratic. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Jacobian](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
+| [Orthogonal matrix](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#23-orthonormal-columns) (G-1407) | A square matrix that only rotates or flips: its columns have length 1 and are all perpendicular (orthonormal), and its inverse is its transpose. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Leaky ReLU](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu) (G-1064) | A ReLU variant with a small slope for negative inputs, so nodes do not die. |
+| [Identity matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915) | The matrix that leaves every vector unchanged. |
+| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
+| [Gated recurrent unit (GRU)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview) (G-826) | An RNN architecture with one memory (the hidden state) and two gates, reset and update. |
+| [Gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#73-gradient-clipping) (G-861) | Capping the gradient before each update: if its overall size (its norm) is above a chosen limit, it is scaled down to that limit with its direction kept, so exploding gradients cannot make huge weight jumps. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |

@@ -332,27 +332,34 @@ This model is far from perfect: it learned from only 90 students and was not tun
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Preprocessing (G-539) | Cleaning and preparing data before training |
-| Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns |
-| Model selection | Training several algorithms and keeping the best |
-| CSV file | A text file holding a table, with commas between values |
-| pandas, DataFrame | Python's main table library, and its name for a table |
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Independent variables | Another name for the features (X) |
-| Dependent variable | Another name for the target (y) |
-| Training set | The part of the data the model learns from |
-| Test set | The part hidden during training, used to check the model |
-| Train-test split | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
-| scikit-learn | Python's main library for classical ML (imported as `sklearn`); it gives ready-made models and tools for splitting, scaling and scoring data. |
-| Scaling (G-767) | Bringing input columns to similar ranges |
-| Standardization | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
-| Data leakage | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
-| Logistic regression | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
-| Weights (G-2106) | The numbers (here w1, w2 and b) that the model learns and uses to turn a student into a score |
-| Accuracy | The fraction of predictions that are correct |
-| pickle | A Python module that saves objects to a file and loads them back |
-| Pipeline | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
+| pandas, DataFrame (G-1441) | Python's main table library, and its name for a table. |
+| Independent variables (G-937) | Another name for the features: the input columns X that a model uses to predict the output. |
+| Dependent variable (G-591) | Another name for the target, the output $y$ that a model predicts; it is called dependent because it depends on the features. |
+| Training set (G-2002) | The part of the data the model learns from. |
+| Test set (G-1962) | The part hidden during training, used to check the model. |
+| `fit` (G-84) | Trains the model on given inputs and outputs for a number of epochs. |
+| Accuracy (G-162) | The fraction of predictions that are correct. |
+| pickle (G-1494) | A Python module that saves objects to a file and loads them back. |
+| Feature scaling (scaling) (G-767) | Putting columns on the same scale, so no column dominates distances. |
+| scikit-learn (G-1750) | Python's main library for classical ML (imported as `sklearn`); it gives ready-made models and tools for splitting, scaling and scoring data. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| [CSV file](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513) | A text file holding a table, with commas between values. |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Data preprocessing (preprocessing)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#51-why-raw-data-cannot-go-straight-into-a-model) (G-539) | Cleaning and preparing the data before training, so an algorithm can use it. |
+| [Exploratory data analysis (EDA)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda) (G-732) | Exploring data with summaries and plots to find patterns. |
+| [Model selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning) (G-1254) | Training several algorithms and keeping the best. |
+| [Train-test split](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |

@@ -271,17 +271,33 @@ CNNs are among the most successful neural networks in real-world use, from face 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Convolutional neural network (CNN) | A neural network for grid-like data that uses convolution in at least one layer |
-| Grid-like topology | Data arranged on a regular grid, such as a time series (1D, one value per time step) or an image (2D, rows and columns of pixels); the kind of data CNNs are built to process. |
-| Pixel | One cell of an image grid, holding a brightness value |
-| Convolution layer | A layer that slides small filters over its input to find features |
-| Pooling layer | A CNN layer that shrinks the feature map from a convolution layer by replacing each small window with one number, such as its maximum; this cuts the computation and makes the features less sensitive to small shifts. |
-| Fully connected (FC) layer (G-583) | A Dense layer: every node connected to every node of the next layer |
-| Filter (G-777) | A small grid of learned weights slid over the image |
-| Feature map (G-766) | The grid of numbers a filter writes, one per position; large where the filter's pattern is present |
-| Max pooling | Keeping only the largest value of each block of a feature map |
-| Translation invariance | Giving the same answer when the object moves a little in the image |
-| Primitive feature | A basic feature such as an edge, found by the first layers |
-| Spatial arrangement | Where each pixel sits relative to the others; an ANN that flattens the image loses it, while a CNN's filters use it by looking at neighbouring pixels. |
+| Convolutional neural network (CNN) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
+| Grid-like topology (G-873) | Data arranged on a regular grid, such as a time series (1D, one value per time step) or an image (2D, rows and columns of pixels); the kind of data CNNs are built to process. |
+| Convolution layer (G-480) | A layer that slides small filters over its input to find features. |
+| Primitive feature (G-1561) | A basic feature such as an edge, found by the first layers. |
+| Spatial arrangement (G-1851) | Where each pixel sits relative to the others; an ANN that flattens the image loses it, while a CNN's filters use it by looking at neighbouring pixels. |
+| [Time series](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) | Data recorded at regular time intervals. |
+| [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
+| [Artificial neural network (ANN)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-216) | The simplest neural network: neurons in layers, each layer connected to the next by weights. |
+| [Convolution operation](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481) | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
+| [Matrix product](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left) (G-1179) | The single matrix $BA$ that does the same as applying $A$ and then $B$ (their composition), so a chain of transformations can be done as one multiplication. |
+| [Pooling layer](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1520) | A CNN layer that shrinks the feature map from a convolution layer by replacing each small window with one number, such as its maximum; this cuts the computation and makes the features less sensitive to small shifts. |
+| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
+| [Receptive field](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
+| [Pixel](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-1501) | One dot of an image, stored as one or more numbers. |
+| [Flattening](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#8-gradients-of-matrices) (G-789) | Reshaping a matrix into one long vector so that derivatives stay matrices. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Edge](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#5-edges-are-changes-in-intensity) (G-661) | In an image, a place where the intensity changes sharply, such as where a dark region meets a light one. Finding edges is the first job of a CNN's filters. |
+| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| [Translation invariance](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#32-features-tied-to-their-location) (G-2011) | The output stays (almost) the same when the input is shifted slightly. |

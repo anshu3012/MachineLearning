@@ -275,10 +275,18 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Cost function | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
-| Chord | The straight line joining two points on a function's graph; it is used to test convexity: a convex function never rises above any of its chords. |
-| Non-convex function | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
-| Strictly convex function | A function whose curve lies strictly below the straight line (chord) joining any two different points of it; it has at most one minimum. |
-| Stationary point | A point where a function is flat, its slope is zero (the derivative, or every partial derivative, is zero); it is a minimum, a maximum or a saddle point. |
+| Cost function (G-492) | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
+| Chord (G-384) | The straight line joining two points on a function's graph; it is used to test convexity: a convex function never rises above any of its chords. |
+| Non-convex function (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
+| Strictly convex function (G-1899) | A function whose curve lies strictly below the straight line (chord) joining any two different points of it; it has at most one minimum. |
+| Stationary point (G-1879) | A point where a function is flat, its slope is zero (the derivative, or every partial derivative, is zero); it is a minimum, a maximum or a saddle point. |
+| [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
+| [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |
+| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Saddle point](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718) | A flat point that curves up in one direction and down in another. |

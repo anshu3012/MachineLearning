@@ -353,19 +353,28 @@ The same idea checks for the [log-normal](../MA-029-uniform-and-log-normal/MA-02
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | One variable of the data, one column of the table |
-| Statistical moments | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis |
-| Kurtosis | The fourth moment: the average of the z-scores to the fourth power; measures tail heaviness |
-| Tailedness | How much probability lies far from the mean, in the tails |
-| Fat tail (heavy tail) | A tail that falls to zero slowly, so extreme values are relatively common |
-| Excess kurtosis | Kurtosis minus 3, so a normal distribution scores 0 |
-| Leptokurtic | Said of a distribution whose tails are fatter than the normal's (excess kurtosis above 0), so extreme values and outliers are more common. |
-| Mesokurtic | Said of a distribution whose tails are like the normal's (excess kurtosis 0), so extreme values are about as common as under a normal distribution. |
-| Platykurtic | A distribution with thinner tails than the normal, so fewer extreme values; its excess kurtosis is below 0. |
-| Kurtosis risk | In finance, the risk of extreme gains or losses from fat-tailed returns |
-| Quantiles | Values that cut sorted data, or a distribution, into equal-sized groups |
-| Theoretical quantile | The position of a cut that splits the theoretical curve into equal-area strips; the x axis of a Q-Q plot |
-| Theoretical distribution | The known distribution that data is compared with, for example on a Q-Q plot |
-| Anderson-Darling test | A statistical test of whether data follows a given distribution, such as the normal; like the Shapiro-Wilk test, it decides with a p-value. |
+| Kurtosis (G-1021) | How heavy the tails of a distribution are compared with a normal curve; the fourth moment. |
+| Statistical moments (G-1882) | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. |
+| Tailedness (G-1944) | How much probability lies far from the mean, in the tails. |
+| Fat tail (heavy tail) (G-757) | A tail that falls to zero slowly, so extreme values are relatively common. |
+| Excess kurtosis (G-720) | Kurtosis minus 3, so a normal distribution scores 0. |
+| Leptokurtic (G-1081) | Said of a distribution whose tails are fatter than the normal's (excess kurtosis above 0), so extreme values and outliers are more common. |
+| Mesokurtic (G-1212) | Said of a distribution whose tails are like the normal's (excess kurtosis 0), so extreme values are about as common as under a normal distribution. |
+| Platykurtic (G-1504) | A distribution with thinner tails than the normal, so fewer extreme values; its excess kurtosis is below 0. |
+| Kurtosis risk (G-1020) | In finance, the risk of extreme gains or losses from fat-tailed returns. |
+| Volatile (G-2094) | Changing quickly and unpredictably. |
+| Anderson-Darling test (G-200) | A statistical test of whether data follows a given distribution, such as the normal; like the Shapiro-Wilk test, it decides with a p-value. |
+| Theoretical distribution (G-1967) | The known distribution that data is compared with, for example on a Q-Q plot. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Statistical hypothesis test](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
+| [Shapiro-Wilk test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test) (G-1788) | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
+| [P-value](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |
+| [Quantiles](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) | Values that cut sorted data into equal-sized groups; a fraction $p$ of the values lie below the quantile $Q(p)$. |
+| [Theoretical quantile](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (G-1968) | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). |
+| [Laplace distribution](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#34-estimating-the-noise) (G-1044) | A peaked, heavy-tailed distribution with density $e^{-\lvert x - \mu\rvert/b}/(2b)$. |

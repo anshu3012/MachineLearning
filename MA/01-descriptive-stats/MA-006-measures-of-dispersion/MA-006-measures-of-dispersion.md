@@ -386,13 +386,28 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Measure of dispersion | A number that describes how spread out a feature is around its centre |
-| Feature | One variable of the data, one column of the table |
-| Observation | One record, one row of the table |
-| Range | The simplest measure of spread: the largest value minus the smallest. |
-| Variance around a point $v$ (G-2228) | The average squared distance of the values to $v$; smallest when $v$ is the sample mean |
+| Measure of dispersion (G-1206) | A number that describes how spread out a column is around its centre. |
+| Mean absolute deviation (G-1193) | The average absolute distance of the points from their mean. Sometimes also abbreviated MAD, which clashes with the median absolute deviation. |
+| Coefficient of variation (CV) (G-408) | Standard deviation divided by mean: spread relative to the average. |
+| Range (G-1626) | The simplest measure of spread: the largest value minus the smallest. |
 | Sample variance $s^2$ (G-2229) | The variance computed from a sample, $s^2$: the squared distances from the sample mean, summed and divided by $n - 1$; dividing by $n - 1$ instead of $n$ makes it right on average as an estimate of the population variance. |
-| Bessel's correction | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average |
-| ddof | The NumPy and pandas argument that sets the number subtracted from $n$ in the variance's denominator: `ddof=1` divides by $n - 1$ (sample variance), `ddof=0` by $n$. NumPy defaults to 0, pandas to 1. |
+| Bessel's correction (G-279) | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average. |
+| Variance around a point $v$ (G-2228) | The average squared distance of the values to $v$; smallest when $v$ is the sample mean. |
+| ddof (G-549) | The NumPy and pandas argument that sets the number subtracted from $n$ in the variance's denominator: `ddof=1` divides by $n - 1$ (sample variance), `ddof=0` by $n$. NumPy defaults to 0, pandas to 1. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
+| [Population mean ($\mu$)](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (G-1524) | The mean of every value in the population. |
+| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
+| [Sample mean ($\bar{x}$)](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (G-1725) | The average of the values in a sample, $\bar{x}$: add them up and divide by $n$; it is used as the estimate of the population mean $\mu$. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Biased estimator](../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#52-biased-but-consistent) (G-289) | A formula for estimating a value from data (an estimator) that is systematically too high or too low on average. |
+| [Unbiased estimator](../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#52-biased-but-consistent) (G-2034) | A formula that guesses a true value from a sample (an estimator) and is right on average: its average over many samples equals the true value. |
+| [Median absolute deviation (MAD)](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age) (G-1207) | The median distance of the values from their median. |

@@ -313,10 +313,20 @@ Things to try:
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| make_circles (G-110) | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset |
-| Feature map ($\phi$) (G-765) | A rule that gives each point extra coordinates built from its own values, such as $\phi(x) = (x, x^2)$, moving the data into a higher-dimensional space. Data that no straight line can separate becomes linearly separable there. |
+| gamma (RBF kernel) (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. |
 | Kernel function $K(a, b)$ (G-1006) | A function of two points that returns the dot product they would have after lifting to a higher-dimensional space, $\phi(a) \cdot \phi(b)$, computed straight from the original points, so the lifted features are never built. |
-| degree | The degree of SVC's polynomial kernel; default 3 |
-| gamma (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries |
+| [Kernel (SVM)](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#32-the-feature-map-and-the-kernel) (G-1004) | A function of two points, $K(a, b)$, that returns their dot product in the higher-dimensional space, $\phi(a) \cdot \phi(b)$, directly from the original values (not the Jupyter kernel). |
+| [Support vectors](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors) (G-1923) | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [RBF kernel](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#4-a-2d-example-concentric-circles) (G-1639) | Radial basis function kernel, built on $e^{-(\text{distance})^2}$: it scores two points as similar (close to 1) when they are near each other and close to 0 when far apart; the usual first-choice SVM kernel for curved boundaries. |
+| [Polynomial kernel](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#32-the-feature-map-and-the-kernel) (G-1514) | A function that gives the dot product of two points after their inputs are expanded into powers, such as $x^2$ (a kernel whose feature map is built from powers of the inputs); it lets an SVM draw curved boundaries. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) (G-1008) | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [`make_circles`](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#41-an-experiment-linear-activations-on-circles) (G-110) | scikit-learn function that generates two concentric rings of observations, one ring per class. |
+| [Feature map ($\phi$)](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#32-the-feature-map-and-the-kernel) (G-765) | A rule that gives each point extra coordinates built from its own values, such as $\phi(x) = (x, x^2)$, moving the data into a higher-dimensional space. Data that no straight line can separate becomes linearly separable there. |
+| [Degree](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#4-choosing-the-degree) (G-577) | The highest power used in a polynomial, such as 2 for $x^2$. It sets the model's complexity: a higher degree lets the curve bend more, and too high a degree overfits. |

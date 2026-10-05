@@ -222,12 +222,21 @@ PCA, LDA and t-SNE are taught in later Notes.
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table; also called a dimension |
-| Observation | One record: one row of the data table |
-| High-dimensional data | Data with a very large number of features |
-| Optimal number of features | The number of features at which a model performs best |
-| Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation |
-| Sparse data | Data where most of the space holds no points |
-| Dimensionality reduction | Reducing the number of features while keeping the useful information |
+| High-dimensional data (G-897) | Data with a very large number of columns. |
+| Optimal number of features (G-1397) | The number of columns at which a model performs best. |
+| Curse of dimensionality (G-520) | The problems that appear when data has too many dimensions: lower performance and more computation. |
+| Dimensionality reduction (G-611) | Reducing the number of input columns while keeping the information. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
+| [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
+| [LDA](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-1059) | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |
+| [Sparse data](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-1840) | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. |

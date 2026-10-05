@@ -264,11 +264,26 @@ Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity 
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Nesterov accelerated gradient (NAG) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
-| Look-ahead point | The point that the momentum step alone would take the weights to, $w_t - \beta v_{t-1}$; Nesterov momentum measures the gradient there instead of at the current weights, so it corrects sooner and overshoots less. |
-| Oscillation | Swinging back and forth past the minimum before settling |
-| Damping | Making an optimiser's back-and-forth swings (oscillations) smaller: NAG brakes before it overshoots, so its path settles faster than momentum's, though it can then stay in a small dip. |
-| Feature | An input variable, such as one pixel of an image |
-| Target | The output we predict, such as the digit |
+| Nesterov accelerated gradient (NAG) (G-1315) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
+| Oscillation (G-1410) | Swinging back and forth past the minimum before settling. |
+| Look-ahead point (G-1127) | The point that the momentum step alone would take the weights to, $w_t - \beta v_{t-1}$; Nesterov momentum measures the gradient there instead of at the current weights, so it corrects sooner and overshoots less. |
+| Damping (G-528) | Making an optimiser's back-and-forth swings (oscillations) smaller: NAG brakes before it overshoots, so its path settles faster than momentum's, though it can then stay in a small dip. |
+| [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
+| [Overshooting](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting) (G-1430) | Moving past the minimum because of the built-up velocity, then swinging back. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Decay factor $\beta$](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#7-the-role-of-beta) (G-553) | In momentum, the share of the previous update (the velocity) kept at each step; 0 gives plain gradient descent, usually 0.9. |
+| [Non-convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
+| [Velocity $v$](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) (G-2085) | The direction and size of the current move, built from past gradients: $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$. |
+| [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
+| [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
+| [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |
+| [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Batch size](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) | The number of rows in each batch; a hyperparameter. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |

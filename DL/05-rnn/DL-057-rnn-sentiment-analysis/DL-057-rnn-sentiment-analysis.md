@@ -325,20 +325,32 @@ A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sentiment analysis | Predicting whether a text is positive or negative |
-| Observation | One record of the data, here one review |
-| Target | The output we predict, here the sentiment label |
-| Vocabulary (G-2092) | The set of unique words in the data, each with an integer index |
-| Tokenization (G-1983) | Splitting a text into words (tokens) |
-| Integer encoding | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
-| Out-of-vocabulary (OOV) token | A placeholder token, `[UNK]`, that stands for every word not in the vocabulary, so a word never seen in training still gets an index. |
-| Padding | Adding zeros to sequences so that all have the same length |
-| Sparse representation | A representation where most values are 0, such as a one-hot vector over a 10,000-word vocabulary (9,999 zeros and one 1); it wastes space compared with a dense one. |
-| Dense representation | A short vector of real numbers, most of them non-zero, such as a word embedding; unlike a long, mostly-zero one-hot vector, every number carries information. |
-| Word embedding | A learned real-valued vector for each word; words used in similar ways get nearby vectors |
-| `Embedding` layer | The Keras layer that holds a table with one learned vector per word (the embedding matrix $E$) and looks up one row per word. |
-| `return_sequences` | SimpleRNN argument: `False` returns the last hidden state, `True` returns every hidden state |
-| IMDB dataset | 50,000 labelled movie reviews, shipped with Keras already integer encoded |
-| Overfitting | Training accuracy rising while test accuracy stalls or falls |
+| Integer encoding (G-956) | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
+| Padding (G-1436) | Adding zeros to sequences so that all have the same length. |
+| Out-of-vocabulary (OOV) token (G-1416) | A placeholder token, `[UNK]`, that stands for every word not in the vocabulary, so a word never seen in training still gets an index. |
+| IMDB dataset (G-923) | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset. |
+| `return_sequences` (G-136) | Argument of a Keras recurrent layer: `False` returns only the last hidden state, `True` returns the hidden state at every time step; `True` is needed on every stacked layer but the last. |
+| Sparse representation (G-1845) | A representation where most values are 0, such as a one-hot vector over a 10,000-word vocabulary (9,999 zeros and one 1); it wastes space compared with a dense one. |
+| Word embedding (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
+| Dense representation (G-585) | A short vector of real numbers, most of them non-zero, such as a word embedding; unlike a long, mostly-zero one-hot vector, every number carries information. |
+| `Embedding` layer (G-77) | The Keras layer that holds a table with one learned vector per word (the embedding matrix $E$) and looks up one row per word. |
+| Embedding (G-677) | A learned vector representing a user, item or word, compared with others by dot products. |
+| [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
+| [Tokenisation (tokenization)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983) | Splitting a text into tokens (words or word pieces), the units a language model reads and writes, before they are turned into vectors. |
+| [Named entity recognition (NER)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1300) | Marking which words of a sentence are entities, specific things a program must act on, such as "7 pm" and "airport"; chatbots use it to pick out times and places. |
+| [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [GloVe](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview) (G-851) | Word vectors learned from how often words appear near each other: training makes the dot product of two words' vectors match the log of their co-occurrence probability (Pennington et al. 2014). |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Pretrained model](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#1-overview) (G-1558) | A network already trained by someone else on a large dataset, reused for our own predictions. |

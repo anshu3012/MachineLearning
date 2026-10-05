@@ -457,11 +457,14 @@ The expected value says where the outcomes centre; the variance says how much a 
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Expected value $E[X]$ | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |
-| Mean of a random variable | Another name for its expected value: the probability-weighted average of its possible values, the average outcome over many repeats. |
-| Variance of a random variable | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
-| Shortcut variance formula | A quicker way to compute a variance: the mean of the squares minus the square of the mean, $\mathrm{Var}(X) = E[X^2] - (E[X])^2$; it gives the same number as the definition. |
-| Standard deviation of a random variable | The square root of a random variable's variance, in the units of $X$; it says how far values typically fall from the expected value. |
-| Linearity of expectation | $E[aX + bY + c] = a\thinspace E[X] + b\thinspace E[Y] + c$, for any random variables |
+| Mean of a random variable (G-1199) | Another name for its expected value: the probability-weighted average of its possible values, the average outcome over many repeats. |
+| Expected value $E[X]$ (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |
+| Variance of a random variable (G-2076) | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
+| Standard deviation of a random variable (G-1870) | The square root of a random variable's variance, in the units of $X$; it says how far values typically fall from the expected value. |
+| Linearity of expectation (G-1100) | The rule that the expected value of a sum is the sum of the expected values, with constants scaling and shifting it: $E[aX + bY + c] = a\thinspace E[X] + b\thinspace E[Y] + c$, for any random variables. |
+| Shortcut variance formula (G-1794) | A quicker way to compute a variance: the mean of the squares minus the square of the mean, $\mathrm{Var}(X) = E[X^2] - (E[X])^2$; it gives the same number as the definition. |
+| [Random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |

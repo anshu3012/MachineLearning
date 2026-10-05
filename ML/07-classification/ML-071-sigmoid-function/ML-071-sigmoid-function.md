@@ -308,12 +308,17 @@ What we still lack is a way to say which line is best: a **loss function** (G-70
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sigmoid function | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
-| Logistic function | Another name for the sigmoid, $1/(1 + e^{-z})$: the S-shaped function that squashes any number into a value between 0 and 1, read as a probability. |
-| Probabilistic interpretation | Reading the model's output as the probability of the positive class |
-| Decision boundary | Where the model's prediction switches class: here, where $w \cdot x = 0$ and the probability is 0.5 |
-| Odds | The probability of an event divided by the probability of the opposite, $p / (1 - p)$ |
-| Log-odds | The natural log of the odds; equal to $z = w \cdot x$ in logistic regression |
-| Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one |
+| Sigmoid function (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| Push and pull (G-1592) | Moving the line away from a correctly classified point, or towards a misclassified one. |
+| Logistic function (G-1119) | Another name for the sigmoid, $1/(1 + e^{-z})$: the S-shaped function that squashes any number into a value between 0 and 1, read as a probability. |
+| Probabilistic interpretation (G-1566) | Reading the model's output as the probability of the positive class. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
+| [Log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
+| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |

@@ -428,9 +428,30 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sparsity | Having many coefficients exactly equal to 0 |
-| Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0; this is how Lasso sets coefficients to exactly 0. |
-| Dead zone | The range of $S$ (how strongly the data pulls the slope away from 0) for which Lasso's best slope is exactly 0: inside it the penalty wins, which is how Lasso removes features. |
-| Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso |
+| Sparsity (G-1849) | Having many coefficients exactly equal to 0. |
+| Dead zone (G-552) | The range of $S$ (how strongly the data pulls the slope away from 0) for which Lasso's best slope is exactly 0: inside it the penalty wins, which is how Lasso removes features. |
+| Soft thresholding (G-1827) | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0; this is how Lasso sets coefficients to exactly 0. |
+| Coordinate descent (G-485) | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. |
+| [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
+| [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
+| [Sparse](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#7-feature-maps-get-sparser-with-depth) (G-1846) | Mostly made of zeros, such as a feature map whose values are almost all 0, or a model whose coefficients are mostly exactly 0. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
+| [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Penalty term](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term) (G-1476) | The extra term added to the cost to discourage large weights. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Absolute value](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-159) | A number's size without its sign. |
+| [Differentiable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-606) | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
+| [Constraint](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#42-one-constraint-for-both-classes) (G-456) | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point. |
+| [Feasible region](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
+| [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
+| [Contour plot](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468) | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

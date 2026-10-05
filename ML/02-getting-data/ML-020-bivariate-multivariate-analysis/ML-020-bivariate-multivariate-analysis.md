@@ -434,23 +434,27 @@ The column tree does the same for the years. Neighbouring years with similar tra
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The variable we want to predict |
-| Observation | One record, one row of the data table |
-| Bivariate analysis | Studying two columns together to find how they are related |
-| Multivariate analysis | Studying more than two columns together in one view |
-| Scatter plot | A chart with one dot per row and one numerical column on each axis; it shows by eye whether two features rise together, fall together or are unrelated. |
-| Linear relationship | A relationship between two columns that follows a straight line |
-| Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size |
-| Bar plot | A plot for comparing a numerical column across categories: one bar per category, its height the mean of the numerical column for that category. |
-| Box plot | A summary of a column's spread by its median, quartiles and outliers |
-| KDE plot (G-1005) | A smooth estimate of a column's PDF, built from the data |
-| Crosstab | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
-| Heatmap | A table drawn as coloured cells, darker for larger values |
-| Clustermap | A heatmap with rows and columns reordered so similar ones sit together |
-| Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order |
-| Pair plot | A grid of scatter plots of every pair of numerical columns, with histograms on the diagonal |
-| Line plot | A scatter plot with the dots joined in order, used when x is time |
-| Pivot table | A grid with one column's values as rows, another's as columns, and a third in the cells |
+| Scatter plot (G-1749) | A chart with one dot per row and one numerical column on each axis; it shows by eye whether two features rise together, fall together or are unrelated. |
+| Bar plot (G-258) | A plot for comparing a numerical column across categories: one bar per category, its height the mean of the numerical column for that category. |
+| Crosstab (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
+| Heatmap (G-886) | A table drawn as coloured cells, darker for larger values. |
+| Clustermap (G-402) | A heatmap with rows and columns reordered so similar ones sit together. |
+| Dendrogram (G-582) | A tree showing which rows (or columns) were joined as similar, and in what order. |
+| Pair plot (G-1437) | A grid of scatter plots of every pair of numerical columns, with histograms on the diagonal. |
+| Line plot (G-1088) | A scatter plot with the dots joined in order, used when x is time. |
+| Pivot table (G-1500) | A grid with one column's values as rows, another's as columns, and a third in the cells. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Linear relationship](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095) | A relationship between two columns that follows a straight line. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
+| [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
+| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
+| [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
+| [Bivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310) | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
+| [Multivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-1280) | Studying more than two variables together. |
+| [Hue, style, size](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#5-graphs-for-more-than-two-features) (G-906) | Plot settings that show an extra column by colour, marker shape or dot size. |

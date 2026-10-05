@@ -504,18 +504,36 @@ So when a network overfits, a weight penalty is a one-argument fix: smaller weig
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Decision boundary | The line or curve separating the inputs a classifier assigns to different classes |
-| Hyperplane | A flat boundary $\mathbf{w} \cdot \mathbf{x} + b = 0$; a straight line when there are two features |
-| Piecewise linear | Made of straight segments joined at bends; the shape of a ReLU network's decision boundary |
-| Capacity | A model's ability to fit a wide variety of functions; too much capacity for the data leads to overfitting |
-| Penalty term | The extra term added to the cost to discourage large weights |
-| $\lambda$ (lambda) (G-2150) | The strength of the penalty; a hyperparameter |
-| Weight decay | Another name for L2 regularisation in neural networks: every update shrinks each weight by a fixed factor |
-| Sensitivity (G-2275) | How much the prediction changes when the input changes a little |
-| Weight decay factor | The number $1 - \eta\lambda$, a little below 1, by which L2 regularisation multiplies every weight at each update, so the weights shrink a little every step. |
-| `kernel_regularizer` | Keras `Dense` setting that adds a penalty on the size of the layer's weights (L1 or L2) to the loss. |
-| Kernel (G-2274) | Keras' name for a layer's weight matrix |
-| `get_weights` (G-85) | Keras method that returns every weight and bias array of a model |
-| AdamW | Adam with weight decay (shrinking the weights a little) applied directly to the weights, not through the loss. |
+| Piecewise linear (G-1496) | Made of straight segments joined at bends; the shape of a ReLU network's decision boundary. |
+| Capacity (G-344) | A model's ability to fit a wide variety of functions; too much capacity for the data leads to overfitting. |
+| Penalty term (G-1476) | The extra term added to the cost to discourage large weights. |
+| Weight decay factor (G-2107) | The number $1 - \eta\lambda$, a little below 1, by which L2 regularisation multiplies every weight at each update, so the weights shrink a little every step. |
+| `kernel_regularizer` (G-106) | Keras `Dense` setting that adds a penalty on the size of the layer's weights (L1 or L2) to the loss. |
+| Kernel (Keras) (G-2274) | Keras' name for a layer's weight matrix. |
+| Sensitivity (of a model) (G-2275) | How much a model's prediction changes when its input changes a little; smaller weights make it lower, so the decision boundary is smoother. |
+| AdamW (G-170) | Adam with weight decay (shrinking the weights a little) applied directly to the weights, not through the loss. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
+| [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
+| [Cost function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters) (G-492) | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
+| [L2 regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) | Another name for the squared-coefficient penalty used by Ridge. |
+| [λ (lambda), alpha](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) (G-2150) | The strength of the regularisation penalty; alpha in scikit-learn. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [L1 regularisation](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1026) | Another name for the absolute-value penalty used by Lasso. |
+| [Sparse model](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection) (G-1844) | A model in which many coefficients are exactly 0; those features have no effect and can be dropped, so the model also does feature selection. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Weight decay](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#23-the-update-rule-and-one-update-on-numbers) (G-2108) | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [`get_weights()` / `set_weights()`](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#42-relu-and-tanh-nothing-moves) (G-85) | Keras methods that read and replace the weight and bias arrays of a model or a layer, as a list of arrays. |

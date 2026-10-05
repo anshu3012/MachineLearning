@@ -317,12 +317,19 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| $P(X = x)$ | The probability that the random variable $X$ takes the value $x$ |
-| Discrete uniform distribution | A discrete distribution in which every possible value is equally likely, such as a fair die |
-| Estimated PMF | Each value's share of many repeated trials, used as its probability |
-| Law of large numbers | The more trials, the closer a share of trials gets to the true probability |
-| Bernoulli distribution | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
-| $\binom{n}{k}$ ($n$ choose $k$) | The number of ways to choose $k$ items out of $n$ |
-| Step function | A function that is flat between points and jumps at them, like the CDF of a discrete variable |
+| Probability mass function (PMF) (G-1572) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
+| Discrete uniform distribution (G-618) | A discrete distribution in which every possible value is equally likely, such as a fair die. |
+| Estimated PMF (G-708) | Each value's share of many repeated trials, used as its probability. |
+| Law of large numbers (G-1052) | The more trials, the closer a share of trials gets to the true probability. |
+| Bernoulli distribution (G-275) | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
+| Cumulative distribution function (CDF) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
+| $\binom{n}{k}$ ($n$ choose $k$) (G-7) | The number of ways to choose $k$ items out of $n$. |
+| $P(X = x)$ (G-34) | The probability that the random variable $X$ takes the value $x$. |
+| [Discrete random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables) (G-617) | A random variable that takes separate values, such as a die's face. |
+| [Random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
+| [Binomial distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
+| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |

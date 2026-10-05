@@ -417,17 +417,27 @@ Figure 7 sums up the whole computation.
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Recurrent neural network (RNN) | A neural network that reads a sequence one time step at a time and feeds its hidden layer's output back to itself |
-| Observation | One record of the data, here one review |
-| Feature | An input variable; here one of the 5 positions of a word vector |
-| Target | The output we predict, here the sentiment |
-| Vocabulary (G-2092) | The set of unique words in the data |
-| Time step | One position in the sequence; word $j$ enters at $t = j$ |
-| Recurrent layer | A hidden layer whose output at one time step is an input to itself at the next |
-| Hidden state ($h_t$) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |
-| $W_i$, $W_h$, $W_o$ | The three weight matrices of an RNN: $W_i$ multiplies the current input, $W_h$ multiplies the hidden state fed back from the previous time step, and $W_o$ turns the hidden state into the output. |
-| Unfolding (unrolling) | Drawing the recurrent layer once per time step, so the loop becomes a chain |
-| Parameter sharing | Using the same weights at every time step |
-| `SimpleRNN` | The Keras layer for a basic RNN; input shape (batch size, time steps, input features) |
+| Time step (G-1976) | One position in the sequence; word $j$ enters at $t = j$. |
+| Unfolding (unrolling) (G-2041) | Drawing the recurrent layer once per time step, so the loop becomes a chain. |
+| Recurrent layer (G-1646) | A hidden layer whose output at one time step is an input to itself at the next. |
+| Hidden state ($h_t$) (G-891) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |
+| $W_i$, $W_h$, $W_o$ (G-39) | The three weight matrices of an RNN: $W_i$ multiplies the current input, $W_h$ multiplies the hidden state fed back from the previous time step, and $W_o$ turns the hidden state into the output. |
+| `SimpleRNN` (G-144) | The Keras layer for a basic RNN; input shape (batch size, time steps, input features). |
+| [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
+| [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
+| [Padding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) | Adding zeros to sequences so that all have the same length. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
+| [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
+| [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Parameter sharing](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn) (G-1447) | Using the same weights at every position or time step; it lets a model handle sequences of any length and recognise a pattern wherever it appears. |

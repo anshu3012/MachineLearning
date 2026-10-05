@@ -258,14 +258,19 @@ The other points have no say at all. If we delete every point except the three s
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Support vector machine (SVM) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |
-| Margin (SVM) | The full width between $\pi^+$ and $\pi^-$ (later shown to be $2/\lVert w \rVert$): twice the one-sided margin of the perceptron |
-| Maximal margin classifier (G-2217) | The classifier that separates the classes with the largest possible margin; the hard-margin SVM |
-| Hyperplane | The flat separator: a point for 1 feature, a line for 2, a plane for 3, a hyperplane beyond |
-| Margin-maximising hyperplane | The flat boundary (hyperplane) that splits the classes while staying as far as possible from the nearest points of each (the largest margin); it is the decision boundary an SVM learns. |
-| Positive hyperplane ($\pi^+$) | A copy of the separating hyperplane moved out, parallel to itself, until it touches the first positive point; with the negative hyperplane it marks the two edges of the SVM's margin. |
-| Negative hyperplane ($\pi^-$) | In an SVM, the copy of the separating hyperplane pushed out, parallel to it, until it touches the first negative-class point; with $\pi^+$ on the other side it marks the edges of the margin. |
-| Support vectors | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
-| Support vector regression (SVR) | The regression version of SVM: the same ideas, used to predict a number instead of a class. |
+| Support vector machine (SVM) (G-1921) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |
+| Margin (SVM) (G-1160) | The full width of the empty band around an SVM's separating line, from the nearest point of one class to the nearest point of the other (later shown to be $2/\lVert w \rVert$); the SVM picks the line that makes this band widest. |
+| Maximal margin classifier (G-2217) | The classifier that separates the classes with the largest possible margin; the hard-margin SVM. |
+| Margin-maximising hyperplane (G-1163) | The flat boundary (hyperplane) that splits the classes while staying as far as possible from the nearest points of each (the largest margin); it is the decision boundary an SVM learns. |
+| Positive hyperplane ($\pi^+$) (G-1531) | A copy of the separating hyperplane moved out, parallel to itself, until it touches the first positive point; with the negative hyperplane it marks the two edges of the SVM's margin. |
+| Negative hyperplane ($\pi^-$) (G-1309) | In an SVM, the copy of the separating hyperplane pushed out, parallel to it, until it touches the first negative-class point; with $\pi^+$ on the other side it marks the edges of the margin. |
+| Support vectors (G-1923) | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
+| Support vector regression (SVR) (G-1922) | The regression version of SVM: the same ideas, used to predict a number instead of a class. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |

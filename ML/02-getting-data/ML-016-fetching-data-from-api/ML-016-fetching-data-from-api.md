@@ -278,25 +278,28 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| API (Application Programming Interface) | A way for two programs to talk; a website's API hands out its data on request |
-| Observation | One record of the data, one row of the table |
-| Feature | A variable describing each observation, one column of the table |
-| Data pipeline | A channel that carries data from one place to another, such as an API that passes a company's data to our program. |
-| Client, server | The program that asks, and the computer that answers |
-| Endpoint | One address of an API that returns one kind of data |
-| Query parameters | Settings written after the `?` in an API's URL and joined by `&`, such as `page=1` or the API key; they tell the API which data to return. |
-| API key | A secret code that tells the API who is asking |
-| Environment variable | A named value stored on the computer outside the code and read with `os.environ`; used to keep secrets such as API keys out of notebooks that get shared. |
-| JSON viewer | A tool that lays out JSON text as a tree to show its structure |
-| requests | Python library that sends web requests |
-| Response | What `requests.get` returns: the status code plus the reply |
-| Status code | A number saying how a request went: 200 OK, 401, 404, 500 |
-| `json_normalize` | pandas function that turns nested JSON into flat columns |
-| f-string | Text starting with `f` in which `{name}` is replaced by a value |
-| `pd.concat` | pandas function that joins several DataFrames into one |
-| `ignore_index` | Setting of `pd.concat` that renumbers the joined rows from 0 |
-| Rate limit | The most requests an API accepts in a given time |
-| Kaggle | A website for sharing datasets and notebooks and for ML competitions |
-| RapidAPI | A website listing many APIs, including free ones |
+| API key (G-205) | A secret code that tells the API who is asking. |
+| Dictionary (Python) (G-603) | A lookup table from keys to values, written `{key: value}`. |
+| requests (G-1674) | Python library that sends web requests. |
+| Response (G-1686) | What `requests.get` returns: the status code plus the reply. |
+| Status code (G-1886) | A number saying how a request went: 200 OK, 401, 404, 500. |
+| `json_normalize` (G-99) | pandas function that turns nested JSON into flat columns. |
+| `ignore_index` (G-93) | Setting of `pd.concat` that renumbers the joined rows from 0. |
+| Client, server (G-397) | The program that asks, and the computer that answers. |
+| Data pipeline (G-538) | A channel that carries data from one place to another, such as an API that passes a company's data to our program. |
+| Endpoint (G-688) | One address of an API that returns one kind of data. |
+| Environment variable (G-693) | A named value stored on the computer outside the code and read with `os.environ`; used to keep secrets such as API keys out of notebooks that get shared. |
+| f-string (G-741) | Text starting with `f` in which `{name}` is replaced by a value. |
+| JSON viewer (G-989) | A tool that lays out JSON text as a tree to show its structure. |
+| Query parameters (G-1604) | Settings written after the `?` in an API's URL and joined by `&`, such as `page=1` or the API key; they tell the API which data to return. |
+| RapidAPI (G-1632) | A website listing many APIs, including free ones. |
+| Rate limit (G-1634) | The most requests an API accepts in a given time. |
+| [API (Application Programming Interface)](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data) (G-204) | A service that returns data when our code asks for it; a website's API hands out its data on request. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [`pd.concat`](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#12-scraping-every-page) (G-125) | pandas function that joins several DataFrames into one. |
+| [Kaggle](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#34-loading-a-dataset) (G-999) | A website for sharing datasets and notebooks and for ML competitions. |

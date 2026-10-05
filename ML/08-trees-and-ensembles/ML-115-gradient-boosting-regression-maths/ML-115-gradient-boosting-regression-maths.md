@@ -323,11 +323,26 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed |
-| Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives |
-| Arg min (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$ |
-| Negative gradient | The direction that lowers the loss fastest: minus the derivative of the loss with respect to the prediction. |
-| Terminal region | The part of the feature space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$ |
-| Leaf value ($\gamma_{jm}$) | The constant a leaf adds to the model, chosen to minimise the loss of the observations in that leaf |
+| Runge's phenomenon (G-1716) | The large swings of a high-degree polynomial near the ends of the interval it is fitted on. |
+| Additive modelling (G-174) | Building a complex function as a sum of simple functions, each capturing part of what the others missed. |
+| Differentiable loss (G-605) | A loss function whose derivative exists at every point, so it can be minimised with derivatives. |
+| Arg min (argmin) (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$. |
+| Negative gradient (G-1308) | The direction that lowers the loss fastest: minus the derivative of the loss with respect to the prediction. |
+| Terminal region (G-1960) | The part of the input space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$; every point in it gets that leaf's output. |
+| Leaf value ($\gamma_{jm}$) (G-1061) | The constant a leaf adds to the model, chosen to minimise the loss of the rows in that leaf. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
+| [Stage-wise additive model](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867) | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
+| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Pseudo-residual](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
+| [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
+| [Learning rate ($\eta$) in gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction) (G-1067) | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. |
+| [Huber loss](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#71-when-neither-mse-nor-mae-fits) (G-905) | A regression loss that is half the squared error for errors up to $\delta$ and grows in a straight line beyond; it acts like MSE for small errors and like MAE for large ones, so outliers pull less. |

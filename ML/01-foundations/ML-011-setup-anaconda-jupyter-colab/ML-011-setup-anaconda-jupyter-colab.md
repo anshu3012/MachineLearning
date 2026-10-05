@@ -556,31 +556,33 @@ Figure 10 sums up the choice.
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Distribution | One installer that sets up Python together with many libraries |
-| Anaconda | A free bundle (distribution) for data science that installs Python, hundreds of popular libraries and tools such as Jupyter in one go, with the conda package manager to keep them working together. |
-| conda | A package and environment manager: it installs Python and libraries and keeps each set in a separate environment, so different projects do not clash. |
-| Package manager | A program that downloads and installs libraries in versions that fit together |
-| Package | A library bundled so that a package manager such as pip or conda can download and install it. |
-| pip | Python's own package manager, which installs from PyPI |
-| PyPI | The Python Package Index, the public store of Python packages |
-| Channel | An online store of conda packages, such as conda-forge |
-| conda-forge | A free, community-run channel (an online store of conda packages) with more packages, often newer ones, than Anaconda's default channel. |
-| Miniforge | A small installer with only conda and Python, using conda-forge |
-| Anaconda Navigator | Anaconda's point-and-click window for environments and packages |
-| Spyder | A Python code editor that shows variables and tables in memory |
-| Jupyter | Tool for notebooks that mix code, output and text |
-| JupyterLab | The program that runs Jupyter notebooks in a web browser |
-| Notebook | A `.ipynb` file of cells, each with its output underneath |
-| Cell | One block of a notebook, holding either code or Markdown |
-| Markdown | A simple way to format text with symbols such as `#` and `**` |
-| Kernel (G-1009) | The running Python process behind a notebook |
-| Virtual environment | A separate folder with its own copy of Python and its own packages, one per project, so the projects' package versions do not clash. |
-| base environment | The environment the installer creates, holding conda itself |
-| Environment file | A file (`environment.yml`) listing an environment's name, channel and every package with its exact version, so anyone can rebuild the same environment and get the same results. |
-| Kaggle | A website of datasets, ML competitions and browser notebooks |
-| Google Colab | Google's browser-based Jupyter notebooks, saved in Google Drive |
-| GPU | A graphics chip that runs deep learning maths much faster than a CPU |
-| TPU | Google's chip built only for deep learning maths |
-| API token | A secret file or key that lets a program use a website's API as us |
+| conda (G-439) | A package and environment manager: it installs Python and libraries and keeps each set in a separate environment, so different projects do not clash. |
+| Anaconda (G-195) | A free bundle (distribution) for data science that installs Python, hundreds of popular libraries and tools such as Jupyter in one go, with the conda package manager to keep them working together. |
+| Package manager (G-1434) | A program that downloads and installs libraries in versions that fit together. |
+| Package (G-1435) | A library bundled so that a package manager such as pip or conda can download and install it. |
+| pip (G-1497) | Python's own package manager, which installs from PyPI. |
+| PyPI (G-1593) | The Python Package Index, the public store of Python packages. |
+| conda-forge (G-440) | A free, community-run channel (an online store of conda packages) with more packages, often newer ones, than Anaconda's default channel. |
+| Miniforge (G-1224) | A small installer with only conda and Python, using conda-forge. |
+| Anaconda Navigator (G-194) | Anaconda's point-and-click window for environments and packages. |
+| Spyder (G-1856) | A Python code editor that shows variables and tables in memory. |
+| Jupyter (G-990) | Tool for notebooks that mix code, output and text. |
+| Notebook (G-1353) | A `.ipynb` file of cells, each with its output underneath. |
+| Cell (G-362) | One block of a notebook, holding either code or Markdown. |
+| JupyterLab (G-991) | The program that runs Jupyter notebooks in a web browser. |
+| Markdown (G-1168) | A simple way to format text with symbols such as `#` and `**`. |
+| Kernel (Jupyter) (G-1009) | The running Python process behind a notebook. |
+| Kaggle (G-999) | A website for sharing datasets and notebooks and for ML competitions. |
+| Virtual environment (G-2090) | A separate folder with its own copy of Python and its own packages, one per project, so the projects' package versions do not clash. |
+| base environment (G-259) | The environment the installer creates, holding conda itself. |
+| Environment file (G-692) | A file (`environment.yml`) listing an environment's name, channel and every package with its exact version, so anyone can rebuild the same environment and get the same results. |
+| GPU (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
+| TPU (G-1996) | Google's chip built only for deep learning maths. |
+| Google Colab (G-854) | Google's browser-based Jupyter notebooks, saved in Google Drive. |
+| API token (G-206) | A secret file or key that lets a program use a website's API as us. |
+| [Distribution](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-626) | How a column's values spread over their range. |
+| [Channel](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-375) | One colour layer of an image (red, green or blue). |

@@ -292,10 +292,16 @@ $$P(Z \ge 15) = 4 \times 10^{-51}$$
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| P-value | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours |
-| More extreme | Said of a possible test result with at least as much evidence against $H_0$ as the observed one, in the direction(s) $H_1$ points to; the p-value is the probability of a result this extreme or more extreme when $H_0$ is true. |
-| P-value decision rule | Reject $H_0$ if $p \le \alpha$, otherwise fail to reject it |
-| One-tailed p-value | The p-value counted on one side only: the tail area beyond the test statistic on the side that $H_1$ points to. |
-| Two-tailed p-value | The tail areas beyond $-\lvert z \rvert$ and $+\lvert z \rvert$ together: $2\thinspace\Phi(-\lvert z \rvert)$ for a z-test |
+| P-value (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |
+| More extreme (G-1263) | Said of a possible test result with at least as much evidence against $H_0$ as the observed one, in the direction(s) $H_1$ points to; the p-value is the probability of a result this extreme or more extreme when $H_0$ is true. |
+| One-tailed p-value (G-1384) | The p-value counted on one side only: the tail area beyond the test statistic on the side that $H_1$ points to. |
+| P-value decision rule (G-1432) | Reject $H_0$ if $p \le \alpha$, otherwise fail to reject it. |
+| Two-tailed p-value (G-2027) | The p-value of a two-tailed test: the chance, if $H_0$ is true, of a test statistic at least as far from 0 as ours in either direction; for a z-test it is $2\thinspace\Phi(-\lvert z \rvert)$. |
+| [P-value approach](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#6-the-eight-steps-of-a-hypothesis-test) (G-1431) | Carrying out a test by computing a p-value, which also measures the strength of the evidence. |
+| [Binomial distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
+| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
+| [False positive (FP)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-748) | Predicted positive, but actually negative; a Type I error. |

@@ -347,13 +347,25 @@ Figure 7 puts the two answers side by side: the red bars miss every student by 1
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Loading scores (G-2204) | The entries of a principal component's unit vector: how many parts of each feature make up the component |
-| PCA through the SVD | Computing PCA from the SVD of the centred data: the columns of $V$ are the principal components, $\sigma_i^2/n$ their variances, and $U\Sigma$ the data's new coordinates (scores). |
-| Randomized SVD | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data |
-| Latent semantic analysis (LSA) | Describing each document by a few topic directions of the document-word matrix (its top $k$ singular directions, found with the SVD), so that texts on one topic line up. |
-| TruncatedSVD | scikit-learn's rank $k$ SVD without centring; works on sparse matrices |
-| Matrix factorisation (recommenders) | Predicting ratings as a viewer vector times a film vector, fitted on the known ratings only |
-| Moore–Penrose pseudo-inverse ($A^{+}$) | $V\Sigma^{+}U^{\mathsf T}$: the SVD inverted with zero singular values left at zero |
-| Minimum-norm solution | When many solutions fit equally well (the same least-squares error), the shortest one, with the smallest length (norm); what $A^{+}\mathbf{b}$ returns. |
+| Randomized SVD (G-1624) | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data. |
+| Latent semantic analysis (LSA) (G-1049) | Describing each document by a few topic directions of the document-word matrix (its top $k$ singular directions, found with the SVD), so that texts on one topic line up. |
+| Moore–Penrose pseudo-inverse ($A^{+}$) (G-1262) | The closest thing to an inverse for a matrix that is not square or has no inverse (a generalised inverse): the SVD inverted with zero singular values left at zero, $V\Sigma^{+}U^{\mathsf T}$. |
+| Matrix factorisation (recommenders) (G-1178) | Predicting ratings as a viewer vector times a film vector, fitted on the known ratings only. |
+| Minimum-norm solution (G-1226) | When many solutions fit equally well (the same least-squares error), the shortest one, with the smallest length (norm); what $A^{+}\mathbf{b}$ returns. |
+| PCA through the SVD (G-1468) | Computing PCA from the SVD of the centred data: the columns of $V$ are the principal components, $\sigma_i^2/n$ their variances, and $U\Sigma$ the data's new coordinates (scores). |
+| TruncatedSVD (G-2024) | scikit-learn's tool that cuts a matrix down to $k$ columns by keeping only its top $k$ singular directions (a rank $k$ SVD); it does not centre the data, so it works on sparse matrices. |
+| [Principal component](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) | A new axis found by PCA, a direction through the data: PC1 holds the most variance, PC2 the next most at right angles to it; keeping only the first few cuts the number of features. |
+| [Centred data](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#7-mean-normalization) (G-365) | Data whose mean is 0, made by subtracting the mean from every value; some algorithms need it. |
+| [Projection](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) | Dropping a point or vector straight onto an axis, a line or another vector's direction, like casting a shadow. |
+| [Right singular vector ($\mathbf v_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1692) | A column $\mathbf v_i$ of $V$ in the SVD: a unit-length input direction that the matrix sends to $\sigma_i$ times the matching left singular vector $\mathbf u_i$. |
+| [Singular value ($\sigma_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Explained variance ratio](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#71-explained-variance) (G-727) | The share of the data's total spread that one principal component keeps: its eigenvalue divided by the sum of all eigenvalues (its share of the total variance). Adding these shares from the largest down tells us how many components to keep. |
+| [Column space](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Loading (loading score)](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#61-reading-the-result-the-recipe-and-the-scree-plot) (G-2204) | How much one original feature counts in a principal component (its weight there); it is one entry of that component's eigenvector. |

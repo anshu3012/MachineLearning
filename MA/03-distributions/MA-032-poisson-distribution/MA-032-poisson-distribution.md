@@ -438,12 +438,25 @@ In machine learning, a **target** (G-1949; the output we predict) that is a coun
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Poisson distribution | The distribution of the number of events in a fixed interval, given their average count $\lambda$ |
-| Rate $\lambda$ | The average number of events per interval; the only parameter of the Poisson distribution |
-| $Y \sim \text{Po}(\lambda)$ | Notation: $Y$ follows a Poisson distribution with rate $\lambda$; likewise $\text{Bern}(p)$ and $B(n, p)$ |
-| Euler's number $e$ | A fixed number, about 2.71828, that appears in the Poisson PMF |
-| Negative power | A power with a minus sign, which means one over the positive power: $a^{-n} = 1/a^{n}$, so $2^{-3} = 1/8$. |
-| Overdispersion | Counts that are much more spread out than their mean suggests (variance clearly larger than the mean), a sign that a Poisson model does not fit. |
-| Poisson regression | A model for a count target, such as bike rentals per hour: it predicts the average count $\lambda$ for each row from its features, and the Poisson distribution then gives the probability of each count. |
+| Rate $\lambda$ (G-1633) | The average number of events per interval; the only parameter of the Poisson distribution. |
+| Poisson distribution (G-1509) | A distribution that gives the probability of each possible count of events (0, 1, 2, ...) in a fixed interval of time or space, from the average count $\lambda$; used for counts such as questions per day. |
+| Euler's number $e$ (G-716) | A fixed number, about 2.71828, that appears in the Poisson PMF. |
+| Negative power (G-1311) | A power with a minus sign, which means one over the positive power: $a^{-n} = 1/a^{n}$, so $2^{-3} = 1/8$. |
+| Overdispersion (G-1428) | Counts that are much more spread out than their mean suggests (variance clearly larger than the mean), a sign that a Poisson model does not fit. |
+| Poisson regression (G-1510) | A model for a count target, such as bike rentals per hour: it predicts the average count $\lambda$ for each row from its features, and the Poisson distribution then gives the probability of each count. |
+| $Y \sim \text{Po}(\lambda)$ (G-45) | Notation: $Y$ follows a Poisson distribution with rate $\lambda$; likewise $\text{Bern}(p)$ and $B(n, p)$. |
+| [Binomial distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
+| [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [Expected value $E[X]$](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

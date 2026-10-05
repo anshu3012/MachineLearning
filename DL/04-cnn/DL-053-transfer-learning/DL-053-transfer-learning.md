@@ -278,13 +278,17 @@ Three things stand out (Figure 7; Notebook).
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Transfer learning | Reusing what a network learned on one problem as the starting point for a related problem |
-| Convolutional base | The convolution and pooling layers of a CNN, which find features in the image |
-| Top | The dense layers at the end of a CNN, which turn features into classes |
-| Freeze | Mark a layer's weights as not trainable, so that training leaves them unchanged |
-| Feature extraction | Transfer learning that freezes the whole base and trains only a new top |
-| Fine-tuning | Transfer learning that also retrains the last layers of the base, with a very low learning rate |
-| `include_top=False` | The `keras.applications` option that loads a pretrained model without its final dense layers (the dense top), which turn the found features into ImageNet's 1,000 classes. |
-| `trainable` | The Keras attribute that decides whether a layer's weights are updated in training |
+| Fine-tuning (G-779) | Training a pre-trained model further on a small dataset for a specific task. |
+| Convolutional base (G-482) | The convolution and pooling layers of a CNN, which find features in the image. |
+| Top (G-1988) | The dense layers at the end of a CNN, which turn features into classes. |
+| Freeze (G-805) | Mark a layer's weights as not trainable, so that training leaves them unchanged. |
+| `include_top=False` (G-96) | The `keras.applications` option that loads a pretrained model without its final dense layers (the dense top), which turn the found features into ImageNet's 1,000 classes. |
+| `trainable` (G-153) | The Keras attribute that decides whether a layer's weights are updated in training. |
+| [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |

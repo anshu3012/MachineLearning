@@ -268,15 +268,22 @@ With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 paramete
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table; inside a network, one node's value or one dimension of a word vector |
-| Observation | One record of the data, one row of the table; in a transformer, one word vector |
-| Normalisation (G-1348) | Transforming values to chosen statistics, usually mean 0 and variance 1 |
-| Batch normalisation | Standardising each feature over the observations of the mini-batch, then applying $\gamma$ and $\beta$ |
-| Layer normalisation | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
-| Padding | Extra positions, here zero vectors, that make all sentences of a batch the same length |
-| $\gamma$ (gain) and $\beta$ (shift) | Two numbers per feature that layer normalisation learns in training: after the values are normalised, $\gamma$ rescales them and $\beta$ shifts them. |
-| $\epsilon$ (epsilon) | A tiny number added to the variance to avoid dividing by 0; 0.001 in Keras |
-| Add and norm | Adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale: LayerNorm(x + Sublayer(x)). |
-| RMSNorm | A simpler version of layer normalisation that divides each vector by its root mean square and skips subtracting the mean; many current transformers use it. |
+| Layer normalisation (G-1054) | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
+| Normalisation (in a network) (G-1348) | Transforming values so they have chosen statistics, usually mean 0 and variance 1; in a network it is applied to the inputs and hidden activations so they stay in a fixed range and training is more stable and faster. |
+| RMSNorm (G-1696) | A simpler version of layer normalisation that divides each vector by its root mean square and skips subtracting the mean; many current transformers use it. |
+| $\gamma$ (gain) and $\beta$ (shift) (G-10) | Two numbers per feature that layer normalisation learns in training: after the values are normalised, $\gamma$ rescales them and $\beta$ shifts them. |
+| [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Internal covariate shift](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#33-internal-covariate-shift) (G-963) | The way the values a layer receives keep changing their spread and centre during training, because the layers before it keep updating (the change in the distribution of a network's activations). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Padding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) | Adding zeros to sequences so that all have the same length. |
+| [Add and norm](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172) | Adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale: LayerNorm(x + Sublayer(x)). |
+| [Residual connection](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview) (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |
+| [Pre-LN transformer (prenorm)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#73-the-optimizer-and-the-warm-up-learning-rate) (G-1545) | A transformer variant with layer normalisation at the input of each sub-layer, inside the residual branch, instead of after the addition; it trains without warm-up. |
+| [$\epsilon$ (epsilon)](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#43-step-1-normalise-with-the-batchs-statistics) (G-9) | A tiny number added to the variance to avoid dividing by 0; 0.001 in Keras. |

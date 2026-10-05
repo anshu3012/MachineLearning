@@ -536,30 +536,34 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 
 ## 16. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Discretization | Turning a continuous feature into a discrete one by cutting its range into intervals |
-| Binning | Another name for discretization |
-| Bin | One interval of a binned feature |
-| Bin edge | A boundary between two neighbouring bins |
-| Unsupervised binning | Binning that uses only the feature's own values |
-| Supervised binning | Grouping a column's values into ranges (binning) with edges chosen using the target too, such as decision tree binning. |
-| Quantile (G-1599) | A value that cuts sorted data at a given fraction: a fraction $p$ of the values lie below $Q(p)$ |
-| Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning |
-| Equal frequency binning | Binning into bins holding the same number of observations, with the quantiles as edges; also called quantile binning |
-| k-means binning | Binning whose edges lie halfway between the centres of the groups found by k-means |
-| k-means | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points |
-| Centroid | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |
-| Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning |
-| KBinsDiscretizer | scikit-learn's class for equal width, equal frequency and k-means binning |
-| n_bins | The `KBinsDiscretizer` parameter for the number of bins |
-| strategy (G-149) | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans |
-| encode | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output |
-| bin_edges_ | The fitted `KBinsDiscretizer` attribute holding the learned edges |
-| Binarization | Turning a continuous feature into 0 or 1 by comparing it with one threshold |
-| Threshold (G-1971) | The value that separates 0 from 1 in binarization |
-| Binarizer | scikit-learn's class for binarization, with parameters `threshold` and `copy` |
-| pd.cut | The pandas function that puts values into intervals we give it |
+| Discretization (G-619) | Turning a continuous column into a discrete one by cutting its range into intervals. |
+| Binarization (G-300) | Turning a continuous column into 0 or 1 by comparing it with one threshold. |
+| Unsupervised binning (G-2057) | Binning (grouping a column's values into ranges) that sets the bin edges from the column's own values only, without using the target. |
+| Equal width binning (G-701) | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning. |
+| Equal frequency binning (G-699) | Binning into bins holding the same number of rows, with the quantiles as edges; also called quantile binning. |
+| k-means binning (G-995) | Binning whose edges lie halfway between the centres of the groups found by k-means. |
+| Supervised binning (G-1918) | Grouping a column's values into ranges (binning) with edges chosen using the target too, such as decision tree binning. |
+| Custom binning (G-522) | Binning with edges we choose from domain knowledge; also called domain-based binning. |
+| KBinsDiscretizer (G-1000) | scikit-learn's class for equal width, equal frequency and k-means binning. |
+| bin_edges_ (G-299) | The fitted `KBinsDiscretizer` attribute holding the learned edges. |
+| Cross-validated accuracy (G-509) | Accuracy averaged over several train-test splits of the data, an estimate of performance on new data. |
+| Threshold (binarization) (G-1971) | The value that separates 0 from 1 in binarization. |
+| Binarizer (G-301) | scikit-learn's class for binarization, with parameters `threshold` and `copy`. |
+| `strategy` (KBinsDiscretizer) (G-149) | The `KBinsDiscretizer` parameter that chooses how the bin edges are set: uniform, quantile or kmeans binning. |
+| Bin edge (G-297) | A boundary between two neighbouring bins. |
+| encode (G-680) | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output. |
+| n_bins (G-1288) | The `KBinsDiscretizer` parameter for the number of bins. |
+| pd.cut (G-1471) | The pandas function that puts values into intervals we give it. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Binning](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories) (G-307) | Grouping a numerical column into ranges that act as categories. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Quantiles](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) | Values that cut sorted data into equal-sized groups; a fraction $p$ of the values lie below the quantile $Q(p)$. |
+| [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| [Centroid](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367) | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |
+| [Bin](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-298) | One of the equal ranges a histogram splits the data into. |

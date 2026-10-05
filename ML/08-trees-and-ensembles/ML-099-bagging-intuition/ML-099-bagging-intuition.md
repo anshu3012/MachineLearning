@@ -311,17 +311,22 @@ All four aim at the same thing: give each base model different data, so the mode
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Bootstrapping | Drawing random samples of the data, with replacement, to train each base model |
-| Unstable model | A model that changes a lot when the training data changes a little, such as a fully grown tree |
-| Aggregation (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers |
-| With replacement | Sampling in which each drawn item is put back, so it can be drawn again |
-| Standard error | How much a statistic, such as a mean, varies from one dataset to another; estimated by the spread of the bootstrap means |
-| Out-of-bag observations (G-1412) | The observations a base model never saw because its bootstrap sample missed them (about 37%) |
-| Pasting | Bagging with observations sampled without replacement |
-| Random subspaces | Bagging in which each model gets all observations but a random subset of features |
-| Random patches | Bagging in which each model gets random observations and random features |
+| Aggregation (in an ensemble) (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers. |
+| High bias, low variance algorithm (G-895) | An algorithm too simple to fit the training data well but stable across samples, such as linear regression; it underfits. |
+| Low bias, high variance algorithm (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
+| With replacement (G-2125) | Sampling in which each drawn item is put back, so it can be drawn again. |
+| [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Bootstrapping](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-322) | Drawing random samples of the data to train each base model. |
+| [Unstable model](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#22-other-base-models) (G-2156) | A model whose fit changes a lot when the training data changes a little; bagging helps it most. |
+| [Out-of-bag observations (out-of-bag rows)](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations) (G-1412) | The observations a base model never saw because its bootstrap sample missed them (about 37%). |
+| [Pasting](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1463) | Training several models, each on its own random sample of rows drawn without replacement (no row twice), and combining their predictions; it is bagging with this sample instead of a bootstrap sample. |
+| [Random subspaces](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1618) | Training several models, each on all rows but a random subset of columns, and combining their predictions (a kind of bagging). |
+| [Random patches](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1614) | Training several models, each on a random subset of rows and a random subset of columns, and combining their predictions (a kind of bagging). |

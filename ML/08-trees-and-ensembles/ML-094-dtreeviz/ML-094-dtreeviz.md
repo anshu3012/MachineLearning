@@ -294,12 +294,28 @@ This picture is exactly the idea of [more than one input](../ML-093-regression-t
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| dtreeviz | A Python library that draws decision trees with the training data shown at every node |
-| Graphviz | The graph-drawing program (`dot`) that lays out tree diagrams for dtreeviz and export_graphviz |
-| export_graphviz | scikit-learn function that writes a trained decision tree as text in Graphviz's DOT format, which Graphviz then draws as a tree diagram. |
-| Prediction path | The nodes an observation passes through, from the root to the leaf that predicts it |
-| Pure leaf | A leaf whose training observations all belong to one class |
-| Node number | A node's index in a fitted tree, counted depth-first from 0 at the root; dtreeviz can print it so a node in the picture can be found in the arrays of `clf.tree_`. |
-| cars.csv | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders |
+| dtreeviz (G-640) | A Python library that draws decision trees with the training data shown at every node. |
+| Graphviz (G-868) | The graph-drawing program (`dot`) that lays out tree diagrams for dtreeviz and export_graphviz. |
+| Pure leaf (G-1591) | A leaf whose training rows all belong to one class. |
+| Prediction path (G-1552) | The nodes a row passes through, from the root to the leaf that predicts it. |
+| cars.csv (G-346) | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders. |
+| export_graphviz (G-736) | scikit-learn function that writes a trained decision tree as text in Graphviz's DOT format, which Graphviz then draws as a tree diagram. |
+| Node number (G-1324) | A node's index in a fitted tree, counted depth-first from 0 at the root; dtreeviz can print it so a node in the picture can be found in the arrays of `clf.tree_`. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Gini impurity](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#82-the-formula) (G-847) | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
+| [Root node](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#4-terminology) (G-1706) | The first node of a tree, holding all the training rows. |
+| [Threshold (binarization)](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#12-binarization) (G-1971) | The value that separates 0 from 1 in binarization. |
+| [Histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
+| [Leaf node](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#4-terminology) (G-1060) | A node that is not split; it gives the prediction. |
+| [Decision node](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#4-terminology) (G-556) | A node in the middle of a tree that asks a question and splits again. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Scatter plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip) (G-1749) | A chart with one dot per row and one numerical column on each axis; it shows by eye whether two features rise together, fall together or are unrelated. |
+| [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |

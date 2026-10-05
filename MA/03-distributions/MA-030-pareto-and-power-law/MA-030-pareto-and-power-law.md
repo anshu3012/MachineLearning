@@ -364,11 +364,17 @@ Figure 6 shows why step 3 matters, on the 1,000 Pareto values of section 3.5. Th
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Power law | A relationship $y = k\thinspace x^{a}$: one variable proportional to a power of the other |
-| 80-20 rule (Pareto principle) | About 20% of the causes produce about 80% of the results, e.g. 20% of people hold 80% of the wealth |
-| Pareto distribution | A distribution of values that start at a smallest value $x_m$ and become rarer the larger they are, in a long right tail (a right-skewed power law); used to model wealth and income. PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$. |
-| $x_m$ (Pareto) | The minimum possible value, where the Pareto curve starts and peaks |
-| $\alpha$ (Pareto shape) | The number that sets how fat the tail of a Pareto distribution is (its shape parameter, also called the tail index). A larger $\alpha$ gives a thinner tail and fewer extreme values. |
-| Log-log plot | A plot with both axes on a log scale: it plots $\ln y$ against $\ln x$. On it a power law shows as a straight line. |
+| Power law (G-1538) | A relationship $y = k\thinspace x^{a}$: one variable proportional to a power of the other. |
+| 80-20 rule (Pareto principle) (G-54) | About 20% of the causes produce about 80% of the results, e.g. 20% of people hold 80% of the wealth. |
+| Pareto distribution (G-1453) | A distribution of values that start at a smallest value $x_m$ and become rarer the larger they are, in a long right tail (a right-skewed power law); used to model wealth and income. PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$. |
+| Log-log plot (G-1114) | A plot with both axes on a log scale: it plots $\ln y$ against $\ln x$. On it a power law shows as a straight line. |
+| $\alpha$ (Pareto shape) (G-2) | The number that sets how fat the tail of a Pareto distribution is (its shape parameter, also called the tail index). A larger $\alpha$ gives a thinner tail and fewer extreme values. |
+| $x_m$ (Pareto) (G-43) | The minimum possible value, where the Pareto curve starts and peaks. |
+| [Non-Gaussian distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#1-overview) (G-1334) | Any distribution that is not normal. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Mathematical transformation](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#1-overview) (G-1174) | Applying one mathematical formula, such as the log or the square root, to every value of a column, usually to bring its distribution closer to normal. |
+| [Yeo-Johnson transform](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#1-overview) (G-2136) | A power transform that makes a column closer to normal, like Box-Cox but also working on zero and negative values; scikit-learn's default. |

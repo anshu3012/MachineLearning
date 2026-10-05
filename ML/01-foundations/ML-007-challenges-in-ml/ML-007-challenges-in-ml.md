@@ -289,30 +289,39 @@ The best way to learn these challenges is to go one step further than building a
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| API (G-204) | A service that returns data when our code asks for it |
-| Web scraping | Writing code that extracts data from web pages |
-| Unreasonable effectiveness of data | With enough data, different algorithms perform about the same |
-| Labelled data | Data whose observations include the correct output |
-| Feature | An input variable, one column of the data table |
-| Target | The output we want to predict |
-| Observation | One record, one row of the data table |
-| Sample | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
-| Representative sample | A sample that reflects the whole situation fairly |
-| Sampling noise | Error in a sample's result because the sample is too small, so the answer depends on luck, such as asking only 5 fans; a larger sample reduces it. |
-| Sampling bias | A sample that misrepresents the population because of how the data was collected, such as asking only Indian fans who should win a cricket match; a larger sample does not fix it. |
-| Missing values (G-1234) | Empty cells in the data |
-| Outliers (G-1420) | Values far from the rest, often mistakes |
-| Garbage in, garbage out | Bad input data always gives bad results |
-| Data cleaning | Fixing errors, gaps and inconsistencies in data |
-| Feature engineering | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
-| BMI | Body mass index: weight (kg) divided by height (m) squared |
-| Overfitting | Learning the training data too closely, noise included; fails on new data |
-| Training set | The data a model learns from |
-| Test set | Data kept aside, never learned from, used to measure a model on new data |
-| Underfitting | Being too simple to capture the pattern; fails on all data |
-| Good fit | Capturing the pattern while ignoring the noise |
-| Software integration | Building a model into the software that users use |
-| Deployment (G-592) | Putting a model on a server so users can reach it |
-| MLOps | Running and maintaining ML models in production |
+| API (Application Programming Interface) (G-204) | A service that returns data when our code asks for it; a website's API hands out its data on request. |
+| Unreasonable effectiveness of data (G-2055) | With enough data, different algorithms perform about the same. |
+| Sample (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
+| Representative sample (G-1672) | A sample that reflects the whole situation fairly. |
+| Sampling noise (G-1737) | Error in a sample's result because the sample is too small, so the answer depends on luck, such as asking only 5 fans; a larger sample reduces it. |
+| Sampling bias (G-1734) | A sample that misrepresents the population because of how the data was collected, such as asking only Indian fans who should win a cricket match; a larger sample does not fix it. |
+| Garbage in, garbage out (G-824) | Bad input data always gives bad results. |
+| Data cleaning (G-532) | Fixing errors, gaps and inconsistencies in data. |
+| BMI (G-316) | Body mass index: weight (kg) divided by height (m) squared. |
+| Overfitting (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| Underfitting (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| Good fit (G-852) | Capturing the pattern while ignoring the noise. |
+| MLOps (G-1244) | Running and maintaining ML models in production. |
+| Software integration (G-1835) | Building a model into the software that users use. |
+| [Web scraping](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#1-overview) (G-2105) | Writing code that extracts data from web pages. |
+| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Label](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Feature engineering](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#71-feature-engineering) (G-761) | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
+| [Degree](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#4-choosing-the-degree) (G-577) | The highest power used in a polynomial, such as 2 for $x^2$. It sets the model's complexity: a higher degree lets the curve bend more, and too high a degree overfits. |
+| [Root mean squared error (RMSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705) | The square root of the average squared error (MSE), so the error is back in the output's units. |
+| [Training set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002) | The part of the data the model learns from. |
+| [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
+| [Integration](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) (G-957) | Finding the area under a curve by adding up infinitely many thin strips. |
+| [Deployment (deploy, model deployment)](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-592) | Moving a model from development to production: putting it on a server so users can reach it. |
+| [Server](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-1779) | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
+| [Data pipeline](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) (G-538) | A channel that carries data from one place to another, such as an API that passes a company's data to our program. |
+| [Labelled data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1034) | Data that includes the output column. |

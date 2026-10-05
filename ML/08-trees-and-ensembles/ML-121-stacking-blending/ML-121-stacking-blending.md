@@ -294,12 +294,21 @@ Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Stacking | An ensemble whose meta-model is trained on the base models' predictions; in the strict sense, with K-fold out-of-fold predictions |
-| Blending | A form of stacking in which the final model (the meta-model) is trained on the base models' predictions for a hold-out validation set. |
-| Hold-out set | Observations set aside before training, used only to produce honest predictions or scores |
-| Validation set | The hold-out part of the training data in blending, on which the meta-model is trained |
-| Out-of-fold prediction | A prediction for an observation made by a model trained on the other folds, never on that observation |
-| Multi-layer stacking | Stacking with more than one layer of base models below the meta-model |
-| Passthrough (G-1461) | Giving the meta-model the original features as well as the base models' predictions |
+| Stacking (G-1866) | An ensemble in which the base models' predictions become the input columns of a new dataset, and a final meta-model learns how best to combine them. |
+| Blending (G-314) | A form of stacking in which the final model (the meta-model) is trained on the base models' predictions for a hold-out validation set. |
+| Hold-out set (G-901) | Rows set aside before training, used only to produce honest predictions or scores. |
+| Out-of-fold prediction (G-1415) | A prediction for a row made by a model trained on the other folds, never on that row. |
+| Multi-layer stacking (G-1271) | Stacking with more than one layer of base models below the meta-model. |
+| Passthrough (stacking) (G-1461) | In stacking, giving the final model that combines the base models (the meta-model) the original input columns as well as the base models' predictions. |
+| Validation set (blending) (G-2066) | In blending, a part of the training data set aside before the base models are trained; the base models predict on it, and the meta-model is trained on those predictions. |
+| [Voting ensemble](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview) (G-2096) | Several models trained on the same data, combined by majority vote (classification) or mean (regression). |
+| [Meta-model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#42-stacking) (G-1213) | The final model in stacking: it takes the other models' (base models') predictions as its inputs and is trained to combine them. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |

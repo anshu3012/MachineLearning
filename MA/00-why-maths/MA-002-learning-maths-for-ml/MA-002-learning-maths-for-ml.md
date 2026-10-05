@@ -242,9 +242,12 @@ In Figure 6, compare the two columns: on the left the ML only starts after every
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Decoding notation | Shrinking a formula's indices to two or three cases and writing every case out by hand |
-| Numeric understanding (G-2247) | Knowing how to carry out a computation, such as a matrix product |
-| Geometric understanding (G-2248) | Knowing what a computation means as a picture: which tool fits, why it works, how to read the result |
-| Contextual learning | Studying a maths topic together with the ML algorithm that uses it, instead of the whole subject up front |
+| Decoding notation (G-566) | Shrinking a formula's indices to two or three cases and writing every case out by hand. |
+| Numeric understanding (G-2247) | Knowing how to carry out a computation, such as a matrix product. |
+| Geometric understanding (G-2248) | Knowing what a computation means as a picture: which tool fits, why it works, how to read the result. |
+| Contextual learning (G-463) | Studying a maths topic together with the ML algorithm that uses it, instead of the whole subject up front. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |

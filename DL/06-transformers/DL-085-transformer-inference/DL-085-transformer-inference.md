@@ -221,15 +221,22 @@ All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Inference (G-1548) | Using a trained model on new inputs, with no correct output available |
-| Autoregressive (G-233) | Producing one output at a time, each fed back as input for the next; the decoder at inference |
-| Non-autoregressive | Producing all output positions at once; the decoder during training |
-| $H_{\text{enc}}$ | The encoder's output for the input sentence: one vector per input token, computed once and reused at every step |
-| Greedy decoding | Choosing the most probable word at each step |
-| Causal mask (G-357) | The mask that stops each position from attending to later positions; used in training and at inference |
-| BLEU score | A measure of translation quality: how many word sequences of a translation match human reference translations |
-| Sampling (G-1739) | Choosing the next word at random, with the softmax probabilities, instead of always taking the most probable |
-| KV cache | Storing the key and value vectors of earlier positions so that each new step computes them only for the new word |
-| Beam search | A way of producing the output sentence (a decoding method) that keeps several candidate sentences at each step and picks the most probable complete one. |
+| KV cache (G-1022) | Storing the key and value vectors of earlier positions so that each new step computes them only for the new word. |
+| Beam search (G-272) | A way of producing the output sentence (a decoding method) that keeps several candidate sentences at each step and picks the most probable complete one. |
+| [Causal (look-ahead) mask](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#61-where-the-mask-goes) (G-357) | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it; used in training and at inference. |
+| [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
+| [Non-autoregressive](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#9-training-every-position-in-one-pass) (G-1331) | Producing all output positions at once, as the decoder does during training. |
+| [Autoregressive (causal) generation](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#3-autoregressive-models) (G-233) | Producing one output at a time, each chosen from the outputs already produced and fed back as input for the next. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [Learning rate warm-up](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1071) | Starting training with a very small learning rate and raising it over the first epochs or steps (4,000 steps in the transformer paper). |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [BLEU score](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
+| [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
+| [Greedy decoding](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870) | Predicting by choosing the most likely token at each step and feeding it back. |
+| [Sampling (text generation)](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#6-sampling-choosing-the-next-token) (G-1739) | Choosing the next token at random according to the softmax probabilities, instead of always taking the most probable token, so the generated text does not keep repeating itself. |
+| [Predict (prediction, inference)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#41-learning-rules-from-data) (G-1548) | Use a trained model to give an answer for new data it has not seen, with no correct output available. |
+| [$H_{\text{enc}}$](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#4-the-setup-one-training-pair) (G-30) | The output of the last encoder block: one vector per input word, read by every decoder block. |

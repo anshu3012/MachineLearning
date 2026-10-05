@@ -394,10 +394,18 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| 0-1 loss | A loss that counts 1 for every misclassified point and 0 for every correct one |
-| Perceptron loss | A loss for the perceptron that is 0 for a point on its correct side and $\lvert f(x) \rvert$ for a point on the wrong side, so worse mistakes cost more: $\max(0, -y f(x))$ per point, labels $\pm 1$. Minimising it trains the line. |
-| argmin (G-211) | The values of the variables that make an expression smallest |
-| Subgradient | A slope used at a corner of a function, where the ordinary derivative does not exist |
-| SGDClassifier | scikit-learn's linear classifier that learns its weights by stochastic gradient descent (SGD), small steps from one row at a time, with a choice of loss (perceptron, log loss, hinge, ...). |
+| 0-1 loss (G-48) | A loss that counts 1 for every misclassified point and 0 for every correct one. |
+| Subgradient (G-1910) | A slope used at a corner of a function, where the ordinary derivative does not exist. |
+| Perceptron loss (G-1484) | A loss for the perceptron that is 0 for a point on its correct side and $\lvert f(x) \rvert$ for a point on the wrong side, so worse mistakes cost more: $\max(0, -y f(x))$ per point, labels $\pm 1$. Minimising it trains the line. |
+| SGDClassifier (G-1782) | scikit-learn's linear classifier that learns its weights by stochastic gradient descent (SGD), small steps from one row at a time, with a choice of loss (perceptron, log loss, hinge, ...). |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Arg min (argmin)](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#5-step-1-the-best-constant-is-the-mean) (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |

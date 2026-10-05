@@ -429,13 +429,27 @@ Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observed count $O$ | The number of observations in a category or table cell |
-| Expected count $E$ | The number of observations a category or cell would hold on average if $H_0$ were true |
-| Chi-square statistic $\chi^2$ | A number that measures the total mismatch between observed and expected counts, $\sum (O - E)^2 / E$; it is 0 when every count matches and grows as they differ. |
-| Chi-square distribution | The shape the chi-square statistic $\chi^2$ follows when the null hypothesis $H_0$ is true: never negative, skewed to the right, with one parameter, the degrees of freedom. |
-| Goodness-of-fit test | A chi-square test of whether one categorical feature follows claimed proportions; $df = k - 1$ |
-| Chi-square test of independence | A chi-square test of whether two categorical features are related; $df = (r - 1)(c - 1)$ |
-| Yates' continuity correction | A small adjustment to $\chi^2$ for 2 by 2 tables, applied by default in `chi2_contingency` |
-| Fisher's exact test | A test for small 2 by 2 count tables that computes the p-value exactly instead of approximating it; used when expected counts fall below 5. |
+| Observed count $O$ (G-1375) | The number of sample rows in a category or table cell. |
+| Expected count $E$ (G-723) | The number of rows a category or cell would hold on average if the null hypothesis $H_0$ were true. |
+| Chi-square statistic $\chi^2$ (G-379) | A number that measures the total mismatch between observed and expected counts, $\sum (O - E)^2 / E$; it is 0 when every count matches and grows as they differ. |
+| Chi-square distribution (G-378) | The shape the chi-square statistic $\chi^2$ follows when the null hypothesis $H_0$ is true: never negative, skewed to the right, with one parameter, the degrees of freedom. |
+| Right-tailed and left-tailed test (G-1693) | One-tailed tests that count only one tail as evidence against $H_0$: a right-tailed test rejects for large values of the test statistic (as for $H_1: \mu > \mu_0$), a left-tailed test for small ones (as for $H_1: \mu < \mu_0$). |
+| Goodness-of-fit test (G-853) | A check of whether the counts in one categorical column match the shares we claimed (a chi-square test against claimed proportions); $df = k - 1$ for $k$ categories. |
+| Chi-square test of independence (G-380) | A chi-square test of whether two categorical columns are related; $df = (r - 1)(c - 1)$. |
+| Yates' continuity correction (G-2135) | A small adjustment to $\chi^2$ for 2 by 2 tables, applied by default in `chi2_contingency`. |
+| Fisher's exact test (G-782) | A test for small 2 by 2 count tables that computes the p-value exactly instead of approximating it; used when expected counts fall below 5. |
+| Cramér's V (G-500) | A measure of how strongly two categorical features are related, from 0 (no relationship) to 1 (perfect relationship), made by rescaling the chi-square statistic. |
+| Chi-square test (G-381) | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
+| [Critical value](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula) (G-504) | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
+| [Contingency table](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
+| [Marginal probability distribution](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#32-marginal-probability-distributions) (G-1165) | All the marginal probabilities of one variable, read from a joint table. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
+| [SelectKBest](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (G-1762) | scikit-learn class that gives every column a score and keeps the `k` best, so only the most useful features go into the model. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

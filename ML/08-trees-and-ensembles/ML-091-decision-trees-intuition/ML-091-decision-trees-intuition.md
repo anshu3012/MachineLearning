@@ -556,22 +556,28 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Decision tree | A model that predicts by asking a chain of questions about the input features: nested if-else conditions |
-| Root node | The first node of a tree, holding all the training observations |
-| Decision node | A node in the middle of a tree that asks a question and splits again |
-| Leaf node | A node that is not split; it gives the prediction |
-| Splitting | Dividing a node's observations into parts according to a question |
-| Branch (subtree) | A node together with everything below it |
-| Splitting criterion (threshold) | The value a numerical question in a decision tree compares against, such as petal length $\le$ 2.45; the tree keeps the threshold with the highest information gain. |
-| Axis-parallel split | A cut that tests one feature, so it is a line, plane or hyperplane parallel to the other axes |
-| Hyper-cuboid | A box in many dimensions: the region a tree's cuts carve out |
-| CART | Classification and regression trees: the tree algorithm used for both kinds of problem |
-| Entropy | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
-| Surprise (G-2221) | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise |
-| Differential entropy | How uncertain a continuous variable is (the entropy of a continuous variable): higher for a more spread-out distribution. |
-| Information gain | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
-| Gini impurity | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
-| criterion | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss" |
-| Greedy search | Taking the best split at each node without looking ahead |
+| Decision tree (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| Hyper-cuboid (G-907) | A box in many dimensions: the region a tree's cuts carve out. |
+| Axis-parallel split (G-243) | A cut that tests one column, so it is a line, plane or hyperplane parallel to the other axes. |
+| Root node (G-1706) | The first node of a tree, holding all the training rows. |
+| Splitting (G-1855) | Dividing a node's rows into parts according to a question. |
+| Decision node (G-556) | A node in the middle of a tree that asks a question and splits again. |
+| Leaf node (G-1060) | A node that is not split; it gives the prediction. |
+| Branch (subtree) (G-332) | A node together with everything below it. |
+| CART (G-347) | Classification and regression trees: the tree algorithm used for both kinds of problem. |
+| Entropy (G-691) | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
+| Surprise (G-2221) | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise. |
+| Differential entropy (G-607) | How uncertain a continuous variable is (the entropy of a continuous variable): higher for a more spread-out distribution. |
+| Information gain (G-946) | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
+| Greedy search (G-871) | Taking the best split at each node without looking ahead. |
+| Gini impurity (G-847) | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
+| criterion (G-503) | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss". |
+| Splitting criterion (threshold) (G-1854) | The value a numerical question in a decision tree compares against, such as petal length $\le$ 2.45; the tree keeps the threshold with the highest information gain. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Expected value $E[X]$](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |

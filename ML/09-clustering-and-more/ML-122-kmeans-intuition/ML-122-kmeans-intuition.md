@@ -205,12 +205,21 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| k (G-993) | The number of clusters k-means makes; chosen by us |
-| Centroid initialization | Picking the first k centroids, here at random from the data |
-| Convergence (k-means) | The point where the centroids stop moving between rounds, so the algorithm stops |
-| WCSS (inertia) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid; a smaller value means tighter clusters. |
-| Elbow curve | A plot of WCSS (how far points sit from their own cluster centre) against the number of clusters k; the point where it bends is used to choose k. |
-| Elbow method | Choosing k at the point where the elbow curve bends from steep to flat |
-| Elbow point | The k where the elbow curve bends, after which adding clusters barely lowers WCSS; it is the number of clusters the elbow method picks. |
+| k-means (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| Centroid (G-367) | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |
+| Centroid initialization (G-366) | Picking the first k centroids, here at random from the data. |
+| Elbow method (G-671) | Choosing k at the point where the elbow curve bends from steep to flat. |
+| WCSS (inertia) (G-2102) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid; a smaller value means tighter clusters. |
+| Elbow curve (G-670) | A plot of WCSS (how far points sit from their own cluster centre) against the number of clusters k; the point where it bends is used to choose k. |
+| Elbow point (G-672) | The k where the elbow curve bends, after which adding clusters barely lowers WCSS; it is the number of clusters the elbow method picks. |
+| Convergence (k-means) (G-470) | The point where the centroids stop moving between rounds, so the algorithm stops. |
+| k (k-means) (G-993) | The number of clusters k-means makes; chosen by us. |
+| [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401) | Splitting data into groups of similar rows. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#31-learning-from-inputs-only) (G-2058) | Learning from inputs only, to find structure. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |

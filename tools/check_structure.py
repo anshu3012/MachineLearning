@@ -74,6 +74,11 @@ for tex in sorted((ROOT / "course_map" / "mindmaps").glob("*.tex")):
             errors.append(f"mind map {tex.stem}: '{name.strip()}' shows {notes}, but its Home is "
                           f"{b.label(b.first_note(c))}")
 
+# 6. Key terms tables are generated from the glossary and up to date
+import subprocess  # noqa: E402
+if subprocess.run([sys.executable, str(ROOT / "tools" / "key_terms.py"), "--check"], capture_output=True).returncode:
+    errors.append("Key terms tables are stale (run tools/key_terms.py)")
+
 for w in warnings:
     print("warning:", w)
 for e in errors:

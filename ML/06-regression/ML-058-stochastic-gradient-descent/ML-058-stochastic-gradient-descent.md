@@ -282,17 +282,24 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output we predict |
-| Stochastic | Involving randomness, as in stochastic gradient descent, which picks rows at random. |
-| Stochastic gradient descent (SGD) | Gradient descent that updates the coefficients after each single random observation |
-| Local minimum | A point lower than everything around it, but not the lowest overall |
-| Online learning | Training step by step on data as it arrives |
-| Learning schedule (G-1070) | A rule that changes the learning rate during training, usually shrinking it |
-| SGDRegressor | scikit-learn's linear regression trained with stochastic gradient descent |
-| eta0 | The starting learning rate in SGDRegressor |
-| max_iter (G-115) | The maximum number of epochs in SGDRegressor |
-| Simulated annealing | An optimisation method that lowers a "temperature" step by step so the search settles into a low state; the idea behind shrinking learning rates |
+| Stochastic gradient descent (SGD) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| Stochastic (G-1893) | Involving randomness, as in stochastic gradient descent, which picks rows at random. |
+| Simulated annealing (G-1810) | An optimisation method named after slowly cooling metal, which then settles into a stable, low-energy state: it lowers a temperature step by step so the search settles down; a learning schedule that lowers the learning rate resembles it. |
+| `max_iter` (SGDRegressor) (G-115) | The largest number of epochs (full passes over the training data) `SGDRegressor` runs before it stops, even if its stopping rule is not met; a ConvergenceWarning suggests raising it. |
+| eta0 (G-713) | The starting learning rate in SGDRegressor. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) | Gradient descent that uses all training rows for every update. |
+| [Optimisation algorithm](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-1398) | A method for finding the parameter values that make a function as small (or large) as possible. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
+| [Learning rate scheduler (learning schedule)](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1070) | A rule that changes the learning rate as training goes on, usually lowering it. |
+| [SGDRegressor](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit) (G-1783) | A scikit-learn model that does linear regression with stochastic gradient descent, step by step, so it can also learn from data arriving in small pieces. |
+| [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391) | Training incrementally on mini-batches while the model is live in production. |
+| [partial_fit](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit) (G-1458) | A scikit-learn method that continues training from where the model left off. |

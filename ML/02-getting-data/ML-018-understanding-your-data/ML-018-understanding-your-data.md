@@ -459,22 +459,24 @@ The correlation check is useful at the start, and we repeat it later, after clea
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Observation | One record of the data, one row of the table |
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Understanding the data | The project stage where we learn what is in the data before cleaning or modelling |
-| Exploratory data analysis (EDA) | Studying a dataset, mostly with graphs, to find its patterns and problems |
-| Data type (dtype) | The kind of values a column holds, such as `int64`, `float64` or `str` |
-| Non-null | A cell that holds a value rather than a missing one; counting the non-null values of each column shows how much of it is missing. |
-| Descriptive statistics | Numbers that summarise data, such as count, mean, spread and percentiles |
-| Mean | The average: the sum of the values divided by how many there are |
-| Standard deviation | How far values typically lie from the mean |
-| Percentile | The value below which a given share of the data lies |
-| Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups |
-| Median | The middle value of sorted data; the 50% percentile |
-| Duplicate row | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
-| Correlation | How two features move together, from -1 to +1 |
-| Causation | A cause-and-effect relationship: changing one thing changes the other |
-| Pearson correlation coefficient (G-1474) | The usual measure of correlation, written $r$; the one `df.corr()` computes |
+| Data type (dtype) (G-540) | The kind of values a column holds, such as `int64`, `float64` or `str`. |
+| Non-null (G-1337) | A cell that holds a value rather than a missing one; counting the non-null values of each column shows how much of it is missing. |
+| Standard deviation (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| Percentile (G-1483) | The value below which a given share of the data lies. |
+| Quartiles (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
+| Duplicate row (G-648) | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
+| Pearson correlation coefficient (Pearson's r) (G-1474) | The usual measure of correlation for straight-line relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| Mean (G-1203) | The average of the values; the centre of the data. |
+| Understanding the data (G-2038) | The project stage where we learn what is in the data before cleaning or modelling. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
+| [Causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#5-correlation-does-not-imply-causation) (G-359) | A cause-and-effect relationship: changing one thing changes the other. |
+| [Exploratory data analysis (EDA)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda) (G-732) | Exploring data with summaries and plots to find patterns. |
+| [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-596) | Numbers that summarise data, such as count, mean, spread and percentiles. |
+| [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |

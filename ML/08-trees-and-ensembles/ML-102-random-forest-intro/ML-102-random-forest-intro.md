@@ -249,14 +249,28 @@ Two things differ from our hand-built version:
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Random forest | Bagging with decision trees as the base models; the trees vote (classification) or are averaged (regression) |
-| Observation | One record of the data: one row of the data table |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Row sampling | Giving each base model a random subset of the observations |
-| Column sampling (feature sampling) | Giving each base model a random subset of the features |
-| Combined sampling | Giving each base model random observations and random features together |
-| RandomForestClassifier | scikit-learn's random forest for classification |
-| RandomForestRegressor | scikit-learn's random forest for regression |
+| Random forest (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| Bootstrap sample (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |
+| Row sampling (G-1712) | Giving each base model a random subset of the rows. |
+| Column sampling (feature sampling) (G-413) | Training each model of an ensemble (each base model) on a random subset of the columns. |
+| Combined sampling (G-418) | Training each model of an ensemble (each base model) on random rows and random columns together. |
+| RandomForestClassifier (G-1621) | scikit-learn's random forest for classification. |
+| RandomForestRegressor (G-1622) | scikit-learn's random forest for regression. |
+| [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
+| [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318) | Combining many simple models one after another to reduce bias, the error of a model that is too simple. |
+| [Node-level feature sampling (node-level column sampling)](../../../ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling) (G-1325) | Drawing a new random set of features before every split (random forest). |
+| [max_features](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-max_features) (G-1185) | The number of randomly chosen columns a tree considers at each split. |
+| [Query point](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605) | The new point whose class we want to predict. |
+| [Aggregation (in an ensemble)](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Out-of-bag (OOB) evaluation, OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

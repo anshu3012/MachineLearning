@@ -214,13 +214,15 @@ Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [B
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Sample space | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
-| Event | A set of outcomes, such as "the sum is at most 10" |
-| Intersection (A ∩ B) | The event that both A and B happen |
-| Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$ |
+| Conditional probability (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
+| Intersection (A ∩ B) (G-967) | The event that both A and B happen. |
+| Reduced sample space (G-1649) | The outcomes that remain possible once the condition is known. |
 | Multiplication rule (G-2212) | The chance that both A and B happen is the chance of B times the chance of A given B: $P(A \cap B) = P(A \mid B) \times P(B)$. |
-| Dependent events | Events where knowing one changes the probability of the other |
-| Reduced sample space | The outcomes that remain possible once the condition is known |
-| Naive Bayes (G-1297) | A classification algorithm based on Bayes' theorem (later Notes) |
+| [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
+| [Event](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event) (G-717) | A set of outcomes, such as "the sum is at most 10". |
+| [Sample space](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
+| [Dependent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) | Events that are not independent: knowing one changes the probability of the other. |

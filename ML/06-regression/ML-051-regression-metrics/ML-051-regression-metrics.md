@@ -314,17 +314,21 @@ In Figure 7, adjusted R² on the training data stays flat at 0.772 however many 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| Regression metric | A number that summarises how close a regression model's predictions are to the true values |
-| Mean absolute error (MAE) | The average absolute difference between actual and predicted values |
-| Mean squared error (MSE) | The average squared difference between actual and predicted values |
-| Root mean squared error (RMSE) | The square root of MSE, in the target's units |
-| R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean |
-| Residual sum of squares (G-1684) | The total squared error of the model's predictions |
-| Total sum of squares | The total squared error of always predicting the mean $\bar{y}$; R² compares the model's error with this baseline. |
-| Adjusted R² | R² with a penalty for the number of features |
-| Target leakage | Building a feature from the answer itself, so the model sees information it would not have in real use |
+| Regression metric (G-1652) | A number that summarises how close a regression model's predictions are to the true values. |
+| Mean absolute error (MAE) (G-1194) | The average absolute difference between actual and predicted values. |
+| Mean squared error (MSE) (G-1201) | The average squared difference between actual and predicted values. |
+| Root mean squared error (RMSE) (G-1705) | The square root of the average squared error (MSE), so the error is back in the output's units. |
+| Residual sum of squares (sum of squared errors, SSE) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
+| Total sum of squares (G-1993) | The total squared error of always predicting the mean $\bar{y}$; R² compares the model's error with this baseline. |
+| R² score (coefficient of determination) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| Adjusted R² (G-177) | A version of R² with a penalty for each feature the model uses, so it rises only when a new feature truly helps; plain R² can creep up even when the new feature is useless. |
+| Target leakage (G-1948) | Building an input column from the answer itself, so the model sees information it would not have in real use. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |

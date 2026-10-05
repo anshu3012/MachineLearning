@@ -271,13 +271,21 @@ The model was trained on English–French translation, with a vocabulary of the 
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Attention | A mechanism that gives each decoder step a weighted mix of all encoder states, with weights computed for that step |
-| Context vector $c_i$ | The summary of the input made fresh for each decoder step $i$ under attention: a weighted sum of all the encoder's hidden states, where the weights decide how much each input word counts for the word being written now. |
-| Attention weight $\alpha_{ij}$ | How much encoder state $j$ counts at decoder step $i$; the weights of one step are non-negative and sum to 1 |
-| Alignment score $e_{ij}$ | How strongly encoder state $j$ fits decoder step $i$, as a raw score before the softmax turns the scores into attention weights. |
-| Alignment model | The small feed-forward network that scores how well encoder state $h_j$ fits the previous decoder state $s_{i-1}$, giving the alignment score $e_{ij}$. |
-| Bottleneck | A single fixed-size vector through which all information about the input must pass; in the plain encoder–decoder it is the context vector, and a long sentence does not fit in it. |
-| Bidirectional encoder | An encoder with one RNN reading forwards and one backwards, whose states are joined at each position |
-| Alignment grid | A plot of how much each output word draws on each input word (all attention weights $\alpha_{ij}$ of a sentence pair), output words against input words. |
+| Attention (G-226) | A mechanism that lets each output step weigh all input positions and focus on the useful ones. |
+| Bottleneck (G-326) | A single fixed-size vector through which all information about the input must pass; in the plain encoder–decoder it is the context vector, and a long sentence does not fit in it. |
+| Alignment score $e_{ij}$ (G-190) | How strongly encoder state $j$ fits decoder step $i$, as a raw score before the softmax turns the scores into attention weights. |
+| Alignment model (G-189) | The small feed-forward network that scores how well encoder state $h_j$ fits the previous decoder state $s_{i-1}$, giving the alignment score $e_{ij}$. |
+| Alignment grid (G-188) | A plot of how much each output word draws on each input word (all attention weights $\alpha_{ij}$ of a sentence pair), output words against input words. |
+| Alignment (G-191) | Which input words each output word relates to; read from the cross-attention weights. |
+| Attention weight $\alpha_{ij}$ (G-224) | How much encoder state $j$ counts at decoder step $i$; the weights of one step are non-negative and sum to 1. |
+| Context vector $c_i$ (G-460) | The summary of the input made fresh for each decoder step $i$ under attention: a weighted sum of all the encoder's hidden states, where the weights decide how much each input word counts for the word being written now. |
+| [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
+| [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
+| [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
+| [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Bidirectional encoder](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works) (G-291) | An encoder with one RNN reading forwards and one backwards, whose states are joined at each position. |
+| [Gated recurrent unit (GRU)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview) (G-826) | An RNN architecture with one memory (the hidden state) and two gates, reset and update. |

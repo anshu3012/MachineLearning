@@ -360,18 +360,24 @@ The untrained decoder's most likely word is "mit" at all 5 positions. Picking th
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Decoder | The part of the transformer that writes the output sentence, using the encoder's output |
-| Decoder block | One layer of the decoder: masked self-attention, cross-attention and a feed-forward network, each followed by add and norm; the decoder stacks 6 |
-| Observation | One record of the data; here, one English sentence and its French translation |
-| Target | The output we want the model to produce; here, the French sentence |
-| Shift right | Putting `<start>` in front of the target sentence to form the decoder's input, so each position predicts the next word |
-| Teacher forcing | Feeding the decoder the correct previous words during training instead of its own predictions |
-| Masked self-attention | Self-attention in which each position attends only to itself and earlier positions |
-| Cross-attention | Attention with queries from the decoder and keys and values from the encoder's output; also called encoder–decoder attention |
-| $H_{\text{enc}}$ | The output of the last encoder block: one vector per input word, read by every decoder block |
-| Vocabulary ($V$) | The list of distinct words (tokens) of the target language; the output layer has one node per word |
-| Logit | The raw score the final linear layer gives each vocabulary word, any number and not yet a probability; the softmax turns the logits into the probabilities of the next word. |
-| Non-autoregressive | Producing all output positions at once, as the decoder does during training |
-| Autoregressive (G-233) | Producing one output at a time, each fed back as input for the next, as the decoder does during prediction |
+| Decoder block (G-563) | One layer of the decoder: masked self-attention, cross-attention and a feed-forward network, each followed by add and norm; the decoder stacks 6. |
+| Shift right (G-1790) | Putting `<start>` in front of the target sentence to form the decoder's input, so each position predicts the next word. |
+| Logit (G-1122) | The raw score the final linear layer gives each vocabulary word, any number and not yet a probability; the softmax turns the logits into the probabilities of the next word. |
+| Vocabulary ($V$) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
+| Non-autoregressive (G-1331) | Producing all output positions at once, as the decoder does during training. |
+| $H_{\text{enc}}$ (G-30) | The output of the last encoder block: one vector per input word, read by every decoder block. |
+| [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
+| [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
+| [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
+| [Training (model training)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. |
+| [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
+| [Parallel corpus](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#51-the-data) (G-1442) | A dataset of sentences paired with their translations, one pair per row; it is the training data of a translation model. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
+| [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Autoregressive (causal) generation](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#3-autoregressive-models) (G-233) | Producing one output at a time, each chosen from the outputs already produced and fed back as input for the next. |

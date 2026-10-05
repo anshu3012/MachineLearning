@@ -417,8 +417,18 @@ Figure 8 puts the two ensembles side by side on the training data. Watch the top
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| sample_weight | The argument of `fit` that tells a scikit-learn model how much each observation counts |
-| SAMME | The AdaBoost variant in scikit-learn: alpha without the factor 1/2, only misclassified observations reweighted; same decisions |
-| Random seed | A number that fixes a random number generator so that a run can be repeated exactly |
+| Normalisation (of weights) (G-1347) | Dividing every weight by their sum so they add up to 1. |
+| Random seed (G-1617) | A number that fixes a random number generator so that a run can be repeated exactly. |
+| sample_weight (G-1732) | The argument of `fit` that tells a scikit-learn model how much each row counts. |
+| SAMME (G-1722) | The AdaBoost variant in scikit-learn: alpha without the factor 1/2, only misclassified rows reweighted; same decisions. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
+| [Alpha (model weight)](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#43-the-say-of-each-stump-alpha) (G-192) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes. |
+| [Upsampling (resampling by weight)](../../../ML/08-trees-and-ensembles/ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight) (G-2063) | Drawing a new dataset of the same size in which each row is picked with probability equal to its weight, so heavily weighted rows appear more often for the next model. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |

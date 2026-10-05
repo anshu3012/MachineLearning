@@ -325,16 +325,28 @@ Figure 9 shows four features at once: bill, tip, meal time (the panels) and smok
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | One variable of the data, one column of the table |
-| Observation | One record, one row of the table |
-| Frequency distribution table | A table of each value or category with the number of times it occurs |
-| Relative frequency | A category's share of all the data: its frequency divided by the total |
-| Cumulative frequency | The running total of the frequencies, up to and including a category |
-| Cumulative relative frequency | The running total of the relative frequencies; ends at 1 |
-| Dot plot (G-2230) | A frequency table drawn with one dot per observation, stacked over its value |
-| Contingency table | A table of counts for every pair of categories of two features; another name for a crosstab |
-| Aggregate | One summary number (mean, median, maximum, ...) computed from a group of values |
-| 3D scatter plot | A scatter plot of three numerical features on three axes |
-| Facet grid | The same plot repeated side by side, one panel per category of another feature |
+| Frequency distribution table (G-807) | A table of each value or category with the number of times it occurs. |
+| Relative frequency (G-1664) | A category's share of all the data: its frequency divided by the total. |
+| Cumulative frequency (G-517) | The running total of the frequencies, up to and including a category. |
+| Cumulative relative frequency (G-518) | The running total of the relative frequencies; ends at 1. |
+| Dot plot (G-2230) | A frequency table drawn with one dot per observation, stacked over its value. |
+| Aggregate (G-182) | One summary number (mean, median, maximum, ...) computed from a group of values. |
+| Hue, style, size (G-906) | Plot settings that show an extra column by colour, marker shape or dot size. |
+| 3D scatter plot (G-50) | A scatter plot with three numerical features on three axes, one point per observation, to see how the three relate at once. |
+| Facet grid (G-744) | The same plot repeated side by side, one panel per category of another column. |
+| [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-596) | Numbers that summarise data, such as count, mean, spread and percentiles. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Pie chart](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#5-pie-chart) (G-1495) | A circle split into slices sized by each category's share. |
+| [Bin](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-298) | One of the equal ranges a histogram splits the data into. |
+| [Histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
+| [Bimodal](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296) | A distribution with two peaks. |
+| [Bivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310) | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
+| [Contingency table](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
+| [Crosstab](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
+| [Pivot table](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) (G-1500) | A grid with one column's values as rows, another's as columns, and a third in the cells. |
+| [Multivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-1280) | Studying more than two variables together. |

@@ -425,22 +425,28 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Normalization (G-1349) | Rescaling numerical columns to a common scale with no units; a family of techniques |
-| Magnitude (G-1144) | The number part of a quantity, as opposed to its unit |
-| Min-max scaling | Subtract the column's minimum and divide by its range, giving values from 0 to 1 |
-| MinMaxScaler | scikit-learn's class for min-max scaling |
-| Unit square | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns |
-| Unit hypercube | The box from 0 to 1 along every axis in three or more dimensions (a unit cube in three); min-max scaling presses data with many columns into it. |
-| Mean normalization | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0 |
-| Centred data | Data whose mean is 0, made by subtracting the mean from every value; some algorithms need it. |
-| Absolute value | A number's size without its sign |
-| Max-abs scaling | Divide by the largest absolute value in the column, giving values from -1 to 1 |
-| MaxAbsScaler | scikit-learn's class for max-abs scaling |
-| Sparse data | Data in which most values are 0 |
-| Robust scaling | Subtract the median and divide by the interquartile range; copes well with outliers |
-| RobustScaler | scikit-learn's class for robust scaling |
+| Normalization (feature scaling) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
+| Magnitude (of a quantity) (G-1144) | The number part of a quantity, as opposed to its unit. |
+| Min-max scaling (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
+| Unit square (G-2047) | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns. |
+| Unit hypercube (G-2046) | The box from 0 to 1 along every axis in three or more dimensions (a unit cube in three); min-max scaling presses data with many columns into it. |
+| MinMaxScaler (G-1228) | scikit-learn's class for min-max scaling. |
+| Mean normalization (G-1198) | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. |
+| Centred data (G-365) | Data whose mean is 0, made by subtracting the mean from every value; some algorithms need it. |
+| Absolute value (G-159) | A number's size without its sign. |
+| Max-abs scaling (G-1183) | Divide by the largest absolute value in the column, giving values from -1 to 1. |
+| MaxAbsScaler (G-1188) | scikit-learn's class for max-abs scaling. |
+| Sparse data (G-1840) | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. |
+| Robust scaling (G-1699) | Subtract the median and divide by the interquartile range; copes well with outliers. |
+| RobustScaler (G-1701) | scikit-learn's class for robust scaling. |
+| [Feature scaling (scaling)](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) | Putting columns on the same scale, so no column dominates distances. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Train-test split](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
+| [Mean centring](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195) | Subtracting the mean from every value, so the column's mean becomes 0. |
+| [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |

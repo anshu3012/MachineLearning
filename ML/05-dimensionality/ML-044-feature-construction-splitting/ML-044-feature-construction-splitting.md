@@ -370,17 +370,21 @@ Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output we predict |
-| Family size | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family |
-| Family type | Family size grouped into alone, small family (2 to 4) and large family (5 or more) |
-| Strike rate | A batter's runs per 100 balls faced |
-| Economy rate | A cricket feature built from raw totals: a bowler's runs conceded per over. It rates bowlers better than total runs; a lower economy rate is better. |
-| Tidy data | Data laid out with one record (observation) per row and one single value per cell. |
-| Atomic value | A cell that holds one single piece of information, not several pushed into one place; tidy data needs it, because facts packed into one cell cannot be plotted, grouped or given to a model separately. |
-| Feature splitting | Breaking a feature that holds several facts into one feature per fact |
-| Title | The word before a name, such as Mr, Mrs, Miss or Master |
-| Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3 |
+| Family size (G-750) | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family. |
+| Family type (G-751) | Family size grouped into alone, small family (2 to 4) and large family (5 or more). |
+| Strike rate (G-1902) | A batter's runs per 100 balls faced. |
+| Economy rate (G-658) | A cricket feature built from raw totals: a bowler's runs conceded per over. It rates bowlers better than total runs; a lower economy rate is better. |
+| Tidy data (G-1972) | Data laid out with one record (observation) per row and one single value per cell. |
+| Atomic value (G-222) | A cell that holds one single piece of information, not several pushed into one place; tidy data needs it, because facts packed into one cell cannot be plotted, grouped or given to a model separately. |
+| Title (G-1979) | The word before a name, such as Mr, Mrs, Miss or Master. |
+| Feature splitting (G-769) | Breaking a column that holds several facts into one column per fact. |
+| Chained assignment (G-372) | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Feature construction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
+| [Domain knowledge](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is) (G-631) | Knowledge of the field the data comes from, such as medicine, property or shipping; it tells us which features make sense and which new ones would help. |

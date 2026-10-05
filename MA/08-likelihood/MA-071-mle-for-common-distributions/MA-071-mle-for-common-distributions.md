@@ -378,13 +378,17 @@ So maximum likelihood does not promise an unbiased estimate. Maximum likelihood 
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Exponential distribution | The distribution of waiting times between random events, $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$ |
-| Rate parameter $\lambda$ | The average number of events per unit time; the average wait is $1/\lambda$ |
-| Scale (in SciPy) | SciPy's parameter for the exponential distribution, the average wait $1/\lambda$ |
-| MLE of a binomial $p$ | The success probability of a binomial that makes the observed data most likely: the observed share of successes, $\hat p = x/n$. |
-| MLE of an exponential rate | The rate of an exponential distribution that makes the observed waiting times most likely: one over their mean, $\hat\lambda = n/\sum x_i = 1/\bar{x}$. |
-| MLE of a normal distribution | The normal curve that makes the data most likely: its mean is the sample mean and its variance the average squared distance from that mean (dividing by $n$), $\hat\mu = \bar{x}$ and $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$. |
-| Unbiased estimator | A formula that guesses a true value from a sample (an estimator) and is right on average: its average over many samples equals the true value. |
-| Biased estimator | A formula for estimating a value from data (an estimator) that is systematically too high or too low on average. |
+| MLE of a binomial $p$ (G-1241) | The success probability of a binomial that makes the observed data most likely: the observed share of successes, $\hat p = x/n$. |
+| Exponential distribution (G-733) | The pattern of waiting times between random events: short waits are common and long waits rare (a right-skewed continuous distribution). |
+| Rate parameter $\lambda$ (G-1636) | The average number of events per unit time; the average wait is $1/\lambda$. |
+| MLE of an exponential rate (G-1243) | The rate of an exponential distribution that makes the observed waiting times most likely: one over their mean, $\hat\lambda = n/\sum x_i = 1/\bar{x}$. |
+| Scale (in SciPy) (G-1744) | SciPy's parameter for the exponential distribution, the average wait $1/\lambda$. |
+| MLE of a normal distribution (G-1242) | The normal curve that makes the data most likely: its mean is the sample mean and its variance the average squared distance from that mean (dividing by $n$), $\hat\mu = \bar{x}$ and $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$. |
+| Unbiased estimator (G-2034) | A formula that guesses a true value from a sample (an estimator) and is right on average: its average over many samples equals the true value. |
+| Biased estimator (G-289) | A formula for estimating a value from data (an estimator) that is systematically too high or too low on average. |
+| [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
+| [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |

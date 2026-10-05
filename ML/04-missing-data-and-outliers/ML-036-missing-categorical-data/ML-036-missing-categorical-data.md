@@ -348,16 +348,26 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| Mode | The most frequent value of a column |
-| Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode |
-| Missing category imputation | Filling every gap in a categorical column with a new category, "Missing" |
-| Arbitrary value imputation | Filling gaps with a value that cannot occur naturally, such as 99, -1 or "Missing" |
-| Category share | The rows in one category divided by the rows that have a value |
-| `strategy="most_frequent"` (G-148) | The `SimpleImputer` setting for mode imputation |
-| `strategy="constant"` (G-147) | The `SimpleImputer` setting that fills every gap with `fill_value` |
-| `statistics_` | The fill values a fitted `SimpleImputer` learned, one per column |
+| Missing category imputation (G-1232) | Filling every gap in a categorical column with a new category, "Missing". |
+| Most frequent value imputation (mode imputation) (G-1264) | Filling every gap in a column with its mode. |
+| `strategy="constant"` (SimpleImputer) (G-147) | The `SimpleImputer` setting that fills every gap with `fill_value`. |
+| `strategy="most_frequent"` (SimpleImputer) (G-148) | The `SimpleImputer` setting for mode imputation: `fit` learns each column's most frequent value and `transform` fills the gaps with it. |
+| Category share (G-355) | The rows in one category divided by the rows that have a value. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Univariate imputation](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-2051) | Filling the gaps in a column (imputation) using only that column's other values. |
+| [SimpleImputer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#41-fever-fill-the-missing-values) (G-1809) | scikit-learn's class that fills missing values, by default with the column's mean. |
+| [Mode](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The most common value of a column. |
+| [MCAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
+| [Arbitrary value imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) (G-208) | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. |
+| [MAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158) | Missing at random: the gaps depend on another, recorded column. |
+| [MNAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1248) | Missing not at random: the gaps depend on the missing value itself. |
+| [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
+| [`statistics_`](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#42-a-different-strategy-per-column) (G-145) | The fill values a fitted `SimpleImputer` has learned, one per column. |

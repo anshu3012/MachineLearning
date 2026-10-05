@@ -318,13 +318,18 @@ The formula route with this sample uses $s$ in place of the unknown $\sigma$, wh
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Confidence interval | A range of plausible values for a population parameter, computed from a sample: point estimate $\pm$ margin of error |
-| Confidence level | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$ |
-| Margin of error | The distance from the point estimate to either end of a confidence interval |
-| Lower and upper limit (G-1133) | The two ends of a confidence interval |
-| Z-procedure | The confidence interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, used when $\sigma$ is known |
-| Critical value | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
+| Confidence interval (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
+| Confidence level (G-447) | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$. |
+| Margin of error (G-1162) | The distance from the point estimate to either end of a confidence interval. |
+| Z-procedure (G-2138) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is known: $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$. |
+| $\alpha$ (G-3) | The share of confidence intervals that miss the true value they are meant to catch (the parameter). It equals one minus the confidence level. |
+| Critical value (G-504) | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
 | Percentile bootstrap interval (G-2234) | A range for a population value built by resampling: draw many resamples with replacement from one sample, compute each one's mean, and keep the middle 95% (2.5th to 97.5th percentile); it works for any statistic, even with no formula. |
-| $\alpha$ | The share of confidence intervals that miss the true value they are meant to catch (the parameter). It equals one minus the confidence level. |
+| Lower and upper limit (of a confidence interval) (G-1133) | The two ends of a confidence interval: the point estimate minus and plus the margin of error, the range in which the parameter is estimated to lie. |
+| [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944) | Statistics that draws conclusions about a population from a sample. |
+| [T-procedure](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#6-the-t-procedure-formula) (G-1938) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is unknown: use the sample's $s$ and a t critical value in place of $z$, giving $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$. |
+| [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |

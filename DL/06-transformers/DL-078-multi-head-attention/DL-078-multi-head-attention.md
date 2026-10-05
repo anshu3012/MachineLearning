@@ -364,16 +364,22 @@ Clark et al. (2019) found the same kinds of heads across all 144 heads of BERT: 
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Head | One of several attention units that run side by side in a multi-head attention layer, each a complete self-attention with its own learned $W_Q$, $W_K$, $W_V$; each head gives its own table of attention weights, its own point of view. |
-| Multi-head attention | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
-| $h$ | The number of attention heads in multi-head attention: self-attentions run in parallel, each with its own view of the sentence; $h = 8$ in the transformer, each head of size $d_{\text{model}}/h = 64$. |
-| $d_{\text{model}}$ | The number of values in each word's vector at the layer's input and output; 512 in the transformer |
-| $d_k$, $d_v$ | The size of each head's query and key vectors ($d_k$) and value vectors ($d_v$); $d_{\text{model}}/h = 64$ in the transformer |
-| Concatenation (G-436) | Placing vectors or matrices side by side to form one longer vector or wider matrix |
-| $W_O$ | The learned output matrix that mixes the concatenated head outputs back to $d_{\text{model}}$ numbers per word |
-| Contextual embedding | A word vector that depends on the other words of the sentence |
-| BERT | A published transformer trained on a large amount of English text; BERT-base has 12 layers of 12 heads |
-| `[CLS]`, `[SEP]` | The special tokens BERT adds at the start and the end of every sentence |
-| `MultiHeadAttention` | The Keras layer for multi-head attention; `num_heads` is $h$, `key_dim` is $d_k$ |
+| Multi-head attention (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
+| Head (G-883) | One of several attention units that run side by side in a multi-head attention layer, each a complete self-attention with its own learned $W_Q$, $W_K$, $W_V$; each head gives its own table of attention weights, its own point of view. |
+| Query, key, value vectors (G-1607) | Three vectors made from each word's embedding by learned matrices: a word's query is compared with every word's key by dot products to get attention weights, and those weights mix the value vectors into the word's new vector. |
+| BERT (G-278) | A published transformer trained on a large amount of English text; BERT-base has 12 layers of 12 heads. |
+| $d_k$, $d_v$ (G-25) | The size of each head's query and key vectors ($d_k$) and value vectors ($d_v$); $d_{\text{model}}/h = 64$ in the transformer. |
+| $d_{\text{model}}$ (G-27) | The number of values in each word's vector at the layer's input and output; 512 in the transformer. |
+| $h$ (G-28) | The number of attention heads in multi-head attention: self-attentions run in parallel, each with its own view of the sentence; $h = 8$ in the transformer, each head of size $d_{\text{model}}/h = 64$. |
+| $W_O$ (G-40) | The learned output matrix that mixes the concatenated head outputs back to $d_{\text{model}}$ numbers per word. |
+| `[CLS]`, `[SEP]` (G-57) | The special tokens BERT adds at the start and the end of every sentence. |
+| [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
+| [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
+| [Concatenation ($[h_{t-1}, x_t]$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t) (G-436) | Joining two vectors end to end into one longer vector, so one layer can read both at once: 3 numbers and 4 numbers give 7. |
+| [Residual connection](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview) (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |
+| [BLEU score](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
+| [`MultiHeadAttention`](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#7-the-full-formula-in-code) (G-121) | The Keras layer that computes multi-head attention: it learns $W_Q$, $W_K$, $W_V$ and an output matrix and applies scaled dot-product attention; with `num_heads=1` it is a single attention. |

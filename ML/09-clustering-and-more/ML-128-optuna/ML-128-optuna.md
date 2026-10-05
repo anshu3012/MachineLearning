@@ -507,21 +507,28 @@ At first it explores all three. For a while it favours gradient boosting, then i
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Optuna | A Python framework for hyperparameter tuning that uses the results of earlier tries to pick the next values to test (Bayesian optimisation). |
-| Search space | The ranges or lists of values each hyperparameter may take during tuning; the tuner only tries values from it, and each added value multiplies the number of combinations. |
-| Bayesian optimisation | Tuning that builds a model of how the score depends on the settings (hyperparameters) and uses all earlier trials to choose the next one. |
-| Surrogate model | A cheap stand-in for the unknown score function, built by Bayesian optimisation from the trials so far; it is used to guess which hyperparameter values to try next. |
-| Acquisition function | The rule that picks the next trial using the stand-in model of the score (the surrogate), such as expected improvement. |
-| Expected improvement | A score that picks which point Bayesian optimisation tries next: how much better than the best score so far a candidate point is expected to be, judged from the surrogate model's predicted mean and uncertainty. The point with the highest expected improvement is tried next. |
-| Gaussian process | A model that predicts a value and its uncertainty at every point; a common choice of surrogate, the stand-in model that Bayesian optimisation searches. |
-| Study | In Optuna, one full search for the best settings: a collection of trials, each scoring one set of values, aimed at optimising the objective function. |
-| Trial (G-2016) | In Optuna, one run of the objective function with one set of hyperparameter values |
-| Objective function | The function a search optimises: it takes a trial's values and returns a score |
-| Sampler | In Optuna, the algorithm that suggests the next trial's hyperparameter values |
-| TPE | Optuna's default way to pick the hyperparameter values to try next from the results of past trials (its sampler, a form of Bayesian optimisation); TPE stands for Tree-structured Parzen Estimator. |
-| Define-by-run | Building the search space while the objective function runs, so it can depend on earlier choices |
-| Dynamic search space | A search space in which some hyperparameters exist only for some values of another, such as the algorithm; the tuner then suggests only settings that make sense for the choice already made. |
-| Hyperparameter importance | How much each hyperparameter affected the score in a study; the values add up to 1 |
-| Pruning | Stopping an unpromising trial early, before its training finishes |
+| Optuna (G-1402) | A Python framework for hyperparameter tuning that uses the results of earlier tries to pick the next values to test (Bayesian optimisation). |
+| Bayesian optimisation (G-270) | Tuning that builds a model of how the score depends on the settings (hyperparameters) and uses all earlier trials to choose the next one. |
+| Search space (G-1756) | The ranges or lists of values each hyperparameter may take during tuning; the tuner only tries values from it, and each added value multiplies the number of combinations. |
+| Surrogate model (G-1927) | A cheap stand-in for the unknown score function, built by Bayesian optimisation from the trials so far; it is used to guess which hyperparameter values to try next. |
+| Gaussian process (G-832) | A model that predicts a value and its uncertainty at every point; a common choice of surrogate, the stand-in model that Bayesian optimisation searches. |
+| Acquisition function (G-163) | The rule that picks the next trial using the stand-in model of the score (the surrogate), such as expected improvement. |
+| Expected improvement (G-724) | A score that picks which point Bayesian optimisation tries next: how much better than the best score so far a candidate point is expected to be, judged from the surrogate model's predicted mean and uncertainty. The point with the highest expected improvement is tried next. |
+| Study (G-1907) | In Optuna, one full search for the best settings: a collection of trials, each scoring one set of values, aimed at optimising the objective function. |
+| Trial (hyperparameter tuning) (G-2016) | One run of a tuner (Optuna, Keras Tuner) with one set of hyperparameter values: one model built, trained and scored. |
+| Sampler (G-1733) | In Optuna, the algorithm that suggests the next trial's hyperparameter values. |
+| TPE (G-1995) | Optuna's default way to pick the hyperparameter values to try next from the results of past trials (its sampler, a form of Bayesian optimisation); TPE stands for Tree-structured Parzen Estimator. |
+| Hyperparameter importance (G-908) | How much each hyperparameter affected the score in a study; the values add up to 1. |
+| Define-by-run (G-575) | Building the search space while the objective function runs, so it can depend on earlier choices. |
+| Dynamic search space (G-653) | A search space in which some hyperparameters exist only for some values of another, such as the algorithm; the tuner then suggests only settings that make sense for the choice already made. |
+| Pruning (Optuna) (G-1586) | Stopping an unpromising trial early, before its training finishes. |
+| Objective function (Optuna) (G-1370) | The function a search optimises: it takes a trial's hyperparameter values and returns a score. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
+| [Objective function](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#2-the-problem-pca-solves) (G-1372) | The quantity an algorithm tries to make as large or as small as possible. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Pruning](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split) (G-1587) | Stopping a tree early or cutting it back so it does not overfit. |

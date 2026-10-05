@@ -259,13 +259,23 @@ So on imbalanced data, accuracy alone is the wrong metric. The next Note introdu
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Classification metric | A number that measures how well a classification model performs |
-| Accuracy | The fraction of predictions that are correct |
-| Confusion matrix | A table counting a classifier's predictions for every pair of actual and predicted class, so we can see which kinds of mistake it makes, which accuracy alone hides. |
-| True positive (TP) | A case the model predicts as positive that really is positive: a correct "yes". The count of these is one cell of the confusion matrix. |
-| True negative (TN) | A case the model predicts as negative that really is negative: a correct "no". The count of these is one cell of the confusion matrix. |
-| False positive (FP) | Predicted positive, but actually negative; a Type I error |
-| False negative (FN) | Predicted negative, but actually positive; a Type II error |
-| Imbalanced data | Data in which one class is much rarer than another |
+| Classification metric (G-394) | A number that measures how well a classification model performs. |
+| Confusion matrix (G-449) | A table counting a classifier's predictions for every pair of actual and predicted class, so we can see which kinds of mistake it makes, which accuracy alone hides. |
+| True positive (TP) (G-2021) | A case the model predicts as positive that really is positive: a correct "yes". The count of these is one cell of the confusion matrix. |
+| True negative (TN) (G-2020) | A case the model predicts as negative that really is negative: a correct "no". The count of these is one cell of the confusion matrix. |
+| False positive (FP) (G-748) | Predicted positive, but actually negative; a Type I error. |
+| False negative (FN) (G-747) | Predicted negative, but actually positive; a Type II error. |
+| [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Type I error (false positive)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032) | A false alarm: the test declares an effect when there is none (rejecting $H_0$ when it is actually true); its probability is $\alpha$. |
+| [Type II error (false negative)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#22-type-ii-error) (G-2033) | A miss: the test finds no effect when there really is one (failing to reject $H_0$ when it is actually false); its probability is $\beta$. |
+| [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) | Data in which one class is much rarer than another. |
+| [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |
+| [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |

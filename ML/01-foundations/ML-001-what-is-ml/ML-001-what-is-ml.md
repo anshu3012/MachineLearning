@@ -335,28 +335,31 @@ Figure 10 shows this pattern for any technology: the salary premium first rises,
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Machine Learning (ML) | A field of computer science where computers learn from data without being explicitly programmed |
-| Explicit programming | Writing code for each specific scenario a program must handle |
-| Program | Logic written by us that turns an input into an output |
-| Data | Recorded examples of inputs together with their outputs; a machine learning algorithm learns the pattern that links them from these examples. |
-| Feature | An input variable; one column of the data table |
-| Target | The output we want to predict |
-| Observation | One record; one row of the data table |
-| ML algorithm | A general method that finds the pattern between inputs and outputs in data |
-| Pattern | The relationship between input and output that the algorithm discovers |
-| Training (G-1255) | The step in which an algorithm learns the pattern from data |
-| Training set | The data a model learns from; also called training data |
-| Prediction (G-1550) | A model's answer for an input whose true output is not known |
-| Parameter (G-1450) | A number inside a model that training changes, such as $w_1$ in sum ≈ $w_1 a + w_2 b + c$ |
-| Gradient descent | Training by repeatedly nudging each parameter in the direction that shrinks the error |
-| Label | The known answer attached to an observation, such as spam or not spam |
-| Test set | Observations kept aside, never learned from, used to measure performance |
-| Accuracy | The share of observations a model sorts correctly |
-| Model | The logic produced by training, used to give outputs for new inputs |
-| Spam classifier | A program that decides whether an email is spam or not |
-| If-else ladder | A long chain of hand-written `if` conditions, one per case; the traditional way to code rules, which breaks down when the cases are too many or keep changing. |
-| Image classification | Deciding what a picture contains, e.g. dog or not dog |
-| Data analysis | Finding patterns and hidden information in data, mainly by plotting graphs |
-| Data mining | Using ML on data to extract patterns too hidden for graphs |
+| Machine Learning (ML) (G-1140) | Using statistics to let a machine find patterns (rules) in data by itself. |
+| Explicit programming (G-730) | A human writing out every rule the computer follows. ML avoids it. |
+| Model (G-1256) | The logic produced by training, used to give outputs for new inputs. |
+| Image classification (G-919) | Deciding what a picture contains, e.g. dog or not dog. |
+| Data analysis (G-530) | Finding patterns and hidden information in data, mainly by plotting graphs. |
+| Data mining (G-537) | Using ML on data to extract patterns too hidden for graphs. |
+| Data (G-542) | Recorded examples of inputs together with their outputs; a machine learning algorithm learns the pattern that links them from these examples. |
+| If-else ladder (G-916) | A long chain of hand-written `if` conditions, one per case; the traditional way to code rules, which breaks down when the cases are too many or keep changing. |
+| ML algorithm (G-1239) | A general method that finds the pattern between inputs and outputs in data. |
+| Pattern (G-1467) | The relationship between input and output that the algorithm discovers. |
+| Program (G-1581) | Logic written by us that turns an input into an output. |
+| Spam classifier (G-1837) | A program that decides whether an email is spam or not. |
+| [Label](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
+| [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
+| [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Training (model training)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. |
+| [Training set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002) | The part of the data the model learns from. |
+| [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Prediction ($\hat{y}$)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#31-the-error-at-one-point) (G-1550) | The value the model gives for an input whose true output is not known; the hat marks a prediction. |

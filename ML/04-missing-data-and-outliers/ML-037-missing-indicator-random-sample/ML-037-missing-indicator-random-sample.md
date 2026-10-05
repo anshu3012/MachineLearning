@@ -524,21 +524,38 @@ The four imputer combinations score exactly the same, so grid search reports the
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Random sample imputation | Filling each gap with a value drawn at random from the column's known values |
-| `sample(n)` | The pandas method that draws `n` values at random from a Series or DataFrame |
-| `random_state` | A seed that fixes a random draw, so the same code gives the same result |
-| Per-row seed | A seed taken from a row's own values, so the same input always gets the same random fill |
-| Feature | An input variable: one column of the data table |
-| Target | The output we predict |
-| Observation | One record: one row of the data table |
-| Missing indicator | A True/False column marking where a feature's value was missing |
-| Mean absolute error (G-1194) | The average size of the gap between predicted and real values, in the target's units |
-| `MissingIndicator` | The scikit-learn class that builds columns marking which values were missing (missing indicators); `features_` lists the columns with gaps. |
-| `add_indicator=True` | The `SimpleImputer` setting that fills the gaps and also adds columns marking which values were missing (missing indicators), in one step. |
-| Univariate imputation | Imputation that uses only the feature with the gap |
-| Coefficient (G-407) | The learned number that multiplies one input of a linear or logistic model |
-| Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation |
-| `best_params_` | The best combination of settings found by `GridSearchCV` |
-| `cv_results_` | The scores of every combination tried by `GridSearchCV` |
+| Random sample imputation (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
+| Missing indicator (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
+| Tree-based algorithm (G-2013) | An algorithm that splits the data with simple conditions; hardly affected by outliers. |
+| `sample(n)` (G-140) | The pandas method that draws `n` values at random from a Series or DataFrame. |
+| `random_state` (G-128) | A seed that fixes a random draw, so the same code gives the same result. |
+| Per-row seed (G-1479) | A seed taken from a row's own values, so the same input always gets the same random fill. |
+| `MissingIndicator` (G-119) | The scikit-learn class that builds columns marking which values were missing (missing indicators); `features_` lists the columns with gaps. |
+| `add_indicator=True` (G-58) | The `SimpleImputer` setting that fills the gaps and also adds columns marking which values were missing (missing indicators), in one step. |
+| Grid search (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
+| `best_params_` (G-66) | The best combination of settings found by `GridSearchCV`. |
+| `cv_results_` (G-73) | The scores of every combination tried by `GridSearchCV`. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Univariate imputation](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-2051) | Filling the gaps in a column (imputation) using only that column's other values. |
+| [Distribution](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-626) | How a column's values spread over their range. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Mean imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197) | Filling every gap with the mean of the column's known values. |
+| [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
+| [Random seed](../../../ML/08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1617) | A number that fixes a random number generator so that a run can be repeated exactly. |
+| [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| [MAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158) | Missing at random: the gaps depend on another, recorded column. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [`GridSearchCV`](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-89) | The scikit-learn class that tries every combination of settings in a grid, scores each by cross-validation, and keeps the best. |
+| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
+| [Mean absolute error (MAE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194) | The average absolute difference between actual and predicted values. |

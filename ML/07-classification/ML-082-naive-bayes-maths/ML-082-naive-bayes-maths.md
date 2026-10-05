@@ -248,10 +248,18 @@ So the product of Section 1 is the right thing to compute when the features are 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Chain rule of probability | Writing a joint probability as a product of conditional probabilities, one variable at a time |
-| Conditional independence | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
-| Proportional to (∝) | Equal up to a constant factor, written $\propto$; in Naive Bayes the evidence term is the same for every class, so it is dropped and the classes are compared with $\propto$. |
-| arg max | The value of the variable that makes an expression largest |
-| MAP rule | Predict the class that is most probable for the row, given its features (the class with the largest posterior probability; maximum a posteriori). |
+| MAP rule (G-1157) | Predict the class that is most probable for the row, given its features (the class with the largest posterior probability; maximum a posteriori). |
+| Proportional to (∝) (G-1584) | Equal up to a constant factor, written $\propto$; in Naive Bayes the evidence term is the same for every class, so it is dropped and the classes are compared with $\propto$. |
+| Chain rule of probability (G-369) | Writing a joint probability as a product of conditional probabilities, one variable at a time. |
+| Conditional independence (G-443) | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
+| arg max (G-210) | The value of the variable that makes an expression largest. |
+| [Prior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565) | The probability of an event before any evidence is seen. |
+| [Posterior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1536) | The probability of an event after the evidence is taken into account. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Evidence](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-718) | The overall chance of seeing what we observed, counted over every possible hypothesis, written $P(E)$. Bayes' theorem divides by it: posterior = likelihood × prior / evidence. |

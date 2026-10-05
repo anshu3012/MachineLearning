@@ -274,14 +274,18 @@ Figure 7 shows the three cases with the target $[3, -2]$:
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Vector addition | Adding matching components; geometrically, placing the second arrow's tail at the first arrow's tip |
-| Scalar | A number used to scale a vector |
-| Standard basis ($\hat{\imath}$, $\hat{\jmath}$) | The unit vectors along the axes, $[1, 0]$ and $[0, 1]$ in 2D; every vector is a sum of scaled copies of them, and its coordinates are those scales. |
-| Linear combination | A sum of scaled vectors, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$ |
-| Span | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
-| Linearly dependent | Said of a set of vectors in which at least one can be built from the others by scaling and adding (a linear combination), so it adds nothing to the span. |
-| Linearly independent | Said of a set of vectors in which none can be built from the others, so each one adds a new direction to the span. |
-| Basis | A set of vectors that are linearly independent and whose span is the whole space, so every vector can be built by scaling the basis vectors and adding them; a vector's coordinates are those scales. |
-| Rank (of a matrix) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |
+| Vector addition (G-2080) | Adding matching components; geometrically, placing the second arrow's tail at the first arrow's tip. |
+| Standard basis ($\hat{\imath}$, $\hat{\jmath}$) (G-1869) | The unit vectors along the axes, $[1, 0]$ and $[0, 1]$ in 2D; every vector is a sum of scaled copies of them, and its coordinates are those scales. |
+| Linear combination (G-1091) | A sum of vectors each multiplied by a number, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$; changing the numbers reaches different vectors, and all the vectors it can reach form the span. |
+| Span (G-1838) | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
+| Linearly dependent (G-1101) | Said of a set of vectors in which at least one can be built from the others by scaling and adding (a linear combination), so it adds nothing to the span. |
+| Linearly independent (G-1102) | Said of a set of vectors in which none can be built from the others, so each one adds a new direction to the span. |
+| Basis (G-262) | A set of vectors that are linearly independent and whose span is the whole space, so every vector can be built by scaling the basis vectors and adding them; a vector's coordinates are those scales. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| [Rank (of a matrix)](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |

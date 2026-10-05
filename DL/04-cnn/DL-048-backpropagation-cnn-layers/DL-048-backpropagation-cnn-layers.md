@@ -192,7 +192,7 @@ The whole step multiplies cell by cell:
 
 $$\frac{\partial L}{\partial Z_1} = \frac{\partial L}{\partial A_1} \odot \mathbb{1}[Z_1 > 0]$$
 
-Here $\mathbb{1}[Z_1 > 0]$ is the mask: 1 in each cell where $Z_1 > 0$ and 0 elsewhere, written with the indicator sign $\mathbb{1}[\ldots]$, "1 if the condition holds, else 0". The sign $\odot$ is the **element-wise product** (also called the Hadamard product): multiply the two grids cell by cell, as in the four lines above. Check: the four lines give $\begin{bmatrix} 0.1 & 0 \cr0.3 & 0 \end{bmatrix}$, the Notebook's result.
+Here $\mathbb{1}[Z_1 > 0]$ is the mask: 1 in each cell where $Z_1 > 0$ and 0 elsewhere, written with the **indicator** (G-2278) sign $\mathbb{1}[\ldots]$, "1 if the condition holds, else 0". The sign $\odot$ is the **element-wise product** (G-2277) (also called the Hadamard product): multiply the two grids cell by cell, as in the four lines above. Check: the four lines give $\begin{bmatrix} 0.1 & 0 \cr0.3 & 0 \end{bmatrix}$, the Notebook's result.
 
 We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes with each value of the **feature map** (G-766).
 
@@ -433,13 +433,20 @@ Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goe
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Backward pass | Computing the gradient of the loss for every tensor, from the output back to the input |
-| Gradient routing | In max pooling's backward pass, sending each gradient only to the position of its window's maximum |
-| Switches | The stored positions of the largest values that max pooling kept; max pooling's backward pass needs them. |
-| ReLU mask | The 0/1 matrix $\mathbb{1}[Z > 0]$, with 1 where ReLU's input was positive and 0 elsewhere; in the backward pass the gradient is multiplied by it, so it flows back only through the positive cells. |
-| Element-wise (Hadamard) product $\odot$ | Multiplying two grids of the same shape cell by cell |
-| Indicator $\mathbb{1}[\ldots]$ | 1 if the condition in the brackets holds, else 0 |
-| $\partial L/\partial b_1$ | How much the loss changes when the convolution layer's bias $b_1$ is nudged (the gradient of the loss with respect to $b_1$), used to update that bias. Because the one bias is added to every cell of the feature map, it is the sum of the feature map's gradient over all its cells. |
-| $\partial L/\partial W_1$ | How much the loss changes when each filter weight in $W_1$ is nudged (the gradient of the loss with respect to $W_1$), used to update the filter. It is found by sliding the feature map's gradient over the input like a filter, a convolution of the input with that gradient. |
+| Backward pass (G-249) | Computing the gradient of the loss for every tensor, from the output back to the input. |
+| Gradient routing (G-864) | In max pooling's backward pass, sending each gradient only to the position of its window's maximum. |
+| Switches (G-1930) | The stored positions of the largest values that max pooling kept; max pooling's backward pass needs them. |
+| ReLU mask (G-1667) | The 0/1 matrix $\mathbb{1}[Z > 0]$, with 1 where ReLU's input was positive and 0 elsewhere; in the backward pass the gradient is multiplied by it, so it flows back only through the positive cells. |
+| Indicator $\mathbb{1}[\ldots]$ (G-2278) | A sign that gives 1 when the condition in the brackets holds and 0 otherwise, so it can switch terms on and off inside a formula (for example the ReLU mask). |
+| Element-wise (Hadamard) product $\odot$ (G-2277) | Multiplying two grids of the same shape cell by cell, so each output cell depends only on the matching input cells; backpropagation uses it to apply a mask or a local slope to every cell at once. |
+| $\partial L/\partial b_1$ (G-14) | How much the loss changes when the convolution layer's bias $b_1$ is nudged (the gradient of the loss with respect to $b_1$), used to update that bias. Because the one bias is added to every cell of the feature map, it is the sum of the feature map's gradient over all its cells. |
+| $\partial L/\partial W_1$ (G-15) | How much the loss changes when each filter weight in $W_1$ is nudged (the gradient of the loss with respect to $W_1$), used to update the filter. It is found by sliding the feature map's gradient over the input like a filter, a convolution of the input with that gradient. |
+| [Flatten layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) | A layer that reshapes a multi-dimensional input into one dimension; no parameters. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |

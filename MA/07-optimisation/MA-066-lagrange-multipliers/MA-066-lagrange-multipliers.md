@@ -523,19 +523,24 @@ How to read Figure 11: each dot is one flower, placed by its petal length (acros
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Objective function | The function an optimisation problem minimises (or maximises) |
-| Feasible region | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
-| Lagrange multiplier | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs |
-| Lagrangian | One function that packs an objective and its constraints together: the objective plus each constraint times its multiplier, $f + \sum_i \lambda_i g_i$; setting its gradient to zero gives the conditions for the constrained minimum. |
-| Active constraint | An inequality constraint that the answer sits right on (it holds with equality), because the unconstrained minimum breaks it; it then acts like an equality constraint, and its multiplier can be positive. |
-| Inactive constraint | An inequality constraint that the unconstrained minimum already satisfies, so it plays no part in the answer; its Lagrange multiplier is 0. |
-| Shadow price | The Lagrange multiplier read in economic terms: how much the best value would improve per extra unit of a limited resource, so it tells how much loosening a constraint is worth. |
-| KKT conditions | The four checks a point must pass to be a minimum when some constraints are inequalities: the Lagrangian's gradient is zero (stationarity), the point obeys every constraint (primal feasibility), every multiplier is at least 0 (dual feasibility), and each multiplier is 0 unless its constraint is tight (complementary slackness). |
-| Complementary slackness | A rule the best answer must obey when there are inequality constraints: for each constraint, its multiplier or the constraint value is 0, $\lambda_i g_i(\mathbf{x}) = 0$, so a constraint that plays no part at the answer gets multiplier 0. It is one of the KKT conditions. |
-| Primal problem | The original constrained optimisation problem, in its own variables $\mathbf{x}$; it is called primal to tell it apart from the dual problem built from it with Lagrange multipliers. |
-| Dual problem | A second problem that looks for the highest guaranteed floor under a constrained minimum. Each price $\boldsymbol{\lambda} \ge 0$ on the constraints gives a floor, the lowest value of the Lagrangian, $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$; the dual problem maximises $D$, and a feasible point that reaches the floor is the best. |
-| Weak duality | Every value of the related helper (dual) function is at most the true minimum of the original (primal) problem, so any dual value is a floor (lower bound) on the best answer. |
-| Strong duality | The dual maximum equals the primal minimum; true for convex problems that meet Slater's condition |
-| Minimax inequality | Taking the smallest value over one argument and then the largest over the other never gives more than doing it in the other order: $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$ for any function of two arguments. It is why the dual problem's answer is never above the primal's (weak duality). |
+| Feasible region (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
+| Lagrange multiplier (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
+| Lagrangian (G-1037) | One function that packs an objective and its constraints together: the objective plus each constraint times its multiplier, $f + \sum_i \lambda_i g_i$; setting its gradient to zero gives the conditions for the constrained minimum. |
+| Shadow price (G-1784) | The Lagrange multiplier read in economic terms: how much the best value would improve per extra unit of a limited resource, so it tells how much loosening a constraint is worth. |
+| Active constraint (G-166) | An inequality constraint that the answer sits right on (it holds with equality), because the unconstrained minimum breaks it; it then acts like an equality constraint, and its multiplier can be positive. |
+| Inactive constraint (G-928) | An inequality constraint that the unconstrained minimum already satisfies, so it plays no part in the answer; its Lagrange multiplier is 0. |
+| KKT conditions (G-1013) | The four checks a point must pass to be a minimum when some constraints are inequalities: the Lagrangian's gradient is zero (stationarity), the point obeys every constraint (primal feasibility), every multiplier is at least 0 (dual feasibility), and each multiplier is 0 unless its constraint is tight (complementary slackness). |
+| Complementary slackness (G-424) | A rule the best answer must obey when there are inequality constraints: for each constraint, its multiplier or the constraint value is 0, $\lambda_i g_i(\mathbf{x}) = 0$, so a constraint that plays no part at the answer gets multiplier 0. It is one of the KKT conditions. |
+| Primal problem (G-1559) | The original constrained optimisation problem, in its own variables $\mathbf{x}$; it is called primal to tell it apart from the dual problem built from it with Lagrange multipliers. |
+| Dual problem (G-642) | A second problem that looks for the highest guaranteed floor under a constrained minimum. Each price $\boldsymbol{\lambda} \ge 0$ on the constraints gives a floor, the lowest value of the Lagrangian, $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$; the dual problem maximises $D$, and a feasible point that reaches the floor is the best. |
+| Weak duality (G-2103) | Every value of the related helper (dual) function is at most the true minimum of the original (primal) problem, so any dual value is a floor (lower bound) on the best answer. |
+| Strong duality (G-1903) | The best lower bound given by a related helper problem (the dual problem) equals the true minimum of the original (primal) problem, so solving the dual solves the original; it holds for convex problems. |
+| Minimax inequality (G-1225) | Taking the smallest value over one argument and then the largest over the other never gives more than doing it in the other order: $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$ for any function of two arguments. It is why the dual problem's answer is never above the primal's (weak duality). |
+| Constrained optimisation (G-455) | Maximising or minimising a function while keeping one or more constraints true. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Objective function](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#2-the-problem-pca-solves) (G-1372) | The quantity an algorithm tries to make as large or as small as possible. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |

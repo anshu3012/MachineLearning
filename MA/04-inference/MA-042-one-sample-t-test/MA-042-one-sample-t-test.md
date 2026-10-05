@@ -319,12 +319,20 @@ In Figure 8, watch the zoomed panel: the green $t$ stops 0.012 short of the dash
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| T-test | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution |
-| One-sample t-test | A test of whether a population's mean equals a claimed value, from one sample, when the population standard deviation $\sigma$ is unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$. |
-| T statistic | The number a t-test computes from the sample: how many estimated standard errors ($s/\sqrt{n}$) the sample mean lies from the mean claimed by $H_0$; the test decides from its size. |
-| Independent two-sample t-test | A t-test comparing the means of two separate, non-overlapping groups |
-| Paired t-test (dependent t-test) | A test of whether two linked measurements of the same subjects differ on average; it works on the difference within each pair (a t-test on the differences). |
-| 10% condition (G-2236) | When sampling without replacement, keep the sample at most 10% of the population so the observations are roughly independent |
-| `alternative` (scipy) | The argument of scipy's tests that sets which direction of difference the test looks for (the direction of $H_1$): `"two-sided"`, `"less"` or `"greater"`. |
+| T-test (G-1940) | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution. |
+| One-sample t-test (G-1382) | A test of whether a population's mean equals a claimed value, from one sample, when the population standard deviation $\sigma$ is unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$. |
+| T statistic (G-1937) | The number a t-test computes from the sample: how many estimated standard errors ($s/\sqrt{n}$) the sample mean lies from the mean claimed by $H_0$; the test decides from its size. |
+| 10% condition (G-2236) | When sampling without replacement, keep the sample at most 10% of the population so the observations are roughly independent. |
+| Shapiro-Wilk test (G-1788) | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
+| `alternative` (scipy) (G-60) | The argument of scipy's tests that sets which direction of difference the test looks for (the direction of $H_1$): `"two-sided"`, `"less"` or `"greater"`. |
+| [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1906) | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
+| [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
+| [Independent two-sample t-test](../../../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test) (G-936) | A t-test comparing the means of two separate, non-overlapping groups. |
+| [Paired t-test (dependent t-test)](../../../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test) (G-1439) | A test of whether two linked measurements of the same subjects differ on average; it works on the difference within each pair (a t-test on the differences). |
+| [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [P-value](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |
+| [Power of a test](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test) (G-1539) | The probability that a test detects a real effect, that is, rejects $H_0$ when $H_0$ is false; it equals $1 - \beta$, where $\beta$ is the probability of a Type II error. |

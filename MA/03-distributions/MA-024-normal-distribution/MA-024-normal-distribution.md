@@ -290,10 +290,15 @@ The symbol $\int$ means "add up the area of the thin strips". The check: the for
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Gaussian distribution | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
-| $N(\mu, \sigma^2)$ | Notation for a normal distribution, the symmetric bell curve, with mean $\mu$ (its centre) and variance $\sigma^2$ (its spread squared); $X \sim N(68, 3^2)$ reads: $X$ is normal with mean 68 and standard deviation 3. |
-| Tail (of a distribution) | The part of the curve far from the centre, where values are rare |
-| Asymptotic | Coming ever closer to a line without touching it, like the normal curve's tails and the x axis |
-| Inflection point | A point where a curve switches between bending down and bending up; for the normal curve, at $\mu \pm \sigma$ |
+| Normal distribution (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| Gaussian distribution (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
+| Asymptotic (G-221) | Coming ever closer to a line without touching it, like the normal curve's tails and the x axis. |
+| Inflection point (G-945) | A point where a curve switches between bending down and bending up; for the normal curve, at $\mu \pm \sigma$. |
+| $N(\mu, \sigma^2)$ (G-32) | Notation for a normal distribution, the symmetric bell curve, with mean $\mu$ (its centre) and variance $\sigma^2$ (its spread squared); $X \sim N(68, 3^2)$ reads: $X$ is normal with mean 68 and standard deviation 3. |
+| [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
+| [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
+| [Tail (of a distribution)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#31-reading-the-two-tails) (G-1942) | The part of the curve far from the centre, where values are rare. |

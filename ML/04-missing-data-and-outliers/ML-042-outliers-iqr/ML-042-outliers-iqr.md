@@ -345,17 +345,25 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output a model predicts |
-| IQR method (IQR proximity rule) (G-972) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed features |
-| Percentile | The value below which a given share of the sorted data lies |
-| Quartiles | $Q_1$, the median and $Q_3$: the 25th, 50th and 75th percentiles |
-| Interquartile range (IQR) | $Q_3 - Q_1$: the width of the middle half of the data |
-| Fences (G-776) | $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$; values beyond them are outliers |
-| Trimming | Removing the rows that hold outliers |
-| Capping | Replacing every value beyond a limit with the limit itself |
-| Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position |
-| `quantile` | pandas method that returns a percentile, given as a fraction (0.25 for the 25th) |
+| `quantile` (G-127) | pandas method that returns a percentile, given as a fraction (0.25 for the 25th). |
+| [IQR method (IQR rule, IQR proximity rule)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-972) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
+| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
+| [Quartiles](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
+| [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
+| [Interquartile range (IQR)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966) | The width of the middle half of the data: Q3 - Q1. |
+| [Linear interpolation](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#22-from-percentiles-to-limits) (G-1092) | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. |
+| [Fence (fences)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) | A cut-off for spotting outliers in a box plot: 1.5 times the IQR (the width of the middle half of the data) beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
+| [Capping](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) | Replacing every value beyond a limit with the limit itself. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [`np.where`](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) (G-124) | NumPy function that picks one value where a condition is true and another where it is false. |
+| [`clip`](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#7-capping-in-code-winsorization) (G-70) | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it. |

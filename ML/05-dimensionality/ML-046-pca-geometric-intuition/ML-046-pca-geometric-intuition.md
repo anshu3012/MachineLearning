@@ -286,13 +286,17 @@ Section 4.1 showed the same choice from the other side: the direction of maximum
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Principal component analysis (PCA) (G-1469) | An unsupervised feature extraction technique that builds new features along the directions of greatest variance |
-| Projection | Dropping each point onto an axis or line, like casting a shadow |
-| Centred data | Data whose mean is 0: the mean of each feature has been subtracted |
-| Variance (G-2074) | The average squared distance of the points from their mean |
-| Mean absolute deviation | The average absolute distance of the points from their mean |
-| Principal component | A new axis found by PCA, a direction through the data: PC1 holds the most variance, PC2 the next most at right angles to it; keeping only the first few cuts the number of features. |
+| PCA (principal component analysis) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
+| Projection (G-1583) | Dropping a point or vector straight onto an axis, a line or another vector's direction, like casting a shadow. |
+| Variance (of data) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| Principal component (G-1563) | A new axis found by PCA, a direction through the data: PC1 holds the most variance, PC2 the next most at right angles to it; keeping only the first few cuts the number of features. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#31-learning-from-inputs-only) (G-2058) | Learning from inputs only, to find structure. |
+| [Centred data](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#7-mean-normalization) (G-365) | Data whose mean is 0, made by subtracting the mean from every value; some algorithms need it. |
+| [Mean absolute deviation](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#7-mean-absolute-deviation) (G-1193) | The average absolute distance of the points from their mean. Sometimes also abbreviated MAD, which clashes with the median absolute deviation. |

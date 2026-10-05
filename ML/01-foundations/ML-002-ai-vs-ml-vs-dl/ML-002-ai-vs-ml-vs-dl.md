@@ -261,26 +261,31 @@ A saying sums up the choice: where a needle is needed, we do not use a sword. DL
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Artificial Intelligence (AI) | The field of building machines that show intelligence |
-| Pattern recognition (G-2169) | Finding regularities in data; the measurable part of intelligence that today's AI covers |
-| Narrow AI | AI that performs one specific task |
-| Artificial general intelligence (AGI) (G-184) | A machine with all human abilities; does not exist yet |
-| Symbolic AI | AI built from rules written by humans |
-| Expert system | Symbolic AI system: an expert's rules plus a program that applies them |
-| Knowledge base | The set of rules inside an expert system |
-| Inference engine | The program that applies an expert system's rules |
-| Machine Learning (ML) | Using statistical techniques to let a machine find patterns in data |
-| Learning | Finding rules (patterns) from examples |
-| Predict (G-1548) | Give an answer for new, unseen data |
-| Deep Learning (DL) | ML using neural networks with many layers |
-| Train (G-1255) | Let a model learn by repeatedly reducing its errors |
-| Neural network | A model of many connected simple units, loosely inspired by the brain |
-| Perceptron | The smallest unit of a neural network; an artificial neuron |
-| Feature | An input variable; one column of the data table |
-| Target | The output we want to predict |
-| Observation | One record; one row of the data table |
-| Layer | One stage of a neural network, building on the previous stage |
-| Capacity (G-344) | How wide a range of patterns a model can fit |
-| Overfitting (G-1429) | Fitting the training data so closely, noise included, that the model does badly on new data |
+| Artificial Intelligence (AI) (G-215) | The field of building machines that show intelligence. |
+| Pattern recognition (G-2169) | Finding regularities in data; the measurable part of intelligence that today's AI covers. |
+| Narrow AI (G-1303) | AI that does one specific task. All AI today is narrow. |
+| AGI (artificial general intelligence) (G-184) | A machine with all the abilities of human intelligence. Does not exist yet. |
+| Symbolic AI (G-1931) | Early AI where humans write the knowledge as rules. |
+| Expert system (G-726) | Early AI: a human expert's knowledge written as rules, plus a program that applies them. |
+| Knowledge base (G-1018) | The collection of rules inside an expert system. |
+| Inference engine (G-942) | The part of an expert system that applies the rules to answer a question. |
+| Learning (G-1073) | Finding rules (patterns) from examples. |
+| Predict (prediction, inference) (G-1548) | Use a trained model to give an answer for new data it has not seen, with no correct output available. |
+| Deep Learning (DL) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
+| Neural network (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
+| Feature (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| Layer (G-1056) | A group of neurons in a neural network that all work on the output of the layer before; stacking layers lets the network find more complex patterns. |
+| [Machine Learning (ML)](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning) (G-1140) | Using statistics to let a machine find patterns (rules) in data by itself. |
+| [Explicit programming](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning) (G-730) | A human writing out every rule the computer follows. ML avoids it. |
+| [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Training (model training)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Capacity](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-344) | A model's ability to fit a wide variety of functions; too much capacity for the data leads to overfitting. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Image classification](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#42-when-there-are-too-many-cases-recognising-dogs) (G-919) | Deciding what a picture contains, e.g. dog or not dog. |

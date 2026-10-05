@@ -173,13 +173,27 @@ The current wave of commercial interest in deep learning began when Krizhevsky e
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Retina | The 2D sheet of light-sensitive cells at the back of the eye |
-| Lateral geniculate nucleus (LGN) | A region of the thalamus that passes visual signals on to V1 |
-| Primary visual cortex (V1) | The first area of the cortex that processes visual signals |
-| Receptive field | The area of the image that one cell (or one unit of a network) responds to |
-| Preferred stimulus | The pattern, such as an edge of one orientation, that a cell responds to most |
-| Simple cell | A nerve cell in the brain's first visual area (V1) that responds to an edge of one orientation at one place in a small patch of the view (its receptive field). |
-| Complex cell | A nerve cell in the brain's first visual area (V1) that responds to its preferred edge anywhere inside a larger patch of view (receptive field). |
-| Neocognitron | An early pattern-recognition network, built by Fukushima in 1980 from S-cells and C-cells; a forerunner of CNNs. |
+| Retina (G-1688) | The 2D sheet of light-sensitive cells at the back of the eye. |
+| Lateral geniculate nucleus (LGN) (G-1051) | A region of the thalamus that passes visual signals on to V1. |
+| Primary visual cortex (V1) (G-1560) | The first area of the cortex that processes visual signals. |
+| Simple cell (G-1807) | A nerve cell in the brain's first visual area (V1) that responds to an edge of one orientation at one place in a small patch of the view (its receptive field). |
+| Complex cell (G-428) | A nerve cell in the brain's first visual area (V1) that responds to its preferred edge anywhere inside a larger patch of view (receptive field). |
+| Receptive field (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
+| Preferred stimulus (G-1554) | The pattern, such as an edge of one orientation, that a cell responds to most. |
+| Neocognitron (G-1314) | An early pattern-recognition network, built by Fukushima in 1980 from S-cells and C-cells; a forerunner of CNNs. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
+| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
+| [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401) | Splitting data into groups of similar rows. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [LeNet-5](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#41-background) (G-1080) | An early network for reading handwritten digits, built by LeCun et al. in 1998 (a CNN): two blocks of convolution then pooling (conv-pool blocks), then layers of 120, 84 and 10 nodes. |
+| [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
+| [AlexNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#53-alexnet-the-2012-winner) (G-187) | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |

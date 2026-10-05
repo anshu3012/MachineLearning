@@ -306,23 +306,26 @@ There are other ways to work with SQL from Python, but this one is simple and co
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| JSON (JavaScript Object Notation) | A plain-text data format of objects and arrays that almost every language can read |
-| Observation | One record of the data, one row of the table |
-| Feature | An input variable a model learns from |
-| Target | The output a model predicts |
-| API (G-204) | A service that programs send requests to; it usually replies in JSON |
-| JSON Lines | A JSON file with one object per line, read with `lines=True` |
-| SQL (Structured Query Language) | The language for asking a database for data |
-| Database | A program that stores data as tables and answers queries |
-| Query (G-1606) | A request for data, written in SQL |
-| Database server | A program that holds databases and answers queries, such as MySQL |
-| XAMPP | A free package that runs a web server and a MySQL server on one computer |
-| phpMyAdmin | A web page for creating and managing MySQL databases |
-| SQLite | A database stored in a single file, built into Python, needing no server |
-| Connector | A library that lets Python talk to a database |
-| Connection object | The open link to a database (`conn`) that queries go through |
-| SQLAlchemy | A Python library that connects to many kinds of database; pandas supports it fully |
-| `read_json` | pandas function that reads JSON from a file or a URL into a DataFrame |
-| `read_sql_query` | pandas function that runs an SQL query and returns a DataFrame |
+| JSON (JavaScript Object Notation) (G-987) | A plain-text format for structured data, made of objects and arrays, that almost every language can read; used by APIs. |
+| SQL (Structured Query Language) (G-1857) | The language for asking a database for data. |
+| Database (G-544) | A program that stores data as tables and answers queries. |
+| `read_json` (G-130) | pandas function that reads JSON from a file or a URL into a DataFrame. |
+| Database server (G-543) | A program that holds databases and answers queries, such as MySQL. |
+| XAMPP (G-2130) | A free package that runs a web server and a MySQL server on one computer. |
+| phpMyAdmin (G-1493) | A web page for creating and managing MySQL databases. |
+| SQLite (G-1859) | A database stored in a single file, built into Python, needing no server. |
+| `read_sql_query` (G-131) | pandas function that runs an SQL query and returns a DataFrame. |
+| Connection object (G-450) | The open link to a database (`conn`) that queries go through. |
+| Connector (G-451) | A library that lets Python talk to a database. |
+| JSON Lines (G-988) | A JSON file with one object per line, read with `lines=True`. |
+| Query (SQL) (G-1606) | A request for data, written in SQL. |
+| SQLAlchemy (G-1858) | A Python library that connects to many kinds of database; pandas supports it fully. |
+| [pandas, DataFrame](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (G-1441) | Python's main table library, and its name for a table. |
+| [API (Application Programming Interface)](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data) (G-204) | A service that returns data when our code asks for it; a website's API hands out its data on request. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

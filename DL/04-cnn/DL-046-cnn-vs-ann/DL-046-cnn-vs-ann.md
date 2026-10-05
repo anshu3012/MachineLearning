@@ -171,9 +171,15 @@ On both datasets every CNN run beats every ANN run (Notebook). The CNN also has 
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Learnable (trainable) parameters | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter |
-| Sparse interactions | Each output of a convolution depends only on a small window of the input, because the filter is small; so a convolution needs far fewer weights than a fully connected layer. |
-| Parameter sharing | The same filter weights are used at every position of the image |
-| Fashion-MNIST | A dataset of 28 × 28 greyscale images of 10 kinds of clothing, in the same format as MNIST |
+| Sparse interactions (G-1842) | Each output of a convolution depends only on a small window of the input, because the filter is small; so a convolution needs far fewer weights than a fully connected layer. |
+| Learnable (trainable) parameters (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| Fashion-MNIST (G-756) | A dataset of 28 × 28 greyscale images of 10 kinds of clothing, in the same format as MNIST. |
+| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
+| [Parameter sharing](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn) (G-1447) | Using the same weights at every position or time step; it lets a model handle sequences of any length and recognise a pattern wherever it appears. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |

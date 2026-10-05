@@ -378,17 +378,23 @@ Feature importance is useful for **feature selection** (dropping columns to figh
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Regression tree | A decision tree whose leaves predict numbers: the mean output of their training observations |
-| DecisionTreeRegressor | scikit-learn's regression tree: a decision tree whose leaves predict a number, the mean target of the training rows in the leaf, instead of a class. It is used exactly like `DecisionTreeClassifier`. |
-| Sum of squared errors (SSE) (G-1684) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest |
-| Variance reduction | The drop in mean squared error from a node to its children; a regression tree uses it to compare splits, as a classification tree uses information gain. |
-| squared_error | The default rule `DecisionTreeRegressor` uses to judge splits: it splits by mean squared error, and each leaf predicts the mean of its rows. |
-| absolute_error | A regression-tree setting (criterion) that chooses splits by the average size of the errors (mean absolute error); its leaves predict the median, so outliers pull less. |
-| RandomizedSearchCV | A scikit-learn tool that tries a fixed number of randomly drawn combinations of model settings (hyperparameters) and scores each with cross-validation, instead of trying every combination. |
-| Feature importance | A feature's share of all the impurity reduction in a tree; the shares add up to 1 |
-| feature_importances_ | The fitted attribute holding the feature importance of every feature |
-| California housing data (G-2223) | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn |
-| Selection bias | The best of many scores looks better than it really is, because part of its win is luck |
-| Boston housing data | 506 Boston districts, 13 inputs and the median home value; removed from scikit-learn in version 1.2 |
+| Regression tree (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
+| squared_error (G-1864) | The default rule `DecisionTreeRegressor` uses to judge splits: it splits by mean squared error, and each leaf predicts the mean of its rows. |
+| Boston housing data (G-324) | 506 Boston districts, 13 inputs and the median home value; removed from scikit-learn in version 1.2. |
+| DecisionTreeRegressor (G-562) | scikit-learn's regression tree: a decision tree whose leaves predict a number, the mean target of the training rows in the leaf, instead of a class. It is used exactly like `DecisionTreeClassifier`. |
+| RandomizedSearchCV (G-1625) | A scikit-learn tool that tries a fixed number of randomly drawn combinations of model settings (hyperparameters) and scores each with cross-validation, instead of trying every combination. |
+| California housing data (G-2223) | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn. |
+| Selection bias (G-2157) | The optimism of a score that was picked as the best of many noisy scores: the winner partly won by luck on the same folds, so it looks a little better than it will on new data. |
+| feature_importances_ (G-773) | The value stored on a trained tree model that holds the feature importance of every column. |
+| absolute_error (G-160) | A regression-tree setting (criterion) that chooses splits by the average size of the errors (mean absolute error); its leaves predict the median, so outliers pull less. |
+| Feature importance (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |
+| n_iter (G-1293) | RandomizedSearchCV's setting for how many hyperparameter combinations it draws at random and tries (default 10); trying a few instead of every combination makes the search much faster. |
+| Variance reduction (G-2077) | The drop in mean squared error from a node to its children; a regression tree uses it to compare splits, as a classification tree uses information gain. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |

@@ -253,10 +253,24 @@ The best pair is **500 stumps at learning rate 0.1**, with a cross-validated acc
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| n_estimators (AdaBoost) | The largest number of simple models (weak learners) AdaBoost builds, one per boosting round (stage). |
-| Learning rate (AdaBoost) | A number that scales how much each weak learner's vote (its alpha) counts in AdaBoost; values below 1 slow learning. |
-| Shrinkage | Scaling down each base model's contribution so the ensemble learns in small steps and overfits less |
-| SAMME.R | An AdaBoost variant that used predicted probabilities; removed from scikit-learn |
-| staged_score | A method that gives an ensemble's score after each added stage |
+| n_estimators (AdaBoost) (G-1290) | The largest number of simple models (weak learners) AdaBoost builds, one per boosting round (stage). |
+| Learning rate (AdaBoost) (G-1069) | A number that scales how much each weak learner's vote (its alpha) counts in AdaBoost; values below 1 slow learning. |
+| staged_score (G-1868) | A method that gives an ensemble's score after each added stage. |
+| SAMME.R (G-1723) | An AdaBoost variant that used predicted probabilities; removed from scikit-learn. |
+| Shrinkage (boosting) (G-1795) | Scaling down each base model's contribution so the ensemble learns in small steps and overfits less. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Weak learner](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners) (G-2104) | A model whose accuracy is only a little better than random guessing. |
+| [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
+| [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Shrinkage](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data) (G-1796) | The pulling of a model's coefficients towards 0 by a penalty, as when Ridge's alpha grows; it makes the model rely less on any one feature and can reduce overfitting. |
+| [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |

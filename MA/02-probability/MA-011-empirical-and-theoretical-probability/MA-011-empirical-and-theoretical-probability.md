@@ -320,14 +320,19 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Probability | A number from 0 to 1 measuring how likely an event is; written $P(A)$ |
-| Empirical (experimental) probability | The share of trials in which an event happened, counted from data. It estimates the probability when it cannot be worked out from the sample space. |
-| Theoretical (classical) probability | Favourable outcomes divided by all outcomes, for equally likely outcomes |
-| Equally likely outcomes | Outcomes that all have the same probability, such as the faces of a fair die |
-| Favourable outcome | An outcome that belongs to the event we are measuring |
-| Axioms of probability | The three rules every probability obeys: non-negative, $P(S) = 1$, mutually exclusive events add |
-| Complement ($A^c$) | The event that $A$ does not happen: every outcome not in $A$ |
-| Complement rule | The probability that an event does not happen is 1 minus the probability that it does, $P(A^c) = 1 - P(A)$; useful when the opposite event is easier to count, as in at least one head. |
-| General addition rule (G-173) | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, for any two events |
+| Empirical (experimental) probability (G-678) | The share of trials in which an event happened, counted from data. It estimates the probability when it cannot be worked out from the sample space. |
+| Theoretical (classical) probability (G-1966) | Favourable outcomes divided by all outcomes, for equally likely outcomes. |
+| Probability (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |
+| Equally likely outcomes (G-702) | Outcomes that all have the same probability, such as the faces of a fair die. |
+| Favourable outcome (G-758) | An outcome that belongs to the event we are measuring. |
+| Axioms of probability (G-240) | The three rules every probability obeys: non-negative, $P(S) = 1$, mutually exclusive events add. |
+| Complement ($A^c$) (G-422) | The event that $A$ does not happen: every outcome not in $A$. |
+| Complement rule (G-423) | The probability that an event does not happen is 1 minus the probability that it does, $P(A^c) = 1 - P(A)$; useful when the opposite event is easier to count, as in at least one head. |
+| [Relative frequency](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency) (G-1664) | A category's share of all the data: its frequency divided by the total. |
+| [With replacement](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement) (G-2125) | Sampling in which each drawn item is put back, so it can be drawn again. |
+| [Law of large numbers](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation) (G-1052) | The more trials, the closer a share of trials gets to the true probability. |
+| [Addition rule (general addition rule)](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-173) | The rule for the probability that $A$ or $B$ (or both) happens: add their probabilities and subtract the overlap so it is not counted twice, $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events the overlap is 0. |

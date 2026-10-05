@@ -547,17 +547,31 @@ To test whether the covariance matrices make the difference, the Notebook (Secti
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Gaussian mixture model (GMM) | A model for data made of several overlapping groups: one normal curve per group, combined as a weighted sum $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$. Each point is shared among the curves by probabilities instead of being given to one group. |
-| Component | One of the normal densities in a mixture |
-| Mixture weight $\pi_k$ | How big a share of a mixture one component $k$ gets; the weights are non-negative and add up to 1. |
-| Convex combination | A mix of points (or functions) using non-negative shares that add up to 1, such as 30% of one and 70% of another; for two points it gives a point on the segment between them. |
-| Generative process | A step-by-step recipe that produces data from a model |
-| Latent variable | A variable in a model that is never observed, such as the component that produced a point |
-| Multivariate normal distribution | The bell-shaped (normal) distribution for several numbers at once, a vector; it is set by a mean vector (its centre) and a covariance matrix (its spread and how the numbers vary together). |
-| Responsibility $r_{nk}$ | In a mixture model, how likely it is that component $k$ produced point $n$, given that point (the posterior probability). |
-| Soft assignment | Sharing a point among clusters by probabilities instead of giving it to one |
-| Total responsibility $N_k$ | About how many points one component $k$ of a mixture accounts for: the sum, over all points, of that component's share of each point (its responsibility). |
-| Adjusted Rand index (ARI) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random |
-| `reg_covar` | scikit-learn's small number added to the diagonal of every covariance matrix in `GaussianMixture`, so no component shrinks into a spike on one point (collapses). |
+| Responsibility $r_{nk}$ (G-1687) | In a mixture model, how likely it is that component $k$ produced point $n$, given that point (the posterior probability). |
+| Soft assignment (G-1826) | Sharing a point among clusters by probabilities instead of giving it to one. |
+| Gaussian mixture model (GMM) (G-829) | A model for data made of several overlapping groups: one normal curve per group, combined as a weighted sum $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$. Each point is shared among the curves by probabilities instead of being given to one group. |
+| Total responsibility $N_k$ (G-1992) | About how many points one component $k$ of a mixture accounts for: the sum, over all points, of that component's share of each point (its responsibility). |
+| Generative process (G-842) | A step-by-step recipe that produces data from a model. |
+| Latent variable (G-1050) | A variable in a model that is never observed, such as the component that produced a point. |
+| Mixture weight $\pi_k$ (G-1238) | How big a share of a mixture one component $k$ gets; the weights are non-negative and add up to 1. |
+| Multivariate normal distribution (G-1283) | The bell-shaped (normal) distribution for several numbers at once, a vector; it is set by a mean vector (its centre) and a covariance matrix (its spread and how the numbers vary together). |
+| Adjusted Rand index (ARI) (G-175) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random. |
+| `reg_covar` (G-132) | scikit-learn's small number added to the diagonal of every covariance matrix in `GaussianMixture`, so no component shrinks into a spike on one point (collapses). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Multimodal](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |
+| [Hard assignment](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em) (G-877) | Giving each observation wholly to one cluster (responsibility 0 or 1). |
+| [E-step](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps) (G-654) | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
+| [M-step](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled) (G-1139) | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |
+| [Law of total probability](../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |
+| [Convex combination](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-475) | A mix of points (or functions) using non-negative shares that add up to 1, such as 30% of one and 70% of another; for two points it gives a point on the segment between them. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495) | A square table with every feature's variance on the diagonal and every pair's covariance off it, so it sums up how the data spreads and which features move together; PCA takes its eigenvectors. |
+| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
+| [Independent and identically distributed (i.i.d.)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) | Values that do not affect each other and all come from the same distribution. |
+| [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
+| [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| [Component](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#23-coordinates-walking-instructions) (G-429) | One number of a vector, its position along one axis. |

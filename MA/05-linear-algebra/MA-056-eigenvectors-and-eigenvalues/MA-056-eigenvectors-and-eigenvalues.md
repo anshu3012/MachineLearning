@@ -427,12 +427,23 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Determinant | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension |
-| Characteristic polynomial | A polynomial built from a square matrix $A$, $\det(A - \lambda I)$, whose roots are the eigenvalues of $A$, so solving it finds them. |
-| Axis of rotation | The line a 3D rotation leaves in place: an eigenvector with eigenvalue 1 |
-| Eigenbasis | A basis made of eigenvectors of a matrix. Seen in this basis the matrix only scales each basis vector, so it becomes a diagonal matrix, which makes powers such as $A^k$ easy to compute. |
-| Change of basis matrix | A matrix $P$ that translates between two sets of axes: its columns are the new axes (basis vectors). $P^{-1}AP$ is the same transformation as $A$ seen in the new axes; in an eigenbasis it only scales. |
-| Diagonalisation | Rewriting a matrix so that, seen along its eigenvectors, it only stretches each axis: $A = PDP^{-1}$, where $P$ holds its eigenvectors and $D$ is diagonal. This makes its powers easy to compute. |
-| Power iteration | Finding the top eigenvector by multiplying a vector by the matrix again and again |
+| Axis of rotation (G-241) | The line a 3D rotation leaves in place: an eigenvector with eigenvalue 1. |
+| Determinant (G-598) | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. |
+| Characteristic polynomial (G-376) | A polynomial built from a square matrix $A$, $\det(A - \lambda I)$, whose roots are the eigenvalues of $A$, so solving it finds them. |
+| Eigenbasis (G-664) | A basis made of eigenvectors of a matrix. Seen in this basis the matrix only scales each basis vector, so it becomes a diagonal matrix, which makes powers such as $A^k$ easy to compute. |
+| Change of basis matrix (G-374) | A matrix $P$ that translates between two sets of axes: its columns are the new axes (basis vectors). $P^{-1}AP$ is the same transformation as $A$ seen in the new axes; in an eigenbasis it only scales. |
+| Diagonalisation (G-602) | Rewriting a matrix so that, seen along its eigenvectors, it only stretches each axis: $A = PDP^{-1}$, where $P$ holds its eigenvectors and $D$ is diagonal. This makes its powers easy to compute. |
+| Power iteration (G-1537) | Finding the top eigenvector by multiplying a vector by the matrix again and again. |
+| [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
+| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| [Span](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
+| [Identity matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915) | The matrix that leaves every vector unchanged. |
+| [Diagonal matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. |
+| [Basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#8-basis) (G-262) | A set of vectors that are linearly independent and whose span is the whole space, so every vector can be built by scaling the basis vectors and adding them; a vector's coordinates are those scales. |
+| [Principal component](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) | A new axis found by PCA, a direction through the data: PC1 holds the most variance, PC2 the next most at right angles to it; keeping only the first few cuts the number of features. |
+| [Covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495) | A square table with every feature's variance on the diagonal and every pair's covariance off it, so it sums up how the data spreads and which features move together; PCA takes its eigenvectors. |

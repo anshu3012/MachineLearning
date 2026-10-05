@@ -481,20 +481,27 @@ Figure 10 applies one fixed formula, $\log(1 + x)$, and Yeo-Johnson to the same 
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable, one column of the data table |
-| Target | The output we predict |
-| Observation | One record, one row of the data table |
-| Power transformer | A transform that raises each feature to a learned power $\lambda$ to make it close to normal |
-| PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms |
-| Lambda ($\lambda$) (G-1038) | The power used by a power transform, learned separately for each feature |
-| Box-Cox transform | A power transform that reshapes a feature of positive values to look closer to normal, with a parameter $\lambda$ fitted to the data: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. |
-| Yeo-Johnson transform | A power transform that makes a column closer to normal, like Box-Cox but also working on zero and negative values; scikit-learn's default. |
-| method | The `PowerTransformer` setting that picks which formula reshapes the column: `"box-cox"` or `"yeo-johnson"`. |
-| lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each feature |
-| standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1 |
-| Log-likelihood | The score of the $\lambda$ search: higher when a normal curve explains the transformed values better |
-| Maximum likelihood (G-1191) | Choosing the parameter value under which the observed data is most likely; used to find $\lambda$ |
-| Bimodal | A distribution with two peaks |
-| R² score (G-1717) | How much of the variation in a regression target the model explains: 1 is perfect, 0 is no better than the average |
+| Power transformer (G-1542) | A transform that raises each column to a learned power $\lambda$ to make it close to normal. |
+| Box-Cox transform (G-331) | A power transform that reshapes a feature of positive values to look closer to normal, with a parameter $\lambda$ fitted to the data: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. |
+| Yeo-Johnson transform (G-2136) | A power transform that makes a column closer to normal, like Box-Cox but also working on zero and negative values; scikit-learn's default. |
+| PowerTransformer (G-1543) | scikit-learn's class that applies the Box-Cox or Yeo-Johnson power transform to each column, to make its distribution closer to normal. |
+| method (G-1214) | The `PowerTransformer` setting that picks which formula reshapes the column: `"box-cox"` or `"yeo-johnson"`. |
+| Bimodal (G-296) | A distribution with two peaks. |
+| lambdas_ (G-1041) | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. |
+| Lambda ($\lambda$, power transform) (G-1038) | The power used by a power transform, learned separately for each column. |
+| standardize (G-1875) | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [FunctionTransformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn) (G-819) | scikit-learn's class that applies any function we give it to the data. |
+| [QuantileTransformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn) (G-1600) | A scikit-learn transformer that maps each column's values, through their quantiles, onto a uniform or normal distribution; it is used much less than the log and power transforms. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
+| [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) | Fitting parameters by making the likelihood of the observed data as large as possible. |
+| [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |

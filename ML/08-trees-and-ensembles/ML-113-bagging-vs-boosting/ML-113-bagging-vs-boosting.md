@@ -134,8 +134,18 @@ Class 0 collects 5, so the output is 0, although two of the three models said 1 
 
 ## 7. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Parallel learning | Training the base models independently, so they can all be trained at once (bagging) |
-| Sequential learning | Training the base models one after another, each learning from the mistakes of the ones before; this is how boosting works. |
-| Shallow decision tree | A decision tree with a small maximum depth: high bias, low variance; boosting uses such trees as its base models. |
+| Shallow decision tree (G-1785) | A decision tree with a small maximum depth: high bias, low variance; boosting uses such trees as its base models. |
+| Parallel learning (G-1443) | Training the base models independently, so they can all be trained at once (bagging). |
+| Sequential learning (G-1775) | Training the base models one after another, each learning from the mistakes of the ones before; this is how boosting works. |
+| [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
+| [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Query point](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605) | The new point whose class we want to predict. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Alpha (model weight)](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#43-the-say-of-each-stump-alpha) (G-192) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes. |

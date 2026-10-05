@@ -240,13 +240,21 @@ Augmentation is not a full substitute for more data: the new versions are variat
 
 ## 9. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Data augmentation | Creating new training examples by random, label-preserving changes to existing ones |
-| Generalise (G-838) | Perform well on new data, not only on the training data |
-| Horizontal flip | Mirroring an image left to right; a data augmentation step that gives the model new training images of the same class. |
-| Rotation, shift, zoom, shear | Four common data-augmentation changes to an image: turning it, moving it, enlarging or shrinking it, and slanting it; each makes a new training image with the same label. |
-| Safety (of an augmentation) | Whether a transformation keeps the label true |
-| `fill_mode` | How empty pixels after a shift or rotation are filled: nearest, reflect, constant or wrap |
-| Random preprocessing layer | A Keras layer, such as `RandomFlip`, that changes images at random during training and does nothing at prediction |
-| `ImageDataGenerator` | An older Keras class for image augmentation: it makes randomly rotated, shifted, zoomed or flipped copies of training images; now deprecated in favour of `image_dataset_from_directory` and preprocessing layers. |
+| Data augmentation (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
+| Horizontal flip (G-903) | Mirroring an image left to right; a data augmentation step that gives the model new training images of the same class. |
+| Rotation, shift, zoom, shear (G-1710) | Four common data-augmentation changes to an image: turning it, moving it, enlarging or shrinking it, and slanting it; each makes a new training image with the same label. |
+| Safety (of an augmentation) (G-1719) | Whether a transformation keeps the label true. |
+| `fill_mode` (G-80) | How empty pixels after a shift or rotation are filled: nearest, reflect, constant or wrap. |
+| Random preprocessing layer (G-1615) | A Keras layer, such as `RandomFlip`, that changes images at random during training and does nothing at prediction. |
+| `ImageDataGenerator` (G-95) | An older Keras class for image augmentation: it makes randomly rotated, shifted, zoomed or flipped copies of training images; now deprecated in favour of `image_dataset_from_directory` and preprocessing layers. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Generalisation (generalise)](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#62-why-it-matters) (G-838) | How well a model performs on new data it was not trained on. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |

@@ -283,10 +283,14 @@ Figure 6b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Voting ensemble (G-2096) | Several models trained on the same data, combined by majority vote (classification) or mean (regression) |
-| Base model (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
-| Independent models | Models whose mistakes are unrelated, so one being wrong says nothing about the others |
-| Binomial distribution (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability |
-| Condorcet's jury theorem (G-445) | A majority of independent voters, each right with the same probability above 0.5, is right more often than any one voter, and more so as voters are added |
+| Voting ensemble (G-2096) | Several models trained on the same data, combined by majority vote (classification) or mean (regression). |
+| Condorcet's jury theorem (G-445) | A majority of independent voters, each right with probability above 0.5, is right more often than any one voter, and more so as voters are added. |
+| Independent models (G-935) | Models whose mistakes are unrelated, so one being wrong says nothing about the others. |
+| [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Binomial distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |

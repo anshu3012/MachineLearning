@@ -268,13 +268,32 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Adam | Adaptive moment estimation: an optimizer that combines momentum's EWMA of gradients with RMSProp's EWMA of squared gradients, plus bias correction |
-| First moment $m_t$ | A running average of the recent gradients in which older ones count less (an EWMA), so it estimates the gradient's mean; written $m_t$. Adam uses it in its update. |
-| Second moment $v_t$ | In Adam, the running average (EWMA) of the squared gradient, an estimate of its mean square; dividing the step by $\sqrt{v_t}$ gives each weight its own step size, as in RMSProp. |
-| Bias correction | A fix for a running average (EWMA) that starts at 0 and is too small in the first steps: divide it by $1 - \beta^t$. |
-| $\beta_1$, $\beta_2$ | Two numbers between 0 and 1 that set how much of the past Adam's two running averages keep (its decay factors): $\beta_1$ for the average of gradients $m_t$, $\beta_2$ for the average of squared gradients $v_t$. Defaults 0.9 and 0.999. |
-| Hyperparameter | A setting chosen before training, such as the optimizer or the learning rate |
-| Feature | An input variable, such as one pixel of an image |
-| Target | The output we predict, such as the digit |
+| Adam (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
+| First moment $m_t$ (G-780) | A running average of the recent gradients in which older ones count less (an EWMA), so it estimates the gradient's mean; written $m_t$. Adam uses it in its update. |
+| Second moment $v_t$ (G-1759) | In Adam, the running average (EWMA) of the squared gradient, an estimate of its mean square; dividing the step by $\sqrt{v_t}$ gives each weight its own step size, as in RMSProp. |
+| Bias correction (G-285) | A fix for a running average (EWMA) that starts at 0 and is too small in the first steps: divide it by $1 - \beta^t$. |
+| $\beta_1$, $\beta_2$ (G-6) | Two numbers between 0 and 1 that set how much of the past Adam's two running averages keep (its decay factors): $\beta_1$ for the average of gradients $m_t$, $\beta_2$ for the average of squared gradients $v_t$. Defaults 0.9 and 0.999. |
+| [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |
+| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
+| [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
+| [Nesterov accelerated gradient (NAG)](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#1-overview) (G-1315) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
+| [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#1-overview) (G-168) | An optimizer that gives each parameter its own learning rate, $\eta/(\sqrt{v_t}+\epsilon)$, where $v_t$ sums its past squared gradients. |
+| [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
+| [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
+| [Elongated bowl](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss) (G-673) | A loss surface stretched far more in one direction than another, with long elliptical contours, as a sparse feature produces. Gradient descent on it wastes steps moving along the steep direction and crawls along the flat one. |
+| [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
+| [Non-convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
+| [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Batch size](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) | The number of rows in each batch; a hyperparameter. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#1-overview) (G-1001) | A Python library (`keras_tuner`) that searches for good hyperparameters of a Keras model. |

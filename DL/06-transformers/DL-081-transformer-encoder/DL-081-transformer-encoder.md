@@ -391,19 +391,24 @@ Figure 9 draws the table. Going from 2 to 6 blocks adds 2.1 BLEU; going to 8 add
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Encoder | The part of the transformer that turns the input sentence into one contextual vector per word |
-| Encoder block | One layer of the transformer encoder: multi-head attention and then a feed-forward network, each followed by add and norm. It turns each word's vector into a more context-aware one; the encoder stacks 6 of them. |
-| Sub-layer | One of the two parts of an encoder block: multi-head attention or the feed-forward network |
-| Token | One unit of text the model reads, such as a word or a piece of a word |
-| Tokenisation (G-1983) | Splitting a text into tokens |
-| $d_{\text{model}}$ | The number of values in every word vector inside the transformer: 512 in the paper |
-| Residual connection | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection |
-| Add and norm | A residual addition followed by layer normalisation: $\text{LayerNorm}(x + \text{Sublayer}(x))$ |
-| Feed-forward network (FFN) | A small two-layer network inside each transformer block that works on each word's vector on its own: dense layers 512 → 2048 with ReLU → 512. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
-| Position-wise | Applied to each word's vector separately, with the same weights for every position |
-| $d_{\text{ff}}$ | The width of the hidden layer of the transformer's feed-forward network: each word's 512-number vector is widened to $d_{\text{ff}} = 2048$ numbers, passed through ReLU, then brought back to 512. |
-| Observation | One record of the data; here, one word's vector in a batch |
-| Degradation problem | Deeper plain networks reaching a higher training error than shallower ones |
-| Rank collapse | All word vectors of a sentence becoming the same vector after many attention layers without residual connections |
+| Encoder block (G-681) | One layer of the transformer encoder: multi-head attention and then a feed-forward network, each followed by add and norm. It turns each word's vector into a more context-aware one; the encoder stacks 6 of them. |
+| Sub-layer (G-1908) | One of the two parts of an encoder block: multi-head attention or the feed-forward network. |
+| Residual connection (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |
+| Position-wise (G-1527) | Applied to each word's vector separately, with the same weights for every position. |
+| Degradation problem (G-576) | Deeper plain networks reaching a higher training error than shallower ones. |
+| Rank collapse (G-1628) | All word vectors of a sentence becoming the same vector after many attention layers without residual connections. |
+| $d_{\text{ff}}$ (G-26) | The width of the hidden layer of the transformer's feed-forward network: each word's 512-number vector is widened to $d_{\text{ff}} = 2048$ numbers, passed through ReLU, then brought back to 512. |
+| Add and norm (G-172) | Adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale: LayerNorm(x + Sublayer(x)). |
+| Feed-forward network (FFN) (G-774) | A small two-layer network inside each transformer block that works on each word's vector on its own: dense layers 512 → 2048 with ReLU → 512. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
+| Tokenisation (tokenization) (G-1983) | Splitting a text into tokens (words or word pieces), the units a language model reads and writes, before they are turned into vectors. |
+| [Encoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) | The part of a seq2seq model that reads the input sequence and summarises it. |
+| [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
+| [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
+| [Token](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#4-tokens) (G-1981) | One unit of text the model reads or writes; here, one word. |
+| [Residual stream](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#6-inside-a-gpt-2-block) (G-1683) | The token vector that passes from block to block, to which every sub-layer adds its output. |
+| [$d_{\text{model}}$](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-27) | The number of values in each word's vector at the layer's input and output; 512 in the transformer. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

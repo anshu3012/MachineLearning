@@ -729,20 +729,39 @@ The backward pass has one step per forward step, each a multiplication by a loca
 
 ## 13. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Vector-valued function | A function that takes several numbers in and gives several numbers out, $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$; we read it as a stack of $m$ ordinary functions. |
-| Jacobian | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
-| Numerator layout | Writing derivatives with outputs as rows and inputs as columns |
-| Polar coordinates | Describing a point by its distance $r$ from the origin and its angle $\theta$: $(r\cos\theta, r\sin\theta)$ |
-| Local linear map | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian |
-| Locally linear (G-2250) | Said of a function that looks more and more like a linear transformation as we zoom in on any point |
-| Orientation (G-2251) | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant |
-| Jacobian determinant | The factor by which a function stretches or shrinks small areas or volumes near a point: the determinant of its Jacobian, $\det J$. |
-| Chain rule with Jacobians | The chain rule for functions with many inputs and outputs: the table of derivatives (Jacobian) of one function applied after another is the product of their two Jacobians, in the same order. |
-| Least-squares loss | The total squared gap between the targets and a model's predictions, $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; fitting picks the parameters $\boldsymbol{\theta}$ that make it smallest. Its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. |
-| Flattening | Reshaping a matrix into one long vector so that derivatives stay matrices |
-| Quadratic form | $\mathbf{x}^{\mathsf T}B\mathbf{x}$; its gradient is $\mathbf{x}^{\mathsf T}(B + B^{\mathsf T})$ |
-| Computation graph | A function broken into elementary steps, each a node, with arrows for the flow of values. Backpropagation walks it backwards, applying the chain rule one step at a time. |
-| Backpropagation | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
-| Automatic differentiation | Software that computes exact derivatives of a program by the chain rule on its elementary operations; reverse mode is backpropagation |
+| Polar coordinates (G-1511) | Describing a point by its distance $r$ from the origin and its angle $\theta$: $(r\cos\theta, r\sin\theta)$. |
+| Vector-valued function (G-2082) | A function that takes several numbers in and gives several numbers out, $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$; we read it as a stack of $m$ ordinary functions. |
+| Local linear map (G-1108) | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian. |
+| Locally linear (G-2250) | Said of a function that looks more and more like a linear transformation as we zoom in on any point. |
+| Jacobian (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
+| Numerator layout (G-1366) | Writing derivatives with outputs as rows and inputs as columns. |
+| Orientation (G-2251) | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant. |
+| Jacobian determinant (G-979) | The factor by which a function stretches or shrinks small areas or volumes near a point: the determinant of its Jacobian, $\det J$. |
+| Chain rule with Jacobians (G-370) | The chain rule for functions with many inputs and outputs: the table of derivatives (Jacobian) of one function applied after another is the product of their two Jacobians, in the same order. |
+| Computation graph (G-434) | A function broken into elementary steps, each a node, with arrows for the flow of values. Backpropagation walks it backwards, applying the chain rule one step at a time. |
+| Automatic differentiation (G-232) | Software that computes exact derivatives of a program by the chain rule on its elementary operations; reverse mode is backpropagation. |
+| Flattening (G-789) | Reshaping a matrix into one long vector so that derivatives stay matrices. |
+| Least-squares loss (G-1076) | The total squared gap between the targets and a model's predictions, $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; fitting picks the parameters $\boldsymbol{\theta}$ that make it smallest. Its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. |
+| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
+| [Row vector](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-1714) | A vector written as one row, shape $1 \times n$. |
+| [Contour plot](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468) | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
+| [Column vector](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-416) | A vector written as one column, shape $n \times 1$; the default meaning of "vector". |
+| [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
+| [Linearisation](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#63-degree-1-the-tangent-line) (G-1099) | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). |
+| [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
+| [Determinant](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Multivariate chain rule](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables) (G-1281) | How to take a derivative when a function depends on its inputs through in-between (intermediate) variables: multiply the derivatives along each path and add the paths. In matrix form, a row gradient times a matrix of inner derivatives. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Matrix calculus](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#51-three-rules-of-matrix-calculus-each-checked-on-numbers) (G-1176) | Rules for differentiating expressions that contain vectors and matrices, such as a loss written in matrix form, so all the partial derivatives come out in one formula. |
+| [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Quadratic form](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#31-the-problem) (G-1597) | An expression such as $\mathbf{x}^{\mathsf T}A\mathbf{x}$ that turns a vector into one number made only of squared entries and products of pairs of entries, such as $x_1^2 + 3x_2^2$; it is the curved part of a quadratic program's objective. |

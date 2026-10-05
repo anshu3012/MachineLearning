@@ -393,18 +393,34 @@ $$\text{GRU} = 3\thinspace(64 \times 32 + 2 \times 32) = 6{,}336$$
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Gated recurrent unit (GRU) | An RNN architecture with one memory (the hidden state) and two gates, reset and update |
-| Hidden state ($h_t$) | The GRU's only memory: its summary of the sequence up to time step $t$ |
-| Reset gate ($r_t$) | A sigmoid layer's output that decides how much of each entry of the old memory is used to build the candidate |
-| Reset (modulated) memory | The GRU's old memory scaled entry by entry by the reset gate, $r_t \odot h_{t-1}$; it sets how much of the past goes into building the candidate hidden state. |
-| Candidate hidden state ($\tilde h_t$) | The proposed new memory, built by a tanh layer from the reset memory and the input |
-| Update gate ($z_t$) | In a GRU, numbers between 0 and 1, the output of a sigmoid layer, that decide entry by entry how much of the new candidate memory replaces the old memory. |
-| Gate | A vector of numbers between 0 and 1 that multiplies another vector entry by entry |
-| Pointwise operation | An operation done entry by entry on vectors of the same length |
-| Concatenation ($[h_{t-1}, x_t]$) | Two vectors joined end to end into one longer vector |
-| Units | The number of nodes in each layer of the cell, and the length of the hidden state |
-| Observation | One record of the data, here one review |
-| Target | The output we predict, here the sentiment of a review |
-| `reset_after` | Keras option: apply the reset gate after (default) or before the matrix product |
+| Gated recurrent unit (GRU) (G-826) | An RNN architecture with one memory (the hidden state) and two gates, reset and update. |
+| Reset gate ($r_t$) (G-1679) | A sigmoid layer's output that decides how much of each entry of the old memory is used to build the candidate. |
+| Update gate ($z_t$) (G-2060) | In a GRU, numbers between 0 and 1, the output of a sigmoid layer, that decide entry by entry how much of the new candidate memory replaces the old memory. |
+| Candidate hidden state ($\tilde h_t$) (G-343) | The proposed new memory, built by a tanh layer from the reset memory and the input. |
+| `reset_after` (G-134) | Keras option: apply the reset gate after (default) or before the matrix product. |
+| Reset (modulated) memory (G-1678) | The GRU's old memory scaled entry by entry by the reset gate, $r_t \odot h_{t-1}$; it sets how much of the past goes into building the candidate hidden state. |
+| [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
+| [Short-term context](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context) (G-1793) | What is happening in the sequence right now; an LSTM keeps it apart from the long-term context, which holds what matters for the whole sequence. |
+| [Long-term context](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context) (G-1124) | What matters for the sequence as a whole, kept from earlier steps. |
+| [Cell state ($c_t$)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm) (G-361) | The LSTM's long-term memory: a vector passed from step to step beside the hidden state; the gates add to it and remove from it, so information can be kept over many steps. |
+| [Hidden state ($h_t$)](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |
+| [Gate](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#8-the-three-gates-in-one-line-each) (G-825) | A part of the LSTM cell that controls what moves into, out of, or along the cell state. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
+| [Units](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#41-cell-state-and-hidden-state-are-vectors-of-the-same-length) (G-2049) | The LSTM setting for how many nodes each of its four internal layers has; it is also the length of the cell state $c_t$, the hidden state $h_t$ and every gate vector. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Pointwise operation](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#44-pointwise-operations) (G-1508) | An operation done entry by entry on vectors of the same length, such as $\odot$. |
+| [Concatenation ($[h_{t-1}, x_t]$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t) (G-436) | Joining two vectors end to end into one longer vector, so one layer can read both at once: 3 numbers and 4 numbers give 7. |
+| [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview) (G-246) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |

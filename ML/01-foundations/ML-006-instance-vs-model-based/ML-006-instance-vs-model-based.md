@@ -263,25 +263,31 @@ The Notebook for this Note (`ML-006-instance-vs-model-based.ipynb`) is a small a
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Instance-based learning | Learning by storing the training data and comparing new points with it |
-| Model-based learning | Learning a mathematical function from the data and predicting with it |
-| Distance | A number measuring how far apart two points are; small distance = similar |
-| Similarity | How alike two data points are, measured as a distance: the closer two points are, the more similar; instance-based methods such as KNN use it to find the nearest examples. |
-| K-nearest neighbours (KNN) | Predicting from the answers of the *k* closest stored points |
-| Majority vote | Predicting the class that most of the *k* nearest points belong to |
-| Query point | The new point whose class we want to predict |
-| Outlier | A value far from the rest of the data; here, a student whose result does not match similar students |
-| Lazy learning | Another name for instance-based learning: no work until a question arrives |
-| Eager learning | Learning that does all its work up front, building a model from the training data before any question arrives; another name for model-based learning and the opposite of lazy learning. |
-| Decision boundary | A line or curve that separates the classes in classification |
-| Parameters (G-1450) | The numbers that describe a learned model, e.g. slope and intercept |
-| Logistic regression | A model-based classifier that learns a straight decision boundary |
-| Loss function (G-706) | A single number measuring how wrong a model is on the training data; training makes it smaller |
-| Sigmoid function (G-1798) | A curve that maps any score to a value between 0 and 1, read as a probability |
-| Gradient descent | Training by repeatedly nudging the parameters to make the loss smaller |
-| Feature | An input variable; one column of the data table |
-| Target | The output we predict |
-| Observation | One record; one row of the data table |
-| Feature scaling (G-767) | Putting features on the same scale, so no feature dominates distances |
+| Instance-based learning (G-955) | Learning by storing the training data and comparing new points with it. |
+| Model-based learning (G-1257) | Learning a mathematical function from the data and predicting with it. |
+| Distance (G-623) | A number measuring how far apart two points are; small distance = similar. |
+| Similarity (G-1805) | How alike two data points are, measured as a distance: the closer two points are, the more similar; instance-based methods such as KNN use it to find the nearest examples. |
+| Lazy learning (G-1057) | Another name for instance-based learning: no work until a question arrives. |
+| Decision boundary (G-555) | A line or curve that separates the classes in classification. |
+| Parameters (of a model) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
+| Eager learning (G-655) | Learning that does all its work up front, building a model from the training data before any question arrives; another name for model-based learning and the opposite of lazy learning. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
+| [Feature scaling (scaling)](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) | Putting columns on the same scale, so no column dominates distances. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Query point](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605) | The new point whose class we want to predict. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |

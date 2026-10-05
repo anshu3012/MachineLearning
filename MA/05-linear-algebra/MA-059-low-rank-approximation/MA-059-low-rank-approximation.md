@@ -506,12 +506,21 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Outer product | A column vector times a row vector, $\mathbf{u}\mathbf{v}^{\mathsf T}$: a matrix of rank 1 with entries $u_iv_j$ |
-| Rank-1 layer | One term $\sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$ of the SVD written as a sum |
-| Rank $k$ approximation (truncated SVD) (G-1630) | The sum of the first $k$ layers, $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$ |
-| Spectral norm | The largest stretch a matrix gives to any input of length 1, $\lVert M\rVert_2 = \sigma_1$; it is one way to measure the size of a matrix. |
-| Frobenius norm | One number for the size of a matrix: the square root of the sum of all its squared entries, also equal to $\sqrt{\sum\sigma_i^2}$ over its singular values $\sigma_i$. |
-| Eckart–Young theorem | The truncated SVD is the closest rank $k$ matrix to $A$; its spectral error is $\sigma_{k+1}$ |
-| Noise floor | The flat run of small singular values that random noise produces; the few singular values standing above it carry the real structure, so keeping only those removes most of the noise. |
+| Rank-1 layer (G-1631) | One piece of a matrix split by the SVD: a column times a row, $\sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$, weighted by its singular value $\sigma_i$; adding all the layers gives back the matrix. |
+| Rank $k$ approximation (truncated SVD) (G-1630) | The approximation of a matrix that keeps only its $k$ largest singular values with their vectors and drops the rest, $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$; it is the best small summary of the matrix and needs far fewer numbers. |
+| Spectral norm (G-1852) | The largest stretch a matrix gives to any input of length 1, $\lVert M\rVert_2 = \sigma_1$; it is one way to measure the size of a matrix. |
+| Eckart–Young theorem (G-657) | The theorem that the truncated SVD (keeping the $k$ largest singular values) is the closest rank $k$ matrix to $A$, so it is the best way to compress $A$ to rank $k$; its spectral error is $\sigma_{k+1}$. |
+| Frobenius norm (G-809) | One number for the size of a matrix: the square root of the sum of all its squared entries, also equal to $\sqrt{\sum\sigma_i^2}$ over its singular values $\sigma_i$. |
+| Noise floor (G-1328) | The flat run of small singular values that random noise produces; the few singular values standing above it carry the real structure, so keeping only those removes most of the noise. |
+| [Outer product](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#62-higher-orders-tensors-and-outer-products) (G-1418) | Multiplying a column vector by a row vector to get a whole matrix: $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$ has entry $\delta_i\delta_j$ for every pair; it is what $\boldsymbol{\delta}^2$ means in a Taylor polynomial of several variables. |
+| [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
+| [Rank (of a matrix)](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |
+| [Singular value ($\sigma_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
+| [Left singular vector ($\mathbf u_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1079) | One of the output directions of the SVD: the unit vector that a right singular vector lands on, stretched by its singular value ($A\mathbf v_i = \sigma_i \mathbf u_i$); the columns of $U$. |
+| [Right singular vector ($\mathbf v_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1692) | A column $\mathbf v_i$ of $V$ in the SVD: a unit-length input direction that the matrix sends to $\sigma_i$ times the matching left singular vector $\mathbf u_i$. |
+| [Diagonal matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. |
+| [L2 norm (norm, magnitude, length of a vector)](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#22-in-n-dimensions) (G-1028) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. |

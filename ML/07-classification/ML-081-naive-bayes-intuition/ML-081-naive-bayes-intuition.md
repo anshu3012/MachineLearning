@@ -236,13 +236,19 @@ Adding a count to every value is **Laplace smoothing** (G-1045). [The zero-frequ
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Naive Bayes classifier (G-1297) | A classifier that applies Bayes' theorem with the assumption that features are independent within each class |
-| Naive assumption (G-1296) | The assumption that the features are conditionally independent given the class |
-| Conditional independence (G-443) | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
-| Joint probability (G-986) | The probability that several conditions hold together, such as toss lost, Mumbai and sunny in one match |
+| Naive Bayes classifier (Naive Bayes) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
 | Score (G-1753) | In naive Bayes, the likelihood times the prior for one class; it is not the probability of the class, only proportional to it, which is enough to pick the class with the largest score. |
-| Class prior (G-388) | The share of training observations in a class |
-| Bag of words (G-250) | Treating a text as word counts, ignoring the order of the words |
-| Laplace smoothing (G-1045) | Adding a small count (usually 1) to every count so that no probability is 0 |
+| Class prior (G-388) | The share of training rows in a class, such as 5 wins out of 8 matches; Naive Bayes uses it as the prior probability of that class. |
+| Naive assumption (G-1296) | The assumption that, within each class, the inputs are independent of each other (conditional independence given the class); it lets Naive Bayes multiply one probability per input instead of counting rare full combinations. |
+| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
+| [Prior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565) | The probability of an event before any evidence is seen. |
+| [Posterior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1536) | The probability of an event after the evidence is taken into account. |
+| [Evidence](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-718) | The overall chance of seeing what we observed, counted over every possible hypothesis, written $P(E)$. Bayes' theorem divides by it: posterior = likelihood × prior / evidence. |
+| [Joint probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986) | The probability that two events happen together, $P(A \cap B)$. |
+| [Conditional independence](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#5-step-3-the-naive-assumption) (G-443) | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
+| [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
+| [Laplace smoothing](../../../ML/07-classification/ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#7-the-fix-laplace-smoothing) (G-1045) | Adding a small count (usually 1) to every count so that no probability is 0. |

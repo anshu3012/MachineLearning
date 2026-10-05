@@ -410,21 +410,25 @@ Reading reports becomes faster with practice. Running the library on three or fo
 
 ## 12. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Profiling report | An automatic EDA report describing every column and pair of columns of a dataset |
-| Pandas Profiling | A library that builds a full EDA report (column summaries, missing values, correlations and more) from a DataFrame in a few lines of code; now named `fg-data-profiling`. |
-| Variable | The report's word for a column |
-| Observation | One record of the data; the report's word for a row |
-| Feature | An input variable, one column of the data table |
-| Target | The output we want to predict |
-| Average record size | The memory one row takes, on average |
-| Alert | In a pandas profiling report, a warning about a column that may need attention, such as many missing values; a question to check, not a verdict. |
-| High cardinality | A categorical column with very many different categories |
-| Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average |
-| Median absolute deviation (MAD) | The median distance of the values from their median |
-| Kurtosis | How heavy the tails of a distribution are compared with a normal curve |
-| Monotonicity | Whether a column's values only go up, or only go down, from row to row |
-| Pearson's r (G-1474) | The correlation coefficient for straight-line relationships between two numerical columns |
-| Cramér's V | A measure of how strongly two categorical features are related, from 0 (no relationship) to 1 (perfect relationship), made by rescaling the chi-square statistic. |
-| Nullity matrix | A picture of the whole table with each missing value drawn as a white line; it shows where values are missing and whether gaps in different columns fall in the same rows. |
+| Pandas Profiling (G-1440) | A library that builds a full EDA report (column summaries, missing values, correlations and more) from a DataFrame in a few lines of code; now named `fg-data-profiling`. |
+| Alert (G-186) | In a pandas profiling report, a warning about a column that may need attention, such as many missing values; a question to check, not a verdict. |
+| Average record size (G-239) | The memory one row takes, on average. |
+| High cardinality (G-896) | A categorical column with very many different categories. |
+| Median absolute deviation (MAD) (G-1207) | The median distance of the values from their median. |
+| Monotonicity (G-1260) | Whether a column's values only go up, or only go down, from row to row. |
+| Nullity matrix (G-1364) | A picture of the whole table with each missing value drawn as a white line; it shows where values are missing and whether gaps in different columns fall in the same rows. |
+| Profiling report (G-1580) | An automatic EDA report describing every column and pair of columns of a dataset. |
+| [PyPI](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#21-what-anaconda-and-conda-are) (G-1593) | The Python Package Index, the public store of Python packages. |
+| [HTML](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#1-overview) (G-904) | The language web pages are written in: a tree of nested tags. |
+| [Variable](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-2071) | One column of a dataset. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Coefficient of variation (CV)](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#8-coefficient-of-variation) (G-408) | Standard deviation divided by mean: spread relative to the average. |
+| [Kurtosis](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#1-overview) (G-1021) | How heavy the tails of a distribution are compared with a normal curve; the fourth moment. |
+| [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for straight-line relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| [Cramér's V](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#72-strength-of-a-relationship-cramérs-v) (G-500) | A measure of how strongly two categorical features are related, from 0 (no relationship) to 1 (perfect relationship), made by rescaling the chi-square statistic. |

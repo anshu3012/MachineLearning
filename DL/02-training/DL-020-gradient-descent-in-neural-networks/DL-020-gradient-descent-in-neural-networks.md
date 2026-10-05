@@ -311,10 +311,24 @@ So how many observations per update is a trade: all of them for fast, smooth epo
 
 ## 14. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Vanilla gradient descent | Another name for batch gradient descent, the plain version, which uses the whole training set for every weight update. |
-| `batch_size` | Keras setting: the number of observations used for each update; $n$, 1 or in between gives batch, stochastic or mini-batch |
-| Updates per epoch | How many times the weights are updated in one pass over the data: one update per batch, so $\lceil n / \text{batch size} \rceil$. |
-| `validation_split` | Keras setting that holds back the last fraction of the observations to measure the model during training |
-| Convergence speed | How many epochs a method needs to reach a good solution, as opposed to the time per epoch |
+| Vanilla gradient descent (G-2069) | Another name for batch gradient descent, the plain version, which uses the whole training set for every weight update. |
+| `batch_size` (G-63) | Keras setting: the number of rows used for each update; $n$, 1 or in between gives batch, stochastic or mini-batch. |
+| Convergence speed (G-471) | How many epochs a method needs to reach a good solution, as opposed to the time per epoch. |
+| Updates per epoch (G-2061) | How many times the weights are updated in one pass over the data: one update per batch, so $\lceil n / \text{batch size} \rceil$. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) | Gradient descent that uses all training rows for every update. |
+| [Batch size](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) | The number of rows in each batch; a hyperparameter. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Converge](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#9-when-to-stop-convergence) (G-469) | To settle at a minimum, with steps becoming negligible. |
+| [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) | Gradient descent that uses a small random group of rows for every update. |
+| [Vectorisation (of code)](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#33-all-derivatives-at-once) (G-2083) | Writing a computation as operations on whole arrays instead of Python loops, which runs much faster. |
+| [`validation_split`](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-156) | The share of the training rows Keras holds back as a validation set. |

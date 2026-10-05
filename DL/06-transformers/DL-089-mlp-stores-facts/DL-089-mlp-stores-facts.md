@@ -301,13 +301,20 @@ What does survive from the toy: the MLP block works on each token alone and adds
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| MLP block | The feed-forward part of a transformer block: it widens each token's vector with a matrix (up-projection), applies an activation, shrinks it back (down-projection) and adds the result to the token's vector. |
-| $W_{\text{up}}$, $W_{\text{down}}$ | The two learned matrices of the MLP block: $W_{\text{up}}$ first widens each vector, $W_{\text{down}}$ then narrows it back. In GPT-2 they are named `c_fc` and `c_proj`. |
-| Neuron (G-1317) | One of the middle values of the MLP block (3,072 per block in GPT-2 small); active when positive |
-| AND gate | A rule that outputs "yes" only when all its inputs are "yes" |
-| Key, value (in an MLP) | Geva et al.'s names for a row of the first matrix (a pattern detector) and the matching direction of the second matrix (what gets written) |
-| Zero-ablation | Setting a part's output to 0 and running the rest of the model unchanged, to see what that part does |
-| Name tokens | The tokens that spell the athlete's name in a prompt such as "Michael Jordan plays the sport of"; zeroing the MLP outputs at these positions tests whether the MLPs there recall the sport. |
-| Fact (here) | An athlete's sport, as the model's ranking of 10 sports after "⟨name⟩ plays the sport of" |
+| MLP block (G-1245) | The feed-forward part of a transformer block: it widens each token's vector with a matrix (up-projection), applies an activation, shrinks it back (down-projection) and adds the result to the token's vector. |
+| $W_{\text{up}}$, $W_{\text{down}}$ (G-42) | The two learned matrices of the MLP block: $W_{\text{up}}$ first widens each vector, $W_{\text{down}}$ then narrows it back. In GPT-2 they are named `c_fc` and `c_proj`. |
+| AND gate (G-198) | A rule that outputs "yes" only when all its inputs are "yes". |
+| Key, value (in an MLP) (G-1012) | Geva et al.'s names for a row of the first matrix (a pattern detector) and the matching direction of the second matrix (what gets written). |
+| Fact (here) (G-745) | An athlete's sport, as the model's ranking of 10 sports after "⟨name⟩ plays the sport of". |
+| Zero-ablation (G-2147) | Setting a part's output to 0 and running the rest of the model unchanged, to see what that part does. |
+| Name tokens (G-1299) | The tokens that spell the athlete's name in a prompt such as "Michael Jordan plays the sport of"; zeroing the MLP outputs at these positions tests whether the MLPs there recall the sport. |
+| [Feed-forward network (FFN)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#53-the-feed-forward-network) (G-774) | A small two-layer network inside each transformer block that works on each word's vector on its own: dense layers 512 → 2048 with ReLU → 512. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
+| [Neuron (in a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1317) | One unit of a neural network (in an ANN, a perceptron): it takes inputs from the layer before, combines them with its learned weights and passes its output on. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Key](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
+| [Value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
+| [Residual stream](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#6-inside-a-gpt-2-block) (G-1683) | The token vector that passes from block to block, to which every sub-layer adds its output. |

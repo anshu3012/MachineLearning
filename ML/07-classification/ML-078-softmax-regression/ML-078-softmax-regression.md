@@ -273,12 +273,19 @@ Figure 5 shows the **decision regions** (G-557): each point of the plane is colo
 
 ## 8. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Softmax regression | Logistic regression extended to any number of classes using the softmax function |
-| Multinomial logistic regression | Logistic regression extended to more than two classes: it gives each class a probability with the softmax. Also called softmax regression. |
-| Softmax function | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
-| Argmax | Gives 1 to the class with the largest score and 0 to the others; used to report the class, not to train |
-| Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class) |
-| One-vs-rest | Training one binary classifier per class, each separating that class from all others |
-| Decision region | The part of the feature space in which a model predicts a given class |
+| Softmax regression (G-1833) | Logistic regression extended to any number of classes using the softmax function. |
+| Multinomial logistic regression (G-1276) | Logistic regression extended to more than two classes: it gives each class a probability with the softmax. Also called softmax regression. |
+| Softmax function (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| One-vs-rest (G-1388) | Training one binary classifier per class, each separating that class from all others. |
+| Categorical cross entropy (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
+| Decision region (G-557) | The part of the input space in which a model predicts a given class. |
+| [argmax](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview) (G-212) | The position of the largest value; on 10 class probabilities, the predicted class. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |

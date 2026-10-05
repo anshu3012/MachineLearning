@@ -332,9 +332,22 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 
 ## 11. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Bernoulli trial | One random experiment with exactly two outcomes, success (1) and failure (0) |
-| Binomial experiment | A fixed number $n$ of independent Bernoulli trials with the same success probability $p$ |
-| Categorical distribution | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case |
-| Survival function | The probability of a value above $x$: one minus the CDF; `sf` in scipy. |
+| Bernoulli trial (G-276) | One random experiment with exactly two outcomes, success (1) and failure (0). |
+| Categorical distribution (G-352) | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case. |
+| Binomial distribution (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
+| Survival function (G-1928) | The probability of a value above $x$: one minus the CDF; `sf` in scipy. |
+| Binomial experiment (G-309) | A fixed number $n$ of independent Bernoulli trials with the same success probability $p$. |
+| [Bernoulli distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Binary classifier](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#7-what-a-perceptron-does-geometrically) (G-302) | A model that separates exactly two classes. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Null hypothesis ($H_0$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
+| [A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#102-ab-testing) (G-157) | Comparing an old and a new version, of a model or a web page, by showing each to a random half of the users at the same time, to see which one does better. |

@@ -341,19 +341,27 @@ In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9
 
 ## 10. Key terms
 
+Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
+
 | Term | Meaning |
 |---|---|
-| Feature | An input variable: one column of the data table |
-| Observation | One record: one row of the data table |
-| Target | The output we predict |
-| KNN imputer | Filling a gap with the mean of that feature in the k observations nearest to the observation with the gap |
-| Nearest neighbours (G-1306) | The observations at the smallest distance from a given observation |
-| `n_neighbors` (k) | The number of nearest observations the KNN imputer averages; default 5 |
-| Euclidean distance | The straight-line distance between two observations: square root of the summed squared differences |
-| nan-Euclidean distance | The Euclidean distance over the features both observations have, scaled by (all features / used features) |
-| Distance weight (nan-Euclidean) | All features divided by the features present in both observations; makes up for the skipped features |
-| Uniform weighting | Every neighbour counts equally: the fill is their plain mean |
-| Distance weighting | Each neighbour counts in proportion to 1 / its distance, so nearer observations count more |
-| Donor | An observation that has a value in the feature being filled, so it can be a neighbour |
-| Fill error (G-2197) | The average gap between filled values and the true values they replace, measured on values we hid on purpose |
-| `KNNImputer` | scikit-learn's class for KNN imputation: it fills each gap from the most similar observations (the nearest neighbours), using their values of that feature. |
+| KNN imputer (G-1017) | Filling a missing value from the most similar rows (multivariate imputation, `KNNImputer`). |
+| Euclidean distance (G-715) | The straight-line distance between two points. |
+| nan-Euclidean distance (G-1302) | A distance between two rows that may have missing values: the Euclidean distance over only the columns both rows have, scaled up by (all columns / used columns) so rows with gaps do not look too close. scikit-learn uses it to find neighbours for KNN imputation. |
+| Distance weight (nan-Euclidean) (G-621) | In the nan-Euclidean distance, the factor that scales the sum up: the total number of features divided by the number present in both observations. It makes up for the skipped features, so observations with many gaps do not look too close. |
+| Donor (G-633) | A row that has a value in the column being filled, so it can be a neighbour. |
+| `KNNImputer` (G-108) | scikit-learn's class for KNN imputation: it fills each gap from the most similar observations (the nearest neighbours), using their values of that feature. |
+| `n_neighbors` (k) (G-122) | The number of nearest rows the KNN imputer averages; default 5. |
+| Fill error (G-2197) | The average gap between filled values and the true values they replace, measured on values we hid on purpose. |
+| Uniform weighting (G-2044) | Every neighbour counts equally: the fill is their plain mean. |
+| Distance weighting (G-622) | Each neighbour counts in proportion to 1 / its distance, so nearer rows count more. |
+| Nearest neighbours (neighbours) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Iterative imputer](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) | Filling missing values by predicting each column from the other columns, over and over (multivariate imputation); its algorithm is MICE. |
+| [Similarity](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-1805) | How alike two data points are, measured as a distance: the closer two points are, the more similar; instance-based methods such as KNN use it to find the nearest examples. |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
+| [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
+| [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
+| [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
