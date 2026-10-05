@@ -26,7 +26,7 @@ done
 cd "$root/$note"
 "$PY" "$root/tools/github_math.py" "$name.md"          # maths GitHub can render (prints any \% to fix by hand)
 mkdir -p "$root/pdf/$(dirname "$note")"
-"$ENV/bin/pandoc" "$name.md" -o "$root/pdf/$note.pdf" --pdf-engine=pdflatex --toc --toc-depth=3 -V toc-title=Contents \
+"$ENV/bin/pandoc" -f markdown+gfm_auto_identifiers "$name.md" -o "$root/pdf/$note.pdf" --pdf-engine=pdflatex --toc --toc-depth=3 -V toc-title=Contents \
   --lua-filter="$root/tools/media-swap.lua" \
   -V geometry:margin=1in -V fontsize=12pt -H "$root/tools/pdf-style.tex" -V colorlinks=true -V linkcolor=blue
 "$PY" "$root/tools/check_pdf.py" "$name.md" "$root/pdf/$note.pdf" || { echo "PDF is missing text: $note"; exit 1; }

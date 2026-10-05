@@ -155,6 +155,7 @@ The user read the chain-rule section of a maths Note: "In words: the value of f 
 
 ## 16. A contour map comes after the surface it flattens (user, 2026-10-04)
 The user, on the chain-rule figure of MA-063: "contour map of f=xy², but the user doesn't know how it looks like, in the image you just made contours, it's confusing." This is an example (§12): it applies to every contour map, heat map of a function, or level-set picture in every Note.
+- **Not only contours** (user: "Countours was just an example"): any figure that uses a visual code the reader has not been taught (contour map, heat map of a function, vector field, a bent grid such as the polar map, log axes, dendrogram, attention heat map, confusion matrix, ROC curve) is built up first: show the familiar thing, then how it becomes the picture, then how to read it.
 - **Owner:** MA-062 owns "how to read a contour map": an animation of a surface being sliced at several heights, each slice's outline dropping to the floor, and the camera tilting from a side view to the top view, so the reader sees the contour lines *are* the surface seen from above.
 - **Every other contour figure:** first show that function's own surface in 3D (a still or, better, a short tilt from side view to top view ending on the exact contour map used next), with the same colours and the same point or path marked on both. Then the contour map. Then one line saying what to read off it ("lines close together = steep; the centre ring = the lowest point").
 - If the surface was already shown earlier in the same Note, point back to that figure by number; if another Note owns it, give a one-line recap with a link and still show a small surface beside the contour map.
@@ -165,3 +166,19 @@ The user, quoting MA-063 §4.1 as it showed on the site: "Again so much math inl
 - No calculation inside a sentence. "The angle grows from π/6 = 0.524 to 0.524 + 0.6 = 1.124" becomes a sentence in words ("the angle grows by h = 0.6") followed by display lines, one operation each. Inline maths may only name a symbol or a single value ("with $h = 0.6$").
 - A display line must fit a phone: at most about 40 visible characters. Split a long line at its "=" signs, one step per line; put two matrices or two results on separate lines, not side by side with `\qquad`.
 - `python tools/find_inline_calc.py <Note>.md` lists both problems; a fixed Note prints "0 found".
+
+## 17. Links go to the section, and the link text is the idea (user, 2026-10-04)
+The user: "Instead of linking the note, link the direct section and click would take us to the section" and "if you're hyperlinking them remove the 'Note'".
+- A link to another Note points at the section that teaches the idea: `[tangent line](../MA-061-.../MA-061-....md#41-from-secant-to-tangent)`. `python tools/section_links.py --headings <Note.md>` lists the anchors; `--check` verifies them. Avoid headings with maths in them (unreliable anchors); link the nearest plain heading.
+- The link text is the idea itself, not "the X Note": "This linearisation is the [tangent line](…#41-…) in several dimensions", not "the tangent line of the [derivatives of one variable Note](…)". Rewrite the sentence so it reads naturally without the word "Note".
+
+## 18. No puffery, no filler, no vague sources (user, 2026-10-04)
+The user agreed to cut "puffery, filler, vague sources", "especially the puffery and fillers".
+- **Puffery:** words that praise instead of inform ("powerful", "elegant", "beautiful", "crucial", "remarkable", "the heart of", "unlocks"). Replace with what the text means ("gives good results on many kinds of data") or delete.
+- **Filler:** words that add nothing ("clearly", "actually", "in fact", "note that", "essentially", "it is worth noting", "let us", trailing "-ing" clauses such as ", highlighting…").
+- **Vague sources:** "experts say", "studies show": name the source or delete.
+- Keep technical uses ("robust to outliers", RobustScaler, "powerful" as in statistical power) and words inside quoted example sentences. Keep every fact and number.
+- `python tools/find_puffery.py <Note.md>` lists candidates; it is a prompt to look, not a list to delete blindly. Also read for filler sentences it cannot catch.
+
+### 15 addendum 2: an example right where the abstract idea appears (user, 2026-10-04)
+The user, on "For a function with several outputs, the derivative is a matrix": "For a function with several outputs (eg: ?????) the derivative." Every abstract statement (a kind of function, object or situation) gets a concrete instance in the same sentence or the next: "For a function with several outputs, such as the polar map f(r, θ) = (r cos θ, r sin θ), the derivative is a matrix."
