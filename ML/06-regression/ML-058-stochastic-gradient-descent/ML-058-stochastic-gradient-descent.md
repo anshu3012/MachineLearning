@@ -137,7 +137,7 @@ Figure 4 compares the two on the diabetes data, epoch by epoch. Across is the nu
 | 40 epochs | 0.19 | 0.42 |
 | OLS | 0.44 | 0.44 |
 
-SGD updates 353 times per epoch, batch only once. So per epoch, SGD makes far more progress, even though each of its steps is based on a single observation.
+SGD runs with a much smaller learning rate (0.01 against 0.5), because a step from one observation is a noisy estimate of the true gradient, and a small rate keeps such steps stable (Goodfellow §8.1.3). SGD updates 353 times per epoch, batch only once. So per epoch, SGD makes far more progress, even though each of its steps is based on a single observation.
 
 > **Extra:** A common trap: for the *same number of epochs*, batch gradient descent is faster, not SGD. In 100 epochs batch makes 100 updates, SGD makes $100 \times n$. SGD wins on time only because it needs far fewer epochs, which shows on large data. Here the Python loop above is also slower per epoch than batch (under a second for 40 epochs against a few milliseconds), because a Python loop over observations is slow and batch uses one fast matrix product. scikit-learn's SGD runs the same loop in compiled code, so it is fast. The real advantage of SGD is elsewhere: one update costs the same however many observations the data has, so SGD is the main way to train linear models on very large datasets (Goodfellow §5.9).
 
@@ -274,7 +274,7 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 
 **Other references**
 
-- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §5.9 (SGD for large datasets), §8.3.1 (SGD and decaying learning rates).
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org). §5.9 (SGD for large datasets), §8.1.3 (small batches need a small learning rate for stability), §8.3.1 (SGD and decaying learning rates).
 - **scikit-learn docs**: scikit-learn documentation, `sklearn.linear_model.SGDRegressor` (version 1.9).
 - **Kirkpatrick et al.**: S. Kirkpatrick, C. D. Gelatt, M. P. Vecchi, "Optimization by Simulated Annealing", *Science* 220(4598), 671–680, 1983.
 - **Kleinberg et al. 2018**: R. Kleinberg, Y. Li, Y. Yuan, "An Alternative View: When Does SGD Escape Local Minima?", *Proceedings of the 35th International Conference on Machine Learning (ICML)*, PMLR 80, 2018.

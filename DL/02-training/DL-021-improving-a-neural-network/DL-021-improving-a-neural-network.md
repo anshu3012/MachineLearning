@@ -126,6 +126,8 @@ An **optimizer** (G-1401) is the rule that turns the gradients into weight updat
 
 The upper limit of a large batch depends on the memory of the **GPU** (G-856).
 
+Why small batches do better on new data: large batches tend to settle in a **sharp minimum**, a narrow dip of the loss where a small change in the data raises the loss a lot. The noise in small-batch gradients carries training to **flat minima**, wide dips that hold up on new data (Keskar et al. 2017, abstract).
+
 Figure 5 measures the first and third rows of the table on MNIST, with the 32-32-32 network of Figure 4 trained for 10 epochs at each batch size.
 
 ![Batch size on MNIST, one GPU, mean of 2 random starts. Left: seconds per epoch. Right: test accuracy after 10 epochs.](images/batch_size.png)
@@ -137,7 +139,7 @@ So on this small problem the "small batches give better results" row of the tabl
 
 Part of that drop is simple counting: in 10 epochs, batches of 8,192 make only 80 weight updates, against 75,000 for batches of 8. A larger learning rate with a warm-up, below, is how large batches make up for the missing updates.
 
-To keep the speed of large batches and still get good results, some researchers use a **learning rate warm-up** (G-1071): the learning rate starts very small in the first epochs and is then increased quickly. Training with large batches and a warm-up is both fast and accurate.
+To keep the speed of large batches and still get good results, some researchers use a **learning rate warm-up** (G-1071): the learning rate starts very small in the first epochs and is then increased quickly. Training with large batches and a warm-up is both fast and accurate. The small start is needed because in the first epochs the network changes fast, and a large learning rate at that stage breaks training; once the network settles, the large rate is safe (Goyal et al. 2017, §2.2).
 
 A practical order follows. First try large batches with a warm-up; if it works, we have speed and accuracy. If it does not, fall back to small batches, which are slower but reliably give good results.
 
@@ -211,7 +213,7 @@ Two techniques speed up training:
 | Hidden layers | several narrow layers; stop adding when it overfits | captures a hierarchy of features |
 | Neurons per layer | sufficient, start generous; pyramid optional | no feature lost early |
 | Learning rate, optimizer | tune; use Adam and similar | training speed |
-| Batch size | large with warm-up, else 8 to 32 | speed against generalisation |
+| Batch size | large with warm-up, else 8 to 32 | speed against generalisation: small batches find flat minima that hold up on new data |
 | Activation function | ReLU and its variants in hidden layers | avoids vanishing gradients |
 | Epochs | many, with early stopping | trains just long enough |
 | Vanishing or exploding gradients | initialisation, activation, batch normalisation, clipping | early layers learn |
@@ -235,8 +237,8 @@ So improving a network means tuning its hyperparameters first, then fixing which
 **Other references**
 
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.4.1 (depth reduces the number of units needed; deeper models generalise better in their experiments).
-- Keskar et al., "On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima", ICLR 2017 (large batches give worse results on new data).
-- Goyal et al., "Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour", arXiv:1706.02677, 2017 (linear scaling of the learning rate; 5-epoch warm-up; batches of 8,192).
+- Keskar et al., "On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima", ICLR 2017 (large batches give worse results on new data; abstract: large batches converge to sharp minima, small batches to flat minima because of the noise in their gradients).
+- Goyal et al., "Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour", arXiv:1706.02677, 2017 (linear scaling of the learning rate; 5-epoch warm-up; batches of 8,192; §2.2: the linear scaling rule breaks down while the network is changing rapidly early in training, so the learning rate starts low).
 - Keras documentation, `keras.layers.Dense` (defaults `kernel_initializer="glorot_uniform"`, `bias_initializer="zeros"`).
 
 ## 7. Key terms

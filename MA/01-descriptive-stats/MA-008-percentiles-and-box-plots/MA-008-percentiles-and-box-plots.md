@@ -273,7 +273,7 @@ One box plot answers four questions:
 - **Where is the centre?** The median line.
 - **How spread out is the data?** The width of the box (the IQR) and the reach of the whiskers.
 - **Is it skewed?** A lopsided distribution has **skewness** (G-1817). If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
-- **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method, [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)).
+- **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method, [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)). The fences are built from the quartiles, and section 4 showed that the outliers themselves cannot pull the quartiles, so the outliers cannot hide by stretching the fences. A rule built on the mean and standard deviation lacks this protection, because the outliers move both.
 
 A box plot hides how many observations stand behind it: a box drawn from 10 values looks as solid as one drawn from 1,000. Drawing the raw points over the box, as in the last frame of Figure 2, shows the amount of data as well.
 

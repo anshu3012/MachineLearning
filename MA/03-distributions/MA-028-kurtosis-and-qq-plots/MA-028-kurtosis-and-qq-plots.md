@@ -112,7 +112,7 @@ Figure 2 plays the computation. Watch step 3: raising to the fourth power turns 
 
 > **Key point:** Excess kurtosis is kurtosis minus 3, the kurtosis of every normal distribution; positive means fatter tails than normal (leptokurtic), negative means thinner (platykurtic), zero means normal-like (mesokurtic).
 
-Every normal distribution, whatever its mean and standard deviation, has kurtosis exactly 3. So kurtosis is usually reported relative to the normal:
+Every normal distribution, whatever its mean and standard deviation, has kurtosis exactly 3. The mean and standard deviation drop out because kurtosis is built from z-scores, and turning values into z-scores makes every normal distribution the same standard normal curve (see [standardizing a normal variable](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#3-standardizing-a-normal-variable)). For that one curve, the average of $z^4$ is 3 (NIST/SEMATECH e-Handbook §1.3.5.11). So kurtosis is usually reported relative to the normal:
 
 1. **In words:** subtract the normal distribution's kurtosis, 3.
 2. **Formula:**
@@ -347,6 +347,7 @@ The same idea checks for the [log-normal](../MA-029-uniform-and-log-normal/MA-02
 
 - Ghasemi, A. and Zahediasl, S. (2012). "Normality Tests for Statistical Analysis: A Guide for Non-Statisticians." *International Journal of Endocrinology and Metabolism* 10(2).
 - statsmodels documentation, `ProbPlot` (`fit=True`) and `qqplot` (`line` options).
+- NIST/SEMATECH *e-Handbook of Statistical Methods*, §1.3.5.11, "Measures of Skewness and Kurtosis" (the kurtosis of a standard normal distribution is three). https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm
 - Westfall, P. H. (2014). "Kurtosis as Peakedness, 1905-2014. R.I.P." *The American Statistician* 68(3).
 
 ## 12. Key terms

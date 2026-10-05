@@ -612,7 +612,12 @@ Gradients in the row (numerator) layout, for a variable vector $\mathbf{x}$, a v
 
 The third row deserves a worked check.
 
-1. **In words:** a quadratic form behaves like $bx^2$, but $B$ and $B^{\mathsf T}$ both contribute; for symmetric $B$ the gradient is $2\mathbf{x}^{\mathsf T}B$.
+1. **In words:** a quadratic form behaves like $bx^2$, but $B$ and $B^{\mathsf T}$ both contribute, because $\mathbf{x}$ appears twice. The product rule changes one copy at a time and keeps the other:
+   - change the right $\mathbf{x}$, keep $\mathbf{x}^{\mathsf T}B$ on the left: this gives $\mathbf{x}^{\mathsf T}B$;
+   - change the left $\mathbf{x}$, keep $B\mathbf{x}$ on the right: this is the first row of the table with $\mathbf{a} = B\mathbf{x}$, so it gives
+     $$(B\mathbf{x})^{\mathsf T} = \mathbf{x}^{\mathsf T}B^{\mathsf T}$$
+
+   Adding the two gives $\mathbf{x}^{\mathsf T}(B + B^{\mathsf T})$. For symmetric $B$ the gradient is $2\mathbf{x}^{\mathsf T}B$.
 2. **Formula:**
    $$\frac{\partial}{\partial \mathbf{x}}\thinspace\mathbf{x}^{\mathsf T}B\mathbf{x}$$
    $$= \mathbf{x}^{\mathsf T}(B + B^{\mathsf T})$$
@@ -681,7 +686,7 @@ The practical method breaks the function into elementary steps, a **computation 
 
 The backward pass has one step per forward step, each a multiplication by a local derivative, so computing the gradient takes work of the same order as computing $f$ itself (MML §5.6). This backward pass is **backpropagation** (G-247); done automatically by software for any program, it is **automatic differentiation** (G-232) (reverse mode). Backpropagation is taught in full with neural networks, in [the steps of backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 
-> **Extra:** Automatic differentiation is neither symbolic differentiation (which writes out a formula for $f'$) nor a numerical difference quotient (which only estimates it). Automatic differentiation gives the exact derivative, up to rounding, by applying the chain rule to the actual operations a program runs. The method has a **forward mode**, which multiplies the Jacobians from the input side, and a **reverse mode**, which starts from the output. With far more inputs (weights) than outputs (the loss), the reverse mode is significantly cheaper (MML §5.6; Baydin et al. 2018), which is why deep learning libraries use it for training.
+> **Extra:** Automatic differentiation is neither symbolic differentiation (which writes out a formula for $f'$) nor a numerical difference quotient (which only estimates it). Automatic differentiation gives the exact derivative, up to rounding, by applying the chain rule to the actual operations a program runs. The method has a **forward mode**, which multiplies the Jacobians from the input side, and a **reverse mode**, which starts from the output. With far more inputs (weights) than outputs (the loss), the reverse mode is significantly cheaper (MML §5.6; Baydin et al. 2018), because one reverse pass from the single loss gives its derivative with respect to every weight at once, while the forward mode needs one pass per weight (Baydin et al. 2018, §3.2). That is why deep learning libraries use it for training.
 
 ## 11. Summary
 

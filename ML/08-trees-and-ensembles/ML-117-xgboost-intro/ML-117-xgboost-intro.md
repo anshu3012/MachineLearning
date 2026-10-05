@@ -245,7 +245,7 @@ Figure 7 compares the two ways of handling 10 GB of data. At the top, one machin
 
 A **GPU** (G-856; graphics processing unit, the graphics card) has many cores, each weaker than a CPU core but far more numerous. A GPU is ideal for many small, similar calculations: drawing game graphics, training deep learning models. XGBoost's histogram building and split finding are exactly such work, so XGBoost can run on a GPU.
 
-The XGBoost GPU authors measured the gain on large public datasets (Mitchell et al. 2018, Table 2). On YearPredictionMSD, 515,000 observations and 90 features, 500 trees took 217 seconds on 64 CPU cores and 30 seconds on GPUs, about 7 times faster, with the same error. The experiments in this Note run on the CPU only.
+The XGBoost GPU authors measured the gain on large public datasets (Mitchell et al. 2018, Table 2). On YearPredictionMSD, 515,000 observations and 90 features, 500 trees took 217 seconds on 64 CPU cores and 30 seconds on GPUs, about 7 times faster, with the same error. The gain needs large data: on a small dataset, copying the data to the graphics card and starting each GPU calculation take a fixed time that can outweigh the faster work (LightGBM docs, GPU Tuning Guide, explaining its own GPU training). The experiments in this Note run on the CPU only.
 
 > **Python:** Training on a GPU.
 >
@@ -378,7 +378,7 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 | Flexibility | library integrations, many problem types, custom loss | fits any project and problem |
 | Speed | parallel split search, column blocks | the features of one node are searched at once |
 | Speed | cache awareness, out-of-core | less waiting for memory; data bigger than RAM |
-| Speed | distributed and GPU training | many machines or thousands of GPU cores |
+| Speed | distributed and GPU training | many machines or thousands of GPU cores, worth it on large data |
 | Performance | regularised objective, pruning with $\gamma$ | less overfitting |
 | Performance | sparsity-aware splits | missing values handled with a learned default direction |
 | Performance | approximate splits with quantile bins | fast split search that follows the data |
@@ -404,6 +404,7 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 - Ke, G. et al. (2017). *LightGBM: A Highly Efficient Gradient Boosting Decision Tree*. NeurIPS 2017.
 - Mitchell, R., Adinets, A., Rao, T. and Frank, E. (2018). *XGBoost: Scalable GPU Accelerated Learning*. arXiv:1806.11248.
 - LightGBM documentation, README (features list), github.com/microsoft/LightGBM.
+- LightGBM documentation, *GPU Tuning Guide and Performance Comparison*, lightgbm.readthedocs.io (GPU works best on large, dense datasets; on a too small dataset the data transfer overhead and the overhead of invoking GPU functions become significant).
 - Prokhorenkova, L. et al. (2018). *CatBoost: unbiased boosting with categorical features*. NeurIPS 2018.
 - scikit-learn documentation, `HistGradientBoostingClassifier`: "This implementation is inspired by LightGBM."
 - XGBoost documentation: *XGBoost Parameters* (`max_bin`, `tree_method`); home page (language bindings, distributed training), xgboost.readthedocs.io.

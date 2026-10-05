@@ -131,7 +131,9 @@ The $n - 1$ inside $s$ is **Bessel's correction** (G-279; see the [measures of d
 
 $$G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$$
 
-The factor is 1.49 for our 5 values, but only 1.002 for the 891 Titanic observations (records, or rows of the table). So with hundreds of observations $G_1$ and $g_1$ are almost equal.
+Why correct at all: the plain averages inside $g_1$ are not unbiased estimates, the same problem the $n - 1$ fixes for the variance. $G_1$ is built from the unbiased estimate of the spread (the sample variance $s^2$) and the unbiased estimate of the average cubed distance, which is where the extra factor comes from (Wikipedia, "Skewness", Sample skewness). Joanes and Gill found that $G_1$ has small error in samples from skewed populations (as reported by Doane and Seward 2011).
+
+The factor is 1.49 for our 5 values, but only 1.002 for the 891 Titanic observations (records, or rows of the table). So the correction matters for small samples; with hundreds of observations $G_1$ and $g_1$ are almost equal (NIST/SEMATECH e-Handbook §1.3.5.11).
 
 In practice nobody computes this by hand: `df["Fare"].skew()` returns 4.79 at once. What matters is interpreting the number.
 
@@ -197,7 +199,7 @@ So skewness is one check among several. We look at the shape as well (histogram,
 
 - Skewness measures asymmetry, the departure from the normal distribution's symmetric shape, so the larger it is, the less we can rely on normal properties such as the 68-95-99.7 rule.
 - The skew is named after the tail, not the hump, because the tail holds the rare, large values (the 45 highest Titanic fares paid 31.5 percent of the money).
-- Sample skewness (pandas, Excel) adds a small-sample correction to the third moment, so pandas' number differs from the hand formula on a few values but almost equals it on hundreds.
+- Sample skewness (pandas, Excel) adds a small-sample correction to the third moment, because it is built from unbiased estimates, like the $n - 1$ variance, so pandas' number differs from the hand formula on a few values but almost equals it on hundreds.
 - $|\text{skew}| < 0.5$: about symmetric; 0.5 to 1: moderate; above 1: high, so the number tells whether normality may be assumed.
 - Symmetric is not the same as normal, because a flat or two-humped shape can also have skewness 0, so check the plot too.
 - This answers the opening question: skewness measures how far a distribution is from symmetric, through its tail, the order of mode, median and mean, and one number.
@@ -213,6 +215,8 @@ So skewness is one check among several. We look at the shape as well (histogram,
 
 - Bulmer, M. G. (1979). *Principles of Statistics*. Dover. (The three skewness bands.)
 - Doane, D. P. and Seward, L. E. (2011). "Measuring Skewness: A Forgotten Statistic?" *Journal of Statistics Education* 19(2).
+- NIST/SEMATECH *e-Handbook of Statistical Methods*, §1.3.5.11 "Measures of Skewness and Kurtosis". itl.nist.gov/div898/handbook (the adjusted Fisher–Pearson coefficient; the adjustment for sample size approaches 1 as N grows: 1.49 for N = 5, 1.02 for N = 100).
+- Wikipedia, "Skewness", section Sample skewness. en.wikipedia.org/wiki/Skewness ($G_1$ is the ratio of the unbiased estimates of the third and second cumulants; $s^2$ is the unbiased estimate of the second).
 - Joanes, D. N. and Gill, C. A. (1998). "Comparing measures of sample skewness and kurtosis." *The Statistician* 47(1).
 
 ## 9. Key terms

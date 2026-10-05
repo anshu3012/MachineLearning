@@ -146,6 +146,8 @@ Think of comparing two runners, one timed in seconds and one in milliseconds: th
 
 CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 5, left). Some algorithms compare data points by measuring distances (like [KNN, which predicts from the closest points](../ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning)). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Features such as salary, in the lakhs (one lakh is 100,000 rupees), would be even worse.
 
+Logistic regression, the model we train here, does not measure distances, but it learns its weights by many small steps (gradient descent, Section 8). The step for each weight grows with the size of its feature's values, so on raw data the IQ weight would take big jumps while the CGPA weight crawls, and training settles much less easily (see [when to use standardization](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#10-when-to-use-standardization)).
+
 So we **scale** the features: bring every feature to a similar range. A common method, **standardization**, shifts each feature to centre on 0 with a typical spread of 1. Most values then fall roughly between -2 and 2 (Figure 5, right).
 
 ![CGPA and IQ before and after scaling](images/scaling.png)
@@ -309,7 +311,7 @@ This model is far from perfect: it learned from only 90 students and was not tun
 | Explore | Plotted CGPA vs IQ by placement | scatter plot | a straight line could roughly split the groups, so logistic regression fits |
 | Inputs / output | X = cgpa, iq; y = placement | `iloc` | the model learns how y depends on X |
 | Split | 90 training, 10 test students | `train_test_split` | the hidden students check the model before users see it |
-| Scale | Standardized both inputs | `StandardScaler` | on raw numbers IQ would count far more than CGPA |
+| Scale | Standardized both inputs | `StandardScaler` | on raw numbers IQ would count far more than CGPA, and gradient descent settles less easily |
 | Train | Logistic regression | `fit` | the algorithm finds the separating line by itself |
 | Evaluate | 9 of 10 test students right: 90% | `accuracy_score` | the test students were unseen, so the score is a fair check |
 | Deploy | Saved scaler + model; website | `pickle`, Dash | a model in memory disappears when the program stops |

@@ -78,6 +78,8 @@ The two lines of improvement are independent, so it makes sense to combine them.
    $$\hat v_t = \frac{v_t}{1 - \beta_2^t}$$
    $$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat v_t} + \epsilon}\thinspace\hat m_t$$
    with $m_0 = v_0 = 0$, where $t$ counts the updates: 1 for the first mini-batch, 2 for the second, and so on. The suggested defaults are $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\epsilon = 10^{-8}$ (Kingma and Ba 2015, algorithm 1).
+
+   $\beta_2$ is much closer to 1 than $\beta_1$, so $v_t$ averages over many more past gradients than $m_t$ does. A reliable estimate of the squared gradient needs that long average, above all when most gradients are zero (sparse gradients) (Kingma and Ba 2015, §3, §6.4).
 3. **Example:** one weight with gradients 2 and then 1, using the defaults.
 
    Step $t = 1$, gradient 2:
@@ -247,7 +249,7 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 
 - Adam = momentum's average of gradients + RMSProp's average of squared gradients + a correction for starting at 0, because the two ideas are independent and, without the correction, the first steps would be badly scaled.
 - The update divides the corrected average gradient by the root of the corrected average squared gradient (the formula of section 4), so it gets momentum's speed and a learning rate per parameter at once.
-- Defaults: $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$; $t$ counts the updates; Adam is fairly robust to these, so usually only the learning rate needs changing.
+- Defaults: $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$ ($\beta_2$ nearer 1, because the squared-gradient average needs many gradients to be reliable); $t$ counts the updates; Adam is fairly robust to these, so usually only the learning rate needs changing.
 - Adam is the usual first choice; RMSProp and momentum are the usual alternatives. No optimizer wins everywhere, so treat the optimizer as a hyperparameter and keep the one that does best on validation data.
 
 ## 11. Sources
@@ -259,7 +261,7 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 **Other references**
 
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §8.5.3 Adam (algorithm 8.7), §8.5.4 Choosing the right optimization algorithm.
-- Kingma, D. P. and Ba, J. (2015). Adam: A method for stochastic optimization. ICLR 2015. arXiv:1412.6980. Algorithm 1, §2, §3.
+- Kingma, D. P. and Ba, J. (2015). Adam: A method for stochastic optimization. ICLR 2015. arXiv:1412.6980. Algorithm 1, §2, §3 (a reliable second-moment estimate needs an average over many gradients); §6.4 ($\beta_2$ close to 1 is required for robustness to sparse gradients).
 - Ruder, S. (2016). An overview of gradient descent optimization algorithms. arXiv:1609.04747. §4.6 Adam, §4.10 Which optimizer to use?
 - Keras API documentation: `Adam` optimizer, keras.io/api/optimizers/adam.
 

@@ -392,6 +392,12 @@ $$\text{weight of class 1} = \frac{320}{2 \times 299}$$
 
 $$\text{weight of class 1} = \frac{320}{598} = 0.54$$
 
+The formula is chosen so that each class carries the same total weight, half of the 320, and neither class outweighs the other in the loss:
+
+$$\text{class 0: } 21 \times 7.62 = 160$$
+
+$$\text{class 1: } 299 \times 0.54 = 160$$
+
 ![The line logistic regression learns as the weight of class 0 grows from 1 to 50](images/class_weight.png){width=90%}
 
 Figure 11 shows the effect. With weight 1 (no weighting), the line sits below the red points; at 5, 25 and 50 it moves further up into the majority class. The bigger the weight, the more pressure on the model to classify the minority correctly:

@@ -63,6 +63,8 @@ The class PDFs even suggest a decision rule. From petal length:
 | 2.3 to 5 cm | versicolor | the versicolor curve is higher |
 | above 5 cm | virginica | the virginica curve is higher |
 
+Picking the higher curve works because every species has the same number of flowers, 50. Near a given petal length, the higher curve then means more flowers of that species, so guessing that species is right more often than guessing the other.
+
 The same idea with two classes appears in the [KDE plot of Titanic ages](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#6-kde-plot-comparing-distributions-of-groups): young passengers were more likely to survive than to die.
 
 > **Python:** One KDE per class.

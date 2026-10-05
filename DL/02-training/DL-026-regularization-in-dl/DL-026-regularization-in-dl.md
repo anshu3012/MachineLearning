@@ -114,7 +114,7 @@ More data helps because the network sees the bigger picture and stops focusing o
 
 On the simpler-model route, **dropout** (G-639) switches off random nodes during training, and **early stopping** (G-656) ends training before the network starts to memorise. **Regularisation** (G-1659) keeps every node but penalises large weights; it is the subject of this Note.
 
-There are three kinds of regularisation: L1, L2, and both together. In deep learning, L2 is used almost always and usually gives better results than L1; this Note focuses on L2 and shows L1 for comparison.
+There are three kinds of regularisation: L1, L2, and both together. In deep learning, L2 is used almost always: unless we want L1's zero weights to pick out features, L2 can be expected to give better results than L1, because it prefers many small weights, so the network uses all of its inputs a little rather than a few of them a lot (CS231n, Neural Networks Part 2, Regularization). This Note focuses on L2 and shows L1 for comparison.
 
 ## 5. The penalty term
 
@@ -151,7 +151,7 @@ Some points about this formula:
 
 - **$\lambda$** (lambda, G-2150) sets the strength of the penalty. It is a **hyperparameter** (G-910): we choose it, training does not learn it. Larger $\lambda$ means stronger regularisation; too large, and the network moves from overfitting to **underfitting** (G-2035), where it is too simple even for the training data (section 7.7 shows both ends). With $\lambda = 0$ the penalty vanishes and we are back to the plain cost.
 - **$n$** is the number of observations. The 2 is only for convenience: it cancels when we differentiate. Some books leave it out.
-- **Biases are never penalised**, only weights.
+- **Biases are never penalised**, only weights. A weight sets how an input and a node interact, so fitting it needs many varied observations; a bias only shifts one node's output and needs little data. Leaving the biases free therefore adds little overfitting, while penalising them can make the network underfit (Goodfellow et al. 2016, §7.1).
 
 In a network the weights live in layers, so the sum is often written per layer. Take a tiny network with 2 inputs, 2 hidden nodes and 1 output. Layer 1 holds 4 weights, from each input to each hidden node; layer 2 holds 2, from each hidden node to the output. Give layer 1 the four weights above and layer 2 the weights 0.3 and −0.4. Layer by layer:
 
@@ -475,13 +475,13 @@ In practice $\lambda$ is chosen like any hyperparameter: try several values and 
 | | Penalty added to the cost | Effect on weights | In deep learning |
 |---|---|---|---|
 | L2 | $\lambda/(2n)\sum w^2$ | shrink towards 0, never exactly 0 (weight decay) | the usual choice |
-| L1 | $\lambda/(2n)\sum \lvert w \rvert$ | many pushed to 0: a sparse model | less used |
+| L1 | $\lambda/(2n)\sum \lvert w \rvert$ | many pushed to 0: a sparse model | less used: without a need to drop inputs, L2's many small weights usually do better |
 | L1 + L2 | both | both | occasionally |
 
 - Networks overfit because many neurons can draw many small pieces of boundary.
 - More data, dropout, early stopping and regularisation all reduce overfitting.
 - Smaller weights make the prediction less sensitive to small changes in the input, so the boundary is smoother.
-- L2 regularisation multiplies every weight by $1 - \eta\lambda$ before each update; biases are not penalised.
+- L2 regularisation multiplies every weight by $1 - \eta\lambda$ before each update; biases are not penalised, because a bias only shifts one node and penalising it risks underfitting.
 - $\lambda$ sets the strength: too small overfits, too large underfits.
 - In Keras: `kernel_regularizer=regularizers.L2(λ)` on each hidden layer. Here it turned a validation loss of 1.28 into 0.21 and shrank the weights from $\pm 2.8$ to $\pm 0.5$.
 
@@ -499,8 +499,9 @@ So when a network overfits, a weight penalty is a one-argument fix: smaller weig
 - Loshchilov and Hutter, "Decoupled Weight Decay Regularization", ICLR 2019, §2 (L2 regularisation and weight decay differ under Adam).
 - Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, Algorithm 1 and §2.1 (the step size is about the learning rate).
 - Keras documentation, Optimizers, keras.io/api/optimizers (`weight_decay` argument of every optimizer; `AdamW`).
+- Stanford CS231n course notes, "Neural Networks Part 2: Setting up the Data and the Loss", section "Regularization", cs231n.github.io/neural-networks-2 (L2 prefers diffuse weights, so the network uses all of its inputs a little; without a need for feature selection, L2 can be expected to beat L1).
 - Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., 2009, §3.4.3 (why the Lasso gives zeros and Ridge does not).
-- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §5.2 (capacity, overfitting and underfitting), §6.3.1 and §6.4.1 (rectified linear units give piecewise linear functions), §7.1.1 (L2, weight decay) and §7.1.2 (L1 and sparsity).
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §5.2 (capacity, overfitting and underfitting), §6.3.1 and §6.4.1 (rectified linear units give piecewise linear functions), §7.1 (only the weights are penalised: biases need less data to fit, and penalising them can cause underfitting), §7.1.1 (L2, weight decay) and §7.1.2 (L1 and sparsity).
 
 ## 10. Key terms
 

@@ -249,6 +249,8 @@ Batch normalisation also addresses ReLU's outputs not being zero-centred ([ReLU]
 >     keras.layers.Dense(1, activation="sigmoid")])
 > ```
 
+The output layer gets no batch normalisation. Both reasons of section 3 are about the inputs of a next layer, and the output layer has none: its value is the prediction itself, the sigmoid's probability between 0 and 1.
+
 `model.summary()` shows the parameters:
 
 | Layer | Parameters | Of which non-trainable |

@@ -295,7 +295,7 @@ In Figure 6, the background shade is the probability the network gives to class 
 
 On such a small problem every good start works. The differences show in deep networks: in He et al. (2015), Xavier and He starts both trained a 22-layer ReLU network, but only He trained a 30-layer one. Trying the combinations on our own data shows which works best there.
 
-**The default.** If we do not pass `kernel_initializer`, a `Dense` layer uses `glorot_uniform`, and its biases start at 0 (`zeros`). Keras' default explains why the networks of the earlier Notes trained without our choosing anything.
+**The default.** If we do not pass `kernel_initializer`, a `Dense` layer uses `glorot_uniform`, and its biases start at 0 (`zeros`). Zero biases are safe because the random weights already make every node different, so the biases are not needed to break the [symmetry](../DL-029-weight-initialization/DL-029-weight-initialization.md#43-sigmoid-every-node-becomes-the-same-node) (nodes that start equal stay equal) (CS231n notes, "Neural Networks Part 2"). Keras' default explains why the networks of the earlier Notes trained without our choosing anything.
 
 > **Extra:** Keras' normal versions draw from a **truncated normal** (G-2023) distribution: values more than two standard deviations from 0 are redrawn (Keras documentation). Redrawing alone would shrink the spread, yet the measured standard deviation still matches the formula, so Keras compensates for the cut. The Notebook checks all four on a 1000 × 100 layer: `glorot_normal` has standard deviation 0.0426, matching the formula
 >
@@ -330,6 +330,7 @@ On such a small problem every good start works. The differences show in deep net
 - Glorot, X. and Bengio, Y. (2010). Understanding the difficulty of training deep feedforward neural networks. AISTATS 2010, PMLR 9:249-256 (equation 12: the variance $2/(n_i + n_{i+1})$).
 - He, K., Zhang, X., Ren, S. and Sun, J. (2015). Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification. ICCV 2015. arXiv:1502.01852 (section 2.2 and Figures 2 and 3).
 - Keras API documentation: layer weight initializers (`GlorotNormal`, `HeNormal`, `TruncatedNormal`), keras.io/api/layers/initializers.
+- Stanford CS231n course notes, "Neural Networks Part 2: Setting up the Data and the Loss", cs231n.github.io/neural-networks-2 (weight initialisation: biases can start at zero because the random weights break the symmetry).
 - LeCun, Y., Bottou, L., Orr, G. B. and Müller, K.-R. (1998). Efficient BackProp. In *Neural Networks: Tricks of the Trade*, Springer (equation 16: standard deviation $m^{-1/2}$ for fan-in $m$).
 
 ## 9. Key terms

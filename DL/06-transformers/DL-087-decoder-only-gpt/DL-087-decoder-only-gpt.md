@@ -101,7 +101,7 @@ $$x_i = W_E[t_i] + W_P[i]$$
 
 Figure 4 shows the lookup and the addition for the first token.
 
-GPT uses **learned** positions: "We used learned position embeddings instead of the sinusoidal version proposed in the original work" (Radford et al. 2018, §4.1). $W_P$ is just another weight matrix, trained with the rest. Positions are needed at all because attention by itself ignores word order ([why the transformer needs positions](../DL-079-positional-encoding/DL-079-positional-encoding.md#3-why-the-transformer-needs-positions)).
+GPT uses **learned** positions: "We used learned position embeddings instead of the sinusoidal version proposed in the original work" (Radford et al. 2018, §4.1). $W_P$ is just another weight matrix, trained with the rest. The swap costs little in quality: the original transformer paper had found that [learned and sine–cosine positions](../DL-079-positional-encoding/DL-079-positional-encoding.md#82-the-dot-product-depends-only-on-the-distance) give nearly identical results (Vaswani et al. 2017, Table 3, row E). Positions are needed at all because attention by itself ignores word order ([why the transformer needs positions](../DL-079-positional-encoding/DL-079-positional-encoding.md#3-why-the-transformer-needs-positions)).
 
 ## 6. Inside a GPT-2 block
 
@@ -112,6 +112,8 @@ GPT uses **learned** positions: "We used learned position embeddings instead of 
 > **Key point:** GPT-2 moved each LayerNorm from after the addition to the input of the sub-layer, and added one more LayerNorm after the last block.
 
 The paper states the change in one sentence: "Layer normalization (Ba et al., 2016) was moved to the input of each sub-block, similar to a pre-activation residual network (He et al., 2016) and an additional layer normalization was added after the final self-attention block" (Radford et al. 2019, §2.3). The released weights match: every block has `ln_1` (before attention) and `ln_2` (before the MLP), and there is one `ln_f` after block 12. The placement is called **prenorm** ([where LayerNorm sits](../DL-080-layer-normalization/DL-080-layer-normalization.md#72-where-it-sits)).
+
+Why move it? Xiong et al. (2020, abstract) showed that with the LayerNorm after each addition, the gradients near the output are large at the start of training, so the original transformer needed a slow [learning-rate warm-up](../DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#73-the-optimizer-and-the-warm-up-learning-rate). With the LayerNorm at the input of each sub-layer, the gradients are well-behaved from the start, and the model trains without a warm-up and with less tuning.
 
 1. **In words:** normalise a copy of the vector, let the sub-layer compute a change from the copy, and add the change to the original. The arrow $\leftarrow$ in the formula means "replace $x$ by".
 2. **Formula:** for each block, first attention, then the MLP:
@@ -348,7 +350,7 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 | Size | 6 blocks, $d = 512$ | 12 blocks, $d = 768$, 124,439,808 parameters |
 
 - GPT is a transformer decoder without the encoder and without cross-attention, because a language model has only one input, the text so far, and predicts the next token of that same text.
-- Each block adds two changes to the residual stream: attention's, then the MLP's. Prenorm: LayerNorm comes before each sub-layer, so the stream itself is never rescaled and grows (length 4.9 to 400); the final LayerNorm brings it back, and without it the answer " Apple" is lost.
+- Each block adds two changes to the residual stream: attention's, then the MLP's. Prenorm: LayerNorm comes before each sub-layer, which keeps the early gradients well-behaved so training needs no warm-up; the stream itself is never rescaled and grows (length 4.9 to 400); the final LayerNorm brings it back, and without it the answer " Apple" is lost.
 - GELU replaces ReLU, so the many negative hidden values (83.4 percent on the example) pass as small negative outputs instead of exact zeros.
 - One pass gives a guess at every position, because the mask lets each position see only the tokens before it. Training averages the cross-entropy of all positions, so one text gives many training examples; generation uses the last guess, appends it and repeats.
 - The context size (1,024 for GPT-2) is the most text the model can read, so anything earlier cannot affect the prediction; the attention cost grows with its square, so doubling the context multiplies the attention weights by 4.
@@ -369,7 +371,8 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 **Other references**
 
 - Brown, T. B. et al. (2020). Language Models are Few-Shot Learners. *NeurIPS 2020*. arXiv:2005.14165 (v4). §2.1 (same architecture as GPT-2, alternating sparse attention, $d_{\text{ff}} = 4d_{\text{model}}$, $n_{\text{ctx}} = 2048$); Table 2.1 (sizes of the 8 models); Appendix D, Table D.1 (parameter counts in millions).
-- Vaswani, A. et al. (2017). Attention Is All You Need. *NeurIPS 2017*. arXiv:1706.03762. §3.1 (decoder block); §3.4 (shared weights between the embeddings and the pre-softmax layer).
+- Vaswani, A. et al. (2017). Attention Is All You Need. *NeurIPS 2017*. arXiv:1706.03762. §3.1 (decoder block); §3.4 (shared weights between the embeddings and the pre-softmax layer); Table 3, row (E) (learned positions nearly identical to sinusoids).
+- Xiong, R. et al. (2020). On Layer Normalization in the Transformer Architecture. *ICML 2020*. arXiv:2002.04745. Abstract (Post-LN: large gradients near the output at initialisation, so warm-up is needed; Pre-LN: well-behaved gradients, trains without warm-up).
 - Hendrycks, D. and Gimpel, K. (2016). Gaussian Error Linear Units (GELUs). arXiv:1606.08415. Abstract and §2 ($x\Phi(x)$, the tanh approximation).
 - von Platen, P. (2020). How to generate text: using different decoding methods for language generation with Transformers. Hugging Face blog, 1 March 2020, huggingface.co/blog/how-to-generate. Greedy search section (GPT-2 output for "I enjoy walking with my cute dog").
 - Weights and tokenizer: `openai-community/gpt2` (`model.safetensors`, `tokenizer.json`), huggingface.co.

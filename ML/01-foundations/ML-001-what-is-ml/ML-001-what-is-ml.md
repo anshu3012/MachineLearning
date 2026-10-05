@@ -44,7 +44,7 @@ The standard definition attaches the terms: **Machine Learning (ML)** (G-1140) i
 
 ![A spam filter learning from more and more labelled text messages (SMS Spam Collection, 1,000 test messages, mean of 20 random training sets). The dashed line is a filter that calls every message "not spam".](images/spam_experience.gif)
 
-1. **The data.** 5,574 text messages, each with a **label** (G-1032): spam or not spam (Almeida et al. 2011). We keep 1,000 of them aside as a **test set** (G-1962), which the filter never learns from.
+1. **The data.** 5,574 text messages, each with a **label** (G-1032): spam or not spam (Almeida et al. 2011). We keep 1,000 of them aside as a **test set** (G-1962), which the filter never learns from, because what we care about is how well it sorts new messages it has not seen, not the ones it learned from (ISLR §2.2.1).
 2. **The experience.** A **Naive Bayes** (G-1297) filter (a method that scores a message by how often each of its words appeared in spam; see [Naive Bayes](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture)) learns from 10 labelled messages, then 20, 50, and so on up to all 4,574 that are left.
 3. **The score.** Each time, we count how many of the 1,000 test messages it sorts correctly. This share is its **accuracy** (G-162).
 4. **The result.** In Figure 2 the horizontal axis is on a log scale: each tick is a bigger jump than the one before (10, 20, 50, 100 and so on), so the small amounts of data are spread out. With 10 messages it scores 86.9 percent, no better than always answering "not spam" (86.6 percent of the test messages are not spam). With 100 messages it scores 93.8 percent, and with all 4,574 it scores 98.1 percent. The code never changed; only the data grew.
@@ -325,6 +325,7 @@ Figure 10 shows this pattern for any technology: the salary premium first rises,
 - Almeida, T. A., Gómez Hidalgo, J. M. and Yamakami, A. (2011). Contributions to the Study of SMS Spam Filtering: New Collection and Results. *Proceedings of the 11th ACM Symposium on Document Engineering (DocEng '11)*. The SMS Spam Collection v.1, UCI Machine Learning Repository, https://archive.ics.uci.edu/dataset/228/sms+spam+collection
 - Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [cats vs dogs CNN](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset)).
 - Han, J., Kamber, M. and Pei, J. (2011). *Data Mining: Concepts and Techniques*, 3rd ed. Morgan Kaufmann.
+- James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. Free PDF at statlearning.com. §2.2.1, measuring the quality of fit: test data (ISLR).
 - Krizhevsky, A., Sutskever, I. and Hinton, G. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS*.
 - Mitchell, T. (1997). *Machine Learning*. McGraw-Hill.
 - Rosenblatt, F. (1957). *The Perceptron: A Perceiving and Recognizing Automaton*. Report 85-460-1, Cornell Aeronautical Laboratory.

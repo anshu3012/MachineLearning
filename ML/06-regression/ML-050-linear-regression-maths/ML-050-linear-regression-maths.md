@@ -46,7 +46,7 @@ Figure 2 runs both on the placement data. Each point of the map on the right (th
 
 ![Two routes to the best line on the 160 training students. Orange: OLS computes $m = 0.558$, $b = -0.896$ in one step. Blue: gradient descent from (0, 0), learning rate 0.018, reaches the same line after 6,112 small steps. Left: the line on the data; right: the route on the error map.](images/two_routes.gif)
 
-Why have both? With one or a few features, OLS is fast and exact. With very many features, the OLS formula becomes expensive to compute, and gradient descent works better.
+Why have both? With one or a few features, OLS is fast and exact. With very many features, the OLS formula becomes expensive to compute, because it needs the inverse of a matrix with one row and one column per feature ([the cost of the inverse](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)), and gradient descent works better.
 
 scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gradient descent. This Note derives OLS; [gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) is taught separately.
 

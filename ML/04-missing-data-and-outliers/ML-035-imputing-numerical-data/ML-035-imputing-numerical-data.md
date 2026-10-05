@@ -81,6 +81,8 @@ The two conditions are the same as for [complete case analysis](../ML-034-comple
 1. **The data is MCAR** (G-1192, missing completely at random: whether a value is missing has nothing to do with any data; see [MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)).
 2. **Under about 5% of the column is missing.**
 
+MCAR matters because the fill value is computed from the known values only. When the gaps are not random, the known values are a lopsided sample: in [the MNAR example](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar), hiding short experience raised the mean of the known values from 9.9 to 11.9 years. Every gap would then get a value that is too high. The 5% limit matters because the damage of Section 3 grows with the number of filled values.
+
 Mean and median imputation is used widely because it is so simple. Better techniques exist, so in practice we try several and keep the one that works best.
 
 ## 3. Mean and median imputation on real data

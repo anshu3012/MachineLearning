@@ -460,7 +460,7 @@ Outlook again wins against the other three features, so Gini picks the same root
 **Which to use?**
 
 - **Gini is faster:** squares are cheaper to compute than logs, which matters on large datasets.
-- **Entropy can build more balanced trees** on some datasets, while Gini can overfit slightly more.
+- **Entropy tends to give more balanced splits.** Gini's best split puts the most common class alone in one child, while entropy leans towards two children of similar size (Marin et al. 2019, §1.2, reporting Breiman 1996). So the two can choose different splits and grow different trees.
 - In practice the two give similar accuracy, but not always the same tree, and neither wins on every dataset (Extra below). So we treat `criterion` as a hyperparameter and try both, as in [hyperparameter tuning with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline).
 
 > **Extra:** The Notebook changes only the criterion on three built-in datasets. The 5-fold cross-validation accuracies differ by at most 0.02 (Gini first, then entropy: iris 0.960 against 0.953, wine 0.888 against 0.899, breast cancer 0.917 against 0.935), yet on wine and breast cancer the two criteria pick a different root feature.
@@ -529,7 +529,7 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 | Speed | slower (logs) | faster (squares) |
 | scikit-learn | `criterion="entropy"` | `criterion="gini"` (default) |
 
-- Gini and entropy give similar accuracy but not always the same tree, so treat `criterion` as a hyperparameter and try both.
+- Gini and entropy give similar accuracy but not always the same tree, because entropy leans towards balanced splits while Gini isolates the most common class, so treat `criterion` as a hyperparameter and try both.
 - A decision tree is nested if-else conditions; geometrically, axis-parallel hyperplanes that cut the space into hyper-cuboids, because each question looks at one feature only, so its boundary is a staircase, never a slanted line.
 - Root node at the top, decision nodes in the middle, leaves at the bottom, so "which feature goes at each node?" is the question that building a tree must answer.
 - Entropy and Gini measure how mixed a node is: 0 when pure, highest when evenly mixed, so they give the tree one number to compare the nodes a split produces.
@@ -548,6 +548,7 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 **Other references**
 
 - **Cover and Thomas:** T. M. Cover and J. A. Thomas, *Elements of Information Theory*, 2nd ed., Wiley, 2006. Example 8.1.2.
+- **Marin et al. 2019:** D. Marin, M. Tang, I. Ben Ayed and Y. Boykov, "Kernel Clustering: Density Biases and Solutions", *IEEE Transactions on Pattern Analysis and Machine Intelligence* 41(1), 2019, arXiv:1705.05950. §1.2.1–1.2.2 (the entropy criterion is biased towards equal-size groups; Breiman's theorem that the best Gini split isolates the most common value in one group; both from L. Breiman, "Technical Note: Some Properties of Splitting Criteria", *Machine Learning* 24, 41–47, 1996).
 - **sklearn UG:** scikit-learn User Guide, Section 1.10, Decision Trees (advantages and disadvantages; 1.10.4 Complexity; 1.10.7.1 Classification criteria). scikit-learn.org/stable/modules/tree.html
 - **sklearn source:** scikit-learn 1.9, file `sklearn/tree/_splitter.pyx` (threshold set to the mean of two neighbouring sorted values).
 - **255 bins:** scikit-learn `HistGradientBoostingClassifier` reference (`max_bins`, default 255); LightGBM parameters documentation (`max_bin`, default 255).

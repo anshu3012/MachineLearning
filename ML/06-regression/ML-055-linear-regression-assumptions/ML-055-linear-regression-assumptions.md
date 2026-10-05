@@ -163,6 +163,8 @@ When the model is right on average, its errors should scatter around 0: many sma
 
 Why it matters: the ranges and tests reported with the model rest on this assumption. A **prediction interval** (the range a new observation's target is expected to fall in) depends strongly on normal residuals, so with clearly non-normal residuals it becomes inaccurate. The [confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (ranges likely to hold the true coefficient) and tests for the coefficients are more forgiving, especially with a large sample (Penn State STAT 501, Lessons 4.1, 7.1 and 7.2).
 
+Non-normal residuals do not make the coefficients themselves wrong on average. Least squares gives unbiased coefficients as long as the errors average zero, whatever their shape; the Gauss–Markov theorem says it is even the best linear unbiased estimator without normal errors (Wikipedia, "Gauss–Markov theorem"). So normality matters for the intervals and tests, not for the fitted line.
+
 Two checks, both on the residuals (Figure 6, top):
 
 - **Histogram or density plot:** roughly a bell centred on 0. Here it is, apart from a small bump.
@@ -235,6 +237,7 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 - **Ghasemi and Zahediasl**: A. Ghasemi and S. Zahediasl, "Normality Tests for Statistical Analysis: A Guide for Non-Statisticians", *International Journal of Endocrinology and Metabolism* 10(2), 486–489, 2012.
 - **Wooldridge**: J. M. Wooldridge, *Introductory Econometrics: A Modern Approach*, Cengage. Chapter 8, Heteroskedasticity (§8.1, consequences for OLS).
 - **Penn State STAT 501**: Penn State Eberly College of Science, *STAT 501: Regression Methods*, online notes, online.stat.psu.edu/stat501. Lesson 4.1 "Background" (tests and confidence intervals for the coefficients are fairly robust to departures from normality; prediction intervals are quite sensitive), Lesson 7.1 "Confidence Interval for the Mean Response" (with a large sample the errors can deviate substantially from normality) and Lesson 7.2 "Prediction Interval for a New Response" (depends strongly on normal errors).
+- **Gauss–Markov**: Wikipedia, "Gauss–Markov theorem", en.wikipedia.org/wiki/Gauss–Markov_theorem (least squares is the best linear unbiased estimator when the errors have mean zero, equal variance and are uncorrelated; the errors do not need to be normal).
 - **statsmodels docs**: statsmodels documentation, `statsmodels.stats.stattools.durbin_watson`.
 
 ## 10. Key terms

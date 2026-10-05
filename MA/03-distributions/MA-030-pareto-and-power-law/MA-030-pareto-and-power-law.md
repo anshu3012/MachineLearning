@@ -312,7 +312,7 @@ Figure 5 (right) shows the 1,000 Pareto values against a fitted Pareto ($\alpha 
 
 > **Key point:** Real data is rarely normal; mathematical transformations such as the log, square root, reciprocal, Box-Cox and Yeo-Johnson bring it close to normal.
 
-The normal distribution is so well studied that once data is normal, many calculations and methods become easy. Statistical models such as linear and logistic regression work better when each **feature** (G-772; an input variable, one column of the data table) looks normal, while tree-based models do not care. Real data, however, is rarely normal; it is often skewed like the log-normal and Pareto data above.
+The normal distribution is so well studied that once data is normal, many calculations and methods become easy. Statistical models such as linear and logistic regression work better when each **feature** (G-772; an input variable, one column of the data table) looks normal, while tree-based models do not care. A tree only asks questions such as "is the value above 3?", and a transform like the log keeps the values in the same order, so every question splits the observations exactly as before (scikit-learn user guide §1.10: trees need little data preparation). Real data, however, is rarely normal; it is often skewed like the log-normal and Pareto data above.
 
 **Mathematical transformations** (G-1174; see [mathematical transformers in scikit-learn](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn)) apply a formula to every value of a feature to bring its distribution close to normal. They are covered in the feature engineering Notes:
 
@@ -358,6 +358,7 @@ Figure 6 shows why step 3 matters, on the 1,000 Pareto values of section 3.5. Th
 **Other references**
 
 - Pareto, V. (1896–97). *Cours d'économie politique*, 2 vols. Lausanne: F. Rouge.
+- scikit-learn user guide, §1.10 "Decision Trees", advantages (requires little data preparation). https://scikit-learn.org/stable/modules/tree.html
 - Crovella, M. E. and Bestavros, A. (1997). "Self-similarity in World Wide Web traffic: evidence and possible causes." *IEEE/ACM Transactions on Networking* 5(6), 835–846.
 
 ## 8. Key terms

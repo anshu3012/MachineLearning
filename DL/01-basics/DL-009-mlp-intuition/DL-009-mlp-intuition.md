@@ -372,6 +372,8 @@ Averaged over 5 random starts (adam solver, Notebook), the sigmoid network stays
 
 The effect is like a message passed down a long line of whisperers, each one quieter than the last. [The vanishing gradient problem](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem) works through it in detail.
 
+The ReLU network escapes this. ReLU's derivative is 1 wherever its input is positive, so for every active node the gradient passes back through the layer without shrinking (Goodfellow et al. 2016, §6.3.1).
+
 TensorFlow Playground also draws what each hidden node has learned. A first-layer node computes $\sigma(w_1x_1 + w_2x_2 + b)$, so its 0.5 decision boundary is always a straight line; the later layers combine those lines into curves, as in Figure 10.
 
 > **Python:** An MLP in scikit-learn.
@@ -421,7 +423,7 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 
 **Other references**
 
-- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.1 (a network with two hidden units that solves XOR), §6.2.2.3 (softmax output units), §6.3 (ReLU as the default hidden unit), §6.4.1 (universal approximation: the weights exist, but training may not find them).
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.1 (a network with two hidden units that solves XOR), §6.2.2.3 (softmax output units), §6.3 (ReLU as the default hidden unit), §6.3.1 (the derivative of a ReLU is 1 wherever the unit is active, so gradients stay large), §6.4.1 (universal approximation: the weights exist, but training may not find them).
 
 ## 8. Key terms
 

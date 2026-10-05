@@ -119,7 +119,7 @@ Figure 3 draws the table one layer at a time. Each block is drawn to scale, one 
 
 So the first fully connected layer has $400 \times 120$ weights, the second $120 \times 84$, and the output layer $84 \times 10$.
 
-The number of filters grows as we go deeper, from 6 to 16, while the filter size stays 5 × 5 and the height and width of the maps shrink. More filters in deeper layers is a pattern we will see again in later architectures.
+The number of filters grows as we go deeper, from 6 to 16, while the filter size stays 5 × 5 and the height and width of the maps shrink. The extra filters make up for the lost height and width: each smaller map is described by more feature maps, so the network keeps a rich description while becoming less sensitive to small shifts and distortions of the input (LeCun et al. 1998, §II.A). More filters in deeper layers is a pattern we will see again in later architectures.
 
 ![One MNIST test digit flowing through a trained LeNet-5 (the Keras model of section 6, seed 1, 98.4% test accuracy): the real values after every layer. Red is positive, blue negative; the dense layers are drawn as grids of cells, one per node.](images/lenet_flow.gif){height=50%}
 
@@ -214,7 +214,7 @@ In Figure 6, the validation curve is just below the ANN's line at epoch 2 (97.66
 
 - A CNN = convolution and pooling blocks, Flatten, fully connected layers, output layer, because the blocks extract the features and the fully connected part uses them to classify.
 - Architectures differ in the number of layers and filters, filter size, stride, padding, activation, dropout and batch normalisation, so LeNet, AlexNet, VGGNet and ResNet are all this one pattern with different choices.
-- LeNet-5 (LeCun et al. 1998): 32 × 32 input, tanh, average pooling, 6 then 16 filters of 5 × 5, layers of 120, 84 and 10 nodes; tanh, because in 1998 it was the best activation function available.
+- LeNet-5 (LeCun et al. 1998): 32 × 32 input, tanh, average pooling, 6 then 16 filters of 5 × 5 (more filters as the maps shrink, to keep a rich description of a smaller map), layers of 120, 84 and 10 nodes; tanh, because in 1998 it was the best activation function available.
 - Pooling and Flatten have no parameters; most of LeNet-5's parameters are in its first Dense layer, because pooling involves no training, Flatten only reshapes, and that Dense layer connects all 400 flattened numbers to 120 nodes.
 
 ## 8. Sources
@@ -225,7 +225,7 @@ In Figure 6, the validation curve is just below the ANN's line at epoch 2 (97.66
 
 **Other references**
 
-- LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-based learning applied to document recognition. *Proceedings of the IEEE*, 86(11), 2278–2324. Section II.B (LeNet-5), Table I, Section III.
+- LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-based learning applied to document recognition. *Proceedings of the IEEE*, 86(11), 2278–2324. Section II.A (the number of feature maps grows as the spatial resolution shrinks, giving invariance to shifts and distortions), Section II.B (LeNet-5), Table I, Section III.
 - Keras API documentation: `Conv2D`, `AveragePooling2D`, `Flatten` and `Dense` layers, keras.io/api/layers.
 - Stanford CS231n course notes, "Convolutional Neural Networks", section "Layer Patterns", cs231n.github.io/convolutional-networks.
 

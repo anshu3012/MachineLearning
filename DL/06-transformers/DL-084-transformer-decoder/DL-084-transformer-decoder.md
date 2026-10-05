@@ -100,6 +100,8 @@ The result is the input matrix $X$, $5 \times 512$: rows $x_1, \dots, x_5$.
 >
 > $$\sqrt{512} \approx 22.6$$
 >
+> The reason: every positional-encoding value lies between −1 and 1, so the learned embedding values are rescaled before the two are added (d2l §11.7.4).
+>
 > And one weight matrix is shared by three layers: the encoder's embedding, the decoder's embedding and the final linear layer of section 8. The paper's English–German data used one shared source–target vocabulary of about 37,000 tokens (§5.1). The Notebook applies the $\sqrt{d_{\text{model}}}$ factor; it keeps separate English and French vocabularies, so it does not share weights.
 
 ## 6. Inside one decoder block
@@ -354,6 +356,7 @@ The untrained decoder's most likely word is "mit" at all 5 positions. Picking th
 **Other references**
 
 - Vaswani, A. et al. (2017). Attention Is All You Need. *NeurIPS 2017*. arXiv:1706.03762. §3.1 (decoder: $N = 6$, the third sub-layer, the masking and the offset by one position); §3.2.3 (encoder–decoder attention: queries from the decoder, keys and values from the encoder); §3.4 (shared embedding and pre-softmax weights, the factor $\sqrt{d_{\text{model}}}$); §5.1 (shared vocabulary of about 37,000 tokens); Figure 1 ("Outputs (shifted right)"); Table 3 (base model, 65 million parameters; rows (C), totals for N = 2, 4 and 8).
+- Zhang, A., Lipton, Z. C., Li, M. and Smola, A. J. *Dive into Deep Learning*, d2l.ai, §11.7.4 (the encoder multiplies the embeddings by the square root of the embedding dimension because positional-encoding values lie between −1 and 1). https://d2l.ai/chapter_attention-mechanisms-and-transformers/transformer.html
 - Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft (19 August 2026), ch. 13, §13.3 (the encoder–decoder transformer, cross-attention, eq. 13.11–13.13, teacher forcing).
 
 ## 12. Key terms

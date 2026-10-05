@@ -276,7 +276,7 @@ The z-procedure needs $\sigma$ and a normal sampling distribution. The **bootstr
 
 ![12 Titanic ages are resampled with replacement; each resample's mean drops into the histogram; after 10,000 resamples the middle 95% gives the interval 23.2 to 35.0, beside the t-interval 21.9 to 35.8 (idea after StatQuest, "Confidence Intervals, Clearly Explained!!!")](images/bootstrap_ci.gif)
 
-1. **Resample.** Draw 12 ages from the 12, **with replacement**: after each draw the age goes back, so one age can be picked twice or three times and another not at all. In the top panel of Figure 7, a stack of orange dots is an age drawn more than once.
+1. **Resample.** Draw 12 ages from the 12, **with replacement**: after each draw the age goes back, so one age can be picked twice or three times and another not at all. In the top panel of Figure 7, a stack of orange dots is an age drawn more than once. Without replacement, 12 draws from 12 ages would give back the same 12 ages every time, with the same mean 28.83, and the means would have no spread to measure.
 2. **Compute the mean** of the resample: 29.7 for the first one.
 3. **Repeat** 10,000 times. The means pile up into a histogram (bottom panel): it shows how much the mean of 12 such ages moves from sample to sample.
 4. **Keep the middle 95%.** Cut off the lowest 2.5% and the highest 2.5% of the 10,000 means. The cut points, the 2.5th and 97.5th percentiles, are the interval: **23.2 to 35.0 years**. It contains the true mean of all 714 known ages, 29.70.

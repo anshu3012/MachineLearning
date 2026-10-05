@@ -170,16 +170,20 @@ The same holds for classification: $p = 0.2$ was too little, $p = 0.5$ worked. T
 > **Key point:** Raise $p$ if the network overfits, lower it if it underfits; try dropout on the last hidden layer first; typical rates are 0.2 to 0.5.
 
 1. **Overfitting: increase $p$. Underfitting: decrease $p$.** This follows directly from section 5.
-2. **Start with the last hidden layer.** Many well-performing architectures put dropout only after the last hidden layer. So rather than adding dropout everywhere at once, try it there first, check the effect, then add it to other layers.
+2. **Start with the last hidden layer.** Many well-performing architectures put dropout only after the last hidden layer. So rather than adding dropout everywhere at once, try it there first, check the effect, then add it to other layers. The last hidden layers are usually the largest, so they are where dropout does most to limit the model: AlexNet's last two hidden layers hold more than 40 million parameters, and dropout is applied to them (d2l §8.1.2.3, §8.1.4). Layers near the input usually get a lower rate (d2l §5.6.2.1).
 3. **Typical rates by type of network:**
 
 | Network | Typical dropout rate |
 |---|---|
-| Convolutional networks (CNNs) | 40% to 50% |
+| Convolutional networks (CNNs) | 40% to 50% on the fully connected layers |
 | Recurrent networks (RNNs) | 20% to 30% |
 | ANNs (multi-layer perceptrons) | 10% to 50%, depending on the problem |
 
 Rates above 50% rarely help.
+
+Why the rates differ:
+- **CNNs:** the rate is for the large fully connected layers at the end. The original dropout paper's convolutional network dropped 50% of the fully connected nodes, but only 10% to 25% in the earlier layers (Srivastava et al. 2014, §6.1.2).
+- **RNNs:** the recurrence passes each step's state to the next step, so dropout noise gets amplified over time and hurts learning (Zaremba et al. 2014, §2). A study of RNN models found that 50% lowered accuracy and advised 20% to 40% (Gajbhiye et al. 2018, §4.4).
 
 > **Extra:** The original dropout paper used a lower rate on the input layer than on the hidden layers: it kept input nodes with probability 0.8 ($p = 0.2$) and hidden nodes with probability 0.5 ($p = 0.5$) (Srivastava et al. 2014, Appendix A.4). Dropping too many inputs throws away information that no later layer can recover.
 
@@ -205,7 +209,7 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 
 - In Keras, dropout is a `Dropout(p)` layer placed after the layer whose nodes it drops; never after the output layer, because every sub-network must still give a full prediction.
 - Dropout raises the training error and lowers the test error: smoother curves and decision boundaries, smaller gaps between the training curves.
-- Small $p$ overfits, large $p$ underfits, because at $p$ = 0.75 three nodes in four are gone each step and the network can no longer fit the data; try 0.2 to 0.5, starting with the last hidden layer.
+- Small $p$ overfits, large $p$ underfits, because at $p$ = 0.75 three nodes in four are gone each step and the network can no longer fit the data; try 0.2 to 0.5, starting with the last hidden layer, because the large layers near the output are where dropout limits the model most; RNNs take lower rates, because the recurrence amplifies dropout noise.
 - The price: slower training and a loss that is harder to monitor, because each step trains only part of the network and the loss comes from a different sub-network every step.
 
 So one `Dropout` line, with $p$ between 0.2 and 0.5, lowered the error on new data in both problems here.
@@ -218,7 +222,10 @@ So one `Dropout` line, with $p$ between 0.2 and 0.5, lowered the error on new da
 
 **Other references**
 
-- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014, Appendix A.4 (dropout rates), §9 (longer training time).
+- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014, Appendix A.4 (dropout rates), §6.1.2 (convolutional network: 10% to 25% dropout in the input and convolutional layers, 50% in the fully connected layers), §9 (longer training time).
+- Zhang, A., Lipton, Z. C., Li, M. and Smola, A. J. *Dive into Deep Learning*, d2l.ai, §5.6.2.1 (a lower dropout probability closer to the input layer), §8.1.2.3 and §8.1.4 (AlexNet controls the complexity of its fully connected layers with dropout; those last two layers hold more than 40 million parameters).
+- Zaremba, W., Sutskever, I. and Vinyals, O. (2014). Recurrent Neural Network Regularization. arXiv:1409.2329. §2 (conventional dropout works badly in RNNs because the recurrence amplifies noise).
+- Gajbhiye, A., Jaf, S., Al Moubayed, N., McGough, A. S. and Bradley, S. (2018). An Exploration of Dropout with RNNs for Natural Language Inference. *ICANN 2018*. arXiv:1810.08606. §4.4 (a 0.5 rate lowered accuracy; a range of 0.2 to 0.4 is advised).
 - Keras FAQ, "Why is my training loss much higher than my testing loss?" (dropout is off at test time; the training loss is averaged over the epoch's batches).
 
 ## 10. Key terms

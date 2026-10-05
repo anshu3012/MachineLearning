@@ -115,7 +115,7 @@ Figure 4 shows the idea on the rooms and washrooms data. We draw a line through 
 3. **At 45°:** variance 2.61, the largest of any angle. This line is the first principal component.
 4. **At right angles to it:** variance only 0.05. This line is the second principal component.
 
-The new axes are called **principal components** (G-1563), written **PC1** and **PC2**. PC1 is the direction with the most variance; PC2 is at right angles to it and holds what is left.
+The new axes are called **principal components** (G-1563), written **PC1** and **PC2**. PC1 is the direction with the most variance; PC2 is at right angles to it and holds what is left. Why right angles: PC2 is chosen to carry new information, so its values must be uncorrelated with PC1's, and being uncorrelated with PC1 turns out to be the same as pointing at right angles to it (ISLR §12.2.1). With two features, that leaves only one possible direction for PC2.
 
 Here PC1 holds almost all the spread, 2.61 against 0.05. So we keep PC1, drop PC2, and describe each flat by one number: its position along PC1. Two features have become one, just like the flat's area.
 
@@ -282,6 +282,7 @@ Section 4.1 showed the same choice from the other side: the direction of maximum
 
 **Other references**
 
+- **ISLR:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd edition. Springer, 2021. §12.2.1 "What Are Principal Components?" (PC2 has the most variance among directions uncorrelated with PC1, which is the same as being orthogonal to PC1).
 - Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd edition, Theorem 5.2.6. Duxbury.
 
 ## 9. Key terms

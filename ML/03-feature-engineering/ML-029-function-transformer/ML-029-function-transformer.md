@@ -80,7 +80,7 @@ Before transforming a feature, we need to know whether it is normal already. The
 
 1. **Density plot:** draw the histogram with its KDE curve, as in [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot). The shape gives a first idea of how normal the feature is.
 2. **Skewness:** pandas' `skew()`. A value near 0 means symmetric; positive means right-skewed, negative means left-skewed (see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
-3. **Q-Q plot:** the most reliable of the three, and the most used. The rest of this section explains how it is built and how to read it.
+3. **Q-Q plot:** the most reliable of the three, and the most used. Skewness is one number that measures only lopsidedness, so a symmetric shape with fat tails (the last panel of Figure 5) has a skewness near 0 though it is not normal. The Q-Q plot compares every value with where a normal distribution would put it, so it shows that problem too. The rest of this section explains how it is built and how to read it.
 
 ### 4.1 How a Q-Q plot is built
 

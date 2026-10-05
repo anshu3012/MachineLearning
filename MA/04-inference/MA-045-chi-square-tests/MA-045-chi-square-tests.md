@@ -343,7 +343,7 @@ We reject $H_0$: survival depended on class.
 
 > **Key point:** Counts, independence, and large enough expected counts.
 
-1. **Counts, not percentages.** The formula needs the number of observations in each cell. Percentages or means give a wrong $\chi^2$.
+1. **Counts, not percentages.** The formula needs the number of observations in each cell. Percentages or means give a wrong $\chi^2$, because $\chi^2$ grows with the number of observations (section 7.2): percentages act as if every sample had exactly 100 observations, whatever its real size.
 2. **Independent observations.** Each observation is counted in exactly one cell, and observations do not influence each other. The same person measured twice breaks this.
 3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the chi-square distribution is only a large-sample approximation. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (G-782) (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
 
@@ -405,7 +405,7 @@ Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is
 - The table's expected counts are what $H_0$ predicts: $n$ times the claimed share, or, under independence, $P(A)\thinspace P(B)$ times $n$. Both examples give $p > 0.05$, so neither sample shows a departure from $H_0$.
 - Under $H_0$, $\chi^2 = \sum (O - E)^2/E$ follows a chi-square distribution; the p-value is the right-tail area, because only a large total mismatch between observed and expected counts counts against $H_0$.
 - With two categories, goodness of fit is the one-sample proportion test: $\chi^2 = z^2$, so the two tests give identical p-values.
-- The test needs raw counts, independent observations and expected counts of at least 5, because percentages give a wrong $\chi^2$ and with tiny expected counts the chi-square curve no longer fits, so the p-value cannot be trusted.
+- The test needs raw counts, independent observations and expected counts of at least 5, because $\chi^2$ grows with the number of observations, so percentages give a wrong $\chi^2$, and with tiny expected counts the chi-square curve no longer fits, so the p-value cannot be trusted.
 - This answers the opening question: a chi-square test compares observed counts with the counts $H_0$ predicts, and the bigger the total mismatch $\chi^2$, the smaller the p-value.
 
 ## 9. Sources

@@ -284,7 +284,7 @@ $$K_{\text{left}} = \begin{bmatrix} 1 & 0 & -1 \cr1 & 0 & -1 \cr1 & 0 & -1 \end{
 
 On a handwritten 0 (Figure 8, middle), the red values are the places where the filter finds its left edge: the stroke is bright and the background on its right is dark. The blue values are the opposite edge, where the background is on the left: a right edge. The Notebook counts 136 clearly positive cells and 138 clearly negative ones (absolute value above 0.1).
 
-In a CNN, the feature map goes through an activation function next, usually **ReLU** (G-1668), $\max(0, z)$ (see the [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). Negative values become 0 and positive values stay. After ReLU (Figure 8, right) only the red left edges remain: the feature map now answers one question, "is there a left edge here?".
+In a CNN, the feature map goes through an activation function next, usually **ReLU** (G-1668), $\max(0, z)$ (see the [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). Negative values become 0 and positive values stay. The activation is needed because a convolution, like a node, is only a weighted sum plus a bias: without a non-linear step, stacked convolution layers would [collapse into one linear layer](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#42-the-algebra-linear-layers-collapse). After ReLU (Figure 8, right) only the red left edges remain: the feature map now answers one question, "is there a left edge here?".
 
 ## 10. Convolution on colour images
 

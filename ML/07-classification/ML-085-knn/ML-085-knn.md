@@ -222,11 +222,18 @@ k (`n_neighbors`, G-992) is a **hyperparameter** (G-910): a setting we choose be
 
    So $k$ is about 21.
 
+Why the square root: theory says k should grow as the training set grows, so each vote averages more neighbours, but stay a tiny fraction of n, so the neighbours stay close to the new point. With both, KNN's error approaches the best error possible as n grows (Anava and Levy 2016, §1). The square root does both:
+
+| n | k = √n | k as a share of n |
+|---|---|---|
+| 400 | 20 | 5% |
+| 10,000 | 100 | 1% |
+
 With two classes, an even k can produce a tie. With k = 4, the vote can end 2 against 2, and there is no majority. So we take an odd value nearby: 19 or 21 instead of 20.
 
 > **Extra:** If a tie does happen, scikit-learn does not flip a coin. The classifier picks the class that comes first in its sorted list of classes (here, 0 = malignant), as a small test in the notebook shows. An odd k avoids the question entirely for two classes.
 
-The square-root rule is only a starting point. The experiments below test many values of k directly.
+The square-root rule is only a starting point: on a dataset of fixed size it often gives poor results, so k is usually chosen by cross-validation (Anava and Levy 2016, §1). The experiments below test many values of k directly.
 
 ### 4.2 Experiments: try every k
 
@@ -444,7 +451,7 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 
 - KNN predicts by majority vote among the k training points nearest to the query point, usually by Euclidean distance, because a point is probably like its neighbours.
 - Scale the features first: on the breast cancer data, 91.2% unscaled against 97.4% scaled (k = 5), because otherwise the features with big numbers decide the distance alone.
-- Choose k by cross-validation on the training set (here k = 10, test accuracy 97.4%), not by test-set accuracy, because picking the best of many test scores leaks the test set and gives an optimistic number. $\sqrt{n}$, made odd, is only a rough start; odd avoids ties between two classes.
+- Choose k by cross-validation on the training set (here k = 10, test accuracy 97.4%), not by test-set accuracy, because picking the best of many test scores leaks the test set and gives an optimistic number. $\sqrt{n}$, made odd, is only a rough start, because k should grow with n yet stay a small share of it, but on real data of fixed size it often misses; odd avoids ties between two classes.
 - A decision surface colours a dense grid of predicted points (`meshgrid`, predict, colour), so you can see what the model would predict everywhere at once, for 1, 2 or 3 features.
 - Small k overfits (islands, high variance), because every point, outliers included, claims a region of its own; k = n underfits (always the majority class), because every query consults the whole training set. So the best k lies in between.
 - So KNN is a simple, often accurate classifier for small, scaled, low-dimensional data; the table above says when to reach for another model.
@@ -459,6 +466,7 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 **Other references**
 
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd edition. Springer, 2021. Section 2.2.3, pp. 39–42 (KNN and the choice of K); Section 3.5, pp. 108–109 (curse of dimensionality, interpretability).
+- **Anava and Levy 2016:** Anava, O. and Levy, K. Y. "k*-Nearest Neighbors: From Global to Local". *NeurIPS* 2016, arXiv:1701.07266. §1 (k-NN is consistent when k grows with n while k/n shrinks to 0; k = √n is a widely mentioned rule of thumb that often gives poor results on finite samples, so k is usually chosen by cross-validation).
 - **scikit-learn docs:** `sklearn.neighbors.KNeighborsClassifier` (metric, p); user guide Section 1.6.4, "Nearest Neighbor Algorithms", scikit-learn 1.9.
 
 ## 10. Key terms

@@ -174,7 +174,7 @@ The first three points form cluster 0, the next two cluster 1, and the far-away 
 
 > **Key point:** On the circles DBSCAN recovers both rings exactly; k-means does no better than chance.
 
-Figure 1 shows DBSCAN (eps = 0.3, min_samples = 5, on standardized data) on the two shapes where k-means fails (see [where k-means struggles](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#3-where-k-means-struggles)). We can score each result by how well it matches the true groups, with the adjusted Rand score (1 = identical, 0 = no better than chance):
+Figure 1 shows DBSCAN (eps = 0.3, min_samples = 5, on standardized data) on the two shapes where k-means fails (see [where k-means struggles](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#3-where-k-means-struggles)). The data is standardized first because eps is one distance for every feature (section 5): a feature measured in large units would dominate every distance, exactly as IQ dominates CGPA in [k-means on two features](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#43-steps-3-and-4-on-two-features). We can score each result by how well it matches the true groups, with the adjusted Rand score (1 = identical, 0 = no better than chance):
 
 | Data | k-means | DBSCAN |
 |---|---|---|

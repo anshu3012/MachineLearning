@@ -72,7 +72,7 @@ The example pair is the one of the [transformer decoder](../DL-084-transformer-d
 | Step | What it does | Why it is there | Shape | Taught in |
 |---|---|---|---|---|
 | Tokens | "we're", "friends", "." | the model reads tokens, not letters | 3 tokens | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#4-the-input-from-words-to-vectors), §4 |
-| Embedding $\times \sqrt{d_{\text{model}}}$ | looks up a learned vector per token, multiplied by $\sqrt{512} \approx 22.6$ | words become numbers | $3 \times 512$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#52-tokenise-embed-add-positions), §5.2 |
+| Embedding $\times \sqrt{d_{\text{model}}}$ | looks up a learned vector per token, multiplied by $\sqrt{512} \approx 22.6$ | words become numbers; the factor rescales the learned embeddings before positions, whose values lie between −1 and 1, are added (d2l §11.7.4) | $3 \times 512$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#52-tokenise-embed-add-positions), §5.2 |
 | $+$ positional encoding | adds a sine–cosine vector per position | attention alone ignores order | $3 \times 512$ | [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) |
 | Multi-head self-attention | every word mixes in the other words, 8 heads of 64 | context: "bank" next to "river" differs from "bank" next to "money" | $3 \times 512$ (weights: $8 \times 3 \times 3$) | [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices)–[multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) |
 | Add & norm | $\text{LayerNorm}(x + \text{Sublayer}(x))$ | residual path and stable scale | $3 \times 512$ | [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation), [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) |
@@ -239,6 +239,8 @@ Doubling the step from 1,000 to 2,000 doubles the rate (the straight-line rise).
 In Figure 8, watch the orange dot as the warm-up gets longer: the peak comes later and is lower, as the formula $(d_{\text{model}} \cdot \text{warmup})^{-0.5}$ says, and after its peak every curve joins the same falling line $1/\sqrt{\text{step}}$. The warm-up length only decides how high the learning rate is allowed to climb before the decay takes over.
 
 **Why start small.** The [improving a neural network](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) met warm-up as a way to train with large batches. For the transformer, Xiong et al. (2020) give a specific reason. In the original transformer, with layer normalisation after each residual addition, "the expected gradients of the parameters near the output layer are large. Therefore, using a large learning rate on those gradients makes the training unstable. The warm-up stage is practically helpful for avoiding this problem" (Xiong et al. 2020, abstract). They also show that moving the layer normalisation inside the residual branch, the **Pre-LN** transformer (G-1545), makes the warm-up unnecessary.
+
+**Why go down afterwards.** Each update uses the gradient of one mini-batch, a random sample of the data, so the gradient is noisy. That noise does not go away even when the weights reach a minimum, so a learning rate that stays large keeps the weights jumping around the minimum. Lowering the learning rate over time makes the steps smaller, so the weights can settle (Goodfellow et al. 2016, §8.3.1).
 
 ### 7.4 Regularisation: residual dropout and label smoothing
 
@@ -408,13 +410,13 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 
 | Stage | The transformer's answer | Why it matters |
 |---|---|---|
-| Words to numbers | embeddings $\times \sqrt{512}$, plus sine–cosine positions | attention alone ignores word order |
+| Words to numbers | embeddings $\times \sqrt{512}$, plus sine–cosine positions | the factor rescales the embeddings because position values lie between −1 and 1; positions are added because attention alone ignores word order |
 | Context | multi-head self-attention: 8 heads of 64, scaled by $\sqrt{d_k}$ | several points of view at the cost of one head; scaling keeps the softmax from saturating |
 | Stability in depth | residual connection, then layer normalisation, after every sub-layer | words stay distinct through the stack; padding stays out of the statistics |
 | Per-word processing | feed-forward 512 → 2048 → 512 | attention only mixes words; this gives each word a non-linear transformation |
 | Writing the output | masked self-attention, cross-attention to $H_{\text{enc}}$, linear, softmax | future words do not exist at prediction time; cross-attention is the only place the decoder reads the input |
 | Training | teacher forcing, one parallel pass, cross-entropy with label smoothing 0.1 | all inputs are known in advance; smoothing stops the push to full certainty |
-| Optimiser | Adam; learning rate up for 4,000 steps, then down as $1/\sqrt{\text{step}}$ | the first gradients near the output are large |
+| Optimiser | Adam; learning rate up for 4,000 steps, then down as $1/\sqrt{\text{step}}$ | the first gradients near the output are large; later, smaller steps let noisy mini-batch updates settle near a minimum |
 | Inference | one word per step, mask on, KV cache, beam search of 4 | no target exists, and the inputs must look like the training inputs |
 
 - The transformer is the end of a chain: RNN → LSTM → encoder–decoder → attention → self-attention, each fixing the last one's main problem, so every part of the model is there to fix a named problem (section 6).
@@ -440,6 +442,8 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 - Szegedy, C., Vanhoucke, V., Ioffe, S., Shlens, J. and Wojna, Z. (2016). Rethinking the Inception Architecture for Computer Vision. *CVPR 2016*. arXiv:1512.00567. §7 (label smoothing: the true class gets the target $1 - \epsilon + \epsilon/K$ and every other class $\epsilon/K$, with $K$ classes; over-fitting and over-confidence).
 - Xiong, R. et al. (2020). On Layer Normalization in the Transformer Architecture. *ICML 2020*. arXiv:2002.04745. Abstract (why the warm-up is needed in the Post-LN transformer; Pre-LN without warm-up).
 - Vinyals, O., Kaiser, Ł., Koo, T., Petrov, S., Sutskever, I. and Hinton, G. (2015). Grammar as a Foreign Language. *NeurIPS 2015*. arXiv:1412.7449. §2.2 and Figure 2 (linearising a parse tree); §3.2 (EVALB, F1).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §8.3.1 (the learning rate must be lowered over time, because the mini-batch gradient's noise does not vanish at a minimum).
+- Zhang, A., Lipton, Z. C., Li, M. and Smola, A. J. *Dive into Deep Learning*, d2l.ai, §11.7.4 (the embeddings are multiplied by the square root of the embedding dimension because positional-encoding values lie between −1 and 1). https://d2l.ai/chapter_attention-mechanisms-and-transformers/transformer.html
 - Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft (19 August 2026), ch. 7, §7.7.1 (perplexity as the exponential of the mean cross-entropy) and §7.8 (KV cache).
 
 ## 13. Key terms

@@ -171,7 +171,17 @@ Ten tosses of a fair coin can easily give 3 heads, an empirical probability of 0
 | Empirical $P(\text{head})$ | 0.4 | 0.55 | 0.506 | 0.4918 | 0.5018 |
 | Distance from 0.5 | 0.1 | 0.05 | 0.006 | 0.0082 | 0.0018 |
 
-The distance does not shrink at every step (10,000 tosses landed a little further away than 1,000), but the overall trend is clear. Figure 1 shows the same pattern toss by toss in three runs: wild swings at first, a narrow band after 1,000 tosses, and a flat line at 0.5 near 100,000.
+The distance does not shrink at every step (10,000 tosses landed a little further away than 1,000), but the overall trend is clear.
+
+The typical-gap formula of section 4 shows why the trend holds: the number of trials $n$ sits under the square root, in the bottom of the fraction. For a fair coin, $p = 0.5$:
+
+$$n = 100: \quad \sqrt{\frac{0.5 \times 0.5}{100}} = 0.05$$
+
+$$n = 10000: \quad \sqrt{\frac{0.5 \times 0.5}{10000}} = 0.005$$
+
+So 100 times more tosses make the typical gap 10 times smaller.
+
+Figure 1 shows the same pattern toss by toss in three runs: wild swings at first, a narrow band after 1,000 tosses, and a flat line at 0.5 near 100,000.
 
 A die behaves the same way. In 10 simulated rolls, the face 3 did not appear at all, an empirical $P(3) = 0$. In 100,000 rolls it appeared in a share of 0.1662, against the theoretical $1/6 \approx 0.1667$. Figure 5 shows all six faces at 10, 1,000 and 100,000 rolls: the bars start ragged and end level with the dashed line.
 

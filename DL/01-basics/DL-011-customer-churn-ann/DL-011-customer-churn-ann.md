@@ -135,6 +135,8 @@ Figure 2 shows the problem and the fix:
 > X_test_scaled = scaler.transform(X_test)
 > ```
 
+The scaler learns the mean and standard deviation from the training set only (`fit_transform`) and reuses them on the test set (`transform`). If the test customers helped compute the mean, information from the test set would reach the model, and the test score would look better than it really is: **data leakage** (G-535; see [scaling the inputs](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs); scikit-learn User Guide, Common pitfalls, §12.2).
+
 ## 4. Building a network in Keras
 
 > **Key point:** A `Sequential` model is a stack of layers; each `Dense` layer is a row of perceptrons connected to every node of the layer before.
@@ -480,7 +482,7 @@ The gap between the two curves measures overfitting. Here it is small, but it is
 | Epochs | 10 | 100, with 20% validation |
 | Test accuracy | 79.25% (predicts "stays" for all) | 86.45% |
 
-- Prepare as usual: drop identifiers, one-hot encode, split, standardize, because identifiers say nothing about leaving and features on very different scales slow training down.
+- Prepare as usual: drop identifiers, one-hot encode, split, standardize, because identifiers say nothing about leaving and features on very different scales slow training down; the scaler is fit on the training set only, so no test information leaks into training.
 - Keras: `Sequential` + `Dense` layers, `summary`, `compile` (loss, optimizer, metrics), `fit` (epochs, validation split), `predict`; the same steps carry over to the MNIST and admission projects.
 - Binary classification: one sigmoid output node, binary cross-entropy loss, threshold 0.5 on the probability, because the sigmoid gives a probability of leaving between 0 and 1.
 - On imbalanced data, compare accuracy with always predicting the majority class, and look at the confusion matrix, because the first network scored 79.25% by predicting "stays" for everyone.
@@ -498,6 +500,7 @@ So the opening question, which customers will leave, is answered by the second n
 **Other references**
 
 - Keras documentation, `Model.fit`, keras.io/api/models/model_training_apis (`batch_size` defaults to 32; `validation_split` takes the last samples, before shuffling).
+- scikit-learn User Guide, "Common pitfalls and recommended practices", §12.2 Data leakage, scikit-learn.org/stable/common_pitfalls.html (preprocessing is learnt from the training data only; never call `fit` on the test data).
 - Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.3 (rectified linear units as the default hidden unit), §8.5.3 (Adam is fairly robust to the choice of its settings).
 
 ## 11. Key terms

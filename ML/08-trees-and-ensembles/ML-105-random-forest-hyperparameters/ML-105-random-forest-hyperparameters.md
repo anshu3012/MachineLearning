@@ -87,7 +87,7 @@ $$\sqrt{2} = 1.41 \to \mathbf{1}$$
 
 so each split may look at only one randomly chosen feature.
 
-**How to choose it.** Start at the square root of the number of features and try a few values above and below. Train a forest for each value and compare their out-of-bag scores (see [how the OOB score is computed](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed)), or their cross-validation scores (see [grid search over a random forest](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest)); keep the best.
+**How to choose it.** Start at the square root of the number of features and try a few values above and below. The best value depends on the data, because fewer features per split make the trees less alike but each tree weaker (see [why more randomness helps](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#33-why-more-randomness-helps)). Train a forest for each value and compare their out-of-bag scores (see [how the OOB score is computed](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed)), or their cross-validation scores (see [grid search over a random forest](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest)); keep the best.
 
 > **Extra:** Older code also uses `max_features="auto"`, which meant "sqrt" for the classifier and all the features for the regressor. The "auto" option was removed in scikit-learn 1.3 and now raises an error (scikit-learn API docs).
 

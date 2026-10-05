@@ -208,7 +208,7 @@ So we do not tune the two separately. A large `n_estimators` with a small `learn
 >
 > 4 × 5 = 20 combinations, each trained 10 times: 200 fits, about 14 seconds here. `n_jobs=-1` uses every CPU core.
 
-Figure 6 shows all 20 scores of the grid. Watch the top two rows: with learning rate 1.0, 50 stumps are already enough (0.812); with 0.1, accuracy keeps climbing up to 500 stumps and wins (0.832). Learning rates of 0.001 and below stay at about 0.57 whatever the number of stumps.
+Figure 6 shows all 20 scores of the grid. Watch the top two rows: with learning rate 1.0, 50 stumps are already enough (0.812); with 0.1, accuracy keeps climbing up to 500 stumps and wins (0.832). Learning rates of 0.001 and below stay at about 0.57 whatever the number of stumps, because with so small an alpha the weights barely move (section 4.2), so every new stump repeats the first one and the model stays a single straight cut, which underfits (section 3).
 
 ![10-fold cross-validated accuracy of every pair in the grid; the red box is the best pair, 500 stumps at learning rate 0.1](images/grid.png){height=40%}
 

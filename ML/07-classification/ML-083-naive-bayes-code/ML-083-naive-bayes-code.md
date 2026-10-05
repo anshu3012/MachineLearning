@@ -181,6 +181,10 @@ The added count is usually written $\alpha$; here $\alpha = 1$. Step by step, fo
    Sunny becomes 0.5 instead of 0.6:
    $$(3 + 1)/8 = 0.5$$
 
+The denominator grows by $k$ because each of the $k$ values got one extra count. Dividing by the new total keeps the three probabilities adding up to 1:
+
+$$\frac{1}{8} + \frac{3}{8} + \frac{4}{8} = \frac{8}{8} = 1$$
+
 The priors are not smoothed: adding counts to feature values does not change how many days belong to each class.
 
 | Day | Without smoothing | With Laplace smoothing |
@@ -206,7 +210,7 @@ Figure 6 puts the overcast day before and after smoothing side by side. Watch th
 > nb.predict_proba(enc.transform(new_days))
 > ```
 >
-> `CategoricalNB` is Naive Bayes for categorical features. Its `alpha` is the smoothing count, 1 by default (scikit-learn docs, `CategoricalNB`); with a tiny `alpha` it reproduces the unsmoothed numbers above exactly.
+> `CategoricalNB` is Naive Bayes for categorical features. It expects each feature's categories as the numbers 0, 1, ..., n − 1, so `OrdinalEncoder` first turns the words into those numbers (scikit-learn docs, `CategoricalNB`). Its `alpha` is the smoothing count, 1 by default (scikit-learn docs, `CategoricalNB`); with a tiny `alpha` it reproduces the unsmoothed numbers above exactly.
 
 ## 8. Summary
 
@@ -226,7 +230,7 @@ Figure 6 puts the overcast day before and after smoothing side by side. Watch th
 **Other references**
 
 - **Manning et al.:** Manning, C. D., Raghavan, P. and Schütze, H. *Introduction to Information Retrieval*. Cambridge University Press, 2008. Section 13.2, "Naive Bayes text classification".
-- **scikit-learn docs:** `sklearn.naive_bayes.CategoricalNB` (alpha), scikit-learn 1.9.
+- **scikit-learn docs:** `sklearn.naive_bayes.CategoricalNB` (alpha, input encoding), scikit-learn 1.9.
 
 ## 10. Key terms
 

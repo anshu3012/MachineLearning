@@ -125,7 +125,7 @@ where $\bar{x}$ is the sample mean, $\mu_0$ the mean claimed by $H_0$, $s$ the s
 The one-sample t-test needs four things:
 
 1. **Random sampling.** The sample is a random, representative subset of the population. Picking all the chips packets from one shop shelf would not be.
-2. **Independence.** One **observation** (one record, here one measured item) does not influence another. The weight of one chips packet does not affect the weight of the next. When we sample without replacement, a common check is the **10% condition** (G-2236): the sample is at most 10% of the population.
+2. **Independence.** One **observation** (one record, here one measured item) does not influence another. The weight of one chips packet does not affect the weight of the next. When we sample without replacement, a common check is the **10% condition** (G-2236): the sample is at most 10% of the population. Without replacement, each item drawn changes what is left for the next draw, so the draws are not quite independent; when the sample is a small share of the population, each draw changes what is left so little that the observations are nearly independent (OpenIntro Statistics §2.4).
 3. **Normality.** The sampling distribution of $\bar{X}$ must be roughly normal. Any one of these is enough:
    - the population itself is normal;
    - $n \ge 30$, so the central limit theorem makes $\bar{X}$ approximately normal (see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem));
@@ -315,6 +315,7 @@ In Figure 8, watch the zoomed panel: the green $t$ stops 0.012 short of the dash
 **Other references**
 
 - Ghasemi, A. and Zahediasl, S. (2012). "Normality tests for statistical analysis: a guide for non-statisticians." *International Journal of Endocrinology and Metabolism* 10(2), 486–489.
+- Diez, D. M., Barr, C. D. and Çetinkaya-Rundel, M. *OpenIntro Statistics*. OpenIntro. §2.4 "Sampling from a small population". Also at stats.libretexts.org.
 
 ## 10. Key terms
 

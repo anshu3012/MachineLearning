@@ -165,6 +165,12 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 | High bias (underfitting) | high training error, test error about the same | a more complex model, more or better features (feature engineering) |
 | High variance (overfitting) | low training error, much higher test error | more training data, a simpler model, regularisation, bagging |
 
+Two of the variance fixes follow from the rule of Section 5, variance $= \sigma^2 p / N$: more training data makes $N$ larger, and a simpler model makes $p$ smaller, so both shrink the variance. For degree 11 with twice as many observations, $N = 40$:
+
+$$\frac{0.25 \times 12}{40} = 0.075$$
+
+half of the 0.150 measured with 20.
+
 Finding the model between too simple and too complex is the practical goal: we accept a little more bias when it buys a larger drop in variance. Three standard techniques, all covered later, target this trade-off directly:
 
 - **Regularisation** (G-1659) (Ridge, Lasso and Elastic Net, starting with [Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview)): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).

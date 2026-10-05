@@ -134,7 +134,7 @@ Our own gradient descent ([the code](../ML-074-logistic-gradient-descent/ML-074-
 | `sag` | yes | | | yes | large data; needs features on similar scales |
 | `saga` | yes | yes | yes | yes | large data; the only one for Elastic Net |
 
-Asking for a combination that is not supported raises an error, for example `LogisticRegression(l1_ratio=1, solver="lbfgs")` fails with "Solver lbfgs supports only 'l2' or None penalties". For L1 use `liblinear` or `saga`; for Elastic Net use `saga`.
+Asking for a combination that is not supported raises an error, for example `LogisticRegression(l1_ratio=1, solver="lbfgs")` fails with "Solver lbfgs supports only 'l2' or None penalties". For L1 use `liblinear` or `saga`; for Elastic Net use `saga`. The reason: lbfgs follows the slope (gradient) of the loss, and the L1 penalty, the sum of absolute values, has a sharp corner with no slope wherever a coefficient is 0, so lbfgs cannot be used with it (Andrew and Gao 2007). `liblinear` uses coordinate descent instead, and `saga` is built to handle this non-smooth penalty (scikit-learn user guide §1.1.11.3).
 
 A **solver** is the algorithm that searches for the best coefficients, step by step, like the gradient descent of the earlier Notes. In Figure 5, across is the number of iterations (steps) allowed and up is how high the quantity being minimised still is, so a line that falls fast has found a good answer in few steps. Figure 5 runs five solvers on the standardised breast-cancer data with the default L2 penalty, C = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 5, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
 
@@ -226,7 +226,7 @@ Things to try:
 |---|---|---|---|
 | `C` | 1.0 | yes: the most important; smaller = stronger regularisation | it moves the model between overfitting (large C) and underfitting (small C): breast-cancer CV accuracy runs from 0.891 to 0.981 |
 | `l1_ratio` (old `penalty`) | 0 (L2) | sometimes: 1 for feature selection, between for Elastic Net | L1 sets coefficients to exactly 0 (16 of 30 kept), so it drops measurements |
-| `solver` | `lbfgs` | only to allow L1/Elastic Net or for very large data | every solver reaches the same minimum; each supports only some penalties |
+| `solver` | `lbfgs` | only to allow L1/Elastic Net or for very large data | every solver reaches the same minimum; each supports only some penalties, e.g. lbfgs needs a slope, which L1 lacks at 0 |
 | `max_iter` | 100 | raise it if a ConvergenceWarning appears | the solver stopped before the minimum; unscaled features can need far more iterations (2,338 against 19) |
 | `class_weight` | None | `"balanced"` for imbalanced classes | mistakes on the rare class then count more, so recall rises (0.770 to 0.850) at some cost in precision |
 | others | | rarely | their defaults suit almost every case |
@@ -241,7 +241,8 @@ So of about fifteen settings, C is the one to tune first, and the rest follow fr
 
 **Other references**
 
-- **scikit-learn docs:** `sklearn.linear_model.LogisticRegression` (penalty, l1_ratio, C, solver, n_jobs, class_weight), scikit-learn 1.9.
+- **scikit-learn docs:** `sklearn.linear_model.LogisticRegression` (penalty, l1_ratio, C, solver, n_jobs, class_weight), scikit-learn 1.9; user guide §1.1.11.3 "Solvers" (liblinear uses coordinate descent; saga supports the non-smooth L1 penalty).
+- **Andrew and Gao 2007:** G. Andrew and J. Gao, "Scalable Training of L1-Regularized Log-Linear Models", *ICML* 2007. Abstract (L-BFGS cannot be used for an L1-regularised loss because it is not differentiable wherever a parameter is zero).
 
 ## 10. Key terms
 

@@ -279,7 +279,7 @@ New data that happens to hold only Diesel and Petrol cars gives just 2 columns w
 
 > **Key point:** As always, the train-test split comes before the encoding.
 
-The first four columns are the features and `selling_price` is the target. We hold back 20% of the observations for testing: 6502 training rows and 1626 test rows.
+The encoder must learn its categories from the training rows only, so the test set stays unseen, as in [split before scaling](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling). The first four columns are the features and `selling_price` is the target. We hold back 20% of the observations for testing: 6502 training rows and 1626 test rows.
 
 > **Python:** Splitting the car data.
 >

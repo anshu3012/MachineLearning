@@ -56,7 +56,7 @@ AdaBoost builds one strong model by combining many weak learners. Each one alone
 
 > **Key point:** A decision stump is a decision tree with `max_depth=1`: one question, one split, two regions.
 
-A **decision stump** (G-559) is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. [A tree of depth 1](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#22-a-tree-of-depth-1-underfits) was shown to underfit (it is too simple to capture the pattern). Here that weakness is exactly what we want: a stump is a weak learner.
+A **decision stump** (G-559) is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. [A tree of depth 1](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#22-a-tree-of-depth-1-underfits) was shown to underfit (it is too simple to capture the pattern). Here that weakness is exactly what we want: a stump is a weak learner. A model that already gets every training observation right leaves no mistakes to pass on, so boosting would stop after it ([the rule of thumb](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#22-the-rule-of-thumb) tests this with fully grown trees).
 
 ![Three students on CGPA and IQ: every possible stump is one cut parallel to an axis; the chosen cut gives the largest information gain](images/stump_splits.png){height=34%}
 

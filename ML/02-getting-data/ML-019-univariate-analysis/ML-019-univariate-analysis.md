@@ -292,7 +292,7 @@ Figure 11 shows the box plot of `Fare`. The box sits far to the left: half of al
 
 ![Box plot of the Titanic fares](images/fare_box.png)
 
-Extreme values like these can mislead an ML algorithm trained on the column, so we note them now and deal with them later.
+Extreme values like these can mislead an ML algorithm trained on the column: linear regression, for example, draws its line close to every point, so a few extreme fares pull the line away from the pattern of all the others (see [how outliers spoil a model](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#3-how-outliers-spoil-a-model)). So we note them now and deal with them later.
 
 > **Python:** A box plot.
 >

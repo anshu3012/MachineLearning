@@ -24,7 +24,7 @@ Every fact and every explanation of a result must rest on one of these:
 
 **Explanations:**
 - Reasoning alone is never enough, but the Note must still explain what the data **means**, grounded in the sources above.
-- If nothing grounds an explanation, remove it from the Note and list it in your report. Never leave "open question" or "unclear" wording in a Note.
+- "Could not source" is never a final answer (user, 2026-10-05: "Couldn't find source for? That's not true or even possible. If it's not on the Internet and it's just in our note then it's clearly wrong"). Search harder: free books, lecture notes, official docs, papers, reputable tutorials. If nothing anywhere says it, the claim is wrong: correct it to what the sources say, or remove it, and list it in your report. Never leave "open question" or "unclear" wording in a Note.
 
 **Citations:**
 - In the text, use only short tags, such as "(ESL §3.4)".

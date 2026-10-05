@@ -90,7 +90,7 @@ The target `has_covid` is categorical too, so it would need label encoding. We l
 
 > **Key point:** As always, we split first; every transformer learns from the training set only.
 
-We split the data into a training set (80 rows) and a test set (20 rows) before any transformation. The features are every column except `has_covid`.
+We split the data into a training set (80 rows) and a test set (20 rows) before any transformation, so that no number learned by a transformer (such as the mean fever) comes from the test rows; see [split before scaling](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling). The features are every column except `has_covid`.
 
 > **Python:** Splitting the data.
 >

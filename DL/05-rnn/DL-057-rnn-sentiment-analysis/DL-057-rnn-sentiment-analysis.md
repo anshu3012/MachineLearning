@@ -111,7 +111,7 @@ where 1 marks the start of a review and every other integer is a word. Decoded w
 
 > **Key point:** Reviews have different lengths (the first three have 218, 189 and 141 words). `pad_sequences(maxlen=50)` pads the short ones and cuts the long ones to 50 words, so training is fast.
 
-Training on full reviews is slow, so we keep 50 words per review: `keras.utils.pad_sequences(X, maxlen=50)`. Shorter reviews get zeros in front; longer reviews are cut. The training data then has shape $(25000, 50)$. The cut throws information away: the median review has 178 words. When training time allows, use full reviews.
+Training on full reviews is slow, so we keep 50 words per review: `keras.utils.pad_sequences(X, maxlen=50)`. Shorter reviews get zeros in front; longer reviews are cut. Zeros in front keep the review's own words at the end, so the last hidden state, the one the output node reads, comes right after the last real word; with zeros at the end the RNN would first run extra steps on padding, which change the hidden state (see [padded steps still run](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#54-gotcha-padded-steps-still-run)). The training data then has shape $(25000, 50)$. The cut throws information away: the median review has 178 words. When training time allows, use full reviews.
 
 **Which 50 words?** `pad_sequences` cuts from the start by default (`truncating="pre"`), so a long review keeps its **last** 50 words, not its first 50 (Keras documentation, `pad_sequences`). Passing `truncating="post"` keeps the first 50. Figure 3 shows both cases on real training reviews.
 

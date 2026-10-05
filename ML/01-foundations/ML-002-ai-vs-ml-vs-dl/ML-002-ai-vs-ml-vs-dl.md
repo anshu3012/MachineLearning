@@ -200,6 +200,8 @@ Figure 10 draws both curves: the horizontal axis is the amount of data and the v
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
 
+Why the two curves differ: a model's **capacity** (G-344), how wide a range of patterns it can fit. A simple ML model can fit only simple patterns, so once it has learned all it can hold, more data adds nothing and its curve levels off. A neural network has very many weights, so it can fit far more complex patterns. With few examples, it fits their noise too and does badly on new data: it **overfits** (G-1429; see [overfitting](../ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). With more examples, it has enough to learn the real pattern, and it keeps improving. The more data we have, the larger the capacity that works best (Goodfellow et al. 2016, §5.2, Fig. 5.4).
+
 The steady gain with more data is why DL now outperforms ML on tasks with very large datasets:
 
 - image classification (G-919);
@@ -212,7 +214,7 @@ The steady gain with more data is why DL now outperforms ML on tasks with very l
 
 > **Key point:** Lots of data, especially images, text or speech: use DL. Small or tabular data: use ML.
 
-DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 10 shows.
+DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 10 shows, because a large network overfits a small dataset (Section 5.4).
 
 Most organisations do not have that much data: most of the world's data is small data. Banks, insurance companies and sports analytics firms work with small datasets, and for them ML remains the standard choice.
 
@@ -237,8 +239,8 @@ A saying sums up the choice: where a needle is needed, we do not use a sword. DL
 - Expert systems fail on problems whose rules cannot be written down (no rule fits every dog photo), so ML was developed for exactly these problems.
 - ML: data + answers $\rightarrow$ rules. No explicit programming, so a new problem needs labelled examples, not new hand-written rules.
 - DL learns its own features, so it helps when nobody knows the right features, as with the raw pixels of a photo.
-- With more data, DL keeps improving while ML levels off, so DL wins on very large image, text and speech datasets.
-- With little data, use ML, because DL performs worse than ML on small datasets, and most organisations have small data.
+- With more data, DL keeps improving while ML levels off, because a network's many weights can fit far more complex patterns, so DL wins on very large image, text and speech datasets.
+- With little data, use ML, because a large network overfits a small dataset and performs worse than ML, and most organisations have small data.
 
 ## 8. Sources
 
@@ -249,6 +251,7 @@ A saying sums up the choice: where a needle is needed, we do not use a sword. DL
 **Other references**
 
 - Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [the dataset](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset)).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §5.2, "Capacity, Overfitting and Underfitting", Figure 5.4.
 - Russell, S. and Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*, 4th ed. Pearson.
 - Sun, C., Shrivastava, A., Singh, S. and Gupta, A. (2017). Revisiting Unreasonable Effectiveness of Data in Deep Learning Era. *ICCV*.
 - Turing, A. (1950). Computing Machinery and Intelligence. *Mind* 59(236).
@@ -277,3 +280,5 @@ A saying sums up the choice: where a needle is needed, we do not use a sword. DL
 | Target | The output we want to predict |
 | Observation | One record; one row of the data table |
 | Layer | One stage of a neural network, building on the previous stage |
+| Capacity (G-344) | How wide a range of patterns a model can fit |
+| Overfitting (G-1429) | Fitting the training data so closely, noise included, that the model does badly on new data |

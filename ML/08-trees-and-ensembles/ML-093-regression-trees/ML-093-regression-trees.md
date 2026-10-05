@@ -86,6 +86,14 @@ In a classification tree, a leaf predicts its majority class. In a regression tr
 3. **Example:** the 10 students who studied between 3 and 6 hours scored, in total, 879 marks, so the leaf predicts:
    $$879 / 10 = 87.9$$
 
+Why the mean: of all the single numbers a leaf could predict, the mean gives the smallest sum of squared errors over the leaf's observations (ESL §9.2.2), and the squared error is also what chooses the splits (section 4). A check on a leaf with the two marks 40 and 46, whose mean is 43:
+
+$$\text{predict } 43\text{: } 3^2 + 3^2 = 18$$
+
+$$\text{predict } 42\text{: } 2^2 + 4^2 = 20$$
+
+$$\text{predict } 44\text{: } 4^2 + 2^2 = 20$$
+
 The three leaves in Figure 2 predict 43.0, 87.9 and 59.0 marks.
 
 A new student who studied 5 hours goes down the tree: $5 < 6$, yes; $5 < 3$, no. They land in the middle leaf, so the tree predicts **87.9 marks**, where the line predicted 65.
@@ -362,7 +370,7 @@ Feature importance is useful for **feature selection** (dropping columns to figh
 **Other references**
 
 - **Cawley and Talbot 2010:** G. C. Cawley and N. L. C. Talbot, "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation", *Journal of Machine Learning Research* 11, 2079–2107, 2010. jmlr.org/papers/v11/cawley10a.html
-- **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Sections 9.2.2, 9.2.4 and 10.6.
+- **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Sections 9.2.2 (the leaf mean minimises the squared error; tree size), 9.2.4 and 10.6.
 - **sklearn California housing:** scikit-learn User Guide, Real world datasets, California Housing dataset (`fetch_california_housing`); data from R. K. Pace and R. Barry, "Sparse Spatial Autoregressions", *Statistics and Probability Letters* 33, 1997.
 - **sklearn UG:** scikit-learn User Guide, Section 1.10.7.2, Regression criteria.
 - **sklearn reference:** scikit-learn `DecisionTreeRegressor` API reference, parameter `criterion`.

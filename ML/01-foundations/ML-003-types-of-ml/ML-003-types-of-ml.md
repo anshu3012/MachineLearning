@@ -143,7 +143,7 @@ With two features we could spot the groups by eye. Clustering also works with hu
 Each feature is a **dimension** (G-610). (A tensor's dimensions mean something else, its number of axes: see [rank, axes, shape and size](../ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size).) Images and text can have thousands of features, which causes two problems:
 
 1. Algorithms become **slow**.
-2. After a point, extra features **stop improving** the results.
+2. After a point, extra features **stop improving** the results, because the same number of observations gets spread more and more thinly over the extra dimensions (the curse of dimensionality, see [why more dimensions cause trouble](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)).
 
 **Dimensionality reduction** (G-611) removes the extra features.
 

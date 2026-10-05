@@ -575,7 +575,17 @@ The one-sided difference steps to one side only:
 
 $$\frac{L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p})}{h}$$
 
-It is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (see the Extra on central differences in [what the sign of the derivative tells us](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)).
+It is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. The reason, step by step: along one nudge direction a quadratic loss reads as a parabola in $h$, with numbers $a$, $s$ (the true slope) and $c$:
+
+$$L(\mathbf{p} + h\mathbf{e}) = a + sh + ch^2$$
+
+$$L(\mathbf{p} - h\mathbf{e}) = a - sh + ch^2$$
+
+$$\text{difference} = 2sh$$
+
+$$\frac{2sh}{2h} = s$$
+
+The $a$ and $ch^2$ terms cancel, so the estimate is the true slope $s$ for every $h$. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (see the Extra on central differences in [what the sign of the derivative tells us](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)).
 
 ![Relative error of the numerical gradient against the step h, on the three-point loss at m = 1, b = 0. Orange: one-sided difference, error shrinking with h until rounding takes over. Blue: central difference, exact for this quadratic loss except for rounding, which grows as h shrinks. Dashed: the $10^{-6}$ threshold.](images/gradcheck_h.png)
 

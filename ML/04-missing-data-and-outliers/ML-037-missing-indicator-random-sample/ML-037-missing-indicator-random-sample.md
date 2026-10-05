@@ -74,7 +74,7 @@ Because every range gets its fair share of the filled values, two things stay al
 
 1. **Easy to apply.** One line of pandas per column.
 2. **Keeps the distribution and the variance**, as Section 2.2 explains.
-3. **Good for linear models**, such as linear and logistic regression, which are sensitive to the shape of the data.
+3. **Good for linear models**, such as linear and logistic regression. Filling every gap with one value, such as the mean, shrinks the variance and weakens the links between columns, and this biases almost every estimate except the mean (van Buuren, FIMD §1.3.3). A linear model's coefficients are such estimates. Random sample imputation keeps the variance: [Section 3.2](#32-distribution-variance-and-outliers) shows 200.03 against the original 204.35, while mean imputation gives 161.81.
 
 **Tree-based algorithms** (G-2013), such as decision trees, gain less from it: the random values add noise to the data. The intuition: a tree splits on the order of the values, so keeping the exact shape of the distribution matters less to it.
 
@@ -502,7 +502,7 @@ The four imputer combinations score exactly the same, so grid search reports the
 | In scikit-learn | no; done in pandas with `sample` | `MissingIndicator`, or `SimpleImputer(add_indicator=True)` | `GridSearchCV` over a `Pipeline` |
 | On this data | `Age`: variance 204.35 to 200.03 | accuracy 61.5% to 63.1% | house prices: "Missing" beats mode, error 46,400 vs 53,400 dollars |
 
-- Random sample imputation draws each fill value from the feature's own known values, so the shape and variance stay almost the same. The technique suits linear models, because they are sensitive to the shape of the data.
+- Random sample imputation draws each fill value from the feature's own known values, so the shape and variance stay almost the same. The technique suits linear models, because filling with one value shrinks the variance and biases the coefficients a linear model learns, while random draws keep the variance.
 - Random sample imputation weakens the feature's covariance with others (`Age` with `Fare`: 71.51 to 53.26), because each drawn value ignores the rest of the row, and needs the training values at prediction time, because gaps in new data are filled from the training column.
 - In production, seed each draw with a value from the row, so the same input always gets the same fill and the same prediction, and the user does not get two answers to one question.
 - On categorical data, check the category shares and the target per category. In `FireplaceQu` the shares held, but the prices per category shifted badly: too many values were missing.
@@ -518,6 +518,7 @@ The four imputer combinations score exactly the same, so grid search reports the
 
 **Other references**
 
+- van Buuren, S. (2018). *Flexible Imputation of Missing Data*, 2nd edition. Chapman & Hall/CRC. Free online at stefvanbuuren.name/fimd. §1.3.3 "Mean imputation" (underestimates the variance, disturbs the relations between variables, biases almost any estimate other than the mean).
 - scikit-learn examples, *Imputing missing values before building an estimator* (Impute section of the example gallery).
 - Cawley, G. C. and Talbot, N. L. C. (2010). On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation. *Journal of Machine Learning Research* 11, 2079–2107.
 

@@ -216,7 +216,7 @@ $$3.5 + 2 \times 0.171 = 3.84$$
 
 A single die wanders over the whole range 1 to 6; the average of 100 dice stays within about 0.34 of 3.5 in about 95 percent of tries. A larger sample gives a smaller standard error: four times the sample size halves it. So sample means from big samples cluster tightly around $\mu$.
 
-**Why the square root.** When we add $n$ independent values, the **variances add**, not the standard deviations. So the sum has variance $n\sigma^2$ and standard deviation $\sqrt{n}\thinspace\sigma$: the spread of a sum grows, but only as $\sqrt{n}$. Dividing the sum by $n$ to get the mean divides that spread by $n$:
+**Why the square root.** When we add $n$ independent values, the **variances add**, not the standard deviations (Grinstead and Snell 1997, Theorem 6.8). The variance is an average of squared distances, and squaring the distance of a sum gives each value's own square plus cross terms, one value's distance times another's. For independent values, one value's distance says nothing about the other's, so the cross terms average out to 0, and only the separate variances are left. So the sum has variance $n\sigma^2$ and standard deviation $\sqrt{n}\thinspace\sigma$: the spread of a sum grows, but only as $\sqrt{n}$. Dividing the sum by $n$ to get the mean divides that spread by $n$:
 
 $$\frac{\sqrt{n}\thinspace\sigma}{n} = \frac{\sigma}{\sqrt{n}}$$
 
@@ -388,6 +388,7 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 
 - Feller, W. (1971). *An Introduction to Probability Theory and Its Applications*, Vol. II, 2nd ed. Wiley. §VI.1.
 - Fischer, H. (2011). *A History of the Central Limit Theorem: From Classical to Modern Probability Theory*. Springer.
+- Grinstead, C. M. and Snell, J. L. (1997). *Introduction to Probability*, 2nd ed. American Mathematical Society. §6.2, Theorem 6.8 (the variance of a sum of independent random variables is the sum of their variances).
 - Gnedenko, B. V. and Kolmogorov, A. N. (1954). *Limit Distributions for Sums of Independent Random Variables*. Addison-Wesley.
 - Wooldridge, J. M. *Introductory Econometrics: A Modern Approach*. Cengage. Chapter 5, "Multiple Regression Analysis: OLS Asymptotics".
 

@@ -104,6 +104,8 @@ $$x_{\text{scaled}} = 0.52$$
 > X_test_scaled = scaler.transform(X_test)
 > ```
 
+The scaler takes each minimum and maximum from the training students only and reuses them on the test students. If the test students helped set those limits, test information would leak into training and the test score would look better than it is (**data leakage**, G-535; see [scaling the inputs](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)).
+
 ## 4. The regression network
 
 > **Key point:** 7 inputs, a hidden layer of 7 ReLU nodes, and one output node with the linear activation: 64 parameters.

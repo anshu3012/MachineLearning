@@ -71,7 +71,7 @@ Figure 2 runs these steps on the 571 Titanic training ages with 10-year bins. Wa
 Binning has two benefits:
 
 - **Handles outliers** (G-1420). A very large value lands in the last bin, together with the other large values. The large value is then treated exactly like them, so its extreme size no longer matters.
-- **Improves the value spread.** Some kinds of binning put about the same number of observations in every bin. A feature whose values are bunched in one place then becomes spread evenly over its range.
+- **Improves the value spread.** Some kinds of binning put about the same number of observations in every bin. A feature whose values are bunched in one place then becomes spread evenly over its range. This helps because a model can only tell observations apart if they land in different bins: when most observations share one bin, their differences are lost (Galli 2023). [Section 8](#8-the-three-strategies-on-one-feature) shows it on Fare, where equal width bins put 530 of the 571 passengers in the first bin.
 
 ## 4. Kinds of discretization
 
@@ -513,7 +513,7 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 | Binarization | 2 | one threshold | 0 or 1 | a yes/no question about the value |
 
 - Discretization (binning) replaces each value with the interval it falls in; binarization replaces it with 0 or 1. Both help when a few groups describe a feature better than exact numbers, such as download ranges on the Play Store.
-- Binning handles outliers, because a very large value lands in the last bin and is treated like the other large values; equal frequency binning also makes the value spread uniform, because every bin holds about the same number of rows.
+- Binning handles outliers, because a very large value lands in the last bin and is treated like the other large values; equal frequency binning also makes the value spread uniform, because every bin holds about the same number of rows, so no single bin swallows most rows and hides their differences.
 - `KBinsDiscretizer(n_bins, encode, strategy)` does equal width, equal frequency and k-means binning; `bin_edges_` shows the learned edges, so we can check which range each bin number stands for.
 - Custom bins need `pd.cut` (or `np.digitize`), since `KBinsDiscretizer` does not take our own edges. Custom edges matter when the ranges have a meaning, such as child, adult and senior (54%, 39% and 27% survived).
 - `Binarizer(threshold)` makes values above the threshold 1 and the rest 0, so one cut-off answers a yes/no question such as "taxable?" or "travelling alone?".
@@ -530,6 +530,7 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 
 **Other references**
 
+- Galli, S. (2023). "Master Data Binning in Python using Pandas". Train in Data blog, 23 February 2023. https://blog.trainindata.com/master-data-binning-in-python-using-pandas/ (equal width binning can put most observations in the same interval and lose information; equal frequency binning improves the value spread).
 - scikit-learn documentation. `sklearn.preprocessing.KBinsDiscretizer`; example "Using KBinsDiscretizer to discretize continuous features". scikit-learn.org.
 
 ## 16. Key terms

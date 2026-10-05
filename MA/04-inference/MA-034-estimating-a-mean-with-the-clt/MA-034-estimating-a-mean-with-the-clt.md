@@ -111,6 +111,8 @@ So the standard deviation describes the data, and belongs on a plot of the data;
 3. repeat many times, here 10,000;
 4. take the standard deviation of those means.
 
+The draws in step 1 must be with replacement: drawing 50 fares out of 50 without replacement would give back the same 50 fares every time, with the same mean, and no spread to measure.
+
 For the first sample, the bootstrap gives 7.15 pounds (Figure 3, bottom row), close to the true 7.32 and to the formula's value:
 
 $$s/\sqrt{50} = 51.34/7.07 = 7.26$$

@@ -270,6 +270,8 @@ The rows of the table mean:
 >    $$s \approx 6.83$$
 >    A typical age among these five is about 7 years away from 31.2.
 >
+> The distances are squared so that the negative ones and the positive ones cannot cancel out ([why we square the distances](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#41-why-we-square-the-distances)).
+>
 > pandas divides by $n - 1$, not $n$. This **sample standard deviation** corrects for the fact that a sample tends to look a little less spread out than the whole population it came from (see [the sample variance divides by $n - 1$](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1)).
 
 ### 7.2 Percentiles

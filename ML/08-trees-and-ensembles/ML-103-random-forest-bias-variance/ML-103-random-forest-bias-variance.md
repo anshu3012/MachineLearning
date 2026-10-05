@@ -90,7 +90,7 @@ The data is the two-bumps curve of [seeing it on a curve](../ML-101-bagging-regr
 
 - **(a) One fully grown tree** (red) passes through every training point: training error 0, test **mean squared error (MSE)** (G-1201; the average squared gap between prediction and truth, see [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)) **0.0192**.
 - **(b) Bagging with 1,000 fully grown trees** (green) no longer reaches every outlier and stays closer to the dashed curve: test MSE **0.0140**.
-- **(c) A random forest of 1,000 trees** (blue) draws almost the same curve, with the same test MSE. Its training MSE rises a little, from 0 to 0.0018, while its test MSE falls about 27% below the single tree's.
+- **(c) A random forest of 1,000 trees** (blue) draws almost the same curve, with the same test MSE. Its training MSE rises a little, from 0 to 0.0018, because each training point was missed by about a third of the trees (the Extra in section 3), and an average, unlike a majority vote, lets their slightly different values pull the prediction off the point; meanwhile its test MSE falls about 27% below the single tree's.
 
 Panels (b) and (c) match because the data has a single feature. A random forest differs from bagging only in sampling features at each split (see [node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling)); with one feature there is nothing to sample, and `RandomForestRegressor` uses every feature at every split by default anyway. The forest's extra gain shows only on data with many features.
 

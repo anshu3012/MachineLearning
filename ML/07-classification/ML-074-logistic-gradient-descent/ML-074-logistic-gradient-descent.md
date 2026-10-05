@@ -44,6 +44,12 @@ $$\hat y = \sigma(wx)$$
 
 where $\hat y$ is the predicted probability of being placed and $\sigma$ is the **sigmoid** (a curve that turns any number into a probability between 0 and 1, see [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)).
 
+The shift by 6 is needed because this model has no intercept. Whatever $w$ is, the curve gives probability 0.5 at $x = 0$:
+
+$$\sigma(w \times 0) = \sigma(0) = 0.5$$
+
+So $x = 0$ has to sit where placed and not-placed students meet, near CGPA 6 (the fitted curve with an intercept crosses 0.5 at CGPA 6.01, see [one feature: an S-curve](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#52-one-feature-an-s-curve-through-the-data)).
+
 Figure 1 runs gradient descent on this model with learning rate 4, starting from $w = 0$. Watch the red ball on the left: its jumps shrink as the curve flattens. On the right, the S-curve of the current $w$ steepens until it fits the students.
 
 ![Gradient descent on one weight. Left: the log loss against $w$, with the ball at the current weight; each step is the learning rate (4) times the slope under the ball. Right: the curve $\sigma(wx)$ for the current $w$ over the 30 students (green: placed, blue: not placed). The steps shrink from 1.640 to 0.020 over 60 steps while the log loss falls from 0.693 to 0.152. The picture of a ball taking big steps far from the minimum and small steps near it follows StatQuest, "Gradient Descent, Step-by-Step"; the data and model are our own](images/one_weight.gif)

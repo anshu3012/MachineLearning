@@ -171,6 +171,8 @@ $$= \frac{0.04 + 0.16 + 0.09}{3} = 0.097$$
 
 $$\text{error} = \sqrt{0.097} = 0.31$$
 
+The gaps are squared so that a negative gap (point 2) and a positive gap cannot cancel out in the average, and the square root at the end brings the error back to the units of the values.
+
 This is the **root mean squared error** (RMSE, G-1705), taken up in [root mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse). The error in Figure 10 is computed in the same way, over the 12 training points (training error) or over the 300 new points (new-data error).
 
 ![Underfitting, a good fit and overfitting on the same 12 points](images/fitting.gif)

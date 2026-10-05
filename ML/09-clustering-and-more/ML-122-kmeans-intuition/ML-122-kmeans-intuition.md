@@ -82,6 +82,8 @@ $$\left(\frac{1 + 3 + 2}{3},\ \frac{2 + 2 + 5}{3}\right) = (2,\ 3).$$
 
 Figure 2 draws this example.
 
+The centroid is the mean, and not some other middle point, because the mean is the point with the smallest total squared distance to the cluster's points. The squared distance adds up feature by feature, and for one feature the number closest in squared distance to a set of values is their mean ([the best constant is the mean](../../08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#5-step-1-the-best-constant-is-the-mean) derives this). So every move can only lower the WCSS of section 5.1.
+
 In Figure 1 (stage 4, "Move each centroid to the mean of its points"), the green centroid moves to the middle of its many points, between the right and bottom groups. The orange centroid moves up into the top group.
 
 > **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#32-split-and-scale), k-means is distance-based, so Figure 1 uses [standardized values](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (each feature rescaled to mean 0 and spread 1).
@@ -179,7 +181,7 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 | 1. Choose k | We decide the number of clusters | k = 3, assumed (the elbow method picks k = 2 on Old Faithful) | k-means cannot work out the number of clusters by itself |
 | 2. Initialize | k random points become the centroids | three students picked at random | there are no clusters yet to take centres from |
 | 3. Assign | Every point joins its nearest centroid (Euclidean distance) | 18 × 3 = 54 distances per round | each point goes with the centre it is most similar to |
-| 4. Move | Each centroid moves to the mean of its points | mean CGPA, mean IQ per cluster | the centre follows the points it now holds |
+| 4. Move | Each centroid moves to the mean of its points | mean CGPA, mean IQ per cluster | the mean is the point closest, in total squared distance, to the points the centroid now holds |
 | 5. Check | Centroids unchanged: stop; else back to step 3 | stopped after 4 rounds | once nothing moves, another round would give the same clusters |
 
 - k-means only needs distances and means, so it works the same in 2 or 100 dimensions.

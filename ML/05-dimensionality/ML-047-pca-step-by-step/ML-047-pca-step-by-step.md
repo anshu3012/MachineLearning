@@ -325,6 +325,8 @@ The example data has 40 points with 3 features, in two classes of 20. Each class
 > values, vectors = np.linalg.eigh(C)
 > ```
 
+Step 1 here also divides each column by its standard deviation. PCA looks for large variance, so without this a feature measured in bigger numbers would take over PC1 because of its units alone ([what standardising does](../ML-048-pca-mnist/ML-048-pca-mnist.md#43-what-standardising-would-do)).
+
 The covariance matrix is
 
 $$C =$$

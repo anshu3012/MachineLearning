@@ -140,7 +140,7 @@ Figure 4 shows the failure on the two-peaked data of section 5.2 (300 values aro
 **Non-parametric density estimation** (G-1338) estimates the PDF of a random variable without assuming any underlying distribution. The method needs no predefined distribution function. Instead of summarising the data by a few parameters (a mean and a standard deviation), it uses **every data point** to build the curve.
 
 - **Advantage:** no assumption about the shape, so it works for any data.
-- **Disadvantages:** it is **computationally intensive**, since every point takes part in every density value, and it needs **more data** to give an accurate estimate.
+- **Disadvantages:** it is **computationally intensive**, since every point takes part in every density value, and it needs **more data** to give an accurate estimate. With no assumed shape to lean on, every rise and dip of the curve comes from where the points happen to fall, so with few points the gaps between them show up as false dips and peaks (the Extra of section 5.4 counts them).
 
 The most common non-parametric method is the kernel density estimate.
 

@@ -627,7 +627,7 @@ For a single model, we would name the parameter just `max_depth`. In a pipeline,
 
 The best tree has a depth of 3, with an average cross-validation accuracy of 80.3%. On the test set, the tuned pipeline scores 79.3%.
 
-Figure 10 shows the score for every depth tried. Depth 3 is the peak; deeper trees score lower here.
+Figure 10 shows the score for every depth tried. Depth 3 is the peak; deeper trees score lower here, because a deeper tree keeps splitting until it fits the noise of its training parts, which does not repeat in the held-out part (**overfitting**, G-1429; see [a fully grown tree overfits](../../08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#21-a-fully-grown-tree-overfits)).
 
 ![Mean cross-validation accuracy of the pipeline for each value of `trf5__max_depth`](images/depth_tuning.png)
 

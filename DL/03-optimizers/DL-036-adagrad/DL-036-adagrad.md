@@ -149,6 +149,7 @@ The parts of the formula:
 - **$\epsilon$** is a tiny number, such as $10^{-7}$, that only prevents division by zero when $v_t = 0$.
 - **$v_t$** is the sum of all the past squared gradients of this parameter.
 - **Why square?** Gradients can be positive or negative; we want their size, not their direction, so every gradient adds a positive amount.
+- **Why the square root?** It brings the sum of squares back to the size of a gradient: on the first step $\sqrt{v_1}$ is exactly the size of the gradient, which is why every parameter moved by exactly $\eta$ in the example above. Without the square root, AdaGrad performs much worse (Ruder 2016, §4.3).
 
 AdaGrad changes only one thing in the gradient descent update: it divides the learning rate by $\sqrt{v_t}$. A parameter with large past gradients is divided by a large number and gets a small learning rate; one with small past gradients is divided by a small number and keeps most of it.
 

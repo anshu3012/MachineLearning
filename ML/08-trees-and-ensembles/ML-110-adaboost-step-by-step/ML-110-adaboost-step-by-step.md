@@ -188,7 +188,7 @@ Figure 4 runs steps 1 to 7 on these weights. Watch the two red bars, the mistake
 
 > **Key point:** Divide every new weight by their total, so the weights add up to 1 again.
 
-After the update the weights no longer add up to 1.
+After the update the weights no longer add up to 1. They must, because step 7 lays them end to end on the line from 0 to 1, and the next error (step 3) is read as a share of the total weight.
 
 1. **In words:** divide each weight by the sum of all the weights.
 2. **Formula:**

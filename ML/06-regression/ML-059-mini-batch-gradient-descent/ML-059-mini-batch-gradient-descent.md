@@ -56,6 +56,8 @@ In words: instead of asking every observation which way is downhill, or just one
    - cut them into consecutive batches of the chosen size (the last batch may be smaller);
    - for each batch, compute the predictions, the errors and the derivatives using only its observations, and update.
 
+The shuffle is there because data files are often stored in an order where neighbouring rows are alike, for example all the blood tests of one patient, then all those of the next. Batches cut from such an order would each describe mostly one patient, so each step would point the wrong way for the data as a whole. A random order makes every batch a fair sample of all the observations (Goodfellow §8.1.3).
+
 The **derivatives** (G-595) of the loss $L$ are the batch ones, averaged over the observations $B$ of the current batch instead of all $n$ observations:
 
 $$\frac{\partial L}{\partial \beta_j} = -\frac{2}{|B|}\sum_{i \in B}(y_i - \hat y_i)\thinspace x_{ij}$$

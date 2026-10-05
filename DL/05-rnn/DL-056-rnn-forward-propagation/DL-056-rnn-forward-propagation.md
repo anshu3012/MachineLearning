@@ -252,7 +252,7 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
    $$h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$$
    $$h_0 = 0$$
    $$\hat{y} = g(h_T W_o + b_o)$$
-   For binary classification $g$ is the sigmoid; for several classes it is the **softmax** (G-1830; a function that turns scores into probabilities that add to 1); for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh.
+   For binary classification $g$ is the sigmoid; for several classes it is the **softmax** (G-1830; a function that turns scores into probabilities that add to 1); for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh. Tanh is the default because it squeezes every number of the hidden state into $-1$ to 1, so the state cannot grow without limit while the same $W_h$ is applied step after step. ReLU does not squeeze positive numbers, and with large recurrent weights its values and gradients can blow up (see [how the gradient explodes](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#61-how-the-gradient-explodes)).
 3. **Example:** small hand-picked weights, all biases 0, on "movie was good".
 
    $$W_i =$$

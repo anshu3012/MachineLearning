@@ -48,6 +48,8 @@ $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
 
   $$= \frac{13}{26} = \frac{1}{2}$$
 
+The condition that $P(B)$ is not zero is there because $P(B)$ sits in the bottom of the fraction, and division by zero has no value. An event with probability 0 never happens, so there is no "world of $B$" to look inside.
+
 ## 3. An example with two dice
 
 > **Key point:** Rolling two dice has 36 equally likely outcomes. Conditioning on "sum ≤ 10" shrinks the space to 33 outcomes.

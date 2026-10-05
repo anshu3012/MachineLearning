@@ -145,7 +145,10 @@ Each factor looks at one feature only, so it is estimated from all the observati
 
 The assumption is rarely exactly true, which is why the method is called **naive**, but it makes the estimates workable (ISL §4.4.4).
 
-What the product gives up is any link between the features. For messages, the words are treated as unrelated to each other, so their order does not matter: "hello free" and "free hello" get the same score. A message is handled as a **bag of words** (G-250). Even so, Naive Bayes separates normal messages from spam well in practice.
+What the product gives up is any link between the features. For messages, the words are treated as unrelated to each other, so their order does not matter: "hello free" and "free hello" get the same score. A message is handled as a **bag of words** (G-250). Even so, Naive Bayes separates normal messages from spam well in practice, for two reasons (scikit-learn user guide §1.9):
+
+- each factor is a one-feature estimate, so it needs only a small amount of training data, where the exact-combination count of section 6 needed far more;
+- choosing the class only needs the right class to get the largest score, so the probabilities can be off while the winner is still right ([when the assumption fails](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#7-when-the-assumption-fails)).
 
 An everyday picture: to guess whether a new dish will taste good, we cannot wait for the exact same recipe to have been cooked before. Instead we judge each ingredient on its own record, and combine the verdicts. The [naive assumption step](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#5-step-3-the-naive-assumption) derives it properly.
 
@@ -229,6 +232,7 @@ Adding a count to every value is **Laplace smoothing** (G-1045). [The zero-frequ
 **Other references**
 
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 4.4.4, pp. 153–155.
+- **scikit-learn user guide:** Section 1.9, "Naive Bayes", https://scikit-learn.org/stable/modules/naive_bayes.html
 
 ## 12. Key terms
 

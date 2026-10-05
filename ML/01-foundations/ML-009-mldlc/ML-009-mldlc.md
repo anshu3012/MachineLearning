@@ -198,7 +198,7 @@ Figure 5 shows three of these problems in the Titanic file of Figure 2.
 
 - **Remove duplicates:** observations that appear more than once (**duplicate rows**, G-648).
 - **Handle missing values** (G-1234): empty cells. In Figure 2, the empty age was filled with the median, 28.
-- **Remove outliers** (G-1420): values far from the rest, such as the fare of 512 in Figure 5.
+- **Remove outliers** (G-1420): values far from the rest, such as the fare of 512 in Figure 5. A few extreme values can pull a model such as linear regression away from the pattern of all the other points (see [how outliers spoil a model](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#3-how-outliers-spoil-a-model)).
 - **Scale values:** bring features to similar ranges. The standard term is **feature scaling** (G-767).
 
 Scaling matters because many algorithms compute distances between observations, and a feature measured in crores (one crore is ten million rupees) would outweigh one in decimals (see [scaling the inputs](../ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)). One common way to scale is **standardization** (G-1874), the step that turned the age 28 into -0.10 in Figure 2 (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)).

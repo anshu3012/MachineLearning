@@ -335,7 +335,7 @@ Two examples:
 
 A hidden factor that drives two variables, like the weather here, is called a **confounding variable** (G-448), or confounder. Experience and salary are a subtler case: they are correlated, but the salary may come from skills that grow with experience, not from the years themselves.
 
-Establishing causation needs more than data that happens to be collected: controlled experiments such as **randomised controlled trials** (G-1623), where a random half of the subjects gets a treatment and the other half does not, or carefully designed observational studies. Until then, a correlation is a hint worth investigating, not a conclusion.
+Establishing causation needs more than data that happens to be collected: controlled experiments such as **randomised controlled trials** (G-1623), where a random half of the subjects gets a treatment and the other half does not, or carefully designed observational studies. Random assignment works because chance, not the subjects' own traits, decides who is treated, so hidden factors such as diet or weather even out between the two halves; a difference that remains can then be put down to the treatment (IMS §2.2.1). Until then, a correlation is a hint worth investigating, not a conclusion.
 
 ## 6. Summary
 
@@ -369,6 +369,7 @@ Establishing causation needs more than data that happens to be collected: contro
 **Other references**
 
 - Akoglu, H. (2018). User's guide to correlation coefficients. *Turkish Journal of Emergency Medicine*, 18(3), 91-93. Table 1.
+- Çetinkaya-Rundel, M. and Hardin, J. (2021). *Introduction to Modern Statistics*. OpenIntro. §2.2.1, Principles of experimental design (randomization evens out confounding variables). https://openintro-ims.netlify.app/data-design
 - Freedman, D., Pisani, R. and Purves, R. (2007). *Statistics*, 4th ed. W. W. Norton. Chapter 2, Observational Studies (association is not causation; confounding factors).
 
 ## 8. Key terms

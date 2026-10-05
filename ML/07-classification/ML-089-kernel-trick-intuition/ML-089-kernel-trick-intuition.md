@@ -89,7 +89,10 @@ So "choosing a kernel" means choosing the formula $K(a, b)$, and with it, silent
 
 There are many kernels. Besides the plain linear one, scikit-learn's SVM comes with three:
 
-1. **RBF** (G-1639; radial basis function): the most important one, used in Section 4.
+1. **RBF** (G-1639; radial basis function): the most important one, used in Section 4. RBF is the usual first choice (Hsu et al. §3.1), for three reasons:
+   - it draws curved boundaries, and with suitable settings it can also behave like the linear kernel;
+   - it has fewer settings to tune than the polynomial kernel;
+   - its values always stay between 0 and 1, while polynomial kernel values can grow huge or shrink towards 0 at high degrees.
 2. **Polynomial** (G-1514): built from powers of the inputs. The $x^2$ example above is of this type.
 3. **Sigmoid** (G-1799): an S-shaped kernel.
 
@@ -167,6 +170,7 @@ Why is it called a "trick"? As Section 3.2 showed, SVM never actually builds the
 **Other references**
 
 - **Lin and Lin 2003:** H.-T. Lin and C.-J. Lin, *A Study on Sigmoid Kernels for SVM and the Training of non-PSD Kernels by SMO-type Methods*, National Taiwan University, 2003. csie.ntu.edu.tw/~cjlin/papers/tanh.pdf
+- **Hsu et al.:** C.-W. Hsu, C.-C. Chang and C.-J. Lin, *A Practical Guide to Support Vector Classification*, National Taiwan University, 2003 (updated 2025). Section 3.1, RBF Kernel. csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf
 - **MML:** M. P. Deisenroth, A. A. Faisal and C. S. Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020. Section 12.4, Kernels.
 
 ## 8. Key terms

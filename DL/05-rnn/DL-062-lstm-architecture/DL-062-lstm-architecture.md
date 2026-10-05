@@ -241,7 +241,7 @@ The same line is why an LSTM can be trained on long sequences. In a simple RNN t
 
 The output gate computes the hidden state $h_t$. $h_t$ goes to the next time step as the short-term memory, and it can also be the cell's output at this step, depending on the task. So the hidden state is read out of the cell state. The output gate works in two steps.
 
-1. **Squash:** apply tanh pointwise to $c_t$, bringing every entry between $-1$ and 1.
+1. **Squash:** apply tanh pointwise to $c_t$, bringing every entry between $-1$ and 1. The cell state is a running total of everything added to it, so its entries can grow past 1: in section 6.3 they reach 3.3. Squashing keeps $h_t$, which goes on to every gate of the next step, between $-1$ and 1 however large the cell state grows.
 2. **Filter:** a sigmoid layer with weights $W_o$ and biases $b_o$ computes $o_t$ from $[h_{t-1}, x_t]$, and multiplies it pointwise with $\tanh(c_t)$.
 
    $$o_t = \sigma\big([h_{t-1}, x_t]\thinspace W_o + b_o\big)$$

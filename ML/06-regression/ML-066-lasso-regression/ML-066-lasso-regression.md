@@ -36,7 +36,7 @@ $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 | Also called | L2 regularisation | L1 regularisation |
 | Coefficients for large λ | close to 0, never exactly 0 | exactly 0 |
 
-The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ the prediction, $n$ the number of observations, $m$ the number of features, $\beta_j$ the coefficient of feature $j$ (for the diabetes data, $m = 10$), and $\lambda$ the penalty strength. LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
+The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ the prediction, $n$ the number of observations, $m$ the number of features, $\beta_j$ the coefficient of feature $j$ (for the diabetes data, $m = 10$), and $\lambda$ the penalty strength. LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised, because it only sets the average level of $y$, and shrinking it would not make the line flatter ([the idea of Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)).
 
 This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations** (G-1374), that is, records or rows; the **target** (G-1949) we predict is disease progression; the features are age, sex, bmi (body mass index), bp (blood pressure) and six blood measurements s1 to s6), and why its coefficients can reach exactly 0.
 
@@ -225,7 +225,7 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 > lasso.score(X_test, y_test)     # R² 0.43 on the diabetes split
 > ```
 >
-> As with Ridge, features should be on the same scale first, for example with `make_pipeline(StandardScaler(), Lasso(alpha=0.1))`.
+> As with Ridge, features should be on the same scale first, for example with `make_pipeline(StandardScaler(), Lasso(alpha=0.1))`, because the penalty depends on each coefficient's size, and that size depends on its feature's units ([why standardise before Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data)).
 
 ## 9. Summary
 
